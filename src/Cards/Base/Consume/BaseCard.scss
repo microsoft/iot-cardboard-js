@@ -1,13 +1,15 @@
 .loading {
     align-items: center;
+    background: var(--color-bg-canvas);
+    color: var(--color-text-primary);
     display: flex;
     height: 100%;
     justify-content: center;
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     div {
-        background: #eee;
+        background: var(--color-bg-canvas-inset);
         border-radius: 3px;
         padding: 20px;
     }
