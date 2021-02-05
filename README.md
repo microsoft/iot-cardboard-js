@@ -1,3 +1,4 @@
+![build](https://github.com/microsoft/iot-cardboard-js/workflows/build/badge.svg?branch=main)
 # Project
 
 > This repo has been populated by an initial template to help get you started. Please

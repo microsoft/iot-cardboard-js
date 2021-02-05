@@ -1,0 +1,14 @@
+.loading {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    div {
+        background: #eee;
+        border-radius: 3px;
+        padding: 20px;
+    }
+}
