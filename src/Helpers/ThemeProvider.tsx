@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Themes } from '../Constants/Enums';
 import { ThemeProvider as FluentThemeProvider } from '@fluentui/react-theme-provider';
 import { fluentDarkTheme, fluentLightTheme } from '../Constants/FluentThemes';
@@ -7,15 +7,15 @@ export const Theme = React.createContext(Themes.Light);
 export const useTheme = () => useContext(Theme);
 
 export const ThemeProvider = ({ children, theme }) => {
-    const activeTheme = theme ? theme : Themes.Light;
-    const themeCtx = useProvideTheme(activeTheme);
+    useEffect(() => {
+        document.documentElement.setAttribute('cardboard-data-theme', theme);
+    }, [theme]);
+
     return (
-        <Theme.Provider value={themeCtx}>
+        <Theme.Provider value={theme}>
             <FluentThemeProvider
                 theme={
-                    activeTheme === Themes.Light
-                        ? fluentLightTheme
-                        : fluentDarkTheme
+                    theme === Themes.Light ? fluentLightTheme : fluentDarkTheme
                 }
                 applyTo={'none'}
             >
@@ -23,18 +23,4 @@ export const ThemeProvider = ({ children, theme }) => {
             </FluentThemeProvider>
         </Theme.Provider>
     );
-};
-
-const useProvideTheme = (activeTheme) => {
-    const [theme, setTheme] = useState(activeTheme);
-
-    useEffect(() => {
-        setTheme(activeTheme);
-        document.documentElement.setAttribute(
-            'cardboard-data-theme',
-            activeTheme
-        );
-    }, [activeTheme]);
-
-    return theme;
 };

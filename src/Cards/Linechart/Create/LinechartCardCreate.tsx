@@ -42,7 +42,6 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     };
 
     const setSelectedProperties = (selectedProperties) => {
-        console.log(selectedProperties);
         dispatch({
             type: SET_SELECTED_PROPERTIES,
             payload: selectedProperties
