@@ -51,8 +51,8 @@ const withI18n = (Story, context) => (
     </Suspense>
 );
 
-// Fluent UI theme provider
-const withFluentTheme = (Story, context) => (
+// Theme provider
+const withTheme = (Story, context) => (
     <ThemeProvider theme={context.globals.theme}>
         <Story {...context} />
     </ThemeProvider>
@@ -60,5 +60,5 @@ const withFluentTheme = (Story, context) => (
 
 //add decorators here
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(withFluentTheme);
+addDecorator(withTheme);
 addDecorator(withI18n);
