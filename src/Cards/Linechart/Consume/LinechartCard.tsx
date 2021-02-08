@@ -52,7 +52,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     }, [adapter, chart]);
 
     return (
-        <div className="linechart-container" id="linechartContainer">
+        <div className="cb-linechart-container" id="linechartContainer">
             <BaseCard isLoading={isLoading} noData={noData}></BaseCard>
         </div>
     );

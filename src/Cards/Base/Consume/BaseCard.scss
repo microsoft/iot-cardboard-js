@@ -1,4 +1,4 @@
-.loading {
+.cb-loading-wrapper {
     align-items: center;
     background: var(--color-bg-canvas);
     color: var(--color-text-primary);
@@ -8,7 +8,7 @@
     position: absolute;
     width: 100%;
     z-index: 2;
-    div {
+    .cb-loading {
         background: var(--color-bg-canvas-inset);
         border-radius: 3px;
         padding: 20px;

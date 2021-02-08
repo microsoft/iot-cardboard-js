@@ -55,16 +55,16 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     }, [state.chartPropertyNames]);
 
     return (
-        <div className="wrapper">
+        <div className="cb-linechart-create-wrapper">
             <LinechartCreateForm
                 onSubmit={onDonezo}
                 propertyNames={propertyNames}
                 setSelectedPropertyNames={setSelectedProperties}
                 selectedPropertyNames={state.selectedPropertyNames}
             ></LinechartCreateForm>
-            <div className="right">
+            <div className="cb-right">
                 <div>{t('preview')}</div>
-                <div className="preview-card">
+                <div className="cb-preview-card">
                     <LinechartCard
                         theme={theme}
                         id={id}
@@ -84,6 +84,7 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     setSelectedPropertyNames,
     selectedPropertyNames
 }) => {
+    const { t } = useTranslation();
     const parseAndSetSelectedProperties = (
         event: React.FormEvent<HTMLDivElement>,
         item: IDropdownOption
@@ -105,17 +106,20 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     });
 
     return (
-        <div className="left">
+        <div className="cb-left">
             <Dropdown
-                placeholder="Select properties"
-                label="Select properties"
+                placeholder={t('selectProperties')}
+                label={t('selectProperties')}
                 selectedKeys={selectedPropertyNames}
                 onChange={parseAndSetSelectedProperties}
                 multiSelect
                 options={dropdownOptions}
             />
-            <PrimaryButton onClick={() => onSubmit()} className={'submit-btn'}>
-                Preview
+            <PrimaryButton
+                onClick={() => onSubmit()}
+                className={'cb-submit-btn'}
+            >
+                {t('preview')}
             </PrimaryButton>
         </div>
     );
