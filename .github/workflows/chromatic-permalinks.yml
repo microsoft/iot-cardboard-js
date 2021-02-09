@@ -14,5 +14,5 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  msg: "- [Chromatic build](https://www.chromatic.com/builds?appId=601c6b2fcd385c002100f14c&branch=${{github.event.pull_request.base.ref}})\n"
+                  msg: "- [Chromatic build](https://www.chromatic.com/builds?appId=601c6b2fcd385c002100f14c&branch=${{github.event.pull_request.head.ref}})\n"
                   check_for_duplicate_msg: true # OPTIONAL
