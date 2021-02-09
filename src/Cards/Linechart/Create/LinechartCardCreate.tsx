@@ -16,6 +16,7 @@ import {
     LinechartCardCreateReducer
 } from './LinechartCardCreateState';
 import { useTranslation } from 'react-i18next';
+import { PrimaryButton, Dropdown, IDropdownOption } from '@fluentui/react';
 
 const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     theme,
@@ -54,16 +55,16 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     }, [state.chartPropertyNames]);
 
     return (
-        <div className="wrapper">
+        <div className="cb-linechart-create-wrapper">
             <LinechartCreateForm
                 onSubmit={onDonezo}
                 propertyNames={propertyNames}
                 setSelectedPropertyNames={setSelectedProperties}
                 selectedPropertyNames={state.selectedPropertyNames}
             ></LinechartCreateForm>
-            <div className="right">
+            <div className="cb-right">
                 <div>{t('preview')}</div>
-                <div className="preview-card">
+                <div className="cb-preview-card">
                     <LinechartCard
                         theme={theme}
                         id={id}
@@ -83,27 +84,43 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     setSelectedPropertyNames,
     selectedPropertyNames
 }) => {
-    const parseAndSetSelectedProperties = (e) => {
-        setSelectedPropertyNames([e.target.value]);
+    const { t } = useTranslation();
+    const parseAndSetSelectedProperties = (
+        event: React.FormEvent<HTMLDivElement>,
+        item: IDropdownOption
+    ): void => {
+        if (item) {
+            setSelectedPropertyNames(
+                item.selected
+                    ? [...selectedPropertyNames, item.key as string]
+                    : selectedPropertyNames.filter((key) => key !== item.key)
+            );
+        }
     };
+
+    const dropdownOptions = propertyNames.map((pn) => {
+        return {
+            key: pn,
+            text: pn
+        };
+    });
+
     return (
-        <div className="left">
-            <div>Choose some properties:</div>
-            <div>
-                <select
-                    multiple
-                    id="properties"
-                    value={selectedPropertyNames}
-                    onChange={parseAndSetSelectedProperties}
-                >
-                    {propertyNames.map((pn, i: number) => (
-                        <option key={i} value={pn}>
-                            {pn}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <button onClick={() => onSubmit()}>Donezo</button>
+        <div className="cb-left">
+            <Dropdown
+                placeholder={t('selectProperties')}
+                label={t('selectProperties')}
+                selectedKeys={selectedPropertyNames}
+                onChange={parseAndSetSelectedProperties}
+                multiSelect
+                options={dropdownOptions}
+            />
+            <PrimaryButton
+                onClick={() => onSubmit()}
+                className={'cb-submit-btn'}
+            >
+                {t('preview')}
+            </PrimaryButton>
         </div>
     );
 };
