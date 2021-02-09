@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
-import { ThemeProvider } from '../src/Helpers/ThemeProvider';
+import { ThemeProvider } from '../src/Theming/ThemeProvider';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import I18nProviderWrapper from '../src/Helpers/I18NProviderWrapper';
 import i18n from '../i18n';
