@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
@@ -17,6 +17,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [noData, setNoData] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const renderChart = () => {
         if (chart !== null) {
             setNoData(false);
@@ -39,22 +40,24 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            setChart(
-                new ClientLinechart(
-                    document.getElementById('linechartContainer')
-                )
-            );
-        });
-    }, []);
+        setChart(
+            new ClientLinechart(
+                document.getElementById('linechartContainer')
+            )
+        );
+    },[isMounted]);
+
     useEffect(() => {
-        renderChart();
+        if (chart !== null) {
+            renderChart();
+        }
     }, [adapter, chart]);
 
     return (
-        <div className="linechart-container" id="linechartContainer">
-            <BaseCard isLoading={isLoading} noData={noData}></BaseCard>
-        </div>
+        <BaseCard isLoading={isLoading} noData={noData}>
+            <div className="linechart-container" id="linechartContainer" ref={() => setIsMounted(true)}>    
+            </div>
+        </BaseCard>
     );
 };
 
