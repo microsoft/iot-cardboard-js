@@ -2,7 +2,7 @@ import { createTheme, IPartialTheme, ITheme } from '@fluentui/react';
 import { Theme as FluentTheme } from '@fluentui/react-theme-provider';
 import { fluentDarkThemePalette, fluentLightThemePalette } from './Palettes';
 import { Theme } from '../Constants/Enums';
-import { getCustomComponentStyles } from './ComponentStyles/CustomComponentStyles';
+import { getCustomComponentStyles } from './FluentComponentStyles';
 import {
     fluentDarkThemeSemanticColors,
     fluentLightThemeSemanticColors

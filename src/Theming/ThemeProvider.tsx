@@ -4,7 +4,7 @@ import { ThemeProvider as FluentThemeProvider } from '@fluentui/react-theme-prov
 import { getFluentTheme } from './FluentThemes';
 
 export const Theme = React.createContext(LibThemes.Light);
-export const useTheme = () => useContext(Theme);
+export const useLibTheme = () => useContext(Theme);
 
 export const ThemeProvider = ({ children, theme }) => {
     useEffect(() => {
