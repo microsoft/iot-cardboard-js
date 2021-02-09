@@ -36,4 +36,5 @@ jobs:
                   # 👇 Chromatic projectToken, refer to the manage page to obtain it.
                   projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
                   exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
+                  exitOnceUploaded: true # 👈 Exit with status 0 (OK) once the build has been sent to Chromatic
                   buildScriptName: storybook:export

@@ -5,6 +5,12 @@
     ],
     "rules": {
         "indentation": 4,
-        "color-named": "never"
+        "color-named": "never",
+        "selector-class-pattern": [
+            "(?<=cb-)([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+            {
+                "message": "Class selectors must start with cb- and follow kebab-case convention, for example: cb-my-class"
+            }
+        ]
     }
 }

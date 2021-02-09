@@ -8,6 +8,8 @@
         "build"
     ],
     "dependencies": {
+        "@fluentui/react": "^7.158.1",
+        "@fluentui/react-theme-provider": "^0.18.1",
         "i18next": "^19.8.7",
         "i18next-browser-languagedetector": "^6.0.1",
         "i18next-http-backend": "^1.1.0",
