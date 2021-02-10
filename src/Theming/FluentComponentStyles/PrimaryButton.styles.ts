@@ -4,13 +4,13 @@ import { Theme } from '../../Constants/Enums';
 // Overrides PrimaryButton styles
 export const getPrimaryButtonStyles = (
     themeSetting: Theme,
-    theme: ITheme
+    _theme: ITheme
 ): Partial<IButtonStyles> => {
     // Adds box shadow on light theme
     const boxShadow =
         themeSetting === Theme.Light
-            ? `2px 2px 5px ${theme.semanticColors.buttonBorder}`
-            : 'unset';
+            ? `0 1px 3px 0 rgba(0, 0, 0, .12)`
+            : '0 1px 3px 0 rgba(255,255,255,.12)';
 
     return {
         root: {
