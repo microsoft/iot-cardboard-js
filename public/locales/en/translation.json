@@ -1,5 +1,8 @@
 {
     "preview": "Preview",
+    "loading": "Loading",
+    "noData": "No data",
+    "selectProperties": "Select properties",
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

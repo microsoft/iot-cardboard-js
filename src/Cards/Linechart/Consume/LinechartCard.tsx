@@ -56,7 +56,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     return (
         <BaseCard isLoading={isLoading} noData={noData}>
             <div
-                className="linechart-container"
+                className="cb-linechart-container"
                 id={chartContainerGUID}
                 ref={() => setIsMounted(true)}
             ></div>
