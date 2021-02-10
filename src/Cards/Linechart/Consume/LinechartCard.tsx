@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
