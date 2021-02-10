@@ -8,6 +8,7 @@
         "build"
     ],
     "dependencies": {
+        "@azure/msal-browser": "^2.11.0",
         "i18next": "^19.8.7",
         "i18next-browser-languagedetector": "^6.0.1",
         "i18next-http-backend": "^1.1.0",
@@ -15,7 +16,7 @@
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-i18next": "^11.8.5",
-        "tsiclient": "^1.4.8"
+        "tsiclient": "^1.4.11"
     },
     "devDependencies": {
         "@babel/core": "^7.12.10",
@@ -70,6 +71,7 @@
         "build": "rollup -c",
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
         "storybook": "npm run generateCerts && start-storybook -p 443 -s ./public --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
+        "storybookNoSSL": "start-storybook -p 3001 -s ./public",
         "storybook:export": "build-storybook -s ./public",
         "test": "jest",
         "test:watch": "jest --watch",
