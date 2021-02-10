@@ -43,7 +43,13 @@ export const NoData = (args, { globals: { theme } }) => (
 
 export const TwoCharts = (args, { globals: { theme } }) => (
     <div>
-        <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+        <div
+            style={{
+                height: '400px',
+                padding: '8px',
+                border: '1px solid grey'
+            }}
+        >
             <Linechart
                 theme={theme}
                 id={id}
@@ -52,7 +58,13 @@ export const TwoCharts = (args, { globals: { theme } }) => (
                 adapter={new MockAdapter()}
             />
         </div>
-        <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+        <div
+            style={{
+                height: '400px',
+                padding: '8px',
+                border: '1px solid grey'
+            }}
+        >
             <Linechart
                 theme={theme}
                 id={id}

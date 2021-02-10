@@ -43,11 +43,9 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     useEffect(() => {
         setChart(
-            new ClientLinechart(
-                document.getElementById(chartContainerGUID)
-            )
+            new ClientLinechart(document.getElementById(chartContainerGUID))
         );
-    },[isMounted]);
+    }, [isMounted]);
 
     useEffect(() => {
         if (chart !== null) {
@@ -57,8 +55,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     return (
         <BaseCard isLoading={isLoading} noData={noData}>
-            <div className="linechart-container" id={chartContainerGUID} ref={() => setIsMounted(true)}>    
-            </div>
+            <div
+                className="linechart-container"
+                id={chartContainerGUID}
+                ref={() => setIsMounted(true)}
+            ></div>
         </BaseCard>
     );
 };
