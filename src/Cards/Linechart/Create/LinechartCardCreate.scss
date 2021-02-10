@@ -1,3 +1,5 @@
+@import '../../../Resources/Styles/BaseStyles';
+
 .cb-linechart-create-wrapper {
     background: var(--color-bg-canvas);
     color: var(--color-text-primary);
@@ -32,8 +34,7 @@
     }
 
     .cb-preview-card {
-        border: 1px solid var(--color-bg-canvas-inset);
-        border-radius: 3px;
+        @include ms-depth-16; // Fluent UI elevation box-shadow
         height: 60%;
         width: 60%;
     }
