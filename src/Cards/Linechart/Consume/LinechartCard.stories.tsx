@@ -40,3 +40,26 @@ export const NoData = (args, { globals: { theme } }) => (
         />
     </div>
 );
+
+export const TwoCharts = (args, { globals: { theme } }) => (
+    <div>
+        <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+            <Linechart
+                theme={theme}
+                id={id}
+                searchSpan={searchSpan}
+                properties={properties}
+                adapter={new MockAdapter()}
+            />
+        </div>
+        <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+            <Linechart
+                theme={theme}
+                id={id}
+                searchSpan={searchSpan}
+                properties={properties}
+                adapter={new MockAdapter()}
+            />
+        </div>
+    </div>
+);

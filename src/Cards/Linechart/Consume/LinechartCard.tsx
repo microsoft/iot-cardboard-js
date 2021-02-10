@@ -5,6 +5,7 @@ import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
+import { createGUID } from '../../../Utils';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -14,6 +15,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     theme
 }) => {
     const { t } = useTranslation();
+    const chartContainerGUID = createGUID();
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [noData, setNoData] = useState(false);
@@ -42,7 +44,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     useEffect(() => {
         setChart(
             new ClientLinechart(
-                document.getElementById('linechartContainer')
+                document.getElementById(chartContainerGUID)
             )
         );
     },[isMounted]);
@@ -55,7 +57,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     return (
         <BaseCard isLoading={isLoading} noData={noData}>
-            <div className="linechart-container" id="linechartContainer" ref={() => setIsMounted(true)}>    
+            <div className="linechart-container" id={chartContainerGUID} ref={() => setIsMounted(true)}>    
             </div>
         </BaseCard>
     );
