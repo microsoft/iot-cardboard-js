@@ -11,7 +11,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     searchSpan,
     properties,
     adapter,
-    theme
+    theme,
+    additionalProperties
 }) => {
     const { t } = useTranslation();
     const [chart, setChart] = useState(null);
@@ -21,20 +22,27 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
         if (chart !== null) {
             setNoData(false);
             setIsLoading(true);
-            adapter.getLineChartData(id, searchSpan, properties).then((lcd) => {
-                setIsLoading(false);
-                const noData = lcd && lcd.data === null;
-                setNoData(noData);
-                if (!noData) {
-                    chart.render(lcd.data, {
-                        theme: theme,
-                        legend: 'compact',
-                        strings: t('sdkStrings', {
-                            returnObjects: true
-                        })
-                    });
-                }
-            });
+            adapter
+                .getLineChartData(
+                    id,
+                    searchSpan,
+                    properties,
+                    additionalProperties
+                )
+                .then((lcd) => {
+                    setIsLoading(false);
+                    const noData = lcd && lcd.data === null;
+                    setNoData(noData);
+                    if (!noData) {
+                        chart.render(lcd.data, {
+                            theme: theme,
+                            legend: 'compact',
+                            strings: t('sdkStrings', {
+                                returnObjects: true
+                            })
+                        });
+                    }
+                });
         }
     };
 

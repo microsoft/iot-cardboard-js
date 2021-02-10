@@ -8,6 +8,7 @@ export interface LinechartCardProps {
     searchSpan: SearchSpan;
     properties: string[];
     theme: Theme;
+    additionalProperties?: any;
 }
 
 export interface LineChartData {

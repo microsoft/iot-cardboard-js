@@ -25,15 +25,23 @@ export default class IoTCentralAdapter implements IBaseAdapter {
     getLineChartData(
         id: string,
         searchSpan: SearchSpan,
-        properties: string[]
+        properties: string[],
+        additionalProperties: any
     ): Promise<LineChartData> {
         return new Promise((resolve) => {
             this.authService.getToken().then((token) => {
                 alert(token);
                 console.log(id + searchSpan + properties);
-                // make an ajax request to this.iotCentralAppId
-                // using id, searchspan, and properties
-                resolve({ data: null });
+                debugger;
+                if (additionalProperties.isLkv) {
+                    // make an ajax request to this.iotCentralAppId
+                    // using id and properties to get LKV
+                    resolve({ data: null });
+                } else {
+                    // make an ajax request to this.iotCentralAppId
+                    // using id searchspan and properties to get time series
+                    resolve({ data: null });
+                }
             });
         });
     }

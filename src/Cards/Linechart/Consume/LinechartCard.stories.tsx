@@ -73,7 +73,7 @@ export const TsiData = (args, { globals: { theme } }) => {
     );
 };
 
-export const IotCData = (args, { globals: { theme } }) => {
+export const IotcLKVData = (args, { globals: { theme } }) => {
     const iotcId = 'someGUID';
     const iotcProperties = ['batt', 'fuel'];
     const iotcSearchSpan = new SearchSpan(
@@ -89,6 +89,29 @@ export const IotCData = (args, { globals: { theme } }) => {
                 searchSpan={iotcSearchSpan}
                 properties={iotcProperties}
                 adapter={new IoTCentralAdapter('')}
+                additionalProperties={{ isLkv: true }}
+            />
+        </div>
+    );
+};
+
+export const IotcTSData = (args, { globals: { theme } }) => {
+    const iotcId = 'someGUID';
+    const iotcProperties = ['batt', 'fuel'];
+    const iotcSearchSpan = new SearchSpan(
+        new Date('2017-04-20T20:00:00Z'),
+        new Date('2017-05-20T20:00:00Z'),
+        '6h'
+    );
+    return (
+        <div style={chartCardStyle}>
+            <Linechart
+                theme={theme}
+                id={iotcId}
+                searchSpan={iotcSearchSpan}
+                properties={iotcProperties}
+                adapter={new IoTCentralAdapter('')}
+                additionalProperties={{ isLkv: false }}
             />
         </div>
     );
