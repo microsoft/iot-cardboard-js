@@ -1,0 +1,161 @@
+import * as Msal from '@azure/msal-browser';
+
+export default class MsalAuthService implements IAuthService {
+    private getTokenCalls = [];
+    private gettingToken = false;
+    private isLoggingIn = true;
+    private executeGetTokenSequentially = true;
+    private authContextConfig;
+    private authContext;
+
+    public environmentToConstantMapping: EnvironmentToConstantMapping = {
+        authority: 'https://login.microsoftonline.com/organizations',
+
+        // valid redirect URI for this is client ID is https://adtexplorer-tsi-local.azurewebsites.net
+        // modify hosts file accordingly
+        clientId: 'e7e88070-28a1-43a3-9704-d8b986eb5f60',
+
+        scope: 'https://api.timeseries.azure.com/.default',
+
+        redirectUri: window.location.protocol + '//' + window.location.hostname
+
+        // // The resource URI for ADT should NOT end with a trailing slash as it will cause
+        // // authentication to fail.
+        // scope: 'https://digitaltwins.azure.net/.default'
+    };
+
+    constructor(environmentToConstantMapping?: EnvironmentToConstantMapping) {
+        this.environmentToConstantMapping =
+            environmentToConstantMapping || this.environmentToConstantMapping;
+
+        this.authContextConfig = {
+            auth: {
+                clientId: this.environmentToConstantMapping.clientId,
+                authority: `${this.environmentToConstantMapping.authority}`,
+                redirectUri: this.environmentToConstantMapping.redirectUri,
+                navigateToLoginRequestUrl: true
+            },
+            cache: {
+                cacheLocation: 'localStorage',
+                storeAuthStateInCookie: true
+            }
+        };
+        this.authContext = new Msal.PublicClientApplication(
+            this.authContextConfig
+        );
+    }
+
+    public login = () => {
+        this.isLoggingIn = true;
+        this.authContext
+            .loginPopup()
+            .then(() => {
+                // In case multiple accounts exist, you can select
+                const currentAccounts = this.authContext.getAllAccounts();
+                this.authContext.setActiveAccount(currentAccounts[0]);
+                this.isLoggingIn = false;
+                this.shiftAndExecuteGetTokenCall();
+            })
+            .catch(function (error) {
+                //login failure
+                alert(error);
+            });
+    };
+
+    public logout = () => {
+        this.authContext.logout();
+    };
+
+    private shiftAndExecuteGetTokenCall = () => {
+        const call = this.getTokenCalls.shift();
+        if (call) {
+            call.call();
+        }
+    };
+
+    private createGetTokenCall = (
+        scope,
+        resolve,
+        reject,
+        allowParallelGetTokenAfterComplete
+    ) => {
+        const resolveToken = ({ accessToken }) => {
+            if (allowParallelGetTokenAfterComplete) {
+                this.executeGetTokenSequentially = false;
+            }
+            this.gettingToken = false;
+            resolve(accessToken);
+            this.shiftAndExecuteGetTokenCall();
+        };
+
+        return () => {
+            this.gettingToken = true;
+            this.authContext
+                .acquireTokenSilent(scope)
+                .then(resolveToken)
+                .catch((error) => {
+                    if (error instanceof Msal.InteractionRequiredAuthError) {
+                        // popups are likely to be blocked by the browser
+                        // notify the user that they should enable them
+                        alert(
+                            'Some authentication flows will require pop-ups, please make sure popups are enabled for this site.'
+                        );
+                        this.authContext
+                            .acquireTokenPopup(scope)
+                            .then(resolveToken)
+                            .catch((error) => {
+                                console.error(error);
+                                resolveToken(error);
+                            });
+                    } else {
+                        console.error(error);
+                        resolveToken(error);
+                    }
+                });
+        };
+    };
+
+    private getGenericTokenPromiseCallback = (
+        scope,
+        allowParallelGetTokenAfterComplete = false
+    ) => {
+        scope.authority = `${this.environmentToConstantMapping.authority}`;
+        return (resolve, reject) => {
+            const getTokenCall = this.createGetTokenCall(
+                scope,
+                resolve,
+                reject,
+                allowParallelGetTokenAfterComplete
+            );
+            this.getTokenCalls.push(getTokenCall);
+            if (
+                (!this.gettingToken || !this.executeGetTokenSequentially) &&
+                !this.isLoggingIn
+            ) {
+                this.shiftAndExecuteGetTokenCall();
+            }
+        };
+    };
+
+    public getToken = () => {
+        const scope = this.environmentToConstantMapping.scope;
+        return new Promise(
+            this.getGenericTokenPromiseCallback({
+                scopes: [scope]
+            })
+        ) as Promise<string>;
+    };
+}
+
+interface IAuthService {
+    login(): void;
+    getToken: () => Promise<string>;
+    environmentToConstantMapping: EnvironmentToConstantMapping;
+}
+
+interface EnvironmentToConstantMapping {
+    authority: string;
+    clientId: string;
+    scope: string;
+    redirectUri: string;
+}

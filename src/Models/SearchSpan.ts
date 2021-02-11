@@ -1,4 +1,4 @@
-// import Utils from 'tsiclient/Utils';
+import Utils from 'tsiclient/Utils';
 
 export class SearchSpan {
     public from: Date;
@@ -11,7 +11,7 @@ export class SearchSpan {
         this.to = to;
         this.bucketSize = bucketSize;
         if (bucketSize) {
-            // this.bucketSizeMillis = utils.parseTimeInput(bucketSize);
+            this.bucketSizeMillis = Utils.parseTimeInput(bucketSize);
         }
     }
 }

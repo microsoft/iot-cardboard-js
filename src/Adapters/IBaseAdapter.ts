@@ -6,6 +6,6 @@ export interface IBaseAdapter {
         id: string,
         searchSpan: SearchSpan,
         properties: Array<string>,
-        additionalParameters?: any
+        additionalParameters?: Record<string, any>
     ): Promise<LineChartData>;
 }

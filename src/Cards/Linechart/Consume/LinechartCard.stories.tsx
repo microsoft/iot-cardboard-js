@@ -16,9 +16,14 @@ const searchSpan = new SearchSpan(
     new Date(new Date().valueOf() + 100000),
     '100ms'
 );
+const chartCardStyle = {
+    height: '400px',
+    padding: '8px',
+    border: '1px solid #ccc'
+};
 
 export const MockData = (args, { globals: { theme } }) => (
-    <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+    <div style={chartCardStyle}>
         <Linechart
             theme={theme}
             id={id}
@@ -30,7 +35,7 @@ export const MockData = (args, { globals: { theme } }) => (
 );
 
 export const NoData = (args, { globals: { theme } }) => (
-    <div style={{ height: '400px', padding: '8px', border: '1px solid grey' }}>
+    <div style={chartCardStyle}>
         <Linechart
             theme={theme}
             id={id}
@@ -43,13 +48,7 @@ export const NoData = (args, { globals: { theme } }) => (
 
 export const TwoCharts = (args, { globals: { theme } }) => (
     <div>
-        <div
-            style={{
-                height: '400px',
-                padding: '8px',
-                border: '1px solid grey'
-            }}
-        >
+        <div style={chartCardStyle}>
             <Linechart
                 theme={theme}
                 id={id}
@@ -58,13 +57,7 @@ export const TwoCharts = (args, { globals: { theme } }) => (
                 adapter={new MockAdapter()}
             />
         </div>
-        <div
-            style={{
-                height: '400px',
-                padding: '8px',
-                border: '1px solid grey'
-            }}
-        >
+        <div style={chartCardStyle}>
             <Linechart
                 theme={theme}
                 id={id}
