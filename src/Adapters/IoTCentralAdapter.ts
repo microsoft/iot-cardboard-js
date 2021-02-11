@@ -32,7 +32,6 @@ export default class IoTCentralAdapter implements IBaseAdapter {
             this.authService.getToken().then((token) => {
                 alert(token);
                 console.log(id + searchSpan + properties);
-                debugger;
                 if (additionalProperties.isLkv) {
                     // make an ajax request to this.iotCentralAppId
                     // using id and properties to get LKV
