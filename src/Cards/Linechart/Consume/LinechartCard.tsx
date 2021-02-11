@@ -5,6 +5,7 @@ import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
+import { createGUID } from '../../../Models/Utils';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -14,9 +15,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     theme
 }) => {
     const { t } = useTranslation();
+    const chartContainerGUID = createGUID();
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [noData, setNoData] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const renderChart = () => {
         if (chart !== null) {
             setNoData(false);
@@ -39,22 +42,25 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            setChart(
-                new ClientLinechart(
-                    document.getElementById('linechartContainer')
-                )
-            );
-        });
-    }, []);
+        setChart(
+            new ClientLinechart(document.getElementById(chartContainerGUID))
+        );
+    }, [isMounted]);
+
     useEffect(() => {
-        renderChart();
+        if (chart !== null) {
+            renderChart();
+        }
     }, [adapter, chart]);
 
     return (
-        <div className="cb-linechart-container" id="linechartContainer">
-            <BaseCard isLoading={isLoading} noData={noData}></BaseCard>
-        </div>
+        <BaseCard isLoading={isLoading} noData={noData}>
+            <div
+                className="cb-linechart-container"
+                id={chartContainerGUID}
+                ref={() => setIsMounted(true)}
+            ></div>
+        </BaseCard>
     );
 };
 

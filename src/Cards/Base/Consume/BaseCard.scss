@@ -1,11 +1,10 @@
-.cb-loading-wrapper {
+.cb-base-card {
     align-items: center;
     background: var(--color-bg-canvas);
     color: var(--color-text-primary);
     display: flex;
     height: 100%;
     justify-content: center;
-    position: absolute;
     width: 100%;
     z-index: 2;
     .cb-loading {
