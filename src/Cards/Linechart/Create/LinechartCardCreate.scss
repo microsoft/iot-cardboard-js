@@ -1,45 +1,41 @@
-.wrapper {
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-linechart-create-wrapper {
+    background: var(--color-bg-canvas);
+    color: var(--color-text-primary);
     display: flex;
     height: 100%;
     width: 100%;
-}
-select {
-    min-width: 120px;
-}
 
-.left > div,
-button {
-    padding: 12px;
-}
+    select {
+        min-width: 120px;
+    }
 
-button {
-    background-color: #ffa500;
-}
+    .cb-left {
+        height: 100%;
+        padding: 12px;
+        width: 30%;
+    }
 
-.left {
-    height: 100%;
-    width: 30%;
-}
+    .cb-submit-btn {
+        float: right;
+        margin-top: 12px;
+    }
 
-.right {
-    height: 100%;
-    width: 70%;
-}
+    .cb-right {
+        align-items: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+        padding: 20px;
+        width: 70%;
+    }
 
-.right {
-    align-items: center;
-    background: #fafafa;
-    border-left: 1px solid #ccc;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 20px;
-}
-
-.preview-card {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    height: 60%;
-    width: 60%;
+    .cb-preview-card {
+        @include ms-depth-16; // Fluent UI elevation box-shadow
+        height: 60%;
+        width: 60%;
+    }
 }

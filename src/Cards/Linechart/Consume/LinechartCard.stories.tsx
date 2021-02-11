@@ -116,3 +116,25 @@ export const IotcTSData = (args, { globals: { theme } }) => {
         </div>
     );
 };
+export const TwoCharts = (args, { globals: { theme } }) => (
+    <div>
+        <div style={chartCardStyle}>
+            <Linechart
+                theme={theme}
+                id={id}
+                searchSpan={searchSpan}
+                properties={properties}
+                adapter={new MockAdapter()}
+            />
+        </div>
+        <div style={chartCardStyle}>
+            <Linechart
+                theme={theme}
+                id={id}
+                searchSpan={searchSpan}
+                properties={properties}
+                adapter={new MockAdapter()}
+            />
+        </div>
+    </div>
+);

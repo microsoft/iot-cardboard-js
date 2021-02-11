@@ -12,7 +12,11 @@
         "@typescript-eslint/explicit-module-boundary-types": ["off"],
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-explicit-any": 0,
-        "no-debugger": "off"
+        "no-debugger": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            { "argsIgnorePattern": "^_" }
+        ]
     },
     "env": {
         "browser": true,
