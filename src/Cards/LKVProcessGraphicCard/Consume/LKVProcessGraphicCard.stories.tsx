@@ -33,7 +33,7 @@ export const IoTCLKVPG = (args, { globals: { theme } }) => {
         <div style={chartCardStyle}>
             <LKVProcessGraphicCard
                 id={iotcId}
-                imageSrc="https://lh3.googleusercontent.com/proxy/-_UA1300jEWq17Fow1IicbRDp_P8apDPW80YXXhC8eiVL-awMqiFf64XXmnk3XWY5gdcVdAQDNvtETprRLZGsAoOOW0LpWtrqCqvcOID2qm9btISZItjoPDqpTdIStgCQwpouOA"
+                imageSrc="http://www.pngall.com/wp-content/uploads/2016/09/Cargo-Truck-Download-PNG.png"
                 pollingIntervalMillis={5000}
                 properties={iotcProperties}
                 additionalProperties={propertyPositions}
