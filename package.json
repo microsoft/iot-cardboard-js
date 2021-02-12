@@ -2,11 +2,8 @@
     "name": "iot-cardboard-js",
     "version": "0.0.0-development",
     "description": "",
-    "main": "build/index.js",
-    "module": "build/index.es.js",
-    "files": [
-        "build"
-    ],
+    "main": "index.js",
+    "module": "index.es.js",
     "dependencies": {
         "@azure/msal-browser": "^2.11.0",
         "@fluentui/react": "^7.158.1",
@@ -72,9 +69,13 @@
         "react-dom": ">=16.8.0"
     },
     "scripts": {
-        "build": "npm run clean && rollup -c && npm run gen-theme",
-        "gen-theme": "node-sass src/Resources/Styles/BaseThemeVars.scss build/cardboard-theme.css",
-        "clean": "shx rm -rf dist",
+        "build": "npm run clean && rollup -c && npm run copy-theme-sheet && npm run post-build",
+        "clean": "shx rm -rf dist && shx rm -rf build_artifacts",
+        "post-build": "npm run copy-theme-sheet && npm run copy-package && npm run copy-readme && npm run pack",
+        "copy-theme-sheet": "node-sass src/Resources/Styles/BaseThemeVars.scss dist/themes.css",
+        "copy-package": "shx cp package.json dist",
+        "copy-readme": "shx cp README.MD dist/",
+        "pack": "shx mkdir ./build_artifacts && cd dist && npm pack && shx mv *.tgz ../build_artifacts",
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
         "storybook": "npm run generateCerts && start-storybook -p 443 -s ./public --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
         "storybookNoSSL": "start-storybook -p 3001 -s ./public",
