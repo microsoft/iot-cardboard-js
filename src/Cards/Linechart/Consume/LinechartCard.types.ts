@@ -1,14 +1,8 @@
-import { IBaseAdapter } from '../../../Adapters/IBaseAdapter';
-import { Theme } from '../../../Constants/Enums';
+import { ConsumeCardProps } from '../../../Constants/Interfaces';
 import { SearchSpan } from '../../../Models/SearchSpan';
 
-export interface LinechartCardProps {
-    adapter: IBaseAdapter;
-    id: string;
+export interface LinechartCardProps extends ConsumeCardProps {
     searchSpan: SearchSpan;
-    properties: string[];
-    theme: Theme;
-    additionalProperties?: Record<string, any>;
 }
 
 export interface LineChartData {
