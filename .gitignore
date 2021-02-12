@@ -5,3 +5,4 @@ storybook-static/
 build-storybook.log
 certificates/
 .vscode/
+*.tgz
