@@ -17,10 +17,10 @@
     }
     .cb-lkv-value {
         @include ms-depth-8;
-        background: var(--color-bg-canvas);
+        background: var(--cb-color-bg-canvas);
         border: 3px solid transparent;
         border-radius: 3px;
-        color: var(--color-text-primary);
+        color: var(--cb-color-text-primary);
         display: inline-block;
         font-size: 13px;
         padding: 6px;
@@ -29,7 +29,7 @@
     }
 
     .cb-lkv-value-pulse {
-        border: 3px solid var(--color-theme-primary);
+        border: 3px solid var(--cb-color-theme-primary);
     }
 
     .cb-lkv-value-title {
