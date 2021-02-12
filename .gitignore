@@ -1,7 +1,9 @@
 node_modules/
-build/
+dist/
 .eslintcache
 storybook-static/
 build-storybook.log
 certificates/
 .vscode/
+*.tgz
+build_artifacts/

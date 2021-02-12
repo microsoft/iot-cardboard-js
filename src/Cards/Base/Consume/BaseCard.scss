@@ -1,14 +1,14 @@
 .cb-base-card {
     align-items: center;
-    background: var(--color-bg-canvas);
-    color: var(--color-text-primary);
+    background: var(--cb-color-bg-canvas);
+    color: var(--cb-color-text-primary);
     display: flex;
     height: 100%;
     justify-content: center;
     width: 100%;
     z-index: 2;
     .cb-loading {
-        background: var(--color-bg-canvas-inset);
+        background: var(--cb-color-bg-canvas-inset);
         border-radius: 3px;
         padding: 20px;
     }
