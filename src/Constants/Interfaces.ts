@@ -14,3 +14,15 @@ export interface ConsumeCardProps {
     additionalProperties?: Record<string, any>;
     title?: string;
 }
+
+export interface IAuthService {
+    login(): void;
+    getToken: () => Promise<string>;
+}
+
+export interface EnvironmentToConstantMapping {
+    authority: string;
+    clientId: string;
+    scope: string;
+    redirectUri: string;
+}

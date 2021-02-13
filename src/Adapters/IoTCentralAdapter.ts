@@ -1,23 +1,14 @@
 import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
-import MsalAuthService from '../Helpers/MsalAuthService';
 import { SearchSpan } from '../Models/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
+import { IAuthService } from '../Constants/Interfaces';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
-    private authService: MsalAuthService;
+    private authService: IAuthService;
     private iotCentralAppId: string;
 
-    constructor(
-        iotCentralAppId: string,
-        authService: MsalAuthService = new MsalAuthService({
-            authority:
-                'https://login.microsoftonline.com/e56f6d88-b263-4dae-9ade-5668d4e974fb',
-            clientId: '91a64ae0-e4a0-4ea9-864d-275c60afff39',
-            scope: 'https://apps.azureiotcentral.com/user_impersonation',
-            redirectUri: 'http://localhost:3001'
-        })
-    ) {
+    constructor(iotCentralAppId: string, authService: IAuthService) {
         this.iotCentralAppId = iotCentralAppId;
         this.authService = authService;
         this.authService.login();
