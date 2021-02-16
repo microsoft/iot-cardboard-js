@@ -1,4 +1,5 @@
 import React from 'react';
+import { AuthenticationParameters } from '../../../../.storybook/IoTCentralCredentials';
 import IoTCentralAdapter from '../../../Adapters/IoTCentralAdapter';
 import MsalAuthService from '../../../Helpers/MsalAuthService';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
@@ -42,14 +43,9 @@ export const IoTCLKVPG = (args, { globals: { theme } }) => {
                 adapter={
                     new IoTCentralAdapter(
                         'logistics-companion.azureiotcentral.com',
-                        new MsalAuthService({
-                            authority:
-                                'https://login.microsoftonline.com/e56f6d88-b263-4dae-9ade-5668d4e974fb',
-                            clientId: '91a64ae0-e4a0-4ea9-864d-275c60afff39',
-                            scope:
-                                'https://apps.azureiotcentral.com/user_impersonation',
-                            redirectUri: 'http://localhost:3001'
-                        })
+                        new MsalAuthService({...AuthenticationParameters.iotCentral, 
+                            scope: 'https://apps.azureiotcentral.com/user_impersonation',
+                            redirectUri: 'http://localhost:3001'})
                     )
                 }
             />
