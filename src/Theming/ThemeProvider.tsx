@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo } from 'react';
-import { Theme as LibThemes } from '../Constants/Enums';
+import { Theme as LibThemes } from '../Models/Constants/Enums';
 import { ThemeProvider as FluentThemeProvider } from '@fluentui/react-theme-provider';
 import { getFluentTheme } from './FluentThemes';
 

@@ -5,7 +5,7 @@ import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
-import { createGUID } from '../../../Models/Utils';
+import { createGUID } from '../../../Models/Services/Utils';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,

@@ -1,7 +1,10 @@
 import React from 'react';
 import Linechart from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { SearchSpan } from '../../../Models/SearchSpan';
+import TsiAdapter from '../../../Adapters/TsiAdapter';
+import { SearchSpan } from '../../../Models/Classes/SearchSpan';
+import { AuthenticationParameters } from '../../../../.storybook/parameters';
+import MsalAuthService from '../../../Models/Services/MsalAuthService';
 
 export default {
     title: 'Linechart/Consume'
@@ -45,6 +48,34 @@ export const NoData = (args, { globals: { theme } }) => (
         />
     </div>
 );
+
+export const TsiData = (args, { globals: { theme } }) => {
+    const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
+    const tsiProperties = ['value'];
+    const tsiSearchSpan = new SearchSpan(
+        new Date('2017-04-20T20:00:00Z'),
+        new Date('2017-05-20T20:00:00Z'),
+        '6h'
+    );
+    return (
+        <div style={chartCardStyle}>
+            <Linechart
+                theme={theme}
+                id={tsiId}
+                searchSpan={tsiSearchSpan}
+                properties={tsiProperties}
+                adapter={
+                    new TsiAdapter(
+                        AuthenticationParameters.tsi.environmentFqdn,
+                        new MsalAuthService(
+                            AuthenticationParameters.tsi.aadParameters
+                        )
+                    )
+                }
+            />
+        </div>
+    );
+};
 
 export const TwoCharts = (args, { globals: { theme } }) => (
     <div>

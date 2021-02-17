@@ -1,4 +1,4 @@
-import { IBaseAdapter } from '../Adapters/IBaseAdapter';
+import { IBaseAdapter } from '../../Adapters/IBaseAdapter';
 import { Theme } from './Enums';
 
 export interface Action {

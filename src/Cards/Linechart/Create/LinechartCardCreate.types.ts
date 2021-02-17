@@ -1,4 +1,4 @@
-import { Theme } from '../../../Constants/Enums';
+import { Theme } from '../../../Models/Constants/Enums';
 
 export interface LinechartCardCreateProps {
     theme: Theme;

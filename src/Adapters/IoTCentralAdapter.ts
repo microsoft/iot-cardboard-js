@@ -1,8 +1,8 @@
 import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
-import { SearchSpan } from '../Models/SearchSpan';
+import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
-import { IAuthService } from '../Constants/Interfaces';
+import { IAuthService } from '../Models/Constants/Interfaces';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;

@@ -1,5 +1,5 @@
 import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
-import { SearchSpan } from '../Models/SearchSpan';
+import { SearchSpan } from '../Models/Classes/SearchSpan';
 
 export interface IBaseAdapter {
     getTsiclientChartDataShape(
