@@ -3,7 +3,6 @@ dist/
 build/
 build_artifacts/
 .eslintcache
-.storybook/secrets.js
 storybook-static/
 build-storybook.log
 certificates/
