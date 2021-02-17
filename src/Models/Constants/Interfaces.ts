@@ -16,7 +16,7 @@ export interface ConsumeCardProps {
 }
 
 export interface IAuthService {
-    login(): void;
+    login: () => void;
     getToken: () => Promise<string>;
 }
 

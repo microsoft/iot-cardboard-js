@@ -13,7 +13,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
 
     return (
         <div className="cb-base-card">
-            <div className="cb-base-card-title">{title}</div>
+            <h3 className="cb-base-card-title">{title}</h3>
             <div className="cb-base-card-content">
                 {isLoading || noData ? (
                     <div className="cb-loading">
