@@ -26,7 +26,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             setNoData(false);
             setIsLoading(true);
             adapter
-                .getLineChartData(
+                .getTsiclientChartDataShape(
                     id,
                     searchSpan,
                     properties,

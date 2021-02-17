@@ -13,7 +13,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         this.authService = authService;
         this.authService.login();
     }
-    getLineChartData(
+    getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
