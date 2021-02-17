@@ -15,17 +15,21 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     const [graphicProperties, setGraphicProperties] = useState({});
     const [pulse, setPulse] = useState(false);
     let pulseTimeout;
-    const getChartData = useCallback(() => {
-        adapter.getKeyValuePairs(id, properties).then((properties) => {
+    let isMounted;
+    const getChartData = useCallback(async () => {
+        const kvps = await adapter.getKeyValuePairs(id, properties);
+        if (isMounted) {
             setPulse(true);
-            setGraphicProperties(properties);
+            setGraphicProperties(kvps);
             pulseTimeout = setTimeout(() => setPulse(false), 500);
-        });
+        }
     }, []);
     useEffect(() => {
+        isMounted = true;
         getChartData();
         const dataLongPoll = setInterval(getChartData, pollingIntervalMillis);
         return function cleanup() {
+            isMounted = false;
             clearInterval(dataLongPoll);
             clearTimeout(pulseTimeout);
         };
