@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthenticationParameters } from '../../../../.storybook/parameters';
+import { AuthenticationParameters } from '../../../../.storybook/secrets';
 import IoTCentralAdapter from '../../../Adapters/IoTCentralAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
