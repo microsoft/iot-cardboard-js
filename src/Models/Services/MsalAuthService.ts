@@ -1,4 +1,8 @@
 import * as Msal from '@azure/msal-browser';
+import {
+    EnvironmentToConstantMapping,
+    IAuthService
+} from '../Constants/Interfaces';
 
 export default class MsalAuthService implements IAuthService {
     private getTokenCalls = [];
@@ -8,7 +12,7 @@ export default class MsalAuthService implements IAuthService {
     private authContextConfig;
     private authContext;
 
-    public environmentToConstantMapping: EnvironmentToConstantMapping = {
+    private environmentToConstantMapping: EnvironmentToConstantMapping = {
         authority: 'https://login.microsoftonline.com/organizations',
 
         // valid redirect URI for this is client ID is https://adtexplorer-tsi-local.azurewebsites.net
@@ -47,22 +51,30 @@ export default class MsalAuthService implements IAuthService {
 
     public login = () => {
         this.isLoggingIn = true;
-        this.authContext
-            .loginPopup()
-            .then(() => {
-                // In case multiple accounts exist, you can select
-                const currentAccounts = this.authContext.getAllAccounts();
-                this.authContext.setActiveAccount(currentAccounts[0]);
-                this.isLoggingIn = false;
-                this.shiftAndExecuteGetTokenCall();
-            })
-            .catch(function (error) {
-                //login failure
-                alert(error);
-            });
+
+        const accounts = this.authContext.getAllAccounts();
+        if (accounts.length) {
+            this.authContext.setActiveAccount(accounts[0]);
+            this.isLoggingIn = false;
+            this.shiftAndExecuteGetTokenCall();
+        } else {
+            this.authContext
+                .loginPopup()
+                .then(() => {
+                    // In case multiple accounts exist, you can select
+                    const currentAccounts = this.authContext.getAllAccounts();
+                    this.authContext.setActiveAccount(currentAccounts[0]);
+                    this.isLoggingIn = false;
+                    this.shiftAndExecuteGetTokenCall();
+                })
+                .catch(function (error) {
+                    //login failure
+                    alert(error);
+                });
+        }
     };
 
-    public logout = () => {
+    private logout = () => {
         this.authContext.logout();
     };
 
@@ -145,17 +157,4 @@ export default class MsalAuthService implements IAuthService {
             })
         ) as Promise<string>;
     };
-}
-
-interface IAuthService {
-    login(): void;
-    getToken: () => Promise<string>;
-    environmentToConstantMapping: EnvironmentToConstantMapping;
-}
-
-interface EnvironmentToConstantMapping {
-    authority: string;
-    clientId: string;
-    scope: string;
-    redirectUri: string;
 }

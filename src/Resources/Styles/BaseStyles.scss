@@ -1,1 +1,6 @@
 @import '~@fluentui/react/dist/sass/References'; // Import Fluent UI mixins and variables.
+
+*[class^='cb-'] {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

@@ -1,9 +1,9 @@
-import { Action } from '../../../Constants/Interfaces';
+import { Action } from '../../../Models/Constants/Interfaces';
 import update from 'immutability-helper';
 import {
     SET_CHART_PROPERTIES,
     SET_SELECTED_PROPERTIES
-} from '../../../Constants/ActionTypes';
+} from '../../../Models/Constants/ActionTypes';
 import { LinechartCardCreateState } from './LinechartCardCreate.types';
 
 export const defaultLinechartCardCreateState: LinechartCardCreateState = {

@@ -1,5 +1,5 @@
 import { IButtonStyles, ITheme } from '@fluentui/react';
-import { Theme } from '../../Constants/Enums';
+import { Theme } from '../../Models/Constants/Enums';
 
 // Overrides PrimaryButton styles
 export const getPrimaryButtonStyles = (

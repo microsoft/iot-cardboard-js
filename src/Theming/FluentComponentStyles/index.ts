@@ -1,5 +1,5 @@
 import { ITheme } from '@fluentui/react';
-import { Theme } from '../../Constants/Enums';
+import { Theme } from '../../Models/Constants/Enums';
 import { getPrimaryButtonStyles } from './PrimaryButton.styles';
 
 /* 

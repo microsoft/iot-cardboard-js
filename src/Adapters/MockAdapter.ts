@@ -1,5 +1,5 @@
 import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
-import { SearchSpan } from '../Models/SearchSpan';
+import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
@@ -7,6 +7,24 @@ export default class MockAdapter implements IBaseAdapter {
 
     constructor(mockData?: any) {
         this.mockData = mockData;
+    }
+    getKeyValuePairs(
+        id: string,
+        properties: string[]
+    ): Promise<Record<string, any>> {
+        const getKVPData = () => {
+            const kvps = {};
+            properties.forEach((p) => {
+                kvps[p] = Math.random();
+            });
+            return kvps;
+        };
+        const returnPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(getKVPData());
+            }, 1000);
+        });
+        return returnPromise;
     }
 
     static generateMockLineChartData(
@@ -41,7 +59,7 @@ export default class MockAdapter implements IBaseAdapter {
         return { data: data };
     }
 
-    getLineChartData(
+    getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]

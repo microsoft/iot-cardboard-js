@@ -3,8 +3,8 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import {
     SET_CHART_PROPERTIES,
     SET_SELECTED_PROPERTIES
-} from '../../../Constants/ActionTypes';
-import { SearchSpan } from '../../../Models/SearchSpan';
+} from '../../../Models/Constants/ActionTypes';
+import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import LinechartCard from '../Consume/LinechartCard';
 import './LinechartCardCreate.scss';
 import {
