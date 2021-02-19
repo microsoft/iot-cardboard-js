@@ -12,5 +12,5 @@ const secretsPath = `./.storybook/secrets.js`;
 const mergedSecrets = {...placeholder, ...userDefined};
 fs.writeFileSync(
     secretsPath,
-    `export const AuthenticationParameters = ${JSON.stringify(mergedSecrets, null, 4)};`
+    `export const AuthenticationParameters = ${JSON.stringify(mergedSecrets, null, 4)};;`
 );
