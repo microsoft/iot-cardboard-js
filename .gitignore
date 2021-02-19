@@ -9,4 +9,4 @@ certificates/
 .vscode/
 *.tgz
 build_artifacts/
-.storybook/secrets.js
+.storybook/secretsTEST.js
