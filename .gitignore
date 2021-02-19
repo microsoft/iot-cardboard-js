@@ -11,3 +11,4 @@ certificates/
 build_artifacts/
 .storybook/secretsTEST.js
 .storybook/secrets.fromUser.js
+.storybook/secrets/userDefinedSecrets.js
