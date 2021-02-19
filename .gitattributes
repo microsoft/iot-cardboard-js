@@ -1,2 +1,2 @@
 * text=auto eol=lf
-.storybook/secretsTEST.js filter=secrets
+.storybook/secrets.js filter=secrets

@@ -1,2 +1,3 @@
 [filter "secrets"]
     smudge = node ./tools/generateSecrets
+    clean = node ./tools/stripSecrets
