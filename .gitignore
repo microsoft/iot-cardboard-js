@@ -10,3 +10,4 @@ certificates/
 *.tgz
 build_artifacts/
 .storybook/secretsTEST.js
+.storybook/secrets.fromUser.js

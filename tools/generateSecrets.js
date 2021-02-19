@@ -1,6 +1,6 @@
 const fs = require('fs');
 const placeholder = require('./../.storybook/secrets.placeholder.js');
-const userDefined = require('./../.storybook/secrets.userDefined.js');
+const userDefined = require('./../.storybook/secrets.fromUser.js');
 
 const secretsPath = `./.storybook/secretsTEST.js`;
 
