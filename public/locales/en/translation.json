@@ -3,6 +3,9 @@
     "loading": "Loading",
     "noData": "No data",
     "selectProperties": "Select properties",
+    "create": {
+        "createLinechart": "Line chart card creator"
+    },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

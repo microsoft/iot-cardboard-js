@@ -28,14 +28,18 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        justify-content: space-around;
+        justify-content: center;
         padding: 20px;
         width: 70%;
     }
 
+    .cb-preview-title {
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
     .cb-preview-card {
-        @include ms-depth-16; // Fluent UI elevation box-shadow
-        height: 60%;
-        width: 60%;
+        height: 80%;
+        width: 80%;
     }
 }

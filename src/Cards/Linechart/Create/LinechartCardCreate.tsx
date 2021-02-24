@@ -17,6 +17,7 @@ import {
 } from './LinechartCardCreateState';
 import { useTranslation } from 'react-i18next';
 import { PrimaryButton, Dropdown, IDropdownOption } from '@fluentui/react';
+import BaseCardCreate from '../../Base/Create/BaseCardCreate';
 
 const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     theme,
@@ -55,26 +56,28 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     }, [state.chartPropertyNames]);
 
     return (
-        <div className="cb-linechart-create-wrapper">
-            <LinechartCreateForm
-                onSubmit={onDonezo}
-                propertyNames={propertyNames}
-                setSelectedPropertyNames={setSelectedProperties}
-                selectedPropertyNames={state.selectedPropertyNames}
-            ></LinechartCreateForm>
-            <div className="cb-right">
-                <div>{t('preview')}</div>
-                <div className="cb-preview-card">
-                    <LinechartCard
-                        theme={theme}
-                        id={id}
-                        searchSpan={searchSpan}
-                        properties={state.chartPropertyNames}
-                        adapter={adapter}
-                    ></LinechartCard>
+        <BaseCardCreate theme={theme} title={t('create.createLinechart')}>
+            <div className="cb-linechart-create-wrapper">
+                <LinechartCreateForm
+                    onSubmit={onDonezo}
+                    propertyNames={propertyNames}
+                    setSelectedPropertyNames={setSelectedProperties}
+                    selectedPropertyNames={state.selectedPropertyNames}
+                ></LinechartCreateForm>
+                <div className="cb-right">
+                    <div className="cb-preview-title">{t('preview')}</div>
+                    <div className="cb-preview-card">
+                        <LinechartCard
+                            theme={theme}
+                            id={id}
+                            searchSpan={searchSpan}
+                            properties={state.chartPropertyNames}
+                            adapter={adapter}
+                        ></LinechartCard>
+                    </div>
                 </div>
             </div>
-        </div>
+        </BaseCardCreate>
     );
 };
 

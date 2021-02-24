@@ -1,9 +1,7 @@
 import { Theme } from '../../../Models/Constants/Enums';
 
-export interface BaseCardProps {
+export interface BaseCardCreateProps {
     title?: string;
-    isLoading: boolean;
-    noData: boolean;
     children?: React.ReactNode;
     theme?: Theme;
 }

@@ -20,9 +20,7 @@ const searchSpan = new SearchSpan(
     '100ms'
 );
 const chartCardStyle = {
-    height: '400px',
-    padding: '8px',
-    border: '1px solid #ccc'
+    height: '400px'
 };
 
 export const MockData = (args, { globals: { theme } }) => (

@@ -10,7 +10,7 @@ export interface ConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
     properties: string[];
-    theme: Theme;
+    theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
 }

@@ -13,7 +13,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     properties,
     adapter,
     theme,
-    additionalProperties
+    additionalProperties,
+    title
 }) => {
     const { t } = useTranslation();
     const chartContainerGUID = createGUID();
@@ -38,7 +39,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                     setNoData(noData);
                     if (!noData) {
                         chart.render(lcd.data, {
-                            theme: theme,
+                            theme: theme ? theme : 'light',
                             legend: 'compact',
                             strings: t('sdkStrings', {
                                 returnObjects: true
@@ -62,7 +63,12 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     }, [adapter, chart]);
 
     return (
-        <BaseCard isLoading={isLoading} noData={noData}>
+        <BaseCard
+            isLoading={isLoading}
+            noData={noData}
+            theme={theme}
+            title={title}
+        >
             <div
                 className="cb-linechart-container"
                 id={chartContainerGUID}

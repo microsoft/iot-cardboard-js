@@ -1,0 +1,24 @@
+.cb-base-card-create {
+    background: var(--cb-color-bg-canvas);
+    color: var(--cb-color-text-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    .cb-base-card-create-title {
+        align-items: center;
+        border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
+        display: flex;
+        font-size: 16px;
+        font-weight: 600;
+        height: 40px;
+        margin: 0;
+        padding: 0 16px;
+        width: 100%;
+    }
+
+    .cb-base-card-create-content {
+        flex-grow: 1;
+    }
+}

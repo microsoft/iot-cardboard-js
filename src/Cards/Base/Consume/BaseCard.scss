@@ -4,7 +4,8 @@
     @include ms-depth-16;
     align-items: center;
     background: var(--cb-color-bg-canvas);
-    border-radius: 2px;
+    border: 1px solid var(--cb-color-card-border);
+    border-radius: 4px;
     color: var(--cb-color-text-primary);
     display: flex;
     height: 100%;
@@ -31,7 +32,10 @@
         width: 100%;
     }
     .cb-base-card-content {
+        align-items: center;
+        display: flex;
         height: calc(100% - 80px);
+        justify-content: center;
         margin: 20px;
         position: absolute;
         top: 40px;
