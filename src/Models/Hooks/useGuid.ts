@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createGUID } from '../Services/Utils';
 
 const useGuid = () => {
-    const [guid] = useState(createGUID);
+    const [guid] = useState(createGUID());
     return guid;
 };
 

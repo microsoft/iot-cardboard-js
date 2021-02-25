@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { CSSProperties, useContext, useMemo } from 'react';
 import { Theme as LibThemes } from '../Models/Constants/Enums';
 import { ThemeProvider as FluentThemeProvider } from '@fluentui/react-theme-provider';
 import { getFluentTheme } from './FluentThemes';
@@ -13,20 +13,19 @@ initializeIcons();
 export const ThemeProvider = ({ children, theme }) => {
     if (!theme) theme = LibThemes.Light;
 
-    useEffect(() => {
-        document.documentElement.setAttribute('cardboard-data-theme', theme);
-    }, [theme]);
-
     const fluentTheme = useMemo(() => getFluentTheme(theme), [theme]);
+    const unsetStyles: CSSProperties = { all: 'unset' };
 
     return (
         <Theme.Provider value={theme}>
             <FluentThemeProvider
                 theme={fluentTheme}
                 applyTo={'none'}
-                style={{ all: 'unset' }}
+                style={unsetStyles}
             >
-                {children}
+                <div style={unsetStyles} cardboard-data-theme={theme}>
+                    {children}
+                </div>
             </FluentThemeProvider>
         </Theme.Provider>
     );

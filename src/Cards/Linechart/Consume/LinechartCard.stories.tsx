@@ -5,6 +5,7 @@ import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import { AuthenticationParameters } from '../../../../.storybook/secrets';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import { Theme } from '../../../Models/Constants/Enums';
 
 export default {
     title: 'Linechart/Consume'
@@ -75,11 +76,12 @@ export const TsiData = (args, { globals: { theme } }) => {
     );
 };
 
-export const TwoCharts = (args, { globals: { theme } }) => (
+export const TwoThemedCharts = () => (
     <div>
         <div style={chartCardStyle}>
             <Linechart
-                theme={theme}
+                title={'Linechart dark theme card'}
+                theme={Theme.Dark}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}
@@ -88,7 +90,8 @@ export const TwoCharts = (args, { globals: { theme } }) => (
         </div>
         <div style={chartCardStyle}>
             <Linechart
-                theme={theme}
+                title={'Linechart light theme card'}
+                theme={Theme.Light}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}
