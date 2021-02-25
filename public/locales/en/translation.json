@@ -4,7 +4,9 @@
     "noData": "No data",
     "selectProperties": "Select properties",
     "create": {
-        "createLinechart": "Line chart card creator"
+        "createLinechart": "Line chart card creator",
+        "titleInputLabel": "Title",
+        "titleInputPlaceholder": "Enter title"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

@@ -9,6 +9,7 @@ export interface LinechartCardCreateProps {
 export interface LinechartCardCreateState {
     selectedPropertyNames: Array<string>;
     chartPropertyNames: Array<string>;
+    title: string;
 }
 
 export interface LinechartCardCreateFormProps {
@@ -16,4 +17,6 @@ export interface LinechartCardCreateFormProps {
     onSubmit: any;
     setSelectedPropertyNames: any;
     selectedPropertyNames: Array<string>;
+    setTitle: any;
+    title: string;
 }

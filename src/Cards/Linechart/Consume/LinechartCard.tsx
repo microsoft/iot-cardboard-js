@@ -5,7 +5,7 @@ import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
-import { createGUID } from '../../../Models/Services/Utils';
+import useGuid from '../../../Models/Hooks/useGuid';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -17,7 +17,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     title
 }) => {
     const { t } = useTranslation();
-    const chartContainerGUID = createGUID();
+    const chartContainerGUID = useGuid();
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [noData, setNoData] = useState(false);
