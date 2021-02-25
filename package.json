@@ -80,6 +80,8 @@
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
         "storybook": "npm run generateCerts && start-storybook -p 443 -s ./public --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
         "storybookNoSSL": "start-storybook -p 3001 -s ./public",
+        "startProxy": "node server.js",
+        "storybookWithProxy": "start npm run startProxy && npm run storybook",
         "storybook:export": "build-storybook -s ./public",
         "test": "jest",
         "test:watch": "jest --watch",

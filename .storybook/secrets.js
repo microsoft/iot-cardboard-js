@@ -16,5 +16,14 @@ export const AuthenticationParameters = {
             scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER'
         }
+    },
+    adt: {
+        hostUrl: 'ADT_INSTANCE_URL',
+        aadParameters: {
+            authority: 'AUTHORITY_PLACEHOLDER',
+            clientId: 'CLIENTID_PLACEHOLDER',
+            scope: 'SCOPE_PLACEHOLDER',
+            redirectUri: 'REDIRECTURI_PLACEHOLDER'
+        }
     }
 };
