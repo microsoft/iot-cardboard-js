@@ -15,7 +15,7 @@ import {
 import {
     defaultLinechartCardCreateState,
     LinechartCardCreateReducer
-} from './LinechartCardCreateState';
+} from './LinechartCardCreate.state';
 import { useTranslation } from 'react-i18next';
 import {
     PrimaryButton,

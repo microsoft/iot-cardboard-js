@@ -6,7 +6,9 @@ export default {
     title: '${componentDir}/Create'
 };
 
-export const Bar = () => <${componentName} />;
+export const Bar = (args, { globals: { theme } }) => (
+    <${componentName} theme={theme} />
+);
 `,
     extension: `.stories.tsx`
 });
