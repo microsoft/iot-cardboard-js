@@ -1,5 +1,5 @@
 import { Action } from '../../../Models/Constants/Interfaces';
-import update from 'immutability-helper';
+import produce from 'immer';
 import {
     SET_CHART_PROPERTIES,
     SET_SELECTED_PROPERTIES,
@@ -13,23 +13,24 @@ export const defaultLinechartCardCreateState: LinechartCardCreateState = {
     title: ''
 };
 
-export const LinechartCardCreateReducer = (
-    state: LinechartCardCreateState,
-    action: Action
-) => {
-    const payload = action.payload;
-    if (typeof state === 'undefined' || state === null) {
-        return defaultLinechartCardCreateState;
-    }
+// Using immer immutability helper: https://github.com/immerjs/immer
+export const LinechartCardCreateReducer = produce(
+    (draft: LinechartCardCreateState, action: Action) => {
+        const payload = action.payload;
 
-    switch (action.type) {
-        case SET_SELECTED_PROPERTIES:
-            return update(state, { selectedPropertyNames: { $set: payload } });
-        case SET_CHART_PROPERTIES:
-            return update(state, { chartPropertyNames: { $set: payload } });
-        case SET_TITLE:
-            return update(state, { title: { $set: payload } });
-        default:
-            return state;
-    }
-};
+        switch (action.type) {
+            case SET_SELECTED_PROPERTIES:
+                draft.selectedPropertyNames = payload;
+                return;
+            case SET_CHART_PROPERTIES:
+                draft.chartPropertyNames = payload;
+                return;
+            case SET_TITLE:
+                draft.title = payload;
+                return;
+            default:
+                return;
+        }
+    },
+    defaultLinechartCardCreateState
+);
