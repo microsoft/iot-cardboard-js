@@ -49,5 +49,4 @@ const withI18n = (Story, context) => (
 
 //add decorators here
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-// addDecorator(withTheme);
 addDecorator(withI18n);
