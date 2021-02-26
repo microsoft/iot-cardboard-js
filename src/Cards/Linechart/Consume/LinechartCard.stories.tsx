@@ -3,7 +3,7 @@ import Linechart from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
-import { AuthenticationParameters } from '../../../../.storybook/secrets/secrets';
+import { AuthenticationParameters } from '../../../../.storybook/secrets';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 
 export default {
