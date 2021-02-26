@@ -3,18 +3,19 @@ import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 
-const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
-    id,
-    properties,
-    adapter,
-    pollingIntervalMillis,
-    additionalProperties,
-    imageSrc,
-    title
-}) => {
+const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = (props) => {
+    const {
+        id,
+        properties,
+        adapter,
+        pollingIntervalMillis,
+        additionalProperties,
+        imageSrc,
+        title
+    } = props;
     const [graphicProperties, setGraphicProperties] = useState({});
     const [pulse, setPulse] = useState(false);
-    let pulseTimeout;
+    let pulseTimeout, dataLongPoll;
     let isMounted;
     const getChartData = useCallback(async () => {
         const kvps = await adapter.getKeyValuePairs(id, properties);
@@ -24,16 +25,30 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
             pulseTimeout = setTimeout(() => setPulse(false), 500);
         }
     }, []);
-    useEffect(() => {
-        isMounted = true;
-        getChartData();
-        const dataLongPoll = setInterval(getChartData, pollingIntervalMillis);
-        return function cleanup() {
-            isMounted = false;
+
+    useEffect(
+        () =>
+            function cleanup() {
+                isMounted = false;
+                clearInterval(dataLongPoll);
+                clearTimeout(pulseTimeout);
+            },
+        []
+    );
+
+    const propertiesToNotTriggerIntervalChangeOn = ['title'];
+    useEffect(
+        () => {
             clearInterval(dataLongPoll);
             clearTimeout(pulseTimeout);
-        };
-    }, []);
+            isMounted = true;
+            getChartData();
+            dataLongPoll = setInterval(getChartData, pollingIntervalMillis);
+        },
+        Object.keys(props)
+            .filter((p) => !propertiesToNotTriggerIntervalChangeOn.includes(p))
+            .map((p) => props[p])
+    );
     return (
         <BaseCard title={title} isLoading={false} noData={false}>
             <div className={'cb-lkvpg-wrapper'}>
