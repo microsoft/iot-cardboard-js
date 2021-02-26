@@ -3,7 +3,7 @@ import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import { ThemeProvider } from '../src/Theming/ThemeProvider';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
-import I18nProviderWrapper from './I18NProviderWrapper';
+import I18nProviderWrapper from '../src/Models/Classes/I18NProviderWrapper';
 import i18n from '../i18n';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 
