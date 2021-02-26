@@ -4,13 +4,8 @@ const userDefined = require('./../.storybook/secrets.fromUser.js');
 
 const secretsPath = `./.storybook/secrets.js`;
 
-// if (fs.existsSync(secretsPath)) {
-//     console.error(`secrets.js already exists.`);
-//     process.exit(1);
-// }
-
 const mergedSecrets = {...placeholder, ...userDefined};
 fs.writeFileSync(
     secretsPath,
-    `export const AuthenticationParameters = ${JSON.stringify(mergedSecrets, null, 4)};;`
+    `export const AuthenticationParameters = ${JSON.stringify(mergedSecrets, null, 4)};`
 );
