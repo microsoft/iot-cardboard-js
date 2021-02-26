@@ -29,12 +29,15 @@
 
     .cb-form {
         height: 100%;
-        padding: 0 12px;
+        padding: 20px;
+        padding-top: 12px;
         width: 30%;
     }
 
     .cb-preview {
         align-items: center;
+        background-color: var(--cb-color-card-contrast);
+        border-left: 1px solid var(--cb-color-bg-canvas-inset);
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
