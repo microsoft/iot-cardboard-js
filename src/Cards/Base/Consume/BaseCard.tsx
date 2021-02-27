@@ -20,7 +20,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
                 <div className="cb-base-card-content">
                     {isLoading || noData ? (
                         <div className="cb-loading">
-                            {isLoading ? `${t('loading')}...` : t('noData')}
+                            {isLoading ? `${t('loading')}` : t('noData')}
                         </div>
                     ) : (
                         <>{children}</>

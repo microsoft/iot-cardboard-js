@@ -20,7 +20,6 @@ const ${componentName}: React.FC<${componentName}Props> = ({
     return (
         <BaseCardCreate
             theme={theme}
-            title={'${componentName} card creator'} // TODO localize
             form={<div>Form</div>}
             preview={<div></div>}
         ></BaseCardCreate>

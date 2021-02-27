@@ -6,6 +6,7 @@ import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
 import useGuid from '../../../Models/Hooks/useGuid';
+import { Theme } from '../../../Models/Constants/Enums';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -39,7 +40,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                     setNoData(noData);
                     if (!noData) {
                         chart.render(lcd.data, {
-                            theme: theme ? theme : 'light',
+                            theme: theme ? theme : Theme.Light,
                             legend: 'compact',
                             strings: t('sdkStrings', {
                                 returnObjects: true

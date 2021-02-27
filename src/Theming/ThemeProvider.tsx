@@ -10,9 +10,7 @@ export const useLibTheme = () => useContext(Theme);
 // Required to load fluent UI icons
 initializeIcons();
 
-export const ThemeProvider = ({ children, theme }) => {
-    if (!theme) theme = LibThemes.Light;
-
+export const ThemeProvider = ({ children, theme = LibThemes.Light }) => {
     const fluentTheme = useMemo(() => getFluentTheme(theme), [theme]);
     const unsetStyles: CSSProperties = { all: 'unset' };
 
