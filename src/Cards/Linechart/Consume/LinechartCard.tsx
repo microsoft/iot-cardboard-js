@@ -5,7 +5,8 @@ import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
-import { createGUID } from '../../../Models/Services/Utils';
+import useGuid from '../../../Models/Hooks/useGuid';
+import { Theme } from '../../../Models/Constants/Enums';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -13,10 +14,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     properties,
     adapter,
     theme,
-    additionalProperties
+    additionalProperties,
+    title
 }) => {
     const { t } = useTranslation();
-    const chartContainerGUID = createGUID();
+    const chartContainerGUID = useGuid();
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [noData, setNoData] = useState(false);
@@ -38,7 +40,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                     setNoData(noData);
                     if (!noData) {
                         chart.render(lcd.data, {
-                            theme: theme,
+                            theme: theme ? theme : Theme.Light,
                             legend: 'compact',
                             strings: t('sdkStrings', {
                                 returnObjects: true
@@ -62,7 +64,12 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     }, [adapter, chart]);
 
     return (
-        <BaseCard isLoading={isLoading} noData={noData}>
+        <BaseCard
+            isLoading={isLoading}
+            noData={noData}
+            theme={theme}
+            title={title}
+        >
             <div
                 className="cb-linechart-container"
                 id={chartContainerGUID}

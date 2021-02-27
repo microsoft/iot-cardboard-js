@@ -10,7 +10,8 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     pollingIntervalMillis,
     additionalProperties,
     imageSrc,
-    title
+    title,
+    theme
 }) => {
     const [graphicProperties, setGraphicProperties] = useState({});
     const [pulse, setPulse] = useState(false);
@@ -35,7 +36,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         };
     }, []);
     return (
-        <BaseCard title={title} isLoading={false} noData={false}>
+        <BaseCard title={title} isLoading={false} noData={false} theme={theme}>
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>

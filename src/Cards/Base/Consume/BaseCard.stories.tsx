@@ -5,14 +5,13 @@ export default {
     title: 'BaseCard/Consume'
 };
 
-export const BasicCard = () => (
+export const BasicCard = (args, { globals: { theme } }) => (
     <div
         style={{
             height: '400px',
-            border: '1px solid grey',
             position: 'relative'
         }}
     >
-        <BaseCard noData={true} isLoading={false} />
+        <BaseCard noData={true} isLoading={false} theme={theme} />
     </div>
 );

@@ -6,7 +6,11 @@ export default {
     title: '${componentDir}/Consume'
 };
 
-export const Foo = () => <${componentName} />;
+export const Foo = (args, { globals: { theme } }) => (
+    <div style={{ height: '400px' }}>
+        <${componentName} theme={theme} title={'${componentName} card'} />
+    </div>
+);
 `,
     extension: `.stories.tsx`
 });
