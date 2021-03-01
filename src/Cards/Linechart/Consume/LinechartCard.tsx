@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
@@ -19,10 +19,9 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 }) => {
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
-    const [chart, setChart] = useState(null);
+    const chart = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
     const [adapterResult, setAdapterResult] = useState(null);
-    const [isMounted, setIsMounted] = useState(false);
 
     const renderChart = async () => {
         if (chart !== null) {
@@ -38,7 +37,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
             const noData = lcd && lcd.data === null;
             if (!noData) {
-                chart.render(lcd.data, {
+                chart.current.render(lcd.data, {
                     theme: theme ? theme : Theme.Light,
                     legend: 'compact',
                     strings: t('sdkStrings', {
@@ -50,16 +49,13 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     useEffect(() => {
-        setChart(
-            new ClientLinechart(document.getElementById(chartContainerGUID))
-        );
-    }, [isMounted]);
-
-    useEffect(() => {
-        if (chart !== null) {
-            renderChart();
+        if (chart.current === null) {
+            chart.current = new ClientLinechart(
+                document.getElementById(chartContainerGUID)
+            );
         }
-    }, [adapter, chart]);
+        renderChart();
+    }, [adapter]);
 
     return (
         <BaseCard
@@ -71,7 +67,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             <div
                 className="cb-linechart-container"
                 id={chartContainerGUID}
-                ref={() => setIsMounted(true)}
             ></div>
         </BaseCard>
     );

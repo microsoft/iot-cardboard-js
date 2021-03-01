@@ -22,16 +22,17 @@ const BaseCard: React.FC<BaseCardProps> = ({
                 <h3 className="cb-base-card-title">{title}</h3>
                 <div className="cb-base-card-content">
                     {isLoading || noData || hasError ? (
-                        <div className="cb-loading">
-                            {isLoading
-                                ? t('loading')
-                                : hasError
-                                ? t('error')
-                                : t('noData')}
+                        <div className="cb-base-info-wrapper">
+                            <div className="cb-base-info">
+                                {isLoading
+                                    ? t('loading')
+                                    : hasError
+                                    ? t('error')
+                                    : t('noData')}
+                            </div>
                         </div>
-                    ) : (
-                        <>{children}</>
-                    )}
+                    ) : null}
+                    <>{children}</>
                 </div>
             </div>
         </ThemeProvider>
