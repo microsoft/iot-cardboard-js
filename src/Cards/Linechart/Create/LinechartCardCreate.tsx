@@ -36,10 +36,9 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
         defaultState ? defaultState : defaultLinechartCardCreateState
     );
     const id = 'exampleID';
-    const searchSpan = new SearchSpan(
-        new Date('2020-01-01'),
-        new Date('2020-01-02')
-    );
+    const searchSpan = useMemo(() => {
+        return new SearchSpan(new Date('2020-01-01'), new Date('2020-01-02'));
+    }, []);
 
     const onDonezo = () => {
         dispatch({
