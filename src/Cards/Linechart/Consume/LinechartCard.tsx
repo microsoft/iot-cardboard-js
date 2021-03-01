@@ -21,33 +21,31 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const chartContainerGUID = useGuid();
     const [chart, setChart] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [noData, setNoData] = useState(false);
+    const [adapterResult, setAdapterResult] = useState(null);
     const [isMounted, setIsMounted] = useState(false);
-    const renderChart = () => {
+
+    const renderChart = async () => {
         if (chart !== null) {
-            setNoData(false);
             setIsLoading(true);
-            adapter
-                .getTsiclientChartDataShape(
-                    id,
-                    searchSpan,
-                    properties,
-                    additionalProperties
-                )
-                .then((lcd) => {
-                    setIsLoading(false);
-                    const noData = lcd && lcd.data === null;
-                    setNoData(noData);
-                    if (!noData) {
-                        chart.render(lcd.data, {
-                            theme: theme ? theme : Theme.Light,
-                            legend: 'compact',
-                            strings: t('sdkStrings', {
-                                returnObjects: true
-                            })
-                        });
-                    }
+            const lcd = await adapter.getTsiclientChartDataShape(
+                id,
+                searchSpan,
+                properties,
+                additionalProperties
+            );
+            setIsLoading(false);
+            setAdapterResult(lcd);
+
+            const noData = lcd && lcd.data === null;
+            if (!noData) {
+                chart.render(lcd.data, {
+                    theme: theme ? theme : Theme.Light,
+                    legend: 'compact',
+                    strings: t('sdkStrings', {
+                        returnObjects: true
+                    })
                 });
+            }
         }
     };
 
@@ -66,7 +64,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     return (
         <BaseCard
             isLoading={isLoading}
-            noData={noData}
+            adapterResult={adapterResult}
             theme={theme}
             title={title}
         >

@@ -16,20 +16,27 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const getKVPData = () => {
-            const kvps = {};
-            properties.forEach((p) => {
-                kvps[p] = Math.random();
-            });
-            return kvps;
-        };
+        try {
+            const getKVPData = () => {
+                const kvps = {};
+                properties.forEach((p) => {
+                    kvps[p] = Math.random();
+                });
+                return kvps;
+            };
 
-        await this.mockNetwork(1000);
+            await this.mockNetwork(1000);
 
-        return {
-            data: getKVPData,
-            error: null
-        };
+            return {
+                data: getKVPData(),
+                error: null
+            };
+        } catch (err) {
+            return {
+                data: null,
+                error: err
+            };
+        }
     }
 
     static generateMockLineChartData(
@@ -68,22 +75,26 @@ export default class MockAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const getData = (): LineChartData => {
-            if (this.mockData) {
-                return this.mockData;
-            } else {
-                return MockAdapter.generateMockLineChartData(
-                    searchSpan,
-                    properties
-                );
-            }
-        };
+        try {
+            const getData = (): LineChartData => {
+                if (this.mockData) {
+                    return this.mockData;
+                } else {
+                    return MockAdapter.generateMockLineChartData(
+                        searchSpan,
+                        properties
+                    );
+                }
+            };
 
-        await this.mockNetwork(1000);
+            await this.mockNetwork(1000);
 
-        return {
-            ...getData(),
-            error: null
-        };
+            return {
+                ...getData(),
+                error: null
+            };
+        } catch (err) {
+            return { data: null, error: err };
+        }
     }
 }

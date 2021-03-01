@@ -2,6 +2,7 @@
     "preview": "Preview",
     "loading": "Loading...",
     "noData": "No data",
+    "error": "Error fetching data",
     "selectProperties": "Select properties",
     "create": {
         "createLinechart": "Line chart card creator",
