@@ -21,7 +21,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         const kvps = await adapter.getKeyValuePairs(id, properties);
         if (isMounted) {
             setPulse(true);
-            setGraphicProperties(kvps);
+            setGraphicProperties(kvps.data);
             pulseTimeout = setTimeout(() => setPulse(false), 500);
         }
     }, []);

@@ -8,10 +8,14 @@ export default class MockAdapter implements IBaseAdapter {
     constructor(mockData?: any) {
         this.mockData = mockData;
     }
-    getKeyValuePairs(
-        id: string,
-        properties: string[]
-    ): Promise<Record<string, any>> {
+
+    async mockNetwork(timeout) {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(null), timeout);
+        });
+    }
+
+    async getKeyValuePairs(id: string, properties: string[]) {
         const getKVPData = () => {
             const kvps = {};
             properties.forEach((p) => {
@@ -19,12 +23,13 @@ export default class MockAdapter implements IBaseAdapter {
             });
             return kvps;
         };
-        const returnPromise = new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(getKVPData());
-            }, 1000);
-        });
-        return returnPromise;
+
+        await this.mockNetwork(1000);
+
+        return {
+            data: getKVPData,
+            error: null
+        };
     }
 
     static generateMockLineChartData(
@@ -55,15 +60,14 @@ export default class MockAdapter implements IBaseAdapter {
                 }
             }
         }
-        console.log(data);
         return { data: data };
     }
 
-    getTsiclientChartDataShape(
+    async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
-    ): Promise<LineChartData> {
+    ) {
         const getData = (): LineChartData => {
             if (this.mockData) {
                 return this.mockData;
@@ -75,11 +79,11 @@ export default class MockAdapter implements IBaseAdapter {
             }
         };
 
-        const returnPromise = new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(getData());
-            }, 1000);
-        }) as Promise<LineChartData>;
-        return returnPromise;
+        await this.mockNetwork(1000);
+
+        return {
+            ...getData(),
+            error: null
+        };
     }
 }

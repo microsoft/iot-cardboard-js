@@ -1,4 +1,3 @@
-import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
@@ -13,42 +12,49 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         this.authService = authService;
         this.authService.login();
     }
-    getTsiclientChartDataShape(
+    async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
-    ): Promise<LineChartData> {
+    ) {
         console.log(id + searchSpan + properties);
         throw new Error('Method not implemented.');
+        return {
+            data: null,
+            error: null
+        };
     }
 
-    getKeyValuePairs(
-        id: string,
-        properties: string[]
-    ): Promise<Record<string, any>> {
-        return new Promise((resolve) => {
-            this.authService
-                .getToken()
-                .then((token) => {
-                    const axiosGets = properties.map((prop) => {
-                        return axios.get(
-                            `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
-                            {
-                                headers: {
-                                    Authorization: 'Bearer ' + token
-                                }
-                            }
-                        );
-                    });
-                    return axios.all(axiosGets);
-                })
-                .then((res) => {
-                    const data = {};
-                    properties.forEach((prop, i) => {
-                        data[prop] = res[i].data.value;
-                    });
-                    resolve(data);
-                });
-        });
+    async getKeyValuePairs(id: string, properties: string[]) {
+        try {
+            const token = await this.authService.getToken();
+
+            const axiosGets = properties.map(async (prop) => {
+                return await axios.get(
+                    `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }
+                );
+            });
+
+            const axiosData = await axios.all(axiosGets);
+            const data = {};
+            properties.forEach((prop, i) => {
+                data[prop] = axiosData[i].data.value;
+            });
+
+            return {
+                data,
+                error: null
+            };
+        } catch (err) {
+            return {
+                data: null,
+                error: err
+            };
+        }
     }
 }
