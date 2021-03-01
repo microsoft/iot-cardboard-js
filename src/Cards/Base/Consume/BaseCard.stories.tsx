@@ -12,6 +12,10 @@ export const BasicCard = (args, { globals: { theme } }) => (
             position: 'relative'
         }}
     >
-        <BaseCard noData={true} isLoading={false} theme={theme} />
+        <BaseCard
+            isLoading={false}
+            theme={theme}
+            adapterResult={{ data: null, error: null }}
+        />
     </div>
 );
