@@ -20,6 +20,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
     const chart = useRef(null);
+
+    // TODO turn into re-usable reducers
     const [isLoading, setIsLoading] = useState(true);
     const [adapterResult, setAdapterResult] = useState(null);
 
