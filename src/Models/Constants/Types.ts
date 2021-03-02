@@ -1,6 +1,6 @@
-export type AdapterReturnType<T> = Promise<AdapterResolvedType<T>>;
+export type AdapterReturnType<T> = Promise<AdapterResult<T>>;
 
-export type AdapterResolvedType<T> = {
+export type AdapterResult<T> = {
     data: T | null;
     error: Error | null;
 };

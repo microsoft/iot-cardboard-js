@@ -13,11 +13,10 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         this.authService.login();
     }
     async getTsiclientChartDataShape(
-        id: string,
-        searchSpan: SearchSpan,
-        properties: string[]
+        _id: string,
+        _searchSpan: SearchSpan,
+        _properties: string[]
     ) {
-        console.log(id + searchSpan + properties);
         throw new Error('Method not implemented.');
         return {
             data: null,
