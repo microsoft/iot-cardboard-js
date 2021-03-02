@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
+import useCardState from '../../../Models/Hooks/useCardState';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -13,7 +14,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    const [graphicProperties, setGraphicProperties] = useState(null);
+    const cardState = useCardState();
     const [pulse, setPulse] = useState(false);
     let pulseTimeout;
     let isMounted;
@@ -21,8 +22,8 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     const getChartData = useCallback(async () => {
         const kvps = await adapter.getKeyValuePairs(id, properties);
         if (isMounted) {
+            cardState.setAdapterResult(kvps);
             setPulse(true);
-            setGraphicProperties(kvps);
             pulseTimeout = setTimeout(() => setPulse(false), 500);
         }
     }, []);
@@ -42,20 +43,22 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         <BaseCard
             title={title}
             isLoading={false}
-            adapterResult={graphicProperties}
+            adapterResult={cardState.adapterResult}
             theme={theme}
         >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>
-                    {graphicProperties?.data &&
-                        Object.keys(graphicProperties.data).map((prop, i) => (
+                    {cardState.adapterResult?.data &&
+                        Object.keys(
+                            cardState.adapterResult.data
+                        ).map((prop, i) => (
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
                                 pulse={pulse}
                                 title={prop}
-                                value={graphicProperties.data[prop]}
+                                value={cardState.adapterResult.data[prop]}
                             />
                         ))}
                 </div>
