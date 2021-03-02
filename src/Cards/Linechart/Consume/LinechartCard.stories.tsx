@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Linechart from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
-import { getAuthenticationParameters } from '../../../../.storybook/secrets';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
+import useAuthParams from '../../../../.storybook/useAuthParams';
 
 export default {
     title: 'Linechart/Consume'
@@ -49,12 +49,7 @@ export const NoData = (args, { globals: { theme } }) => (
 );
 
 export const TsiData = (args, { globals: { theme } }) => {
-    const [authenticationParameters, setAuthenticationParameters] = useState(
-        false as any
-    );
-    getAuthenticationParameters().then((ap) => {
-        setAuthenticationParameters(ap);
-    });
+    const authenticationParameters = useAuthParams();
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
     const tsiProperties = ['value'];
     const tsiSearchSpan = new SearchSpan(

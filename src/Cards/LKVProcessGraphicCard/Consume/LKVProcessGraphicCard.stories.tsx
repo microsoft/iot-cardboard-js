@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useAuthParams from '../../../../.storybook/useAuthParams';
 import IoTCentralAdapter from '../../../Adapters/IoTCentralAdapter';
-import { getAuthenticationParameters } from '../../../../.storybook/secrets';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
@@ -50,13 +50,8 @@ export const Mock = (args, { globals: { theme } }) => {
     );
 };
 
-export const IoTCentral = async (args, { globals: { theme } }) => {
-    const [authenticationParameters, setAuthenticationParameters] = useState(
-        false as any
-    );
-    getAuthenticationParameters().then((ap) => {
-        setAuthenticationParameters(ap);
-    });
+export const IoTCentral = (args, { globals: { theme } }) => {
+    const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
