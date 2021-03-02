@@ -1,20 +1,10 @@
-export const AuthenticationParameters = {
-    iotCentral: {
-        appId: 'APPID_PLACEHOLDER',
-        aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
-            clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
-        }
-    },
-    tsi: {
-        environmentFqdn: 'ENVFQDN_PLACEHOLDER',
-        aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
-            clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
-        }
+export async function getAuthenticationParameters() {
+    let module;
+    let userPath = '.user';
+    try {
+        module = await import(`./secrets${userPath}`);
+    } catch (e) {
+        module = await import('./secrets.placeholder');
     }
-};
+    return module.AuthenticationParameters;
+}

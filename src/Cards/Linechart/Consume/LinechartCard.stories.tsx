@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Linechart from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
-import { AuthenticationParameters } from '../../../../.storybook/secrets';
+import { getAuthenticationParameters } from '../../../../.storybook/secrets';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 
@@ -49,6 +49,12 @@ export const NoData = (args, { globals: { theme } }) => (
 );
 
 export const TsiData = (args, { globals: { theme } }) => {
+    const [authenticationParameters, setAuthenticationParameters] = useState(
+        false as any
+    );
+    getAuthenticationParameters().then((ap) => {
+        setAuthenticationParameters(ap);
+    });
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
     const tsiProperties = ['value'];
     const tsiSearchSpan = new SearchSpan(
@@ -56,7 +62,9 @@ export const TsiData = (args, { globals: { theme } }) => {
         new Date('2017-05-20T20:00:00Z'),
         '6h'
     );
-    return (
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <div style={chartCardStyle}>
             <Linechart
                 theme={theme}
@@ -65,9 +73,9 @@ export const TsiData = (args, { globals: { theme } }) => {
                 properties={tsiProperties}
                 adapter={
                     new TsiAdapter(
-                        AuthenticationParameters.tsi.environmentFqdn,
+                        authenticationParameters.tsi.environmentFqdn,
                         new MsalAuthService(
-                            AuthenticationParameters.tsi.aadParameters
+                            authenticationParameters.tsi.aadParameters
                         )
                     )
                 }

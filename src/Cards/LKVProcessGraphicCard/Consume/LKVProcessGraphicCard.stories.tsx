@@ -1,6 +1,6 @@
-import React from 'react';
-import { AuthenticationParameters } from '../../../../.storybook/secrets';
+import React, { useState } from 'react';
 import IoTCentralAdapter from '../../../Adapters/IoTCentralAdapter';
+import { getAuthenticationParameters } from '../../../../.storybook/secrets';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
@@ -50,8 +50,16 @@ export const Mock = (args, { globals: { theme } }) => {
     );
 };
 
-export const IoTCentral = (args, { globals: { theme } }) => {
-    return (
+export const IoTCentral = async (args, { globals: { theme } }) => {
+    const [authenticationParameters, setAuthenticationParameters] = useState(
+        false as any
+    );
+    getAuthenticationParameters().then((ap) => {
+        setAuthenticationParameters(ap);
+    });
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <div style={chartCardStyle}>
             <LKVProcessGraphicCard
                 id={iotcId}
@@ -63,9 +71,9 @@ export const IoTCentral = (args, { globals: { theme } }) => {
                 theme={theme}
                 adapter={
                     new IoTCentralAdapter(
-                        AuthenticationParameters.iotCentral.appId,
+                        authenticationParameters.iotCentral.appId,
                         new MsalAuthService(
-                            AuthenticationParameters.iotCentral.aadParameters
+                            authenticationParameters.iotCentral.aadParameters
                         )
                     )
                 }
