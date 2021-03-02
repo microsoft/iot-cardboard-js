@@ -7,6 +7,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
 import useGuid from '../../../Models/Hooks/useGuid';
 import { Theme } from '../../../Models/Constants/Enums';
+import useCardState from '../../../Models/Hooks/useCardState';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -20,22 +21,19 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
     const chart = useRef(null);
-
-    // TODO turn into re-usable reducers
-    const [isLoading, setIsLoading] = useState(true);
-    const [adapterResult, setAdapterResult] = useState(null);
+    const cardState = useCardState();
 
     const renderChart = async () => {
         if (chart !== null) {
-            setIsLoading(true);
+            cardState.setIsLoading(true);
             const lcd = await adapter.getTsiclientChartDataShape(
                 id,
                 searchSpan,
                 properties,
                 additionalProperties
             );
-            setIsLoading(false);
-            setAdapterResult(lcd);
+            cardState.setIsLoading(false);
+            cardState.setAdapterResult(lcd);
 
             const noData = lcd && lcd.data === null;
             if (!noData) {
@@ -61,8 +59,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     return (
         <BaseCard
-            isLoading={isLoading}
-            adapterResult={adapterResult}
+            isLoading={cardState.isLoading}
+            adapterResult={cardState.adapterResult}
             theme={theme}
             title={title}
         >
