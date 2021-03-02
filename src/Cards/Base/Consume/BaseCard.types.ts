@@ -6,5 +6,6 @@ export interface BaseCardProps {
     isLoading: boolean;
     children?: React.ReactNode;
     theme?: Theme;
+    // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
 }
