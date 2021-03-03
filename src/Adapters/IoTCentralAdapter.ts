@@ -2,6 +2,9 @@ import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
+import AdapterResult from '../Models/Classes/AdapterResult';
+import { LineChartData } from 'tsiclient/LineChart-2773e147';
+import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -18,10 +21,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         _properties: string[]
     ) {
         throw new Error('Method not implemented.');
-        return {
-            data: null,
-            error: null
-        };
+        return new AdapterResult<LineChartData>({ data: null, error: null });
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
@@ -45,15 +45,12 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 data[prop] = axiosData[i].data.value;
             });
 
-            return {
-                data,
-                error: null
-            };
+            return new AdapterResult<KeyValuePairData>({ data, error: null });
         } catch (err) {
-            return {
+            return new AdapterResult<KeyValuePairData>({
                 data: null,
                 error: err
-            };
+            });
         }
     }
 }

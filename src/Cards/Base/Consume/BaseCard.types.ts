@@ -1,5 +1,5 @@
 import { Theme } from '../../../Models/Constants/Enums';
-import { AdapterResult } from '../../../Models/Constants/Types';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
 
 export interface BaseCardProps {
     title?: string;

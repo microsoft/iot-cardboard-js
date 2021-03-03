@@ -1,5 +1,7 @@
 import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { KeyValuePairData } from '../Models/Constants/Types';
 import { IBaseAdapter } from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
@@ -26,16 +28,15 @@ export default class MockAdapter implements IBaseAdapter {
             };
 
             await this.mockNetwork(1000);
-
-            return {
+            return new AdapterResult<KeyValuePairData>({
                 data: getKVPData(),
                 error: null
-            };
+            });
         } catch (err) {
-            return {
+            return new AdapterResult<KeyValuePairData>({
                 data: null,
                 error: err
-            };
+            });
         }
     }
 
@@ -89,12 +90,15 @@ export default class MockAdapter implements IBaseAdapter {
 
             await this.mockNetwork(1000);
 
-            return {
+            return new AdapterResult<LineChartData>({
                 ...getData(),
                 error: null
-            };
+            });
         } catch (err) {
-            return { data: null, error: err };
+            return new AdapterResult<LineChartData>({
+                data: null,
+                error: err
+            });
         }
     }
 }

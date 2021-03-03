@@ -13,8 +13,8 @@ const BaseCard: React.FC<BaseCardProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const hasError = adapterResult && adapterResult.error !== null;
-    const noData = adapterResult && adapterResult.data === null;
+    const hasError = adapterResult?.hasError();
+    const noData = adapterResult?.hasNoData();
 
     return (
         <ThemeProvider theme={theme}>
