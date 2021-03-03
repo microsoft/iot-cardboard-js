@@ -1,11 +1,16 @@
-export type AdapterReturnType<T> = Promise<AdapterResolvedType<T>>;
+import AdapterResult from '../Classes/AdapterResult';
+import { IAdapterData } from './Interfaces';
 
-export type AdapterResolvedType<T> = {
-    data: T | null;
+export type AdapterReturnType<T extends IAdapterData> = Promise<
+    AdapterResult<T>
+>;
+
+export type AdapterResultParams<T extends IAdapterData> = {
+    result: T;
     error: Error | null;
 };
 
 export type CardState = {
-    adapterResult: AdapterResolvedType<any>;
+    adapterResult: AdapterResult<any>;
     isLoading: boolean;
 };

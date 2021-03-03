@@ -1,10 +1,11 @@
 import { Theme } from '../../../Models/Constants/Enums';
-import { AdapterResolvedType } from '../../../Models/Constants/Types';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
 
 export interface BaseCardProps {
     title?: string;
     isLoading: boolean;
     children?: React.ReactNode;
     theme?: Theme;
-    adapterResult: AdapterResolvedType<any>;
+    // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
+    adapterResult: AdapterResult<any>;
 }

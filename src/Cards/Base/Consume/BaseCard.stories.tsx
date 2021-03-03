@@ -1,4 +1,5 @@
 import React from 'react';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
 import BaseCard from './BaseCard';
 
 export default {
@@ -15,7 +16,12 @@ export const BasicCard = (args, { globals: { theme } }) => (
         <BaseCard
             isLoading={false}
             theme={theme}
-            adapterResult={{ data: null, error: null }}
+            adapterResult={
+                new AdapterResult({
+                    result: null,
+                    error: null
+                })
+            }
         />
     </div>
 );

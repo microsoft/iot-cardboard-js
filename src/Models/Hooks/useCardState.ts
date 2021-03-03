@@ -1,8 +1,9 @@
 import produce from 'immer';
 import { useReducer } from 'react';
+import AdapterResult from '../Classes/AdapterResult';
 import { SET_ADAPTER_RESULT, SET_IS_LOADING } from '../Constants/ActionTypes';
 import { Action } from '../Constants/Interfaces';
-import { AdapterResolvedType, CardState } from '../Constants/Types';
+import { CardState } from '../Constants/Types';
 
 const defaultCardState: CardState = {
     adapterResult: null,
@@ -31,7 +32,7 @@ const useCardState = () => {
         dispatch({ type: SET_IS_LOADING, payload: isLoading });
     };
 
-    const setAdapterResult = (adapterResult: AdapterResolvedType<any>) => {
+    const setAdapterResult = (adapterResult: AdapterResult<any>) => {
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 

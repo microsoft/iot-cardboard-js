@@ -4,6 +4,9 @@ import UxClient from 'tsiclient/UXClient';
 import { IBaseAdapter } from './IBaseAdapter';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IAuthService } from '../Models/Constants/Interfaces';
+import AdapterResult from '../Models/Classes/AdapterResult';
+import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
 
 export default class TsiAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -22,10 +25,10 @@ export default class TsiAdapter implements IBaseAdapter {
     ) {
         console.log(id + properties + additionalParameters);
         throw new Error('Method not implemented.');
-        return {
-            data: null,
+        return new AdapterResult<KeyValuePairAdapterData>({
+            result: null,
             error: null
-        };
+        });
     }
 
     async getTsiclientChartDataShape(
@@ -66,15 +69,15 @@ export default class TsiAdapter implements IBaseAdapter {
                 tsqExpressions
             ) as any;
 
-            return {
-                data: transformedResults,
+            return new AdapterResult<TsiClientAdapterData>({
+                result: new TsiClientAdapterData(transformedResults),
                 error: null
-            };
+            });
         } catch (err) {
-            return {
-                data: null,
+            return new AdapterResult<TsiClientAdapterData>({
+                result: null,
                 error: err
-            };
+            });
         }
     }
 }

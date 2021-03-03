@@ -49,16 +49,18 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>
-                    {cardState.adapterResult?.data &&
+                    {cardState.adapterResult?.result?.data &&
                         Object.keys(
-                            cardState.adapterResult.data
+                            cardState.adapterResult.result.data
                         ).map((prop, i) => (
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
                                 pulse={pulse}
                                 title={prop}
-                                value={cardState.adapterResult.data[prop]}
+                                value={
+                                    cardState.adapterResult.result.data[prop]
+                                }
                             />
                         ))}
                 </div>

@@ -1,4 +1,8 @@
-import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import TsiClientAdapterData, {
+    TsiClientData
+} from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 
@@ -27,22 +31,22 @@ export default class MockAdapter implements IBaseAdapter {
 
             await this.mockNetwork(1000);
 
-            return {
-                data: getKVPData(),
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: new KeyValuePairAdapterData(getKVPData()),
                 error: null
-            };
+            });
         } catch (err) {
-            return {
-                data: null,
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: null,
                 error: err
-            };
+            });
         }
     }
 
     static generateMockLineChartData(
         searchSpan: SearchSpan,
         properties: string[]
-    ): LineChartData {
+    ): TsiClientData {
         const data = [];
         const from = searchSpan.from;
         const to = searchSpan.to;
@@ -67,7 +71,7 @@ export default class MockAdapter implements IBaseAdapter {
                 }
             }
         }
-        return { data: data };
+        return data;
     }
 
     async getTsiclientChartDataShape(
@@ -76,8 +80,8 @@ export default class MockAdapter implements IBaseAdapter {
         properties: string[]
     ) {
         try {
-            const getData = (): LineChartData => {
-                if (this.mockData) {
+            const getData = (): TsiClientData => {
+                if (this.mockData !== undefined) {
                     return this.mockData;
                 } else {
                     return MockAdapter.generateMockLineChartData(
@@ -89,12 +93,15 @@ export default class MockAdapter implements IBaseAdapter {
 
             await this.mockNetwork(1000);
 
-            return {
-                ...getData(),
+            return new AdapterResult<TsiClientAdapterData>({
+                result: new TsiClientAdapterData(getData()),
                 error: null
-            };
+            });
         } catch (err) {
-            return { data: null, error: err };
+            return new AdapterResult<TsiClientAdapterData>({
+                result: null,
+                error: err
+            });
         }
     }
 }
