@@ -37,9 +37,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             setIsLoading(false);
             setAdapterResult(lcd);
 
-            const noData = lcd && lcd.data === null;
-            if (!noData) {
-                chart.current.render(lcd.data, {
+            if (!lcd.hasNoData()) {
+                chart.current.render(lcd.result.data, {
                     theme: theme ? theme : Theme.Light,
                     legend: 'compact',
                     strings: t('sdkStrings', {

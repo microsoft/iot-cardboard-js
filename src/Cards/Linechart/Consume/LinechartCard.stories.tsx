@@ -12,7 +12,6 @@ export default {
     // component: Linechart // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
-const emptyData = null;
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
 const searchSpan = new SearchSpan(
@@ -43,7 +42,7 @@ export const NoData = (args, { globals: { theme } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            adapter={new MockAdapter({ data: emptyData })}
+            adapter={new MockAdapter(null)}
         />
     </div>
 );

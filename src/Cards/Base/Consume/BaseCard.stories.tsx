@@ -16,7 +16,12 @@ export const BasicCard = (args, { globals: { theme } }) => (
         <BaseCard
             isLoading={false}
             theme={theme}
-            adapterResult={new AdapterResult({ data: null, error: null })}
+            adapterResult={
+                new AdapterResult({
+                    result: null,
+                    error: null
+                })
+            }
         />
     </div>
 );

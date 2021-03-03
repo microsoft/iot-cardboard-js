@@ -1,6 +1,7 @@
-import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { AdapterReturnType, KeyValuePairData } from '../Models/Constants/Types';
+import { AdapterReturnType } from '../Models/Constants/Types';
 
 export interface IBaseAdapter {
     getTsiclientChartDataShape(
@@ -8,11 +9,11 @@ export interface IBaseAdapter {
         searchSpan: SearchSpan,
         properties: Array<string>,
         additionalParameters?: Record<string, any>
-    ): AdapterReturnType<LineChartData>;
+    ): AdapterReturnType<TsiClientAdapterData>;
 
     getKeyValuePairs(
         id: string,
         properties: Array<string>,
         additionalParameters?: Record<string, any>
-    ): AdapterReturnType<KeyValuePairData>;
+    ): AdapterReturnType<KeyValuePairAdapterData>;
 }

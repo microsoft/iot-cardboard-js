@@ -1,16 +1,21 @@
+import { IAdapterData } from '../Constants/Interfaces';
 import { AdapterResultParams } from '../Constants/Types';
 
-class AdapterResult<T> {
-    data: T | null;
+class AdapterResult<T extends IAdapterData> {
+    result: T;
     error: Error | null;
 
     constructor(params: AdapterResultParams<T>) {
-        this.data = params.data;
+        this.result = params.result;
         this.error = params.error;
     }
 
     hasNoData() {
-        return this.data === null;
+        if (this.result && 'hasNoData' in this.result) {
+            return this.result.hasNoData();
+        } else {
+            return this.result === null || this.result?.data === null;
+        }
     }
 
     hasError() {

@@ -3,8 +3,8 @@ import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
-import { LineChartData } from 'tsiclient/LineChart-2773e147';
-import { KeyValuePairData } from '../Models/Constants/Types';
+import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -21,7 +21,10 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         _properties: string[]
     ) {
         throw new Error('Method not implemented.');
-        return new AdapterResult<LineChartData>({ data: null, error: null });
+        return new AdapterResult<TsiClientAdapterData>({
+            result: null,
+            error: null
+        });
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
@@ -45,10 +48,13 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 data[prop] = axiosData[i].data.value;
             });
 
-            return new AdapterResult<KeyValuePairData>({ data, error: null });
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: new KeyValuePairAdapterData(data),
+                error: null
+            });
         } catch (err) {
-            return new AdapterResult<KeyValuePairData>({
-                data: null,
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: null,
                 error: err
             });
         }

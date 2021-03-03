@@ -13,7 +13,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    const [graphicProperties, setGraphicProperties] = useState(null);
+    const [adapterResult, setAdapterResult] = useState(null);
     const [pulse, setPulse] = useState(false);
     let pulseTimeout;
     let isMounted;
@@ -22,7 +22,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         const kvps = await adapter.getKeyValuePairs(id, properties);
         if (isMounted) {
             setPulse(true);
-            setGraphicProperties(kvps);
+            setAdapterResult(kvps);
             pulseTimeout = setTimeout(() => setPulse(false), 500);
         }
     }, []);
@@ -42,20 +42,22 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         <BaseCard
             title={title}
             isLoading={false}
-            adapterResult={graphicProperties}
+            adapterResult={adapterResult}
             theme={theme}
         >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>
-                    {graphicProperties?.data &&
-                        Object.keys(graphicProperties.data).map((prop, i) => (
+                    {adapterResult?.result?.data &&
+                        Object.keys(
+                            adapterResult.result.data
+                        ).map((prop, i) => (
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
                                 pulse={pulse}
                                 title={prop}
-                                value={graphicProperties.data[prop]}
+                                value={adapterResult.result.data[prop]}
                             />
                         ))}
                 </div>
