@@ -4,9 +4,16 @@ const useAuthParams = () => {
 
     async function getAuthenticationParameters() {
         let module;
-        let userPath = '.user';
         try {
-            module = await import(`./secrets${userPath}`);
+            let userPath = '.user';
+            const userSecrets = await import(`./secrets${userPath}`);
+            const placeholderSecrets = await import('./secrets.placeholder');
+            module = {
+                AuthenticationParameters: {
+                    ...placeholderSecrets.AuthenticationParameters,
+                    ...userSecrets.AuthenticationParameters
+                }
+            };
         } catch (e) {
             module = await import('./secrets.placeholder');
         }
