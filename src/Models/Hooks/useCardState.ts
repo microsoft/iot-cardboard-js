@@ -2,29 +2,34 @@ import produce from 'immer';
 import { useReducer } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
 import { SET_ADAPTER_RESULT, SET_IS_LOADING } from '../Constants/ActionTypes';
-import { Action } from '../Constants/Interfaces';
+import { Action, IAdapterData } from '../Constants/Interfaces';
 import { CardState } from '../Constants/Types';
 
-const defaultCardState: CardState = {
-    adapterResult: null,
-    isLoading: false
-};
-
-const cardStateReducer = produce((draft: CardState, action: Action) => {
-    const payload = action.payload;
-    switch (action.type) {
-        case SET_IS_LOADING:
-            draft.isLoading = payload;
-            return;
-        case SET_ADAPTER_RESULT:
-            draft.adapterResult = payload;
-            return;
-        default:
-            return;
+// Sets up reducer with 'curried producer' - https://immerjs.github.io/immer/docs/curried-produce
+// Draft state can be directly modified.  Draft does not need to be explicitly returned.
+const cardStateReducer = produce(
+    <T extends IAdapterData>(draft: CardState<T>, action: Action) => {
+        const payload = action.payload;
+        switch (action.type) {
+            case SET_IS_LOADING:
+                draft.isLoading = payload;
+                return;
+            case SET_ADAPTER_RESULT:
+                draft.adapterResult = payload;
+                return;
+            default:
+                return;
+        }
     }
-}, defaultCardState);
+);
 
-const useCardState = () => {
+// Hook which accepts generic IAdapterData type and exposes card state
+const useCardState = <T extends IAdapterData>() => {
+    const defaultCardState: CardState<T> = {
+        adapterResult: null,
+        isLoading: false
+    };
+
     const [state, dispatch] = useReducer(cardStateReducer, defaultCardState);
 
     // Helper methods which wrap dispatch logic
@@ -32,10 +37,12 @@ const useCardState = () => {
         dispatch({ type: SET_IS_LOADING, payload: isLoading });
     };
 
-    const setAdapterResult = (adapterResult: AdapterResult<any>) => {
+    const setAdapterResult = (adapterResult: AdapterResult<T>) => {
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
+    // State is spread onto the object returned by the hook allowing for direct state access.
+    // such as --> cardState.isLoading
     return {
         ...state,
         dispatch,

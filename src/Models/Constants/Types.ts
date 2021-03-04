@@ -10,7 +10,7 @@ export type AdapterResultParams<T extends IAdapterData> = {
     error: Error | null;
 };
 
-export type CardState = {
-    adapterResult: AdapterResult<any>;
+export type CardState<T extends IAdapterData> = {
+    adapterResult: AdapterResult<T>;
     isLoading: boolean;
 };
