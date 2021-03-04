@@ -1,9 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useCardState from '../../../Models/Hooks/useCardState';
 import useLongPoll from '../../../Models/Hooks/useLongPoll';
+import useCancellablePromise from '../../../Models/Hooks/useCancellablePromise';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
+import { IAdapterData } from '../../../Models/Constants/Interfaces';
+import KeyValuePairAdapterData from '../../../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import { AdapterReturnType } from '../../../Models/Constants/Types';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -16,15 +21,25 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     theme
 }) => {
     const cardState = useCardState();
+    const { cancellablePromise, cancel } = useCancellablePromise();
+
+    // const getChartData = getCancellableCallback(asyncFunc, continuation, onCancel, [])
 
     const getChartData = useCallback(async () => {
-        const kvps = await adapter.getKeyValuePairs(id, properties);
+        cancel(); // Cancel outstanding promises
+        const kvps = await cancellablePromise(
+            adapter.getKeyValuePairs(id, properties)
+        );
         cardState.setAdapterResult(kvps);
-    }, []);
+    }, [id, properties]);
 
     const longPoll = useLongPoll({
-        pollFunc: getChartData,
+        callback: getChartData,
         pollInterval: pollingIntervalMillis
+        // onCallbackChanged: () => {
+        //     cardState.setAdapterResult(null);
+        //     abandonPromiseResult.current = true;
+        // }
     });
 
     return (

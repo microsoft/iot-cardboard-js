@@ -26,7 +26,7 @@ const cardStateReducer = produce(
 // Hook which accepts generic IAdapterData type and exposes card state
 const useCardState = <T extends IAdapterData>() => {
     const defaultCardState: CardState<T> = {
-        adapterResult: null,
+        adapterResult: new AdapterResult<any>({ result: null, error: null }),
         isLoading: false
     };
 
@@ -38,6 +38,12 @@ const useCardState = <T extends IAdapterData>() => {
     };
 
     const setAdapterResult = (adapterResult: AdapterResult<T>) => {
+        if (!adapterResult) {
+            adapterResult = new AdapterResult<any>({
+                result: null,
+                error: null
+            });
+        }
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
