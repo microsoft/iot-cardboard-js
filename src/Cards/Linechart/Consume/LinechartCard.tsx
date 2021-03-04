@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
@@ -19,61 +19,55 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 }) => {
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
-    const [chart, setChart] = useState(null);
+    const chart = useRef(null);
+
+    // TODO turn into re-usable reducers
     const [isLoading, setIsLoading] = useState(true);
-    const [noData, setNoData] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
-    const renderChart = () => {
+    const [adapterResult, setAdapterResult] = useState(null);
+
+    const renderChart = async () => {
         if (chart !== null) {
-            setNoData(false);
             setIsLoading(true);
-            adapter
-                .getTsiclientChartDataShape(
-                    id,
-                    searchSpan,
-                    properties,
-                    additionalProperties
-                )
-                .then((lcd) => {
-                    setIsLoading(false);
-                    const noData = lcd && lcd.data === null;
-                    setNoData(noData);
-                    if (!noData) {
-                        chart.render(lcd.data, {
-                            theme: theme ? theme : Theme.Light,
-                            legend: 'compact',
-                            strings: t('sdkStrings', {
-                                returnObjects: true
-                            })
-                        });
-                    }
+            const lcd = await adapter.getTsiclientChartDataShape(
+                id,
+                searchSpan,
+                properties,
+                additionalProperties
+            );
+            setIsLoading(false);
+            setAdapterResult(lcd);
+
+            if (!lcd.hasNoData()) {
+                chart.current.render(lcd.result.data, {
+                    theme: theme ? theme : Theme.Light,
+                    legend: 'compact',
+                    strings: t('sdkStrings', {
+                        returnObjects: true
+                    })
                 });
+            }
         }
     };
 
     useEffect(() => {
-        setChart(
-            new ClientLinechart(document.getElementById(chartContainerGUID))
-        );
-    }, [isMounted]);
-
-    useEffect(() => {
-        if (chart !== null) {
-            renderChart();
+        if (chart.current === null) {
+            chart.current = new ClientLinechart(
+                document.getElementById(chartContainerGUID)
+            );
         }
-    }, [adapter, chart]);
+        renderChart();
+    }, [properties, additionalProperties, searchSpan]);
 
     return (
         <BaseCard
             isLoading={isLoading}
-            noData={noData}
+            adapterResult={adapterResult}
             theme={theme}
             title={title}
         >
             <div
                 className="cb-linechart-container"
                 id={chartContainerGUID}
-                ref={() => setIsMounted(true)}
             ></div>
         </BaseCard>
     );

@@ -26,3 +26,8 @@ export interface EnvironmentToConstantMapping {
     scope: string;
     redirectUri: string;
 }
+
+export interface IAdapterData {
+    data: any;
+    hasNoData?: () => boolean;
+}

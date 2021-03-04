@@ -13,18 +13,20 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    const [graphicProperties, setGraphicProperties] = useState({});
+    const [adapterResult, setAdapterResult] = useState(null);
     const [pulse, setPulse] = useState(false);
     let pulseTimeout;
     let isMounted;
+
     const getChartData = useCallback(async () => {
         const kvps = await adapter.getKeyValuePairs(id, properties);
         if (isMounted) {
             setPulse(true);
-            setGraphicProperties(kvps);
+            setAdapterResult(kvps);
             pulseTimeout = setTimeout(() => setPulse(false), 500);
         }
     }, []);
+
     useEffect(() => {
         isMounted = true;
         getChartData();
@@ -35,20 +37,29 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
             clearTimeout(pulseTimeout);
         };
     }, []);
+
     return (
-        <BaseCard title={title} isLoading={false} noData={false} theme={theme}>
+        <BaseCard
+            title={title}
+            isLoading={false}
+            adapterResult={adapterResult}
+            theme={theme}
+        >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>
-                    {Object.keys(graphicProperties).map((prop, i) => (
-                        <LKVValue
-                            style={additionalProperties[prop]}
-                            key={i}
-                            pulse={pulse}
-                            title={prop}
-                            value={graphicProperties[prop]}
-                        />
-                    ))}
+                    {adapterResult?.result?.data &&
+                        Object.keys(
+                            adapterResult.result.data
+                        ).map((prop, i) => (
+                            <LKVValue
+                                style={additionalProperties[prop]}
+                                key={i}
+                                pulse={pulse}
+                                title={prop}
+                                value={adapterResult.result.data[prop]}
+                            />
+                        ))}
                 </div>
             </div>
         </BaseCard>
