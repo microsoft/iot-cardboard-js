@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useCardState from '../../../Models/Hooks/useCardState';
+import useLongPoll from '../../../Models/Hooks/useLongPoll';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -15,29 +16,16 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     theme
 }) => {
     const cardState = useCardState();
-    const [pulse, setPulse] = useState(false);
-    let pulseTimeout;
-    let isMounted;
 
     const getChartData = useCallback(async () => {
         const kvps = await adapter.getKeyValuePairs(id, properties);
-        if (isMounted) {
-            cardState.setAdapterResult(kvps);
-            setPulse(true);
-            pulseTimeout = setTimeout(() => setPulse(false), 500);
-        }
+        cardState.setAdapterResult(kvps);
     }, []);
 
-    useEffect(() => {
-        isMounted = true;
-        getChartData();
-        const dataLongPoll = setInterval(getChartData, pollingIntervalMillis);
-        return function cleanup() {
-            isMounted = false;
-            clearInterval(dataLongPoll);
-            clearTimeout(pulseTimeout);
-        };
-    }, []);
+    const longPoll = useLongPoll({
+        pollFunc: getChartData,
+        pollInterval: pollingIntervalMillis
+    });
 
     return (
         <BaseCard
@@ -56,7 +44,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
-                                pulse={pulse}
+                                pulse={longPoll.pulse}
                                 title={prop}
                                 value={
                                     cardState.adapterResult.result.data[prop]
