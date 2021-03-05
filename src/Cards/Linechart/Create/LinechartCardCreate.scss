@@ -1,41 +1,12 @@
 @import '../../../Resources/Styles/BaseStyles';
 
-.cb-linechart-create-wrapper {
-    background: var(--cb-color-bg-canvas);
-    color: var(--cb-color-text-primary);
-    display: flex;
-    height: 100%;
-    width: 100%;
-
+.cb-linechart-form {
     select {
         min-width: 120px;
-    }
-
-    .cb-left {
-        height: 100%;
-        padding: 12px;
-        width: 30%;
     }
 
     .cb-submit-btn {
         float: right;
         margin-top: 12px;
-    }
-
-    .cb-right {
-        align-items: center;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-        padding: 20px;
-        width: 70%;
-    }
-
-    .cb-preview-card {
-        @include ms-depth-16; // Fluent UI elevation box-shadow
-        height: 60%;
-        width: 60%;
     }
 }

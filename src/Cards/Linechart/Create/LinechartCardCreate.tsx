@@ -2,7 +2,8 @@ import React, { useMemo, useReducer } from 'react';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import {
     SET_CHART_PROPERTIES,
-    SET_SELECTED_PROPERTIES
+    SET_SELECTED_PROPERTIES,
+    SET_TITLE
 } from '../../../Models/Constants/ActionTypes';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import LinechartCard from '../Consume/LinechartCard';
@@ -14,9 +15,15 @@ import {
 import {
     defaultLinechartCardCreateState,
     LinechartCardCreateReducer
-} from './LinechartCardCreateState';
+} from './LinechartCardCreate.state';
 import { useTranslation } from 'react-i18next';
-import { PrimaryButton, Dropdown, IDropdownOption } from '@fluentui/react';
+import {
+    PrimaryButton,
+    Dropdown,
+    IDropdownOption,
+    TextField
+} from '@fluentui/react';
+import BaseCardCreate from '../../Base/Create/BaseCardCreate';
 
 const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     theme,
@@ -29,10 +36,9 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
         defaultState ? defaultState : defaultLinechartCardCreateState
     );
     const id = 'exampleID';
-    const searchSpan = new SearchSpan(
-        new Date('2020-01-01'),
-        new Date('2020-01-02')
-    );
+    const searchSpan = useMemo(() => {
+        return new SearchSpan(new Date('2020-01-01'), new Date('2020-01-02'));
+    }, []);
 
     const onDonezo = () => {
         dispatch({
@@ -48,6 +54,13 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
         });
     };
 
+    const setTitle = (title) => {
+        dispatch({
+            type: SET_TITLE,
+            payload: title
+        });
+    };
+
     const adapter = useMemo(() => {
         return state.chartPropertyNames.length
             ? new MockAdapter()
@@ -55,26 +68,30 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     }, [state.chartPropertyNames]);
 
     return (
-        <div className="cb-linechart-create-wrapper">
-            <LinechartCreateForm
-                onSubmit={onDonezo}
-                propertyNames={propertyNames}
-                setSelectedPropertyNames={setSelectedProperties}
-                selectedPropertyNames={state.selectedPropertyNames}
-            ></LinechartCreateForm>
-            <div className="cb-right">
-                <div>{t('preview')}</div>
-                <div className="cb-preview-card">
-                    <LinechartCard
-                        theme={theme}
-                        id={id}
-                        searchSpan={searchSpan}
-                        properties={state.chartPropertyNames}
-                        adapter={adapter}
-                    ></LinechartCard>
-                </div>
-            </div>
-        </div>
+        <BaseCardCreate
+            theme={theme}
+            title={t('create.createLinechart')}
+            form={
+                <LinechartCreateForm
+                    onSubmit={onDonezo}
+                    propertyNames={propertyNames}
+                    setSelectedPropertyNames={setSelectedProperties}
+                    selectedPropertyNames={state.selectedPropertyNames}
+                    setTitle={setTitle}
+                    title={state.title}
+                ></LinechartCreateForm>
+            }
+            preview={
+                <LinechartCard
+                    theme={theme}
+                    id={id}
+                    searchSpan={searchSpan}
+                    properties={state.chartPropertyNames}
+                    adapter={adapter}
+                    title={state.title}
+                ></LinechartCard>
+            }
+        ></BaseCardCreate>
     );
 };
 
@@ -82,7 +99,9 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     onSubmit,
     propertyNames,
     setSelectedPropertyNames,
-    selectedPropertyNames
+    selectedPropertyNames,
+    title,
+    setTitle
 }) => {
     const { t } = useTranslation();
     const parseAndSetSelectedProperties = (
@@ -106,7 +125,13 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     });
 
     return (
-        <div className="cb-left">
+        <div className="cb-linechart-form">
+            <TextField
+                label={t('create.titleInputLabel')}
+                placeholder={t('create.titleInputPlaceholder')}
+                value={title}
+                onChange={(_, value) => setTitle(value)}
+            />
             <Dropdown
                 placeholder={t('selectProperties')}
                 label={t('selectProperties')}

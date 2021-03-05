@@ -1,18 +1,27 @@
 import React from 'react';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
 import BaseCard from './BaseCard';
 
 export default {
     title: 'BaseCard/Consume'
 };
 
-export const BasicCard = () => (
+export const BasicCard = (args, { globals: { theme } }) => (
     <div
         style={{
             height: '400px',
-            border: '1px solid grey',
             position: 'relative'
         }}
     >
-        <BaseCard noData={true} isLoading={false} />
+        <BaseCard
+            isLoading={false}
+            theme={theme}
+            adapterResult={
+                new AdapterResult({
+                    result: null,
+                    error: null
+                })
+            }
+        />
     </div>
 );

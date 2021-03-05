@@ -3,15 +3,15 @@ import Linechart from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
-import { AuthenticationParameters } from '../../../../.storybook/secrets';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import { Theme } from '../../../Models/Constants/Enums';
+import useAuthParams from '../../../../.storybook/useAuthParams';
 
 export default {
     title: 'Linechart/Consume'
     // component: Linechart // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
-const emptyData = null;
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
 const searchSpan = new SearchSpan(
@@ -20,9 +20,7 @@ const searchSpan = new SearchSpan(
     '100ms'
 );
 const chartCardStyle = {
-    height: '400px',
-    padding: '8px',
-    border: '1px solid #ccc'
+    height: '400px'
 };
 
 export const MockData = (args, { globals: { theme } }) => (
@@ -44,12 +42,13 @@ export const NoData = (args, { globals: { theme } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            adapter={new MockAdapter({ data: emptyData })}
+            adapter={new MockAdapter(null)}
         />
     </div>
 );
 
 export const TsiData = (args, { globals: { theme } }) => {
+    const authenticationParameters = useAuthParams();
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
     const tsiProperties = ['value'];
     const tsiSearchSpan = new SearchSpan(
@@ -57,7 +56,9 @@ export const TsiData = (args, { globals: { theme } }) => {
         new Date('2017-05-20T20:00:00Z'),
         '6h'
     );
-    return (
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <div style={chartCardStyle}>
             <Linechart
                 theme={theme}
@@ -66,9 +67,9 @@ export const TsiData = (args, { globals: { theme } }) => {
                 properties={tsiProperties}
                 adapter={
                     new TsiAdapter(
-                        AuthenticationParameters.tsi.environmentFqdn,
+                        authenticationParameters.tsi.environmentFqdn,
                         new MsalAuthService(
-                            AuthenticationParameters.tsi.aadParameters
+                            authenticationParameters.tsi.aadParameters
                         )
                     )
                 }
@@ -77,11 +78,12 @@ export const TsiData = (args, { globals: { theme } }) => {
     );
 };
 
-export const TwoCharts = (args, { globals: { theme } }) => (
+export const TwoThemedCharts = () => (
     <div>
         <div style={chartCardStyle}>
             <Linechart
-                theme={theme}
+                title={'Linechart dark theme card'}
+                theme={Theme.Dark}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}
@@ -90,7 +92,8 @@ export const TwoCharts = (args, { globals: { theme } }) => (
         </div>
         <div style={chartCardStyle}>
             <Linechart
-                theme={theme}
+                title={'Linechart light theme card'}
+                theme={Theme.Light}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}

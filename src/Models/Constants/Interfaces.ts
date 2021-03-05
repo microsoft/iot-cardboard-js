@@ -10,7 +10,7 @@ export interface ConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
     properties: string[];
-    theme: Theme;
+    theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
 }
@@ -25,4 +25,9 @@ export interface EnvironmentToConstantMapping {
     clientId: string;
     scope: string;
     redirectUri: string;
+}
+
+export interface IAdapterData {
+    data: any;
+    hasNoData?: () => boolean;
 }

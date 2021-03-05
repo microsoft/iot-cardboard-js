@@ -4,7 +4,8 @@
     @include ms-depth-16;
     align-items: center;
     background: var(--cb-color-bg-canvas);
-    border-radius: 2px;
+    border: 1px solid var(--cb-color-card-border);
+    border-radius: 4px;
     color: var(--cb-color-text-primary);
     display: flex;
     height: 100%;
@@ -12,7 +13,17 @@
     position: relative;
     width: 100%;
     z-index: 2;
-    .cb-loading {
+    .cb-base-info-wrapper {
+        align-items: center;
+        background-color: var(--cb-color-bg-canvas);
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        z-index: 3;
+    }
+    .cb-base-info {
         background: var(--cb-color-bg-canvas-inset);
         border-radius: 3px;
         padding: 20px;
@@ -31,7 +42,10 @@
         width: 100%;
     }
     .cb-base-card-content {
+        align-items: center;
+        display: flex;
         height: calc(100% - 80px);
+        justify-content: center;
         margin: 20px;
         position: absolute;
         top: 40px;

@@ -1,8 +1,10 @@
-import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
+import AdapterResult from '../Models/Classes/AdapterResult';
+import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -13,42 +15,48 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         this.authService = authService;
         this.authService.login();
     }
-    getTsiclientChartDataShape(
-        id: string,
-        searchSpan: SearchSpan,
-        properties: string[]
-    ): Promise<LineChartData> {
-        console.log(id + searchSpan + properties);
+    async getTsiclientChartDataShape(
+        _id: string,
+        _searchSpan: SearchSpan,
+        _properties: string[]
+    ) {
         throw new Error('Method not implemented.');
+        return new AdapterResult<TsiClientAdapterData>({
+            result: null,
+            error: null
+        });
     }
 
-    getKeyValuePairs(
-        id: string,
-        properties: string[]
-    ): Promise<Record<string, any>> {
-        return new Promise((resolve) => {
-            this.authService
-                .getToken()
-                .then((token) => {
-                    const axiosGets = properties.map((prop) => {
-                        return axios.get(
-                            `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
-                            {
-                                headers: {
-                                    Authorization: 'Bearer ' + token
-                                }
-                            }
-                        );
-                    });
-                    return axios.all(axiosGets);
-                })
-                .then((res) => {
-                    const data = {};
-                    properties.forEach((prop, i) => {
-                        data[prop] = res[i].data.value;
-                    });
-                    resolve(data);
-                });
-        });
+    async getKeyValuePairs(id: string, properties: string[]) {
+        try {
+            const token = await this.authService.getToken();
+
+            const axiosGets = properties.map(async (prop) => {
+                return await axios.get(
+                    `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    }
+                );
+            });
+
+            const axiosData = await axios.all(axiosGets);
+            const data = {};
+            properties.forEach((prop, i) => {
+                data[prop] = axiosData[i].data.value;
+            });
+
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: new KeyValuePairAdapterData(data),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: null,
+                error: err
+            });
+        }
     }
 }
