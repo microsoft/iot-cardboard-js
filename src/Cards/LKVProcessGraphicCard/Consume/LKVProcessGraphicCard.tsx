@@ -15,7 +15,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     theme
 }) => {
     const cardState = useAdapter({
-        adapterMethod: () => adapter.getKeyValuePairs({ id, properties }),
+        adapterMethod: () => adapter.getKeyValuePairs(id, properties),
         refetchDependencies: [id, properties],
         isLongPolling: true,
         pollInterval: pollingIntervalMillis

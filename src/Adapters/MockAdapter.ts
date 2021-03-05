@@ -4,20 +4,13 @@ import TsiClientAdapterData, {
 } from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { IAdapterMethodParams } from '../Models/Constants/Interfaces';
 import { IBaseAdapter } from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
-    private mockEmpty;
 
-    constructor(mockData: TsiClientData = null, empty = false) {
-        if (mockData) {
-            this.mockData = mockData;
-        }
-        if (empty) {
-            this.mockData = [];
-        }
+    constructor(mockData?: TsiClientData) {
+        this.mockData = mockData;
     }
 
     async mockNetwork(timeout) {
@@ -26,7 +19,7 @@ export default class MockAdapter implements IBaseAdapter {
         });
     }
 
-    async getKeyValuePairs({ properties }: IAdapterMethodParams) {
+    async getKeyValuePairs(id: string, properties: string[]) {
         try {
             const getKVPData = () => {
                 const kvps = {};
@@ -81,13 +74,14 @@ export default class MockAdapter implements IBaseAdapter {
         return data;
     }
 
-    async getTsiclientChartDataShape({
-        additionalParameters: { searchSpan },
-        properties
-    }: IAdapterMethodParams) {
+    async getTsiclientChartDataShape(
+        id: string,
+        searchSpan: SearchSpan,
+        properties: string[]
+    ) {
         try {
             const getData = (): TsiClientData => {
-                if (this.mockData !== null) {
+                if (this.mockData !== undefined) {
                     return this.mockData;
                 } else {
                     return MockAdapter.generateMockLineChartData(

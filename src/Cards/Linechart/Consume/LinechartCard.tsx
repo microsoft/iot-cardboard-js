@@ -24,11 +24,12 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     const cardState = useAdapter({
         adapterMethod: () =>
-            adapter.getTsiclientChartDataShape({
+            adapter.getTsiclientChartDataShape(
                 id,
+                searchSpan,
                 properties,
-                additionalParameters: { searchSpan }
-            }),
+                additionalProperties
+            ),
         refetchDependencies: [id, properties, searchSpan]
     });
 

@@ -2,10 +2,8 @@ import TsqExpression from 'tsiclient/TsqExpression';
 import ServerClient from 'tsiclient/ServerClient';
 import UxClient from 'tsiclient/UXClient';
 import { IBaseAdapter } from './IBaseAdapter';
-import {
-    IAdapterMethodParams,
-    IAuthService
-} from '../Models/Constants/Interfaces';
+import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
@@ -20,7 +18,12 @@ export default class TsiAdapter implements IBaseAdapter {
         this.authService.login();
     }
 
-    async getKeyValuePairs(_params: IAdapterMethodParams) {
+    async getKeyValuePairs(
+        id: string,
+        properties: string[],
+        additionalParameters?: Record<string, any>
+    ) {
+        console.log(id + properties + additionalParameters);
         throw new Error('Method not implemented.');
         return new AdapterResult<KeyValuePairAdapterData>({
             result: null,
@@ -28,11 +31,11 @@ export default class TsiAdapter implements IBaseAdapter {
         });
     }
 
-    async getTsiclientChartDataShape({
-        id,
-        additionalParameters: { searchSpan },
-        properties
-    }: IAdapterMethodParams) {
+    async getTsiclientChartDataShape(
+        id: string,
+        searchSpan: SearchSpan,
+        properties: string[]
+    ) {
         try {
             const tsqExpressions = [];
             properties.forEach((prop) => {
