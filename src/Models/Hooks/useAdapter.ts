@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
 import { CancelledPromiseError } from '../Classes/Errors';
 import {
@@ -33,9 +33,9 @@ const cardStateReducer = produce(
     }
 );
 
-type Params = {
+interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
-    adapterMethod: () => AdapterReturnType<any>;
+    adapterMethod: () => AdapterReturnType<T>;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
@@ -48,7 +48,7 @@ type Params = {
 
     /** Interval at which 'pulse' state is toggled for UI.  Defaults to 1/2 pollInterval */
     pulseInterval?: number;
-};
+}
 
 /** Wraps adapter data fetching, loading, long polling, and promise cancelling logic */
 const useAdapter = <T extends IAdapterData>({
@@ -57,12 +57,15 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollInterval,
     pulseInterval
-}: Params) => {
-    const defaultCardState: CardState<T> = {
-        adapterResult: new AdapterResult<T>({ result: null, error: null }),
-        isLoading: false,
-        isLongPolling
-    };
+}: Params<T>) => {
+    const defaultCardState: CardState<T> = useMemo(
+        () => ({
+            adapterResult: new AdapterResult<T>({ result: null, error: null }),
+            isLoading: false,
+            isLongPolling
+        }),
+        [isLongPolling]
+    );
 
     const [state, dispatch] = useReducer(cardStateReducer, defaultCardState);
     const { cancellablePromise, cancel } = useCancellablePromise();
@@ -85,7 +88,7 @@ const useAdapter = <T extends IAdapterData>({
         setIsLoading(true);
         try {
             const adapterResult = await cancellablePromise(adapterMethod());
-            setAdapterResult(adapterResult as any);
+            setAdapterResult(adapterResult);
         } catch (err) {
             if (err instanceof CancelledPromiseError) {
                 console.log(err.message);
@@ -111,6 +114,7 @@ const useAdapter = <T extends IAdapterData>({
 
     useEffect(() => {
         cancel(); // Cancel outstanding promises on refetch
+        setIsLoading(true);
         setAdapterResult(null);
         callAdapter();
     }, [...refetchDependencies]);

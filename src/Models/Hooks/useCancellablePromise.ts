@@ -4,18 +4,18 @@ import { CancelledPromiseError } from '../Classes/Errors';
 export function makeCancellable<T>(promise: T) {
     let isCancelled = false;
 
-    const wrappedPromise = new Promise((resolve, reject) => {
+    const wrappedPromise = new Promise<T>((resolve, reject) => {
         async function executePromise() {
             try {
                 const val = await promise;
                 if (isCancelled) {
-                    reject(new CancelledPromiseError(`Promise cancelled.`));
+                    reject(new CancelledPromiseError());
                 } else {
                     resolve(val);
                 }
             } catch (error) {
                 if (isCancelled) {
-                    reject(new CancelledPromiseError(`Promise cancelled.`));
+                    reject(new CancelledPromiseError());
                 } else {
                     reject(error);
                 }
@@ -45,8 +45,8 @@ const useCancellablePromise = () => {
         return cancel;
     }, []);
 
-    function cancellablePromise<T>(p: T) {
-        const cPromise = makeCancellable<T>(p);
+    function cancellablePromise<T>(p: Promise<T>) {
+        const cPromise = makeCancellable(p);
         promises.current.push(cPromise);
         return cPromise.promise;
     }
