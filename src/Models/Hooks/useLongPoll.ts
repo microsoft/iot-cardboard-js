@@ -1,29 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 
-const defaultPollInterval = 1000;
+export const defaultPollInterval = 1000;
 
 type Params = {
     callback: () => void;
     pollInterval?: number;
     pulseInterval?: number;
-    startOnMount?: boolean;
-    onCallbackChanged?: () => void;
 };
 
 const useLongPoll = ({
     callback,
     pollInterval = defaultPollInterval,
-    pulseInterval = Math.ceil(defaultPollInterval / 2),
-    onCallbackChanged = () => null
+    pulseInterval = Math.ceil(defaultPollInterval / 2)
 }: Params) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
 
     // Remember the latest callback
     useEffect(() => {
-        // savedCallback?.cancel()
-        // console.log('Callback changed in useLongPoll');
-        // onCallbackChanged();
         savedCallback.current = callback;
     }, [callback]);
 
@@ -45,7 +39,7 @@ const useLongPoll = ({
                 clearTimeout(timeoutId);
             };
         }
-    }, [callback, pollInterval]);
+    }, [pollInterval]);
 
     return {
         pulse

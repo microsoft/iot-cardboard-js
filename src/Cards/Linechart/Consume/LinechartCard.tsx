@@ -29,7 +29,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 properties,
                 additionalParameters: { searchSpan }
             }),
-        refetchDependencies: [id, properties, additionalProperties.searchSpan]
+        refetchDependencies: [id, properties, searchSpan]
     });
 
     const renderChart = async () => {

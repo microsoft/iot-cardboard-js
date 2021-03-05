@@ -1,14 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
-import useCardState from '../../../Models/Hooks/useCardState';
-import useLongPoll from '../../../Models/Hooks/useLongPoll';
-import useCancellablePromise from '../../../Models/Hooks/useCancellablePromise';
-import AdapterResult from '../../../Models/Classes/AdapterResult';
-import { IAdapterData } from '../../../Models/Constants/Interfaces';
-import KeyValuePairAdapterData from '../../../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
-import { AdapterReturnType } from '../../../Models/Constants/Types';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -20,26 +14,13 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    const cardState = useCardState();
-    const { cancellablePromise, cancel } = useCancellablePromise();
-
     // const getChartData = getCancellableCallback(asyncFunc, continuation, onCancel, [])
 
-    const getChartData = useCallback(async () => {
-        cancel(); // Cancel outstanding promises
-        const kvps = await cancellablePromise(
-            adapter.getKeyValuePairs(id, properties)
-        );
-        cardState.setAdapterResult(kvps);
-    }, [id, properties]);
-
-    const longPoll = useLongPoll({
-        callback: getChartData,
+    const cardState = useAdapter({
+        adapterMethod: () => adapter.getKeyValuePairs({ id, properties }),
+        refetchDependencies: [id, properties],
+        isLongPolling: true,
         pollInterval: pollingIntervalMillis
-        // onCallbackChanged: () => {
-        //     cardState.setAdapterResult(null);
-        //     abandonPromiseResult.current = true;
-        // }
     });
 
     return (
@@ -59,7 +40,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
-                                pulse={longPoll.pulse}
+                                pulse={cardState.pulse}
                                 title={prop}
                                 value={
                                     cardState.adapterResult.result.data[prop]

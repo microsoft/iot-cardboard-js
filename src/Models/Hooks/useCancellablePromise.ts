@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { IAdapterData } from '../Constants/Interfaces';
 
-export function makeCancellable(promise) {
+export function makeCancellable<T>(promise: T) {
     let isCancelled = false;
 
     const wrappedPromise = new Promise((resolve, reject) => {
@@ -45,8 +44,8 @@ const useCancellablePromise = () => {
         return cancel;
     }, []);
 
-    function cancellablePromise(p) {
-        const cPromise = makeCancellable(p);
+    function cancellablePromise<T>(p: T) {
+        const cPromise = makeCancellable<T>(p);
         promises.current.push(cPromise);
         return cPromise.promise;
     }
