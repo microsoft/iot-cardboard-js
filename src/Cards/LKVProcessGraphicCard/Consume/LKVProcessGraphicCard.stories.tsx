@@ -98,7 +98,10 @@ export const IoTCentral = (args, { globals: { theme } }) => {
 };
 
 export const ADT = (args, { globals: { theme } }) => {
-    return (
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <div style={chartCardStyle}>
             <LKVProcessGraphicCard
                 id={dtId}
@@ -110,9 +113,9 @@ export const ADT = (args, { globals: { theme } }) => {
                 theme={theme}
                 adapter={
                     new ADTAdapter(
-                        AuthenticationParameters.adt.hostUrl,
+                        authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            AuthenticationParameters.adt.aadParameters
+                            authenticationParameters.adt.aadParameters
                         )
                     )
                 }
