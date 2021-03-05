@@ -7,15 +7,19 @@ import {
     SET_IS_LOADING,
     SET_IS_LONG_POLLING
 } from '../Constants/ActionTypes';
-import { Action, IAdapterData } from '../Constants/Interfaces';
-import { AdapterReturnType, CardState } from '../Constants/Types';
+import {
+    Action,
+    IAdapterData,
+    IUseAdapterReturn
+} from '../Constants/Interfaces';
+import { AdapterReturnType, AdapterState } from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
 
 // Sets up reducer with 'curried producer' - https://immerjs.github.io/immer/docs/curried-produce
 // Draft state can be directly modified.  Draft does not need to be explicitly returned.
 const cardStateReducer = produce(
-    <T extends IAdapterData>(draft: CardState<T>, action: Action) => {
+    <T extends IAdapterData>(draft: AdapterState<T>, action: Action) => {
         const payload = action.payload;
         switch (action.type) {
             case SET_IS_LOADING:
@@ -44,10 +48,10 @@ interface Params<T extends IAdapterData> {
     isLongPolling?: boolean;
 
     /** Long polling interval */
-    pollInterval?: number;
+    pollingIntervalMillis?: number;
 
     /** Interval at which 'pulse' state is toggled for UI.  Defaults to 1/2 pollInterval */
-    pulseInterval?: number;
+    pulseIntervalMillis?: number;
 }
 
 /** Wraps adapter data fetching, loading, long polling, and promise cancelling logic */
@@ -55,10 +59,10 @@ const useAdapter = <T extends IAdapterData>({
     adapterMethod,
     refetchDependencies,
     isLongPolling = false,
-    pollInterval,
-    pulseInterval
-}: Params<T>) => {
-    const defaultCardState: CardState<T> = useMemo(
+    pollingIntervalMillis,
+    pulseIntervalMillis
+}: Params<T>): IUseAdapterReturn<T> => {
+    const defaultCardState: AdapterState<T> = useMemo(
         () => ({
             adapterResult: new AdapterResult<T>({ result: null, error: null }),
             isLoading: false,
@@ -76,7 +80,7 @@ const useAdapter = <T extends IAdapterData>({
 
     const setAdapterResult = (adapterResult: AdapterResult<T>) => {
         if (!adapterResult) {
-            adapterResult = new AdapterResult<any>({
+            adapterResult = new AdapterResult<T>({
                 result: null,
                 error: null
             });
@@ -93,7 +97,7 @@ const useAdapter = <T extends IAdapterData>({
             if (err instanceof CancelledPromiseError) {
                 console.log(err.message);
             } else {
-                console.log(err);
+                console.error('Unexpected promise error', err);
             }
         }
         setIsLoading(false);
@@ -108,8 +112,10 @@ const useAdapter = <T extends IAdapterData>({
 
     const longPoll = useLongPoll({
         callback: callAdapter,
-        pollInterval: !state.isLongPolling ? null : pollInterval,
-        ...(pulseInterval && { pulseInterval })
+        pollingIntervalMillis: !state.isLongPolling
+            ? null
+            : pollingIntervalMillis,
+        ...(pulseIntervalMillis && { pulseIntervalMillis })
     });
 
     useEffect(() => {
@@ -120,19 +126,10 @@ const useAdapter = <T extends IAdapterData>({
     }, [...refetchDependencies]);
 
     return {
-        /** Adapter data fetch loading state */
         isLoading: state.isLoading,
-
-        /** Result of adapter method call */
-        adapterResult: state.adapterResult,
-
-        /** Calls adapter method (safe on unmount) and updates adapter result */
+        adapterResult: state.adapterResult as AdapterResult<T>,
         callAdapter,
-
-        /** Toggles on/off long poll */
         setIsLongPolling,
-
-        /** Long polling pulse state for UI */
         pulse: longPoll.pulse
     };
 };

@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const defaultPollInterval = 1000;
+export const defaultPollingIntervalMillis = 1000;
 
 type Params = {
     callback: () => void;
-    pollInterval?: number;
-    pulseInterval?: number;
+    pollingIntervalMillis?: number;
+    pulseIntervalMillis?: number;
 };
 
 const useLongPoll = ({
     callback,
-    pollInterval = defaultPollInterval,
-    pulseInterval = Math.ceil(defaultPollInterval / 2)
+    pollingIntervalMillis = defaultPollingIntervalMillis,
+    pulseIntervalMillis = 500
 }: Params) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
@@ -28,18 +28,18 @@ const useLongPoll = ({
         function tick() {
             savedCallback.current();
             setPulse(true);
-            timeoutId = setTimeout(() => setPulse(false), pulseInterval);
+            timeoutId = setTimeout(() => setPulse(false), pulseIntervalMillis);
         }
 
-        if (pollInterval !== null) {
+        if (pollingIntervalMillis !== null) {
             tick();
-            intervalId = setInterval(tick, pollInterval);
+            intervalId = setInterval(tick, pollingIntervalMillis);
             return () => {
                 clearInterval(intervalId);
                 clearTimeout(timeoutId);
             };
         }
-    }, [pollInterval]);
+    }, [pollingIntervalMillis]);
 
     return {
         pulse

@@ -9,7 +9,7 @@ import { IBaseAdapter } from './IBaseAdapter';
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
 
-    constructor(mockData?: TsiClientData) {
+    constructor(mockData?: any) {
         this.mockData = mockData;
     }
 

@@ -18,13 +18,15 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
         refetchDependencies: [id, properties],
         isLongPolling: true,
-        pollInterval: pollingIntervalMillis
+        pollingIntervalMillis: pollingIntervalMillis
     });
 
     return (
         <BaseCard
             title={title}
-            isLoading={false}
+            isLoading={
+                cardState.isLoading && cardState.adapterResult.hasNoData()
+            }
             adapterResult={cardState.adapterResult}
             theme={theme}
         >
