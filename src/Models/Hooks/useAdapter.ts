@@ -51,7 +51,7 @@ interface Params<T extends IAdapterData> {
     pollingIntervalMillis?: number;
 
     /** Interval at which 'pulse' state is toggled for UI.  Defaults to 1/2 pollInterval */
-    pulseIntervalMillis?: number;
+    pulseTimeoutMillis?: number;
 }
 
 /** Wraps adapter data fetching, loading, long polling, and promise cancelling logic */
@@ -60,7 +60,7 @@ const useAdapter = <T extends IAdapterData>({
     refetchDependencies,
     isLongPolling = false,
     pollingIntervalMillis,
-    pulseIntervalMillis
+    pulseTimeoutMillis
 }: Params<T>): IUseAdapterReturn<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -115,7 +115,7 @@ const useAdapter = <T extends IAdapterData>({
         pollingIntervalMillis: !state.isLongPolling
             ? null
             : pollingIntervalMillis,
-        ...(pulseIntervalMillis && { pulseIntervalMillis })
+        ...(pulseTimeoutMillis && { pulseTimeoutMillis })
     });
 
     useEffect(() => {

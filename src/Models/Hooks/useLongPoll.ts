@@ -3,15 +3,15 @@ import { useEffect, useRef, useState } from 'react';
 export const defaultPollingIntervalMillis = 1000;
 
 type Params = {
-    callback: () => void;
+    callback: () => Promise<any>;
     pollingIntervalMillis?: number;
-    pulseIntervalMillis?: number;
+    pulseTimeoutMillis?: number;
 };
 
 const useLongPoll = ({
     callback,
     pollingIntervalMillis = defaultPollingIntervalMillis,
-    pulseIntervalMillis = 500
+    pulseTimeoutMillis = 400
 }: Params) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
@@ -25,10 +25,10 @@ const useLongPoll = ({
     useEffect(() => {
         let timeoutId, intervalId;
 
-        function tick() {
-            savedCallback.current();
+        async function tick() {
+            await savedCallback.current();
             setPulse(true);
-            timeoutId = setTimeout(() => setPulse(false), pulseIntervalMillis);
+            timeoutId = setTimeout(() => setPulse(false), pulseTimeoutMillis);
         }
 
         if (pollingIntervalMillis !== null) {
