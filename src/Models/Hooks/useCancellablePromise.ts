@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { CancelledPromiseError } from '../Classes/Errors';
 
 export function makeCancellable<T>(promise: T) {
     let isCancelled = false;
@@ -8,13 +9,13 @@ export function makeCancellable<T>(promise: T) {
             try {
                 const val = await promise;
                 if (isCancelled) {
-                    reject(new Error(`Promise cancelled.`));
+                    reject(new CancelledPromiseError(`Promise cancelled.`));
                 } else {
                     resolve(val);
                 }
             } catch (error) {
                 if (isCancelled) {
-                    reject(new Error(`Promise cancelled.`));
+                    reject(new CancelledPromiseError(`Promise cancelled.`));
                 } else {
                     reject(error);
                 }

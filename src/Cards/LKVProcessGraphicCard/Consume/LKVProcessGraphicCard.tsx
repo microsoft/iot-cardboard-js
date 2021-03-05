@@ -14,8 +14,6 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    // const getChartData = getCancellableCallback(asyncFunc, continuation, onCancel, [])
-
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs({ id, properties }),
         refetchDependencies: [id, properties],

@@ -13,4 +13,5 @@ export type AdapterResultParams<T extends IAdapterData> = {
 export type CardState<T extends IAdapterData> = {
     adapterResult: AdapterResult<T>;
     isLoading: boolean;
+    isLongPolling: boolean;
 };

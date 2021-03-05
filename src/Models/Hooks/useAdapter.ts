@@ -1,7 +1,12 @@
 import produce from 'immer';
 import { useEffect, useReducer } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
-import { SET_ADAPTER_RESULT, SET_IS_LOADING } from '../Constants/ActionTypes';
+import { CancelledPromiseError } from '../Classes/Errors';
+import {
+    SET_ADAPTER_RESULT,
+    SET_IS_LOADING,
+    SET_IS_LONG_POLLING
+} from '../Constants/ActionTypes';
 import { Action, IAdapterData } from '../Constants/Interfaces';
 import { AdapterReturnType, CardState } from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
@@ -19,6 +24,9 @@ const cardStateReducer = produce(
             case SET_ADAPTER_RESULT:
                 draft.adapterResult = payload;
                 return;
+            case SET_IS_LONG_POLLING:
+                draft.isLongPolling = payload;
+                return;
             default:
                 return;
         }
@@ -26,14 +34,23 @@ const cardStateReducer = produce(
 );
 
 type Params = {
+    /** Callback which triggers adapter data fetch */
     adapterMethod: () => AdapterReturnType<any>;
+
+    /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
+
+    /** Whether or not the adapterMethod is long polling */
     isLongPolling?: boolean;
+
+    /** Long polling interval */
     pollInterval?: number;
+
+    /** Interval at which 'pulse' state is toggled for UI.  Defaults to 1/2 pollInterval */
     pulseInterval?: number;
 };
 
-// Hook which accepts generic IAdapterData type and exposes card state
+/** Wraps adapter data fetching, loading, long polling, and promise cancelling logic */
 const useAdapter = <T extends IAdapterData>({
     adapterMethod,
     refetchDependencies,
@@ -43,13 +60,13 @@ const useAdapter = <T extends IAdapterData>({
 }: Params) => {
     const defaultCardState: CardState<T> = {
         adapterResult: new AdapterResult<T>({ result: null, error: null }),
-        isLoading: false
+        isLoading: false,
+        isLongPolling
     };
 
     const [state, dispatch] = useReducer(cardStateReducer, defaultCardState);
     const { cancellablePromise, cancel } = useCancellablePromise();
 
-    // Helper methods which wrap dispatch logic
     const setIsLoading = (isLoading: boolean) => {
         dispatch({ type: SET_IS_LOADING, payload: isLoading });
     };
@@ -66,14 +83,29 @@ const useAdapter = <T extends IAdapterData>({
 
     const callAdapter = async () => {
         setIsLoading(true);
-        const adapterResult = await cancellablePromise(adapterMethod());
+        try {
+            const adapterResult = await cancellablePromise(adapterMethod());
+            setAdapterResult(adapterResult as any);
+        } catch (err) {
+            if (err instanceof CancelledPromiseError) {
+                console.log(err.message);
+            } else {
+                console.log(err);
+            }
+        }
         setIsLoading(false);
-        setAdapterResult(adapterResult as any);
+    };
+
+    const setIsLongPolling = (isLongPolling: boolean) => {
+        dispatch({
+            type: SET_IS_LONG_POLLING,
+            payload: isLongPolling
+        });
     };
 
     const longPoll = useLongPoll({
         callback: callAdapter,
-        pollInterval: !isLongPolling ? null : pollInterval,
+        pollInterval: !state.isLongPolling ? null : pollInterval,
         ...(pulseInterval && { pulseInterval })
     });
 
@@ -84,9 +116,19 @@ const useAdapter = <T extends IAdapterData>({
     }, [...refetchDependencies]);
 
     return {
+        /** Adapter data fetch loading state */
         isLoading: state.isLoading,
+
+        /** Result of adapter method call */
         adapterResult: state.adapterResult,
+
+        /** Calls adapter method (safe on unmount) and updates adapter result */
         callAdapter,
+
+        /** Toggles on/off long poll */
+        setIsLongPolling,
+
+        /** Long polling pulse state for UI */
         pulse: longPoll.pulse
     };
 };
