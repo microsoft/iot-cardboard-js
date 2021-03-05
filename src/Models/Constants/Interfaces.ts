@@ -31,3 +31,9 @@ export interface IAdapterData {
     data: any;
     hasNoData?: () => boolean;
 }
+
+export interface IAdapterMethodParams {
+    id: string;
+    properties: Array<string>;
+    additionalParameters?: Record<string, any>;
+}

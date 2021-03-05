@@ -1,7 +1,9 @@
-import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 import axios from 'axios';
-import { IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IAdapterMethodParams,
+    IAuthService
+} from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
@@ -15,11 +17,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         this.authService = authService;
         this.authService.login();
     }
-    async getTsiclientChartDataShape(
-        _id: string,
-        _searchSpan: SearchSpan,
-        _properties: string[]
-    ) {
+    async getTsiclientChartDataShape(_params: IAdapterMethodParams) {
         throw new Error('Method not implemented.');
         return new AdapterResult<TsiClientAdapterData>({
             result: null,
@@ -27,7 +25,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         });
     }
 
-    async getKeyValuePairs(id: string, properties: string[]) {
+    async getKeyValuePairs({ id, properties }: IAdapterMethodParams) {
         try {
             const token = await this.authService.getToken();
 

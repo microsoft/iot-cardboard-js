@@ -7,7 +7,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
 import useGuid from '../../../Models/Hooks/useGuid';
 import { Theme } from '../../../Models/Constants/Enums';
-import useCardState from '../../../Models/Hooks/useCardState';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -21,22 +21,21 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
     const chart = useRef(null);
-    const cardState = useCardState();
+
+    const cardState = useAdapter({
+        adapterMethod: () =>
+            adapter.getTsiclientChartDataShape({
+                id,
+                properties,
+                additionalParameters: { searchSpan }
+            }),
+        refetchDependencies: [id, properties, additionalProperties.searchSpan]
+    });
 
     const renderChart = async () => {
         if (chart !== null) {
-            cardState.setIsLoading(true);
-            const lcd = await adapter.getTsiclientChartDataShape(
-                id,
-                searchSpan,
-                properties,
-                additionalProperties
-            );
-            cardState.setIsLoading(false);
-            cardState.setAdapterResult(lcd);
-
-            if (!lcd.hasNoData()) {
-                chart.current.render(lcd.result.data, {
+            if (!cardState.adapterResult.hasNoData()) {
+                chart.current.render(cardState.adapterResult.result.data, {
                     theme: theme ? theme : Theme.Light,
                     legend: 'compact',
                     strings: t('sdkStrings', {
@@ -54,7 +53,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             );
         }
         renderChart();
-    }, [properties, additionalProperties, searchSpan]);
+    }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
 
     return (
         <BaseCard

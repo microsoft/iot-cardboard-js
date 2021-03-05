@@ -9,7 +9,7 @@ class TsiClientAdapterData implements IAdapterData {
     }
 
     hasNoData() {
-        return this.data === null || this.data === [];
+        return this.data === null || this.data.length === 0;
     }
 }
 

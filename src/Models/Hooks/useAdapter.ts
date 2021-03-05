@@ -1,9 +1,9 @@
 import produce from 'immer';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
 import { SET_ADAPTER_RESULT, SET_IS_LOADING } from '../Constants/ActionTypes';
 import { Action, IAdapterData } from '../Constants/Interfaces';
-import { CardState } from '../Constants/Types';
+import { AdapterReturnType, CardState } from '../Constants/Types';
 
 // Sets up reducer with 'curried producer' - https://immerjs.github.io/immer/docs/curried-produce
 // Draft state can be directly modified.  Draft does not need to be explicitly returned.
@@ -23,10 +23,18 @@ const cardStateReducer = produce(
     }
 );
 
+type Params = {
+    adapterMethod: () => AdapterReturnType<any>;
+    refetchDependencies: any[];
+};
+
 // Hook which accepts generic IAdapterData type and exposes card state
-const useCardState = <T extends IAdapterData>() => {
+const useAdapter = <T extends IAdapterData>({
+    adapterMethod,
+    refetchDependencies
+}: Params) => {
     const defaultCardState: CardState<T> = {
-        adapterResult: new AdapterResult<any>({ result: null, error: null }),
+        adapterResult: new AdapterResult<T>({ result: null, error: null }),
         isLoading: false
     };
 
@@ -47,14 +55,22 @@ const useCardState = <T extends IAdapterData>() => {
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
-    // State is spread onto the object returned by the hook allowing for direct state access.
-    // such as --> cardState.isLoading
+    const callAdapter = async () => {
+        setIsLoading(true);
+        const adapterResult = await adapterMethod();
+        setIsLoading(false);
+        setAdapterResult(adapterResult as AdapterResult<T>);
+    };
+
+    useEffect(() => {
+        callAdapter();
+    }, [...refetchDependencies]);
+
     return {
-        ...state,
-        dispatch,
-        setIsLoading,
-        setAdapterResult
+        isLoading: state.isLoading,
+        adapterResult: state.adapterResult,
+        callAdapter
     };
 };
 
-export default useCardState;
+export default useAdapter;
