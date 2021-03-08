@@ -7,11 +7,7 @@ import {
     SET_IS_LOADING,
     SET_IS_LONG_POLLING
 } from '../Constants/ActionTypes';
-import {
-    Action,
-    IAdapterData,
-    IUseAdapterReturn
-} from '../Constants/Interfaces';
+import { Action, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
 import { AdapterReturnType, AdapterState } from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
@@ -50,7 +46,7 @@ interface Params<T extends IAdapterData> {
     /** Long polling interval */
     pollingIntervalMillis?: number;
 
-    /** Interval at which 'pulse' state is toggled for UI.  Defaults to 1/2 pollInterval */
+    /** Interval at which 'pulse' state is toggled for UI. */
     pulseTimeoutMillis?: number;
 }
 
@@ -61,7 +57,7 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis
-}: Params<T>): IUseAdapterReturn<T> => {
+}: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
             adapterResult: new AdapterResult<T>({ result: null, error: null }),

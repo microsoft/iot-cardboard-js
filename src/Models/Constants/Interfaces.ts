@@ -33,7 +33,7 @@ export interface IAdapterData {
     hasNoData?: () => boolean;
 }
 
-export interface IUseAdapterReturn<T extends IAdapterData> {
+export interface IUseAdapter<T extends IAdapterData> {
     /** Adapter loading state */
     isLoading: boolean;
 

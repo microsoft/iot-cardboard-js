@@ -64,7 +64,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     const adapter = useMemo(() => {
         return state.chartPropertyNames.length
             ? new MockAdapter()
-            : new MockAdapter(null, true);
+            : new MockAdapter(null);
     }, [state.chartPropertyNames]);
 
     return (

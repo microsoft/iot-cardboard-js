@@ -1,12 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { CancelledPromiseError } from '../Classes/Errors';
 
+type CancellablePromise<T> = {
+    /** Wrapped promise - throws CancelledPromiseError if cancelled */
+    promise: Promise<T>;
+    /** Function to cancel promise */
+    cancel: () => void;
+};
+
+/** Wraps promise with logic that allows for promise cancellation via cancel() method */
 export function makeCancellable<T>(
     promise: T,
-    promisesRef: React.MutableRefObject<any>
-) {
+    promisesRef?: React.MutableRefObject<any>
+): CancellablePromise<T> {
     let isCancelled = false;
-    let returnValue = null;
+    let returnValue: CancellablePromise<T> = {
+        promise: null,
+        cancel: () => null
+    };
 
     const wrappedPromise = new Promise<T>((resolve, reject) => {
         async function executePromise() {
@@ -25,7 +36,10 @@ export function makeCancellable<T>(
                 }
             }
             // Remove promise from promisesRef.current list once resolved/rejected
-            if (promisesRef.current.indexOf(returnValue) !== -1) {
+            if (
+                promisesRef &&
+                promisesRef.current.indexOf(returnValue) !== -1
+            ) {
                 promisesRef.current = promisesRef.current.filter(
                     (promise) => promise !== returnValue
                 );
@@ -44,20 +58,27 @@ export function makeCancellable<T>(
     return returnValue;
 }
 
-// Cancellable promise hook adapted from this repo: https://github.com/rajeshnaroth/react-cancelable-promise-hook/blob/master/index.js
+/**
+ * Exposes two functions: 'cancellablePromise' to wrap promises in cancellation code which auto cancels on unmount,
+ * and 'cancel' function to manually cancel wrapped promises.  This hooks was adapted from the following repo:
+ * https://github.com/rajeshnaroth/react-cancelable-promise-hook/blob/master/index.js
+ */
 const useCancellablePromise = () => {
     const promises = useRef(null);
 
-    const cancel = () => {
+    /** Cancel all active promises constructed by this hook's consumer */
+    function cancel() {
         promises.current.forEach((p) => p.cancel());
         promises.current = [];
-    };
+    }
 
+    // On unmount, cancel promises
     useEffect(() => {
         promises.current = promises.current || [];
         return cancel;
     }, []);
 
+    /** Function to construct cancellable promise */
     function cancellablePromise<T>(p: Promise<T>) {
         const cPromise = makeCancellable(p, promises);
         promises.current.push(cPromise);
