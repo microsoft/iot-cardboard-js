@@ -5,7 +5,6 @@ import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
-import { adtAPIProxyServerUrl } from '../Models/Constants/Constants';
 
 export default class ADTAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -34,7 +33,7 @@ export default class ADTAdapter implements IBaseAdapter {
 
             const axiosData = await axios({
                 method: 'get',
-                url: adtAPIProxyServerUrl,
+                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
