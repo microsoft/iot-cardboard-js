@@ -19,7 +19,7 @@ const validHeaders = [
     'x-ms-useragent',
     'User-Agent'
 ];
-const pathRewrite = async function (path, req) {
+const pathRewrite = async function (path, _req) {
     return path.replace('/api/proxy/adt', '');
 };
 
