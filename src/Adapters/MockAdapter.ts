@@ -1,4 +1,8 @@
-import { LineChartData } from '../Cards/Linechart/Consume/LinechartCard.types';
+import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import TsiClientAdapterData, {
+    TsiClientData
+} from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 
@@ -8,29 +12,41 @@ export default class MockAdapter implements IBaseAdapter {
     constructor(mockData?: any) {
         this.mockData = mockData;
     }
-    getKeyValuePairs(
-        id: string,
-        properties: string[]
-    ): Promise<Record<string, any>> {
-        const getKVPData = () => {
-            const kvps = {};
-            properties.forEach((p) => {
-                kvps[p] = Math.random();
-            });
-            return kvps;
-        };
-        const returnPromise = new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(getKVPData());
-            }, 1000);
+
+    async mockNetwork(timeout) {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(null), timeout);
         });
-        return returnPromise;
+    }
+
+    async getKeyValuePairs(id: string, properties: string[]) {
+        try {
+            const getKVPData = () => {
+                const kvps = {};
+                properties.forEach((p) => {
+                    kvps[p] = Math.random();
+                });
+                return kvps;
+            };
+
+            await this.mockNetwork(1000);
+
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: new KeyValuePairAdapterData(getKVPData()),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<KeyValuePairAdapterData>({
+                result: null,
+                error: err
+            });
+        }
     }
 
     static generateMockLineChartData(
         searchSpan: SearchSpan,
         properties: string[]
-    ): LineChartData {
+    ): TsiClientData {
         const data = [];
         const from = searchSpan.from;
         const to = searchSpan.to;
@@ -55,31 +71,37 @@ export default class MockAdapter implements IBaseAdapter {
                 }
             }
         }
-        console.log(data);
-        return { data: data };
+        return data;
     }
 
-    getTsiclientChartDataShape(
+    async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
-    ): Promise<LineChartData> {
-        const getData = (): LineChartData => {
-            if (this.mockData) {
-                return this.mockData;
-            } else {
-                return MockAdapter.generateMockLineChartData(
-                    searchSpan,
-                    properties
-                );
-            }
-        };
+    ) {
+        try {
+            const getData = (): TsiClientData => {
+                if (this.mockData !== undefined) {
+                    return this.mockData;
+                } else {
+                    return MockAdapter.generateMockLineChartData(
+                        searchSpan,
+                        properties
+                    );
+                }
+            };
 
-        const returnPromise = new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(getData());
-            }, 1000);
-        }) as Promise<LineChartData>;
-        return returnPromise;
+            await this.mockNetwork(1000);
+
+            return new AdapterResult<TsiClientAdapterData>({
+                result: new TsiClientAdapterData(getData()),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<TsiClientAdapterData>({
+                result: null,
+                error: err
+            });
+        }
     }
 }
