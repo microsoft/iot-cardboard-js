@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -13,51 +14,37 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme
 }) => {
-    const [adapterResult, setAdapterResult] = useState(null);
-    const [pulse, setPulse] = useState(false);
-    let pulseTimeout;
-    let isMounted;
-
-    const getChartData = useCallback(async () => {
-        const kvps = await adapter.getKeyValuePairs(id, properties);
-        if (isMounted) {
-            setPulse(true);
-            setAdapterResult(kvps);
-            pulseTimeout = setTimeout(() => setPulse(false), 500);
-        }
-    }, []);
-
-    useEffect(() => {
-        isMounted = true;
-        getChartData();
-        const dataLongPoll = setInterval(getChartData, pollingIntervalMillis);
-        return function cleanup() {
-            isMounted = false;
-            clearInterval(dataLongPoll);
-            clearTimeout(pulseTimeout);
-        };
-    }, []);
+    const cardState = useAdapter({
+        adapterMethod: () => adapter.getKeyValuePairs(id, properties),
+        refetchDependencies: [id, properties],
+        isLongPolling: true,
+        pollingIntervalMillis: pollingIntervalMillis
+    });
 
     return (
         <BaseCard
             title={title}
-            isLoading={false}
-            adapterResult={adapterResult}
+            isLoading={
+                cardState.isLoading && cardState.adapterResult.hasNoData()
+            }
+            adapterResult={cardState.adapterResult}
             theme={theme}
         >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
                 <div className={'cb-lkv-wrapper'}>
-                    {adapterResult?.result?.data &&
+                    {cardState.adapterResult?.result?.data &&
                         Object.keys(
-                            adapterResult.result.data
+                            cardState.adapterResult.result.data
                         ).map((prop, i) => (
                             <LKVValue
                                 style={additionalProperties[prop]}
                                 key={i}
-                                pulse={pulse}
+                                pulse={cardState.pulse}
                                 title={prop}
-                                value={adapterResult.result.data[prop]}
+                                value={
+                                    cardState.adapterResult.result.data[prop]
+                                }
                             />
                         ))}
                 </div>

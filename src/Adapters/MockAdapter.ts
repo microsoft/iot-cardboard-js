@@ -7,7 +7,7 @@ import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IBaseAdapter } from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
-    private mockData;
+    private mockData = null;
 
     constructor(mockData?: any) {
         this.mockData = mockData;
