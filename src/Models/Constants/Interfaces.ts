@@ -1,4 +1,5 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
+import AdapterResult from '../Classes/AdapterResult';
 import { Theme } from './Enums';
 
 export interface IAction {
@@ -30,4 +31,21 @@ export interface IEnvironmentToConstantMapping {
 export interface IAdapterData {
     data: any;
     hasNoData?: () => boolean;
+}
+
+export interface IUseAdapter<T extends IAdapterData> {
+    /** Adapter loading state */
+    isLoading: boolean;
+
+    /** Result of adapter method call */
+    adapterResult: AdapterResult<T>;
+
+    /** Calls adapter method (safe on unmount) and updates adapter result */
+    callAdapter: () => void;
+
+    /** Toggles on/off long poll */
+    setIsLongPolling: (isLongPolling: boolean) => void;
+
+    /** Long polling pulse state for UI */
+    pulse: boolean;
 }

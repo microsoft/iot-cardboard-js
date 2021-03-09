@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
@@ -7,6 +7,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
 import useGuid from '../../../Models/Hooks/useGuid';
 import { Theme } from '../../../Models/Constants/Enums';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -21,24 +22,21 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     const chartContainerGUID = useGuid();
     const chart = useRef(null);
 
-    // TODO turn into re-usable reducers
-    const [isLoading, setIsLoading] = useState(true);
-    const [adapterResult, setAdapterResult] = useState(null);
-
-    const renderChart = async () => {
-        if (chart !== null) {
-            setIsLoading(true);
-            const lcd = await adapter.getTsiclientChartDataShape(
+    const cardState = useAdapter({
+        adapterMethod: () =>
+            adapter.getTsiclientChartDataShape(
                 id,
                 searchSpan,
                 properties,
                 additionalProperties
-            );
-            setIsLoading(false);
-            setAdapterResult(lcd);
+            ),
+        refetchDependencies: [id, properties, searchSpan]
+    });
 
-            if (!lcd.hasNoData()) {
-                chart.current.render(lcd.result.data, {
+    const renderChart = async () => {
+        if (chart !== null) {
+            if (!cardState.adapterResult.hasNoData()) {
+                chart.current.render(cardState.adapterResult.result.data, {
                     theme: theme ? theme : Theme.Light,
                     legend: 'compact',
                     strings: t('sdkStrings', {
@@ -56,12 +54,12 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             );
         }
         renderChart();
-    }, [properties, additionalProperties, searchSpan]);
+    }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
 
     return (
         <BaseCard
-            isLoading={isLoading}
-            adapterResult={adapterResult}
+            isLoading={cardState.isLoading}
+            adapterResult={cardState.adapterResult}
             theme={theme}
             title={title}
         >
