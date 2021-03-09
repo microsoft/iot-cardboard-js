@@ -1,6 +1,5 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-
-type KeyValuePairData = Record<string, any>;
+import { KeyValuePairData } from '../../Constants/Types';
 
 class KeyValuePairAdapterData implements IAdapterData {
     data: KeyValuePairData;

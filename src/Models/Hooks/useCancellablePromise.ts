@@ -1,12 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { CancelledPromiseError } from '../Classes/Errors';
-
-type CancellablePromise<T> = {
-    /** Wrapped promise - throws CancelledPromiseError if cancelled */
-    promise: Promise<T>;
-    /** Function to cancel promise */
-    cancel: () => void;
-};
+import { CancellablePromise } from '../Constants/Types';
 
 /** Wraps promise with logic that allows for promise cancellation via cancel() method */
 export function makeCancellable<T>(

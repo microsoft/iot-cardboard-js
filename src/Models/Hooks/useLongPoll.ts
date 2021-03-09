@@ -1,16 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { UseLongPollParams } from '../Constants/Types';
 
 export const defaultPollingIntervalMillis = 1000;
 export const defaultPulseTimeoutMillis = 400;
-
-type Params = {
-    /** Function to long poll at set interval */
-    callback: () => Promise<any>;
-    /** Time between each callback execution */
-    pollingIntervalMillis?: number;
-    /** Length of time UI pulse state remains true after callback completion - use to indicate updated data */
-    pulseTimeoutMillis?: number;
-};
 
 /**
  * Hook to wrap vanilla setInterval with smarter, unmount-safe logic.
@@ -21,7 +13,7 @@ const useLongPoll = ({
     callback,
     pollingIntervalMillis = defaultPollingIntervalMillis,
     pulseTimeoutMillis = defaultPulseTimeoutMillis
-}: Params) => {
+}: UseLongPollParams) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
 

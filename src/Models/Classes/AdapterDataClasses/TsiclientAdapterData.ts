@@ -1,6 +1,6 @@
 import { IAdapterData } from '../../Constants/Interfaces';
+import { TsiClientData } from '../../Constants/Types';
 
-export type TsiClientData = any[];
 class TsiClientAdapterData implements IAdapterData {
     data: TsiClientData;
 
