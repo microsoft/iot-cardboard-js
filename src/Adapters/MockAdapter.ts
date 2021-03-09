@@ -4,7 +4,7 @@ import TsiClientAdapterData, {
 } from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { IBaseAdapter } from './IBaseAdapter';
+import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData;

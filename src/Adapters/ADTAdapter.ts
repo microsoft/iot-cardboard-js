@@ -1,5 +1,5 @@
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { IBaseAdapter } from './IBaseAdapter';
+import IBaseAdapter from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';

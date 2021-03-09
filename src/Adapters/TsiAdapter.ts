@@ -1,7 +1,7 @@
 import TsqExpression from 'tsiclient/TsqExpression';
 import ServerClient from 'tsiclient/ServerClient';
 import UxClient from 'tsiclient/UXClient';
-import { IBaseAdapter } from './IBaseAdapter';
+import IBaseAdapter from './IBaseAdapter';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';

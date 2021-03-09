@@ -3,7 +3,7 @@ import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/Tsiclient
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { AdapterReturnType } from '../Models/Constants/Types';
 
-export interface IBaseAdapter {
+export default interface IBaseAdapter {
     getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
