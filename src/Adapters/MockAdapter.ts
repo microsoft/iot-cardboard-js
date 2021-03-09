@@ -1,9 +1,10 @@
-import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
-import TsiClientAdapterData, {
-    TsiClientData
-} from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import {
+    KeyValuePairAdapterData,
+    TsiClientAdapterData
+} from '../Models/Classes';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { TsiClientData } from '../Models/Constants/Types';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {

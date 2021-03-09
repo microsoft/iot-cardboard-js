@@ -3,8 +3,10 @@ import IBaseAdapter from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
-import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
-import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import {
+    KeyValuePairAdapterData,
+    TsiClientAdapterData
+} from '../Models/Classes';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;
