@@ -44,11 +44,11 @@
     .cb-base-card-content {
         align-items: center;
         display: flex;
-        height: calc(100% - 80px);
+        height: calc(100% - 40px);
         justify-content: center;
-        margin: 20px;
+        padding: 20px;
         position: absolute;
         top: 40px;
-        width: calc(100% - 40px);
+        width: calc(100%);
     }
 }

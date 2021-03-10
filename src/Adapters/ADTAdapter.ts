@@ -8,12 +8,12 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 
-export default class IoTCentralAdapter implements IBaseAdapter {
+export default class ADTAdapter implements IBaseAdapter {
     private authService: IAuthService;
-    private iotCentralAppId: string;
+    private adtHostUrl: string;
 
-    constructor(iotCentralAppId: string, authService: IAuthService) {
-        this.iotCentralAppId = iotCentralAppId;
+    constructor(adtHostUrl: string, authService: IAuthService) {
+        this.adtHostUrl = adtHostUrl;
         this.authService = authService;
         this.authService.login();
     }
@@ -33,21 +33,23 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         try {
             const token = await this.authService.getToken();
 
-            const axiosGets = properties.map(async (prop) => {
-                return await axios.get(
-                    `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + token
-                        }
-                    }
-                );
+            const axiosData = await axios({
+                method: 'get',
+                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl,
+                    'x-adt-endpoint': `digitaltwins/${id}`
+                },
+                params: {
+                    'api-version': '2020-10-31'
+                }
             });
 
-            const axiosData = await axios.all(axiosGets);
             const data = {};
-            properties.forEach((prop, i) => {
-                data[prop] = axiosData[i].data.value;
+            properties.forEach((prop) => {
+                data[prop] = axiosData.data[prop];
             });
 
             return new AdapterResult<KeyValuePairAdapterData>({

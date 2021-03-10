@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
@@ -6,6 +5,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
 import { Theme } from '../../../Models/Constants/Enums';
 import Linechart from '../../../Components/Linechart/Linechart';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -18,31 +18,45 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    // TODO turn into re-usable reducers
-    const [isLoading, setIsLoading] = useState(true);
-    const [adapterResult, setAdapterResult] = useState(null);
+    const cardState = useAdapter({
+        adapterMethod: () =>
+            adapter.getTsiclientChartDataShape(
+                id,
+                searchSpan,
+                properties,
+                additionalProperties
+            ),
+        refetchDependencies: [id, properties, searchSpan]
+    });
 
-    const executeAdapter = async () => {
-        setIsLoading(true);
-        const lcd = await adapter.getTsiclientChartDataShape(
-            id,
-            searchSpan,
-            properties,
-            additionalProperties
-        );
-        setIsLoading(false);
-        setAdapterResult(lcd);
-    };
+    // const renderChart = async () => {
+    //     if (chart !== null) {
+    //         if (!cardState.adapterResult.hasNoData()) {
+    //             chart.current.render(cardState.adapterResult.result.data, {
+    //                 theme: theme ? theme : Theme.Light,
+    //                 legend: 'compact',
+    //                 strings: t('sdkStrings', {
+    //                     returnObjects: true
+    //                 })
+    //             });
+    //         }
+    //     }
+    // };
 
-    useEffect(() => {
-        executeAdapter();
-    }, [properties, additionalProperties, searchSpan]);
+    // useEffect(() => {
+    //     if (chart.current === null) {
+    //         chart.current = new ClientLinechart(
+    //             document.getElementById(chartContainerGUID)
+    //         );
+    //     }
+    //     renderChart();
+    // }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
 
     const getData = () => {
-        if (isLoading || !adapterResult || adapterResult.hasNoData()) {
-            return [];
+        if (cardState?.adapterResult?.result && !cardState?.adapterResult?.hasNoData()) {
+            return cardState.adapterResult.result.data;
         }
-        return adapterResult?.result?.data;
+        return [];
     };
 
     // TODO probably common for different chart types, refactor
@@ -63,8 +77,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
 
     return (
         <BaseCard
-            isLoading={isLoading}
-            adapterResult={adapterResult}
+            isLoading={cardState.isLoading}
+            adapterResult={cardState.adapterResult}
             theme={theme}
             title={title}
         >

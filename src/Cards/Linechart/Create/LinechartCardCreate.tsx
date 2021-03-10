@@ -64,7 +64,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     const adapter = useMemo(() => {
         return state.chartPropertyNames.length
             ? new MockAdapter()
-            : new MockAdapter({ data: null });
+            : new MockAdapter(null);
     }, [state.chartPropertyNames]);
 
     return (
@@ -76,7 +76,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
                     onSubmit={onDonezo}
                     propertyNames={propertyNames}
                     setSelectedPropertyNames={setSelectedProperties}
-                    selectedPropertyNames={state.selectedPropertyNames}
+                    selectedPropertyNames={[...state.selectedPropertyNames]}
                     setTitle={setTitle}
                     title={state.title}
                 ></LinechartCreateForm>
@@ -86,7 +86,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
                     theme={theme}
                     id={id}
                     searchSpan={searchSpan}
-                    properties={state.chartPropertyNames}
+                    properties={[...state.chartPropertyNames]}
                     adapter={adapter}
                     title={state.title}
                 ></LinechartCard>
