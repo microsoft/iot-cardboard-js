@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import ClientLinechart from 'tsiclient/LineChart';
-import './Linechart.scss';
+import ClientBarchart from 'tsiclient/GroupedBarChart';
 import 'tsiclient/tsiclient.css';
-import { LinechartProps } from './Linechart.types';
+import { BarchartProps } from './Barchart.types';
 import useGuid from '../../Models/Hooks/useGuid';
 
-const Linechart: React.FC<LinechartProps> = ({
+const Barchart: React.FC<BarchartProps> = ({
     chartOptions,
     chartDataOptions,
     data
@@ -23,12 +22,13 @@ const Linechart: React.FC<LinechartProps> = ({
         };
 
         if (chart.current === null) {
-            chart.current = new ClientLinechart(
+            chart.current = new ClientBarchart(
                 document.getElementById(chartContainerGUID)
             );
         }
         if (dataIsValid()) {
-            chart.current.render(data, chartOptions, chartDataOptions);
+            //TODO need fix in tsiclient for no timestamp when no data passed in. tries to get timestamp from allTimestampArray, which is empty
+            chart.current.render(data, chartOptions);
         }
     }, [data, chartOptions, chartDataOptions]);
 
@@ -37,4 +37,4 @@ const Linechart: React.FC<LinechartProps> = ({
     );
 };
 
-export default React.memo(Linechart);
+export default React.memo(Barchart);

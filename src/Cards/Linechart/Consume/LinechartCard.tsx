@@ -43,7 +43,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             return [];
         }
         return adapterResult?.result?.data;
-    }
+    };
 
     // TODO probably common for different chart types, refactor
     const getChartOptions = () => {
@@ -54,12 +54,12 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 returnObjects: true
             })
         };
-    }
+    };
 
     // TODO
     const getChartDataOptions = () => {
         return [];
-    }
+    };
 
     return (
         <BaseCard
@@ -68,7 +68,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             theme={theme}
             title={title}
         >
-            <Linechart data={getData()} chartOptions={getChartOptions()} chartDataOptions={getChartDataOptions()}></Linechart>
+            <Linechart
+                data={getData()}
+                chartOptions={getChartOptions()}
+                chartDataOptions={getChartDataOptions()}
+            ></Linechart>
         </BaseCard>
     );
 };
