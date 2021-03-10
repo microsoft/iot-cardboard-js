@@ -1,4 +1,4 @@
-import { Action } from '../../../Models/Constants/Interfaces';
+import { IAction } from '../../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
     SET_CHART_PROPERTIES,
@@ -15,7 +15,7 @@ export const defaultLinechartCardCreateState: LinechartCardCreateState = {
 
 // Using immer immutability helper: https://github.com/immerjs/immer
 export const LinechartCardCreateReducer = produce(
-    (draft: LinechartCardCreateState, action: Action) => {
+    (draft: LinechartCardCreateState, action: IAction) => {
         const payload = action.payload;
 
         switch (action.type) {

@@ -7,7 +7,7 @@ import {
     SET_IS_LOADING,
     SET_IS_LONG_POLLING
 } from '../Constants/ActionTypes';
-import { Action, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
+import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
 import { AdapterReturnType, AdapterState } from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
@@ -15,7 +15,7 @@ import useLongPoll from './useLongPoll';
 // Sets up reducer with 'curried producer' - https://immerjs.github.io/immer/docs/curried-produce
 // Draft state can be directly modified.  Draft does not need to be explicitly returned.
 const cardStateReducer = produce(
-    <T extends IAdapterData>(draft: AdapterState<T>, action: Action) => {
+    <T extends IAdapterData>(draft: AdapterState<T>, action: IAction) => {
         const payload = action.payload;
         switch (action.type) {
             case SET_IS_LOADING:

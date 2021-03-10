@@ -1,6 +1,6 @@
 import * as Msal from '@azure/msal-browser';
 import {
-    EnvironmentToConstantMapping,
+    IEnvironmentToConstantMapping,
     IAuthService
 } from '../Constants/Interfaces';
 
@@ -12,7 +12,7 @@ export default class MsalAuthService implements IAuthService {
     private authContextConfig;
     private authContext;
 
-    private environmentToConstantMapping: EnvironmentToConstantMapping = {
+    private environmentToConstantMapping: IEnvironmentToConstantMapping = {
         authority: 'https://login.microsoftonline.com/organizations',
 
         // valid redirect URI for this is client ID is https://adtexplorer-tsi-local.azurewebsites.net
@@ -28,7 +28,7 @@ export default class MsalAuthService implements IAuthService {
         // scope: 'https://digitaltwins.azure.net/.default'
     };
 
-    constructor(environmentToConstantMapping?: EnvironmentToConstantMapping) {
+    constructor(environmentToConstantMapping?: IEnvironmentToConstantMapping) {
         this.environmentToConstantMapping =
             environmentToConstantMapping || this.environmentToConstantMapping;
 
