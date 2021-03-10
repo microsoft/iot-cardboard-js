@@ -1,3 +1,4 @@
+import React from 'react';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
