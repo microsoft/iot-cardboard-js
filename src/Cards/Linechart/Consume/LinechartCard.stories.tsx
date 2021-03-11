@@ -14,7 +14,7 @@ export default {
 
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
-const chartOptions = [{includeDots: true}, {includeDots: false}];
+const chartOptions = [{ includeDots: true }, { includeDots: false }];
 const searchSpan = new SearchSpan(
     new Date(),
     new Date(new Date().valueOf() + 100000),
@@ -31,7 +31,7 @@ export const MockData = (args, { globals: { theme } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            additionalProperties={{chartOptions}}
+            additionalProperties={{ chartOptions }}
             adapter={new MockAdapter()}
         />
     </div>

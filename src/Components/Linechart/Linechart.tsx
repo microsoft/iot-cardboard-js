@@ -1,29 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
-import './Linechart.scss';
 import 'tsiclient/tsiclient.css';
-import { LinechartProps } from './Linechart.types';
-import useGuid from '../../Models/Hooks/useGuid';
+import { ITSIComponentProps } from '../../Models/Constants';
+import renderTSIComponent from '../../Models/Hooks/renderTSIComponent';
 
-const Linechart: React.FC<LinechartProps> = ({
+const Linechart: React.FC<ITSIComponentProps> = ({
     chartOptions,
     chartDataOptions,
     data
 }) => {
-    const chartContainerGUID = useGuid();
-    const chart = useRef(null);
-
-    useEffect(() => {
-        if (chart.current === null) {
-            chart.current = new ClientLinechart(
-                document.getElementById(chartContainerGUID)
-            );
-        }
-        if (data) {
-            chart.current.render(data, chartOptions, chartDataOptions);
-        }
-    }, [data, chartOptions, chartDataOptions]);
-
+    const chartContainerGUID = renderTSIComponent(ClientLinechart, {
+        chartOptions: chartOptions,
+        chartDataOptions: chartDataOptions,
+        data: data
+    });
     return (
         <div className="cb-linechart-container" id={chartContainerGUID}></div>
     );
