@@ -15,7 +15,10 @@ const Linechart: React.FC<ITSIComponentProps> = ({
         data: data
     });
     return (
-        <div className="cb-linechart-container" id={chartContainerGUID}></div>
+        <div
+            className="cb-tsicomponent-container"
+            id={chartContainerGUID}
+        ></div>
     );
 };
 

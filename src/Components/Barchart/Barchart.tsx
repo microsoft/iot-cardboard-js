@@ -16,7 +16,10 @@ const Barchart: React.FC<ITSIComponentProps> = ({
         data: data
     });
     return (
-        <div className="cb-barchart-container" id={chartContainerGUID}></div>
+        <div
+            className="cb-tsicomponent-container"
+            id={chartContainerGUID}
+        ></div>
     );
 };
 
