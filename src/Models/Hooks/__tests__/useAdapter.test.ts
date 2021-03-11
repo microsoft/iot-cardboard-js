@@ -17,34 +17,38 @@ const networkTimeout = () => {
     );
 };
 
-const adapterInfo = {
-    adapter: new MockAdapter(undefined, networkTimeoutMillis), // Explicitly set network timeout period
-    id: 'test',
-    properties: ['temp', 'speed', 'pressure']
-};
-
+let adapterInfo;
 let renderedHook: RenderHookResult<any, IUseAdapter<KeyValuePairAdapterData>>;
 
 beforeEach(() => {
-    act(() => {
-        renderedHook = renderHook(() =>
-            useAdapter<KeyValuePairAdapterData>({
-                adapterMethod: () =>
-                    adapterInfo.adapter.getKeyValuePairs(
-                        adapterInfo.id,
-                        adapterInfo.properties
-                    ),
-                refetchDependencies: adapterInfo.properties
-            })
-        );
-    });
+    adapterInfo = {
+        adapter: new MockAdapter(undefined, networkTimeoutMillis), // Explicitly set network timeout period
+        id: 'test',
+        properties: ['temp', 'speed', 'pressure']
+    };
 });
 
 afterEach(() => {
     cleanup();
 });
 
-describe('useAdapter tests', () => {
+describe('Basic useAdapter tests', () => {
+    // Call hook with minimal props
+    beforeEach(() => {
+        act(() => {
+            renderedHook = renderHook(() =>
+                useAdapter<KeyValuePairAdapterData>({
+                    adapterMethod: () =>
+                        adapterInfo.adapter.getKeyValuePairs(
+                            adapterInfo.id,
+                            adapterInfo.properties
+                        ),
+                    refetchDependencies: adapterInfo.properties
+                })
+            );
+        });
+    });
+
     test('useAdapter return type is correct on initial call', () => {
         const {
             result: { current }
@@ -69,5 +73,48 @@ describe('useAdapter tests', () => {
 
     test('rendered component with useAdapter hook can safely unmount during adapter data fetch', async () => {
         renderedHook.unmount();
+    });
+});
+
+describe('Long polling useAdapter tests', () => {
+    // Call hook with long polling props
+    beforeEach(() => {
+        act(() => {
+            renderedHook = renderHook(() =>
+                useAdapter<KeyValuePairAdapterData>({
+                    adapterMethod: () =>
+                        adapterInfo.adapter.getKeyValuePairs(
+                            adapterInfo.id,
+                            adapterInfo.properties
+                        ),
+                    refetchDependencies: adapterInfo.properties,
+                    isLongPolling: true,
+                    pollingIntervalMillis: 500
+                })
+            );
+        });
+    });
+
+    test.only('Long polling works as expected when toggled to true on initial hook call', async () => {
+        const {
+            result: { current }
+        } = renderedHook;
+        expect(current.adapterResult).toEqual(
+            new AdapterResult<KeyValuePairAdapterData>({
+                result: null,
+                error: null
+            })
+        );
+        expect(current.isLoading).toBe(true);
+        expect(current.pulse).toBe(false);
+        // await networkTimeout();
+        // renderedHook.rerender();
+        await renderedHook.waitFor(() => !current.adapterResult?.hasNoData(), {
+            timeout: 5000
+        });
+        console.log(current);
+        // expect(current.adapterResult.result.hasNoData()).toBe(false);
+        // expect(current.isLoading).toBe(false);
+        // expect(current.pulse).toBe(true);
     });
 });
