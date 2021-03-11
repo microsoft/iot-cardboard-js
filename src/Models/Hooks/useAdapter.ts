@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { useEffect, useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer, useRef } from 'react';
 import AdapterResult from '../Classes/AdapterResult';
 import { CancelledPromiseError } from '../Classes/Errors';
 import {
@@ -67,6 +67,8 @@ const useAdapter = <T extends IAdapterData>({
         [isLongPolling]
     );
 
+    const mountedRef = useRef(null);
+
     const [state, dispatch] = useReducer(cardStateReducer, defaultCardState);
     const { cancellablePromise, cancel } = useCancellablePromise();
 
@@ -90,13 +92,13 @@ const useAdapter = <T extends IAdapterData>({
             const adapterResult = await cancellablePromise(adapterMethod());
             setAdapterResult(adapterResult);
         } catch (err) {
-            if (err instanceof CancelledPromiseError) {
-                console.log(err.message);
-            } else {
-                console.error('Unexpected promise error', err);
+            if (!(err instanceof CancelledPromiseError)) {
+                console.error('Unexpected promise error', err); // log unexpected errors
             }
         }
-        setIsLoading(false);
+        if (mountedRef.current) {
+            setIsLoading(false); // Toggle off loading state if component is still mounted
+        }
     };
 
     const setIsLongPolling = (isLongPolling: boolean) => {
@@ -120,6 +122,13 @@ const useAdapter = <T extends IAdapterData>({
         setAdapterResult(null);
         callAdapter();
     }, [...refetchDependencies]);
+
+    useEffect(() => {
+        mountedRef.current = true; // Use ref to indicate mounted state
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
 
     return {
         isLoading: state.isLoading,
