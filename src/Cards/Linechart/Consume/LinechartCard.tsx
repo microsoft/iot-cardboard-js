@@ -50,7 +50,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
         };
     };
 
-    // TODO
     const getChartDataOptions = (data) => {
         if (additionalProperties?.chartOptions) {
             return additionalProperties.chartOptions;

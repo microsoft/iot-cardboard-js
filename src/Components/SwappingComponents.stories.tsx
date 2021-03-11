@@ -22,20 +22,20 @@ const mockData = MockAdapter.generateMockLineChartData(
     ['foo']
 );
 
-export const SwapLinechartAndBarchart = (args) => (
+export const SwapLinechartAndBarchart = (args, { globals: { theme } }) => (
     <div style={chartCardStyle}>
         {args.chartType === 'linechart' && (
             <Linechart
                 data={mockData}
                 chartDataOptions={null}
-                chartOptions={{}}
+                chartOptions={{ theme: theme }}
             />
         )}
         {args.chartType === 'barchart' && (
             <Barchart
                 data={mockData}
                 chartDataOptions={null}
-                chartOptions={{}}
+                chartOptions={{ theme: theme }}
             />
         )}
     </div>
