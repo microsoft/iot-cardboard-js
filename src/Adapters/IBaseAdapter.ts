@@ -15,7 +15,7 @@ export default interface IBaseAdapter {
 
     getKeyValuePairs(
         id: string,
-        properties: Array<string>,
+        properties: readonly string[],
         additionalParameters?: Record<string, any>
     ): AdapterReturnType<KeyValuePairAdapterData>;
 }
