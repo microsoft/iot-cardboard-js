@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ClientBarchart from 'tsiclient/GroupedBarChart';
 import 'tsiclient/tsiclient.css';
 import { ITSIComponentProps } from '../../Models/Constants';
 import renderTSIComponent from '../../Models/Hooks/renderTSIComponent';
-import useGuid from '../../Models/Hooks/useGuid';
 
 const Barchart: React.FC<ITSIComponentProps> = ({
     chartOptions,

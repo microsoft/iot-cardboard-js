@@ -16,7 +16,7 @@ export interface ITSIComponentProps {
 export interface IConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
-    properties: string[];
+    properties: readonly string[];
     theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
