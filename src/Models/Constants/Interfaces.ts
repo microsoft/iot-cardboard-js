@@ -1,5 +1,5 @@
 import { IBaseAdapter } from '../../Adapters/IBaseAdapter';
-import { Theme } from './Enums';
+import { Locale, Theme } from './Enums';
 
 export interface Action {
     type: string;
@@ -13,6 +13,7 @@ export interface ConsumeCardProps {
     theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
+    locale?: Locale;
 }
 
 export interface IAuthService {

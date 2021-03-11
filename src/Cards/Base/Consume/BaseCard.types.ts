@@ -1,4 +1,4 @@
-import { Theme } from '../../../Models/Constants/Enums';
+import { Locale, Theme } from '../../../Models/Constants/Enums';
 import AdapterResult from '../../../Models/Classes/AdapterResult';
 
 export interface BaseCardProps {
@@ -8,4 +8,5 @@ export interface BaseCardProps {
     theme?: Theme;
     // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
+    locale?: Locale;
 }

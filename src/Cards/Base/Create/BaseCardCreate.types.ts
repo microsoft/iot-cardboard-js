@@ -1,4 +1,4 @@
-import { Theme } from '../../../Models/Constants/Enums';
+import { Locale, Theme } from '../../../Models/Constants/Enums';
 
 export interface BaseCardCreateProps {
     title?: string;
@@ -6,4 +6,5 @@ export interface BaseCardCreateProps {
     theme?: Theme;
     form: React.ReactNode;
     preview: React.ReactNode;
+    locale?: Locale;
 }

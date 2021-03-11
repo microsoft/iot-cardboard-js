@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
-import { ThemeProvider } from '../src/Theming/ThemeProvider';
 import I18nProviderWrapper from '../src/Models/Classes/I18NProviderWrapper';
-import i18n from '../i18n';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
+import i18n from '../src/i18n';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -38,13 +36,10 @@ setConsoleOptions({
     panelExclude: [...panelExclude, /Warning/]
 });
 
-// here app catches the suspense from page in case translations are not yet loaded
 const withI18n = (Story, context) => (
-    <Suspense fallback={'Loading i18n...'}>
-        <I18nProviderWrapper locale={context.globals.locale} i18n={i18n}>
-            <Story {...context} />
-        </I18nProviderWrapper>
-    </Suspense>
+    <I18nProviderWrapper locale={context.globals.locale} i18n={i18n}>
+        <Story {...context} />
+    </I18nProviderWrapper>
 );
 
 //add decorators here
