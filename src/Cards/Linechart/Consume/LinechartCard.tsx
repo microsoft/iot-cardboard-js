@@ -30,29 +30,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
         refetchDependencies: [id, properties, searchSpan]
     });
 
-    // const renderChart = async () => {
-    //     if (chart !== null) {
-    //         if (!cardState.adapterResult.hasNoData()) {
-    //             chart.current.render(cardState.adapterResult.result.data, {
-    //                 theme: theme ? theme : Theme.Light,
-    //                 legend: 'compact',
-    //                 strings: t('sdkStrings', {
-    //                     returnObjects: true
-    //                 })
-    //             });
-    //         }
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     if (chart.current === null) {
-    //         chart.current = new ClientLinechart(
-    //             document.getElementById(chartContainerGUID)
-    //         );
-    //     }
-    //     renderChart();
-    // }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
-
     const getData = () => {
         if (cardState?.adapterResult?.result && !cardState?.adapterResult?.hasNoData()) {
             return cardState.adapterResult.result.data;
@@ -60,7 +37,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
         return [];
     };
 
-    // TODO probably common for different chart types, refactor
     const getChartOptions = () => {
         return {
             theme: theme ? theme : Theme.Light,
@@ -72,8 +48,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     // TODO
-    const getChartDataOptions = () => {
-        return [];
+    const getChartDataOptions = (data) => {
+        if (additionalProperties?.chartOptions) {
+            return additionalProperties.chartOptions;
+        }
+        return data.map(() => {return {}});
     };
 
     return (
@@ -86,7 +65,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             <Linechart
                 data={getData()}
                 chartOptions={getChartOptions()}
-                chartDataOptions={getChartDataOptions()}
+                chartDataOptions={getChartDataOptions(getData())}
             ></Linechart>
         </BaseCard>
     );

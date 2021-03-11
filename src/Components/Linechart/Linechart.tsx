@@ -14,20 +14,12 @@ const Linechart: React.FC<LinechartProps> = ({
     const chart = useRef(null);
 
     useEffect(() => {
-        // TODO make this better
-        const dataIsValid = () => {
-            if (!data) {
-                return false;
-            }
-            return true;
-        };
-
         if (chart.current === null) {
             chart.current = new ClientLinechart(
                 document.getElementById(chartContainerGUID)
             );
         }
-        if (dataIsValid()) {
+        if (data) {
             chart.current.render(data, chartOptions, chartDataOptions);
         }
     }, [data, chartOptions, chartDataOptions]);
