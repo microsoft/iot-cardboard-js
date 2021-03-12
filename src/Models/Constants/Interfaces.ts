@@ -1,12 +1,13 @@
-import { IBaseAdapter } from '../../Adapters/IBaseAdapter';
+import IBaseAdapter from '../../Adapters/IBaseAdapter';
+import AdapterResult from '../Classes/AdapterResult';
 import { Locale, Theme } from './Enums';
 
-export interface Action {
+export interface IAction {
     type: string;
     payload?: any;
 }
 
-export interface ConsumeCardProps {
+export interface IConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
     properties: string[];
@@ -21,7 +22,7 @@ export interface IAuthService {
     getToken: () => Promise<string>;
 }
 
-export interface EnvironmentToConstantMapping {
+export interface IEnvironmentToConstantMapping {
     authority: string;
     clientId: string;
     scope: string;
@@ -31,4 +32,21 @@ export interface EnvironmentToConstantMapping {
 export interface IAdapterData {
     data: any;
     hasNoData?: () => boolean;
+}
+
+export interface IUseAdapter<T extends IAdapterData> {
+    /** Adapter loading state */
+    isLoading: boolean;
+
+    /** Result of adapter method call */
+    adapterResult: AdapterResult<T>;
+
+    /** Calls adapter method (safe on unmount) and updates adapter result */
+    callAdapter: () => void;
+
+    /** Toggles on/off long poll */
+    setIsLongPolling: (isLongPolling: boolean) => void;
+
+    /** Long polling pulse state for UI */
+    pulse: boolean;
 }

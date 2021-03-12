@@ -1,12 +1,14 @@
 import TsqExpression from 'tsiclient/TsqExpression';
 import ServerClient from 'tsiclient/ServerClient';
 import UxClient from 'tsiclient/UXClient';
-import { IBaseAdapter } from './IBaseAdapter';
+import IBaseAdapter from './IBaseAdapter';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
-import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
-import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import {
+    KeyValuePairAdapterData,
+    TsiClientAdapterData
+} from '../Models/Classes';
 
 export default class TsiAdapter implements IBaseAdapter {
     private authService: IAuthService;

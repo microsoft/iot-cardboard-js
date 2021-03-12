@@ -1,9 +1,11 @@
-import KeyValuePairAdapterData from '../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
-import TsiClientAdapterData from '../Models/Classes/AdapterDataClasses/TsiclientAdapterData';
+import {
+    KeyValuePairAdapterData,
+    TsiClientAdapterData
+} from '../Models/Classes';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { AdapterReturnType } from '../Models/Constants/Types';
 
-export interface IBaseAdapter {
+export default interface IBaseAdapter {
     getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
