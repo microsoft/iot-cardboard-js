@@ -10,10 +10,11 @@ import { AdapterResult, KeyValuePairAdapterData } from '../../Classes';
 import { IUseAdapter } from '../../Constants';
 
 const networkTimeoutMillis = 250;
+const pulseMillis = 500;
 
-const networkTimeout = () => {
+const networkTimeout = (customTimeout = networkTimeoutMillis) => {
     return new Promise(
-        (res) => setTimeout(() => res(null), networkTimeoutMillis + 100) // Add 100msecs to ensure mocked network timeout has completed
+        (res) => setTimeout(() => res(true), customTimeout + 100) // Add 100msecs to ensure mocked network timeout has completed
     );
 };
 
@@ -89,16 +90,17 @@ describe('Long polling useAdapter tests', () => {
                         ),
                     refetchDependencies: adapterInfo.properties,
                     isLongPolling: true,
-                    pollingIntervalMillis: 500
+                    pollingIntervalMillis: 500,
+                    pulseTimeoutMillis: pulseMillis
                 })
             );
         });
     });
 
     test.only('Long polling works as expected when toggled to true on initial hook call', async () => {
-        const {
-            result: { current }
-        } = renderedHook;
+        jest.setTimeout(10000);
+        let current = renderedHook.result.current;
+        // Test state on mount
         expect(current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
@@ -107,14 +109,22 @@ describe('Long polling useAdapter tests', () => {
         );
         expect(current.isLoading).toBe(true);
         expect(current.pulse).toBe(false);
-        // await networkTimeout();
-        // renderedHook.rerender();
-        await renderedHook.waitFor(() => !current.adapterResult?.hasNoData(), {
-            timeout: 5000
-        });
+
+        // wait for network request to complete triggering next update
+        renderedHook.waitForNextUpdate();
+
+        // test state after data fulfulled
+        current = renderedHook.result.current;
         console.log(current);
-        // expect(current.adapterResult.result.hasNoData()).toBe(false);
-        // expect(current.isLoading).toBe(false);
-        // expect(current.pulse).toBe(true);
+        expect(current.adapterResult.hasNoData()).toBe(false);
+        expect(current.isLoading).toBe(false);
+        expect(current.pulse).toBe(true);
+
+        // Next update should be long poll execution - verify state
+        await renderedHook.waitForNextUpdate();
+        expect(renderedHook.result.current.isLoading).toBe(true);
+        expect(renderedHook.result.current.adapterResult.hasNoData()).toBe(
+            true
+        );
     });
 });
