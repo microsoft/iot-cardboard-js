@@ -9,4 +9,15 @@ export interface BaseCardProps {
     // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
     locale?: Locale;
+    localeStrings?: Object; // including key and value pairs of translation strings
 }
+
+// export interface BaseCardPropsWithOptLocale extends BaseCardProps {
+//     locale?: Locale;
+//     localeStrings?: never; // to make locale and localeStrings mutually exclusive
+// }
+
+// export interface BaseCardPropsWithOptLocaleStrings extends BaseCardProps {
+//     localeStrings?: Object; // including key and value pairs of translation strings
+//     locale?: never; // to make locale and localeStrings mutually exclusive
+// }

@@ -55,7 +55,14 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             );
         }
         renderChart();
-    }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
+    }, [
+        properties,
+        additionalProperties,
+        searchSpan,
+        cardState.adapterResult,
+        theme,
+        locale
+    ]);
 
     return (
         <BaseCard

@@ -23,10 +23,11 @@ const chartCardStyle = {
     height: '400px'
 };
 
-export const MockData = (args, { globals: { theme } }) => (
+export const MockData = (args, { globals: { theme, locale } }) => (
     <div style={chartCardStyle}>
         <Linechart
             theme={theme}
+            locale={locale}
             id={id}
             searchSpan={searchSpan}
             properties={properties}
@@ -35,10 +36,11 @@ export const MockData = (args, { globals: { theme } }) => (
     </div>
 );
 
-export const NoData = (args, { globals: { theme } }) => (
+export const NoData = (args, { globals: { theme, locale } }) => (
     <div style={chartCardStyle}>
         <Linechart
             theme={theme}
+            locale={locale}
             id={id}
             searchSpan={searchSpan}
             properties={properties}
@@ -47,7 +49,7 @@ export const NoData = (args, { globals: { theme } }) => (
     </div>
 );
 
-export const TsiData = (args, { globals: { theme } }) => {
+export const TsiData = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
     const tsiProperties = ['value'];
@@ -62,6 +64,7 @@ export const TsiData = (args, { globals: { theme } }) => {
         <div style={chartCardStyle}>
             <Linechart
                 theme={theme}
+                locale={locale}
                 id={tsiId}
                 searchSpan={tsiSearchSpan}
                 properties={tsiProperties}
@@ -78,12 +81,13 @@ export const TsiData = (args, { globals: { theme } }) => {
     );
 };
 
-export const TwoThemedCharts = () => (
+export const TwoThemedCharts = (args, { globals: { locale } }) => (
     <div>
         <div style={chartCardStyle}>
             <Linechart
                 title={'Linechart dark theme card'}
                 theme={Theme.Dark}
+                locale={locale}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}
@@ -94,6 +98,7 @@ export const TwoThemedCharts = () => (
             <Linechart
                 title={'Linechart light theme card'}
                 theme={Theme.Light}
+                locale={locale}
                 id={id}
                 searchSpan={searchSpan}
                 properties={properties}
