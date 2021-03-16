@@ -15,7 +15,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     adapter,
     theme,
     additionalProperties,
-    title
+    title,
+    locale
 }) => {
     const { t } = useTranslation();
 
@@ -59,6 +60,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             adapterResult={cardState.adapterResult}
             theme={theme}
             title={title}
+            locale={locale}
         >
             <Linechart
                 data={getData()}

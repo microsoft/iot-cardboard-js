@@ -12,7 +12,6 @@
         "axios": "^0.21.1",
         "i18next": "^19.8.7",
         "i18next-browser-languagedetector": "^6.0.1",
-        "i18next-http-backend": "^1.1.0",
         "immer": "^8.0.1",
         "react-i18next": "^11.8.5",
         "tsiclient": "^1.4.11"
@@ -69,7 +68,8 @@
         "stylelint-config-recommended": "^3.0.0",
         "stylelint-config-sass-guidelines": "^7.1.0",
         "ts-jest": "^26.4.4",
-        "typescript": "^4.1.3"
+        "typescript": "^4.1.3",
+        "tslib": "^2.1.0"
     },
     "peerDependencies": {
         "react": ">=16.8.0",
@@ -84,11 +84,11 @@
         "copy-readme": "shx cp README.md dist/",
         "pack": "shx mkdir ./build_artifacts && cd dist && npm pack && shx mv *.tgz ../build_artifacts",
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
-        "storybook": "npm run generateCerts && start-storybook -p 443 -s ./public --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
-        "storybook:noSSL": "start-storybook -p 3001 -s ./public",
+        "storybook": "npm run generateCerts && start-storybook -p 443 --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
+        "storybook:noSSL": "start-storybook -p 3001",
         "startProxy": "node api/proxy/adtProxyServer.js",
         "storybook:proxy": "start npm run startProxy && npm run storybook",
-        "storybook:export": "build-storybook -s ./public",
+        "storybook:export": "build-storybook",
         "test": "jest",
         "test:watch": "jest --watch",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",

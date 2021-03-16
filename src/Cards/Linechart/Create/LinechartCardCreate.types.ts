@@ -1,7 +1,8 @@
-import { Theme } from '../../../Models/Constants/Enums';
+import { Locale, Theme } from '../../../Models/Constants/Enums';
 
 export interface LinechartCardCreateProps {
     theme: Theme;
+    locale: Locale;
     propertyNames: Array<string>;
     defaultState?: LinechartCardCreateState;
 }
