@@ -122,7 +122,7 @@ describe('Long polling useAdapter tests', () => {
         });
     });
 
-    test('Long polling toggled to true on initial hook call', async () => {
+    test('Long polling activated, pulse state, and long polling toggle', async () => {
         // Test initial hook state on mount
         expect(renderedHook.result.current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
@@ -174,7 +174,7 @@ describe('Long polling useAdapter tests', () => {
 });
 
 describe('Dependency change testing', () => {
-    test('Changing hook dependency causes refetch', async () => {
+    test('Changing hook dependencies triggers data refetch', async () => {
         const id = 'test1';
         let properties = ['temp', 'speed', 'pressure'];
 
