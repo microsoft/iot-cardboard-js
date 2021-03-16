@@ -4,8 +4,8 @@ export enum Theme {
 }
 
 export enum TSIComponentTypes {
-    linechart = 'linechart',
-    barchart = 'barchart'
+    Linechart = 'linechart',
+    Barchart = 'barchart'
 }
 
 export enum Locale {

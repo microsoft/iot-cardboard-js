@@ -11,8 +11,8 @@ export default {
             control: {
                 type: 'select',
                 options: [
-                    TSIComponentTypes.linechart,
-                    TSIComponentTypes.barchart
+                    TSIComponentTypes.Linechart,
+                    TSIComponentTypes.Barchart
                 ]
             }
         }
@@ -31,14 +31,14 @@ const mockData = MockAdapter.generateMockLineChartData(
 
 export const SwapLinechartAndBarchart = (args, { globals: { theme } }) => (
     <div style={chartCardStyle}>
-        {args.chartType === TSIComponentTypes.linechart && (
+        {args.chartType === TSIComponentTypes.Linechart && (
             <Linechart
                 data={mockData}
                 chartDataOptions={null}
                 chartOptions={{ theme: theme }}
             />
         )}
-        {args.chartType === TSIComponentTypes.barchart && (
+        {args.chartType === TSIComponentTypes.Barchart && (
             <Barchart
                 data={mockData}
                 chartDataOptions={null}
@@ -48,4 +48,4 @@ export const SwapLinechartAndBarchart = (args, { globals: { theme } }) => (
     </div>
 );
 
-SwapLinechartAndBarchart.args = { chartType: TSIComponentTypes.linechart };
+SwapLinechartAndBarchart.args = { chartType: TSIComponentTypes.Linechart };
