@@ -1,5 +1,7 @@
 {
     "preview": "Vorschau",
+    "loading": "Wird geladen...",
+    "noData": "Keine Daten",
     "sdkStrings": {
         "Last 30 mins": "Letzte 30 Minuten",
         "Last Hour": "Letzte Stunde",
