@@ -118,7 +118,6 @@ const useAdapter = <T extends IAdapterData>({
 
     useEffect(() => {
         cancel(); // Cancel outstanding promises on refetch
-        setIsLoading(true);
         setAdapterResult(null);
         callAdapter();
     }, [...refetchDependencies]);
@@ -135,6 +134,7 @@ const useAdapter = <T extends IAdapterData>({
         adapterResult: state.adapterResult as AdapterResult<T>,
         callAdapter,
         setIsLongPolling,
+        isLongPolling: state.isLongPolling,
         pulse: longPoll.pulse
     };
 };
