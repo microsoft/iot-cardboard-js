@@ -1,6 +1,6 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
 import AdapterResult from '../Classes/AdapterResult';
-import { Theme } from './Enums';
+import { Locale, Theme } from './Enums';
 
 export interface IAction {
     type: string;
@@ -14,6 +14,7 @@ export interface IConsumeCardProps {
     theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
+    locale?: Locale;
 }
 
 export interface IAuthService {

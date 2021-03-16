@@ -16,7 +16,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     adapter,
     theme,
     additionalProperties,
-    title
+    title,
+    locale
 }) => {
     const { t } = useTranslation();
     const chartContainerGUID = useGuid();
@@ -62,6 +63,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             adapterResult={cardState.adapterResult}
             theme={theme}
             title={title}
+            locale={locale}
         >
             <div
                 className="cb-linechart-container"
