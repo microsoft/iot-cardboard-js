@@ -31,13 +31,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     });
 
     const getData = () => {
-        if (
-            cardState?.adapterResult?.result &&
-            !cardState?.adapterResult?.hasNoData()
-        ) {
-            return cardState.adapterResult.result.data;
-        }
-        return [];
+        return cardState?.adapterResult.getData();
     };
 
     const getChartOptions = () => {
@@ -51,10 +45,10 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     const getChartDataOptions = (data) => {
-        if (additionalProperties?.chartOptions) {
-            return additionalProperties.chartOptions;
+        if (additionalProperties?.chartDataOptions) {
+            return additionalProperties.chartDataOptions;
         }
-        return data.map(() => {
+        return data?.map(() => {
             return {};
         });
     };

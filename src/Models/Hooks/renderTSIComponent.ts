@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { ITSIComponentProps } from '../Constants';
 import useGuid from './useGuid';
 
-const renderTSIComponent = (
+const useTSIComponentRender = (
     component,
     renderParameters: ITSIComponentProps
 ) => {
@@ -27,4 +27,4 @@ const renderTSIComponent = (
     return chartContainerGUID;
 };
 
-export default renderTSIComponent;
+export default useTSIComponentRender;

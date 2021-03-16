@@ -3,11 +3,18 @@ import Linechart from './Linechart/Linechart';
 import Barchart from './Barchart/Barchart';
 import MockAdapter from '../Adapters/MockAdapter';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { TSIComponentTypes } from '../Models/Constants';
 export default {
-    title: 'Swapping components',
+    title: 'Components/Swapping components',
     argTypes: {
         chartType: {
-            control: { type: 'select', options: ['linechart', 'barchart'] }
+            control: {
+                type: 'select',
+                options: [
+                    TSIComponentTypes.linechart,
+                    TSIComponentTypes.barchart
+                ]
+            }
         }
     }
 };
@@ -24,14 +31,14 @@ const mockData = MockAdapter.generateMockLineChartData(
 
 export const SwapLinechartAndBarchart = (args, { globals: { theme } }) => (
     <div style={chartCardStyle}>
-        {args.chartType === 'linechart' && (
+        {args.chartType === TSIComponentTypes.linechart && (
             <Linechart
                 data={mockData}
                 chartDataOptions={null}
                 chartOptions={{ theme: theme }}
             />
         )}
-        {args.chartType === 'barchart' && (
+        {args.chartType === TSIComponentTypes.barchart && (
             <Barchart
                 data={mockData}
                 chartDataOptions={null}
@@ -41,4 +48,4 @@ export const SwapLinechartAndBarchart = (args, { globals: { theme } }) => (
     </div>
 );
 
-SwapLinechartAndBarchart.args = { chartType: 'linechart' };
+SwapLinechartAndBarchart.args = { chartType: TSIComponentTypes.linechart };
