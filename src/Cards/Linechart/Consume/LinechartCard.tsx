@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import ClientLinechart from 'tsiclient/LineChart';
+import React from 'react';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
 import { useTranslation } from 'react-i18next';
-import useGuid from '../../../Models/Hooks/useGuid';
 import { Theme } from '../../../Models/Constants/Enums';
+import Linechart from '../../../Components/Linechart/Linechart';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
@@ -20,8 +19,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     locale
 }) => {
     const { t } = useTranslation();
-    const chartContainerGUID = useGuid();
-    const chart = useRef(null);
 
     const cardState = useAdapter({
         adapterMethod: () =>
@@ -34,28 +31,28 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
         refetchDependencies: [id, properties, searchSpan]
     });
 
-    const renderChart = async () => {
-        if (chart !== null) {
-            if (!cardState.adapterResult.hasNoData()) {
-                chart.current.render(cardState.adapterResult.result.data, {
-                    theme: theme ? theme : Theme.Light,
-                    legend: 'compact',
-                    strings: t('sdkStrings', {
-                        returnObjects: true
-                    })
-                });
-            }
-        }
+    const getData = () => {
+        return cardState?.adapterResult.getData();
     };
 
-    useEffect(() => {
-        if (chart.current === null) {
-            chart.current = new ClientLinechart(
-                document.getElementById(chartContainerGUID)
-            );
+    const getChartOptions = () => {
+        return {
+            theme: theme ? theme : Theme.Light,
+            legend: 'compact',
+            strings: t('sdkStrings', {
+                returnObjects: true
+            })
+        };
+    };
+
+    const getChartDataOptions = (data) => {
+        if (additionalProperties?.chartDataOptions) {
+            return additionalProperties.chartDataOptions;
         }
-        renderChart();
-    }, [properties, additionalProperties, searchSpan, cardState.adapterResult]);
+        return data?.map(() => {
+            return {};
+        });
+    };
 
     return (
         <BaseCard
@@ -65,10 +62,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             title={title}
             locale={locale}
         >
-            <div
-                className="cb-linechart-container"
-                id={chartContainerGUID}
-            ></div>
+            <Linechart
+                data={getData()}
+                chartOptions={getChartOptions()}
+                chartDataOptions={getChartDataOptions(getData())}
+            ></Linechart>
         </BaseCard>
     );
 };

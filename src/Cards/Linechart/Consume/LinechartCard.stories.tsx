@@ -1,5 +1,5 @@
 import React from 'react';
-import Linechart from './LinechartCard';
+import LinechartCard from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
@@ -14,6 +14,7 @@ export default {
 
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
+const chartDataOptions = [{ includeDots: true }, { includeDots: false }];
 const searchSpan = new SearchSpan(
     new Date(),
     new Date(new Date().valueOf() + 100000),
@@ -25,11 +26,12 @@ const chartCardStyle = {
 
 export const MockData = (args, { globals: { theme } }) => (
     <div style={chartCardStyle}>
-        <Linechart
+        <LinechartCard
             theme={theme}
             id={id}
             searchSpan={searchSpan}
             properties={properties}
+            additionalProperties={{ chartDataOptions }}
             adapter={new MockAdapter()}
         />
     </div>
@@ -37,7 +39,7 @@ export const MockData = (args, { globals: { theme } }) => (
 
 export const NoData = (args, { globals: { theme } }) => (
     <div style={chartCardStyle}>
-        <Linechart
+        <LinechartCard
             theme={theme}
             id={id}
             searchSpan={searchSpan}
@@ -60,7 +62,7 @@ export const TsiData = (args, { globals: { theme } }) => {
         <div></div>
     ) : (
         <div style={chartCardStyle}>
-            <Linechart
+            <LinechartCard
                 theme={theme}
                 id={tsiId}
                 searchSpan={tsiSearchSpan}
@@ -81,7 +83,7 @@ export const TsiData = (args, { globals: { theme } }) => {
 export const TwoThemedCharts = () => (
     <div>
         <div style={chartCardStyle}>
-            <Linechart
+            <LinechartCard
                 title={'Linechart dark theme card'}
                 theme={Theme.Dark}
                 id={id}
@@ -91,7 +93,7 @@ export const TwoThemedCharts = () => (
             />
         </div>
         <div style={chartCardStyle}>
-            <Linechart
+            <LinechartCard
                 title={'Linechart light theme card'}
                 theme={Theme.Light}
                 id={id}

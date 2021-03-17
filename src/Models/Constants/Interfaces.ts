@@ -7,10 +7,16 @@ export interface IAction {
     payload?: any;
 }
 
+export interface ITSIComponentProps {
+    data: any[];
+    chartOptions?: any;
+    chartDataOptions?: any[];
+}
+
 export interface IConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
-    properties: string[];
+    properties: readonly string[];
     theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;

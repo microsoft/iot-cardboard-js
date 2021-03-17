@@ -87,7 +87,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
                     theme={theme}
                     id={id}
                     searchSpan={searchSpan}
-                    properties={[...state.chartPropertyNames]}
+                    properties={state.chartPropertyNames}
                     adapter={adapter}
                     title={state.title}
                 ></LinechartCard>
