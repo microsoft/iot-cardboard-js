@@ -54,6 +54,9 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
 
+    /** Indicates long polling state */
+    isLongPolling: boolean;
+
     /** Long polling pulse state for UI */
     pulse: boolean;
 }
