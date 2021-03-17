@@ -9,6 +9,8 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
+import { AdapterErrorType } from '..';
 
 export default class TsiAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -29,7 +31,7 @@ export default class TsiAdapter implements IBaseAdapter {
         throw new Error('Method not implemented.');
         return new AdapterResult<KeyValuePairAdapterData>({
             result: null,
-            error: null
+            errorInfo: null
         });
     }
 
@@ -38,7 +40,9 @@ export default class TsiAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        try {
+        const errorManager = new AdapterErrorManager();
+
+        return errorManager.sandboxAdapterExecution(async () => {
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
@@ -58,13 +62,24 @@ export default class TsiAdapter implements IBaseAdapter {
                 tsqExpressions.push(tsqExpression);
             });
 
-            const token = await this.authService.getToken();
-
-            const tsqResults = await new ServerClient().getTsqResults(
-                token,
-                this.environmentFqdn,
-                tsqExpressions.map((tsqe) => tsqe.toTsq())
+            const token = await errorManager.sandboxFetchToken(
+                this.authService
             );
+
+            let tsqResults;
+            try {
+                tsqResults = await new ServerClient().getTsqResults(
+                    token,
+                    this.environmentFqdn,
+                    tsqExpressions.map((tsqe) => tsqe.toTsq())
+                );
+            } catch (err) {
+                errorManager.pushError({
+                    type: AdapterErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
 
             const transformedResults = new UxClient().transformTsqResultsForVisualization(
                 tsqResults,
@@ -73,13 +88,8 @@ export default class TsiAdapter implements IBaseAdapter {
 
             return new AdapterResult<TsiClientAdapterData>({
                 result: new TsiClientAdapterData(transformedResults),
-                error: null
+                errorInfo: null
             });
-        } catch (err) {
-            return new AdapterResult<TsiClientAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+        });
     }
 }

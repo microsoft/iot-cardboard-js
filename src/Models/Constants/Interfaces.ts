@@ -64,3 +64,8 @@ export interface IAdapterError {
     /** Raw error object from catch block */
     rawError?: Error;
 }
+
+export interface IErrorInfo {
+    errors: IAdapterError[];
+    catastrophicError: IAdapterError;
+}

@@ -27,7 +27,7 @@ export default class ADTAdapter implements IBaseAdapter {
         throw new Error('Method not implemented.');
         return new AdapterResult<TsiClientAdapterData>({
             result: null,
-            error: null
+            errorInfo: null
         });
     }
 
@@ -35,17 +35,9 @@ export default class ADTAdapter implements IBaseAdapter {
         const errorManager = new AdapterErrorManager();
 
         return errorManager.sandboxAdapterExecution(async () => {
-            let token;
-            try {
-                token = await this.authService.getToken();
-            } catch (err) {
-                errorManager.pushError({
-                    message: 'Token retrieval failed',
-                    type: AdapterErrorType.TokenRetrievalFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
-            }
+            const token = await errorManager.sandboxFetchToken(
+                this.authService
+            );
 
             let axiosData;
             try {
@@ -64,7 +56,6 @@ export default class ADTAdapter implements IBaseAdapter {
                 });
             } catch (err) {
                 errorManager.pushError({
-                    message: 'Data retrieval failed',
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -78,7 +69,7 @@ export default class ADTAdapter implements IBaseAdapter {
 
             return new AdapterResult<KeyValuePairAdapterData>({
                 result: new KeyValuePairAdapterData(data),
-                error: null
+                errorInfo: null
             });
         });
     }

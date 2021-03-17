@@ -2,6 +2,7 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { TsiClientData } from '../Models/Constants/Types';
@@ -21,7 +22,9 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        try {
+        const errorManager = new AdapterErrorManager();
+
+        return errorManager.sandboxAdapterExecution(async () => {
             const getKVPData = () => {
                 const kvps = {};
                 properties.forEach((p) => {
@@ -34,14 +37,9 @@ export default class MockAdapter implements IBaseAdapter {
 
             return new AdapterResult<KeyValuePairAdapterData>({
                 result: new KeyValuePairAdapterData(getKVPData()),
-                error: null
+                errorInfo: null
             });
-        } catch (err) {
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+        });
     }
 
     static generateMockLineChartData(
@@ -80,7 +78,9 @@ export default class MockAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        try {
+        const errorManager = new AdapterErrorManager();
+
+        return errorManager.sandboxAdapterExecution(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
                     return this.mockData;
@@ -96,13 +96,8 @@ export default class MockAdapter implements IBaseAdapter {
 
             return new AdapterResult<TsiClientAdapterData>({
                 result: new TsiClientAdapterData(getData()),
-                error: null
+                errorInfo: null
             });
-        } catch (err) {
-            return new AdapterResult<TsiClientAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+        });
     }
 }

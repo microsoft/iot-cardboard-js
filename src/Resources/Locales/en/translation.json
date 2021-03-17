@@ -9,6 +9,11 @@
         "titleInputLabel": "Title",
         "titleInputPlaceholder": "Enter title"
     },
+    "adapterErrors": {
+        "tokenFailed": "Token retrieval failed",
+        "dataFetchFailed": "Data retrieval failed",
+        "unkownError": "Unknown error occurred"
+    },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

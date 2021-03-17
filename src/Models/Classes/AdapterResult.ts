@@ -1,14 +1,13 @@
-import { IAdapterData } from '../Constants/Interfaces';
+import { IAdapterData, IErrorInfo } from '../Constants/Interfaces';
 import { AdapterResultParams } from '../Constants/Types';
-import AdapterErrorManager from './AdapterErrorManager';
 
 class AdapterResult<T extends IAdapterData> {
     result: T;
-    error: AdapterErrorManager;
+    errorInfo: IErrorInfo;
 
     constructor(params: AdapterResultParams<T>) {
         this.result = params.result;
-        this.error = params.error;
+        this.errorInfo = params.errorInfo;
     }
 
     hasNoData() {
@@ -17,10 +16,6 @@ class AdapterResult<T extends IAdapterData> {
         } else {
             return this.result === null || this.result?.data === null;
         }
-    }
-
-    hasError() {
-        return this.error !== null;
     }
 }
 

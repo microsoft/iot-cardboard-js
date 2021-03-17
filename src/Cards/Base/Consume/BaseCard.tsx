@@ -16,7 +16,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const hasError = adapterResult?.hasError();
+    const { catastrophicError } = adapterResult?.errorInfo || {};
     const noData = adapterResult?.hasNoData();
 
     return (
@@ -25,13 +25,13 @@ const BaseCard: React.FC<BaseCardProps> = ({
                 <div className="cb-base-card">
                     <h3 className="cb-base-card-title">{title}</h3>
                     <div className="cb-base-card-content">
-                        {(isLoading || noData || hasError) && (
+                        {(isLoading || noData || catastrophicError) && (
                             <div className="cb-base-info-wrapper">
                                 <div className="cb-base-info">
                                     {isLoading
                                         ? t('loading')
-                                        : hasError
-                                        ? t('error')
+                                        : catastrophicError
+                                        ? catastrophicError.message
                                         : t('noData')}
                                 </div>
                             </div>
