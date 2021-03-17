@@ -5,7 +5,7 @@ import { Locale } from '../Constants/Enums';
 export default function I18nProviderWrapper({
     children,
     locale,
-    localeStrings,
+    localeStrings = undefined,
     i18n
 }) {
     useEffect(() => {

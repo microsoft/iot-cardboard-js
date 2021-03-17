@@ -1,6 +1,5 @@
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
-import I18nProviderWrapper from '../src/Models/Classes/I18NProviderWrapper';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 import { Locale } from '../src/Models/Constants/Enums';
 

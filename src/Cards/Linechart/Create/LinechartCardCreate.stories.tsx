@@ -9,7 +9,8 @@ export default {
 
 const defaultState: LinechartCardCreateState = {
     selectedPropertyNames: ['bar', 'buzz'],
-    chartPropertyNames: ['bar', 'buzz']
+    chartPropertyNames: ['bar', 'buzz'],
+    title: ''
 };
 
 export const BasicCreate = (args, { globals: { theme, locale } }) => (
@@ -21,8 +22,8 @@ export const BasicCreate = (args, { globals: { theme, locale } }) => (
         }}
     >
         <LinechartCardCreate
-            theme={theme}
-            locale={locale}
+            theme={args.theme || theme}
+            locale={args.locale || locale}
             propertyNames={args.propertyNames}
         />
     </div>
