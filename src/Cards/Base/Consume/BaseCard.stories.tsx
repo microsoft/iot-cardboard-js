@@ -83,7 +83,7 @@ BasicCardWithCustomTranslation.argTypes = {
     locale: {
         control: {
             type: 'radio',
-            options: [undefined, 'en', 'de', 'fr']
+            options: [undefined, 'en', 'de']
         },
         defaultValue: undefined
     },
