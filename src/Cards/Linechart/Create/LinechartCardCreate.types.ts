@@ -2,7 +2,8 @@ import { Locale, Theme } from '../../../Models/Constants/Enums';
 
 export interface LinechartCardCreateProps {
     theme: Theme;
-    locale: Locale;
+    locale?: Locale;
+    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
     propertyNames: Array<string>;
     defaultState?: LinechartCardCreateState;
 }

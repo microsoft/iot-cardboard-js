@@ -21,6 +21,7 @@ export interface IConsumeCardProps {
     additionalProperties?: Record<string, any>;
     title?: string;
     locale?: Locale;
+    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
 }
 
 export interface IAuthService {
