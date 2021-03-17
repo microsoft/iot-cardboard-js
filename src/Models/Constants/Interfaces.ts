@@ -1,6 +1,6 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
 import AdapterResult from '../Classes/AdapterResult';
-import { Locale, Theme } from './Enums';
+import { AdapterErrorType, Locale, Theme } from './Enums';
 
 export interface IAction {
     type: string;
@@ -49,4 +49,18 @@ export interface IUseAdapter<T extends IAdapterData> {
 
     /** Long polling pulse state for UI */
     pulse: boolean;
+}
+
+export interface IAdapterError {
+    /** Text description of the adapter error */
+    message?: string;
+
+    /** Classification of error type */
+    type?: AdapterErrorType;
+
+    /** Catastrophic errors stop adapter execution */
+    isCatastrophic?: boolean;
+
+    /** Raw error object from catch block */
+    rawError?: Error;
 }

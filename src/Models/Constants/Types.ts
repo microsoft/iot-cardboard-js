@@ -1,3 +1,4 @@
+import AdapterErrorManager from '../Classes/AdapterErrorManager';
 import AdapterResult from '../Classes/AdapterResult';
 import { IAdapterData } from './Interfaces';
 
@@ -7,7 +8,7 @@ export type AdapterReturnType<T extends IAdapterData> = Promise<
 
 export type AdapterResultParams<T extends IAdapterData> = {
     result: T;
-    error: Error | null;
+    error: AdapterErrorManager;
 };
 
 export type AdapterState<T extends IAdapterData> = {

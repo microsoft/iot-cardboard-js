@@ -1,9 +1,10 @@
 import { IAdapterData } from '../Constants/Interfaces';
 import { AdapterResultParams } from '../Constants/Types';
+import AdapterErrorManager from './AdapterErrorManager';
 
 class AdapterResult<T extends IAdapterData> {
     result: T;
-    error: Error | null;
+    error: AdapterErrorManager;
 
     constructor(params: AdapterResultParams<T>) {
         this.result = params.result;
