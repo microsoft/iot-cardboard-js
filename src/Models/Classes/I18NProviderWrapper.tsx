@@ -10,10 +10,13 @@ export default function I18nProviderWrapper({
 }) {
     useEffect(() => {
         if (localeStrings) {
-            i18n.addResources(
-                locale || i18n.language || Locale.EN, // assign localeStrings to the provided locale prop, if there is not to the last used language; otherwise to default language EN
+            i18n.addResourceBundle(
+                // keep existing nested translation and overwrite those with the new ones
+                locale || i18n.language || Locale.EN, // assign localeStrings to the provided locale prop, if there is not to the last used detected language; otherwise to default language EN
                 'translation',
-                localeStrings
+                localeStrings,
+                true,
+                true
             );
         }
         i18n.changeLanguage(locale);
