@@ -34,7 +34,7 @@ export default class ADTAdapter implements IBaseAdapter {
     async getKeyValuePairs(id: string, properties: string[]) {
         const errorManager = new AdapterErrorManager();
 
-        return errorManager.sandboxAdapterExecution(async () => {
+        return await errorManager.sandboxAdapterExecution(async () => {
             const token = await errorManager.sandboxFetchToken(
                 this.authService
             );

@@ -60,7 +60,10 @@ const useAdapter = <T extends IAdapterData>({
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
-            adapterResult: new AdapterResult<T>({ result: null, error: null }),
+            adapterResult: new AdapterResult<T>({
+                result: null,
+                errorInfo: null
+            }),
             isLoading: false,
             isLongPolling
         }),
@@ -78,7 +81,7 @@ const useAdapter = <T extends IAdapterData>({
         if (!adapterResult) {
             adapterResult = new AdapterResult<T>({
                 result: null,
-                error: null
+                errorInfo: null
             });
         }
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });

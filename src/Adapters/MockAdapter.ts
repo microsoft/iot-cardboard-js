@@ -4,27 +4,40 @@ import {
 } from '../Models/Classes';
 import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
 import AdapterResult from '../Models/Classes/AdapterResult';
+import { AdapterError } from '../Models/Classes/Errors';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { AdapterErrorType } from '../Models/Constants';
 import { TsiClientData } from '../Models/Constants/Types';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
+    private mockError = null;
 
-    constructor(mockData?: any) {
+    constructor(mockData?: any, mockError?: AdapterErrorType) {
         this.mockData = mockData;
+        this.mockError = mockError;
     }
 
     async mockNetwork(timeout) {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(null), timeout);
+        // throw error if mock error type passed into adapter
+        if (this.mockError) {
+            throw new AdapterError({
+                isCatastrophic: true,
+                type: this.mockError
+            });
+        }
+        await new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(null);
+            }, timeout);
         });
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
         const errorManager = new AdapterErrorManager();
 
-        return errorManager.sandboxAdapterExecution(async () => {
+        return await errorManager.sandboxAdapterExecution(async () => {
             const getKVPData = () => {
                 const kvps = {};
                 properties.forEach((p) => {
@@ -80,7 +93,7 @@ export default class MockAdapter implements IBaseAdapter {
     ) {
         const errorManager = new AdapterErrorManager();
 
-        return errorManager.sandboxAdapterExecution(async () => {
+        return await errorManager.sandboxAdapterExecution(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
                     return this.mockData;

@@ -6,19 +6,7 @@ import {
     IAuthService
 } from '../Constants';
 import AdapterResult from './AdapterResult';
-import i18n from '../../i18n';
 import { AdapterError } from './Errors';
-
-const getAdapterErrorMessageFromType = (errorType: AdapterErrorType) => {
-    switch (errorType) {
-        case AdapterErrorType.TokenRetrievalFailed:
-            return i18n.t('adapterErrors.tokenFailed');
-        case AdapterErrorType.DataFetchFailed:
-            return i18n.t('adapterErrors.dataFetchFailed');
-        default:
-            return i18n.t('adapterErrors.unkownError');
-    }
-};
 
 class AdapterErrorManager {
     private errors: IAdapterError[];
@@ -30,14 +18,9 @@ class AdapterErrorManager {
     }
 
     /** Pushes new error onto errors list.  THROWS if error is marked catastrophic! */
-    pushError({
-        rawError = null,
-        message,
-        type = AdapterErrorType.UnknownError,
-        isCatastrophic = false
-    }: IAdapterError) {
+    pushError({ rawError, message, type, isCatastrophic }: IAdapterError) {
         const error = new AdapterError({
-            message: message ? message : getAdapterErrorMessageFromType(type),
+            message,
             type,
             isCatastrophic,
             rawError
@@ -99,8 +82,10 @@ class AdapterErrorManager {
                 });
 
                 this.errors.push(this.catasrophicError);
+            } else if (!this.catasrophicError) {
+                // Catastrophic error not pushed to error manager, explicitly set
+                this.catasrophicError = err;
             }
-
             // Attach errorInfo to result object and return
             return new AdapterResult<T>({
                 errorInfo: {

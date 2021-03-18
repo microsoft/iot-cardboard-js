@@ -1,3 +1,4 @@
+import i18n from '../../i18n';
 import { AdapterErrorType, IAdapterError } from '../Constants';
 
 class CancelledPromiseError extends Error {
@@ -15,13 +16,27 @@ class AdapterError extends Error {
     public isCatastrophic;
     public rawError;
 
+    getAdapterErrorMessageFromType = (errorType: AdapterErrorType) => {
+        switch (errorType) {
+            case AdapterErrorType.TokenRetrievalFailed:
+                return i18n.t('adapterErrors.tokenFailed');
+            case AdapterErrorType.DataFetchFailed:
+                return i18n.t('adapterErrors.dataFetchFailed');
+            default:
+                return i18n.t('adapterErrors.unkownError');
+        }
+    };
+
     constructor({
-        message = 'Unkown adapter error',
+        message,
         type = AdapterErrorType.UnknownError,
         isCatastrophic = false,
         rawError = null
     }: IAdapterError) {
         super(message);
+        this.message = message
+            ? message
+            : this.getAdapterErrorMessageFromType(type);
         this.type = type;
         this.isCatastrophic = isCatastrophic;
         this.rawError = rawError;

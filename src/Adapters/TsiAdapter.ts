@@ -23,11 +23,10 @@ export default class TsiAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(
-        id: string,
-        properties: string[],
-        additionalParameters?: Record<string, any>
+        _id: string,
+        _properties: string[],
+        _additionalParameters?: Record<string, any>
     ) {
-        console.log(id + properties + additionalParameters);
         throw new Error('Method not implemented.');
         return new AdapterResult<KeyValuePairAdapterData>({
             result: null,
@@ -42,7 +41,7 @@ export default class TsiAdapter implements IBaseAdapter {
     ) {
         const errorManager = new AdapterErrorManager();
 
-        return errorManager.sandboxAdapterExecution(async () => {
+        return await errorManager.sandboxAdapterExecution(async () => {
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
