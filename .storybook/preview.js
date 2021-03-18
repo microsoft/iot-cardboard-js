@@ -1,8 +1,7 @@
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
-import I18nProviderWrapper from '../src/Models/Classes/I18NProviderWrapper';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
-import i18n from '../src/i18n';
+import { Locale } from '../src/Models/Constants/Enums';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -19,12 +18,12 @@ export const globalTypes = {
     locale: {
         name: 'Locale',
         description: 'Internationalization locale',
-        defaultValue: 'en',
+        defaultValue: Locale.EN,
         toolbar: {
             icon: 'globe',
             items: [
-                { value: 'en', right: 'US', title: 'English' },
-                { value: 'de', right: 'DE', title: 'German' }
+                { value: Locale.EN, right: 'US', title: 'English' },
+                { value: Locale.DE, right: 'DE', title: 'German' }
             ]
         }
     }
@@ -36,12 +35,5 @@ setConsoleOptions({
     panelExclude: [...panelExclude, /Warning/]
 });
 
-const withI18n = (Story, context) => (
-    <I18nProviderWrapper locale={context.globals.locale} i18n={i18n}>
-        <Story {...context} />
-    </I18nProviderWrapper>
-);
-
 //add decorators here
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(withI18n);

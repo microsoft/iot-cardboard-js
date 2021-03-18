@@ -11,11 +11,16 @@ const BaseCard: React.FC<BaseCardCreateProps> = ({
     preview,
     title,
     theme,
-    locale
+    locale,
+    localeStrings
 }) => {
     const { t } = useTranslation();
     return (
-        <I18nProviderWrapper locale={locale} i18n={i18n}>
+        <I18nProviderWrapper
+            locale={locale}
+            localeStrings={localeStrings}
+            i18n={i18n}
+        >
             <ThemeProvider theme={theme}>
                 <div className="cb-base-card-create">
                     <h3 className="cb-base-card-create-title">{title}</h3>

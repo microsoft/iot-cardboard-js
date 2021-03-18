@@ -28,6 +28,7 @@ import BaseCardCreate from '../../Base/Create/BaseCardCreate';
 const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     theme,
     locale,
+    localeStrings,
     propertyNames,
     defaultState
 }) => {
@@ -87,12 +88,13 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
                     theme={theme}
                     id={id}
                     searchSpan={searchSpan}
-                    properties={[...state.chartPropertyNames]}
+                    properties={state.chartPropertyNames}
                     adapter={adapter}
                     title={state.title}
                 ></LinechartCard>
             }
             locale={locale}
+            localeStrings={localeStrings}
         ></BaseCardCreate>
     );
 };

@@ -7,14 +7,21 @@ export interface IAction {
     payload?: any;
 }
 
+export interface ITSIComponentProps {
+    data: any[];
+    chartOptions?: any;
+    chartDataOptions?: any[];
+}
+
 export interface IConsumeCardProps {
     adapter: IBaseAdapter;
     id: string;
-    properties: string[];
+    properties: readonly string[];
     theme?: Theme;
     additionalProperties?: Record<string, any>;
     title?: string;
     locale?: Locale;
+    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
 }
 
 export interface IAuthService {
@@ -46,6 +53,9 @@ export interface IUseAdapter<T extends IAdapterData> {
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
+
+    /** Indicates long polling state */
+    isLongPolling: boolean;
 
     /** Long polling pulse state for UI */
     pulse: boolean;

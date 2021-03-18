@@ -17,6 +17,17 @@ class AdapterResult<T extends IAdapterData> {
             return this.result === null || this.result?.data === null;
         }
     }
+
+    getData() {
+        if (this.hasNoData()) {
+            return null;
+        }
+        return this.result.data;
+    }
+
+    hasError() {
+        return this.errorInfo !== null;
+    }
 }
 
 export default AdapterResult;

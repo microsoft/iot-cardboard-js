@@ -13,13 +13,19 @@ import IBaseAdapter from './IBaseAdapter';
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
     private mockError = null;
+    private networkTimeoutMillis;
 
-    constructor(mockData?: any, mockError?: AdapterErrorType) {
+    constructor(
+        mockData?: any,
+        networkTimeoutMillis = 1000,
+        mockError?: AdapterErrorType
+    ) {
         this.mockData = mockData;
         this.mockError = mockError;
+        this.networkTimeoutMillis = networkTimeoutMillis;
     }
 
-    async mockNetwork(timeout) {
+    async mockNetwork(timeout = this.networkTimeoutMillis) {
         // throw error if mock error type passed into adapter
         if (this.mockError) {
             throw new AdapterError({
@@ -46,7 +52,7 @@ export default class MockAdapter implements IBaseAdapter {
                 return kvps;
             };
 
-            await this.mockNetwork(1000);
+            await this.mockNetwork();
 
             return new AdapterResult<KeyValuePairAdapterData>({
                 result: new KeyValuePairAdapterData(getKVPData()),
@@ -105,7 +111,7 @@ export default class MockAdapter implements IBaseAdapter {
                 }
             };
 
-            await this.mockNetwork(1000);
+            await this.mockNetwork();
 
             return new AdapterResult<TsiClientAdapterData>({
                 result: new TsiClientAdapterData(getData()),

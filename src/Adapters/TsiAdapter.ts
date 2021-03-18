@@ -1,6 +1,5 @@
 import TsqExpression from 'tsiclient/TsqExpression';
 import ServerClient from 'tsiclient/ServerClient';
-import UxClient from 'tsiclient/UXClient';
 import IBaseAdapter from './IBaseAdapter';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IAuthService } from '../Models/Constants/Interfaces';
@@ -11,6 +10,7 @@ import {
 } from '../Models/Classes';
 import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
 import { AdapterErrorType } from '..';
+import { transformTsqResultsForVisualization } from '../Models/Services/Utils';
 
 export default class TsiAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -80,7 +80,7 @@ export default class TsiAdapter implements IBaseAdapter {
                 });
             }
 
-            const transformedResults = new UxClient().transformTsqResultsForVisualization(
+            const transformedResults = transformTsqResultsForVisualization(
                 tsqResults,
                 tsqExpressions
             ) as any;

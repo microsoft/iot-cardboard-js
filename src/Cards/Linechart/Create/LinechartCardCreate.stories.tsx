@@ -9,22 +9,11 @@ export default {
 
 const defaultState: LinechartCardCreateState = {
     selectedPropertyNames: ['bar', 'buzz'],
-    chartPropertyNames: ['bar', 'buzz']
+    chartPropertyNames: ['bar', 'buzz'],
+    title: ''
 };
 
-export const BasicCreate = (args, { globals: { theme } }) => (
-    <div
-        style={{
-            height: '600px',
-            padding: '8px',
-            width: '1000px'
-        }}
-    >
-        <LinechartCardCreate theme={theme} propertyNames={args.propertyNames} />
-    </div>
-);
-
-export const CreateWithPropertiesSelected = (args, { globals: { theme } }) => (
+export const BasicCreate = (args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '600px',
@@ -33,7 +22,27 @@ export const CreateWithPropertiesSelected = (args, { globals: { theme } }) => (
         }}
     >
         <LinechartCardCreate
-            theme={theme}
+            theme={args.theme || theme}
+            locale={args.locale || locale}
+            propertyNames={args.propertyNames}
+        />
+    </div>
+);
+
+export const CreateWithPropertiesSelected = (
+    args,
+    { globals: { theme, locale } }
+) => (
+    <div
+        style={{
+            height: '600px',
+            padding: '8px',
+            width: '1000px'
+        }}
+    >
+        <LinechartCardCreate
+            theme={args.theme || theme}
+            locale={args.locale || locale}
             propertyNames={['foo', 'bar', 'baz', 'buzz']}
             defaultState={defaultState}
         />

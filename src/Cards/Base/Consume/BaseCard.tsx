@@ -12,7 +12,8 @@ const BaseCard: React.FC<BaseCardProps> = ({
     children,
     title,
     theme,
-    locale
+    locale,
+    localeStrings
 }) => {
     const { t } = useTranslation();
 
@@ -20,7 +21,11 @@ const BaseCard: React.FC<BaseCardProps> = ({
     const noData = adapterResult?.hasNoData();
 
     return (
-        <I18nProviderWrapper locale={locale} i18n={i18n}>
+        <I18nProviderWrapper
+            locale={locale}
+            localeStrings={localeStrings}
+            i18n={i18n}
+        >
             <ThemeProvider theme={theme}>
                 <div className="cb-base-card">
                     <h3 className="cb-base-card-title">{title}</h3>
