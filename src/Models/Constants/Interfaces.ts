@@ -18,7 +18,7 @@ export interface IConsumeCardProps {
     id: string;
     properties: readonly string[];
     theme?: Theme;
-    additionalParameters?: Record<string, any>;
+    adapterAdditionalParameters?: Record<string, any>;
     title?: string;
     locale?: Locale;
     localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
