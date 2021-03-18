@@ -18,7 +18,7 @@ export interface IConsumeCardProps {
     id: string;
     properties: readonly string[];
     theme?: Theme;
-    additionalProperties?: Record<string, any>;
+    additionalParameters?: Record<string, any>;
     title?: string;
     locale?: Locale;
 }

@@ -9,7 +9,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     properties,
     adapter,
     pollingIntervalMillis,
-    additionalProperties,
+    additionalParameters,
     imageSrc,
     title,
     theme,
@@ -40,7 +40,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
                             cardState.adapterResult.result.data
                         ).map((prop, i) => (
                             <LKVValue
-                                style={additionalProperties[prop]}
+                                style={additionalParameters[prop]}
                                 key={i}
                                 pulse={cardState.pulse}
                                 title={prop}

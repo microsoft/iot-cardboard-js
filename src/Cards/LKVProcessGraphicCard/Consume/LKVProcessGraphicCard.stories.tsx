@@ -50,20 +50,20 @@ const imageSrc =
 type propertyState = {
     id: string;
     properties: Array<string>;
-    additionalProperties: Record<string, any>;
+    additionalParameters: Record<string, any>;
 };
 
 export const Mock = (args, { globals: { theme } }) => {
     const [properties, setProperties] = useState<propertyState>({
         properties: iotCentral.properties,
-        additionalProperties: iotCentral.positions,
+        additionalParameters: iotCentral.positions,
         id: iotCentral.id
     });
 
     setTimeout(() => {
         setProperties({
             properties: propChangeMock.properties,
-            additionalProperties: propChangeMock.positions,
+            additionalParameters: propChangeMock.positions,
             id: propChangeMock.id
         });
     }, 5000);
@@ -75,7 +75,7 @@ export const Mock = (args, { globals: { theme } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={1000}
                 properties={properties.properties}
-                additionalProperties={properties.additionalProperties}
+                additionalParameters={properties.additionalParameters}
                 title={'Real-time Truck Status'}
                 theme={theme}
                 adapter={new MockAdapter()}
@@ -95,7 +95,7 @@ export const IoTCentral = (args, { globals: { theme } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={5000}
                 properties={iotCentral.properties}
-                additionalProperties={iotCentral.positions}
+                additionalParameters={iotCentral.positions}
                 title={'Real-time Truck Status'}
                 theme={theme}
                 adapter={
@@ -122,7 +122,7 @@ export const ADT = (args, { globals: { theme } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={5000}
                 properties={digitalTwins.properties}
-                additionalProperties={digitalTwins.positions}
+                additionalParameters={digitalTwins.positions}
                 title={'Real-time Car Twin Status'}
                 theme={theme}
                 adapter={

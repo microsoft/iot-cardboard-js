@@ -31,7 +31,8 @@ export const MockData = (args, { globals: { theme } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            additionalProperties={{ chartDataOptions }}
+            additionalParameters={{ chartDataOptions }}
+            chartDataOptions={chartDataOptions}
             adapter={new MockAdapter()}
         />
     </div>
