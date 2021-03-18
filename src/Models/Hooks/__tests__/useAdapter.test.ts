@@ -51,7 +51,7 @@ describe('Basic useAdapter tests', () => {
         expect(current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                error: null
+                errorInfo: null
             })
         );
         expect(current.isLoading).toBe(true);
@@ -127,7 +127,7 @@ describe('Long polling useAdapter tests', () => {
         expect(renderedHook.result.current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                error: null
+                errorInfo: null
             })
         );
         expect(renderedHook.result.current.isLoading).toBe(true);
