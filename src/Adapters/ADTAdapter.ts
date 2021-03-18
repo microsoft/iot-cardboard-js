@@ -8,7 +8,7 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 import { AdapterErrorType } from '../Models/Constants';
-import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 
 export default class ADTAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -32,13 +32,11 @@ export default class ADTAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const errorManager = new AdapterErrorManager();
+        const sandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
 
-        return await errorManager.sandboxAdapterExecution(async () => {
-            const token = await errorManager.sandboxFetchToken(
-                this.authService
-            );
-
+        return await sandbox.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -55,7 +53,7 @@ export default class ADTAdapter implements IBaseAdapter {
                     }
                 });
             } catch (err) {
-                errorManager.pushError({
+                sandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -67,10 +65,7 @@ export default class ADTAdapter implements IBaseAdapter {
                 data[prop] = axiosData.data[prop];
             });
 
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: new KeyValuePairAdapterData(data),
-                errorInfo: null
-            });
+            return new KeyValuePairAdapterData(data);
         });
     }
 }

@@ -10,7 +10,7 @@ export default {
     title: 'BaseCard/Consume'
 };
 
-export const BasicCard = (args, { globals: { theme, locale } }) => (
+export const BasicCardNoData = (args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '400px',
@@ -31,19 +31,19 @@ export const BasicCard = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-const useMockError = (errorType: AdapterErrorType) => {
-    const adapter = new MockAdapter(undefined, 1000, errorType);
+const useMockError = (networkTimeout = 0, errorType: AdapterErrorType) => {
+    const adapter = new MockAdapter(undefined, networkTimeout, errorType);
     const id = 'errorTest';
     const properties = ['a', 'b', 'c'];
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
-        refetchDependencies: properties
+        refetchDependencies: [...properties, errorType, networkTimeout]
     });
     return cardState;
 };
 
-export const TokenError = (args, { globals: { theme } }) => {
-    const cardState = useMockError(AdapterErrorType.TokenRetrievalFailed);
+export const CatastrophicErrors = (args, { globals: { theme } }) => {
+    const cardState = useMockError(args.networkTimeoutMs, args.errorType);
 
     return (
         <div
@@ -53,7 +53,7 @@ export const TokenError = (args, { globals: { theme } }) => {
             }}
         >
             <BaseCard
-                isLoading={false}
+                isLoading={cardState.isLoading}
                 theme={theme}
                 adapterResult={cardState.adapterResult}
             />
@@ -61,22 +61,24 @@ export const TokenError = (args, { globals: { theme } }) => {
     );
 };
 
-export const DataError = (args, { globals: { theme } }) => {
-    const cardState = useMockError(AdapterErrorType.DataFetchFailed);
-    return (
-        <div
-            style={{
-                height: '400px',
-                position: 'relative'
-            }}
-        >
-            <BaseCard
-                isLoading={false}
-                theme={theme}
-                adapterResult={cardState.adapterResult}
-            />
-        </div>
-    );
+CatastrophicErrors.argTypes = {
+    errorType: {
+        control: {
+            type: 'radio',
+            options: [...Object.keys(AdapterErrorType)]
+        },
+        defaultValue: AdapterErrorType.TokenRetrievalFailed,
+        description: 'Test'
+    },
+    networkTimeoutMs: {
+        control: {
+            type: 'range',
+            min: 0,
+            max: 5000,
+            step: 50
+        },
+        defaultValue: 750
+    }
 };
 
 export const BasicCardWithCustomTranslation = (

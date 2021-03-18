@@ -7,7 +7,7 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterErrorType } from '../Models/Constants';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
@@ -32,13 +32,11 @@ export default class IoTCentralAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const errorManager = new AdapterErrorManager();
+        const sandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
 
-        return await errorManager.sandboxAdapterExecution(async () => {
-            const token = await errorManager.sandboxFetchToken(
-                this.authService
-            );
-
+        return await sandbox.safelyFetchData(async (token) => {
             let axiosGets;
             let axiosData;
 
@@ -56,7 +54,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
 
                 axiosData = await axios.all(axiosGets);
             } catch (err) {
-                errorManager.pushError({
+                sandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -68,10 +66,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 data[prop] = axiosData[i].data.value;
             });
 
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: new KeyValuePairAdapterData(data),
-                errorInfo: null
-            });
+            return new KeyValuePairAdapterData(data);
         });
     }
 }

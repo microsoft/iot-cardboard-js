@@ -2,8 +2,7 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
-import AdapterResult from '../Models/Classes/AdapterResult';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterError } from '../Models/Classes/Errors';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { AdapterErrorType } from '../Models/Constants';
@@ -26,6 +25,12 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async mockNetwork(timeout = this.networkTimeoutMillis) {
+        await new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(null);
+            }, timeout);
+        });
+
         // throw error if mock error type passed into adapter
         if (this.mockError) {
             throw new AdapterError({
@@ -33,17 +38,12 @@ export default class MockAdapter implements IBaseAdapter {
                 type: this.mockError
             });
         }
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(null);
-            }, timeout);
-        });
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const errorManager = new AdapterErrorManager();
+        const manager = new AdapterMethodSandbox({ authservice: null });
 
-        return await errorManager.sandboxAdapterExecution(async () => {
+        return await sandbox.safelyFetchData(async () => {
             const getKVPData = () => {
                 const kvps = {};
                 properties.forEach((p) => {
@@ -53,11 +53,7 @@ export default class MockAdapter implements IBaseAdapter {
             };
 
             await this.mockNetwork();
-
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: new KeyValuePairAdapterData(getKVPData()),
-                errorInfo: null
-            });
+            return new KeyValuePairAdapterData(getKVPData());
         });
     }
 
@@ -97,9 +93,8 @@ export default class MockAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const errorManager = new AdapterErrorManager();
-
-        return await errorManager.sandboxAdapterExecution(async () => {
+        const sandbox = new AdapterMethodSandbox({ authservice: null });
+        return await sandbox.safelyFetchData(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
                     return this.mockData;
@@ -112,11 +107,7 @@ export default class MockAdapter implements IBaseAdapter {
             };
 
             await this.mockNetwork();
-
-            return new AdapterResult<TsiClientAdapterData>({
-                result: new TsiClientAdapterData(getData()),
-                errorInfo: null
-            });
+            return new TsiClientAdapterData(getData());
         });
     }
 }

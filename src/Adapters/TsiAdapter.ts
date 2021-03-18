@@ -8,7 +8,7 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import AdapterErrorManager from '../Models/Classes/AdapterErrorManager';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterErrorType } from '..';
 import { transformTsqResultsForVisualization } from '../Models/Services/Utils';
 
@@ -39,9 +39,11 @@ export default class TsiAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const errorManager = new AdapterErrorManager();
+        const manager = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
 
-        return await errorManager.sandboxAdapterExecution(async () => {
+        return await sandbox.safelyFetchData(async (token) => {
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
@@ -61,10 +63,6 @@ export default class TsiAdapter implements IBaseAdapter {
                 tsqExpressions.push(tsqExpression);
             });
 
-            const token = await errorManager.sandboxFetchToken(
-                this.authService
-            );
-
             let tsqResults;
             try {
                 tsqResults = await new ServerClient().getTsqResults(
@@ -73,7 +71,7 @@ export default class TsiAdapter implements IBaseAdapter {
                     tsqExpressions.map((tsqe) => tsqe.toTsq())
                 );
             } catch (err) {
-                errorManager.pushError({
+                sandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -85,10 +83,7 @@ export default class TsiAdapter implements IBaseAdapter {
                 tsqExpressions
             ) as any;
 
-            return new AdapterResult<TsiClientAdapterData>({
-                result: new TsiClientAdapterData(transformedResults),
-                errorInfo: null
-            });
+            return new TsiClientAdapterData(transformedResults);
         });
     }
 }

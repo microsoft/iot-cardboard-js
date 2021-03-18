@@ -16,7 +16,7 @@ class AdapterError extends Error {
     public isCatastrophic;
     public rawError;
 
-    getAdapterErrorMessageFromType = (errorType: AdapterErrorType) => {
+    private getAdapterErrorMessageFromType = (errorType: AdapterErrorType) => {
         switch (errorType) {
             case AdapterErrorType.TokenRetrievalFailed:
                 return i18n.t('adapterErrors.tokenFailed');
