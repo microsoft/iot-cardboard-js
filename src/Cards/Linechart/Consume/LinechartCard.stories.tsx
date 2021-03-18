@@ -32,7 +32,7 @@ export const MockData = (args, { globals: { theme, locale } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            additionalParameters={{ chartDataOptions }}
+            adapterAdditionalParameters={{ chartDataOptions }}
             chartDataOptions={chartDataOptions}
             adapter={new MockAdapter()}
         />
