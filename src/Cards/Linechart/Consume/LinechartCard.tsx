@@ -14,7 +14,9 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     properties,
     adapter,
     theme,
-    additionalProperties,
+    adapterAdditionalParameters,
+    chartDataOptions,
+    chartOptions,
     title,
     locale,
     localeStrings
@@ -27,7 +29,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 id,
                 searchSpan,
                 properties,
-                additionalProperties
+                adapterAdditionalParameters
             ),
         refetchDependencies: [id, properties, searchSpan]
     });
@@ -37,6 +39,9 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     };
 
     const getChartOptions = () => {
+        if (chartOptions) {
+            return chartOptions;
+        }
         return {
             theme: theme ? theme : Theme.Light,
             legend: 'compact',
@@ -44,15 +49,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 returnObjects: true
             })
         };
-    };
-
-    const getChartDataOptions = (data) => {
-        if (additionalProperties?.chartDataOptions) {
-            return additionalProperties.chartDataOptions;
-        }
-        return data?.map(() => {
-            return {};
-        });
     };
 
     return (
@@ -67,7 +63,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             <Linechart
                 data={getData()}
                 chartOptions={getChartOptions()}
-                chartDataOptions={getChartDataOptions(getData())}
+                chartDataOptions={chartDataOptions}
             ></Linechart>
         </BaseCard>
     );
