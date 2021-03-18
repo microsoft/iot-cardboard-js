@@ -41,7 +41,7 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const manager = new AdapterMethodSandbox({ authservice: null });
+        const sandbox = new AdapterMethodSandbox({ authservice: null });
 
         return await sandbox.safelyFetchData(async () => {
             const getKVPData = () => {

@@ -39,7 +39,7 @@ export default class TsiAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const manager = new AdapterMethodSandbox({
+        const sandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
