@@ -53,7 +53,7 @@ type propertyState = {
     additionalParameters: Record<string, any>;
 };
 
-export const Mock = (args, { globals: { theme } }) => {
+export const Mock = (args, { globals: { theme, locale } }) => {
     const [properties, setProperties] = useState<propertyState>({
         properties: iotCentral.properties,
         additionalParameters: iotCentral.positions,
@@ -78,13 +78,14 @@ export const Mock = (args, { globals: { theme } }) => {
                 additionalParameters={properties.additionalParameters}
                 title={'Real-time Truck Status'}
                 theme={theme}
+                locale={locale}
                 adapter={new MockAdapter()}
             />
         </div>
     );
 };
 
-export const IoTCentral = (args, { globals: { theme } }) => {
+export const IoTCentral = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -98,6 +99,7 @@ export const IoTCentral = (args, { globals: { theme } }) => {
                 additionalParameters={iotCentral.positions}
                 title={'Real-time Truck Status'}
                 theme={theme}
+                locale={locale}
                 adapter={
                     new IoTCentralAdapter(
                         authenticationParameters.iotCentral.appId,
@@ -111,7 +113,7 @@ export const IoTCentral = (args, { globals: { theme } }) => {
     );
 };
 
-export const ADT = (args, { globals: { theme } }) => {
+export const ADT = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -125,6 +127,7 @@ export const ADT = (args, { globals: { theme } }) => {
                 additionalParameters={digitalTwins.positions}
                 title={'Real-time Car Twin Status'}
                 theme={theme}
+                locale={locale}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

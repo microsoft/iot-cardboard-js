@@ -21,6 +21,7 @@ export interface IConsumeCardProps {
     additionalParameters?: Record<string, any>;
     title?: string;
     locale?: Locale;
+    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
 }
 
 export interface IAuthService {
@@ -52,6 +53,9 @@ export interface IUseAdapter<T extends IAdapterData> {
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
+
+    /** Indicates long polling state */
+    isLongPolling: boolean;
 
     /** Long polling pulse state for UI */
     pulse: boolean;

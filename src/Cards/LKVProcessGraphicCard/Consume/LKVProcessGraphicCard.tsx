@@ -13,7 +13,8 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     imageSrc,
     title,
     theme,
-    locale
+    locale,
+    localeStrings
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
@@ -31,6 +32,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
             adapterResult={cardState.adapterResult}
             theme={theme}
             locale={locale}
+            localeStrings={localeStrings}
         >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />

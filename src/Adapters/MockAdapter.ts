@@ -9,12 +9,14 @@ import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
+    private networkTimeoutMillis;
 
-    constructor(mockData?: any) {
+    constructor(mockData?: any, networkTimeoutMillis = 1000) {
         this.mockData = mockData;
+        this.networkTimeoutMillis = networkTimeoutMillis;
     }
 
-    async mockNetwork(timeout) {
+    async mockNetwork(timeout = this.networkTimeoutMillis) {
         return new Promise((resolve) => {
             setTimeout(() => resolve(null), timeout);
         });
@@ -30,7 +32,7 @@ export default class MockAdapter implements IBaseAdapter {
                 return kvps;
             };
 
-            await this.mockNetwork(1000);
+            await this.mockNetwork();
 
             return new AdapterResult<KeyValuePairAdapterData>({
                 result: new KeyValuePairAdapterData(getKVPData()),
@@ -92,7 +94,7 @@ export default class MockAdapter implements IBaseAdapter {
                 }
             };
 
-            await this.mockNetwork(1000);
+            await this.mockNetwork();
 
             return new AdapterResult<TsiClientAdapterData>({
                 result: new TsiClientAdapterData(getData()),
