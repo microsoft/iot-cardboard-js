@@ -35,7 +35,8 @@ export default class MockAdapter implements IBaseAdapter {
         if (this.mockError) {
             throw new AdapterError({
                 isCatastrophic: true,
-                type: this.mockError
+                type: this.mockError,
+                rawError: new Error('Mock error message')
             });
         }
     }

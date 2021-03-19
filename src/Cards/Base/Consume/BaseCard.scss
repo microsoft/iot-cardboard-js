@@ -13,7 +13,8 @@
     position: relative;
     width: 100%;
     z-index: 2;
-    .cb-base-info-wrapper {
+    .cb-base-info-wrapper,
+    .cb-base-catastrophic-error-wrapper {
         align-items: center;
         background-color: var(--cb-color-bg-canvas);
         display: flex;
@@ -22,6 +23,15 @@
         position: absolute;
         width: 100%;
         z-index: 3;
+    }
+    .cb-base-catastrophic-error-box {
+        background: var(--cb-color-bg-canvas-inset);
+        border-radius: 3px;
+        padding: 20px;
+    }
+    .cb-base-catastrophic-error-message {
+        color: var(--cb-color-text-danger);
+        font-weight: 700;
     }
     .cb-base-info {
         background: var(--cb-color-bg-canvas-inset);
