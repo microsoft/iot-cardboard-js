@@ -94,13 +94,14 @@ const useAdapter = <T extends IAdapterData>({
         try {
             const adapterResult = await cancellablePromise(adapterMethod());
             setAdapterResult(adapterResult);
+            setIsLoading(false);
         } catch (err) {
             if (!(err instanceof CancelledPromiseError)) {
                 console.error('Unexpected promise error', err); // log unexpected errors
+                if (mountedRef.current) {
+                    setIsLoading(false); // Toggle off loading state if component is still mounted
+                }
             }
-        }
-        if (mountedRef.current) {
-            setIsLoading(false); // Toggle off loading state if component is still mounted
         }
     };
 

@@ -104,7 +104,6 @@ class AdapterMethodSandbox {
             });
         } catch (err) {
             // Uncaught errors are bubbled up and caught here.
-
             if (!(err instanceof AdapterError)) {
                 // Unknown error, construct new catastrophicError error
                 this.catasrophicError = new AdapterError({
