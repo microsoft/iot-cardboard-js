@@ -4,7 +4,7 @@
     display: flex;
     height: 100%;
     position: relative;
-    width: 100%;
+    flex-direction: column;
 
     div {
         text-align: left;
@@ -12,7 +12,6 @@
 
     .cb-img-wrapper {
         height: 100%;
-        width: 100%;
     }
     .cb-lkv-wrapper {
         height: 100%;

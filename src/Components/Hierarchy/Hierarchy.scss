@@ -1,0 +1,28 @@
+@import '../../Resources/Styles/BaseStyles.scss';
+
+.cb-hierarchycomponent-container {
+    width: 100%;
+    height: 100%;
+}
+
+.cb-hierarchynode {
+    cursor: pointer;
+}
+
+.cb-hierarchy-parentnode {
+    font-weight: 400;
+}
+
+// .cb-carot {
+//     background-image: url('../../Resources/Icons/CaretClosed_Light_Theme.svg');
+//     &.closed {
+//         transform: rotate(0deg);
+//     }
+//     &.expanded {
+//         transform: rotate(90deg);
+//     }
+// }
+
+.cb-hierarchygroup {
+    // list-style: none;
+}

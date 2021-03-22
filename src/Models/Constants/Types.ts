@@ -1,5 +1,5 @@
 import AdapterResult from '../Classes/AdapterResult';
-import { IAdapterData } from './Interfaces';
+import { IADTModel, IADTwin, IAdapterData } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> = Promise<
     AdapterResult<T>
@@ -19,6 +19,16 @@ export type AdapterState<T extends IAdapterData> = {
 export type KeyValuePairData = Record<string, any>;
 
 export type TsiClientData = any[];
+
+export type ADTModelsData = {
+    value: IADTModel[];
+    nextLink: string;
+};
+
+export type ADTwinsData = {
+    value: IADTwin[];
+    continuationToken: string;
+};
 
 export type CancellablePromise<T> = {
     /** Wrapped promise - throws CancelledPromiseError if cancelled */

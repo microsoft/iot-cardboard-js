@@ -4,6 +4,7 @@
     "noData": "No data",
     "error": "Error fetching data",
     "selectProperties": "Select properties",
+    "empty": "Empty",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
