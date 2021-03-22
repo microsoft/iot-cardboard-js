@@ -3,6 +3,7 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants/Interfaces';
 import { AdapterReturnType } from '../Models/Constants/Types';
 
 export default interface IBaseAdapter {
@@ -16,6 +17,6 @@ export default interface IBaseAdapter {
     getKeyValuePairs(
         id: string,
         properties: readonly string[],
-        additionalParameters?: Record<string, any>
+        additionalParameters?: IGetKeyValuePairsAdditionalParameters
     ): AdapterReturnType<KeyValuePairAdapterData>;
 }

@@ -1,12 +1,16 @@
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import IBaseAdapter from './IBaseAdapter';
 import axios from 'axios';
-import { IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IAuthService,
+    IGetKeyValuePairsAdditionalParameters
+} from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import { KeyValuePairData } from '../Models/Constants';
 
 export default class ADTAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -29,7 +33,11 @@ export default class ADTAdapter implements IBaseAdapter {
         });
     }
 
-    async getKeyValuePairs(id: string, properties: string[]) {
+    async getKeyValuePairs(
+        id: string,
+        properties: string[],
+        additionalParameters: IGetKeyValuePairsAdditionalParameters
+    ) {
         try {
             const token = await this.authService.getToken();
 
@@ -47,9 +55,17 @@ export default class ADTAdapter implements IBaseAdapter {
                 }
             });
 
-            const data = {};
+            const data = [];
             properties.forEach((prop) => {
-                data[prop] = axiosData.data[prop];
+                const kvp = {} as KeyValuePairData;
+                kvp.key = prop;
+                kvp.value = axiosData.data[prop];
+                if (additionalParameters?.isTimestampIncluded) {
+                    kvp.timestamp = new Date(
+                        axiosData.data?.$metadata?.[prop]?.lastUpdateTime
+                    );
+                }
+                data.push(kvp);
             });
 
             return new AdapterResult<KeyValuePairAdapterData>({

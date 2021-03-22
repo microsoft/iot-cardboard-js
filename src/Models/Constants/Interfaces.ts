@@ -60,3 +60,8 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Long polling pulse state for UI */
     pulse: boolean;
 }
+
+export interface IGetKeyValuePairsAdditionalParameters
+    extends Record<string, any> {
+    isTimestampIncluded?: boolean;
+}
