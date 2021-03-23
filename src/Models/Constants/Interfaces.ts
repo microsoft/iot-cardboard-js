@@ -1,5 +1,5 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
-import { ADTAdapterData } from '../Classes';
+import ADTAdapterData from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
 import { Locale, Theme } from './Enums';
 import { AdapterReturnType } from './Types';
@@ -9,39 +9,37 @@ export interface IAction {
     payload?: any;
 }
 
-export interface ITSIComponentProps {
+export interface ITSIChartComponentProps {
     data: any[];
     chartOptions?: any;
     chartDataOptions?: any[];
 }
 
-export interface IStandaloneConsumeCardProps {
-    adapter: IBaseAdapter;
-    theme?: Theme;
-    additionalProperties?: Record<string, any>;
-    title?: string;
-    locale?: Locale;
-    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
+export interface ITSIHierarchyComponentProps {
+    environmentFqdn: string;
+    getToken: any;
+    hierarchyNavOptions: any;
 }
 
-export interface IConsumeCardProps {
+export interface ICardBaseProps {
+    title?: string;
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
+    additionalProperties?: Record<string, any>;
+}
+export interface IStandaloneConsumeCardProps extends ICardBaseProps {
+    adapter: IBaseAdapter;
+}
+
+export interface IConsumeCardProps extends ICardBaseProps {
     adapter: IBaseAdapter;
     id: string;
     properties: readonly string[];
-    theme?: Theme;
-    additionalProperties?: Record<string, any>;
-    title?: string;
-    locale?: Locale;
-    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
 }
 
-export interface IConsumeCompositeCardProps {
-    adapter: IBaseAdapter;
-    theme?: Theme;
-    title?: string;
-    locale?: Locale;
-    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
-    additionalProperties?: Record<string, any>;
+export interface IConsumeCompositeCardProps extends ICardBaseProps {
+    adapter?: IBaseAdapter; // if all the inner cards are all going to use the same adapter
 }
 
 export interface IAuthService {
@@ -79,9 +77,21 @@ export interface IUseAdapter<T extends IAdapterData> {
 }
 
 export interface IADTAdapter extends IBaseAdapter {
-    getAdtModels?(): AdapterReturnType<ADTAdapterData>;
-    getAdtTwins?(modelId: string): AdapterReturnType<ADTAdapterData>;
+    getAdtModels(): AdapterReturnType<ADTAdapterData>;
+    getAdtTwins(modelId: string): AdapterReturnType<ADTAdapterData>;
+    createHierarchyNodesFromADTModels: (
+        models: IADTModel[]
+    ) => Record<string, IHierarchyNode> | Record<string, never>;
+    createHierarchyNodesFromADTwins: (
+        twins: IADTwin[],
+        modelId: string
+    ) => Record<string, IHierarchyNode> | Record<string, never>;
 }
+
+// export interface IHierarchySupportedAdapter extends IBaseAdapter {
+//     // getHierarchy: (nodeId?: string) => AdapterReturnType<HierarchyAdapterData>;
+//     getHierarchy: (nodeId?: string) => any;
+// }
 
 export interface IHierarchyProps {
     data: Record<string, IHierarchyNode>;

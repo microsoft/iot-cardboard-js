@@ -4,12 +4,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { HierarchyCardProps } from './HierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
-import { IHierarchyNode } from '../../../Models/Constants';
-import {
-    createHierarchyNodesFromADTModels,
-    createHierarchyNodesFromADTwins
-} from '../../../Models/Services/Utils';
-import './HierarchyCard.scss';
+import { IADTModel, IADTwin, IHierarchyNode } from '../../../Models/Constants';
 
 const HierarchyCard: React.FC<HierarchyCardProps> = ({
     adapter,
@@ -38,13 +33,13 @@ const HierarchyCard: React.FC<HierarchyCardProps> = ({
         refetchDependencies: [selectedModelId]
     });
 
-    const handleModelClick = (model: IHierarchyNode) => {
+    const handleModelClick = async (model: IHierarchyNode) => {
         if (onParentNodeClick) {
             onParentNodeClick(model);
         } else {
             // the default handler pulls the twins of clicked model
             setSelectedModelId(model.id);
-            twinState.callAdapter();
+            await twinState.callAdapter();
             setModelNodes((prevModelNodes) => {
                 const selectedModelNode = Object.values(prevModelNodes).find(
                     (modelNode) => modelNode.id === model.id
@@ -65,16 +60,16 @@ const HierarchyCard: React.FC<HierarchyCardProps> = ({
 
     useEffect(() => {
         setModelNodes(
-            createHierarchyNodesFromADTModels(
-                modelState.adapterResult.result?.data?.value
+            adapter.createHierarchyNodesFromADTModels(
+                modelState.adapterResult.result?.data?.value as IADTModel[]
             )
         );
     }, [modelState.adapterResult.result?.data.value]);
 
     useEffect(() => {
         setTwinNodes(
-            createHierarchyNodesFromADTwins(
-                twinState.adapterResult.result?.data?.value,
+            adapter.createHierarchyNodesFromADTwins(
+                twinState.adapterResult.result?.data?.value as IADTwin[],
                 selectedModelId
             )
         );

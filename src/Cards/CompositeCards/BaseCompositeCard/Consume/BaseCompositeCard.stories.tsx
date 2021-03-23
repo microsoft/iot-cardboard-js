@@ -1,11 +1,11 @@
 import React from 'react';
-import BaseCard from './BaseCard';
+import BaseCard from './BaseCompositeCard';
 
 export default {
-    title: 'CompositeCards/BaseCard/Consume'
+    title: 'CompositeCards/BaseCompositeCard/Consume'
 };
 
-export const BasicCard = (args, { globals: { theme, locale } }) => (
+export const BaseCompositeCard = (args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '400px',

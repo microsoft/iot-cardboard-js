@@ -2,9 +2,9 @@
 
 .cb-lkvpg-wrapper {
     display: flex;
+    flex-direction: column;
     height: 100%;
     position: relative;
-    flex-direction: column;
 
     div {
         text-align: left;
@@ -12,6 +12,7 @@
 
     .cb-img-wrapper {
         height: 100%;
+        max-width: 100%;
     }
     .cb-lkv-wrapper {
         height: 100%;

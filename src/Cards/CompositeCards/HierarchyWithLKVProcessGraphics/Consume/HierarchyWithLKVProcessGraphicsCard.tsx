@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { HierarchyWithLKVProcessGraphicsCardProps } from './HierarchyWithLKVProcessGraphicsCard.types';
-import HierarchyCard from '../../Hierarchy/Consume/HierarchyCard';
-import LKVProcessGraphicCard from '../../LKVProcessGraphicCard/Consume/LKVProcessGraphicCard';
-import { IHierarchyNode } from '../../../Models/Constants/Interfaces';
-import BaseCard from '../Base/BaseCard';
-import './HierarchyWithLKVProcessGraphicsCard.scss';
+import HierarchyCard from '../../../HierarchyCard/Consume/HierarchyCard';
+import LKVProcessGraphicCard from '../../../LKVProcessGraphicCard/Consume/LKVProcessGraphicCard';
+import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
+import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 
 const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraphicsCardProps> = ({
     adapter,
@@ -22,7 +21,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
         setSelectedChildNode(node);
     };
     return (
-        <BaseCard
+        <BaseCompositeCard
             title={title}
             theme={theme}
             locale={locale}
@@ -30,7 +29,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
         >
             <HierarchyCard
                 adapter={adapter}
-                title={'Hierarchy'}
+                title={'ADT Hierarchy'}
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
@@ -52,7 +51,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
                     locale={locale}
                 />
             )}
-        </BaseCard>
+        </BaseCompositeCard>
     );
 };
 

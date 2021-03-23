@@ -1,12 +1,12 @@
 import React from 'react';
-import { BaseCardProps } from './BaseCard.types';
+import { BaseCompositeCardProps } from './BaseCompositeCard.types';
 import { useTranslation } from 'react-i18next';
-import './BaseCard.scss';
-import { ThemeProvider } from '../../../Theming/ThemeProvider';
-import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
-import i18n from '../../../i18n';
+import './BaseCompositeCard.scss';
+import { ThemeProvider } from '../../../../Theming/ThemeProvider';
+import I18nProviderWrapper from '../../../../Models/Classes/I18NProviderWrapper';
+import i18n from '../../../../i18n';
 
-const BaseCard: React.FC<BaseCardProps> = ({
+const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
     children,
     title,
     theme,
@@ -43,4 +43,4 @@ const BaseCard: React.FC<BaseCardProps> = ({
     );
 };
 
-export default BaseCard;
+export default BaseCompositeCard;

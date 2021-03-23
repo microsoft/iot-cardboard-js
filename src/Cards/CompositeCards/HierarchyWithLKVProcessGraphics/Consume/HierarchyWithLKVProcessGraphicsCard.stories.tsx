@@ -1,8 +1,8 @@
 import React from 'react';
-import useAuthParams from '../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
-import { IHierarchyNode } from '../../../Models/Constants';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import useAuthParams from '../../../../../.storybook/useAuthParams';
+import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import { IHierarchyNode } from '../../../../Models/Constants';
+import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import HierarchyWithLKVProcessGraphicsCard from './HierarchyWithLKVProcessGraphicsCard';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 };
 
 const cardStyle = {
-    height: '400px',
+    height: '500px',
     width: '100%'
 };
 
@@ -35,18 +35,18 @@ export const ADT = (args, { globals: { theme, locale } }) => {
             src: '/images/Windmill.png',
             propertyPositions: {
                 OutdoorTemperature: { left: '80%', top: '5%' },
-                AtmosphericPressure: { left: '80%', top: '40%' },
-                WindVelocity: { left: '30%', top: '70%' },
-                OilViscosity: { left: '40%', top: '70%' },
-                BearingTemperature: { left: '30%', top: '70%' }
+                AtmosphericPressure: { left: '-75%', top: '5%' },
+                WindVelocity: { left: '-25%', top: '40%' },
+                OilViscosity: { left: '45%', top: '40%' },
+                BearingTemperature: { left: '45%', top: '70%' }
             }
         },
         'dtmi:assetGen:CooledWindmill;1': {
             src: '/images/Windmill.png',
             propertyPositions: {
                 OutdoorTemperature: { left: '80%', top: '5%' },
-                AtmosphericPressure: { left: '-85%', top: '5%' },
-                WindVelocity: { left: '-55%', top: '40%' },
+                AtmosphericPressure: { left: '-75%', top: '5%' },
+                WindVelocity: { left: '-25%', top: '40%' },
                 OilViscosity: { left: '45%', top: '40%' },
                 BearingTemperature: { left: '45%', top: '70%' }
             }

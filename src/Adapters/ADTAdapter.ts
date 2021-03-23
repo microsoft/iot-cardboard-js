@@ -1,13 +1,19 @@
 import axios from 'axios';
-import { IADTAdapter, IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IADTAdapter,
+    IADTModel,
+    IADTwin,
+    IAuthService,
+    IHierarchyNode
+} from '../Models/Constants/Interfaces';
 import {
     AdapterResult,
-    ADTAdapterData,
     KeyValuePairAdapterData,
     SearchSpan,
     TsiClientAdapterData
 } from '../Models/Classes';
 import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
+import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -128,4 +134,33 @@ export default class ADTAdapter implements IADTAdapter {
             });
         }
     }
+
+    public createHierarchyNodesFromADTModels = (models) => {
+        return models
+            ? models.reduce((p, c: IADTModel) => {
+                  p[c.displayName.en] = {
+                      name: c.displayName.en,
+                      id: c.id,
+                      nodeData: c,
+                      children: {},
+                      isCollapsed: true
+                  } as IHierarchyNode;
+                  return p;
+              }, {})
+            : {};
+    };
+
+    public createHierarchyNodesFromADTwins = (twins, modelId) => {
+        return twins
+            ? twins.reduce((p, c: IADTwin) => {
+                  p[c.$dtId] = {
+                      name: c.$dtId,
+                      id: c.$dtId,
+                      parentId: modelId,
+                      nodeData: c
+                  } as IHierarchyNode;
+                  return p;
+              }, {})
+            : {};
+    };
 }

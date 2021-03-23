@@ -1,5 +1,5 @@
 import AdapterResult from '../Classes/AdapterResult';
-import { IADTModel, IADTwin, IAdapterData } from './Interfaces';
+import { IADTModel, IADTwin, IAdapterData, IHierarchyNode } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> = Promise<
     AdapterResult<T>
@@ -19,6 +19,8 @@ export type AdapterState<T extends IAdapterData> = {
 export type KeyValuePairData = Record<string, any>;
 
 export type TsiClientData = any[];
+
+export type HierarchyData = Record<string, IHierarchyNode>;
 
 export type ADTModelsData = {
     value: IADTModel[];

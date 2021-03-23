@@ -5,7 +5,7 @@ import {
 } from '../../../Models/Constants';
 
 export interface HierarchyCardProps extends IStandaloneConsumeCardProps {
-    adapter: IADTAdapter;
+    adapter: IADTAdapter; // for now only ADT
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (parentId: string, node: IHierarchyNode) => void;
 }
