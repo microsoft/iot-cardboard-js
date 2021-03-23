@@ -15,12 +15,6 @@ export interface ITSIChartComponentProps {
     chartDataOptions?: any[];
 }
 
-export interface ITSIHierarchyComponentProps {
-    environmentFqdn: string;
-    getToken: any;
-    hierarchyNavOptions: any;
-}
-
 export interface ICardBaseProps {
     title?: string;
     theme?: Theme;
