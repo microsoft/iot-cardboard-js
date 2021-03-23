@@ -1,5 +1,5 @@
 .cb-base-card-content {
-    align-items: start;
+    align-items: start !important;
 }
 
 .cb-relationships-table {
@@ -22,4 +22,9 @@
     border-bottom: 1px solid #ddd;
     font-size: 14px;
     height: 28px;
+}
+
+.cb-relationships-content-cell {
+    min-width: 80px;
+    padding-right: 16px;
 }

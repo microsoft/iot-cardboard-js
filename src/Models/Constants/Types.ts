@@ -22,7 +22,7 @@ export type ADTRelationship = {
     relationshipName: string;
     relationshipId: string;
     targetId: string;
-    targetName?: string;
+    targetModel?: string;
 };
 
 export type TsiClientData = any[];

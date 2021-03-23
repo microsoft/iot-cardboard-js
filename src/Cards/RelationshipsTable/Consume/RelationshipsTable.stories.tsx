@@ -13,10 +13,10 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ height: '400px', width: '400px' }}>
+        <div style={{ height: '400px', width: '480px' }}>
             <RelationshipsTable
                 theme={theme}
-                id={'CooledWindmillTwin'}
+                id={'FireAlarmTwin'}
                 properties={[]}
                 adapter={
                     new ADTAdapter(
