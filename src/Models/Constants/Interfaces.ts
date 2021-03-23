@@ -113,3 +113,7 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+export interface IGetKeyValuePairsAdditionalParameters
+    extends Record<string, any> {
+    isTimestampIncluded?: boolean;
+}

@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { IADTAdapter, IAuthService } from '../Models/Constants/Interfaces';
+import {
+    IADTAdapter,
+    IAuthService,
+    IGetKeyValuePairsAdditionalParameters
+} from '../Models/Constants/Interfaces';
 import {
     AdapterResult,
     KeyValuePairAdapterData,
@@ -8,6 +12,7 @@ import {
 } from '../Models/Classes';
 import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
 import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import { KeyValuePairData } from '../Models/Constants';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -100,7 +105,11 @@ export default class ADTAdapter implements IADTAdapter {
         }
     }
 
-    async getKeyValuePairs(id: string, properties: string[]) {
+    async getKeyValuePairs(
+        id: string,
+        properties: string[],
+        additionalParameters: IGetKeyValuePairsAdditionalParameters
+    ) {
         try {
             const token = await this.authService.getToken();
 
@@ -118,9 +127,17 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             });
 
-            const data = {};
+            const data = [];
             properties.forEach((prop) => {
-                data[prop] = axiosData.data[prop];
+                const kvp = {} as KeyValuePairData;
+                kvp.key = prop;
+                kvp.value = axiosData.data[prop];
+                if (additionalParameters?.isTimestampIncluded) {
+                    kvp.timestamp = new Date(
+                        axiosData.data?.$metadata?.[prop]?.lastUpdateTime
+                    );
+                }
+                data.push(kvp);
             });
 
             return new AdapterResult<KeyValuePairAdapterData>({
