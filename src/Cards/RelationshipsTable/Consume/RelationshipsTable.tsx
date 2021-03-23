@@ -41,9 +41,15 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                     className="cb-relationships-content-row"
                                     key={relationshipI}
                                 >
-                                    <td className='cb-relationships-content-cell'>{relationship.targetId}</td>
-                                    <td className='cb-relationships-content-cell'>{relationship.targetModel}</td>
-                                    <td className='cb-relationships-content-cell'>{relationship.relationshipName}</td>
+                                    <td className="cb-relationships-content-cell">
+                                        {relationship.targetId}
+                                    </td>
+                                    <td className="cb-relationships-content-cell">
+                                        {relationship.targetModel}
+                                    </td>
+                                    <td className="cb-relationships-content-cell">
+                                        {relationship.relationshipName}
+                                    </td>
                                 </tr>
                             )
                         )}

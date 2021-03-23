@@ -53,14 +53,15 @@ export default class ADTAdapter implements IBaseAdapter {
             });
             const relationships: ADTRelationship[] = axiosData.data.value.map(
                 (rawRelationship) => {
-
                     // NOTE: the targetModel property is a custom property that needs to be explicitly defined in the DTDL model's definition of that relationship type, and needs to be explicitly provided when creating the twin relationship
-                
+
                     return {
                         relationshipId: rawRelationship.$relationshipId,
                         relationshipName: rawRelationship.$relationshipName,
                         targetId: rawRelationship.$targetId,
-                        targetModel: rawRelationship.targetModel ? rawRelationship.targetModel : ''
+                        targetModel: rawRelationship.targetModel
+                            ? rawRelationship.targetModel
+                            : ''
                     };
                 }
             );
