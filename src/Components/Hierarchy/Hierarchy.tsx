@@ -20,8 +20,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                                 <span
                                     className={`cb-carot ${
                                         data[nodeName].isCollapsed
-                                            ? 'cb-hierarchy-node-collapsed'
-                                            : 'cb-hierarchy-node-expanded'
+                                            ? 'cb-carot-collapsed'
+                                            : 'cb-carot-expanded'
                                     }`}
                                 />
                                 <span

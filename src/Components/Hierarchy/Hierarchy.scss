@@ -33,12 +33,13 @@
         transition: all 0.2s ease;
         width: 12px;
         z-index: 1;
-        &.cb-hierarchy-node-collapsed {
-            transform: rotate(0deg);
-        }
-        &.cb-hierarchy-node-expanded {
-            transform: rotate(90deg);
-        }
+    }
+
+    .cb-carot-collapsed {
+        transform: rotate(0deg);
+    }
+    .cb-carot-expanded {
+        transform: rotate(90deg);
     }
 
     .cb-hierarchy-node-name {
@@ -51,19 +52,20 @@
         padding-left: 0;
         position: relative;
         width: calc(100% + 20px);
-        &.cb-hierarchy-parent-node {
-            padding-left: 40px;
-        }
-        &.cb-hierarchy-child-node {
-            font-weight: 600;
-            margin-left: -40px;
-            padding-left: 48px;
-            width: calc(100% + 40px);
-        }
+    }
 
-        &:hover {
-            background: var(--cb-color-card-contrast);
-        }
+    .cb-hierarchy-node-name:hover {
+        background: var(--cb-color-card-contrast);
+    }
+
+    .cb-hierarchy-parent-node {
+        padding-left: 40px;
+    }
+    .cb-hierarchy-child-node {
+        font-weight: 600;
+        margin-left: -40px;
+        padding-left: 48px;
+        width: calc(100% + 40px);
     }
 
     .cb-hierarchy-child-count {
