@@ -26,7 +26,7 @@ export interface ICardBaseProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    additionalProperties?: Record<string, any>;
+    adapterAdditionalParameters?: Record<string, any>;
 }
 export interface IStandaloneConsumeCardProps extends ICardBaseProps {
     adapter: IBaseAdapter;
@@ -72,6 +72,9 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
 
+    /** Indicates long polling state */
+    isLongPolling: boolean;
+
     /** Long polling pulse state for UI */
     pulse: boolean;
 }
@@ -87,11 +90,6 @@ export interface IADTAdapter extends IBaseAdapter {
         modelId: string
     ) => Record<string, IHierarchyNode> | Record<string, never>;
 }
-
-// export interface IHierarchySupportedAdapter extends IBaseAdapter {
-//     // getHierarchy: (nodeId?: string) => AdapterReturnType<HierarchyAdapterData>;
-//     getHierarchy: (nodeId?: string) => any;
-// }
 
 export interface IHierarchyProps {
     data: Record<string, IHierarchyNode>;

@@ -11,7 +11,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
     title,
     locale,
     localeStrings,
-    additionalProperties,
+    adapterAdditionalParameters,
     getHierarchyNodeProperties,
     images
 }) => {
@@ -33,7 +33,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                additionalProperties={additionalProperties}
+                adapterAdditionalParameters={adapterAdditionalParameters}
                 onChildNodeClick={handleChildNodeClick}
             />
             {selectedChildNode && (
@@ -43,7 +43,7 @@ const HierarchyWithLKVProcessGraphicsCard: React.FC<HierarchyWithLKVProcessGraph
                     imageSrc={images[selectedChildNode.parentId].src}
                     pollingIntervalMillis={5000}
                     properties={getHierarchyNodeProperties(selectedChildNode)}
-                    additionalProperties={
+                    adapterAdditionalParameters={
                         images[selectedChildNode.parentId].propertyPositions
                     }
                     title={`Real-time ${selectedChildNode.name} Status`}

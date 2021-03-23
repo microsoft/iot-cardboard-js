@@ -3,8 +3,10 @@ module.exports = {
     setupFilesAfterEnv: ['./jest.setup.ts'],
     moduleFileExtensions: ['ts', 'tsx', 'js'],
     testPathIgnorePatterns: ['node_modules/'],
+    transformIgnorePatterns: ['node_modules/?!tsiclient'], // Required for tsiclient dependencies to work in jest context
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.(js|jsx)$': 'babel-jest'
     },
     testMatch: ['**/*.test.(ts|tsx)'],
     moduleNameMapper: {
@@ -13,4 +15,4 @@ module.exports = {
             'identity-obj-proxy',
         '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
     }
-}
+};
