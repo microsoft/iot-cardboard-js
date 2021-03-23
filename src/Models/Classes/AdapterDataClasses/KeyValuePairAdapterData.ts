@@ -2,9 +2,9 @@ import { IAdapterData } from '../../Constants/Interfaces';
 import { KeyValuePairData } from '../../Constants/Types';
 
 class KeyValuePairAdapterData implements IAdapterData {
-    data: KeyValuePairData;
+    data: Array<KeyValuePairData>;
 
-    constructor(data: KeyValuePairData) {
+    constructor(data: Array<KeyValuePairData>) {
         this.data = data;
     }
 
