@@ -1,0 +1,25 @@
+.cb-base-card-content {
+    align-items: start;
+}
+
+.cb-relationships-table {
+    border-collapse: collapse; 
+    padding: 8px;
+    position: relative;
+    text-align: left;
+    top: 0;
+    width: 100%;
+}
+
+.cb-relationships-header-row {
+    font-size: 13px;
+    font-weight: normal;
+    height: 28px;
+    opacity: .7;
+}
+
+.cb-relationships-content-row {
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    height: 28px;
+}
