@@ -18,6 +18,7 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
                 theme={theme}
                 id={'FireAlarmTwin'}
                 properties={[]}
+                title={'Fire alarm relationships'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

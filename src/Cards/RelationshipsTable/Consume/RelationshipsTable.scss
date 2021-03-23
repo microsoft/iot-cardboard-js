@@ -1,3 +1,5 @@
+@import '../../../Resources/Styles/BaseStyles';
+
 .cb-base-card-content {
     align-items: start !important;
 }
@@ -19,7 +21,7 @@
 }
 
 .cb-relationships-content-row {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
     font-size: 14px;
     height: 28px;
 }

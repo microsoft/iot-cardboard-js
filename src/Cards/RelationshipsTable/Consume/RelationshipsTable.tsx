@@ -8,7 +8,9 @@ import { ADTRelationship } from '../../../Models/Constants';
 const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     theme,
     id,
-    adapter
+    adapter,
+    title,
+    localeStrings
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getRelationships(id),
@@ -17,9 +19,10 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     return (
         <BaseCard
             adapterResult={cardState.adapterResult}
-            isLoading={false}
+            isLoading={cardState.isLoading}
             theme={theme}
-            title={'Relationships'}
+            title={title}
+            localeStrings={localeStrings}
         >
             <table className="cb-relationships-table">
                 <thead>
