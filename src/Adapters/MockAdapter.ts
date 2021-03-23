@@ -4,7 +4,8 @@ import {
 } from '../Models/Classes';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { TsiClientData } from '../Models/Constants/Types';
+import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
+import { KeyValuePairData, TsiClientData } from '../Models/Constants/Types';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
@@ -22,12 +23,22 @@ export default class MockAdapter implements IBaseAdapter {
         });
     }
 
-    async getKeyValuePairs(id: string, properties: string[]) {
+    async getKeyValuePairs(
+        id: string,
+        properties: string[],
+        additionalParameters: IGetKeyValuePairsAdditionalParameters
+    ) {
         try {
             const getKVPData = () => {
-                const kvps = {};
+                const kvps = [];
                 properties.forEach((p) => {
-                    kvps[p] = Math.random();
+                    const kvp = {} as KeyValuePairData;
+                    kvp.key = p;
+                    kvp.value = Math.random();
+                    if (additionalParameters?.isTimestampIncluded) {
+                        kvp.timestamp = new Date();
+                    }
+                    kvps.push(kvp);
                 });
                 return kvps;
             };
