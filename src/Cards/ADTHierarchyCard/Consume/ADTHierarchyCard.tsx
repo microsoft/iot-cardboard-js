@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import './HierarchyCard.scss';
+import './ADTHierarchyCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
-import { HierarchyCardProps } from './HierarchyCard.types';
+import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
-import { IADTModel, IADTwin, IHierarchyNode } from '../../../Models/Constants';
+import { IADTModel, IADTTwin, IHierarchyNode } from '../../../Models/Constants';
+import { HierarchyNode } from '../../../Models/Classes/HierarchyNode';
 
-const HierarchyCard: React.FC<HierarchyCardProps> = ({
+const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
     title,
     theme,
@@ -60,7 +61,7 @@ const HierarchyCard: React.FC<HierarchyCardProps> = ({
 
     useEffect(() => {
         setModelNodes(
-            adapter.createHierarchyNodesFromADTModels(
+            HierarchyNode.fromADTModels(
                 modelState.adapterResult.result?.data?.value as IADTModel[]
             )
         );
@@ -68,8 +69,8 @@ const HierarchyCard: React.FC<HierarchyCardProps> = ({
 
     useEffect(() => {
         setTwinNodes(
-            adapter.createHierarchyNodesFromADTwins(
-                twinState.adapterResult.result?.data?.value as IADTwin[],
+            HierarchyNode.fromADTTwins(
+                twinState.adapterResult.result?.data?.value as IADTTwin[],
                 selectedModelId
             )
         );
@@ -101,19 +102,17 @@ const HierarchyCard: React.FC<HierarchyCardProps> = ({
             locale={locale}
             localeStrings={localeStrings}
         >
-            {hierarchyData && (
-                <Hierarchy
-                    data={hierarchyData}
-                    onParentNodeClick={(model: IHierarchyNode) =>
-                        handleModelClick(model)
-                    }
-                    onChildNodeClick={(modelId: string, twin: IHierarchyNode) =>
-                        handleTwinClick(modelId, twin)
-                    }
-                ></Hierarchy>
-            )}
+            <Hierarchy
+                data={hierarchyData}
+                onParentNodeClick={(model: IHierarchyNode) =>
+                    handleModelClick(model)
+                }
+                onChildNodeClick={(modelId: string, twin: IHierarchyNode) =>
+                    handleTwinClick(modelId, twin)
+                }
+            ></Hierarchy>
         </BaseCard>
     );
 };
 
-export default HierarchyCard;
+export default ADTHierarchyCard;

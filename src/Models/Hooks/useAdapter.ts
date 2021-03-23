@@ -121,10 +121,6 @@ const useAdapter = <T extends IAdapterData>({
         cancel(); // Cancel outstanding promises on refetch
         setAdapterResult(null);
         callAdapter();
-        return () => {
-            cancel();
-            setAdapterResult(null);
-        };
     }, [...refetchDependencies]);
 
     useEffect(() => {

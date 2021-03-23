@@ -1,5 +1,10 @@
 import AdapterResult from '../Classes/AdapterResult';
-import { IADTModel, IADTwin, IAdapterData, IHierarchyNode } from './Interfaces';
+import {
+    IADTModel,
+    IADTTwin,
+    IAdapterData,
+    IHierarchyNode
+} from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> = Promise<
     AdapterResult<T>
@@ -28,7 +33,7 @@ export type ADTModelsData = {
 };
 
 export type ADTwinsData = {
-    value: IADTwin[];
+    value: IADTTwin[];
     continuationToken: string;
 };
 

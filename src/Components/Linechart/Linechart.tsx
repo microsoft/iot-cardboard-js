@@ -2,7 +2,7 @@ import React from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import 'tsiclient/tsiclient.css';
 import { ITSIChartComponentProps } from '../../Models/Constants';
-import useTSIChartComponentRender from '../../Models/Hooks/renderTSIChartComponent';
+import useTSIChartComponentRender from '../../Models/Hooks/useRenderTSIChartComponent';
 
 const Linechart: React.FC<ITSIChartComponentProps> = ({
     chartOptions,

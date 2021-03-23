@@ -1,11 +1,5 @@
 import axios from 'axios';
-import {
-    IADTAdapter,
-    IADTModel,
-    IADTwin,
-    IAuthService,
-    IHierarchyNode
-} from '../Models/Constants/Interfaces';
+import { IADTAdapter, IAuthService } from '../Models/Constants/Interfaces';
 import {
     AdapterResult,
     KeyValuePairAdapterData,
@@ -18,9 +12,15 @@ import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData'
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
     private adtHostUrl: string;
+    private adtProxyServerURL: string;
 
-    constructor(adtHostUrl: string, authService: IAuthService) {
+    constructor(
+        adtHostUrl: string,
+        authService: IAuthService,
+        adtProxyServerURL = 'http://localhost:3002/api/proxy/adt' // TODO: update this link for production, make sure this points to the right adt proxy server
+    ) {
         this.adtHostUrl = adtHostUrl;
+        this.adtProxyServerURL = adtProxyServerURL;
         this.authService = authService;
         this.authService.login();
     }
@@ -42,7 +42,7 @@ export default class ADTAdapter implements IADTAdapter {
             const token = await this.authService.getToken();
             const axiosData = await axios({
                 method: 'get',
-                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                url: this.adtProxyServerURL,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
@@ -72,7 +72,7 @@ export default class ADTAdapter implements IADTAdapter {
             const token = await this.authService.getToken();
             const axiosData = await axios({
                 method: 'post',
-                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                url: this.adtProxyServerURL,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
@@ -106,7 +106,7 @@ export default class ADTAdapter implements IADTAdapter {
 
             const axiosData = await axios({
                 method: 'get',
-                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                url: this.adtProxyServerURL,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
@@ -134,33 +134,4 @@ export default class ADTAdapter implements IADTAdapter {
             });
         }
     }
-
-    public createHierarchyNodesFromADTModels = (models) => {
-        return models
-            ? models.reduce((p, c: IADTModel) => {
-                  p[c.displayName.en] = {
-                      name: c.displayName.en,
-                      id: c.id,
-                      nodeData: c,
-                      children: {},
-                      isCollapsed: true
-                  } as IHierarchyNode;
-                  return p;
-              }, {})
-            : {};
-    };
-
-    public createHierarchyNodesFromADTwins = (twins, modelId) => {
-        return twins
-            ? twins.reduce((p, c: IADTwin) => {
-                  p[c.$dtId] = {
-                      name: c.$dtId,
-                      id: c.$dtId,
-                      parentId: modelId,
-                      nodeData: c
-                  } as IHierarchyNode;
-                  return p;
-              }, {})
-            : {};
-    };
 }

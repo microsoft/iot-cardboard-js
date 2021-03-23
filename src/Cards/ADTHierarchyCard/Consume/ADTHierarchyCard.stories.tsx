@@ -2,10 +2,10 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
-import HierarchyCard from './HierarchyCard';
+import ADTHierarchyCard from './ADTHierarchyCard';
 
 export default {
-    title: 'HierarchyCard/Consume'
+    title: 'ADTHierarchyCard/Consume'
 };
 
 const hierarchyCardStyle = {
@@ -19,7 +19,7 @@ export const ADTHierarchy = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={hierarchyCardStyle}>
-            <HierarchyCard
+            <ADTHierarchyCard
                 title={'ADT Hierarchy'}
                 theme={theme}
                 locale={locale}

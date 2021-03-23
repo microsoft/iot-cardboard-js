@@ -8,29 +8,31 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     onChildNodeClick
 }) => {
     const renderTree = (data: Record<string, IHierarchyNode>) => (
-        <ul className="cb-hierarchygroup">
+        <ul className="cb-hierarchy-component-list-group">
             {Object.keys(data).map((nodeName: string, idx: number) => (
                 <li
-                    className="cb-hierarchynode-wrapper"
+                    className="cb-hierarchy-node-wrapper"
                     key={'cb-hierarchy' + idx}
                 >
                     {data[nodeName].children ? (
                         <>
-                            <div className="cb-hierarchynode">
+                            <div className="cb-hierarchy-node">
                                 <span
                                     className={`cb-carot ${
                                         data[nodeName].isCollapsed
-                                            ? 'cb-hierarchynode-collapsed'
-                                            : 'cb-hierarchynode-expanded'
+                                            ? 'cb-hierarchy-node-collapsed'
+                                            : 'cb-hierarchy-node-expanded'
                                     }`}
                                 />
                                 <span
                                     className={
-                                        'cb-hierarchy-node-name cb-hierarchy-parentnode'
+                                        'cb-hierarchy-node-name cb-hierarchy-parent-node'
                                     }
-                                    onClick={() =>
-                                        onParentNodeClick(data[nodeName])
-                                    }
+                                    onClick={() => {
+                                        if (onParentNodeClick) {
+                                            onParentNodeClick(data[nodeName]);
+                                        }
+                                    }}
                                 >
                                     {nodeName}
                                     {Object.keys(data[nodeName].children)
@@ -49,17 +51,19 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                                 renderTree(data[nodeName].children)}
                         </>
                     ) : (
-                        <div className="cb-hierarchynode">
+                        <div className="cb-hierarchy-node">
                             <span
                                 className={
-                                    'cb-hierarchy-node-name cb-hierarchy-childnode'
+                                    'cb-hierarchy-node-name cb-hierarchy-child-node'
                                 }
-                                onClick={() =>
-                                    onChildNodeClick(
-                                        data[nodeName].parentId,
-                                        data[nodeName]
-                                    )
-                                }
+                                onClick={() => {
+                                    if (onChildNodeClick) {
+                                        onChildNodeClick(
+                                            data[nodeName].parentId,
+                                            data[nodeName]
+                                        );
+                                    }
+                                }}
                             >
                                 {nodeName}
                             </span>
@@ -71,8 +75,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     );
 
     return (
-        <div className="cb-hierarchycomponent-container">
-            <div className={'cb-hierarchycomponent'}>{renderTree(data)}</div>
+        <div className="cb-hierarchy-component-wrapper">
+            <div className={'cb-hierarchy-component'}>{renderTree(data)}</div>
         </div>
     );
 };

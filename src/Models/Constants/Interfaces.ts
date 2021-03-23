@@ -82,13 +82,6 @@ export interface IUseAdapter<T extends IAdapterData> {
 export interface IADTAdapter extends IBaseAdapter {
     getAdtModels(): AdapterReturnType<ADTAdapterData>;
     getAdtTwins(modelId: string): AdapterReturnType<ADTAdapterData>;
-    createHierarchyNodesFromADTModels: (
-        models: IADTModel[]
-    ) => Record<string, IHierarchyNode> | Record<string, never>;
-    createHierarchyNodesFromADTwins: (
-        twins: IADTwin[],
-        modelId: string
-    ) => Record<string, IHierarchyNode> | Record<string, never>;
 }
 
 export interface IHierarchyProps {
@@ -117,7 +110,7 @@ export interface IADTModel {
     uploadTime: string;
 }
 
-export interface IADTwin {
+export interface IADTTwin {
     $dtId: string;
     $etag: string;
     $metadata: {
