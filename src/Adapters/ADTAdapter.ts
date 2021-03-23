@@ -3,10 +3,12 @@ import IBaseAdapter from './IBaseAdapter';
 import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import AdapterResult from '../Models/Classes/AdapterResult';
+import { ADTRelationship } from '../Models/Constants/Types';
 import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 
 export default class ADTAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -27,6 +29,43 @@ export default class ADTAdapter implements IBaseAdapter {
             result: null,
             error: null
         });
+    }
+
+    async getRelationships(id: string) {
+        try {
+            const token = await this.authService.getToken();
+            const axiosData = await axios({
+                method: 'get',
+                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl,
+                    'x-adt-endpoint': `digitaltwins/${id}/relationships`
+                },
+                params: {
+                    'api-version': '2020-10-31'
+                }
+            });
+            const relationships: ADTRelationship[] = axiosData.data.value.map(
+                (rawRelationship) => {
+                    return {
+                        relationshipId: rawRelationship.$relationshipId,
+                        relationshipName: rawRelationship.$relationshipName,
+                        targetId: rawRelationship.$targetId
+                    };
+                }
+            );
+            return new AdapterResult<ADTRelationshipData>({
+                result: new ADTRelationshipData(relationships),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTRelationshipData>({
+                result: null,
+                error: err
+            });
+        }
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {

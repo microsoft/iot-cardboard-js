@@ -18,6 +18,13 @@ export type AdapterState<T extends IAdapterData> = {
 
 export type KeyValuePairData = Record<string, any>;
 
+export type ADTRelationship = {
+    relationshipName: string;
+    relationshipId: string;
+    targetId: string;
+    targetName?: string;
+};
+
 export type TsiClientData = any[];
 
 export type CancellablePromise<T> = {
