@@ -68,6 +68,11 @@
     .cb-base-composite-card-item {
         flex-grow: 1;
         height: 100%;
+        /* stylelint-disable-next-line */
+        .cb-base-card {
+            border: 1px solid var(--cb-color-bg-canvas-inset);
+            box-shadow: none;
+        }
     }
 
     .cb-base-composite-card-item:not(:first-child) {

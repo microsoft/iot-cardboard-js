@@ -17,12 +17,12 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     onChildNodeClick
 }) => {
     const [selectedModelId, setSelectedModelId] = useState(null);
-    const [modelNodes, setModelNodes] = useState(
-        {} as Record<string, IHierarchyNode>
-    );
-    const [twinNodes, setTwinNodes] = useState(
-        {} as Record<string, IHierarchyNode>
-    );
+    const [collapseTrigger, setCollapseTrigger] = useState(true);
+
+    const [modelAndTwinNodes, setModelAndTwinNodes] = useState({
+        modelNodes: {},
+        twinNodes: {}
+    });
 
     const modelState = useAdapter({
         adapterMethod: () => adapter.getAdtModels(),
@@ -34,20 +34,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         refetchDependencies: [selectedModelId]
     });
 
-    const handleModelClick = async (model: IHierarchyNode) => {
+    const handleModelClick = (model: IHierarchyNode) => {
         if (onParentNodeClick) {
             onParentNodeClick(model);
         } else {
             // the default handler pulls the twins of clicked model
+            if (model.id === selectedModelId && selectedModelId) {
+                setCollapseTrigger(!collapseTrigger);
+            }
             setSelectedModelId(model.id);
-            await twinState.callAdapter();
-            setModelNodes((prevModelNodes) => {
-                const selectedModelNode = Object.values(prevModelNodes).find(
-                    (modelNode) => modelNode.id === model.id
-                );
-                selectedModelNode.isCollapsed = !selectedModelNode.isCollapsed;
-                return { ...prevModelNodes };
-            });
         }
     };
 
@@ -60,23 +55,40 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     };
 
     useEffect(() => {
-        setModelNodes(
-            HierarchyNode.fromADTModels(
+        setModelAndTwinNodes({
+            twinNodes: modelAndTwinNodes.twinNodes,
+            modelNodes: HierarchyNode.fromADTModels(
                 modelState.adapterResult.result?.data?.value as IADTModel[]
             )
-        );
+        });
     }, [modelState.adapterResult.result?.data.value]);
 
     useEffect(() => {
-        setTwinNodes(
-            HierarchyNode.fromADTTwins(
+        if (twinState.adapterResult.result?.data.value) {
+            const twinNodes = HierarchyNode.fromADTTwins(
                 twinState.adapterResult.result?.data?.value as IADTTwin[],
                 selectedModelId
-            )
-        );
-    }, [twinState.adapterResult.result?.data.value]);
+            );
 
-    const hierarchyData: Record<string, IHierarchyNode> = useMemo(() => {
+            const modelNodes = modelAndTwinNodes.modelNodes as IHierarchyNode;
+
+            if (selectedModelId && twinState.adapterResult.result?.data.value) {
+                const selectedModelNode = Object.values(modelNodes).find(
+                    (modelNode) => modelNode.id === selectedModelId
+                );
+                selectedModelNode.isCollapsed = !selectedModelNode.isCollapsed;
+            }
+            setModelAndTwinNodes(
+                Object.assign(
+                    {},
+                    { modelNodes: modelNodes, twinNodes: twinNodes }
+                )
+            );
+        }
+    }, [collapseTrigger, twinState.adapterResult.result?.data.value]);
+
+    const hierarchyData = () => {
+        const { modelNodes, twinNodes } = modelAndTwinNodes;
         const hierarchyNodes: Record<string, IHierarchyNode> = {};
         Object.keys(modelNodes).forEach((modelName) => {
             hierarchyNodes[modelName] = modelNodes[modelName];
@@ -89,7 +101,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             });
         });
         return hierarchyNodes;
-    }, [modelNodes, twinNodes]);
+    };
 
     return (
         <BaseCard
@@ -103,7 +115,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             localeStrings={localeStrings}
         >
             <Hierarchy
-                data={hierarchyData}
+                data={hierarchyData()}
                 onParentNodeClick={(model: IHierarchyNode) =>
                     handleModelClick(model)
                 }
