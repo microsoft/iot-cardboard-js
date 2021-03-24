@@ -8,6 +8,8 @@ export default {
     title: 'RelationshipsTable/Consume'
 };
 
+const relationshipsOnClick = (id: string, model: string, name: string) =>
+    console.log(id, model, name);
 export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -16,9 +18,9 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
         <div style={{ height: '400px', width: '540px' }}>
             <RelationshipsTable
                 theme={theme}
-                id={'FireAlarmTwin'}
+                id={'Xenia'}
                 properties={[]}
-                title={'Fire alarm relationships'}
+                title={'Xenia relationships'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -27,6 +29,7 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
                         )
                     )
                 }
+                relationshipOnClick={relationshipsOnClick}
             />
         </div>
     );
