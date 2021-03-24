@@ -24,37 +24,42 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
             title={title}
             localeStrings={localeStrings}
         >
-            <table className="cb-relationships-table">
-                <thead>
-                    <tr className="cb-relationships-header-row">
-                        <th>TwinID</th>
-                        <th>Model</th>
-                        <th>Relationship name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cardState.adapterResult
-                        ?.getData()
-                        ?.map(
-                            (relationship: ADTRelationship, relationshipI) => (
-                                <tr
-                                    className="cb-relationships-content-row"
-                                    key={relationshipI}
-                                >
-                                    <td className="cb-relationships-content-cell">
-                                        {relationship.targetId}
-                                    </td>
-                                    <td className="cb-relationships-content-cell">
-                                        {relationship.targetModel}
-                                    </td>
-                                    <td className="cb-relationships-content-cell">
-                                        {relationship.relationshipName}
-                                    </td>
-                                </tr>
-                            )
-                        )}
-                </tbody>
-            </table>
+            <div className={'cb-relationships-table-wrapper'}>
+                <table className="cb-relationships-table">
+                    <thead>
+                        <tr className="cb-relationships-header-row">
+                            <th>TwinID</th>
+                            <th>Model</th>
+                            <th>Relationship name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cardState.adapterResult
+                            ?.getData()
+                            ?.map(
+                                (
+                                    relationship: ADTRelationship,
+                                    relationshipI
+                                ) => (
+                                    <tr
+                                        className="cb-relationships-content-row"
+                                        key={relationshipI}
+                                    >
+                                        <td className="cb-relationships-content-cell">
+                                            {relationship.targetId}
+                                        </td>
+                                        <td className="cb-relationships-content-cell">
+                                            {relationship.targetModel}
+                                        </td>
+                                        <td className="cb-relationships-content-cell">
+                                            {relationship.relationshipName}
+                                        </td>
+                                    </tr>
+                                )
+                            )}
+                    </tbody>
+                </table>
+            </div>
         </BaseCard>
     );
 };

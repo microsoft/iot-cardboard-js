@@ -13,7 +13,7 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ height: '400px', width: '480px' }}>
+        <div style={{ height: '400px', width: '540px' }}>
             <RelationshipsTable
                 theme={theme}
                 id={'FireAlarmTwin'}

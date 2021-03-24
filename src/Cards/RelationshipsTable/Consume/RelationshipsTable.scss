@@ -1,32 +1,39 @@
 @import '../../../Resources/Styles/BaseStyles';
 
-.cb-base-card-content {
-    align-items: start !important;
-}
-
-.cb-relationships-table {
-    border-collapse: collapse;
-    padding: 8px;
-    position: relative;
-    text-align: left;
-    top: 0;
+.cb-relationships-table-wrapper {
+    height: 100%;
+    overflow: auto;
     width: 100%;
-}
 
-.cb-relationships-header-row {
-    font-size: 13px;
-    font-weight: normal;
-    height: 28px;
-    opacity: 0.7;
-}
+    .cb-relationships-table {
+        border-collapse: collapse;
+        padding: 8px;
+        position: relative;
+        text-align: left;
+        top: 0;
+        width: 100%;
+    }
 
-.cb-relationships-content-row {
-    border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
-    font-size: 14px;
-    height: 28px;
-}
+    .cb-relationships-header-row {
+        font-size: 12px;
+        font-weight: 300;
+        height: 32px;
+        opacity: 0.6;
+    }
 
-.cb-relationships-content-cell {
-    min-width: 80px;
-    padding-right: 16px;
+    .cb-relationships-content-row {
+        border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
+        font-size: 14px;
+        height: 36px;
+        /* stylelint-disable-next-line */
+        &:last-of-type {
+            /* stylelint-disable-next-line */
+            border-bottom: none;
+        }
+    }
+
+    .cb-relationships-content-cell {
+        min-width: 80px;
+        padding-right: 16px;
+    }
 }
