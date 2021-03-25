@@ -75,6 +75,13 @@ export interface IAdapterError {
     rawError?: Error;
 }
 
+export interface IMockAdapter {
+    mockData?: any;
+    networkTimeoutMillis?: number;
+    mockError?: AdapterErrorType;
+    isDataStatic?: boolean;
+}
+
 export interface IErrorInfo {
     errors: IAdapterError[];
     catastrophicError: IAdapterError;

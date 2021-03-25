@@ -17,7 +17,7 @@ let renderedHook: RenderHookResult<any, IUseAdapter<KeyValuePairAdapterData>>;
 
 beforeEach(() => {
     adapterInfo = {
-        adapter: new MockAdapter(undefined, networkTimeoutMillis), // Explicitly set network timeout period
+        adapter: new MockAdapter({ networkTimeoutMillis }), // Explicitly set network timeout period
         id: 'test',
         properties: ['temp', 'speed', 'pressure']
     };

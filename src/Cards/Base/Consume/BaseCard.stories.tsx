@@ -31,19 +31,24 @@ export const BasicCardNoData = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-const useMockError = (networkTimeout = 0, errorType: AdapterErrorType) => {
-    const adapter = new MockAdapter(undefined, networkTimeout, errorType);
+const useMockError = (errorType: AdapterErrorType) => {
+    const adapter = new MockAdapter({
+        mockError: errorType
+    });
     const id = 'errorTest';
     const properties = ['a', 'b', 'c'];
     const cardState = useAdapter({
-        adapterMethod: () => adapter.getKeyValuePairs(id, properties),
-        refetchDependencies: [...properties, errorType, networkTimeout]
+        adapterMethod: () =>
+            adapter.getKeyValuePairs(id, properties, {
+                isTimestampIncluded: true
+            }),
+        refetchDependencies: [...properties, errorType]
     });
     return cardState;
 };
 
 export const CatastrophicErrors = (args, { globals: { theme } }) => {
-    const cardState = useMockError(args.networkTimeoutMs, args.errorType);
+    const cardState = useMockError(args.errorType);
 
     return (
         <div
@@ -69,15 +74,6 @@ CatastrophicErrors.argTypes = {
         },
         defaultValue: AdapterErrorType.TokenRetrievalFailed,
         description: 'Test'
-    },
-    networkTimeoutMs: {
-        control: {
-            type: 'range',
-            min: 0,
-            max: 5000,
-            step: 50
-        },
-        defaultValue: 750
     }
 };
 

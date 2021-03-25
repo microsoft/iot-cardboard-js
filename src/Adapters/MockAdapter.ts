@@ -5,32 +5,41 @@ import {
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterError } from '../Models/Classes/Errors';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { AdapterErrorType } from '../Models/Constants';
+import { IMockAdapter } from '../Models/Constants';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
 import { KeyValuePairData, TsiClientData } from '../Models/Constants/Types';
+import seedRandom from 'seedrandom';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
     private mockError = null;
     private networkTimeoutMillis;
+    private isDataStatic;
+    private seededRng = seedRandom('cardboard seed');
 
-    constructor(
-        mockData?: any,
-        networkTimeoutMillis = 1000,
-        mockError?: AdapterErrorType
-    ) {
-        this.mockData = mockData;
-        this.mockError = mockError;
-        this.networkTimeoutMillis = networkTimeoutMillis;
+    constructor(mockAdapterArgs?: IMockAdapter) {
+        this.mockData = mockAdapterArgs?.mockData;
+        this.mockError = mockAdapterArgs?.mockError;
+        this.networkTimeoutMillis =
+            typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
+                ? mockAdapterArgs.networkTimeoutMillis
+                : 0;
+        this.isDataStatic =
+            typeof mockAdapterArgs?.isDataStatic === 'boolean'
+                ? mockAdapterArgs.isDataStatic
+                : true;
     }
 
-    async mockNetwork(timeout = this.networkTimeoutMillis) {
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(null);
-            }, timeout);
-        });
+    async mockNetwork() {
+        // If mocking network latency, wait for networkTimeoutMillis
+        if (this.networkTimeoutMillis > 0) {
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(null);
+                }, this.networkTimeoutMillis);
+            });
+        }
 
         // throw error if mock error type passed into adapter
         if (this.mockError) {
@@ -55,9 +64,13 @@ export default class MockAdapter implements IBaseAdapter {
                 properties.forEach((p) => {
                     const kvp = {} as KeyValuePairData;
                     kvp.key = p;
-                    kvp.value = Math.random();
+                    kvp.value = this.isDataStatic
+                        ? this.seededRng()
+                        : Math.random();
                     if (additionalParameters?.isTimestampIncluded) {
-                        kvp.timestamp = new Date();
+                        kvp.timestamp = this.isDataStatic
+                            ? new Date(1616712321258)
+                            : new Date();
                     }
                     kvps.push(kvp);
                 });
@@ -69,7 +82,7 @@ export default class MockAdapter implements IBaseAdapter {
         });
     }
 
-    static generateMockLineChartData(
+    generateMockLineChartData(
         searchSpan: SearchSpan,
         properties: string[]
     ): TsiClientData {
@@ -91,7 +104,9 @@ export default class MockAdapter implements IBaseAdapter {
                         const to = new Date(
                             from.valueOf() + bucketSizeMillis * k
                         );
-                        const val = Math.random();
+                        const val = this.isDataStatic
+                            ? this.seededRng()
+                            : Math.random();
                         values[to.toISOString()] = { avg: val };
                     }
                 }
@@ -111,7 +126,7 @@ export default class MockAdapter implements IBaseAdapter {
                 if (this.mockData !== undefined) {
                     return this.mockData;
                 } else {
-                    return MockAdapter.generateMockLineChartData(
+                    return this.generateMockLineChartData(
                         searchSpan,
                         properties
                     );
