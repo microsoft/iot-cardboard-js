@@ -12,8 +12,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
     locale,
     localeStrings,
     adapterAdditionalParameters,
-    getHierarchyNodeProperties,
-    images
+    getHierarchyNodeProperties
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
 
@@ -40,12 +39,12 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                 <LKVProcessGraphicCard
                     adapter={adapter}
                     id={selectedChildNode.id}
-                    imageSrc={images[selectedChildNode.parentId].src}
+                    imageSrc={selectedChildNode.nodeData.imgSrc}
                     pollingIntervalMillis={5000}
                     properties={getHierarchyNodeProperties(selectedChildNode)}
-                    adapterAdditionalParameters={
-                        images[selectedChildNode.parentId].propertyPositions
-                    }
+                    adapterAdditionalParameters={JSON.parse(
+                        selectedChildNode.nodeData.imgPropertyPositions
+                    )}
                     title={`Real-time ${selectedChildNode.name} Status`}
                     theme={theme}
                     locale={locale}
