@@ -9,6 +9,7 @@ import {
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterErrorType } from '../Models/Constants';
+import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
     private authService: IAuthService;
@@ -61,9 +62,13 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 });
             }
 
-            const data = {};
+            axiosData = await axios.all(axiosGets);
+            const data = [];
             properties.forEach((prop, i) => {
-                data[prop] = axiosData[i].data.value;
+                const kvp = {} as KeyValuePairData;
+                kvp.key = prop;
+                kvp.value = axiosData[i].data.value;
+                data.push(kvp);
             });
 
             return new KeyValuePairAdapterData(data);

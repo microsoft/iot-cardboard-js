@@ -16,7 +16,11 @@ export type AdapterState<T extends IAdapterData> = {
     isLongPolling: boolean;
 };
 
-export type KeyValuePairData = Record<string, any>;
+export type KeyValuePairData = {
+    key: string;
+    value: any;
+    timestamp?: Date;
+};
 
 export type TsiClientData = any[];
 

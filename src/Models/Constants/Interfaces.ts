@@ -79,3 +79,8 @@ export interface IErrorInfo {
     errors: IAdapterError[];
     catastrophicError: IAdapterError;
 }
+
+export interface IGetKeyValuePairsAdditionalParameters
+    extends Record<string, any> {
+    isTimestampIncluded?: boolean;
+}
