@@ -40,8 +40,12 @@
         background-color: var(--cb-color-card-contrast);
     }
 
-    .cb-relationships-content-cell {
+    .cb-relationships-content-row td {
         min-width: 80px;
         padding-right: 16px;
+    }
+
+    .cb-relationships-content-row td, .cb-relationships-header-row th {
+        padding: 0 8px;
     }
 }

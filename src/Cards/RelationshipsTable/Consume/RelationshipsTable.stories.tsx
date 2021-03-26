@@ -18,9 +18,9 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
         <div style={{ height: '400px', width: '540px' }}>
             <RelationshipsTable
                 theme={theme}
-                id={'Xenia'}
+                id={args.twinID}
                 properties={[]}
-                title={'Xenia relationships'}
+                title={`${args.twinID} relationships`}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -34,3 +34,14 @@ export const BasicRelationshipsTable = (args, { globals: { theme } }) => {
         </div>
     );
 };
+
+BasicRelationshipsTable.argTypes = {
+    twinID: {
+        control: {
+            type: 'select',
+            options: ['Xenia', 'Phillip', 'SaltMachine_C0', 'OsloFactory', 'Norway']
+        },
+        defaultValue: 'Phillip'
+    }
+}
+

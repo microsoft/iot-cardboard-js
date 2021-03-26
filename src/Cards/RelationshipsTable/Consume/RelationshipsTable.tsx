@@ -4,6 +4,7 @@ import { RelationshipsTableProps } from './RelationshipsTable.types';
 import './RelationshipsTable.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import { ADTRelationship } from '../../../Models/Constants';
+import { useTranslation } from 'react-i18next';
 
 const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     theme,
@@ -17,6 +18,7 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
         adapterMethod: () => adapter.getRelationships(id),
         refetchDependencies: [id]
     });
+    const { t } = useTranslation();
     return (
         <BaseCard
             adapterResult={cardState.adapterResult}
@@ -29,9 +31,9 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                 <table className="cb-relationships-table">
                     <thead>
                         <tr className="cb-relationships-header-row">
-                            <th>TwinID</th>
-                            <th>Model</th>
-                            <th>Relationship name</th>
+                            <th>{t("relationshipsTable.twinID")}</th>
+                            <th>{t("relationshipsTable.model")}</th>
+                            <th>{t("relationshipsTable.relationshipName")}</th>
                         </tr>
                     </thead>
                     <tbody>
