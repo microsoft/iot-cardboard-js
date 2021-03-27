@@ -39,9 +39,14 @@ BasicRelationshipsTable.argTypes = {
     twinID: {
         control: {
             type: 'select',
-            options: ['Xenia', 'Phillip', 'SaltMachine_C0', 'OsloFactory', 'Norway']
+            options: [
+                'Xenia',
+                'Phillip',
+                'SaltMachine_C0',
+                'OsloFactory',
+                'Norway'
+            ]
         },
         defaultValue: 'Phillip'
     }
-}
-
+};
