@@ -1,7 +1,11 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
-import { IHierarchyNode } from '../../../../Models/Constants';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName,
+    IHierarchyNode
+} from '../../../../Models/Constants';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithLKVProcessGraphicsCard from './ADTHierarchyWithLKVProcessGraphicsCard';
 
@@ -19,9 +23,9 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
     const getTwinProperties = (node: IHierarchyNode) => {
         return Object.keys(node.nodeData.$metadata).filter(
             (key) =>
-                key !== '$model' &&
-                key !== 'imgSrc' &&
-                key !== 'imgPropertyPositions'
+                !key.startsWith('$') &&
+                key !== ADTModel_ImgSrc_PropertyName &&
+                key !== ADTModel_ImgPropertyPositions_PropertyName
         );
     };
 

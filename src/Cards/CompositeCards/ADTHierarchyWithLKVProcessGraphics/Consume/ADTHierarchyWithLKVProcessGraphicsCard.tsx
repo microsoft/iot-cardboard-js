@@ -4,6 +4,10 @@ import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard
 import LKVProcessGraphicCard from '../../../LKVProcessGraphicCard/Consume/LKVProcessGraphicCard';
 import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName
+} from '../../../../Models/Constants';
 
 const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProcessGraphicsCardProps> = ({
     adapter,
@@ -16,8 +20,11 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
 
-    const handleChildNodeClick = (_parentId: string, node: IHierarchyNode) => {
-        setSelectedChildNode(node);
+    const handleChildNodeClick = (
+        _parentNode: IHierarchyNode,
+        childNode: IHierarchyNode
+    ) => {
+        setSelectedChildNode(childNode);
     };
     return (
         <BaseCompositeCard
@@ -39,12 +46,22 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                 <LKVProcessGraphicCard
                     adapter={adapter}
                     id={selectedChildNode.id}
-                    imageSrc={selectedChildNode.nodeData.imgSrc}
+                    imageSrc={
+                        selectedChildNode.nodeData[ADTModel_ImgSrc_PropertyName]
+                    }
                     pollingIntervalMillis={5000}
                     properties={getHierarchyNodeProperties(selectedChildNode)}
-                    adapterAdditionalParameters={JSON.parse(
-                        selectedChildNode.nodeData.imgPropertyPositions
-                    )}
+                    adapterAdditionalParameters={
+                        selectedChildNode.nodeData[
+                            ADTModel_ImgPropertyPositions_PropertyName
+                        ]
+                            ? JSON.parse(
+                                  selectedChildNode.nodeData[
+                                      ADTModel_ImgPropertyPositions_PropertyName
+                                  ]
+                              )
+                            : {}
+                    }
                     title={`Real-time ${selectedChildNode.name} Status`}
                     theme={theme}
                     locale={locale}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IHierarchyNode, IHierarchyProps } from '../../Models/Constants';
+import { IHierarchyProps } from '../../Models/Constants';
 import './Hierarchy.scss';
 
 const Hierarchy: React.FC<IHierarchyProps> = ({
@@ -7,76 +7,83 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     onParentNodeClick,
     onChildNodeClick
 }) => {
-    const renderTree = (data: Record<string, IHierarchyNode>) => (
-        <ul className="cb-hierarchy-component-list-group">
-            {Object.keys(data).map((nodeName: string, idx: number) => (
-                <li
-                    className="cb-hierarchy-node-wrapper"
-                    key={'cb-hierarchy' + idx}
-                >
-                    {data[nodeName].children ? (
-                        <>
+    const Tree: React.FC<IHierarchyProps> = ({ data }) => {
+        return (
+            <ul className="cb-hierarchy-component-list-group">
+                {Object.keys(data).map((nodeId: string, idx: number) => (
+                    <li
+                        className="cb-hierarchy-node-wrapper"
+                        key={'cb-hierarchy' + idx}
+                    >
+                        {data[nodeId].children ? (
+                            <>
+                                <div className="cb-hierarchy-node">
+                                    <span
+                                        className={`cb-carot ${
+                                            data[nodeId].isCollapsed
+                                                ? 'cb-carot-collapsed'
+                                                : 'cb-carot-expanded'
+                                        }`}
+                                    />
+                                    <span
+                                        className={
+                                            'cb-hierarchy-node-name cb-hierarchy-parent-node'
+                                        }
+                                        onClick={() => {
+                                            if (onParentNodeClick) {
+                                                onParentNodeClick(data[nodeId]);
+                                            }
+                                        }}
+                                    >
+                                        {data[nodeId].name}
+                                        {Object.keys(data[nodeId].children)
+                                            .length > 0 && (
+                                            <span className="cb-hierarchy-child-count">
+                                                {
+                                                    Object.keys(
+                                                        data[nodeId].children
+                                                    ).length
+                                                }
+                                            </span>
+                                        )}
+                                    </span>
+                                </div>
+                                {!data[nodeId].isCollapsed && (
+                                    <Tree data={data[nodeId].children} />
+                                )}
+                            </>
+                        ) : (
                             <div className="cb-hierarchy-node">
                                 <span
-                                    className={`cb-carot ${
-                                        data[nodeName].isCollapsed
-                                            ? 'cb-carot-collapsed'
-                                            : 'cb-carot-expanded'
+                                    className={`cb-hierarchy-node-name cb-hierarchy-child-node ${
+                                        data[nodeId].isSelected
+                                            ? 'cb-selected'
+                                            : ''
                                     }`}
-                                />
-                                <span
-                                    className={
-                                        'cb-hierarchy-node-name cb-hierarchy-parent-node'
-                                    }
                                     onClick={() => {
-                                        if (onParentNodeClick) {
-                                            onParentNodeClick(data[nodeName]);
+                                        if (onChildNodeClick) {
+                                            onChildNodeClick(
+                                                data[nodeId].parentNode,
+                                                data[nodeId]
+                                            );
                                         }
                                     }}
                                 >
-                                    {nodeName}
-                                    {Object.keys(data[nodeName].children)
-                                        .length > 0 && (
-                                        <span className="cb-hierarchy-child-count">
-                                            {
-                                                Object.keys(
-                                                    data[nodeName].children
-                                                ).length
-                                            }
-                                        </span>
-                                    )}
+                                    {data[nodeId].name}
                                 </span>
                             </div>
-                            {!data[nodeName].isCollapsed &&
-                                renderTree(data[nodeName].children)}
-                        </>
-                    ) : (
-                        <div className="cb-hierarchy-node">
-                            <span
-                                className={
-                                    'cb-hierarchy-node-name cb-hierarchy-child-node'
-                                }
-                                onClick={() => {
-                                    if (onChildNodeClick) {
-                                        onChildNodeClick(
-                                            data[nodeName].parentId,
-                                            data[nodeName]
-                                        );
-                                    }
-                                }}
-                            >
-                                {nodeName}
-                            </span>
-                        </div>
-                    )}
-                </li>
-            ))}
-        </ul>
-    );
+                        )}
+                    </li>
+                ))}
+            </ul>
+        );
+    };
 
     return (
         <div className="cb-hierarchy-component-wrapper">
-            <div className={'cb-hierarchy-component'}>{renderTree(data)}</div>
+            <div className={'cb-hierarchy-component'}>
+                <Tree data={data} />
+            </div>
         </div>
     );
 };

@@ -82,7 +82,7 @@ export interface IHierarchyProps {
     data: Record<string, IHierarchyNode>;
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (
-        parentNodeId: string,
+        parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => void;
 }
@@ -90,10 +90,11 @@ export interface IHierarchyProps {
 export interface IHierarchyNode {
     name: string;
     id: string;
-    parentId?: string;
+    parentNode?: IHierarchyNode;
     nodeData: any; // actual object from adapter result data
     children?: Record<string, IHierarchyNode>;
     isCollapsed?: boolean;
+    isSelected?: boolean;
 }
 
 export interface IADTModel {

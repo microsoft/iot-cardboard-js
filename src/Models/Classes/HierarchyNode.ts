@@ -3,17 +3,18 @@ import { IADTModel, IADTTwin, IHierarchyNode } from '../Constants/Interfaces';
 export class HierarchyNode implements IHierarchyNode {
     name: string;
     id: string;
-    parentId?: string;
+    parentNode?: IHierarchyNode;
     nodeData: any;
     children?: Record<string, IHierarchyNode>;
     isCollapsed?: boolean;
+    isSelected?: boolean;
 
     public static fromADTModels = (
         models: Array<IADTModel>
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
             ? models.reduce((p, c: IADTModel) => {
-                  p[c.displayName.en] = {
+                  p[c.id] = {
                       name: c.displayName.en,
                       id: c.id,
                       nodeData: c,
@@ -27,14 +28,14 @@ export class HierarchyNode implements IHierarchyNode {
 
     public static fromADTTwins = (
         twins: Array<IADTTwin>,
-        modelId: string
+        modelNode: IHierarchyNode
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return twins
             ? twins.reduce((p, c: IADTTwin) => {
                   p[c.$dtId] = {
                       name: c.$dtId,
                       id: c.$dtId,
-                      parentId: modelId,
+                      parentNode: modelNode,
                       nodeData: c
                   } as IHierarchyNode;
                   return p;

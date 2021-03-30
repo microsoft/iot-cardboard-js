@@ -59,6 +59,10 @@
         background: var(--cb-color-card-contrast);
     }
 
+    .cb-hierarchy-node-name.cb-selected {
+        background: var(--cb-color-bg-canvas-inset);
+    }
+
     .cb-hierarchy-parent-node {
         padding-left: 40px;
     }
