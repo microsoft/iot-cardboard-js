@@ -32,6 +32,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
+            adapterAdditionalParameters={adapterAdditionalParameters}
         >
             <ADTHierarchyCard
                 adapter={adapter}
@@ -39,7 +40,6 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                adapterAdditionalParameters={adapterAdditionalParameters}
                 onChildNodeClick={handleChildNodeClick}
             />
             {selectedChildNode && (
@@ -51,7 +51,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                     }
                     pollingIntervalMillis={5000}
                     properties={getHierarchyNodeProperties(selectedChildNode)}
-                    adapterAdditionalParameters={
+                    imagePropertyPositions={
                         selectedChildNode.nodeData[
                             ADTModel_ImgPropertyPositions_PropertyName
                         ]
