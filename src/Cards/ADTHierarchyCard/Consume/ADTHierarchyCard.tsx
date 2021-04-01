@@ -83,8 +83,6 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 
         if (onChildNodeClick) {
             onChildNodeClick(modelNode, twinNode);
-        } else {
-            console.log(modelNode.id + ': ' + twinNode.id);
         }
     };
 
