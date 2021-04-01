@@ -2,10 +2,15 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
-import { KeyValuePairData, TsiClientData } from '../Models/Constants/Types';
+import {
+    ADTRelationship,
+    KeyValuePairData,
+    TsiClientData
+} from '../Models/Constants/Types';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
@@ -86,6 +91,35 @@ export default class MockAdapter implements IBaseAdapter {
             }
         }
         return data;
+    }
+
+    async getRelationships(id: string) {
+        try {
+            const getRelationshipsData = () => {
+                const relationships: ADTRelationship[] = [];
+                for (let i = 1; i <= 5; i++) {
+                    relationships.push({
+                        relationshipId: `relationship ${id}`,
+                        relationshipName: `relationship ${i}`,
+                        targetId: `target twin ${i}`,
+                        targetModel: `target model ${i}`
+                    });
+                }
+                return relationships;
+            };
+
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTRelationshipData>({
+                result: new ADTRelationshipData(getRelationshipsData()),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTRelationshipData>({
+                result: null,
+                error: err
+            });
+        }
     }
 
     async getTsiclientChartDataShape(

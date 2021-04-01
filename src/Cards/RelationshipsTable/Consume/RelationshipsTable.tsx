@@ -12,7 +12,7 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     adapter,
     title,
     localeStrings,
-    relationshipOnClick
+    onRelationshipClick
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getRelationships(id),
@@ -46,14 +46,14 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                 ) => (
                                     <tr
                                         className={`cb-relationships-content-row${
-                                            relationshipOnClick
+                                            onRelationshipClick
                                                 ? ' cb-row-is-clickable'
                                                 : ''
                                         }`}
                                         key={relationshipI}
                                         onClick={() =>
-                                            relationshipOnClick &&
-                                            relationshipOnClick(
+                                            onRelationshipClick &&
+                                            onRelationshipClick(
                                                 relationship.targetId,
                                                 relationship.targetModel,
                                                 relationship.relationshipName

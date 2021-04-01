@@ -25,19 +25,16 @@
         border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
         font-size: 14px;
         height: 36px;
-        /* stylelint-disable-next-line */
         &:last-of-type {
-            /* stylelint-disable-next-line */
-            border-bottom: none;
+            border-bottom: 0;
         }
     }
 
     .cb-row-is-clickable {
         cursor: pointer;
-    }
-
-    .cb-row-is-clickable:hover {
-        background-color: var(--cb-color-card-contrast);
+        &:hover {
+            background-color: var(--cb-color-card-contrast);
+        }
     }
 
     .cb-relationships-content-row td {
