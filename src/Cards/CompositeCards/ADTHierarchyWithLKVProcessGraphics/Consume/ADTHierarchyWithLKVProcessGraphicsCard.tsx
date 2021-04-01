@@ -8,6 +8,7 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
 } from '../../../../Models/Constants';
+import { useTranslation } from 'react-i18next';
 
 const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProcessGraphicsCardProps> = ({
     adapter,
@@ -16,9 +17,11 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
     locale,
     localeStrings,
     adapterAdditionalParameters,
-    getHierarchyNodeProperties
+    getHierarchyNodeProperties,
+    pollingIntervalMillis
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
+    const { t } = useTranslation();
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -36,7 +39,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
         >
             <ADTHierarchyCard
                 adapter={adapter}
-                title={'ADT Hierarchy'}
+                title={`ADT ${t('hierarchy')}`}
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
@@ -49,7 +52,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                     imageSrc={
                         selectedChildNode.nodeData[ADTModel_ImgSrc_PropertyName]
                     }
-                    pollingIntervalMillis={5000}
+                    pollingIntervalMillis={pollingIntervalMillis}
                     properties={getHierarchyNodeProperties(selectedChildNode)}
                     imagePropertyPositions={
                         selectedChildNode.nodeData[
@@ -62,7 +65,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                               )
                             : {}
                     }
-                    title={`Real-time ${selectedChildNode.name} Status`}
+                    title={`${selectedChildNode.name} - ${t('realTimeStatus')}`}
                     theme={theme}
                     locale={locale}
                 />

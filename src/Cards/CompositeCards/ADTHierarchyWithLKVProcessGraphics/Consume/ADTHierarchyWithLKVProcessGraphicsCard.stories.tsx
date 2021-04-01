@@ -46,6 +46,7 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
                     )
                 }
                 getHierarchyNodeProperties={getTwinProperties}
+                pollingIntervalMillis={5000}
             />
         </div>
     );

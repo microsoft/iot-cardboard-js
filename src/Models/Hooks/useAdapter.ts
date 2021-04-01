@@ -54,7 +54,6 @@ interface Params<T extends IAdapterData> {
 const useAdapter = <T extends IAdapterData>({
     adapterMethod,
     refetchDependencies,
-
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis

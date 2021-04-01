@@ -5,6 +5,9 @@
     "error": "Error fetching data",
     "selectProperties": "Select properties",
     "empty": "Empty",
+    "hierarchy": "Hierarchy",
+    "realTimeStatus": "Real-time status",
+    "emptyCompositeCard": "Empty composite card",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",

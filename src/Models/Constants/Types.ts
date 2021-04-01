@@ -56,3 +56,10 @@ export type UseLongPollParams = {
     /** Length of time UI pulse state remains true after callback completion - use to indicate updated data */
     pulseTimeoutMillis?: number;
 };
+
+export type ImgPropertyPositions = {
+    /** Position relative to the left edge, where "100%" is the left edge and "0%" is the right edge*/
+    left: string;
+    /** Position relative to the right edge, where "100%" is the right edge and "0%" is the left edge*/
+    top: string;
+};
