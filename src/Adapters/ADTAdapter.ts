@@ -4,6 +4,7 @@ import {
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
+import { ADTRelationship } from '../Models/Constants/Types';
 import {
     AdapterResult,
     KeyValuePairAdapterData,
@@ -12,6 +13,7 @@ import {
 } from '../Models/Classes';
 import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
 import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { KeyValuePairData } from '../Models/Constants';
 
 export default class ADTAdapter implements IADTAdapter {
@@ -40,6 +42,48 @@ export default class ADTAdapter implements IADTAdapter {
             result: null,
             error: null
         });
+    }
+
+    async getRelationships(id: string) {
+        try {
+            const token = await this.authService.getToken();
+            const axiosData = await axios({
+                method: 'get',
+                url: 'http://localhost:3002/api/proxy/adt', // TODO: update this link for production, make sure this points to the right adt proxy server
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl,
+                    'x-adt-endpoint': `digitaltwins/${id}/relationships`
+                },
+                params: {
+                    'api-version': '2020-10-31'
+                }
+            });
+            const relationships: ADTRelationship[] = axiosData.data.value.map(
+                (rawRelationship) => {
+                    // NOTE: the targetModel property is a custom property that needs to be explicitly defined in the DTDL model's definition of that relationship type, and needs to be explicitly provided when creating the twin relationship
+
+                    return {
+                        relationshipId: rawRelationship.$relationshipId,
+                        relationshipName: rawRelationship.$relationshipName,
+                        targetId: rawRelationship.$targetId,
+                        targetModel: rawRelationship.targetModel
+                            ? rawRelationship.targetModel
+                            : ''
+                    };
+                }
+            );
+            return new AdapterResult<ADTRelationshipData>({
+                result: new ADTRelationshipData(relationships),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTRelationshipData>({
+                result: null,
+                error: err
+            });
+        }
     }
 
     async getAdtModels() {

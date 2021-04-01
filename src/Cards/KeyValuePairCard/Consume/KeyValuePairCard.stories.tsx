@@ -14,8 +14,8 @@ const wrapperStyle = { height: '400px', width: '400px' };
 const smallWrapperStyle = { height: '200px', width: '200px' };
 
 const digitalTwins = {
-    id: 'CarTwin',
-    properties: ['OutdoorTemperature'] as [string]
+    id: 'PasteurizationMachine_A01',
+    properties: ['Temperature'] as [string]
 };
 
 export const Mock = (args, { globals: { theme } }) => (
