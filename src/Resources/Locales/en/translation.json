@@ -9,6 +9,11 @@
         "titleInputLabel": "Title",
         "titleInputPlaceholder": "Enter title"
     },
+    "relationshipsTable": {
+        "twinID": "Twin id",
+        "model": "Model",
+        "relationshipName": "Relationship name"
+    },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

@@ -22,6 +22,13 @@ export type KeyValuePairData = {
     timestamp?: Date;
 };
 
+export type ADTRelationship = {
+    relationshipName: string;
+    relationshipId: string;
+    targetId: string;
+    targetModel?: string;
+};
+
 export type TsiClientData = any[];
 
 export type CancellablePromise<T> = {
