@@ -1,15 +1,15 @@
 import React from 'react';
 import ClientLinechart from 'tsiclient/LineChart';
 import 'tsiclient/tsiclient.css';
-import { ITSIComponentProps } from '../../Models/Constants';
-import useTSIComponentRender from '../../Models/Hooks/renderTSIComponent';
+import { ITSIChartComponentProps } from '../../Models/Constants';
+import useTSIChartComponentRender from '../../Models/Hooks/useRenderTSIChartComponent';
 
-const Linechart: React.FC<ITSIComponentProps> = ({
+const Linechart: React.FC<ITSIChartComponentProps> = ({
     chartOptions,
     chartDataOptions,
     data
 }) => {
-    const chartContainerGUID = useTSIComponentRender(ClientLinechart, {
+    const chartContainerGUID = useTSIChartComponentRender(ClientLinechart, {
         chartOptions: chartOptions,
         chartDataOptions: chartDataOptions,
         data: data

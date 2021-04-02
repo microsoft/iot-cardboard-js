@@ -1,6 +1,6 @@
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
-
+const postcssUrl = require('postcss-url');
 module.exports = {
     stories: ['../src/**/*.stories.tsx'],
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
@@ -8,7 +8,19 @@ module.exports = {
     webpackFinal: async (config) => {
         config.module.rules.push({
             test: /\.scss$/,
-            use: ['style-loader', 'css-loader', 'sass-loader'],
+            use: [
+                'style-loader',
+                'css-loader',
+                'sass-loader',
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [postcssUrl({ url: 'inline' })]
+                        }
+                    }
+                }
+            ],
             include: path.resolve(__dirname, '../')
         });
 

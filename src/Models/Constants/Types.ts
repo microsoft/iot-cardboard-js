@@ -1,5 +1,10 @@
 import AdapterResult from '../Classes/AdapterResult';
-import { IAdapterData } from './Interfaces';
+import {
+    IADTModel,
+    IADTTwin,
+    IAdapterData,
+    IHierarchyNode
+} from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> = Promise<
     AdapterResult<T>
@@ -31,6 +36,18 @@ export type ADTRelationship = {
 
 export type TsiClientData = any[];
 
+export type HierarchyData = Record<string, IHierarchyNode>;
+
+export type ADTModelsData = {
+    value: IADTModel[];
+    nextLink: string;
+};
+
+export type ADTwinsData = {
+    value: IADTTwin[];
+    continuationToken: string;
+};
+
 export type CancellablePromise<T> = {
     /** Wrapped promise - throws CancelledPromiseError if cancelled */
     promise: Promise<T>;
@@ -45,4 +62,11 @@ export type UseLongPollParams = {
     pollingIntervalMillis?: number;
     /** Length of time UI pulse state remains true after callback completion - use to indicate updated data */
     pulseTimeoutMillis?: number;
+};
+
+export type ImgPropertyPositions = {
+    /** Position relative to the left edge, where "100%" is the right edge and "0%" is the left edge*/
+    left: string;
+    /** Position relative to the top edge, where "100%" is the bottom edge and "0%" is the top edge*/
+    top: string;
 };

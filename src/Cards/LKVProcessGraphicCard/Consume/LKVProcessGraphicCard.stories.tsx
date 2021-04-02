@@ -50,20 +50,20 @@ const imageSrc =
 type propertyState = {
     id: string;
     properties: Array<string>;
-    adapterAdditionalParameters: Record<string, any>;
+    propertyPositions: Record<string, any>;
 };
 
 export const Mock = (args, { globals: { theme, locale } }) => {
     const [properties, setProperties] = useState<propertyState>({
         properties: iotCentral.properties,
-        adapterAdditionalParameters: iotCentral.positions,
+        propertyPositions: iotCentral.positions,
         id: iotCentral.id
     });
 
     setTimeout(() => {
         setProperties({
             properties: propChangeMock.properties,
-            adapterAdditionalParameters: propChangeMock.positions,
+            propertyPositions: propChangeMock.positions,
             id: propChangeMock.id
         });
     }, 5000);
@@ -75,9 +75,7 @@ export const Mock = (args, { globals: { theme, locale } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={1000}
                 properties={properties.properties}
-                adapterAdditionalParameters={
-                    properties.adapterAdditionalParameters
-                }
+                imagePropertyPositions={properties.propertyPositions}
                 title={'Real-time Truck Status'}
                 theme={theme}
                 locale={locale}
@@ -98,7 +96,7 @@ export const IoTCentral = (args, { globals: { theme, locale } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={5000}
                 properties={iotCentral.properties}
-                adapterAdditionalParameters={iotCentral.positions}
+                imagePropertyPositions={iotCentral.positions}
                 title={'Real-time Truck Status'}
                 theme={theme}
                 locale={locale}
@@ -126,7 +124,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                 imageSrc={imageSrc}
                 pollingIntervalMillis={5000}
                 properties={digitalTwins.properties}
-                adapterAdditionalParameters={digitalTwins.positions}
+                imagePropertyPositions={digitalTwins.positions}
                 title={'Real-time Car Twin Status'}
                 theme={theme}
                 locale={locale}
