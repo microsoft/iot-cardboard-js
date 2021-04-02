@@ -11,7 +11,9 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     const Chevron = ({ collapsed }) => (
         <Icon
             iconName={'ChevronRight'}
-            className={`cb-chevron ${collapsed ? 'collapsed' : 'expanded'}`}
+            className={`cb-chevron ${
+                collapsed ? 'cb-collapsed' : 'cb-expanded'
+            }`}
         />
     );
 

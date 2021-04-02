@@ -60,18 +60,18 @@
 
     .cb-chevron {
         display: inline-block;
-        position: absolute;
-        top: 8px;
-        z-index: 1;
-        transition: all 0.2s ease;
         font-family: 'FabricMDL2Icons' !important;
         font-size: 12px;
+        position: absolute;
+        top: 8px;
+        transition: all 0.2s ease;
+        z-index: 1;
 
-        &.collapsed {
+        &.cb-collapsed {
             transform: rotate(0deg);
         }
 
-        &.expanded {
+        &.cb-expanded {
             transform: rotate(90deg);
         }
     }
