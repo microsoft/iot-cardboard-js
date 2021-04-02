@@ -57,4 +57,22 @@
         position: relative;
         top: 1px;
     }
+
+    .cb-chevron {
+        display: inline-block;
+        position: absolute;
+        top: 8px;
+        z-index: 1;
+        transition: all 0.2s ease;
+        font-family: 'FabricMDL2Icons' !important;
+        font-size: 12px;
+
+        &.collapsed {
+            transform: rotate(0deg);
+        }
+
+        &.expanded {
+            transform: rotate(90deg);
+        }
+    }
 }

@@ -11,15 +11,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     const Chevron = ({ collapsed }) => (
         <Icon
             iconName={'ChevronRight'}
-            style={{
-                display: 'inline-block',
-                position: 'absolute',
-                top: '8px',
-                zIndex: 1,
-                transition: 'all 0.2s ease',
-                transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
-                fontSize: '12px'
-            }}
+            className={`cb-chevron ${collapsed ? 'collapsed' : 'expanded'}`}
         />
     );
 
