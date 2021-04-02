@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
+import postcssUrl from 'postcss-url';
 import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
 
@@ -30,7 +31,13 @@ export default {
             throwOnError: true
         }),
         typescript({ useTsconfigDeclarationDir: true }),
-        postcss(),
+        postcss({
+            plugins: [
+                postcssUrl({
+                    url: 'inline'
+                })
+            ]
+        }),
         json()
     ]
 };

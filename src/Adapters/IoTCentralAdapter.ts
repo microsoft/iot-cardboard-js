@@ -62,7 +62,6 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 });
             }
 
-            axiosData = await axios.all(axiosGets);
             const data = [];
             properties.forEach((prop, i) => {
                 const kvp = {} as KeyValuePairData;

@@ -1,15 +1,15 @@
 import React from 'react';
 import ClientBarchart from 'tsiclient/GroupedBarChart';
 import 'tsiclient/tsiclient.css';
-import { ITSIComponentProps } from '../../Models/Constants';
-import useTSIComponentRender from '../../Models/Hooks/renderTSIComponent';
+import { ITSIChartComponentProps } from '../../Models/Constants';
+import useTSIChartComponentRender from '../../Models/Hooks/useRenderTSIChartComponent';
 
-const Barchart: React.FC<ITSIComponentProps> = ({
+const Barchart: React.FC<ITSIChartComponentProps> = ({
     chartOptions,
     chartDataOptions,
     data
 }) => {
-    const chartContainerGUID = useTSIComponentRender(ClientBarchart, {
+    const chartContainerGUID = useTSIChartComponentRender(ClientBarchart, {
         chartOptions: chartOptions,
         chartDataOptions: chartDataOptions,
         data: data

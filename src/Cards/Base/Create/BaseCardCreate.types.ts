@@ -1,11 +1,7 @@
-import { Locale, Theme } from '../../../Models/Constants/Enums';
+import { ICardBaseProps } from '../../../Models/Constants';
 
-export interface BaseCardCreateProps {
-    title?: string;
+export interface BaseCardCreateProps extends ICardBaseProps {
     children?: React.ReactNode;
-    theme?: Theme;
     form: React.ReactNode;
     preview: React.ReactNode;
-    locale?: Locale;
-    localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
 }

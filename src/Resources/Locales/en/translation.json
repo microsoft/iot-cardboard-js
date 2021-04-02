@@ -4,6 +4,10 @@
     "noData": "No data",
     "error": "Error fetching data",
     "selectProperties": "Select properties",
+    "empty": "Empty",
+    "hierarchy": "Hierarchy",
+    "realTimeStatus": "Real-time status",
+    "emptyCompositeCard": "Empty composite card",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
@@ -13,6 +17,11 @@
         "tokenFailed": "Token retrieval failed",
         "dataFetchFailed": "Data retrieval failed",
         "unkownError": "Unknown error occurred"
+    },
+    "relationshipsTable": {
+        "twinID": "Twin id",
+        "model": "Model",
+        "relationshipName": "Relationship name"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

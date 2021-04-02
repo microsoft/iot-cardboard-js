@@ -11,6 +11,7 @@
             {
                 "message": "Class selectors must start with cb- and follow kebab-case convention, for example: cb-my-class"
             }
-        ]
+        ],
+        "max-nesting-depth": [2, { "ignore": ["pseudo-classes"] }]
     }
 }

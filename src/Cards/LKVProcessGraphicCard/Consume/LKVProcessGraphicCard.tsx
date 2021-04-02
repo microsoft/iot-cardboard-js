@@ -11,6 +11,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     pollingIntervalMillis,
     adapterAdditionalParameters,
     imageSrc,
+    imagePropertyPositions,
     title,
     theme,
     locale,
@@ -33,6 +34,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
+            adapterAdditionalParameters={adapterAdditionalParameters}
         >
             <div className={'cb-lkvpg-wrapper'}>
                 <img className={'cb-img-wrapper'} src={imageSrc} />
@@ -41,7 +43,7 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
                         cardState.adapterResult?.result?.data &&
                         cardState.adapterResult.result.data.map((kvp, i) => (
                             <LKVValue
-                                style={adapterAdditionalParameters[kvp.key]}
+                                style={imagePropertyPositions[kvp.key]}
                                 key={i}
                                 pulse={cardState.pulse}
                                 title={kvp.key}

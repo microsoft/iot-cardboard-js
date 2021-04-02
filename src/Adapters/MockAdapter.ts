@@ -4,11 +4,16 @@ import {
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterError } from '../Models/Classes/Errors';
+import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IMockAdapter } from '../Models/Constants';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
-import { KeyValuePairData, TsiClientData } from '../Models/Constants/Types';
 import seedRandom from 'seedrandom';
+import {
+    ADTRelationship,
+    KeyValuePairData,
+    TsiClientData
+} from '../Models/Constants/Types';
 import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
@@ -115,12 +120,36 @@ export default class MockAdapter implements IBaseAdapter {
         return data;
     }
 
+    async getRelationships(id: string) {
+        const sandbox = new AdapterMethodSandbox({ authservice: null });
+
+        return await sandbox.safelyFetchData(async () => {
+            const getRelationshipsData = () => {
+                const relationships: ADTRelationship[] = [];
+                for (let i = 1; i <= 5; i++) {
+                    relationships.push({
+                        relationshipId: `relationship ${id}`,
+                        relationshipName: `relationship ${i}`,
+                        targetId: `target twin ${i}`,
+                        targetModel: `target model ${i}`
+                    });
+                }
+                return relationships;
+            };
+
+            await this.mockNetwork();
+
+            return new ADTRelationshipData(getRelationshipsData());
+        });
+    }
+
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
     ) {
         const sandbox = new AdapterMethodSandbox({ authservice: null });
+
         return await sandbox.safelyFetchData(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
