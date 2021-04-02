@@ -1,12 +1,28 @@
 import React from 'react';
 import { IHierarchyProps } from '../../Models/Constants';
 import './Hierarchy.scss';
+import { Icon } from '@fluentui/react/lib/Icon';
 
 const Hierarchy: React.FC<IHierarchyProps> = ({
     data,
     onParentNodeClick,
     onChildNodeClick
 }) => {
+    const Chevron = ({ collapsed }) => (
+        <Icon
+            iconName={'ChevronRight'}
+            style={{
+                display: 'inline-block',
+                position: 'absolute',
+                top: '8px',
+                zIndex: 1,
+                transition: 'all 0.2s ease',
+                transform: collapsed ? 'rotate(0deg)' : 'rotate(90deg)',
+                fontSize: '12px'
+            }}
+        />
+    );
+
     const Tree: React.FC<IHierarchyProps> = ({ data }) => {
         return (
             <ul className="cb-hierarchy-component-list-group">
@@ -18,12 +34,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         {data[nodeId].children ? (
                             <>
                                 <div className="cb-hierarchy-node">
-                                    <span
-                                        className={`cb-carot ${
-                                            data[nodeId].isCollapsed
-                                                ? 'cb-carot-collapsed'
-                                                : 'cb-carot-expanded'
-                                        }`}
+                                    <Chevron
+                                        collapsed={data[nodeId].isCollapsed}
                                     />
                                     <span
                                         className={

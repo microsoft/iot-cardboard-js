@@ -20,29 +20,6 @@
         padding-left: 20px;
     }
 
-    .cb-carot {
-        background-position: 50%;
-        background-repeat: no-repeat;
-        background-size: 12px;
-        cursor: pointer;
-        display: block;
-        height: 12px;
-        opacity: 0.8;
-        pointer-events: none;
-        position: absolute;
-        top: 8px;
-        transition: all 0.2s ease;
-        width: 12px;
-        z-index: 1;
-    }
-
-    .cb-carot-collapsed {
-        transform: rotate(0deg);
-    }
-    .cb-carot-expanded {
-        transform: rotate(90deg);
-    }
-
     .cb-hierarchy-node-name {
         align-items: center;
         display: flex;
@@ -79,17 +56,5 @@
         padding-left: 8px;
         position: relative;
         top: 1px;
-    }
-}
-
-[cardboard-data-theme='dark'] {
-    .cb-carot {
-        background-image: url('../../Resources/Icons/CaretClosed_Dark.svg');
-    }
-}
-
-[cardboard-data-theme='light'] {
-    .cb-carot {
-        background-image: url('../../Resources/Icons/CaretClosed_Light.svg');
     }
 }
