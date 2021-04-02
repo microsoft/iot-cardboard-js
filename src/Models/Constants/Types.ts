@@ -65,8 +65,8 @@ export type UseLongPollParams = {
 };
 
 export type ImgPropertyPositions = {
-    /** Position relative to the left edge, where "100%" is the left edge and "0%" is the right edge*/
+    /** Position relative to the left edge, where "100%" is the right edge and "0%" is the left edge*/
     left: string;
-    /** Position relative to the right edge, where "100%" is the right edge and "0%" is the left edge*/
+    /** Position relative to the top edge, where "100%" is the bottom edge and "0%" is the top edge*/
     top: string;
 };
