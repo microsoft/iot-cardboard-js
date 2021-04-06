@@ -88,9 +88,18 @@ export interface IAdapterError {
 }
 
 export interface IMockAdapter {
+    /** If unset, random data is generated, if explicitly set, MockAdapter will use value for mocked data.
+     *  To mock empty data, explicitly set { mockData: null }
+     */
     mockData?: any;
+
+    /** Mocked network timeout period, defaults to 0ms */
     networkTimeoutMillis?: number;
+
+    /** If set, MockAdapter will mock error of set type */
     mockError?: AdapterErrorType;
+
+    /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
 }
 
