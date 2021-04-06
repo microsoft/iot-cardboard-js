@@ -47,11 +47,11 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getRelationships(id: string) {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -68,7 +68,7 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 });
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -98,11 +98,11 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getAdtModels() {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -119,7 +119,7 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 });
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -131,11 +131,11 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getAdtTwins(modelId: string) {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -155,7 +155,7 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 });
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
@@ -172,11 +172,11 @@ export default class ADTAdapter implements IADTAdapter {
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -193,7 +193,7 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 });
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err

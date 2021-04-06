@@ -17,7 +17,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { catastrophicError } = adapterResult?.errorInfo || {};
+    const catastrophicError = adapterResult?.getCatastrophicError();
     const noData = adapterResult?.hasNoData();
 
     return (

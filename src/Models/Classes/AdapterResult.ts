@@ -28,6 +28,13 @@ class AdapterResult<T extends IAdapterData> {
     hasError() {
         return this.errorInfo !== null;
     }
+
+    getCatastrophicError() {
+        if (this.errorInfo?.catastrophicError) {
+            return this.errorInfo.catastrophicError;
+        }
+        return null;
+    }
 }
 
 export default AdapterResult;

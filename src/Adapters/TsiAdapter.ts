@@ -39,11 +39,11 @@ export default class TsiAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
@@ -71,7 +71,7 @@ export default class TsiAdapter implements IBaseAdapter {
                     tsqExpressions.map((tsqe) => tsqe.toTsq())
                 );
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err

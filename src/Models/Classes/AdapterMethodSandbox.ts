@@ -55,7 +55,7 @@ class AdapterMethodSandbox {
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
     private async safelyFetchToken() {
-        // If sandbox not constructed with authService, skip token fetching
+        // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
             return null;
         }

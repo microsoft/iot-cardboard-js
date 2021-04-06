@@ -33,11 +33,11 @@ export default class IoTCentralAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const sandbox = new AdapterMethodSandbox({
+        const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await sandbox.safelyFetchData(async (token) => {
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosGets;
             let axiosData;
 
@@ -55,7 +55,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
 
                 axiosData = await axios.all(axiosGets);
             } catch (err) {
-                sandbox.pushError({
+                adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err

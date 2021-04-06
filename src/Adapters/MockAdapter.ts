@@ -61,9 +61,11 @@ export default class MockAdapter implements IBaseAdapter {
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
-        const sandbox = new AdapterMethodSandbox({ authservice: null });
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
 
-        return await sandbox.safelyFetchData(async () => {
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getKVPData = () => {
                 const kvps = [];
                 properties.forEach((p) => {
@@ -121,9 +123,11 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getRelationships(id: string) {
-        const sandbox = new AdapterMethodSandbox({ authservice: null });
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
 
-        return await sandbox.safelyFetchData(async () => {
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getRelationshipsData = () => {
                 const relationships: ADTRelationship[] = [];
                 for (let i = 1; i <= 5; i++) {
@@ -148,9 +152,11 @@ export default class MockAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const sandbox = new AdapterMethodSandbox({ authservice: null });
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
 
-        return await sandbox.safelyFetchData(async () => {
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
                     return this.mockData;
