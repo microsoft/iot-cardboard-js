@@ -5,6 +5,8 @@ import './RelationshipsTable.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import { ADTRelationship } from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import ADTTwinData from '../../../Models/Classes/AdapterDataClasses/ADTTwinData';
+import { AdapterResult } from '../../../Models/Classes';
 
 const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     theme,
@@ -18,6 +20,27 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
         adapterMethod: () => adapter.getRelationships(id),
         refetchDependencies: [id]
     });
+
+    const wrappedOnClick = async (id: string) => {
+        const resolvedTwin: AdapterResult<ADTTwinData> = await adapter.getTwin(
+            id
+        );
+        let resolvedModel = null;
+        if (resolvedTwin.result?.data?.$metadata?.$model) {
+            resolvedModel = await adapter.getModel(
+                resolvedTwin.result.data.$metadata.$model
+            );
+        }
+        onRelationshipClick(resolvedTwin.getData(), resolvedModel?.getData());
+
+        // if (!resolvedModel.hasNoData() && !resolvedTwin.hasNoData()) {
+        //     onRelationshipClick(resolvedTwin.result.data, resolvedModel.result.data);
+        // } else {
+        //     const errors = []; //TODO
+        //     onRelationshipClick(resolvedTwin?.result.data, resolvedModel?.result.data, errors);
+        //     // TODO: surface error
+        // }
+    };
     const { t } = useTranslation();
     return (
         <BaseCard
@@ -51,12 +74,10 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                                 : ''
                                         }`}
                                         key={relationshipI}
-                                        onClick={() =>
+                                        onClick={async () =>
                                             onRelationshipClick &&
-                                            onRelationshipClick(
-                                                relationship.targetId,
-                                                relationship.targetModel,
-                                                relationship.relationshipName
+                                            wrappedOnClick(
+                                                relationship.targetId
                                             )
                                         }
                                     >

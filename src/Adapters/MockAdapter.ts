@@ -2,7 +2,9 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
@@ -116,6 +118,58 @@ export default class MockAdapter implements IBaseAdapter {
             });
         } catch (err) {
             return new AdapterResult<ADTRelationshipData>({
+                result: null,
+                error: err
+            });
+        }
+    }
+
+    async getModel(modelId: string) {
+        try {
+            const getModelData = () => {
+                return new ADTModelData({
+                    id: modelId,
+                    description: {},
+                    displayName: null,
+                    decommissioned: false,
+                    uploadTime: '2021-1-1'
+                });
+            };
+
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTModelData>({
+                result: getModelData(),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTModelData>({
+                result: null,
+                error: err
+            });
+        }
+    }
+
+    async getTwin(twinId: string) {
+        try {
+            const getTwinData = () => {
+                return new ADTTwinData({
+                    $dtId: twinId,
+                    $etag: `$nId}Tag`,
+                    $metadata: {
+                        $model: `${twinId}Model`
+                    }
+                });
+            };
+
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTTwinData>({
+                result: getTwinData(),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTTwinData>({
                 result: null,
                 error: err
             });

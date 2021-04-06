@@ -3,10 +3,6 @@ import { IConsumeCardProps } from '../../../Models/Constants';
 
 export interface RelationshipsTableProps
     extends Omit<IConsumeCardProps, 'properties'> {
-    onRelationshipClick?: (
-        targetId: string,
-        targetModel: string,
-        relationshipName: string
-    ) => void;
+    onRelationshipClick?: (twin: any, model: any, errors?: any) => void;
     adapter: ADTAdapter | MockAdapter;
 }

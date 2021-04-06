@@ -15,6 +15,8 @@ import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
 import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { KeyValuePairData } from '../Models/Constants';
+import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
+import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -80,6 +82,64 @@ export default class ADTAdapter implements IADTAdapter {
             });
         } catch (err) {
             return new AdapterResult<ADTRelationshipData>({
+                result: null,
+                error: err
+            });
+        }
+    }
+
+    async getTwin(twinId: string) {
+        try {
+            const token = await this.authService.getToken();
+            const axiosData = await axios({
+                method: 'get',
+                url: this.adtProxyServerURL,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl,
+                    'x-adt-endpoint': `digitaltwins/${twinId}`
+                },
+                params: {
+                    'api-version': '2020-10-31'
+                }
+            });
+            const data = axiosData.data;
+            return new AdapterResult<ADTTwinData>({
+                result: new ADTTwinData(data),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTTwinData>({
+                result: null,
+                error: err
+            });
+        }
+    }
+
+    async getModel(modelId: string) {
+        try {
+            const token = await this.authService.getToken();
+            const axiosData = await axios({
+                method: 'get',
+                url: this.adtProxyServerURL,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl,
+                    'x-adt-endpoint': `models/${modelId}`
+                },
+                params: {
+                    'api-version': '2020-10-31'
+                }
+            });
+            const data = axiosData.data;
+            return new AdapterResult<ADTModelData>({
+                result: new ADTModelData(data),
+                error: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTModelData>({
                 result: null,
                 error: err
             });

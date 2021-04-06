@@ -8,8 +8,7 @@ export default {
     title: 'RelationshipsTable/Consume'
 };
 
-const relationshipsOnClick = (id: string, model: string, name: string) =>
-    console.log(id, model, name);
+const relationshipsOnClick = (twin, model) => console.log(twin, model);
 export const ADTData = (args, { globals: { theme } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
