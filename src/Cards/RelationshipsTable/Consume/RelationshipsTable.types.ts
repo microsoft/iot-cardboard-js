@@ -1,8 +1,17 @@
 import { ADTAdapter, MockAdapter } from '../../../Adapters';
-import { IConsumeCardProps } from '../../../Models/Constants';
+import {
+    IADTModel,
+    IADTTwin,
+    IConsumeCardProps,
+    IResolvedRelationshipClickErrors
+} from '../../../Models/Constants';
 
 export interface RelationshipsTableProps
     extends Omit<IConsumeCardProps, 'properties'> {
-    onRelationshipClick?: (twin: any, model: any, errors?: any) => void;
+    onRelationshipClick?: (
+        twin: IADTTwin,
+        model: IADTModel,
+        errors?: IResolvedRelationshipClickErrors
+    ) => void;
     adapter: ADTAdapter | MockAdapter;
 }

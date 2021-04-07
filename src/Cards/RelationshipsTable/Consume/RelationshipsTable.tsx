@@ -3,7 +3,10 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { RelationshipsTableProps } from './RelationshipsTable.types';
 import './RelationshipsTable.scss';
 import { useAdapter } from '../../../Models/Hooks';
-import { ADTRelationship } from '../../../Models/Constants';
+import {
+    ADTRelationship,
+    IResolvedRelationshipClickErrors
+} from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import ADTTwinData from '../../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import { AdapterResult } from '../../../Models/Classes';
@@ -31,15 +34,21 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                 resolvedTwin.result.data.$metadata.$model
             );
         }
-        onRelationshipClick(resolvedTwin.getData(), resolvedModel?.getData());
 
-        // if (!resolvedModel.hasNoData() && !resolvedTwin.hasNoData()) {
-        //     onRelationshipClick(resolvedTwin.result.data, resolvedModel.result.data);
-        // } else {
-        //     const errors = []; //TODO
-        //     onRelationshipClick(resolvedTwin?.result.data, resolvedModel?.result.data, errors);
-        //     // TODO: surface error
-        // }
+        const errors: IResolvedRelationshipClickErrors = {};
+        if (resolvedTwin.hasError()) {
+            errors.twinError = resolvedTwin.error;
+        }
+        if (resolvedModel?.hasError()) {
+            errors.modelError = resolvedModel.error;
+        }
+
+        onRelationshipClick(
+            resolvedTwin.getData(),
+            resolvedModel?.getData(),
+            errors
+        );
+        // TODO: surface errors
     };
     const { t } = useTranslation();
     return (

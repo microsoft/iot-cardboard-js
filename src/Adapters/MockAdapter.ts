@@ -155,7 +155,7 @@ export default class MockAdapter implements IBaseAdapter {
             const getTwinData = () => {
                 return new ADTTwinData({
                     $dtId: twinId,
-                    $etag: `$nId}Tag`,
+                    $etag: `${twinId}Tag`,
                     $metadata: {
                         $model: `${twinId}Model`
                     }
