@@ -17,7 +17,7 @@ let renderedHook: RenderHookResult<any, IUseAdapter<KeyValuePairAdapterData>>;
 
 beforeEach(() => {
     adapterInfo = {
-        adapter: new MockAdapter(undefined, networkTimeoutMillis), // Explicitly set network timeout period
+        adapter: new MockAdapter({ networkTimeoutMillis }), // Explicitly set network timeout period
         id: 'test',
         properties: ['temp', 'speed', 'pressure']
     };
@@ -51,7 +51,7 @@ describe('Basic useAdapter tests', () => {
         expect(current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                error: null
+                errorInfo: null
             })
         );
         expect(current.isLoading).toBe(true);
@@ -127,7 +127,7 @@ describe('Long polling useAdapter tests', () => {
         expect(renderedHook.result.current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                error: null
+                errorInfo: null
             })
         );
         expect(renderedHook.result.current.isLoading).toBe(true);

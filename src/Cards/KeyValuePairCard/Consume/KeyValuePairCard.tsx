@@ -39,8 +39,8 @@ const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
         >
             <div className={'cb-kvpc-wrapper'}>
                 {cardState.adapterResult?.result?.data &&
-                    cardState.adapterResult.result.data.map((kvp) => (
-                        <KVP kvp={kvp} pulse={cardState.pulse} />
+                    cardState.adapterResult.result.data.map((kvp, idx) => (
+                        <KVP kvp={kvp} key={idx} pulse={cardState.pulse} />
                     ))}
             </div>
         </BaseCard>

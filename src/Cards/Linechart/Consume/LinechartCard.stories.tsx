@@ -47,7 +47,7 @@ export const NoData = (args, { globals: { theme, locale } }) => (
             id={id}
             searchSpan={searchSpan}
             properties={properties}
-            adapter={new MockAdapter(null)}
+            adapter={new MockAdapter({ mockData: null })}
         />
     </div>
 );

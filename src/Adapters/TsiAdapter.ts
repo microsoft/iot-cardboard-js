@@ -8,6 +8,8 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
+import { AdapterErrorType } from '..';
 import { transformTsqResultsForVisualization } from '../Models/Services/Utils';
 
 export default class TsiAdapter implements IBaseAdapter {
@@ -21,15 +23,14 @@ export default class TsiAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(
-        id: string,
-        properties: string[],
-        additionalParameters?: Record<string, any>
+        _id: string,
+        _properties: string[],
+        _additionalParameters?: Record<string, any>
     ) {
-        console.log(id + properties + additionalParameters);
         throw new Error('Method not implemented.');
         return new AdapterResult<KeyValuePairAdapterData>({
             result: null,
-            error: null
+            errorInfo: null
         });
     }
 
@@ -38,7 +39,11 @@ export default class TsiAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        try {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
@@ -58,28 +63,27 @@ export default class TsiAdapter implements IBaseAdapter {
                 tsqExpressions.push(tsqExpression);
             });
 
-            const token = await this.authService.getToken();
-
-            const tsqResults = await new ServerClient().getTsqResults(
-                token,
-                this.environmentFqdn,
-                tsqExpressions.map((tsqe) => tsqe.toTsq())
-            );
+            let tsqResults;
+            try {
+                tsqResults = await new ServerClient().getTsqResults(
+                    token,
+                    this.environmentFqdn,
+                    tsqExpressions.map((tsqe) => tsqe.toTsq())
+                );
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: AdapterErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
 
             const transformedResults = transformTsqResultsForVisualization(
                 tsqResults,
                 tsqExpressions
             ) as any;
 
-            return new AdapterResult<TsiClientAdapterData>({
-                result: new TsiClientAdapterData(transformedResults),
-                error: null
-            });
-        } catch (err) {
-            return new AdapterResult<TsiClientAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+            return new TsiClientAdapterData(transformedResults);
+        });
     }
 }

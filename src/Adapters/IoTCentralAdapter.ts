@@ -7,6 +7,8 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
+import { AdapterErrorType } from '../Models/Constants';
 import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
@@ -26,26 +28,40 @@ export default class IoTCentralAdapter implements IBaseAdapter {
         throw new Error('Method not implemented.');
         return new AdapterResult<TsiClientAdapterData>({
             result: null,
-            error: null
+            errorInfo: null
         });
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        try {
-            const token = await this.authService.getToken();
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
 
-            const axiosGets = properties.map(async (prop) => {
-                return await axios.get(
-                    `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + token
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let axiosGets;
+            let axiosData;
+
+            try {
+                axiosGets = properties.map(async (prop) => {
+                    return await axios.get(
+                        `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + token
+                            }
                         }
-                    }
-                );
-            });
+                    );
+                });
 
-            const axiosData = await axios.all(axiosGets);
+                axiosData = await axios.all(axiosGets);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: AdapterErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+
             const data = [];
             properties.forEach((prop, i) => {
                 const kvp = {} as KeyValuePairData;
@@ -54,15 +70,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 data.push(kvp);
             });
 
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: new KeyValuePairAdapterData(data),
-                error: null
-            });
-        } catch (err) {
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+            return new KeyValuePairAdapterData(data);
+        });
     }
 }

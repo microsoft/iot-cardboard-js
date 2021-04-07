@@ -1,7 +1,7 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
 import ADTAdapterData from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
-import { Locale, Theme } from './Enums';
+import { AdapterErrorType, Locale, Theme } from './Enums';
 import { AdapterReturnType } from './Types';
 
 export interface IAction {
@@ -71,6 +71,41 @@ export interface IUseAdapter<T extends IAdapterData> {
 
     /** Long polling pulse state for UI */
     pulse: boolean;
+}
+
+export interface IAdapterError {
+    /** Text description of the adapter error */
+    message?: string;
+
+    /** Classification of error type */
+    type?: AdapterErrorType;
+
+    /** Catastrophic errors stop adapter execution */
+    isCatastrophic?: boolean;
+
+    /** Raw error object from catch block */
+    rawError?: Error;
+}
+
+export interface IMockAdapter {
+    /** If unset, random data is generated, if explicitly set, MockAdapter will use value for mocked data.
+     *  To mock empty data, explicitly set { mockData: null }
+     */
+    mockData?: any;
+
+    /** Mocked network timeout period, defaults to 0ms */
+    networkTimeoutMillis?: number;
+
+    /** If set, MockAdapter will mock error of set type */
+    mockError?: AdapterErrorType;
+
+    /** Toggles seeding of random data (data remains constants between builds), defaults to true */
+    isDataStatic?: boolean;
+}
+
+export interface IErrorInfo {
+    errors: IAdapterError[];
+    catastrophicError: IAdapterError;
 }
 
 export interface IADTAdapter extends IBaseAdapter {

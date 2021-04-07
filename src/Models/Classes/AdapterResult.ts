@@ -1,13 +1,13 @@
-import { IAdapterData } from '../Constants/Interfaces';
+import { IAdapterData, IErrorInfo } from '../Constants/Interfaces';
 import { AdapterResultParams } from '../Constants/Types';
 
 class AdapterResult<T extends IAdapterData> {
     result: T;
-    error: Error | null;
+    errorInfo: IErrorInfo;
 
     constructor(params: AdapterResultParams<T>) {
         this.result = params.result;
-        this.error = params.error;
+        this.errorInfo = params.errorInfo;
     }
 
     hasNoData() {
@@ -26,7 +26,14 @@ class AdapterResult<T extends IAdapterData> {
     }
 
     hasError() {
-        return this.error !== null;
+        return this.errorInfo !== null;
+    }
+
+    getCatastrophicError() {
+        if (this.errorInfo?.catastrophicError) {
+            return this.errorInfo.catastrophicError;
+        }
+        return null;
     }
 }
 

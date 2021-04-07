@@ -17,7 +17,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const hasError = adapterResult?.hasError();
+    const catastrophicError = adapterResult?.getCatastrophicError();
     const noData = adapterResult?.hasNoData();
 
     return (
@@ -30,16 +30,25 @@ const BaseCard: React.FC<BaseCardProps> = ({
                 <div className="cb-base-card">
                     <h3 className="cb-base-card-title">{title}</h3>
                     <div className="cb-base-card-content">
-                        {(isLoading || noData || hasError) && (
-                            <div className="cb-base-info-wrapper">
-                                <div className="cb-base-info">
-                                    {isLoading
-                                        ? t('loading')
-                                        : hasError
-                                        ? t('error')
-                                        : t('noData')}
+                        {catastrophicError ? (
+                            <div className="cb-base-catastrophic-error-wrapper">
+                                <div className="cb-base-catastrophic-error-box">
+                                    <div className="cb-base-catastrophic-error-message">
+                                        {catastrophicError.message}
+                                    </div>
+                                    <div className="cb-base-catastrophic-error-raw">
+                                        {catastrophicError?.rawError?.message}
+                                    </div>
                                 </div>
                             </div>
+                        ) : (
+                            (isLoading || noData) && (
+                                <div className="cb-base-info-wrapper">
+                                    <div className="cb-base-info">
+                                        {isLoading ? t('loading') : t('noData')}
+                                    </div>
+                                </div>
+                            )
                         )}
                         <>{children}</>
                     </div>
