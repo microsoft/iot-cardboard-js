@@ -26,8 +26,8 @@ const chartCardStyle = {
     height: '400px'
 };
 
-//TODO make this mock data static for testing purposes. Maybe implement a seed?
-const mockData = MockAdapter.generateMockLineChartData(
+const mockAdapter = new MockAdapter();
+const mockData = mockAdapter.generateMockLineChartData(
     new SearchSpan(new Date('2020-01-01'), new Date('2020-01-02')),
     ['foo']
 );

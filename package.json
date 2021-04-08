@@ -67,6 +67,7 @@
         "rollup-plugin-postcss": "^4.0.0",
         "rollup-plugin-typescript2": "^0.29.0",
         "sass-loader": "^10.1.0",
+        "seedrandom": "^3.0.5",
         "semantic-release": "^17.3.7",
         "shx": "^0.3.3",
         "stylelint": "^13.8.0",

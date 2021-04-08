@@ -2,6 +2,11 @@
     "preview": "Vorschau",
     "loading": "Wird geladen...",
     "noData": "Keine Daten",
+    "adapterErrors": {
+        "tokenFailed": "Token-Abruf fehlgeschlagen",
+        "dataFetchFailed": "Datenabruf fehlgeschlagen",
+        "unkownError": "Unbekannter Fehler aufgetreten"
+    },
     "sdkStrings": {
         "Last 30 mins": "Letzte 30 Minuten",
         "Last Hour": "Letzte Stunde",

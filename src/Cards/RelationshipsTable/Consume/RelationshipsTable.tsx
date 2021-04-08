@@ -36,11 +36,17 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
         }
 
         const errors: IResolvedRelationshipClickErrors = {};
-        if (resolvedTwin.hasError()) {
-            errors.twinError = resolvedTwin.error;
+        if (
+            resolvedTwin.hasError() &&
+            resolvedTwin.errorInfo.errors?.length !== 0
+        ) {
+            errors.twinErrors = resolvedTwin.errorInfo.errors;
         }
-        if (resolvedModel?.hasError()) {
-            errors.modelError = resolvedModel.error;
+        if (
+            resolvedModel?.hasError() &&
+            resolvedModel.errorInfo.errors?.length !== 0
+        ) {
+            errors.modelErrors = resolvedModel.errorInfo.errors;
         }
 
         onRelationshipClick(

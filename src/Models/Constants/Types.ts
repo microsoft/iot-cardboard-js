@@ -3,7 +3,8 @@ import {
     IADTModel,
     IADTTwin,
     IAdapterData,
-    IHierarchyNode
+    IHierarchyNode,
+    IErrorInfo
 } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> = Promise<
@@ -12,7 +13,7 @@ export type AdapterReturnType<T extends IAdapterData> = Promise<
 
 export type AdapterResultParams<T extends IAdapterData> = {
     result: T;
-    error: Error | null;
+    errorInfo: IErrorInfo;
 };
 
 export type AdapterState<T extends IAdapterData> = {

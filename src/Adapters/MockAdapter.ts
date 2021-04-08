@@ -3,11 +3,15 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
-import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
+import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
+import { AdapterError } from '../Models/Classes/Errors';
+import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { IMockAdapter } from '../Models/Constants';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
+import seedRandom from 'seedrandom';
 import {
     ADTRelationship,
     KeyValuePairData,
@@ -17,17 +21,42 @@ import IBaseAdapter from './IBaseAdapter';
 
 export default class MockAdapter implements IBaseAdapter {
     private mockData = null;
+    private mockError = null;
     private networkTimeoutMillis;
+    private isDataStatic;
+    private seededRng = seedRandom('cardboard seed');
 
-    constructor(mockData?: any, networkTimeoutMillis = 1000) {
-        this.mockData = mockData;
-        this.networkTimeoutMillis = networkTimeoutMillis;
+    constructor(mockAdapterArgs?: IMockAdapter) {
+        this.mockData = mockAdapterArgs?.mockData;
+        this.mockError = mockAdapterArgs?.mockError;
+        this.networkTimeoutMillis =
+            typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
+                ? mockAdapterArgs.networkTimeoutMillis
+                : 0;
+        this.isDataStatic =
+            typeof mockAdapterArgs?.isDataStatic === 'boolean'
+                ? mockAdapterArgs.isDataStatic
+                : true;
     }
 
-    async mockNetwork(timeout = this.networkTimeoutMillis) {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(null), timeout);
-        });
+    async mockNetwork() {
+        // If mocking network latency, wait for networkTimeoutMillis
+        if (this.networkTimeoutMillis > 0) {
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(null);
+                }, this.networkTimeoutMillis);
+            });
+        }
+
+        // throw error if mock error type passed into adapter
+        if (this.mockError) {
+            throw new AdapterError({
+                isCatastrophic: true,
+                type: this.mockError,
+                rawError: new Error('Mock error message')
+            });
+        }
     }
 
     async getKeyValuePairs(
@@ -35,15 +64,23 @@ export default class MockAdapter implements IBaseAdapter {
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
-        try {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getKVPData = () => {
                 const kvps = [];
                 properties.forEach((p) => {
                     const kvp = {} as KeyValuePairData;
                     kvp.key = p;
-                    kvp.value = Math.random();
+                    kvp.value = this.isDataStatic
+                        ? this.seededRng()
+                        : Math.random();
                     if (additionalParameters?.isTimestampIncluded) {
-                        kvp.timestamp = new Date();
+                        kvp.timestamp = this.isDataStatic
+                            ? new Date(1616712321258)
+                            : new Date();
                     }
                     kvps.push(kvp);
                 });
@@ -51,20 +88,11 @@ export default class MockAdapter implements IBaseAdapter {
             };
 
             await this.mockNetwork();
-
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: new KeyValuePairAdapterData(getKVPData()),
-                error: null
-            });
-        } catch (err) {
-            return new AdapterResult<KeyValuePairAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+            return new KeyValuePairAdapterData(getKVPData());
+        });
     }
 
-    static generateMockLineChartData(
+    generateMockLineChartData(
         searchSpan: SearchSpan,
         properties: string[]
     ): TsiClientData {
@@ -86,7 +114,9 @@ export default class MockAdapter implements IBaseAdapter {
                         const to = new Date(
                             from.valueOf() + bucketSizeMillis * k
                         );
-                        const val = Math.random();
+                        const val = this.isDataStatic
+                            ? this.seededRng()
+                            : Math.random();
                         values[to.toISOString()] = { avg: val };
                     }
                 }
@@ -96,7 +126,11 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getRelationships(id: string) {
-        try {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getRelationshipsData = () => {
                 const relationships: ADTRelationship[] = [];
                 for (let i = 1; i <= 5; i++) {
@@ -112,16 +146,8 @@ export default class MockAdapter implements IBaseAdapter {
 
             await this.mockNetwork();
 
-            return new AdapterResult<ADTRelationshipData>({
-                result: new ADTRelationshipData(getRelationshipsData()),
-                error: null
-            });
-        } catch (err) {
-            return new AdapterResult<ADTRelationshipData>({
-                result: null,
-                error: err
-            });
-        }
+            return new ADTRelationshipData(getRelationshipsData());
+        });
     }
 
     async getModel(modelId: string) {
@@ -140,12 +166,12 @@ export default class MockAdapter implements IBaseAdapter {
 
             return new AdapterResult<ADTModelData>({
                 result: getModelData(),
-                error: null
+                errorInfo: null
             });
         } catch (err) {
             return new AdapterResult<ADTModelData>({
                 result: null,
-                error: err
+                errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
@@ -166,12 +192,12 @@ export default class MockAdapter implements IBaseAdapter {
 
             return new AdapterResult<ADTTwinData>({
                 result: getTwinData(),
-                error: null
+                errorInfo: null
             });
         } catch (err) {
             return new AdapterResult<ADTTwinData>({
                 result: null,
-                error: err
+                errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
@@ -181,12 +207,16 @@ export default class MockAdapter implements IBaseAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        try {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: null
+        });
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             const getData = (): TsiClientData => {
                 if (this.mockData !== undefined) {
                     return this.mockData;
                 } else {
-                    return MockAdapter.generateMockLineChartData(
+                    return this.generateMockLineChartData(
                         searchSpan,
                         properties
                     );
@@ -194,16 +224,7 @@ export default class MockAdapter implements IBaseAdapter {
             };
 
             await this.mockNetwork();
-
-            return new AdapterResult<TsiClientAdapterData>({
-                result: new TsiClientAdapterData(getData()),
-                error: null
-            });
-        } catch (err) {
-            return new AdapterResult<TsiClientAdapterData>({
-                result: null,
-                error: err
-            });
-        }
+            return new TsiClientAdapterData(getData());
+        });
     }
 }
