@@ -19,8 +19,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     chartOptions,
     title,
     locale,
-    localeStrings,
-    guidSeed
+    localeStrings
 }) => {
     const { t } = useTranslation();
 
@@ -65,7 +64,6 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 data={getData()}
                 chartOptions={getChartOptions()}
                 chartDataOptions={chartDataOptions}
-                guidSeed={guidSeed}
             ></Linechart>
         </BaseCard>
     );

@@ -6,7 +6,7 @@ const useTSIChartComponentRender = (
     component,
     renderParameters: ITSIChartComponentProps
 ) => {
-    const chartContainerGUID = useGuid(renderParameters.guidSeed);
+    const chartContainerGUID = useGuid();
     const chart = useRef(null);
 
     useEffect(() => {

@@ -33,7 +33,6 @@ export const MockData = (args, { globals: { theme, locale } }) => (
             adapterAdditionalParameters={{ chartDataOptions }}
             chartDataOptions={chartDataOptions}
             adapter={new MockAdapter()}
-            guidSeed={'Linechart/Consume/MockData'}
         />
     </div>
 );
@@ -47,7 +46,6 @@ export const NoData = (args, { globals: { theme, locale } }) => (
             searchSpan={mockedSearchSpan}
             properties={properties}
             adapter={new MockAdapter({ mockData: null })}
-            guidSeed={'Linechart/Consume/NoData'}
         />
     </div>
 );
@@ -95,7 +93,6 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
-                guidSeed={'Linechart/Consume/Light'}
             />
         </div>
         <div style={chartCardStyle}>
@@ -107,7 +104,6 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
-                guidSeed={'Linechart/Consume/Dark'}
             />
         </div>
     </div>

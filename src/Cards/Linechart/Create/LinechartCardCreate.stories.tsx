@@ -25,7 +25,6 @@ export const BasicCreate = (args, { globals: { theme, locale } }) => (
             theme={args.theme || theme}
             locale={args.locale || locale}
             propertyNames={args.propertyNames}
-            guidSeed={'Linechart/Create/Basic'}
         />
     </div>
 );
@@ -46,7 +45,6 @@ export const CreateWithPropertiesSelected = (
             locale={args.locale || locale}
             propertyNames={['foo', 'bar', 'baz', 'buzz']}
             defaultState={defaultState}
-            guidSeed={'Linechart/Create/PropertiesSelected'}
         />
     </div>
 );

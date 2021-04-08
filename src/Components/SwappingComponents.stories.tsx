@@ -49,7 +49,6 @@ export const SwapLinechartAndBarchart = (
                                 returnObjects: true
                             })
                         }}
-                        guidSeed={'Components/Swapping components/Linechart'}
                     />
                 )}
                 {args.chartType === TSIComponentTypes.Barchart && (
@@ -62,7 +61,6 @@ export const SwapLinechartAndBarchart = (
                                 returnObjects: true
                             })
                         }}
-                        guidSeed={'Components/Swapping components/Barchart'}
                     />
                 )}
             </div>

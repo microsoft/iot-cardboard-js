@@ -6,9 +6,6 @@ export interface LinechartCardCreateProps {
     localeStrings?: Record<string, any>; // resource json object including key and value pairs of translation strings
     propertyNames: Array<string>;
     defaultState?: LinechartCardCreateState;
-    /** If set, this string is used to generate chart container GUIDs
-     *  which are stable between builds using a random seeding algorithm */
-    guidSeed?: string;
 }
 
 export interface LinechartCardCreateState {
