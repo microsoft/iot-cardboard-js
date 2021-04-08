@@ -30,7 +30,10 @@ export const BasicCreate = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const CreateWithPropertiesSelected = (args, { globals: { theme, locale } }) => (
+export const CreateWithPropertiesSelected = (
+    args,
+    { globals: { theme, locale } }
+) => (
     <div
         style={{
             height: '600px',

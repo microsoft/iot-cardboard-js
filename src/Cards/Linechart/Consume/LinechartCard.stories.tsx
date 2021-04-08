@@ -2,7 +2,10 @@ import React from 'react';
 import LinechartCard from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
-import { mockedSearchSpan, SearchSpan } from '../../../Models/Classes/SearchSpan';
+import {
+    mockedSearchSpan,
+    SearchSpan
+} from '../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 import useAuthParams from '../../../../.storybook/useAuthParams';
