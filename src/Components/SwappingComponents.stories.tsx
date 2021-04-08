@@ -2,7 +2,7 @@ import React from 'react';
 import Linechart from './Linechart/Linechart';
 import Barchart from './Barchart/Barchart';
 import MockAdapter from '../Adapters/MockAdapter';
-import { SearchSpan } from '../Models/Classes/SearchSpan';
+import { mockedSearchSpan } from '../Models/Classes/SearchSpan';
 import { TSIComponentTypes } from '../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import I18nProviderWrapper from '../Models/Classes/I18NProviderWrapper';
@@ -27,10 +27,9 @@ const chartCardStyle = {
 };
 
 const mockAdapter = new MockAdapter();
-const mockData = mockAdapter.generateMockLineChartData(
-    new SearchSpan(new Date('2020-01-01'), new Date('2020-01-02')),
-    ['foo']
-);
+const mockData = mockAdapter.generateMockLineChartData(mockedSearchSpan, [
+    'foo'
+]);
 
 export const SwapLinechartAndBarchart = (
     args,
@@ -50,6 +49,7 @@ export const SwapLinechartAndBarchart = (
                                 returnObjects: true
                             })
                         }}
+                        guidSeed={'Components/Swapping components/Linechart'}
                     />
                 )}
                 {args.chartType === TSIComponentTypes.Barchart && (
@@ -62,6 +62,7 @@ export const SwapLinechartAndBarchart = (
                                 returnObjects: true
                             })
                         }}
+                        guidSeed={'Components/Swapping components/Barchart'}
                     />
                 )}
             </div>

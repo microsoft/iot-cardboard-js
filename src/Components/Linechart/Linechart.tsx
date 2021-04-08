@@ -7,12 +7,14 @@ import useTSIChartComponentRender from '../../Models/Hooks/useRenderTSIChartComp
 const Linechart: React.FC<ITSIChartComponentProps> = ({
     chartOptions,
     chartDataOptions,
-    data
+    data,
+    guidSeed
 }) => {
     const chartContainerGUID = useTSIChartComponentRender(ClientLinechart, {
         chartOptions: chartOptions,
         chartDataOptions: chartDataOptions,
-        data: data
+        data: data,
+        guidSeed
     });
     return (
         <div

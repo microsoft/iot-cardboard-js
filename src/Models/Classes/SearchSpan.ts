@@ -15,3 +15,11 @@ export class SearchSpan {
         }
     }
 }
+
+const mockedStartDate = 1617260400000;
+
+export const mockedSearchSpan = new SearchSpan(
+    new Date(mockedStartDate),
+    new Date(mockedStartDate + 100000),
+    '100ms'
+);

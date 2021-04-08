@@ -2,7 +2,7 @@ import React from 'react';
 import LinechartCard from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import TsiAdapter from '../../../Adapters/TsiAdapter';
-import { SearchSpan } from '../../../Models/Classes/SearchSpan';
+import { mockedSearchSpan, SearchSpan } from '../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 import useAuthParams from '../../../../.storybook/useAuthParams';
@@ -15,11 +15,6 @@ export default {
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
 const chartDataOptions = [{ includeDots: true }, { includeDots: false }];
-const searchSpan = new SearchSpan(
-    new Date(),
-    new Date(new Date().valueOf() + 100000),
-    '100ms'
-);
 const chartCardStyle = {
     height: '400px'
 };
@@ -30,11 +25,12 @@ export const MockData = (args, { globals: { theme, locale } }) => (
             theme={theme}
             locale={locale}
             id={id}
-            searchSpan={searchSpan}
+            searchSpan={mockedSearchSpan}
             properties={properties}
             adapterAdditionalParameters={{ chartDataOptions }}
             chartDataOptions={chartDataOptions}
             adapter={new MockAdapter()}
+            guidSeed={'Linechart/Consume/MockData'}
         />
     </div>
 );
@@ -45,9 +41,10 @@ export const NoData = (args, { globals: { theme, locale } }) => (
             theme={theme}
             locale={locale}
             id={id}
-            searchSpan={searchSpan}
+            searchSpan={mockedSearchSpan}
             properties={properties}
             adapter={new MockAdapter({ mockData: null })}
+            guidSeed={'Linechart/Consume/NoData'}
         />
     </div>
 );
@@ -92,9 +89,10 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 theme={Theme.Dark}
                 locale={locale}
                 id={id}
-                searchSpan={searchSpan}
+                searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
+                guidSeed={'Linechart/Consume/Light'}
             />
         </div>
         <div style={chartCardStyle}>
@@ -103,9 +101,10 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 theme={Theme.Light}
                 locale={locale}
                 id={id}
-                searchSpan={searchSpan}
+                searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
+                guidSeed={'Linechart/Consume/Dark'}
             />
         </div>
     </div>

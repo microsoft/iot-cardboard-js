@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { createGUID } from '../Services/Utils';
 
-const useGuid = () => {
-    const [guid] = useState(createGUID());
+const useGuid = (guidSeed: string) => {
+    const [guid] = useState(createGUID(guidSeed));
     return guid;
 };
 

@@ -13,6 +13,9 @@ export interface ITSIChartComponentProps {
     data: any[];
     chartOptions?: any;
     chartDataOptions?: any[];
+    /** If set, this string is used to generate chart container GUIDs
+     *  which are stable between builds using a random seeding algorithm */
+    guidSeed?: string;
 }
 
 export interface ICardBaseProps {

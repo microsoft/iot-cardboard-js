@@ -30,7 +30,8 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     locale,
     localeStrings,
     propertyNames,
-    defaultState
+    defaultState,
+    guidSeed
 }) => {
     const { t } = useTranslation(); // we can also use props to pass the translate function but seems safer to rely on the usage of react i18next module in the component level
     const [state, dispatch] = useReducer(
@@ -91,6 +92,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
                     properties={state.chartPropertyNames}
                     adapter={adapter}
                     title={state.title}
+                    guidSeed={guidSeed}
                 ></LinechartCard>
             }
             locale={locale}

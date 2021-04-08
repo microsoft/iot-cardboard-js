@@ -7,12 +7,14 @@ import useTSIChartComponentRender from '../../Models/Hooks/useRenderTSIChartComp
 const Barchart: React.FC<ITSIChartComponentProps> = ({
     chartOptions,
     chartDataOptions,
-    data
+    data,
+    guidSeed
 }) => {
     const chartContainerGUID = useTSIChartComponentRender(ClientBarchart, {
         chartOptions: chartOptions,
         chartDataOptions: chartDataOptions,
-        data: data
+        data: data,
+        guidSeed
     });
     return (
         <div
