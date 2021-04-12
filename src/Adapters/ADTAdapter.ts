@@ -64,7 +64,7 @@ export default class ADTAdapter implements IADTAdapter {
                         'x-adt-endpoint': `digitaltwins/${id}/relationships`
                     },
                     params: {
-                        'api-version': '2020-10-31'
+                        'api-version': ADT_ApiVersion
                     }
                 });
             } catch (err) {
@@ -196,7 +196,7 @@ export default class ADTAdapter implements IADTAdapter {
                         'x-adt-endpoint': `digitaltwins/${id}`
                     },
                     params: {
-                        'api-version': '2020-10-31'
+                        'api-version': ADT_ApiVersion
                     }
                 });
             } catch (err) {
