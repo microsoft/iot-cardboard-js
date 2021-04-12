@@ -1,10 +1,10 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { ADTModelsData, ADTwinsData } from '../../Constants/Types';
+import { ADTModelsData, ADTTwinsData } from '../../Constants/Types';
 
 class ADTAdapterData implements IAdapterData {
-    data: ADTModelsData | ADTwinsData;
+    data: ADTModelsData | ADTTwinsData;
 
-    constructor(data: ADTModelsData | ADTwinsData) {
+    constructor(data: ADTModelsData | ADTTwinsData) {
         this.data = data;
     }
 

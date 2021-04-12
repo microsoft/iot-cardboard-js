@@ -35,7 +35,7 @@ const cardStateReducer = produce(
 
 interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
-    adapterMethod: () => AdapterReturnType<T>;
+    adapterMethod: (params?: any) => AdapterReturnType<T>;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
@@ -86,10 +86,12 @@ const useAdapter = <T extends IAdapterData>({
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
-    const callAdapter = async () => {
+    const callAdapter = async (params?: any) => {
         setIsLoading(true);
         try {
-            const adapterResult = await cancellablePromise(adapterMethod());
+            const adapterResult = await cancellablePromise(
+                adapterMethod(params)
+            );
             setAdapterResult(adapterResult);
         } catch (err) {
             if (!(err instanceof CancelledPromiseError)) {

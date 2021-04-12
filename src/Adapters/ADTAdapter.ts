@@ -11,10 +11,10 @@ import {
     SearchSpan,
     TsiClientAdapterData
 } from '../Models/Classes';
-import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
+import { ADTModelsData, ADTTwinsData } from '../Models/Constants/Types';
 import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { KeyValuePairData } from '../Models/Constants';
+import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -57,7 +57,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'x-adt-endpoint': `digitaltwins/${id}/relationships`
                 },
                 params: {
-                    'api-version': '2020-10-31'
+                    'api-version': ADT_ApiVersion
                 }
             });
             const relationships: ADTRelationship[] = axiosData.data.value.map(
@@ -86,7 +86,7 @@ export default class ADTAdapter implements IADTAdapter {
         }
     }
 
-    async getAdtModels() {
+    async getAdtModels(nextLink: string | null = null) {
         try {
             const token = await this.authService.getToken();
             const axiosData = await axios({
@@ -95,11 +95,14 @@ export default class ADTAdapter implements IADTAdapter {
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl,
-                    'x-adt-endpoint': 'models'
+                    ...(nextLink && { 'x-adt-url': nextLink }),
+                    ...(!nextLink && {
+                        'x-adt-host': this.adtHostUrl,
+                        'x-adt-endpoint': 'models'
+                    })
                 },
                 params: {
-                    'api-version': '2020-10-31'
+                    ...(!nextLink && { 'api-version': ADT_ApiVersion })
                 }
             });
             const data = axiosData.data;
@@ -116,7 +119,10 @@ export default class ADTAdapter implements IADTAdapter {
         }
     }
 
-    async getAdtTwins(modelId: string) {
+    async getAdtTwins(
+        modelId: string,
+        continuationToken: string | null = null
+    ) {
         try {
             const token = await this.authService.getToken();
             const axiosData = await axios({
@@ -129,16 +135,17 @@ export default class ADTAdapter implements IADTAdapter {
                     'x-adt-endpoint': 'query'
                 },
                 params: {
-                    'api-version': '2020-10-31'
+                    'api-version': ADT_ApiVersion
                 },
                 data: {
-                    query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${modelId}'`
+                    query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${modelId}'`,
+                    continuationToken: continuationToken
                 }
             });
             const data = axiosData.data;
 
             return new AdapterResult<ADTAdapterData>({
-                result: new ADTAdapterData(data as ADTwinsData),
+                result: new ADTAdapterData(data as ADTTwinsData),
                 error: null
             });
         } catch (err) {
@@ -167,7 +174,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'x-adt-endpoint': `digitaltwins/${id}`
                 },
                 params: {
-                    'api-version': '2020-10-31'
+                    'api-version': ADT_ApiVersion
                 }
             });
 

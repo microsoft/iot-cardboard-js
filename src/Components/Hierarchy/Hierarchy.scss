@@ -32,12 +32,16 @@
         width: calc(100% + 20px);
     }
 
-    .cb-hierarchy-node-name:hover {
+    .cb-hierarchy-node-name:hover:not(.cb-hierarchy-show-more) {
         background: var(--cb-color-card-contrast);
     }
 
     .cb-hierarchy-node-name.cb-selected {
         background: var(--cb-color-bg-canvas-inset);
+    }
+
+    .cb-hierarchy-node-name.cb-hierarchy-show-more {
+        color: var(--cb-color-theme-primary);
     }
 
     .cb-hierarchy-parent-node {
@@ -55,7 +59,7 @@
         opacity: 0.6;
         padding-left: 8px;
         position: relative;
-        top: 1px;
+        top: 0.5px;
     }
 
     .cb-chevron {

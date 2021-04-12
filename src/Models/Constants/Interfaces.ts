@@ -1,7 +1,7 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
 import ADTAdapterData from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
-import { Locale, Theme } from './Enums';
+import { HierarchyNodeType, Locale, Theme } from './Enums';
 import { AdapterReturnType } from './Types';
 
 export interface IAction {
@@ -61,7 +61,7 @@ export interface IUseAdapter<T extends IAdapterData> {
     adapterResult: AdapterResult<T>;
 
     /** Calls adapter method (safe on unmount) and updates adapter result */
-    callAdapter: () => void;
+    callAdapter: (params?: any) => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
@@ -74,8 +74,11 @@ export interface IUseAdapter<T extends IAdapterData> {
 }
 
 export interface IADTAdapter extends IBaseAdapter {
-    getAdtModels(): AdapterReturnType<ADTAdapterData>;
-    getAdtTwins(modelId: string): AdapterReturnType<ADTAdapterData>;
+    getAdtModels(nextLink: string | null): AdapterReturnType<ADTAdapterData>;
+    getAdtTwins(
+        modelId: string,
+        continuationToken: string | null
+    ): AdapterReturnType<ADTAdapterData>;
 }
 
 export interface IHierarchyProps {
@@ -91,8 +94,11 @@ export interface IHierarchyNode {
     name: string;
     id: string;
     parentNode?: IHierarchyNode;
-    nodeData: any; // actual object from adapter result data
+    nodeData: any; // original object from adapter result data
+    nodeType: HierarchyNodeType;
     children?: Record<string, IHierarchyNode>;
+    childrenContinuationToken?: string | null;
+    onNodeClick?: (node?: IHierarchyNode) => void;
     isCollapsed?: boolean;
     isSelected?: boolean;
 }

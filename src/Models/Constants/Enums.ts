@@ -12,3 +12,9 @@ export enum Locale {
     EN = 'en',
     DE = 'de'
 }
+
+export enum HierarchyNodeType {
+    Parent,
+    Child,
+    ShowMore
+}

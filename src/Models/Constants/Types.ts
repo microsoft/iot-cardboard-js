@@ -43,7 +43,7 @@ export type ADTModelsData = {
     nextLink: string;
 };
 
-export type ADTwinsData = {
+export type ADTTwinsData = {
     value: IADTTwin[];
     continuationToken: string;
 };

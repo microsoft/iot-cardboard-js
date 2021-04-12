@@ -17,7 +17,8 @@ const validHeaders = [
     'Host',
     'x-ms-client-request-id',
     'x-ms-useragent',
-    'User-Agent'
+    'User-Agent',
+    'max-items-per-page'
 ];
 const pathRewrite = async function (path, _req) {
     return path.replace('/api/proxy/adt', '');
@@ -50,10 +51,15 @@ app.all(
         },
         pathRewrite,
         router: (req) => {
-            // validate ADT environment URL
-            let xAdtHostHeader = req.headers['x-adt-host'].toLowerCase();
-            let xAdtEndpointHeader = req.headers['x-adt-endpoint'];
-            let adtUrl = `https://${xAdtHostHeader}/${xAdtEndpointHeader}`;
+            let adtUrl = '';
+            if (req.headers['x-adt-url']) {
+                adtUrl = req.headers['x-adt-url'];
+            } else {
+                let xAdtHostHeader = req.headers['x-adt-host'].toLowerCase();
+                let xAdtEndpointHeader = req.headers['x-adt-endpoint'];
+                adtUrl = `https://${xAdtHostHeader}/${xAdtEndpointHeader}`;
+            }
+
             let adtUrlObject = new URL(adtUrl);
             if (
                 validAdtHostSuffixes.some((suffix) =>

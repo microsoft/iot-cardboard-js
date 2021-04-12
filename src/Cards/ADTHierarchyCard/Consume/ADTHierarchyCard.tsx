@@ -4,7 +4,14 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
-import { IADTModel, IADTTwin, IHierarchyNode } from '../../../Models/Constants';
+import {
+    ADTModelsData,
+    ADTTwinsData,
+    HierarchyNodeType,
+    IADTModel,
+    IADTTwin,
+    IHierarchyNode
+} from '../../../Models/Constants';
 import { HierarchyNode } from '../../../Models/Classes/HierarchyNode';
 import {
     ADTHierarchyCardConsumeReducer,
@@ -15,6 +22,7 @@ import {
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
+import { useTranslation } from 'react-i18next';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
@@ -25,7 +33,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     onParentNodeClick,
     onChildNodeClick
 }) => {
-    const selectedModelNodeRef = useRef(null);
+    const { t } = useTranslation();
+    const focusedModelIdRef = useRef(null);
     const selectedTwinRef = useRef({ modelId: null, twinId: null });
 
     const [state, dispatch] = useReducer(
@@ -35,23 +44,23 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     const { hierarchyNodes } = state;
 
     const modelState = useAdapter({
-        adapterMethod: () => adapter.getAdtModels(),
+        adapterMethod: (params) => adapter.getAdtModels(params?.nextLink),
         refetchDependencies: [adapter]
     });
 
     const twinState = useAdapter({
-        adapterMethod: () =>
-            adapter.getAdtTwins(selectedModelNodeRef.current?.id),
+        adapterMethod: (params) =>
+            adapter.getAdtTwins(params?.modelId, params?.continuationToken),
         refetchDependencies: []
     });
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
+        focusedModelIdRef.current = modelNode.id;
         if (onParentNodeClick) {
             onParentNodeClick(modelNode);
         } else {
-            selectedModelNodeRef.current = modelNode;
             if (modelNode.isCollapsed) {
-                twinState.callAdapter();
+                twinState.callAdapter({ modelId: modelNode.id });
             } else {
                 dispatch({
                     type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
@@ -88,29 +97,94 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 
     useEffect(() => {
         if (modelState.adapterResult.result?.data.value) {
+            const newModelNodes = HierarchyNode.createNodesFromADTModels(
+                modelState.adapterResult.result?.data?.value as IADTModel[]
+            );
+
+            const modelsNextLink = (modelState.adapterResult.result
+                ?.data as ADTModelsData)?.nextLink;
+
+            const currentNodes = { ...hierarchyNodes };
+
+            const showMoreId = 'models-show-more';
+            delete currentNodes[showMoreId]; // remove the current show more node if exist
+            const showMoreNode = modelsNextLink
+                ? {
+                      [showMoreId]: {
+                          id: showMoreId,
+                          name: t('showMore'),
+                          nodeType: HierarchyNodeType.ShowMore,
+                          onNodeClick: () => {
+                              modelState.callAdapter({
+                                  nextLink: modelsNextLink
+                              });
+                          }
+                      } as IHierarchyNode
+                  }
+                : null;
+
             dispatch({
                 type: SET_ADT_HIERARCHY_NODES,
-                payload: HierarchyNode.fromADTModels(
-                    modelState.adapterResult.result?.data?.value as IADTModel[]
-                )
+                payload: {
+                    ...currentNodes,
+                    ...newModelNodes,
+                    ...showMoreNode
+                }
             });
         }
     }, [modelState.adapterResult.result?.data.value]);
 
     useEffect(() => {
         if (
-            selectedModelNodeRef.current &&
+            focusedModelIdRef.current &&
             twinState.adapterResult.result?.data.value
         ) {
-            const twinNodes = HierarchyNode.fromADTTwins(
+            const focusedModelId = focusedModelIdRef.current;
+            const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
                 twinState.adapterResult.result?.data?.value as IADTTwin[],
-                selectedModelNodeRef.current
+                hierarchyNodes[focusedModelId]
             );
+
+            const twinsContinuationToken = (twinState.adapterResult.result
+                ?.data as ADTTwinsData)?.continuationToken;
+            const currentChildren = !hierarchyNodes[focusedModelId].isCollapsed
+                ? {
+                      ...hierarchyNodes[focusedModelId].children
+                  }
+                : {};
+
+            const showMoreId = `${focusedModelId}-show-more`;
+            delete currentChildren[showMoreId]; // remove the current show more node if exist
+            const showMoreNode = twinsContinuationToken
+                ? {
+                      [showMoreId]: {
+                          id: `${focusedModelId}-show-more`,
+                          name: t('showMore'),
+                          nodeType: HierarchyNodeType.ShowMore,
+                          onNodeClick: () => {
+                              focusedModelIdRef.current = focusedModelId;
+                              twinState.callAdapter({
+                                  modelId: focusedModelId,
+                                  continuationToken: twinsContinuationToken
+                              });
+                          }
+                      } as IHierarchyNode
+                  }
+                : null;
+
             dispatch({
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                 payload: {
-                    modelId: selectedModelNodeRef.current.id,
-                    properties: { isCollapsed: false, children: twinNodes }
+                    modelId: focusedModelId,
+                    properties: {
+                        isCollapsed: false,
+                        children: {
+                            ...currentChildren,
+                            ...newTwinNodes,
+                            ...showMoreNode
+                        },
+                        childrenContinuationToken: twinsContinuationToken
+                    }
                 }
             });
         }
