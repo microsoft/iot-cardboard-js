@@ -25,7 +25,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     const TreeNode: React.FC<{ node: IHierarchyNode }> = ({ node }) => {
         const [isLoading, setIsLoading] = useState(false);
 
-        return node.children ? (
+        return node.nodeType === HierarchyNodeType.Parent ? (
             <>
                 <div className="cb-hierarchy-node">
                     <Chevron collapsed={node.isCollapsed} />

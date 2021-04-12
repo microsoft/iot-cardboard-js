@@ -1,5 +1,8 @@
 import React from 'react';
 import AdapterResult from '../../../Models/Classes/AdapterResult';
+import { AdapterErrorType } from '../../../Models/Constants';
+import MockAdapter from '../../../Adapters/MockAdapter';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 import { Locale } from '../../../Models/Constants/Enums';
 import BaseCard from './BaseCard';
 
@@ -7,7 +10,7 @@ export default {
     title: 'BaseCard/Consume'
 };
 
-export const BasicCard = (args, { globals: { theme, locale } }) => (
+export const BasicCardNoData = (args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '400px',
@@ -20,13 +23,59 @@ export const BasicCard = (args, { globals: { theme, locale } }) => (
             adapterResult={
                 new AdapterResult({
                     result: null,
-                    error: null
+                    errorInfo: null
                 })
             }
             locale={locale}
         />
     </div>
 );
+
+const useMockError = (errorType: AdapterErrorType) => {
+    const adapter = new MockAdapter({
+        mockError: errorType
+    });
+    const id = 'errorTest';
+    const properties = ['a', 'b', 'c'];
+    const cardState = useAdapter({
+        adapterMethod: () =>
+            adapter.getKeyValuePairs(id, properties, {
+                isTimestampIncluded: true
+            }),
+        refetchDependencies: [...properties, errorType]
+    });
+    return cardState;
+};
+
+export const CatastrophicErrors = (args, { globals: { theme } }) => {
+    const cardState = useMockError(args.errorType);
+
+    return (
+        <div
+            style={{
+                height: '400px',
+                position: 'relative'
+            }}
+        >
+            <BaseCard
+                isLoading={cardState.isLoading}
+                theme={theme}
+                adapterResult={cardState.adapterResult}
+            />
+        </div>
+    );
+};
+
+CatastrophicErrors.argTypes = {
+    errorType: {
+        control: {
+            type: 'radio',
+            options: [...Object.keys(AdapterErrorType)]
+        },
+        defaultValue: AdapterErrorType.TokenRetrievalFailed,
+        description: 'Test'
+    }
+};
 
 export const BasicCardWithCustomTranslation = (
     args,
@@ -44,7 +93,7 @@ export const BasicCardWithCustomTranslation = (
             adapterResult={
                 new AdapterResult({
                     result: null,
-                    error: null
+                    errorInfo: null
                 })
             }
             locale={(args.locale as Locale) || locale}

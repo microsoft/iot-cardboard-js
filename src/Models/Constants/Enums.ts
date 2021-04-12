@@ -13,6 +13,12 @@ export enum Locale {
     DE = 'de'
 }
 
+export enum AdapterErrorType {
+    TokenRetrievalFailed = 'TokenRetrievalFailed',
+    DataFetchFailed = 'DataFetchFailed',
+    UnknownError = 'UnknownError'
+}
+
 export enum HierarchyNodeType {
     Parent,
     Child,
