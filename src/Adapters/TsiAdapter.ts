@@ -10,7 +10,7 @@ import {
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterErrorType } from '..';
-import { transformTsqResultsForVisualization } from '../Models/Services/Utils';
+import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
 export default class TsiAdapter implements IBaseAdapter {
     private authService: IAuthService;
