@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { createGUID } from '../Services/Utils';
+import { createGUID, createSeededGUID } from '../Services/Utils';
+import { useStableGuidRng } from '../Context/StableGuidRngProvider';
 
 const useGuid = () => {
-    const [guid] = useState(createGUID());
+    const stableGuidRng = useStableGuidRng();
+    const [guid] = useState(
+        stableGuidRng ? createSeededGUID(stableGuidRng) : createGUID()
+    );
     return guid;
 };
 

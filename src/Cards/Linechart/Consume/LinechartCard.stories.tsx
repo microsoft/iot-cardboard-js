@@ -15,37 +15,40 @@ export default {
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
 const chartDataOptions = [{ includeDots: true }, { includeDots: false }];
-const searchSpan = new SearchSpan(
-    new Date(),
-    new Date(new Date().valueOf() + 100000),
-    '100ms'
-);
 const chartCardStyle = {
     height: '400px'
 };
 
-export const MockData = (args, { globals: { theme, locale } }) => (
-    <div style={chartCardStyle}>
-        <LinechartCard
-            theme={theme}
-            locale={locale}
-            id={id}
-            searchSpan={searchSpan}
-            properties={properties}
-            adapterAdditionalParameters={{ chartDataOptions }}
-            chartDataOptions={chartDataOptions}
-            adapter={new MockAdapter()}
-        />
-    </div>
-);
+export const MockData = (
+    args,
+    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+) => {
+    return (
+        <div style={chartCardStyle}>
+            <LinechartCard
+                theme={theme}
+                locale={locale}
+                id={id}
+                searchSpan={mockedSearchSpan}
+                properties={properties}
+                adapterAdditionalParameters={{ chartDataOptions }}
+                chartDataOptions={chartDataOptions}
+                adapter={new MockAdapter()}
+            />
+        </div>
+    );
+};
 
-export const NoData = (args, { globals: { theme, locale } }) => (
+export const NoData = (
+    args,
+    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+) => (
     <div style={chartCardStyle}>
         <LinechartCard
             theme={theme}
             locale={locale}
             id={id}
-            searchSpan={searchSpan}
+            searchSpan={mockedSearchSpan}
             properties={properties}
             adapter={new MockAdapter({ mockData: null })}
         />
@@ -84,7 +87,10 @@ export const TsiData = (args, { globals: { theme, locale } }) => {
     );
 };
 
-export const TwoThemedCharts = (args, { globals: { locale } }) => (
+export const TwoThemedCharts = (
+    args,
+    { globals: { locale }, parameters: { mockedSearchSpan } }
+) => (
     <div>
         <div style={chartCardStyle}>
             <LinechartCard
@@ -92,7 +98,7 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 theme={Theme.Dark}
                 locale={locale}
                 id={id}
-                searchSpan={searchSpan}
+                searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
             />
@@ -103,7 +109,7 @@ export const TwoThemedCharts = (args, { globals: { locale } }) => (
                 theme={Theme.Light}
                 locale={locale}
                 id={id}
-                searchSpan={searchSpan}
+                searchSpan={mockedSearchSpan}
                 properties={properties}
                 adapter={new MockAdapter()}
             />
