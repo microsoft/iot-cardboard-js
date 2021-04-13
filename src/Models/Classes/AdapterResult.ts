@@ -25,10 +25,15 @@ class AdapterResult<T extends IAdapterData> {
         return this.result.data;
     }
 
-    hasError() {
-        return this.errorInfo !== null;
+    /** Returns error array if errors are present.  If no errors present, returns null */
+    getErrors() {
+        if (this.errorInfo?.errors && this.errorInfo?.errors.length > 0) {
+            return this.errorInfo.errors;
+        }
+        return null;
     }
 
+    /** Returns catastrophic error if present, otherwise returns null */
     getCatastrophicError() {
         if (this.errorInfo?.catastrophicError) {
             return this.errorInfo.catastrophicError;

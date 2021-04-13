@@ -3,8 +3,13 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import { RelationshipsTableProps } from './RelationshipsTable.types';
 import './RelationshipsTable.scss';
 import { useAdapter } from '../../../Models/Hooks';
-import { ADTRelationship } from '../../../Models/Constants';
+import {
+    ADTRelationship,
+    IResolvedRelationshipClickErrors
+} from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import ADTTwinData from '../../../Models/Classes/AdapterDataClasses/ADTTwinData';
+import { AdapterResult } from '../../../Models/Classes';
 
 const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     theme,
@@ -18,6 +23,32 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
         adapterMethod: () => adapter.getRelationships(id),
         refetchDependencies: [id]
     });
+
+    const wrappedOnClick = async (id: string) => {
+        const resolvedTwin: AdapterResult<ADTTwinData> = await adapter.getADTTwin(
+            id
+        );
+        let resolvedModel = null;
+        if (resolvedTwin.result?.data?.$metadata?.$model) {
+            resolvedModel = await adapter.getADTModel(
+                resolvedTwin.result.data.$metadata.$model
+            );
+        }
+
+        const errors: IResolvedRelationshipClickErrors = {};
+        if (resolvedTwin.getErrors()) {
+            errors.twinErrors = resolvedTwin.getErrors();
+        }
+        if (resolvedModel?.getErrors()) {
+            errors.modelErrors = resolvedModel.getErrors();
+        }
+
+        onRelationshipClick(
+            resolvedTwin.getData(),
+            resolvedModel?.getData(),
+            errors
+        );
+    };
     const { t } = useTranslation();
     return (
         <BaseCard
@@ -51,12 +82,10 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                                 : ''
                                         }`}
                                         key={relationshipI}
-                                        onClick={() =>
+                                        onClick={async () =>
                                             onRelationshipClick &&
-                                            onRelationshipClick(
-                                                relationship.targetId,
-                                                relationship.targetModel,
-                                                relationship.relationshipName
+                                            wrappedOnClick(
+                                                relationship.targetId
                                             )
                                         }
                                     >
