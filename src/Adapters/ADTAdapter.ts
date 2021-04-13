@@ -99,7 +99,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getTwin(twinId: string) {
+    async getADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -131,7 +131,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getModel(modelId: string) {
+    async getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });

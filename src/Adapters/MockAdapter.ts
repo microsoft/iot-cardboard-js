@@ -150,7 +150,7 @@ export default class MockAdapter implements IBaseAdapter {
         });
     }
 
-    async getModel(modelId: string) {
+    async getADTModel(modelId: string) {
         try {
             const getModelData = () => {
                 return new ADTModelData({
@@ -176,7 +176,7 @@ export default class MockAdapter implements IBaseAdapter {
         }
     }
 
-    async getTwin(twinId: string) {
+    async getADTTwin(twinId: string) {
         try {
             const getTwinData = () => {
                 return new ADTTwinData({

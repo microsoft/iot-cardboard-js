@@ -25,12 +25,12 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     });
 
     const wrappedOnClick = async (id: string) => {
-        const resolvedTwin: AdapterResult<ADTTwinData> = await adapter.getTwin(
+        const resolvedTwin: AdapterResult<ADTTwinData> = await adapter.getADTTwin(
             id
         );
         let resolvedModel = null;
         if (resolvedTwin.result?.data?.$metadata?.$model) {
-            resolvedModel = await adapter.getModel(
+            resolvedModel = await adapter.getADTModel(
                 resolvedTwin.result.data.$metadata.$model
             );
         }
@@ -48,7 +48,6 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
             resolvedModel?.getData(),
             errors
         );
-        // TODO: surface errors
     };
     const { t } = useTranslation();
     return (
