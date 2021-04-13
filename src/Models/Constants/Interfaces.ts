@@ -159,3 +159,8 @@ export interface IGetKeyValuePairsAdditionalParameters
     extends Record<string, any> {
     isTimestampIncluded?: boolean;
 }
+
+export interface IResolvedRelationshipClickErrors {
+    twinErrors?: any;
+    modelErrors?: any;
+}

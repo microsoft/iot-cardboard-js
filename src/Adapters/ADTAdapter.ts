@@ -17,6 +17,8 @@ import { ADTModelsData, ADTTwinsData } from '../Models/Constants/Types';
 import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
+import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
+import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -94,6 +96,70 @@ export default class ADTAdapter implements IADTAdapter {
             );
 
             return new ADTRelationshipData(relationships);
+        });
+    }
+
+    async getADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let axiosData;
+            try {
+                axiosData = await axios({
+                    method: 'get',
+                    url: this.adtProxyServerURL,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token,
+                        'x-adt-host': this.adtHostUrl,
+                        'x-adt-endpoint': `digitaltwins/${twinId}`
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
+                });
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: AdapterErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+            const data = axiosData.data;
+            return new ADTTwinData(data);
+        });
+    }
+
+    async getADTModel(modelId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let axiosData;
+            try {
+                axiosData = await axios({
+                    method: 'get',
+                    url: this.adtProxyServerURL,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token,
+                        'x-adt-host': this.adtHostUrl,
+                        'x-adt-endpoint': `models/${modelId}`
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
+                });
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: AdapterErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+            const data = axiosData.data;
+            return new ADTModelData(data);
         });
     }
 

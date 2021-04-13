@@ -2,6 +2,9 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
+import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterError } from '../Models/Classes/Errors';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
@@ -145,6 +148,58 @@ export default class MockAdapter implements IBaseAdapter {
 
             return new ADTRelationshipData(getRelationshipsData());
         });
+    }
+
+    async getADTModel(modelId: string) {
+        try {
+            const getModelData = () => {
+                return new ADTModelData({
+                    id: modelId,
+                    description: {},
+                    displayName: null,
+                    decommissioned: false,
+                    uploadTime: '2021-1-1'
+                });
+            };
+
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTModelData>({
+                result: getModelData(),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTModelData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getADTTwin(twinId: string) {
+        try {
+            const getTwinData = () => {
+                return new ADTTwinData({
+                    $dtId: twinId,
+                    $etag: `${twinId}Tag`,
+                    $metadata: {
+                        $model: `${twinId}Model`
+                    }
+                });
+            };
+
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTTwinData>({
+                result: getTwinData(),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTTwinData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     async getTsiclientChartDataShape(
