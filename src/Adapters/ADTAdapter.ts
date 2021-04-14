@@ -224,8 +224,7 @@ export default class ADTAdapter implements IADTAdapter {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
                         'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query',
-                        'max-items-per-page': 3
+                        'x-adt-endpoint': 'query'
                     },
                     params: {
                         'api-version': ADT_ApiVersion

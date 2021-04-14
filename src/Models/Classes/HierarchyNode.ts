@@ -12,6 +12,7 @@ export class HierarchyNode implements IHierarchyNode {
     onNodeClick?: (node?: IHierarchyNode) => void;
     isCollapsed?: boolean;
     isSelected?: boolean;
+    isLoading?: boolean;
 
     public static createNodesFromADTModels = (
         models: Array<IADTModel>

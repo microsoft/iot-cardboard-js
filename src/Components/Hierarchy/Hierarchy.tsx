@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     HierarchyNodeType,
     IHierarchyNode,
@@ -23,15 +23,13 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     );
 
     const TreeNode: React.FC<{ node: IHierarchyNode }> = ({ node }) => {
-        const [isLoading, setIsLoading] = useState(false);
-
         return node.nodeType === HierarchyNodeType.Parent ? (
             <>
                 <div className="cb-hierarchy-node">
                     <Chevron collapsed={node.isCollapsed} />
-                    <span
+                    <div
                         className={
-                            'cb-hierarchy-node-name cb-hierarchy-parent-node'
+                            'cb-hierarchy-node-name-wrapper cb-hierarchy-parent-node'
                         }
                         onClick={() => {
                             if (onParentNodeClick) {
@@ -39,22 +37,27 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                             }
                         }}
                     >
-                        {node.name}
+                        <span className="cb-hierarchy-node-name">
+                            {node.name}
+                        </span>
                         {Object.keys(node.children).length > 0 && (
                             <span className="cb-hierarchy-child-count">
                                 {Object.keys(node.children).length -
                                     (node.childrenContinuationToken ? 1 : 0)}
                             </span>
                         )}
-                    </span>
+                        {node.isLoading && (
+                            <Spinner size={SpinnerSize.xSmall} />
+                        )}
+                    </div>
                 </div>
                 {!node.isCollapsed && <Tree data={node.children} />}
             </>
         ) : (
             <>
                 <div className="cb-hierarchy-node">
-                    <span
-                        className={`cb-hierarchy-node-name cb-hierarchy-child-node ${
+                    <div
+                        className={`cb-hierarchy-node-name-wrapper cb-hierarchy-child-node ${
                             node.isSelected ? 'cb-selected' : ''
                         } ${
                             node.nodeType === HierarchyNodeType.ShowMore
@@ -66,22 +69,21 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                                 if (
                                     node.nodeType === HierarchyNodeType.ShowMore
                                 ) {
-                                    setIsLoading(true);
-                                }
-                                setTimeout(() => {
                                     node.onNodeClick(node);
-                                }, 1000);
+                                }
                             } else if (onChildNodeClick) {
                                 onChildNodeClick(node.parentNode, node);
                             }
                         }}
                     >
-                        {isLoading ? (
+                        {node.isLoading ? (
                             <Spinner size={SpinnerSize.xSmall} />
                         ) : (
-                            node.name
+                            <span className="cb-hierarchy-node-name">
+                                {node.name}
+                            </span>
                         )}
-                    </span>
+                    </div>
                 </div>
             </>
         );

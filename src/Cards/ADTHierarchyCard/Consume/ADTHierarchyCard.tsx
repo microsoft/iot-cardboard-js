@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import './ADTHierarchyCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
@@ -63,6 +63,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             onParentNodeClick(modelNode);
         } else {
             if (modelNode.isCollapsed) {
+                dispatch({
+                    type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                    payload: {
+                        modelId: modelNode.id,
+                        properties: { isLoading: true }
+                    }
+                });
                 twinState.callAdapter({ modelId: modelNode.id });
             } else {
                 dispatch({
@@ -118,6 +125,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                           name: t('showMore'),
                           nodeType: HierarchyNodeType.ShowMore,
                           onNodeClick: () => {
+                              dispatch({
+                                  type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                                  payload: {
+                                      modelId: showMoreId,
+                                      properties: { isLoading: true }
+                                  }
+                              });
                               modelState.callAdapter({
                                   nextLink: modelsNextLink
                               });
@@ -166,6 +180,14 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                           nodeType: HierarchyNodeType.ShowMore,
                           onNodeClick: () => {
                               focusedModelIdRef.current = focusedModelId;
+                              dispatch({
+                                  type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                                  payload: {
+                                      modelId: focusedModelId,
+                                      twinId: `${focusedModelId}-show-more`,
+                                      properties: { isLoading: true }
+                                  }
+                              });
                               twinState.callAdapter({
                                   modelId: focusedModelId,
                                   continuationToken: twinsContinuationToken
@@ -181,6 +203,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                     modelId: focusedModelId,
                     properties: {
                         isCollapsed: false,
+                        isLoading: false,
                         children: {
                             ...currentChildren,
                             ...newTwinNodes,
@@ -192,6 +215,17 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             });
         }
     }, [twinState.adapterResult.result?.data.value]);
+
+    const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
+        handleModelClick(model);
+    }, []);
+
+    const handleOnChildNodeClick = useCallback(
+        (model: IHierarchyNode, twin: IHierarchyNode) => {
+            handleTwinClick(model, twin);
+        },
+        []
+    );
 
     return (
         <BaseCard
@@ -206,13 +240,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         >
             <Hierarchy
                 data={hierarchyNodes}
-                onParentNodeClick={(model: IHierarchyNode) =>
-                    handleModelClick(model)
-                }
-                onChildNodeClick={(
-                    model: IHierarchyNode,
-                    twin: IHierarchyNode
-                ) => handleTwinClick(model, twin)}
+                onParentNodeClick={handleOnParentNodeClick}
+                onChildNodeClick={handleOnChildNodeClick}
             ></Hierarchy>
         </BaseCard>
     );

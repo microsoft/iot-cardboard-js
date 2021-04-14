@@ -145,6 +145,7 @@ export interface IHierarchyNode {
     onNodeClick?: (node?: IHierarchyNode) => void;
     isCollapsed?: boolean;
     isSelected?: boolean;
+    isLoading?: boolean;
 }
 
 export interface IADTModel {
