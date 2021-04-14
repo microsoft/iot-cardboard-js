@@ -5,6 +5,8 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
 import {
+    AdapterMethodParamsForADTModels,
+    AdapterMethodParamsForADTTwins,
     ADTModelsData,
     ADTTwinsData,
     HierarchyNodeType,
@@ -44,13 +46,14 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     const { hierarchyNodes } = state;
 
     const modelState = useAdapter({
-        adapterMethod: (params) => adapter.getAdtModels(params?.nextLink),
+        adapterMethod: (params: AdapterMethodParamsForADTModels) =>
+            adapter.getAdtModels(params),
         refetchDependencies: [adapter]
     });
 
     const twinState = useAdapter({
-        adapterMethod: (params) =>
-            adapter.getAdtTwins(params?.modelId, params?.continuationToken),
+        adapterMethod: (params: AdapterMethodParamsForADTTwins) =>
+            adapter.getAdtTwins(params),
         refetchDependencies: []
     });
 

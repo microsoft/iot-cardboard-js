@@ -71,3 +71,16 @@ export type ImgPropertyPositions = {
     /** Position relative to the top edge, where "100%" is the bottom edge and "0%" is the top edge*/
     top: string;
 };
+
+export type AdapterMethodParams = {
+    [paramName: string]: any;
+};
+
+export type AdapterMethodParamsForADTModels = {
+    nextLink?: string;
+};
+
+export type AdapterMethodParamsForADTTwins = {
+    modelId: string;
+    continuationToken?: string;
+};

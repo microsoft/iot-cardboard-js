@@ -4,7 +4,11 @@ import {
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
-import { ADTRelationship } from '../Models/Constants/Types';
+import {
+    AdapterMethodParamsForADTModels,
+    AdapterMethodParamsForADTTwins,
+    ADTRelationship
+} from '../Models/Constants/Types';
 import {
     AdapterResult,
     KeyValuePairAdapterData,
@@ -13,12 +17,14 @@ import {
 } from '../Models/Classes';
 import { AdapterErrorType } from '../Models/Constants';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { ADTModelsData, ADTTwinsData } from '../Models/Constants/Types';
-import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import {
+    ADTAdapterModelsData,
+    ADTAdapterTwinsData
+} from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -163,7 +169,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getAdtModels(nextLink: string | null = null) {
+    async getAdtModels(params: AdapterMethodParamsForADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -177,14 +183,18 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        ...(nextLink && { 'x-adt-url': nextLink }),
-                        ...(!nextLink && {
+                        ...(params?.nextLink && {
+                            'x-adt-url': params?.nextLink
+                        }),
+                        ...(!params?.nextLink && {
                             'x-adt-host': this.adtHostUrl,
                             'x-adt-endpoint': 'models'
                         })
                     },
                     params: {
-                        ...(!nextLink && { 'api-version': ADT_ApiVersion })
+                        ...(!params?.nextLink && {
+                            'api-version': ADT_ApiVersion
+                        })
                     }
                 });
             } catch (err) {
@@ -195,14 +205,11 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             }
             const data = axiosData.data;
-            return new ADTAdapterData(data as ADTModelsData);
+            return new ADTAdapterModelsData(data);
         });
     }
 
-    async getAdtTwins(
-        modelId: string,
-        continuationToken: string | null = null
-    ) {
+    async getAdtTwins(params: AdapterMethodParamsForADTTwins) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -217,14 +224,15 @@ export default class ADTAdapter implements IADTAdapter {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
                         'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
+                        'x-adt-endpoint': 'query',
+                        'max-items-per-page': 3
                     },
                     params: {
                         'api-version': ADT_ApiVersion
                     },
                     data: {
-                        query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${modelId}'`,
-                        continuationToken: continuationToken
+                        query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${params.modelId}'`,
+                        continuationToken: params.continuationToken
                     }
                 });
             } catch (err) {
@@ -236,7 +244,7 @@ export default class ADTAdapter implements IADTAdapter {
             }
 
             const data = axiosData.data;
-            return new ADTAdapterData(data as ADTTwinsData);
+            return new ADTAdapterTwinsData(data);
         });
     }
 

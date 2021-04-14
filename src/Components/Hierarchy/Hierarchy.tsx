@@ -86,6 +86,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
             </>
         );
     };
+    const MemoizedTreeNode = React.memo(TreeNode);
 
     const Tree: React.FC<IHierarchyProps> = ({ data }) => {
         return (
@@ -95,17 +96,18 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         className="cb-hierarchy-node-wrapper"
                         key={'cb-hierarchy-node' + idx}
                     >
-                        <TreeNode node={data[nodeId]} />
+                        <MemoizedTreeNode node={data[nodeId]} />
                     </li>
                 ))}
             </ul>
         );
     };
+    const MemoizedTree = React.memo(Tree);
 
     return (
         <div className="cb-hierarchy-component-wrapper">
             <div className={'cb-hierarchy-component'}>
-                <Tree data={data} />
+                <MemoizedTree data={data} />
             </div>
         </div>
     );

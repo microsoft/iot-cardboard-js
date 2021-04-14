@@ -8,7 +8,11 @@ import {
     SET_IS_LONG_POLLING
 } from '../Constants/ActionTypes';
 import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
-import { AdapterReturnType, AdapterState } from '../Constants/Types';
+import {
+    AdapterReturnType,
+    AdapterState,
+    AdapterMethodParams
+} from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
 
@@ -35,7 +39,7 @@ const cardStateReducer = produce(
 
 interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
-    adapterMethod: (params?: any) => AdapterReturnType<T>;
+    adapterMethod: (params?: AdapterMethodParams) => AdapterReturnType<T>;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
@@ -89,7 +93,7 @@ const useAdapter = <T extends IAdapterData>({
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
-    const callAdapter = async (params?: any) => {
+    const callAdapter = async (params?: AdapterMethodParams) => {
         setIsLoading(true);
         try {
             const adapterResult = await cancellablePromise(

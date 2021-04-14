@@ -1,8 +1,16 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
-import ADTAdapterData from '../Classes/AdapterDataClasses/ADTAdapterData';
+import {
+    ADTAdapterModelsData,
+    ADTAdapterTwinsData
+} from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
 import { AdapterErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
-import { AdapterReturnType } from './Types';
+import {
+    AdapterReturnType,
+    AdapterMethodParams,
+    AdapterMethodParamsForADTModels,
+    AdapterMethodParamsForADTTwins
+} from './Types';
 
 export interface IAction {
     type: string;
@@ -61,7 +69,7 @@ export interface IUseAdapter<T extends IAdapterData> {
     adapterResult: AdapterResult<T>;
 
     /** Calls adapter method (safe on unmount) and updates adapter result */
-    callAdapter: (params?: any) => void;
+    callAdapter: (params?: AdapterMethodParams) => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
@@ -109,11 +117,12 @@ export interface IErrorInfo {
 }
 
 export interface IADTAdapter extends IBaseAdapter {
-    getAdtModels(nextLink: string | null): AdapterReturnType<ADTAdapterData>;
+    getAdtModels(
+        params: AdapterMethodParamsForADTModels
+    ): AdapterReturnType<ADTAdapterModelsData>;
     getAdtTwins(
-        modelId: string,
-        continuationToken: string | null
-    ): AdapterReturnType<ADTAdapterData>;
+        params: AdapterMethodParamsForADTTwins
+    ): AdapterReturnType<ADTAdapterTwinsData>;
 }
 
 export interface IHierarchyProps {
