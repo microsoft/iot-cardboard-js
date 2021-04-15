@@ -1,3 +1,4 @@
+import { HierarchyNodeType } from '../Constants';
 import { IADTModel, IADTTwin, IHierarchyNode } from '../Constants/Interfaces';
 
 export class HierarchyNode implements IHierarchyNode {
@@ -5,41 +6,65 @@ export class HierarchyNode implements IHierarchyNode {
     id: string;
     parentNode?: IHierarchyNode;
     nodeData: any;
+    nodeType: HierarchyNodeType;
     children?: Record<string, IHierarchyNode>;
+    childrenContinuationToken?: string;
+    onNodeClick?: (node?: IHierarchyNode) => void;
     isCollapsed?: boolean;
     isSelected?: boolean;
+    isLoading?: boolean;
 
-    public static fromADTModels = (
+    public static createNodesFromADTModels = (
         models: Array<IADTModel>
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
-            ? models.reduce((p, c: IADTModel) => {
-                  p[c.id] = {
-                      name: c.displayName.en,
-                      id: c.id,
-                      nodeData: c,
-                      children: {},
-                      isCollapsed: true
-                  } as IHierarchyNode;
-                  return p;
-              }, {})
+            ? models
+                  .sort((a, b) =>
+                      a.displayName.en.localeCompare(
+                          b.displayName.en,
+                          undefined,
+                          {
+                              numeric: true,
+                              sensitivity: 'base'
+                          }
+                      )
+                  )
+                  .reduce((p, c: IADTModel) => {
+                      p[c.id] = {
+                          name: c.displayName.en,
+                          id: c.id,
+                          nodeData: c,
+                          nodeType: HierarchyNodeType.Parent,
+                          children: {},
+                          isCollapsed: true
+                      } as IHierarchyNode;
+                      return p;
+                  }, {})
             : {};
     };
 
-    public static fromADTTwins = (
+    public static createNodesFromADTTwins = (
         twins: Array<IADTTwin>,
         modelNode: IHierarchyNode
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return twins
-            ? twins.reduce((p, c: IADTTwin) => {
-                  p[c.$dtId] = {
-                      name: c.$dtId,
-                      id: c.$dtId,
-                      parentNode: modelNode,
-                      nodeData: c
-                  } as IHierarchyNode;
-                  return p;
-              }, {})
+            ? twins
+                  .sort((a, b) =>
+                      a.$dtId.localeCompare(b.$dtId, undefined, {
+                          numeric: true,
+                          sensitivity: 'base'
+                      })
+                  )
+                  .reduce((p, c: IADTTwin) => {
+                      p[c.$dtId] = {
+                          name: c.$dtId,
+                          id: c.$dtId,
+                          parentNode: modelNode,
+                          nodeData: c,
+                          nodeType: HierarchyNodeType.Child
+                      } as IHierarchyNode;
+                      return p;
+                  }, {})
             : {};
     };
 }

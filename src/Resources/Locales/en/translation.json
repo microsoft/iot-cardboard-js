@@ -8,6 +8,7 @@
     "hierarchy": "Hierarchy",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
+    "showMore": "Show more",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",

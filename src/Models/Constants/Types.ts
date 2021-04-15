@@ -44,7 +44,7 @@ export type ADTModelsData = {
     nextLink: string;
 };
 
-export type ADTwinsData = {
+export type ADTTwinsData = {
     value: IADTTwin[];
     continuationToken: string;
 };
@@ -70,4 +70,17 @@ export type ImgPropertyPositions = {
     left: string;
     /** Position relative to the top edge, where "100%" is the bottom edge and "0%" is the top edge*/
     top: string;
+};
+
+export type AdapterMethodParams = {
+    [paramName: string]: any;
+};
+
+export type AdapterMethodParamsForADTModels = {
+    nextLink?: string;
+};
+
+export type AdapterMethodParamsForADTTwins = {
+    modelId: string;
+    continuationToken?: string;
 };

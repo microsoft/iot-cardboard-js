@@ -18,3 +18,9 @@ export enum AdapterErrorType {
     DataFetchFailed = 'DataFetchFailed',
     UnknownError = 'UnknownError'
 }
+
+export enum HierarchyNodeType {
+    Parent,
+    Child,
+    ShowMore
+}

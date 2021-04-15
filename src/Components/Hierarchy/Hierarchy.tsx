@@ -1,7 +1,12 @@
 import React from 'react';
-import { IHierarchyProps } from '../../Models/Constants';
+import {
+    HierarchyNodeType,
+    IHierarchyNode,
+    IHierarchyProps
+} from '../../Models/Constants';
 import './Hierarchy.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
+import { Spinner, SpinnerSize } from '@fluentui/react';
 
 const Hierarchy: React.FC<IHierarchyProps> = ({
     data,
@@ -17,78 +22,94 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
         />
     );
 
+    const TreeNode: React.FC<{ node: IHierarchyNode }> = ({ node }) => {
+        return node.nodeType === HierarchyNodeType.Parent ? (
+            <>
+                <div className="cb-hierarchy-node">
+                    <Chevron collapsed={node.isCollapsed} />
+                    <div
+                        className={
+                            'cb-hierarchy-node-name-wrapper cb-hierarchy-parent-node'
+                        }
+                        onClick={() => {
+                            if (onParentNodeClick) {
+                                onParentNodeClick(node);
+                            }
+                        }}
+                    >
+                        <span className="cb-hierarchy-node-name">
+                            {node.name}
+                        </span>
+                        {Object.keys(node.children).length > 0 && (
+                            <span className="cb-hierarchy-child-count">
+                                {Object.keys(node.children).length -
+                                    (node.childrenContinuationToken ? 1 : 0)}
+                            </span>
+                        )}
+                        {node.isLoading && (
+                            <Spinner size={SpinnerSize.xSmall} />
+                        )}
+                    </div>
+                </div>
+                {!node.isCollapsed && <Tree data={node.children} />}
+            </>
+        ) : (
+            <>
+                <div className="cb-hierarchy-node">
+                    <div
+                        className={`cb-hierarchy-node-name-wrapper cb-hierarchy-child-node ${
+                            node.isSelected ? 'cb-selected' : ''
+                        } ${
+                            node.nodeType === HierarchyNodeType.ShowMore
+                                ? 'cb-hierarchy-show-more'
+                                : ''
+                        }`}
+                        onClick={() => {
+                            if (node.onNodeClick) {
+                                if (
+                                    node.nodeType === HierarchyNodeType.ShowMore
+                                ) {
+                                    node.onNodeClick(node);
+                                }
+                            } else if (onChildNodeClick) {
+                                onChildNodeClick(node.parentNode, node);
+                            }
+                        }}
+                    >
+                        {node.isLoading ? (
+                            <Spinner size={SpinnerSize.xSmall} />
+                        ) : (
+                            <span className="cb-hierarchy-node-name">
+                                {node.name}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </>
+        );
+    };
+    const MemoizedTreeNode = React.memo(TreeNode);
+
     const Tree: React.FC<IHierarchyProps> = ({ data }) => {
         return (
             <ul className="cb-hierarchy-component-list-group">
                 {Object.keys(data).map((nodeId: string, idx: number) => (
                     <li
                         className="cb-hierarchy-node-wrapper"
-                        key={'cb-hierarchy' + idx}
+                        key={'cb-hierarchy-node' + idx}
                     >
-                        {data[nodeId].children ? (
-                            <>
-                                <div className="cb-hierarchy-node">
-                                    <Chevron
-                                        collapsed={data[nodeId].isCollapsed}
-                                    />
-                                    <span
-                                        className={
-                                            'cb-hierarchy-node-name cb-hierarchy-parent-node'
-                                        }
-                                        onClick={() => {
-                                            if (onParentNodeClick) {
-                                                onParentNodeClick(data[nodeId]);
-                                            }
-                                        }}
-                                    >
-                                        {data[nodeId].name}
-                                        {Object.keys(data[nodeId].children)
-                                            .length > 0 && (
-                                            <span className="cb-hierarchy-child-count">
-                                                {
-                                                    Object.keys(
-                                                        data[nodeId].children
-                                                    ).length
-                                                }
-                                            </span>
-                                        )}
-                                    </span>
-                                </div>
-                                {!data[nodeId].isCollapsed && (
-                                    <Tree data={data[nodeId].children} />
-                                )}
-                            </>
-                        ) : (
-                            <div className="cb-hierarchy-node">
-                                <span
-                                    className={`cb-hierarchy-node-name cb-hierarchy-child-node ${
-                                        data[nodeId].isSelected
-                                            ? 'cb-selected'
-                                            : ''
-                                    }`}
-                                    onClick={() => {
-                                        if (onChildNodeClick) {
-                                            onChildNodeClick(
-                                                data[nodeId].parentNode,
-                                                data[nodeId]
-                                            );
-                                        }
-                                    }}
-                                >
-                                    {data[nodeId].name}
-                                </span>
-                            </div>
-                        )}
+                        <MemoizedTreeNode node={data[nodeId]} />
                     </li>
                 ))}
             </ul>
         );
     };
+    const MemoizedTree = React.memo(Tree);
 
     return (
         <div className="cb-hierarchy-component-wrapper">
             <div className={'cb-hierarchy-component'}>
-                <Tree data={data} />
+                <MemoizedTree data={data} />
             </div>
         </div>
     );
