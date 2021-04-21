@@ -5,8 +5,9 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
 import {
-    AdapterMethodParamsForADTModels,
-    AdapterMethodParamsForADTTwins,
+    AdapterMethodParamsForGetADTModels,
+    AdapterMethodParamsForGetADTTwinsByModelId,
+    AdapterMethodParamsForSearchADTTwins,
     ADTModelsData,
     ADTTwinsData,
     HierarchyNodeType,
@@ -22,9 +23,11 @@ import {
 import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
+    SET_ADT_HIERARCHY_SEARCH,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
+import Searchbox from '../../../Components/Searchbox/Searchbox';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
@@ -38,22 +41,29 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     const { t } = useTranslation();
     const focusedModelIdRef = useRef(null);
     const selectedTwinRef = useRef({ modelId: null, twinId: null });
+    const isLoadingTriggeredByShowMore = useRef(false);
 
     const [state, dispatch] = useReducer(
         ADTHierarchyCardConsumeReducer,
         defaultADTHierarchyCardConsumeState
     );
-    const { hierarchyNodes } = state;
+    const { hierarchyNodes, searchTerm } = state;
 
     const modelState = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForADTModels) =>
-            adapter.getAdtModels(params),
+        adapterMethod: (params: AdapterMethodParamsForGetADTModels) =>
+            adapter.getADTModels(params),
         refetchDependencies: [adapter]
     });
 
     const twinState = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForADTTwins) =>
-            adapter.getAdtTwins(params),
+        adapterMethod: (params: AdapterMethodParamsForGetADTTwinsByModelId) =>
+            adapter.getADTTwinsByModelId(params),
+        refetchDependencies: []
+    });
+
+    const searchState = useAdapter({
+        adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
+            adapter.searchADTTwins(params),
         refetchDependencies: []
     });
 
@@ -70,6 +80,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         properties: { isLoading: true }
                     }
                 });
+                isLoadingTriggeredByShowMore.current = false;
                 twinState.callAdapter({ modelId: modelNode.id });
             } else {
                 dispatch({
@@ -132,6 +143,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                                       properties: { isLoading: true }
                                   }
                               });
+                              isLoadingTriggeredByShowMore.current = true;
                               modelState.callAdapter({
                                   nextLink: modelsNextLink
                               });
@@ -188,6 +200,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                                       properties: { isLoading: true }
                                   }
                               });
+                              isLoadingTriggeredByShowMore.current = true;
                               twinState.callAdapter({
                                   modelId: focusedModelId,
                                   continuationToken: twinsContinuationToken
@@ -216,6 +229,54 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
     }, [twinState.adapterResult.result?.data.value]);
 
+    useEffect(() => {
+        if (searchState.adapterResult.result?.data.value) {
+            const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
+                searchState.adapterResult.result?.data?.value as IADTTwin[],
+                null
+            );
+
+            const searchContinuationToken = (searchState.adapterResult.result
+                ?.data as ADTTwinsData)?.continuationToken;
+            const currentNodes = { ...hierarchyNodes };
+
+            const showMoreId = 'twins-show-more';
+            delete currentNodes[showMoreId]; // remove the current show more node if exist
+            const showMoreNode = searchContinuationToken
+                ? {
+                      [showMoreId]: {
+                          id: showMoreId,
+                          name: t('showMore'),
+                          nodeType: HierarchyNodeType.ShowMore,
+                          onNodeClick: () => {
+                              dispatch({
+                                  type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                                  payload: {
+                                      modelId: showMoreId,
+                                      properties: { isLoading: true }
+                                  }
+                              });
+                              isLoadingTriggeredByShowMore.current = true;
+                              searchState.callAdapter({
+                                  searchTerm: searchTerm,
+                                  continuationToken: searchContinuationToken
+                              });
+                          }
+                      } as IHierarchyNode
+                  }
+                : null;
+
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODES,
+                payload: {
+                    ...currentNodes,
+                    ...newTwinNodes,
+                    ...showMoreNode
+                }
+            });
+        }
+    }, [searchState.adapterResult.result?.data.value]);
+
     const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
         handleModelClick(model);
     }, []);
@@ -226,6 +287,39 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         },
         []
     );
+
+    const handleOnSearch = useCallback((searchTerm: string) => {
+        focusedModelIdRef.current = null;
+        selectedTwinRef.current = null;
+
+        if (searchTerm) {
+            enterSearchMode(searchTerm);
+            isLoadingTriggeredByShowMore.current = false;
+            searchState.callAdapter({
+                searchTerm: searchTerm,
+                continuationToken:
+                    searchState.adapterResult?.result?.data?.continuationToken
+            });
+        } else {
+            exitSearchMode();
+        }
+    }, []);
+
+    const enterSearchMode = useCallback((searchTerm: string) => {
+        dispatch({
+            type: SET_ADT_HIERARCHY_SEARCH,
+            payload: searchTerm
+        });
+    }, []);
+
+    const exitSearchMode = useCallback(() => {
+        dispatch({
+            type: SET_ADT_HIERARCHY_SEARCH,
+            payload: ''
+        });
+        isLoadingTriggeredByShowMore.current = false;
+        modelState.callAdapter();
+    }, []);
 
     return (
         <BaseCard
@@ -238,10 +332,21 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             locale={locale}
             localeStrings={localeStrings}
         >
+            <Searchbox
+                className="cb-adt-hierarchy-search"
+                placeholder={t('search')}
+                onSearch={handleOnSearch}
+                onClear={exitSearchMode}
+            />
             <Hierarchy
                 data={hierarchyNodes}
                 onParentNodeClick={handleOnParentNodeClick}
                 onChildNodeClick={handleOnChildNodeClick}
+                searchTermToMark={searchTerm}
+                isLoading={
+                    (modelState.isLoading || searchState.isLoading) &&
+                    !isLoadingTriggeredByShowMore.current
+                }
             ></Hierarchy>
         </BaseCard>
     );

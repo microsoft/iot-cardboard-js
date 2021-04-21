@@ -15,4 +15,5 @@ export interface ADTHierarchyCardProps extends IStandaloneConsumeCardProps {
 
 export interface ADTHierarchyCardConsumeState {
     hierarchyNodes: Record<string, IHierarchyNode>; // first level is models, second level is twins
+    searchTerm: string;
 }

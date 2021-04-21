@@ -76,11 +76,16 @@ export type AdapterMethodParams = {
     [paramName: string]: any;
 };
 
-export type AdapterMethodParamsForADTModels = {
+export type AdapterMethodParamsForGetADTModels = {
     nextLink?: string;
 };
 
-export type AdapterMethodParamsForADTTwins = {
+export type AdapterMethodParamsForGetADTTwinsByModelId = {
     modelId: string;
+    continuationToken?: string;
+};
+
+export type AdapterMethodParamsForSearchADTTwins = {
+    searchTerm: string;
     continuationToken?: string;
 };

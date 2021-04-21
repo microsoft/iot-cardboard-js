@@ -3,12 +3,14 @@ import produce from 'immer';
 import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
+    SET_ADT_HIERARCHY_SEARCH,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
 import { ADTHierarchyCardConsumeState } from './ADTHierarchyCard.types';
 
 export const defaultADTHierarchyCardConsumeState: ADTHierarchyCardConsumeState = {
-    hierarchyNodes: {}
+    hierarchyNodes: {},
+    searchTerm: ''
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -48,6 +50,10 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 draft.hierarchyNodes[payload.modelId].children[
                     payload.twinId
                 ].isSelected = true;
+                break;
+            case SET_ADT_HIERARCHY_SEARCH:
+                draft.searchTerm = payload;
+                draft.hierarchyNodes = {};
                 break;
         }
     },
