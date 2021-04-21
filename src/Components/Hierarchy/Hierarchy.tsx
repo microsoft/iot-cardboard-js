@@ -100,7 +100,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                             <Spinner size={SpinnerSize.xSmall} />
                         ) : (
                             <span className="cb-hierarchy-node-name">
-                                {searchTermToMark
+                                {searchTermToMark &&
+                                node.nodeType !== HierarchyNodeType.ShowMore
                                     ? Utils.getMarkedHtmlBySearch(
                                           node.name,
                                           searchTermToMark

@@ -58,13 +58,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     const twinState = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForGetADTTwinsByModelId) =>
             adapter.getADTTwinsByModelId(params),
-        refetchDependencies: []
+        refetchDependencies: [],
+        skipFirstCallAdapter: true
     });
 
     const searchState = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
-        refetchDependencies: []
+        refetchDependencies: [],
+        skipFirstCallAdapter: true
     });
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
@@ -117,6 +119,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     };
 
     useEffect(() => {
+        debugger;
         if (modelState.adapterResult.result?.data.value) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value as IADTModel[]
@@ -164,6 +167,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [modelState.adapterResult.result?.data.value]);
 
     useEffect(() => {
+        debugger;
         if (
             focusedModelIdRef.current &&
             twinState.adapterResult.result?.data.value
@@ -230,6 +234,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [twinState.adapterResult.result?.data.value]);
 
     useEffect(() => {
+        debugger;
         if (searchState.adapterResult.result?.data.value) {
             const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
                 searchState.adapterResult.result?.data?.value as IADTTwin[],
@@ -294,6 +299,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 
         if (searchTerm) {
             enterSearchMode(searchTerm);
+            modelState.cancelAdapter();
+            twinState.cancelAdapter();
             isLoadingTriggeredByShowMore.current = false;
             searchState.callAdapter({
                 searchTerm: searchTerm,
@@ -317,6 +324,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             type: SET_ADT_HIERARCHY_SEARCH,
             payload: ''
         });
+        searchState.cancelAdapter();
         isLoadingTriggeredByShowMore.current = false;
         modelState.callAdapter();
     }, []);
@@ -328,6 +336,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 modelState.isLoading && modelState.adapterResult.hasNoData()
             }
             adapterResult={modelState.adapterResult}
+            skipInfoBox={true}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
@@ -344,7 +353,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 onChildNodeClick={handleOnChildNodeClick}
                 searchTermToMark={searchTerm}
                 isLoading={
-                    (modelState.isLoading || searchState.isLoading) &&
+                    (modelState.isLoading ||
+                        (searchTerm && searchState.isLoading)) &&
                     !isLoadingTriggeredByShowMore.current
                 }
             ></Hierarchy>

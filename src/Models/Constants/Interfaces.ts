@@ -72,6 +72,9 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Calls adapter method (safe on unmount) and updates adapter result */
     callAdapter: (params?: AdapterMethodParams) => void;
 
+    /** Cancel adapter method and set the adapter result to null */
+    cancelAdapter: () => void;
+
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
 

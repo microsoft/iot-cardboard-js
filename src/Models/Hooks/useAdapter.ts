@@ -41,6 +41,9 @@ interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
     adapterMethod: (params?: AdapterMethodParams) => AdapterReturnType<T>;
 
+    /** Callback which triggers adapter data fetch */
+    skipFirstCallAdapter?: boolean;
+
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
 
@@ -60,7 +63,8 @@ const useAdapter = <T extends IAdapterData>({
     refetchDependencies,
     isLongPolling = false,
     pollingIntervalMillis,
-    pulseTimeoutMillis
+    pulseTimeoutMillis,
+    skipFirstCallAdapter
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -111,6 +115,12 @@ const useAdapter = <T extends IAdapterData>({
         }
     };
 
+    const cancelAdapter = () => {
+        cancel(); // Cancel outstanding promises
+        setAdapterResult(null);
+        setIsLoading(false);
+    };
+
     const setIsLongPolling = (isLongPolling: boolean) => {
         dispatch({
             type: SET_IS_LONG_POLLING,
@@ -127,10 +137,18 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        cancel(); // Cancel outstanding promises on refetch
-        setAdapterResult(null);
-        callAdapter();
-    }, [...refetchDependencies]);
+        if (skipFirstCallAdapter) {
+            if (mountedRef.current) {
+                cancel(); // Cancel outstanding promises on refetch
+                setAdapterResult(null);
+                callAdapter();
+            }
+        } else {
+            cancel(); // Cancel outstanding promises on refetch
+            setAdapterResult(null);
+            callAdapter();
+        }
+    }, refetchDependencies);
 
     useEffect(() => {
         mountedRef.current = true; // Use ref to indicate mounted state
@@ -143,6 +161,7 @@ const useAdapter = <T extends IAdapterData>({
         isLoading: state.isLoading,
         adapterResult: state.adapterResult as AdapterResult<T>,
         callAdapter,
+        cancelAdapter,
         setIsLongPolling,
         isLongPolling: state.isLongPolling,
         pulse: longPoll.pulse
