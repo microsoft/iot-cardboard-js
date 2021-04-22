@@ -119,7 +119,6 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     };
 
     useEffect(() => {
-        debugger;
         if (modelState.adapterResult.result?.data.value) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value as IADTModel[]
@@ -167,7 +166,6 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [modelState.adapterResult.result?.data.value]);
 
     useEffect(() => {
-        debugger;
         if (
             focusedModelIdRef.current &&
             twinState.adapterResult.result?.data.value
@@ -234,7 +232,6 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [twinState.adapterResult.result?.data.value]);
 
     useEffect(() => {
-        debugger;
         if (searchState.adapterResult.result?.data.value) {
             const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
                 searchState.adapterResult.result?.data?.value as IADTTwin[],

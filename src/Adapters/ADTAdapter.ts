@@ -205,7 +205,6 @@ export default class ADTAdapter implements IADTAdapter {
                     rawError: err
                 });
             }
-            debugger;
             const data = axiosData.data;
             return new ADTAdapterModelsData(data);
         });
@@ -246,7 +245,6 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             }
 
-            debugger;
             const data = axiosData.data;
             return new ADTAdapterTwinsData(data);
         });
@@ -285,7 +283,6 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             }
 
-            debugger;
             const data = axiosData.data;
             return new ADTAdapterTwinsData(data);
         });
