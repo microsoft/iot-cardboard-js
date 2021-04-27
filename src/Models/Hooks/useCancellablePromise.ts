@@ -4,7 +4,7 @@ import { CancellablePromise } from '../Constants/Types';
 
 /** Wraps promise with logic that allows for promise cancellation via cancel() method */
 export function makeCancellable<T>(
-    promise: T,
+    promise: Promise<T>,
     promisesRef?: React.MutableRefObject<any>
 ): CancellablePromise<T> {
     let isCancelled = false;
@@ -73,8 +73,9 @@ const useCancellablePromise = () => {
     }, []);
 
     /** Function to construct cancellable promise */
-    function cancellablePromise<T>(p: Promise<T>) {
-        const cPromise = makeCancellable(p, promises);
+    function cancellablePromise<T>(p: Promise<T> | CancellablePromise<T>) {
+        const cPromise =
+            p instanceof Promise ? makeCancellable(p, promises) : p;
         promises.current.push(cPromise);
         return cPromise.promise;
     }

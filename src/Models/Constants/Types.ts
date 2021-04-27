@@ -7,9 +7,9 @@ import {
     IErrorInfo
 } from './Interfaces';
 
-export type AdapterReturnType<T extends IAdapterData> = Promise<
-    AdapterResult<T>
->;
+export type AdapterReturnType<T extends IAdapterData> =
+    | Promise<AdapterResult<T>>
+    | CancellablePromise<AdapterResult<T>>;
 
 export type AdapterResultParams<T extends IAdapterData> = {
     result: T;

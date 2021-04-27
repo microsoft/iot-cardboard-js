@@ -8,7 +8,8 @@ import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
-    ADTRelationship
+    ADTRelationship,
+    CancellablePromise
 } from '../Models/Constants/Types';
 import {
     AdapterResult,
@@ -210,82 +211,107 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getADTTwinsByModelId(
+    public getADTTwinsByModelId(
         params: AdapterMethodParamsForGetADTTwinsByModelId
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'post',
-                    url: this.adtProxyServerURL,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
-                    },
-                    params: {
-                        'api-version': ADT_ApiVersion
-                    },
-                    data: {
-                        query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${params.modelId}'`,
-                        continuationToken: params.continuationToken
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
-            }
+        const cancelTokenSource = axios.CancelToken.source();
+        const cancel = () => {
+            cancelTokenSource.cancel('Cancelling');
+        };
 
-            const data = axiosData.data;
-            return new ADTAdapterTwinsData(data);
-        });
+        const returnValue: CancellablePromise<
+            AdapterResult<ADTAdapterTwinsData>
+        > = {
+            promise: adapterMethodSandbox.safelyFetchData(async (token) => {
+                let axiosData;
+                try {
+                    axiosData = await axios({
+                        method: 'post',
+                        url: this.adtProxyServerURL,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token,
+                            'x-adt-host': this.adtHostUrl,
+                            'x-adt-endpoint': 'query'
+                        },
+                        params: {
+                            'api-version': ADT_ApiVersion
+                        },
+                        data: {
+                            query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${params.modelId}'`,
+                            continuationToken: params.continuationToken
+                        },
+                        cancelToken: cancelTokenSource.token
+                    });
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        type: AdapterErrorType.DataFetchFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+
+                const data = axiosData.data;
+                return new ADTAdapterTwinsData(data);
+            }),
+            cancel: cancel
+        };
+        return returnValue;
     }
 
-    async searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
+    public searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'post',
-                    url: this.adtProxyServerURL,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
-                    },
-                    params: {
-                        'api-version': ADT_ApiVersion
-                    },
-                    data: {
-                        query: `SELECT * FROM DIGITALTWINS T WHERE STARTSWITH(T.$metadata.$model, '${params.searchTerm}') OR STARTSWITH(T.$dtId, '${params.searchTerm}')`,
-                        continuationToken: params.continuationToken
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
-            }
+        const cancelTokenSource = axios.CancelToken.source();
+        const cancel = () => {
+            cancelTokenSource.cancel('Cancelling');
+        };
 
-            const data = axiosData.data;
-            return new ADTAdapterTwinsData(data);
-        });
+        const returnValue: CancellablePromise<
+            AdapterResult<ADTAdapterTwinsData>
+        > = {
+            promise: adapterMethodSandbox.safelyFetchData(async (token) => {
+                let axiosData;
+                try {
+                    axiosData = await axios({
+                        method: 'post',
+                        url: this.adtProxyServerURL,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token,
+                            'x-adt-host': this.adtHostUrl,
+                            'x-adt-endpoint': 'query'
+                        },
+                        params: {
+                            'api-version': ADT_ApiVersion
+                        },
+                        data: {
+                            query: `SELECT * FROM DIGITALTWINS T WHERE STARTSWITH(T.$metadata.$model, '${params.searchTerm}') OR STARTSWITH(T.$dtId, '${params.searchTerm}')`,
+                            continuationToken: params.continuationToken
+                        },
+                        cancelToken: cancelTokenSource.token
+                    });
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        type: AdapterErrorType.DataFetchFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+
+                const data = axiosData.data;
+                return new ADTAdapterTwinsData(data);
+            }),
+            cancel: cancel
+        };
+
+        return returnValue;
     }
 
     async getKeyValuePairs(
