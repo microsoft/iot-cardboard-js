@@ -41,7 +41,7 @@ interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
     adapterMethod: (params?: AdapterMethodParams) => AdapterReturnType<T>;
 
-    /** Callback which triggers adapter data fetch */
+    /** Not to execute the adapter method when we use the useAdapter hook in first render */
     skipFirstCallAdapter?: boolean;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
@@ -139,13 +139,11 @@ const useAdapter = <T extends IAdapterData>({
     useEffect(() => {
         if (skipFirstCallAdapter) {
             if (mountedRef.current) {
-                cancel(); // Cancel outstanding promises on refetch
-                setAdapterResult(null);
+                cancelAdapter();
                 callAdapter();
             }
         } else {
-            cancel(); // Cancel outstanding promises on refetch
-            setAdapterResult(null);
+            cancelAdapter();
             callAdapter();
         }
     }, refetchDependencies);
