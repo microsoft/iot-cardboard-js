@@ -104,13 +104,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         dispatch({
             type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
             payload: {
-                modelId: modelNode.id,
+                modelId: modelNode?.id,
                 twinId: twinNode.id
             }
         });
         cancelCurrentlyLoadingNodes();
         focusedTwinRef.current = {
-            modelId: modelNode.id,
+            modelId: modelNode?.id,
             twinId: twinNode.id
         };
 

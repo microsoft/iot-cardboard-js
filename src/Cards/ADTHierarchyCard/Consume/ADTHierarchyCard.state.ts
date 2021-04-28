@@ -38,14 +38,24 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 }
                 break;
             case SET_ADT_HIERARCHY_SELECTED_TWIN_ID:
-                if (draft.selectedTwin) {
+                if (draft.selectedTwin?.modelId && draft.selectedTwin?.twinId) {
                     draft.hierarchyNodes[draft.selectedTwin.modelId].children[
                         draft.selectedTwin.twinId
                     ].isSelected = false;
+                } else if (draft.selectedTwin?.twinId) {
+                    draft.hierarchyNodes[
+                        draft.selectedTwin.twinId
+                    ].isSelected = false;
                 }
-                draft.hierarchyNodes[payload.modelId].children[
-                    payload.twinId
-                ].isSelected = true;
+
+                if (payload.modelId && payload.twinId) {
+                    draft.hierarchyNodes[payload.modelId].children[
+                        payload.twinId
+                    ].isSelected = true;
+                } else if (payload.twinId) {
+                    draft.hierarchyNodes[payload.twinId].isSelected = true;
+                }
+
                 draft.selectedTwin = {
                     modelId: payload.modelId,
                     twinId: payload.twinId
@@ -54,6 +64,7 @@ export const ADTHierarchyCardConsumeReducer = produce(
             case SET_ADT_HIERARCHY_SEARCH:
                 draft.searchTerm = payload;
                 draft.hierarchyNodes = {};
+                draft.selectedTwin = null;
                 break;
         }
     },
