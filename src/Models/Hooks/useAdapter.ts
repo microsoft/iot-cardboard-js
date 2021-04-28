@@ -146,7 +146,7 @@ const useAdapter = <T extends IAdapterData>({
             cancelAdapter();
             callAdapter();
         }
-    }, refetchDependencies);
+    }, [...refetchDependencies]);
 
     useEffect(() => {
         mountedRef.current = true; // Use ref to indicate mounted state

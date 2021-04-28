@@ -9,7 +9,11 @@ export class ADTAdapterModelsData implements IAdapterData {
     }
 
     hasNoData() {
-        return this.data === null || this.data.value.length === 0;
+        return (
+            this.data === undefined ||
+            this.data === null ||
+            this.data.value.length === 0
+        );
     }
 }
 
@@ -21,6 +25,10 @@ export class ADTAdapterTwinsData implements IAdapterData {
     }
 
     hasNoData() {
-        return this.data === null || this.data.value.length === 0;
+        return (
+            this.data === undefined ||
+            this.data === null ||
+            this.data.value.length === 0
+        );
     }
 }

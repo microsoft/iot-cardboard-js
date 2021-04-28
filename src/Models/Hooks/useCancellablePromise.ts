@@ -72,7 +72,7 @@ const useCancellablePromise = () => {
         return cancel;
     }, []);
 
-    /** Function to construct cancellable promise */
+    /** Function to construct cancellable promise if it is not already */
     function cancellablePromise<T>(p: Promise<T> | CancellablePromise<T>) {
         const cPromise =
             p instanceof Promise ? makeCancellable(p, promises) : p;

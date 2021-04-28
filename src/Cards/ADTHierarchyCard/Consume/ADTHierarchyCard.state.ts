@@ -10,7 +10,8 @@ import { ADTHierarchyCardConsumeState } from './ADTHierarchyCard.types';
 
 export const defaultADTHierarchyCardConsumeState: ADTHierarchyCardConsumeState = {
     hierarchyNodes: {},
-    searchTerm: ''
+    searchTerm: '',
+    selectedTwin: null
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -37,19 +38,28 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 }
                 break;
             case SET_ADT_HIERARCHY_SELECTED_TWIN_ID:
-                if (
-                    payload.previouslySelectedTwin.modelId &&
-                    payload.previouslySelectedTwin.twinId
-                ) {
-                    draft.hierarchyNodes[
-                        payload.previouslySelectedTwin.modelId
-                    ].children[
-                        payload.previouslySelectedTwin.twinId
+                // if (
+                //     payload.previouslySelectedTwin?.modelId &&
+                //     payload.previouslySelectedTwin?.twinId
+                // ) {
+                //     draft.hierarchyNodes[
+                //         payload.previouslySelectedTwin.modelId
+                //     ].children[
+                //         payload.previouslySelectedTwin.twinId
+                //     ].isSelected = false;
+                // }
+                if (draft.selectedTwin) {
+                    draft.hierarchyNodes[draft.selectedTwin.modelId].children[
+                        draft.selectedTwin.twinId
                     ].isSelected = false;
                 }
                 draft.hierarchyNodes[payload.modelId].children[
                     payload.twinId
                 ].isSelected = true;
+                draft.selectedTwin = {
+                    modelId: payload.modelId,
+                    twinId: payload.twinId
+                };
                 break;
             case SET_ADT_HIERARCHY_SEARCH:
                 draft.searchTerm = payload;

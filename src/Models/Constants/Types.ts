@@ -16,6 +16,18 @@ export type AdapterResultParams<T extends IAdapterData> = {
     errorInfo: IErrorInfo;
 };
 
+export type AxiosParams = {
+    url: string;
+    method: 'get' | 'post' | 'put' | 'delete' | 'patch';
+    headers?: AxiosObjParam;
+    params?: AxiosObjParam;
+    data?: AxiosObjParam;
+};
+
+export type AxiosObjParam = {
+    [key: string]: any;
+};
+
 export type AdapterState<T extends IAdapterData> = {
     adapterResult: AdapterResult<T>;
     isLoading: boolean;
