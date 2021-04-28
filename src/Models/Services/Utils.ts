@@ -16,7 +16,7 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
-export const getParams = (url) => {
+export const getUrlParams = (url: string) => {
     const params = {};
     if (url) {
         const parts = url.split('?')[1].split('&');
@@ -31,7 +31,7 @@ export const getParams = (url) => {
     return params;
 };
 
-export const getUrlParam = (url, key) => {
-    const params = getParams(url);
+export const getUrlParam = (url: string, key: string) => {
+    const params = getUrlParams(url);
     return key in params ? params[key] : null;
 };
