@@ -16,20 +16,22 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
-export const urlParams = (url) => {
+export const getParams = (url) => {
     const params = {};
-    const parts = url.substring(1).split('&');
-    for (let i = 0; i < parts.length; i++) {
-        const nv = parts[i].split('=');
-        if (!nv[0]) {
-            continue;
+    if (url) {
+        const parts = url.split('?')[1].split('&');
+        for (let i = 0; i < parts.length; i++) {
+            const nv = parts[i].split('=');
+            if (!nv[0]) {
+                continue;
+            }
+            params[nv[0]] = nv[1] || true;
         }
-        params[nv[0]] = nv[1] || true;
     }
     return params;
 };
 
 export const getUrlParam = (url, key) => {
-    const params = urlParams(url);
+    const params = getParams(url);
     return key in params ? params[key] : null;
 };

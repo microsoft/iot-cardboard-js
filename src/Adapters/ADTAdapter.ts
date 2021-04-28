@@ -187,6 +187,15 @@ export default class ADTAdapter implements IADTAdapter {
                         ...(params?.continuationToken && {
                             continuationToken: params.continuationToken
                         })
+                    },
+                    paramsSerializer: function (params) {
+                        // to bypass parameter encoding of axios for continuationToken which is already encoded
+                        const paramsList = [];
+                        const paramKeys = Object.keys(params);
+                        paramKeys.forEach((param) => {
+                            paramsList.push(param + '=' + params[param]);
+                        });
+                        return paramsList.join('&');
                     }
                 });
             } catch (err) {
