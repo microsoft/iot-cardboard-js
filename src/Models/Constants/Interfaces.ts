@@ -174,3 +174,9 @@ export interface IResolvedRelationshipClickErrors {
     twinErrors?: any;
     modelErrors?: any;
 }
+
+export interface IViewData {
+    viewDefinition: string;
+    imageSrc: string;
+    imagePropertyPositions: string;
+}

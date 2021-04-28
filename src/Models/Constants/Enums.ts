@@ -24,3 +24,13 @@ export enum HierarchyNodeType {
     Child,
     ShowMore
 }
+
+export enum CardTypes {
+    ADTHierarchyCard = 'ADTHierarchyCard',
+    ADTHierarchyWithLKVProcessGraphics = 'ADTHierarchyWithLKVProcessGraphics',
+    KeyValuePairCard = 'KeyValuePairCard',
+    LineChart = 'LineChart',
+    LKVProcessGraphicCard = 'LKVProcessGraphicCard',
+    RelationshipsTable = 'RelationshipsTable',
+    InfoTable = 'InfoTable'
+}

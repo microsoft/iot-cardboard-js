@@ -28,7 +28,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
         >
             <ThemeProvider theme={theme}>
                 <div className="cb-base-card">
-                    <h3 className="cb-base-card-title">{title}</h3>
+                    { title && <h3 className="cb-base-card-title">{title}</h3> }
                     <div className="cb-base-card-content">
                         {catastrophicError ? (
                             <div className="cb-base-catastrophic-error-wrapper">

@@ -1,0 +1,19 @@
+.cb-hbcard-container {
+    display: flex;
+    flex-direction: row;
+    width: 1280px;
+    min-height: 600px;
+
+    .cb-hbcard-hierarchy {
+        width: 260px;
+    }
+    
+    .cb-hbcard-board {
+        flex-grow: 1;
+        margin-left: 12px;
+    }
+
+    .cb-board {
+        grid-template-rows: 80px;
+    }
+}
