@@ -63,7 +63,7 @@ module.exports = function (app) {
             pathRewrite,
             router: (req) => {
                 // Validate ADT environment URL
-                const xAdtHostHeader = req.headers['x-adt-host'];
+                const xAdtHostHeader = req.headers['x-adt-host'].toLowerCase();
                 const adtUrl = `https://${xAdtHostHeader}/`;
                 const adtUrlObject = new URL(adtUrl);
                 if (
