@@ -34,7 +34,7 @@ export default class ADTAdapter implements IADTAdapter {
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        adtProxyServerURL = 'http://localhost:3002/api/proxy/adt' // TODO: update this link for production, make sure this points to the right adt proxy server
+        adtProxyServerURL = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adtProxyServerURL = adtProxyServerURL;
@@ -68,8 +68,7 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}/relationships`
+                        'x-adt-host': `${this.adtHostUrl}/digitaltwins/${id}/relationships`
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -118,8 +117,7 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${twinId}`
+                        'x-adt-host': `${this.adtHostUrl}/digitaltwins/${twinId}`
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -150,8 +148,7 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `models/${modelId}`
+                        'x-adt-host': `${this.adtHostUrl}/models/${modelId}`
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -183,17 +180,12 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        ...(params?.nextLink && {
-                            'x-adt-url': params?.nextLink
-                        }),
-                        ...(!params?.nextLink && {
-                            'x-adt-host': this.adtHostUrl,
-                            'x-adt-endpoint': 'models'
-                        })
+                        'x-adt-host': `${this.adtHostUrl}/models`
                     },
                     params: {
-                        ...(!params?.nextLink && {
-                            'api-version': ADT_ApiVersion
+                        'api-version': ADT_ApiVersion,
+                        ...(params?.continuationToken && {
+                            continuationToken: params.continuationToken
                         })
                     }
                 });
@@ -223,8 +215,7 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
+                        'x-adt-host': `${this.adtHostUrl}/query`
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -265,8 +256,7 @@ export default class ADTAdapter implements IADTAdapter {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}`
+                        'x-adt-host': `${this.adtHostUrl}/digitaltwins/${id}`
                     },
                     params: {
                         'api-version': ADT_ApiVersion

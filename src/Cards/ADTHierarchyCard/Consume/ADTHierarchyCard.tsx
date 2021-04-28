@@ -25,6 +25,7 @@ import {
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
+import { Utils } from '../../../Models/Services';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
@@ -133,7 +134,10 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                                   }
                               });
                               modelState.callAdapter({
-                                  nextLink: modelsNextLink
+                                  continuationToken: Utils.getUrlParam(
+                                      modelsNextLink,
+                                      'continuationToken'
+                                  )
                               });
                           }
                       } as IHierarchyNode
