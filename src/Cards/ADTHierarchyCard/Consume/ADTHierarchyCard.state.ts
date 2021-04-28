@@ -38,16 +38,6 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 }
                 break;
             case SET_ADT_HIERARCHY_SELECTED_TWIN_ID:
-                // if (
-                //     payload.previouslySelectedTwin?.modelId &&
-                //     payload.previouslySelectedTwin?.twinId
-                // ) {
-                //     draft.hierarchyNodes[
-                //         payload.previouslySelectedTwin.modelId
-                //     ].children[
-                //         payload.previouslySelectedTwin.twinId
-                //     ].isSelected = false;
-                // }
                 if (draft.selectedTwin) {
                     draft.hierarchyNodes[draft.selectedTwin.modelId].children[
                         draft.selectedTwin.twinId
