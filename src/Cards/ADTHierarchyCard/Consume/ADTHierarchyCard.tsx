@@ -11,8 +11,6 @@ import {
     ADTModelsData,
     ADTTwinsData,
     HierarchyNodeType,
-    IADTModel,
-    IADTTwin,
     IHierarchyNode
 } from '../../../Models/Constants';
 import { HierarchyNode } from '../../../Models/Classes/HierarchyNode';
@@ -149,7 +147,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
-                modelState.adapterResult.result?.data?.value as IADTModel[]
+                modelState.adapterResult.result?.data?.value
             );
 
             const modelsNextLink = (modelState.adapterResult.result
@@ -177,7 +175,9 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                               });
                               isLoadingTriggeredByShowMore.current = true;
                               modelState.callAdapter({
-                                  nextLink: modelsNextLink
+                                  continuationToken: new URLSearchParams(
+                                      modelsNextLink
+                                  ).get('continuationToken')
                               });
                           }
                       } as IHierarchyNode
@@ -199,7 +199,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         if (focusedModelIdRef.current && !twinState.adapterResult.hasNoData()) {
             const focusedModelId = focusedModelIdRef.current;
             const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
-                twinState.adapterResult.result?.data?.value as IADTTwin[],
+                twinState.adapterResult.result?.data?.value,
                 hierarchyNodes[focusedModelId]
             );
 

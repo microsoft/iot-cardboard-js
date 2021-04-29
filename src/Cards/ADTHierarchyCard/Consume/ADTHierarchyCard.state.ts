@@ -24,13 +24,22 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 draft.hierarchyNodes = payload;
                 break;
             case SET_ADT_HIERARCHY_NODE_PROPERTIES:
-                if (payload.modelId && payload.twinId) {
+                if (
+                    payload.modelId &&
+                    payload.twinId &&
+                    draft.hierarchyNodes[payload.modelId].children[
+                        payload.twinId
+                    ]
+                ) {
                     Object.keys(payload.properties).forEach((propKey) => {
                         draft.hierarchyNodes[payload.modelId].children[
                             payload.twinId
                         ][propKey] = payload.properties[propKey];
                     });
-                } else if (payload.modelId) {
+                } else if (
+                    payload.modelId &&
+                    draft.hierarchyNodes[payload.modelId]
+                ) {
                     Object.keys(payload.properties).forEach((propKey) => {
                         draft.hierarchyNodes[payload.modelId][propKey] =
                             payload.properties[propKey];

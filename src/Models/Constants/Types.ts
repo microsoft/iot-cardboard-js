@@ -89,7 +89,7 @@ export type AdapterMethodParams = {
 };
 
 export type AdapterMethodParamsForGetADTModels = {
-    nextLink?: string;
+    continuationToken?: string;
 };
 
 export type AdapterMethodParamsForGetADTTwinsByModelId = {
