@@ -19,7 +19,7 @@ const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
     const [selectedChildNode, setSelectedChildNode]: [IHierarchyNode, React.Dispatch<IHierarchyNode>] = useState(null);
     const { t } = useTranslation();
     let boardInfo: BoardInfo = null;
-    let viewData: IViewData = null;
+    let viewDefinition: IViewData = null;
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -31,10 +31,12 @@ const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
     if(selectedChildNode !== null) {
         // TODO: viewData.viewDefintion currently has the view definition inline, but it might be better to 
         // have it be a URL that we use to fetch the definition.
-        viewData = selectedChildNode?.nodeData?.[ViewDataPropertyName];
-        boardInfo = viewData === undefined
+        viewDefinition = selectedChildNode?.nodeData?.[ViewDataPropertyName]?.boardInfo
+            ? JSON.parse(selectedChildNode?.nodeData?.[ViewDataPropertyName]?.boardInfo)
+            : null;
+        boardInfo = viewDefinition === null
             ? getDefaultBoardInfo(selectedChildNode.nodeData)
-            : BoardInfo.fromObject(viewData.viewDefinition);
+            : BoardInfo.fromObject(viewDefinition);
     }
 
     return (
