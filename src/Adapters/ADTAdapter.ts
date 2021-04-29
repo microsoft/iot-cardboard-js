@@ -29,15 +29,15 @@ import {
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
     private adtHostUrl: string;
-    private adtProxyServerURL: string;
+    private adtProxyServerPath: string;
 
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        adtProxyServerURL = 'http://localhost:3002/api/proxy/adt' // TODO: update this link for production, make sure this points to the right adt proxy server
+        adtProxyServerPath = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
-        this.adtProxyServerURL = adtProxyServerURL;
+        this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.authService.login();
     }
@@ -64,12 +64,11 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/digitaltwins/${id}/relationships`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}/relationships`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -114,12 +113,11 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${twinId}`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -146,12 +144,11 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/models/${modelId}`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `models/${modelId}`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -179,22 +176,26 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/models`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        ...(params?.nextLink && {
-                            'x-adt-url': params?.nextLink
-                        }),
-                        ...(!params?.nextLink && {
-                            'x-adt-host': this.adtHostUrl,
-                            'x-adt-endpoint': 'models'
-                        })
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
-                        ...(!params?.nextLink && {
-                            'api-version': ADT_ApiVersion
+                        'api-version': ADT_ApiVersion,
+                        ...(params?.continuationToken && {
+                            continuationToken: params.continuationToken
                         })
+                    },
+                    paramsSerializer: function (params) {
+                        // to bypass parameter encoding of axios for continuationToken which is already encoded
+                        const paramsList = [];
+                        const paramKeys = Object.keys(params);
+                        paramKeys.forEach((param) => {
+                            paramsList.push(param + '=' + params[param]);
+                        });
+                        return paramsList.join('&');
                     }
                 });
             } catch (err) {
@@ -219,12 +220,11 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'post',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/query`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
                         'api-version': ADT_ApiVersion
@@ -261,12 +261,11 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
                         'api-version': ADT_ApiVersion
