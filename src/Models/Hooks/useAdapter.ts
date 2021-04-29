@@ -42,7 +42,7 @@ interface Params<T extends IAdapterData> {
     adapterMethod: (params?: AdapterMethodParams) => AdapterReturnType<T>;
 
     /** Not to execute the adapter method when we use the useAdapter hook in first render */
-    skipFirstCallAdapter?: boolean;
+    isAdapterCalledOnMount?: boolean;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
@@ -64,7 +64,7 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis,
-    skipFirstCallAdapter
+    isAdapterCalledOnMount
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -137,7 +137,7 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        if (skipFirstCallAdapter) {
+        if (isAdapterCalledOnMount) {
             if (mountedRef.current) {
                 cancelAdapter();
                 callAdapter();

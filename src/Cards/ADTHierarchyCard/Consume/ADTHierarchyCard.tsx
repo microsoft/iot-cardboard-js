@@ -59,14 +59,14 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         adapterMethod: (params: AdapterMethodParamsForGetADTTwinsByModelId) =>
             adapter.getADTTwinsByModelId(params),
         refetchDependencies: [],
-        skipFirstCallAdapter: true
+        isAdapterCalledOnMount: true
     });
 
     const searchState = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
         refetchDependencies: [],
-        skipFirstCallAdapter: true
+        isAdapterCalledOnMount: true
     });
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
@@ -266,12 +266,12 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     useEffect(() => {
         if (!searchState.adapterResult.hasNoData()) {
             const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
-                searchState.adapterResult.result?.data?.value as IADTTwin[],
+                searchState.adapterResult.result?.data?.value,
                 null
             );
 
-            const searchContinuationToken = (searchState.adapterResult.result
-                ?.data as ADTTwinsData)?.continuationToken;
+            const searchContinuationToken =
+                searchState.adapterResult.result?.data?.continuationToken;
             const currentNodes = { ...hierarchyNodes };
 
             const showMoreId = 'twins-show-more';
