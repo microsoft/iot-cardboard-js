@@ -163,7 +163,7 @@ export interface IADTTwin {
         $model: string;
         [propertyName: string]: any;
     };
-    cb_viewdata: {
+    cb_viewdata?: {
         boardInfo: string;
     };
     [propertyName: string]: any;
