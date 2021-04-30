@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ADTHierarchyWithBoardCardProps } from './ADTHierarchyWithBoardCard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
 import Board from '../../../../Board/Consume/Board';
-import { IHierarchyNode, IViewData, IADTTwin } from '../../../../Models/Constants/Interfaces';
+import { IHierarchyNode, IADTTwin, IADTModel, IResolvedRelationshipClickErrors } from '../../../../Models/Constants/Interfaces';
 import { ViewDataPropertyName } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
-import './ADTHierarchyWithBoardCard.scss';
 import { BoardInfo, CardInfo } from '../../../../Models/Classes/BoardInfo';
 import { CardTypes } from '../../../../Models/Constants';
+import './ADTHierarchyWithBoardCard.scss';
 
 const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
     title,
@@ -16,27 +16,36 @@ const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
     locale,
     localeStrings
 }) => {
-    const [selectedChildNode, setSelectedChildNode]: [IHierarchyNode, React.Dispatch<IHierarchyNode>] = useState(null);
+    const [boardInfo, setBoardInfo]: [BoardInfo, React.Dispatch<BoardInfo>] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     const { t } = useTranslation();
-    let boardInfo: BoardInfo = null;
-    let viewDefinition: IViewData = null;
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => {
-        setSelectedChildNode(childNode);
+        setBoardInfo(getBoardInfo(childNode.nodeData));
     };
 
-    if(selectedChildNode !== null) {
-        // TODO: viewData.viewDefintion currently has the view definition inline, but it might be better to 
-        // have it be a URL that we use to fetch the definition.
-        viewDefinition = selectedChildNode?.nodeData?.[ViewDataPropertyName]?.boardInfo
-            ? JSON.parse(selectedChildNode?.nodeData?.[ViewDataPropertyName]?.boardInfo)
+    const onEntitySelect = (twin: IADTTwin, model: IADTModel, errors?: IResolvedRelationshipClickErrors) => {
+        if(errors.twinErrors || errors.modelErrors) {
+            setBoardInfo(null);
+            setErrorMessage(t('board.failure'));
+            console.error(errors.modelErrors);
+            console.error(errors.twinErrors);
+        } else {
+            setBoardInfo(getBoardInfo(twin));
+            setErrorMessage(null);
+        }
+    };
+
+    const getBoardInfo = (twin: IADTTwin) => {
+        const boardInfoObject = twin?.cb_viewdata?.boardInfo 
+            ? JSON.parse(twin.cb_viewdata?.boardInfo) 
             : null;
-        boardInfo = viewDefinition === null
-            ? getDefaultBoardInfo(selectedChildNode.nodeData)
-            : BoardInfo.fromObject(viewDefinition);
+        return boardInfoObject === null
+            ? getDefaultBoardInfo(twin, t)
+            : BoardInfo.fromObject(boardInfoObject)
     }
 
     return (
@@ -58,6 +67,8 @@ const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
                         locale={locale}
                         boardInfo={boardInfo}
                         adapter={adapter}
+                        errorMessage={errorMessage}
+                        onEntitySelect={onEntitySelect}
                     />
                 )}
             </div>
@@ -65,7 +76,7 @@ const ADTHierarchyWithBoardCard: React.FC<ADTHierarchyWithBoardCardProps> = ({
     );
 };
 
-function getDefaultBoardInfo(dtTwin: IADTTwin): BoardInfo {
+function getDefaultBoardInfo(dtTwin: IADTTwin, t: (str: string) => string): BoardInfo {
     const board = new BoardInfo();
     board.layout = { columns: 3 };
 
@@ -84,8 +95,7 @@ function getDefaultBoardInfo(dtTwin: IADTTwin): BoardInfo {
         type: CardTypes.InfoTable,
         size: { rows: 1, columns: 3 },
         cardProperties: {
-            // TODO: localize
-            headers: ['Twin Name', 'Model ID']
+            headers: [t('board.twinID'), t('board.model')]
         },
         entities: [
             {
@@ -97,8 +107,7 @@ function getDefaultBoardInfo(dtTwin: IADTTwin): BoardInfo {
     board.cards.push(CardInfo.fromObject({
         key: "relationships",
         type: CardTypes.RelationshipsTable,
-        // TODO: localize
-        title: "Relationships Table",
+        title: t('board.relationshipsTable'),
         size: { rows: 4, columns: 2 },
         entities: [ { id: dtTwin.$dtId }]
     }));

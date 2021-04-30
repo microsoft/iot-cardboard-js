@@ -20,9 +20,16 @@
         "unkownError": "Unknown error occurred"
     },
     "relationshipsTable": {
-        "twinID": "Twin id",
+        "twinID": "Twin Id",
         "model": "Model",
         "relationshipName": "Relationship name"
+    },
+    "board": {
+        "failure": "Unable to load board data",
+        "empty": "This board has no cards",
+        "twinID": "Twin Id",
+        "model": "Model",
+        "relationshipsTable": "Relationships Table"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
