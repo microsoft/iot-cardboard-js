@@ -77,7 +77,7 @@ export type AdapterMethodParams = {
 };
 
 export type AdapterMethodParamsForADTModels = {
-    nextLink?: string;
+    continuationToken?: string;
 };
 
 export type AdapterMethodParamsForADTTwins = {
