@@ -1,14 +1,4 @@
-import axios from 'axios';
 import React from 'react';
-import AdapterMethodSandbox from '../Classes/AdapterMethodSandbox';
-import AdapterResult from '../Classes/AdapterResult';
-import { AdapterErrorType } from '../Constants/Enums';
-import {
-    IAdapterData,
-    IAuthService,
-    ICancellablePromise
-} from '../Constants/Interfaces';
-import { AxiosParams } from '../Constants/Types';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -50,54 +40,3 @@ export const getMarkedHtmlBySearch = (str, searchTerm) => {
         return str;
     }
 };
-
-export function cancellableAxiosPromise(
-    authService: IAuthService,
-    returnDataClass: { new (data: any) },
-    axiosParams: AxiosParams
-): ICancellablePromise<AdapterResult<any>> {
-    const adapterMethodSandbox = new AdapterMethodSandbox({
-        authservice: authService
-    });
-
-    const { url, method, headers, params, data } = axiosParams;
-    const cancelTokenSource = axios.CancelToken.source();
-
-    const cancellablePromise = adapterMethodSandbox.safelyFetchData(
-        async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: method,
-                    url: url,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        ...headers
-                    },
-                    params: params,
-                    data: data,
-                    cancelToken: cancelTokenSource.token
-                });
-            } catch (err) {
-                if (axios.isCancel(err)) {
-                    adapterMethodSandbox.pushError({
-                        type: AdapterErrorType.DataFetchFailed,
-                        isCatastrophic: false,
-                        rawError: err
-                    });
-                } else {
-                    adapterMethodSandbox.pushError({
-                        type: AdapterErrorType.DataFetchFailed,
-                        isCatastrophic: true,
-                        rawError: err
-                    });
-                }
-            }
-            const result = axiosData?.data;
-            return new returnDataClass(result);
-        }
-    ) as ICancellablePromise<AdapterResult<any>>;
-    cancellablePromise.cancel = cancelTokenSource.cancel;
-    return cancellablePromise;
-}

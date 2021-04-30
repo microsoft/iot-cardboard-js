@@ -26,7 +26,6 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
-import { Utils } from '../Models/Services';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -110,67 +109,41 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'get',
-                    url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl
-                    },
-                    params: {
-                        'api-version': ADT_ApiVersion
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+        return adapterMethodSandbox.cancellableAxiosPromise(ADTTwinData, {
+            method: 'get',
+            url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+            headers: {
+                'x-adt-host': this.adtHostUrl
+            },
+            params: {
+                'api-version': ADT_ApiVersion
             }
-            const data = axiosData.data;
-            return new ADTTwinData(data);
         });
     }
 
-    async getADTModel(modelId: string) {
+    public getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'get',
-                    url: `${this.adtProxyServerPath}/models/${modelId}`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl
-                    },
-                    params: {
-                        'api-version': ADT_ApiVersion
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+
+        return adapterMethodSandbox.cancellableAxiosPromise(ADTModelData, {
+            method: 'get',
+            url: `${this.adtProxyServerPath}/models/${modelId}`,
+            headers: {
+                'x-adt-host': this.adtHostUrl
+            },
+            params: {
+                'api-version': ADT_ApiVersion
             }
-            const data = axiosData.data;
-            return new ADTModelData(data);
         });
     }
 
     public getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
-        return Utils.cancellableAxiosPromise(
-            this.authService,
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return adapterMethodSandbox.cancellableAxiosPromise(
             ADTAdapterModelsData,
             {
                 method: 'get',
@@ -191,8 +164,11 @@ export default class ADTAdapter implements IADTAdapter {
     public getADTTwinsByModelId(
         params: AdapterMethodParamsForGetADTTwinsByModelId
     ) {
-        return Utils.cancellableAxiosPromise(
-            this.authService,
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return adapterMethodSandbox.cancellableAxiosPromise(
             ADTAdapterTwinsData,
             {
                 method: 'post',
@@ -212,8 +188,11 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     public searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
-        return Utils.cancellableAxiosPromise(
-            this.authService,
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return adapterMethodSandbox.cancellableAxiosPromise(
             ADTAdapterTwinsData,
             {
                 method: 'post',
