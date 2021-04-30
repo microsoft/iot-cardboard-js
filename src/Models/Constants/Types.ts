@@ -4,12 +4,13 @@ import {
     IADTTwin,
     IAdapterData,
     IHierarchyNode,
-    IErrorInfo
+    IErrorInfo,
+    ICancellablePromise
 } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> =
     | Promise<AdapterResult<T>>
-    | CancellablePromise<AdapterResult<T>>;
+    | ICancellablePromise<AdapterResult<T>>;
 
 export type AdapterResultParams<T extends IAdapterData> = {
     result: T;

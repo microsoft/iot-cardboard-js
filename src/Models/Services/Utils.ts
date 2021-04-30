@@ -3,8 +3,12 @@ import React from 'react';
 import AdapterMethodSandbox from '../Classes/AdapterMethodSandbox';
 import AdapterResult from '../Classes/AdapterResult';
 import { AdapterErrorType } from '../Constants/Enums';
-import { IAuthService } from '../Constants/Interfaces';
-import { AxiosParams, CancellablePromise } from '../Constants/Types';
+import {
+    IAdapterData,
+    IAuthService,
+    ICancellablePromise
+} from '../Constants/Interfaces';
+import { AxiosParams } from '../Constants/Types';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -51,7 +55,7 @@ export function cancellableAxiosPromise(
     authService: IAuthService,
     returnDataClass: { new (data: any) },
     axiosParams: AxiosParams
-): CancellablePromise<AdapterResult<any>> {
+): ICancellablePromise<AdapterResult<any>> {
     const adapterMethodSandbox = new AdapterMethodSandbox({
         authservice: authService
     });
@@ -59,8 +63,8 @@ export function cancellableAxiosPromise(
     const { url, method, headers, params, data } = axiosParams;
     const cancelTokenSource = axios.CancelToken.source();
 
-    const cancellablePromise: CancellablePromise<AdapterResult<any>> = {
-        promise: adapterMethodSandbox.safelyFetchData(async (token) => {
+    const cancellablePromise = adapterMethodSandbox.safelyFetchData(
+        async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
@@ -92,10 +96,8 @@ export function cancellableAxiosPromise(
             }
             const result = axiosData?.data;
             return new returnDataClass(result);
-        }),
-        cancel: () => {
-            cancelTokenSource.cancel();
         }
-    };
+    ) as ICancellablePromise<AdapterResult<any>>;
+    cancellablePromise.cancel = cancelTokenSource.cancel;
     return cancellablePromise;
 }

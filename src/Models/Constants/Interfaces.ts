@@ -194,3 +194,7 @@ export interface ISearchboxProps {
     onSearch?: (value: string) => void;
     onClear?: () => void;
 }
+
+export interface ICancellablePromise<T> extends Promise<T> {
+    cancel: () => void;
+}
