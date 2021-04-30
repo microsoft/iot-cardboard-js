@@ -3,11 +3,8 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import Board from './Board';
 import { BoardInfo } from '../../Models/Classes/BoardInfo';
-import { SearchSpan } from '../../Models/Classes';
-import { TsiAdapter } from '../../Adapters';
 import { ADTAdapter } from '../../Adapters';
-import TestAsv from '../../../.storybook/test_data/sample_asv';
-import SameronBoard from '../../../.storybook/test_data/sample_asv4';
+import SampleBoardInfo from '../../../.storybook/test_data/sampleBoardInfo';
 
 const boardStyle = {
     height: '720px',
@@ -20,7 +17,7 @@ export default {
 };
 
 export const SameronDemo = (args, { globals: { theme, locale }}) => {
-    const boardInfo = BoardInfo.fromObject(SameronBoard);
+    const boardInfo = BoardInfo.fromObject(SampleBoardInfo);
     const authenticationParameters = useAuthParams();    
 
     return !authenticationParameters ? (
@@ -31,8 +28,6 @@ export const SameronDemo = (args, { globals: { theme, locale }}) => {
                 theme={theme}
                 locale={locale}
                 boardInfo={boardInfo}
-                // TODO: Creating these adapters should probably happen outside of rendering
-                // but authenticationParameters are not guaranteed to be null.
                 adapter={new ADTAdapter(
                     authenticationParameters.adt.hostUrl,
                     new MsalAuthService(
@@ -42,33 +37,3 @@ export const SameronDemo = (args, { globals: { theme, locale }}) => {
         </div>
     );
 }
-
-export const Tsi = (args, { globals: { theme, locale } }) => {
-    const boardInfo = BoardInfo.fromObject(TestAsv);
-    const authenticationParameters = useAuthParams();
-    const searchSpan = new SearchSpan(
-        new Date('2017-04-20T20:00:00Z'),
-        new Date('2017-05-20T20:00:00Z'),
-        '6h'
-    );
-
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={boardStyle}>
-            <Board
-                theme={theme}
-                locale={locale}
-                searchSpan={searchSpan}
-                boardInfo={boardInfo}
-                // TODO: Creating these adapters should probably happen outside of rendering
-                // but authenticationParameters are not guaranteed to be null.
-                adapter={new TsiAdapter(
-                    authenticationParameters.tsi.environmentFqdn,
-                    new MsalAuthService(
-                        authenticationParameters.tsi.aadParameters
-                    )
-                )} />
-        </div>
-    );
-};

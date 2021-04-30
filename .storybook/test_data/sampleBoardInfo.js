@@ -1,4 +1,4 @@
-const windMillAst = {
+const boardInfo = {
     "schema": "1.0",
     "layout": { "columns": 3 },
     "cards": [
@@ -49,4 +49,4 @@ const windMillAst = {
     ]
 };
 
-export default windMillAst;
+export default boardInfo;
