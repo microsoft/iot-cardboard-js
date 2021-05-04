@@ -6,4 +6,5 @@ export interface BaseCardProps extends ICardBaseProps {
     children?: React.ReactNode;
     // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
+    skipInfoBox?: boolean;
 }

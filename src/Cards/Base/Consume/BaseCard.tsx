@@ -13,7 +13,8 @@ const BaseCard: React.FC<BaseCardProps> = ({
     title,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    skipInfoBox
 }) => {
     const { t } = useTranslation();
 
@@ -42,6 +43,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
                                 </div>
                             </div>
                         ) : (
+                            !skipInfoBox &&
                             (isLoading || noData) && (
                                 <div className="cb-base-info-wrapper">
                                     <div className="cb-base-info">
