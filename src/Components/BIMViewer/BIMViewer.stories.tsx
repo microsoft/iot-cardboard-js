@@ -12,6 +12,11 @@ export const BasicBIMViewer = () => (
             position: 'relative'
         }}
     >
-        <BIMViewer />
+        {/* right now this is hardcoded to external assets */}
+        <BIMViewer
+            bimFilePath="https://raw.githubusercontent.com/xeokit/xeokit-sdk/master/assets/models/xkt/duplex/duplex.xkt"
+            metadataFilePath="https://raw.githubusercontent.com/xeokit/xeokit-sdk/master/assets/metaModels/duplex/metaModel.json"
+            bimFileType="xkt"
+        />
     </div>
 );

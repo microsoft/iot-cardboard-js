@@ -9,6 +9,13 @@ export interface IAction {
     payload?: any;
 }
 
+export interface IBIMViewerProps {
+    bimFilePath: string;
+    metadataFilePath: string;
+    bimFileType: string;
+    centeredObject?: string;
+}
+
 export interface ITSIChartComponentProps {
     data: any[];
     chartOptions?: any;

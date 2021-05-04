@@ -1,3 +1,12 @@
 canvas {
     border: 1px solid #202020;
+    height: 100%;
+    width: 100%;
+}
+
+.cb-bimviewer-container {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
 }

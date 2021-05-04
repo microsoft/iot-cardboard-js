@@ -1,8 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
+import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
+
 // import useGuid from './useGuid';
 
-const useXeokitRender = (canvasId) => {
+const useXeokitRender = (
+    canvasId,
+    bimFilePath,
+    metadataFilePath,
+    bimFileType = 'xkt'
+) => {
     // const viewerContainerGUID = useGuid();
     const viewer = useRef(null);
 
@@ -12,8 +19,17 @@ const useXeokitRender = (canvasId) => {
                 canvasId: canvasId
             });
         }
-        console.log(viewer);
-    }, []);
+        if (bimFileType === 'xkt') {
+            const xktLoader = new XKTLoaderPlugin(viewer.current);
+            xktLoader.load({
+                id: 'myModel',
+                src: bimFilePath,
+                metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
+                edges: true
+            });
+        }
+    }, [bimFilePath, metadataFilePath]);
+    return viewer;
 
     // return chartContainerGUID;
 };

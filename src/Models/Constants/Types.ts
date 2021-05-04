@@ -28,6 +28,11 @@ export type KeyValuePairData = {
     timestamp?: Date;
 };
 
+export type BIMData = {
+    bimURL: string;
+    bimMetadataURL: string;
+};
+
 export type ADTRelationship = {
     relationshipName: string;
     relationshipId: string;
