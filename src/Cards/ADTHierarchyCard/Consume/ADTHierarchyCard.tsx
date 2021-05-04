@@ -410,6 +410,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         (searchTerm && searchState.isLoading)) &&
                     !isLoadingTriggeredByShowMore.current
                 }
+                noDataText={t('noTwins')}
             ></Hierarchy>
         </BaseCard>
     );

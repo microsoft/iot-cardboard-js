@@ -141,6 +141,7 @@ export interface IHierarchyProps {
         parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => void;
+    noDataText?: string;
 }
 
 export interface IHierarchyNode {

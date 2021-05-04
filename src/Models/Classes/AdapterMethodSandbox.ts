@@ -133,7 +133,8 @@ class AdapterMethodSandbox {
 
     safelyFetchDataCancellableAxiosPromise(
         returnDataClass: { new (data: any) },
-        axiosParams: AxiosParams
+        axiosParams: AxiosParams,
+        dataTransformFunc?: (data) => any
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
@@ -166,7 +167,9 @@ class AdapterMethodSandbox {
                 }
             }
             const result = axiosData?.data;
-            return new returnDataClass(result);
+            return new returnDataClass(
+                dataTransformFunc ? dataTransformFunc(result) : result
+            );
         }) as ICancellablePromise<AdapterResult<any>>;
         cancellablePromise.cancel = cancelTokenSource.cancel;
         return cancellablePromise;
