@@ -131,26 +131,23 @@ class AdapterMethodSandbox {
         }
     }
 
-    cancellableAxiosPromise(
+    safelyFetchDataCancellableAxiosPromise(
         returnDataClass: { new (data: any) },
         axiosParams: AxiosParams
     ): ICancellablePromise<AdapterResult<any>> {
-        const { url, method, headers, params, data } = axiosParams;
+        const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
 
         const cancellablePromise = this.safelyFetchData(async (token) => {
             let axiosData;
             try {
                 axiosData = await axios({
-                    method: method,
-                    url: url,
+                    ...restOfParams,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
                         ...headers
                     },
-                    params: params,
-                    data: data,
                     cancelToken: cancelTokenSource.token
                 });
             } catch (err) {

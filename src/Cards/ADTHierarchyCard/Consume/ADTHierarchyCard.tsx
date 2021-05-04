@@ -139,6 +139,10 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
         focusedModelIdRef.current = null;
         focusedTwinRef.current = null;
+        cancelPendingAdapterRequests();
+    };
+
+    const cancelPendingAdapterRequests = () => {
         modelState.cancelAdapter();
         twinState.cancelAdapter();
         searchState.cancelAdapter();
@@ -196,70 +200,90 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [modelState.adapterResult.result]);
 
     useEffect(() => {
-        if (focusedModelIdRef.current && !twinState.adapterResult.hasNoData()) {
+        if (focusedModelIdRef.current && twinState.adapterResult.result) {
             const focusedModelId = focusedModelIdRef.current;
-            const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
-                twinState.adapterResult.result?.data?.value,
-                hierarchyNodes[focusedModelId]
-            );
-
-            const twinsContinuationToken = (twinState.adapterResult.result
-                ?.data as ADTTwinsData)?.continuationToken;
-            const currentChildren = !hierarchyNodes[focusedModelId].isCollapsed
-                ? {
-                      ...hierarchyNodes[focusedModelId].children
-                  }
-                : {};
-
-            const showMoreId = `${focusedModelId}-show-more`;
-            delete currentChildren[showMoreId]; // remove the current show more node if exist
-            const showMoreNode = twinsContinuationToken
-                ? {
-                      [showMoreId]: {
-                          id: `${focusedModelId}-show-more`,
-                          name: t('showMore'),
-                          nodeType: HierarchyNodeType.ShowMore,
-                          onNodeClick: () => {
-                              cancelCurrentlyLoadingNodes();
-                              focusedModelIdRef.current = focusedModelId;
-                              focusedTwinRef.current = {
-                                  modelId: focusedModelId,
-                                  twinId: `${focusedModelId}-show-more`
-                              };
-                              dispatch({
-                                  type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
-                                  payload: {
-                                      modelId: focusedModelId,
-                                      twinId: `${focusedModelId}-show-more`,
-                                      properties: { isLoading: true }
-                                  }
-                              });
-                              isLoadingTriggeredByShowMore.current = true;
-                              twinState.callAdapter({
-                                  modelId: focusedModelId,
-                                  continuationToken: twinsContinuationToken
-                              });
+            const newTwinData = twinState.adapterResult.result.data;
+            if (newTwinData?.value) {
+                if (newTwinData.value.length) {
+                    const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
+                        newTwinData.value,
+                        hierarchyNodes[focusedModelId]
+                    );
+                    const twinsContinuationToken = (newTwinData as ADTTwinsData)
+                        ?.continuationToken;
+                    const currentChildren = !hierarchyNodes[focusedModelId]
+                        .isCollapsed
+                        ? {
+                              ...hierarchyNodes[focusedModelId].children
                           }
-                      } as IHierarchyNode
-                  }
-                : null;
+                        : {};
 
-            dispatch({
-                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
-                payload: {
-                    modelId: focusedModelId,
-                    properties: {
-                        isCollapsed: false,
-                        isLoading: false,
-                        children: {
-                            ...currentChildren,
-                            ...newTwinNodes,
-                            ...showMoreNode
-                        },
-                        childrenContinuationToken: twinsContinuationToken
-                    }
+                    const showMoreId = `${focusedModelId}-show-more`;
+                    delete currentChildren[showMoreId]; // remove the current show more node if exist
+                    const showMoreNode = twinsContinuationToken
+                        ? {
+                              [showMoreId]: {
+                                  id: `${focusedModelId}-show-more`,
+                                  name: t('showMore'),
+                                  nodeType: HierarchyNodeType.ShowMore,
+                                  onNodeClick: () => {
+                                      cancelCurrentlyLoadingNodes();
+                                      focusedModelIdRef.current = focusedModelId;
+                                      focusedTwinRef.current = {
+                                          modelId: focusedModelId,
+                                          twinId: `${focusedModelId}-show-more`
+                                      };
+                                      dispatch({
+                                          type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                                          payload: {
+                                              modelId: focusedModelId,
+                                              twinId: `${focusedModelId}-show-more`,
+                                              properties: { isLoading: true }
+                                          }
+                                      });
+                                      isLoadingTriggeredByShowMore.current = true;
+                                      twinState.callAdapter({
+                                          modelId: focusedModelId,
+                                          continuationToken: twinsContinuationToken
+                                      });
+                                  }
+                              } as IHierarchyNode
+                          }
+                        : null;
+
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: focusedModelId,
+                            properties: {
+                                isCollapsed: false,
+                                isLoading: false,
+                                children: {
+                                    ...currentChildren,
+                                    ...newTwinNodes,
+                                    ...showMoreNode
+                                },
+                                childrenContinuationToken: twinsContinuationToken
+                            }
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: focusedModelId,
+                            properties: {
+                                isCollapsed: false,
+                                isLoading: false,
+                                ...(hierarchyNodes[focusedModelId]
+                                    .isCollapsed && {
+                                    children: {}
+                                })
+                            }
+                        }
+                    });
                 }
-            });
+            }
         }
     }, [twinState.adapterResult.result]);
 
@@ -329,9 +353,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 
         if (searchTerm) {
             enterSearchMode(searchTerm);
-            modelState.cancelAdapter();
-            twinState.cancelAdapter();
-            searchState.cancelAdapter();
+            cancelPendingAdapterRequests();
             isLoadingTriggeredByShowMore.current = false;
             searchState.callAdapter({
                 searchTerm: searchTerm,

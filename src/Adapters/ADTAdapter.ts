@@ -109,16 +109,19 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
-        return adapterMethodSandbox.cancellableAxiosPromise(ADTTwinData, {
-            method: 'get',
-            url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
-            headers: {
-                'x-adt-host': this.adtHostUrl
-            },
-            params: {
-                'api-version': ADT_ApiVersion
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
             }
-        });
+        );
     }
 
     public getADTModel(modelId: string) {
@@ -126,16 +129,19 @@ export default class ADTAdapter implements IADTAdapter {
             authservice: this.authService
         });
 
-        return adapterMethodSandbox.cancellableAxiosPromise(ADTModelData, {
-            method: 'get',
-            url: `${this.adtProxyServerPath}/models/${modelId}`,
-            headers: {
-                'x-adt-host': this.adtHostUrl
-            },
-            params: {
-                'api-version': ADT_ApiVersion
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTModelData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/models/${modelId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
             }
-        });
+        );
     }
 
     public getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
@@ -143,7 +149,7 @@ export default class ADTAdapter implements IADTAdapter {
             authservice: this.authService
         });
 
-        return adapterMethodSandbox.cancellableAxiosPromise(
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterModelsData,
             {
                 method: 'get',
@@ -168,7 +174,7 @@ export default class ADTAdapter implements IADTAdapter {
             authservice: this.authService
         });
 
-        return adapterMethodSandbox.cancellableAxiosPromise(
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterTwinsData,
             {
                 method: 'post',
@@ -192,7 +198,7 @@ export default class ADTAdapter implements IADTAdapter {
             authservice: this.authService
         });
 
-        return adapterMethodSandbox.cancellableAxiosPromise(
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterTwinsData,
             {
                 method: 'post',
