@@ -1,5 +1,7 @@
 import {
     IADTAdapter,
+    IADTRelationship,
+    IADTTwin,
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
@@ -7,7 +9,8 @@ import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
-    ADTRelationship
+    ADTRelationship,
+    ADTRelationshipsApiData
 } from '../Models/Constants/Types';
 import {
     AdapterResult,
@@ -53,7 +56,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    public getRelationships(id: string) {
+    getRelationships(id: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -63,8 +66,10 @@ export default class ADTAdapter implements IADTAdapter {
             defined in the DTDL model's definition of that relationship type, and needs to 
             be explicitly provided when creating the twin relationship
         */
-        const createRelationships = (axiosData): ADTRelationship[] =>
-            axiosData.value.map((rawRelationship) => {
+        const createRelationships = (
+            axiosData: ADTRelationshipsApiData
+        ): ADTRelationship[] =>
+            axiosData.value.map((rawRelationship: IADTRelationship) => {
                 return {
                     relationshipId: rawRelationship.$relationshipId,
                     relationshipName: rawRelationship.$relationshipName,
@@ -91,7 +96,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public getADTTwin(twinId: string) {
+    getADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -110,7 +115,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public getADTModel(modelId: string) {
+    getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -130,7 +135,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
+    getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -153,9 +158,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public getADTTwinsByModelId(
-        params: AdapterMethodParamsForGetADTTwinsByModelId
-    ) {
+    getADTTwinsByModelId(params: AdapterMethodParamsForGetADTTwinsByModelId) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -179,7 +182,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
+    searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
@@ -203,7 +206,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    public getKeyValuePairs(
+    getKeyValuePairs(
         id: string,
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
@@ -212,18 +215,22 @@ export default class ADTAdapter implements IADTAdapter {
             authservice: this.authService
         });
 
-        const createKeyValuePairData = (axiosData): KeyValuePairData[] =>
-            properties.map((prop) => {
-                const kvp = {} as KeyValuePairData;
-                kvp.key = prop;
-                kvp.value = axiosData[prop];
-                if (additionalParameters?.isTimestampIncluded) {
-                    kvp.timestamp = new Date(
-                        axiosData?.$metadata?.[prop]?.lastUpdateTime
-                    );
-                }
-                return kvp;
-            });
+        const createKeyValuePairData = (
+            axiosData: IADTTwin
+        ): KeyValuePairData[] =>
+            axiosData
+                ? properties.map((prop) => {
+                      const kvp = {} as KeyValuePairData;
+                      kvp.key = prop;
+                      kvp.value = axiosData[prop];
+                      if (additionalParameters?.isTimestampIncluded) {
+                          kvp.timestamp = new Date(
+                              axiosData.$metadata?.[prop]?.lastUpdateTime
+                          );
+                      }
+                      return kvp;
+                  })
+                : [];
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             KeyValuePairAdapterData,

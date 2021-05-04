@@ -8,8 +8,8 @@ import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
-    ADTModelsData,
-    ADTTwinsData,
+    ADTModelsApiData,
+    ADTTwinsApiData,
     HierarchyNodeType,
     IHierarchyNode
 } from '../../../Models/Constants';
@@ -155,7 +155,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             );
 
             const modelsNextLink = (modelState.adapterResult.result
-                ?.data as ADTModelsData)?.nextLink;
+                ?.data as ADTModelsApiData)?.nextLink;
 
             const currentNodes = { ...hierarchyNodes };
 
@@ -209,7 +209,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         newTwinData.value,
                         hierarchyNodes[focusedModelId]
                     );
-                    const twinsContinuationToken = (newTwinData as ADTTwinsData)
+                    const twinsContinuationToken = (newTwinData as ADTTwinsApiData)
                         ?.continuationToken;
                     const currentChildren = !hierarchyNodes[focusedModelId]
                         .isCollapsed
