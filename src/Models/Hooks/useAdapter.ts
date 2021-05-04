@@ -8,7 +8,11 @@ import {
     SET_IS_LONG_POLLING
 } from '../Constants/ActionTypes';
 import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
-import { AdapterReturnType, AdapterState } from '../Constants/Types';
+import {
+    AdapterReturnType,
+    AdapterState,
+    AdapterMethodParams
+} from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
 
@@ -35,7 +39,10 @@ const cardStateReducer = produce(
 
 interface Params<T extends IAdapterData> {
     /** Callback which triggers adapter data fetch */
-    adapterMethod: () => AdapterReturnType<T>;
+    adapterMethod: (params?: AdapterMethodParams) => AdapterReturnType<T>;
+
+    /** Not to execute the adapter method when we use the useAdapter hook in first render */
+    isAdapterCalledOnMount?: boolean;
 
     /** Array of dependencies that, when changed, should cancel the data fetch, nullify the data, and trigger a refetch.   */
     refetchDependencies: any[];
@@ -56,7 +63,8 @@ const useAdapter = <T extends IAdapterData>({
     refetchDependencies,
     isLongPolling = false,
     pollingIntervalMillis,
-    pulseTimeoutMillis
+    pulseTimeoutMillis,
+    isAdapterCalledOnMount
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -89,10 +97,12 @@ const useAdapter = <T extends IAdapterData>({
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
     };
 
-    const callAdapter = async () => {
+    const callAdapter = async (params?: AdapterMethodParams) => {
         setIsLoading(true);
         try {
-            const adapterResult = await cancellablePromise(adapterMethod());
+            const adapterResult = await cancellablePromise(
+                adapterMethod(params)
+            );
             setAdapterResult(adapterResult);
             setIsLoading(false);
         } catch (err) {
@@ -103,6 +113,12 @@ const useAdapter = <T extends IAdapterData>({
                 }
             }
         }
+    };
+
+    const cancelAdapter = () => {
+        cancel(); // Cancel outstanding promises
+        setAdapterResult(null);
+        setIsLoading(false);
     };
 
     const setIsLongPolling = (isLongPolling: boolean) => {
@@ -121,9 +137,15 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        cancel(); // Cancel outstanding promises on refetch
-        setAdapterResult(null);
-        callAdapter();
+        if (isAdapterCalledOnMount) {
+            if (mountedRef.current) {
+                cancelAdapter();
+                callAdapter();
+            }
+        } else {
+            cancelAdapter();
+            callAdapter();
+        }
     }, [...refetchDependencies]);
 
     useEffect(() => {
@@ -137,6 +159,7 @@ const useAdapter = <T extends IAdapterData>({
         isLoading: state.isLoading,
         adapterResult: state.adapterResult as AdapterResult<T>,
         callAdapter,
+        cancelAdapter,
         setIsLongPolling,
         isLongPolling: state.isLongPolling,
         pulse: longPoll.pulse

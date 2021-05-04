@@ -4,7 +4,12 @@ import {
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
-import { ADTRelationship } from '../Models/Constants/Types';
+import {
+    AdapterMethodParamsForGetADTModels,
+    AdapterMethodParamsForGetADTTwinsByModelId,
+    AdapterMethodParamsForSearchADTTwins,
+    ADTRelationship
+} from '../Models/Constants/Types';
 import {
     AdapterResult,
     KeyValuePairAdapterData,
@@ -13,23 +18,27 @@ import {
 } from '../Models/Classes';
 import { AdapterErrorType } from '../Models/Constants';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { ADTModelsData, ADTwinsData } from '../Models/Constants/Types';
-import ADTAdapterData from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { KeyValuePairData } from '../Models/Constants';
+import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
+import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
+import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import {
+    ADTAdapterModelsData,
+    ADTAdapterTwinsData
+} from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
     private adtHostUrl: string;
-    private adtProxyServerURL: string;
+    private adtProxyServerPath: string;
 
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        adtProxyServerURL = 'http://localhost:3002/api/proxy/adt' // TODO: update this link for production, make sure this points to the right adt proxy server
+        adtProxyServerPath = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
-        this.adtProxyServerURL = adtProxyServerURL;
+        this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.authService.login();
     }
@@ -56,15 +65,14 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/digitaltwins/${id}/relationships`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}/relationships`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
-                        'api-version': '2020-10-31'
+                        'api-version': ADT_ApiVersion
                     }
                 });
             } catch (err) {
@@ -97,74 +105,116 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getAdtModels() {
+    async getADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
-
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'get',
-                    url: this.adtProxyServerURL,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'models'
-                    },
-                    params: {
-                        'api-version': '2020-10-31'
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
             }
-            const data = axiosData.data;
-            return new ADTAdapterData(data as ADTModelsData);
-        });
+        );
     }
 
-    async getAdtTwins(modelId: string) {
+    public getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: this.authService
         });
 
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let axiosData;
-            try {
-                axiosData = await axios({
-                    method: 'post',
-                    url: this.adtProxyServerURL,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': 'query'
-                    },
-                    params: {
-                        'api-version': '2020-10-31'
-                    },
-                    data: {
-                        query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${modelId}'`
-                    }
-                });
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTModelData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/models/${modelId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
             }
+        );
+    }
 
-            const data = axiosData.data;
-            return new ADTAdapterData(data as ADTwinsData);
+    public getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
         });
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterModelsData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/models`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion,
+                    ...(params?.continuationToken && {
+                        continuationToken: params.continuationToken
+                    })
+                }
+            }
+        );
+    }
+
+    public getADTTwinsByModelId(
+        params: AdapterMethodParamsForGetADTTwinsByModelId
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterTwinsData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/query`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                },
+                data: {
+                    query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${params.modelId}'`,
+                    continuationToken: params.continuationToken
+                }
+            }
+        );
+    }
+
+    public searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
+        const adapterMethodSandbox = new AdapterMethodSandbox({
+            authservice: this.authService
+        });
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterTwinsData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/query`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                },
+                data: {
+                    query: `SELECT * FROM DIGITALTWINS T WHERE STARTSWITH(T.$metadata.$model, '${params.searchTerm}') OR STARTSWITH(T.$dtId, '${params.searchTerm}')`,
+                    continuationToken: params.continuationToken
+                }
+            }
+        );
     }
 
     async getKeyValuePairs(
@@ -181,15 +231,14 @@ export default class ADTAdapter implements IADTAdapter {
             try {
                 axiosData = await axios({
                     method: 'get',
-                    url: this.adtProxyServerURL,
+                    url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl,
-                        'x-adt-endpoint': `digitaltwins/${id}`
+                        'x-adt-host': this.adtHostUrl
                     },
                     params: {
-                        'api-version': '2020-10-31'
+                        'api-version': ADT_ApiVersion
                     }
                 });
             } catch (err) {

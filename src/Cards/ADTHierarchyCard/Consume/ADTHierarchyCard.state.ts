@@ -3,12 +3,15 @@ import produce from 'immer';
 import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
+    SET_ADT_HIERARCHY_SEARCH,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
 import { ADTHierarchyCardConsumeState } from './ADTHierarchyCard.types';
 
 export const defaultADTHierarchyCardConsumeState: ADTHierarchyCardConsumeState = {
-    hierarchyNodes: {}
+    hierarchyNodes: {},
+    searchTerm: '',
+    selectedTwin: null
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -21,13 +24,22 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 draft.hierarchyNodes = payload;
                 break;
             case SET_ADT_HIERARCHY_NODE_PROPERTIES:
-                if (payload.modelId && payload.twinId) {
+                if (
+                    payload.modelId &&
+                    payload.twinId &&
+                    draft.hierarchyNodes[payload.modelId].children[
+                        payload.twinId
+                    ]
+                ) {
                     Object.keys(payload.properties).forEach((propKey) => {
                         draft.hierarchyNodes[payload.modelId].children[
                             payload.twinId
                         ][propKey] = payload.properties[propKey];
                     });
-                } else if (payload.modelId) {
+                } else if (
+                    payload.modelId &&
+                    draft.hierarchyNodes[payload.modelId]
+                ) {
                     Object.keys(payload.properties).forEach((propKey) => {
                         draft.hierarchyNodes[payload.modelId][propKey] =
                             payload.properties[propKey];
@@ -35,19 +47,33 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 }
                 break;
             case SET_ADT_HIERARCHY_SELECTED_TWIN_ID:
-                if (
-                    payload.previouslySelectedTwin.modelId &&
-                    payload.previouslySelectedTwin.twinId
-                ) {
+                if (draft.selectedTwin?.modelId && draft.selectedTwin?.twinId) {
+                    draft.hierarchyNodes[draft.selectedTwin.modelId].children[
+                        draft.selectedTwin.twinId
+                    ].isSelected = false;
+                } else if (draft.selectedTwin?.twinId) {
                     draft.hierarchyNodes[
-                        payload.previouslySelectedTwin.modelId
-                    ].children[
-                        payload.previouslySelectedTwin.twinId
+                        draft.selectedTwin.twinId
                     ].isSelected = false;
                 }
-                draft.hierarchyNodes[payload.modelId].children[
-                    payload.twinId
-                ].isSelected = true;
+
+                if (payload.modelId && payload.twinId) {
+                    draft.hierarchyNodes[payload.modelId].children[
+                        payload.twinId
+                    ].isSelected = true;
+                } else if (payload.twinId) {
+                    draft.hierarchyNodes[payload.twinId].isSelected = true;
+                }
+
+                draft.selectedTwin = {
+                    modelId: payload.modelId,
+                    twinId: payload.twinId
+                };
+                break;
+            case SET_ADT_HIERARCHY_SEARCH:
+                draft.searchTerm = payload;
+                draft.hierarchyNodes = {};
+                draft.selectedTwin = null;
                 break;
         }
     },

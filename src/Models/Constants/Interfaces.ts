@@ -1,8 +1,17 @@
 import IBaseAdapter from '../../Adapters/IBaseAdapter';
-import ADTAdapterData from '../Classes/AdapterDataClasses/ADTAdapterData';
+import {
+    ADTAdapterModelsData,
+    ADTAdapterTwinsData
+} from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
-import { AdapterErrorType, Locale, Theme } from './Enums';
-import { AdapterReturnType } from './Types';
+import { AdapterErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
+import {
+    AdapterReturnType,
+    AdapterMethodParams,
+    AdapterMethodParamsForGetADTModels,
+    AdapterMethodParamsForGetADTTwinsByModelId,
+    AdapterMethodParamsForSearchADTTwins
+} from './Types';
 
 export interface IAction {
     type: string;
@@ -68,7 +77,10 @@ export interface IUseAdapter<T extends IAdapterData> {
     adapterResult: AdapterResult<T>;
 
     /** Calls adapter method (safe on unmount) and updates adapter result */
-    callAdapter: () => void;
+    callAdapter: (params?: AdapterMethodParams) => void;
+
+    /** Cancel adapter method and set the adapter result to null */
+    cancelAdapter: () => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
@@ -116,12 +128,21 @@ export interface IErrorInfo {
 }
 
 export interface IADTAdapter extends IBaseAdapter {
-    getAdtModels(): AdapterReturnType<ADTAdapterData>;
-    getAdtTwins(modelId: string): AdapterReturnType<ADTAdapterData>;
+    getADTModels(
+        params: AdapterMethodParamsForGetADTModels
+    ): AdapterReturnType<ADTAdapterModelsData>;
+    getADTTwinsByModelId(
+        params: AdapterMethodParamsForGetADTTwinsByModelId
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    searchADTTwins(
+        params: AdapterMethodParamsForSearchADTTwins
+    ): AdapterReturnType<ADTAdapterTwinsData>;
 }
 
 export interface IHierarchyProps {
     data: Record<string, IHierarchyNode>;
+    searchTermToMark?: string;
+    isLoading?: boolean;
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (
         parentNode: IHierarchyNode,
@@ -133,10 +154,14 @@ export interface IHierarchyNode {
     name: string;
     id: string;
     parentNode?: IHierarchyNode;
-    nodeData: any; // actual object from adapter result data
+    nodeData: any; // original object from adapter result data
+    nodeType: HierarchyNodeType;
     children?: Record<string, IHierarchyNode>;
+    childrenContinuationToken?: string | null;
+    onNodeClick?: (node?: IHierarchyNode) => void;
     isCollapsed?: boolean;
     isSelected?: boolean;
+    isLoading?: boolean;
 }
 
 export interface IADTModel {
@@ -159,4 +184,24 @@ export interface IADTTwin {
 export interface IGetKeyValuePairsAdditionalParameters
     extends Record<string, any> {
     isTimestampIncluded?: boolean;
+}
+
+export interface IResolvedRelationshipClickErrors {
+    twinErrors?: any;
+    modelErrors?: any;
+}
+
+export interface ISearchboxProps {
+    className?: string;
+    placeholder: string;
+    onChange?: (
+        event?: React.ChangeEvent<HTMLInputElement>,
+        newValue?: string
+    ) => void;
+    onSearch?: (value: string) => void;
+    onClear?: () => void;
+}
+
+export interface ICancellablePromise<T> extends Promise<T> {
+    cancel: () => void;
 }
