@@ -1,11 +1,11 @@
 import {
-    AdapterErrorType,
+    CardErrorType,
     IAdapterData,
-    IAdapterError,
+    ICardError,
     IAuthService
 } from '../Constants';
 import AdapterResult from './AdapterResult';
-import { AdapterError } from './Errors';
+import { CardError } from './Errors';
 
 interface IAdapterMethodSandbox {
     authservice: IAuthService;
@@ -20,8 +20,8 @@ interface IAdapterMethodSandbox {
  * • Catches, classifies, and aggregates errors
  */
 class AdapterMethodSandbox {
-    private errors: IAdapterError[];
-    private catasrophicError: IAdapterError;
+    private errors: ICardError[];
+    private catasrophicError: ICardError;
     private authService: IAuthService;
 
     constructor({ authservice }: IAdapterMethodSandbox) {
@@ -31,11 +31,11 @@ class AdapterMethodSandbox {
     }
 
     /**
-     *  Pushes new AdapterError onto errors list.  If error is marked as catastrophic,
+     *  Pushes new CardError onto errors list.  If error is marked as catastrophic,
      *  execution will halt with catastrophic error attached to result
      */
-    pushError({ rawError, message, type, isCatastrophic }: IAdapterError) {
-        const error = new AdapterError({
+    pushError({ rawError, message, type, isCatastrophic }: ICardError) {
+        const error = new CardError({
             message,
             type,
             isCatastrophic,
@@ -69,7 +69,7 @@ class AdapterMethodSandbox {
         } catch (err) {
             this.pushError({
                 isCatastrophic: true,
-                type: AdapterErrorType.TokenRetrievalFailed,
+                type: CardErrorType.TokenRetrievalFailed,
                 rawError: err
             });
         }
@@ -104,17 +104,17 @@ class AdapterMethodSandbox {
             });
         } catch (err) {
             // Uncaught errors are bubbled up and caught here.
-            if (!(err instanceof AdapterError)) {
+            if (!(err instanceof CardError)) {
                 // Unknown error, construct new catastrophicError error
-                this.catasrophicError = new AdapterError({
+                this.catasrophicError = new CardError({
                     isCatastrophic: true,
                     rawError: err,
-                    type: AdapterErrorType.UnknownError
+                    type: CardErrorType.UnknownError
                 });
 
                 this.errors.push(this.catasrophicError);
             } else if (!this.catasrophicError) {
-                // Uncaught AdapterError thrown explicitly (not pushed to sandbox).  Attach to catasrophicError.
+                // Uncaught CardError thrown explicitly (not pushed to sandbox).  Attach to catastrophicError.
                 this.catasrophicError = err;
             }
             // Attach errorInfo, nullify result, and return AdapterResult.

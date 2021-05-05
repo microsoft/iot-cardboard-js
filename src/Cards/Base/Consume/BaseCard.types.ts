@@ -1,4 +1,4 @@
-import AdapterResult from '../../../Models/Classes/AdapterResult';
+import { AdapterResult, CardError } from '../../../Models/Classes';
 import { ICardBaseProps } from '../../../Models/Constants/Interfaces';
 
 export interface BaseCardProps extends ICardBaseProps {
@@ -6,4 +6,5 @@ export interface BaseCardProps extends ICardBaseProps {
     children?: React.ReactNode;
     // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
+    cardError?: CardError;
 }

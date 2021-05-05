@@ -1,8 +1,8 @@
 .cb-board {
-    height: 100%;
     box-sizing: border-box;
     display: grid;
     gap: 12px;
-    grid-template-rows: 120px;
     grid-auto-rows: 120px;
+    grid-template-rows: 120px;
+    height: 100%;
 }

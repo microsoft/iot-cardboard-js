@@ -2,10 +2,10 @@ import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
-import ADTHierarchyWithBoardCard from './ADTHierarchyWithBoardCard';
+import ADTHierarchyWithBoard from './ADTHierarchyWithBoard';
 
 export default {
-    title: 'CompositeCards/ADTHierarchyWithBoardCard/Consume'
+    title: 'CompositeCards/ADTHierarchyWithBoard/Consume'
 };
 
 export const ADT = (args, { globals: { theme, locale } }) => {
@@ -15,7 +15,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div>
-            <ADTHierarchyWithBoardCard
+            <ADTHierarchyWithBoard
                 title={'Twins'}
                 theme={theme}
                 locale={locale}

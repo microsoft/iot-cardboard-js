@@ -6,15 +6,15 @@
     border: 1px solid var(--cb-color-card-border);
     border-radius: 4px;
     color: var(--cb-color-text-primary);
-    padding: 10px;
     height: 100%;
+    padding: 10px;
 
-    .table-header {
-        text-align: left;
+    .cb-table-header {
         color: rgba(var(--cb-color-text-primary), 0.5);
+        text-align: left;
     }
 
-    .table-cell {
+    .cb-table-cell {
         padding: 0 8px;
     }
 }

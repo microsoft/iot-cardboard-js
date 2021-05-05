@@ -8,7 +8,7 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { AdapterErrorType } from '../Models/Constants';
+import { CardErrorType } from '../Models/Constants';
 import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IBaseAdapter {
@@ -56,7 +56,7 @@ export default class IoTCentralAdapter implements IBaseAdapter {
                 axiosData = await axios.all(axiosGets);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

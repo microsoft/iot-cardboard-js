@@ -23,15 +23,29 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                     <table>
                         <thead>
                             <tr>
-                                {headers.map((h, i) => <th key={i} className='table-header table-cell'>{h}</th>)}
+                                {headers.map((h, i) => (
+                                    <th
+                                        key={i}
+                                        className="cb-table-header cb-table-cell"
+                                    >
+                                        {h}
+                                    </th>
+                                ))}
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                tableRows.map((row, i) => <tr key={i}>
-                                    {row.map((cell, j) => <td key={`cell-${i}-${j}`} className='table-cell'>{cell}</td>)}
-                                </tr>)
-                            }
+                            {tableRows.map((row, i) => (
+                                <tr key={i}>
+                                    {row.map((cell, j) => (
+                                        <td
+                                            key={`cell-${i}-${j}`}
+                                            className="cb-table-cell"
+                                        >
+                                            {cell}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

@@ -13,9 +13,10 @@ export enum Locale {
     DE = 'de'
 }
 
-export enum AdapterErrorType {
+export enum CardErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',
+    InvalidCardType = 'InvalidCardType',
     UnknownError = 'UnknownError'
 }
 

@@ -6,7 +6,7 @@ import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { AdapterError } from '../Models/Classes/Errors';
+import { CardError } from '../Models/Classes/Errors';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import { IMockAdapter } from '../Models/Constants';
@@ -51,7 +51,7 @@ export default class MockAdapter implements IBaseAdapter {
 
         // throw error if mock error type passed into adapter
         if (this.mockError) {
-            throw new AdapterError({
+            throw new CardError({
                 isCatastrophic: true,
                 type: this.mockError,
                 rawError: new Error('Mock error message')

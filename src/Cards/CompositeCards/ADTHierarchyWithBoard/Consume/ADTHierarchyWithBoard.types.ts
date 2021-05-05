@@ -1,9 +1,8 @@
 import {
     IADTAdapter,
-    IConsumeCompositeCardProps,
+    IConsumeCompositeCardProps
 } from '../../../../Models/Constants/Interfaces';
 
-export interface ADTHierarchyWithBoardCardProps
-    extends IConsumeCompositeCardProps {
+export interface ADTHierarchyWithBoardProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter; // for now only ADT adapter
 }

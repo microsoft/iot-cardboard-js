@@ -15,10 +15,13 @@ import {
     SearchSpan,
     TsiClientAdapterData
 } from '../Models/Classes';
-import { AdapterErrorType } from '../Models/Constants';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
+import {
+    ADT_ApiVersion,
+    KeyValuePairData,
+    CardErrorType
+} from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
@@ -76,7 +79,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -125,7 +128,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -156,7 +159,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -200,7 +203,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -236,7 +239,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -273,7 +276,7 @@ export default class ADTAdapter implements IADTAdapter {
                 });
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

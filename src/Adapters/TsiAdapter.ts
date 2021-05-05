@@ -9,7 +9,7 @@ import {
     TsiClientAdapterData
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { AdapterErrorType } from '..';
+import { CardErrorType } from '..';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
 export default class TsiAdapter implements IBaseAdapter {
@@ -72,7 +72,7 @@ export default class TsiAdapter implements IBaseAdapter {
                 );
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

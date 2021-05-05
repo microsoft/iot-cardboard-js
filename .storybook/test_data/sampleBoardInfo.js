@@ -1,4 +1,4 @@
-const boardInfo = {
+export const SampleBoardInfo = {
     "schema": "1.0",
     "layout": { "columns": 3 },
     "cards": [
@@ -45,8 +45,48 @@ const boardInfo = {
                     }
                 }
             ]
-        },
+        }
     ]
 };
 
-export default boardInfo;
+export const InvalidBoardInfo = {
+    "schema": "1.0",
+    "layout": { "columns": 3 },
+    "cards": [
+        {
+            "key": "infoTable",
+            "type": "InfoTable",
+            "size": { "columns": 3 },
+            "cardProperties": {
+                "headers": ["Twin Name", "Model ID"]
+            },
+            "entities": [
+                {
+                    "tableRows": [["truck1", "dtmi:assetGen:Truck;1"]]
+                }
+            ]
+        },
+        {
+            "key": "relationships",
+            "type": "RelationshipsTable",
+            "title": "Pasteurization Machine A03 Relationships",
+            "size": { "rows": 4, "columns": 2 },
+            "entities": [
+                {
+                    "id": "PasteurizationMachine_A03"
+                }
+            ]
+        },
+        {
+            "key": "relationships",
+            "type": "FakeCardType",
+            "title": "Dummy title",
+            "size": { "rows": 2 },
+            "entities": [
+                {
+                    "id": "PasteurizationMachine_A03"
+                }
+            ]
+        }
+    ]
+};

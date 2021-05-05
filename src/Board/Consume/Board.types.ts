@@ -1,8 +1,13 @@
-import IBaseAdapter from "../../Adapters/IBaseAdapter";
-import { BoardInfo, IEntityInfo } from "../../Models/Classes/BoardInfo";
-import { SearchSpan } from "../../Models/Classes/SearchSpan";
-import { Locale, Theme } from "../../Models/Constants/Enums";
-import { IADTTwin, IADTModel, IResolvedRelationshipClickErrors } from '../../Models/Constants';
+import IBaseAdapter from '../../Adapters/IBaseAdapter';
+import { BoardInfo, SearchSpan } from '../../Models/Classes';
+import {
+    IADTTwin,
+    IADTModel,
+    IResolvedRelationshipClickErrors,
+    IEntityInfo,
+    Locale,
+    Theme
+} from '../../Models/Constants';
 
 export interface IBoardProps {
     adapter: IBaseAdapter;
@@ -13,5 +18,9 @@ export interface IBoardProps {
     boardInfo: BoardInfo | null;
     entitiesOverride?: IEntityInfo;
     errorMessage?: string;
-    onEntitySelect?: (twin: IADTTwin, model: IADTModel, errors?: IResolvedRelationshipClickErrors) => void;
+    onEntitySelect?: (
+        twin: IADTTwin,
+        model: IADTModel,
+        errors?: IResolvedRelationshipClickErrors
+    ) => void;
 }
