@@ -141,6 +141,7 @@ export interface IHierarchyProps {
         parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => void;
+    noDataText?: string;
 }
 
 export interface IHierarchyNode {
@@ -174,6 +175,16 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+
+export interface IADTRelationship {
+    $etag: string;
+    $relationshipId: string;
+    $relationshipName: string;
+    $sourceId: string;
+    $targetId: string;
+    targetModel: string;
+}
+
 export interface IGetKeyValuePairsAdditionalParameters
     extends Record<string, any> {
     isTimestampIncluded?: boolean;
