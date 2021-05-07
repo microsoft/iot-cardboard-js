@@ -30,8 +30,6 @@ const useXeokitRender = (
         }
     }, [bimFilePath, metadataFilePath]);
     return viewer;
-
-    // return chartContainerGUID;
 };
 
 export default useXeokitRender;

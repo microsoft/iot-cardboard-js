@@ -24,7 +24,7 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
                 viewer.current?.scene?.objects?.[centeredObject]
             );
         }
-    }, [centeredObject]);
+    }, [viewer, centeredObject]);
 
     return (
         <div className="cb-bimviewer-container">
