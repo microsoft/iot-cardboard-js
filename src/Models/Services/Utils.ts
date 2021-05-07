@@ -9,6 +9,13 @@ export const createGUID = () => {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
+export const getFileType = (fileName: string, defaultType = '') => {
+    const fileSegments = fileName.split('.');
+    return fileSegments.length > 1
+        ? fileSegments[fileSegments.length - 1]
+        : defaultType;
+};
+
 export const createSeededGUID = (seededRandomNumGen: () => number) => {
     const s4 = () => {
         return Math.floor((1 + seededRandomNumGen()) * 0x10000)

@@ -1,5 +1,4 @@
 canvas {
-    border: 1px solid #202020;
     height: 100%;
     width: 100%;
 }
@@ -8,5 +7,6 @@ canvas {
     display: block;
     height: 100%;
     overflow: hidden;
+    position: relative;
     width: 100%;
 }

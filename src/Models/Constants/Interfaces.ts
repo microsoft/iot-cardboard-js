@@ -21,7 +21,6 @@ export interface IAction {
 export interface IBIMViewerProps {
     bimFilePath: string;
     metadataFilePath: string;
-    bimFileType: string;
     centeredObject?: string;
 }
 

@@ -14,9 +14,8 @@ export const BasicBIMViewer = () => (
     >
         {/* right now this is hardcoded to external assets */}
         <BIMViewer
-            bimFilePath="https://raw.githubusercontent.com/xeokit/xeokit-sdk/master/assets/models/xkt/duplex/duplex.xkt"
-            metadataFilePath="https://raw.githubusercontent.com/xeokit/xeokit-sdk/master/assets/metaModels/duplex/metaModel.json"
-            bimFileType="xkt"
+            bimFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt"
+            metadataFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"
         />
     </div>
 );

@@ -3,6 +3,7 @@ import { BIMViewerCardProps } from './BIMViewerCard.types';
 import './BIMViewerCard.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import BIMViewer from '../../../Components/BIMViewer/BIMViewer';
+import React from 'react';
 
 const properties = ['bimFilePath', 'metadataFilePath'];
 
@@ -35,7 +36,6 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
                     metadataFilePath={
                         cardState.adapterResult?.getData()[1].value
                     }
-                    bimFileType="xkt" // HARDCODED - should be included in the twin definition
                     centeredObject={centeredObject}
                 ></BIMViewer>
             )}

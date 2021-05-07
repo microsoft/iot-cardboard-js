@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
 import { IBIMViewerProps } from '../../Models/Constants';
+import { useGuid } from '../../Models/Hooks';
 import useXeokitRender from '../../Models/Hooks/useXeokitRender';
+import { getFileType } from '../../Models/Services/Utils';
 import './BIMViewer.scss';
 
 const BIMViewer: React.FC<IBIMViewerProps> = ({
     bimFilePath,
-    bimFileType,
     metadataFilePath,
     centeredObject
 }) => {
-    console.log(metadataFilePath);
+    const viewerGuid = useGuid();
     const viewer = useXeokitRender(
-        'TBDID',
+        viewerGuid,
         bimFilePath,
         metadataFilePath,
-        bimFileType
+        getFileType(bimFilePath)
     );
 
     useEffect(() => {
@@ -27,7 +28,7 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
 
     return (
         <div className="cb-bimviewer-container">
-            <canvas id="TBDID"></canvas>
+            <canvas id={viewerGuid}></canvas>
         </div>
     );
 };
