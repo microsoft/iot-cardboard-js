@@ -6,6 +6,6 @@ import {
 
 export interface ADTHierarchyWithBIMViewerCardProps
     extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter; // for now only ADT adapter
+    adapter: IADTAdapter;
     getHierarchyNodeProperties: (node: IHierarchyNode) => string[];
 }

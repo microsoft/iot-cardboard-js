@@ -2,15 +2,12 @@ import { useEffect, useRef } from 'react';
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
 
-// import useGuid from './useGuid';
-
 const useXeokitRender = (
     canvasId,
     bimFilePath,
     metadataFilePath,
     bimFileType = 'xkt'
 ) => {
-    // const viewerContainerGUID = useGuid();
     const viewer = useRef(null);
 
     useEffect(() => {
