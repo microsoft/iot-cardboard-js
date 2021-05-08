@@ -1,6 +1,5 @@
 import { ADTAdapter } from '../../../../Adapters';
 import {
-    IADTAdapter,
     IConsumeCompositeCardProps,
     IHierarchyNode
 } from '../../../../Models/Constants/Interfaces';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ADTHierarchyWithBIMViewerCardProps } from './ADTHeirarchyWithBIMViewerCard.types';
+import { ADTHierarchyWithBIMViewerCardProps } from './ADTHierarchyWithBIMViewerCard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
 import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
@@ -8,7 +8,7 @@ import BIMViewerCard from '../../../BIMViewerCard/Consume/BIMViewerCard';
 import { createNodeFilterFromRoot } from '../../../../Models/Services/Utils';
 import { useAdapter } from '../../../../Models/Hooks';
 
-const ADTHeirarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps> = ({
+const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps> = ({
     adapter,
     theme,
     title,
@@ -61,4 +61,4 @@ const ADTHeirarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
     );
 };
 
-export default React.memo(ADTHeirarchyWithBIMViewerCard);
+export default React.memo(ADTHierarchyWithBIMViewerCard);

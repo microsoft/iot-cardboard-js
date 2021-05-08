@@ -2,7 +2,7 @@ import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
-import ADTHeirarchyWithBIMViewerCard from './ADTHeirarchyWithBIMViewerCard';
+import ADTHierarchyWithBIMViewerCard from './ADTHierarchyWithBIMViewerCard';
 
 export default {
     title: 'CompositeCards/ADTHierarchyWithBIMViewerCard/Consume'
@@ -13,7 +13,10 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
+export const ADTHierarchyWithBIMViewer = (
+    args,
+    { globals: { theme, locale } }
+) => {
     const authenticationParameters = useAuthParams();
     const getTwinProperties = () => {
         return [];
@@ -23,7 +26,7 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTHeirarchyWithBIMViewerCard
+            <ADTHierarchyWithBIMViewerCard
                 title={'Hierarchy With BIM Viewer'}
                 theme={theme}
                 locale={locale}
