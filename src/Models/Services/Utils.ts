@@ -16,6 +16,27 @@ export const getFileType = (fileName: string, defaultType = '') => {
         : defaultType;
 };
 
+export const createNodeFilterFromRoot = (parentNodeModelName: string) => {
+    return (nodes: any) => {
+        const filteredNodes = {};
+        Object.keys(nodes).forEach((nodeKey) => {
+            const modelContents = nodes[nodeKey].nodeData?.model?.contents;
+            const filteredContents = modelContents.filter((content) => {
+                return (
+                    content['@type'] === 'Relationship' &&
+                    content.name === 'inBIM' && // inBIM currently hardcoded - a sort of reserved relationship for twin creation from a BIM file
+                    content.target === parentNodeModelName
+                );
+            });
+            if (filteredContents.length === 1) {
+                filteredNodes[nodeKey] = nodes[nodeKey];
+            }
+        });
+
+        return filteredNodes;
+    };
+};
+
 export const createSeededGUID = (seededRandomNumGen: () => number) => {
     const s4 = () => {
         return Math.floor((1 + seededRandomNumGen()) * 0x10000)

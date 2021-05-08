@@ -5,17 +5,25 @@ import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 import { useTranslation } from 'react-i18next';
 import BIMViewerCard from '../../../BIMViewerCard/Consume/BIMViewerCard';
+import { createNodeFilterFromRoot } from '../../../../Models/Services/Utils';
+import { useAdapter } from '../../../../Models/Hooks';
 
-const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithBIMViewerCardProps> = ({
+const ADTHeirarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps> = ({
     adapter,
     theme,
     title,
     locale,
     localeStrings,
-    adapterAdditionalParameters
+    adapterAdditionalParameters,
+    bimTwinId
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
     const { t } = useTranslation();
+
+    const cardState = useAdapter({
+        adapterMethod: () => adapter.getADTTwin(bimTwinId),
+        refetchDependencies: [bimTwinId]
+    });
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -38,11 +46,14 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithBIMViewer
                 locale={locale}
                 localeStrings={localeStrings}
                 onChildNodeClick={handleChildNodeClick}
+                nodeFilter={createNodeFilterFromRoot(
+                    cardState.adapterResult.getData()?.['$metadata']?.['$model']
+                )}
             />
             <BIMViewerCard
                 adapter={adapter}
                 title={`BIM viewer`}
-                id={'TODO_BIMName'}
+                id={bimTwinId}
                 theme={theme}
                 centeredObject={selectedChildNode?.id}
             />
@@ -50,4 +61,4 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithBIMViewer
     );
 };
 
-export default React.memo(ADTHierarchyWithLKVProcessGraphicsCard);
+export default React.memo(ADTHeirarchyWithBIMViewerCard);

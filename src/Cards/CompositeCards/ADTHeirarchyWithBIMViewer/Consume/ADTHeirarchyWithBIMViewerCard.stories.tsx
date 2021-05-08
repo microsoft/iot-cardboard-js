@@ -27,6 +27,7 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
                 title={'Hierarchy With BIM Viewer'}
                 theme={theme}
                 locale={locale}
+                bimTwinId={'TODO_BIMName'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

@@ -96,6 +96,7 @@ export type AdapterMethodParams = {
 
 export type AdapterMethodParamsForGetADTModels = {
     continuationToken?: string;
+    shouldIncludeDefinitions?: boolean;
 };
 
 export type AdapterMethodParamsForGetADTTwinsByModelId = {

@@ -5,7 +5,6 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
 import {
-    AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
     ADTModelsData,
@@ -34,7 +33,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     locale,
     localeStrings,
     onParentNodeClick,
-    onChildNodeClick
+    onChildNodeClick,
+    nodeFilter
 }) => {
     const { t } = useTranslation();
     const focusedModelIdRef = useRef(null);
@@ -45,12 +45,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         ADTHierarchyCardConsumeReducer,
         defaultADTHierarchyCardConsumeState
     );
-    const { hierarchyNodes, searchTerm } = state;
+    const hierarchyNodes = nodeFilter
+        ? nodeFilter(state.hierarchyNodes)
+        : state.hierarchyNodes;
+    const searchTerm = state.searchTerm;
 
     const modelState = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForGetADTModels) =>
-            adapter.getADTModels(params),
-        refetchDependencies: [adapter]
+        adapterMethod: () =>
+            adapter.getADTModels({ shouldIncludeDefinitions: !!nodeFilter }),
+        refetchDependencies: [adapter, nodeFilter]
     });
 
     const twinState = useAdapter({
