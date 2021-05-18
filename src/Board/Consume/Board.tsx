@@ -15,7 +15,12 @@ import {
     ViewDataPropertyName
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
-import { SearchSpan, CardInfo, CardError, BoardInfo } from '../../Models/Classes';
+import {
+    SearchSpan,
+    CardInfo,
+    CardError,
+    BoardInfo
+} from '../../Models/Classes';
 import { ADTAdapter, IBaseAdapter } from '../../Adapters';
 import {
     LineChartCard,
@@ -45,14 +50,15 @@ const Board: React.FC<IBoardProps> = ({
 
     // If no board info prop was provided, but a twin was, extract the
     // board info from the twin.
-    if(!boardInfo && adtTwin) {
+    if (!boardInfo && adtTwin) {
         const boardInfoObject = adtTwin?.[ViewDataPropertyName]?.boardInfo
-        ? JSON.parse(adtTwin[ViewDataPropertyName]?.boardInfo)
-        : null;
-        
-        boardInfo = boardInfoObject === null
-            ? getDefaultBoardInfo(adtTwin, t)
-            : BoardInfo.fromObject(boardInfoObject);
+            ? JSON.parse(adtTwin[ViewDataPropertyName]?.boardInfo)
+            : null;
+
+        boardInfo =
+            boardInfoObject === null
+                ? getDefaultBoardInfo(adtTwin, t)
+                : BoardInfo.fromObject(boardInfoObject);
     }
 
     if (boardInfo) {
@@ -245,7 +251,7 @@ function getDefaultBoardInfo(
     board.layout = { numColumns: 3 };
 
     // Filter metadata properties.
-    const propertiesToIgnore = [ ViewDataPropertyName ];
+    const propertiesToIgnore = [ViewDataPropertyName];
     const twinProperties = Object.keys(dtTwin)
         .filter((key) => key[0] !== '$' && !propertiesToIgnore.includes(key))
         .reduce((obj, key) => {

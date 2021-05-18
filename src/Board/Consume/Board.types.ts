@@ -4,7 +4,6 @@ import {
     IADTTwin,
     IADTModel,
     IResolvedRelationshipClickErrors,
-    IEntityInfo,
     Locale,
     Theme
 } from '../../Models/Constants';
