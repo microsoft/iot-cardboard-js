@@ -35,7 +35,7 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
     const memoizedNodeFilter = useMemo(() => {
         return createNodeFilterFromRoot(
             cardState.adapterResult.getData()?.['$metadata']?.['$model']
-        )
+        );
     }, [cardState.adapterResult.getData()]);
 
     return (
