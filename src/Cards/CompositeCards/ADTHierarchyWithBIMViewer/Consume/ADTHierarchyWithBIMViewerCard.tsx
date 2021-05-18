@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ADTHierarchyWithBIMViewerCardProps } from './ADTHierarchyWithBIMViewerCard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
 import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
@@ -31,6 +31,13 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
     ) => {
         setSelectedChildNode(childNode);
     };
+
+    const memoizedNodeFilter = useMemo(() => {
+        return createNodeFilterFromRoot(
+            cardState.adapterResult.getData()?.['$metadata']?.['$model']
+        )
+    }, [cardState.adapterResult.getData()]);
+
     return (
         <BaseCompositeCard
             title={title}
@@ -46,9 +53,7 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
                 locale={locale}
                 localeStrings={localeStrings}
                 onChildNodeClick={handleChildNodeClick}
-                nodeFilter={createNodeFilterFromRoot(
-                    cardState.adapterResult.getData()?.['$metadata']?.['$model']
-                )}
+                nodeFilter={memoizedNodeFilter}
             />
             <BIMViewerCard
                 adapter={adapter}
