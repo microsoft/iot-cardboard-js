@@ -43,13 +43,6 @@ export default class CardInfo {
         const cardInfo = obj;
         return cardInfo;
     }
-
-    mergeEntityInfo(entityInfo: IEntityInfo) {
-        this.entities = {
-            ...this.entities,
-            ...entityInfo
-        };
-    }
 }
 
 interface ICardSize {

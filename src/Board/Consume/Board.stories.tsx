@@ -19,7 +19,7 @@ export default {
     component: Board // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
-export const AssetViewDemo = (args, { globals: { theme, locale } }) => {
+export const AssetViewDemo = (_args, { globals: { theme, locale } }) => {
     const boardInfo = BoardInfo.fromObject(SampleBoardInfo);
     const authenticationParameters = useAuthParams();
 
@@ -44,7 +44,7 @@ export const AssetViewDemo = (args, { globals: { theme, locale } }) => {
     );
 };
 
-export const ErrorHandling = (args, { globals: { theme, locale } }) => {
+export const ErrorHandling = (_args, { globals: { theme, locale } }) => {
     const boardInfo = BoardInfo.fromObject(InvalidBoardInfo);
     const authenticationParameters = useAuthParams();
 

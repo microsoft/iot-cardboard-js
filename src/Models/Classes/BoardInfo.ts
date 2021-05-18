@@ -7,7 +7,8 @@ import CardInfo from './CardInfo';
 export default class BoardInfo {
     /**
      * The semantic version that defines the shape and contents of the
-     * board info object.
+     * board info object. The version is specified as 'MAJOR.MINOR' where
+     * MAJOR is used when introducing breaking changes.
      */
     schema: string;
 
@@ -22,7 +23,7 @@ export default class BoardInfo {
     cards: CardInfo[];
 
     constructor() {
-        this.schema = '1.0.0';
+        this.schema = '1.0';
         this.cards = [];
     }
 
@@ -33,8 +34,8 @@ export default class BoardInfo {
         boardInfo.schema = obj.schema;
 
         boardInfo.layout = {
-            rows: obj.layout.rows,
-            columns: obj.layout.columns
+            numRows: obj.layout.numRows,
+            numColumns: obj.layout.numColumns
         };
 
         boardInfo.cards = obj.cards;
@@ -44,6 +45,6 @@ export default class BoardInfo {
 }
 
 interface IBoardLayout {
-    rows?: number;
-    columns?: number;
+    numRows?: number;
+    numColumns?: number;
 }

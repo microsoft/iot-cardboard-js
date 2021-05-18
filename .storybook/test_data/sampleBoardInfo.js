@@ -1,6 +1,6 @@
 export const SampleBoardInfo = {
     "schema": "1.0",
-    "layout": { "columns": 3 },
+    "layout": { "numColumns": 3 },
     "cards": [
         {
             "key": "infoTable",
@@ -51,7 +51,7 @@ export const SampleBoardInfo = {
 
 export const InvalidBoardInfo = {
     "schema": "1.0",
-    "layout": { "columns": 3 },
+    "layout": { "numColumns": 3 },
     "cards": [
         {
             "key": "infoTable",

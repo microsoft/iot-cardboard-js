@@ -15,8 +15,8 @@ export interface IBoardProps {
     locale: Locale;
     localeStrings?: Record<string, any>;
     searchSpan?: SearchSpan;
-    boardInfo: BoardInfo | null;
-    entitiesOverride?: IEntityInfo;
+    boardInfo?: BoardInfo;
+    adtTwin?: IADTTwin;
     errorMessage?: string;
     onEntitySelect?: (
         twin: IADTTwin,

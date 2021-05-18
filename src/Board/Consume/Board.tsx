@@ -11,10 +11,11 @@ import {
     IResolvedRelationshipClickErrors,
     Locale,
     Theme,
-    CardErrorType
+    CardErrorType,
+    ViewDataPropertyName
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
-import { SearchSpan, CardInfo, CardError } from '../../Models/Classes';
+import { SearchSpan, CardInfo, CardError, BoardInfo } from '../../Models/Classes';
 import { ADTAdapter, IBaseAdapter } from '../../Adapters';
 import {
     LineChartCard,
@@ -34,7 +35,7 @@ const Board: React.FC<IBoardProps> = ({
     localeStrings,
     searchSpan,
     boardInfo,
-    entitiesOverride,
+    adtTwin,
     errorMessage,
     onEntitySelect
 }) => {
@@ -42,26 +43,31 @@ const Board: React.FC<IBoardProps> = ({
     let layoutStyles = {};
     let cardComponents = [];
 
-    if (boardInfo !== null) {
+    // If no board info prop was provided, but a twin was, extract the
+    // board info from the twin.
+    if(!boardInfo && adtTwin) {
+        const boardInfoObject = adtTwin?.[ViewDataPropertyName]?.boardInfo
+        ? JSON.parse(adtTwin[ViewDataPropertyName]?.boardInfo)
+        : null;
+        
+        boardInfo = boardInfoObject === null
+            ? getDefaultBoardInfo(adtTwin, t)
+            : BoardInfo.fromObject(boardInfoObject);
+    }
+
+    if (boardInfo) {
         layoutStyles = boardInfo.layout
             ? {
-                  gridTemplateRows: boardInfo.layout?.rows
-                      ? '1fr '.repeat(boardInfo.layout.rows)
+                  gridTemplateRows: boardInfo.layout?.numRows
+                      ? '1fr '.repeat(boardInfo.layout.numRows)
                       : null,
-                  gridTemplateColumns: boardInfo.layout?.columns
-                      ? '1fr '.repeat(boardInfo.layout.columns)
+                  gridTemplateColumns: boardInfo.layout?.numColumns
+                      ? '1fr '.repeat(boardInfo.layout.numColumns)
                       : null
               }
             : {};
 
         cardComponents = boardInfo.cards.map((card: CardInfo, i: number) => {
-            if (
-                entitiesOverride &&
-                Object.prototype.hasOwnProperty.call(entitiesOverride, card.key)
-            ) {
-                card.mergeEntityInfo(entitiesOverride[card.key]);
-            }
-
             const cardElement = getCardElement(
                 card,
                 searchSpan,
@@ -229,6 +235,65 @@ function getCardElement(
                 />
             );
     }
+}
+
+function getDefaultBoardInfo(
+    dtTwin: IADTTwin,
+    t: (str: string) => string
+): BoardInfo {
+    const board = new BoardInfo();
+    board.layout = { numColumns: 3 };
+
+    // Filter metadata properties.
+    const propertiesToIgnore = [ ViewDataPropertyName ];
+    const twinProperties = Object.keys(dtTwin)
+        .filter((key) => key[0] !== '$' && !propertiesToIgnore.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = dtTwin[key];
+            return obj;
+        }, {});
+
+    board.cards.push(
+        CardInfo.fromObject({
+            key: 'infoTable',
+            type: CardTypes.InfoTable,
+            size: { rows: 1, columns: 3 },
+            cardProperties: {
+                headers: [t('board.twinID'), t('board.model')]
+            },
+            entities: [
+                {
+                    tableRows: [[dtTwin.$dtId, dtTwin.$metadata.$model]]
+                }
+            ]
+        })
+    );
+
+    board.cards.push(
+        CardInfo.fromObject({
+            key: 'relationships',
+            type: CardTypes.RelationshipsTable,
+            title: t('board.relationshipsTable'),
+            size: { rows: 4, columns: 2 },
+            entities: [{ id: dtTwin.$dtId }]
+        })
+    );
+
+    const propertyCards = Object.keys(twinProperties).map((name: string) => {
+        const cardInfo = CardInfo.fromObject({
+            key: `property-${name}`,
+            type: CardTypes.KeyValuePairCard,
+            size: { rows: 2 },
+            cardProperties: { pollingIntervalMillis: 5000 },
+            entities: [{ id: dtTwin.$dtId, properties: [name] }]
+        });
+
+        return cardInfo;
+    });
+
+    board.cards = [...board.cards, ...propertyCards];
+
+    return board;
 }
 
 export default Board;
