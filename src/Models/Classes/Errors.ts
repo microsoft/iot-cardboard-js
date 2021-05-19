@@ -1,7 +1,7 @@
 import i18n from '../../i18n';
 import { AdapterErrorType, IAdapterError } from '../Constants';
 
-class CancelledPromiseError extends Error {
+export class CancelledPromiseError extends Error {
     constructor(m = 'Promise cancelled.') {
         super(m);
         this.name = 'Promise cancelled error';
@@ -11,7 +11,7 @@ class CancelledPromiseError extends Error {
     }
 }
 
-class AdapterError extends Error {
+export class AdapterError extends Error {
     public type;
     public isCatastrophic;
     public rawError;
@@ -44,5 +44,3 @@ class AdapterError extends Error {
         Object.setPrototypeOf(this, AdapterError.prototype);
     }
 }
-
-export { CancelledPromiseError, AdapterError };
