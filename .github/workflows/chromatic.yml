@@ -25,6 +25,9 @@ jobs:
                       ${{ runner.os }}-build-
                       ${{ runner.os }}-
 
+            - name: Rebuild Node SASS (temporary)
+              run: npm rebuild node-sass
+
             - name: Install dependencies
               run: npm install
 
