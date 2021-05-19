@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName
+} from '../Constants/Constants';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -39,4 +43,12 @@ export const getMarkedHtmlBySearch = (str, searchTerm) => {
     } catch (e) {
         return str;
     }
+};
+
+export const parseViewProperties = (data: Record<string, any>) => {
+    return Object.keys(data).filter((key) => {
+        !key.startsWith('$') &&
+            key !== ADTModel_ImgSrc_PropertyName &&
+            key !== ADTModel_ImgPropertyPositions_PropertyName;
+    });
 };
