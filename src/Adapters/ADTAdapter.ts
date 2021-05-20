@@ -12,12 +12,7 @@ import {
     ADTRelationship,
     ADTRelationshipsApiData
 } from '../Models/Constants/Types';
-import {
-    AdapterResult,
-    KeyValuePairAdapterData,
-    SearchSpan,
-    TsiClientAdapterData
-} from '../Models/Classes';
+import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
@@ -42,18 +37,6 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.authService.login();
-    }
-
-    async getTsiclientChartDataShape(
-        _id: string,
-        _searchSpan: SearchSpan,
-        _properties: string[]
-    ) {
-        throw new Error('Method not implemented.');
-        return new AdapterResult<TsiClientAdapterData>({
-            result: null,
-            errorInfo: null
-        });
     }
 
     getRelationships(id: string) {

@@ -9,7 +9,12 @@ import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { AdapterError } from '../Models/Classes/Errors';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
-import { IMockAdapter } from '../Models/Constants';
+import {
+    IADTAdapter,
+    IKeyValuePairAdapter,
+    IMockAdapter,
+    ITsiClientChartDataAdapter
+} from '../Models/Constants';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -17,9 +22,12 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
-import IBaseAdapter from './IBaseAdapter';
 
-export default class MockAdapter implements IBaseAdapter {
+export default class MockAdapter
+    implements
+        IKeyValuePairAdapter,
+        ITsiClientChartDataAdapter,
+        Partial<IADTAdapter> {
     private mockData = null;
     private mockError = null;
     private networkTimeoutMillis;
@@ -60,7 +68,7 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getKeyValuePairs(
-        id: string,
+        _id: string,
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
@@ -203,7 +211,7 @@ export default class MockAdapter implements IBaseAdapter {
     }
 
     async getTsiclientChartDataShape(
-        id: string,
+        _id: string,
         searchSpan: SearchSpan,
         properties: string[]
     ) {

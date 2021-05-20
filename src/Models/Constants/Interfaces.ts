@@ -1,4 +1,11 @@
-import IBaseAdapter from '../../Adapters/IBaseAdapter';
+import {
+    ADTModelData,
+    ADTRelationshipData,
+    ADTTwinData,
+    KeyValuePairAdapterData,
+    SearchSpan,
+    TsiClientAdapterData
+} from '../Classes';
 import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
@@ -32,17 +39,17 @@ export interface ICardBaseProps {
     adapterAdditionalParameters?: Record<string, any>;
 }
 export interface IStandaloneConsumeCardProps extends ICardBaseProps {
-    adapter: IBaseAdapter;
+    adapter: any;
 }
 
 export interface IConsumeCardProps extends ICardBaseProps {
-    adapter: IBaseAdapter;
+    adapter: any;
     id: string;
     properties: readonly string[];
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
-    adapter?: IBaseAdapter; // if all the inner cards are all going to use the same adapter
+    adapter?: any;
 }
 
 export interface IAuthService {
@@ -118,18 +125,6 @@ export interface IMockAdapter {
 export interface IErrorInfo {
     errors: IAdapterError[];
     catastrophicError: IAdapterError;
-}
-
-export interface IADTAdapter extends IBaseAdapter {
-    getADTModels(
-        params: AdapterMethodParamsForGetADTModels
-    ): AdapterReturnType<ADTAdapterModelsData>;
-    getADTTwinsByModelId(
-        params: AdapterMethodParamsForGetADTTwinsByModelId
-    ): AdapterReturnType<ADTAdapterTwinsData>;
-    searchADTTwins(
-        params: AdapterMethodParamsForSearchADTTwins
-    ): AdapterReturnType<ADTAdapterTwinsData>;
 }
 
 export interface IHierarchyProps {
@@ -208,4 +203,36 @@ export interface ISearchboxProps {
 
 export interface ICancellablePromise<T> extends Promise<T> {
     cancel: () => void;
+}
+
+export interface IKeyValuePairAdapter {
+    getKeyValuePairs(
+        id: string,
+        properties: readonly string[],
+        additionalParameters?: IGetKeyValuePairsAdditionalParameters
+    ): AdapterReturnType<KeyValuePairAdapterData>;
+}
+
+export interface ITsiClientChartDataAdapter {
+    getTsiclientChartDataShape(
+        id: string,
+        searchSpan: SearchSpan,
+        properties: readonly string[],
+        additionalParameters?: Record<string, any>
+    ): AdapterReturnType<TsiClientAdapterData>;
+}
+
+export interface IADTAdapter extends IKeyValuePairAdapter {
+    getADTModels(
+        params: AdapterMethodParamsForGetADTModels
+    ): AdapterReturnType<ADTAdapterModelsData>;
+    getADTTwinsByModelId(
+        params: AdapterMethodParamsForGetADTTwinsByModelId
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    searchADTTwins(
+        params: AdapterMethodParamsForSearchADTTwins
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
 }
