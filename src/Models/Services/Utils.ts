@@ -47,8 +47,10 @@ export const getMarkedHtmlBySearch = (str, searchTerm) => {
 
 export const parseViewProperties = (data: Record<string, any>) => {
     return Object.keys(data).filter((key) => {
-        !key.startsWith('$') &&
+        return (
+            !key.startsWith('$') &&
             key !== ADTModel_ImgSrc_PropertyName &&
-            key !== ADTModel_ImgPropertyPositions_PropertyName;
+            key !== ADTModel_ImgPropertyPositions_PropertyName
+        );
     });
 };

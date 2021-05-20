@@ -17,8 +17,6 @@ const cardStyle = {
 
 export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
-    const getTwinProperties = (node: IHierarchyNode) =>
-        parseViewProperties(node.nodeData.$metadata);
 
     return !authenticationParameters ? (
         <div></div>
@@ -36,7 +34,9 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                getHierarchyNodeProperties={getTwinProperties}
+                getHierarchyNodeProperties={(node: IHierarchyNode) =>
+                    parseViewProperties(node.nodeData.$metadata)
+                }
                 pollingIntervalMillis={5000}
             />
         </div>
