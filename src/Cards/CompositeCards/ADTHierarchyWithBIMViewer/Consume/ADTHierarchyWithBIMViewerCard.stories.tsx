@@ -18,9 +18,6 @@ export const ADTHierarchyWithBIMViewer = (
     { globals: { theme, locale } }
 ) => {
     const authenticationParameters = useAuthParams();
-    const getTwinProperties = () => {
-        return [];
-    };
 
     return !authenticationParameters ? (
         <div></div>
@@ -39,7 +36,7 @@ export const ADTHierarchyWithBIMViewer = (
                         )
                     )
                 }
-                getHierarchyNodeProperties={getTwinProperties}
+                getHierarchyNodeProperties={() => []}
             />
         </div>
     );

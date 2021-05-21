@@ -4,8 +4,15 @@ import './BIMViewerCard.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import BIMViewer from '../../../Components/BIMViewer/BIMViewer';
 import React from 'react';
+import {
+    ADTModel_BimFilePath_PropertyName,
+    ADTModel_MetadataFilePath_PropertyName
+} from '../../../Models/Constants';
 
-const properties = ['bimFilePath', 'metadataFilePath'];
+const properties = [
+    ADTModel_BimFilePath_PropertyName,
+    ADTModel_MetadataFilePath_PropertyName
+];
 
 const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     adapter,

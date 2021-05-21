@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
+import { BIMFileTypes } from '../Constants';
 
 const useXeokitRender = (
     canvasId,
     bimFilePath,
     metadataFilePath,
-    bimFileType = 'xkt'
+    bimFileType = BIMFileTypes.Xkt
 ) => {
     const viewer = useRef(null);
 
@@ -16,7 +17,7 @@ const useXeokitRender = (
                 canvasId: canvasId
             });
         }
-        if (bimFileType === 'xkt') {
+        if (bimFileType === BIMFileTypes.Xkt) {
             const xktLoader = new XKTLoaderPlugin(viewer.current);
             xktLoader.load({
                 id: 'myModel',

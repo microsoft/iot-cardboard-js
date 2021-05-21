@@ -1,4 +1,5 @@
 import React from 'react';
+import { ADTModel_InBIM_RelationshipName } from '../Constants';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -24,7 +25,7 @@ export const createNodeFilterFromRoot = (parentNodeModelName: string) => {
             const filteredContents = modelContents.filter((content) => {
                 return (
                     content['@type'] === 'Relationship' &&
-                    content.name === 'inBIM' && // inBIM currently hardcoded - a sort of reserved relationship for twin creation from a BIM file
+                    content.name === ADTModel_InBIM_RelationshipName && // currently hardcoded - a sort of reserved relationship for twin creation from a BIM file
                     content.target === parentNodeModelName
                 );
             });

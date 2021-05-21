@@ -24,3 +24,7 @@ export enum HierarchyNodeType {
     Child,
     ShowMore
 }
+
+export enum BIMFileTypes {
+    Xkt = 'xkt'
+}
