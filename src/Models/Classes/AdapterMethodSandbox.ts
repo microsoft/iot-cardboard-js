@@ -1,8 +1,11 @@
+import axios from 'axios';
 import {
-    CardErrorType,
-    IAdapterData,
     ICardError,
-    IAuthService
+    CardErrorType,
+    AxiosParams,
+    IAdapterData,
+    IAuthService,
+    ICancellablePromise
 } from '../Constants';
 import AdapterResult from './AdapterResult';
 import { CardError } from './Errors';
@@ -126,6 +129,50 @@ class AdapterMethodSandbox {
                 result: null
             });
         }
+    }
+
+    safelyFetchDataCancellableAxiosPromise(
+        returnDataClass: { new (data: any) },
+        axiosParams: AxiosParams,
+        dataTransformFunc?: (data) => any
+    ): ICancellablePromise<AdapterResult<any>> {
+        const { headers, ...restOfParams } = axiosParams;
+        const cancelTokenSource = axios.CancelToken.source();
+
+        const cancellablePromise = this.safelyFetchData(async (token) => {
+            let axiosData;
+            try {
+                axiosData = await axios({
+                    ...restOfParams,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token,
+                        ...headers
+                    },
+                    cancelToken: cancelTokenSource.token
+                });
+            } catch (err) {
+                if (axios.isCancel(err)) {
+                    this.pushError({
+                        type: CardErrorType.DataFetchFailed,
+                        isCatastrophic: false,
+                        rawError: err
+                    });
+                } else {
+                    this.pushError({
+                        type: CardErrorType.DataFetchFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+            }
+            const result = axiosData?.data;
+            return new returnDataClass(
+                dataTransformFunc ? dataTransformFunc(result) : result
+            );
+        }) as ICancellablePromise<AdapterResult<any>>;
+        cancellablePromise.cancel = cancelTokenSource.cancel;
+        return cancellablePromise;
     }
 }
 

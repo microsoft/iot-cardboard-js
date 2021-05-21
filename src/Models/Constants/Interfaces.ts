@@ -8,8 +8,9 @@ import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
-    AdapterMethodParamsForADTModels,
-    AdapterMethodParamsForADTTwins
+    AdapterMethodParamsForGetADTModels,
+    AdapterMethodParamsForGetADTTwinsByModelId,
+    AdapterMethodParamsForSearchADTTwins
 } from './Types';
 
 export interface IAction {
@@ -71,6 +72,9 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Calls adapter method (safe on unmount) and updates adapter result */
     callAdapter: (params?: AdapterMethodParams) => void;
 
+    /** Cancel adapter method and set the adapter result to null */
+    cancelAdapter: () => void;
+
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
 
@@ -120,21 +124,27 @@ export interface IErrorInfo {
 }
 
 export interface IADTAdapter extends IBaseAdapter {
-    getAdtModels(
-        params: AdapterMethodParamsForADTModels
+    getADTModels(
+        params: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
-    getAdtTwins(
-        params: AdapterMethodParamsForADTTwins
+    getADTTwinsByModelId(
+        params: AdapterMethodParamsForGetADTTwinsByModelId
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    searchADTTwins(
+        params: AdapterMethodParamsForSearchADTTwins
     ): AdapterReturnType<ADTAdapterTwinsData>;
 }
 
 export interface IHierarchyProps {
     data: Record<string, IHierarchyNode>;
+    searchTermToMark?: string;
+    isLoading?: boolean;
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (
         parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => void;
+    noDataText?: string;
 }
 
 export interface IHierarchyNode {
@@ -171,6 +181,16 @@ export interface IADTTwin {
     };
     [propertyName: string]: any;
 }
+
+export interface IADTRelationship {
+    $etag: string;
+    $relationshipId: string;
+    $relationshipName: string;
+    $sourceId: string;
+    $targetId: string;
+    targetModel: string;
+}
+
 export interface IGetKeyValuePairsAdditionalParameters
     extends Record<string, any> {
     isTimestampIncluded?: boolean;
@@ -192,4 +212,19 @@ export interface IEntityInfo {
     properties: any;
     chartDataOptions?: any;
     [key: string]: any;
+}
+
+export interface ISearchboxProps {
+    className?: string;
+    placeholder: string;
+    onChange?: (
+        event?: React.ChangeEvent<HTMLInputElement>,
+        newValue?: string
+    ) => void;
+    onSearch?: (value: string) => void;
+    onClear?: () => void;
+}
+
+export interface ICancellablePromise<T> extends Promise<T> {
+    cancel: () => void;
 }

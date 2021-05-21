@@ -5,13 +5,12 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 import { ADTHierarchyCardProps } from './ADTHierarchyCard.types';
 import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
 import {
-    AdapterMethodParamsForADTModels,
-    AdapterMethodParamsForADTTwins,
-    ADTModelsData,
-    ADTTwinsData,
+    AdapterMethodParamsForGetADTModels,
+    AdapterMethodParamsForGetADTTwinsByModelId,
+    AdapterMethodParamsForSearchADTTwins,
+    ADTModelsApiData,
+    ADTTwinsApiData,
     HierarchyNodeType,
-    IADTModel,
-    IADTTwin,
     IHierarchyNode
 } from '../../../Models/Constants';
 import { HierarchyNode } from '../../../Models/Classes/HierarchyNode';
@@ -22,10 +21,11 @@ import {
 import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
+    SET_ADT_HIERARCHY_SEARCH,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
-import { Utils } from '../../../Models/Services';
+import Searchbox from '../../../Components/Searchbox/Searchbox';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
@@ -38,31 +38,40 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 }) => {
     const { t } = useTranslation();
     const focusedModelIdRef = useRef(null);
-    const selectedTwinRef = useRef({ modelId: null, twinId: null });
+    const focusedTwinRef = useRef({ modelId: null, twinId: null });
+    const isLoadingTriggeredByShowMore = useRef(false);
 
     const [state, dispatch] = useReducer(
         ADTHierarchyCardConsumeReducer,
         defaultADTHierarchyCardConsumeState
     );
-    const { hierarchyNodes } = state;
+    const { hierarchyNodes, searchTerm } = state;
 
     const modelState = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForADTModels) =>
-            adapter.getAdtModels(params),
+        adapterMethod: (params: AdapterMethodParamsForGetADTModels) =>
+            adapter.getADTModels(params),
         refetchDependencies: [adapter]
     });
 
     const twinState = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForADTTwins) =>
-            adapter.getAdtTwins(params),
-        refetchDependencies: []
+        adapterMethod: (params: AdapterMethodParamsForGetADTTwinsByModelId) =>
+            adapter.getADTTwinsByModelId(params),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: true
+    });
+
+    const searchState = useAdapter({
+        adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
+            adapter.searchADTTwins(params),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: true
     });
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
-        focusedModelIdRef.current = modelNode.id;
         if (onParentNodeClick) {
             onParentNodeClick(modelNode);
         } else {
+            cancelCurrentlyLoadingNodes();
             if (modelNode.isCollapsed) {
                 dispatch({
                     type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
@@ -71,6 +80,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         properties: { isLoading: true }
                     }
                 });
+                isLoadingTriggeredByShowMore.current = false;
                 twinState.callAdapter({ modelId: modelNode.id });
             } else {
                 dispatch({
@@ -82,6 +92,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 });
             }
         }
+        focusedModelIdRef.current = modelNode.id;
     };
 
     const handleTwinClick = (
@@ -91,13 +102,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         dispatch({
             type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
             payload: {
-                modelId: modelNode.id,
-                twinId: twinNode.id,
-                previouslySelectedTwin: selectedTwinRef.current
+                modelId: modelNode?.id,
+                twinId: twinNode.id
             }
         });
-        selectedTwinRef.current = {
-            modelId: modelNode.id,
+        cancelCurrentlyLoadingNodes();
+        focusedTwinRef.current = {
+            modelId: modelNode?.id,
             twinId: twinNode.id
         };
 
@@ -106,14 +117,45 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
     };
 
+    const cancelCurrentlyLoadingNodes = () => {
+        if (focusedTwinRef.current?.modelId && focusedTwinRef.current?.twinId) {
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                payload: {
+                    modelId: focusedTwinRef.current.modelId,
+                    twinId: focusedTwinRef.current.twinId,
+                    properties: { isLoading: false }
+                }
+            });
+        }
+        if (focusedModelIdRef.current) {
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                payload: {
+                    modelId: focusedModelIdRef.current,
+                    properties: { isLoading: false }
+                }
+            });
+        }
+        focusedModelIdRef.current = null;
+        focusedTwinRef.current = null;
+        cancelPendingAdapterRequests();
+    };
+
+    const cancelPendingAdapterRequests = () => {
+        modelState.cancelAdapter();
+        twinState.cancelAdapter();
+        searchState.cancelAdapter();
+    };
+
     useEffect(() => {
-        if (modelState.adapterResult.result?.data.value) {
+        if (!modelState.adapterResult.hasNoData()) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
-                modelState.adapterResult.result?.data?.value as IADTModel[]
+                modelState.adapterResult.result?.data?.value
             );
 
             const modelsNextLink = (modelState.adapterResult.result
-                ?.data as ADTModelsData)?.nextLink;
+                ?.data as ADTModelsApiData)?.nextLink;
 
             const currentNodes = { ...hierarchyNodes };
 
@@ -126,6 +168,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                           name: t('showMore'),
                           nodeType: HierarchyNodeType.ShowMore,
                           onNodeClick: () => {
+                              cancelCurrentlyLoadingNodes();
+                              focusedModelIdRef.current = showMoreId;
                               dispatch({
                                   type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                                   payload: {
@@ -133,11 +177,11 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                                       properties: { isLoading: true }
                                   }
                               });
+                              isLoadingTriggeredByShowMore.current = true;
                               modelState.callAdapter({
-                                  continuationToken: Utils.getUrlParam(
-                                      modelsNextLink,
-                                      'continuationToken'
-                                  )
+                                  continuationToken: new URLSearchParams(
+                                      modelsNextLink
+                                  ).get('continuationToken')
                               });
                           }
                       } as IHierarchyNode
@@ -153,48 +197,128 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [modelState.adapterResult.result?.data.value]);
+    }, [modelState.adapterResult.result]);
 
     useEffect(() => {
-        if (
-            focusedModelIdRef.current &&
-            twinState.adapterResult.result?.data.value
-        ) {
+        if (focusedModelIdRef.current && twinState.adapterResult.result) {
             const focusedModelId = focusedModelIdRef.current;
+            const newTwinData = twinState.adapterResult.result.data;
+            if (newTwinData?.value) {
+                if (newTwinData.value.length) {
+                    const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
+                        newTwinData.value,
+                        hierarchyNodes[focusedModelId]
+                    );
+                    const twinsContinuationToken = (newTwinData as ADTTwinsApiData)
+                        ?.continuationToken;
+                    const currentChildren = !hierarchyNodes[focusedModelId]
+                        .isCollapsed
+                        ? {
+                              ...hierarchyNodes[focusedModelId].children
+                          }
+                        : {};
+
+                    const showMoreId = `${focusedModelId}-show-more`;
+                    delete currentChildren[showMoreId]; // remove the current show more node if exist
+                    const showMoreNode = twinsContinuationToken
+                        ? {
+                              [showMoreId]: {
+                                  id: `${focusedModelId}-show-more`,
+                                  name: t('showMore'),
+                                  nodeType: HierarchyNodeType.ShowMore,
+                                  onNodeClick: () => {
+                                      cancelCurrentlyLoadingNodes();
+                                      focusedModelIdRef.current = focusedModelId;
+                                      focusedTwinRef.current = {
+                                          modelId: focusedModelId,
+                                          twinId: `${focusedModelId}-show-more`
+                                      };
+                                      dispatch({
+                                          type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                                          payload: {
+                                              modelId: focusedModelId,
+                                              twinId: `${focusedModelId}-show-more`,
+                                              properties: { isLoading: true }
+                                          }
+                                      });
+                                      isLoadingTriggeredByShowMore.current = true;
+                                      twinState.callAdapter({
+                                          modelId: focusedModelId,
+                                          continuationToken: twinsContinuationToken
+                                      });
+                                  }
+                              } as IHierarchyNode
+                          }
+                        : null;
+
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: focusedModelId,
+                            properties: {
+                                isCollapsed: false,
+                                isLoading: false,
+                                children: {
+                                    ...currentChildren,
+                                    ...newTwinNodes,
+                                    ...showMoreNode
+                                },
+                                childrenContinuationToken: twinsContinuationToken
+                            }
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                        payload: {
+                            modelId: focusedModelId,
+                            properties: {
+                                isCollapsed: false,
+                                isLoading: false,
+                                ...(hierarchyNodes[focusedModelId]
+                                    .isCollapsed && {
+                                    children: {}
+                                })
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }, [twinState.adapterResult.result]);
+
+    useEffect(() => {
+        if (!searchState.adapterResult.hasNoData()) {
             const newTwinNodes = HierarchyNode.createNodesFromADTTwins(
-                twinState.adapterResult.result?.data?.value as IADTTwin[],
-                hierarchyNodes[focusedModelId]
+                searchState.adapterResult.result?.data?.value,
+                null
             );
 
-            const twinsContinuationToken = (twinState.adapterResult.result
-                ?.data as ADTTwinsData)?.continuationToken;
-            const currentChildren = !hierarchyNodes[focusedModelId].isCollapsed
-                ? {
-                      ...hierarchyNodes[focusedModelId].children
-                  }
-                : {};
+            const searchContinuationToken =
+                searchState.adapterResult.result?.data?.continuationToken;
+            const currentNodes = { ...hierarchyNodes };
 
-            const showMoreId = `${focusedModelId}-show-more`;
-            delete currentChildren[showMoreId]; // remove the current show more node if exist
-            const showMoreNode = twinsContinuationToken
+            const showMoreId = 'twins-show-more';
+            delete currentNodes[showMoreId]; // remove the current show more node if exist
+            const showMoreNode = searchContinuationToken
                 ? {
                       [showMoreId]: {
-                          id: `${focusedModelId}-show-more`,
+                          id: showMoreId,
                           name: t('showMore'),
                           nodeType: HierarchyNodeType.ShowMore,
                           onNodeClick: () => {
-                              focusedModelIdRef.current = focusedModelId;
+                              cancelCurrentlyLoadingNodes();
                               dispatch({
                                   type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                                   payload: {
-                                      modelId: focusedModelId,
-                                      twinId: `${focusedModelId}-show-more`,
+                                      modelId: showMoreId,
                                       properties: { isLoading: true }
                                   }
                               });
-                              twinState.callAdapter({
-                                  modelId: focusedModelId,
-                                  continuationToken: twinsContinuationToken
+                              isLoadingTriggeredByShowMore.current = true;
+                              searchState.callAdapter({
+                                  searchTerm: searchTerm,
+                                  continuationToken: searchContinuationToken
                               });
                           }
                       } as IHierarchyNode
@@ -202,23 +326,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 : null;
 
             dispatch({
-                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                type: SET_ADT_HIERARCHY_NODES,
                 payload: {
-                    modelId: focusedModelId,
-                    properties: {
-                        isCollapsed: false,
-                        isLoading: false,
-                        children: {
-                            ...currentChildren,
-                            ...newTwinNodes,
-                            ...showMoreNode
-                        },
-                        childrenContinuationToken: twinsContinuationToken
-                    }
+                    ...currentNodes,
+                    ...newTwinNodes,
+                    ...showMoreNode
                 }
             });
         }
-    }, [twinState.adapterResult.result?.data.value]);
+    }, [searchState.adapterResult.result]);
 
     const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
         handleModelClick(model);
@@ -231,6 +347,41 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         []
     );
 
+    const handleOnSearch = useCallback((searchTerm: string) => {
+        focusedModelIdRef.current = null;
+        focusedTwinRef.current = null;
+
+        if (searchTerm) {
+            enterSearchMode(searchTerm);
+            cancelPendingAdapterRequests();
+            isLoadingTriggeredByShowMore.current = false;
+            searchState.callAdapter({
+                searchTerm: searchTerm,
+                continuationToken:
+                    searchState.adapterResult?.result?.data?.continuationToken
+            });
+        } else {
+            exitSearchMode();
+        }
+    }, []);
+
+    const enterSearchMode = useCallback((searchTerm: string) => {
+        dispatch({
+            type: SET_ADT_HIERARCHY_SEARCH,
+            payload: searchTerm
+        });
+    }, []);
+
+    const exitSearchMode = useCallback(() => {
+        dispatch({
+            type: SET_ADT_HIERARCHY_SEARCH,
+            payload: ''
+        });
+        searchState.cancelAdapter();
+        isLoadingTriggeredByShowMore.current = false;
+        modelState.callAdapter();
+    }, []);
+
     return (
         <BaseCard
             title={title}
@@ -238,14 +389,28 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 modelState.isLoading && modelState.adapterResult.hasNoData()
             }
             adapterResult={modelState.adapterResult}
+            skipInfoBox={true}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
         >
+            <Searchbox
+                className="cb-adt-hierarchy-search"
+                placeholder={t('search')}
+                onSearch={handleOnSearch}
+                onClear={exitSearchMode}
+            />
             <Hierarchy
                 data={hierarchyNodes}
                 onParentNodeClick={handleOnParentNodeClick}
                 onChildNodeClick={handleOnChildNodeClick}
+                searchTermToMark={searchTerm}
+                isLoading={
+                    (modelState.isLoading ||
+                        (searchTerm && searchState.isLoading)) &&
+                    !isLoadingTriggeredByShowMore.current
+                }
+                noDataText={t('noTwins')}
             ></Hierarchy>
         </BaseCard>
     );

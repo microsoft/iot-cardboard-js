@@ -14,7 +14,8 @@ const BaseCard: React.FC<BaseCardProps> = ({
     theme,
     locale,
     localeStrings,
-    cardError
+    cardError,
+    hideInfoBox,
 }) => {
     const { t } = useTranslation();
 
@@ -23,8 +24,10 @@ const BaseCard: React.FC<BaseCardProps> = ({
 
     const showCatastrophicError = !!catastrophicError;
     const showErrorMessage = cardError && !catastrophicError;
-    const showLoading =
-        !catastrophicError && !cardError && (isLoading || noData);
+    const showLoading = !catastrophicError 
+        && !hideInfoBox
+        && !cardError 
+        && (isLoading || noData);
 
     return (
         <I18nProviderWrapper

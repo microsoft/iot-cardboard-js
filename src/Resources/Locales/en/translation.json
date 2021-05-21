@@ -9,6 +9,9 @@
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "showMore": "Show more",
+    "search": "Search",
+    "noSearchResults": "No twins found for entered search term (search is case sensitive).",
+    "noTwins": "No twins",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",

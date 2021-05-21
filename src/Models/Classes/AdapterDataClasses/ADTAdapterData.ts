@@ -1,26 +1,34 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { ADTModelsData, ADTTwinsData } from '../../Constants/Types';
+import { ADTModelsApiData, ADTTwinsApiData } from '../../Constants/Types';
 
 export class ADTAdapterModelsData implements IAdapterData {
-    data: ADTModelsData;
+    data: ADTModelsApiData;
 
-    constructor(data: ADTModelsData) {
+    constructor(data: ADTModelsApiData) {
         this.data = data;
     }
 
     hasNoData() {
-        return this.data === null || this.data.value.length === 0;
+        return (
+            this.data === undefined ||
+            this.data === null ||
+            this.data.value.length === 0
+        );
     }
 }
 
 export class ADTAdapterTwinsData implements IAdapterData {
-    data: ADTTwinsData;
+    data: ADTTwinsApiData;
 
-    constructor(data: ADTTwinsData) {
+    constructor(data: ADTTwinsApiData) {
         this.data = data;
     }
 
     hasNoData() {
-        return this.data === null || this.data.value.length === 0;
+        return (
+            this.data === undefined ||
+            this.data === null ||
+            this.data.value.length === 0
+        );
     }
 }

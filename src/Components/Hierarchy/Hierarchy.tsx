@@ -7,12 +7,19 @@ import {
 import './Hierarchy.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { Spinner, SpinnerSize } from '@fluentui/react';
+import { Utils } from '../../Models/Services';
+import { useTranslation } from 'react-i18next';
 
 const Hierarchy: React.FC<IHierarchyProps> = ({
     data,
+    searchTermToMark,
+    isLoading,
     onParentNodeClick,
-    onChildNodeClick
+    onChildNodeClick,
+    noDataText
 }) => {
+    const { t } = useTranslation();
+
     const Chevron = ({ collapsed }) => (
         <Icon
             iconName={'ChevronRight'}
@@ -22,7 +29,10 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
         />
     );
 
-    const TreeNode: React.FC<{ node: IHierarchyNode }> = ({ node }) => {
+    const TreeNode: React.FC<{
+        node: IHierarchyNode;
+        searchTermToMark: string;
+    }> = ({ node, searchTermToMark }) => {
         return node.nodeType === HierarchyNodeType.Parent ? (
             <>
                 <div className="cb-hierarchy-node">
@@ -38,7 +48,12 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         }}
                     >
                         <span className="cb-hierarchy-node-name">
-                            {node.name}
+                            {searchTermToMark
+                                ? Utils.getMarkedHtmlBySearch(
+                                      node.name,
+                                      searchTermToMark
+                                  )
+                                : node.name}
                         </span>
                         {Object.keys(node.children).length > 0 && (
                             <span className="cb-hierarchy-child-count">
@@ -51,7 +66,13 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         )}
                     </div>
                 </div>
-                {!node.isCollapsed && <Tree data={node.children} />}
+                {!node.isCollapsed && (
+                    <Tree
+                        data={node.children}
+                        searchTermToMark={searchTermToMark}
+                        isLoading={isLoading}
+                    />
+                )}
             </>
         ) : (
             <>
@@ -80,7 +101,13 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                             <Spinner size={SpinnerSize.xSmall} />
                         ) : (
                             <span className="cb-hierarchy-node-name">
-                                {node.name}
+                                {searchTermToMark &&
+                                node.nodeType !== HierarchyNodeType.ShowMore
+                                    ? Utils.getMarkedHtmlBySearch(
+                                          node.name,
+                                          searchTermToMark
+                                      )
+                                    : node.name}
                             </span>
                         )}
                     </div>
@@ -90,15 +117,32 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     };
     const MemoizedTreeNode = React.memo(TreeNode);
 
-    const Tree: React.FC<IHierarchyProps> = ({ data }) => {
-        return (
+    const Tree: React.FC<IHierarchyProps> = ({
+        data,
+        searchTermToMark,
+        isLoading
+    }) => {
+        return isLoading ? (
+            <Spinner size={SpinnerSize.xSmall} />
+        ) : !data || Object.keys(data).length === 0 ? (
+            <span className="cb-hierarchy-no-results">
+                {searchTermToMark
+                    ? t('noSearchResults')
+                    : noDataText
+                    ? noDataText
+                    : t('noData')}
+            </span>
+        ) : (
             <ul className="cb-hierarchy-component-list-group">
                 {Object.keys(data).map((nodeId: string, idx: number) => (
                     <li
                         className="cb-hierarchy-node-wrapper"
                         key={'cb-hierarchy-node' + idx}
                     >
-                        <MemoizedTreeNode node={data[nodeId]} />
+                        <MemoizedTreeNode
+                            node={data[nodeId]}
+                            searchTermToMark={searchTermToMark}
+                        />
                     </li>
                 ))}
             </ul>
@@ -109,7 +153,11 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     return (
         <div className="cb-hierarchy-component-wrapper">
             <div className={'cb-hierarchy-component'}>
-                <MemoizedTree data={data} />
+                <MemoizedTree
+                    data={data}
+                    searchTermToMark={searchTermToMark}
+                    isLoading={isLoading}
+                />
             </div>
         </div>
     );

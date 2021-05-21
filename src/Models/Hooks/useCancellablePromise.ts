@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { CancelledPromiseError } from '../Classes/Errors';
+import { ICancellablePromise } from '../Constants/Interfaces';
 import { CancellablePromise } from '../Constants/Types';
 
 /** Wraps promise with logic that allows for promise cancellation via cancel() method */
 export function makeCancellable<T>(
-    promise: T,
+    promise: Promise<T>,
     promisesRef?: React.MutableRefObject<any>
 ): CancellablePromise<T> {
     let isCancelled = false;
@@ -72,11 +73,17 @@ const useCancellablePromise = () => {
         return cancel;
     }, []);
 
-    /** Function to construct cancellable promise */
-    function cancellablePromise<T>(p: Promise<T>) {
-        const cPromise = makeCancellable(p, promises);
+    /** Function to construct cancellable promise if it is not already */
+    function cancellablePromise<T>(p: Promise<T> | ICancellablePromise<T>) {
+        const isICancellablePromise =
+            p['cancel'] && typeof p['cancel'] === 'function';
+        const cPromise = !isICancellablePromise
+            ? makeCancellable(p, promises)
+            : (p as ICancellablePromise<T>);
         promises.current.push(cPromise);
-        return cPromise.promise;
+        return !isICancellablePromise
+            ? (cPromise as CancellablePromise<T>).promise
+            : (p as ICancellablePromise<T>);
     }
 
     return { cancellablePromise, cancel };

@@ -4,16 +4,30 @@ import {
     IADTTwin,
     IAdapterData,
     IHierarchyNode,
-    IErrorInfo
+    IErrorInfo,
+    ICancellablePromise,
+    IADTRelationship
 } from './Interfaces';
 
-export type AdapterReturnType<T extends IAdapterData> = Promise<
-    AdapterResult<T>
->;
+export type AdapterReturnType<T extends IAdapterData> =
+    | Promise<AdapterResult<T>>
+    | ICancellablePromise<AdapterResult<T>>;
 
 export type AdapterResultParams<T extends IAdapterData> = {
     result: T;
     errorInfo: IErrorInfo;
+};
+
+export type AxiosParams = {
+    url: string;
+    method: 'get' | 'post' | 'put' | 'delete' | 'patch';
+    headers?: AxiosObjParam;
+    params?: AxiosObjParam;
+    data?: AxiosObjParam;
+};
+
+export type AxiosObjParam = {
+    [key: string]: any;
 };
 
 export type AdapterState<T extends IAdapterData> = {
@@ -39,12 +53,12 @@ export type TsiClientData = any[];
 
 export type HierarchyData = Record<string, IHierarchyNode>;
 
-export type ADTModelsData = {
+export type ADTModelsApiData = {
     value: IADTModel[];
     nextLink: string;
 };
 
-export type ADTTwinsData = {
+export type ADTTwinsApiData = {
     value: IADTTwin[];
     continuationToken: string;
 };
@@ -76,11 +90,21 @@ export type AdapterMethodParams = {
     [paramName: string]: any;
 };
 
-export type AdapterMethodParamsForADTModels = {
+export type AdapterMethodParamsForGetADTModels = {
     continuationToken?: string;
 };
 
-export type AdapterMethodParamsForADTTwins = {
+export type AdapterMethodParamsForGetADTTwinsByModelId = {
     modelId: string;
     continuationToken?: string;
+};
+
+export type AdapterMethodParamsForSearchADTTwins = {
+    searchTerm: string;
+    continuationToken?: string;
+};
+
+export type ADTRelationshipsApiData = {
+    value: IADTRelationship[];
+    nextLink: string;
 };

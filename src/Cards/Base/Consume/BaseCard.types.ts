@@ -7,4 +7,5 @@ export interface BaseCardProps extends ICardBaseProps {
     // Using <any> type because BaseCard only cares about the presence of ANY data and or errors.
     adapterResult: AdapterResult<any>;
     cardError?: CardError;
+    hideInfoBox?: boolean;
 }
