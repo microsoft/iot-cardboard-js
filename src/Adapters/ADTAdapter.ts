@@ -20,11 +20,7 @@ import {
 } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import {
-    ADT_ApiVersion,
-    KeyValuePairData,
-    CardErrorType
-} from '../Models/Constants';
+import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
