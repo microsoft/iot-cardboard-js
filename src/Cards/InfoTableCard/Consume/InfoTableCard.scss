@@ -1,0 +1,20 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-infotable-card {
+    @include ms-depth-16;
+    background: var(--cb-color-bg-canvas);
+    border: 1px solid var(--cb-color-card-border);
+    border-radius: 4px;
+    color: var(--cb-color-text-primary);
+    height: 100%;
+    padding: 10px;
+
+    .cb-table-header {
+        color: rgba(var(--cb-color-text-primary), 0.5);
+        text-align: left;
+    }
+
+    .cb-table-cell {
+        padding: 0 8px;
+    }
+}

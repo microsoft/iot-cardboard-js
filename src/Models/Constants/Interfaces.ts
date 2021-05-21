@@ -4,7 +4,7 @@ import {
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import AdapterResult from '../Classes/AdapterResult';
-import { AdapterErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
+import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
@@ -85,18 +85,21 @@ export interface IUseAdapter<T extends IAdapterData> {
     pulse: boolean;
 }
 
-export interface IAdapterError {
+export interface ICardError {
     /** Text description of the adapter error */
     message?: string;
 
     /** Classification of error type */
-    type?: AdapterErrorType;
+    type?: CardErrorType;
 
     /** Catastrophic errors stop adapter execution */
     isCatastrophic?: boolean;
 
     /** Raw error object from catch block */
     rawError?: Error;
+
+    /** Values that can be used in string interpolation when constructing the error message */
+    messageParams?: { [key: string]: string };
 }
 
 export interface IMockAdapter {
@@ -109,15 +112,15 @@ export interface IMockAdapter {
     networkTimeoutMillis?: number;
 
     /** If set, MockAdapter will mock error of set type */
-    mockError?: AdapterErrorType;
+    mockError?: CardErrorType;
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
 }
 
 export interface IErrorInfo {
-    errors: IAdapterError[];
-    catastrophicError: IAdapterError;
+    errors: ICardError[];
+    catastrophicError: ICardError;
 }
 
 export interface IADTAdapter extends IBaseAdapter {
@@ -173,6 +176,9 @@ export interface IADTTwin {
         $model: string;
         [propertyName: string]: any;
     };
+    cb_viewdata?: {
+        boardInfo: string;
+    };
     [propertyName: string]: any;
 }
 
@@ -193,6 +199,19 @@ export interface IGetKeyValuePairsAdditionalParameters
 export interface IResolvedRelationshipClickErrors {
     twinErrors?: any;
     modelErrors?: any;
+}
+
+export interface IViewData {
+    viewDefinition: string;
+    imageSrc: string;
+    imagePropertyPositions: string;
+}
+
+export interface IEntityInfo {
+    id: string;
+    properties: any;
+    chartDataOptions?: any;
+    [key: string]: any;
 }
 
 export interface ISearchboxProps {

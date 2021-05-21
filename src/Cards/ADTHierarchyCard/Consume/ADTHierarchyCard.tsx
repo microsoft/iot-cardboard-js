@@ -389,7 +389,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 modelState.isLoading && modelState.adapterResult.hasNoData()
             }
             adapterResult={modelState.adapterResult}
-            skipInfoBox={true}
+            hideInfoBox={true}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}

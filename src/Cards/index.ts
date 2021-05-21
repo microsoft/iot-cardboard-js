@@ -4,3 +4,6 @@ export { default as LKVProcessGraphicCard } from './LKVProcessGraphicCard/Consum
 export { default as ADTHierarchyCard } from './ADTHierarchyCard/Consume/ADTHierarchyCard';
 export { default as KeyValuePairCard } from './KeyValuePairCard/Consume/KeyValuePairCard';
 export { default as ADTHierarchyWithLKVProcessGraphicsCard } from './CompositeCards/ADTHierarchyWithLKVProcessGraphics/Consume/ADTHierarchyWithLKVProcessGraphicsCard';
+export { default as ADTHierarchyWithBoard } from './CompositeCards/ADTHierarchyWithBoard/Consume/ADTHierarchyWithBoard';
+export { default as RelationshipsTable } from './RelationshipsTable/Consume/RelationshipsTable';
+export { default as InfoTableCard } from './InfoTableCard/Consume/InfoTableCard';

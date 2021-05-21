@@ -14,12 +14,21 @@ const BaseCard: React.FC<BaseCardProps> = ({
     theme,
     locale,
     localeStrings,
-    skipInfoBox
+    cardError,
+    hideInfoBox
 }) => {
     const { t } = useTranslation();
 
     const catastrophicError = adapterResult?.getCatastrophicError();
     const noData = adapterResult?.hasNoData();
+
+    const showCatastrophicError = !!catastrophicError;
+    const showErrorMessage = cardError && !catastrophicError;
+    const showLoading =
+        !catastrophicError &&
+        !hideInfoBox &&
+        !cardError &&
+        (isLoading || noData);
 
     return (
         <I18nProviderWrapper
@@ -29,9 +38,9 @@ const BaseCard: React.FC<BaseCardProps> = ({
         >
             <ThemeProvider theme={theme}>
                 <div className="cb-base-card">
-                    <h3 className="cb-base-card-title">{title}</h3>
+                    {title && <h3 className="cb-base-card-title">{title}</h3>}
                     <div className="cb-base-card-content">
-                        {catastrophicError ? (
+                        {showCatastrophicError && (
                             <div className="cb-base-catastrophic-error-wrapper">
                                 <div className="cb-base-catastrophic-error-box">
                                     <div className="cb-base-catastrophic-error-message">
@@ -42,15 +51,22 @@ const BaseCard: React.FC<BaseCardProps> = ({
                                     </div>
                                 </div>
                             </div>
-                        ) : (
-                            !skipInfoBox &&
-                            (isLoading || noData) && (
-                                <div className="cb-base-info-wrapper">
-                                    <div className="cb-base-info">
-                                        {isLoading ? t('loading') : t('noData')}
+                        )}
+                        {showErrorMessage && (
+                            <div className="cb-base-catastrophic-error-wrapper">
+                                <div className="cb-base-catastrophic-error-box">
+                                    <div className="cb-base-catastrophic-error-message">
+                                        {cardError.message}
                                     </div>
                                 </div>
-                            )
+                            </div>
+                        )}
+                        {showLoading && (
+                            <div className="cb-base-info-wrapper">
+                                <div className="cb-base-info">
+                                    {isLoading ? t('loading') : t('noData')}
+                                </div>
+                            </div>
                         )}
                         <>{children}</>
                     </div>
