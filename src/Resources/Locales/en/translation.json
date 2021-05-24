@@ -3,6 +3,7 @@
     "loading": "Loading...",
     "noData": "No data",
     "error": "Error fetching data",
+    "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
     "empty": "Empty",
     "hierarchy": "Hierarchy",
