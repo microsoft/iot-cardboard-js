@@ -17,15 +17,15 @@ class BaseCustomAdapter<
         TransformedData
     >;
 
-    constructor(
-        dataFetcher: CustomDataFetcher<CustomAdapterParams>,
+    constructor(params: {
+        dataFetcher: CustomDataFetcher<CustomAdapterParams>;
         dataTransformer: CustomDataTransformer<
             CustomAdapterParams,
             TransformedData
-        >
-    ) {
-        this.dataFetcher = dataFetcher;
-        this.dataTransformer = dataTransformer;
+        >;
+    }) {
+        this.dataFetcher = params.dataFetcher;
+        this.dataTransformer = params.dataTransformer;
     }
 
     async executeDataFetch(

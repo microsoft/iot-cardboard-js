@@ -1,8 +1,4 @@
-import {
-    AdapterMethodSandbox,
-    SearchSpan,
-    TsiClientAdapterData
-} from '../Models/Classes';
+import { SearchSpan, TsiClientAdapterData } from '../Models/Classes';
 import BaseCustomAdapter from '../Models/Classes/BaseCustomAdapter';
 import {
     IBaseCustomAdapterParams,
@@ -19,7 +15,7 @@ interface CustomTsiClientAdapterParams extends IBaseCustomAdapterParams {
  * This class simplifies construction of a custom adapter which adheres
  * to the ITsiClientChartDataAdapter interface.
  */
-class CustomKeyValuePairAdapter
+class CustomTsiClientChartDataAdapter
     extends BaseCustomAdapter<
         CustomTsiClientAdapterParams,
         TsiClientData,
@@ -43,4 +39,4 @@ class CustomKeyValuePairAdapter
     }
 }
 
-export default CustomKeyValuePairAdapter;
+export default CustomTsiClientChartDataAdapter;

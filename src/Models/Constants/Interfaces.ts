@@ -242,25 +242,3 @@ export interface IBaseCustomAdapterParams {
     properties: string[];
     additionalParameters?: Record<string, any>;
 }
-
-/**
- * Asynchronous method to fetch data.
- *
- * @param params - Parameters passed from the card to the adapter.
- * @returns Promise wrapping data.
- */
-export interface CustomDataFetcher<AdapterParamsType> {
-    (params?: AdapterParamsType): Promise<any>;
-}
-
-/**
- * Method to transform data returned by DataFetcher into array of generic AdapterReturnType.
- * The data returned by DataFetcher will be passed into the DataTransformer.
- *
- * @param data - Data returned by DataFetcher
- * @param params - Parameters passed from the card to the adapter.
- * @returns AdapterReturnType object.
- */
-export interface CustomDataTransformer<AdapterParamsType, AdapterReturnType> {
-    (data: any, params: AdapterParamsType): AdapterReturnType;
-}
