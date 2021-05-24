@@ -2,6 +2,8 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
+import { KeyValuePairData } from '../../../Models/Constants';
+import { CustomKeyValuePairAdapter } from '../../../Adapters';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import KeyValuePairCard from './KeyValuePairCard';
 
@@ -18,7 +20,37 @@ const digitalTwins = {
     properties: ['Temperature'] as [string]
 };
 
-export const Mock = (args, { globals: { theme } }) => (
+export const CustomAdapter = (_args, { globals: { theme } }) => {
+    const adapter = new CustomKeyValuePairAdapter({
+        // Function to fetch data from custom API
+        dataFetcher: async (_params) => {
+            return await new Promise((res) => res(10.213));
+        },
+        // Do any necessary data transformations here
+        dataTransformer: (data, _params) => {
+            const transformedData: [KeyValuePairData] = [
+                {
+                    key: 'TestValue',
+                    value: data,
+                    timestamp: new Date('01/01/2021')
+                }
+            ];
+            return transformedData;
+        }
+    });
+    return (
+        <div style={wrapperStyle}>
+            <KeyValuePairCard
+                id="kvp-tester"
+                theme={theme}
+                properties={['Example: custom adapter for external API']}
+                adapter={adapter}
+            />
+        </div>
+    );
+};
+
+export const Mock = (_args, { globals: { theme } }) => (
     <div style={wrapperStyle}>
         <KeyValuePairCard
             theme={theme}
@@ -29,7 +61,7 @@ export const Mock = (args, { globals: { theme } }) => (
     </div>
 );
 
-export const MockOverflow = (args, { globals: { theme } }) => (
+export const MockOverflow = (_args, { globals: { theme } }) => (
     <div style={smallWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
@@ -40,7 +72,7 @@ export const MockOverflow = (args, { globals: { theme } }) => (
     </div>
 );
 
-export const ADT = (args, { globals: { theme } }) => {
+export const ADT = (_args, { globals: { theme } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
