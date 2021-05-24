@@ -26,6 +26,10 @@ export enum HierarchyNodeType {
     ShowMore
 }
 
+export enum BIMFileTypes {
+    Xkt = 'xkt'
+}
+
 export enum CardTypes {
     ADTHierarchyCard = 'ADTHierarchyCard',
     ADTHierarchyWithLKVProcessGraphics = 'ADTHierarchyWithLKVProcessGraphics',

@@ -9,6 +9,7 @@
         "@azure/msal-browser": "^2.11.0",
         "@fluentui/react": "^7.158.1",
         "@fluentui/react-theme-provider": "^0.18.1",
+        "@xeokit/xeokit-sdk": "^1.8.0-alpha.3",
         "axios": "^0.21.1",
         "i18next": "^19.8.7",
         "i18next-browser-languagedetector": "^6.0.1",

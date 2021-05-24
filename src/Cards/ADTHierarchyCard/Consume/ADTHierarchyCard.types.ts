@@ -11,6 +11,9 @@ export interface ADTHierarchyCardProps extends IStandaloneConsumeCardProps {
         parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => void;
+    nodeFilter?: (
+        nodes: Record<string, IHierarchyNode>
+    ) => Record<string, IHierarchyNode>;
 }
 
 export interface ADTHierarchyCardConsumeState {
