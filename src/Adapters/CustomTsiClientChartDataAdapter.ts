@@ -1,19 +1,19 @@
 import {
     AdapterMethodSandbox,
-    KeyValuePairAdapterData
+    SearchSpan,
+    TsiClientAdapterData
 } from '../Models/Classes';
 import {
     AdapterErrorType,
     CustomDataFetcher,
     CustomDataTransformer,
     IBaseCustomAdapterParams,
-    IGetKeyValuePairsAdditionalParameters,
-    IKeyValuePairAdapter,
-    KeyValuePairData
+    ITsiClientChartDataAdapter,
+    TsiClientData
 } from '../Models/Constants';
 
-interface CustomKeyValuePairAdapterParams extends IBaseCustomAdapterParams {
-    additionalParameters?: IGetKeyValuePairsAdditionalParameters;
+interface CustomTsiClientAdapterParams extends IBaseCustomAdapterParams {
+    searchSpan: SearchSpan;
 }
 
 /**
@@ -21,36 +21,38 @@ interface CustomKeyValuePairAdapterParams extends IBaseCustomAdapterParams {
  * This class simplifies construction of a custom adapter which adheres
  * to the IKeyValuePairAdapter interface.
  */
-class CustomKeyValuePairAdapter implements IKeyValuePairAdapter {
-    dataFetcher: CustomDataFetcher<CustomKeyValuePairAdapterParams>;
+class CustomTsiClientChartDataAdapter implements ITsiClientChartDataAdapter {
+    dataFetcher: CustomDataFetcher<CustomTsiClientAdapterParams>;
     dataTransformer: CustomDataTransformer<
-        CustomKeyValuePairAdapterParams,
-        Array<KeyValuePairData>
+        CustomTsiClientAdapterParams,
+        TsiClientData
     >;
 
     constructor(
-        dataFetcher: CustomDataFetcher<CustomKeyValuePairAdapterParams>,
+        dataFetcher: CustomDataFetcher<CustomTsiClientAdapterParams>,
         dataTransformer: CustomDataTransformer<
-            CustomKeyValuePairAdapterParams,
-            Array<KeyValuePairData>
+            CustomTsiClientAdapterParams,
+            TsiClientData
         >
     ) {
         this.dataFetcher = dataFetcher;
         this.dataTransformer = dataTransformer;
     }
 
-    async getKeyValuePairs(
+    async getTsiclientChartDataShape(
         id: string,
+        searchSpan: SearchSpan,
         properties: string[],
-        additionalParameters?: IGetKeyValuePairsAdditionalParameters
+        additionalParameters: Record<string, any>
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox({
             authservice: null
         });
 
-        const params: CustomKeyValuePairAdapterParams = {
+        const params: CustomTsiClientAdapterParams = {
             id,
             properties,
+            searchSpan,
             ...(additionalParameters && { additionalParameters })
         };
 
@@ -58,7 +60,7 @@ class CustomKeyValuePairAdapter implements IKeyValuePairAdapter {
             try {
                 const data = await this.dataFetcher(params);
                 const transformedDataArray = this.dataTransformer(data, params);
-                return new KeyValuePairAdapterData(transformedDataArray);
+                return new TsiClientAdapterData(transformedDataArray);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: AdapterErrorType.DataFetchFailed,
@@ -70,4 +72,4 @@ class CustomKeyValuePairAdapter implements IKeyValuePairAdapter {
     }
 }
 
-export default CustomKeyValuePairAdapter;
+export default CustomTsiClientChartDataAdapter;
