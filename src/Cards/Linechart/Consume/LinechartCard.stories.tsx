@@ -9,8 +9,15 @@ import useAuthParams from '../../../../.storybook/useAuthParams';
 import { CustomTsiClientChartDataAdapter } from '../../../Adapters';
 
 export default {
-    title: 'Linechart/Consume'
-    // component: Linechart // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
+    title: 'Linechart/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
+    // component: LinechartCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
 const id = 'storyID';
@@ -18,6 +25,26 @@ const properties = ['storyProperty1', 'storyProperty2'];
 const chartDataOptions = [{ includeDots: true }, { includeDots: false }];
 const chartCardStyle = {
     height: '400px'
+};
+
+export const MockData = (
+    _args,
+    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+) => {
+    return (
+        <div style={chartCardStyle}>
+            <LinechartCard
+                theme={theme}
+                locale={locale}
+                id={id}
+                searchSpan={mockedSearchSpan}
+                properties={properties}
+                adapterAdditionalParameters={{ chartDataOptions }}
+                chartDataOptions={chartDataOptions}
+                adapter={new MockAdapter()}
+            />
+        </div>
+    );
 };
 
 export const CustomAdapter = (
@@ -50,26 +77,6 @@ export const CustomAdapter = (
                 searchSpan={mockedSearchSpan}
                 properties={['Example data A', 'Example data B']}
                 adapter={adapter}
-            />
-        </div>
-    );
-};
-
-export const MockData = (
-    _args,
-    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
-) => {
-    return (
-        <div style={chartCardStyle}>
-            <LinechartCard
-                theme={theme}
-                locale={locale}
-                id={id}
-                searchSpan={mockedSearchSpan}
-                properties={properties}
-                adapterAdditionalParameters={{ chartDataOptions }}
-                chartDataOptions={chartDataOptions}
-                adapter={new MockAdapter()}
             />
         </div>
     );

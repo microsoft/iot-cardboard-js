@@ -2,13 +2,28 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { KeyValuePairData } from '../../../Models/Constants';
+import {
+    IKeyValuePairAdapter,
+    KeyValuePairData
+} from '../../../Models/Constants';
 import { CustomKeyValuePairAdapter } from '../../../Adapters';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import KeyValuePairCard from './KeyValuePairCard';
+import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
+import {
+    AdapterResult,
+    KeyValuePairAdapterData
+} from '../../../Models/Classes';
 
 export default {
-    title: 'KeyValuePairCard/Consume'
+    title: 'KeyValuePairCard/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
 };
 
 const properties = ['foo'] as [string];
@@ -20,7 +35,19 @@ const digitalTwins = {
     properties: ['Temperature'] as [string]
 };
 
-export const CustomAdapter = (_args, { globals: { theme } }) => {
+export const Mock = (_args, { globals: { theme } }) => (
+    <div style={wrapperStyle}>
+        <KeyValuePairCard
+            theme={theme}
+            id="notRelevant"
+            properties={properties}
+            adapter={new MockAdapter()}
+        />
+    </div>
+);
+
+export const CustomAdapterUsingUtility = (_args, { globals: { theme } }) => {
+    // Create custom data adapter using utility class -> CustomKeyValuePairAdapter
     const adapter = new CustomKeyValuePairAdapter({
         // Function to fetch data from custom API
         dataFetcher: async (_params) => {
@@ -43,23 +70,49 @@ export const CustomAdapter = (_args, { globals: { theme } }) => {
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
-                properties={['Example: custom adapter for external API']}
+                properties={[
+                    'Custom adapter using CustomKeyValuePairAdapter utility'
+                ]}
                 adapter={adapter}
             />
         </div>
     );
 };
 
-export const Mock = (_args, { globals: { theme } }) => (
-    <div style={wrapperStyle}>
-        <KeyValuePairCard
-            theme={theme}
-            id="notRelevant"
-            properties={properties}
-            adapter={new MockAdapter()}
-        />
-    </div>
-);
+export const CustomAdapterUsingInterface = (_args, { globals: { theme } }) => {
+    const seededRng = useStableGuidRng();
+
+    const adapter: IKeyValuePairAdapter = {
+        getKeyValuePairs: async (_id, properties, _additionParameters?) => {
+            const kvps = properties.map((prop, idx) => {
+                const kvp: KeyValuePairData = {
+                    key: prop,
+                    value: seededRng(),
+                    timestamp: new Date(
+                        new Date('01/01/2021').getTime() + idx * 1000
+                    )
+                };
+                return kvp;
+            });
+
+            return new AdapterResult<KeyValuePairAdapterData>({
+                errorInfo: null,
+                result: new KeyValuePairAdapterData(kvps)
+            });
+        }
+    };
+
+    return (
+        <div style={wrapperStyle}>
+            <KeyValuePairCard
+                id="kvp-tester"
+                theme={theme}
+                properties={['Custom adapter using IKeyValuePairAdapter']}
+                adapter={adapter}
+            />
+        </div>
+    );
+};
 
 export const MockOverflow = (_args, { globals: { theme } }) => (
     <div style={smallWrapperStyle}>
