@@ -7,8 +7,8 @@ import Hierarchy from '../../../Components/Hierarchy/Hierarchy';
 import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
-    ADTModelsData,
-    ADTTwinsData,
+    ADTModelsApiData,
+    ADTTwinsApiData,
     HierarchyNodeType,
     IHierarchyNode
 } from '../../../Models/Constants';
@@ -158,7 +158,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             );
 
             const modelsNextLink = (modelState.adapterResult.result
-                ?.data as ADTModelsData)?.nextLink;
+                ?.data as ADTModelsApiData)?.nextLink;
 
             const currentNodes = { ...hierarchyNodes };
 
@@ -212,7 +212,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         newTwinData.value,
                         hierarchyNodes[focusedModelId]
                     );
-                    const twinsContinuationToken = (newTwinData as ADTTwinsData)
+                    const twinsContinuationToken = (newTwinData as ADTTwinsApiData)
                         ?.continuationToken;
                     const currentChildren = !hierarchyNodes[focusedModelId]
                         .isCollapsed
@@ -392,7 +392,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 modelState.isLoading && modelState.adapterResult.hasNoData()
             }
             adapterResult={modelState.adapterResult}
-            skipInfoBox={true}
+            hideInfoBox={true}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
@@ -413,6 +413,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         (searchTerm && searchState.isLoading)) &&
                     !isLoadingTriggeredByShowMore.current
                 }
+                noDataText={t('noTwins')}
             ></Hierarchy>
         </BaseCard>
     );

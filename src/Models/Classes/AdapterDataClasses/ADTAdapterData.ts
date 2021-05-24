@@ -1,10 +1,10 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { ADTModelsData, ADTTwinsData } from '../../Constants/Types';
+import { ADTModelsApiData, ADTTwinsApiData } from '../../Constants/Types';
 
 export class ADTAdapterModelsData implements IAdapterData {
-    data: ADTModelsData;
+    data: ADTModelsApiData;
 
-    constructor(data: ADTModelsData) {
+    constructor(data: ADTModelsApiData) {
         this.data = data;
     }
 
@@ -18,9 +18,9 @@ export class ADTAdapterModelsData implements IAdapterData {
 }
 
 export class ADTAdapterTwinsData implements IAdapterData {
-    data: ADTTwinsData;
+    data: ADTTwinsApiData;
 
-    constructor(data: ADTTwinsData) {
+    constructor(data: ADTTwinsApiData) {
         this.data = data;
     }
 

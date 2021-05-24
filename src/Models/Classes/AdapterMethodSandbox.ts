@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    AdapterErrorType,
+    ICardError,
+    CardErrorType,
     AxiosParams,
     IAdapterData,
-    IAdapterError,
     IAuthService,
     ICancellablePromise
 } from '../Constants';
 import AdapterResult from './AdapterResult';
-import { AdapterError } from './Errors';
+import { CardError } from './Errors';
 
 interface IAdapterMethodSandbox {
     authservice: IAuthService;
@@ -23,8 +23,8 @@ interface IAdapterMethodSandbox {
  * • Catches, classifies, and aggregates errors
  */
 class AdapterMethodSandbox {
-    private errors: IAdapterError[];
-    private catasrophicError: IAdapterError;
+    private errors: ICardError[];
+    private catasrophicError: ICardError;
     private authService: IAuthService;
 
     constructor({ authservice }: IAdapterMethodSandbox) {
@@ -34,11 +34,11 @@ class AdapterMethodSandbox {
     }
 
     /**
-     *  Pushes new AdapterError onto errors list.  If error is marked as catastrophic,
+     *  Pushes new CardError onto errors list.  If error is marked as catastrophic,
      *  execution will halt with catastrophic error attached to result
      */
-    pushError({ rawError, message, type, isCatastrophic }: IAdapterError) {
-        const error = new AdapterError({
+    pushError({ rawError, message, type, isCatastrophic }: ICardError) {
+        const error = new CardError({
             message,
             type,
             isCatastrophic,
@@ -72,7 +72,7 @@ class AdapterMethodSandbox {
         } catch (err) {
             this.pushError({
                 isCatastrophic: true,
-                type: AdapterErrorType.TokenRetrievalFailed,
+                type: CardErrorType.TokenRetrievalFailed,
                 rawError: err
             });
         }
@@ -107,17 +107,17 @@ class AdapterMethodSandbox {
             });
         } catch (err) {
             // Uncaught errors are bubbled up and caught here.
-            if (!(err instanceof AdapterError)) {
+            if (!(err instanceof CardError)) {
                 // Unknown error, construct new catastrophicError error
-                this.catasrophicError = new AdapterError({
+                this.catasrophicError = new CardError({
                     isCatastrophic: true,
                     rawError: err,
-                    type: AdapterErrorType.UnknownError
+                    type: CardErrorType.UnknownError
                 });
 
                 this.errors.push(this.catasrophicError);
             } else if (!this.catasrophicError) {
-                // Uncaught AdapterError thrown explicitly (not pushed to sandbox).  Attach to catasrophicError.
+                // Uncaught CardError thrown explicitly (not pushed to sandbox).  Attach to catastrophicError.
                 this.catasrophicError = err;
             }
             // Attach errorInfo, nullify result, and return AdapterResult.
@@ -133,7 +133,8 @@ class AdapterMethodSandbox {
 
     safelyFetchDataCancellableAxiosPromise(
         returnDataClass: { new (data: any) },
-        axiosParams: AxiosParams
+        axiosParams: AxiosParams,
+        dataTransformFunc?: (data) => any
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
@@ -153,20 +154,22 @@ class AdapterMethodSandbox {
             } catch (err) {
                 if (axios.isCancel(err)) {
                     this.pushError({
-                        type: AdapterErrorType.DataFetchFailed,
+                        type: CardErrorType.DataFetchFailed,
                         isCatastrophic: false,
                         rawError: err
                     });
                 } else {
                     this.pushError({
-                        type: AdapterErrorType.DataFetchFailed,
+                        type: CardErrorType.DataFetchFailed,
                         isCatastrophic: true,
                         rawError: err
                     });
                 }
             }
             const result = axiosData?.data;
-            return new returnDataClass(result);
+            return new returnDataClass(
+                dataTransformFunc ? dataTransformFunc(result) : result
+            );
         }) as ICancellablePromise<AdapterResult<any>>;
         cancellablePromise.cancel = cancelTokenSource.cancel;
         return cancellablePromise;

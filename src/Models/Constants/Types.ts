@@ -5,7 +5,8 @@ import {
     IAdapterData,
     IHierarchyNode,
     IErrorInfo,
-    ICancellablePromise
+    ICancellablePromise,
+    IADTRelationship
 } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> =
@@ -57,12 +58,12 @@ export type TsiClientData = any[];
 
 export type HierarchyData = Record<string, IHierarchyNode>;
 
-export type ADTModelsData = {
+export type ADTModelsApiData = {
     value: IADTModel[];
     nextLink: string;
 };
 
-export type ADTTwinsData = {
+export type ADTTwinsApiData = {
     value: IADTTwin[];
     continuationToken: string;
 };
@@ -107,4 +108,9 @@ export type AdapterMethodParamsForGetADTTwinsByModelId = {
 export type AdapterMethodParamsForSearchADTTwins = {
     searchTerm: string;
     continuationToken?: string;
+};
+
+export type ADTRelationshipsApiData = {
+    value: IADTRelationship[];
+    nextLink: string;
 };

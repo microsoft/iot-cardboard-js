@@ -15,7 +15,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     searchTermToMark,
     isLoading,
     onParentNodeClick,
-    onChildNodeClick
+    onChildNodeClick,
+    noDataText
 }) => {
     const { t } = useTranslation();
 
@@ -125,7 +126,11 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
             <Spinner size={SpinnerSize.xSmall} />
         ) : !data || Object.keys(data).length === 0 ? (
             <span className="cb-hierarchy-no-results">
-                {searchTermToMark ? t('noSearchResults') : t('noData')}
+                {searchTermToMark
+                    ? t('noSearchResults')
+                    : noDataText
+                    ? noDataText
+                    : t('noData')}
             </span>
         ) : (
             <ul className="cb-hierarchy-component-list-group">
