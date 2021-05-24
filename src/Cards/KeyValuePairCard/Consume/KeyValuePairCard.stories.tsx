@@ -70,9 +70,7 @@ export const CustomAdapterUsingUtility = (_args, { globals: { theme } }) => {
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
-                properties={[
-                    'Custom adapter using CustomKeyValuePairAdapter utility'
-                ]}
+                properties={['CustomKeyValuePairAdapter utility']}
                 adapter={adapter}
             />
         </div>
@@ -107,7 +105,7 @@ export const CustomAdapterUsingInterface = (_args, { globals: { theme } }) => {
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
-                properties={['Custom adapter using IKeyValuePairAdapter']}
+                properties={['IKeyValuePairAdapter adapter interface']}
                 adapter={adapter}
             />
         </div>

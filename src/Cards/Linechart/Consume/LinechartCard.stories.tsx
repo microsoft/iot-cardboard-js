@@ -7,6 +7,8 @@ import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import { CustomTsiClientChartDataAdapter } from '../../../Adapters';
+import { ITsiClientChartDataAdapter } from '../../../Models/Constants';
+import { AdapterResult, TsiClientAdapterData } from '../../../Models/Classes';
 
 export default {
     title: 'Linechart/Consume',
@@ -47,7 +49,7 @@ export const MockData = (
     );
 };
 
-export const CustomAdapter = (
+export const CustomAdapterUsingUtility = (
     _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
@@ -70,7 +72,43 @@ export const CustomAdapter = (
     return (
         <div style={chartCardStyle}>
             <LinechartCard
-                title={'Example: custom adapter for external API'}
+                title={'CustomTsiClientChartDataAdapter utility'}
+                theme={theme}
+                locale={locale}
+                id={id}
+                searchSpan={mockedSearchSpan}
+                properties={['Example data A', 'Example data B']}
+                adapter={adapter}
+            />
+        </div>
+    );
+};
+
+export const CustomAdapterUsingInterface = (
+    _args,
+    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+) => {
+    const adapter: ITsiClientChartDataAdapter = {
+        getTsiclientChartDataShape: async (
+            id: string,
+            searchSpan: SearchSpan,
+            properties: readonly string[]
+        ) => {
+            const mockAdapter = new MockAdapter();
+            const mockData = mockAdapter.generateMockLineChartData(searchSpan, [
+                ...properties
+            ]);
+            return new AdapterResult<TsiClientAdapterData>({
+                errorInfo: null,
+                result: new TsiClientAdapterData(mockData)
+            });
+        }
+    };
+
+    return (
+        <div style={chartCardStyle}>
+            <LinechartCard
+                title={'ITsiClientChartDataAdapter adapter interface'}
                 theme={theme}
                 locale={locale}
                 id={id}
