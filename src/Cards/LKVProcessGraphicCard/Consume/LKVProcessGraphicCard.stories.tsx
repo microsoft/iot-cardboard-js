@@ -5,9 +5,24 @@ import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
+import CustomKeyValuePairAdapter from '../../../Adapters/CustomKeyValuePairAdapter';
+import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
+import {
+    IKeyValuePairAdapter,
+    KeyValuePairData
+} from '../../../Models/Constants';
+import AdapterResult from '../../../Models/Classes/AdapterResult';
+import KeyValuePairAdapterData from '../../../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
 
 export default {
-    title: 'LKVProcessGraphicCard/Consume'
+    title: 'LKVProcessGraphicCard/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
 };
 
 const chartCardStyle = {
@@ -41,6 +56,16 @@ const digitalTwins = {
         OutdoorTemperature: { left: '80%', top: '5%' },
         Speed: { left: '80%', top: '40%' },
         OilPressure: { left: '30%', top: '70%' }
+    }
+};
+
+const customAdapterProperties = {
+    id: 'CustomKVPAdapter',
+    properties: ['TireTemp', 'Speed', 'Battery'],
+    positions: {
+        TireTemp: { left: '30%', top: '80%' },
+        Speed: { left: '15%', top: '10%' },
+        Battery: { left: '70%', top: '60%' }
     }
 };
 
@@ -80,6 +105,97 @@ export const Mock = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
+            />
+        </div>
+    );
+};
+
+export const UsingCustomKVPAdapterClass = (
+    _args,
+    { globals: { theme, locale } }
+) => {
+    const seededRng = useStableGuidRng();
+
+    // Create custom data adapter using utility class -> CustomKeyValuePairAdapter
+    const adapter = new CustomKeyValuePairAdapter({
+        // Function to fetch data from custom API
+        dataFetcher: async (params) => {
+            return await new Promise((res) => {
+                res(
+                    params.properties.map((prop, idx) => ({
+                        key: prop,
+                        value: seededRng(),
+                        timeStamp: new Date(
+                            new Date('01/01/2021').getTime() + 1000 * idx
+                        )
+                    }))
+                );
+            });
+        },
+        // Do any necessary data transformations here
+        dataTransformer: (data, _params) => data
+    });
+
+    return (
+        <div style={chartCardStyle}>
+            <LKVProcessGraphicCard
+                id={'lkv_pg'}
+                imageSrc={
+                    'https://cardboardresources.blob.core.windows.net/cardboard-images/roadster.png'
+                }
+                pollingIntervalMillis={3000}
+                properties={customAdapterProperties.properties}
+                imagePropertyPositions={customAdapterProperties.positions}
+                title={'Real-time EV Stats'}
+                theme={theme}
+                locale={locale}
+                adapter={adapter}
+            />
+        </div>
+    );
+};
+
+export const UsingCustomKVPAdapterInterface = (
+    _args,
+    { globals: { theme, locale } }
+) => {
+    const seededRng = useStableGuidRng();
+
+    // Create adapter object adhering to IKeyValuePairAdapter interface
+    const adapter: IKeyValuePairAdapter = {
+        getKeyValuePairs: async (_id, properties, _additionalParameters?) => {
+            const kvps = properties.map((prop, idx) => {
+                const kvp: KeyValuePairData = {
+                    key: prop,
+                    value: seededRng(),
+                    timestamp: new Date(
+                        new Date('01/01/2021').getTime() + idx * 1000
+                    )
+                };
+                return kvp;
+            });
+
+            return new AdapterResult<KeyValuePairAdapterData>({
+                errorInfo: null,
+                result: new KeyValuePairAdapterData(kvps)
+            });
+        }
+    };
+
+    return (
+        <div style={chartCardStyle}>
+            <LKVProcessGraphicCard
+                id={'lkv_pg'}
+                imageSrc={
+                    'https://cardboardresources.blob.core.windows.net/cardboard-images/roadster.png'
+                }
+                pollingIntervalMillis={3000}
+                properties={customAdapterProperties.properties}
+                imagePropertyPositions={customAdapterProperties.positions}
+                title={'Real-time EV Stats'}
+                theme={theme}
+                locale={locale}
+                adapter={adapter}
             />
         </div>
     );

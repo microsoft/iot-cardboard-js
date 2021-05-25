@@ -46,7 +46,7 @@ export const Mock = (_args, { globals: { theme } }) => (
     </div>
 );
 
-export const CustomAdapterUsingUtility = (_args, { globals: { theme } }) => {
+export const UsingCustomKVPAdapterClass = (_args, { globals: { theme } }) => {
     // Create custom data adapter using utility class -> CustomKeyValuePairAdapter
     const adapter = new CustomKeyValuePairAdapter({
         // Function to fetch data from custom API
@@ -70,18 +70,22 @@ export const CustomAdapterUsingUtility = (_args, { globals: { theme } }) => {
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
-                properties={['CustomKeyValuePairAdapter utility']}
+                properties={['CustomKeyValuePairAdapter class']}
                 adapter={adapter}
             />
         </div>
     );
 };
 
-export const CustomAdapterUsingInterface = (_args, { globals: { theme } }) => {
+export const UsingCustomKVPAdapterInterface = (
+    _args,
+    { globals: { theme } }
+) => {
     const seededRng = useStableGuidRng();
 
+    // Create adapter object adhering to IKeyValuePairAdapter interface
     const adapter: IKeyValuePairAdapter = {
-        getKeyValuePairs: async (_id, properties, _additionParameters?) => {
+        getKeyValuePairs: async (_id, properties, _additionalParameters?) => {
             const kvps = properties.map((prop, idx) => {
                 const kvp: KeyValuePairData = {
                     key: prop,

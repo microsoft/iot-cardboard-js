@@ -49,7 +49,7 @@ export const MockData = (
     );
 };
 
-export const CustomAdapterUsingUtility = (
+export const UsingCustomTsiClientAdapterClass = (
     _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
@@ -72,7 +72,7 @@ export const CustomAdapterUsingUtility = (
     return (
         <div style={chartCardStyle}>
             <LinechartCard
-                title={'CustomTsiClientChartDataAdapter utility'}
+                title={'CustomTsiClientChartDataAdapter class'}
                 theme={theme}
                 locale={locale}
                 id={id}
@@ -84,7 +84,10 @@ export const CustomAdapterUsingUtility = (
     );
 };
 
-export const CustomAdapterUsingInterface = (
+UsingCustomTsiClientAdapterClass.storyName =
+    'Using Custom TsiClient Adapter Class';
+
+export const UsingCustomTsiClientAdapterInterface = (
     _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
@@ -119,6 +122,9 @@ export const CustomAdapterUsingInterface = (
         </div>
     );
 };
+
+UsingCustomTsiClientAdapterInterface.storyName =
+    'Using Custom TsiClient Adapter Interface';
 
 export const NoData = (
     _args,
