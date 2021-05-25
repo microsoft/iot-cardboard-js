@@ -2,12 +2,13 @@ import {
     CardErrorType,
     CustomDataFetcher,
     CustomDataTransformer,
-    IAdapterData
+    IAdapterData,
+    IBaseCustomAdapterParams
 } from '../Constants';
 import AdapterMethodSandbox from './AdapterMethodSandbox';
 
 class BaseCustomAdapter<
-    CustomAdapterParams,
+    CustomAdapterParams extends IBaseCustomAdapterParams,
     TransformedData,
     AdapterReturnDataClass extends IAdapterData
 > {
