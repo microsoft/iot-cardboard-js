@@ -1,3 +1,8 @@
+import {
+    IADTAdapter,
+    IKeyValuePairAdapter,
+    ITsiClientChartDataAdapter
+} from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
     IADTModel,
@@ -137,3 +142,8 @@ export type CustomDataTransformer<AdapterParamsType, AdapterReturnType> = (
     data: any,
     params: AdapterParamsType
 ) => AdapterReturnType;
+
+export type AdapterTypes =
+    | IKeyValuePairAdapter
+    | ITsiClientChartDataAdapter
+    | IADTAdapter;

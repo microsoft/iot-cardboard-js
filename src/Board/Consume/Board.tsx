@@ -12,7 +12,10 @@ import {
     Locale,
     Theme,
     CardErrorType,
-    ViewDataPropertyName
+    ViewDataPropertyName,
+    AdapterTypes,
+    ITsiClientChartDataAdapter,
+    IKeyValuePairAdapter
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
 import {
@@ -21,7 +24,7 @@ import {
     CardError,
     BoardInfo
 } from '../../Models/Classes';
-import { ADTAdapter, IBaseAdapter } from '../../Adapters';
+import { ADTAdapter } from '../../Adapters';
 import {
     LineChartCard,
     RelationshipsTable,
@@ -136,7 +139,7 @@ const Board: React.FC<IBoardProps> = ({
 function getCardElement(
     cardInfo: CardInfo,
     searchSpan: SearchSpan,
-    adapter: IBaseAdapter,
+    adapter: AdapterTypes,
     theme: Theme,
     locale: Locale,
     localeStrings: Record<string, any>,
@@ -163,7 +166,7 @@ function getCardElement(
                 <LineChartCard
                     title={cardInfo.title}
                     theme={theme}
-                    adapter={adapter}
+                    adapter={adapter as ITsiClientChartDataAdapter}
                     locale={locale}
                     id={entityInfo?.id}
                     searchSpan={searchSpan}
@@ -179,7 +182,7 @@ function getCardElement(
                 <KeyValuePairCard
                     id={entityInfo?.id}
                     properties={entityInfo?.properties}
-                    adapter={adapter}
+                    adapter={adapter as IKeyValuePairAdapter}
                     pollingIntervalMillis={pollingIntervalMillis}
                 />
             );
@@ -213,7 +216,7 @@ function getCardElement(
                     adapterAdditionalParameters={
                         entityInfo?.chartDataOptions?.labelPositions
                     }
-                    adapter={adapter}
+                    adapter={adapter as IKeyValuePairAdapter}
                     pollingIntervalMillis={pollingIntervalMillis}
                 />
             );
