@@ -1,5 +1,5 @@
 import {
-    AdapterErrorType,
+    CardErrorType,
     CustomDataFetcher,
     CustomDataTransformer,
     IAdapterData
@@ -43,7 +43,7 @@ class BaseCustomAdapter<
                 return new dataClass(transformedDataArray);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
