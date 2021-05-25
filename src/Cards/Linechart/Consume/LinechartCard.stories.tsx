@@ -49,11 +49,12 @@ export const MockData = (
     );
 };
 
-export const UsingCustomTsiClientAdapterClass = (
+export const UsingCustomTsiClientAdapter = (
     _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
-    const adapter = new CustomTsiClientChartDataAdapter({
+    // Option 1: Create custom data adapter using utility class -> CustomTsiClientChartDataAdapter
+    const customAdapterUsingClass = new CustomTsiClientChartDataAdapter({
         // Function to fetch data from custom API
         dataFetcher: async (params) => {
             return await new Promise((res) => {
@@ -66,32 +67,12 @@ export const UsingCustomTsiClientAdapterClass = (
             });
         },
         // Do any necessary data transformations here
+        // dataTransformer must return TsiClientData type
         dataTransformer: (data, _params) => data
     });
 
-    return (
-        <div style={chartCardStyle}>
-            <LinechartCard
-                title={'CustomTsiClientChartDataAdapter class'}
-                theme={theme}
-                locale={locale}
-                id={id}
-                searchSpan={mockedSearchSpan}
-                properties={['Example data A', 'Example data B']}
-                adapter={adapter}
-            />
-        </div>
-    );
-};
-
-UsingCustomTsiClientAdapterClass.storyName =
-    'Using Custom TsiClient Adapter Class';
-
-export const UsingCustomTsiClientAdapterInterface = (
-    _args,
-    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
-) => {
-    const adapter: ITsiClientChartDataAdapter = {
+    // Option 2: Create adapter object adhering to ITsiClientChartDataAdapter interface
+    const customAdapterUsingInterface: ITsiClientChartDataAdapter = {
         getTsiclientChartDataShape: async (
             id: string,
             searchSpan: SearchSpan,
@@ -111,20 +92,19 @@ export const UsingCustomTsiClientAdapterInterface = (
     return (
         <div style={chartCardStyle}>
             <LinechartCard
-                title={'ITsiClientChartDataAdapter adapter interface'}
+                title={'Custom TsiClientChartData Adapter'}
                 theme={theme}
                 locale={locale}
                 id={id}
                 searchSpan={mockedSearchSpan}
                 properties={['Example data A', 'Example data B']}
-                adapter={adapter}
+                adapter={customAdapterUsingClass || customAdapterUsingInterface}
             />
         </div>
     );
 };
 
-UsingCustomTsiClientAdapterInterface.storyName =
-    'Using Custom TsiClient Adapter Interface';
+UsingCustomTsiClientAdapter.storyName = 'Using Custom TsiClient Adapter';
 
 export const NoData = (
     _args,

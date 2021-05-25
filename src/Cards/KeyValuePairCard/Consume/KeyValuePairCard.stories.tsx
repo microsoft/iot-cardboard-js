@@ -46,45 +46,37 @@ export const Mock = (_args, { globals: { theme } }) => (
     </div>
 );
 
-export const UsingCustomKVPAdapterClass = (_args, { globals: { theme } }) => {
-    // Create custom data adapter using utility class -> CustomKeyValuePairAdapter
-    const adapter = new CustomKeyValuePairAdapter({
-        // Function to fetch data from custom API
-        dataFetcher: async (_params) => {
-            return await new Promise((res) => res(10.213));
-        },
-        // Do any necessary data transformations here
-        dataTransformer: (data, _params) => {
-            const transformedData: [KeyValuePairData] = [
-                {
-                    key: 'TestValue',
-                    value: data,
-                    timestamp: new Date('01/01/2021')
-                }
-            ];
-            return transformedData;
-        }
-    });
-    return (
-        <div style={wrapperStyle}>
-            <KeyValuePairCard
-                id="kvp-tester"
-                theme={theme}
-                properties={['CustomKeyValuePairAdapter class']}
-                adapter={adapter}
-            />
-        </div>
-    );
-};
-
-export const UsingCustomKVPAdapterInterface = (
+export const UsingCustomKVPAdapter = (
     _args,
-    { globals: { theme } }
+    { globals: { theme, locale } }
 ) => {
     const seededRng = useStableGuidRng();
 
-    // Create adapter object adhering to IKeyValuePairAdapter interface
-    const adapter: IKeyValuePairAdapter = {
+    // Option 1: Create custom data adapter using utility class -> CustomKeyValuePairAdapter
+    const customAdapterUsingClass = new CustomKeyValuePairAdapter({
+        // Function to fetch data from custom API
+        dataFetcher: async (params) => {
+            return await new Promise((res) => {
+                res(
+                    params.properties.map((prop) => ({
+                        key: prop,
+                        value: seededRng()
+                    }))
+                );
+            });
+        },
+        // Do any necessary data transformations here, for example, add a timestamp
+        dataTransformer: (data, _params) =>
+            data.map((datum, idx) => ({
+                ...datum,
+                timestamp: new Date(
+                    new Date('01/01/2021').getTime() + 1000 * idx
+                )
+            }))
+    });
+
+    // Option 2: Create adapter object adhering to IKeyValuePairAdapter interface
+    const customAdapterUsingInterface: IKeyValuePairAdapter = {
         getKeyValuePairs: async (_id, properties, _additionalParameters?) => {
             const kvps = properties.map((prop, idx) => {
                 const kvp: KeyValuePairData = {
@@ -109,8 +101,9 @@ export const UsingCustomKVPAdapterInterface = (
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
-                properties={['IKeyValuePairAdapter adapter interface']}
-                adapter={adapter}
+                properties={['Custom KeyValuePair Adapter example']}
+                adapter={customAdapterUsingClass || customAdapterUsingInterface}
+                locale={locale}
             />
         </div>
     );
