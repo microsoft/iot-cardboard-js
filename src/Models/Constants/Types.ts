@@ -42,6 +42,11 @@ export type KeyValuePairData = {
     timestamp?: Date;
 };
 
+export type BIMData = {
+    bimURL: string;
+    bimMetadataURL: string;
+};
+
 export type ADTRelationship = {
     relationshipName: string;
     relationshipId: string;
@@ -92,6 +97,7 @@ export type AdapterMethodParams = {
 
 export type AdapterMethodParamsForGetADTModels = {
     continuationToken?: string;
+    shouldIncludeDefinitions?: boolean;
 };
 
 export type AdapterMethodParamsForGetADTTwinsByModelId = {

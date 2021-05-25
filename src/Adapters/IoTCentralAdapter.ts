@@ -2,7 +2,8 @@ import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { AdapterErrorType, IKeyValuePairAdapter } from '../Models/Constants';
+import { IKeyValuePairAdapter } from '../Models/Constants';
+import { CardErrorType } from '../Models/Constants';
 import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IKeyValuePairAdapter {
@@ -39,7 +40,7 @@ export default class IoTCentralAdapter implements IKeyValuePairAdapter {
                 axiosData = await axios.all(axiosGets);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: AdapterErrorType.DataFetchFailed,
+                    type: CardErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

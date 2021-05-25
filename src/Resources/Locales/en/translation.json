@@ -3,6 +3,7 @@
     "loading": "Loading...",
     "noData": "No data",
     "error": "Error fetching data",
+    "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
     "empty": "Empty",
     "hierarchy": "Hierarchy",
@@ -23,9 +24,19 @@
         "unkownError": "Unknown error occurred"
     },
     "relationshipsTable": {
-        "twinID": "Twin id",
+        "twinID": "Twin Id",
         "model": "Model",
         "relationshipName": "Relationship name"
+    },
+    "board": {
+        "empty": "This board has no cards",
+        "twinID": "Twin Id",
+        "model": "Model",
+        "relationshipsTable": "Relationships Table"
+    },
+    "boardErrors": {
+        "failure": "Unable to load board data",
+        "invalidCardType": "The card type {{cardType}} is invalid"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

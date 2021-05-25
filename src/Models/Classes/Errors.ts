@@ -1,7 +1,7 @@
 import i18n from '../../i18n';
-import { AdapterErrorType, IAdapterError } from '../Constants';
+import { CardErrorType, ICardError } from '../Constants';
 
-export class CancelledPromiseError extends Error {
+class CancelledPromiseError extends Error {
     constructor(m = 'Promise cancelled.') {
         super(m);
         this.name = 'Promise cancelled error';
@@ -11,17 +11,23 @@ export class CancelledPromiseError extends Error {
     }
 }
 
-export class AdapterError extends Error {
+class CardError extends Error {
     public type;
     public isCatastrophic;
     public rawError;
+    public messageParams: { [key: string]: string };
 
-    private getAdapterErrorMessageFromType = (errorType: AdapterErrorType) => {
+    private getCardErrorMessageFromType = (
+        errorType: CardErrorType,
+        messageParams: { [key: string]: string }
+    ) => {
         switch (errorType) {
-            case AdapterErrorType.TokenRetrievalFailed:
+            case CardErrorType.TokenRetrievalFailed:
                 return i18n.t('adapterErrors.tokenFailed');
-            case AdapterErrorType.DataFetchFailed:
+            case CardErrorType.DataFetchFailed:
                 return i18n.t('adapterErrors.dataFetchFailed');
+            case CardErrorType.InvalidCardType:
+                return i18n.t('boardErrors.invalidCardType', messageParams);
             default:
                 return i18n.t('adapterErrors.unkownError');
         }
@@ -29,18 +35,22 @@ export class AdapterError extends Error {
 
     constructor({
         message,
-        type = AdapterErrorType.UnknownError,
+        type = CardErrorType.UnknownError,
         isCatastrophic = false,
-        rawError = null
-    }: IAdapterError) {
+        rawError = null,
+        messageParams = {}
+    }: ICardError) {
         super(message);
         this.message = message
             ? message
-            : this.getAdapterErrorMessageFromType(type);
+            : this.getCardErrorMessageFromType(type, messageParams);
         this.type = type;
         this.isCatastrophic = isCatastrophic;
         this.rawError = rawError;
+        this.messageParams = messageParams;
 
-        Object.setPrototypeOf(this, AdapterError.prototype);
+        Object.setPrototypeOf(this, CardError.prototype);
     }
 }
+
+export { CancelledPromiseError, CardError };

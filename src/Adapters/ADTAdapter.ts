@@ -127,7 +127,11 @@ export default class ADTAdapter implements IADTAdapter {
             ADTAdapterModelsData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/models`,
+                url: `${this.adtProxyServerPath}/models${
+                    params?.shouldIncludeDefinitions
+                        ? '?includeModelDefinition=True'
+                        : ''
+                }`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },

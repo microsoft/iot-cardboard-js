@@ -13,9 +13,10 @@ export enum Locale {
     DE = 'de'
 }
 
-export enum AdapterErrorType {
+export enum CardErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',
+    InvalidCardType = 'InvalidCardType',
     UnknownError = 'UnknownError'
 }
 
@@ -23,4 +24,18 @@ export enum HierarchyNodeType {
     Parent,
     Child,
     ShowMore
+}
+
+export enum BIMFileTypes {
+    Xkt = 'xkt'
+}
+
+export enum CardTypes {
+    ADTHierarchyCard = 'ADTHierarchyCard',
+    ADTHierarchyWithLKVProcessGraphics = 'ADTHierarchyWithLKVProcessGraphics',
+    KeyValuePairCard = 'KeyValuePairCard',
+    LineChart = 'LineChart',
+    LKVProcessGraphicCard = 'LKVProcessGraphicCard',
+    RelationshipsTable = 'RelationshipsTable',
+    InfoTable = 'InfoTable'
 }
