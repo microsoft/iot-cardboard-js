@@ -181,6 +181,7 @@ function getCardElement(
             return (
                 <KeyValuePairCard
                     id={entityInfo?.id}
+                    theme={theme}
                     properties={entityInfo?.properties}
                     adapter={adapter as IKeyValuePairAdapter}
                     pollingIntervalMillis={pollingIntervalMillis}
@@ -201,6 +202,7 @@ function getCardElement(
                 <ADTHierarchyCard
                     title={cardInfo.title}
                     adapter={adapter as IADTAdapter}
+                    theme={theme}
                 />
             );
         case CardTypes.LKVProcessGraphicCard:
@@ -208,6 +210,7 @@ function getCardElement(
                 <LKVProcessGraphicCard
                     id={entityInfo?.id}
                     title={cardInfo.title}
+                    theme={theme}
                     properties={entityInfo?.properties}
                     imagePropertyPositions={
                         entityInfo?.chartDataOptions?.labelPositions
@@ -233,6 +236,7 @@ function getCardElement(
         default:
             return (
                 <BaseCard
+                    theme={theme}
                     isLoading={false}
                     adapterResult={null}
                     cardError={

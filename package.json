@@ -7,8 +7,7 @@
     "module": "index.es.js",
     "dependencies": {
         "@azure/msal-browser": "^2.11.0",
-        "@fluentui/react": "^7.158.1",
-        "@fluentui/react-theme-provider": "^0.18.1",
+        "@fluentui/react": "^8.16.0",
         "@xeokit/xeokit-sdk": "^1.8.0-alpha.3",
         "axios": "^0.21.1",
         "i18next": "^19.8.7",

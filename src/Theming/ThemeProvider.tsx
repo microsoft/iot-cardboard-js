@@ -1,8 +1,10 @@
 import React, { CSSProperties, useContext, useMemo } from 'react';
 import { Theme as LibThemes } from '../Models/Constants/Enums';
-import { ThemeProvider as FluentThemeProvider } from '@fluentui/react-theme-provider';
 import { getFluentTheme } from './FluentThemes';
-import { initializeIcons } from '@fluentui/react';
+import {
+    initializeIcons,
+    ThemeProvider as FluentThemeProvider
+} from '@fluentui/react';
 
 export const Theme = React.createContext(LibThemes.Light);
 export const useLibTheme = () => useContext(Theme);
