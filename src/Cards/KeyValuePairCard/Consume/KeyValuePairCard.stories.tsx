@@ -1,8 +1,5 @@
 import React from 'react';
-import useAuthParams from '../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
@@ -10,16 +7,12 @@ export default {
 };
 
 const properties = ['foo'] as [string];
-const wrapperStyle = { height: '400px', width: '400px' };
-const smallWrapperStyle = { height: '200px', width: '200px' };
 
-const digitalTwins = {
-    id: 'PasteurizationMachine_A01',
-    properties: ['Temperature'] as [string]
-};
-
-export const Mock = (args, { globals: { theme } }) => (
-    <div style={wrapperStyle}>
+export const Mock = (
+    _args,
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+) => (
+    <div style={defaultCardWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
             id="notRelevant"
@@ -29,8 +22,8 @@ export const Mock = (args, { globals: { theme } }) => (
     </div>
 );
 
-export const MockOverflow = (args, { globals: { theme } }) => (
-    <div style={smallWrapperStyle}>
+export const MockOverflow = (_args, { globals: { theme } }) => (
+    <div style={{ height: '200px', width: '200px' }}>
         <KeyValuePairCard
             theme={theme}
             id="notRelevant"
@@ -39,27 +32,3 @@ export const MockOverflow = (args, { globals: { theme } }) => (
         />
     </div>
 );
-
-export const ADT = (args, { globals: { theme } }) => {
-    const authenticationParameters = useAuthParams();
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={wrapperStyle}>
-            <KeyValuePairCard
-                id={digitalTwins.id}
-                properties={digitalTwins.properties}
-                theme={theme}
-                pollingIntervalMillis={2000}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
-            />
-        </div>
-    );
-};

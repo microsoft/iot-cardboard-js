@@ -1,27 +1,28 @@
 import React from 'react';
-import BIMViewerCard from './BIMViewerCard';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import { ADTAdapter } from '../../../Adapters';
+import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import ADTHierarchyCard from './ADTHierarchyCard';
 
 export default {
-    title: 'BIMViewerCard/Consume'
+    title: 'ADTHierarchyCard/Consume'
 };
 
-const wrapperStyle = {
-    height: '500px',
-    width: '500px'
+const hierarchyCardStyle = {
+    height: '400px',
+    width: '720px'
 };
 
-export const ADT = (args, { globals: { theme } }) => {
+export const ADTHierarchy = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={wrapperStyle}>
-            <BIMViewerCard
-                id={'TODO_BIMName'}
+        <div style={hierarchyCardStyle}>
+            <ADTHierarchyCard
+                title={'ADT Hierarchy'}
                 theme={theme}
+                locale={locale}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

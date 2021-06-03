@@ -1,14 +1,6 @@
 import React from 'react';
 import { ADTModel_InBIM_RelationshipName } from '../Constants';
 
-export const excludeLocalStoriesInProd = () => {
-    return process.env.NODE_ENV === 'production'
-        ? {
-              excludeStories: /.*_LOCAL$/
-          }
-        : {};
-};
-
 export const createGUID = () => {
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)

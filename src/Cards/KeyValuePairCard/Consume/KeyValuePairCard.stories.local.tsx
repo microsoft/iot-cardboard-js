@@ -2,29 +2,31 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
-import { excludeLocalStoriesInProd } from '../../../Models/Services/Utils';
-import ADTHierarchyCard from './ADTHierarchyCard';
+import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
-    title: 'ADTHierarchyCard/Consume',
-    ...excludeLocalStoriesInProd()
+    title: 'KeyValuePairCard/Consume'
 };
 
-const hierarchyCardStyle = {
-    height: '400px',
-    width: '720px'
+const digitalTwins = {
+    id: 'PasteurizationMachine_A01',
+    properties: ['Temperature'] as [string]
 };
 
-export const ADTHierarchy_LOCAL = (args, { globals: { theme, locale } }) => {
+export const ADT = (
+    _args,
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={hierarchyCardStyle}>
-            <ADTHierarchyCard
-                title={'ADT Hierarchy'}
+        <div style={defaultCardWrapperStyle}>
+            <KeyValuePairCard
+                id={digitalTwins.id}
+                properties={digitalTwins.properties}
                 theme={theme}
-                locale={locale}
+                pollingIntervalMillis={2000}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
