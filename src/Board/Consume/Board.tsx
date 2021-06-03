@@ -12,7 +12,10 @@ import {
     Locale,
     Theme,
     CardErrorType,
-    ViewDataPropertyName
+    ViewDataPropertyName,
+    PGImageSourcePropertyName,
+    PGLabelPositionsPropertyName,
+    BIMFileSourcePropertyName,
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
 import {
@@ -31,6 +34,7 @@ import {
     InfoTableCard
 } from '../../Cards';
 import BaseCard from '../../Cards/Base/Consume/BaseCard';
+import { objectHasOwnProperty } from '../../Models/Services/Utils';
 import './Board.scss';
 
 const Board: React.FC<IBoardProps> = ({
@@ -297,9 +301,35 @@ function getDefaultBoardInfo(
         return cardInfo;
     });
 
+    if(shouldCreateProcessGraphicsCard(dtTwin)) {
+        board.cards.push(
+            CardInfo.fromObject({
+                key: `lkv-process-graphic`,
+                title: t('board.processGraphic'),
+                type: CardTypes.LKVProcessGraphicCard,
+                size: { rows: 2 },
+                cardProperties: { pollingIntervalMillis: 5000 },
+                entities: [{ 
+                    id: dtTwin.$dtId,
+                    properties: Object.keys(twinProperties),
+                    imageSrc: dtTwin[ViewDataPropertyName][PGImageSourcePropertyName],
+                    chartDataOptions: {
+                        labelPositions: JSON.parse(dtTwin[ViewDataPropertyName][PGLabelPositionsPropertyName])
+                    }
+                }],
+            })
+        );
+    }
+
     board.cards = [...board.cards, ...propertyCards];
 
     return board;
+}
+
+const shouldCreateProcessGraphicsCard = (dtTwin: IADTTwin): boolean => {
+    return objectHasOwnProperty(dtTwin, ViewDataPropertyName)
+    && objectHasOwnProperty(dtTwin[ViewDataPropertyName], PGImageSourcePropertyName)
+    && objectHasOwnProperty(dtTwin[ViewDataPropertyName], PGLabelPositionsPropertyName);
 }
 
 export default Board;
