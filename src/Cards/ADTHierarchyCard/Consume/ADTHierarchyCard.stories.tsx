@@ -2,10 +2,12 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import { excludeLocalStoriesInProd } from '../../../Models/Services/Utils';
 import ADTHierarchyCard from './ADTHierarchyCard';
 
 export default {
-    title: 'ADTHierarchyCard/Consume'
+    title: 'ADTHierarchyCard/Consume',
+    ...excludeLocalStoriesInProd()
 };
 
 const hierarchyCardStyle = {
@@ -13,7 +15,7 @@ const hierarchyCardStyle = {
     width: '720px'
 };
 
-export const ADTHierarchy = (args, { globals: { theme, locale } }) => {
+export const ADTHierarchy_LOCAL = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
