@@ -17,9 +17,7 @@ export default class IoTCentralAdapter implements IKeyValuePairAdapter {
     }
 
     async getKeyValuePairs(id: string, properties: string[]) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let axiosGets;

@@ -6,9 +6,11 @@ import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import { CustomTsiClientChartDataAdapter } from '../../../Adapters';
 import { ITsiClientChartDataAdapter } from '../../../Models/Constants';
-import { AdapterResult, TsiClientAdapterData } from '../../../Models/Classes';
+import {
+    AdapterMethodSandbox,
+    TsiClientAdapterData
+} from '../../../Models/Classes';
 
 export default {
     title: 'Linechart/Consume',
@@ -53,38 +55,26 @@ export const UsingCustomTsiClientAdapter = (
     _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
-    // Option 1: Create custom data adapter using utility class -> CustomTsiClientChartDataAdapter
-    const customAdapterUsingClass = new CustomTsiClientChartDataAdapter({
-        // Function to fetch data from custom API
-        dataFetcher: async (params) => {
-            return await new Promise((res) => {
-                const mockAdapter = new MockAdapter();
-                const mockData = mockAdapter.generateMockLineChartData(
-                    params.searchSpan,
-                    params.properties
-                );
-                res(mockData);
-            });
-        },
-        // Do any necessary data transformations here
-        // dataTransformer must return TsiClientData type
-        dataTransformer: (data, _params) => data
-    });
-
-    // Option 2: Create adapter object adhering to ITsiClientChartDataAdapter interface
+    // Create adapter object adhering to ITsiClientChartDataAdapter interface
     const customAdapterUsingInterface: ITsiClientChartDataAdapter = {
         getTsiclientChartDataShape: async (
-            id: string,
+            _id: string,
             searchSpan: SearchSpan,
             properties: readonly string[]
         ) => {
-            const mockAdapter = new MockAdapter();
-            const mockData = mockAdapter.generateMockLineChartData(searchSpan, [
-                ...properties
-            ]);
-            return new AdapterResult<TsiClientAdapterData>({
-                errorInfo: null,
-                result: new TsiClientAdapterData(mockData)
+            // Construct AdapterMethodSandbox class to wrap custom logic in error handling sandbox
+            const adapterMethodSandbox = new AdapterMethodSandbox();
+
+            // Use the safelyFetchData method to make your adapter call.
+            // if the adapter logic fails, this method will register the error and bubble
+            // the error up to be shown in the card, rather than failing entirely
+            return await adapterMethodSandbox.safelyFetchData(async () => {
+                const mockAdapter = new MockAdapter();
+                const mockData = mockAdapter.generateMockLineChartData(
+                    searchSpan,
+                    [...properties]
+                );
+                return new TsiClientAdapterData(mockData);
             });
         }
     };
@@ -98,7 +88,7 @@ export const UsingCustomTsiClientAdapter = (
                 id={id}
                 searchSpan={mockedSearchSpan}
                 properties={['Example data A', 'Example data B']}
-                adapter={customAdapterUsingClass || customAdapterUsingInterface}
+                adapter={customAdapterUsingInterface}
             />
         </div>
     );

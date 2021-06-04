@@ -25,9 +25,7 @@ export default class TsiAdapter implements ITsiClientChartDataAdapter {
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const tsqExpressions = [];

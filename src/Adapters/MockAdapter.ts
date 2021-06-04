@@ -72,9 +72,7 @@ export default class MockAdapter
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: null
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox();
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             const getKVPData = () => {
@@ -134,9 +132,7 @@ export default class MockAdapter
     }
 
     async getRelationships(id: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: null
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox();
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             const getRelationshipsData = () => {
@@ -215,9 +211,7 @@ export default class MockAdapter
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: null
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox();
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             const getData = (): TsiClientData => {

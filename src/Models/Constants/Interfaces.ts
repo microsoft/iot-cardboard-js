@@ -261,9 +261,3 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
 }
-
-export interface IBaseCustomAdapterParams {
-    id: string;
-    properties: string[];
-    additionalParameters?: Record<string, any>;
-}

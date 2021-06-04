@@ -6,12 +6,11 @@ import {
     IKeyValuePairAdapter,
     KeyValuePairData
 } from '../../../Models/Constants';
-import { CustomKeyValuePairAdapter } from '../../../Adapters';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import KeyValuePairCard from './KeyValuePairCard';
 import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
 import {
-    AdapterResult,
+    AdapterMethodSandbox,
     KeyValuePairAdapterData
 } from '../../../Models/Classes';
 
@@ -52,46 +51,28 @@ export const UsingCustomKVPAdapter = (
 ) => {
     const seededRng = useStableGuidRng();
 
-    // Option 1: Create custom data adapter using utility class -> CustomKeyValuePairAdapter
-    const customAdapterUsingClass = new CustomKeyValuePairAdapter({
-        // Function to fetch data from custom API
-        dataFetcher: async (params) => {
-            return await new Promise((res) => {
-                res(
-                    params.properties.map((prop) => ({
-                        key: prop,
-                        value: seededRng()
-                    }))
-                );
-            });
-        },
-        // Do any necessary data transformations here, for example, add a timestamp
-        dataTransformer: (data, _params) =>
-            data.map((datum, idx) => ({
-                ...datum,
-                timestamp: new Date(
-                    new Date('01/01/2021').getTime() + 1000 * idx
-                )
-            }))
-    });
-
-    // Option 2: Create adapter object adhering to IKeyValuePairAdapter interface
+    // Create adapter object adhering to IKeyValuePairAdapter interface
     const customAdapterUsingInterface: IKeyValuePairAdapter = {
         getKeyValuePairs: async (_id, properties, _additionalParameters?) => {
-            const kvps = properties.map((prop, idx) => {
-                const kvp: KeyValuePairData = {
-                    key: prop,
-                    value: seededRng(),
-                    timestamp: new Date(
-                        new Date('01/01/2021').getTime() + idx * 1000
-                    )
-                };
-                return kvp;
-            });
+            // Construct AdapterMethodSandbox class to wrap custom logic in error handling sandbox
+            const adapterMethodSandbox = new AdapterMethodSandbox();
 
-            return new AdapterResult<KeyValuePairAdapterData>({
-                errorInfo: null,
-                result: new KeyValuePairAdapterData(kvps)
+            // Use the safelyFetchData method to make your adapter call.
+            // if the adapter logic fails, this method will register the error and bubble
+            // the error up to be shown in the card, rather than failing entirely
+            return await adapterMethodSandbox.safelyFetchData(async () => {
+                const kvps = properties.map((prop, idx) => {
+                    const kvp: KeyValuePairData = {
+                        key: prop,
+                        value: seededRng(),
+                        timestamp: new Date(
+                            new Date('01/01/2021').getTime() + idx * 1000
+                        )
+                    };
+                    return kvp;
+                });
+
+                return new KeyValuePairAdapterData(kvps);
             });
         }
     };
@@ -102,7 +83,7 @@ export const UsingCustomKVPAdapter = (
                 id="kvp-tester"
                 theme={theme}
                 properties={['Custom KeyValuePair Adapter example']}
-                adapter={customAdapterUsingClass || customAdapterUsingInterface}
+                adapter={customAdapterUsingInterface}
                 locale={locale}
             />
         </div>
