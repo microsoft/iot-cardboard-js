@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
+import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
+import {
+    IKeyValuePairAdapter,
+    KeyValuePairData
+} from '../../../Models/Constants';
+import KeyValuePairAdapterData from '../../../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import { AdapterMethodSandbox } from '../../../Models/Classes';
 
 export default {
-    title: 'LKVProcessGraphicCard/Consume'
+    title: 'LKVProcessGraphicCard/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
 };
 
 const propChangeMock = [
@@ -59,6 +73,67 @@ export const Mock = (
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter()}
+            />
+        </div>
+    );
+};
+
+export const UsingCustomKVPAdapter = (
+    _args,
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+) => {
+    const seededRng = useStableGuidRng();
+
+    const customAdapterProperties = {
+        id: 'CustomKVPAdapter',
+        properties: ['TireTemp', 'Speed', 'Battery'],
+        positions: {
+            TireTemp: { left: '30%', top: '80%' },
+            Speed: { left: '15%', top: '10%' },
+            Battery: { left: '70%', top: '60%' }
+        }
+    };
+
+    // Create adapter object adhering to IKeyValuePairAdapter interface
+    const customAdapterUsingInterface: IKeyValuePairAdapter = {
+        getKeyValuePairs: async (_id, properties, _additionalParameters?) => {
+            // Construct AdapterMethodSandbox class to wrap custom logic in error handling sandbox
+            const adapterMethodSandbox = new AdapterMethodSandbox();
+
+            // Use the safelyFetchData method to make your adapter call.
+            // if the adapter logic fails, this method will register the error and bubble
+            // the error up to be shown in the card, rather than failing entirely
+            return await adapterMethodSandbox.safelyFetchData(async () => {
+                const kvps = properties.map((prop, idx) => {
+                    const kvp: KeyValuePairData = {
+                        key: prop,
+                        value: seededRng(),
+                        timestamp: new Date(
+                            new Date('01/01/2021').getTime() + idx * 1000
+                        )
+                    };
+                    return kvp;
+                });
+
+                return new KeyValuePairAdapterData(kvps);
+            });
+        }
+    };
+
+    return (
+        <div style={wideCardWrapperStyle}>
+            <LKVProcessGraphicCard
+                id={'lkv_pg'}
+                imageSrc={
+                    'https://cardboardresources.blob.core.windows.net/cardboard-images/roadster.png'
+                }
+                pollingIntervalMillis={3000}
+                properties={customAdapterProperties.properties}
+                imagePropertyPositions={customAdapterProperties.positions}
+                title={'Custom KeyValuePair Adapter example'}
+                theme={theme}
+                locale={locale}
+                adapter={customAdapterUsingInterface}
             />
         </div>
     );

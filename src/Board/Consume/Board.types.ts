@@ -1,15 +1,15 @@
-import IBaseAdapter from '../../Adapters/IBaseAdapter';
 import { BoardInfo, SearchSpan } from '../../Models/Classes';
 import {
     IADTTwin,
     IADTModel,
     IResolvedRelationshipClickErrors,
     Locale,
-    Theme
+    Theme,
+    AdapterTypes
 } from '../../Models/Constants';
 
 export interface IBoardProps {
-    adapter: IBaseAdapter;
+    adapter: AdapterTypes;
     theme: Theme;
     locale: Locale;
     localeStrings?: Record<string, any>;

@@ -3,7 +3,14 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
-    title: 'KeyValuePairCard/Consume'
+    title: 'KeyValuePairCard/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
 };
 
 const properties = ['foo'] as [string];
