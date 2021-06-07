@@ -1,3 +1,8 @@
+import {
+    IADTAdapter,
+    IKeyValuePairAdapter,
+    ITsiClientChartDataAdapter
+} from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
     IADTModel,
@@ -114,3 +119,8 @@ export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
 };
+
+export type AdapterTypes =
+    | IKeyValuePairAdapter
+    | ITsiClientChartDataAdapter
+    | IADTAdapter;

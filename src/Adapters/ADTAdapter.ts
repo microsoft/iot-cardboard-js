@@ -12,12 +12,7 @@ import {
     ADTRelationship,
     ADTRelationshipsApiData
 } from '../Models/Constants/Types';
-import {
-    AdapterResult,
-    KeyValuePairAdapterData,
-    SearchSpan,
-    TsiClientAdapterData
-} from '../Models/Classes';
+import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
@@ -44,22 +39,8 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService.login();
     }
 
-    async getTsiclientChartDataShape(
-        _id: string,
-        _searchSpan: SearchSpan,
-        _properties: string[]
-    ) {
-        throw new Error('Method not implemented.');
-        return new AdapterResult<TsiClientAdapterData>({
-            result: null,
-            errorInfo: null
-        });
-    }
-
     getRelationships(id: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         /*
             NOTE: the targetModel property is a custom property that needs to be explicitly 
@@ -97,9 +78,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     getADTTwin(twinId: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTTwinData,
             {
@@ -116,9 +95,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     getADTModel(modelId: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTModelData,
@@ -136,9 +113,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterModelsData,
@@ -163,9 +138,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     getADTTwinsByModelId(params: AdapterMethodParamsForGetADTTwinsByModelId) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterTwinsData,
@@ -187,9 +160,7 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTAdapterTwinsData,
@@ -215,9 +186,7 @@ export default class ADTAdapter implements IADTAdapter {
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox({
-            authservice: this.authService
-        });
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         const createKeyValuePairData = (
             axiosData: IADTTwin

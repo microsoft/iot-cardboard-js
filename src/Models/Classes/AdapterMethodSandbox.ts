@@ -10,10 +10,6 @@ import {
 import AdapterResult from './AdapterResult';
 import { CardError } from './Errors';
 
-interface IAdapterMethodSandbox {
-    authservice: IAuthService;
-}
-
 /** Utility class which creates sandbox environment for adapter data fetching.
  *
  * • Manages errors and catasrophicErrors.
@@ -27,7 +23,7 @@ class AdapterMethodSandbox {
     private catasrophicError: ICardError;
     private authService: IAuthService;
 
-    constructor({ authservice }: IAdapterMethodSandbox) {
+    constructor(authservice?: IAuthService) {
         this.errors = [];
         this.catasrophicError = null;
         this.authService = authservice;
