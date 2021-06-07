@@ -14,8 +14,7 @@ import {
     CardErrorType,
     ViewDataPropertyName,
     PGImageSourcePropertyName,
-    PGLabelPositionsPropertyName,
-    BIMFileSourcePropertyName,
+    PGLabelPositionsPropertyName
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
 import {
@@ -301,7 +300,7 @@ function getDefaultBoardInfo(
         return cardInfo;
     });
 
-    if(shouldCreateProcessGraphicsCard(dtTwin)) {
+    if (shouldCreateProcessGraphicsCard(dtTwin)) {
         board.cards.push(
             CardInfo.fromObject({
                 key: `lkv-process-graphic`,
@@ -309,14 +308,23 @@ function getDefaultBoardInfo(
                 type: CardTypes.LKVProcessGraphicCard,
                 size: { rows: 2 },
                 cardProperties: { pollingIntervalMillis: 5000 },
-                entities: [{ 
-                    id: dtTwin.$dtId,
-                    properties: Object.keys(twinProperties),
-                    imageSrc: dtTwin[ViewDataPropertyName][PGImageSourcePropertyName],
-                    chartDataOptions: {
-                        labelPositions: JSON.parse(dtTwin[ViewDataPropertyName][PGLabelPositionsPropertyName])
+                entities: [
+                    {
+                        id: dtTwin.$dtId,
+                        properties: Object.keys(twinProperties),
+                        imageSrc:
+                            dtTwin[ViewDataPropertyName][
+                                PGImageSourcePropertyName
+                            ],
+                        chartDataOptions: {
+                            labelPositions: JSON.parse(
+                                dtTwin[ViewDataPropertyName][
+                                    PGLabelPositionsPropertyName
+                                ]
+                            )
+                        }
                     }
-                }],
+                ]
             })
         );
     }
@@ -327,9 +335,17 @@ function getDefaultBoardInfo(
 }
 
 const shouldCreateProcessGraphicsCard = (dtTwin: IADTTwin): boolean => {
-    return objectHasOwnProperty(dtTwin, ViewDataPropertyName)
-    && objectHasOwnProperty(dtTwin[ViewDataPropertyName], PGImageSourcePropertyName)
-    && objectHasOwnProperty(dtTwin[ViewDataPropertyName], PGLabelPositionsPropertyName);
-}
+    return (
+        objectHasOwnProperty(dtTwin, ViewDataPropertyName) &&
+        objectHasOwnProperty(
+            dtTwin[ViewDataPropertyName],
+            PGImageSourcePropertyName
+        ) &&
+        objectHasOwnProperty(
+            dtTwin[ViewDataPropertyName],
+            PGLabelPositionsPropertyName
+        )
+    );
+};
 
 export default Board;

@@ -70,4 +70,5 @@ export const getMarkedHtmlBySearch = (str, searchTerm) => {
     }
 };
 
-export const objectHasOwnProperty = (obj, propertyName) => Object.prototype.hasOwnProperty.call(obj, propertyName);
+export const objectHasOwnProperty = (obj, propertyName) =>
+    Object.prototype.hasOwnProperty.call(obj, propertyName);
