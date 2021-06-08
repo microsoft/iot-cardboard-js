@@ -1,5 +1,11 @@
 import React from 'react';
-import { ADTModel_InBIM_RelationshipName } from '../Constants';
+import {
+    IADTTwin,
+    ADTModel_ViewData_PropertyName,
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName,
+    ADTModel_InBIM_RelationshipName
+} from '../Constants';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -72,3 +78,27 @@ export const getMarkedHtmlBySearch = (str, searchTerm) => {
 
 export const objectHasOwnProperty = (obj, propertyName) =>
     Object.prototype.hasOwnProperty.call(obj, propertyName);
+
+export const parseViewProperties = (data: Record<string, any>) => {
+    return Object.keys(data).filter((key) => {
+        return (
+            !key.startsWith('$') &&
+            key !== ADTModel_ImgSrc_PropertyName &&
+            key !== ADTModel_ImgPropertyPositions_PropertyName
+        );
+    });
+};
+
+export const hasAllProcessGraphicsCardProperties = (dtTwin: IADTTwin): boolean => {
+    return (
+        objectHasOwnProperty(dtTwin, ADTModel_ViewData_PropertyName) &&
+        objectHasOwnProperty(
+            dtTwin[ADTModel_ViewData_PropertyName],
+            ADTModel_ImgSrc_PropertyName
+        ) &&
+        objectHasOwnProperty(
+            dtTwin[ADTModel_ViewData_PropertyName],
+            ADTModel_ImgPropertyPositions_PropertyName
+        )
+    );
+};

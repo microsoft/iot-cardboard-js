@@ -1,12 +1,9 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
-import {
-    ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName,
-    IHierarchyNode
-} from '../../../../Models/Constants';
+import { IHierarchyNode } from '../../../../Models/Constants';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
+import { parseViewProperties } from '../../../../Models/Services/Utils';
 import ADTHierarchyWithLKVProcessGraphicsCard from './ADTHierarchyWithLKVProcessGraphicsCard';
 
 export default {
@@ -20,14 +17,6 @@ const cardStyle = {
 
 export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
-    const getTwinProperties = (node: IHierarchyNode) => {
-        return Object.keys(node.nodeData.$metadata).filter(
-            (key) =>
-                !key.startsWith('$') &&
-                key !== ADTModel_ImgSrc_PropertyName &&
-                key !== ADTModel_ImgPropertyPositions_PropertyName
-        );
-    };
 
     return !authenticationParameters ? (
         <div></div>
@@ -45,7 +34,9 @@ export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                getHierarchyNodeProperties={getTwinProperties}
+                getHierarchyNodeProperties={(node: IHierarchyNode) =>
+                    parseViewProperties(node.nodeData.$metadata)
+                }
                 pollingIntervalMillis={5000}
             />
         </div>

@@ -6,10 +6,22 @@ import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
 import useAuthParams from '../../../../.storybook/useAuthParams';
+import { ITsiClientChartDataAdapter } from '../../../Models/Constants';
+import {
+    AdapterMethodSandbox,
+    TsiClientAdapterData
+} from '../../../Models/Classes';
 
 export default {
-    title: 'Linechart/Consume'
-    // component: Linechart // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
+    title: 'Linechart/Consume',
+    parameters: {
+        docs: {
+            source: {
+                type: 'code'
+            }
+        }
+    }
+    // component: LinechartCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
 const id = 'storyID';
@@ -20,7 +32,7 @@ const chartCardStyle = {
 };
 
 export const MockData = (
-    args,
+    _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => {
     return (
@@ -39,8 +51,53 @@ export const MockData = (
     );
 };
 
+export const UsingCustomTsiClientAdapter = (
+    _args,
+    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+) => {
+    // Create adapter object adhering to ITsiClientChartDataAdapter interface
+    const customAdapterUsingInterface: ITsiClientChartDataAdapter = {
+        getTsiclientChartDataShape: async (
+            _id: string,
+            searchSpan: SearchSpan,
+            properties: readonly string[]
+        ) => {
+            // Construct AdapterMethodSandbox class to wrap custom logic in error handling sandbox
+            const adapterMethodSandbox = new AdapterMethodSandbox();
+
+            // Use the safelyFetchData method to make your adapter call.
+            // if the adapter logic fails, this method will register the error and bubble
+            // the error up to be shown in the card, rather than failing entirely
+            return await adapterMethodSandbox.safelyFetchData(async () => {
+                const mockAdapter = new MockAdapter();
+                const mockData = mockAdapter.generateMockLineChartData(
+                    searchSpan,
+                    [...properties]
+                );
+                return new TsiClientAdapterData(mockData);
+            });
+        }
+    };
+
+    return (
+        <div style={chartCardStyle}>
+            <LinechartCard
+                title={'Custom TsiClientChartData Adapter'}
+                theme={theme}
+                locale={locale}
+                id={id}
+                searchSpan={mockedSearchSpan}
+                properties={['Example data A', 'Example data B']}
+                adapter={customAdapterUsingInterface}
+            />
+        </div>
+    );
+};
+
+UsingCustomTsiClientAdapter.storyName = 'Using Custom TsiClient Adapter';
+
 export const NoData = (
-    args,
+    _args,
     { globals: { theme, locale }, parameters: { mockedSearchSpan } }
 ) => (
     <div style={chartCardStyle}>
@@ -55,7 +112,7 @@ export const NoData = (
     </div>
 );
 
-export const TsiData = (args, { globals: { theme, locale } }) => {
+export const TsiData = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
     const tsiProperties = ['value'];
@@ -88,7 +145,7 @@ export const TsiData = (args, { globals: { theme, locale } }) => {
 };
 
 export const TwoThemedCharts = (
-    args,
+    _args,
     { globals: { locale }, parameters: { mockedSearchSpan } }
 ) => (
     <div>
