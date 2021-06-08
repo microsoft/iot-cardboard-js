@@ -13,6 +13,8 @@
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
     "noTwins": "No twins",
+    "on": "On",
+    "off": "Off",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
@@ -29,7 +31,8 @@
         "relationshipName": "Relationship name"
     },
     "modelSearch": {
-        "placeholder": "Enter model search string"
+        "placeholder": "Enter model search string",
+        "fileNameOnly": "Only search file names"
     },
     "board": {
         "empty": "This board has no cards",

@@ -1,31 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SearchBox, PrimaryButton } from '@fluentui/react';
+import { SearchBox, PrimaryButton, Toggle } from '@fluentui/react';
 import './ModelSearch.scss';
+import { useAdapter } from '../../Models/Hooks';
+import GithubAdapter from '../../Adapters/GithubAdapter';
 
 const ModelSearch = () => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
+    const [fileNameOnly, setFileNameOnly] = useState(true);
 
-    const onSearchChange = (
-        _event?: React.ChangeEvent<HTMLInputElement>,
-        newValue?: string
-    ) => {
-        setSearchString(newValue);
-    };
+    const adapter = useRef(new GithubAdapter());
+
+    const searchDataState = useAdapter({
+        adapterMethod: (params: { queryString: string }) =>
+            adapter.current.searchStringInRepo(params.queryString),
+        refetchDependencies: []
+    });
 
     const onSearch = async () => {
-        const queryString =
-            'q=' +
-            encodeURIComponent(
-                'AAEON-BOXER-RK88 in:file language:json repo:Azure/iot-plugandplay-models'
-            );
-        const res = await fetch(
-            `https://api.github.com/search/code?` + queryString
-        );
-        const json = await res.json();
-        console.log(json);
+        if (searchString.length > 0) {
+            let queryString;
+            if (fileNameOnly) {
+                queryString = encodeURIComponent(
+                    `filename:${searchString} path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                );
+            } else {
+                queryString = encodeURIComponent(
+                    `${searchString} in:file,path path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                );
+            }
+
+            searchDataState.callAdapter({ queryString });
+        }
     };
+
+    useEffect(() => {
+        console.log(searchDataState.adapterResult.result?.data);
+    }, [searchDataState.adapterResult]);
+
+    useEffect(() => {
+        if (searchString.length > 0) {
+            onSearch();
+        }
+    }, [fileNameOnly]);
 
     return (
         <div className="cb-modelsearch-container">
@@ -34,9 +52,31 @@ const ModelSearch = () => {
                     className="cb-ms-searchbox"
                     placeholder={t('modelSearch.placeholder')}
                     value={searchString}
-                    onChange={onSearchChange}
+                    onChange={(
+                        _event?: React.ChangeEvent<HTMLInputElement>,
+                        newValue?: string
+                    ) => setSearchString(newValue)}
+                    onSearch={onSearch}
                 />
-                <PrimaryButton text={t('search')} onClick={() => null} />
+                <PrimaryButton
+                    text={t('search')}
+                    onClick={onSearch}
+                    disabled={searchString.length === 0}
+                />
+            </div>
+            <div className="cb-ms-togglebar">
+                <Toggle
+                    label={t('modelSearch.fileNameOnly')}
+                    checked={fileNameOnly}
+                    onText={t('on')}
+                    offText={t('off')}
+                    onChange={(
+                        _ev: React.MouseEvent<HTMLElement>,
+                        checked?: boolean
+                    ) => {
+                        setFileNameOnly(checked);
+                    }}
+                />
             </div>
         </div>
     );
