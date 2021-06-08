@@ -89,7 +89,9 @@ export const parseViewProperties = (data: Record<string, any>) => {
     });
 };
 
-export const hasAllProcessGraphicsCardProperties = (dtTwin: IADTTwin): boolean => {
+export const hasAllProcessGraphicsCardProperties = (
+    dtTwin: IADTTwin
+): boolean => {
     return (
         objectHasOwnProperty(dtTwin, ADTModel_ViewData_PropertyName) &&
         objectHasOwnProperty(
