@@ -15,7 +15,7 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADTHiearchyWithLKVPG = (args, { globals: { theme, locale } }) => {
+export const ADTHiearchyWithLKVPG = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (

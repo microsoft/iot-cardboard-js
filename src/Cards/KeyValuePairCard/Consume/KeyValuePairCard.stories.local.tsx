@@ -1,27 +1,32 @@
 import React from 'react';
-import BIMViewerCard from './BIMViewerCard';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import { ADTAdapter } from '../../../Adapters';
+import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
-    title: 'BIMViewerCard/Consume'
+    title: 'KeyValuePairCard/Consume'
 };
 
-const wrapperStyle = {
-    height: '500px',
-    width: '500px'
+const digitalTwins = {
+    id: 'PasteurizationMachine_A01',
+    properties: ['Temperature'] as [string]
 };
 
-export const ADT = (args, { globals: { theme } }) => {
+export const ADT = (
+    _args,
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={wrapperStyle}>
-            <BIMViewerCard
-                id={'TODO_BIMName'}
+        <div style={defaultCardWrapperStyle}>
+            <KeyValuePairCard
+                id={digitalTwins.id}
+                properties={digitalTwins.properties}
                 theme={theme}
+                pollingIntervalMillis={2000}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
