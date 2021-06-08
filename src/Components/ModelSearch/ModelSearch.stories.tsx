@@ -5,13 +5,11 @@ export default {
     title: 'Components/ModelSearch'
 };
 
-export const BasicModelSearch = () => (
-    <div
-        style={{
-            height: '400px',
-            position: 'relative'
-        }}
-    >
+export const BasicModelSearch = (
+    _args,
+    { parameters: { wideCardWrapperStyle } }
+) => (
+    <div style={wideCardWrapperStyle}>
         <ModelSearch />
     </div>
 );

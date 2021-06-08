@@ -1,0 +1,11 @@
+.cb-modelsearch-container {
+    .cb-ms-searchbar {
+        display: flex;
+        padding: 0 20px;
+        width: 100%;
+    }
+    .cb-ms-searchbox {
+        flex-grow: 1;
+        margin-right: 8px;
+    }
+}

@@ -28,6 +28,9 @@
         "model": "Model",
         "relationshipName": "Relationship name"
     },
+    "modelSearch": {
+        "placeholder": "Enter model search string"
+    },
     "board": {
         "empty": "This board has no cards",
         "twinID": "Twin Id",
