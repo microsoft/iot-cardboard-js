@@ -12,7 +12,9 @@ import {
     Locale,
     Theme,
     CardErrorType,
-    ViewDataPropertyName,
+    ADTModel_ViewData_PropertyName,
+    ADTModel_ImgSrc_PropertyName,
+    ADTModel_ImgPropertyPositions_PropertyName,
     AdapterTypes,
     ITsiClientChartDataAdapter,
     IKeyValuePairAdapter
@@ -34,6 +36,7 @@ import {
     InfoTableCard
 } from '../../Cards';
 import BaseCard from '../../Cards/Base/Consume/BaseCard';
+import { hasAllProcessGraphicsCardProperties } from '../../Models/Services/Utils';
 import './Board.scss';
 
 const Board: React.FC<IBoardProps> = ({
@@ -54,8 +57,9 @@ const Board: React.FC<IBoardProps> = ({
     // If no board info prop was provided, but a twin was, extract the
     // board info from the twin.
     if (!boardInfo && adtTwin) {
-        const boardInfoObject = adtTwin?.[ViewDataPropertyName]?.boardInfo
-            ? JSON.parse(adtTwin[ViewDataPropertyName]?.boardInfo)
+        const boardInfoObject = adtTwin?.[ADTModel_ViewData_PropertyName]
+            ?.boardInfo
+            ? JSON.parse(adtTwin[ADTModel_ViewData_PropertyName]?.boardInfo)
             : null;
 
         boardInfo =
@@ -258,7 +262,7 @@ function getDefaultBoardInfo(
     board.layout = { numColumns: 3 };
 
     // Filter metadata properties.
-    const propertiesToIgnore = [ViewDataPropertyName];
+    const propertiesToIgnore = [ADTModel_ViewData_PropertyName];
     const twinProperties = Object.keys(dtTwin)
         .filter((key) => key[0] !== '$' && !propertiesToIgnore.includes(key))
         .reduce((obj, key) => {
@@ -303,6 +307,35 @@ function getDefaultBoardInfo(
 
         return cardInfo;
     });
+
+    if (hasAllProcessGraphicsCardProperties(dtTwin)) {
+        board.cards.push(
+            CardInfo.fromObject({
+                key: `lkv-process-graphic`,
+                title: t('board.processGraphic'),
+                type: CardTypes.LKVProcessGraphicCard,
+                size: { rows: 2 },
+                cardProperties: { pollingIntervalMillis: 5000 },
+                entities: [
+                    {
+                        id: dtTwin.$dtId,
+                        properties: Object.keys(twinProperties),
+                        imageSrc:
+                            dtTwin[ADTModel_ViewData_PropertyName][
+                                ADTModel_ImgSrc_PropertyName
+                            ],
+                        chartDataOptions: {
+                            labelPositions: JSON.parse(
+                                dtTwin[ADTModel_ViewData_PropertyName][
+                                    ADTModel_ImgPropertyPositions_PropertyName
+                                ]
+                            )
+                        }
+                    }
+                ]
+            })
+        );
+    }
 
     board.cards = [...board.cards, ...propertyCards];
 
