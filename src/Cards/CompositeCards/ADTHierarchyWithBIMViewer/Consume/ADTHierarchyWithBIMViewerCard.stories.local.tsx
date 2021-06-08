@@ -14,7 +14,7 @@ const cardStyle = {
 };
 
 export const ADTHierarchyWithBIMViewer = (
-    args,
+    _args,
     { globals: { theme, locale } }
 ) => {
     const authenticationParameters = useAuthParams();

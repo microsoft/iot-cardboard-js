@@ -1,18 +1,11 @@
 import React from 'react';
-import useAuthParams from '../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import {
-    IKeyValuePairAdapter,
-    KeyValuePairData
-} from '../../../Models/Constants';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import KeyValuePairAdapterData from '../../../Models/Classes/AdapterDataClasses/KeyValuePairAdapterData';
+import AdapterMethodSandbox from '../../../Models/Classes/AdapterMethodSandbox';
+import { IKeyValuePairAdapter } from '../../../Models/Constants/Interfaces';
+import { KeyValuePairData } from '../../../Models/Constants/Types';
 import KeyValuePairCard from './KeyValuePairCard';
 import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
-import {
-    AdapterMethodSandbox,
-    KeyValuePairAdapterData
-} from '../../../Models/Classes';
 
 export default {
     title: 'KeyValuePairCard/Consume',
@@ -26,16 +19,23 @@ export default {
 };
 
 const properties = ['foo'] as [string];
-const wrapperStyle = { height: '400px', width: '400px' };
-const smallWrapperStyle = { height: '200px', width: '200px' };
 
-const digitalTwins = {
-    id: 'PasteurizationMachine_A01',
-    properties: ['Temperature'] as [string]
-};
+export const Mock = (
+    _args,
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+) => (
+    <div style={defaultCardWrapperStyle}>
+        <KeyValuePairCard
+            theme={theme}
+            id="notRelevant"
+            properties={properties}
+            adapter={new MockAdapter()}
+        />
+    </div>
+);
 
-export const Mock = (_args, { globals: { theme } }) => (
-    <div style={wrapperStyle}>
+export const MockOverflow = (_args, { globals: { theme } }) => (
+    <div style={{ height: '200px', width: '200px' }}>
         <KeyValuePairCard
             theme={theme}
             id="notRelevant"
@@ -47,7 +47,7 @@ export const Mock = (_args, { globals: { theme } }) => (
 
 export const UsingCustomKVPAdapter = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
 ) => {
     const seededRng = useStableGuidRng();
 
@@ -78,48 +78,13 @@ export const UsingCustomKVPAdapter = (
     };
 
     return (
-        <div style={wrapperStyle}>
+        <div style={defaultCardWrapperStyle}>
             <KeyValuePairCard
                 id="kvp-tester"
                 theme={theme}
                 properties={['Custom KeyValuePair Adapter example']}
                 adapter={customAdapterUsingInterface}
                 locale={locale}
-            />
-        </div>
-    );
-};
-
-export const MockOverflow = (_args, { globals: { theme } }) => (
-    <div style={smallWrapperStyle}>
-        <KeyValuePairCard
-            theme={theme}
-            id="notRelevant"
-            properties={properties}
-            adapter={new MockAdapter()}
-        />
-    </div>
-);
-
-export const ADT = (_args, { globals: { theme } }) => {
-    const authenticationParameters = useAuthParams();
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={wrapperStyle}>
-            <KeyValuePairCard
-                id={digitalTwins.id}
-                properties={digitalTwins.properties}
-                theme={theme}
-                pollingIntervalMillis={2000}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
             />
         </div>
     );

@@ -1,4 +1,6 @@
-![build](https://github.com/microsoft/iot-cardboard-js/workflows/build/badge.svg?branch=main)
+![build](https://github.com/microsoft/iot-cardboard-js/workflows/build/badge.svg?branch=main) [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://main--601c6b2fcd385c002100f14c.chromatic.com)
+
+
 # Project
 
 > This repo has been populated by an initial template to help get you started. Please
