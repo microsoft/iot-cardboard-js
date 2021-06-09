@@ -5,6 +5,7 @@ import './BaseCard.scss';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../../i18n';
+import Error from '../../../Components/Error/Error';
 
 const BaseCard: React.FC<BaseCardProps> = ({
     isLoading,
@@ -41,25 +42,15 @@ const BaseCard: React.FC<BaseCardProps> = ({
                     {title && <h3 className="cb-base-card-title">{title}</h3>}
                     <div className="cb-base-card-content">
                         {showCatastrophicError && (
-                            <div className="cb-base-catastrophic-error-wrapper">
-                                <div className="cb-base-catastrophic-error-box">
-                                    <div className="cb-base-catastrophic-error-message">
-                                        {catastrophicError.message}
-                                    </div>
-                                    <div className="cb-base-catastrophic-error-raw">
-                                        {catastrophicError?.rawError?.message}
-                                    </div>
-                                </div>
-                            </div>
+                            <Error
+                                errorTitle={catastrophicError.message}
+                                errorContent={
+                                    catastrophicError?.rawError?.message
+                                }
+                            />
                         )}
                         {showErrorMessage && (
-                            <div className="cb-base-catastrophic-error-wrapper">
-                                <div className="cb-base-catastrophic-error-box">
-                                    <div className="cb-base-catastrophic-error-message">
-                                        {cardError.message}
-                                    </div>
-                                </div>
-                            </div>
+                            <Error errorTitle={cardError.message} />
                         )}
                         {showLoading && (
                             <div className="cb-base-info-wrapper">

@@ -47,6 +47,11 @@ export interface IConsumeCardProps extends ICardBaseProps {
     properties: readonly string[];
 }
 
+export interface IErrorComponentProps {
+    errorTitle: string;
+    errorContent?: string;
+}
+
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
     adapter?: IBaseAdapter; // if all the inner cards are all going to use the same adapter
 }
