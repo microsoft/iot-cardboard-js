@@ -11,18 +11,18 @@ export const SampleBoardInfo = {
             },
             "entities": [
                 {
-                    "tableRows": [["truck1", "dtmi:assetGen:Truck;1"]]
+                    "tableRows": [["truck1", "dtmi:assetGen:CarTwin;1"]]
                 }
             ]
         },
         {
             "key": "relationships",
             "type": "RelationshipsTable",
-            "title": "Pasteurization Machine A03 Relationships",
+            "title": "Pasteurization Machine A01 Relationships",
             "size": { "rows": 4, "columns": 2 },
             "entities": [
                 {
-                    "id": "PasteurizationMachine_A03"
+                    "id": "PasteurizationMachine_A01"
                 }
             ]
         },
@@ -33,7 +33,7 @@ export const SampleBoardInfo = {
             "size": { "rows": 2 },
             "entities": [
                 {
-                    "id": "truck1",
+                    "id": "CarTwin",
                     "properties": ["Speed", "OilPressure", "OutdoorTemperature"],
                     "imageSrc": "https://cardboardresources.blob.core.windows.net/cardboard-images/Car.png",
                     "chartDataOptions": {
@@ -69,11 +69,11 @@ export const InvalidBoardInfo = {
         {
             "key": "relationships",
             "type": "RelationshipsTable",
-            "title": "Pasteurization Machine A03 Relationships",
+            "title": "Pasteurization Machine A01 Relationships",
             "size": { "rows": 4, "columns": 2 },
             "entities": [
                 {
-                    "id": "PasteurizationMachine_A03"
+                    "id": "PasteurizationMachine_A01"
                 }
             ]
         },
@@ -84,7 +84,7 @@ export const InvalidBoardInfo = {
             "size": { "rows": 2 },
             "entities": [
                 {
-                    "id": "PasteurizationMachine_A03"
+                    "id": "PasteurizationMachine_A01"
                 }
             ]
         }

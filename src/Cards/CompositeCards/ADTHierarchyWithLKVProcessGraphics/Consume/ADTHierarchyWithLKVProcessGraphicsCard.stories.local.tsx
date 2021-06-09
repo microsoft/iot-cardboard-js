@@ -1,11 +1,13 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import { IHierarchyNode } from '../../../../Models/Constants';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
-import ADTHierarchyWithBIMViewerCard from './ADTHierarchyWithBIMViewerCard';
+import { parseViewProperties } from '../../../../Models/Services/Utils';
+import ADTHierarchyWithLKVProcessGraphicsCard from './ADTHierarchyWithLKVProcessGraphicsCard';
 
 export default {
-    title: 'CompositeCards/ADTHierarchyWithBIMViewerCard/Consume'
+    title: 'CompositeCards/ADTHierarchyWithLKVProcessGraphicsCard/Consume'
 };
 
 const cardStyle = {
@@ -13,21 +15,17 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADTHierarchyWithBIMViewer = (
-    args,
-    { globals: { theme, locale } }
-) => {
+export const ADTHiearchyWithLKVPG = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTHierarchyWithBIMViewerCard
-                title={'Hierarchy With BIM Viewer'}
+            <ADTHierarchyWithLKVProcessGraphicsCard
+                title={'Hierarchy With LKV Process Graphics'}
                 theme={theme}
                 locale={locale}
-                bimTwinId={'TODO_BIMName'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -36,7 +34,10 @@ export const ADTHierarchyWithBIMViewer = (
                         )
                     )
                 }
-                getHierarchyNodeProperties={() => []}
+                getHierarchyNodeProperties={(node: IHierarchyNode) =>
+                    parseViewProperties(node.nodeData.$metadata)
+                }
+                pollingIntervalMillis={5000}
             />
         </div>
     );

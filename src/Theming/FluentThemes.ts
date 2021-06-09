@@ -1,5 +1,9 @@
-import { createTheme, IPartialTheme, ITheme } from '@fluentui/react';
-import { Theme as FluentTheme } from '@fluentui/react-theme-provider';
+import {
+    createTheme,
+    IPartialTheme,
+    ITheme,
+    Theme as FluentTheme
+} from '@fluentui/react';
 import { fluentDarkThemePalette, fluentLightThemePalette } from './Palettes';
 import { Theme } from '../Models/Constants/Enums';
 import { getCustomComponentStyles } from './FluentComponentStyles';
