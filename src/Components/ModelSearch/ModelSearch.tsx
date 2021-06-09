@@ -15,11 +15,6 @@ const ModelSearch = () => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
     const [fileNameOnly, setFileNameOnly] = useState(true);
-    const [
-        isRateLimitExceededWarningVisible,
-        setIsRateLimitExceededWarningVisible
-    ] = useState(false);
-
     const adapter = useRef(new GithubAdapter());
 
     const searchDataState = useAdapter({
@@ -48,13 +43,6 @@ const ModelSearch = () => {
 
     useEffect(() => {
         const data = searchDataState.adapterResult.result?.data;
-        if (data) {
-            if (data.rateLimitRemaining === 0) {
-                setIsRateLimitExceededWarningVisible(true);
-            } else {
-                setIsRateLimitExceededWarningVisible(false);
-            }
-        }
         console.log(data);
     }, [searchDataState.adapterResult]);
 
@@ -92,7 +80,7 @@ const ModelSearch = () => {
                             href="https://github.com/Azure/iot-plugandplay-models"
                             target="_blank"
                         >
-                            iot-plugandplay-models
+                            Azure/iot-plugandplay-models
                         </a>
                         {t('modelSearch.repository')}.
                     </p>
@@ -111,27 +99,67 @@ const ModelSearch = () => {
                     }}
                 />
             </div>
-            {searchDataState.adapterResult.result?.data &&
-                isRateLimitExceededWarningVisible && (
-                    <div>
-                        <MessageBar
-                            onDismiss={() =>
-                                setIsRateLimitExceededWarningVisible(false)
-                            }
-                            dismissButtonAriaLabel="Close"
-                            messageBarType={MessageBarType.warning}
-                        >
-                            <b>{t('modelSearch.rateLimitExceededTitle')}</b>.{' '}
-                            {t('modelSearch.rateLimitExceededDescription')}
-                            {new Date(
-                                searchDataState.adapterResult.result?.data
-                                    .rateLimitReset * 1000
-                            ).toLocaleTimeString('en-US')}
-                            .
-                        </MessageBar>
-                    </div>
-                )}
+            {searchDataState.adapterResult.result?.data?.rateLimitRemaining ===
+                0 && (
+                <RateLimitExceededWarning
+                    rateLimitResetTime={
+                        searchDataState.adapterResult.result?.data
+                            .rateLimitReset
+                    }
+                />
+            )}
             <div className="cb-ms-model-list">{}</div>
+        </div>
+    );
+};
+
+const RateLimitExceededWarning = ({ rateLimitResetTime }) => {
+    if (rateLimitResetTime === undefined) {
+        return null;
+    }
+    const { t } = useTranslation();
+    const [
+        isRateLimitExceededWarningVisible,
+        setIsRateLimitExceededWarningVisible
+    ] = useState(true);
+    const [secondsUntilReset, setSecondsUntilReset] = useState(
+        new Date(rateLimitResetTime * 1000 - new Date().getTime()).getTime() /
+            1000
+    );
+    const countdownIntervalRef = useRef(null);
+
+    useEffect(() => {
+        countdownIntervalRef.current = setInterval(() => {
+            setSecondsUntilReset((val) => val - 1);
+        }, 1000);
+        return () => {
+            clearInterval(countdownIntervalRef.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (secondsUntilReset <= 0) {
+            clearInterval(countdownIntervalRef.current);
+            setIsRateLimitExceededWarningVisible(false);
+        }
+    }, [secondsUntilReset]);
+
+    if (!isRateLimitExceededWarningVisible) {
+        return null;
+    }
+
+    return (
+        <div>
+            <MessageBar
+                onDismiss={null}
+                messageBarType={MessageBarType.warning}
+            >
+                <b>{t('modelSearch.rateLimitExceededTitle')}</b>.{' '}
+                {t('modelSearch.rateLimitExceededDescription', {
+                    numSeconds: Math.ceil(secondsUntilReset)
+                })}
+                .
+            </MessageBar>
         </div>
     );
 };
