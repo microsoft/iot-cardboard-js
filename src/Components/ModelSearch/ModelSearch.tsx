@@ -15,7 +15,8 @@ const ModelSearch = () => {
     const searchDataState = useAdapter({
         adapterMethod: (params: { queryString: string }) =>
             adapter.current.searchStringInRepo(params?.queryString),
-        refetchDependencies: []
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
     });
 
     const onSearch = async () => {
