@@ -34,7 +34,9 @@
         "placeholder": "Enter model search string",
         "fileNameOnly": "Search by file name only",
         "description": "This tool searches DTDL models made publicly available in the",
-        "repository": "repository"
+        "repository": "repository",
+        "rateLimitExceededTitle": "GitHub search API rate limit exceeded",
+        "rateLimitExceededDescription": "This search is limited to 10 API requests per minute by the GitHub search API. Your limit resets at "
     },
     "board": {
         "empty": "This board has no cards",

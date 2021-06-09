@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SearchBox, PrimaryButton, Toggle } from '@fluentui/react';
+import {
+    SearchBox,
+    PrimaryButton,
+    Toggle,
+    MessageBar,
+    MessageBarType
+} from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import GithubAdapter from '../../Adapters/GithubAdapter';
@@ -9,6 +15,10 @@ const ModelSearch = () => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
     const [fileNameOnly, setFileNameOnly] = useState(true);
+    const [
+        isRateLimitExceededWarningVisible,
+        setIsRateLimitExceededWarningVisible
+    ] = useState(false);
 
     const adapter = useRef(new GithubAdapter());
 
@@ -37,7 +47,15 @@ const ModelSearch = () => {
     };
 
     useEffect(() => {
-        console.log(searchDataState.adapterResult.result?.data);
+        const data = searchDataState.adapterResult.result?.data;
+        if (data) {
+            if (data.rateLimitRemaining === 0) {
+                setIsRateLimitExceededWarningVisible(true);
+            } else {
+                setIsRateLimitExceededWarningVisible(false);
+            }
+        }
+        console.log(data);
     }, [searchDataState.adapterResult]);
 
     useEffect(() => {
@@ -93,6 +111,26 @@ const ModelSearch = () => {
                     }}
                 />
             </div>
+            {searchDataState.adapterResult.result?.data &&
+                isRateLimitExceededWarningVisible && (
+                    <div>
+                        <MessageBar
+                            onDismiss={() =>
+                                setIsRateLimitExceededWarningVisible(false)
+                            }
+                            dismissButtonAriaLabel="Close"
+                            messageBarType={MessageBarType.warning}
+                        >
+                            <b>{t('modelSearch.rateLimitExceededTitle')}</b>.{' '}
+                            {t('modelSearch.rateLimitExceededDescription')}
+                            {new Date(
+                                searchDataState.adapterResult.result?.data
+                                    .rateLimitReset * 1000
+                            ).toLocaleTimeString('en-US')}
+                            .
+                        </MessageBar>
+                    </div>
+                )}
             <div className="cb-ms-model-list">{}</div>
         </div>
     );

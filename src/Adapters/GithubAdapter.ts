@@ -10,8 +10,16 @@ export default class GithubAdapter implements IGithubAdapter {
             const res = await fetch(
                 `https://api.github.com/search/code?q=` + queryString
             );
+            const rateLimitRemaining = Number(
+                res.headers.get('x-ratelimit-remaining')
+            );
+            const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
             const json = await res.json();
-            return new GithubSearchData(json);
+            return new GithubSearchData({
+                ...json,
+                rateLimitRemaining,
+                rateLimitReset
+            });
         });
     }
 }
