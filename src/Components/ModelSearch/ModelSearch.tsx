@@ -10,6 +10,7 @@ import {
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import GithubAdapter from '../../Adapters/GithubAdapter';
+import ModelSearchList from './ModelSearchList/ModelSearchList';
 
 const ModelSearch = () => {
     const { t } = useTranslation();
@@ -42,11 +43,6 @@ const ModelSearch = () => {
     };
 
     useEffect(() => {
-        const data = searchDataState.adapterResult.result?.data;
-        console.log(data);
-    }, [searchDataState.adapterResult]);
-
-    useEffect(() => {
         if (searchString.length > 0) {
             onSearch();
         }
@@ -62,8 +58,14 @@ const ModelSearch = () => {
                     onChange={(
                         _event?: React.ChangeEvent<HTMLInputElement>,
                         newValue?: string
-                    ) => setSearchString(newValue)}
+                    ) => {
+                        if (newValue === '') {
+                            searchDataState.cancelAdapter();
+                        }
+                        setSearchString(newValue);
+                    }}
                     onSearch={onSearch}
+                    onClear={() => searchDataState.cancelAdapter()}
                 />
                 <PrimaryButton
                     text={t('search')}
@@ -108,7 +110,9 @@ const ModelSearch = () => {
                     }
                 />
             )}
-            <div className="cb-ms-model-list">{}</div>
+            <ModelSearchList
+                items={searchDataState.adapterResult.result?.data?.items}
+            />
         </div>
     );
 };

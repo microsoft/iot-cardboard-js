@@ -1,0 +1,13 @@
+.cb-modelsearchlist-container {
+    display: flex;
+    flex-direction: column;
+
+    .cb-msl-model-item {
+        margin: 16px 0;
+    }
+    .cb-modelsearchlist-empty {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+    }
+}
