@@ -36,7 +36,9 @@
         "description": "This tool searches DTDL models made publicly available in the",
         "repository": "repository",
         "rateLimitExceededTitle": "GitHub search API rate limit exceeded",
-        "rateLimitExceededDescription": "This search is limited to 10 API requests per minute by the GitHub search API. Your limit resets in {{numSeconds}} seconds"
+        "rateLimitExceededDescription": "This search is limited to 10 API requests per minute by the GitHub search API. Your limit resets in {{numSeconds}} seconds",
+        "githubLink": "GitHub link",
+        "modelListItemAction": "Use"
     },
     "board": {
         "empty": "This board has no cards",

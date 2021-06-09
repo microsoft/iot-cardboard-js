@@ -1,5 +1,6 @@
-import { Separator } from '@fluentui/react';
+import { PrimaryButton, Separator } from '@fluentui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './ModelSearchList.scss';
 
 type Props = {
@@ -26,21 +27,32 @@ const ModelSearchList = ({ items }: Props) => {
 };
 
 const ModelItem = ({ item }) => {
+    const { t } = useTranslation();
     return (
-        <div className="cb-msl-model-item">
-            <div>
-                <b>{item.name}</b>
-            </div>
-            <div>
-                <i>{item.path}</i>
-            </div>
-            <div>
-                <a href={item.html_url} target="_blank">
-                    GitHub Link
-                </a>
+        <>
+            <div className="cb-msl-model-item">
+                <div className="cb-msl-model-item-left">
+                    <div>
+                        <b>{item.name}</b>
+                    </div>
+                    <div>
+                        <i>{item.path}</i>
+                    </div>
+                    <div>
+                        <a href={item.html_url} target="_blank">
+                            {t('modelSearch.githubLink')}
+                        </a>
+                    </div>
+                </div>
+                <div className="cb-msl-model-item-right">
+                    <PrimaryButton
+                        text={t('modelSearch.modelListItemAction')}
+                        onClick={() => null}
+                    />
+                </div>
             </div>
             <Separator />
-        </div>
+        </>
     );
 };
 
