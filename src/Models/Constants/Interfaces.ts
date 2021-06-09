@@ -52,6 +52,11 @@ export interface IErrorComponentProps {
     errorContent?: string;
 }
 
+export interface IModalProps {
+    children: React.ReactNode;
+    onClose?: () => void;
+}
+
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
     adapter?: IBaseAdapter; // if all the inner cards are all going to use the same adapter
 }

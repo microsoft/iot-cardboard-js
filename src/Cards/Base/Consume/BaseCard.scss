@@ -13,11 +13,6 @@
     position: relative;
     width: 100%;
     z-index: 2;
-    .cb-base-info {
-        background: var(--cb-color-bg-canvas-inset);
-        border-radius: 3px;
-        padding: 20px;
-    }
     .cb-base-card-title {
         align-items: center;
         border-bottom: 1px solid var(--cb-color-bg-canvas-inset);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { IErrorComponentProps } from '../../Models/Constants';
+import Modal from '../Modal/Modal';
 import './Error.scss';
 
 const Error: React.FC<IErrorComponentProps> = ({
@@ -7,14 +8,10 @@ const Error: React.FC<IErrorComponentProps> = ({
     errorContent
 }) => {
     return (
-        <div className="cb-error-wrapper">
-            <div className="cb-error-box">
-                <div className="cb-error-title">{errorTitle}</div>
-                {errorContent && (
-                    <div className="cb-error-content">{errorContent}</div>
-                )}
-            </div>
-        </div>
+        <Modal>
+            <div className="cb-error-title">{errorTitle}</div>
+            {errorContent && <div>{errorContent}</div>}
+        </Modal>
     );
 };
 
