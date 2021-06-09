@@ -13,7 +13,13 @@ import {
 import GithubSearchData from '../Classes/AdapterDataClasses/GithubSearchData';
 import StandardModelData from '../Classes/AdapterDataClasses/StandardModelData';
 import AdapterResult from '../Classes/AdapterResult';
-import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
+import {
+    CardErrorType,
+    Locale,
+    Theme,
+    HierarchyNodeType,
+    modelActionType
+} from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
@@ -269,6 +275,7 @@ export interface IStandardModelSearchAdapter {
         queryString: string
     ): AdapterReturnType<GithubSearchData>;
     fetchModelJsonFromCDN(
-        modelPath: string
+        modelPath: string,
+        actionType: modelActionType
     ): AdapterReturnType<StandardModelData>;
 }

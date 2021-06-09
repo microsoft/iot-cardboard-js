@@ -1,7 +1,8 @@
-import { PrimaryButton, Separator } from '@fluentui/react';
+import { PrimaryButton, DefaultButton, Separator } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import StandardModelData from '../../../Models/Classes/AdapterDataClasses/StandardModelData';
+import { modelActionType } from '../../../Models/Constants';
 import { IUseAdapter } from '../../../Models/Constants/Interfaces';
 import './ModelSearchList.scss';
 
@@ -59,10 +60,23 @@ const ModelItem = ({ item, adapterState }: ModelItemProps) => {
                     </div>
                 </div>
                 <div className="cb-msl-model-item-right">
+                    <DefaultButton
+                        className="cb-msl-model-item-preview"
+                        text={t('modelSearch.modelListItemPreview')}
+                        onClick={() =>
+                            adapterState.callAdapter({
+                                modelPath: item.path,
+                                actionType: modelActionType.preview
+                            })
+                        }
+                    />
                     <PrimaryButton
                         text={t('modelSearch.modelListItemAction')}
                         onClick={() =>
-                            adapterState.callAdapter({ modelPath: item.path })
+                            adapterState.callAdapter({
+                                modelPath: item.path,
+                                actionType: modelActionType.select
+                            })
                         }
                     />
                 </div>

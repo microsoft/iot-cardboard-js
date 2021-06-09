@@ -1,6 +1,7 @@
 import { AdapterMethodSandbox } from '../Models/Classes';
 import GithubSearchData from '../Models/Classes/AdapterDataClasses/GithubSearchData';
 import StandardModelData from '../Models/Classes/AdapterDataClasses/StandardModelData';
+import { modelActionType } from '../Models/Constants/Enums';
 import { IStandardModelSearchAdapter } from '../Models/Constants/Interfaces';
 
 export default class StandardModelSearchAdapter
@@ -25,7 +26,10 @@ export default class StandardModelSearchAdapter
         });
     }
 
-    async fetchModelJsonFromCDN(modelPath: string) {
+    async fetchModelJsonFromCDN(
+        modelPath: string,
+        actionType: modelActionType
+    ) {
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
@@ -33,7 +37,7 @@ export default class StandardModelSearchAdapter
                 `https://devicemodels.azure.com/` + modelPath
             );
             const json = await res.json();
-            return new StandardModelData(json);
+            return new StandardModelData({ json, actionType });
         });
     }
 }

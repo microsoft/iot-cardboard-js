@@ -5,12 +5,15 @@ import {
     PrimaryButton,
     Toggle,
     MessageBar,
-    MessageBarType
+    MessageBarType,
+    Modal
 } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import StandardModelSearchAdapter from '../../Adapters/StandardModelSearchAdapter';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
+import { modelActionType } from '../../Models/Constants';
+import JsonPreview from '../JsonPreview/JsonPreview';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
@@ -22,6 +25,7 @@ const ModelSearch = ({
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
     const [fileNameOnly, setFileNameOnly] = useState(true);
+    const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const adapter = useRef(new StandardModelSearchAdapter());
 
     const searchDataState = useAdapter({
@@ -32,8 +36,14 @@ const ModelSearch = ({
     });
 
     const modelDataState = useAdapter({
-        adapterMethod: (params: { modelPath: string }) =>
-            adapter.current.fetchModelJsonFromCDN(params?.modelPath),
+        adapterMethod: (params: {
+            modelPath: string;
+            actionType: modelActionType;
+        }) =>
+            adapter.current.fetchModelJsonFromCDN(
+                params.modelPath,
+                params.actionType
+            ),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -64,7 +74,11 @@ const ModelSearch = ({
     useEffect(() => {
         const modelData = modelDataState.adapterResult.result?.data;
         if (modelData) {
-            onStandardModelSelection(modelData);
+            if (modelData.actionType === modelActionType.select) {
+                onStandardModelSelection(modelData.json);
+            } else if (modelData.actionType === modelActionType.preview) {
+                setIsModelPreviewOpen(true);
+            }
         }
     }, [modelDataState.adapterResult]);
 
@@ -134,6 +148,18 @@ const ModelSearch = ({
                 items={searchDataState.adapterResult.result?.data?.items}
                 adapterState={modelDataState}
             />
+            {isModelPreviewOpen && (
+                <Modal
+                    isOpen={isModelPreviewOpen}
+                    onDismiss={() => setIsModelPreviewOpen(false)}
+                    isBlocking={false}
+                    scrollableContentClassName="cb-modelsearch-json-preview-scroll"
+                >
+                    <JsonPreview
+                        json={modelDataState.adapterResult.result?.data?.json}
+                    />
+                </Modal>
+            )}
         </div>
     );
 };

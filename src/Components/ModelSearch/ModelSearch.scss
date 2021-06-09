@@ -25,3 +25,7 @@
         justify-content: center;
     }
 }
+// Outside of container because this class needs to override a fluent style
+.cb-modelsearch-json-preview-scroll {
+    overflow-y: unset;
+}

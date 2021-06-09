@@ -39,3 +39,8 @@ export enum CardTypes {
     RelationshipsTable = 'RelationshipsTable',
     InfoTable = 'InfoTable'
 }
+
+export enum modelActionType {
+    select = 'select',
+    preview = 'preview'
+}
