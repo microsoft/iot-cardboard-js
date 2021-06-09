@@ -1,13 +1,21 @@
 import { PrimaryButton, Separator } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import StandardModelData from '../../../Models/Classes/AdapterDataClasses/StandardModelData';
+import { IUseAdapter } from '../../../Models/Constants/Interfaces';
 import './ModelSearchList.scss';
 
-type Props = {
+type ModelSearchListProps = {
     items: Array<any>;
+    adapterState: IUseAdapter<StandardModelData>;
 };
 
-const ModelSearchList = ({ items }: Props) => {
+type ModelItemProps = {
+    item: any;
+    adapterState: IUseAdapter<StandardModelData>;
+};
+
+const ModelSearchList = ({ items, adapterState }: ModelSearchListProps) => {
     if (!items) {
         return null;
     }
@@ -20,13 +28,19 @@ const ModelSearchList = ({ items }: Props) => {
                 </Separator>
             )}
             {items.map((item, idx) => {
-                return <ModelItem item={item} key={idx} />;
+                return (
+                    <ModelItem
+                        item={item}
+                        key={idx}
+                        adapterState={adapterState}
+                    />
+                );
             })}
         </div>
     );
 };
 
-const ModelItem = ({ item }) => {
+const ModelItem = ({ item, adapterState }: ModelItemProps) => {
     const { t } = useTranslation();
     return (
         <>
@@ -47,7 +61,9 @@ const ModelItem = ({ item }) => {
                 <div className="cb-msl-model-item-right">
                     <PrimaryButton
                         text={t('modelSearch.modelListItemAction')}
-                        onClick={() => null}
+                        onClick={() =>
+                            adapterState.callAdapter({ modelPath: item.path })
+                        }
                     />
                 </div>
             </div>

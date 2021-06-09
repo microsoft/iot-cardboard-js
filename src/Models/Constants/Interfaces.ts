@@ -11,6 +11,7 @@ import {
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import GithubSearchData from '../Classes/AdapterDataClasses/GithubSearchData';
+import StandardModelData from '../Classes/AdapterDataClasses/StandardModelData';
 import AdapterResult from '../Classes/AdapterResult';
 import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
 import {
@@ -263,8 +264,11 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
 }
 
-export interface IGithubAdapter {
+export interface IStandardModelSearchAdapter {
     searchStringInRepo(
         queryString: string
     ): AdapterReturnType<GithubSearchData>;
+    fetchModelJsonFromCDN(
+        modelPath: string
+    ): AdapterReturnType<StandardModelData>;
 }

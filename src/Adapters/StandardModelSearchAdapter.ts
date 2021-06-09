@@ -1,8 +1,10 @@
 import { AdapterMethodSandbox } from '../Models/Classes';
 import GithubSearchData from '../Models/Classes/AdapterDataClasses/GithubSearchData';
-import { IGithubAdapter } from '../Models/Constants/Interfaces';
+import StandardModelData from '../Models/Classes/AdapterDataClasses/StandardModelData';
+import { IStandardModelSearchAdapter } from '../Models/Constants/Interfaces';
 
-export default class GithubAdapter implements IGithubAdapter {
+export default class StandardModelSearchAdapter
+    implements IStandardModelSearchAdapter {
     async searchStringInRepo(queryString: string) {
         const adapterSandbox = new AdapterMethodSandbox();
 
@@ -20,6 +22,18 @@ export default class GithubAdapter implements IGithubAdapter {
                 rateLimitRemaining,
                 rateLimitReset
             });
+        });
+    }
+
+    async fetchModelJsonFromCDN(modelPath: string) {
+        const adapterSandbox = new AdapterMethodSandbox();
+
+        return await adapterSandbox.safelyFetchData(async () => {
+            const res = await fetch(
+                `https://devicemodels.azure.com/` + modelPath
+            );
+            const json = await res.json();
+            return new StandardModelData(json);
         });
     }
 }

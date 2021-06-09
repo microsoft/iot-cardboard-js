@@ -9,18 +9,31 @@ import {
 } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
-import GithubAdapter from '../../Adapters/GithubAdapter';
+import StandardModelSearchAdapter from '../../Adapters/StandardModelSearchAdapter';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
 
-const ModelSearch = () => {
+type ModelSearchProps = {
+    onStandardModelSelection?: (modelJsonData: any) => any;
+};
+
+const ModelSearch = ({
+    onStandardModelSelection = () => null
+}: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
     const [fileNameOnly, setFileNameOnly] = useState(true);
-    const adapter = useRef(new GithubAdapter());
+    const adapter = useRef(new StandardModelSearchAdapter());
 
     const searchDataState = useAdapter({
         adapterMethod: (params: { queryString: string }) =>
             adapter.current.searchStringInRepo(params?.queryString),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const modelDataState = useAdapter({
+        adapterMethod: (params: { modelPath: string }) =>
+            adapter.current.fetchModelJsonFromCDN(params?.modelPath),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -47,6 +60,13 @@ const ModelSearch = () => {
             onSearch();
         }
     }, [fileNameOnly]);
+
+    useEffect(() => {
+        const modelData = modelDataState.adapterResult.result?.data;
+        if (modelData) {
+            onStandardModelSelection(modelData);
+        }
+    }, [modelDataState.adapterResult]);
 
     return (
         <div className="cb-modelsearch-container">
@@ -112,6 +132,7 @@ const ModelSearch = () => {
             )}
             <ModelSearchList
                 items={searchDataState.adapterResult.result?.data?.items}
+                adapterState={modelDataState}
             />
         </div>
     );
