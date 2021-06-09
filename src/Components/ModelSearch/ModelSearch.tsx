@@ -14,7 +14,7 @@ const ModelSearch = () => {
 
     const searchDataState = useAdapter({
         adapterMethod: (params: { queryString: string }) =>
-            adapter.current.searchStringInRepo(params.queryString),
+            adapter.current.searchStringInRepo(params?.queryString),
         refetchDependencies: []
     });
 
@@ -64,8 +64,22 @@ const ModelSearch = () => {
                     disabled={searchString.length === 0}
                 />
             </div>
-            <div className="cb-ms-togglebar">
+            <div className="cb-ms-info-togglebar">
+                <div className="cb-ms-info-togglebar-description">
+                    <p>
+                        {t('modelSearch.description')}
+                        <a
+                            className="cb-ms-info-togglebar-description-link"
+                            href="https://github.com/Azure/iot-plugandplay-models"
+                            target="_blank"
+                        >
+                            iot-plugandplay-models
+                        </a>
+                        {t('modelSearch.repository')}.
+                    </p>
+                </div>
                 <Toggle
+                    className="cb-ms-info-togglebar-toggle"
                     label={t('modelSearch.fileNameOnly')}
                     checked={fileNameOnly}
                     onText={t('on')}
@@ -78,6 +92,7 @@ const ModelSearch = () => {
                     }}
                 />
             </div>
+            <div className="cb-ms-model-list">{}</div>
         </div>
     );
 };

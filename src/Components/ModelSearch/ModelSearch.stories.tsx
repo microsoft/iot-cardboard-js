@@ -5,11 +5,8 @@ export default {
     title: 'Components/ModelSearch'
 };
 
-export const BasicModelSearch = (
-    _args,
-    { parameters: { wideCardWrapperStyle } }
-) => (
-    <div style={wideCardWrapperStyle}>
+export const BasicModelSearch = () => (
+    <div style={{ maxWidth: '720px', width: '100%' }}>
         <ModelSearch />
     </div>
 );

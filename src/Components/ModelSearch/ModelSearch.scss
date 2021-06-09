@@ -1,6 +1,6 @@
 .cb-modelsearch-container {
     .cb-ms-searchbar,
-    .cb-ms-togglebar {
+    .cb-ms-info-togglebar {
         display: flex;
         padding: 0 20px;
         width: 100%;
@@ -8,5 +8,20 @@
     .cb-ms-searchbox {
         flex-grow: 1;
         margin-right: 8px;
+    }
+    .cb-ms-info-togglebar-description {
+        flex: 3;
+        font-style: italic;
+        margin-right: 8px;
+    }
+    .cb-ms-info-togglebar-description-link {
+        padding: 0 4px;
+    }
+    .cb-ms-info-togglebar-toggle {
+        align-items: flex-start;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
     }
 }

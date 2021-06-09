@@ -32,7 +32,9 @@
     },
     "modelSearch": {
         "placeholder": "Enter model search string",
-        "fileNameOnly": "Only search file names"
+        "fileNameOnly": "Search by file name only",
+        "description": "This tool searches DTDL models made publicly available in the",
+        "repository": "repository"
     },
     "board": {
         "empty": "This board has no cards",
