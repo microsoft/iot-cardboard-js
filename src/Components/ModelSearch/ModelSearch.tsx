@@ -48,6 +48,12 @@ const ModelSearch = ({
         isAdapterCalledOnMount: false
     });
 
+    const modelIndexState = useAdapter({
+        adapterMethod: () => adapter.current.fetchModelIndexFromCDN(),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: true
+    });
+
     const onSearch = async () => {
         if (searchString.length > 0) {
             let queryString;

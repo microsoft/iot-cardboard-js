@@ -10,8 +10,11 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
-import GithubSearchData from '../Classes/AdapterDataClasses/GithubSearchData';
-import StandardModelData from '../Classes/AdapterDataClasses/StandardModelData';
+import {
+    StandardModelData,
+    GithubModelSearchData,
+    StandardModelIndexData
+} from '../Classes/AdapterDataClasses/StandardModelData';
 import AdapterResult from '../Classes/AdapterResult';
 import {
     CardErrorType,
@@ -273,9 +276,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
 export interface IStandardModelSearchAdapter {
     searchStringInRepo(
         queryString: string
-    ): AdapterReturnType<GithubSearchData>;
+    ): AdapterReturnType<GithubModelSearchData>;
     fetchModelJsonFromCDN(
         modelPath: string,
         actionType: modelActionType
     ): AdapterReturnType<StandardModelData>;
+    fetchModelIndexFromCDN(): AdapterReturnType<StandardModelIndexData>;
 }
