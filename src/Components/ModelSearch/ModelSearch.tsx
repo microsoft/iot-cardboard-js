@@ -24,7 +24,7 @@ const ModelSearch = ({
 }: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
-    const [fileNameOnly, setFileNameOnly] = useState(true);
+    const [fileNameOnly, setFileNameOnly] = useState(false);
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const adapter = useRef(new StandardModelSearchAdapter());
 
