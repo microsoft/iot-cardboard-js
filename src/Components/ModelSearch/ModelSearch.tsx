@@ -1,19 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    SearchBox,
-    PrimaryButton,
-    Toggle,
-    MessageBar,
-    MessageBarType,
-    Modal
-} from '@fluentui/react';
+import { Toggle, MessageBar, MessageBarType, Modal } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import StandardModelSearchAdapter from '../../Adapters/StandardModelSearchAdapter';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
 import { modelActionType } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
+import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
@@ -54,16 +48,17 @@ const ModelSearch = ({
         isAdapterCalledOnMount: true
     });
 
-    const onSearch = async () => {
-        if (searchString.length > 0) {
+    const onSearch = async (newVal?: string) => {
+        const targetString = newVal ? newVal : searchString;
+        if (targetString.length > 0) {
             let queryString;
             if (fileNameOnly) {
                 queryString = encodeURIComponent(
-                    `filename:${searchString} path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                    `filename:${targetString} path:dtmi extension:json repo:Azure/iot-plugandplay-models`
                 );
             } else {
                 queryString = encodeURIComponent(
-                    `${searchString} in:file,path path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                    `${targetString} in:file,path path:dtmi extension:json repo:Azure/iot-plugandplay-models`
                 );
             }
 
@@ -90,29 +85,22 @@ const ModelSearch = ({
 
     return (
         <div className="cb-modelsearch-container">
-            <div className="cb-ms-searchbar">
-                <SearchBox
-                    className="cb-ms-searchbox"
-                    placeholder={t('modelSearch.placeholder')}
-                    value={searchString}
-                    onChange={(
-                        _event?: React.ChangeEvent<HTMLInputElement>,
-                        newValue?: string
-                    ) => {
-                        if (newValue === '') {
-                            searchDataState.cancelAdapter();
-                        }
-                        setSearchString(newValue);
-                    }}
-                    onSearch={onSearch}
-                    onClear={() => searchDataState.cancelAdapter()}
-                />
-                <PrimaryButton
-                    text={t('search')}
-                    onClick={onSearch}
-                    disabled={searchString.length === 0}
-                />
-            </div>
+            <AutoCompleteSearchBox
+                onChange={(
+                    _event?: React.ChangeEvent<HTMLInputElement>,
+                    newValue?: string
+                ) => {
+                    if (newValue === '') {
+                        searchDataState.cancelAdapter();
+                    }
+                    setSearchString(newValue);
+                }}
+                value={searchString}
+                onClear={() => searchDataState.cancelAdapter()}
+                onSearch={(newVal) => onSearch(newVal)}
+                searchIndex={modelIndexState.adapterResult.result?.data}
+                setValue={(value) => setSearchString(value)}
+            />
             <div className="cb-ms-info-togglebar">
                 <div className="cb-ms-info-togglebar-description">
                     <p>
