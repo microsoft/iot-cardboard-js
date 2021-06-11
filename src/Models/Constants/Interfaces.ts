@@ -10,6 +10,7 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
+import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
 import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
 import {
@@ -260,4 +261,5 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
+    lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
 }

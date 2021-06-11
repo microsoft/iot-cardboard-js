@@ -10,7 +10,8 @@ import {
     ADTModelsApiData,
     ADTTwinsApiData,
     HierarchyNodeType,
-    IHierarchyNode
+    IHierarchyNode,
+    TwinLookupStatus
 } from '../../../Models/Constants';
 import { HierarchyNode } from '../../../Models/Classes/HierarchyNode';
 import {
@@ -21,7 +22,8 @@ import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
     SET_ADT_HIERARCHY_SEARCH,
-    SET_ADT_HIERARCHY_SELECTED_TWIN_ID
+    SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
+    SET_TWIN_LOOKUP_STATUS
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
 import Searchbox from '../../../Components/Searchbox/Searchbox';
@@ -34,12 +36,14 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     localeStrings,
     onParentNodeClick,
     onChildNodeClick,
-    nodeFilter
+    nodeFilter,
+    lookupTwinId
 }) => {
     const { t } = useTranslation();
     const focusedModelIdRef = useRef(null);
     const focusedTwinRef = useRef({ modelId: null, twinId: null });
     const isLoadingTriggeredByShowMore = useRef(false);
+    const lookupTwinAndModelRef = useRef(null);
 
     const [state, dispatch] = useReducer(
         ADTHierarchyCardConsumeReducer,
@@ -48,7 +52,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     const hierarchyNodes = nodeFilter
         ? nodeFilter(state.hierarchyNodes)
         : state.hierarchyNodes;
-    const searchTerm = state.searchTerm;
+    const { searchTerm, twinLookupStatus } = state;
 
     const modelState = useAdapter({
         adapterMethod: () =>
@@ -150,6 +154,12 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         twinState.cancelAdapter();
         searchState.cancelAdapter();
     };
+
+    useEffect(() => {
+        return () => {
+            cancelPendingAdapterRequests;
+        };
+    }, []);
 
     useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
@@ -338,6 +348,93 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             });
         }
     }, [searchState.adapterResult.result]);
+
+    const lookupTwinAndExpandModel = useCallback(async () => {
+        const twinAndModel = await adapter.lookupADTTwin(lookupTwinId);
+        if (twinAndModel?.data?.model) {
+            lookupTwinAndModelRef.current = twinAndModel;
+            let targetModelNode = hierarchyNodes[twinAndModel.data.model.id];
+            if (!targetModelNode) {
+                const currentNodes = { ...hierarchyNodes };
+                targetModelNode = {
+                    id: twinAndModel.data.model.id,
+                    name: twinAndModel.data.model.displayName.en,
+                    nodeData: twinAndModel.data.model,
+                    nodeType: HierarchyNodeType.Parent
+                } as IHierarchyNode;
+                dispatch({
+                    type: SET_ADT_HIERARCHY_NODES,
+                    payload: {
+                        [twinAndModel.data.model.id]: targetModelNode,
+                        ...currentNodes
+                    }
+                });
+            }
+            await handleModelClick(targetModelNode);
+            dispatch({
+                type: SET_TWIN_LOOKUP_STATUS,
+                payload: TwinLookupStatus.InProgress
+            });
+        }
+    }, [hierarchyNodes]);
+
+    const locateTwinAfterLookup = useCallback(async () => {
+        const twinAndModel = lookupTwinAndModelRef.current;
+        let targetTwinNode =
+            hierarchyNodes[twinAndModel.data.model.id].children?.[
+                twinAndModel.data.twin.$dtId
+            ];
+        if (!targetTwinNode) {
+            targetTwinNode = {
+                id: twinAndModel.data.twin.$dtId,
+                name: twinAndModel.data.twin.$dtId,
+                nodeData: twinAndModel.data.twin,
+                nodeType: HierarchyNodeType.Child,
+                parentNode: hierarchyNodes[twinAndModel.data.model.id]
+            } as IHierarchyNode;
+            const currentChildren = {
+                ...hierarchyNodes[twinAndModel.data.model.id].children
+            };
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                payload: {
+                    modelId: twinAndModel.data.model.id,
+                    properties: {
+                        children: {
+                            [targetTwinNode.id]: targetTwinNode,
+                            ...currentChildren
+                        }
+                    }
+                }
+            });
+        }
+        await handleTwinClick(
+            hierarchyNodes[twinAndModel.data.model.id],
+            targetTwinNode
+        );
+        dispatch({
+            type: SET_TWIN_LOOKUP_STATUS,
+            payload: TwinLookupStatus.Finished
+        });
+    }, [hierarchyNodes]);
+
+    useEffect(() => {
+        if (
+            lookupTwinId &&
+            modelState.adapterResult.result &&
+            !modelState.isLoading &&
+            twinLookupStatus === TwinLookupStatus.Idle
+        ) {
+            lookupTwinAndExpandModel();
+        } else if (
+            lookupTwinId &&
+            twinState.adapterResult.result &&
+            !twinState.isLoading &&
+            twinLookupStatus === TwinLookupStatus.InProgress
+        ) {
+            locateTwinAfterLookup();
+        }
+    }, [hierarchyNodes]);
 
     const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
         handleModelClick(model);

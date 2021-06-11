@@ -16,7 +16,9 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     adapter,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    lookupTwinId,
+    onTwinClick
 }) => {
     const [selectedTwin, setSelectedTwin]: [
         IADTTwin,
@@ -30,6 +32,9 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         childNode: IHierarchyNode
     ) => {
         setSelectedTwin(childNode.nodeData);
+        if (onTwinClick) {
+            onTwinClick(childNode.nodeData);
+        }
     };
 
     const onEntitySelect = (
@@ -58,6 +63,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                     locale={locale}
                     localeStrings={localeStrings}
                     onChildNodeClick={handleChildNodeClick}
+                    lookupTwinId={lookupTwinId}
                 />
             </div>
             <div className="cb-hbcard-board">

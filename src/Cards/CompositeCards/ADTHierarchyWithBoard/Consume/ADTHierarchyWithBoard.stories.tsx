@@ -31,3 +31,37 @@ export const ADT = (args, { globals: { theme, locale } }) => {
         </div>
     );
 };
+
+export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
+    const authenticationParameters = useAuthParams();
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div>
+            <ADTHierarchyWithBoard
+                title={'Twins'}
+                theme={theme}
+                locale={locale}
+                adapter={
+                    new ADTAdapter(
+                        authenticationParameters.adt.hostUrl,
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
+                    )
+                }
+                lookupTwinId={args.lookupTwinId}
+            />
+        </div>
+    );
+};
+
+ADTWithReverseLookup.argTypes = {
+    lookupTwinId: {
+        control: {
+            type: 'text'
+        },
+        defaultValue: 'CarTwin'
+    }
+};
