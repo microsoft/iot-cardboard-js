@@ -18,20 +18,26 @@ export default class CdnModelSearchAdapter
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
+            const keysAdded = {};
             const searchResults: StandardModelSearchItem[] = [];
 
             const addItemToResults = (key: string) => {
-                searchResults.push({
-                    dtmi: key,
-                    ...(typeof this.modelSearchIndexObj[key]?.displayName ===
-                        'string' && {
-                        displayName: this.modelSearchIndexObj[key].displayName
-                    }),
-                    ...(typeof this.modelSearchIndexObj[key]?.description ===
-                        'string' && {
-                        description: this.modelSearchIndexObj[key].description
-                    })
-                });
+                if (!(key in keysAdded)) {
+                    searchResults.push({
+                        dtmi: key,
+                        ...(typeof this.modelSearchIndexObj[key]
+                            ?.displayName === 'string' && {
+                            displayName: this.modelSearchIndexObj[key]
+                                .displayName
+                        }),
+                        ...(typeof this.modelSearchIndexObj[key]
+                            ?.description === 'string' && {
+                            description: this.modelSearchIndexObj[key]
+                                .description
+                        })
+                    });
+                    keysAdded[key] = true;
+                }
             };
 
             Object.keys(this.modelSearchIndexObj).forEach((key) => {
