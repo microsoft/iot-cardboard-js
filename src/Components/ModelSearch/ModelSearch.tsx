@@ -83,33 +83,18 @@ const ModelSearch = ({
                 searchIndex={adapter.modelSearchStringIndex}
                 setValue={(value) => setSearchString(value)}
             />
-            <div className="cb-ms-info-togglebar">
-                <div className="cb-ms-info-togglebar-description">
-                    <p>
-                        {t('modelSearch.description')}
-                        <a
-                            className="cb-ms-info-togglebar-description-link"
-                            href="https://github.com/Azure/iot-plugandplay-models"
-                            target="_blank"
-                        >
-                            Azure/iot-plugandplay-models
-                        </a>
-                        {t('modelSearch.repository')}.
-                    </p>
-                </div>
-                <Toggle
-                    className="cb-ms-info-togglebar-toggle"
-                    label={t('modelSearch.fileNameOnly')}
-                    checked={fileNameOnly}
-                    onText={t('on')}
-                    offText={t('off')}
-                    onChange={(
-                        _ev: React.MouseEvent<HTMLElement>,
-                        checked?: boolean
-                    ) => {
-                        setFileNameOnly(checked);
-                    }}
-                />
+            <div className="cb-ms-info">
+                <p>
+                    {t('modelSearch.description')}
+                    <a
+                        className="cb-ms-info-description-link"
+                        href="https://github.com/Azure/iot-plugandplay-models"
+                        target="_blank"
+                    >
+                        Azure/iot-plugandplay-models
+                    </a>
+                    {t('modelSearch.repository')}.
+                </p>
             </div>
             {searchDataState.adapterResult.result?.data?.metadata
                 ?.rateLimitRemaining === 0 && (
@@ -130,6 +115,10 @@ const ModelSearch = ({
                     onDismiss={() => setIsModelPreviewOpen(false)}
                     isBlocking={false}
                     scrollableContentClassName="cb-modelsearch-json-preview-scroll"
+                    className="cb-modelsearch-preview-modal"
+                    styles={{
+                        main: { maxWidth: '80%' }
+                    }}
                 >
                     <JsonPreview
                         json={modelDataState.adapterResult.result?.data?.json}

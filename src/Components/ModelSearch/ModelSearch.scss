@@ -1,7 +1,8 @@
 .cb-modelsearch-container {
     padding: 8px;
-    .cb-ms-info-togglebar {
+    .cb-ms-info {
         display: flex;
+        font-style: italic;
         width: 100%;
     }
     .cb-ms-info-togglebar-description {
@@ -9,15 +10,8 @@
         font-style: italic;
         margin-right: 8px;
     }
-    .cb-ms-info-togglebar-description-link {
+    .cb-ms-info-description-link {
         padding: 0 4px;
-    }
-    .cb-ms-info-togglebar-toggle {
-        align-items: flex-start;
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
     }
 }
 // Outside of container because this class needs to override a fluent style

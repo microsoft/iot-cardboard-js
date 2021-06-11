@@ -35,6 +35,10 @@ class BaseStandardModelSearchAdapter
                 ...this.modelSearchStringIndex,
                 ...models
             ];
+            this.modelSearchIndexObj = {
+                ...this.modelSearchIndexObj,
+                ...json.models
+            };
         }
     }
 
@@ -42,7 +46,7 @@ class BaseStandardModelSearchAdapter
         const adapterSandbox = new AdapterMethodSandbox();
         return await adapterSandbox.safelyFetchData(async () => {
             const modelPath =
-                dtmi.replaceAll(':', '/').replaceAll(';', '-') +
+                dtmi.replaceAll(':', '/').replaceAll(';', '-').toLowerCase() +
                 '.expanded.json';
             const res = await fetch(`${this.CdnUrl}/` + modelPath);
 

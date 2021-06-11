@@ -1,5 +1,7 @@
 import {
     Callout,
+    FocusZone,
+    FocusZoneDirection,
     getFocusStyle,
     getTheme,
     ITheme,
@@ -112,7 +114,10 @@ const AutoCompleteSearchBox = ({
                             }
                             onChange(event, newValue);
                         }}
-                        onSearch={onSearch}
+                        onSearch={() => {
+                            onSearch();
+                            setSuggestions([]);
+                        }}
                         onClear={() => {
                             onClear();
                             setSuggestions([]);
@@ -128,11 +133,17 @@ const AutoCompleteSearchBox = ({
                             gapSpace={0}
                             onDismiss={() => setIsCalloutVisible(false)}
                         >
-                            <List
-                                items={suggestions}
-                                onRenderCell={onRenderCell}
-                                className="cb-ms-suggestion-list"
-                            />
+                            <FocusZone
+                                direction={FocusZoneDirection.vertical}
+                                isCircularNavigation={true}
+                                role="grid"
+                            >
+                                <List
+                                    items={suggestions}
+                                    onRenderCell={onRenderCell}
+                                    className="cb-ms-suggestion-list"
+                                />
+                            </FocusZone>
                         </Callout>
                     )}
                 </div>

@@ -32,15 +32,18 @@ export default class GithubModelSearchAdapter
             const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
             const json = await res.json();
 
-            const results = json.items.map((item) => {
-                return {
-                    dtmi: item.path
-                        .replaceAll('/', ':')
-                        .replaceAll('-', ';')
-                        .replace('.json', ''),
-                    displayName: item.name
-                };
-            });
+            let results = [];
+            if (json?.items) {
+                results = json.items.map((item) => {
+                    return {
+                        dtmi: item.path
+                            .replaceAll('/', ':')
+                            .replaceAll('-', ';')
+                            .replace('.json', ''),
+                        displayName: item.name
+                    };
+                });
+            }
 
             return new StandardModelSearchData({
                 data: results,
