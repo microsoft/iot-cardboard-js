@@ -4,6 +4,7 @@ import {
     GithubModelSearchData,
     StandardModelIndexData
 } from '../Models/Classes/AdapterDataClasses/StandardModelData';
+import { ModelSearchCdn } from '../Models/Constants';
 import { modelActionType } from '../Models/Constants/Enums';
 import { IStandardModelSearchAdapter } from '../Models/Constants/Interfaces';
 
@@ -34,11 +35,8 @@ export default class StandardModelSearchAdapter
         actionType: modelActionType
     ) {
         const adapterSandbox = new AdapterMethodSandbox();
-
         return await adapterSandbox.safelyFetchData(async () => {
-            const res = await fetch(
-                `https://devicemodels.azure.com/` + modelPath
-            );
+            const res = await fetch(`${ModelSearchCdn}/` + modelPath);
             const json = await res.json();
             return new StandardModelData({ json, actionType });
         });
@@ -49,7 +47,7 @@ export default class StandardModelSearchAdapter
 
         return await adapterSandbox.safelyFetchData(async () => {
             let stringIndex = [];
-            let res = await fetch(`https://devicemodels.azure.com/index.json`);
+            let res = await fetch(`${ModelSearchCdn}/index.json`);
             let json = await res.json();
             let models: string[] = [];
 
@@ -57,9 +55,7 @@ export default class StandardModelSearchAdapter
             stringIndex = [...stringIndex, ...models];
 
             while (json.links?.next) {
-                res = await fetch(
-                    `https://devicemodels.azure.com/${json.links.next}`
-                );
+                res = await fetch(`${ModelSearchCdn}/${json.links.next}`);
                 json = await res.json();
                 models = this.parseModelsIntoArray(json.models);
                 stringIndex = [...stringIndex, ...models];

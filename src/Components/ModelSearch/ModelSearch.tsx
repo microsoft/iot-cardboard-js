@@ -5,7 +5,7 @@ import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import StandardModelSearchAdapter from '../../Adapters/StandardModelSearchAdapter';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
-import { modelActionType } from '../../Models/Constants';
+import { modelActionType, ModelSearchRepository } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 
@@ -54,11 +54,11 @@ const ModelSearch = ({
             let queryString;
             if (fileNameOnly) {
                 queryString = encodeURIComponent(
-                    `filename:${targetString} path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                    `filename:${targetString} path:dtmi extension:json repo:${ModelSearchRepository}`
                 );
             } else {
                 queryString = encodeURIComponent(
-                    `${targetString} in:file,path path:dtmi extension:json repo:Azure/iot-plugandplay-models`
+                    `${targetString} in:file,path path:dtmi extension:json repo:${ModelSearchRepository}`
                 );
             }
 

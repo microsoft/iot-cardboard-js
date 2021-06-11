@@ -1,7 +1,7 @@
 import { PrimaryButton, DefaultButton, Separator } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import StandardModelData from '../../../Models/Classes/AdapterDataClasses/StandardModelData';
+import { StandardModelData } from '../../../Models/Classes/AdapterDataClasses/StandardModelData';
 import { modelActionType } from '../../../Models/Constants';
 import { IUseAdapter } from '../../../Models/Constants/Interfaces';
 import './ModelSearchList.scss';
@@ -43,6 +43,7 @@ const ModelSearchList = ({ items, adapterState }: ModelSearchListProps) => {
 
 const ModelItem = ({ item, adapterState }: ModelItemProps) => {
     const { t } = useTranslation();
+
     return (
         <>
             <div className="cb-msl-model-item">

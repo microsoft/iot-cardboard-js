@@ -8,3 +8,5 @@ export const ADTModel_MetadataFilePath_PropertyName = 'metadataFilePath';
 export const ADT_ApiVersion = '2020-10-31';
 
 export const ViewDataPropertyName = 'cb_viewdata';
+export const ModelSearchRepository = 'Azure/iot-plugandplay-models';
+export const ModelSearchCdn = 'https://devicemodelstest.azure.com';
