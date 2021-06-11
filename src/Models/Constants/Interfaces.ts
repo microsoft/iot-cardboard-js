@@ -12,8 +12,7 @@ import {
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import {
     StandardModelData,
-    GithubModelSearchData,
-    StandardModelIndexData
+    StandardModelSearchData
 } from '../Classes/AdapterDataClasses/StandardModelData';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -273,13 +272,27 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
 }
 
-export interface IStandardModelSearchAdapter {
-    searchStringInRepo(
-        queryString: string
-    ): AdapterReturnType<GithubModelSearchData>;
+export interface IBaseStandardModelSearchAdapter {
+    modelSearchStringIndex: string[];
     fetchModelJsonFromCDN(
-        modelPath: string,
+        dtmi: string,
         actionType: modelActionType
     ): AdapterReturnType<StandardModelData>;
-    fetchModelIndexFromCDN(): AdapterReturnType<StandardModelIndexData>;
+}
+export interface IStandardModelSearchAdapter
+    extends IBaseStandardModelSearchAdapter {
+    searchString(
+        queryString: string
+    ): AdapterReturnType<StandardModelSearchData>;
+}
+
+export interface StandardModelSearchItem {
+    dtmi: string;
+    displayName?: string;
+    description?: string;
+}
+
+export interface StandardModelSearchResult {
+    data: StandardModelSearchItem[];
+    metadata?: { [key: string]: any };
 }

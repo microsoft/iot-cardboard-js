@@ -3,66 +3,48 @@ import { useTranslation } from 'react-i18next';
 import { Toggle, MessageBar, MessageBarType, Modal } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
-import StandardModelSearchAdapter from '../../Adapters/StandardModelSearchAdapter';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
-import { modelActionType, ModelSearchRepository } from '../../Models/Constants';
+import {
+    IStandardModelSearchAdapter,
+    modelActionType
+} from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
+    adapter: IStandardModelSearchAdapter;
 };
 
 const ModelSearch = ({
-    onStandardModelSelection = () => null
+    onStandardModelSelection = () => null,
+    adapter
 }: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
     const [fileNameOnly, setFileNameOnly] = useState(false);
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
-    const adapter = useRef(new StandardModelSearchAdapter());
 
     const searchDataState = useAdapter({
         adapterMethod: (params: { queryString: string }) =>
-            adapter.current.searchStringInRepo(params?.queryString),
+            adapter.searchString(params?.queryString),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
     const modelDataState = useAdapter({
         adapterMethod: (params: {
-            modelPath: string;
+            dtmi: string;
             actionType: modelActionType;
-        }) =>
-            adapter.current.fetchModelJsonFromCDN(
-                params.modelPath,
-                params.actionType
-            ),
+        }) => adapter.fetchModelJsonFromCDN(params.dtmi, params.actionType),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
-    });
-
-    const modelIndexState = useAdapter({
-        adapterMethod: () => adapter.current.fetchModelIndexFromCDN(),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: true
     });
 
     const onSearch = async (newVal?: string) => {
         const targetString = newVal ? newVal : searchString;
         if (targetString.length > 0) {
-            let queryString;
-            if (fileNameOnly) {
-                queryString = encodeURIComponent(
-                    `filename:${targetString} path:dtmi extension:json repo:${ModelSearchRepository}`
-                );
-            } else {
-                queryString = encodeURIComponent(
-                    `${targetString} in:file,path path:dtmi extension:json repo:${ModelSearchRepository}`
-                );
-            }
-
-            searchDataState.callAdapter({ queryString });
+            searchDataState.callAdapter({ queryString: targetString });
         }
     };
 
@@ -98,7 +80,7 @@ const ModelSearch = ({
                 value={searchString}
                 onClear={() => searchDataState.cancelAdapter()}
                 onSearch={(newVal) => onSearch(newVal)}
-                searchIndex={modelIndexState.adapterResult.result?.data}
+                searchIndex={adapter.modelSearchStringIndex}
                 setValue={(value) => setSearchString(value)}
             />
             <div className="cb-ms-info-togglebar">
@@ -129,17 +111,17 @@ const ModelSearch = ({
                     }}
                 />
             </div>
-            {searchDataState.adapterResult.result?.data?.rateLimitRemaining ===
-                0 && (
+            {searchDataState.adapterResult.result?.data?.metadata
+                ?.rateLimitRemaining === 0 && (
                 <RateLimitExceededWarning
                     rateLimitResetTime={
-                        searchDataState.adapterResult.result?.data
+                        searchDataState.adapterResult.result.data.metadata
                             .rateLimitReset
                     }
                 />
             )}
             <ModelSearchList
-                items={searchDataState.adapterResult.result?.data?.items}
+                items={searchDataState.adapterResult.result?.data?.data}
                 adapterState={modelDataState}
             />
             {isModelPreviewOpen && (

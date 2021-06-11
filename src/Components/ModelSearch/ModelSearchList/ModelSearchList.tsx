@@ -49,16 +49,14 @@ const ModelItem = ({ item, adapterState }: ModelItemProps) => {
             <div className="cb-msl-model-item">
                 <div className="cb-msl-model-item-left">
                     <div>
-                        <b>{item.name}</b>
+                        <b>{item.dtmi}</b>
                     </div>
-                    <div>
-                        <i>{item.path}</i>
-                    </div>
-                    <div>
-                        <a href={item.html_url} target="_blank">
-                            {t('modelSearch.githubLink')}
-                        </a>
-                    </div>
+                    {item?.displayName && <div>{item.displayName}</div>}
+                    {item?.description && (
+                        <div>
+                            <i>{item.description}</i>
+                        </div>
+                    )}
                 </div>
                 <div className="cb-msl-model-item-right">
                     <DefaultButton
@@ -66,7 +64,7 @@ const ModelItem = ({ item, adapterState }: ModelItemProps) => {
                         text={t('modelSearch.modelListItemPreview')}
                         onClick={() =>
                             adapterState.callAdapter({
-                                modelPath: item.path,
+                                dtmi: item.dtmi,
                                 actionType: modelActionType.preview
                             })
                         }
@@ -75,7 +73,7 @@ const ModelItem = ({ item, adapterState }: ModelItemProps) => {
                         text={t('modelSearch.modelListItemAction')}
                         onClick={() =>
                             adapterState.callAdapter({
-                                modelPath: item.path,
+                                dtmi: item.dtmi,
                                 actionType: modelActionType.select
                             })
                         }
