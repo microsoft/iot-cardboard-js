@@ -45,7 +45,8 @@
         "empty": "This board has no cards",
         "twinID": "Twin Id",
         "model": "Model",
-        "relationshipsTable": "Relationships Table"
+        "relationshipsTable": "Relationships Table",
+        "processGraphic": "Process Graphic"
     },
     "boardErrors": {
         "failure": "Unable to load board data",
