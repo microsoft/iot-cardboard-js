@@ -1,14 +1,11 @@
 import React from 'react';
 import LinechartCard from './LinechartCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import TsiAdapter from '../../../Adapters/TsiAdapter';
-import { SearchSpan } from '../../../Models/Classes/SearchSpan';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import { Theme } from '../../../Models/Constants/Enums';
-import useAuthParams from '../../../../.storybook/useAuthParams';
 import { ITsiClientChartDataAdapter } from '../../../Models/Constants';
 import {
     AdapterMethodSandbox,
+    SearchSpan,
     TsiClientAdapterData
 } from '../../../Models/Classes';
 
@@ -20,23 +17,23 @@ export default {
                 type: 'code'
             }
         }
-    }
-    // component: LinechartCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
+    },
+    component: LinechartCard
 };
 
 const id = 'storyID';
 const properties = ['storyProperty1', 'storyProperty2'];
 const chartDataOptions = [{ includeDots: true }, { includeDots: false }];
-const chartCardStyle = {
-    height: '400px'
-};
 
 export const MockData = (
     _args,
-    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+    {
+        globals: { theme, locale },
+        parameters: { mockedSearchSpan, defaultCardWrapperStyle }
+    }
 ) => {
     return (
-        <div style={chartCardStyle}>
+        <div style={defaultCardWrapperStyle}>
             <LinechartCard
                 theme={theme}
                 locale={locale}
@@ -53,7 +50,10 @@ export const MockData = (
 
 export const UsingCustomTsiClientAdapter = (
     _args,
-    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+    {
+        globals: { theme, locale },
+        parameters: { mockedSearchSpan, defaultCardWrapperStyle }
+    }
 ) => {
     // Create adapter object adhering to ITsiClientChartDataAdapter interface
     const customAdapterUsingInterface: ITsiClientChartDataAdapter = {
@@ -80,7 +80,7 @@ export const UsingCustomTsiClientAdapter = (
     };
 
     return (
-        <div style={chartCardStyle}>
+        <div style={defaultCardWrapperStyle}>
             <LinechartCard
                 title={'Custom TsiClientChartData Adapter'}
                 theme={theme}
@@ -98,9 +98,12 @@ UsingCustomTsiClientAdapter.storyName = 'Using Custom TsiClient Adapter';
 
 export const NoData = (
     _args,
-    { globals: { theme, locale }, parameters: { mockedSearchSpan } }
+    {
+        globals: { theme, locale },
+        parameters: { mockedSearchSpan, defaultCardWrapperStyle }
+    }
 ) => (
-    <div style={chartCardStyle}>
+    <div style={defaultCardWrapperStyle}>
         <LinechartCard
             theme={theme}
             locale={locale}
@@ -112,44 +115,15 @@ export const NoData = (
     </div>
 );
 
-export const TsiData = (_args, { globals: { theme, locale } }) => {
-    const authenticationParameters = useAuthParams();
-    const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
-    const tsiProperties = ['value'];
-    const tsiSearchSpan = new SearchSpan(
-        new Date('2017-04-20T20:00:00Z'),
-        new Date('2017-05-20T20:00:00Z'),
-        '6h'
-    );
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={chartCardStyle}>
-            <LinechartCard
-                theme={theme}
-                locale={locale}
-                id={tsiId}
-                searchSpan={tsiSearchSpan}
-                properties={tsiProperties}
-                adapter={
-                    new TsiAdapter(
-                        authenticationParameters.tsi.environmentFqdn,
-                        new MsalAuthService(
-                            authenticationParameters.tsi.aadParameters
-                        )
-                    )
-                }
-            />
-        </div>
-    );
-};
-
 export const TwoThemedCharts = (
     _args,
-    { globals: { locale }, parameters: { mockedSearchSpan } }
+    {
+        globals: { locale },
+        parameters: { mockedSearchSpan, defaultCardWrapperStyle }
+    }
 ) => (
     <div>
-        <div style={chartCardStyle}>
+        <div style={defaultCardWrapperStyle}>
             <LinechartCard
                 title={'Linechart dark theme card'}
                 theme={Theme.Dark}
@@ -160,7 +134,7 @@ export const TwoThemedCharts = (
                 adapter={new MockAdapter()}
             />
         </div>
-        <div style={chartCardStyle}>
+        <div style={defaultCardWrapperStyle}>
             <LinechartCard
                 title={'Linechart light theme card'}
                 theme={Theme.Light}

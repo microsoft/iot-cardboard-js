@@ -10,7 +10,7 @@ export default {
     title: 'BaseCard/Consume'
 };
 
-export const BasicCardNoData = (args, { globals: { theme, locale } }) => (
+export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '400px',

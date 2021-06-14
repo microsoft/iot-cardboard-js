@@ -6,7 +6,7 @@ export default {
     component: InfoTableCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
-export const Mock = (args, { globals: { theme, locale } }) => (
+export const Mock = (_args, { globals: { theme, locale } }) => (
     <InfoTableCard
         theme={theme}
         locale={locale}

@@ -38,7 +38,12 @@ export const parameters = {
         new Date(1617260400000),
         new Date(1617260500000),
         '100ms'
-    )
+    ),
+    defaultCardWrapperStyle: { width: '400px', height: '400px' },
+    wideCardWrapperStyle: {
+        height: '400px',
+        width: '720px'
+    }
 };
 
 // Wrap stories with stable GUID provider
