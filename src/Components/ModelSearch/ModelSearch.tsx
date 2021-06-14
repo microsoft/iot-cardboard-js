@@ -4,7 +4,9 @@ import {
     MessageBar,
     MessageBarType,
     Modal,
-    DefaultButton
+    DefaultButton,
+    Spinner,
+    SpinnerSize
 } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
@@ -113,6 +115,7 @@ const ModelSearch = ({
                         ?.modelSearchStringIndex
                 }
                 setValue={(value) => setSearchString(value)}
+                searchDisabled={modelIndexState.isLoading}
             />
             <div className="cb-ms-info">
                 <p>
@@ -153,6 +156,7 @@ const ModelSearch = ({
                                     ?.metadata?.pageIdx
                         })
                     }
+                    disabled={searchDataState.isLoading}
                 />
             )}
             {isModelPreviewOpen && (
@@ -170,6 +174,9 @@ const ModelSearch = ({
                         json={modelDataState.adapterResult.result?.data?.json}
                     />
                 </Modal>
+            )}
+            {(modelIndexState.isLoading || searchDataState.isLoading) && (
+                <Spinner size={SpinnerSize.large} />
             )}
         </div>
     );

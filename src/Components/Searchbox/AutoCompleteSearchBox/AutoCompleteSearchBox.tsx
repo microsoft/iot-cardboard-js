@@ -25,6 +25,7 @@ type AutoCompleteSearchBoxProps = {
     searchIndex?: string[];
     setValue: (val: string) => any;
     minAutocompleteChars?: number;
+    searchDisabled?: boolean;
 };
 
 const theme: ITheme = getTheme();
@@ -58,7 +59,8 @@ const AutoCompleteSearchBox = ({
     onClear = () => null,
     setValue,
     searchIndex,
-    minAutocompleteChars = 3
+    minAutocompleteChars = 3,
+    searchDisabled = false
 }: AutoCompleteSearchBoxProps) => {
     const { t } = useTranslation();
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -106,6 +108,7 @@ const AutoCompleteSearchBox = ({
                         ref={searchBoxRef}
                         placeholder={t('modelSearch.placeholder')}
                         value={value}
+                        disabled={searchDisabled}
                         onChange={(
                             event?: React.ChangeEvent<HTMLInputElement>,
                             newValue?: string
@@ -152,7 +155,7 @@ const AutoCompleteSearchBox = ({
                 <PrimaryButton
                     text={t('search')}
                     onClick={() => onSearch()}
-                    disabled={value.length === 0}
+                    disabled={value.length === 0 || searchDisabled}
                 />
             </div>
         </div>
