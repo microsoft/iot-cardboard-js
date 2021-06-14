@@ -3,6 +3,7 @@ import { BIMFileTypes, IBIMViewerProps } from '../../Models/Constants';
 import { useGuid } from '../../Models/Hooks';
 import useXeokitRender from '../../Models/Hooks/useXeokitRender';
 import { getFileType } from '../../Models/Services/Utils';
+import Error from '../Error/Error';
 import './BIMViewer.scss';
 
 const BIMViewer: React.FC<IBIMViewerProps> = ({
@@ -12,13 +13,13 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
 }) => {
     const viewerGuid = useGuid();
 
-    const [catastrophicError, setCatastrophicError] = useState(null);
+    const [errorText, setErrorText] = useState<string>(null);
     const viewer = useXeokitRender(
         viewerGuid,
         bimFilePath,
         metadataFilePath,
         getFileType(bimFilePath) as BIMFileTypes,
-        setCatastrophicError
+        setErrorText
     );
 
     useEffect(() => {
@@ -31,15 +32,7 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
 
     return (
         <div className="cb-bimviewer-container">
-            {catastrophicError && (
-                <div className="cb-base-catastrophic-error-wrapper">
-                    <div className="cb-base-catastrophic-error-box">
-                        <div className="cb-base-catastrophic-error-message">
-                            {catastrophicError}
-                        </div>
-                    </div>
-                </div>
-            )}
+            {errorText && <Error errorTitle={errorText} />}
             <canvas id={viewerGuid}></canvas>
         </div>
     );

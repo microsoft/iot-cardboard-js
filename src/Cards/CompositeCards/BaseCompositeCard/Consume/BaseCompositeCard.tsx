@@ -5,6 +5,7 @@ import './BaseCompositeCard.scss';
 import { ThemeProvider } from '../../../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../../../i18n';
+import Modal from '../../../../Components/Modal/Modal';
 
 const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
     children,
@@ -27,11 +28,7 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
                         <h3 className="cb-base-card-title">{title}</h3>
                         <div className="cb-base-card-content">
                             {!children ? (
-                                <div className="cb-base-info-wrapper">
-                                    <div className="cb-base-info">
-                                        {t('empty')}
-                                    </div>
-                                </div>
+                                <Modal>{t('empty')}</Modal>
                             ) : (
                                 <div className="cb-base-composite-card-items">
                                     {React.Children.map(children, (child) => (

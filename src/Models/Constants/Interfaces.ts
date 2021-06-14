@@ -54,6 +54,16 @@ export interface IConsumeCardProps extends ICardBaseProps {
     properties: readonly string[];
 }
 
+export interface IErrorComponentProps {
+    errorTitle: string;
+    errorContent?: string;
+}
+
+export interface IModalProps {
+    children: React.ReactNode;
+    onClose?: () => void;
+}
+
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
     adapter?: any;
 }
