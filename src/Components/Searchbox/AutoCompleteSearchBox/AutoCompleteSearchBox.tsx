@@ -24,6 +24,7 @@ type AutoCompleteSearchBoxProps = {
     onClear?: () => any;
     searchIndex?: string[];
     setValue: (val: string) => any;
+    minAutocompleteChars?: number;
 };
 
 const theme: ITheme = getTheme();
@@ -56,7 +57,8 @@ const AutoCompleteSearchBox = ({
     onSearch = () => null,
     onClear = () => null,
     setValue,
-    searchIndex
+    searchIndex,
+    minAutocompleteChars = 3
 }: AutoCompleteSearchBoxProps) => {
     const { t } = useTranslation();
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -64,7 +66,7 @@ const AutoCompleteSearchBox = ({
     const searchBoxRef = useRef(null);
 
     const suggest = (input: string) => {
-        if (searchIndex && input.length > 0) {
+        if (searchIndex && input.length >= minAutocompleteChars) {
             const filteredModels = searchIndex.filter(
                 (item: string) =>
                     item.toLowerCase().indexOf(input.toLocaleLowerCase()) !== -1
