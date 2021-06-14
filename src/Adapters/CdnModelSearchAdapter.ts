@@ -10,11 +10,14 @@ import {
 export default class CdnModelSearchAdapter
     extends BaseStandardModelSearchAdapter
     implements IStandardModelSearchAdapter {
-    constructor(CdnUrl: string) {
+    private pageSize: number;
+
+    constructor(CdnUrl: string, pageSize = 10) {
         super(CdnUrl);
+        this.pageSize = pageSize;
     }
 
-    async searchString(queryString: string) {
+    async searchString(queryString: string, pageIdx = 0) {
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
@@ -40,7 +43,11 @@ export default class CdnModelSearchAdapter
                 }
             };
 
-            Object.keys(this.modelSearchIndexObj).forEach((key) => {
+            const modelSearchIndexKeys = Object.keys(this.modelSearchIndexObj);
+            let nextPageStartingIndex = pageIdx;
+
+            for (let i = pageIdx; i < modelSearchIndexKeys.length; i++) {
+                const key = modelSearchIndexKeys[i];
                 if (key.includes(queryString)) {
                     addItemToResults(key);
                 }
@@ -62,10 +69,19 @@ export default class CdnModelSearchAdapter
                 ) {
                     addItemToResults(key);
                 }
-            });
+                nextPageStartingIndex = i;
+                if (searchResults.length >= this.pageSize) {
+                    break;
+                }
+            }
 
             return new StandardModelSearchData({
-                data: searchResults
+                data: searchResults,
+                metadata: {
+                    pageIdx: nextPageStartingIndex,
+                    hasMoreItems:
+                        nextPageStartingIndex < modelSearchIndexKeys.length - 1
+                }
             });
         });
     }

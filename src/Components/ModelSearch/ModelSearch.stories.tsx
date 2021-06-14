@@ -13,7 +13,8 @@ export const GithubModelSearch = () => (
             adapter={
                 new GithubModelSearchAdapter(
                     'https://devicemodels.azure.com',
-                    'Azure/iot-plugandplay-models'
+                    'Azure/iot-plugandplay-models',
+                    100
                 )
             }
             onStandardModelSelection={(modelData) =>
@@ -27,7 +28,10 @@ export const CdnModelSearch = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <ModelSearch
             adapter={
-                new CdnModelSearchAdapter('https://devicemodelstest.azure.com')
+                new CdnModelSearchAdapter(
+                    'https://devicemodelstest.azure.com',
+                    10
+                )
             }
             onStandardModelSelection={(modelData) =>
                 alert(JSON.stringify(modelData, null, 2))

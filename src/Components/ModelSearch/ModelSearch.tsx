@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Toggle, MessageBar, MessageBarType, Modal } from '@fluentui/react';
+import {
+    MessageBar,
+    MessageBarType,
+    Modal,
+    DefaultButton
+} from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
@@ -22,12 +27,12 @@ const ModelSearch = ({
 }: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
-    const [fileNameOnly, setFileNameOnly] = useState(false);
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
+    const [mergedSearchResults, setMergedSearchResults] = useState(null);
 
     const searchDataState = useAdapter({
-        adapterMethod: (params: { queryString: string }) =>
-            adapter.searchString(params?.queryString),
+        adapterMethod: (params: { queryString: string; pageIdx?: number }) =>
+            adapter.searchString(params?.queryString, params.pageIdx),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -42,18 +47,14 @@ const ModelSearch = ({
     });
 
     const onSearch = async (newVal?: string) => {
+        clearSearchResults();
         const targetString = newVal ? newVal : searchString;
         if (targetString.length > 0) {
             searchDataState.callAdapter({ queryString: targetString });
         }
     };
 
-    useEffect(() => {
-        if (searchString.length > 0) {
-            onSearch();
-        }
-    }, [fileNameOnly]);
-
+    // When model json data is updated, trigger select / preview actions
     useEffect(() => {
         const modelData = modelDataState.adapterResult.result?.data;
         if (modelData) {
@@ -65,6 +66,21 @@ const ModelSearch = ({
         }
     }, [modelDataState.adapterResult]);
 
+    // Merge paginated search results with current search results
+    useEffect(() => {
+        const newData = searchDataState.adapterResult.result?.data?.data;
+        if (newData) {
+            setMergedSearchResults((oldData) =>
+                oldData ? [...oldData, ...newData] : newData
+            );
+        }
+    }, [searchDataState.adapterResult.result]);
+
+    const clearSearchResults = () => {
+        searchDataState.cancelAdapter();
+        setMergedSearchResults(null);
+    };
+
     return (
         <div className="cb-modelsearch-container">
             <AutoCompleteSearchBox
@@ -73,12 +89,12 @@ const ModelSearch = ({
                     newValue?: string
                 ) => {
                     if (newValue === '') {
-                        searchDataState.cancelAdapter();
+                        clearSearchResults();
                     }
                     setSearchString(newValue);
                 }}
                 value={searchString}
-                onClear={() => searchDataState.cancelAdapter()}
+                onClear={() => clearSearchResults()}
                 onSearch={(newVal) => onSearch(newVal)}
                 searchIndex={adapter.modelSearchStringIndex}
                 setValue={(value) => setSearchString(value)}
@@ -106,9 +122,24 @@ const ModelSearch = ({
                 />
             )}
             <ModelSearchList
-                items={searchDataState.adapterResult.result?.data?.data}
+                items={mergedSearchResults}
                 adapterState={modelDataState}
             />
+            {searchDataState.adapterResult.result?.data?.metadata
+                ?.hasMoreItems && (
+                <DefaultButton
+                    className="cb-ms-show-more"
+                    text={t('showMore')}
+                    onClick={() =>
+                        searchDataState.callAdapter({
+                            queryString: searchString,
+                            pageIdx:
+                                searchDataState.adapterResult.result?.data
+                                    ?.metadata?.pageIdx
+                        })
+                    }
+                />
+            )}
             {isModelPreviewOpen && (
                 <Modal
                     isOpen={isModelPreviewOpen}

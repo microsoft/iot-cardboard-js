@@ -282,7 +282,8 @@ export interface IBaseStandardModelSearchAdapter {
 export interface IStandardModelSearchAdapter
     extends IBaseStandardModelSearchAdapter {
     searchString(
-        queryString: string
+        queryString: string,
+        pageIdx?: number
     ): AdapterReturnType<StandardModelSearchData>;
 }
 

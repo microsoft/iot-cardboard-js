@@ -2,20 +2,22 @@ import { AdapterMethodSandbox } from '../Models/Classes';
 import { StandardModelSearchData } from '../Models/Classes/AdapterDataClasses/StandardModelData';
 import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelSearchAdapter';
 import { IStandardModelSearchAdapter } from '../Models/Constants/Interfaces';
+import parse from 'parse-link-header';
 
 export default class GithubModelSearchAdapter
     extends BaseStandardModelSearchAdapter
     implements IStandardModelSearchAdapter {
     private githubRepo: string;
-
+    private pageSize: number;
     // Github Repo param should be in the form Organization/Repository,
     // example: Azure/iot-plugandplay-models
-    constructor(CdnUrl: string, githubRepo: string) {
+    constructor(CdnUrl: string, githubRepo: string, pageSize = 30) {
         super(CdnUrl);
         this.githubRepo = githubRepo;
+        this.pageSize = pageSize;
     }
 
-    async searchString(queryString: string) {
+    async searchString(queryString: string, pageIdx = 1) {
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
@@ -24,12 +26,21 @@ export default class GithubModelSearchAdapter
             );
 
             const res = await fetch(
-                `https://api.github.com/search/code?q=` + queryParam
+                `https://api.github.com/search/code?q=` +
+                    queryParam +
+                    `&per_page=${this.pageSize}` +
+                    `&page=${pageIdx}`
             );
             const rateLimitRemaining = Number(
                 res.headers.get('x-ratelimit-remaining')
             );
             const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
+            const link = res.headers.get('link');
+            let parsedLinkHeader = null;
+            if (link) {
+                parsedLinkHeader = parse(link);
+            }
+
             const json = await res.json();
 
             let results = [];
@@ -49,7 +60,11 @@ export default class GithubModelSearchAdapter
                 data: results,
                 metadata: {
                     rateLimitRemaining,
-                    rateLimitReset
+                    rateLimitReset,
+                    ...(parsedLinkHeader && {
+                        pageIdx: parsedLinkHeader?.next?.page,
+                        hasMoreItems: parsedLinkHeader?.next
+                    })
                 }
             });
         });

@@ -13,6 +13,7 @@
         "i18next": "^19.8.7",
         "i18next-browser-languagedetector": "^6.0.1",
         "immer": "^8.0.1",
+        "parse-link-header": "^1.0.1",
         "react-i18next": "^11.8.5",
         "tsiclient": "^1.4.12"
     },
