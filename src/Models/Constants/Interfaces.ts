@@ -147,6 +147,7 @@ export interface IHierarchyProps {
         childNode: IHierarchyNode
     ) => void;
     noDataText?: string;
+    shouldScrollToSelectedNode?: boolean;
 }
 
 export interface IHierarchyNode {

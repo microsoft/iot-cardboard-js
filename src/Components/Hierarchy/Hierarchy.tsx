@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     HierarchyNodeType,
     IHierarchyNode,
@@ -16,9 +16,21 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     isLoading,
     onParentNodeClick,
     onChildNodeClick,
-    noDataText
+    noDataText,
+    shouldScrollToSelectedNode
 }) => {
     const { t } = useTranslation();
+    const selectedNodeRef = useRef();
+
+    useEffect(() => {
+        if (shouldScrollToSelectedNode && selectedNodeRef) {
+            (selectedNodeRef.current as HTMLUListElement).scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'end'
+            });
+        }
+    }, [shouldScrollToSelectedNode]);
 
     const Chevron = ({ collapsed }) => (
         <Icon
@@ -83,6 +95,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
             <>
                 <div className="cb-hierarchy-node">
                     <div
+                        ref={node.isSelected ? selectedNodeRef : undefined}
                         className={`cb-hierarchy-node-name-wrapper cb-hierarchy-child-node ${
                             node.isSelected ? 'cb-selected' : ''
                         } ${

@@ -511,6 +511,10 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                     !isLoadingTriggeredByShowMore.current
                 }
                 noDataText={t('noTwins')}
+                shouldScrollToSelectedNode={
+                    lookupTwinId &&
+                    twinLookupStatus === TwinLookupStatus.Finished
+                }
             ></Hierarchy>
         </BaseCard>
     );
