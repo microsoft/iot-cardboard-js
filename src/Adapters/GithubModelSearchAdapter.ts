@@ -1,7 +1,10 @@
 import { AdapterMethodSandbox } from '../Models/Classes';
 import { StandardModelSearchData } from '../Models/Classes/AdapterDataClasses/StandardModelData';
 import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelSearchAdapter';
-import { IStandardModelSearchAdapter } from '../Models/Constants/Interfaces';
+import {
+    IModelSearchStringParams,
+    IStandardModelSearchAdapter
+} from '../Models/Constants/Interfaces';
 import parse from 'parse-link-header';
 
 export default class GithubModelSearchAdapter
@@ -17,7 +20,7 @@ export default class GithubModelSearchAdapter
         this.pageSize = pageSize;
     }
 
-    async searchString(queryString: string, pageIdx = 1) {
+    async searchString({ queryString, pageIdx = 1 }: IModelSearchStringParams) {
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {

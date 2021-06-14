@@ -1,10 +1,13 @@
-import { IAdapterData } from '../../Constants/Interfaces';
-import { StandardModelSearchResult } from '../../Constants/Interfaces';
+import {
+    IAdapterData,
+    IStandardModelIndexData
+} from '../../Constants/Interfaces';
+import { IStandardModelSearchResult } from '../../Constants/Interfaces';
 
 class StandardModelSearchData implements IAdapterData {
-    data: StandardModelSearchResult;
+    data: IStandardModelSearchResult;
 
-    constructor(data: StandardModelSearchResult) {
+    constructor(data: IStandardModelSearchResult) {
         this.data = data;
     }
 
@@ -25,4 +28,16 @@ class StandardModelData implements IAdapterData {
     }
 }
 
-export { StandardModelData, StandardModelSearchData };
+class StandardModelIndexData implements IAdapterData {
+    data: IStandardModelIndexData;
+
+    constructor(data: IStandardModelIndexData) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return this.data === null || this.data === undefined;
+    }
+}
+
+export { StandardModelData, StandardModelSearchData, StandardModelIndexData };

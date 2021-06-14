@@ -1,45 +1,52 @@
 import { IBaseStandardModelSearchAdapter } from '../Constants';
 import { modelActionType } from '../Constants/Enums';
-import { StandardModelData } from './AdapterDataClasses/StandardModelData';
+import {
+    StandardModelData,
+    StandardModelIndexData
+} from './AdapterDataClasses/StandardModelData';
 import AdapterMethodSandbox from './AdapterMethodSandbox';
 
 class BaseStandardModelSearchAdapter
     implements IBaseStandardModelSearchAdapter {
     public CdnUrl: string;
-    public modelSearchStringIndex: string[] = [];
-    public modelSearchIndexObj: any = {};
 
     constructor(CdnUrl: string) {
         this.CdnUrl = CdnUrl;
-        this.constructModelSearchIndex();
     }
 
-    async constructModelSearchIndex() {
-        let res = await fetch(`${this.CdnUrl}/index.json`);
-        let json = await res.json();
+    async getModelSearchIndex() {
+        const adapterSandbox = new AdapterMethodSandbox();
 
-        this.modelSearchIndexObj = json.models;
+        return await adapterSandbox.safelyFetchData(async () => {
+            let modelSearchStringIndex: string[] = [];
+            let modelSearchIndexObj: any = {};
 
-        let models: string[] = [];
-        models = this.parseModelsIntoArray(json.models);
-        this.modelSearchStringIndex = [
-            ...this.modelSearchStringIndex,
-            ...models
-        ];
+            let res = await fetch(`${this.CdnUrl}/index.json`);
+            let json = await res.json();
 
-        while (json.links?.next) {
-            res = await fetch(`${this.CdnUrl}/${json.links.next}`);
-            json = await res.json();
+            modelSearchIndexObj = json.models;
+
+            let models: string[] = [];
             models = this.parseModelsIntoArray(json.models);
-            this.modelSearchStringIndex = [
-                ...this.modelSearchStringIndex,
-                ...models
-            ];
-            this.modelSearchIndexObj = {
-                ...this.modelSearchIndexObj,
-                ...json.models
-            };
-        }
+
+            modelSearchStringIndex = [...modelSearchStringIndex, ...models];
+
+            while (json.links?.next) {
+                res = await fetch(`${this.CdnUrl}/${json.links.next}`);
+                json = await res.json();
+                models = this.parseModelsIntoArray(json.models);
+                modelSearchStringIndex = [...modelSearchStringIndex, ...models];
+                modelSearchIndexObj = {
+                    ...modelSearchIndexObj,
+                    ...json.models
+                };
+            }
+
+            return new StandardModelIndexData({
+                modelSearchIndexObj,
+                modelSearchStringIndex
+            });
+        });
     }
 
     async fetchModelJsonFromCDN(dtmi: string, actionType: modelActionType) {

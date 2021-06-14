@@ -3,8 +3,9 @@ import { StandardModelSearchData } from '../Models/Classes/AdapterDataClasses/St
 
 import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelSearchAdapter';
 import {
+    IModelSearchStringParams,
     IStandardModelSearchAdapter,
-    StandardModelSearchItem
+    IStandardModelSearchItem
 } from '../Models/Constants/Interfaces';
 
 export default class CdnModelSearchAdapter
@@ -17,33 +18,35 @@ export default class CdnModelSearchAdapter
         this.pageSize = pageSize;
     }
 
-    async searchString(queryString: string, pageIdx = 0) {
+    async searchString({
+        modelIndex,
+        pageIdx = 0,
+        queryString
+    }: IModelSearchStringParams) {
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
             const keysAdded = {};
-            const searchResults: StandardModelSearchItem[] = [];
+            const searchResults: IStandardModelSearchItem[] = [];
 
             const addItemToResults = (key: string) => {
                 if (!(key in keysAdded)) {
                     searchResults.push({
                         dtmi: key,
-                        ...(typeof this.modelSearchIndexObj[key]
-                            ?.displayName === 'string' && {
-                            displayName: this.modelSearchIndexObj[key]
-                                .displayName
+                        ...(typeof modelIndex[key]?.displayName ===
+                            'string' && {
+                            displayName: modelIndex[key].displayName
                         }),
-                        ...(typeof this.modelSearchIndexObj[key]
-                            ?.description === 'string' && {
-                            description: this.modelSearchIndexObj[key]
-                                .description
+                        ...(typeof modelIndex[key]?.description ===
+                            'string' && {
+                            description: modelIndex[key].description
                         })
                     });
                     keysAdded[key] = true;
                 }
             };
 
-            const modelSearchIndexKeys = Object.keys(this.modelSearchIndexObj);
+            const modelSearchIndexKeys = Object.keys(modelIndex);
             let nextPageStartingIndex = pageIdx;
 
             for (let i = pageIdx; i < modelSearchIndexKeys.length; i++) {
@@ -52,20 +55,14 @@ export default class CdnModelSearchAdapter
                     addItemToResults(key);
                 }
                 if (
-                    typeof this.modelSearchIndexObj[key]?.displayName ===
-                        'string' &&
-                    this.modelSearchIndexObj[key].displayName.includes(
-                        queryString
-                    )
+                    typeof modelIndex[key]?.displayName === 'string' &&
+                    modelIndex[key].displayName.includes(queryString)
                 ) {
                     addItemToResults(key);
                 }
                 if (
-                    typeof this.modelSearchIndexObj[key]?.description ===
-                        'string' &&
-                    this.modelSearchIndexObj[key].description.includes(
-                        queryString
-                    )
+                    typeof modelIndex[key]?.description === 'string' &&
+                    modelIndex[key].description.includes(queryString)
                 ) {
                     addItemToResults(key);
                 }

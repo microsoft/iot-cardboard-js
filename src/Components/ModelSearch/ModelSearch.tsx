@@ -30,9 +30,21 @@ const ModelSearch = ({
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const [mergedSearchResults, setMergedSearchResults] = useState(null);
 
+    const modelIndexState = useAdapter({
+        adapterMethod: () => adapter.getModelSearchIndex(),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: true
+    });
+
     const searchDataState = useAdapter({
         adapterMethod: (params: { queryString: string; pageIdx?: number }) =>
-            adapter.searchString(params?.queryString, params.pageIdx),
+            adapter.searchString({
+                queryString: params.queryString,
+                pageIdx: params.pageIdx,
+                modelIndex:
+                    modelIndexState.adapterResult.result?.data
+                        .modelSearchIndexObj
+            }),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -96,7 +108,10 @@ const ModelSearch = ({
                 value={searchString}
                 onClear={() => clearSearchResults()}
                 onSearch={(newVal) => onSearch(newVal)}
-                searchIndex={adapter.modelSearchStringIndex}
+                searchIndex={
+                    modelIndexState.adapterResult.result?.data
+                        ?.modelSearchStringIndex
+                }
                 setValue={(value) => setSearchString(value)}
             />
             <div className="cb-ms-info">

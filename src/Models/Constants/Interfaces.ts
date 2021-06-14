@@ -12,6 +12,7 @@ import {
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import {
     StandardModelData,
+    StandardModelIndexData,
     StandardModelSearchData
 } from '../Classes/AdapterDataClasses/StandardModelData';
 import AdapterResult from '../Classes/AdapterResult';
@@ -273,27 +274,37 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
 }
 
 export interface IBaseStandardModelSearchAdapter {
-    modelSearchStringIndex: string[];
+    getModelSearchIndex(): AdapterReturnType<StandardModelIndexData>;
     fetchModelJsonFromCDN(
         dtmi: string,
         actionType: modelActionType
     ): AdapterReturnType<StandardModelData>;
 }
+
+export interface IModelSearchStringParams {
+    queryString: string;
+    pageIdx?: number;
+    modelIndex: Record<string, any>;
+}
 export interface IStandardModelSearchAdapter
     extends IBaseStandardModelSearchAdapter {
     searchString(
-        queryString: string,
-        pageIdx?: number
+        params: IModelSearchStringParams
     ): AdapterReturnType<StandardModelSearchData>;
 }
 
-export interface StandardModelSearchItem {
+export interface IStandardModelSearchItem {
     dtmi: string;
     displayName?: string;
     description?: string;
 }
 
-export interface StandardModelSearchResult {
-    data: StandardModelSearchItem[];
+export interface IStandardModelSearchResult {
+    data: IStandardModelSearchItem[];
     metadata?: { [key: string]: any };
+}
+
+export interface IStandardModelIndexData {
+    modelSearchStringIndex: string[];
+    modelSearchIndexObj: Record<string, any>;
 }
