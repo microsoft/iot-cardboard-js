@@ -119,8 +119,10 @@ const useAdapter = <T extends IAdapterData>({
 
     const cancelAdapter = () => {
         cancel(); // Cancel outstanding promises
-        setAdapterResult(null);
-        setIsLoading(false);
+        if (mountedRef.current) {
+            setAdapterResult(null);
+            setIsLoading(false);
+        }
     };
 
     const setIsLongPolling = (isLongPolling: boolean) => {

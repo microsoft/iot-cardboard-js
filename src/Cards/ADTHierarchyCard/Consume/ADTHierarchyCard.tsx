@@ -40,6 +40,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     lookupTwinId
 }) => {
     const { t } = useTranslation();
+    const mountedRef = useRef(null);
     const focusedModelIdRef = useRef(null);
     const focusedTwinRef = useRef({ modelId: null, twinId: null });
     const isLoadingTriggeredByShowMore = useRef(false);
@@ -156,7 +157,9 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     };
 
     useEffect(() => {
+        mountedRef.current = true;
         return () => {
+            mountedRef.current = false;
             cancelPendingAdapterRequests;
         };
     }, []);
@@ -351,7 +354,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
 
     const lookupTwinAndExpandModel = useCallback(async () => {
         const twinAndModel = await adapter.lookupADTTwin(lookupTwinId);
-        if (twinAndModel?.data?.model) {
+        if (twinAndModel?.data?.model && mountedRef.current) {
             lookupTwinAndModelRef.current = twinAndModel;
             let targetModelNode = hierarchyNodes[twinAndModel.data.model.id];
             if (!targetModelNode) {
