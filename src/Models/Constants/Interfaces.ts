@@ -31,6 +31,10 @@ export interface IBIMViewerProps {
     centeredObject?: string;
 }
 
+export interface IBIMFileSelectionProps {
+    onSubmit: (bimFilePath: string, metadataFilePath?: string) => void;
+}
+
 export interface ITSIChartComponentProps {
     data: any[];
     chartOptions?: any;

@@ -39,3 +39,9 @@ export enum CardTypes {
     RelationshipsTable = 'RelationshipsTable',
     InfoTable = 'InfoTable'
 }
+
+export enum BIMUploadState {
+    PreProcessing = 'preProcessing',
+    PreUpload = 'preUpload',
+    PostUpload = 'postUpload'
+}
