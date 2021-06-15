@@ -119,6 +119,9 @@ const AutoCompleteSearchBox = ({
                             }
                             onChange(event, newValue);
                         }}
+                        onFocus={() => {
+                            setIsCalloutVisible(true);
+                        }}
                         onSearch={() => {
                             onSearch();
                             setSuggestions([]);
@@ -162,4 +165,4 @@ const AutoCompleteSearchBox = ({
     );
 };
 
-export default AutoCompleteSearchBox;
+export default React.memo(AutoCompleteSearchBox);
