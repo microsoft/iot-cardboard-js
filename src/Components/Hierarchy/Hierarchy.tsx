@@ -26,8 +26,8 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
         if (shouldScrollToSelectedNode && selectedNodeRef) {
             (selectedNodeRef.current as HTMLUListElement).scrollIntoView({
                 behavior: 'smooth',
-                block: 'end',
-                inline: 'end'
+                block: 'center',
+                inline: 'start'
             });
         }
     }, [shouldScrollToSelectedNode]);
