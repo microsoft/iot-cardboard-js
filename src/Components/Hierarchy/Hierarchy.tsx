@@ -20,10 +20,10 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     shouldScrollToSelectedNode
 }) => {
     const { t } = useTranslation();
-    const selectedNodeRef = useRef();
+    const selectedNodeRef = useRef(null);
 
     useEffect(() => {
-        if (shouldScrollToSelectedNode && selectedNodeRef) {
+        if (shouldScrollToSelectedNode && selectedNodeRef.current) {
             (selectedNodeRef.current as HTMLUListElement).scrollIntoView({
                 behavior: 'smooth',
                 block: 'center',
@@ -72,12 +72,15 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         <span className="cb-hierarchy-node-name">
                             {formattedNodeName()}
                         </span>
-                        {Object.keys(node.children).length > 0 && (
-                            <span className="cb-hierarchy-child-count">
-                                {Object.keys(node.children).length -
-                                    (node.childrenContinuationToken ? 1 : 0)}
-                            </span>
-                        )}
+                        {node.children &&
+                            Object.keys(node.children).length > 0 && (
+                                <span className="cb-hierarchy-child-count">
+                                    {Object.keys(node.children).length -
+                                        (node.childrenContinuationToken
+                                            ? 1
+                                            : 0)}
+                                </span>
+                            )}
                         {node.isLoading && (
                             <Spinner size={SpinnerSize.xSmall} />
                         )}

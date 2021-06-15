@@ -151,8 +151,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     };
 
     const cancelPendingAdapterRequests = () => {
-        modelState.cancelAdapter();
-        twinState.cancelAdapter();
+        modelState.cancelAdapter(true);
+        twinState.cancelAdapter(true);
         searchState.cancelAdapter();
     };
 
@@ -363,7 +363,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                     id: twinAndModel.data.model.id,
                     name: twinAndModel.data.model.displayName.en,
                     nodeData: twinAndModel.data.model,
-                    nodeType: HierarchyNodeType.Parent
+                    nodeType: HierarchyNodeType.Parent,
+                    isCollapsed: true
                 } as IHierarchyNode;
                 dispatch({
                     type: SET_ADT_HIERARCHY_NODES,
@@ -373,13 +374,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                     }
                 });
             }
-            await handleModelClick(targetModelNode);
+            if (targetModelNode.isCollapsed) {
+                await handleModelClick(targetModelNode);
+            }
             dispatch({
                 type: SET_TWIN_LOOKUP_STATUS,
                 payload: TwinLookupStatus.InProgress
             });
         }
-    }, [hierarchyNodes]);
+    }, [hierarchyNodes, lookupTwinId]);
 
     const locateTwinAfterLookup = useCallback(async () => {
         const twinAndModel = lookupTwinAndModelRef.current;
@@ -419,14 +422,15 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             type: SET_TWIN_LOOKUP_STATUS,
             payload: TwinLookupStatus.Finished
         });
-    }, [hierarchyNodes]);
+    }, [hierarchyNodes, lookupTwinAndModelRef.current]);
 
     useEffect(() => {
         if (
             lookupTwinId &&
             modelState.adapterResult.result &&
             !modelState.isLoading &&
-            twinLookupStatus === TwinLookupStatus.Idle
+            twinLookupStatus === TwinLookupStatus.Idle &&
+            !searchTerm
         ) {
             lookupTwinAndExpandModel();
         } else if (
@@ -437,7 +441,16 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         ) {
             locateTwinAfterLookup();
         }
-    }, [hierarchyNodes]);
+    }, [hierarchyNodes, twinLookupStatus]);
+
+    useEffect(() => {
+        if (lookupTwinId) {
+            dispatch({
+                type: SET_TWIN_LOOKUP_STATUS,
+                payload: TwinLookupStatus.Idle
+            });
+        }
+    }, [lookupTwinId]);
 
     const handleOnParentNodeClick = useCallback((model: IHierarchyNode) => {
         handleModelClick(model);

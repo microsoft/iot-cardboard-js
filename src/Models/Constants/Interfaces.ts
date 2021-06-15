@@ -97,7 +97,7 @@ export interface IUseAdapter<T extends IAdapterData> {
     callAdapter: (params?: AdapterMethodParams) => void;
 
     /** Cancel adapter method and set the adapter result to null */
-    cancelAdapter: () => void;
+    cancelAdapter: (shouldPreserveState?: boolean) => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;

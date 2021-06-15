@@ -25,6 +25,9 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         React.Dispatch<IADTTwin>
     ] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
+        lookupTwinId
+    );
     const { t } = useTranslation();
 
     const handleChildNodeClick = (
@@ -50,6 +53,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         } else {
             setSelectedTwin(twin);
             setErrorMessage(null);
+            setReverseLookupTwinId(twin.$dtId);
         }
     };
 
@@ -63,7 +67,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                     locale={locale}
                     localeStrings={localeStrings}
                     onChildNodeClick={handleChildNodeClick}
-                    lookupTwinId={lookupTwinId}
+                    lookupTwinId={reverseLookupTwinId}
                 />
             </div>
             <div className="cb-hbcard-board">
