@@ -59,7 +59,7 @@ const AutoCompleteSearchBox = ({
     onClear = () => null,
     setValue,
     searchIndex,
-    minAutocompleteChars = 3,
+    minAutocompleteChars = 2,
     searchDisabled = false
 }: AutoCompleteSearchBoxProps) => {
     const { t } = useTranslation();
