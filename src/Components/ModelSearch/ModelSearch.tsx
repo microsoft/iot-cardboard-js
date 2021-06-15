@@ -43,9 +43,8 @@ const ModelSearch = ({
             adapter.searchString({
                 queryString: params.queryString,
                 pageIdx: params.pageIdx,
-                modelIndex:
-                    modelIndexState.adapterResult.result?.data
-                        .modelSearchIndexObj
+                modelIndex: modelIndexState.adapterResult.getData()
+                    ?.modelSearchIndexObj
             }),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
@@ -70,7 +69,7 @@ const ModelSearch = ({
 
     // When model json data is updated, trigger select / preview actions
     useEffect(() => {
-        const modelData = modelDataState.adapterResult.result?.data;
+        const modelData = modelDataState.adapterResult.getData();
         if (modelData) {
             if (modelData.actionType === modelActionType.select) {
                 onStandardModelSelection(modelData.json);
@@ -82,7 +81,7 @@ const ModelSearch = ({
 
     // Merge paginated search results with current search results
     useEffect(() => {
-        const newData = searchDataState.adapterResult.result?.data?.data;
+        const newData = searchDataState.adapterResult.getData()?.data;
         if (newData) {
             setMergedSearchResults((oldData) =>
                 oldData ? [...oldData, ...newData] : newData
@@ -111,7 +110,7 @@ const ModelSearch = ({
                 onClear={() => clearSearchResults()}
                 onSearch={(newVal) => onSearch(newVal)}
                 searchIndex={
-                    modelIndexState.adapterResult.result?.data
+                    modelIndexState.adapterResult.getData()
                         ?.modelSearchStringIndex
                 }
                 setValue={(value) => setSearchString(value)}
@@ -130,11 +129,11 @@ const ModelSearch = ({
                     {t('modelSearch.repository')}.
                 </p>
             </div>
-            {searchDataState.adapterResult.result?.data?.metadata
+            {searchDataState.adapterResult.getData()?.metadata
                 ?.rateLimitRemaining === 0 && (
                 <RateLimitExceededWarning
                     rateLimitResetTime={
-                        searchDataState.adapterResult.result.data.metadata
+                        searchDataState.adapterResult.getData().metadata
                             .rateLimitReset
                     }
                 />
@@ -143,7 +142,7 @@ const ModelSearch = ({
                 items={mergedSearchResults}
                 adapterState={modelDataState}
             />
-            {searchDataState.adapterResult.result?.data?.metadata
+            {searchDataState.adapterResult.getData()?.metadata
                 ?.hasMoreItems && (
                 <DefaultButton
                     className="cb-ms-show-more"
@@ -151,9 +150,8 @@ const ModelSearch = ({
                     onClick={() =>
                         searchDataState.callAdapter({
                             queryString: searchString,
-                            pageIdx:
-                                searchDataState.adapterResult.result?.data
-                                    ?.metadata?.pageIdx
+                            pageIdx: searchDataState.adapterResult.getData()
+                                .metadata?.pageIdx
                         })
                     }
                     disabled={searchDataState.isLoading}
@@ -171,7 +169,7 @@ const ModelSearch = ({
                     }}
                 >
                     <JsonPreview
-                        json={modelDataState.adapterResult.result?.data?.json}
+                        json={modelDataState.adapterResult.getData()?.json}
                     />
                 </Modal>
             )}

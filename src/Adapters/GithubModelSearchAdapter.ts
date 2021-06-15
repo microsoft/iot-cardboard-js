@@ -34,30 +34,27 @@ export default class GithubModelSearchAdapter
                     `&per_page=${this.pageSize}` +
                     `&page=${pageIdx}`
             );
+
             const rateLimitRemaining = Number(
                 res.headers.get('x-ratelimit-remaining')
             );
+
             const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
             const link = res.headers.get('link');
-            let parsedLinkHeader = null;
-            if (link) {
-                parsedLinkHeader = parse(link);
-            }
-
+            const parsedLinkHeader = link ? parse(link) : null;
             const json = await res.json();
 
-            let results = [];
-            if (json?.items) {
-                results = json.items.map((item) => {
-                    return {
-                        dtmi: item.path
-                            .replaceAll('/', ':')
-                            .replaceAll('-', ';')
-                            .replace('.json', ''),
-                        displayName: item.name
-                    };
-                });
-            }
+            const results = json?.items
+                ? json.items.map((item) => {
+                      return {
+                          dtmi: item.path
+                              .replaceAll('/', ':')
+                              .replaceAll('-', ';')
+                              .replace('.json', ''),
+                          displayName: item.name
+                      };
+                  })
+                : [];
 
             return new StandardModelSearchData({
                 data: results,
