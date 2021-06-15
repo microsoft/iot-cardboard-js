@@ -40,7 +40,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
     ) : (
         <div>
             <ADTHierarchyWithBoard
-                title={'Twins'}
+                title={'Twins with reverse lookup'}
                 theme={theme}
                 locale={locale}
                 adapter={
