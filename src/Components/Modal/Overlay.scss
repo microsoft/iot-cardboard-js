@@ -1,4 +1,4 @@
-.cb-modal-outer {
+.cb-overlay-outer {
     align-items: center;
     background-color: var(--cb-color-bg-canvas);
     display: flex;
@@ -8,7 +8,7 @@
     width: 100%;
     z-index: 3;
 }
-.cb-modal-inner {
+.cb-overlay-inner {
     background: var(--cb-color-bg-canvas-inset);
     border-radius: 3px;
     padding: 20px;

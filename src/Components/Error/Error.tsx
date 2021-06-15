@@ -1,6 +1,6 @@
 import React from 'react';
 import { IErrorComponentProps } from '../../Models/Constants';
-import Modal from '../Modal/Modal';
+import Overlay from '../Modal/Overlay';
 import './Error.scss';
 
 const Error: React.FC<IErrorComponentProps> = ({
@@ -8,10 +8,10 @@ const Error: React.FC<IErrorComponentProps> = ({
     errorContent
 }) => {
     return (
-        <Modal>
+        <Overlay>
             <div className="cb-error-title">{errorTitle}</div>
             {errorContent && <div>{errorContent}</div>}
-        </Modal>
+        </Overlay>
     );
 };
 

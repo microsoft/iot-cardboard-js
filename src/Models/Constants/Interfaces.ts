@@ -70,7 +70,7 @@ export interface IErrorComponentProps {
     errorContent?: string;
 }
 
-export interface IModalProps {
+export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
 }
