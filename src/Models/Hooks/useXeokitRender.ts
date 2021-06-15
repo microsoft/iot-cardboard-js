@@ -5,11 +5,11 @@ import { BIMFileTypes } from '../Constants';
 import { useTranslation } from 'react-i18next';
 
 const useXeokitRender = (
-    canvasId,
-    bimFilePath,
-    metadataFilePath,
-    bimFileType = BIMFileTypes.Xkt,
-    onError
+    canvasId: string,
+    bimFilePath: string,
+    metadataFilePath: string,
+    bimFileType: BIMFileTypes = BIMFileTypes.Xkt,
+    onError: (string) => void
 ) => {
     const viewer = useRef(null);
     const { t } = useTranslation();
@@ -28,8 +28,8 @@ const useXeokitRender = (
                 metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
                 edges: true
             });
-            model.on('error', (e) => {
-                onError(e);
+            model.on('error', (errorString: string) => {
+                onError(errorString);
             });
         } else {
             onError(t('unsupportedFileType'));
