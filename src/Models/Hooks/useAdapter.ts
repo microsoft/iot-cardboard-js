@@ -103,8 +103,10 @@ const useAdapter = <T extends IAdapterData>({
             const adapterResult = await cancellablePromise(
                 adapterMethod(params)
             );
-            setAdapterResult(adapterResult);
-            setIsLoading(false);
+            if (mountedRef.current) {
+                setAdapterResult(adapterResult);
+                setIsLoading(false);
+            }
         } catch (err) {
             if (!(err instanceof CancelledPromiseError)) {
                 console.error('Unexpected promise error', err); // log unexpected errors
