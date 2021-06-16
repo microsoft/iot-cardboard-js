@@ -15,6 +15,7 @@
     "noTwins": "No twins",
     "on": "On",
     "off": "Off",
+    "wrapText": "Wrap text",
     "copy": "Copy",
     "create": {
         "createLinechart": "Line chart card creator",

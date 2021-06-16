@@ -1,7 +1,7 @@
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import jsonLang from 'react-syntax-highlighter/dist/esm/languages/hljs/json';
 import codeStyle from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode';
-import React from 'react';
+import React, { useState } from 'react';
 import './JsonPreviewModal.scss';
 import {
     DefaultButton,
@@ -10,10 +10,12 @@ import {
     IButtonStyles,
     IconButton,
     mergeStyleSets,
-    Modal
+    Modal,
+    Toggle
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
 import { useTranslation } from 'react-i18next';
+import copy from 'copy-to-clipboard';
 
 SyntaxHighlighter.registerLanguage('json', jsonLang);
 
@@ -48,7 +50,7 @@ const contentStyles = mergeStyleSets({
             display: 'flex',
             alignItems: 'center',
             fontWeight: FontWeights.semibold,
-            padding: '12px 12px 14px 24px',
+            padding: '12px 12px 14px 20px',
             height: '40px'
         }
     ]
@@ -62,6 +64,7 @@ const JsonPreviewModal = ({
 }: JsonPreviewModalProps) => {
     const { t } = useTranslation();
     const formattedString = JSON.stringify(json, null, 2);
+    const [isCodeWrapped, setIsCodeWrapped] = useState(true);
     const titleId = useGuid();
 
     return (
@@ -98,16 +101,28 @@ const JsonPreviewModal = ({
                     language={'json'}
                     style={codeStyle}
                     showLineNumbers={true}
+                    wrapLongLines={isCodeWrapped}
                 >
                     {formattedString}
                 </SyntaxHighlighter>
             </div>
-            <div className={'cb-json-preview-modal-footer'}>
-                <DefaultButton
-                    className="cb-footer-copy-json-button"
-                    text={t('copy')}
-                    onClick={() => null}
-                />
+            <div className={'cb-json-preview-modal-footer-container'}>
+                <div className={'cb-json-preview-modal-footer-tools'}>
+                    <Toggle
+                        label={t('wrapText')}
+                        defaultChecked
+                        onText={t('on')}
+                        offText={t('off')}
+                        onChange={(_, checked) => setIsCodeWrapped(checked)}
+                    />
+                </div>
+                <div className={'cb-json-preview-modal-footer-actions'}>
+                    <DefaultButton
+                        className="cb-footer-copy-json-button"
+                        text={t('copy')}
+                        onClick={() => copy(formattedString)}
+                    />
+                </div>
             </div>
         </Modal>
     );
