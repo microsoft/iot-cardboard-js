@@ -1,0 +1,32 @@
+.cb-json-preview-modal-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 80%;
+    max-width: 80%;
+    overflow: hidden;
+
+    .cb-json-preview-modal-scrollable-content {
+        position: relative;
+    }
+
+    .cb-json-preview-modal-title {
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .cb-json-preview-container {
+        padding: 0 12px;
+        pre {
+            max-height: 400px;
+            overflow: auto;
+        }
+    }
+    .cb-json-preview-modal-footer {
+        align-items: center;
+        display: flex;
+        height: 60px;
+        justify-content: flex-end;
+        padding: 0 20px;
+    }
+}

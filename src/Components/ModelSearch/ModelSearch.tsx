@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
     MessageBar,
     MessageBarType,
-    Modal,
     DefaultButton,
     Spinner,
     SpinnerSize
@@ -15,7 +14,7 @@ import {
     IStandardModelSearchAdapter,
     modelActionType
 } from '../../Models/Constants';
-import JsonPreview from '../JsonPreview/JsonPreview';
+import JsonPreviewModal from '../JsonPreviewModal/JsonPreviewModal';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 
 type ModelSearchProps = {
@@ -94,6 +93,23 @@ const ModelSearch = ({
         setMergedSearchResults(null);
     };
 
+    const getJsonPreviewModalTitle = () => {
+        const dtdl = modelDataState.adapterResult.getData()?.json?.[0];
+        if (dtdl?.displayName && typeof dtdl.displayName === 'string') {
+            return dtdl.displayName;
+        } else if (
+            dtdl?.displayName &&
+            typeof dtdl.displayName === 'object' &&
+            'en' in dtdl.displayName
+        ) {
+            return dtdl.displayName.en;
+        } else if (dtdl?.['@id']) {
+            return dtdl['@id'];
+        } else {
+            return null;
+        }
+    };
+
     return (
         <div className="cb-modelsearch-container">
             <AutoCompleteSearchBox
@@ -158,20 +174,12 @@ const ModelSearch = ({
                 />
             )}
             {isModelPreviewOpen && (
-                <Modal
+                <JsonPreviewModal
+                    json={modelDataState.adapterResult.getData()?.json}
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
-                    isBlocking={false}
-                    scrollableContentClassName="cb-modelsearch-json-preview-scroll"
-                    className="cb-modelsearch-preview-modal"
-                    styles={{
-                        main: { maxWidth: '80%' }
-                    }}
-                >
-                    <JsonPreview
-                        json={modelDataState.adapterResult.getData()?.json}
-                    />
-                </Modal>
+                    modalTitle={getJsonPreviewModalTitle()}
+                />
             )}
             {(modelIndexState.isLoading || searchDataState.isLoading) && (
                 <Spinner size={SpinnerSize.large} />
