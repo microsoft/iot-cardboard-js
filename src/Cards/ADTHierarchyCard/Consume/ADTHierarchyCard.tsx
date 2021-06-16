@@ -424,6 +424,13 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         });
     }, [hierarchyNodes, lookupTwinAndModelRef.current]);
 
+    /** Initiate lookup process as long as twinLookupStatus is idle and either:
+     * (1) when hierarch nodes (models) are first rendered or
+     * (2) twinLookupStatus resets from 'Finished' to 'Idle' with lookupTwinId changes
+     *
+     * After model expansion (if not already expanded), with the lookup status change from 'Idle' to 'InProgress'
+     * and the updated hierarchy nodes rendered with twins (if not already exist), locate the looked up twin
+     * under that parent model node */
     useEffect(() => {
         if (
             lookupTwinId &&
@@ -443,6 +450,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
     }, [hierarchyNodes, twinLookupStatus]);
 
+    // to trigger lookup process when lookupTwinId prop changes by resetting the twinLookupStatus from 'Finished' back to 'Idle' again
     useEffect(() => {
         if (lookupTwinId) {
             dispatch({
