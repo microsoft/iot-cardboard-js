@@ -117,10 +117,12 @@ const useAdapter = <T extends IAdapterData>({
         }
     };
 
-    const cancelAdapter = (shouldPreserveState?: boolean) => {
+    const cancelAdapter = (shouldPreserveResult?: boolean) => {
         cancel(); // Cancel outstanding promises
-        if (mountedRef.current && !shouldPreserveState) {
-            setAdapterResult(null);
+        if (mountedRef.current) {
+            if (!shouldPreserveResult) {
+                setAdapterResult(null);
+            }
             setIsLoading(false);
         }
     };
