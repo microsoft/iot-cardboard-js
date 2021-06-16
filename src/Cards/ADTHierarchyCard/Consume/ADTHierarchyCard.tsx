@@ -160,7 +160,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         mountedRef.current = true;
         return () => {
             mountedRef.current = false;
-            cancelPendingAdapterRequests;
+            cancelPendingAdapterRequests();
         };
     }, []);
 
@@ -358,6 +358,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             lookupTwinAndModelRef.current = twinAndModel;
             let targetModelNode = hierarchyNodes[twinAndModel.data.model.id];
             if (!targetModelNode) {
+                // add target model node manually if not already exists in the current hierarch tree
                 const currentNodes = { ...hierarchyNodes };
                 targetModelNode = {
                     id: twinAndModel.data.model.id,
@@ -374,6 +375,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                     }
                 });
             }
+            // simulate expansion of the parent model node if collapsed
             if (targetModelNode.isCollapsed) {
                 await handleModelClick(targetModelNode);
             }
@@ -391,6 +393,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 twinAndModel.data.twin.$dtId
             ];
         if (!targetTwinNode) {
+            // add twin node manually if not already exists under the expanded target model
             targetTwinNode = {
                 id: twinAndModel.data.twin.$dtId,
                 name: twinAndModel.data.twin.$dtId,
@@ -414,6 +417,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
+        // trigger twin onClick to manually select it
         await handleTwinClick(
             hierarchyNodes[twinAndModel.data.model.id],
             targetTwinNode
