@@ -13,6 +13,7 @@ import { useAdapter } from '../../Models/Hooks';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
 import {
     IStandardModelSearchAdapter,
+    IStandardModelSearchItem,
     modelActionType
 } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
@@ -21,6 +22,7 @@ import {
     CdnModelSearchAdapter,
     GithubModelSearchAdapter
 } from '../../Adapters';
+import ModelIndexSearchResultsBuilder from '../../Models/Classes/ModelIndexSearchResultsBuilder';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
@@ -143,11 +145,39 @@ const ModelSearch = ({
                 value={searchString}
                 onClear={() => clearSearchResults()}
                 onSearch={(newVal) => onSearch(newVal)}
-                searchIndex={
-                    modelIndexState.adapterResult.getData()
-                        ?.modelSearchStringIndex
-                }
-                setValue={(value) => setSearchString(value)}
+                findSuggestions={(input: string) => {
+                    const index = modelIndexState.adapterResult.getData()
+                        ?.modelSearchIndexObj;
+                    if (index) {
+                        const builder = new ModelIndexSearchResultsBuilder(
+                            index
+                        );
+
+                        Object.keys(index).forEach((key) => {
+                            builder.addItemToResults(key, input);
+                        });
+                        return builder.results;
+                    }
+                }}
+                onRenderSuggestionCell={(item: IStandardModelSearchItem) => {
+                    return (
+                        <div className="cb-modelsearch-suggestion-item">
+                            <div className="cb-modelsearch-suggestion-item-id">
+                                {item.dtmi}
+                            </div>
+                            <div className="cb-modelsearch-suggestion-item-name">
+                                {item.displayName}
+                            </div>
+                            <div className="cb-modelsearch-suggestion-item-description">
+                                {item.description}
+                            </div>
+                        </div>
+                    );
+                }}
+                onSelectSuggestedItem={(item: IStandardModelSearchItem) => {
+                    onSearch(item.dtmi);
+                    setSearchString(item.dtmi);
+                }}
                 searchDisabled={modelIndexState.isLoading}
             />
             <div className="cb-ms-info">

@@ -2,10 +2,10 @@ import { AdapterMethodSandbox } from '../Models/Classes';
 import { StandardModelSearchData } from '../Models/Classes/AdapterDataClasses/StandardModelData';
 
 import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelSearchAdapter';
+import ModelIndexSearchResultsBuilder from '../Models/Classes/ModelIndexSearchResultsBuilder';
 import {
     IModelSearchStringParams,
-    IStandardModelSearchAdapter,
-    IStandardModelSearchItem
+    IStandardModelSearchAdapter
 } from '../Models/Constants/Interfaces';
 
 export default class CdnModelSearchAdapter
@@ -26,54 +26,21 @@ export default class CdnModelSearchAdapter
         const adapterSandbox = new AdapterMethodSandbox();
 
         return await adapterSandbox.safelyFetchData(async () => {
-            const keysAdded = {};
-            const searchResults: IStandardModelSearchItem[] = [];
-
-            const addItemToResults = (key: string) => {
-                if (!(key in keysAdded)) {
-                    searchResults.push({
-                        dtmi: key,
-                        ...(typeof modelIndex[key]?.displayName ===
-                            'string' && {
-                            displayName: modelIndex[key].displayName
-                        }),
-                        ...(typeof modelIndex[key]?.description ===
-                            'string' && {
-                            description: modelIndex[key].description
-                        })
-                    });
-                    keysAdded[key] = true;
-                }
-            };
-
             const modelSearchIndexKeys = Object.keys(modelIndex);
+            const builder = new ModelIndexSearchResultsBuilder(modelIndex);
             let nextPageStartingIndex = pageIdx;
 
             for (let i = pageIdx; i < modelSearchIndexKeys.length; i++) {
                 const key = modelSearchIndexKeys[i];
-                if (key.includes(queryString)) {
-                    addItemToResults(key);
-                }
-                if (
-                    typeof modelIndex[key]?.displayName === 'string' &&
-                    modelIndex[key].displayName.includes(queryString)
-                ) {
-                    addItemToResults(key);
-                }
-                if (
-                    typeof modelIndex[key]?.description === 'string' &&
-                    modelIndex[key].description.includes(queryString)
-                ) {
-                    addItemToResults(key);
-                }
+                builder.addItemToResults(key, queryString);
                 nextPageStartingIndex = i;
-                if (searchResults.length >= this.pageSize) {
+                if (builder.results.length >= this.pageSize) {
                     break;
                 }
             }
 
             return new StandardModelSearchData({
-                data: searchResults,
+                data: builder.results,
                 metadata: {
                     pageIdx: nextPageStartingIndex,
                     hasMoreItems:
