@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import {
     MessageBar,
     MessageBarType,
@@ -17,6 +17,10 @@ import {
 } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
+import {
+    CdnModelSearchAdapter,
+    GithubModelSearchAdapter
+} from '../../Adapters';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
@@ -94,6 +98,36 @@ const ModelSearch = ({
         setMergedSearchResults(null);
     };
 
+    const getDescription = () => {
+        if (adapter instanceof CdnModelSearchAdapter) {
+            return (
+                <Trans
+                    t={t}
+                    i18nKey="modelSearch.cdnModelSearchdescription"
+                    components={{
+                        CndLink: <a href={adapter.CdnUrl} target="_blank"></a>
+                    }}
+                />
+            );
+        } else if (adapter instanceof GithubModelSearchAdapter) {
+            return (
+                <Trans
+                    t={t}
+                    i18nKey="modelSearch.githubModelSearchdescription"
+                    values={{ repo: adapter.githubRepo }}
+                    components={{
+                        GithubRepo: (
+                            <a
+                                href={`https://github.com/${adapter.githubRepo}`}
+                                target="_blank"
+                            ></a>
+                        )
+                    }}
+                />
+            );
+        }
+    };
+
     return (
         <div className="cb-modelsearch-container">
             <AutoCompleteSearchBox
@@ -117,17 +151,7 @@ const ModelSearch = ({
                 searchDisabled={modelIndexState.isLoading}
             />
             <div className="cb-ms-info">
-                <p>
-                    {t('modelSearch.description')}
-                    <a
-                        className="cb-ms-info-description-link"
-                        href="https://github.com/Azure/iot-plugandplay-models"
-                        target="_blank"
-                    >
-                        Azure/iot-plugandplay-models
-                    </a>
-                    {t('modelSearch.repository')}.
-                </p>
+                <p>{getDescription()}</p>
             </div>
             {searchDataState.adapterResult.getData()?.metadata
                 ?.rateLimitRemaining === 0 && (
