@@ -1,7 +1,7 @@
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import jsonLang from 'react-syntax-highlighter/dist/esm/languages/hljs/json';
 import codeStyle from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './JsonPreviewModal.scss';
 import {
     DefaultButton,
@@ -65,7 +65,13 @@ const JsonPreviewModal = ({
     const { t } = useTranslation();
     const formattedString = JSON.stringify(json, null, 2);
     const [isCodeWrapped, setIsCodeWrapped] = useState(true);
+    const [copyText, setCopyText] = useState<string>(t('copy'));
+    const timeoutRef = useRef(null);
     const titleId = useGuid();
+
+    useEffect(() => {
+        return () => clearTimeout(timeoutRef.current);
+    }, []);
 
     return (
         <Modal
@@ -119,8 +125,16 @@ const JsonPreviewModal = ({
                 <div className={'cb-json-preview-modal-footer-actions'}>
                     <DefaultButton
                         className="cb-footer-copy-json-button"
-                        text={t('copy')}
-                        onClick={() => copy(formattedString)}
+                        text={copyText}
+                        disabled={copyText === t('copied')}
+                        onClick={() => {
+                            setCopyText(t('copied'));
+                            timeoutRef.current = setTimeout(
+                                () => setCopyText(t('copy')),
+                                1500
+                            );
+                            copy(formattedString);
+                        }}
                     />
                 </div>
             </div>

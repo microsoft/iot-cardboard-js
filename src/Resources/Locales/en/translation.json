@@ -17,6 +17,7 @@
     "off": "Off",
     "wrapText": "Wrap text",
     "copy": "Copy",
+    "copied": "Copied",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
