@@ -20,26 +20,26 @@ class BaseStandardModelSearchAdapter
         return await adapterSandbox.safelyFetchData(async () => {
             let modelSearchStringIndex: string[] = [];
             let modelSearchIndexObj: any = {};
+            let jsonRes;
 
-            let res = await fetch(`${this.CdnUrl}/index.json`);
-            let json = await res.json();
-
-            modelSearchIndexObj = json.models;
-
-            let models: string[] = [];
-            models = this.parseModelsIntoArray(json.models);
-
-            modelSearchStringIndex = [...modelSearchStringIndex, ...models];
-
-            while (json.links?.next) {
-                res = await fetch(`${this.CdnUrl}/${json.links.next}`);
-                json = await res.json();
-                models = this.parseModelsIntoArray(json.models);
+            const fetchDataFromCdnAndUpdateIndex = async (page: string) => {
+                const res = await fetch(`${this.CdnUrl}/${page}`);
+                const json = await res.json();
+                const models = this.parseModelsIntoArray(json.models);
                 modelSearchStringIndex = [...modelSearchStringIndex, ...models];
                 modelSearchIndexObj = {
                     ...modelSearchIndexObj,
                     ...json.models
                 };
+                return json;
+            };
+
+            jsonRes = await fetchDataFromCdnAndUpdateIndex('index.json');
+
+            while (jsonRes.links?.next) {
+                jsonRes = await fetchDataFromCdnAndUpdateIndex(
+                    jsonRes.links.next
+                );
             }
 
             return new StandardModelIndexData({
