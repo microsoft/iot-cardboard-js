@@ -156,11 +156,12 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         searchState.cancelAdapter();
     };
 
+    /** This mounted reference is specifically needed for reverse lookup calls (lookupADTTwin) since it is not using useAdapter hook which cancels
+     * outstanding requests on unmount. Therefore mountedRef is used not to update state on unmounted component after lookupADTTwin request */
     useEffect(() => {
         mountedRef.current = true;
         return () => {
             mountedRef.current = false;
-            cancelPendingAdapterRequests();
         };
     }, []);
 
@@ -213,7 +214,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [modelState.adapterResult.result]);
+    }, [modelState.adapterResult.getData()]);
 
     useEffect(() => {
         if (focusedModelIdRef.current && twinState.adapterResult.result) {
@@ -301,7 +302,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             }
         }
-    }, [twinState.adapterResult.result]);
+    }, [twinState.adapterResult.getData()]);
 
     useEffect(() => {
         if (!searchState.adapterResult.hasNoData()) {
@@ -350,7 +351,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [searchState.adapterResult.result]);
+    }, [searchState.adapterResult.getData()]);
 
     const lookupTwinAndExpandModel = useCallback(async () => {
         const twinAndModel = await adapter.lookupADTTwin(lookupTwinId);
@@ -429,7 +430,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [hierarchyNodes, lookupTwinAndModelRef.current]);
 
     /** Initiate lookup process as long as twinLookupStatus is idle and either:
-     * (1) when hierarch nodes (models) are first rendered or
+     * (1) when hierarchy nodes (models) are first rendered or
      * (2) twinLookupStatus resets from 'Finished' to 'Idle' with lookupTwinId changes
      *
      * After model expansion (if not already expanded), with the lookup status change from 'Idle' to 'InProgress'
@@ -438,7 +439,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     useEffect(() => {
         if (
             lookupTwinId &&
-            modelState.adapterResult.result &&
+            modelState.adapterResult.getData() &&
             !modelState.isLoading &&
             twinLookupStatus === TwinLookupStatus.Idle &&
             !searchTerm
@@ -446,7 +447,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             lookupTwinAndExpandModel();
         } else if (
             lookupTwinId &&
-            twinState.adapterResult.result &&
+            twinState.adapterResult.getData() &&
             !twinState.isLoading &&
             twinLookupStatus === TwinLookupStatus.InProgress
         ) {

@@ -158,6 +158,7 @@ const useAdapter = <T extends IAdapterData>({
         mountedRef.current = true; // Use ref to indicate mounted state
         return () => {
             mountedRef.current = false;
+            cancelAdapter();
         };
     }, []);
 

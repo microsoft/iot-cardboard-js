@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './KeyValuePairCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
@@ -25,12 +25,6 @@ const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
         isLongPolling: !!pollingIntervalMillis,
         pollingIntervalMillis: pollingIntervalMillis || null
     });
-
-    useEffect(() => {
-        return () => {
-            cardState.cancelAdapter();
-        };
-    }, []);
 
     return (
         <BaseCard
