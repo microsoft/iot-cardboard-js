@@ -354,6 +354,10 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [searchState.adapterResult.getData()]);
 
     const lookupTwinAndExpandModel = useCallback(async () => {
+        dispatch({
+            type: SET_TWIN_LOOKUP_STATUS,
+            payload: TwinLookupStatus.Started
+        });
         const twinAndModel = await adapter.lookupADTTwin(lookupTwinId);
         if (twinAndModel?.data?.model && mountedRef.current) {
             lookupTwinAndModelRef.current = twinAndModel;
@@ -382,7 +386,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             }
             dispatch({
                 type: SET_TWIN_LOOKUP_STATUS,
-                payload: TwinLookupStatus.InProgress
+                payload: TwinLookupStatus.ReadyToLocate
             });
         }
     }, [hierarchyNodes, lookupTwinId]);
@@ -449,7 +453,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             lookupTwinId &&
             twinState.adapterResult.getData() &&
             !twinState.isLoading &&
-            twinLookupStatus === TwinLookupStatus.InProgress
+            twinLookupStatus === TwinLookupStatus.ReadyToLocate
         ) {
             locateTwinAfterLookup();
         }
