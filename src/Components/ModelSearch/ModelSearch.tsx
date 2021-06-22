@@ -14,7 +14,7 @@ import {
     IStandardModelSearchAdapter,
     modelActionType
 } from '../../Models/Constants';
-import JsonPreviewModal from '../JsonPreviewModal/JsonPreviewModal';
+import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 
 type ModelSearchProps = {
@@ -93,7 +93,7 @@ const ModelSearch = ({
         setMergedSearchResults(null);
     };
 
-    const getJsonPreviewModalTitle = () => {
+    const getJsonPreviewTitle = () => {
         const dtdl = modelDataState.adapterResult.getData()?.json?.[0];
         if (dtdl?.displayName && typeof dtdl.displayName === 'string') {
             return dtdl.displayName;
@@ -174,11 +174,11 @@ const ModelSearch = ({
                 />
             )}
             {isModelPreviewOpen && (
-                <JsonPreviewModal
+                <JsonPreview
                     json={modelDataState.adapterResult.getData()?.json}
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
-                    modalTitle={getJsonPreviewModalTitle()}
+                    modalTitle={getJsonPreviewTitle()}
                 />
             )}
             {(modelIndexState.isLoading || searchDataState.isLoading) && (
