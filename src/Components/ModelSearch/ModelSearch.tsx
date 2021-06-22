@@ -114,8 +114,8 @@ const ModelSearch = ({
         } else {
             return null;
         }
-    }
-    
+    };
+
     const getDescription = () => {
         if (adapter instanceof CdnModelSearchAdapter) {
             return (
@@ -229,7 +229,7 @@ const ModelSearch = ({
             )}
             {isModelPreviewOpen && (
                 <JsonPreview
-                   json={modelDataState.adapterResult.getData()?.json}
+                    json={modelDataState.adapterResult.getData()?.json}
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
                     modalTitle={getJsonPreviewTitle()}
