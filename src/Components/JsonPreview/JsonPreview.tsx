@@ -86,7 +86,9 @@ const JsonPreview = ({
                 },
                 content: {
                     height: '100%',
-                    display: 'flex'
+                    display: 'flex',
+                    paddingLeft: '0px',
+                    paddingRight: '0px'
                 }
             }}
        >
