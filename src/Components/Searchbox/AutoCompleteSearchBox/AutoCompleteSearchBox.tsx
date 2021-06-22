@@ -20,12 +20,13 @@ type AutoCompleteSearchBoxProps = {
         _event?: React.ChangeEvent<HTMLInputElement>,
         newValue?: string
     ) => any;
+    onRenderSuggestionCell: (item: any, index: number) => JSX.Element;
+    onSelectSuggestedItem: (item: any) => any;
     onSearch?: (newVal?: string) => any;
     onClear?: () => any;
-    searchIndex?: string[];
-    setValue: (val: string) => any;
     minAutocompleteChars?: number;
     searchDisabled?: boolean;
+    findSuggestions: (input: string) => any;
 };
 
 const theme: ITheme = getTheme();
@@ -57,8 +58,9 @@ const AutoCompleteSearchBox = ({
     onChange,
     onSearch = () => null,
     onClear = () => null,
-    setValue,
-    searchIndex,
+    findSuggestions,
+    onRenderSuggestionCell,
+    onSelectSuggestedItem,
     minAutocompleteChars = 2,
     searchDisabled = false
 }: AutoCompleteSearchBoxProps) => {
@@ -68,18 +70,14 @@ const AutoCompleteSearchBox = ({
     const searchBoxRef = useRef(null);
 
     const suggest = (input: string) => {
-        if (searchIndex && input.length >= minAutocompleteChars) {
-            const filteredModels = searchIndex.filter(
-                (item: string) =>
-                    item.toLowerCase().indexOf(input.toLocaleLowerCase()) !== -1
-            );
-            setSuggestions(filteredModels);
+        if (findSuggestions && input.length >= minAutocompleteChars) {
+            setSuggestions(findSuggestions(input));
             setIsCalloutVisible(true);
         }
     };
 
     const onRenderCell = (
-        item: string,
+        item: any,
         index: number,
         _isScrolling: boolean
     ): JSX.Element => {
@@ -90,11 +88,10 @@ const AutoCompleteSearchBox = ({
                 data-is-focusable={true}
                 onClick={() => {
                     setSuggestions([]);
-                    setValue(item);
-                    onSearch(item);
+                    onSelectSuggestedItem(item);
                 }}
             >
-                {item}
+                {onRenderSuggestionCell(item, index)}
             </div>
         );
     };

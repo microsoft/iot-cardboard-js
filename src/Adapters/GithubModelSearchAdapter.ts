@@ -10,7 +10,7 @@ import parse from 'parse-link-header';
 export default class GithubModelSearchAdapter
     extends BaseStandardModelSearchAdapter
     implements IStandardModelSearchAdapter {
-    private githubRepo: string;
+    public githubRepo: string;
     private pageSize: number;
     // Github Repo param should be in the form Organization/Repository,
     // example: Azure/iot-plugandplay-models

@@ -284,6 +284,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
 }
 
 export interface IBaseStandardModelSearchAdapter {
+    CdnUrl: string;
     getModelSearchIndex(): AdapterReturnType<StandardModelIndexData>;
     fetchModelJsonFromCDN(
         dtmi: string,
@@ -298,6 +299,7 @@ export interface IModelSearchStringParams {
 }
 export interface IStandardModelSearchAdapter
     extends IBaseStandardModelSearchAdapter {
+    githubRepo?: string;
     searchString(
         params: IModelSearchStringParams
     ): AdapterReturnType<StandardModelSearchData>;

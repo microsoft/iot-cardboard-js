@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import {
     MessageBar,
     MessageBarType,
@@ -12,10 +12,16 @@ import { useAdapter } from '../../Models/Hooks';
 import ModelSearchList from './ModelSearchList/ModelSearchList';
 import {
     IStandardModelSearchAdapter,
+    IStandardModelSearchItem,
     modelActionType
 } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
+import {
+    CdnModelSearchAdapter,
+    GithubModelSearchAdapter
+} from '../../Adapters';
+import ModelIndexSearchResultsBuilder from '../../Models/Classes/ModelIndexSearchResultsBuilder';
 
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
@@ -108,6 +114,36 @@ const ModelSearch = ({
         } else {
             return null;
         }
+    }
+    
+    const getDescription = () => {
+        if (adapter instanceof CdnModelSearchAdapter) {
+            return (
+                <Trans
+                    t={t}
+                    i18nKey="modelSearch.cdnModelSearchdescription"
+                    components={{
+                        CndLink: <a href={adapter.CdnUrl} target="_blank"></a>
+                    }}
+                />
+            );
+        } else if (adapter instanceof GithubModelSearchAdapter) {
+            return (
+                <Trans
+                    t={t}
+                    i18nKey="modelSearch.githubModelSearchdescription"
+                    values={{ repo: adapter.githubRepo }}
+                    components={{
+                        GithubRepo: (
+                            <a
+                                href={`https://github.com/${adapter.githubRepo}`}
+                                target="_blank"
+                            ></a>
+                        )
+                    }}
+                />
+            );
+        }
     };
 
     return (
@@ -125,25 +161,43 @@ const ModelSearch = ({
                 value={searchString}
                 onClear={() => clearSearchResults()}
                 onSearch={(newVal) => onSearch(newVal)}
-                searchIndex={
-                    modelIndexState.adapterResult.getData()
-                        ?.modelSearchStringIndex
-                }
-                setValue={(value) => setSearchString(value)}
+                findSuggestions={(input: string) => {
+                    const index = modelIndexState.adapterResult.getData()
+                        ?.modelSearchIndexObj;
+                    if (index) {
+                        const builder = new ModelIndexSearchResultsBuilder(
+                            index
+                        );
+
+                        Object.keys(index).forEach((key) => {
+                            builder.addItemToResults(key, input);
+                        });
+                        return builder.results;
+                    }
+                }}
+                onRenderSuggestionCell={(item: IStandardModelSearchItem) => {
+                    return (
+                        <div className="cb-modelsearch-suggestion-item">
+                            <div className="cb-modelsearch-suggestion-item-id">
+                                {item.dtmi}
+                            </div>
+                            <div className="cb-modelsearch-suggestion-item-name">
+                                {item.displayName}
+                            </div>
+                            <div className="cb-modelsearch-suggestion-item-description">
+                                {item.description}
+                            </div>
+                        </div>
+                    );
+                }}
+                onSelectSuggestedItem={(item: IStandardModelSearchItem) => {
+                    onSearch(item.dtmi);
+                    setSearchString(item.dtmi);
+                }}
                 searchDisabled={modelIndexState.isLoading}
             />
             <div className="cb-ms-info">
-                <p>
-                    {t('modelSearch.description')}
-                    <a
-                        className="cb-ms-info-description-link"
-                        href="https://github.com/Azure/iot-plugandplay-models"
-                        target="_blank"
-                    >
-                        Azure/iot-plugandplay-models
-                    </a>
-                    {t('modelSearch.repository')}.
-                </p>
+                <p>{getDescription()}</p>
             </div>
             {searchDataState.adapterResult.getData()?.metadata
                 ?.rateLimitRemaining === 0 && (
@@ -175,7 +229,7 @@ const ModelSearch = ({
             )}
             {isModelPreviewOpen && (
                 <JsonPreview
-                    json={modelDataState.adapterResult.getData()?.json}
+                   json={modelDataState.adapterResult.getData()?.json}
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
                     modalTitle={getJsonPreviewTitle()}
