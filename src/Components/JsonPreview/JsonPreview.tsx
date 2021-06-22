@@ -3,12 +3,7 @@ import jsonLang from 'react-syntax-highlighter/dist/esm/languages/hljs/json';
 import codeStyle from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode';
 import React, { useEffect, useRef, useState } from 'react';
 import './JsonPreview.scss';
-import {
-    DefaultButton,
-    Panel,
-    PanelType,
-    Toggle
-} from '@fluentui/react';
+import { PrimaryButton, Panel, PanelType, Toggle } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import copy from 'copy-to-clipboard';
 
@@ -32,7 +27,10 @@ const JsonPreview = ({
     const [isCodeWrapped, setIsCodeWrapped] = useState(true);
     const [copyText, setCopyText] = useState<string>(t('copy'));
     const timeoutRef = useRef(null);
-    
+
+    useEffect(() => {
+        setIsCodeWrapped(true);
+    }, [isOpen]);
 
     useEffect(() => {
         return () => clearTimeout(timeoutRef.current);
@@ -51,7 +49,7 @@ const JsonPreview = ({
                     />
                 </div>
                 <div className={'cb-json-preview-modal-footer-actions'}>
-                    <DefaultButton
+                    <PrimaryButton
                         className="cb-footer-copy-json-button"
                         text={copyText}
                         disabled={copyText === t('copied')}
@@ -66,11 +64,11 @@ const JsonPreview = ({
                     />
                 </div>
             </div>
-        )
-    }
+        );
+    };
 
     return (
-       <Panel 
+        <Panel
             isOpen={isOpen}
             isLightDismiss
             onDismiss={onDismiss}
@@ -79,19 +77,22 @@ const JsonPreview = ({
             onRenderFooterContent={onRenderFooterContent}
             isFooterAtBottom={true}
             type={PanelType.medium}
-            className={"cb-json-preview-panel-container"}
+            className={'cb-json-preview-panel-container'}
             styles={{
                 scrollableContent: {
-                    overflowY: 'hidden',
+                    overflowY: 'hidden'
                 },
                 content: {
                     height: '100%',
                     display: 'flex',
                     paddingLeft: '0px',
                     paddingRight: '0px'
+                },
+                footer: {
+                    borderTop: '1px solid var(--cb-color-bg-canvas-inset)'
                 }
             }}
-       >
+        >
             <div className="cb-json-preview-container">
                 <SyntaxHighlighter
                     customStyle={{
