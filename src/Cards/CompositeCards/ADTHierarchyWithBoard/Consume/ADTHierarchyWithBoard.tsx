@@ -47,11 +47,17 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     ) => {
         if (errors.twinErrors || errors.modelErrors) {
             setSelectedTwin(null);
+            if (onTwinClick) {
+                onTwinClick(null);
+            }
             setErrorMessage(t('boardErrors.failure'));
             console.error(errors.modelErrors);
             console.error(errors.twinErrors);
         } else {
             setSelectedTwin(twin);
+            if (onTwinClick) {
+                onTwinClick(twin);
+            }
             setErrorMessage(null);
             setReverseLookupTwinId(twin.$dtId);
         }
