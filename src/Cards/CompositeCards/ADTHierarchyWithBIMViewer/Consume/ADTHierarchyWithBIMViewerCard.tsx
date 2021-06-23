@@ -5,7 +5,7 @@ import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 import { useTranslation } from 'react-i18next';
 import BIMViewerCard from '../../../BIMViewerCard/Consume/BIMViewerCard';
-import { createNodeFilterFromRoot } from '../../../../Models/Services/Utils';
+import { createNodeFilterFromRootForBIM } from '../../../../Models/Services/Utils';
 import { useAdapter } from '../../../../Models/Hooks';
 
 const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps> = ({
@@ -33,7 +33,7 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
     };
 
     const memoizedNodeFilter = useMemo(() => {
-        return createNodeFilterFromRoot(
+        return createNodeFilterFromRootForBIM(
             cardState.adapterResult.getData()?.['$metadata']?.['$model']
         );
     }, [cardState.adapterResult.getData()]);

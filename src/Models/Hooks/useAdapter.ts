@@ -103,8 +103,10 @@ const useAdapter = <T extends IAdapterData>({
             const adapterResult = await cancellablePromise(
                 adapterMethod(params)
             );
-            setAdapterResult(adapterResult);
-            setIsLoading(false);
+            if (mountedRef.current) {
+                setAdapterResult(adapterResult);
+                setIsLoading(false);
+            }
         } catch (err) {
             if (!(err instanceof CancelledPromiseError)) {
                 console.error('Unexpected promise error', err); // log unexpected errors
@@ -115,10 +117,14 @@ const useAdapter = <T extends IAdapterData>({
         }
     };
 
-    const cancelAdapter = () => {
+    const cancelAdapter = (shouldPreserveResult?: boolean) => {
         cancel(); // Cancel outstanding promises
-        setAdapterResult(null);
-        setIsLoading(false);
+        if (mountedRef.current) {
+            if (!shouldPreserveResult) {
+                setAdapterResult(null);
+            }
+            setIsLoading(false);
+        }
     };
 
     const setIsLongPolling = (isLongPolling: boolean) => {
@@ -152,6 +158,7 @@ const useAdapter = <T extends IAdapterData>({
         mountedRef.current = true; // Use ref to indicate mounted state
         return () => {
             mountedRef.current = false;
+            cancelAdapter();
         };
     }, []);
 

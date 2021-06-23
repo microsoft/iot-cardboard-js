@@ -1,7 +1,7 @@
 @import '../../../Resources/Styles/BaseStyles';
 
 .cb-base-card {
-    @include ms-depth-16;
+    @include ms-depth-4;
     align-items: center;
     background: var(--cb-color-bg-canvas);
     border: 1px solid var(--cb-color-card-border);

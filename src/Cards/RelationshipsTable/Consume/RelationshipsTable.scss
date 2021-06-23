@@ -3,11 +3,11 @@
 .cb-relationships-table-wrapper {
     height: 100%;
     overflow: auto;
+    padding: 0 8px;
     width: 100%;
 
     .cb-relationships-table {
         border-collapse: collapse;
-        padding: 8px;
         position: relative;
         text-align: left;
         top: 0;
