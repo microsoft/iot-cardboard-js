@@ -42,6 +42,7 @@ export enum CardTypes {
 
 export enum TwinLookupStatus {
     Idle,
+    Ready,
     Started,
     ReadyToLocate,
     Finished

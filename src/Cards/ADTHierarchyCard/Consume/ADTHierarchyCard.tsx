@@ -434,10 +434,10 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, [hierarchyNodes, lookupTwinAndModelRef.current]);
 
     /** Initiate lookup process as long as twinLookupStatus is idle and either:
-     * (1) when hierarchy nodes (models) are first rendered or
-     * (2) twinLookupStatus resets from 'Finished' to 'Idle' with lookupTwinId changes
+     * (1) when hierarchy nodes (models) are first rendered (when the lookup status is 'Idle') or
+     * (2) twinLookupStatus resets from either 'Finished' or 'Idle' to 'Ready' with lookupTwinId changes
      *
-     * After model expansion (if not already expanded), with the lookup status change from 'Idle' to 'InProgress'
+     * After model expansion (if not already expanded), with the lookup status change from either 'Idle' or 'Ready' to 'InProgress'
      * and the updated hierarchy nodes rendered with twins (if not already exist), locate the looked up twin
      * under that parent model node */
     useEffect(() => {
@@ -445,7 +445,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
             lookupTwinId &&
             modelState.adapterResult.getData() &&
             !modelState.isLoading &&
-            twinLookupStatus === TwinLookupStatus.Idle &&
+            (twinLookupStatus === TwinLookupStatus.Idle ||
+                twinLookupStatus === TwinLookupStatus.Ready) &&
             !searchTerm
         ) {
             lookupTwinAndExpandModel();
@@ -459,12 +460,12 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         }
     }, [hierarchyNodes, twinLookupStatus]);
 
-    // to trigger lookup process when lookupTwinId prop changes by resetting the twinLookupStatus from 'Finished' back to 'Idle' again
+    // to trigger lookup process when lookupTwinId prop changes by setting the twinLookupStatus from either 'Finished' or 'Idle' to 'Ready'
     useEffect(() => {
         if (lookupTwinId) {
             dispatch({
                 type: SET_TWIN_LOOKUP_STATUS,
-                payload: TwinLookupStatus.Idle
+                payload: TwinLookupStatus.Ready
             });
         }
     }, [lookupTwinId]);
