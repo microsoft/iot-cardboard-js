@@ -10,9 +10,20 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
+import {
+    StandardModelData,
+    StandardModelIndexData,
+    StandardModelSearchData
+} from '../Classes/AdapterDataClasses/StandardModelData';
 import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
-import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
+import {
+    CardErrorType,
+    Locale,
+    Theme,
+    HierarchyNodeType,
+    modelActionType
+} from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
@@ -273,4 +284,42 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+}
+
+export interface IBaseStandardModelSearchAdapter {
+    CdnUrl: string;
+    getModelSearchIndex(): AdapterReturnType<StandardModelIndexData>;
+    fetchModelJsonFromCDN(
+        dtmi: string,
+        actionType: modelActionType
+    ): AdapterReturnType<StandardModelData>;
+}
+
+export interface IModelSearchStringParams {
+    queryString: string;
+    pageIdx?: number;
+    modelIndex: Record<string, any>;
+}
+export interface IStandardModelSearchAdapter
+    extends IBaseStandardModelSearchAdapter {
+    githubRepo?: string;
+    searchString(
+        params: IModelSearchStringParams
+    ): AdapterReturnType<StandardModelSearchData>;
+}
+
+export interface IStandardModelSearchItem {
+    dtmi: string;
+    displayName?: string;
+    description?: string;
+}
+
+export interface IStandardModelSearchResult {
+    data: IStandardModelSearchItem[];
+    metadata?: { [key: string]: any };
+}
+
+export interface IStandardModelIndexData {
+    modelSearchStringIndex: string[];
+    modelSearchIndexObj: Record<string, any>;
 }

@@ -39,6 +39,7 @@ export type AdapterState<T extends IAdapterData> = {
     adapterResult: AdapterResult<T>;
     isLoading: boolean;
     isLongPolling: boolean;
+    isInitialCall: boolean;
 };
 
 export type KeyValuePairData = {

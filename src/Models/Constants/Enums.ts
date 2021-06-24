@@ -40,6 +40,11 @@ export enum CardTypes {
     InfoTable = 'InfoTable'
 }
 
+export enum modelActionType {
+    select = 'select',
+    preview = 'preview'
+}
+
 export enum TwinLookupStatus {
     Idle,
     Ready,

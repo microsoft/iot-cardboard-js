@@ -65,14 +65,14 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
         adapterMethod: (params: AdapterMethodParamsForGetADTTwinsByModelId) =>
             adapter.getADTTwinsByModelId(params),
         refetchDependencies: [],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: false
     });
 
     const searchState = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
         refetchDependencies: [],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: false
     });
 
     const handleModelClick = (modelNode: IHierarchyNode) => {

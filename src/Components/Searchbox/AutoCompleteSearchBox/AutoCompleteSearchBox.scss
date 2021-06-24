@@ -1,0 +1,15 @@
+.cb-ms-auto-complete-search-box-container {
+    .cb-ms-auto-complete-searchbar {
+        display: flex;
+        width: 100%;
+    }
+    .cb-ms-searchbox {
+        flex-grow: 1;
+        margin-right: 8px;
+    }
+}
+
+.cb-ms-suggestion-list {
+    max-height: 200px;
+    overflow: 'scroll';
+}

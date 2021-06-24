@@ -5,7 +5,8 @@ import { CancelledPromiseError } from '../Classes/Errors';
 import {
     SET_ADAPTER_RESULT,
     SET_IS_LOADING,
-    SET_IS_LONG_POLLING
+    SET_IS_LONG_POLLING,
+    SET_IS_INITIAL_CALL
 } from '../Constants/ActionTypes';
 import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
 import {
@@ -30,6 +31,9 @@ const cardStateReducer = produce(
                 return;
             case SET_IS_LONG_POLLING:
                 draft.isLongPolling = payload;
+                return;
+            case SET_IS_INITIAL_CALL:
+                draft.isInitialCall = payload;
                 return;
             default:
                 return;
@@ -64,7 +68,7 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis,
-    isAdapterCalledOnMount
+    isAdapterCalledOnMount = true
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -73,7 +77,8 @@ const useAdapter = <T extends IAdapterData>({
                 errorInfo: null
             }),
             isLoading: false,
-            isLongPolling
+            isLongPolling,
+            isInitialCall: true
         }),
         [isLongPolling]
     );
@@ -143,11 +148,15 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        if (isAdapterCalledOnMount) {
-            if (mountedRef.current) {
+        if (state.isInitialCall) {
+            if (isAdapterCalledOnMount) {
                 cancelAdapter();
                 callAdapter();
             }
+            dispatch({
+                type: SET_IS_INITIAL_CALL,
+                payload: false
+            });
         } else {
             cancelAdapter();
             callAdapter();
