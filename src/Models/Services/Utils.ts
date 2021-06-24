@@ -23,7 +23,7 @@ export const getFileType = (fileName: string, defaultType = '') => {
         : defaultType;
 };
 
-export const createNodeFilterFromRoot = (parentNodeModelName: string) => {
+export const createNodeFilterFromRootForBIM = (parentNodeModelName: string) => {
     return (nodes: any) => {
         const filteredNodes = {};
         Object.keys(nodes).forEach((nodeKey) => {

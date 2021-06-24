@@ -44,3 +44,11 @@ export enum modelActionType {
     select = 'select',
     preview = 'preview'
 }
+
+export enum TwinLookupStatus {
+    Idle,
+    Ready,
+    Started,
+    ReadyToLocate,
+    Finished
+}
