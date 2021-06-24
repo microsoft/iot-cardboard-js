@@ -22,6 +22,7 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -219,5 +220,39 @@ export default class ADTAdapter implements IADTAdapter {
             },
             createKeyValuePairData
         );
+    }
+
+    async lookupADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const twinData = await adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+
+        const modelData = await adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTModelData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/models/${
+                    twinData.getData()?.$metadata?.$model
+                }`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+        return new ADTTwinLookupData(twinData.getData(), modelData.getData());
     }
 }

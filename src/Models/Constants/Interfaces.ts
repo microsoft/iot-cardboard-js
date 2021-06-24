@@ -15,6 +15,7 @@ import {
     StandardModelIndexData,
     StandardModelSearchData
 } from '../Classes/AdapterDataClasses/StandardModelData';
+import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
 import {
     CardErrorType,
@@ -106,8 +107,8 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Calls adapter method (safe on unmount) and updates adapter result */
     callAdapter: (params?: AdapterMethodParams) => void;
 
-    /** Cancel adapter method and set the adapter result to null */
-    cancelAdapter: () => void;
+    /** Cancel adapter method and set the adapter result to null if not explicityly prevented using shouldPreserveResult parameter */
+    cancelAdapter: (shouldPreserveResult?: boolean) => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
@@ -167,6 +168,7 @@ export interface IHierarchyProps {
         childNode: IHierarchyNode
     ) => void;
     noDataText?: string;
+    shouldScrollToSelectedNode?: boolean;
 }
 
 export interface IHierarchyNode {
@@ -281,6 +283,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
+    lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

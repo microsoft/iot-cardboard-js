@@ -35,3 +35,39 @@ export const ADTHierarchy = (args, { globals: { theme, locale } }) => {
         </div>
     );
 };
+
+export const ADTHierarchyWithReverseLookup = (
+    args,
+    { globals: { theme, locale } }
+) => {
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={hierarchyCardStyle}>
+            <ADTHierarchyCard
+                title={'ADT Hierarchy with Reverse Lookup'}
+                theme={theme}
+                locale={locale}
+                adapter={
+                    new ADTAdapter(
+                        authenticationParameters.adt.hostUrl,
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
+                    )
+                }
+                lookupTwinId={args.lookupTwinId}
+            />
+        </div>
+    );
+};
+
+ADTHierarchyWithReverseLookup.argTypes = {
+    lookupTwinId: {
+        control: {
+            type: 'text'
+        },
+        defaultValue: 'CarTwin'
+    }
+};
