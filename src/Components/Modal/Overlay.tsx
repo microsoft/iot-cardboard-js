@@ -3,8 +3,8 @@ import { IOverlayProps } from '../../Models/Constants';
 import './Overlay.scss';
 
 const Overlay: React.FC<IOverlayProps> = ({ onClose, children }) => {
-    // Absence of onClose implies that the modal cannot be closed.
-    // onClose is offloaded to the consumer of Modal to handle deciding whether to render the Modal instance
+    // Absence of onClose implies that the overlay cannot be closed.
+    // onClose is offloaded to the consumer of overlay to handle deciding whether to render the overlay instance
     const onCloseWrapper = useCallback(() => {
         if (onClose) {
             onClose();

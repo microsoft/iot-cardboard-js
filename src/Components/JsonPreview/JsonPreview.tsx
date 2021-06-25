@@ -73,7 +73,7 @@ const JsonPreview = ({
             isLightDismiss
             onDismiss={onDismiss}
             headerText={modalTitle}
-            closeButtonAriaLabel="Close"
+            closeButtonAriaLabel={t('close')}
             onRenderFooterContent={onRenderFooterContent}
             isFooterAtBottom={true}
             type={PanelType.medium}

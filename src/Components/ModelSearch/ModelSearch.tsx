@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import {
     MessageBar,
@@ -101,22 +101,17 @@ const ModelSearch = ({
 
     const getJsonPreviewTitle = () => {
         const dtdl = modelDataState.adapterResult.getData()?.json?.[0];
-        if (dtdl?.displayName && typeof dtdl.displayName === 'string') {
-            return dtdl.displayName;
-        } else if (
-            dtdl?.displayName &&
-            typeof dtdl.displayName === 'object' &&
-            'en' in dtdl.displayName
-        ) {
-            return dtdl.displayName.en;
-        } else if (dtdl?.['@id']) {
-            return dtdl['@id'];
-        } else {
-            return null;
-        }
+        const getStringOrNull = (valToTest) =>
+            typeof valToTest === 'string' ? valToTest : null;
+        return (
+            getStringOrNull(dtdl?.displayName?.en) ||
+            getStringOrNull(dtdl?.displayName) ||
+            getStringOrNull(dtdl?.['@id']) ||
+            null
+        );
     };
 
-    const getDescription = () => {
+    const getDescription = useCallback(() => {
         if (adapter instanceof CdnModelSearchAdapter) {
             return (
                 <Trans
@@ -144,7 +139,7 @@ const ModelSearch = ({
                 />
             );
         }
-    };
+    }, [adapter]);
 
     return (
         <div className="cb-modelsearch-container">
