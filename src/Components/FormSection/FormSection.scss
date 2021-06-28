@@ -1,0 +1,15 @@
+@import '../../Resources/Styles/BaseStyles.scss';
+
+.cb-formsection {
+    @include ms-depth-8;
+    border-radius: 4px;
+    color: var(--cb-color-text-primary);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.cb-formsection-title {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
