@@ -86,6 +86,8 @@
         "create": "Create",
         "save": "Save",
         "cancel": "Cancel",
+        "delete": "Delete",
+        "action": "Action",
         "schema": "Schema",
         "valueSchema": "Value schema",
         "relationshipId": "Relationship Id",

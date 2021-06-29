@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Stack } from '@fluentui/react/lib/Stack';
+import { Text } from '@fluentui/react/lib/Text';
 import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import ElementsList from '../ElementsList';
 import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import CreateEnumValueForm from './CreateEnumValueForm';
+import '../ModelCreate.scss';
 
 export enum CreateEnumMode { 
     EnumForm,
@@ -67,14 +69,13 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
         pushBreadcrumb('modelCreate.addEnumValue');
     }
 
-    // const onClickNewEnumValue = () => {
-    //     setMode(CreatePropertyMode.EnumValueForm);
-    //     pushBreadcrumb('modelCreate.addEnumValue');
-    // }
-
-    // const onClickEditEnumValue = (item: DTDLEnumValue, index: number) => {
-    //     onOpenEnumValueForm(item, index);
-    // }
+    const onClickDeleteEnumValue = (_enumValue, index) => {
+        setEnumValues(currentEnumValues => {
+            const copy = [...currentEnumValues];
+            copy.splice(index, 1);
+            return copy;
+        });
+    }
 
     const backToEnumForm = () => {
         setMode(CreateEnumMode.EnumForm)
@@ -121,14 +122,17 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
             options={valueSchemaOptions}
             selectedKey={valueSchema ? valueSchema.key : undefined}
             onChange={(_e, item) => setValueSchema(item)} />
+        <Text variant="medium" className="cb-modelcreate-title">
+            {t('modelCreate.enumValues')}
+        </Text>
         <ElementsList 
             t={t}
-            elementLabelKey="modelCreate.enumValues"
             noElementLabelKey="modelCreate.noEnumValues"
             addElementLabelKey="modelCreate.addEnumValue"
             elements={enumValues}
             handleEditElement={onClickAddEnumValue}
-            handleNewElement={onClickAddEnumValue} />
+            handleNewElement={onClickAddEnumValue}
+            handleDeleteElement={onClickDeleteEnumValue} />
         <Stack horizontal>
             <DefaultButton onClick={onCancel}>{t('modelCreate.cancel')}</DefaultButton>
             <PrimaryButton onClick={() => onClickCreate()}>{t('modelCreate.create')}</PrimaryButton>

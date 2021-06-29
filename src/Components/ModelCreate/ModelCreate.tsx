@@ -121,7 +121,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
     const backToModelForm = () => {
         setMode(ModelCreateMode.ModelForm);
         setIsPanelOpen(false);
-        popBreadcrumb();
+        setBreadcrumbs([]);
     };
 
     const handleListFormAction = (element, setter) => {
@@ -142,23 +142,43 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
         backToModelForm();
     };
 
-    const handleSelectProperty = (property: DTDLProperty, index: number) => {
+    const handleSelectProperty = (property, index: number) => {
         setAuthoringMode(AuthoringMode.Edit);
         setElementToEdit({ element: property, index });
         addStep(ModelCreateMode.PropertyForm, 'modelCreate.editProperty');
     };
 
-    const handleSelectRelationship = (relationship: DTDLRelationship, index: number) => {
+    const handleSelectRelationship = (relationship, index: number) => {
         setAuthoringMode(AuthoringMode.Edit);
         setElementToEdit({ element: relationship, index });
         addStep(ModelCreateMode.RelationshipForm, 'modelCreate.editRelationship');
     };
 
-    const handleSelectComponent = (component: DTDLComponent, index: number) => {
+    const handleSelectComponent = (component, index: number) => {
         setAuthoringMode(AuthoringMode.Edit);
         setElementToEdit({ element: component, index });
         addStep(ModelCreateMode.ComponentForm, 'modelCreate.editComponent');
     };
+
+    const deleteEntity = (index: number, setter) => {
+        setter(currentEntities => {
+            const copy = [...currentEntities];
+            copy.splice(index, 1);
+            return copy;
+        });
+    }
+
+    const handleDeleteProperty = (property, index: number) => {
+        deleteEntity(index, setProperties);
+    }
+
+    const handleDeleteRelationship = (relationship, index: number) => {
+        deleteEntity(index, setRelationships);
+    }
+
+    const handleDeleteComponent = (component, index: number) => {
+        deleteEntity(index, setComponents);
+    }
 
     const renderPanelHeader = () => 
         <Breadcrumb
@@ -208,7 +228,8 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         addElementLabelKey="modelCreate.addProperty"
                         elements={properties}
                         handleEditElement={handleSelectProperty}
-                        handleNewElement={handleClickAddProperty} />
+                        handleNewElement={handleClickAddProperty}
+                        handleDeleteElement={handleDeleteProperty} />
                 </FormSection>
                 <FormSection title={t('modelCreate.relationships')}>
                     <ElementsList 
@@ -217,7 +238,8 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         addElementLabelKey="modelCreate.addRelationship"
                         elements={relationships}
                         handleEditElement={handleSelectRelationship}
-                        handleNewElement={handleClickAddRelationship} />
+                        handleNewElement={handleClickAddRelationship}
+                        handleDeleteElement={handleDeleteRelationship} />
                 </FormSection>
                 <FormSection title={t('modelCreate.components')}>
                     <ElementsList 
@@ -226,7 +248,8 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         addElementLabelKey="modelCreate.addComponent"
                         elements={components}
                         handleEditElement={handleSelectComponent}
-                        handleNewElement={handleClickAddComponent} />
+                        handleNewElement={handleClickAddComponent}
+                        handleDeleteElement={handleDeleteComponent} />
                 </FormSection>
                 <Separator />
                 <Stack horizontal tokens={stackTokens}>
@@ -246,6 +269,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                 isOpen={isPanelOpen}
                 onDismiss={backToModelForm}
                 type={PanelType.medium}
+                isLightDismiss
                 closeButtonAriaLabel={t('modelCreate.cancel')} >
                 { mode === ModelCreateMode.PropertyForm 
                     && <CreatePropertyForm 
