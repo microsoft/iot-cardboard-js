@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -40,28 +40,38 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         }
     };
 
-    const onEntitySelect = (
-        twin: IADTTwin,
-        _model: IADTModel,
-        errors?: IResolvedRelationshipClickErrors
-    ) => {
-        if (errors.twinErrors || errors.modelErrors) {
-            setSelectedTwin(null);
-            if (onTwinClick) {
-                onTwinClick(null);
+    const onEntitySelect = useCallback(
+        (
+            twin: IADTTwin,
+            _model: IADTModel,
+            errors?: IResolvedRelationshipClickErrors
+        ) => {
+            if (errors.twinErrors || errors.modelErrors) {
+                setSelectedTwin(null);
+                if (onTwinClick) {
+                    onTwinClick(null);
+                }
+                setErrorMessage(t('boardErrors.failure'));
+                console.error(errors.modelErrors);
+                console.error(errors.twinErrors);
+            } else {
+                if (!lookupTwinId) {
+                    /** If lookupTwinId exists, handleChildNodeClick - which also sets the selectedTwin -
+                     * will be triggered anyhow at the end of reverse lookup process by ADTHierarchyCard,
+                     * therefore no need to set selectedTwin here to prevent unnecessary re-renders for Board component */
+                    setSelectedTwin(twin);
+                } else {
+                    setReverseLookupTwinId(twin.$dtId);
+                }
+
+                if (onTwinClick) {
+                    onTwinClick(twin);
+                }
+                setErrorMessage(null);
             }
-            setErrorMessage(t('boardErrors.failure'));
-            console.error(errors.modelErrors);
-            console.error(errors.twinErrors);
-        } else {
-            setSelectedTwin(twin);
-            if (onTwinClick) {
-                onTwinClick(twin);
-            }
-            setErrorMessage(null);
-            setReverseLookupTwinId(twin.$dtId);
-        }
-    };
+        },
+        []
+    );
 
     return (
         <div className="cb-hbcard-container">

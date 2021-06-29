@@ -342,4 +342,4 @@ function getDefaultBoardInfo(
     return board;
 }
 
-export default Board;
+export default React.memo(Board);
