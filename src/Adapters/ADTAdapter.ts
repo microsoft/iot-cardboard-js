@@ -22,6 +22,7 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ADTModel from '../Models/Classes/ADTAssets/ADTModel';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -179,6 +180,33 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             }
         );
+    }
+
+    pushADTModels(models: Array<ADTModel>) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterModelsData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/models`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                },
+                data: models
+            }
+        );
+    }
+
+    pushADTTwins(params: any) {
+        return null;
+    }
+
+    pushADTRelationships(params: any) {
+        return null;
     }
 
     getKeyValuePairs(

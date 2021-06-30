@@ -1,0 +1,16 @@
+.cb-upload-progress {
+    height: 100%;
+    padding: 16px;
+    width: 100%;
+    .cb-upload-type {
+        font-weight: normal;
+        margin: 0;
+    }
+    .cb-status-phase-preUpload {
+        opacity: 0.5;
+    }
+
+    .cb-status-message {
+        padding-left: 32px;
+    }
+}

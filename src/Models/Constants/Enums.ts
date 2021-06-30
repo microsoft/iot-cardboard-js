@@ -43,5 +43,13 @@ export enum CardTypes {
 export enum BIMUploadState {
     PreProcessing = 'preProcessing',
     PreUpload = 'preUpload',
+    InUpload = 'inUpload',
     PostUpload = 'postUpload'
+}
+
+export enum UploadPhase {
+    PreUpload = 'preUpload',
+    Uploading = 'uploading',
+    Succeeded = 'succeeded',
+    Failed = 'failed'
 }

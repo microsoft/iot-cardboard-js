@@ -1,0 +1,24 @@
+.cb-bim-file-selection-container {
+    height: 100%;
+    width: 100%;
+}
+
+.cb-bim-input,
+.cb-bim-input-label,
+.cb-bim-input-submit {
+    display: block;
+}
+
+.cb-bim-input-label,
+.cb-bim-input {
+    max-width: 320px;
+}
+
+.cb-bim-input-label {
+    font-weight: lighter;
+}
+
+.cb-bim-input {
+    margin-bottom: 8px;
+    width: 100%;
+}

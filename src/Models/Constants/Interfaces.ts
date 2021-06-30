@@ -31,6 +31,11 @@ export interface IBIMViewerProps {
     centeredObject?: string;
 }
 
+export interface IModelSelectionProps {
+    onSubmit: (selectedModels: Array<string>) => void;
+    models: Array<any>;
+}
+
 export interface IBIMFileSelectionProps {
     onSubmit: (bimFilePath: string, metadataFilePath?: string) => void;
 }

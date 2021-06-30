@@ -9,14 +9,11 @@ export default {
 };
 
 const cardStyle = {
-    height: '500px',
-    width: '100%'
+    height: '400px',
+    width: '500px'
 };
 
-export const ADTHierarchyWithBIMViewer = (
-    _args,
-    { globals: { theme, locale } }
-) => {
+export const UploadFromBIM = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (

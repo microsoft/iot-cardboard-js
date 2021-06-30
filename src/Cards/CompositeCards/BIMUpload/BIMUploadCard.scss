@@ -1,0 +1,47 @@
+.cb-pre-upload-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.cb-assets-container,
+.cb-bim-viewer-container {
+    height: 100%;
+    position: relative;
+    width: 50%;
+}
+
+.cb-ghost {
+    height: 1px;
+    left: -90000px;
+    overflow: hidden;
+    position: absolute;
+    top: -9000px;
+    width: 1px;
+    z-index: -999;
+
+    * {
+        display: none !important;
+    }
+}
+
+.cb-upload-progress {
+    .cb-progress-text {
+        font-weight: normal;
+    }
+}
+
+.cb-section-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 16px;
+    position: relative;
+    width: 100%;
+}
+
+.cb-section-header {
+    font-size: 20px;
+    margin-bottom: 16px;
+}

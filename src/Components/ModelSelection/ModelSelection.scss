@@ -1,0 +1,20 @@
+.cb-model-checkbox {
+    margin-bottom: 8px;
+}
+
+.cb-model-selection-container {
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    .cb-checkbox-container {
+        height: fit-content;
+        max-height: calc(100% - 40px);
+        overflow-y: auto;
+    }
+    .cb-upload-button {
+        height: 28px;
+        line-height: 28px;
+        width: fit-content;
+    }
+}
