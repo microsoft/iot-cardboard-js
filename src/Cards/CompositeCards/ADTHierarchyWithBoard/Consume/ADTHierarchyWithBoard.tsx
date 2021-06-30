@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -72,6 +72,10 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         },
         []
     );
+
+    useEffect(() => {
+        setReverseLookupTwinId(lookupTwinId);
+    }, [lookupTwinId]);
 
     return (
         <div className="cb-hbcard-container">
