@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -28,6 +28,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
+    const lookupTwinIdRef = useRef(lookupTwinId);
     const { t } = useTranslation();
 
     const handleChildNodeClick = (
@@ -55,7 +56,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                 console.error(errors.modelErrors);
                 console.error(errors.twinErrors);
             } else {
-                if (!lookupTwinId) {
+                if (!lookupTwinIdRef.current) {
                     /** If lookupTwinId exists, handleChildNodeClick - which also sets the selectedTwin -
                      * will be triggered anyhow at the end of reverse lookup process by ADTHierarchyCard,
                      * therefore no need to set selectedTwin here to prevent unnecessary re-renders for Board component */
@@ -63,7 +64,6 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                 } else {
                     setReverseLookupTwinId(twin.$dtId);
                 }
-
                 if (onTwinClick) {
                     onTwinClick(twin);
                 }
@@ -74,7 +74,14 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     );
 
     useEffect(() => {
-        setReverseLookupTwinId(lookupTwinId);
+        lookupTwinIdRef.current = lookupTwinId;
+        if (
+            lookupTwinId &&
+            lookupTwinId !== selectedTwin?.$dtId &&
+            lookupTwinId !== reverseLookupTwinId
+        ) {
+            setReverseLookupTwinId(lookupTwinId);
+        }
     }, [lookupTwinId]);
 
     return (
