@@ -7,3 +7,31 @@
     margin-bottom: 12px;
     font-weight: bold;
 }
+
+.cb-form-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-top: 10px;
+}
+
+.cb-form-breadcrumbs {
+    width: calc(100% - 72px);
+    position: absolute;
+    top: 10px;
+}
+
+.cb-form-main {
+    flex-grow: 1;
+}
+
+.cb-form-footer {
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.cb-form-footer > button {
+    margin-left: 8px;
+}

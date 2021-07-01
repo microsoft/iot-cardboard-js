@@ -2,7 +2,13 @@ import React from 'react';
 import ModelCreate from './ModelCreate';
 
 export default {
-    title: 'Components/ModelCreate'
+    title: 'Components/ModelCreate',
+    parameters: {
+        backgrounds: {
+            default: 'gray',
+            values: [{ name: 'gray', value: '#F9F9F9' }]
+        }
+    }
 };
 
 const mockExistingModels = [
@@ -16,7 +22,3 @@ export const Default = (_args, { globals: { locale } }) => (
         <ModelCreate locale={locale} existingModelIds={mockExistingModels} />
     </div>
 );
-
-Default.parameters = {
-    backgrounds: { light: '#E5E5E5' }
-};

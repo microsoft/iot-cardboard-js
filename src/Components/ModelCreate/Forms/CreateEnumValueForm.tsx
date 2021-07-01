@@ -3,6 +3,7 @@ import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Stack } from '@fluentui/react/lib/Stack';
 import { DTDLEnumValue } from '../../../Models/Classes/DTDL';
+import BaseForm from './BaseForm';
 
 interface CreateEnumValueFormProps {
     t: (str: string) => string;
@@ -30,7 +31,11 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
         onCreateEnumValue(newEnumValue);
     };
 
-    return <>
+    return <BaseForm
+        primaryActionLabel={t('modelCreate.create')}
+        cancelLabel={t('modelCreate.cancel')}
+        onPrimaryAction={onClickCreate}
+        onCancel={onCancel} >
         <TextField 
             label={t('modelCreate.propertyId')} 
             prefix="dtmi;" 
@@ -54,11 +59,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
             value={description} 
             onChange={e => setDescription(e.currentTarget.value)} />
         <TextField label={t('modelCreate.enumValue')} value={enumValue as string} onChange={e => setEnumValue(e.currentTarget.value)} />
-        <Stack horizontal>
-            <DefaultButton onClick={onCancel}>{t('modelCreate.cancel')}</DefaultButton>
-            <PrimaryButton onClick={onClickCreate}>{t('modelCreate.create')}</PrimaryButton>
-        </Stack>
-    </>;
+    </BaseForm>;
 };
 
 export default CreateEnumValueForm;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
-import { Stack } from '@fluentui/react/lib/Stack';
+import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
+import "../ModelCreate.scss";
 
 interface CreateComponentFormProps {
     t: (str: string) => string;
@@ -39,7 +39,15 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
         onPrimaryAction(relationship);
     }
 
-    return <>
+    return <BaseForm
+        primaryActionLabel={
+            componentToEdit === null 
+                ? t('modelCreate.create')
+                : t('modelCreate.save')
+        }
+        cancelLabel={t('modelCreate.cancel')}
+        onPrimaryAction={onClickCreate}
+        onCancel={onCancel} >
         <TextField 
             label={t('modelCreate.componentId')} 
             prefix="dtmi;" 
@@ -48,8 +56,14 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             value={id} 
             onChange={e => setId(e.currentTarget.value)}
             required />
-        <TextField label={t('modelCreate.name')} value={name} onChange={e => setName(e.currentTarget.value)} />
-        <TextField label={t('modelCreate.displayName')} value={displayName} onChange={e => setDisplayName(e.currentTarget.value)} />
+        <TextField 
+            label={t('modelCreate.name')} 
+            value={name} 
+            onChange={e => setName(e.currentTarget.value)} />
+        <TextField 
+            label={t('modelCreate.displayName')} 
+            value={displayName} 
+            onChange={e => setDisplayName(e.currentTarget.value)} />
         <Dropdown 
             label={t('modelCreate.schema')} 
             placeholder={t('modelCreate.selectExistingModel')} 
@@ -67,17 +81,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             rows={3} 
             value={description} 
             onChange={e => setDescription(e.currentTarget.value)} />
-        <Stack horizontal>
-            <DefaultButton onClick={onCancel}>{t('modelCreate.cancel')}</DefaultButton>
-            <PrimaryButton onClick={onClickCreate}>
-                {
-                    componentToEdit === null 
-                        ? t('modelCreate.create')
-                        : t('modelCreate.save')
-                }
-            </PrimaryButton>
-        </Stack>
-    </>;
+    </BaseForm>;
 }
 
 export default CreateComponentForm;

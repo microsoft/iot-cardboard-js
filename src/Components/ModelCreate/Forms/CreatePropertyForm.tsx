@@ -6,6 +6,7 @@ import { Toggle } from '@fluentui/react/lib/Toggle';
 import { Stack } from '@fluentui/react/lib/Stack';
 import { DTDLEnum, DTDLProperty, DTDLSchema } from '../../../Models/Classes/DTDL';
 import CreateEnumForm from './CreateEnumForm';
+import BaseForm from './BaseForm';
 
 export enum CreatePropertyMode { 
     PropertyForm, 
@@ -125,61 +126,65 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         popBreadcrumb();
     }
 
-    const SchemaFields = () => <Stack>
-        <Dropdown 
-            selectedKey={schemaDropdown ? schemaDropdown.key : undefined}
-            label={t('modelCreate.schema')} 
-            placeholder={t('modelCreate.selectOption')} 
-            onChange={(_e, option) => onSchemaOptionChange(option)}
-            options={schemaOptions} />
-        {schemaDropdown?.key === 'enum' && 
-            <DefaultButton onClick={() => addStep(CreatePropertyMode.EnumForm, 'modelCreate.addEnumSchema')}>
-                {t('modelCreate.addEnumSchema')}
-            </DefaultButton>}
-    </Stack>;
-
     return <>
-        {mode === CreatePropertyMode.PropertyForm && <>
-            <TextField 
-                label={t('modelCreate.propertyId')} 
-                prefix="dtmi;" 
-                suffix=";1"
-                value={id} 
-                placeholder="com:example:property1"
-                onChange={e => setId(e.currentTarget.value)}
-                required />
-            <TextField label={t('modelCreate.name')} value={name} onChange={e => setName(e.currentTarget.value)} />
-            <TextField label={t('modelCreate.displayName')} value={displayName} onChange={e => setDisplayName(e.currentTarget.value)} />
-            <SchemaFields />
-            <TextField 
-                label={t('modelCreate.comment')} 
-                multiline 
-                rows={3} 
-                value={comment} 
-                onChange={e => setComment(e.currentTarget.value)} />
-            <TextField 
-                label={t('modelCreate.description')} 
-                multiline 
-                rows={3} 
-                value={description} 
-                onChange={e => setDescription(e.currentTarget.value)} />
-            <TextField label={t('modelCreate.unit')} value={unit} onChange={e => setUnit(e.currentTarget.value)} />
-            <Toggle 
-                label={t('modelCreate.writable')} 
-                onText={t('modelCreate.true')} 
-                offText={t('modelCreate.false')} 
-                onChange={(_e, checked) => setWritable(checked)} />
-            <Stack horizontal>
-                <DefaultButton onClick={onCancel}>{t('modelCreate.cancel')}</DefaultButton>
-                <PrimaryButton onClick={onClickCreate}>
-                    {
-                        propertyToEdit === null 
-                            ? t('modelCreate.create')
-                            : t('modelCreate.save')
-                    }
-                </PrimaryButton>
-            </Stack>
-        </>}
+        {mode === CreatePropertyMode.PropertyForm && 
+            <BaseForm
+                primaryActionLabel={
+                    propertyToEdit === null 
+                        ? t('modelCreate.create')
+                        : t('modelCreate.save')
+                }
+                cancelLabel={t('modelCreate.cancel')}
+                onPrimaryAction={onClickCreate}
+                onCancel={onCancel}>
+                <TextField 
+                    label={t('modelCreate.propertyId')} 
+                    prefix="dtmi;" 
+                    suffix=";1"
+                    value={id} 
+                    placeholder="com:example:property1"
+                    onChange={e => setId(e.currentTarget.value)}
+                    required />
+                <TextField 
+                    label={t('modelCreate.name')} 
+                    value={name} 
+                    onChange={e => setName(e.currentTarget.value)} />
+                <TextField 
+                    label={t('modelCreate.displayName')} 
+                    value={displayName} 
+                    onChange={e => setDisplayName(e.currentTarget.value)} />
+                <Stack>
+                    <Dropdown 
+                        selectedKey={schemaDropdown ? schemaDropdown.key : undefined}
+                        label={t('modelCreate.schema')} 
+                        placeholder={t('modelCreate.selectOption')} 
+                        onChange={(_e, option) => onSchemaOptionChange(option)}
+                        options={schemaOptions} />
+                    {schemaDropdown?.key === 'enum' && 
+                        <DefaultButton onClick={() => addStep(CreatePropertyMode.EnumForm, 'modelCreate.addEnumSchema')}>
+                            {t('modelCreate.addEnumSchema')}
+                        </DefaultButton>}
+                </Stack>
+                <TextField 
+                    label={t('modelCreate.comment')} 
+                    multiline 
+                    rows={3} 
+                    value={comment} 
+                    onChange={e => setComment(e.currentTarget.value)} />
+                <TextField 
+                    label={t('modelCreate.description')} 
+                    multiline 
+                    rows={3} 
+                    value={description} 
+                    onChange={e => setDescription(e.currentTarget.value)} />
+                <TextField label={t('modelCreate.unit')} value={unit} onChange={e => setUnit(e.currentTarget.value)} />
+                <Toggle 
+                    label={t('modelCreate.writable')} 
+                    onText={t('modelCreate.true')} 
+                    offText={t('modelCreate.false')} 
+                    onChange={(_e, checked) => setWritable(checked)} />
+            </BaseForm>
+        }
 
         {mode === CreatePropertyMode.EnumForm 
             && <CreateEnumForm 

@@ -265,12 +265,34 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
             </>
 
             <Panel
-                onRenderHeader={renderPanelHeader}
                 isOpen={isPanelOpen}
                 onDismiss={backToModelForm}
                 type={PanelType.medium}
                 isLightDismiss
+                styles={{ 
+                    scrollableContent: {
+                        display: "flex",
+                        flexGrow: 1,
+                    },
+                    content: {
+                        display: "flex",
+                        flexGrow: 1,
+                        paddingBottom: 0,
+                    },
+                    contentInner: {
+                        display: "flex",
+                    }
+                }}
                 closeButtonAriaLabel={t('modelCreate.cancel')} >
+                <div className="cb-form-breadcrumbs">
+                    <Breadcrumb
+                        items={breadcrumbs}
+                        maxDisplayedItems={3}
+                        ariaLabel={t('modelCreate.breadcrumbs')}
+                        overflowAriaLabel={t('modelCreate.moreSteps')}
+                        className='cb-modelcreate-breadcrumb'
+                        styles={{ item: { paddingLeft: 0 } }} />
+                </div>
                 { mode === ModelCreateMode.PropertyForm 
                     && <CreatePropertyForm 
                         t={t}
