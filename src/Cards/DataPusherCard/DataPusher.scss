@@ -1,0 +1,15 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-datapusher-container {
+    height: 100%;
+    margin-top: -40px;
+    overflow-y: scroll;
+    width: 100%;
+
+    .cb-adt-data-pusher {
+        padding: 8px;
+    }
+    .cb-form-field-description {
+        margin-bottom: 8px;
+    }
+}
