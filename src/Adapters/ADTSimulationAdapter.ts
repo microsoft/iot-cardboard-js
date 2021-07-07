@@ -12,16 +12,11 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 
 export default class ADTSimulationAdapter implements ISimulationAdapter {
     private authService: IAuthService;
-    private adtHostUrl: string;
+    public adtHostUrl = '';
     private adtProxyServerPath: string;
     public packetNumber: number;
 
-    constructor(
-        adtHostUrl: string,
-        authService: IAuthService,
-        adtProxyServerPath = '/api/proxy'
-    ) {
-        this.adtHostUrl = adtHostUrl;
+    constructor(authService: IAuthService, adtProxyServerPath = '/api/proxy') {
         this.authService = authService;
         this.adtProxyServerPath = adtProxyServerPath;
         this.packetNumber = 0;

@@ -2,7 +2,13 @@ import { Text } from '@fluentui/react/lib/Text';
 import { Separator } from '@fluentui/react/lib/components/Separator/Separator';
 import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
 import { Toggle } from '@fluentui/react/lib/components/Toggle/Toggle';
-import React, { createContext, useContext, useReducer, useRef } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef
+} from 'react';
 import BaseCard from '../Base/Consume/BaseCard';
 import './DataPusher.scss';
 import {
@@ -17,8 +23,12 @@ import {
 import {
     ISeparatorStyles,
     ISpinButtonStyles,
+    IStackStyles,
+    IStackTokens,
     Position,
-    SpinButton
+    PrimaryButton,
+    SpinButton,
+    Stack
 } from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
 import {
@@ -27,6 +37,7 @@ import {
     DTwinRelationship,
     DTwinUpdateEvent
 } from '../../Models/Constants/Interfaces';
+import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -133,12 +144,48 @@ const DataPusherCard = ({
         }, state.quickStreamFrequency);
     };
 
-    const createModels = () => {};
+    const createModels = () => {
+        const assetSimulation = new AssetSimulation(0, 0);
+        const models = assetSimulation.generateDTModels(
+            state.includeImagesForModel
+        );
+        modelState.callAdapter({ models });
+    };
+
+    const createTwins = () => {
+        const assetSimulation = new AssetSimulation(0, 0);
+        const twins = assetSimulation.generateDTwins(
+            state.includeImagesForModel
+        );
+        twinState.callAdapter({ twins });
+    };
+
+    const createRelationships = () => {
+        const assetSimulation = new AssetSimulation(0, 0);
+        const relationships = assetSimulation.generateTwinRelationships();
+        relationshipState.callAdapter({ relationships });
+    };
+
+    // Update adapter's ADT Url when input changes
+    useEffect(() => {
+        adapter.adtHostUrl = state.instanceUrl;
+    }, [state.instanceUrl]);
 
     /*
-        - Add logic to create models, twins, and relationships
+        - Add logic to view status of created twins, models & relationships
         - Add logic to view simulation tick results
     */
+
+    const stackStyles: IStackStyles = {
+        root: {
+            width: 500
+        }
+    };
+
+    const numericalSpacingStackTokens: IStackTokens = {
+        childrenGap: 10,
+        padding: 10
+    };
 
     return (
         <BaseCard
@@ -152,6 +199,35 @@ const DataPusherCard = ({
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
                     <AdtDataPusher />
+                    <div className="cb-datapusher-footer">
+                        <Stack
+                            horizontal
+                            styles={stackStyles}
+                            tokens={numericalSpacingStackTokens}
+                        >
+                            <PrimaryButton
+                                text={'Create models'}
+                                disabled={false}
+                                onClick={() => {
+                                    createModels();
+                                }}
+                            />
+                            <PrimaryButton
+                                text={'Create twins'}
+                                disabled={false}
+                                onClick={() => {
+                                    createTwins();
+                                }}
+                            />
+                            <PrimaryButton
+                                text={'Create relationships'}
+                                disabled={false}
+                                onClick={() => {
+                                    createRelationships();
+                                }}
+                            />
+                        </Stack>
+                    </div>
                 </div>
             </DataPusherContext.Provider>
         </BaseCard>

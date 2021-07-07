@@ -75,7 +75,7 @@ export default class AssetSimulation implements ISimulation {
         return events;
     }
 
-    generateDTModels(isImagesIncluded = true, download = true) {
+    generateDTModels(isImagesIncluded = true, download = false) {
         this.isADTModelImagesIncluded = isImagesIncluded;
         const dtdlModels = this.assets.map((asset) => {
             const propertyContents: Array<DTModelContent> = asset.devices.map(
@@ -134,7 +134,7 @@ export default class AssetSimulation implements ISimulation {
         return dtdlModels;
     }
 
-    generateDTwins(isImagesIncluded = true, download = true) {
+    generateDTwins(isImagesIncluded = true, download = false) {
         this.isADTModelImagesIncluded = isImagesIncluded;
         const twins: Array<DTwin> = [];
         this.assets.forEach((asset: Asset) => {

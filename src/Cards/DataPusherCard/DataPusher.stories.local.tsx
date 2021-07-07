@@ -1,5 +1,8 @@
 import React from 'react';
-import useAuthParams from '../../../.storybook/useAuthParams.js';
+import useAuthParams from '../../../.storybook/useAuthParams';
+import ADTSimulationAdapter from '../../Adapters/ADTSimulationAdapter';
+import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
+import MsalAuthService from '../../Models/Services/MsalAuthService';
 import DataPusherCard from './DataPusherCard';
 
 export default {
@@ -7,7 +10,7 @@ export default {
 };
 
 const wrapperStyle = {
-    height: '500px',
+    height: '700px',
     width: '100%'
 };
 
@@ -17,7 +20,18 @@ export const DataPusher = (_args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={wrapperStyle}>
-            <DataPusherCard theme={theme} locale={locale} />
+            <DataPusherCard
+                theme={theme}
+                locale={locale}
+                adapter={
+                    new ADTSimulationAdapter(
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
+                    )
+                }
+                Simulation={AssetSimulation}
+            />
         </div>
     );
 };
