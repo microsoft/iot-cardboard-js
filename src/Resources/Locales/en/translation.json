@@ -15,6 +15,10 @@
     "noTwins": "No twins",
     "on": "On",
     "off": "Off",
+    "wrapText": "Wrap text",
+    "copy": "Copy",
+    "copied": "Copied",
+    "close": "Close",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
@@ -38,8 +42,8 @@
         "rateLimitExceededTitle": "GitHub search API rate limit exceeded",
         "rateLimitExceededDescription": "This search is limited to 10 API requests per minute by the GitHub search API. Your limit resets in {{numSeconds}} seconds",
         "githubLink": "GitHub link",
-        "modelListItemAction": "Select",
-        "modelListItemPreview": "Preview"
+        "modelListItemAction": "Create",
+        "modelListItemPreview": "View DTDL"
     },
     "board": {
         "empty": "This board has no cards",

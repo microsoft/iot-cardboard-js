@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import {
     MessageBar,
     MessageBarType,
-    Modal,
     DefaultButton,
     Spinner,
     SpinnerSize
@@ -100,7 +99,19 @@ const ModelSearch = ({
         setMergedSearchResults(null);
     };
 
-    const getDescription = () => {
+    const getJsonPreviewTitle = () => {
+        const dtdl = modelDataState.adapterResult.getData()?.json?.[0];
+        const getStringOrNull = (valToTest) =>
+            typeof valToTest === 'string' ? valToTest : null;
+        return (
+            getStringOrNull(dtdl?.displayName?.en) ||
+            getStringOrNull(dtdl?.displayName) ||
+            getStringOrNull(dtdl?.['@id']) ||
+            null
+        );
+    };
+
+    const getDescription = useCallback(() => {
         if (adapter instanceof CdnModelSearchAdapter) {
             return (
                 <Trans
@@ -128,7 +139,7 @@ const ModelSearch = ({
                 />
             );
         }
-    };
+    }, [adapter]);
 
     return (
         <div className="cb-modelsearch-container">
@@ -212,20 +223,12 @@ const ModelSearch = ({
                 />
             )}
             {isModelPreviewOpen && (
-                <Modal
+                <JsonPreview
+                    json={modelDataState.adapterResult.getData()?.json}
                     isOpen={isModelPreviewOpen}
                     onDismiss={() => setIsModelPreviewOpen(false)}
-                    isBlocking={false}
-                    scrollableContentClassName="cb-modelsearch-json-preview-scroll"
-                    className="cb-modelsearch-preview-modal"
-                    styles={{
-                        main: { maxWidth: '80%' }
-                    }}
-                >
-                    <JsonPreview
-                        json={modelDataState.adapterResult.getData()?.json}
-                    />
-                </Modal>
+                    modalTitle={getJsonPreviewTitle()}
+                />
             )}
             {(modelIndexState.isLoading || searchDataState.isLoading) && (
                 <Spinner size={SpinnerSize.large} />
