@@ -2,7 +2,7 @@ import { Text } from '@fluentui/react/lib/Text';
 import { Separator } from '@fluentui/react/lib/components/Separator/Separator';
 import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
 import { Toggle } from '@fluentui/react/lib/components/Toggle/Toggle';
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useRef } from 'react';
 import BaseCard from '../Base/Consume/BaseCard';
 import './DataPusher.scss';
 import {
@@ -20,6 +20,13 @@ import {
     Position,
     SpinButton
 } from '@fluentui/react';
+import { useAdapter } from '../../Models/Hooks';
+import {
+    DTModel,
+    DTwin,
+    DTwinRelationship,
+    DTwinUpdateEvent
+} from '../../Models/Constants/Interfaces';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -32,11 +39,106 @@ const separatorStyles: Partial<ISeparatorStyles> = {
     content: { fontWeight: 'bold', paddingLeft: 0 }
 };
 
-const DataPusherCard = ({ locale, localeStrings, theme }: IDataPusherProps) => {
+const DataPusherCard = ({
+    locale,
+    localeStrings,
+    theme,
+    adapter,
+    Simulation
+}: IDataPusherProps) => {
     const [state, dispatch] = useReducer(
         dataPusherReducer,
         defaultAdtDataPusherState
     );
+
+    const intervalRef = useRef(null);
+
+    const modelState = useAdapter({
+        adapterMethod: (params: { models: DTModel[] }) =>
+            adapter.createModels(params.models),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const relationshipState = useAdapter({
+        adapterMethod: (params: { relationships: DTwinRelationship[] }) =>
+            adapter.createRelationships(params.relationships),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const twinState = useAdapter({
+        adapterMethod: (params: { twins: DTwin[] }) =>
+            adapter.createTwins(params.twins),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const updateTwinState = useAdapter({
+        adapterMethod: (params: { events: Array<DTwinUpdateEvent> }) =>
+            adapter.updateTwins(params.events),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const stopSimulation = () => {
+        clearInterval(intervalRef.current);
+    };
+
+    const startSimulation = () => {
+        // Clear any prior interval
+        clearInterval(intervalRef.current);
+
+        if (
+            isNaN(state.daysToSimulate) ||
+            isNaN(state.dataSpacing) ||
+            isNaN(state.liveStreamFrequency) ||
+            isNaN(state.quickStreamFrequency)
+        ) {
+            throw new Error('Input controls cannot be empty');
+        }
+
+        // Live simulator
+        const startLiveSimulation = () => {
+            const sim = new Simulation(
+                new Date().valueOf(),
+                state.liveStreamFrequency
+            );
+
+            intervalRef.current = setInterval(() => {
+                const events = sim.tick();
+                // TODO push events with adapter here
+                updateTwinState.callAdapter({ events });
+            }, state.liveStreamFrequency);
+        };
+
+        const startDateMillis =
+            new Date().valueOf() - state.daysToSimulate * 86400000; // get starting date
+
+        // Quick fill simulator
+        const sim = new Simulation(startDateMillis, state.dataSpacing);
+
+        intervalRef.current = setInterval(() => {
+            if (
+                sim.seedTimeMillis > new Date().valueOf() &&
+                state.isLiveDataSimulated
+            ) {
+                // Change to live simulation
+                console.log('Reached "now", beginning live simulation');
+                clearInterval(intervalRef.current);
+                startLiveSimulation();
+            }
+            const events = sim.tick();
+            updateTwinState.callAdapter({ events });
+        }, state.quickStreamFrequency);
+    };
+
+    const createModels = () => {};
+
+    /*
+        - Add logic to create models, twins, and relationships
+        - Add logic to view simulation tick results
+    */
 
     return (
         <BaseCard

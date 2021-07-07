@@ -1,9 +1,16 @@
-import { Locale, Theme } from '../../Models/Constants';
+import {
+    ISimulation,
+    ISimulationAdapter,
+    Locale,
+    Theme
+} from '../../Models/Constants';
 
 export interface IDataPusherProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
+    adapter: ISimulationAdapter;
+    Simulation: new (startTimeMillis: number, frequency: number) => ISimulation;
 }
 
 export interface IQuickFillDataFormProps {
