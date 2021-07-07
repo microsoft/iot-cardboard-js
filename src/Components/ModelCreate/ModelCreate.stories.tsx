@@ -19,6 +19,10 @@ const mockExistingModels = [
 
 export const Default = (_args, { globals: { locale } }) => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
-        <ModelCreate locale={locale} existingModelIds={mockExistingModels} />
+        <ModelCreate 
+            locale={locale} 
+            existingModelIds={mockExistingModels}
+            onCancel={() => console.log('Cancelling')}
+            onPrimaryAction={model => console.log(model)} />
     </div>
 );

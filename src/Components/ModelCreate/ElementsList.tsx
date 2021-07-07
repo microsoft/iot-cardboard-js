@@ -22,7 +22,7 @@ interface ElementsListProps {
     elements: any[];
     handleNewElement: () => void;
     handleEditElement: (element: any, index: number) => void;
-    handleDeleteElement: (element: any, index: number) => void;
+    handleDeleteElement: (index: number) => void;
 }
 
 const ElementsList: React.FC<ElementsListProps> = ({ 
@@ -52,6 +52,12 @@ const ElementsList: React.FC<ElementsListProps> = ({
     const renderListRow: IDetailsListProps['onRenderRow'] = props => (
     <div onClick={() => handleEditElement(props.item, props.itemIndex)}>
         <DetailsRow 
+            styles={{
+                cell: {
+                    display: 'flex',
+                    alignItems: 'center'
+                }
+            }}
             className="cb-elementslist-row" 
             {...props} />
     </div>);
@@ -67,7 +73,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
                 ariaLabel={t('modelCreate.delete')}
                 onClick={(event) => {
                     event.stopPropagation(); 
-                    handleDeleteElement(item, index);
+                    handleDeleteElement(index);
                 }} />;
         default:
             return <span>{fieldContent}</span>;

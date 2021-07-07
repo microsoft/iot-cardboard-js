@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
-import { Stack } from '@fluentui/react/lib/Stack';
 import { DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import BaseForm from './BaseForm';
 
@@ -32,7 +30,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
     };
 
     return <BaseForm
-        primaryActionLabel={t('modelCreate.create')}
+        primaryActionLabel={t('modelCreate.add')}
         cancelLabel={t('modelCreate.cancel')}
         onPrimaryAction={onClickCreate}
         onCancel={onCancel} >

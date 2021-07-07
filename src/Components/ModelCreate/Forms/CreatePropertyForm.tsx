@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
+import { DefaultButton } from '@fluentui/react/lib/Button';
 import { Dropdown, IDropdownOption, DropdownMenuItemType } from '@fluentui/react/lib/Dropdown';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Toggle } from '@fluentui/react/lib/Toggle';
@@ -131,8 +131,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             <BaseForm
                 primaryActionLabel={
                     propertyToEdit === null 
-                        ? t('modelCreate.create')
-                        : t('modelCreate.save')
+                        ? t('modelCreate.add')
+                        : t('modelCreate.update')
                 }
                 cancelLabel={t('modelCreate.cancel')}
                 onPrimaryAction={onClickCreate}
@@ -182,6 +182,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                     label={t('modelCreate.writable')} 
                     onText={t('modelCreate.true')} 
                     offText={t('modelCreate.false')} 
+                    defaultChecked={writable}
                     onChange={(_e, checked) => setWritable(checked)} />
             </BaseForm>
         }

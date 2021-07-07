@@ -42,8 +42,8 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     return <BaseForm
         primaryActionLabel={
             componentToEdit === null 
-                ? t('modelCreate.create')
-                : t('modelCreate.save')
+                ? t('modelCreate.add')
+                : t('modelCreate.update')
         }
         cancelLabel={t('modelCreate.cancel')}
         onPrimaryAction={onClickCreate}
@@ -67,6 +67,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
         <Dropdown 
             label={t('modelCreate.schema')} 
             placeholder={t('modelCreate.selectExistingModel')} 
+            selectedKey={schema ? schema : undefined}
             options={existingModelIds.map(e => { return {key: e, text: e} })}
             onChange={(_e, item) => setSchema(item.key as string)} />
         <TextField 

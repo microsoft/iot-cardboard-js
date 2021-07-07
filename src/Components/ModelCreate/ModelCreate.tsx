@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Locale } from '../../Models/Constants';
 import { Text } from '@fluentui/react/lib/Text';
 import { Panel, PanelType } from '@fluentui/react/lib/Panel';
-import { Stack, IStackTokens } from '@fluentui/react/lib/Stack';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
-import { Separator } from '@fluentui/react/lib/Separator';
 import { Breadcrumb, IBreadcrumbItem } from '@fluentui/react/lib/Breadcrumb';
 import CreateRelationshipForm from './Forms/CreateRelationshipForm';
 import CreateComponentForm from './Forms/CreateComponentForm';
@@ -17,6 +14,7 @@ import ElementsList from './ElementsList';
 import { DTDLComponent, DTDLModel, DTDLProperty, DTDLRelationship } from '../../Models/Classes/DTDL';
 import { AuthoringMode } from '../../Models/Constants/Enums';
 import FormSection from '../FormSection/FormSection';
+import BaseForm from '../ModelCreate/Forms/BaseForm';
 import './ModelCreate.scss';
 
 enum ModelCreateMode { 
@@ -31,6 +29,8 @@ interface ModelCreateProps {
     locale: Locale,
     existingModelIds: string[],
     modelToEdit?: DTDLModel;
+    onPrimaryAction: (model: DTDLModel) => void;
+    onCancel: () => void;
 };
 
 class ElementToEditInfo {
@@ -43,11 +43,12 @@ class ElementToEditInfo {
     }
 }
 
-const stackTokens: IStackTokens = {
-    childrenGap: 10,
-};
-
-const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, modelToEdit = null }) => {
+const ModelCreate: React.FC<ModelCreateProps> = ({ 
+    locale, 
+    existingModelIds, 
+    modelToEdit = null,
+    onPrimaryAction,
+    onCancel }) => {
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(ModelCreateMode.ModelForm);
@@ -63,7 +64,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
     const [properties, setProperties] = useState(initialModel.properties);
     const [relationships, setRelationships] = useState(initialModel.relationships);
     const [components, setComponents] = useState(initialModel.components);
-    const [elementToEdit, setElementToEdit] = useState({ element: null, index: -1 });
+    const [elementToEdit, setElementToEdit] = useState(new ElementToEditInfo());
     // Currently extends and schemas are not supported.
 
     const handleCreateModel = () => {
@@ -75,7 +76,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
             properties,
             relationships,
             components);
-        console.log(model);
+        onPrimaryAction(model);
     };
 
     const pushBreadcrumb = (breadcrumbKey: string) => {
@@ -168,26 +169,17 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
         });
     }
 
-    const handleDeleteProperty = (property, index: number) => {
+    const handleDeleteProperty = (index: number) => {
         deleteEntity(index, setProperties);
     }
 
-    const handleDeleteRelationship = (relationship, index: number) => {
+    const handleDeleteRelationship = (index: number) => {
         deleteEntity(index, setRelationships);
     }
 
-    const handleDeleteComponent = (component, index: number) => {
+    const handleDeleteComponent = (index: number) => {
         deleteEntity(index, setComponents);
     }
-
-    const renderPanelHeader = () => 
-        <Breadcrumb
-            items={breadcrumbs}
-            maxDisplayedItems={3}
-            ariaLabel={t('modelCreate.breadcrumbs')}
-            overflowAriaLabel={t('modelCreate.moreSteps')}
-            className='cb-modelcreate-breadcrumb'
-            styles={{ item: { paddingLeft: 0 } }} />;
 
     return (<div className="cb-modelcreate-container">
         <I18nProviderWrapper locale={locale} i18n={i18n}>
@@ -195,53 +187,58 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                 <Text variant="large" className="cb-modelcreate-title">
                     {t('modelCreate.newModel')}
                 </Text>
-                <FormSection title={t('modelCreate.summary')}>
-                    <TextField 
-                        label={t('modelCreate.modelId')}
-                        prefix="dtmi;" 
-                        suffix=";1"
-                        placeholder="com:example:model1"
-                        value={modelId} 
-                        onChange={e => setModelId(e.currentTarget.value)} 
-                        required />
-                    <TextField 
-                        label={t('modelCreate.displayName')}    
-                        value={displayName} 
-                        onChange={e => setDisplayName(e.currentTarget.value)} />
-                    <TextField 
-                        label={t('modelCreate.description')} 
-                        multiline
-                        rows={3} 
-                        value={description} 
-                        onChange={e => setDescription(e.currentTarget.value)} />
-                    <TextField 
-                        label={t('modelCreate.comment')} 
-                        multiline
-                        rows={3} 
-                        value={comment} 
-                        onChange={e => setComment(e.currentTarget.value)} />
-                </FormSection>
-                <FormSection title={t('modelCreate.properties')}>
-                    <ElementsList 
-                        t={t}
-                        noElementLabelKey="modelCreate.noProperties"
-                        addElementLabelKey="modelCreate.addProperty"
-                        elements={properties}
-                        handleEditElement={handleSelectProperty}
-                        handleNewElement={handleClickAddProperty}
-                        handleDeleteElement={handleDeleteProperty} />
-                </FormSection>
-                <FormSection title={t('modelCreate.relationships')}>
-                    <ElementsList 
-                        t={t}
-                        noElementLabelKey="modelCreate.noRelationships"
-                        addElementLabelKey="modelCreate.addRelationship"
-                        elements={relationships}
-                        handleEditElement={handleSelectRelationship}
-                        handleNewElement={handleClickAddRelationship}
-                        handleDeleteElement={handleDeleteRelationship} />
-                </FormSection>
-                <FormSection title={t('modelCreate.components')}>
+                <BaseForm
+                    primaryActionLabel={t('modelCreate.create')}
+                    cancelLabel={t('modelCreate.cancel')}
+                    onPrimaryAction={handleCreateModel}
+                    onCancel={onCancel} >
+                    <FormSection title={t('modelCreate.summary')}>
+                        <TextField 
+                            label={t('modelCreate.modelId')}
+                            prefix="dtmi;" 
+                            suffix=";1"
+                            placeholder="com:example:model1"
+                            value={modelId} 
+                            onChange={e => setModelId(e.currentTarget.value)} 
+                            required />
+                        <TextField 
+                            label={t('modelCreate.displayName')}    
+                            value={displayName} 
+                            onChange={e => setDisplayName(e.currentTarget.value)} />
+                        <TextField 
+                            label={t('modelCreate.description')} 
+                            multiline
+                            rows={3} 
+                            value={description} 
+                            onChange={e => setDescription(e.currentTarget.value)} />
+                        <TextField 
+                            label={t('modelCreate.comment')} 
+                            multiline
+                            rows={3} 
+                            value={comment} 
+                            onChange={e => setComment(e.currentTarget.value)} />
+                    </FormSection>
+                    <FormSection title={t('modelCreate.properties')}>
+                        <ElementsList 
+                            t={t}
+                            noElementLabelKey="modelCreate.noProperties"
+                            addElementLabelKey="modelCreate.addProperty"
+                            elements={properties}
+                            handleEditElement={handleSelectProperty}
+                            handleNewElement={handleClickAddProperty}
+                            handleDeleteElement={handleDeleteProperty} />
+                    </FormSection>
+                    <FormSection title={t('modelCreate.relationships')}>
+                        <ElementsList 
+                            t={t}
+                            noElementLabelKey="modelCreate.noRelationships"
+                            addElementLabelKey="modelCreate.addRelationship"
+                            elements={relationships}
+                            handleEditElement={handleSelectRelationship}
+                            handleNewElement={handleClickAddRelationship}
+                            handleDeleteElement={handleDeleteRelationship} />
+                    </FormSection>
+                    <FormSection title={t('modelCreate.components')}>
                     <ElementsList 
                         t={t}
                         noElementLabelKey="modelCreate.noComponents"
@@ -251,17 +248,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         handleNewElement={handleClickAddComponent}
                         handleDeleteElement={handleDeleteComponent} />
                 </FormSection>
-                <Separator />
-                <Stack horizontal tokens={stackTokens}>
-                    <Stack.Item align="end">
-                        <DefaultButton>
-                            {t('modelCreate.cancel')}
-                        </DefaultButton>
-                        <PrimaryButton onClick={() => handleCreateModel()}>
-                            {t('modelCreate.create')}
-                        </PrimaryButton>
-                    </Stack.Item>
-                </Stack>
+                </BaseForm>
             </>
 
             <Panel
@@ -301,7 +288,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         onCancel={backToModelForm} 
                         onPrimaryAction={(property) => 
                             handleListFormAction(property, setProperties)}
-                        propertyToEdit={elementToEdit.element} /> }
+                        propertyToEdit={elementToEdit.element as DTDLProperty} /> }
 
                 { mode === ModelCreateMode.RelationshipForm 
                     && <CreateRelationshipForm 
@@ -312,7 +299,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         onCancel={backToModelForm} 
                         onPrimaryAction={relationship => 
                             handleListFormAction(relationship, setRelationships)}
-                        relationshipToEdit={elementToEdit.element} /> }
+                        relationshipToEdit={elementToEdit.element as DTDLRelationship} /> }
 
                 { mode === ModelCreateMode.ComponentForm 
                     && <CreateComponentForm 
@@ -321,7 +308,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({ locale, existingModelIds, mod
                         onCancel={backToModelForm} 
                         onPrimaryAction={component => 
                             handleListFormAction(component, setComponents)}
-                        componentToEdit={elementToEdit.element} /> }
+                        componentToEdit={elementToEdit.element as DTDLComponent} /> }
             </Panel>
         </I18nProviderWrapper>
     </div>);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Text } from '@fluentui/react/lib/Text';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import ElementsList from '../ElementsList';
@@ -69,7 +68,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
         pushBreadcrumb('modelCreate.addEnumValue');
     }
 
-    const onClickDeleteEnumValue = (_enumValue, index) => {
+    const onClickDeleteEnumValue = (index: number) => {
         setEnumValues(currentEnumValues => {
             const copy = [...currentEnumValues];
             copy.splice(index, 1);
@@ -97,8 +96,8 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
             <BaseForm
                 primaryActionLabel={
                     enumToEdit === null 
-                        ? t('modelCreate.create')
-                        : t('modelCreate.save')
+                        ? t('modelCreate.add')
+                        : t('modelCreate.update')
                 }
                 cancelLabel={t('modelCreate.cancel')}
                 onPrimaryAction={onClickCreate}

@@ -106,8 +106,10 @@ export class DTDLRelationship {
     description: string;
     comment: string;
     maxMultiplicity: number;
-    readonly minMultiplicity: number;
     writable: boolean;
+    target: string;
+    readonly minMultiplicity: number;
+    properties: DTDLProperty[];
 
     constructor(
         id: string, 
@@ -116,6 +118,8 @@ export class DTDLRelationship {
         description: string, 
         comment: string,
         writeable: boolean,
+        properties: DTDLProperty[],
+        target: string | null = null,
         maxMultiplicity: number | null = null ) {
         this['@type'] = 'Relationship';
         this['@id'] = id;
@@ -124,7 +128,15 @@ export class DTDLRelationship {
         this.description = description;
         this.comment = comment;
         this.writable = writeable;
+        this.properties = properties;
+
+        // The default value for target is 'any interface'. Here we use
+        // the null value to indicate the value shout not be set.
+        if(target !== null) {
+            this.target = target;
+        }
         
+
         // The default value for maxMultiplicity is 'infinite'. Here we 
         // use the null value to indicate the value should not be set.
         if(maxMultiplicity !== null) {
@@ -135,7 +147,7 @@ export class DTDLRelationship {
     }
 
     static getBlank() {
-        return new DTDLRelationship('', '', '', '', '', false, null);
+        return new DTDLRelationship('', '', '', '', '', false, []);
     }
 }
 
