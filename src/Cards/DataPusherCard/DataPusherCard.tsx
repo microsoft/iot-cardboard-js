@@ -1,7 +1,6 @@
 import { Text } from '@fluentui/react/lib/Text';
 import { Separator } from '@fluentui/react/lib/components/Separator/Separator';
 import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
-import { ITextFieldStyles } from '@fluentui/react/lib/components/TextField/TextField.types';
 import { Toggle } from '@fluentui/react/lib/components/Toggle/Toggle';
 import React, { createContext, useContext, useReducer } from 'react';
 import BaseCard from '../Base/Consume/BaseCard';
@@ -15,14 +14,18 @@ import {
     IDataPusherContext,
     IDataPusherProps
 } from './DataPusher.types';
-import { ISeparatorStyles } from '@fluentui/react';
+import {
+    ISeparatorStyles,
+    ISpinButtonStyles,
+    Position,
+    SpinButton
+} from '@fluentui/react';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
 
-const textFieldStyles: Partial<ITextFieldStyles> = {
-    fieldGroup: { width: '100px' },
-    root: { marginBottom: '8px' }
+const spinButtonStyles: Partial<ISpinButtonStyles> = {
+    spinButtonWrapper: { width: 100 }
 };
 
 const separatorStyles: Partial<ISeparatorStyles> = {
@@ -67,7 +70,7 @@ const AdtDataPusher = () => {
                     })
                 }
                 styles={{
-                    fieldGroup: { width: '80%' },
+                    fieldGroup: { width: '600px' },
                     root: { marginBottom: '8px' }
                 }}
             />
@@ -91,10 +94,9 @@ const QuickFillDataForm = () => {
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-quick-fill-data-form">
-            <TextField
-                type="number"
+            <SpinButton
                 label="Days to simulate"
-                description="Start simulating this many days ago (days)"
+                labelPosition={Position.top}
                 value={String(state.daysToSimulate)}
                 onChange={(_e, newValue) =>
                     dispatch({
@@ -102,12 +104,18 @@ const QuickFillDataForm = () => {
                         payload: Number(newValue)
                     })
                 }
-                styles={textFieldStyles}
+                min={0}
+                step={1}
+                incrementButtonAriaLabel="Increase value by 1"
+                decrementButtonAriaLabel="Decrease value by 1"
+                styles={spinButtonStyles}
             />
-            <TextField
-                type="number"
+            <FormFieldDescription>
+                Start simulating this many days ago (days)
+            </FormFieldDescription>
+            <SpinButton
                 label="Data spacing"
-                description="Time between event timestamps (ms)"
+                labelPosition={Position.top}
                 value={String(state.dataSpacing)}
                 onChange={(_e, newValue) =>
                     dispatch({
@@ -115,21 +123,34 @@ const QuickFillDataForm = () => {
                         payload: Number(newValue)
                     })
                 }
-                styles={textFieldStyles}
+                min={0}
+                step={1000}
+                incrementButtonAriaLabel="Increase value by 1000"
+                decrementButtonAriaLabel="Decrease value by 1000"
+                styles={spinButtonStyles}
             />
-            <TextField
-                type="number"
+            <FormFieldDescription>
+                Time between event timestamps (ms)
+            </FormFieldDescription>
+            <SpinButton
                 label="Quick stream frequency"
-                description="How frequently to push past / future events (ms)"
-                value={String(state.dataSpacing)}
+                labelPosition={Position.top}
+                value={String(state.quickStreamFrequency)}
                 onChange={(_e, newValue) =>
                     dispatch({
                         type: dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
                         payload: Number(newValue)
                     })
                 }
-                styles={textFieldStyles}
+                min={0}
+                step={100}
+                incrementButtonAriaLabel="Increase value by 100"
+                decrementButtonAriaLabel="Decrease value by 100"
+                styles={spinButtonStyles}
             />
+            <FormFieldDescription>
+                How frequently to push past / future events (ms)
+            </FormFieldDescription>
         </div>
     );
 };
@@ -158,14 +179,10 @@ const LiveStreamDataForm = () => {
                         Simulation will stop once current time is reached, and
                         begin to push data every [live stream frequency] ms.
                     </FormFieldDescription>
-                    <TextField
-                        type="number"
+                    <SpinButton
                         label="Live stream frequency"
-                        description={`How frequently to push "live" events once caught up to "now" (ms).
-                    This number will be both the time between event timestamps and the interval
-                    at which new events are pushed. This will override the data spacing field
-                    above once Date.now() is reached.`}
-                        value={String(state.dataSpacing)}
+                        labelPosition={Position.top}
+                        value={String(state.liveStreamFrequency)}
                         onChange={(_e, newValue) =>
                             dispatch({
                                 type:
@@ -173,8 +190,19 @@ const LiveStreamDataForm = () => {
                                 payload: Number(newValue)
                             })
                         }
-                        styles={textFieldStyles}
+                        min={0}
+                        step={1000}
+                        incrementButtonAriaLabel="Increase value by 1000"
+                        decrementButtonAriaLabel="Decrease value by 1000"
+                        styles={spinButtonStyles}
                     />
+                    <FormFieldDescription>
+                        How frequently to push "live" events once caught up to
+                        "now" (ms). This number will be both the time between
+                        event timestamps and the interval at which new events
+                        are pushed. This will override the data spacing field
+                        above once Date.now() is reached.
+                    </FormFieldDescription>
                 </div>
             ) : (
                 <FormFieldDescription>
