@@ -17,13 +17,9 @@ const BaseForm: React.FC<BaseFormProps> = ({
     children
 }) => (
     <div className="cb-form-container">
-        <div className="cb-form-main">
-            {children}
-        </div>
+        <div className="cb-form-main">{children}</div>
         <div className="cb-form-footer">
-            <DefaultButton onClick={onCancel}>
-                {cancelLabel}
-            </DefaultButton>
+            <DefaultButton onClick={onCancel}>{cancelLabel}</DefaultButton>
             <PrimaryButton onClick={onPrimaryAction}>
                 {primaryActionLabel}
             </PrimaryButton>

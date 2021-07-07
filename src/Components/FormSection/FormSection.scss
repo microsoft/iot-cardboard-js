@@ -1,16 +1,16 @@
-@import '../../Resources/Styles/BaseStyles.scss';
+@import '../../Resources/Styles/BaseStyles';
 
 .cb-formsection {
     @include ms-depth-8;
+    background: var(--cb-color-bg-canvas);
     border-radius: 4px;
     color: var(--cb-color-text-primary);
-    background: var(--cb-color-bg-canvas);
-    padding: 20px;
     margin-bottom: 20px;
+    padding: 20px;
 }
 
 .cb-formsection-title {
     display: block;
-    margin-bottom: 12px;
     font-weight: bold;
+    margin-bottom: 12px;
 }

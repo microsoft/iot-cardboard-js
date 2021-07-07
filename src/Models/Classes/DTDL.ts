@@ -6,13 +6,13 @@ export enum DTDLType {
     Property = 'Property',
     Command = 'Command',
     Relationship = 'Relationship',
-    Component = 'Component',
-};
+    Component = 'Component'
+}
 
 export type DTDLSchema = string | DTDLEnum | null;
 
 export enum DTDLSchemaType {
-    Enum = 'Enum',
+    Enum = 'Enum'
 }
 
 export class DTDLModel {
@@ -25,24 +25,21 @@ export class DTDLModel {
     contents: any[];
 
     constructor(
-        id: string, 
-        displayName: string, 
-        description: string, 
-        comment: string, 
-        properties: any[], 
-        relationships: any[], 
-        components: any[] ) {
+        id: string,
+        displayName: string,
+        description: string,
+        comment: string,
+        properties: any[],
+        relationships: any[],
+        components: any[]
+    ) {
         this['@type'] = DTDLType.Interface;
         this['@context'] = CURRENT_CONTEXT_VERSION;
         this['@id'] = id;
         this.displayName = displayName;
         this.description = description;
         this.comment = comment;
-        this.contents = [
-            ...properties,
-            ...relationships,
-            ...components
-        ];
+        this.contents = [...properties, ...relationships, ...components];
     }
 
     static getBlank(): DTDLModel {
@@ -50,15 +47,15 @@ export class DTDLModel {
     }
 
     get properties() {
-        return this.contents.filter(c => c.type === DTDLType.Property);
+        return this.contents.filter((c) => c.type === DTDLType.Property);
     }
 
     get relationships() {
-        return this.contents.filter(c => c.type === DTDLType.Relationship);
+        return this.contents.filter((c) => c.type === DTDLType.Relationship);
     }
 
     get components() {
-        return this.contents.filter(c => c.type === DTDLType.Component);
+        return this.contents.filter((c) => c.type === DTDLType.Component);
     }
 }
 
@@ -74,14 +71,15 @@ export class DTDLProperty {
     writable: boolean;
 
     constructor(
-        id: string, 
-        name: string, 
-        schema: DTDLSchema, 
-        comment: string, 
-        description: string, 
-        displayName: string, 
-        unit: string, 
-        writable: boolean ) {
+        id: string,
+        name: string,
+        schema: DTDLSchema,
+        comment: string,
+        description: string,
+        displayName: string,
+        unit: string,
+        writable: boolean
+    ) {
         this['@type'] = 'Component';
         this['@id'] = id;
         this.name = name;
@@ -112,15 +110,16 @@ export class DTDLRelationship {
     properties: DTDLProperty[];
 
     constructor(
-        id: string, 
-        name: string, 
-        displayName: string, 
-        description: string, 
+        id: string,
+        name: string,
+        displayName: string,
+        description: string,
         comment: string,
         writeable: boolean,
         properties: DTDLProperty[],
         target: string | null = null,
-        maxMultiplicity: number | null = null ) {
+        maxMultiplicity: number | null = null
+    ) {
         this['@type'] = 'Relationship';
         this['@id'] = id;
         this.name = name;
@@ -132,14 +131,13 @@ export class DTDLRelationship {
 
         // The default value for target is 'any interface'. Here we use
         // the null value to indicate the value shout not be set.
-        if(target !== null) {
+        if (target !== null) {
             this.target = target;
         }
-        
 
-        // The default value for maxMultiplicity is 'infinite'. Here we 
+        // The default value for maxMultiplicity is 'infinite'. Here we
         // use the null value to indicate the value should not be set.
-        if(maxMultiplicity !== null) {
+        if (maxMultiplicity !== null) {
             this.maxMultiplicity = maxMultiplicity;
         }
 
@@ -161,12 +159,13 @@ export class DTDLComponent {
     displayName: string;
 
     constructor(
-        id: string, 
-        name: string, 
-        schema: string, 
-        comment: string, 
-        description: string, 
-        displayName: string ) {
+        id: string,
+        name: string,
+        schema: string,
+        comment: string,
+        description: string,
+        displayName: string
+    ) {
         this['@type'] = DTDLType.Component;
         this['@id'] = id;
         this.name = name;
@@ -191,12 +190,13 @@ export class DTDLEnum {
     enumValues: DTDLEnumValue[];
 
     constructor(
-        id: string, 
-        displayName: string, 
-        description: string, 
-        comment: string, 
-        valueSchema: string, 
-        enumValues: DTDLEnumValue[] ) {
+        id: string,
+        displayName: string,
+        description: string,
+        comment: string,
+        valueSchema: string,
+        enumValues: DTDLEnumValue[]
+    ) {
         this['@type'] = DTDLSchemaType.Enum;
         this['@id'] = id;
         this.displayName = displayName;
@@ -220,12 +220,13 @@ export class DTDLEnumValue {
     enumValue: number | string;
 
     constructor(
-        id: string, 
-        name: string, 
-        displayName: string, 
-        description: string, 
-        comment: string, 
-        enumValue: number | string ) {
+        id: string,
+        name: string,
+        displayName: string,
+        description: string,
+        comment: string,
+        enumValue: number | string
+    ) {
         this['@id'] = id;
         this.name = name;
         this.displayName = displayName;

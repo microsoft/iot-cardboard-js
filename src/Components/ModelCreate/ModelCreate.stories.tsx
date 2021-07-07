@@ -14,15 +14,16 @@ export default {
 const mockExistingModels = [
     'dtmi;com:example:www:door1;1',
     'dtmi;com:example:www:roof1;1',
-    'dtmi;com:example:www:room1;1',
+    'dtmi;com:example:www:room1;1'
 ];
 
 export const Default = (_args, { globals: { locale } }) => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
-        <ModelCreate 
-            locale={locale} 
+        <ModelCreate
+            locale={locale}
             existingModelIds={mockExistingModels}
             onCancel={() => console.log('Cancelling')}
-            onPrimaryAction={model => console.log(model)} />
+            onPrimaryAction={(model) => console.log(model)}
+        />
     </div>
 );
