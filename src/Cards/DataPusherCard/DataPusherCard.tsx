@@ -55,12 +55,13 @@ const DataPusherCard = ({
     localeStrings,
     theme,
     adapter,
-    Simulation
+    Simulation,
+    initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net'
 }: IDataPusherProps) => {
-    const [state, dispatch] = useReducer(
-        dataPusherReducer,
-        defaultAdtDataPusherState
-    );
+    const [state, dispatch] = useReducer(dataPusherReducer, {
+        ...defaultAdtDataPusherState,
+        instanceUrl: initialInstanceUrl
+    });
 
     const intervalRef = useRef(null);
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     AdapterMethodSandbox,
+    ADT_ApiVersion,
     DTModel,
     DTwin,
     DTwinRelationship,
@@ -28,16 +29,15 @@ export default class ADTSimulationAdapter implements ISimulationAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const data = await axios({
                 method: 'post',
-                url: this.adtProxyServerPath,
+                url: `${this.adtProxyServerPath}/models`,
                 data: models,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl,
-                    'x-adt-endpoint': 'models'
+                    'x-adt-host': this.adtHostUrl
                 },
                 params: {
-                    'api-version': '2020-10-31'
+                    'api-version': ADT_ApiVersion
                 }
             });
             return new SimulationAdapterData(data);
@@ -53,16 +53,15 @@ export default class ADTSimulationAdapter implements ISimulationAdapter {
                     delete twinCopy['$dtId'];
                     return axios({
                         method: 'put',
-                        url: this.adtProxyServerPath,
+                        url: `${this.adtProxyServerPath}/digitaltwins/${twin.$dtId}`,
                         data: twinCopy,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl,
-                            'x-adt-endpoint': `digitaltwins/${twin.$dtId}`
+                            'x-adt-host': this.adtHostUrl
                         },
                         params: {
-                            'api-version': '2020-10-31'
+                            'api-version': ADT_ApiVersion
                         }
                     }).catch((err) => {
                         return err.response.data;
@@ -83,16 +82,15 @@ export default class ADTSimulationAdapter implements ISimulationAdapter {
                     const id = event.dtId;
                     return axios({
                         method: 'patch',
-                        url: this.adtProxyServerPath,
+                        url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
                         data: event.patchJSON,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl,
-                            'x-adt-endpoint': `digitaltwins/${id}`
+                            'x-adt-host': this.adtHostUrl
                         },
                         params: {
-                            'api-version': '2020-10-31'
+                            'api-version': ADT_ApiVersion
                         }
                     }).catch((err) => {
                         return err.response.data;
@@ -117,16 +115,15 @@ export default class ADTSimulationAdapter implements ISimulationAdapter {
                     }
                     return axios({
                         method: 'put',
-                        url: this.adtProxyServerPath,
+                        url: `${this.adtProxyServerPath}/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
                         data: payload,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl,
-                            'x-adt-endpoint': `digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`
+                            'x-adt-host': this.adtHostUrl
                         },
                         params: {
-                            'api-version': '2020-10-31'
+                            'api-version': ADT_ApiVersion
                         }
                     }).catch((err) => {
                         return err.response.data;

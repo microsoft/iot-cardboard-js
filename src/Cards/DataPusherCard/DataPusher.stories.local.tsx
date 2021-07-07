@@ -31,6 +31,7 @@ export const DataPusher = (_args, { globals: { theme, locale } }) => {
                     )
                 }
                 Simulation={AssetSimulation}
+                initialInstanceUrl={authenticationParameters.adt.hostUrl}
             />
         </div>
     );

@@ -11,6 +11,7 @@ export interface IDataPusherProps {
     localeStrings?: Record<string, any>;
     adapter: ISimulationAdapter;
     Simulation: new (startTimeMillis: number, frequency: number) => ISimulation;
+    initialInstanceUrl?: string;
 }
 
 export interface IQuickFillDataFormProps {
