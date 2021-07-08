@@ -14,14 +14,15 @@
     }
     .cb-msl-model-item-left {
         flex-grow: 1;
-        margin-right: 8px;
     }
     .cb-msl-model-item-right {
         align-items: center;
         display: flex;
         justify-content: flex-end;
+        margin-left: 16px;
     }
     .cb-msl-model-item-preview {
         margin-right: 8px;
+        white-space: nowrap;
     }
 }

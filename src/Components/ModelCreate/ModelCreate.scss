@@ -1,0 +1,36 @@
+.cb-modelcreate-breadcrumb {
+    margin-bottom: 16px;
+}
+
+.cb-modelcreate-title {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.cb-form-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-top: 10px;
+}
+
+.cb-form-breadcrumbs {
+    position: absolute;
+    top: 10px;
+    width: calc(100% - 72px);
+}
+
+.cb-form-main {
+    flex-grow: 1;
+}
+
+.cb-form-footer {
+    display: flex;
+    height: 50px;
+    justify-content: flex-end;
+}
+
+.cb-form-footer > button {
+    margin-left: 8px;
+}

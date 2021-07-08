@@ -6,7 +6,7 @@ import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../../i18n';
 import Error from '../../../Components/Error/Error';
-import Modal from '../../../Components/Modal/Modal';
+import Overlay from '../../../Components/Modal/Overlay';
 
 const BaseCard: React.FC<BaseCardProps> = ({
     isLoading,
@@ -54,9 +54,9 @@ const BaseCard: React.FC<BaseCardProps> = ({
                             <Error errorTitle={cardError.message} />
                         )}
                         {showLoading && (
-                            <Modal>
+                            <Overlay>
                                 {isLoading ? t('loading') : t('noData')}
-                            </Modal>
+                            </Overlay>
                         )}
                         <>{children}</>
                     </div>

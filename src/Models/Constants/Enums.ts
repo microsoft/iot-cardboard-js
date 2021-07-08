@@ -52,3 +52,8 @@ export enum TwinLookupStatus {
     ReadyToLocate,
     Finished
 }
+
+export enum AuthoringMode {
+    Add,
+    Edit
+}
