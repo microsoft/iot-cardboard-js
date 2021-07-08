@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -29,6 +29,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         lookupTwinId
     );
     const { t } = useTranslation();
+    const lookupTwinIdRef = useRef(lookupTwinId);
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -64,7 +65,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                 console.error(errors.twinErrors);
             } else {
                 setSelectedTwin(twin);
-                if (lookupTwinId) {
+                if (lookupTwinIdRef.current) {
                     setReverseLookupTwinId(twin.$dtId);
                 }
                 if (onTwinClick) {
@@ -84,6 +85,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         ) {
             setReverseLookupTwinId(lookupTwinId);
         }
+        lookupTwinIdRef.current = lookupTwinId;
     }, [lookupTwinId]);
 
     return (
