@@ -214,7 +214,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             });
         }
-    }, [modelState.adapterResult.getData()]);
+    }, [modelState.adapterResult.result]);
 
     useEffect(() => {
         if (focusedModelIdRef.current && twinState.adapterResult.result) {
@@ -302,7 +302,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 }
             }
         }
-    }, [twinState.adapterResult.getData()]);
+    }, [twinState.adapterResult.result]);
 
     useEffect(() => {
         if (!searchState.adapterResult.hasNoData()) {
