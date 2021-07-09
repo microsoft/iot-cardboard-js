@@ -27,6 +27,7 @@ export interface IDataPusherState {
     isLiveDataSimulated: boolean;
     liveStreamFrequency: number;
     includeImagesForModel: boolean;
+    isSimulationRunning: boolean;
 }
 
 export interface IDataPusherContext {
@@ -41,5 +42,6 @@ export enum dataPusherActionType {
     SET_QUICK_STREAM_FREQUENCY,
     SET_IS_LIVE_DATA_SIMULATED,
     SET_LIVE_STREAM_FREQUENCY,
-    SET_INCLUDE_IMAGES_FOR_MODEL
+    SET_INCLUDE_IMAGES_FOR_MODEL,
+    SET_IS_SIMULATION_RUNNING
 }

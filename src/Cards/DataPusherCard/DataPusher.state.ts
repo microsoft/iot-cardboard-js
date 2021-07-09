@@ -5,10 +5,11 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     instanceUrl: '<your_adt_instance_url>.digitaltwins.azure.net',
     daysToSimulate: 7,
     dataSpacing: 10000,
-    quickStreamFrequency: 25,
+    quickStreamFrequency: 50,
     isLiveDataSimulated: true,
     liveStreamFrequency: 1000,
-    includeImagesForModel: true
+    includeImagesForModel: true,
+    isSimulationRunning: false
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -40,6 +41,9 @@ export const dataPusherReducer = produce(
                 return;
             case dataPusherActionType.SET_INCLUDE_IMAGES_FOR_MODEL:
                 draft.includeImagesForModel = payload;
+                return;
+            case dataPusherActionType.SET_IS_SIMULATION_RUNNING:
+                draft.isSimulationRunning = payload;
                 return;
             default:
                 return;

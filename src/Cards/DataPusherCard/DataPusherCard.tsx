@@ -64,6 +64,7 @@ const DataPusherCard = ({
     });
 
     const intervalRef = useRef(null);
+    const lastAdapterResult = useRef(null);
 
     const modelState = useAdapter({
         adapterMethod: (params: { models: DTModel[] }) =>
@@ -94,10 +95,20 @@ const DataPusherCard = ({
     });
 
     const stopSimulation = () => {
+        dispatch({
+            type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
+            payload: false
+        });
         clearInterval(intervalRef.current);
+        adapter.packetNumber = 0;
     };
 
     const startSimulation = () => {
+        dispatch({
+            type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
+            payload: true
+        });
+
         // Clear any prior interval
         clearInterval(intervalRef.current);
 
@@ -119,7 +130,6 @@ const DataPusherCard = ({
 
             intervalRef.current = setInterval(() => {
                 const events = sim.tick();
-                // TODO push events with adapter here
                 updateTwinState.callAdapter({ events });
             }, state.liveStreamFrequency);
         };
@@ -172,6 +182,36 @@ const DataPusherCard = ({
         adapter.adtHostUrl = state.instanceUrl;
     }, [state.instanceUrl]);
 
+    // Safely unmount
+    useEffect(() => {
+        return () => {
+            clearInterval(intervalRef.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log('Twin state updated', twinState.adapterResult);
+        lastAdapterResult.current = twinState.adapterResult;
+    }, [twinState.adapterResult]);
+
+    useEffect(() => {
+        console.log('Model state updated', modelState.adapterResult);
+        lastAdapterResult.current = modelState.adapterResult;
+    }, [modelState.adapterResult]);
+
+    useEffect(() => {
+        console.log(
+            'Relationship state updated',
+            relationshipState.adapterResult
+        );
+        lastAdapterResult.current = relationshipState.adapterResult;
+    }, [relationshipState.adapterResult]);
+
+    useEffect(() => {
+        console.log('Twin updates sent --', updateTwinState.adapterResult);
+        lastAdapterResult.current = updateTwinState.adapterResult;
+    }, [updateTwinState.adapterResult]);
+
     /*
         - Add logic to view status of created twins, models & relationships
         - Add logic to view simulation tick results
@@ -179,7 +219,7 @@ const DataPusherCard = ({
 
     const stackStyles: IStackStyles = {
         root: {
-            width: 500
+            width: 800
         }
     };
 
@@ -226,6 +266,19 @@ const DataPusherCard = ({
                                 onClick={() => {
                                     createRelationships();
                                 }}
+                            />
+                            <PrimaryButton
+                                text={
+                                    state.isSimulationRunning
+                                        ? 'Stop simulation'
+                                        : 'Start simulation'
+                                }
+                                disabled={false}
+                                onClick={() =>
+                                    state.isSimulationRunning
+                                        ? stopSimulation()
+                                        : startSimulation()
+                                }
                             />
                         </Stack>
                     </div>

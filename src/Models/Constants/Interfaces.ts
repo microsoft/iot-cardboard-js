@@ -395,6 +395,7 @@ export interface DTwinRelationship {
 
 export interface ISimulationAdapter {
     adtHostUrl: string;
+    packetNumber: number;
     createModels(models: DTModel[]): AdapterReturnType<SimulationAdapterData>;
     createTwins(twins: DTwin[]): AdapterReturnType<SimulationAdapterData>;
     updateTwins(
