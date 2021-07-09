@@ -57,3 +57,8 @@ export enum SimulationType {
     WindFarm = 'Wind Farm',
     ConnectedAssets = 'Connected Assets'
 }
+
+export enum AuthoringMode {
+    Add,
+    Edit
+}
