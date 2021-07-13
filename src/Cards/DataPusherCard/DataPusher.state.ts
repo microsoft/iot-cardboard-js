@@ -5,7 +5,7 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     instanceUrl: '<your_adt_instance_url>.digitaltwins.azure.net',
     daysToSimulate: 7,
     dataSpacing: 10000,
-    quickStreamFrequency: 100,
+    quickStreamFrequency: 500,
     isLiveDataSimulated: true,
     liveStreamFrequency: 1000,
     includeImagesForModel: true,

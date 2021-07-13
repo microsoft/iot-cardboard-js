@@ -281,7 +281,7 @@ const AdtDataPusher = () => {
                 }}
             />
             <Separator alignContent="start" styles={separatorStyles}>
-                Back fill data
+                Simulate past events
             </Separator>
             <QuickFillDataForm />
             <Separator alignContent="start" styles={separatorStyles}>
@@ -301,7 +301,7 @@ const QuickFillDataForm = () => {
     return (
         <div className="cb-quick-fill-data-form">
             <Toggle
-                label="Simulate past events"
+                label=""
                 checked={state.isDataBackFilled}
                 onText="On"
                 offText="Off"
@@ -311,7 +311,7 @@ const QuickFillDataForm = () => {
                         payload: checked
                     })
                 }
-                styles={{ root: { marginBottom: 0 } }}
+                styles={{ root: { marginBottom: 0, marginTop: 4 } }}
             />
 
             {state.isDataBackFilled ? (
@@ -392,7 +392,7 @@ const LiveStreamDataForm = () => {
     return (
         <div className="cb-live-stream-data-form">
             <Toggle
-                label="Simulate live data stream"
+                label=""
                 checked={state.isLiveDataSimulated}
                 onText="On"
                 offText="Off"
@@ -402,7 +402,7 @@ const LiveStreamDataForm = () => {
                         payload: checked
                     })
                 }
-                styles={{ root: { marginBottom: 0 } }}
+                styles={{ root: { marginBottom: 0, marginTop: 4 } }}
             />
 
             {state.isLiveDataSimulated ? (
