@@ -112,15 +112,6 @@ const DataPusherCard = ({
         // Clear any prior interval
         clearInterval(intervalRef.current);
 
-        if (
-            isNaN(state.daysToSimulate) ||
-            isNaN(state.dataSpacing) ||
-            isNaN(state.liveStreamFrequency) ||
-            isNaN(state.quickStreamFrequency)
-        ) {
-            throw new Error('Input controls cannot be empty');
-        }
-
         // Live simulator
         const startLiveSimulation = () => {
             const sim = new Simulation(
@@ -134,8 +125,9 @@ const DataPusherCard = ({
             }, state.liveStreamFrequency);
         };
 
-        const startDateMillis =
-            new Date().valueOf() - state.daysToSimulate * 86400000; // get starting date
+        const startDateMillis = state.isDataBackFilled
+            ? new Date().valueOf() - state.daysToSimulate * 86400000
+            : new Date().valueOf(); // get starting date
 
         // Quick fill simulator
         const sim = new Simulation(startDateMillis, state.dataSpacing);
@@ -155,25 +147,17 @@ const DataPusherCard = ({
         }, state.quickStreamFrequency);
     };
 
-    const createModels = () => {
+    const generateEnvironment = async () => {
         const assetSimulation = new AssetSimulation(0, 0);
         const models = assetSimulation.generateDTModels(
             state.includeImagesForModel
         );
-        modelState.callAdapter({ models });
-    };
-
-    const createTwins = () => {
-        const assetSimulation = new AssetSimulation(0, 0);
         const twins = assetSimulation.generateDTwins(
             state.includeImagesForModel
         );
-        twinState.callAdapter({ twins });
-    };
-
-    const createRelationships = () => {
-        const assetSimulation = new AssetSimulation(0, 0);
         const relationships = assetSimulation.generateTwinRelationships();
+        await modelState.callAdapter({ models });
+        await twinState.callAdapter({ twins });
         relationshipState.callAdapter({ relationships });
     };
 
@@ -247,33 +231,24 @@ const DataPusherCard = ({
                             tokens={numericalSpacingStackTokens}
                         >
                             <PrimaryButton
-                                text={'Create models'}
+                                text={'Generate environment'}
                                 disabled={false}
                                 onClick={() => {
-                                    createModels();
+                                    generateEnvironment();
                                 }}
                             />
-                            <PrimaryButton
-                                text={'Create twins'}
-                                disabled={false}
-                                onClick={() => {
-                                    createTwins();
-                                }}
-                            />
-                            <PrimaryButton
-                                text={'Create relationships'}
-                                disabled={false}
-                                onClick={() => {
-                                    createRelationships();
-                                }}
-                            />
+
                             <PrimaryButton
                                 text={
                                     state.isSimulationRunning
                                         ? 'Stop simulation'
                                         : 'Start simulation'
                                 }
-                                disabled={false}
+                                disabled={
+                                    !state.isSimulationRunning &&
+                                    !state.isDataBackFilled &&
+                                    !state.isLiveDataSimulated
+                                }
                                 onClick={() =>
                                     state.isSimulationRunning
                                         ? stopSimulation()
@@ -307,7 +282,7 @@ const AdtDataPusher = () => {
                 }}
             />
             <Separator alignContent="start" styles={separatorStyles}>
-                Quick fill data
+                Back fill data
             </Separator>
             <QuickFillDataForm />
             <Separator alignContent="start" styles={separatorStyles}>
@@ -326,63 +301,89 @@ const QuickFillDataForm = () => {
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-quick-fill-data-form">
-            <SpinButton
-                label="Days to simulate"
-                labelPosition={Position.top}
-                value={String(state.daysToSimulate)}
-                onChange={(_e, newValue) =>
+            <Toggle
+                label="Simulate past events"
+                checked={state.isDataBackFilled}
+                onText="On"
+                offText="Off"
+                onChange={(_e, checked) =>
                     dispatch({
-                        type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
-                        payload: Number(newValue)
+                        type: dataPusherActionType.SET_IS_DATA_BACK_FILLED,
+                        payload: checked
                     })
                 }
-                min={0}
-                step={1}
-                incrementButtonAriaLabel="Increase value by 1"
-                decrementButtonAriaLabel="Decrease value by 1"
-                styles={spinButtonStyles}
+                styles={{ root: { marginBottom: 0 } }}
             />
-            <FormFieldDescription>
-                Start simulating this many days ago (days)
-            </FormFieldDescription>
-            <SpinButton
-                label="Data spacing"
-                labelPosition={Position.top}
-                value={String(state.dataSpacing)}
-                onChange={(_e, newValue) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_DATA_SPACING,
-                        payload: Number(newValue)
-                    })
-                }
-                min={0}
-                step={1000}
-                incrementButtonAriaLabel="Increase value by 1000"
-                decrementButtonAriaLabel="Decrease value by 1000"
-                styles={spinButtonStyles}
-            />
-            <FormFieldDescription>
-                Time between event timestamps (ms)
-            </FormFieldDescription>
-            <SpinButton
-                label="Quick stream frequency"
-                labelPosition={Position.top}
-                value={String(state.quickStreamFrequency)}
-                onChange={(_e, newValue) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
-                        payload: Number(newValue)
-                    })
-                }
-                min={0}
-                step={100}
-                incrementButtonAriaLabel="Increase value by 100"
-                decrementButtonAriaLabel="Decrease value by 100"
-                styles={spinButtonStyles}
-            />
-            <FormFieldDescription>
-                How frequently to push past / future events (ms)
-            </FormFieldDescription>
+
+            {state.isDataBackFilled ? (
+                <>
+                    <FormFieldDescription>
+                        Quicky simulate past events.
+                    </FormFieldDescription>
+                    <SpinButton
+                        label="Days to simulate"
+                        labelPosition={Position.top}
+                        value={String(state.daysToSimulate)}
+                        onChange={(_e, newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                payload: Number(newValue)
+                            })
+                        }
+                        min={0}
+                        step={1}
+                        incrementButtonAriaLabel="Increase value by 1"
+                        decrementButtonAriaLabel="Decrease value by 1"
+                        styles={spinButtonStyles}
+                    />
+                    <FormFieldDescription>
+                        Start simulating this many days ago (days)
+                    </FormFieldDescription>
+                    <SpinButton
+                        label="Data spacing"
+                        labelPosition={Position.top}
+                        value={String(state.dataSpacing)}
+                        onChange={(_e, newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DATA_SPACING,
+                                payload: Number(newValue)
+                            })
+                        }
+                        min={0}
+                        step={1000}
+                        incrementButtonAriaLabel="Increase value by 1000"
+                        decrementButtonAriaLabel="Decrease value by 1000"
+                        styles={spinButtonStyles}
+                    />
+                    <FormFieldDescription>
+                        Time between event timestamps (ms)
+                    </FormFieldDescription>
+                    <SpinButton
+                        label="Quick stream frequency"
+                        labelPosition={Position.top}
+                        value={String(state.quickStreamFrequency)}
+                        onChange={(_e, newValue) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                payload: Number(newValue)
+                            })
+                        }
+                        min={500}
+                        step={100}
+                        incrementButtonAriaLabel="Increase value by 100"
+                        decrementButtonAriaLabel="Decrease value by 100"
+                        styles={spinButtonStyles}
+                    />
+                    <FormFieldDescription>
+                        How frequently to push past / future events (ms)
+                    </FormFieldDescription>
+                </>
+            ) : (
+                <FormFieldDescription>
+                    No past data will be simulated.
+                </FormFieldDescription>
+            )}
         </div>
     );
 };
@@ -418,11 +419,11 @@ const LiveStreamDataForm = () => {
                         onChange={(_e, newValue) =>
                             dispatch({
                                 type:
-                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                    dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
                                 payload: Number(newValue)
                             })
                         }
-                        min={0}
+                        min={500}
                         step={1000}
                         incrementButtonAriaLabel="Increase value by 1000"
                         decrementButtonAriaLabel="Decrease value by 1000"
