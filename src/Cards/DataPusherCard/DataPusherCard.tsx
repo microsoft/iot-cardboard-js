@@ -208,8 +208,7 @@ const DataPusherCard = ({
     };
 
     const numericalSpacingStackTokens: IStackTokens = {
-        childrenGap: 10,
-        padding: 10
+        childrenGap: 16
     };
 
     return (
