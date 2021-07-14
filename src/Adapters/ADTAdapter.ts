@@ -12,10 +12,15 @@ import {
     ADTRelationship,
     ADTRelationshipsApiData
 } from '../Models/Constants/Types';
-import { KeyValuePairAdapterData } from '../Models/Classes';
+import { AdapterResult, KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
+import {
+    AdapterMethodParamsForGetADTTwinComponent,
+    ADT_ApiVersion,
+    IADTTwinComponent,
+    KeyValuePairData
+} from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
@@ -23,6 +28,7 @@ import {
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
+import ADTTwinComponentData from '../Models/Classes/AdapterDataClasses/ADTAdapterTwinComponentData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -183,13 +189,14 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     getKeyValuePairs(
-        id: string,
+        twinId: string,
         properties: string[],
         additionalParameters: IGetKeyValuePairsAdditionalParameters
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const additionalPromisesObjForComponents = {};
 
-        const createKeyValuePairData = (
+        const createKeyValuePairDataFromTwin = (
             axiosData: IADTTwin
         ): KeyValuePairData[] =>
             axiosData
@@ -197,20 +204,50 @@ export default class ADTAdapter implements IADTAdapter {
                       const kvp = {} as KeyValuePairData;
                       kvp.key = prop;
                       kvp.value = axiosData[prop];
-                      if (additionalParameters?.isTimestampIncluded) {
-                          kvp.timestamp = new Date(
-                              axiosData.$metadata?.[prop]?.lastUpdateTime
-                          );
+                      if (axiosData[prop]?.$metadata) {
+                          // means it is a component
+                          additionalPromisesObjForComponents[
+                              prop
+                          ] = this.getTwinComponent({
+                              twinId,
+                              componentName: prop
+                          } as AdapterMethodParamsForGetADTTwinComponent);
+                      } else {
+                          if (additionalParameters?.isTimestampIncluded) {
+                              kvp.timestamp = new Date(
+                                  axiosData.$metadata?.[prop]?.lastUpdateTime
+                              );
+                          }
                       }
                       return kvp;
                   })
                 : [];
 
-        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+        const createKeyValuePairsDataFromTwinComponent = (
+            axiosData: IADTTwinComponent
+        ): KeyValuePairData[] =>
+            axiosData
+                ? Object.keys(axiosData.$metadata).reduce((acc, prop) => {
+                      if (!axiosData[prop]?.$metadata) {
+                          const kvp = {} as KeyValuePairData;
+                          kvp.key = prop;
+                          kvp.value = axiosData[prop];
+                          if (additionalParameters?.isTimestampIncluded) {
+                              kvp.timestamp = new Date(
+                                  axiosData.$metadata?.[prop]?.lastUpdateTime
+                              );
+                          }
+                          acc.push(kvp);
+                      }
+                      return acc;
+                  }, [])
+                : [];
+
+        const getKVPsFromTwinPromise = adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             KeyValuePairAdapterData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },
@@ -218,7 +255,57 @@ export default class ADTAdapter implements IADTAdapter {
                     'api-version': ADT_ApiVersion
                 }
             },
-            createKeyValuePairData
+            createKeyValuePairDataFromTwin
+        );
+
+        return getKVPsFromTwinPromise.then((kvpAdapterData) =>
+            Promise.all(Object.values(additionalPromisesObjForComponents)).then(
+                (components) => {
+                    components.map(
+                        (
+                            c: AdapterResult<ADTTwinComponentData>,
+                            idx: number
+                        ) => {
+                            const kvpsFromComponent = createKeyValuePairsDataFromTwinComponent(
+                                c.getData()
+                            );
+                            const targetKvp = kvpAdapterData
+                                .getData()
+                                .find(
+                                    (kvp) =>
+                                        kvp.key ===
+                                        Object.keys(
+                                            additionalPromisesObjForComponents
+                                        )[idx]
+                                );
+                            if (kvpsFromComponent.length) {
+                                targetKvp.value = kvpsFromComponent;
+                            } else {
+                                targetKvp.value = undefined;
+                            }
+                        }
+                    );
+                    return kvpAdapterData;
+                }
+            )
+        );
+    }
+
+    getTwinComponent(params: AdapterMethodParamsForGetADTTwinComponent) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinComponentData,
+            {
+                method: 'get',
+                url: `${this.adtProxyServerPath}/digitaltwins/${params.twinId}/components/${params.componentName}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
         );
     }
 

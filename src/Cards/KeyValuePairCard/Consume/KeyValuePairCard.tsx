@@ -39,9 +39,20 @@ const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
         >
             <div className={'cb-kvpc-wrapper'}>
                 {cardState.adapterResult?.result?.data &&
-                    cardState.adapterResult.result.data.map((kvp, idx) => (
-                        <KVP kvp={kvp} key={idx} pulse={cardState.pulse} />
-                    ))}
+                    cardState.adapterResult.result.data.map((kvp, idx) =>
+                        Array.isArray(kvp.value) ? (
+                            kvp.value.map((p, idx2) => (
+                                <KVP
+                                    kvp={p}
+                                    key={`${idx}-${idx2}`}
+                                    pulse={cardState.pulse}
+                                    subtitle={p.key}
+                                />
+                            ))
+                        ) : (
+                            <KVP kvp={kvp} key={idx} pulse={cardState.pulse} />
+                        )
+                    )}
             </div>
         </BaseCard>
     );
@@ -49,17 +60,22 @@ const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
 
 const KVP: React.FC<any> = ({
     kvp,
-    pulse
+    pulse,
+    subtitle
 }: {
     kvp: KeyValuePairData;
     pulse: boolean;
+    subtitle?: string;
 }) => {
     return (
         <div className={`cb-kvpc-kvp ${pulse ? 'cb-kvpc-pulse' : ''}`}>
-            <div className={'cb-kvpc-val'}>{kvp.value}</div>
-            <div className={'cb-kvpc-ts'}>
-                {`${kvp.timestamp?.toLocaleDateString()} ${kvp.timestamp?.toLocaleTimeString()}`}
-            </div>
+            <div className={'cb-kvpc-title'}>{subtitle}</div>
+            <div className={'cb-kvpc-val'}>{`${kvp.value}`}</div>
+            {kvp.timestamp && (
+                <div className={'cb-kvpc-ts'}>
+                    {`${kvp.timestamp.toLocaleDateString()} ${kvp.timestamp.toLocaleTimeString()}`}
+                </div>
+            )}
         </div>
     );
 };

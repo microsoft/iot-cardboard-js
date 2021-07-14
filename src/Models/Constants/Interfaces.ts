@@ -215,6 +215,15 @@ export interface IADTRelationship {
     targetModel: string;
 }
 
+export interface IADTTwinComponent {
+    $metadata: {
+        [propertyName: string]: {
+            lastUpdateTime: string;
+        };
+    };
+    [propertyName: string]: any; // this can be another component
+}
+
 export interface IGetKeyValuePairsAdditionalParameters
     extends Record<string, any> {
     isTimestampIncluded?: boolean;

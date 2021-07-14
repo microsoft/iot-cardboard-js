@@ -9,7 +9,13 @@ class KeyValuePairAdapterData implements IAdapterData {
     }
 
     hasNoData() {
-        return this.data === null;
+        return (
+            this.data === null ||
+            this.data.length === 0 ||
+            !this.data.reduce((acc, curr) => {
+                return acc || curr.value;
+            }, false)
+        );
     }
 }
 

@@ -116,6 +116,11 @@ export type AdapterMethodParamsForSearchADTTwins = {
     continuationToken?: string;
 };
 
+export type AdapterMethodParamsForGetADTTwinComponent = {
+    twinId: string;
+    componentName?: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
