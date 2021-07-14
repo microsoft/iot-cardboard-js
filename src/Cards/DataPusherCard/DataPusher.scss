@@ -16,8 +16,9 @@
     .cb-datapusher-footer {
         background-color: var(--cb-color-bg-canvas);
         bottom: 0;
-        left: 20;
+        left: 20px;
+        overflow: hidden;
         position: absolute;
-        right: 20;
+        right: 20px;
     }
 }

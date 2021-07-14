@@ -36,6 +36,7 @@ import {
 } from '../../Models/Constants/Interfaces';
 import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
+import { useTranslation } from 'react-i18next';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -52,6 +53,7 @@ const DataPusherCard = ({
     Simulation,
     initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net'
 }: IDataPusherProps) => {
+    const { t } = useTranslation();
     const [state, dispatch] = useReducer(dataPusherReducer, {
         ...defaultAdtDataPusherState,
         instanceUrl: initialInstanceUrl
@@ -102,6 +104,8 @@ const DataPusherCard = ({
             type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
             payload: true
         });
+
+        console.log('starting live simulation: ', state);
 
         // Clear any prior interval
         clearInterval(intervalRef.current);
@@ -190,11 +194,6 @@ const DataPusherCard = ({
         lastAdapterResult.current = updateTwinState.adapterResult;
     }, [updateTwinState.adapterResult]);
 
-    /*
-        - Add logic to view status of created twins, models & relationships
-        - Add logic to view simulation tick results
-    */
-
     const stackStyles: IStackStyles = {
         root: {
             width: 800
@@ -212,7 +211,7 @@ const DataPusherCard = ({
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
-            title={'Azure Digital Twins Data simulator'}
+            title={t('dataPusher.dataPusherTitle')}
         >
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
@@ -224,7 +223,7 @@ const DataPusherCard = ({
                             tokens={numericalSpacingStackTokens}
                         >
                             <PrimaryButton
-                                text={'Generate environment'}
+                                text={t('dataPusher.generateEnvironment')}
                                 disabled={false}
                                 onClick={() => {
                                     generateEnvironment();
@@ -234,8 +233,8 @@ const DataPusherCard = ({
                             <PrimaryButton
                                 text={
                                     state.isSimulationRunning
-                                        ? 'Stop simulation'
-                                        : 'Start simulation'
+                                        ? t('dataPusher.stopSimulation')
+                                        : t('dataPusher.startSimulation')
                                 }
                                 disabled={
                                     !state.isSimulationRunning &&
@@ -257,11 +256,12 @@ const DataPusherCard = ({
 };
 
 const AdtDataPusher = () => {
+    const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-adt-data-pusher">
             <TextField
-                label="Instance URL"
+                label={t('dataPusher.instanceUrl')}
                 value={state.instanceUrl}
                 onChange={(_e, newValue) =>
                     dispatch({
@@ -275,15 +275,15 @@ const AdtDataPusher = () => {
                 }}
             />
             <Separator alignContent="start" styles={separatorStyles}>
-                Simulate past events
+                {t('dataPusher.pastEventsLabel')}
             </Separator>
             <QuickFillDataForm />
             <Separator alignContent="start" styles={separatorStyles}>
-                Live stream data
+                {t('dataPusher.liveStreamLabel')}
             </Separator>
             <LiveStreamDataForm />
             <Separator alignContent="start" styles={separatorStyles}>
-                Other options
+                {t('dataPusher.otherOptionsLabel')}
             </Separator>
             <OtherOptionsForm />
         </div>
@@ -291,14 +291,15 @@ const AdtDataPusher = () => {
 };
 
 const QuickFillDataForm = () => {
+    const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-quick-fill-data-form">
             <Toggle
                 label=""
                 checked={state.isDataBackFilled}
-                onText="On"
-                offText="Off"
+                onText={t('on')}
+                offText={t('off')}
                 onChange={(_e, checked) =>
                     dispatch({
                         type: dataPusherActionType.SET_IS_DATA_BACK_FILLED,
@@ -311,18 +312,17 @@ const QuickFillDataForm = () => {
             {state.isDataBackFilled ? (
                 <>
                     <FormFieldDescription>
-                        Quicky simulate past events.
+                        {t('dataPusher.pastEventsDescriptionOn')}
                     </FormFieldDescription>
                     <NumericSpinInput
-                        label="Days to simulate"
+                        label={t('dataPusher.daysToSimulateLabel')}
                         width={125}
                         min={1}
                         max={1000}
                         step={1}
-                        suffix={'days'}
+                        suffix={t('dataPusher.days')}
                         value={state.daysToSimulate}
                         onChange={(newValue) => {
-                            console.log(newValue);
                             dispatch({
                                 type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
                                 payload: newValue
@@ -342,10 +342,10 @@ const QuickFillDataForm = () => {
                         }
                     />
                     <FormFieldDescription>
-                        Start simulating this many days ago (days)
+                        {t('dataPusher.daysToSimulateDescription')}
                     </FormFieldDescription>
                     <NumericSpinInput
-                        label="Data spacing"
+                        label={t('dataPusher.dataSpacingLabel')}
                         width={125}
                         min={100}
                         max={Infinity}
@@ -372,10 +372,10 @@ const QuickFillDataForm = () => {
                         }
                     />
                     <FormFieldDescription>
-                        Time between event timestamps (ms)
+                        {t('dataPusher.dataSpacingDescription')}
                     </FormFieldDescription>
                     <NumericSpinInput
-                        label="Quick stream frequency"
+                        label={t('dataPusher.quickStreamFrequencyLabel')}
                         width={125}
                         min={500}
                         max={Infinity}
@@ -405,12 +405,12 @@ const QuickFillDataForm = () => {
                         }
                     />
                     <FormFieldDescription>
-                        How frequently to push past / future events (ms)
+                        {t('dataPusher.quickStreamFrequencyDescription')}
                     </FormFieldDescription>
                 </>
             ) : (
                 <FormFieldDescription>
-                    No past data will be simulated.
+                    {t('dataPusher.pastEventsDescriptionOff')}
                 </FormFieldDescription>
             )}
         </div>
@@ -418,14 +418,15 @@ const QuickFillDataForm = () => {
 };
 
 const LiveStreamDataForm = () => {
+    const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-live-stream-data-form">
             <Toggle
                 label=""
                 checked={state.isLiveDataSimulated}
-                onText="On"
-                offText="Off"
+                onText={t('on')}
+                offText={t('off')}
                 onChange={(_e, checked) =>
                     dispatch({
                         type: dataPusherActionType.SET_IS_LIVE_DATA_SIMULATED,
@@ -438,11 +439,10 @@ const LiveStreamDataForm = () => {
             {state.isLiveDataSimulated ? (
                 <div className="cb-live-stream-data-form-options">
                     <FormFieldDescription>
-                        Simulation will stop once current time is reached, and
-                        begin to push data every [live stream frequency] ms.
+                        {t('dataPusher.liveStreamDescriptionOn')}
                     </FormFieldDescription>
                     <NumericSpinInput
-                        label="Live stream frequency"
+                        label={t('dataPusher.liveStreamFrequencyLabel')}
                         width={125}
                         min={500}
                         max={Infinity}
@@ -472,17 +472,12 @@ const LiveStreamDataForm = () => {
                         }
                     />
                     <FormFieldDescription>
-                        How frequently to push "live" events once caught up to
-                        "now" (ms). This number will be both the time between
-                        event timestamps and the interval at which new events
-                        are pushed. This will override the data spacing field
-                        above once Date.now() is reached.
+                        {t('dataPusher.liveStreamFrequencyDescription')}
                     </FormFieldDescription>
                 </div>
             ) : (
                 <FormFieldDescription>
-                    Simulation will continue to push events into the future at
-                    quick stream frequency indefinitely.
+                    {t('dataPusher.liveStreamDescriptionOff')}
                 </FormFieldDescription>
             )}
         </div>
@@ -490,6 +485,7 @@ const LiveStreamDataForm = () => {
 };
 
 const OtherOptionsForm = () => {
+    const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
 
     return (
@@ -509,11 +505,11 @@ const OtherOptionsForm = () => {
             />
             {state.includeImagesForModel ? (
                 <FormFieldDescription>
-                    Simulation will push model with default images.
+                    {t('dataPusher.includeImagesDescriptionOn')}
                 </FormFieldDescription>
             ) : (
                 <FormFieldDescription>
-                    Simulation will not push images.
+                    {t('dataPusher.includeImagesDescriptionOff')}
                 </FormFieldDescription>
             )}
         </div>
@@ -529,7 +525,7 @@ const FormFieldDescription = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div className="cb-form-field-description">
-            <Text variant={'xSmall'} styles={styles}>
+            <Text variant={'small'} styles={styles}>
                 {children}
             </Text>
         </div>

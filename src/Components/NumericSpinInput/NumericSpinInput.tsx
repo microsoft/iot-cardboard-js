@@ -11,8 +11,8 @@ type Props = {
     max: number;
     step: number;
     suffix: string;
-    onIncrement: (newValue: string) => any;
-    onDecrement: (newValue: string) => any;
+    onIncrement: (newValue: number) => any;
+    onDecrement: (newValue: number) => any;
     onChange: (newValue: number) => any;
     label: string;
     width: number;
@@ -92,11 +92,11 @@ const NumericSpinInput = ({
             }}
             onIncrement={(value) => {
                 const newVal = onIncrementSpinner(value, max, suffix, step);
-                newVal && onIncrement(newVal);
+                newVal && onIncrement(getNumericPart(newVal));
             }}
             onDecrement={(value) => {
                 const newVal = onDecrementSpinner(value, min, suffix, step);
-                newVal && onDecrement(newVal);
+                newVal && onDecrement(getNumericPart(newVal));
             }}
             onValidate={(value) => {
                 return onValidateInput(value, min, max, suffix);
