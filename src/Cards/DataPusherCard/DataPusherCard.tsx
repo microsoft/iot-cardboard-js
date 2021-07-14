@@ -37,6 +37,7 @@ import {
 import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
 import { useTranslation } from 'react-i18next';
+import ExpandableSlideInContent from '../../Components/ExpandableContent/ExpandableContent';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -294,7 +295,7 @@ const QuickFillDataForm = () => {
     const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
-        <div className="cb-quick-fill-data-form">
+        <div className="cb-quick-fill-data-form-container">
             <Toggle
                 label=""
                 checked={state.isDataBackFilled}
@@ -308,12 +309,14 @@ const QuickFillDataForm = () => {
                 }
                 styles={{ root: { marginBottom: 0, marginTop: 4 } }}
             />
+            <FormFieldDescription>
+                {state.isDataBackFilled
+                    ? t('dataPusher.pastEventsDescriptionOn')
+                    : t('dataPusher.pastEventsDescriptionOff')}
+            </FormFieldDescription>
 
-            {state.isDataBackFilled ? (
-                <>
-                    <FormFieldDescription>
-                        {t('dataPusher.pastEventsDescriptionOn')}
-                    </FormFieldDescription>
+            <ExpandableSlideInContent isExpanded={state.isDataBackFilled}>
+                <div className="cb-quick-fill-data-form">
                     <NumericSpinInput
                         label={t('dataPusher.daysToSimulateLabel')}
                         width={125}
@@ -407,12 +410,8 @@ const QuickFillDataForm = () => {
                     <FormFieldDescription>
                         {t('dataPusher.quickStreamFrequencyDescription')}
                     </FormFieldDescription>
-                </>
-            ) : (
-                <FormFieldDescription>
-                    {t('dataPusher.pastEventsDescriptionOff')}
-                </FormFieldDescription>
-            )}
+                </div>
+            </ExpandableSlideInContent>
         </div>
     );
 };
@@ -435,12 +434,13 @@ const LiveStreamDataForm = () => {
                 }
                 styles={{ root: { marginBottom: 0, marginTop: 4 } }}
             />
-
-            {state.isLiveDataSimulated ? (
+            <FormFieldDescription>
+                {state.isLiveDataSimulated
+                    ? t('dataPusher.liveStreamDescriptionOn')
+                    : t('dataPusher.liveStreamDescriptionOff')}
+            </FormFieldDescription>
+            <ExpandableSlideInContent isExpanded={state.isLiveDataSimulated}>
                 <div className="cb-live-stream-data-form-options">
-                    <FormFieldDescription>
-                        {t('dataPusher.liveStreamDescriptionOn')}
-                    </FormFieldDescription>
                     <NumericSpinInput
                         label={t('dataPusher.liveStreamFrequencyLabel')}
                         width={125}
@@ -471,15 +471,8 @@ const LiveStreamDataForm = () => {
                             })
                         }
                     />
-                    <FormFieldDescription>
-                        {t('dataPusher.liveStreamFrequencyDescription')}
-                    </FormFieldDescription>
                 </div>
-            ) : (
-                <FormFieldDescription>
-                    {t('dataPusher.liveStreamDescriptionOff')}
-                </FormFieldDescription>
-            )}
+            </ExpandableSlideInContent>
         </div>
     );
 };
