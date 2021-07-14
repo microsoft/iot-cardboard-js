@@ -10,7 +10,6 @@
         overflow-y: auto;
     }
     .cb-form-field-description {
-        margin-bottom: 8px;
         max-width: 600px;
     }
     .cb-datapusher-footer {
@@ -20,5 +19,10 @@
         overflow: hidden;
         position: absolute;
         right: 20px;
+    }
+    .cb-live-stream-data-form-container,
+    .cb-other-options-form-container,
+    .cb-quick-fill-data-form-container {
+        margin-bottom: 8px;
     }
 }

@@ -20,13 +20,7 @@ import {
     IDataPusherContext,
     IDataPusherProps
 } from './DataPusher.types';
-import {
-    ISeparatorStyles,
-    IStackStyles,
-    IStackTokens,
-    PrimaryButton,
-    Stack
-} from '@fluentui/react';
+import { ISeparatorStyles, PrimaryButton, Stack } from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
 import {
     DTModel,
@@ -195,16 +189,6 @@ const DataPusherCard = ({
         lastAdapterResult.current = updateTwinState.adapterResult;
     }, [updateTwinState.adapterResult]);
 
-    const stackStyles: IStackStyles = {
-        root: {
-            width: 800
-        }
-    };
-
-    const numericalSpacingStackTokens: IStackTokens = {
-        childrenGap: 16
-    };
-
     return (
         <BaseCard
             isLoading={false}
@@ -220,8 +204,12 @@ const DataPusherCard = ({
                     <div className="cb-datapusher-footer">
                         <Stack
                             horizontal
-                            styles={stackStyles}
-                            tokens={numericalSpacingStackTokens}
+                            styles={{
+                                root: {
+                                    width: 800
+                                }
+                            }}
+                            tokens={{ childrenGap: 16 }}
                         >
                             <PrimaryButton
                                 text={t('dataPusher.generateEnvironment')}
@@ -316,101 +304,110 @@ const QuickFillDataForm = () => {
             </FormFieldDescription>
 
             <ExpandableSlideInContent isExpanded={state.isDataBackFilled}>
-                <div className="cb-quick-fill-data-form">
-                    <NumericSpinInput
-                        label={t('dataPusher.daysToSimulateLabel')}
-                        width={125}
-                        min={1}
-                        max={1000}
-                        step={1}
-                        suffix={t('dataPusher.days')}
-                        value={state.daysToSimulate}
-                        onChange={(newValue) => {
-                            dispatch({
-                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
-                                payload: newValue
-                            });
-                        }}
-                        onIncrement={(newValue) =>
-                            dispatch({
-                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
-                                payload: newValue
-                            })
-                        }
-                        onDecrement={(newValue) =>
-                            dispatch({
-                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
-                                payload: newValue
-                            })
-                        }
-                    />
-                    <FormFieldDescription>
-                        {t('dataPusher.daysToSimulateDescription')}
-                    </FormFieldDescription>
-                    <NumericSpinInput
-                        label={t('dataPusher.dataSpacingLabel')}
-                        width={125}
-                        min={100}
-                        max={Infinity}
-                        step={1000}
-                        suffix={'ms'}
-                        value={state.dataSpacing}
-                        onChange={(newValue) => {
-                            dispatch({
-                                type: dataPusherActionType.SET_DATA_SPACING,
-                                payload: newValue
-                            });
-                        }}
-                        onIncrement={(newValue) =>
-                            dispatch({
-                                type: dataPusherActionType.SET_DATA_SPACING,
-                                payload: newValue
-                            })
-                        }
-                        onDecrement={(newValue) =>
-                            dispatch({
-                                type: dataPusherActionType.SET_DATA_SPACING,
-                                payload: newValue
-                            })
-                        }
-                    />
-                    <FormFieldDescription>
-                        {t('dataPusher.dataSpacingDescription')}
-                    </FormFieldDescription>
-                    <NumericSpinInput
-                        label={t('dataPusher.quickStreamFrequencyLabel')}
-                        width={125}
-                        min={500}
-                        max={Infinity}
-                        step={100}
-                        suffix={'ms'}
-                        value={state.quickStreamFrequency}
-                        onChange={(newValue) => {
-                            dispatch({
-                                type:
-                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
-                                payload: newValue
-                            });
-                        }}
-                        onIncrement={(newValue) =>
-                            dispatch({
-                                type:
-                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
-                                payload: newValue
-                            })
-                        }
-                        onDecrement={(newValue) =>
-                            dispatch({
-                                type:
-                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
-                                payload: newValue
-                            })
-                        }
-                    />
-                    <FormFieldDescription>
-                        {t('dataPusher.quickStreamFrequencyDescription')}
-                    </FormFieldDescription>
-                </div>
+                <Stack tokens={{ childrenGap: 8 }}>
+                    <div>
+                        <NumericSpinInput
+                            label={t('dataPusher.daysToSimulateLabel')}
+                            width={125}
+                            min={1}
+                            max={1000}
+                            step={1}
+                            suffix={t('dataPusher.days')}
+                            value={state.daysToSimulate}
+                            onChange={(newValue) => {
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                    payload: newValue
+                                });
+                            }}
+                            onIncrement={(newValue) =>
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                    payload: newValue
+                                })
+                            }
+                            onDecrement={(newValue) =>
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                    payload: newValue
+                                })
+                            }
+                        />
+                        <FormFieldDescription>
+                            {t('dataPusher.daysToSimulateDescription')}
+                        </FormFieldDescription>
+                    </div>
+                    <div>
+                        <NumericSpinInput
+                            label={t('dataPusher.dataSpacingLabel')}
+                            width={125}
+                            min={100}
+                            max={Infinity}
+                            step={1000}
+                            suffix={'ms'}
+                            value={state.dataSpacing}
+                            onChange={(newValue) => {
+                                dispatch({
+                                    type: dataPusherActionType.SET_DATA_SPACING,
+                                    payload: newValue
+                                });
+                            }}
+                            onIncrement={(newValue) =>
+                                dispatch({
+                                    type: dataPusherActionType.SET_DATA_SPACING,
+                                    payload: newValue
+                                })
+                            }
+                            onDecrement={(newValue) =>
+                                dispatch({
+                                    type: dataPusherActionType.SET_DATA_SPACING,
+                                    payload: newValue
+                                })
+                            }
+                        />
+                        <FormFieldDescription>
+                            {t('dataPusher.dataSpacingDescription')}
+                        </FormFieldDescription>
+                    </div>
+                    <div>
+                        <NumericSpinInput
+                            label={t('dataPusher.quickStreamFrequencyLabel')}
+                            width={125}
+                            min={500}
+                            max={Infinity}
+                            step={100}
+                            suffix={'ms'}
+                            value={state.quickStreamFrequency}
+                            onChange={(newValue) => {
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                    payload: newValue
+                                });
+                            }}
+                            onIncrement={(newValue) =>
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                    payload: newValue
+                                })
+                            }
+                            onDecrement={(newValue) =>
+                                dispatch({
+                                    type:
+                                        dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                    payload: newValue
+                                })
+                            }
+                        />
+                        <FormFieldDescription>
+                            {t('dataPusher.quickStreamFrequencyDescription')}
+                        </FormFieldDescription>
+                    </div>
+                </Stack>
             </ExpandableSlideInContent>
         </div>
     );
@@ -420,7 +417,7 @@ const LiveStreamDataForm = () => {
     const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
-        <div className="cb-live-stream-data-form">
+        <div className="cb-live-stream-data-form-container">
             <Toggle
                 label=""
                 checked={state.isLiveDataSimulated}
@@ -482,7 +479,7 @@ const OtherOptionsForm = () => {
     const { state, dispatch } = useDataPusherContext();
 
     return (
-        <div className="cb-other-options-form">
+        <div className="cb-other-options-form-container">
             <Toggle
                 label="Include images for model"
                 checked={state.includeImagesForModel}
