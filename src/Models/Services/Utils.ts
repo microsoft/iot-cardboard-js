@@ -115,3 +115,13 @@ export const downloadText = (text: string, fileName?: string) => {
     document.body.appendChild(link);
     link.click();
 };
+
+/** Remove the suffix or any other text after the numbers, or return undefined if not a number */
+export const getNumericPart = (value: string): number | undefined => {
+    const valueRegex = /^(-?\d+(\.\d+)?).*/;
+    if (valueRegex.test(value)) {
+        const numericValue = Number(value.replace(valueRegex, '$1'));
+        return isNaN(numericValue) ? undefined : numericValue;
+    }
+    return undefined;
+};

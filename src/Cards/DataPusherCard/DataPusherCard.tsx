@@ -22,12 +22,9 @@ import {
 } from './DataPusher.types';
 import {
     ISeparatorStyles,
-    ISpinButtonStyles,
     IStackStyles,
     IStackTokens,
-    Position,
     PrimaryButton,
-    SpinButton,
     Stack
 } from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
@@ -38,13 +35,10 @@ import {
     DTwinUpdateEvent
 } from '../../Models/Constants/Interfaces';
 import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
+import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
-
-const spinButtonStyles: Partial<ISpinButtonStyles> = {
-    spinButtonWrapper: { width: 100 }
-};
 
 const separatorStyles: Partial<ISeparatorStyles> = {
     content: { fontWeight: 'bold', paddingLeft: 0 }
@@ -319,60 +313,96 @@ const QuickFillDataForm = () => {
                     <FormFieldDescription>
                         Quicky simulate past events.
                     </FormFieldDescription>
-                    <SpinButton
+                    <NumericSpinInput
                         label="Days to simulate"
-                        labelPosition={Position.top}
-                        value={String(state.daysToSimulate)}
-                        onChange={(_e, newValue) =>
+                        width={125}
+                        min={1}
+                        max={1000}
+                        step={1}
+                        suffix={'days'}
+                        value={state.daysToSimulate}
+                        onChange={(newValue) => {
+                            console.log(newValue);
                             dispatch({
                                 type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
-                                payload: Number(newValue)
+                                payload: newValue
+                            });
+                        }}
+                        onIncrement={(newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                payload: newValue
                             })
                         }
-                        min={0}
-                        step={1}
-                        incrementButtonAriaLabel="Increase value by 1"
-                        decrementButtonAriaLabel="Decrease value by 1"
-                        styles={spinButtonStyles}
+                        onDecrement={(newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DAYS_TO_SIMULATE,
+                                payload: newValue
+                            })
+                        }
                     />
                     <FormFieldDescription>
                         Start simulating this many days ago (days)
                     </FormFieldDescription>
-                    <SpinButton
+                    <NumericSpinInput
                         label="Data spacing"
-                        labelPosition={Position.top}
-                        value={String(state.dataSpacing)}
-                        onChange={(_e, newValue) =>
+                        width={125}
+                        min={100}
+                        max={Infinity}
+                        step={1000}
+                        suffix={'ms'}
+                        value={state.dataSpacing}
+                        onChange={(newValue) => {
                             dispatch({
                                 type: dataPusherActionType.SET_DATA_SPACING,
-                                payload: Number(newValue)
+                                payload: newValue
+                            });
+                        }}
+                        onIncrement={(newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DATA_SPACING,
+                                payload: newValue
                             })
                         }
-                        min={0}
-                        step={1000}
-                        incrementButtonAriaLabel="Increase value by 1000"
-                        decrementButtonAriaLabel="Decrease value by 1000"
-                        styles={spinButtonStyles}
+                        onDecrement={(newValue) =>
+                            dispatch({
+                                type: dataPusherActionType.SET_DATA_SPACING,
+                                payload: newValue
+                            })
+                        }
                     />
                     <FormFieldDescription>
                         Time between event timestamps (ms)
                     </FormFieldDescription>
-                    <SpinButton
+                    <NumericSpinInput
                         label="Quick stream frequency"
-                        labelPosition={Position.top}
-                        value={String(state.quickStreamFrequency)}
-                        onChange={(_e, newValue) =>
+                        width={125}
+                        min={500}
+                        max={Infinity}
+                        step={100}
+                        suffix={'ms'}
+                        value={state.quickStreamFrequency}
+                        onChange={(newValue) => {
                             dispatch({
                                 type:
                                     dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
-                                payload: Number(newValue)
+                                payload: newValue
+                            });
+                        }}
+                        onIncrement={(newValue) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                payload: newValue
                             })
                         }
-                        min={500}
-                        step={100}
-                        incrementButtonAriaLabel="Increase value by 100"
-                        decrementButtonAriaLabel="Decrease value by 100"
-                        styles={spinButtonStyles}
+                        onDecrement={(newValue) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
+                                payload: newValue
+                            })
+                        }
                     />
                     <FormFieldDescription>
                         How frequently to push past / future events (ms)
@@ -411,22 +441,35 @@ const LiveStreamDataForm = () => {
                         Simulation will stop once current time is reached, and
                         begin to push data every [live stream frequency] ms.
                     </FormFieldDescription>
-                    <SpinButton
+                    <NumericSpinInput
                         label="Live stream frequency"
-                        labelPosition={Position.top}
-                        value={String(state.liveStreamFrequency)}
-                        onChange={(_e, newValue) =>
+                        width={125}
+                        min={500}
+                        max={Infinity}
+                        step={100}
+                        suffix={'ms'}
+                        value={state.liveStreamFrequency}
+                        onChange={(newValue) => {
                             dispatch({
                                 type:
                                     dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
-                                payload: Number(newValue)
+                                payload: newValue
+                            });
+                        }}
+                        onIncrement={(newValue) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
+                                payload: newValue
                             })
                         }
-                        min={500}
-                        step={1000}
-                        incrementButtonAriaLabel="Increase value by 1000"
-                        decrementButtonAriaLabel="Decrease value by 1000"
-                        styles={spinButtonStyles}
+                        onDecrement={(newValue) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
+                                payload: newValue
+                            })
+                        }
                     />
                     <FormFieldDescription>
                         How frequently to push "live" events once caught up to
