@@ -58,7 +58,13 @@
         "generateEnvironment": "Generate environment",
         "startSimulation": "Start simulation",
         "stopSimulation": "Stop simulation",
-        "days": "days"
+        "days": "days",
+        "simulationStatus": "Simulation status",
+        "modelsReady": "Models ready: ",
+        "twinsReady": "Twins ready: ",
+        "relationshipsReady": "Relationships ready: ",
+        "simulating": "Simulating",
+        "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated"
     },
     "modelSearch": {
         "placeholder": "Enter model search string",

@@ -29,6 +29,17 @@ export interface IDataPusherState {
     liveStreamFrequency: number;
     includeImagesForModel: boolean;
     isSimulationRunning: boolean;
+    isEnvironmentReady: boolean;
+    simulationStatus: {
+        modelsReady: boolean;
+        twinsReady: boolean;
+        relationshipsReady: boolean;
+        liveStatus: {
+            packetNumber: number;
+            totalTwinsPatched: number;
+            totalSuccessfulPatches: number;
+        } | null;
+    };
 }
 
 export interface IDataPusherContext {
@@ -45,5 +56,10 @@ export enum dataPusherActionType {
     SET_LIVE_STREAM_FREQUENCY,
     SET_INCLUDE_IMAGES_FOR_MODEL,
     SET_IS_SIMULATION_RUNNING,
-    SET_IS_DATA_BACK_FILLED
+    SET_IS_DATA_BACK_FILLED,
+    SET_IS_ENVIRONMENT_READY,
+    SET_MODELS_READY,
+    SET_TWINS_READY,
+    SET_RELATIONSHIPS_READY,
+    SET_LIVE_STATUS
 }

@@ -10,7 +10,14 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     liveStreamFrequency: 1000,
     includeImagesForModel: true,
     isSimulationRunning: false,
-    isDataBackFilled: false
+    isDataBackFilled: false,
+    isEnvironmentReady: false,
+    simulationStatus: {
+        modelsReady: false,
+        twinsReady: false,
+        relationshipsReady: false,
+        liveStatus: null
+    }
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -48,6 +55,21 @@ export const dataPusherReducer = produce(
                 return;
             case dataPusherActionType.SET_IS_DATA_BACK_FILLED:
                 draft.isDataBackFilled = payload;
+                return;
+            case dataPusherActionType.SET_IS_ENVIRONMENT_READY:
+                draft.isEnvironmentReady = payload;
+                return;
+            case dataPusherActionType.SET_MODELS_READY:
+                draft.simulationStatus.modelsReady = payload;
+                return;
+            case dataPusherActionType.SET_TWINS_READY:
+                draft.simulationStatus.twinsReady = payload;
+                return;
+            case dataPusherActionType.SET_RELATIONSHIPS_READY:
+                draft.simulationStatus.relationshipsReady = payload;
+                return;
+            case dataPusherActionType.SET_LIVE_STATUS:
+                draft.simulationStatus.liveStatus = payload;
                 return;
             default:
                 return;

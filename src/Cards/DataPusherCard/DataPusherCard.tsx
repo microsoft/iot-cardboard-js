@@ -20,7 +20,12 @@ import {
     IDataPusherContext,
     IDataPusherProps
 } from './DataPusher.types';
-import { ISeparatorStyles, PrimaryButton, Stack } from '@fluentui/react';
+import {
+    ISeparatorStyles,
+    PrimaryButton,
+    ProgressIndicator,
+    Stack
+} from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
 import {
     DTModel,
@@ -55,7 +60,6 @@ const DataPusherCard = ({
     });
 
     const intervalRef = useRef(null);
-    const lastAdapterResult = useRef(null);
 
     const modelState = useAdapter({
         adapterMethod: (params: { models: DTModel[] }) =>
@@ -99,8 +103,6 @@ const DataPusherCard = ({
             type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
             payload: true
         });
-
-        console.log('starting live simulation: ', state);
 
         // Clear any prior interval
         clearInterval(intervalRef.current);
@@ -151,7 +153,11 @@ const DataPusherCard = ({
         const relationships = assetSimulation.generateTwinRelationships();
         await modelState.callAdapter({ models });
         await twinState.callAdapter({ twins });
-        relationshipState.callAdapter({ relationships });
+        await relationshipState.callAdapter({ relationships });
+        dispatch({
+            type: dataPusherActionType.SET_IS_ENVIRONMENT_READY,
+            payload: true
+        });
     };
 
     // Update adapter's ADT Url when input changes
@@ -167,26 +173,56 @@ const DataPusherCard = ({
     }, []);
 
     useEffect(() => {
-        console.log('Twin state updated', twinState.adapterResult);
-        lastAdapterResult.current = twinState.adapterResult;
-    }, [twinState.adapterResult]);
-
-    useEffect(() => {
-        console.log('Model state updated', modelState.adapterResult);
-        lastAdapterResult.current = modelState.adapterResult;
+        // 409 error means duplicate models in environment -- OK
+        if (
+            (modelState.adapterResult?.getCatastrophicError()?.rawError as any)
+                ?.request?.status === 409 ||
+            modelState.adapterResult?.getData()
+        ) {
+            dispatch({
+                type: dataPusherActionType.SET_MODELS_READY,
+                payload: true
+            });
+        }
     }, [modelState.adapterResult]);
 
     useEffect(() => {
-        console.log(
-            'Relationship state updated',
-            relationshipState.adapterResult
-        );
-        lastAdapterResult.current = relationshipState.adapterResult;
+        if (twinState.adapterResult?.getData()) {
+            dispatch({
+                type: dataPusherActionType.SET_TWINS_READY,
+                payload: true
+            });
+        }
+    }, [twinState.adapterResult]);
+
+    useEffect(() => {
+        if (relationshipState.adapterResult?.getData()) {
+            dispatch({
+                type: dataPusherActionType.SET_RELATIONSHIPS_READY,
+                payload: true
+            });
+        }
     }, [relationshipState.adapterResult]);
 
     useEffect(() => {
-        console.log('Twin updates sent --', updateTwinState.adapterResult);
-        lastAdapterResult.current = updateTwinState.adapterResult;
+        const data = updateTwinState.adapterResult?.getData();
+        if (data) {
+            dispatch({
+                type: dataPusherActionType.SET_LIVE_STATUS,
+                payload: {
+                    packetNumber: adapter.packetNumber,
+                    totalTwinsPatched: data?.length ?? 0,
+                    totalSuccessfulPatches:
+                        data?.length > 0
+                            ? data.reduce(
+                                  (acc, curr) =>
+                                      curr?.status === 204 ? acc + 1 : acc,
+                                  0
+                              )
+                            : 0
+                }
+            });
+        }
     }, [updateTwinState.adapterResult]);
 
     return (
@@ -201,6 +237,8 @@ const DataPusherCard = ({
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
                     <AdtDataPusher />
+
+                    <div></div>
                     <div className="cb-datapusher-footer">
                         <Stack
                             horizontal
@@ -226,9 +264,10 @@ const DataPusherCard = ({
                                         : t('dataPusher.startSimulation')
                                 }
                                 disabled={
-                                    !state.isSimulationRunning &&
-                                    !state.isDataBackFilled &&
-                                    !state.isLiveDataSimulated
+                                    (!state.isSimulationRunning &&
+                                        !state.isDataBackFilled &&
+                                        !state.isLiveDataSimulated) ||
+                                    !state.isEnvironmentReady
                                 }
                                 onClick={() =>
                                     state.isSimulationRunning
@@ -241,6 +280,46 @@ const DataPusherCard = ({
                 </div>
             </DataPusherContext.Provider>
         </BaseCard>
+    );
+};
+
+const SimulationStatus = () => {
+    const { t } = useTranslation();
+    const { state } = useDataPusherContext();
+    return (
+        <div>
+            {!state.isSimulationRunning ? (
+                <>
+                    <div>
+                        {t('dataPusher.modelsReady')}
+                        {String(state.simulationStatus.modelsReady)}
+                    </div>
+                    <div>
+                        {t('dataPusher.twinsReady')}
+                        {String(state.simulationStatus.twinsReady)}
+                    </div>
+                    <div>
+                        {t('dataPusher.relationshipsReady')}
+                        {String(state.simulationStatus.relationshipsReady)}
+                    </div>
+                </>
+            ) : (
+                <ProgressIndicator
+                    label={t('dataPusher.simulating')}
+                    description={t('dataPusher.liveStatus', {
+                        packetNumber:
+                            state.simulationStatus.liveStatus?.packetNumber ??
+                            0,
+                        totalSuccessfulPatches:
+                            state.simulationStatus.liveStatus
+                                ?.totalSuccessfulPatches ?? 0,
+                        totalTwinsPatched:
+                            state.simulationStatus.liveStatus
+                                ?.totalTwinsPatched ?? 0
+                    })}
+                />
+            )}
+        </div>
     );
 };
 
@@ -275,6 +354,10 @@ const AdtDataPusher = () => {
                 {t('dataPusher.otherOptionsLabel')}
             </Separator>
             <OtherOptionsForm />
+            <Separator alignContent="start" styles={separatorStyles}>
+                {t('dataPusher.simulationStatus')}
+            </Separator>
+            <SimulationStatus />
         </div>
     );
 };
