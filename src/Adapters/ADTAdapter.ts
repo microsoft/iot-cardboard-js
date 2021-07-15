@@ -229,18 +229,33 @@ export default class ADTAdapter implements IADTAdapter {
                 return Object.keys(component.$metadata).reduce((acc, prop) => {
                     const kvp = {} as KeyValuePairData;
                     kvp.key = prop;
-                    if (component[prop]?.$metadata) {
-                        kvp.value = createKeyValuePairDataFromTwinComponent(
-                            component[prop]
-                        );
-                    } else {
-                        kvp.value = component[prop];
-                        if (additionalParameters?.isTimestampIncluded) {
-                            kvp.timestamp = new Date(
-                                component.$metadata?.[prop]?.lastUpdateTime
+                    if (
+                        !(
+                            component[prop]?.$metadata &&
+                            typeof component[prop]?.$metadata === 'object'
+                        )
+                    ) {
+                        /**
+                         * Currently in DTDL V2, the maximum depth of Components is 1 and so components cannot contain another component.
+                         * See details: https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#component
+                         * But, to be safe we are checking if there is a subcomponent in a component having '$metadata' field
+                         * to exclude it by showing only properties/telemetries of the component, otherwise the value of the
+                         * component would be infinitely big to display in a card.
+                         */
+                        if (typeof component[prop] === 'object') {
+                            // e.g. Properties, which can have 'Object' type of schema, can include sub-properties
+                            kvp.value = createKeyValuePairDataFromTwinComponent(
+                                component[prop]
                             );
+                        } else {
+                            kvp.value = component[prop];
+                            if (additionalParameters?.isTimestampIncluded) {
+                                kvp.timestamp = new Date(
+                                    component.$metadata?.[prop]?.lastUpdateTime
+                                );
+                            }
+                            acc.push(kvp);
                         }
-                        acc.push(kvp);
                     }
                     return acc;
                 }, []);

@@ -1,3 +1,5 @@
+@import '../../../Resources/Styles/BaseStyles';
+
 .cb-kvpc-wrapper {
     align-items: center;
     display: flex;
@@ -34,5 +36,35 @@
 
     .cb-kvpc-pulse {
         border: 3px solid var(--cb-color-theme-primary);
+    }
+
+    .cb-component-table {
+        @include ms-depth-4;
+        background: var(--cb-color-bg-canvas);
+        border: 1px solid var(--cb-color-card-border);
+        border-radius: 4px;
+        color: var(--cb-color-text-primary);
+        height: 100%;
+        padding: 4px;
+
+        .cb-component-table-header-main {
+            color: rgba(var(--cb-color-text-primary), 0.6);
+            padding: 0 0 4px;
+        }
+
+        .cb-component-table-header {
+            color: rgba(var(--cb-color-text-primary), 0.5);
+            font-size: 12px !important;
+            padding: 4px 4px 0 !important;
+        }
+
+        .cb-component-table-cell {
+            font-size: 14px;
+            overflow: hidden;
+            padding: 0 4px;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }
