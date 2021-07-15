@@ -5,7 +5,9 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
-    ISimulation
+    ISimulation,
+    ADTModel_ViewData_PropertyName,
+    BoardInfoPropertyName
 } from '../../Constants';
 import {
     AssetRelationship,
@@ -88,13 +90,24 @@ export default class AssetSimulation implements ISimulation {
             if (isImagesIncluded) {
                 propertyContents.push({
                     '@type': 'Property',
-                    name: ADTModel_ImgSrc_PropertyName,
-                    schema: 'string'
-                });
-                propertyContents.push({
-                    '@type': 'Property',
-                    name: ADTModel_ImgPropertyPositions_PropertyName,
-                    schema: 'string'
+                    name: ADTModel_ViewData_PropertyName,
+                    schema: {
+                        '@type': 'Object',
+                        fields: [
+                            {
+                                name: BoardInfoPropertyName,
+                                schema: 'string'
+                            },
+                            {
+                                name: ADTModel_ImgSrc_PropertyName,
+                                schema: 'string'
+                            },
+                            {
+                                name: ADTModel_ImgPropertyPositions_PropertyName,
+                                schema: 'string'
+                            }
+                        ]
+                    }
                 });
             }
             const relationshipContents: Array<any> = asset.relationships.map(
@@ -143,19 +156,24 @@ export default class AssetSimulation implements ISimulation {
                     $dtId: assetTwin.name,
                     $metadata: {
                         $model: `dtmi:assetGen:${asset.name};${modelTwinsRelationshipsData.versionNumber}`
-                    }
+                    },
+                    [ADTModel_ViewData_PropertyName]: {}
                 };
                 asset.devices.forEach((device) => {
                     twin[`${device.deviceName}`] = device.minValue;
                 });
                 if (this.isADTModelImagesIncluded) {
                     const modelId = this.generateModelId(asset.name);
-                    twin[ADTModel_ImgSrc_PropertyName] =
-                        ADTModelImages[modelId].img_src;
-                    twin[
+                    twin[ADTModel_ViewData_PropertyName][
+                        ADTModel_ImgSrc_PropertyName
+                    ] = ADTModelImages[modelId][ADTModel_ImgSrc_PropertyName];
+
+                    twin[ADTModel_ViewData_PropertyName][
                         ADTModel_ImgPropertyPositions_PropertyName
                     ] = JSON.stringify(
-                        ADTModelImages[modelId].img_propertyPositions
+                        ADTModelImages[modelId][
+                            ADTModel_ImgPropertyPositions_PropertyName
+                        ]
                     );
                 }
 

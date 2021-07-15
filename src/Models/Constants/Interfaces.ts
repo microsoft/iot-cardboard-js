@@ -32,6 +32,10 @@ import {
     AdapterMethodParamsForSearchADTTwins
 } from './Types';
 import { SimulationAdapterData } from '../Classes/AdapterDataClasses/SimulationAdapterData';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName
+} from './Constants';
 
 export interface IAction {
     type: string;
@@ -349,8 +353,8 @@ export type IADTModelImages = {
 };
 
 export interface IADTModelImageContent {
-    img_src: string;
-    img_propertyPositions: Record<string, any>;
+    [ADTModel_ImgSrc_PropertyName]: string;
+    [ADTModel_ImgPropertyPositions_PropertyName]: Record<string, any>;
 }
 
 export interface AssetRelationship {

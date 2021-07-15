@@ -1,20 +1,24 @@
-import { IADTModelImages } from '../../Constants/Interfaces';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName,
+    IADTModelImages
+} from '../../Constants';
 
 //TODO: Update below image src URLs with the links to the images under assets/images when codebase goes to public
 const ADTModelImages: IADTModelImages = {
     'dtmi:assetGen:Car;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/Car.png',
-        img_propertyPositions: {
+        [ADTModel_ImgPropertyPositions_PropertyName]: {
             OutdoorTemperature: { left: '70%', top: '5%' },
             Speed: { left: '80%', top: '40%' },
             OilPressure: { left: '30%', top: '70%' }
         }
     },
     'dtmi:assetGen:Windmill;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/Windmill.png',
-        img_propertyPositions: {
+        [ADTModel_ImgPropertyPositions_PropertyName]: {
             OutdoorTemperature: { left: '80%', top: '5%' },
             AtmosphericPressure: { left: '0%', top: '5%' },
             WindVelocity: { left: '0%', top: '40%' },
@@ -23,9 +27,9 @@ const ADTModelImages: IADTModelImages = {
         }
     },
     'dtmi:assetGen:PasteurizationMachine;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/Pasteurization.png',
-        img_propertyPositions: {
+        [ADTModel_ImgPropertyPositions_PropertyName]: {
             InFlow: { left: '20%', top: '40%' },
             OutFlow: { left: '50%', top: '40%' },
             Temperature: { left: '30%', top: '70%' },
@@ -33,36 +37,36 @@ const ADTModelImages: IADTModelImages = {
         }
     },
     'dtmi:assetGen:HVACSystem;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/HVAC.png',
-        img_propertyPositions: {
+        [ADTModel_ImgPropertyPositions_PropertyName]: {
             FanSpeed: { left: '80%', top: '5%' },
             CoolerTemperature: { left: '80%', top: '40%' },
             HeaterTemperature: { left: '30%', top: '70%' }
         }
     },
     'dtmi:assetGen:SaltMachine;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/SaltMachine.png',
-        img_propertyPositions: {
+        [ADTModel_ImgPropertyPositions_PropertyName]: {
             InFlow: { left: '20%', top: '40%' },
             OutFlow: { left: '50%', top: '40%' }
         }
     },
     'dtmi:assetGen:MaintenancePersonnel;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/MaintenancePersonnel.png',
-        img_propertyPositions: {}
+        [ADTModel_ImgPropertyPositions_PropertyName]: {}
     },
     'dtmi:assetGen:Factory;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/Factory.png',
-        img_propertyPositions: {}
+        [ADTModel_ImgPropertyPositions_PropertyName]: {}
     },
     'dtmi:assetGen:Country;1': {
-        img_src:
+        [ADTModel_ImgSrc_PropertyName]:
             'https://cardboardresources.blob.core.windows.net/cardboard-images/Country.png',
-        img_propertyPositions: {}
+        [ADTModel_ImgPropertyPositions_PropertyName]: {}
     }
 };
 
