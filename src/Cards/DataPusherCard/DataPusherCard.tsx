@@ -37,12 +37,14 @@ import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
 import { useTranslation } from 'react-i18next';
 import ExpandableSlideInContent from '../../Components/ExpandableContent/ExpandableContent';
+import { Icon } from '@fluentui/react/lib/Icon';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
 
 const separatorStyles: Partial<ISeparatorStyles> = {
-    content: { fontWeight: 'bold', paddingLeft: 0 }
+    content: { fontWeight: 'bold', paddingLeft: 0 },
+    root: { marginTop: 16 }
 };
 
 const DataPusherCard = ({
@@ -51,12 +53,14 @@ const DataPusherCard = ({
     theme,
     adapter,
     Simulation,
-    initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net'
+    initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net',
+    disablePastEvents = false
 }: IDataPusherProps) => {
     const { t } = useTranslation();
     const [state, dispatch] = useReducer(dataPusherReducer, {
         ...defaultAdtDataPusherState,
-        instanceUrl: initialInstanceUrl
+        instanceUrl: initialInstanceUrl,
+        disablePastEvents
     });
 
     const intervalRef = useRef(null);
@@ -111,13 +115,13 @@ const DataPusherCard = ({
         const startLiveSimulation = () => {
             const sim = new Simulation(
                 new Date().valueOf(),
-                state.liveStreamFrequency
+                state.liveStreamFrequency * 1000
             );
 
             intervalRef.current = setInterval(() => {
                 const events = sim.tick();
                 updateTwinState.callAdapter({ events });
-            }, state.liveStreamFrequency);
+            }, state.liveStreamFrequency * 1000);
         };
 
         const startDateMillis = state.isDataBackFilled
@@ -154,10 +158,6 @@ const DataPusherCard = ({
         await modelState.callAdapter({ models });
         await twinState.callAdapter({ twins });
         await relationshipState.callAdapter({ relationships });
-        dispatch({
-            type: dataPusherActionType.SET_IS_ENVIRONMENT_READY,
-            payload: true
-        });
     };
 
     // Update adapter's ADT Url when input changes
@@ -225,6 +225,23 @@ const DataPusherCard = ({
         }
     }, [updateTwinState.adapterResult]);
 
+    useEffect(() => {
+        if (
+            state.simulationStatus.modelsReady &&
+            state.simulationStatus.twinsReady &&
+            state.simulationStatus.relationshipsReady
+        ) {
+            dispatch({
+                type: dataPusherActionType.SET_IS_ENVIRONMENT_READY,
+                payload: true
+            });
+        }
+    }, [
+        state.simulationStatus.modelsReady,
+        state.simulationStatus.twinsReady,
+        state.simulationStatus.relationshipsReady
+    ]);
+
     return (
         <BaseCard
             isLoading={false}
@@ -286,22 +303,41 @@ const DataPusherCard = ({
 const SimulationStatus = () => {
     const { t } = useTranslation();
     const { state } = useDataPusherContext();
+
+    const StatusIndicator = ({ label, ready }) => {
+        const iconStyles = {
+            root: {
+                fontSize: 8,
+                marginRight: 4,
+                color: ready
+                    ? 'var(--cb-color-success)'
+                    : 'var(--cb-color-text-danger)'
+            }
+        };
+        return (
+            <div className="cb-status-row-container">
+                <Icon iconName={'StatusCircleOuter'} styles={iconStyles} />
+                <Text variant={'medium'}>{label}</Text>
+            </div>
+        );
+    };
+
     return (
         <div>
             {!state.isSimulationRunning ? (
                 <>
-                    <div>
-                        {t('dataPusher.modelsReady')}
-                        {String(state.simulationStatus.modelsReady)}
-                    </div>
-                    <div>
-                        {t('dataPusher.twinsReady')}
-                        {String(state.simulationStatus.twinsReady)}
-                    </div>
-                    <div>
-                        {t('dataPusher.relationshipsReady')}
-                        {String(state.simulationStatus.relationshipsReady)}
-                    </div>
+                    <StatusIndicator
+                        label={t('dataPusher.models')}
+                        ready={state.simulationStatus.modelsReady}
+                    />
+                    <StatusIndicator
+                        label={t('dataPusher.twins')}
+                        ready={state.simulationStatus.twinsReady}
+                    />
+                    <StatusIndicator
+                        label={t('dataPusher.relationships')}
+                        ready={state.simulationStatus.relationshipsReady}
+                    />
                 </>
             ) : (
                 <ProgressIndicator
@@ -330,11 +366,14 @@ const AdtDataPusher = () => {
         <div className="cb-adt-data-pusher">
             <TextField
                 label={t('dataPusher.instanceUrl')}
+                placeholder={'<your_adt_instance_url>.digitaltwins.azure.net'}
                 value={state.instanceUrl}
                 onChange={(_e, newValue) =>
                     dispatch({
                         type: dataPusherActionType.SET_INSTANCE_URL,
                         payload: newValue
+                            .replace('https://', '')
+                            .replace('http://', '')
                     })
                 }
                 styles={{
@@ -379,6 +418,7 @@ const QuickFillDataForm = () => {
                     })
                 }
                 styles={{ root: { marginBottom: 0, marginTop: 4 } }}
+                disabled={state.disablePastEvents}
             />
             <FormFieldDescription>
                 {state.isDataBackFilled
@@ -459,7 +499,7 @@ const QuickFillDataForm = () => {
                         <NumericSpinInput
                             label={t('dataPusher.quickStreamFrequencyLabel')}
                             width={125}
-                            min={500}
+                            min={1000}
                             max={Infinity}
                             step={100}
                             suffix={'ms'}
@@ -524,10 +564,10 @@ const LiveStreamDataForm = () => {
                     <NumericSpinInput
                         label={t('dataPusher.liveStreamFrequencyLabel')}
                         width={125}
-                        min={500}
+                        min={1}
                         max={Infinity}
-                        step={100}
-                        suffix={'ms'}
+                        step={1}
+                        suffix={'s'}
                         value={state.liveStreamFrequency}
                         onChange={(newValue) => {
                             dispatch({
@@ -551,6 +591,9 @@ const LiveStreamDataForm = () => {
                             })
                         }
                     />
+                    <FormFieldDescription>
+                        {t('dataPusher.liveStreamFrequencyDescription')}
+                    </FormFieldDescription>
                 </div>
             </ExpandableSlideInContent>
         </div>

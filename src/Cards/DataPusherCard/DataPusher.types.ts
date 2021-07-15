@@ -12,6 +12,7 @@ export interface IDataPusherProps {
     adapter: ISimulationAdapter;
     Simulation: new (startTimeMillis: number, frequency: number) => ISimulation;
     initialInstanceUrl?: string;
+    disablePastEvents?: boolean;
 }
 
 export interface IQuickFillDataFormProps {
@@ -30,6 +31,7 @@ export interface IDataPusherState {
     includeImagesForModel: boolean;
     isSimulationRunning: boolean;
     isEnvironmentReady: boolean;
+    disablePastEvents: boolean;
     simulationStatus: {
         modelsReady: boolean;
         twinsReady: boolean;
