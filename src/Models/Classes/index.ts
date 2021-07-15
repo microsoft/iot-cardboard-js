@@ -16,3 +16,4 @@ export { SearchSpan } from './SearchSpan';
 export { default as BoardInfo } from './BoardInfo';
 export { default as CardInfo } from './CardInfo';
 export { CardError, CancelledPromiseError } from './Errors';
+export { default as AssetSimulation } from './Simulations/AssetSimulation';
