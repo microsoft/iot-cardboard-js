@@ -10,7 +10,7 @@ export default {
 };
 
 const wrapperStyle = {
-    height: '640px',
+    height: '700px',
     width: '100%'
 };
 
