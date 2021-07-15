@@ -35,20 +35,20 @@
     }
 
     .cb-kvpc-pulse {
-        border: 3px solid var(--cb-color-theme-primary);
+        outline: 3px solid var(--cb-color-theme-primary);
     }
 
     .cb-component-table {
         @include ms-depth-4;
-        background: var(--cb-color-bg-canvas);
         border: 1px solid var(--cb-color-card-border);
         border-radius: 4px;
-        color: var(--cb-color-text-primary);
-        height: 100%;
         padding: 4px;
+        table-layout: fixed;
+        width: 100%;
 
         .cb-component-table-header-main {
             color: rgba(var(--cb-color-text-primary), 0.6);
+            font-size: 14px;
             padding: 0 0 4px;
         }
 
@@ -64,7 +64,6 @@
             padding: 0 4px;
             text-align: left;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
     }
 }

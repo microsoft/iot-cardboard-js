@@ -76,8 +76,12 @@ const KVPComponentTable: React.FC<any> = React.memo(
             []
         );
         return (
-            <div className={`cb-kvpc-kvp ${pulse ? 'cb-kvpc-pulse' : ''}`}>
-                <table className="cb-component-table">
+            <div className="cb-kvpc-kvp">
+                <table
+                    className={`cb-component-table ${
+                        pulse ? 'cb-kvpc-pulse' : ''
+                    }`}
+                >
                     <thead>
                         <tr>
                             <td></td>
@@ -106,6 +110,7 @@ const KVPComponentTable: React.FC<any> = React.memo(
                                 {row.map((cell, j) => (
                                     <td
                                         key={`cell-${i}-${j}`}
+                                        title={cell}
                                         className="cb-component-table-cell"
                                     >
                                         {cell}

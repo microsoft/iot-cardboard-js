@@ -179,7 +179,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'api-version': ADT_ApiVersion
                 },
                 data: {
-                    query: `SELECT * FROM DIGITALTWINS T WHERE STARTSWITH(T.$metadata.$model, '${params.searchTerm}') OR STARTSWITH(T.$dtId, '${params.searchTerm}')`,
+                    query: `SELECT * FROM DIGITALTWINS T WHERE CONTAINS(T.$metadata.$model, '${params.searchTerm}') OR CONTAINS(T.$dtId, '${params.searchTerm}')`,
                     continuationToken: params.continuationToken
                 }
             }
