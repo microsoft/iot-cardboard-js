@@ -254,8 +254,6 @@ const DataPusherCard = ({
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
                     <AdtDataPusher />
-
-                    <div></div>
                     <div className="cb-datapusher-footer">
                         <Stack
                             horizontal
