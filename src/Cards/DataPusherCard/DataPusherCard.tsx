@@ -180,7 +180,7 @@ const DataPusherCard = ({
             modelState.adapterResult?.getData()
         ) {
             dispatch({
-                type: dataPusherActionType.SET_MODELS_READY,
+                type: dataPusherActionType.SET_ARE_MODELS_READY,
                 payload: true
             });
         }
@@ -189,7 +189,7 @@ const DataPusherCard = ({
     useEffect(() => {
         if (twinState.adapterResult?.getData()) {
             dispatch({
-                type: dataPusherActionType.SET_TWINS_READY,
+                type: dataPusherActionType.SET_ARE_TWINS_READY,
                 payload: true
             });
         }
@@ -198,7 +198,7 @@ const DataPusherCard = ({
     useEffect(() => {
         if (relationshipState.adapterResult?.getData()) {
             dispatch({
-                type: dataPusherActionType.SET_RELATIONSHIPS_READY,
+                type: dataPusherActionType.SET_ARE_RELATIONSHIPS_READY,
                 payload: true
             });
         }
@@ -227,9 +227,9 @@ const DataPusherCard = ({
 
     useEffect(() => {
         if (
-            state.simulationStatus.modelsReady &&
-            state.simulationStatus.twinsReady &&
-            state.simulationStatus.relationshipsReady
+            state.simulationStatus.areModelsReady &&
+            state.simulationStatus.areTwinsReady &&
+            state.simulationStatus.areRelationshipsReady
         ) {
             dispatch({
                 type: dataPusherActionType.SET_IS_ENVIRONMENT_READY,
@@ -237,9 +237,9 @@ const DataPusherCard = ({
             });
         }
     }, [
-        state.simulationStatus.modelsReady,
-        state.simulationStatus.twinsReady,
-        state.simulationStatus.relationshipsReady
+        state.simulationStatus.areModelsReady,
+        state.simulationStatus.areTwinsReady,
+        state.simulationStatus.areRelationshipsReady
     ]);
 
     return (
@@ -326,15 +326,15 @@ const SimulationStatus = () => {
                 <>
                     <StatusIndicator
                         label={t('dataPusher.models')}
-                        ready={state.simulationStatus.modelsReady}
+                        ready={state.simulationStatus.areModelsReady}
                     />
                     <StatusIndicator
                         label={t('dataPusher.twins')}
-                        ready={state.simulationStatus.twinsReady}
+                        ready={state.simulationStatus.areTwinsReady}
                     />
                     <StatusIndicator
                         label={t('dataPusher.relationships')}
-                        ready={state.simulationStatus.relationshipsReady}
+                        ready={state.simulationStatus.areRelationshipsReady}
                     />
                 </>
             ) : (

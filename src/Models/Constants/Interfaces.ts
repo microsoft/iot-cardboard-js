@@ -410,7 +410,7 @@ export interface ISimulationAdapter {
     ): AdapterReturnType<SimulationAdapterData>;
 }
 
-export interface ISimulation {
+export interface IAdtPusherSimulation {
     seedTimeMillis: number;
     tick(): Array<any>;
     generateDTModels(

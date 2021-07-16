@@ -1,16 +1,15 @@
 import {
-    ISimulation,
-    ISimulationAdapter,
-    Locale,
-    Theme
+    ICardBaseProps,
+    IAdtPusherSimulation,
+    ISimulationAdapter
 } from '../../Models/Constants';
 
-export interface IDataPusherProps {
-    theme?: Theme;
-    locale?: Locale;
-    localeStrings?: Record<string, any>;
+export interface IDataPusherProps extends ICardBaseProps {
     adapter: ISimulationAdapter;
-    Simulation: new (startTimeMillis: number, frequency: number) => ISimulation;
+    Simulation: new (
+        startTimeMillis: number,
+        frequency: number
+    ) => IAdtPusherSimulation;
     initialInstanceUrl?: string;
     disablePastEvents?: boolean;
 }
@@ -20,7 +19,6 @@ export interface IQuickFillDataFormProps {
 }
 
 export interface IDataPusherState {
-    simulationType?: string;
     instanceUrl: string;
     daysToSimulate: number;
     dataSpacing: number;
@@ -33,9 +31,9 @@ export interface IDataPusherState {
     isEnvironmentReady: boolean;
     disablePastEvents: boolean;
     simulationStatus: {
-        modelsReady: boolean;
-        twinsReady: boolean;
-        relationshipsReady: boolean;
+        areModelsReady: boolean;
+        areTwinsReady: boolean;
+        areRelationshipsReady: boolean;
         liveStatus: {
             packetNumber: number;
             totalTwinsPatched: number;
@@ -60,8 +58,8 @@ export enum dataPusherActionType {
     SET_IS_SIMULATION_RUNNING,
     SET_IS_DATA_BACK_FILLED,
     SET_IS_ENVIRONMENT_READY,
-    SET_MODELS_READY,
-    SET_TWINS_READY,
-    SET_RELATIONSHIPS_READY,
+    SET_ARE_MODELS_READY,
+    SET_ARE_TWINS_READY,
+    SET_ARE_RELATIONSHIPS_READY,
     SET_LIVE_STATUS
 }

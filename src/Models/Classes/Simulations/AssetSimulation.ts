@@ -5,7 +5,7 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
-    ISimulation,
+    IAdtPusherSimulation,
     ADTModel_ViewData_PropertyName,
     BoardInfoPropertyName
 } from '../../Constants';
@@ -23,7 +23,7 @@ const modelTwinsRelationshipsData = {
     versionNumber: 1
 };
 
-export default class AssetSimulation implements ISimulation {
+export default class AssetSimulation implements IAdtPusherSimulation {
     private assets: Array<Asset>;
     private typeIds: any;
     public seedTimeMillis: number;
