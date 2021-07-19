@@ -8,3 +8,4 @@ export const ADTModel_BimFilePath_PropertyName = 'bimFilePath';
 export const ADTModel_MetadataFilePath_PropertyName = 'metadataFilePath';
 export const ADT_ApiVersion = '2020-10-31';
 export const ViewDataPropertyName = 'cb_viewdata';
+export const BoardInfoPropertyName = 'boardInfo';
