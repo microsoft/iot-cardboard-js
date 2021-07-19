@@ -15,7 +15,11 @@ import {
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
-import { ADT_ApiVersion, KeyValuePairData } from '../Models/Constants';
+import {
+    ADT_ApiVersion,
+    IADTTwinComponent,
+    KeyValuePairData
+} from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
@@ -175,7 +179,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'api-version': ADT_ApiVersion
                 },
                 data: {
-                    query: `SELECT * FROM DIGITALTWINS T WHERE STARTSWITH(T.$metadata.$model, '${params.searchTerm}') OR STARTSWITH(T.$dtId, '${params.searchTerm}')`,
+                    query: `SELECT * FROM DIGITALTWINS T WHERE CONTAINS(T.$metadata.$model, '${params.searchTerm}') OR CONTAINS(T.$dtId, '${params.searchTerm}')`,
                     continuationToken: params.continuationToken
                 }
             }
@@ -196,15 +200,67 @@ export default class ADTAdapter implements IADTAdapter {
                 ? properties.map((prop) => {
                       const kvp = {} as KeyValuePairData;
                       kvp.key = prop;
-                      kvp.value = axiosData[prop];
-                      if (additionalParameters?.isTimestampIncluded) {
-                          kvp.timestamp = new Date(
-                              axiosData.$metadata?.[prop]?.lastUpdateTime
+                      if (axiosData[prop]?.$metadata) {
+                          // means it is a component
+                          kvp.value = createKeyValuePairDataFromTwinComponent(
+                              axiosData[prop]
                           );
+                      } else {
+                          kvp.value = axiosData[prop];
+                          if (additionalParameters?.isTimestampIncluded) {
+                              kvp.timestamp = new Date(
+                                  axiosData.$metadata?.[prop]?.lastUpdateTime
+                              );
+                          }
                       }
                       return kvp;
                   })
                 : [];
+
+        const createKeyValuePairDataFromTwinComponent = (
+            component: IADTTwinComponent
+        ): KeyValuePairData[] => {
+            if (
+                component &&
+                component.$metadata &&
+                typeof component.$metadata === 'object' &&
+                Object.keys(component.$metadata).length
+            ) {
+                return Object.keys(component.$metadata).reduce((acc, prop) => {
+                    const kvp = {} as KeyValuePairData;
+                    kvp.key = prop;
+                    if (
+                        !(
+                            component[prop]?.$metadata &&
+                            typeof component[prop]?.$metadata === 'object'
+                        )
+                    ) {
+                        /**
+                         * Currently in DTDL V2, the maximum depth of Components is 1 and so components cannot contain another component.
+                         * See details: https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#component
+                         * But, to be safe we are checking if there is a subcomponent in a component having '$metadata' field
+                         * to exclude it by showing only properties/telemetries of the component, otherwise the value of the
+                         * component would be infinitely big to display in a card.
+                         */
+                        if (typeof component[prop] === 'object') {
+                            // e.g. Properties, which can have 'Object' type of schema, can include sub-properties
+                            kvp.value = createKeyValuePairDataFromTwinComponent(
+                                component[prop]
+                            );
+                        } else {
+                            kvp.value = component[prop];
+                            if (additionalParameters?.isTimestampIncluded) {
+                                kvp.timestamp = new Date(
+                                    component.$metadata?.[prop]?.lastUpdateTime
+                                );
+                            }
+                            acc.push(kvp);
+                        }
+                    }
+                    return acc;
+                }, []);
+            }
+        };
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             KeyValuePairAdapterData,

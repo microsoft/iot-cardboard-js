@@ -19,6 +19,8 @@
     "copy": "Copy",
     "copied": "Copied",
     "close": "Close",
+    "properties": "Properties",
+    "blank": "blank",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
