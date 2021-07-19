@@ -31,6 +31,11 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins
 } from './Types';
+import { SimulationAdapterData } from '../Classes/AdapterDataClasses/SimulationAdapterData';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName
+} from './Constants';
 
 export interface IAction {
     type: string;
@@ -331,4 +336,99 @@ export interface IStandardModelSearchResult {
 export interface IStandardModelIndexData {
     modelSearchStringIndex: string[];
     modelSearchIndexObj: Record<string, any>;
+}
+
+export interface DTwinUpdateEvent {
+    dtId: string;
+    patchJSON: DTwinPatch[];
+}
+
+export interface DTwinPatch {
+    op: 'add' | 'replace' | 'remove';
+    path: string; // property path e.g. /property1
+    value: any;
+}
+
+export interface SimulationParams {
+    daysToSimulate: number;
+    dataSpacing: number;
+    liveStreamFrequency: number;
+    quickStreamFrequency: number;
+    isLiveDataSimulated: boolean;
+}
+
+export type IADTModelImages = {
+    [modelId: string]: IADTModelImageContent;
+};
+
+export interface IADTModelImageContent {
+    [ADTModel_ImgSrc_PropertyName]: string;
+    [ADTModel_ImgPropertyPositions_PropertyName]: Record<string, any>;
+}
+
+export interface AssetRelationship {
+    name: string;
+    target?: string;
+    targetModel?: string;
+}
+
+export interface AssetTwin {
+    name: string;
+    assetRelationships?: Array<AssetRelationship>;
+}
+
+export interface DTModelContent {
+    '@type': 'Property' | 'Relationship';
+    name: string;
+    schema?: 'string' | 'double' | 'integer' | Record<string, unknown>;
+    target?: 'string';
+}
+
+export interface DTModel {
+    '@id': string;
+    '@type': string;
+    '@context': string;
+    displayName: string;
+    contents: DTModelContent[];
+}
+
+export interface DTwin {
+    $dtId: string;
+    $metadata: { $model: string };
+    [propertyName: string]: any;
+}
+
+export interface DTwinRelationship {
+    $relId: string;
+    $dtId: string;
+    $targetId: string;
+    $name: string;
+    targetModel: string;
+}
+
+export interface ISimulationAdapter {
+    adtHostUrl: string;
+    packetNumber: number;
+    createModels(models: DTModel[]): AdapterReturnType<SimulationAdapterData>;
+    createTwins(twins: DTwin[]): AdapterReturnType<SimulationAdapterData>;
+    updateTwins(
+        events: Array<DTwinUpdateEvent>
+    ): AdapterReturnType<SimulationAdapterData>;
+    createRelationships(
+        relationships: DTwinRelationship[]
+    ): AdapterReturnType<SimulationAdapterData>;
+}
+
+export interface IAdtPusherSimulation {
+    seedTimeMillis: number;
+    tick(): Array<any>;
+    generateDTModels(
+        isImagesIncluded?: boolean,
+        download?: boolean
+    ): Array<DTModel>;
+    generateDTwins(
+        isImagesIncluded?: boolean,
+        download?: boolean
+    ): Array<DTwin>;
+    generateTwinRelationships(): Array<DTwinRelationship>;
 }

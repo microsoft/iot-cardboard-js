@@ -4,3 +4,4 @@ export { default as MockAdapter } from './MockAdapter';
 export { default as TsiAdapter } from './TsiAdapter';
 export { default as CdnModelSearchAdapter } from './CdnModelSearchAdapter';
 export { default as GithubModelSearchAdapter } from './GithubModelSearchAdapter';
+export { default as ADTSimulationAdapter } from './ADTSimulationAdapter';
