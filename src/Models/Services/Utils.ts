@@ -23,7 +23,7 @@ export const getFileType = (fileName: string, defaultType = '') => {
         : defaultType;
 };
 
-export const createNodeFilterFromRoot = (parentNodeModelName: string) => {
+export const createNodeFilterFromRootForBIM = (parentNodeModelName: string) => {
     return (nodes: any) => {
         const filteredNodes = {};
         Object.keys(nodes).forEach((nodeKey) => {
@@ -103,4 +103,25 @@ export const hasAllProcessGraphicsCardProperties = (
             ADTModel_ImgPropertyPositions_PropertyName
         )
     );
+};
+
+export const downloadText = (text: string, fileName?: string) => {
+    const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+    const blobURL = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', blobURL);
+    link.setAttribute('download', fileName ? fileName : 'Instances.json');
+    link.innerHTML = '';
+    document.body.appendChild(link);
+    link.click();
+};
+
+/** Remove the suffix or any other text after the numbers, or return undefined if not a number */
+export const getNumericPart = (value: string): number | undefined => {
+    const valueRegex = /^(-?\d+(\.\d+)?).*/;
+    if (valueRegex.test(value)) {
+        const numericValue = Number(value.replace(valueRegex, '$1'));
+        return isNaN(numericValue) ? undefined : numericValue;
+    }
+    return undefined;
 };

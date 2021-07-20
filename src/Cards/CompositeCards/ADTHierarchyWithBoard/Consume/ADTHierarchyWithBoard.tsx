@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -16,37 +16,77 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     adapter,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    lookupTwinId,
+    onTwinClick
 }) => {
     const [selectedTwin, setSelectedTwin]: [
         IADTTwin,
         React.Dispatch<IADTTwin>
     ] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
+        lookupTwinId
+    );
     const { t } = useTranslation();
+    const lookupTwinIdRef = useRef(lookupTwinId);
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
         childNode: IHierarchyNode
     ) => {
-        setSelectedTwin(childNode.nodeData);
-    };
-
-    const onEntitySelect = (
-        twin: IADTTwin,
-        _model: IADTModel,
-        errors?: IResolvedRelationshipClickErrors
-    ) => {
-        if (errors.twinErrors || errors.modelErrors) {
-            setSelectedTwin(null);
-            setErrorMessage(t('boardErrors.failure'));
-            console.error(errors.modelErrors);
-            console.error(errors.twinErrors);
-        } else {
-            setSelectedTwin(twin);
-            setErrorMessage(null);
+        if (
+            !(
+                reverseLookupTwinId &&
+                selectedTwin &&
+                reverseLookupTwinId === selectedTwin.$dtId
+            )
+        ) {
+            setSelectedTwin(childNode.nodeData);
+            if (onTwinClick) {
+                onTwinClick(childNode.nodeData);
+            }
         }
     };
+
+    const onEntitySelect = useCallback(
+        (
+            twin: IADTTwin,
+            _model: IADTModel,
+            errors?: IResolvedRelationshipClickErrors
+        ) => {
+            if (errors.twinErrors || errors.modelErrors) {
+                setSelectedTwin(null);
+                if (onTwinClick) {
+                    onTwinClick(null);
+                }
+                setErrorMessage(t('boardErrors.failure'));
+                console.error(errors.modelErrors);
+                console.error(errors.twinErrors);
+            } else {
+                setSelectedTwin(twin);
+                if (lookupTwinIdRef.current) {
+                    setReverseLookupTwinId(twin.$dtId);
+                }
+                if (onTwinClick) {
+                    onTwinClick(twin);
+                }
+                setErrorMessage(null);
+            }
+        },
+        []
+    );
+
+    useEffect(() => {
+        if (
+            lookupTwinId &&
+            lookupTwinId !== selectedTwin?.$dtId &&
+            lookupTwinId !== reverseLookupTwinId
+        ) {
+            setReverseLookupTwinId(lookupTwinId);
+        }
+        lookupTwinIdRef.current = lookupTwinId;
+    }, [lookupTwinId]);
 
     return (
         <div className="cb-hbcard-container">
@@ -58,6 +98,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                     locale={locale}
                     localeStrings={localeStrings}
                     onChildNodeClick={handleChildNodeClick}
+                    lookupTwinId={reverseLookupTwinId}
                 />
             </div>
             <div className="cb-hbcard-board">

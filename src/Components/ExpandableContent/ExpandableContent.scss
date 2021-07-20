@@ -1,0 +1,26 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-expandable-enter {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.cb-expandable-enter-active {
+    max-height: 5000px;
+    transition: max-height 0.4s $ms-motion-timing-standard;
+}
+
+.cb-expandable-exit {
+    max-height: 5000px;
+}
+
+.cb-expandable-exit-active {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+}
+
+.cb-expandable-exit-done {
+    max-height: 0;
+    overflow: hidden;
+}

@@ -1,3 +1,5 @@
+@import '../../../Resources/Styles/BaseStyles';
+
 .cb-kvpc-wrapper {
     align-items: center;
     display: flex;
@@ -33,6 +35,35 @@
     }
 
     .cb-kvpc-pulse {
-        border: 3px solid var(--cb-color-theme-primary);
+        outline: 3px solid var(--cb-color-theme-primary);
+    }
+
+    .cb-component-table {
+        @include ms-depth-4;
+        border: 1px solid var(--cb-color-card-border);
+        border-radius: 4px;
+        padding: 4px;
+        table-layout: fixed;
+        width: 100%;
+
+        .cb-component-table-header-main {
+            color: rgba(var(--cb-color-text-primary), 0.6);
+            font-size: 14px;
+            padding: 0 0 4px;
+        }
+
+        .cb-component-table-header {
+            color: rgba(var(--cb-color-text-primary), 0.5);
+            font-size: 12px !important;
+            padding: 4px 4px 0 !important;
+        }
+
+        .cb-component-table-cell {
+            font-size: 14px;
+            overflow: hidden;
+            padding: 0 4px;
+            text-align: left;
+            text-overflow: ellipsis;
+        }
     }
 }

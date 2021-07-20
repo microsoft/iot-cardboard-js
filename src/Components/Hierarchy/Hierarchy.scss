@@ -45,7 +45,10 @@
     }
 
     .cb-hierarchy-node-name {
+        overflow: hidden;
         padding-right: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .cb-hierarchy-parent-node {
@@ -86,8 +89,9 @@
     }
 
     .cb-hierarchy-no-results {
+        display: block;
         font-size: 12px;
         font-style: italic;
-        padding: 20px;
+        padding: 0 20px 2px;
     }
 }

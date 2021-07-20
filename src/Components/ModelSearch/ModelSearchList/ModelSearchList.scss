@@ -1,0 +1,28 @@
+.cb-modelsearchlist-container {
+    display: flex;
+    flex-direction: column;
+
+    .cb-msl-model-item {
+        display: flex;
+        flex-direction: row;
+        margin: 16px 0;
+    }
+    .cb-modelsearchlist-empty {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+    }
+    .cb-msl-model-item-left {
+        flex-grow: 1;
+    }
+    .cb-msl-model-item-right {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        margin-left: 16px;
+    }
+    .cb-msl-model-item-preview {
+        margin-right: 8px;
+        white-space: nowrap;
+    }
+}

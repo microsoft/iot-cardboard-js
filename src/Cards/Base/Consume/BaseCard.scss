@@ -1,7 +1,7 @@
 @import '../../../Resources/Styles/BaseStyles';
 
 .cb-base-card {
-    @include ms-depth-16;
+    @include ms-depth-4;
     align-items: center;
     background: var(--cb-color-bg-canvas);
     border: 1px solid var(--cb-color-card-border);
@@ -13,11 +13,6 @@
     position: relative;
     width: 100%;
     z-index: 2;
-    .cb-base-info {
-        background: var(--cb-color-bg-canvas-inset);
-        border-radius: 3px;
-        padding: 20px;
-    }
     .cb-base-card-title {
         align-items: center;
         border-bottom: 1px solid var(--cb-color-bg-canvas-inset);

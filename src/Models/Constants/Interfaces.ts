@@ -10,8 +10,20 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
+import {
+    StandardModelData,
+    StandardModelIndexData,
+    StandardModelSearchData
+} from '../Classes/AdapterDataClasses/StandardModelData';
+import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
-import { CardErrorType, Locale, Theme, HierarchyNodeType } from './Enums';
+import {
+    CardErrorType,
+    Locale,
+    Theme,
+    HierarchyNodeType,
+    modelActionType
+} from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
@@ -19,6 +31,11 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins
 } from './Types';
+import { SimulationAdapterData } from '../Classes/AdapterDataClasses/SimulationAdapterData';
+import {
+    ADTModel_ImgPropertyPositions_PropertyName,
+    ADTModel_ImgSrc_PropertyName
+} from './Constants';
 
 export interface IAction {
     type: string;
@@ -63,6 +80,16 @@ export interface IConsumeCardProps extends ICardBaseProps {
     properties: readonly string[];
 }
 
+export interface IErrorComponentProps {
+    errorTitle: string;
+    errorContent?: string;
+}
+
+export interface IOverlayProps {
+    children: React.ReactNode;
+    onClose?: () => void;
+}
+
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
     adapter?: any;
 }
@@ -94,8 +121,8 @@ export interface IUseAdapter<T extends IAdapterData> {
     /** Calls adapter method (safe on unmount) and updates adapter result */
     callAdapter: (params?: AdapterMethodParams) => void;
 
-    /** Cancel adapter method and set the adapter result to null */
-    cancelAdapter: () => void;
+    /** Cancel adapter method and set the adapter result to null if not explicityly prevented using shouldPreserveResult parameter */
+    cancelAdapter: (shouldPreserveResult?: boolean) => void;
 
     /** Toggles on/off long poll */
     setIsLongPolling: (isLongPolling: boolean) => void;
@@ -155,6 +182,7 @@ export interface IHierarchyProps {
         childNode: IHierarchyNode
     ) => void;
     noDataText?: string;
+    shouldScrollToSelectedNode?: boolean;
 }
 
 export interface IHierarchyNode {
@@ -199,6 +227,15 @@ export interface IADTRelationship {
     $sourceId: string;
     $targetId: string;
     targetModel: string;
+}
+
+export interface IADTTwinComponent {
+    $metadata: {
+        [propertyName: string]: {
+            lastUpdateTime: string;
+        };
+    };
+    [propertyName: string]: any; // this can be another component
 }
 
 export interface IGetKeyValuePairsAdditionalParameters
@@ -269,4 +306,138 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
+    lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+}
+
+export interface IBaseStandardModelSearchAdapter {
+    CdnUrl: string;
+    getModelSearchIndex(): AdapterReturnType<StandardModelIndexData>;
+    fetchModelJsonFromCDN(
+        dtmi: string,
+        actionType: modelActionType
+    ): AdapterReturnType<StandardModelData>;
+}
+
+export interface IModelSearchStringParams {
+    queryString: string;
+    pageIdx?: number;
+    modelIndex: Record<string, any>;
+}
+export interface IStandardModelSearchAdapter
+    extends IBaseStandardModelSearchAdapter {
+    githubRepo?: string;
+    searchString(
+        params: IModelSearchStringParams
+    ): AdapterReturnType<StandardModelSearchData>;
+}
+
+export interface IStandardModelSearchItem {
+    dtmi: string;
+    displayName?: string;
+    description?: string;
+}
+
+export interface IStandardModelSearchResult {
+    data: IStandardModelSearchItem[];
+    metadata?: { [key: string]: any };
+}
+
+export interface IStandardModelIndexData {
+    modelSearchStringIndex: string[];
+    modelSearchIndexObj: Record<string, any>;
+}
+
+export interface DTwinUpdateEvent {
+    dtId: string;
+    patchJSON: DTwinPatch[];
+}
+
+export interface DTwinPatch {
+    op: 'add' | 'replace' | 'remove';
+    path: string; // property path e.g. /property1
+    value: any;
+}
+
+export interface SimulationParams {
+    daysToSimulate: number;
+    dataSpacing: number;
+    liveStreamFrequency: number;
+    quickStreamFrequency: number;
+    isLiveDataSimulated: boolean;
+}
+
+export type IADTModelImages = {
+    [modelId: string]: IADTModelImageContent;
+};
+
+export interface IADTModelImageContent {
+    [ADTModel_ImgSrc_PropertyName]: string;
+    [ADTModel_ImgPropertyPositions_PropertyName]: Record<string, any>;
+}
+
+export interface AssetRelationship {
+    name: string;
+    target?: string;
+    targetModel?: string;
+}
+
+export interface AssetTwin {
+    name: string;
+    assetRelationships?: Array<AssetRelationship>;
+}
+
+export interface DTModelContent {
+    '@type': 'Property' | 'Relationship';
+    name: string;
+    schema?: 'string' | 'double' | 'integer' | Record<string, unknown>;
+    target?: 'string';
+}
+
+export interface DTModel {
+    '@id': string;
+    '@type': string;
+    '@context': string;
+    displayName: string;
+    contents: DTModelContent[];
+}
+
+export interface DTwin {
+    $dtId: string;
+    $metadata: { $model: string };
+    [propertyName: string]: any;
+}
+
+export interface DTwinRelationship {
+    $relId: string;
+    $dtId: string;
+    $targetId: string;
+    $name: string;
+    targetModel: string;
+}
+
+export interface ISimulationAdapter {
+    adtHostUrl: string;
+    packetNumber: number;
+    createModels(models: DTModel[]): AdapterReturnType<SimulationAdapterData>;
+    createTwins(twins: DTwin[]): AdapterReturnType<SimulationAdapterData>;
+    updateTwins(
+        events: Array<DTwinUpdateEvent>
+    ): AdapterReturnType<SimulationAdapterData>;
+    createRelationships(
+        relationships: DTwinRelationship[]
+    ): AdapterReturnType<SimulationAdapterData>;
+}
+
+export interface IAdtPusherSimulation {
+    seedTimeMillis: number;
+    tick(): Array<any>;
+    generateDTModels(
+        isImagesIncluded?: boolean,
+        download?: boolean
+    ): Array<DTModel>;
+    generateDTwins(
+        isImagesIncluded?: boolean,
+        download?: boolean
+    ): Array<DTwin>;
+    generateTwinRelationships(): Array<DTwinRelationship>;
 }

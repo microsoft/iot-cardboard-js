@@ -1,0 +1,24 @@
+.cb-json-preview-panel-container {
+    overflow-y: hidden;
+
+    .cb-json-preview-container {
+        flex: 1 1 auto;
+        margin-top: 16px;
+        overflow: auto;
+    }
+    .cb-json-preview-modal-footer-container {
+        align-items: center;
+        display: flex;
+        height: 44px;
+        padding: 0 20px;
+    }
+    .cb-json-preview-modal-footer-tools {
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-start;
+    }
+    .cb-json-preview-modal-footer-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

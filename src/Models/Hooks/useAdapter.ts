@@ -5,7 +5,8 @@ import { CancelledPromiseError } from '../Classes/Errors';
 import {
     SET_ADAPTER_RESULT,
     SET_IS_LOADING,
-    SET_IS_LONG_POLLING
+    SET_IS_LONG_POLLING,
+    SET_IS_INITIAL_CALL
 } from '../Constants/ActionTypes';
 import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
 import {
@@ -30,6 +31,9 @@ const cardStateReducer = produce(
                 return;
             case SET_IS_LONG_POLLING:
                 draft.isLongPolling = payload;
+                return;
+            case SET_IS_INITIAL_CALL:
+                draft.isInitialCall = payload;
                 return;
             default:
                 return;
@@ -64,7 +68,7 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis,
-    isAdapterCalledOnMount
+    isAdapterCalledOnMount = true
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
@@ -73,7 +77,8 @@ const useAdapter = <T extends IAdapterData>({
                 errorInfo: null
             }),
             isLoading: false,
-            isLongPolling
+            isLongPolling,
+            isInitialCall: true
         }),
         [isLongPolling]
     );
@@ -103,8 +108,10 @@ const useAdapter = <T extends IAdapterData>({
             const adapterResult = await cancellablePromise(
                 adapterMethod(params)
             );
-            setAdapterResult(adapterResult);
-            setIsLoading(false);
+            if (mountedRef.current) {
+                setAdapterResult(adapterResult);
+                setIsLoading(false);
+            }
         } catch (err) {
             if (!(err instanceof CancelledPromiseError)) {
                 console.error('Unexpected promise error', err); // log unexpected errors
@@ -115,10 +122,14 @@ const useAdapter = <T extends IAdapterData>({
         }
     };
 
-    const cancelAdapter = () => {
+    const cancelAdapter = (shouldPreserveResult?: boolean) => {
         cancel(); // Cancel outstanding promises
-        setAdapterResult(null);
-        setIsLoading(false);
+        if (mountedRef.current) {
+            if (!shouldPreserveResult) {
+                setAdapterResult(null);
+            }
+            setIsLoading(false);
+        }
     };
 
     const setIsLongPolling = (isLongPolling: boolean) => {
@@ -137,11 +148,15 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        if (isAdapterCalledOnMount) {
-            if (mountedRef.current) {
+        if (state.isInitialCall) {
+            if (isAdapterCalledOnMount) {
                 cancelAdapter();
                 callAdapter();
             }
+            dispatch({
+                type: SET_IS_INITIAL_CALL,
+                payload: false
+            });
         } else {
             cancelAdapter();
             callAdapter();
@@ -152,6 +167,7 @@ const useAdapter = <T extends IAdapterData>({
         mountedRef.current = true; // Use ref to indicate mounted state
         return () => {
             mountedRef.current = false;
+            cancelAdapter();
         };
     }, []);
 

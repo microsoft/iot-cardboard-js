@@ -6,12 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/TreeViewPlugin';
 
 const useXeokitRender = (
-    canvasId,
-    bimFilePath,
-    metadataFilePath,
-    bimFileType = BIMFileTypes.Xkt,
-    onError
-    // treeViewContainerId?
+    canvasId: string,
+    bimFilePath: string,
+    metadataFilePath: string,
+    bimFileType: BIMFileTypes = BIMFileTypes.Xkt,
+    onError: (string) => void
 ) => {
     const viewer = useRef(null);
     const { t } = useTranslation();

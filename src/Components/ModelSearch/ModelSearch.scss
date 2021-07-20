@@ -1,0 +1,38 @@
+.cb-modelsearch-container {
+    padding: 8px;
+    .cb-ms-info {
+        display: flex;
+        font-style: italic;
+        width: 100%;
+    }
+    .cb-ms-info-togglebar-description {
+        flex: 3;
+        font-style: italic;
+        margin-right: 8px;
+    }
+    .cb-ms-info-description-link {
+        padding: 0 4px;
+    }
+    .cb-modelsearch-suggestion-item {
+        width: 100%;
+    }
+
+    .cb-modelsearch-suggestion-item-id,
+    .cb-modelsearch-suggestion-item-name,
+    .cb-modelsearch-suggestion-item-description {
+        overflow: hidden;
+        padding: 0 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .cb-modelsearch-suggestion-item-id {
+        font-weight: bold;
+    }
+    .cb-modelsearch-suggestion-item-name {
+        font-size: 0.9rem;
+    }
+    .cb-modelsearch-suggestion-item-description {
+        font-size: 0.8rem;
+    }
+}
