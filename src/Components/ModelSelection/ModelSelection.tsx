@@ -10,23 +10,26 @@ const ModelSelection: React.FC<IModelSelectionProps> = ({
 }) => {
     return (
         <div className="cb-model-selection-container">
-            <div className="cb-checkbox-container">
-                {!!models &&
-                    models.map((model, modelI) => (
-                        <Checkbox
-                            label={model}
-                            className="cb-model-checkbox"
-                            defaultChecked={true}
-                            key={modelI}
-                        ></Checkbox>
-                    ))}
-            </div>
-            <PrimaryButton
-                onClick={() => onSubmit(models)}
-                className={'cb-upload-button'}
-            >
-                upload
-            </PrimaryButton>
+            {!!(models && models.length) && (
+                <>
+                    <div className="cb-checkbox-container">
+                        {models.map((model, modelI) => (
+                            <Checkbox
+                                label={model}
+                                className="cb-model-checkbox"
+                                defaultChecked={true}
+                                key={modelI}
+                            ></Checkbox>
+                        ))}
+                    </div>
+                    <PrimaryButton
+                        onClick={() => onSubmit(models)}
+                        className={'cb-upload-button'}
+                    >
+                        upload
+                    </PrimaryButton>
+                </>
+            )}
         </div>
     );
 };

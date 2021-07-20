@@ -3,14 +3,34 @@
     padding: 16px;
     width: 100%;
     .cb-upload-type {
-        font-weight: normal;
+        display: flex;
+        font-weight: 600;
         margin: 0;
+        margin-bottom: 8px;
+        margin-top: 8px;
     }
     .cb-status-phase-preUpload {
         opacity: 0.5;
     }
+    .cb-progress-icon {
+        border: 1px solid black;
+        border-radius: 16px;
+        height: 16px;
+        margin-right: 16px;
+        padding: 4px;
+        width: 16px;
+    }
 
     .cb-status-message {
-        padding-left: 32px;
+        font-style: italic;
+        padding-left: 40px;
+    }
+
+    .cb-progress-success {
+        background-color: rgba(0, 255, 0, 0.4);
+    }
+
+    .cb-progress-failure {
+        background-color: rgba(255, 0, 0, 0.4);
     }
 }

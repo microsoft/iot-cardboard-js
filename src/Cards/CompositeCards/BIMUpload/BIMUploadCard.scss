@@ -36,9 +36,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow-y: hidden;
     padding: 0 16px;
     position: relative;
     width: 100%;
+}
+
+.cb-section-content {
+    height: calc(100% - 40px);
 }
 
 .cb-section-header {

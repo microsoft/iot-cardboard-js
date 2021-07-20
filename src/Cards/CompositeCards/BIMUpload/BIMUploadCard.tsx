@@ -128,12 +128,12 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
             if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
                 setModelsUploadStatus({
                     phase: UploadPhase.Failed,
-                    message: 'Upload failed'
+                    message: 'Insert error message here'
                 });
             } else if (pushModelsState.adapterResult.result) {
                 setModelsUploadStatus({
                     phase: UploadPhase.Succeeded,
-                    message: 'Models succesfully uploaded!'
+                    message: '15 models pushed'
                 });
                 setTimeout(() => {
                     initiateTwinsUpload();
