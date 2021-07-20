@@ -125,3 +125,7 @@ export const getNumericPart = (value: string): number | undefined => {
     }
     return undefined;
 };
+
+export const createDTDLModelId = (name) => {
+    return `dtmi:assetGen:${name};1`;
+};

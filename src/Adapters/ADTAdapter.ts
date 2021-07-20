@@ -26,8 +26,8 @@ import {
     ADTAdapterModelsData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
-import ADTModel from '../Models/Classes/ADTAssets/ADTModel';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
+import { DTDLModel } from '../Models/Classes/DTDL';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -187,7 +187,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    pushADTModels(models: Array<ADTModel>) {
+    pushADTModels(models: Array<DTDLModel>) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(

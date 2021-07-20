@@ -13,7 +13,8 @@ import useAssetsFromBIM from '../../../Models/Hooks/useAssetsFromBIM';
 import useXeokitRender from '../../../Models/Hooks/useXeokitRender';
 import { useAdapter, useGuid } from '../../../Models/Hooks';
 import BaseCard from '../../Base/Consume/BaseCard';
-import ADTModel from '../../../Models/Classes/ADTAssets/ADTModel';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
+
 import { UploadProgress } from '../../../Components/UploadProgress/UploadProgress';
 
 const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
@@ -77,10 +78,10 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     // }, [bimFilePath, metadataFilePath]);
 
     const pushModelsState = useAdapter({
-        adapterMethod: (models: Array<ADTModel>) =>
+        adapterMethod: (models: Array<DTDLModel>) =>
             adapter.pushADTModels(models),
         refetchDependencies: [],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: false
     });
 
     const initiateModelsUpload = () => {
@@ -88,9 +89,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
             phase: UploadPhase.Uploading,
             message: 'Uploading...'
         });
-        pushModelsState.callAdapter(
-            assetsFromBim.models.map((model: ADTModel) => model.toDTDL())
-        );
+        pushModelsState.callAdapter(assetsFromBim.models);
     };
 
     const initiateTwinsUpload = () => {
@@ -98,15 +97,15 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
             phase: UploadPhase.Uploading,
             message: 'Uploading...'
         });
-        pushModelsState.callAdapter(
+        pushTwinsState.callAdapter(
             assetsFromBim.twins // TODO - transformation
         );
     };
 
     const pushTwinsState = useAdapter({
-        adapterMethod: (twins: Array<ADTModel>) => adapter.pushADTTwins(twins),
+        adapterMethod: (twins: Array<DTDLModel>) => adapter.pushADTTwins(twins),
         refetchDependencies: [],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: false
     });
 
     const getSectionHeaderText = () => {
@@ -123,7 +122,6 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
 
     // on success or failure of pushing models
     useEffect(() => {
-        console.log(pushModelsState.adapterResult);
         if (modelsUploadStatus.phase === UploadPhase.Uploading) {
             if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
                 setModelsUploadStatus({
@@ -144,7 +142,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
 
     const getModelsList = useCallback(() => {
         return assetsFromBim?.models?.map((model) => {
-            return model.name;
+            return model.displayName;
         });
     }, [assetsFromBim]);
 

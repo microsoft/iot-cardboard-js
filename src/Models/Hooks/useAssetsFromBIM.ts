@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
 import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/TreeViewPlugin';
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
-import ADTModel from '../Classes/ADTAssets/ADTModel';
+import { DTDLModel } from '../Classes/DTDL';
+import { createDTDLModelId } from '../Services/Utils';
 
 const useAssetsFromBIM = (
     ghostBimId,
@@ -46,7 +47,7 @@ const useAssetsFromBIM = (
                     };
                 }
                 if (node.children) {
-                    node.children.forEach((child, i) => {
+                    node.children.forEach((child) => {
                         addModel(child);
                     });
                 }
@@ -54,10 +55,14 @@ const useAssetsFromBIM = (
             addModel(root);
 
             return Object.keys(typesDictionary).map((modelName) => {
-                return new ADTModel(
+                return new DTDLModel(
+                    createDTDLModelId(modelName),
                     modelName,
+                    '',
+                    '',
                     [],
-                    typesDictionary[modelName].relationships
+                    typesDictionary[modelName].relationships,
+                    []
                 );
             });
         },
@@ -78,7 +83,7 @@ const useAssetsFromBIM = (
                 canvasId: ghostBimId
             });
 
-            const treeView = new TreeViewPlugin(viewer, {
+            new TreeViewPlugin(viewer, {
                 containerElement: document.getElementById(ghostTreeId),
                 autoExpandDepth: 1,
                 hierarchy: 'types'
