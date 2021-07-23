@@ -65,6 +65,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         { key: 'enum', text: 'Enum' },
 
         // TODO: 'object' and 'map' schema types are not fully supported yet.
+        // Update: iremay added data classes for those, should test integration
         { key: 'object', text: 'Object' },
         { key: 'map', text: 'Map' }
     ];

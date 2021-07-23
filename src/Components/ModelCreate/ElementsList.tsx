@@ -12,6 +12,7 @@ import { Text } from '@fluentui/react/lib/Text';
 import { IIconProps } from '@fluentui/react/lib/Icon';
 import { Stack } from '@fluentui/react/lib/Stack';
 import './ElementsList.scss';
+import { FormMode } from '../../Models/Constants/Enums';
 
 const addIcon: IIconProps = { iconName: 'Add' };
 const deleteIcon: IIconProps = { iconName: 'Delete' };
@@ -24,6 +25,7 @@ interface ElementsListProps {
     handleNewElement: () => void;
     handleEditElement: (element: any, index: number) => void;
     handleDeleteElement: (index: number) => void;
+    formControlMode?: FormMode;
 }
 
 const ElementsList: React.FC<ElementsListProps> = ({
@@ -33,27 +35,37 @@ const ElementsList: React.FC<ElementsListProps> = ({
     elements,
     handleNewElement,
     handleEditElement,
-    handleDeleteElement
+    handleDeleteElement,
+    formControlMode = FormMode.Edit
 }) => {
     const listTableColumns = [
         {
-            key: 'displayName',
-            name: t('modelCreate.displayName'),
-            fieldName: 'displayName',
+            key: 'name',
+            name: t('modelCreate.name'),
+            fieldName: 'name',
             minWidth: 100,
             maxWidth: 300
-        },
-        {
+        }
+    ];
+
+    if (formControlMode !== FormMode.View) {
+        listTableColumns.push({
             key: 'action',
             name: t('modelCreate.action'),
             fieldName: 'action',
             minWidth: 50,
             maxWidth: 50
-        }
-    ];
+        });
+    }
 
     const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
-        <div onClick={() => handleEditElement(props.item, props.itemIndex)}>
+        <div
+            onClick={() => {
+                if (formControlMode === FormMode.Edit) {
+                    handleEditElement(props.item, props.itemIndex);
+                }
+            }}
+        >
             <DetailsRow
                 styles={{
                     cell: {
@@ -104,14 +116,18 @@ const ElementsList: React.FC<ElementsListProps> = ({
                     layoutMode={DetailsListLayoutMode.justified}
                     onRenderRow={renderListRow}
                     onRenderItemColumn={renderItemColumn}
-                    onItemInvoked={(item, index) =>
-                        handleEditElement(item, index)
-                    }
+                    onItemInvoked={(item, index) => {
+                        if (formControlMode === FormMode.Edit) {
+                            handleEditElement(item, index);
+                        }
+                    }}
                 />
             )}
-            <ActionButton iconProps={addIcon} onClick={handleNewElement}>
-                {t(addElementLabelKey)}
-            </ActionButton>
+            {formControlMode !== FormMode.View && (
+                <ActionButton iconProps={addIcon} onClick={handleNewElement}>
+                    {t(addElementLabelKey)}
+                </ActionButton>
+            )}
         </Stack>
     );
 };

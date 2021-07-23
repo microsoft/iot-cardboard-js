@@ -17,7 +17,7 @@ import {
     DTDLProperty,
     DTDLRelationship
 } from '../../Models/Classes/DTDL';
-import { AuthoringMode } from '../../Models/Constants/Enums';
+import { FormMode } from '../../Models/Constants/Enums';
 import FormSection from '../FormSection/FormSection';
 import BaseForm from '../ModelCreate/Forms/BaseForm';
 import './ModelCreate.scss';
@@ -36,6 +36,7 @@ interface ModelCreateProps {
     modelToEdit?: DTDLModel;
     onPrimaryAction: (model: DTDLModel) => void;
     onCancel: () => void;
+    formControlMode?: FormMode;
 }
 
 class ElementToEditInfo {
@@ -53,12 +54,19 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     existingModelIds,
     modelToEdit = null,
     onPrimaryAction,
-    onCancel
+    onCancel,
+    formControlMode
 }) => {
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(ModelCreateMode.ModelForm);
-    const [authoringMode, setAuthoringMode] = useState(AuthoringMode.Add);
+    const [formMode, setFormMode] = useState(
+        formControlMode
+            ? formControlMode
+            : modelToEdit
+            ? FormMode.Edit
+            : FormMode.New
+    );
     const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumbItem[]>([]);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -104,13 +112,13 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleClickAddProperty = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(ModelCreateMode.PropertyForm, 'modelCreate.addProperty');
     };
 
     const handleClickAddRelationship = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(
             ModelCreateMode.RelationshipForm,
@@ -119,7 +127,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleClickAddComponent = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(ModelCreateMode.ComponentForm, 'modelCreate.addComponent');
     };
@@ -137,7 +145,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleListFormAction = (element, setter) => {
-        if (authoringMode === AuthoringMode.Add) {
+        if (formMode === FormMode.New) {
             setter((currentElements) => {
                 return [...currentElements, element];
             });
@@ -152,13 +160,13 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleSelectProperty = (property, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+        setFormMode(FormMode.Edit);
         setElementToEdit({ element: property, index });
         addStep(ModelCreateMode.PropertyForm, 'modelCreate.editProperty');
     };
 
     const handleSelectRelationship = (relationship, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+        setFormMode(FormMode.Edit);
         setElementToEdit({ element: relationship, index });
         addStep(
             ModelCreateMode.RelationshipForm,
@@ -167,7 +175,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleSelectComponent = (component, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+        setFormMode(FormMode.Edit);
         setElementToEdit({ element: component, index });
         addStep(ModelCreateMode.ComponentForm, 'modelCreate.editComponent');
     };
@@ -197,13 +205,22 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
             <I18nProviderWrapper locale={locale} i18n={i18n}>
                 <>
                     <Text variant="large" className="cb-modelcreate-title">
-                        {t('modelCreate.newModel')}
+                        {formMode === FormMode.View
+                            ? t('modelCreate.viewModel')
+                            : formMode === FormMode.Edit
+                            ? t('modelCreate.editModel')
+                            : t('modelCreate.newModel')}
                     </Text>
                     <BaseForm
-                        primaryActionLabel={t('modelCreate.create')}
+                        primaryActionLabel={
+                            formMode === FormMode.Edit
+                                ? t('modelCreate.update')
+                                : t('modelCreate.create')
+                        }
                         cancelLabel={t('modelCreate.cancel')}
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
+                        formControlMode={formMode}
                     >
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
@@ -252,6 +269,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 handleEditElement={handleSelectProperty}
                                 handleNewElement={handleClickAddProperty}
                                 handleDeleteElement={handleDeleteProperty}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.relationships')}>
@@ -263,6 +281,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 handleEditElement={handleSelectRelationship}
                                 handleNewElement={handleClickAddRelationship}
                                 handleDeleteElement={handleDeleteRelationship}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.components')}>
@@ -274,6 +293,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 handleEditElement={handleSelectComponent}
                                 handleNewElement={handleClickAddComponent}
                                 handleDeleteElement={handleDeleteComponent}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                     </BaseForm>

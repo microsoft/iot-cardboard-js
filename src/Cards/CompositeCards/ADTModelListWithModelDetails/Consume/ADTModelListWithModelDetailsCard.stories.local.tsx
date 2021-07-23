@@ -1,0 +1,41 @@
+import React from 'react';
+import useAuthParams from '../../../../../.storybook/useAuthParams';
+import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import MsalAuthService from '../../../../Models/Services/MsalAuthService';
+import ADTModelListWithModelDetailsCard from './ADTModelListWithModelDetailsCard';
+
+export default {
+    title: 'CompositeCards/ADTModelListWithModelDetailsCard/Consume'
+};
+
+const cardStyle = {
+    height: '700px',
+    width: '100%'
+};
+
+export const ADTModelListWithModelDetails = (
+    _args,
+    { globals: { theme, locale } }
+) => {
+    const authenticationParameters = useAuthParams();
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={cardStyle}>
+            <ADTModelListWithModelDetailsCard
+                title={'ADT Model List with Model Edit'}
+                theme={theme}
+                locale={locale}
+                adapter={
+                    new ADTAdapter(
+                        authenticationParameters.adt.hostUrl,
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
+                    )
+                }
+            />
+        </div>
+    );
+};

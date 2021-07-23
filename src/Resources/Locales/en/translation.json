@@ -13,6 +13,7 @@
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
     "noTwins": "No twins",
+    "noModels": "No models",
     "on": "On",
     "off": "Off",
     "wrapText": "Wrap text",
@@ -21,6 +22,7 @@
     "close": "Close",
     "properties": "Properties",
     "blank": "blank",
+    "new": "New",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
@@ -92,6 +94,8 @@
     },
     "modelCreate": {
         "newModel": "New model",
+        "editModel": "Edit model",
+        "viewModel": "View model",
         "summary": "Summary",
         "breadcrumbs": "New model breadcrumbs",
         "breadcrumb": "breadcrumb",

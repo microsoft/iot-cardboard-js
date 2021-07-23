@@ -8,7 +8,7 @@ import { DTDLProperty, DTDLRelationship } from '../../../Models/Classes/DTDL';
 import CreatePropertyForm from './CreatePropertyForm';
 import ElementsList from '../ElementsList';
 import BaseForm from './BaseForm';
-import { AuthoringMode } from '../../../Models/Constants';
+import { FormMode } from '../../../Models/Constants';
 
 export enum CreateRelationshipMode {
     RelationshipForm,
@@ -45,7 +45,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     relationshipToEdit = null
 }) => {
     const [mode, setMode] = useState(CreateRelationshipMode.RelationshipForm);
-    const [authoringMode, setAuthoringMode] = useState(AuthoringMode.Add);
+    const [formMode, setFormMode] = useState(FormMode.New);
 
     const schemaOptions: IDropdownOption[] = [
         { key: 'any', text: t('modelCreate.anyInterface') }
@@ -107,14 +107,14 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     };
 
     const handleClickAddProperty = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setMode(CreateRelationshipMode.PropertyForm);
         setPropertyToEdit(new PropertyToEditInfo());
         pushBreadcrumb('modelCreate.addProperty');
     };
 
     const handlePropertyFormAction = (property: DTDLProperty) => {
-        if (authoringMode === AuthoringMode.Add) {
+        if (formMode === FormMode.New) {
             setProperties((currentProperties) => {
                 return [...currentProperties, property];
             });
@@ -129,7 +129,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     };
 
     const handleSelectProperty = (property: DTDLProperty, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+        setFormMode(FormMode.Edit);
         setMode(CreateRelationshipMode.PropertyForm);
         setPropertyToEdit({ property, index });
         pushBreadcrumb('modelCreate.editProperty');

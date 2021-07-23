@@ -1,0 +1,20 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-adt-model-list {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.cb-hierarchy-child-node {
+    font-weight: unset !important;
+}
+
+.cb-adt-model-list-actions {
+    margin-top: -20px;
+    padding: 0 12px;
+    width: 100%;
+}
+
+.cb-hierarchy-component-list-group {
+    padding-left: 12px !important;
+}

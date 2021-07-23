@@ -15,7 +15,8 @@ export class HierarchyNode implements IHierarchyNode {
     isLoading?: boolean;
 
     public static createNodesFromADTModels = (
-        models: Array<IADTModel>
+        models: Array<IADTModel>,
+        nodeType: HierarchyNodeType = HierarchyNodeType.Parent
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
             ? models
@@ -34,9 +35,11 @@ export class HierarchyNode implements IHierarchyNode {
                           name: c.displayName.en,
                           id: c.id,
                           nodeData: c,
-                          nodeType: HierarchyNodeType.Parent,
-                          children: {},
-                          isCollapsed: true
+                          nodeType,
+                          ...(nodeType === HierarchyNodeType.Parent && {
+                              children: {},
+                              isCollapsed: true
+                          })
                       } as IHierarchyNode;
                       return p;
                   }, {})
