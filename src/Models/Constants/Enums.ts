@@ -56,5 +56,5 @@ export enum TwinLookupStatus {
 export enum FormMode {
     New,
     Edit,
-    View
+    Readonly
 }

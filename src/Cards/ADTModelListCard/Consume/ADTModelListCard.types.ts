@@ -8,6 +8,7 @@ export interface ADTModelListCardProps extends IStandaloneConsumeCardProps {
     adapter: IADTAdapter;
     onModelClick?: (node: IHierarchyNode) => void;
     onNewModelClick?: () => void;
+    selectedModelId?: string;
 }
 
 export interface ADTModelListCardConsumeState {

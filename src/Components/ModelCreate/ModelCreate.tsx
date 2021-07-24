@@ -205,8 +205,8 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
             <I18nProviderWrapper locale={locale} i18n={i18n}>
                 <>
                     <Text variant="large" className="cb-modelcreate-title">
-                        {formMode === FormMode.View
-                            ? t('modelCreate.viewModel')
+                        {formMode === FormMode.Readonly
+                            ? t('modelCreate.modelDetails')
                             : formMode === FormMode.Edit
                             ? t('modelCreate.editModel')
                             : t('modelCreate.newModel')}
@@ -233,6 +233,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                     setModelId(e.currentTarget.value)
                                 }
                                 required
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.displayName')}
@@ -240,6 +241,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 onChange={(e) =>
                                     setDisplayName(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.description')}
@@ -249,6 +251,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 onChange={(e) =>
                                     setDescription(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.comment')}
@@ -258,6 +261,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                                 onChange={(e) =>
                                     setComment(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.properties')}>

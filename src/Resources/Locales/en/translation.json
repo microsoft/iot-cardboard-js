@@ -23,6 +23,8 @@
     "properties": "Properties",
     "blank": "blank",
     "new": "New",
+    "view": "View",
+    "download": "Download",
     "create": {
         "createLinechart": "Line chart card creator",
         "titleInputLabel": "Title",
@@ -95,7 +97,7 @@
     "modelCreate": {
         "newModel": "New model",
         "editModel": "Edit model",
-        "viewModel": "View model",
+        "modelDetails": "Model details",
         "summary": "Summary",
         "breadcrumbs": "New model breadcrumbs",
         "breadcrumb": "breadcrumb",

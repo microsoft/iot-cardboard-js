@@ -24,7 +24,6 @@ export const ADTModelListWithModelDetails = (
     ) : (
         <div style={cardStyle}>
             <ADTModelListWithModelDetailsCard
-                title={'ADT Model List with Model Edit'}
                 theme={theme}
                 locale={locale}
                 adapter={

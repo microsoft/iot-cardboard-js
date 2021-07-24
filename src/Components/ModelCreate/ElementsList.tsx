@@ -48,7 +48,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
         }
     ];
 
-    if (formControlMode !== FormMode.View) {
+    if (formControlMode !== FormMode.Readonly) {
         listTableColumns.push({
             key: 'action',
             name: t('modelCreate.action'),
@@ -123,7 +123,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
                     }}
                 />
             )}
-            {formControlMode !== FormMode.View && (
+            {formControlMode !== FormMode.Readonly && (
                 <ActionButton iconProps={addIcon} onClick={handleNewElement}>
                     {t(addElementLabelKey)}
                 </ActionButton>

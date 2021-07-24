@@ -26,7 +26,8 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     locale,
     localeStrings,
     onModelClick,
-    onNewModelClick
+    onNewModelClick,
+    selectedModelId
 }) => {
     const { t } = useTranslation();
 
@@ -44,6 +45,29 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     const focusedModelIdRef = useRef(null);
 
     const addIcon: IIconProps = { iconName: 'Add' };
+
+    useEffect(() => {
+        focusedModelIdRef.current = selectedModelId;
+        if (selectedModelId) {
+            modelState.cancelAdapter(true);
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                payload: {
+                    modelId: selectedModelId,
+                    properties: { isSelected: true }
+                }
+            });
+        } else if (state.selectedModelId) {
+            modelState.cancelAdapter(true);
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
+                payload: {
+                    modelId: state.selectedModelId,
+                    properties: { isSelected: false }
+                }
+            });
+        }
+    }, [selectedModelId]);
 
     useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
@@ -98,7 +122,6 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
 
     const handleModelClick = useCallback(
         (parentNode_: IHierarchyNode, node: IHierarchyNode) => {
-            console.log(`${node.id} clicked!`);
             if (onModelClick) {
                 onModelClick(node);
             }
@@ -116,40 +139,41 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     );
 
     return (
-        <BaseCard
-            title={title}
-            isLoading={
-                modelState.isLoading && modelState.adapterResult.hasNoData()
-            }
-            adapterResult={modelState.adapterResult}
-            hideInfoBox={true}
-            theme={theme}
-            locale={locale}
-            localeStrings={localeStrings}
-        >
-            <div className="cb-adt-model-list-actions">
-                <ActionButton
-                    iconProps={addIcon}
-                    onClick={() => {
-                        console.log('Add new!');
-                        if (onNewModelClick) {
-                            onNewModelClick();
-                        }
-                    }}
-                >
-                    {t('new')}
-                </ActionButton>
-            </div>
-            <div className="cb-adt-model-list">
-                <Hierarchy
-                    data={nodes}
-                    onChildNodeClick={handleModelClick}
-                    searchTermToMark={searchTerm}
-                    isLoading={modelState.isLoading}
-                    noDataText={t('noModels')}
-                ></Hierarchy>
-            </div>
-        </BaseCard>
+        <div className="cb-adt-model-list-wrapper">
+            <BaseCard
+                title={title}
+                isLoading={
+                    modelState.isLoading && modelState.adapterResult.hasNoData()
+                }
+                adapterResult={modelState.adapterResult}
+                hideInfoBox={true}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+            >
+                <div className="cb-adt-model-list-actions">
+                    <ActionButton
+                        iconProps={addIcon}
+                        onClick={() => {
+                            if (onNewModelClick) {
+                                onNewModelClick();
+                            }
+                        }}
+                    >
+                        {t('new')}
+                    </ActionButton>
+                </div>
+                <div className="cb-adt-model-list">
+                    <Hierarchy
+                        data={nodes}
+                        onChildNodeClick={handleModelClick}
+                        searchTermToMark={searchTerm}
+                        isLoading={modelState.isLoading}
+                        noDataText={t('noModels')}
+                    ></Hierarchy>
+                </div>
+            </BaseCard>
+        </div>
     );
 };
 

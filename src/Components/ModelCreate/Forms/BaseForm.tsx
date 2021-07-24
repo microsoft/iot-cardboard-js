@@ -21,7 +21,7 @@ const BaseForm: React.FC<BaseFormProps> = ({
 }) => (
     <div className="cb-form-container">
         <div className="cb-form-main">{children}</div>
-        {formControlMode !== FormMode.View && (
+        {formControlMode !== FormMode.Readonly && (
             <div className="cb-form-footer">
                 <DefaultButton onClick={onCancel}>{cancelLabel}</DefaultButton>
                 <PrimaryButton onClick={onPrimaryAction}>

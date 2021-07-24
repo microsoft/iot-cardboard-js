@@ -1,9 +1,40 @@
-.cb-hbcard-model-list {
-    height: 600px;
-    padding-top: 20px;
-    width: 300px;
-}
+.cb-mbcard-wrapper {
+    width: 100%;
+    height: 100%;
 
-.cb-hbcard-model-edit {
-    padding-top: 20px;
+    .cb-base-composite-card-wrapper {
+        background-color: var(--cb-color-bg-card);
+    }
+
+    .cb-base-composite-card-content {
+        top: 0;
+        padding: 0 20px;
+    }
+
+    .cb-base-composite-card-item:nth-child(1) {
+        flex-grow: 0;
+    }
+
+    .cb-mbcard-list {
+        height: 600px;
+        padding-top: 20px;
+        width: 300px;
+
+        .cb-base-card-content {
+            top: 0;
+        }
+    }
+
+    .cb-mbcard-form {
+        padding-top: 20px;
+
+        .cb-modelcreate-container {
+            padding-top: 12px;
+        }
+    }
+
+    .cb-commandBar {
+        margin-left: -32px;
+        border: 1px solid var(--cb-color-bg-canvas-inset);
+    }
 }
