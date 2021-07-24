@@ -18,7 +18,32 @@ const useAssetsFromBIM = (
         relationships: []
     });
 
-    const extractModels = useCallback(
+    const transformModels = (typesDictionary) => {
+        return Object.keys(typesDictionary).map((modelName) => {
+            return new DTDLModel(
+                createDTDLModelId(modelName),
+                modelName,
+                '',
+                '',
+                [],
+                typesDictionary[modelName].relationships,
+                []
+            );
+        });
+    };
+
+    const transformTwins = (twinsDictionary) => {
+        return Object.keys(twinsDictionary).map((twinId) => {
+            return {
+                $dtId: twinId,
+                $metadata: {
+                    $model: twinsDictionary[twinId].model
+                }
+            };
+        });
+    };
+
+    const extractAssets = useCallback(
         (root) => {
             const typesDictionary = {};
             typesDictionary['BIMContainer'] = {
@@ -29,10 +54,11 @@ const useAssetsFromBIM = (
                 relationships: []
             };
 
-            // recursive traversal of every asset to extract model information
-            // could be an issue if there are conflicting locations for where models can exist
-            // i.e. window can be on wall, but also door. Will need to be more careful when creating relationships
-            const addModel = (node) => {
+            const twinsDictionary = {};
+            const relationshipsDictionary = {};
+
+            // recursive traversal of every asset to extract model, twin and  information
+            const addAsset = (node) => {
                 if (!typesDictionary[node.type]) {
                     typesDictionary[node.type] = {
                         relationships: [
@@ -46,36 +72,54 @@ const useAssetsFromBIM = (
                         properties: []
                     };
                 }
+                twinsDictionary[node.id] = {
+                    model: createDTDLModelId(node.type)
+                };
                 if (node.children) {
+                    const relationshipsMap = {};
+
                     node.children.forEach((child) => {
-                        addModel(child);
+                        if (!relationshipsMap[child.type]) {
+                            relationshipsMap[child.type] = [];
+                        }
+                        relationshipsMap[child.type].push(child);
+                        addAsset(child);
+                    });
+                    Object.keys(relationshipsMap).forEach((childType) => {
+                        const targetModelId = createDTDLModelId(childType);
+                        const relationshipName = `contains_${childType}`;
+
+                        typesDictionary[node.type].relationships.push({
+                            '@type': 'Relationship',
+                            name: relationshipName,
+                            displayName: relationshipName,
+                            target: targetModelId
+                        });
+
+                        relationshipsMap[childType].forEach(
+                            (child, childIndex) => {
+                                const relationshipId = `${node.type}_contains_${childType}_${childIndex}`;
+                                relationshipsDictionary[relationshipId] = {
+                                    relationshipId: relationshipId,
+                                    sourceId: node.id,
+                                    $targetId: child.id,
+                                    $relationshipName: relationshipName
+                                };
+                            }
+                        );
                     });
                 }
             };
-            addModel(root);
+            addAsset(root);
 
-            return Object.keys(typesDictionary).map((modelName) => {
-                return new DTDLModel(
-                    createDTDLModelId(modelName),
-                    modelName,
-                    '',
-                    '',
-                    [],
-                    typesDictionary[modelName].relationships,
-                    []
-                );
+            setAssetsState({
+                models: transformModels(typesDictionary),
+                twins: transformTwins(twinsDictionary),
+                relationships: Object.values(relationshipsDictionary)
             });
         },
         [bimFilePath, metadataFilePath]
     );
-
-    const extractTwins = (xeokitMetaModel) => {
-        return [];
-    };
-
-    const extractRelationships = (xeokitMetaModel) => {
-        return [];
-    };
 
     useEffect(() => {
         if (bimFilePath && metadataFilePath) {
@@ -103,11 +147,7 @@ const useAssetsFromBIM = (
                         model?.scene?.viewer?.metaScene?.metaModels?.model
                             ?.rootMetaObject;
                     if (xeokitMetaModel) {
-                        setAssetsState({
-                            models: extractModels(xeokitMetaModel),
-                            twins: extractTwins(xeokitMetaModel),
-                            relationships: extractRelationships(xeokitMetaModel)
-                        });
+                        extractAssets(xeokitMetaModel);
                     }
                 }, 1000);
             })();

@@ -1,4 +1,4 @@
-import { FontIcon, Icon } from '@fluentui/react';
+import { FontIcon } from '@fluentui/react';
 import React from 'react';
 import { UploadPhase } from '../../Models/Constants';
 import './UploadProgress.scss';
@@ -68,6 +68,10 @@ export const UploadProgress = ({
                     <>: {getProgressText(twinsStatus.phase)}</>
                 )}
             </h3>
+            {(twinsStatus.phase === UploadPhase.Succeeded ||
+                twinsStatus.phase === UploadPhase.Failed) && (
+                <StatusMessage status={twinsStatus} />
+            )}
             <h3
                 className={`cb-upload-type cb-status-phase-${relationshipsStatus.phase}`}
             >
@@ -77,9 +81,13 @@ export const UploadProgress = ({
                 ></FontIcon>
                 Relationships
                 {relationshipsStatus.phase !== UploadPhase.PreUpload && (
-                    <>{getProgressText(relationshipsStatus.phase)}</>
+                    <>: {getProgressText(relationshipsStatus.phase)}</>
                 )}
             </h3>
+            {(relationshipsStatus.phase === UploadPhase.Succeeded ||
+                relationshipsStatus.phase === UploadPhase.Failed) && (
+                <StatusMessage status={relationshipsStatus} />
+            )}
         </div>
     );
 };

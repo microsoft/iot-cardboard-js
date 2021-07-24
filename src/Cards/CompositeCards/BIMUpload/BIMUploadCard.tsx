@@ -4,6 +4,8 @@ import BIMFileSelection from '../../../Components/BIMFileSelection/BIMFileSelect
 import {
     BIMFileTypes,
     BIMUploadState,
+    DTwin,
+    DTwinRelationship,
     UploadPhase
 } from '../../../Models/Constants';
 import { BIMUploadCardProps } from './BIMUploadCard.types';
@@ -44,10 +46,11 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     const [modelsUploadStatus, setModelsUploadStatus] = useState(
         initializeUploadStatus()
     );
+
     const [twinsUploadStatus, setTwinsUploadStatus] = useState(
         initializeUploadStatus()
     );
-    const [relationshipsUploadStatus, setRelaionshipsUploadStatus] = useState(
+    const [relationshipsUploadStatus, setRelationshipsUploadStatus] = useState(
         initializeUploadStatus()
     );
 
@@ -79,34 +82,104 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
 
     const pushModelsState = useAdapter({
         adapterMethod: (models: Array<DTDLModel>) =>
-            adapter.pushADTModels(models),
+            adapter.createModels(models),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
-    const initiateModelsUpload = () => {
+    //set upload progress state based on adapter result
+    useEffect(() => {
+        if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
+            setModelsUploadStatus({
+                phase: UploadPhase.Failed,
+                message: 'Insert error message here'
+            });
+        } else if (pushModelsState.adapterResult.result) {
+            setModelsUploadStatus({
+                phase: UploadPhase.Succeeded,
+                message: `${
+                    pushModelsState.adapterResult.getData()?.length
+                } models pushed`
+            });
+        }
+    }, [pushModelsState.adapterResult]);
+
+    const pushTwinsState = useAdapter({
+        adapterMethod: (twins: Array<DTwin>) => adapter.createTwins(twins),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    //set upload progress state based on adapter result
+    useEffect(() => {
+        if (pushTwinsState.adapterResult.errorInfo?.errors?.length) {
+            setTwinsUploadStatus({
+                phase: UploadPhase.Failed,
+                message: 'Insert error message here'
+            });
+        } else if (pushTwinsState.adapterResult.result) {
+            setTwinsUploadStatus({
+                phase: UploadPhase.Succeeded,
+                message: `${
+                    pushTwinsState.adapterResult.getData()?.length
+                } twins pushed`
+            });
+        }
+    }, [pushTwinsState.adapterResult]);
+
+    const pushRelationshipsState = useAdapter({
+        adapterMethod: (relationships: Array<DTwinRelationship>) =>
+            adapter.createRelationships(relationships),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    //set upload progress state based on adapter result
+    useEffect(() => {
+        if (pushRelationshipsState.adapterResult.errorInfo?.errors?.length) {
+            setRelationshipsUploadStatus({
+                phase: UploadPhase.Failed,
+                message: 'Insert error message here'
+            });
+        } else if (pushTwinsState.adapterResult.result) {
+            setRelationshipsUploadStatus({
+                phase: UploadPhase.Succeeded,
+                message: `${
+                    pushRelationshipsState.adapterResult.getData()?.length
+                } relationships pushed`
+            });
+        }
+    }, [pushRelationshipsState.adapterResult]);
+
+    const initiateEnvironmentCreation = async () => {
+        await initiateModelsUpload();
+        await initiateTwinsUpload();
+        await initiateRelationshipsUpload();
+    };
+
+    const initiateModelsUpload = async () => {
         setModelsUploadStatus({
             phase: UploadPhase.Uploading,
             message: 'Uploading...'
         });
-        pushModelsState.callAdapter(assetsFromBim.models);
+        return pushModelsState.callAdapter(assetsFromBim.models);
     };
 
-    const initiateTwinsUpload = () => {
+    const initiateTwinsUpload = async () => {
         setTwinsUploadStatus({
             phase: UploadPhase.Uploading,
             message: 'Uploading...'
         });
-        pushTwinsState.callAdapter(
-            assetsFromBim.twins // TODO - transformation
-        );
+        return pushTwinsState.callAdapter(assetsFromBim.twins);
     };
 
-    const pushTwinsState = useAdapter({
-        adapterMethod: (twins: Array<DTDLModel>) => adapter.pushADTTwins(twins),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
+    const initiateRelationshipsUpload = async () => {
+        setRelationshipsUploadStatus({
+            phase: UploadPhase.Uploading,
+            message: 'Uploading...'
+        });
+        return pushRelationshipsState.callAdapter(assetsFromBim.relationships);
+    };
 
     const getSectionHeaderText = () => {
         if (uploadState === BIMUploadState.PreProcessing) {
@@ -120,25 +193,6 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         }
     };
 
-    // on success or failure of pushing models
-    useEffect(() => {
-        if (modelsUploadStatus.phase === UploadPhase.Uploading) {
-            if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
-                setModelsUploadStatus({
-                    phase: UploadPhase.Failed,
-                    message: 'Insert error message here'
-                });
-            } else if (pushModelsState.adapterResult.result) {
-                setModelsUploadStatus({
-                    phase: UploadPhase.Succeeded,
-                    message: '15 models pushed'
-                });
-                setTimeout(() => {
-                    initiateTwinsUpload();
-                }, 1000);
-            }
-        }
-    }, [pushModelsState]);
 
     const getModelsList = useCallback(() => {
         return assetsFromBim?.models?.map((model) => {
@@ -177,7 +231,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                             models={getModelsList()}
                             onSubmit={() => {
                                 setUploadState(BIMUploadState.InUpload);
-                                initiateModelsUpload();
+                                initiateEnvironmentCreation();
                             }}
                         />
                     )}
