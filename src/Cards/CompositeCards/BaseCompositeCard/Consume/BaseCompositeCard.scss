@@ -3,10 +3,10 @@
 .cb-base-composite-card-wrapper {
     @include ms-depth-16;
     height: 100%;
+    padding: 20px;
     position: relative;
     width: 100%;
     z-index: 2;
-    padding: 20px;
 
     .cb-base-composite-card {
         background: var(--cb-color-bg-canvas);
@@ -20,28 +20,29 @@
     }
 
     .cb-base-composite-card-title {
-        text-align: left;
         border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
         font-size: 14px;
         font-weight: 600;
         height: 40px;
+        line-height: 40px;
         margin: 0;
         padding: 0 16px;
+        text-align: left;
         width: 100%;
-        line-height: 40px;
     }
+
     .cb-base-composite-card-content {
-        width: 100%;
         flex-grow: 1;
         overflow: auto;
         position: relative;
+        width: 100%;
     }
 
     .cb-base-composite-card-items {
         display: flex;
         height: 100%;
-        width: 100%;
         padding: 20px;
+        width: 100%;
     }
 
     .cb-base-composite-card-item {

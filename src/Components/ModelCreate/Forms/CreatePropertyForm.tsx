@@ -127,7 +127,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         if (['object', 'map', 'enum'].includes(option.key as string)) {
             setSchema(null);
         } else {
-            setSchema(option.key as string);
+            setSchema(option.key as DTDLSchema);
         }
     };
 

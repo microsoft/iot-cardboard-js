@@ -32,10 +32,10 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
         const newEnumValue = new DTDLEnumValue(
             id,
             name,
+            enumValue,
             displayName,
             description,
-            comment,
-            enumValue
+            comment
         );
         onCreateEnumValue(newEnumValue);
     };

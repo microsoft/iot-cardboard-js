@@ -95,7 +95,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 {selectedModel !== undefined && (
                     <div className="cb-mbcard-form">
                         <CommandBar
-                            className={'cb-commandBar'}
+                            className={'cb-commandbar'}
                             items={commandItems}
                             ariaLabel="Use left and right arrow keys to navigate between commands"
                         />
