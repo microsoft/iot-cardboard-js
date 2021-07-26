@@ -39,5 +39,6 @@ export default {
             ]
         }),
         json()
-    ]
+    ],
+    inlineDynamicImports: true
 };

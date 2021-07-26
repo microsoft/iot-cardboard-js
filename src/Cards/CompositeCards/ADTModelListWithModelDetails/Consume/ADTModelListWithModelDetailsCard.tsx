@@ -5,19 +5,18 @@ import { ADTModelListWithModelDetailsCardProps } from './ADTModelListWithModelDe
 import ADTModelListCard from '../../../ADTModelListCard/Consume/ADTModelListCard';
 import ModelCreate from '../../../../Components/ModelCreate/ModelCreate';
 import { DTDLModel } from '../../../../Models/Classes/DTDL';
-import './ADTModelListWithModelDetailsCard.scss';
-import { FormMode } from '../../../../Models/Constants';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JsonPreview from '../../../../Components/JsonPreview/JsonPreview';
 import { downloadText } from '../../../../Models/Services/Utils';
+import { FormMode } from '../../../../Models/Constants/Enums';
+import './ADTModelListWithModelDetailsCard.scss';
 
 const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCardProps> = ({
     adapter,
     theme,
     locale,
-    localeStrings,
-    adapterAdditionalParameters
+    localeStrings
 }) => {
     const { t } = useTranslation();
     const [selectedModel, setSelectedModel] = useState(undefined);
@@ -80,7 +79,6 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                adapterAdditionalParameters={adapterAdditionalParameters}
             >
                 <div className="cb-mbcard-list">
                     <ADTModelListCard
