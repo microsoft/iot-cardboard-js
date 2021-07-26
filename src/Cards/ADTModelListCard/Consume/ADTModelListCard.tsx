@@ -121,7 +121,7 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     }, [modelState.adapterResult.result]);
 
     const handleModelClick = useCallback(
-        (parentNode_: IHierarchyNode, node: IHierarchyNode) => {
+        (_parentNode: IHierarchyNode, node: IHierarchyNode) => {
             if (onModelClick) {
                 onModelClick(node);
             }

@@ -23,6 +23,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const selectedModelRef = useRef(selectedModel);
+    const modelCreateComponentRef = useRef();
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
         setSelectedModel(DTDLModel.fromObject(modelNode.nodeData.model));
@@ -34,7 +35,12 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
 
     const onDowloadClick = () => {
         downloadText(
-            JSON.stringify(selectedModelRef.current, null, 2),
+            JSON.stringify(
+                selectedModelRef.current ||
+                    (modelCreateComponentRef.current as any)?.getModel(),
+                null,
+                2
+            ),
             `${selectedModelRef.current?.displayName}.json`
         );
     };
@@ -103,13 +109,17 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             formControlMode={
                                 selectedModel ? FormMode.Readonly : FormMode.New
                             }
+                            ref={modelCreateComponentRef}
                         />
                     </div>
                 )}
             </BaseCompositeCard>
 
             <JsonPreview
-                json={selectedModel}
+                json={
+                    selectedModel ||
+                    (modelCreateComponentRef.current as any)?.getModel()
+                }
                 isOpen={isModelPreviewOpen}
                 onDismiss={() => setIsModelPreviewOpen(false)}
                 modalTitle={selectedModel?.displayName}

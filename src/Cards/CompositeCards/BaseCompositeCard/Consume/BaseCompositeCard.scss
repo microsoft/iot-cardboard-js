@@ -6,48 +6,42 @@
     position: relative;
     width: 100%;
     z-index: 2;
+    padding: 20px;
 
-    .cb-case-composite-card {
-        align-items: center;
+    .cb-base-composite-card {
         background: var(--cb-color-bg-canvas);
         border: 1px solid var(--cb-color-card-border);
         border-radius: 4px;
         color: var(--cb-color-text-primary);
         display: flex;
+        flex-direction: column;
         height: 100%;
-        justify-content: center;
         width: 100%;
     }
 
     .cb-base-composite-card-title {
-        align-items: center;
+        text-align: left;
         border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
-        display: flex;
         font-size: 14px;
         font-weight: 600;
         height: 40px;
         margin: 0;
         padding: 0 16px;
-        position: absolute;
-        top: 0;
         width: 100%;
+        line-height: 40px;
     }
     .cb-base-composite-card-content {
-        align-items: center;
-        display: flex;
-        height: calc(100% - 40px);
-        justify-content: center;
+        width: 100%;
+        flex-grow: 1;
         overflow: auto;
-        padding: 20px;
-        position: absolute;
-        top: 40px;
-        width: calc(100%);
+        position: relative;
     }
 
     .cb-base-composite-card-items {
         display: flex;
         height: 100%;
         width: 100%;
+        padding: 20px;
     }
 
     .cb-base-composite-card-item {

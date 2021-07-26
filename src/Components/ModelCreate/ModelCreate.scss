@@ -4,6 +4,13 @@
     margin-bottom: 16px;
 }
 
+.cb-modelcreate-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
 .cb-modelcreate-title {
     display: block;
     font-weight: bold;
@@ -14,7 +21,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    margin-top: 10px;
+    overflow: auto;
 }
 
 .cb-form-breadcrumbs {
@@ -25,12 +32,14 @@
 
 .cb-form-main {
     flex-grow: 1;
+    overflow: auto;
 }
 
 .cb-form-footer {
     display: flex;
     height: 50px;
     justify-content: flex-end;
+    margin: 20px 0 0;
 }
 
 .cb-form-footer > button {

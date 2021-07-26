@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
@@ -49,14 +49,16 @@ class ElementToEditInfo {
     }
 }
 
-const ModelCreate: React.FC<ModelCreateProps> = ({
-    locale,
-    existingModelIds,
-    modelToEdit = null,
-    onPrimaryAction,
-    onCancel,
-    formControlMode
-}) => {
+function ModelCreate(props: ModelCreateProps, ref) {
+    const {
+        locale,
+        existingModelIds,
+        modelToEdit = null,
+        onPrimaryAction,
+        onCancel,
+        formControlMode
+    } = props;
+
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(ModelCreateMode.ModelForm);
@@ -82,6 +84,20 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     const [components, setComponents] = useState(initialModel.components);
     const [elementToEdit, setElementToEdit] = useState(new ElementToEditInfo());
     // Currently extends and schemas are not supported.
+
+    useImperativeHandle(ref, () => ({
+        getModel: () => {
+            return new DTDLModel(
+                modelId,
+                displayName,
+                description,
+                comment,
+                properties,
+                relationships,
+                components
+            );
+        }
+    }));
 
     const handleCreateModel = () => {
         const model = new DTDLModel(
@@ -385,6 +401,6 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
             </I18nProviderWrapper>
         </div>
     );
-};
+}
 
-export default ModelCreate;
+export default forwardRef(ModelCreate);
