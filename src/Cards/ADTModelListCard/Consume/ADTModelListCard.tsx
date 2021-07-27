@@ -30,7 +30,6 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     selectedModelId
 }) => {
     const { t } = useTranslation();
-
     const modelState = useAdapter({
         adapterMethod: () =>
             adapter.getADTModels({ shouldIncludeDefinitions: true }),

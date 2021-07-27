@@ -1,16 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IHierarchyNode } from '../../../../Models/Constants/Interfaces';
+import {
+    DTModel,
+    IHierarchyNode
+} from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 import { ADTModelListWithModelDetailsCardProps } from './ADTModelListWithModelDetailsCard.types';
 import ADTModelListCard from '../../../ADTModelListCard/Consume/ADTModelListCard';
 import ModelCreate from '../../../../Components/ModelCreate/ModelCreate';
 import { DTDLModel } from '../../../../Models/Classes/DTDL';
-import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import {
+    CommandBar,
+    DefaultButton,
+    Dialog,
+    DialogFooter,
+    DialogType,
+    ICommandBarItemProps,
+    PrimaryButton
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JsonPreview from '../../../../Components/JsonPreview/JsonPreview';
 import { downloadText } from '../../../../Models/Services/Utils';
 import { FormMode } from '../../../../Models/Constants/Enums';
 import './ADTModelListWithModelDetailsCard.scss';
+import {
+    AdapterResult,
+    ADTAdapterModelsData
+} from '../../../../Models/Classes';
 
 const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCardProps> = ({
     adapter,
@@ -21,6 +36,9 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     const { t } = useTranslation();
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
+    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
+        false
+    );
     const selectedModelRef = useRef(selectedModel);
     const modelCreateComponentRef = useRef();
 
@@ -30,6 +48,17 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
 
     const handleNewModelClick = () => {
         setSelectedModel(null);
+    };
+
+    const handleCreateModelClick = async (model: DTDLModel) => {
+        model.removeEmptyProperties();
+        const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
+            [model as DTModel]
+        );
+        const resolvedModel = resolvedModels.getData()?.[0];
+        if (resolvedModel) {
+            setSelectedModel(model);
+        }
     };
 
     const onDowloadClick = () => {
@@ -49,7 +78,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     }, [selectedModel]);
 
     const commandItems: ICommandBarItemProps[] = React.useMemo(() => {
-        return [
+        const actions = [
             {
                 key: 'newItem',
                 text: `${t('view')} DTDL`,
@@ -65,13 +94,40 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 onClick: onDowloadClick
             }
         ];
-    }, []);
+        if (selectedModelRef.current) {
+            actions.push({
+                key: 'deleteItem',
+                text: t('delete'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => {
+                    setIsConfirmDeleteDialogOpen(true);
+                }
+            });
+        }
+        return actions;
+    }, [selectedModelRef.current]);
 
     const mockExistingModels = [
         'dtmi;com:example:www:door1;1',
         'dtmi;com:example:www:roof1;1',
         'dtmi;com:example:www:room1;1'
     ];
+
+    const confirmDeletionDialogProps = {
+        type: DialogType.normal,
+        title: t('confirmDeletion'),
+        closeButtonAriaLabel: t('close'),
+        subText: t('confirmDeletionDesc')
+    };
+
+    const confirmDeletionDialogStyles = { main: { maxWidth: 450 } };
+    const confirmDeletionModalProps = React.useMemo(
+        () => ({
+            isBlocking: false,
+            styles: confirmDeletionDialogStyles
+        }),
+        []
+    );
 
     return (
         <div className="cb-mbcard-wrapper">
@@ -103,7 +159,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             modelToEdit={selectedModel}
                             existingModelIds={mockExistingModels}
                             onCancel={() => console.log('Cancelling')}
-                            onPrimaryAction={(model) => console.log(model)}
+                            onPrimaryAction={handleCreateModelClick}
                             formControlMode={
                                 selectedModel ? FormMode.Readonly : FormMode.New
                             }
@@ -122,6 +178,30 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 onDismiss={() => setIsModelPreviewOpen(false)}
                 modalTitle={selectedModel?.displayName}
             />
+
+            <Dialog
+                hidden={!isConfirmDeleteDialogOpen}
+                onDismiss={() => setIsConfirmDeleteDialogOpen(false)}
+                dialogContentProps={confirmDeletionDialogProps}
+                modalProps={confirmDeletionModalProps}
+            >
+                <DialogFooter>
+                    <PrimaryButton
+                        onClick={() => {
+                            adapter.deleteADTModel(
+                                selectedModelRef.current?.['@id']
+                            );
+                            setIsConfirmDeleteDialogOpen(false);
+                            setSelectedModel(undefined);
+                        }}
+                        text={t('delete')}
+                    />
+                    <DefaultButton
+                        onClick={() => setIsConfirmDeleteDialogOpen(false)}
+                        text={t('cancel')}
+                    />
+                </DialogFooter>
+            </Dialog>
         </div>
     );
 };

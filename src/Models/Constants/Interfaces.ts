@@ -321,6 +321,8 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+    createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
+    deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

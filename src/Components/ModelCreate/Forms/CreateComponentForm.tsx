@@ -47,27 +47,25 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     return (
         <BaseForm
             primaryActionLabel={
-                componentToEdit === null
-                    ? t('modelCreate.add')
-                    : t('modelCreate.update')
+                componentToEdit === null ? t('add') : t('update')
             }
-            cancelLabel={t('modelCreate.cancel')}
+            cancelLabel={t('cancel')}
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
         >
             <TextField
                 label={t('modelCreate.componentId')}
-                prefix="dtmi;"
-                suffix=";1"
-                placeholder="com:example:component1"
+                // prefix="dtmi;"
+                // suffix=";1"
+                placeholder="dtmi:com:example:component1;1"
                 value={id}
                 onChange={(e) => setId(e.currentTarget.value)}
-                required
             />
             <TextField
-                label={t('modelCreate.name')}
+                label={t('name')}
                 value={name}
                 onChange={(e) => setName(e.currentTarget.value)}
+                required
             />
             <TextField
                 label={t('modelCreate.displayName')}
@@ -82,6 +80,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                     return { key: e, text: e };
                 })}
                 onChange={(_e, item) => setSchema(item.key as string)}
+                required
             />
             <TextField
                 label={t('modelCreate.comment')}

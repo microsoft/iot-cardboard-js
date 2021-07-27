@@ -12,7 +12,7 @@ export class ADTAdapterModelsData implements IAdapterData {
         return (
             this.data === undefined ||
             this.data === null ||
-            this.data.value.length === 0
+            this.data.value?.length === 0
         );
     }
 }

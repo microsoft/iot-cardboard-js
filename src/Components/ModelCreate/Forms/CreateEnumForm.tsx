@@ -96,19 +96,17 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
             {mode === CreateEnumMode.EnumForm && (
                 <BaseForm
                     primaryActionLabel={
-                        enumToEdit === null
-                            ? t('modelCreate.add')
-                            : t('modelCreate.update')
+                        enumToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('modelCreate.cancel')}
+                    cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
                 >
                     <TextField
                         label={t('modelCreate.enumId')}
-                        prefix="dtmi;"
-                        suffix=";1"
-                        placeholder="com:example:enum1"
+                        // prefix="dtmi;"
+                        // suffix=";1"
+                        placeholder="dtmi:com:example:enum1;1"
                         value={id}
                         onChange={(e) => setId(e.currentTarget.value)}
                     />

@@ -41,7 +41,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
     const listTableColumns = [
         {
             key: 'name',
-            name: t('modelCreate.name'),
+            name: t('name'),
             fieldName: 'name',
             minWidth: 100,
             maxWidth: 300
@@ -51,7 +51,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
     if (formControlMode !== FormMode.Readonly) {
         listTableColumns.push({
             key: 'action',
-            name: t('modelCreate.action'),
+            name: t('action'),
             fieldName: 'action',
             minWidth: 50,
             maxWidth: 50
@@ -87,8 +87,8 @@ const ElementsList: React.FC<ElementsListProps> = ({
                 return (
                     <IconButton
                         iconProps={deleteIcon}
-                        title={t('modelCreate.delete')}
-                        ariaLabel={t('modelCreate.delete')}
+                        title={t('delete')}
+                        ariaLabel={t('delete')}
                         onClick={(event) => {
                             event.stopPropagation();
                             handleDeleteElement(index);

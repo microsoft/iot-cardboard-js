@@ -21,7 +21,7 @@ export class HierarchyNode implements IHierarchyNode {
         return models
             ? models
                   .sort((a, b) =>
-                      a.displayName.en.localeCompare(
+                      a.displayName?.en?.localeCompare(
                           b.displayName.en,
                           undefined,
                           {
@@ -32,7 +32,7 @@ export class HierarchyNode implements IHierarchyNode {
                   )
                   .reduce((p, c: IADTModel) => {
                       p[c.id] = {
-                          name: c.displayName.en,
+                          name: c.displayName?.en || c.id,
                           id: c.id,
                           nodeData: c,
                           nodeType,

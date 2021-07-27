@@ -42,22 +42,22 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
 
     return (
         <BaseForm
-            primaryActionLabel={t('modelCreate.add')}
-            cancelLabel={t('modelCreate.cancel')}
+            primaryActionLabel={t('add')}
+            cancelLabel={t('cancel')}
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
         >
             <TextField
                 label={t('modelCreate.propertyId')}
-                prefix="dtmi;"
-                suffix=";1"
+                // prefix="dtmi;"
+                // suffix=";1"
                 value={id}
-                placeholder="com:example:property1"
+                placeholder="dtmi:com:example:property1;1"
                 onChange={(e) => setId(e.currentTarget.value)}
                 required
             />
             <TextField
-                label={t('modelCreate.name')}
+                label={t('name')}
                 value={name}
                 onChange={(e) => setName(e.currentTarget.value)}
             />

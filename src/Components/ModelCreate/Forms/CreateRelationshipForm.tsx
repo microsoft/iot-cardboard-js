@@ -153,25 +153,22 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
             {mode === CreateRelationshipMode.RelationshipForm && (
                 <BaseForm
                     primaryActionLabel={
-                        relationshipToEdit === null
-                            ? t('modelCreate.add')
-                            : t('modelCreate.update')
+                        relationshipToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('modelCreate.cancel')}
+                    cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
                 >
                     <TextField
                         label={t('modelCreate.relationshipId')}
-                        prefix="dtmi;"
-                        suffix=";1"
+                        // prefix="dtmi;"
+                        // suffix=";1"
                         value={id}
-                        placeholder="com:example:relationship1"
+                        placeholder="dtmi:com:example:relationship1;1"
                         onChange={(e) => setId(e.currentTarget.value)}
-                        required
                     />
                     <TextField
-                        label={t('modelCreate.name')}
+                        label={t('name')}
                         value={name}
                         onChange={(e) => setName(e.currentTarget.value)}
                         required
@@ -196,6 +193,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         onChange={(e) => setComment(e.currentTarget.value)}
                     />
                     <SpinButton
+                        styles={{ root: { padding: '20px 0 8px' } }}
                         label={t('modelCreate.maxMultiplicity')}
                         min={0}
                         step={1}

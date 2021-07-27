@@ -230,10 +230,10 @@ function ModelCreate(props: ModelCreateProps, ref) {
                     <BaseForm
                         primaryActionLabel={
                             formMode === FormMode.Edit
-                                ? t('modelCreate.update')
-                                : t('modelCreate.create')
+                                ? t('update')
+                                : t('create')
                         }
-                        cancelLabel={t('modelCreate.cancel')}
+                        cancelLabel={t('cancel')}
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
                         formControlMode={formMode}
@@ -241,9 +241,9 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
                                 label={t('modelCreate.modelId')}
-                                prefix="dtmi;"
-                                suffix=";1"
-                                placeholder="com:example:model1"
+                                // prefix="dtmi:" TODO: check if we need that
+                                // suffix=";1"
+                                placeholder="dtmi:com:example:model1;1"
                                 value={modelId}
                                 onChange={(e) =>
                                     setModelId(e.currentTarget.value)
@@ -338,7 +338,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             display: 'flex'
                         }
                     }}
-                    closeButtonAriaLabel={t('modelCreate.cancel')}
+                    closeButtonAriaLabel={t('cancel')}
                 >
                     <div className="cb-form-breadcrumbs">
                         <Breadcrumb

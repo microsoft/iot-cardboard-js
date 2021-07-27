@@ -35,13 +35,14 @@ export enum DTDLSchemaType {
 }
 
 export class DTDLModel {
+    //TODO: add validations
     readonly ['@type']: string;
     readonly ['@context']: string;
     ['@id']: string;
-    displayName: string;
-    description: string;
-    comment: string;
-    contents: any[];
+    displayName?: string;
+    description?: string;
+    comment?: string;
+    contents?: any[];
 
     constructor(
         id: string,
@@ -93,6 +94,25 @@ export class DTDLModel {
 
     get components() {
         return this.contents.filter((c) => c.type === DTDLType.Component);
+    }
+
+    removeEmptyProperties() {
+        Object.keys(this).map((k) => {
+            if (this[k] === '' || this[k] === null || this[k] === undefined) {
+                delete this[k];
+            }
+            this.contents?.map((c) => {
+                Object.keys(c).map((cProp) => {
+                    if (
+                        c[cProp] === '' ||
+                        c[cProp] === null ||
+                        c[cProp] === undefined
+                    ) {
+                        delete c[cProp];
+                    }
+                });
+            });
+        });
     }
 }
 
@@ -224,12 +244,12 @@ export class DTDLRelationship {
 
 export class DTDLComponent {
     readonly ['@type']: string;
-    ['@id']: string;
+    ['@id']?: string;
     name: string;
     schema: string;
-    comment: string;
-    description: string;
-    displayName: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
 
     constructor(
         id: string,
