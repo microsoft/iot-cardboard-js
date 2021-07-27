@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useReducer,
+    useRef
+} from 'react';
 import './ADTModelListCard.scss';
 import { ADTModelListCardProps } from './ADTModelListCard.types';
 import BaseCard from '../../Base/Consume/BaseCard';
@@ -16,19 +23,24 @@ import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES
 } from '../../../Models/Constants/ActionTypes';
-import { IHierarchyNode } from '../../../Models/Constants/Interfaces';
-import { ActionButton, IIconProps } from '@fluentui/react';
+import {
+    IADTModel,
+    IHierarchyNode
+} from '../../../Models/Constants/Interfaces';
+import { ActionButton } from '@fluentui/react';
 
-const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
-    adapter,
-    title,
-    theme,
-    locale,
-    localeStrings,
-    onModelClick,
-    onNewModelClick,
-    selectedModelId
-}) => {
+function ADTModelListCard(props: ADTModelListCardProps, ref) {
+    const {
+        adapter,
+        title,
+        theme,
+        locale,
+        localeStrings,
+        onModelClick,
+        onNewModelClick,
+        selectedModelId
+    } = props;
+
     const { t } = useTranslation();
     const modelState = useAdapter({
         adapterMethod: () =>
@@ -43,7 +55,29 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
     const { nodes, searchTerm } = state;
     const focusedModelIdRef = useRef(null);
 
-    const addIcon: IIconProps = { iconName: 'Add' };
+    useImperativeHandle(ref, () => ({
+        addNewModel: (model: IADTModel) => {
+            const newModelNode = HierarchyNode.createNodesFromADTModels(
+                [model],
+                HierarchyNodeType.Child
+            );
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODES,
+                payload: {
+                    ...newModelNode,
+                    ...nodes
+                }
+            });
+        },
+        deleteModel: (id: string) => {
+            const currentNodes = { ...nodes };
+            delete currentNodes[id];
+            dispatch({
+                type: SET_ADT_HIERARCHY_NODES,
+                payload: currentNodes
+            });
+        }
+    }));
 
     useEffect(() => {
         focusedModelIdRef.current = selectedModelId;
@@ -152,7 +186,7 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
             >
                 <div className="cb-adt-model-list-actions">
                     <ActionButton
-                        iconProps={addIcon}
+                        iconProps={{ iconName: 'Add' }}
                         onClick={() => {
                             if (onNewModelClick) {
                                 onNewModelClick();
@@ -174,6 +208,6 @@ const ADTModelListCard: React.FC<ADTModelListCardProps> = ({
             </BaseCard>
         </div>
     );
-};
+}
 
-export default ADTModelListCard;
+export default forwardRef(ADTModelListCard);

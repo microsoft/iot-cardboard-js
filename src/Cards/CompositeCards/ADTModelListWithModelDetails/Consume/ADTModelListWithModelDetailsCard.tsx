@@ -40,6 +40,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         false
     );
     const selectedModelRef = useRef(selectedModel);
+    const modelListComponentRef = useRef();
     const modelCreateComponentRef = useRef();
 
     const handleModelClick = (modelNode: IHierarchyNode) => {
@@ -57,6 +58,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         );
         const resolvedModel = resolvedModels.getData()?.[0];
         if (resolvedModel) {
+            (modelListComponentRef.current as any)?.addNewModel(resolvedModel);
             setSelectedModel(model);
         }
     };
@@ -144,6 +146,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                         onModelClick={handleModelClick}
                         onNewModelClick={handleNewModelClick}
                         selectedModelId={selectedModel?.['@id']}
+                        ref={modelListComponentRef}
                     />
                 </div>
                 {selectedModel !== undefined && (
@@ -158,7 +161,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             locale={locale}
                             modelToEdit={selectedModel}
                             existingModelIds={mockExistingModels}
-                            onCancel={() => console.log('Cancelling')}
+                            onCancel={() => setSelectedModel(undefined)}
                             onPrimaryAction={handleCreateModelClick}
                             formControlMode={
                                 selectedModel ? FormMode.Readonly : FormMode.New
@@ -189,10 +192,13 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                     <PrimaryButton
                         onClick={() => {
                             adapter.deleteADTModel(
-                                selectedModelRef.current?.['@id']
+                                selectedModelRef.current['@id']
                             );
                             setIsConfirmDeleteDialogOpen(false);
                             setSelectedModel(undefined);
+                            (modelListComponentRef.current as any)?.deleteModel(
+                                selectedModelRef.current['@id']
+                            );
                         }}
                         text={t('delete')}
                     />
