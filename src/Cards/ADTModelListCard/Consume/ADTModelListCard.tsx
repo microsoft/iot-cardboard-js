@@ -80,6 +80,15 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
     }));
 
     useEffect(() => {
+        // resetting state with adapter change
+        focusedModelIdRef.current = null;
+        dispatch({
+            type: SET_ADT_HIERARCHY_NODES,
+            payload: {}
+        });
+    }, [adapter]);
+
+    useEffect(() => {
         focusedModelIdRef.current = selectedModelId;
         if (selectedModelId) {
             modelState.cancelAdapter(true);
@@ -91,7 +100,6 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 }
             });
         } else if (state.selectedModelId) {
-            modelState.cancelAdapter(true);
             dispatch({
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                 payload: {

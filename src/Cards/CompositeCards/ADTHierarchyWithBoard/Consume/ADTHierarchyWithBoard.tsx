@@ -88,6 +88,12 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         lookupTwinIdRef.current = lookupTwinId;
     }, [lookupTwinId]);
 
+    useEffect(() => {
+        // resetting state with adapter change
+        setSelectedTwin(null);
+        setErrorMessage(null);
+    }, [adapter]);
+
     return (
         <div className="cb-hbcard-container">
             <div className="cb-hbcard-hierarchy">

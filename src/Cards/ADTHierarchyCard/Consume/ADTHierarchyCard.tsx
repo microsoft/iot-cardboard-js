@@ -166,6 +166,20 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, []);
 
     useEffect(() => {
+        // resetting state with adapter change
+        focusedModelIdRef.current = null;
+        focusedTwinRef.current = null;
+        dispatch({
+            type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
+            payload: null
+        });
+        dispatch({
+            type: SET_ADT_HIERARCHY_NODES,
+            payload: {}
+        });
+    }, [adapter]);
+
+    useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value

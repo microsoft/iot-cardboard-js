@@ -83,6 +83,13 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         selectedModelRef.current = selectedModel;
     }, [selectedModel]);
 
+    useEffect(() => {
+        // resetting state with adapter change
+        setIsConfirmDeleteDialogOpen(false);
+        setIsModelPreviewOpen(false);
+        setSelectedModel(undefined);
+    }, [adapter]);
+
     const commandItems: ICommandBarItemProps[] = React.useMemo(() => {
         const actions = [
             {
