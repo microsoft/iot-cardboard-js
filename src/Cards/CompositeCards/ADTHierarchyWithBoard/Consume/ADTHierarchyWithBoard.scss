@@ -7,11 +7,13 @@
 
     .cb-hbcard-hierarchy {
         width: 260px;
+        height: 100%;
     }
 
     .cb-hbcard-board {
         flex-grow: 1;
         margin-left: 12px;
+        overflow: auto;
     }
 
     .cb-board {

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
     DTModel,
+    IADTModel,
     IHierarchyNode
 } from '../../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
@@ -56,9 +57,12 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
             [model as DTModel]
         );
-        const resolvedModel = resolvedModels.getData()?.[0];
+        const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
         if (resolvedModel) {
-            (modelListComponentRef.current as any)?.addNewModel(resolvedModel);
+            (modelListComponentRef.current as any)?.addNewModel({
+                ...resolvedModel,
+                model: model as DTModel
+            });
             setSelectedModel(model);
         }
     };

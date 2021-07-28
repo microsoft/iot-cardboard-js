@@ -24,7 +24,11 @@ export const ADTModelListCardConsumeReducer = produce(
             case SET_ADT_HIERARCHY_NODE_PROPERTIES:
                 if (payload.modelId && draft.nodes[payload.modelId]) {
                     Object.keys(payload.properties).forEach((propKey) => {
-                        if (propKey === 'isSelected' && draft.selectedModelId) {
+                        if (
+                            propKey === 'isSelected' &&
+                            draft.selectedModelId &&
+                            draft.nodes[draft.selectedModelId]
+                        ) {
                             draft.nodes[
                                 draft.selectedModelId
                             ].isSelected = false;

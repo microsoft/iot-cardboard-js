@@ -73,13 +73,13 @@ export class DTDLModel {
             obj.description,
             obj.comment,
             obj.contents
-                .filter((p) => p['@type'] === DTDLType.Property)
+                ?.filter((p) => p['@type'] === DTDLType.Property)
                 .map((p: any) => DTDLProperty.fromObject(p)), //TODO fix interfaces
             obj.contents
-                .filter((r) => r['@type'] === DTDLType.Relationship)
+                ?.filter((r) => r['@type'] === DTDLType.Relationship)
                 .map((r: any) => DTDLRelationship.fromObject(r)),
             obj.contents
-                .filter((c) => c['@type'] === DTDLType.Component)
+                ?.filter((c) => c['@type'] === DTDLType.Component)
                 .map((c: any) => DTDLComponent.fromObject(c))
         );
     }
@@ -235,7 +235,7 @@ export class DTDLRelationship {
             obj.description,
             obj.comment,
             obj.writeable,
-            obj.properties.map((p) => DTDLProperty.fromObject(p)),
+            obj.properties?.map((p) => DTDLProperty.fromObject(p)),
             obj.target,
             obj.maxMultiplicity
         );

@@ -2,6 +2,7 @@
 
 .cb-mbcard-wrapper {
     height: 100%;
+    min-height: 0;
     width: 100%;
 
     .cb-base-composite-card {
@@ -14,9 +15,10 @@
 
     .cb-mbcard-list {
         height: 100%;
-        width: 300px;
+        width: 260px;
 
         .cb-base-card-content {
+            height: 100%;
             top: 0;
         }
 

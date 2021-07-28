@@ -1,16 +1,13 @@
 @import '../../../../Resources/Styles/BaseStyles';
 
 .cb-base-composite-card-wrapper {
-    @include ms-depth-16;
     height: 100%;
-    padding: 20px;
     position: relative;
     width: 100%;
     z-index: 2;
 
     .cb-base-composite-card {
         background: var(--cb-color-bg-canvas);
-        border: 1px solid var(--cb-color-card-border);
         border-radius: 4px;
         color: var(--cb-color-text-primary);
         display: flex;
@@ -20,13 +17,11 @@
     }
 
     .cb-base-composite-card-title {
-        border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
         height: 40px;
         line-height: 40px;
         margin: 0;
-        padding: 0 16px;
         text-align: left;
         width: 100%;
     }
@@ -41,7 +36,6 @@
     .cb-base-composite-card-items {
         display: flex;
         height: 100%;
-        padding: 20px;
         width: 100%;
     }
 
@@ -49,7 +43,7 @@
         flex: 1 1 auto;
         height: 100%;
         overflow: auto;
-        /* stylelint-disable-next-line */
+
         .cb-base-card {
             border: 1px solid var(--cb-color-bg-canvas-inset);
             box-shadow: none;

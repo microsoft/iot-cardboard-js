@@ -11,6 +11,7 @@
 
     .cb-adt-model-list {
         flex-grow: 1;
+        overflow: auto;
         width: 100%;
 
         .cb-hierarchy-child-node {

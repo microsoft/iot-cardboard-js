@@ -31,6 +31,12 @@ export const ADTModelList = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
+                onModelClick={(model) => {
+                    console.log(`${model.id} is clicked!`);
+                }}
+                onNewModelClick={() => {
+                    console.log('New button clicked!');
+                }}
             />
         </div>
     );
