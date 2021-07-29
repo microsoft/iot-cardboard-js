@@ -518,12 +518,12 @@ export class DTDLProperty {
             typeof obj.schema === 'string'
                 ? (obj.schema as DTDLPrimitiveSchema)
                 : obj.schema['@type'] === DTDLSchemaType.Array
-                ? DTDLArray.fromObject(obj)
+                ? DTDLArray.fromObject(obj.schema)
                 : obj.schema['@type'] === DTDLSchemaType.Enum
-                ? DTDLEnum.fromObject(obj)
+                ? DTDLEnum.fromObject(obj.schema)
                 : obj.schema['@type'] === DTDLSchemaType.Map
-                ? DTDLMap.fromObject(obj)
-                : DTDLObject.fromObject(obj),
+                ? DTDLMap.fromObject(obj.schema)
+                : DTDLObject.fromObject(obj.schema),
             obj.comment,
             obj.description,
             obj.displayName,
