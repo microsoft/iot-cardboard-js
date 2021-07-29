@@ -10,7 +10,7 @@ export default {
 };
 
 const wrapperStyle = {
-    height: '700px',
+    height: '500px',
     width: '100%'
 };
 
@@ -33,6 +33,7 @@ export const DataPusher = (_args, { globals: { theme, locale } }) => {
                 Simulation={AssetSimulation}
                 initialInstanceUrl={authenticationParameters.adt.hostUrl}
                 disablePastEvents={true}
+                isOtherOptionsVisible={false}
             />
         </div>
     );

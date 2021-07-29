@@ -54,13 +54,15 @@ const DataPusherCard = ({
     adapter,
     Simulation,
     initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net',
-    disablePastEvents = false
+    disablePastEvents = false,
+    isOtherOptionsVisible = true
 }: IDataPusherProps) => {
     const { t } = useTranslation();
     const [state, dispatch] = useReducer(dataPusherReducer, {
         ...defaultAdtDataPusherState,
         instanceUrl: initialInstanceUrl,
-        disablePastEvents
+        disablePastEvents,
+        isOtherOptionsVisible
     });
 
     const intervalRef = useRef(null);
@@ -379,18 +381,26 @@ const AdtDataPusher = () => {
                     root: { marginBottom: '8px' }
                 }}
             />
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.pastEventsLabel')}
-            </Separator>
-            <QuickFillDataForm />
+            {!state.disablePastEvents && (
+                <>
+                    <Separator alignContent="start" styles={separatorStyles}>
+                        {t('dataPusher.pastEventsLabel')}
+                    </Separator>
+                    <QuickFillDataForm />
+                </>
+            )}
             <Separator alignContent="start" styles={separatorStyles}>
                 {t('dataPusher.liveStreamLabel')}
             </Separator>
             <LiveStreamDataForm />
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.otherOptionsLabel')}
-            </Separator>
-            <OtherOptionsForm />
+            {state.isOtherOptionsVisible && (
+                <>
+                    <Separator alignContent="start" styles={separatorStyles}>
+                        {t('dataPusher.otherOptionsLabel')}
+                    </Separator>
+                    <OtherOptionsForm />
+                </>
+            )}
             <Separator alignContent="start" styles={separatorStyles}>
                 {t('dataPusher.simulationStatus')}
             </Separator>
@@ -416,7 +426,6 @@ const QuickFillDataForm = () => {
                     })
                 }
                 styles={{ root: { marginBottom: 0, marginTop: 4 } }}
-                disabled={state.disablePastEvents}
             />
             <FormFieldDescription>
                 {state.isDataBackFilled
@@ -539,24 +548,29 @@ const LiveStreamDataForm = () => {
     const { state, dispatch } = useDataPusherContext();
     return (
         <div className="cb-live-stream-data-form-container">
-            <Toggle
-                label=""
-                checked={state.isLiveDataSimulated}
-                onText={t('on')}
-                offText={t('off')}
-                onChange={(_e, checked) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_IS_LIVE_DATA_SIMULATED,
-                        payload: checked
-                    })
-                }
-                styles={{ root: { marginBottom: 0, marginTop: 4 } }}
-            />
-            <FormFieldDescription>
-                {state.isLiveDataSimulated
-                    ? t('dataPusher.liveStreamDescriptionOn')
-                    : t('dataPusher.liveStreamDescriptionOff')}
-            </FormFieldDescription>
+            {!state.disablePastEvents && (
+                <>
+                    <Toggle
+                        label=""
+                        checked={state.isLiveDataSimulated}
+                        onText={t('on')}
+                        offText={t('off')}
+                        onChange={(_e, checked) =>
+                            dispatch({
+                                type:
+                                    dataPusherActionType.SET_IS_LIVE_DATA_SIMULATED,
+                                payload: checked
+                            })
+                        }
+                        styles={{ root: { marginBottom: 0, marginTop: 4 } }}
+                    />
+                    <FormFieldDescription>
+                        {state.isLiveDataSimulated
+                            ? t('dataPusher.liveStreamDescriptionOn')
+                            : t('dataPusher.liveStreamDescriptionOff')}
+                    </FormFieldDescription>
+                </>
+            )}
             <ExpandableSlideInContent isExpanded={state.isLiveDataSimulated}>
                 <div className="cb-live-stream-data-form-options">
                     <NumericSpinInput
