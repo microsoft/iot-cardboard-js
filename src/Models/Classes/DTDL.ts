@@ -446,11 +446,13 @@ export class DTDLModel {
     }
 
     get relationships() {
-        return this.contents.filter((c) => c.type === DTDLType.Relationship);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Relationship
+        );
     }
 
     get components() {
-        return this.contents.filter((c) => c.type === DTDLType.Component);
+        return this.contents.filter((c) => c['@type'] === DTDLType.Component);
     }
 
     removeEmptyProperties() {
