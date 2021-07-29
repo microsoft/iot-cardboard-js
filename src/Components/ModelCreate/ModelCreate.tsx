@@ -161,39 +161,63 @@ function ModelCreate(props: ModelCreateProps, ref) {
     };
 
     const handleListFormAction = (element, setter) => {
-        if (formMode === FormMode.New) {
-            setter((currentElements) => {
-                return [...currentElements, element];
-            });
-        } else {
+        if (elementToEdit?.element) {
             setter((currentElements) => {
                 const updatedList = [...currentElements];
                 updatedList[elementToEdit.index] = element;
                 return updatedList;
             });
+        } else {
+            setter((currentElements) => {
+                return [...currentElements, element];
+            });
         }
         backToModelForm();
     };
 
-    const handleSelectProperty = (property, index: number) => {
-        setFormMode(FormMode.Edit);
+    const handleSelectProperty = (
+        property,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
         setElementToEdit({ element: property, index });
-        addStep(ModelCreateMode.PropertyForm, 'modelCreate.editProperty');
-    };
-
-    const handleSelectRelationship = (relationship, index: number) => {
-        setFormMode(FormMode.Edit);
-        setElementToEdit({ element: relationship, index });
         addStep(
-            ModelCreateMode.RelationshipForm,
-            'modelCreate.editRelationship'
+            ModelCreateMode.PropertyForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.propertyDetails'
+                : 'modelCreate.editProperty'
         );
     };
 
-    const handleSelectComponent = (component, index: number) => {
-        setFormMode(FormMode.Edit);
+    const handleSelectRelationship = (
+        relationship,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
+        setElementToEdit({ element: relationship, index });
+        addStep(
+            ModelCreateMode.RelationshipForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.relationshipDetails'
+                : 'modelCreate.editRelationship'
+        );
+    };
+
+    const handleSelectComponent = (
+        component,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
         setElementToEdit({ element: component, index });
-        addStep(ModelCreateMode.ComponentForm, 'modelCreate.editComponent');
+        addStep(
+            ModelCreateMode.ComponentForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.componentDetails'
+                : 'modelCreate.editComponent'
+        );
     };
 
     const deleteEntity = (index: number, setter) => {
@@ -369,6 +393,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             propertyToEdit={
                                 elementToEdit.element as DTDLProperty
                             }
+                            formControlMode={formMode}
                         />
                     )}
 
@@ -387,6 +412,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             relationshipToEdit={
                                 elementToEdit.element as DTDLRelationship
                             }
+                            formControlMode={formMode}
                         />
                     )}
 
@@ -400,6 +426,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             componentToEdit={
                                 elementToEdit.element as DTDLComponent
                             }
+                            formControlMode={formMode}
                         />
                     )}
                 </Panel>

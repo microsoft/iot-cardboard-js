@@ -3,18 +3,20 @@ import { TextField } from '@fluentui/react/lib/TextField';
 import { DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import BaseForm from './BaseForm';
 import { useTranslation } from 'react-i18next';
-import { DTDLNameRegex, DTMIRegex } from '../../../Models/Constants';
+import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 
 interface CreateEnumValueFormProps {
     onCancel: () => void;
     onCreateEnumValue: (enumValue: DTDLEnumValue) => void;
     enumValueToEdit?: DTDLEnumValue;
+    formControlMode?: FormMode;
 }
 
 const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
     onCancel,
     onCreateEnumValue,
-    enumValueToEdit = null
+    enumValueToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
     const { t } = useTranslation();
 
@@ -48,6 +50,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
             cancelLabel={t('cancel')}
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
+            formControlMode={formControlMode}
         >
             <TextField
                 label={t('modelCreate.enumValueId')}

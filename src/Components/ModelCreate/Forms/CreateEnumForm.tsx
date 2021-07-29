@@ -8,7 +8,7 @@ import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import CreateEnumValueForm from './CreateEnumValueForm';
 import '../ModelCreate.scss';
 import { useTranslation } from 'react-i18next';
-import { DTMIRegex } from '../../../Models/Constants';
+import { DTMIRegex, FormMode } from '../../../Models/Constants';
 
 export enum CreateEnumMode {
     EnumForm,
@@ -21,6 +21,7 @@ interface CreateEnumFormProps {
     pushBreadcrumb: (breadcrumbKey: string) => void;
     popBreadcrumb: () => void;
     enumToEdit?: DTDLEnum;
+    formControlMode?: FormMode;
 }
 
 const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
@@ -28,7 +29,8 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     onCancel,
     pushBreadcrumb,
     popBreadcrumb,
-    enumToEdit = null
+    enumToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
     const { t } = useTranslation();
 
@@ -103,6 +105,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                     cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
+                    formControlMode={formControlMode}
                 >
                     <TextField
                         label={t('modelCreate.enumId')}

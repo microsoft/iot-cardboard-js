@@ -17,7 +17,7 @@ import {
 import CreateEnumForm from './CreateEnumForm';
 import BaseForm from './BaseForm';
 import { useTranslation } from 'react-i18next';
-import { DTDLNameRegex, DTMIRegex } from '../../../Models/Constants';
+import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 
 export enum CreatePropertyMode {
     PropertyForm,
@@ -30,6 +30,7 @@ interface CreatePropertyFormProps {
     pushBreadcrumb: (breadcrumbKey: string) => void;
     popBreadcrumb: () => void;
     propertyToEdit?: DTDLProperty;
+    formControlMode?: FormMode;
 }
 
 const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
@@ -37,7 +38,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     onPrimaryAction,
     pushBreadcrumb,
     popBreadcrumb,
-    propertyToEdit = null
+    propertyToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
     const { t } = useTranslation();
 
@@ -160,6 +162,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                     cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
+                    formControlMode={formControlMode}
                 >
                     <TextField
                         label={t('modelCreate.propertyId')}
@@ -174,6 +177,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                   })
                                 : ''
                         }
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('name')}
@@ -187,11 +191,13 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                   })
                                 : ''
                         }
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
                         value={displayName}
                         onChange={(e) => setDisplayName(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <Stack>
                         <Dropdown
@@ -205,19 +211,21 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                             }
                             options={schemaOptions}
                             required
+                            disabled={formControlMode === FormMode.Readonly}
                         />
-                        {schemaDropdown?.key === 'enum' && (
-                            <DefaultButton
-                                onClick={() =>
-                                    addStep(
-                                        CreatePropertyMode.EnumForm,
-                                        'modelCreate.addEnumSchema'
-                                    )
-                                }
-                            >
-                                {t('modelCreate.addEnumSchema')}
-                            </DefaultButton>
-                        )}
+                        {formControlMode !== FormMode.Readonly &&
+                            schemaDropdown?.key === 'enum' && (
+                                <DefaultButton
+                                    onClick={() =>
+                                        addStep(
+                                            CreatePropertyMode.EnumForm,
+                                            'modelCreate.addEnumSchema'
+                                        )
+                                    }
+                                >
+                                    {t('modelCreate.addEnumSchema')}
+                                </DefaultButton>
+                            )}
                     </Stack>
                     <TextField
                         label={t('modelCreate.description')}
@@ -225,6 +233,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         rows={3}
                         value={description}
                         onChange={(e) => setDescription(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.comment')}
@@ -232,6 +241,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         rows={3}
                         value={comment}
                         onChange={(e) => setComment(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.unit')}
@@ -245,6 +255,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 ? t('modelCreate.invalidTypeForUnitSupport')
                                 : ''
                         }
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <Toggle
                         label={t('modelCreate.writable')}
@@ -252,6 +263,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         offText={t('modelCreate.false')}
                         defaultChecked={writable}
                         onChange={(_e, checked) => setWritable(checked)}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                 </BaseForm>
             )}

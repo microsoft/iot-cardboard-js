@@ -23,6 +23,7 @@ interface CreateRelationshipFromProps {
     popBreadcrumb: () => void;
     existingModelIds: string[];
     relationshipToEdit?: DTDLRelationship;
+    formControlMode?: FormMode;
 }
 
 class PropertyToEditInfo {
@@ -41,20 +42,17 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     pushBreadcrumb,
     popBreadcrumb,
     existingModelIds,
-    relationshipToEdit = null
+    relationshipToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(CreateRelationshipMode.RelationshipForm);
     const [formMode, setFormMode] = useState(FormMode.New);
 
-    const schemaOptions: IDropdownOption[] = [
-        { key: 'any', text: t('modelCreate.anyInterface') }
-    ];
-
-    existingModelIds.forEach((modelId) => {
-        schemaOptions.push({ key: modelId, text: modelId });
-    });
+    const schemaOptions: IDropdownOption[] = existingModelIds.map(
+        (modelId) => ({ key: modelId, text: modelId })
+    );
 
     const parseTarget = (targetKey: string) => {
         if (!targetKey) {
@@ -159,6 +157,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
+                    formControlMode={formControlMode}
                 >
                     <TextField
                         label={t('modelCreate.relationshipId')}
@@ -173,6 +172,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                                   })
                                 : ''
                         }
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('name')}
@@ -186,11 +186,13 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                                   })
                                 : ''
                         }
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
                         value={displayName}
                         onChange={(e) => setDisplayName(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.description')}
@@ -198,6 +200,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         rows={3}
                         value={description}
                         onChange={(e) => setDescription(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.comment')}
@@ -205,6 +208,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         rows={3}
                         value={comment}
                         onChange={(e) => setComment(e.currentTarget.value)}
+                        readOnly={formControlMode === FormMode.Readonly}
                     />
                     <SpinButton
                         styles={{ root: { padding: '20px 0 8px' } }}
@@ -219,6 +223,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         }
                         incrementButtonAriaLabel={t('modelCreate.increaseBy1')}
                         decrementButtonAriaLabel={t('modelCreate.decreaseBy1')}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <Dropdown
                         label={t('modelCreate.targetModel')}
@@ -226,6 +231,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         selectedKey={target ? target.key : undefined}
                         onChange={(_e, item) => setTarget(item)}
                         options={schemaOptions}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <Toggle
                         label={t('modelCreate.writable')}
@@ -233,6 +239,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         offText={t('modelCreate.false')}
                         defaultChecked={writable}
                         onChange={(_e, checked) => setWritable(checked)}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <Separator>{t('modelCreate.properties')}</Separator>
                     <ElementsList
@@ -242,6 +249,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         handleEditElement={handleSelectProperty}
                         handleNewElement={handleClickAddProperty}
                         handleDeleteElement={handleDeleteProperty}
+                        formControlMode={formControlMode}
                     />
                 </BaseForm>
             )}

@@ -76,6 +76,9 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 type: SET_ADT_HIERARCHY_NODES,
                 payload: currentNodes
             });
+        },
+        getModelIds: () => {
+            return Object.keys(nodes);
         }
     }));
 

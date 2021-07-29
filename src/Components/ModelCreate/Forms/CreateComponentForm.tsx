@@ -5,20 +5,22 @@ import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
 import '../ModelCreate.scss';
 import { useTranslation } from 'react-i18next';
-import { DTDLNameRegex, DTMIRegex } from '../../../Models/Constants';
+import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 
 interface CreateComponentFormProps {
     onPrimaryAction: (component: DTDLComponent) => void;
     onCancel: () => void;
     existingModelIds: string[];
     componentToEdit?: DTDLComponent;
+    formControlMode?: FormMode;
 }
 
 const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     onPrimaryAction,
     onCancel,
     existingModelIds,
-    componentToEdit = null
+    componentToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
     const { t } = useTranslation();
 
@@ -35,7 +37,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     );
 
     const onClickCreate = () => {
-        const relationship = new DTDLComponent(
+        const component = new DTDLComponent(
             id,
             name,
             schema,
@@ -43,7 +45,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             description,
             displayName
         );
-        onPrimaryAction(relationship);
+        onPrimaryAction(component);
     };
 
     return (
@@ -54,6 +56,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             cancelLabel={t('cancel')}
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
+            formControlMode={formControlMode}
         >
             <TextField
                 label={t('modelCreate.componentId')}
@@ -68,6 +71,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                           })
                         : ''
                 }
+                readOnly={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('name')}
@@ -81,11 +85,13 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                           })
                         : ''
                 }
+                readOnly={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('modelCreate.displayName')}
                 value={displayName}
                 onChange={(e) => setDisplayName(e.currentTarget.value)}
+                readOnly={formControlMode === FormMode.Readonly}
             />
             <Dropdown
                 label={t('modelCreate.schema')}
@@ -96,6 +102,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 })}
                 onChange={(_e, item) => setSchema(item.key as string)}
                 required
+                disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('modelCreate.description')}
@@ -103,6 +110,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 rows={3}
                 value={description}
                 onChange={(e) => setDescription(e.currentTarget.value)}
+                readOnly={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('modelCreate.comment')}
@@ -110,6 +118,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 rows={3}
                 value={comment}
                 onChange={(e) => setComment(e.currentTarget.value)}
+                readOnly={formControlMode === FormMode.Readonly}
             />
         </BaseForm>
     );

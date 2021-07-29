@@ -41,6 +41,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         false
     );
     const selectedModelRef = useRef(selectedModel);
+    const existingModelIdsRef = useRef([]);
     const modelListComponentRef = useRef();
     const modelCreateComponentRef = useRef();
 
@@ -88,6 +89,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
 
     useEffect(() => {
         selectedModelRef.current = selectedModel;
+        existingModelIdsRef.current = (modelListComponentRef.current as any)?.getModelIds();
     }, [selectedModel]);
 
     useEffect(() => {
@@ -126,12 +128,6 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         }
         return actions;
     }, [selectedModelRef.current]);
-
-    const mockExistingModels = [
-        'dtmi;com:example:www:door1;1',
-        'dtmi;com:example:www:roof1;1',
-        'dtmi;com:example:www:room1;1'
-    ];
 
     const confirmDeletionDialogProps = {
         type: DialogType.normal,
@@ -180,7 +176,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             key={selectedModel?.['@id']}
                             locale={locale}
                             modelToEdit={selectedModel}
-                            existingModelIds={mockExistingModels}
+                            existingModelIds={existingModelIdsRef.current}
                             onCancel={() => setSelectedModel(undefined)}
                             onPrimaryAction={handleCreateModelClick}
                             formControlMode={

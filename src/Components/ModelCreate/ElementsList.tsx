@@ -24,7 +24,11 @@ interface ElementsListProps {
     addElementLabelKey: string;
     elements: any[];
     handleNewElement: () => void;
-    handleEditElement: (element: any, index: number) => void;
+    handleEditElement: (
+        element: any,
+        index: number,
+        formControlMode?: FormMode
+    ) => void;
     handleDeleteElement: (index: number) => void;
     formControlMode?: FormMode;
 }
@@ -65,9 +69,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
     const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
         <div
             onClick={() => {
-                if (formControlMode !== FormMode.Readonly) {
-                    handleEditElement(props.item, props.itemIndex);
-                }
+                handleEditElement(props.item, props.itemIndex, formControlMode);
             }}
         >
             <DetailsRow
@@ -100,9 +102,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
                             ariaLabel={t('edit')}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                if (formControlMode === FormMode.Edit) {
-                                    handleEditElement(item, index);
-                                }
+                                handleEditElement(item, index, formControlMode);
                             }}
                         />
                         <IconButton
@@ -123,12 +123,12 @@ const ElementsList: React.FC<ElementsListProps> = ({
 
     return (
         <Stack>
-            {elements.length === 0 && (
+            {(!elements || elements.length === 0) && (
                 <div className="cb-elementslist-empty">
                     <Text>{t(noElementLabelKey)}</Text>
                 </div>
             )}
-            {elements.length > 0 && (
+            {elements?.length > 0 && (
                 <DetailsList
                     className="cb-detail-list"
                     selectionMode={SelectionMode.none}
