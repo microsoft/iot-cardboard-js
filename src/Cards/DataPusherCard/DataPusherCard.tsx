@@ -308,15 +308,26 @@ const SimulationStatus = () => {
         const iconStyles = {
             root: {
                 fontSize: 8,
-                marginRight: 4,
-                color: ready
-                    ? 'var(--cb-color-success)'
-                    : 'var(--cb-color-text-danger)'
+                width: 20,
+                color: 'var(--cb-color-inactive)'
+            }
+        };
+
+        const checkMarkStyles = {
+            root: {
+                fontSize: 14,
+                width: 20,
+                fontWeight: 'bold',
+                color: 'var(--cb-color-theme-primary)'
             }
         };
         return (
             <div className="cb-status-row-container">
-                <Icon iconName={'StatusCircleOuter'} styles={iconStyles} />
+                {ready ? (
+                    <Icon iconName={'Checkmark'} styles={checkMarkStyles} />
+                ) : (
+                    <Icon iconName={'StatusCircleOuter'} styles={iconStyles} />
+                )}
                 <Text variant={'medium'}>{label}</Text>
             </div>
         );
