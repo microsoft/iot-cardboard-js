@@ -13,12 +13,13 @@ import { IIconProps } from '@fluentui/react/lib/Icon';
 import { Stack } from '@fluentui/react/lib/Stack';
 import './ElementsList.scss';
 import { FormMode } from '../../Models/Constants/Enums';
+import { useTranslation } from 'react-i18next';
 
 const addIcon: IIconProps = { iconName: 'Add' };
 const deleteIcon: IIconProps = { iconName: 'Delete' };
+const editIcon: IIconProps = { iconName: 'Edit' };
 
 interface ElementsListProps {
-    t: (str: string) => string;
     noElementLabelKey: string;
     addElementLabelKey: string;
     elements: any[];
@@ -29,7 +30,6 @@ interface ElementsListProps {
 }
 
 const ElementsList: React.FC<ElementsListProps> = ({
-    t,
     noElementLabelKey,
     addElementLabelKey,
     elements,
@@ -38,13 +38,16 @@ const ElementsList: React.FC<ElementsListProps> = ({
     handleDeleteElement,
     formControlMode = FormMode.Edit
 }) => {
+    const { t } = useTranslation();
+
     const listTableColumns = [
         {
             key: 'name',
             name: t('name'),
             fieldName: 'name',
             minWidth: 100,
-            maxWidth: 300
+            maxWidth: 300,
+            headerClassName: 'cb-detail-list-header-cell'
         }
     ];
 
@@ -54,14 +57,15 @@ const ElementsList: React.FC<ElementsListProps> = ({
             name: t('action'),
             fieldName: 'action',
             minWidth: 50,
-            maxWidth: 50
+            maxWidth: 50,
+            headerClassName: 'cb-detail-list-header-cell'
         });
     }
 
     const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
         <div
             onClick={() => {
-                if (formControlMode === FormMode.Edit) {
+                if (formControlMode !== FormMode.Readonly) {
                     handleEditElement(props.item, props.itemIndex);
                 }
             }}
@@ -85,15 +89,28 @@ const ElementsList: React.FC<ElementsListProps> = ({
         switch (column.key) {
             case 'action':
                 return (
-                    <IconButton
-                        iconProps={deleteIcon}
-                        title={t('delete')}
-                        ariaLabel={t('delete')}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            handleDeleteElement(index);
-                        }}
-                    />
+                    <>
+                        <IconButton
+                            iconProps={editIcon}
+                            title={t('edit')}
+                            ariaLabel={t('edit')}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                if (formControlMode === FormMode.Edit) {
+                                    handleEditElement(item, index);
+                                }
+                            }}
+                        />
+                        <IconButton
+                            iconProps={deleteIcon}
+                            title={t('delete')}
+                            ariaLabel={t('delete')}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                handleDeleteElement(index);
+                            }}
+                        />
+                    </>
                 );
             default:
                 return <span>{fieldContent}</span>;
@@ -109,6 +126,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
             )}
             {elements.length > 0 && (
                 <DetailsList
+                    className="cb-detail-list"
                     selectionMode={SelectionMode.none}
                     items={elements}
                     columns={listTableColumns}

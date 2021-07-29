@@ -75,7 +75,14 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 null,
                 2
             ),
-            `${selectedModelRef.current?.displayName}.json`
+            `${
+                selectedModelRef.current?.displayName ||
+                selectedModelRef.current?.['@id'] ||
+                (modelCreateComponentRef.current as any)?.getModel()
+                    .displayName ||
+                (modelCreateComponentRef.current as any)?.getModel()['@id'] ||
+                t('modelCreate.newModel')
+            }.json`
         );
     };
 

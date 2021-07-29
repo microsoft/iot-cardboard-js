@@ -8,7 +8,8 @@ import { DTDLProperty, DTDLRelationship } from '../../../Models/Classes/DTDL';
 import CreatePropertyForm from './CreatePropertyForm';
 import ElementsList from '../ElementsList';
 import BaseForm from './BaseForm';
-import { FormMode } from '../../../Models/Constants';
+import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
+import { useTranslation } from 'react-i18next';
 
 export enum CreateRelationshipMode {
     RelationshipForm,
@@ -16,7 +17,6 @@ export enum CreateRelationshipMode {
 }
 
 interface CreateRelationshipFromProps {
-    t: (str: string) => string;
     onPrimaryAction: (relationship: DTDLRelationship) => void;
     onCancel: () => void;
     pushBreadcrumb: (breadcrumbKey: string) => void;
@@ -36,7 +36,6 @@ class PropertyToEditInfo {
 }
 
 const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
-    t,
     onPrimaryAction,
     onCancel,
     pushBreadcrumb,
@@ -44,6 +43,8 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     existingModelIds,
     relationshipToEdit = null
 }) => {
+    const { t } = useTranslation();
+
     const [mode, setMode] = useState(CreateRelationshipMode.RelationshipForm);
     const [formMode, setFormMode] = useState(FormMode.New);
 
@@ -161,17 +162,30 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                 >
                     <TextField
                         label={t('modelCreate.relationshipId')}
-                        // prefix="dtmi;"
-                        // suffix=";1"
                         value={id}
-                        placeholder="dtmi:com:example:relationship1;1"
+                        placeholder="<scheme>:<path>;<version>"
+                        description="e.g., dtmi:com:example:relationship1;1"
                         onChange={(e) => setId(e.currentTarget.value)}
+                        errorMessage={
+                            id && !DTMIRegex.test(id)
+                                ? t('modelCreate.invalidIdentifier', {
+                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
                     />
                     <TextField
                         label={t('name')}
                         value={name}
                         onChange={(e) => setName(e.currentTarget.value)}
                         required
+                        errorMessage={
+                            name && !DTDLNameRegex.test(name)
+                                ? t('modelCreate.invalidDTDLName', {
+                                      dtdlLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
@@ -222,7 +236,6 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     />
                     <Separator>{t('modelCreate.properties')}</Separator>
                     <ElementsList
-                        t={t}
                         noElementLabelKey="modelCreate.noProperties"
                         addElementLabelKey="modelCreate.addProperty"
                         elements={properties}
@@ -235,7 +248,6 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
 
             {mode === CreateRelationshipMode.PropertyForm && (
                 <CreatePropertyForm
-                    t={t}
                     onCancel={backToRelationshipForm}
                     onPrimaryAction={handlePropertyFormAction}
                     pushBreadcrumb={pushBreadcrumb}

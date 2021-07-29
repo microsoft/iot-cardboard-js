@@ -11,10 +11,13 @@ import { Stack } from '@fluentui/react/lib/Stack';
 import {
     DTDLEnum,
     DTDLProperty,
-    DTDLSchema
+    DTDLSchema,
+    DTDLSemanticTypes
 } from '../../../Models/Classes/DTDL';
 import CreateEnumForm from './CreateEnumForm';
 import BaseForm from './BaseForm';
+import { useTranslation } from 'react-i18next';
+import { DTDLNameRegex, DTMIRegex } from '../../../Models/Constants';
 
 export enum CreatePropertyMode {
     PropertyForm,
@@ -22,7 +25,6 @@ export enum CreatePropertyMode {
 }
 
 interface CreatePropertyFormProps {
-    t: (str: string) => string;
     onCancel: () => void;
     onPrimaryAction: (property: DTDLProperty) => void;
     pushBreadcrumb: (breadcrumbKey: string) => void;
@@ -31,13 +33,14 @@ interface CreatePropertyFormProps {
 }
 
 const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
-    t,
     onCancel,
     onPrimaryAction,
     pushBreadcrumb,
     popBreadcrumb,
     propertyToEdit = null
 }) => {
+    const { t } = useTranslation();
+
     const [mode, setMode] = useState(CreatePropertyMode.PropertyForm);
 
     const schemaOptions: IDropdownOption[] = [
@@ -92,6 +95,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     };
 
     const initialProperty = propertyToEdit ?? DTDLProperty.getBlank();
+    const typeInfo = initialProperty['@type'];
     const schemaInfo = parseSchema(initialProperty.schema);
     const [id, setId] = useState(initialProperty['@id']);
     const [name, setName] = useState(initialProperty.name);
@@ -159,17 +163,30 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                 >
                     <TextField
                         label={t('modelCreate.propertyId')}
-                        // prefix="dtmi;"
-                        // suffix=";1"
                         value={id}
-                        placeholder="dtmi:com:example:property1;1"
+                        placeholder="<scheme>:<path>;<version>"
+                        description={'e.g., dtmi:com:example:property1;1'}
                         onChange={(e) => setId(e.currentTarget.value)}
+                        errorMessage={
+                            id && !DTMIRegex.test(id)
+                                ? t('modelCreate.invalidIdentifier', {
+                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
                     />
                     <TextField
                         label={t('name')}
                         value={name}
                         onChange={(e) => setName(e.currentTarget.value)}
                         required
+                        errorMessage={
+                            name && !DTDLNameRegex.test(name)
+                                ? t('modelCreate.invalidDTDLName', {
+                                      dtdlLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
@@ -203,13 +220,6 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         )}
                     </Stack>
                     <TextField
-                        label={t('modelCreate.comment')}
-                        multiline
-                        rows={3}
-                        value={comment}
-                        onChange={(e) => setComment(e.currentTarget.value)}
-                    />
-                    <TextField
                         label={t('modelCreate.description')}
                         multiline
                         rows={3}
@@ -217,9 +227,24 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         onChange={(e) => setDescription(e.currentTarget.value)}
                     />
                     <TextField
+                        label={t('modelCreate.comment')}
+                        multiline
+                        rows={3}
+                        value={comment}
+                        onChange={(e) => setComment(e.currentTarget.value)}
+                    />
+                    <TextField
                         label={t('modelCreate.unit')}
                         value={unit}
                         onChange={(e) => setUnit(e.currentTarget.value)}
+                        errorMessage={
+                            unit &&
+                            !DTDLSemanticTypes.map(
+                                (t) => t.SemanticType
+                            ).includes(typeInfo)
+                                ? t('modelCreate.invalidTypeForUnitSupport')
+                                : ''
+                        }
                     />
                     <Toggle
                         label={t('modelCreate.writable')}
@@ -233,7 +258,6 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
             {mode === CreatePropertyMode.EnumForm && (
                 <CreateEnumForm
-                    t={t}
                     pushBreadcrumb={pushBreadcrumb}
                     popBreadcrumb={popBreadcrumb}
                     onCreateEnum={handleCreateEnum}

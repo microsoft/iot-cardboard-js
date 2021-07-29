@@ -9,3 +9,9 @@ export const ADTModel_MetadataFilePath_PropertyName = 'metadataFilePath';
 export const ADT_ApiVersion = '2020-10-31';
 export const ViewDataPropertyName = 'cb_viewdata';
 export const BoardInfoPropertyName = 'boardInfo';
+export const DTMIRegex = new RegExp(
+    '^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$'
+);
+export const DTDLNameRegex = new RegExp(
+    '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
+);

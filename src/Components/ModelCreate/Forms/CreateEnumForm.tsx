@@ -7,6 +7,8 @@ import BaseForm from './BaseForm';
 import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import CreateEnumValueForm from './CreateEnumValueForm';
 import '../ModelCreate.scss';
+import { useTranslation } from 'react-i18next';
+import { DTMIRegex } from '../../../Models/Constants';
 
 export enum CreateEnumMode {
     EnumForm,
@@ -14,7 +16,6 @@ export enum CreateEnumMode {
 }
 
 interface CreateEnumFormProps {
-    t: (str: string) => string;
     onCreateEnum: (dtdlEnum: DTDLEnum) => void;
     onCancel: () => void;
     pushBreadcrumb: (breadcrumbKey: string) => void;
@@ -23,13 +24,14 @@ interface CreateEnumFormProps {
 }
 
 const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
-    t,
     onCreateEnum,
     onCancel,
     pushBreadcrumb,
     popBreadcrumb,
     enumToEdit = null
 }) => {
+    const { t } = useTranslation();
+
     const [mode, setMode] = useState(CreateEnumMode.EnumForm);
 
     const valueSchemaOptions: IDropdownOption[] = [
@@ -104,11 +106,17 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                 >
                     <TextField
                         label={t('modelCreate.enumId')}
-                        // prefix="dtmi;"
-                        // suffix=";1"
-                        placeholder="dtmi:com:example:enum1;1"
+                        placeholder="<scheme>:<path>;<version>"
+                        description={'e.g., dtmi:com:example:enum1;1'}
                         value={id}
                         onChange={(e) => setId(e.currentTarget.value)}
+                        errorMessage={
+                            id && !DTMIRegex.test(id)
+                                ? t('modelCreate.invalidIdentifier', {
+                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
@@ -135,12 +143,12 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                         options={valueSchemaOptions}
                         selectedKey={valueSchema ? valueSchema.key : undefined}
                         onChange={(_e, item) => setValueSchema(item)}
+                        required
                     />
                     <Text variant="medium" className="cb-modelcreate-title">
                         {t('modelCreate.enumValues')}
                     </Text>
                     <ElementsList
-                        t={t}
                         noElementLabelKey="modelCreate.noEnumValues"
                         addElementLabelKey="modelCreate.addEnumValue"
                         elements={enumValues}
@@ -153,7 +161,6 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
 
             {mode === CreateEnumMode.EnumValueForm && (
                 <CreateEnumValueForm
-                    t={t}
                     onCancel={backToEnumForm}
                     onCreateEnumValue={onAddEnumValue}
                 />

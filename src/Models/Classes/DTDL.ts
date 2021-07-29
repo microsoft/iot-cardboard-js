@@ -11,6 +11,363 @@ export enum DTDLType {
     Component = 'Component'
 }
 
+export const DTDLSemanticTypes = [
+    {
+        SemanticType: 'Acceleration',
+        UnitType: 'AccelerationUnit',
+        Unit: ['metrePerSecondSquared', 'centimetrePerSecondSquared', 'gForce']
+    },
+    {
+        SemanticType: 'Angle',
+        UnitType: 'AngleUnit',
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+    },
+    {
+        SemanticType: 'AngularAcceleration',
+        UnitType: 'AngularAccelerationUnit',
+        Unit: ['radianPerSecondSquared']
+    },
+    {
+        SemanticType: 'AngularVelocity',
+        UnitType: 'AngularVelocityUnit',
+        Unit: [
+            'radianPerSecond',
+            'degreePerSecond',
+            'revolutionPerSecond',
+            'revolutionPerMinute'
+        ]
+    },
+    {
+        SemanticType: 'Area',
+        UnitType: 'AreaUnit',
+        Unit: [
+            'squareMetre',
+            'squareCentimetre',
+            'squareMillimetre',
+            'squareKilometre',
+            'hectare',
+            'squareFoot',
+            'squareInch',
+            'acre'
+        ]
+    },
+    {
+        SemanticType: 'Capacitance',
+        UnitType: 'CapacitanceUnit',
+        Unit: ['farad', 'millifarad', 'microfarad', 'nanofarad', 'picofarad']
+    },
+    {
+        SemanticType: 'Current',
+        UnitType: 'CurrentUnit',
+        Unit: ['ampere', 'microampere', 'milliampere']
+    },
+    {
+        SemanticType: 'DataRate',
+        UnitType: 'DataRateUnit',
+        Unit: [
+            'bitPerSecond',
+            'kibibitPerSecond',
+            'mebibitPerSecond',
+            'gibibitPerSecond',
+            'tebibitPerSecond',
+            'exbibitPerSecond',
+            'zebibitPerSecond',
+            'yobibitPerSecond',
+            'bytePerSecond',
+            'kibibytePerSecond',
+            'mebibytePerSecond',
+            'gibibytePerSecond',
+            'tebibytePerSecond',
+            'exbibytePerSecond',
+            'zebibytePerSecond',
+            'yobibytePerSecond'
+        ]
+    },
+    {
+        SemanticType: 'DataSize',
+        UnitType: 'DataSizeUnit',
+        Unit: [
+            'bit',
+            'kibibit',
+            'mebibit',
+            'gibibit',
+            'tebibit',
+            'exbibit',
+            'zebibit',
+            'yobibit',
+            'byte',
+            'kibibyte',
+            'mebibyte',
+            'gibibyte',
+            'tebibyte',
+            'exbibyte',
+            'zebibyte',
+            'yobibyte'
+        ]
+    },
+    {
+        SemanticType: 'Density',
+        UnitType: 'DensityUnit',
+        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre']
+    },
+    {
+        SemanticType: 'Distance',
+        UnitType: 'LengthUnit',
+        Unit: [
+            'metre',
+            'centimetre',
+            'millimetre',
+            'micrometre',
+            'nanometre',
+            'kilometre',
+            'foot',
+            'inch',
+            'mile',
+            'nauticalMile',
+            'astronomicalUnit'
+        ]
+    },
+    {
+        SemanticType: 'ElectricCharge',
+        UnitType: 'ChargeUnit',
+        Unit: ['coulomb']
+    },
+    {
+        SemanticType: 'Energy',
+        UnitType: 'EnergyUnit',
+        Unit: [
+            'joule',
+            'kilojoule',
+            'megajoule',
+            'gigajoule',
+            'electronvolt',
+            'megaelectronvolt',
+            'kilowattHour'
+        ]
+    },
+    {
+        SemanticType: 'Force',
+        UnitType: 'ForceUnit',
+        Unit: ['newton', 'pound', 'ounce', 'ton']
+    },
+    {
+        SemanticType: 'Frequency',
+        UnitType: 'FrequencyUnit',
+        Unit: ['hertz', 'kilohertz', 'megahertz', 'gigahertz']
+    },
+    {
+        SemanticType: 'Humidity',
+        UnitType: 'DensityUnit',
+        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre']
+    },
+    {
+        SemanticType: 'Illuminance',
+        UnitType: 'IlluminanceUnit',
+        Unit: ['lux', 'footcandle']
+    },
+    {
+        SemanticType: 'Inductance',
+        UnitType: 'InductanceUnit',
+        Unit: ['henry', 'millihenry', 'microhenry']
+    },
+    {
+        SemanticType: 'Latitude',
+        UnitType: 'AngleUnit',
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+    },
+    {
+        SemanticType: 'Longitude',
+        UnitType: 'AngleUnit',
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+    },
+    {
+        SemanticType: 'Length',
+        UnitType: 'LengthUnit',
+        Unit: [
+            'metre',
+            'centimetre',
+            'millimetre',
+            'micrometre',
+            'nanometre',
+            'kilometre',
+            'foot',
+            'inch',
+            'mile',
+            'nauticalMile',
+            'astronomicalUnit'
+        ]
+    },
+    {
+        SemanticType: 'Luminance',
+        UnitType: 'LuminanceUnit',
+        Unit: ['candelaPerSquareMetre']
+    },
+    {
+        SemanticType: 'Luminosity',
+        UnitType: 'PowerUnit',
+        Unit: [
+            'watt',
+            'microwatt',
+            'milliwatt',
+            'kilowatt',
+            'megawatt',
+            'gigawatt',
+            'horsepower',
+            'kilowattHourPerYear'
+        ]
+    },
+    {
+        SemanticType: 'LuminousFlux',
+        UnitType: 'LuminousFluxUnit',
+        Unit: ['lumen']
+    },
+    {
+        SemanticType: 'LuminousIntensity',
+        UnitType: 'LuminousIntensityUnit',
+        Unit: ['candela']
+    },
+    {
+        SemanticType: 'MagneticFlux',
+        UnitType: 'MagneticFluxUnit',
+        Unit: ['weber', 'maxwell']
+    },
+    {
+        SemanticType: 'MagneticInduction',
+        UnitType: 'MagneticInductionUnit',
+        Unit: ['tesla']
+    },
+    {
+        SemanticType: 'Mass',
+        UnitType: 'MassUnit',
+        Unit: ['kilogram', 'gram', 'milligram', 'microgram', 'tonne', 'slug']
+    },
+    {
+        SemanticType: 'MassFlowRate',
+        UnitType: 'MassFlowRateUnit',
+        Unit: [
+            'gramPerSecond',
+            'kilogramPerSecond',
+            'gramPerHour',
+            'kilogramPerHour'
+        ]
+    },
+    {
+        SemanticType: 'Power',
+        UnitType: 'PowerUnit',
+        Unit: [
+            'watt',
+            'microwatt',
+            'milliwatt',
+            'kilowatt',
+            'megawatt',
+            'gigawatt',
+            'horsepower',
+            'kilowattHourPerYear'
+        ]
+    },
+    {
+        SemanticType: 'Pressure',
+        UnitType: 'PressureUnit',
+        Unit: [
+            'pascal',
+            'kilopascal',
+            'bar',
+            'millibar',
+            'millimetresOfMercury',
+            'poundPerSquareInch',
+            'inchesOfMercury',
+            'inchesOfWater'
+        ]
+    },
+    {
+        SemanticType: 'RelativeHumidity',
+        UnitType: 'unitless',
+        Unit: ['unity percent']
+    },
+    {
+        SemanticType: 'Resistance',
+        UnitType: 'ResistanceUnit',
+        Unit: ['ohm', 'milliohm', 'kiloohm', 'megaohm']
+    },
+    {
+        SemanticType: 'SoundPressure',
+        UnitType: 'SoundPressureUnit',
+        Unit: ['decibel', 'bel']
+    },
+    {
+        SemanticType: 'Temperature',
+        UnitType: 'TemperatureUnit',
+        Unit: ['kelvin', 'degreeCelsius', 'degreeFahrenheit']
+    },
+    {
+        SemanticType: 'Thrust',
+        UnitType: 'ForceUnit',
+        Unit: ['newton', 'pound', 'ounce', 'ton']
+    },
+    {
+        SemanticType: 'TimeSpan',
+        UnitType: 'TimeUnit',
+        Unit: [
+            'second',
+            'millisecond',
+            'microsecond',
+            'nanosecond',
+            'minute',
+            'hour',
+            'day',
+            'year'
+        ]
+    },
+    {
+        SemanticType: 'Torque',
+        UnitType: 'TorqueUnit',
+        Unit: ['newtonMetre']
+    },
+    {
+        SemanticType: 'Velocity',
+        UnitType: 'VelocityUnit',
+        Unit: [
+            'metrePerSecond',
+            'centimetrePerSecond',
+            'kilometrePerSecond',
+            'metrePerHour',
+            'kilometrePerHour',
+            'milePerHour',
+            'milePerSecond',
+            'knot'
+        ]
+    },
+    {
+        SemanticType: 'Voltage',
+        UnitType: 'VoltageUnit',
+        Unit: ['volt', 'millivolt', 'microvolt', 'kilovolt', 'megavolt']
+    },
+    {
+        SemanticType: 'Volume',
+        UnitType: 'VolumeUnit',
+        Unit: [
+            'cubicMetre',
+            'cubicCentimetre',
+            'litre',
+            'millilitre',
+            'cubicFoot',
+            'cubicInch',
+            'fluidOunce',
+            'gallon'
+        ]
+    },
+    {
+        SemanticType: 'VolumeFlowRate',
+        UnitType: 'VolumeFlowRateUnit',
+        Unit: [
+            'litrePerSecond',
+            'millilitrePerSecond',
+            'litrePerHour',
+            'millilitrePerHour'
+        ]
+    }
+];
+
 export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
 
 export type DTDLPrimitiveSchema =

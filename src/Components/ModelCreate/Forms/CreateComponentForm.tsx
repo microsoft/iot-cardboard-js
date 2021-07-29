@@ -4,9 +4,10 @@ import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
 import '../ModelCreate.scss';
+import { useTranslation } from 'react-i18next';
+import { DTDLNameRegex, DTMIRegex } from '../../../Models/Constants';
 
 interface CreateComponentFormProps {
-    t: (str: string) => string;
     onPrimaryAction: (component: DTDLComponent) => void;
     onCancel: () => void;
     existingModelIds: string[];
@@ -14,12 +15,13 @@ interface CreateComponentFormProps {
 }
 
 const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
-    t,
     onPrimaryAction,
     onCancel,
     existingModelIds,
     componentToEdit = null
 }) => {
+    const { t } = useTranslation();
+
     const initialComponent = componentToEdit ?? DTDLComponent.getBlank();
     const [id, setId] = useState(initialComponent['@id']);
     const [name, setName] = useState(initialComponent.name);
@@ -55,17 +57,30 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
         >
             <TextField
                 label={t('modelCreate.componentId')}
-                // prefix="dtmi;"
-                // suffix=";1"
-                placeholder="dtmi:com:example:component1;1"
+                placeholder="<scheme>:<path>;<version>"
+                description={'e.g., dtmi:com:example:component1;1'}
                 value={id}
                 onChange={(e) => setId(e.currentTarget.value)}
+                errorMessage={
+                    id && !DTMIRegex.test(id)
+                        ? t('modelCreate.invalidIdentifier', {
+                              dtmiLink: 'http://aka.ms/ADTv2Models'
+                          })
+                        : ''
+                }
             />
             <TextField
                 label={t('name')}
                 value={name}
                 onChange={(e) => setName(e.currentTarget.value)}
                 required
+                errorMessage={
+                    name && !DTDLNameRegex.test(name)
+                        ? t('modelCreate.invalidDTDLName', {
+                              dtdlLink: 'http://aka.ms/ADTv2Models'
+                          })
+                        : ''
+                }
             />
             <TextField
                 label={t('modelCreate.displayName')}
@@ -83,18 +98,18 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 required
             />
             <TextField
-                label={t('modelCreate.comment')}
-                multiline
-                rows={3}
-                value={comment}
-                onChange={(e) => setComment(e.currentTarget.value)}
-            />
-            <TextField
                 label={t('modelCreate.description')}
                 multiline
                 rows={3}
                 value={description}
                 onChange={(e) => setDescription(e.currentTarget.value)}
+            />
+            <TextField
+                label={t('modelCreate.comment')}
+                multiline
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.currentTarget.value)}
             />
         </BaseForm>
     );

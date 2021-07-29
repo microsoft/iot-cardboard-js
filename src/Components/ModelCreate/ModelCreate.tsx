@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
-import { Locale } from '../../Models/Constants';
+import { DTMIRegex, Locale } from '../../Models/Constants';
 import { Text } from '@fluentui/react/lib/Text';
 import { Panel, PanelType } from '@fluentui/react/lib/Panel';
 import { TextField } from '@fluentui/react/lib/TextField';
@@ -241,15 +241,26 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
                                 label={t('modelCreate.modelId')}
-                                // prefix="dtmi:" TODO: check if we need that
-                                // suffix=";1"
-                                placeholder="dtmi:com:example:model1;1"
+                                placeholder="<scheme>:<path>;<version>"
+                                description={
+                                    formMode !== FormMode.Readonly
+                                        ? 'e.g., dtmi:com:example:model1;1'
+                                        : ''
+                                }
                                 value={modelId}
                                 onChange={(e) =>
                                     setModelId(e.currentTarget.value)
                                 }
                                 required
-                                disabled={formMode === FormMode.Readonly}
+                                readOnly={formMode === FormMode.Readonly}
+                                errorMessage={
+                                    modelId && !DTMIRegex.test(modelId)
+                                        ? t('modelCreate.invalidIdentifier', {
+                                              dtmiLink:
+                                                  'http://aka.ms/ADTv2Models'
+                                          })
+                                        : ''
+                                }
                             />
                             <TextField
                                 label={t('modelCreate.displayName')}
@@ -257,7 +268,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 onChange={(e) =>
                                     setDisplayName(e.currentTarget.value)
                                 }
-                                disabled={formMode === FormMode.Readonly}
+                                readOnly={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.description')}
@@ -267,7 +278,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 onChange={(e) =>
                                     setDescription(e.currentTarget.value)
                                 }
-                                disabled={formMode === FormMode.Readonly}
+                                readOnly={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.comment')}
@@ -277,12 +288,11 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 onChange={(e) =>
                                     setComment(e.currentTarget.value)
                                 }
-                                disabled={formMode === FormMode.Readonly}
+                                readOnly={formMode === FormMode.Readonly}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.properties')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noProperties"
                                 addElementLabelKey="modelCreate.addProperty"
                                 elements={properties}
@@ -294,7 +304,6 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         </FormSection>
                         <FormSection title={t('modelCreate.relationships')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noRelationships"
                                 addElementLabelKey="modelCreate.addRelationship"
                                 elements={relationships}
@@ -306,7 +315,6 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         </FormSection>
                         <FormSection title={t('modelCreate.components')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noComponents"
                                 addElementLabelKey="modelCreate.addComponent"
                                 elements={components}
@@ -352,7 +360,6 @@ function ModelCreate(props: ModelCreateProps, ref) {
                     </div>
                     {mode === ModelCreateMode.PropertyForm && (
                         <CreatePropertyForm
-                            t={t}
                             pushBreadcrumb={pushBreadcrumb}
                             popBreadcrumb={popBreadcrumb}
                             onCancel={backToModelForm}
@@ -367,7 +374,6 @@ function ModelCreate(props: ModelCreateProps, ref) {
 
                     {mode === ModelCreateMode.RelationshipForm && (
                         <CreateRelationshipForm
-                            t={t}
                             pushBreadcrumb={pushBreadcrumb}
                             popBreadcrumb={popBreadcrumb}
                             existingModelIds={existingModelIds}
@@ -386,7 +392,6 @@ function ModelCreate(props: ModelCreateProps, ref) {
 
                     {mode === ModelCreateMode.ComponentForm && (
                         <CreateComponentForm
-                            t={t}
                             existingModelIds={existingModelIds}
                             onCancel={backToModelForm}
                             onPrimaryAction={(component) =>
