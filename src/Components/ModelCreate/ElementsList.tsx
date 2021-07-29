@@ -77,7 +77,11 @@ const ElementsList: React.FC<ElementsListProps> = ({
                         alignItems: 'center'
                     }
                 }}
-                className="cb-elementslist-row"
+                className={`cb-elementslist-row ${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-readonly-row'
+                        : ''
+                }`}
                 {...props}
             />
         </div>

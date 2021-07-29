@@ -140,7 +140,9 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         subText: t('confirmDeletionDesc')
     };
 
-    const confirmDeletionDialogStyles = { main: { maxWidth: 450 } };
+    const confirmDeletionDialogStyles = {
+        main: { maxWidth: 450, minHeight: 165 }
+    };
     const confirmDeletionModalProps = React.useMemo(
         () => ({
             isBlocking: false,

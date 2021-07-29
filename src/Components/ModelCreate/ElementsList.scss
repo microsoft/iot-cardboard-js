@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.cb-readonly-row {
+    pointer-events: none;
+    background: transparent !important;
+}
+
 .cb-detail-list {
     overflow: hidden;
 
