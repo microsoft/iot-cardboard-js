@@ -47,15 +47,17 @@ export class DTDLModel {
     }
 
     get properties() {
-        return this.contents.filter((c) => c.type === DTDLType.Property);
+        return this.contents.filter((c) => c['@type'] === DTDLType.Property);
     }
 
     get relationships() {
-        return this.contents.filter((c) => c.type === DTDLType.Relationship);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Relationship
+        );
     }
 
     get components() {
-        return this.contents.filter((c) => c.type === DTDLType.Component);
+        return this.contents.filter((c) => c['@type'] === DTDLType.Component);
     }
 }
 

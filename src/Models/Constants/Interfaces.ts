@@ -394,7 +394,10 @@ export interface DTModel {
 
 export interface DTwin {
     $dtId: string;
-    $metadata: { $model: string };
+    $metadata: {
+        $model: string;
+        [propertyName: string]: any;
+    };
     [propertyName: string]: any;
 }
 
