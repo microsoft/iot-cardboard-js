@@ -16,6 +16,8 @@ import {
     DialogFooter,
     DialogType,
     ICommandBarItemProps,
+    MessageBar,
+    MessageBarType,
     PrimaryButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +42,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
     );
+    const [errorMessage, setErrorMessage] = useState(null);
     const selectedModelRef = useRef(selectedModel);
     const existingModelIdsRef = useRef([]);
     const modelListComponentRef = useRef();
@@ -57,13 +60,20 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
         const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
             [model.trimmedCopy() as DTModel]
         );
-        const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
-        if (resolvedModel) {
-            (modelListComponentRef.current as any)?.addNewModel({
-                ...resolvedModel,
-                model: model as DTModel
-            });
-            setSelectedModel(model);
+        if (resolvedModels.getCatastrophicError()?.rawError) {
+            setErrorMessage(
+                (resolvedModels.getCatastrophicError().rawError as any).response
+                    ?.data?.error?.message
+            );
+        } else {
+            const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
+            if (resolvedModel) {
+                (modelListComponentRef.current as any)?.addNewModel({
+                    ...resolvedModel,
+                    model: model as DTModel
+                });
+                setSelectedModel(model);
+            }
         }
     };
 
@@ -89,12 +99,14 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     useEffect(() => {
         selectedModelRef.current = selectedModel;
         existingModelIdsRef.current = (modelListComponentRef.current as any)?.getModelIds();
+        setErrorMessage(null);
     }, [selectedModel]);
 
     useEffect(() => {
         // resetting state with adapter change
         setIsConfirmDeleteDialogOpen(false);
         setIsModelPreviewOpen(false);
+        setErrorMessage(null);
         setSelectedModel(undefined);
     }, [adapter]);
 
@@ -183,6 +195,16 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             }
                             ref={modelCreateComponentRef}
                         />
+                        {errorMessage && (
+                            <MessageBar
+                                messageBarType={MessageBarType.error}
+                                dismissButtonAriaLabel={t('close')}
+                                onDismiss={() => setErrorMessage(null)}
+                                className="cb-mbcard-error-message"
+                            >
+                                {errorMessage}
+                            </MessageBar>
+                        )}
                     </div>
                 )}
             </BaseCompositeCard>

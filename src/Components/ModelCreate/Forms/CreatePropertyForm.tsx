@@ -31,6 +31,7 @@ interface CreatePropertyFormProps {
     popBreadcrumb: () => void;
     propertyToEdit?: DTDLProperty;
     formControlMode?: FormMode;
+    cancelLabel?: string;
 }
 
 const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
@@ -39,7 +40,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     pushBreadcrumb,
     popBreadcrumb,
     propertyToEdit = null,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
+    cancelLabel
 }) => {
     const { t } = useTranslation();
 
@@ -159,7 +161,13 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                     primaryActionLabel={
                         propertyToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('cancel')}
+                    cancelLabel={
+                        cancelLabel
+                            ? cancelLabel
+                            : formControlMode === FormMode.Readonly
+                            ? t('close')
+                            : t('cancel')
+                    }
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
                     formControlMode={formControlMode}
@@ -382,6 +390,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                     popBreadcrumb={popBreadcrumb}
                     onCreateEnum={handleCreateEnum}
                     onCancel={backToPropetyFrom}
+                    cancelLabel={t('back')}
                 />
             )}
         </>

@@ -41,4 +41,12 @@
             padding-top: 12px;
         }
     }
+
+    .cb-mbcard-error-message {
+        bottom: 0;
+        max-height: 60px;
+        overflow: auto;
+        position: absolute;
+        width: 60%;
+    }
 }

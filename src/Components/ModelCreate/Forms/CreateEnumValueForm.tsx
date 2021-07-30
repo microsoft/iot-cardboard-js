@@ -11,6 +11,7 @@ interface CreateEnumValueFormProps {
     valueSchema: string;
     enumValueToEdit?: DTDLEnumValue;
     formControlMode?: FormMode;
+    cancelLabel?: string;
 }
 
 const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
@@ -18,7 +19,8 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
     onCreateEnumValue,
     valueSchema,
     enumValueToEdit = null,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
+    cancelLabel
 }) => {
     const { t } = useTranslation();
 
@@ -53,7 +55,13 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
             primaryActionLabel={
                 enumValueToEdit === null ? t('add') : t('update')
             }
-            cancelLabel={t('cancel')}
+            cancelLabel={
+                cancelLabel
+                    ? cancelLabel
+                    : formControlMode === FormMode.Readonly
+                    ? t('close')
+                    : t('cancel')
+            }
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
             formControlMode={formControlMode}
@@ -127,13 +135,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                         ? 'cb-modelcreate-readonly'
                         : ''
                 }`}
-                onChange={(e) =>
-                    setEnumValue(
-                        valueSchema === 'integer'
-                            ? Number.parseInt(e.currentTarget.value)
-                            : e.currentTarget.value
-                    )
-                }
+                onChange={(e) => setEnumValue(e.currentTarget.value)}
                 required
                 disabled={formControlMode === FormMode.Readonly}
             />

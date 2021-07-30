@@ -53,7 +53,9 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             primaryActionLabel={
                 componentToEdit === null ? t('add') : t('update')
             }
-            cancelLabel={t('cancel')}
+            cancelLabel={
+                formControlMode === FormMode.Readonly ? t('close') : t('cancel')
+            }
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
             formControlMode={formControlMode}

@@ -257,7 +257,11 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 ? t('update')
                                 : t('create')
                         }
-                        cancelLabel={t('cancel')}
+                        cancelLabel={
+                            formMode === FormMode.Readonly
+                                ? t('close')
+                                : t('cancel')
+                        }
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
                         formControlMode={formMode}

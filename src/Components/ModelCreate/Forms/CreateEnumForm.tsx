@@ -32,6 +32,7 @@ interface CreateEnumFormProps {
     popBreadcrumb: () => void;
     enumToEdit?: DTDLEnum;
     formControlMode?: FormMode;
+    cancelLabel?: string;
 }
 
 const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
@@ -40,7 +41,8 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     pushBreadcrumb,
     popBreadcrumb,
     enumToEdit = null,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
+    cancelLabel
 }) => {
     const { t } = useTranslation();
 
@@ -138,7 +140,13 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                     primaryActionLabel={
                         enumToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('cancel')}
+                    cancelLabel={
+                        cancelLabel
+                            ? cancelLabel
+                            : formControlMode === FormMode.Readonly
+                            ? t('close')
+                            : t('cancel')
+                    }
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
                     formControlMode={formControlMode}
@@ -278,6 +286,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                     valueSchema={valueSchema?.key as string}
                     enumValueToEdit={enumValueToEdit.enumValue}
                     formControlMode={formControlMode}
+                    cancelLabel={t('back')}
                 />
             )}
         </>

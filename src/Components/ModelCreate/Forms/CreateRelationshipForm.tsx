@@ -170,7 +170,11 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     primaryActionLabel={
                         relationshipToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('cancel')}
+                    cancelLabel={
+                        formMode === FormMode.Readonly
+                            ? t('close')
+                            : t('cancel')
+                    }
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
                     formControlMode={formMode}
@@ -375,6 +379,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     popBreadcrumb={popBreadcrumb}
                     propertyToEdit={propertyToEdit.property}
                     formControlMode={formMode}
+                    cancelLabel={t('back')}
                 />
             )}
         </>
