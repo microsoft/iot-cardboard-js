@@ -38,6 +38,8 @@
     "title": "Title",
     "enterTitle": "Enter title",
     "createLinechart": "Line chart card creator",
+    "noInformation": "No information provided",
+    "notAvailable": "Not available",
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
         "dataFetchFailed": "Data retrieval failed",
@@ -162,7 +164,9 @@
         "enumValues": "Enum values",
         "enumValue": "Enum value",
         "noEnumValues": "This enum schema has no enum values",
-        "addEnumValue": "Add enum value"
+        "addEnumValue": "Add enum value",
+        "editEnumValue": "Edit enum value",
+        "enumValueDetails": "Enum value details"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

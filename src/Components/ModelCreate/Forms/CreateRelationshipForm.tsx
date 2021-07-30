@@ -48,20 +48,28 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(CreateRelationshipMode.RelationshipForm);
-    const [formMode, setFormMode] = useState(FormMode.New);
-
-    const schemaOptions: IDropdownOption[] = existingModelIds.map(
-        (modelId) => ({ key: modelId, text: modelId })
+    const [formMode, setFormMode] = useState(
+        formControlMode
+            ? formControlMode
+            : relationshipToEdit
+            ? FormMode.Edit
+            : FormMode.New
     );
+
+    const schemaOptions: IDropdownOption[] = [
+        { key: 'any', text: t('modelCreate.anyInterface') }
+    ];
+
+    existingModelIds.forEach((modelId) => {
+        schemaOptions.push({ key: modelId, text: modelId });
+    });
 
     const parseTarget = (targetKey: string) => {
         if (!targetKey) {
             return undefined;
         }
 
-        const filtered = schemaOptions.filter(
-            (o) => o.key === targetKey.toLowerCase()
-        );
+        const filtered = schemaOptions.filter((o) => o.key === targetKey);
         return filtered[0];
     };
 
@@ -113,25 +121,33 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     };
 
     const handlePropertyFormAction = (property: DTDLProperty) => {
-        if (formMode === FormMode.New) {
-            setProperties((currentProperties) => {
-                return [...currentProperties, property];
-            });
-        } else {
+        if (propertyToEdit?.property) {
             setProperties((currentProperties) => {
                 const updatedList = [...currentProperties];
                 updatedList[propertyToEdit.index] = property;
                 return updatedList;
             });
+        } else {
+            setProperties((currentProperties) => {
+                return [...currentProperties, property];
+            });
         }
         backToRelationshipForm();
     };
 
-    const handleSelectProperty = (property: DTDLProperty, index: number) => {
-        setFormMode(FormMode.Edit);
+    const handleSelectProperty = (
+        property: DTDLProperty,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
         setMode(CreateRelationshipMode.PropertyForm);
         setPropertyToEdit({ property, index });
-        pushBreadcrumb('modelCreate.editProperty');
+        pushBreadcrumb(
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.propertyDetails'
+                : 'modelCreate.editProperty'
+        );
     };
 
     const handleDeleteProperty = (index: number) => {
@@ -157,58 +173,132 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     cancelLabel={t('cancel')}
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
-                    formControlMode={formControlMode}
+                    formControlMode={formMode}
                 >
                     <TextField
                         label={t('modelCreate.relationshipId')}
-                        value={id}
+                        title={id}
+                        value={
+                            formMode === FormMode.Readonly && !id
+                                ? '(' + t('noInformation') + ')'
+                                : id
+                        }
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !id
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         placeholder="<scheme>:<path>;<version>"
                         description="e.g., dtmi:com:example:relationship1;1"
                         onChange={(e) => setId(e.currentTarget.value)}
-                        errorMessage={
-                            id && !DTMIRegex.test(id)
+                        validateOnLoad={false}
+                        validateOnFocusOut
+                        onGetErrorMessage={(value) =>
+                            value && !DTMIRegex.test(value)
                                 ? t('modelCreate.invalidIdentifier', {
                                       dtmiLink: 'http://aka.ms/ADTv2Models'
                                   })
                                 : ''
                         }
-                        readOnly={formControlMode === FormMode.Readonly}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('name')}
-                        value={name}
+                        title={name}
+                        value={
+                            formMode === FormMode.Readonly && !name
+                                ? '(' + t('noInformation') + ')'
+                                : name
+                        }
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !name
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setName(e.currentTarget.value)}
                         required
-                        errorMessage={
-                            name && !DTDLNameRegex.test(name)
+                        validateOnLoad={false}
+                        validateOnFocusOut
+                        onGetErrorMessage={(value) =>
+                            !DTDLNameRegex.test(value)
                                 ? t('modelCreate.invalidDTDLName', {
                                       dtdlLink: 'http://aka.ms/ADTv2Models'
                                   })
                                 : ''
                         }
-                        readOnly={formControlMode === FormMode.Readonly}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
-                        value={displayName}
+                        title={displayName}
+                        value={
+                            formMode === FormMode.Readonly && !displayName
+                                ? '(' + t('noInformation') + ')'
+                                : displayName
+                        }
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !displayName
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setDisplayName(e.currentTarget.value)}
-                        readOnly={formControlMode === FormMode.Readonly}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.description')}
-                        multiline
+                        multiline={formMode !== FormMode.Readonly}
                         rows={3}
-                        value={description}
+                        title={description}
+                        value={
+                            formMode === FormMode.Readonly && !description
+                                ? '(' + t('noInformation') + ')'
+                                : description
+                        }
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !description
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setDescription(e.currentTarget.value)}
-                        readOnly={formControlMode === FormMode.Readonly}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.comment')}
-                        multiline
+                        multiline={formMode !== FormMode.Readonly}
                         rows={3}
-                        value={comment}
+                        title={comment}
+                        value={
+                            formMode === FormMode.Readonly && !comment
+                                ? '(' + t('noInformation') + ')'
+                                : comment
+                        }
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !comment
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setComment(e.currentTarget.value)}
-                        readOnly={formControlMode === FormMode.Readonly}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <SpinButton
                         styles={{ root: { padding: '20px 0 8px' } }}
@@ -223,15 +313,33 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         }
                         incrementButtonAriaLabel={t('modelCreate.increaseBy1')}
                         decrementButtonAriaLabel={t('modelCreate.decreaseBy1')}
-                        disabled={formControlMode === FormMode.Readonly}
+                        className={
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        }
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <Dropdown
                         label={t('modelCreate.targetModel')}
-                        placeholder={t('modelCreate.selectOption')}
+                        placeholder={
+                            formMode === FormMode.Readonly && !target
+                                ? '(' + t('noInformation') + ')'
+                                : t('modelCreate.selectOption')
+                        }
                         selectedKey={target ? target.key : undefined}
                         onChange={(_e, item) => setTarget(item)}
                         options={schemaOptions}
-                        disabled={formControlMode === FormMode.Readonly}
+                        className={`${
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formMode === FormMode.Readonly && !target
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <Toggle
                         label={t('modelCreate.writable')}
@@ -239,7 +347,12 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         offText={t('modelCreate.false')}
                         defaultChecked={writable}
                         onChange={(_e, checked) => setWritable(checked)}
-                        disabled={formControlMode === FormMode.Readonly}
+                        className={
+                            formMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        }
+                        disabled={formMode === FormMode.Readonly}
                     />
                     <Separator>{t('modelCreate.properties')}</Separator>
                     <ElementsList
@@ -249,7 +362,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         handleEditElement={handleSelectProperty}
                         handleNewElement={handleClickAddProperty}
                         handleDeleteElement={handleDeleteProperty}
-                        formControlMode={formControlMode}
+                        formControlMode={formMode}
                     />
                 </BaseForm>
             )}
@@ -261,6 +374,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     pushBreadcrumb={pushBreadcrumb}
                     popBreadcrumb={popBreadcrumb}
                     propertyToEdit={propertyToEdit.property}
+                    formControlMode={formMode}
                 />
             )}
         </>

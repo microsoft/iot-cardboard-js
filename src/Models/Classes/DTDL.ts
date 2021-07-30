@@ -455,23 +455,28 @@ export class DTDLModel {
         return this.contents.filter((c) => c['@type'] === DTDLType.Component);
     }
 
-    removeEmptyProperties() {
-        Object.keys(this).map((k) => {
-            if (this[k] === '' || this[k] === null || this[k] === undefined) {
-                delete this[k];
-            }
-            this.contents?.map((c) => {
-                Object.keys(c).map((cProp) => {
+    trimmedCopy() {
+        const removeEmptyProps = (elem: any) => {
+            if (typeof elem === 'object') {
+                Object.keys(elem).map((k) => {
                     if (
-                        c[cProp] === '' ||
-                        c[cProp] === null ||
-                        c[cProp] === undefined
+                        elem[k] === '' ||
+                        elem[k] === null ||
+                        elem[k] === undefined
                     ) {
-                        delete c[cProp];
+                        delete elem[k];
+                    } else {
+                        removeEmptyProps(elem[k]);
                     }
                 });
-            });
-        });
+            } else if (Array.isArray(elem)) {
+                elem.map((item) => removeEmptyProps(item));
+            }
+        };
+
+        const copy = { ...this };
+        removeEmptyProps(copy);
+        return copy;
     }
 }
 
@@ -765,7 +770,7 @@ export class DTDLObject {
 export class DTDLEnum {
     readonly ['@type']: string = 'Enum';
     enumValues: DTDLEnumValue[];
-    valueSchema: string;
+    valueSchema: 'integer' | 'string';
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -774,7 +779,7 @@ export class DTDLEnum {
     constructor(
         id: string,
         enumValues: DTDLEnumValue[],
-        valueSchema: string,
+        valueSchema: 'integer' | 'string' | undefined,
         displayName: string,
         description: string,
         comment: string
@@ -789,13 +794,15 @@ export class DTDLEnum {
     }
 
     static getBlank() {
-        return new DTDLEnum('', [], '', '', '', '');
+        return new DTDLEnum('', [], 'integer', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLEnum(
             obj['@id'],
-            obj.enumValues.map((eV) => DTDLEnumValue.fromObject(eV)),
+            obj.enumValues.map((eV) =>
+                DTDLEnumValue.fromObject(eV, obj.valueSchema)
+            ),
             obj.valueSchema,
             obj.displayName,
             obj.unit,
@@ -832,11 +839,13 @@ export class DTDLEnumValue {
         return new DTDLEnumValue('', '', '', '', '', '');
     }
 
-    static fromObject(obj: any) {
+    static fromObject(obj: any, valueSchema: 'integer' | 'string') {
         return new DTDLEnumValue(
             obj['@id'],
             obj.name,
-            obj.enumValue,
+            valueSchema === 'integer'
+                ? Number.parseInt(obj.enumValue)
+                : obj.enumValue,
             obj.displayName,
             obj.description,
             obj.comment

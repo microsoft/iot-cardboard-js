@@ -266,19 +266,22 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             <TextField
                                 label={t('modelCreate.modelId')}
                                 placeholder="<scheme>:<path>;<version>"
-                                description={
-                                    formMode !== FormMode.Readonly
-                                        ? 'e.g., dtmi:com:example:model1;1'
-                                        : ''
-                                }
+                                description={'e.g., dtmi:com:example:model1;1'}
                                 value={modelId}
                                 onChange={(e) =>
                                     setModelId(e.currentTarget.value)
                                 }
                                 required
-                                readOnly={formMode === FormMode.Readonly}
-                                errorMessage={
-                                    modelId && !DTMIRegex.test(modelId)
+                                className={
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                }
+                                disabled={formMode === FormMode.Readonly}
+                                validateOnLoad={false}
+                                validateOnFocusOut
+                                onGetErrorMessage={(value) =>
+                                    !DTMIRegex.test(value)
                                         ? t('modelCreate.invalidIdentifier', {
                                               dtmiLink:
                                                   'http://aka.ms/ADTv2Models'
@@ -288,31 +291,77 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             />
                             <TextField
                                 label={t('modelCreate.displayName')}
-                                value={displayName}
+                                title={displayName}
+                                value={
+                                    formMode === FormMode.Readonly &&
+                                    !displayName
+                                        ? '(' + t('noInformation') + ')'
+                                        : displayName
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly &&
+                                    !displayName
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setDisplayName(e.currentTarget.value)
                                 }
-                                readOnly={formMode === FormMode.Readonly}
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.description')}
-                                multiline
+                                multiline={formMode !== FormMode.Readonly}
                                 rows={3}
-                                value={description}
+                                title={description}
+                                value={
+                                    formMode === FormMode.Readonly &&
+                                    !description
+                                        ? '(' + t('noInformation') + ')'
+                                        : description
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly &&
+                                    !description
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setDescription(e.currentTarget.value)
                                 }
-                                readOnly={formMode === FormMode.Readonly}
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.comment')}
-                                multiline
+                                multiline={formMode !== FormMode.Readonly}
                                 rows={3}
-                                value={comment}
+                                title={comment}
+                                value={
+                                    formMode === FormMode.Readonly && !comment
+                                        ? '(' + t('noInformation') + ')'
+                                        : comment
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly && !comment
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setComment(e.currentTarget.value)
                                 }
-                                readOnly={formMode === FormMode.Readonly}
+                                disabled={formMode === FormMode.Readonly}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.properties')}>

@@ -54,9 +54,8 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     };
 
     const handleCreateModelClick = async (model: DTDLModel) => {
-        model.removeEmptyProperties();
         const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
-            [model as DTModel]
+            [model.trimmedCopy() as DTModel]
         );
         const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
         if (resolvedModel) {
