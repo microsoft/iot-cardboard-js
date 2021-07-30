@@ -268,7 +268,7 @@ const DataPusherCard = ({
                         >
                             <PrimaryButton
                                 text={t('dataPusher.generateEnvironment')}
-                                disabled={false}
+                                disabled={state.isEnvironmentReady}
                                 onClick={() => {
                                     generateEnvironment();
                                 }}
@@ -590,7 +590,11 @@ const LiveStreamDataForm = () => {
                         min={1}
                         max={Infinity}
                         step={1}
-                        suffix={'s'}
+                        suffix={
+                            state.liveStreamFrequency === 1
+                                ? 'second'
+                                : 'seconds'
+                        }
                         value={state.liveStreamFrequency}
                         onChange={(newValue) => {
                             dispatch({
