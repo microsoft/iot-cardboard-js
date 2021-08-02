@@ -15,12 +15,13 @@ export class HierarchyNode implements IHierarchyNode {
     isLoading?: boolean;
 
     public static createNodesFromADTModels = (
-        models: Array<IADTModel>
+        models: Array<IADTModel>,
+        nodeType: HierarchyNodeType = HierarchyNodeType.Parent
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
             ? models
                   .sort((a, b) =>
-                      a.displayName.en.localeCompare(
+                      a.displayName?.en?.localeCompare(
                           b.displayName.en,
                           undefined,
                           {
@@ -31,12 +32,14 @@ export class HierarchyNode implements IHierarchyNode {
                   )
                   .reduce((p, c: IADTModel) => {
                       p[c.id] = {
-                          name: c.displayName.en,
+                          name: c.displayName?.en || c.id,
                           id: c.id,
                           nodeData: c,
-                          nodeType: HierarchyNodeType.Parent,
-                          children: {},
-                          isCollapsed: true
+                          nodeType,
+                          ...(nodeType === HierarchyNodeType.Parent && {
+                              children: {},
+                              isCollapsed: true
+                          })
                       } as IHierarchyNode;
                       return p;
                   }, {})

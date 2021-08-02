@@ -4,22 +4,26 @@ import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
 import '../ModelCreate.scss';
+import { useTranslation } from 'react-i18next';
+import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 
 interface CreateComponentFormProps {
-    t: (str: string) => string;
     onPrimaryAction: (component: DTDLComponent) => void;
     onCancel: () => void;
     existingModelIds: string[];
     componentToEdit?: DTDLComponent;
+    formControlMode?: FormMode;
 }
 
 const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
-    t,
     onPrimaryAction,
     onCancel,
     existingModelIds,
-    componentToEdit = null
+    componentToEdit = null,
+    formControlMode = FormMode.Edit
 }) => {
+    const { t } = useTranslation();
+
     const initialComponent = componentToEdit ?? DTDLComponent.getBlank();
     const [id, setId] = useState(initialComponent['@id']);
     const [name, setName] = useState(initialComponent.name);
@@ -33,7 +37,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     );
 
     const onClickCreate = () => {
-        const relationship = new DTDLComponent(
+        const component = new DTDLComponent(
             id,
             name,
             schema,
@@ -41,38 +45,97 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             description,
             displayName
         );
-        onPrimaryAction(relationship);
+        onPrimaryAction(component);
     };
 
     return (
         <BaseForm
             primaryActionLabel={
-                componentToEdit === null
-                    ? t('modelCreate.add')
-                    : t('modelCreate.update')
+                componentToEdit === null ? t('add') : t('update')
             }
-            cancelLabel={t('modelCreate.cancel')}
+            cancelLabel={
+                formControlMode === FormMode.Readonly ? t('close') : t('cancel')
+            }
             onPrimaryAction={onClickCreate}
             onCancel={onCancel}
+            formControlMode={formControlMode}
         >
             <TextField
                 label={t('modelCreate.componentId')}
-                prefix="dtmi;"
-                suffix=";1"
-                placeholder="com:example:component1"
-                value={id}
+                placeholder="<scheme>:<path>;<version>"
+                description={'e.g., dtmi:com:example:component1;1'}
+                title={id}
+                value={
+                    formControlMode === FormMode.Readonly && !id
+                        ? '(' + t('noInformation') + ')'
+                        : id
+                }
+                className={`${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                } ${
+                    formControlMode === FormMode.Readonly && !id
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
                 onChange={(e) => setId(e.currentTarget.value)}
-                required
+                validateOnLoad={false}
+                validateOnFocusOut
+                onGetErrorMessage={(value) =>
+                    value && !DTMIRegex.test(value)
+                        ? t('modelCreate.invalidIdentifier', {
+                              dtmiLink: 'http://aka.ms/ADTv2Models'
+                          })
+                        : ''
+                }
+                disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
-                label={t('modelCreate.name')}
+                label={t('name')}
+                title={name}
                 value={name}
                 onChange={(e) => setName(e.currentTarget.value)}
+                required
+                validateOnLoad={false}
+                validateOnFocusOut
+                onGetErrorMessage={(value) =>
+                    !DTDLNameRegex.test(value)
+                        ? t('modelCreate.invalidDTDLName', {
+                              dtdlLink: 'http://aka.ms/ADTv2Models'
+                          })
+                        : ''
+                }
+                className={`${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                } ${
+                    formControlMode === FormMode.Readonly && !name
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('modelCreate.displayName')}
-                value={displayName}
+                title={displayName}
+                value={
+                    formControlMode === FormMode.Readonly && !displayName
+                        ? '(' + t('noInformation') + ')'
+                        : displayName
+                }
+                className={`${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                } ${
+                    formControlMode === FormMode.Readonly && !displayName
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
                 onChange={(e) => setDisplayName(e.currentTarget.value)}
+                disabled={formControlMode === FormMode.Readonly}
             />
             <Dropdown
                 label={t('modelCreate.schema')}
@@ -82,20 +145,57 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                     return { key: e, text: e };
                 })}
                 onChange={(_e, item) => setSchema(item.key as string)}
-            />
-            <TextField
-                label={t('modelCreate.comment')}
-                multiline
-                rows={3}
-                value={comment}
-                onChange={(e) => setComment(e.currentTarget.value)}
+                required
+                className={
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                }
+                disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
                 label={t('modelCreate.description')}
-                multiline
+                multiline={formControlMode !== FormMode.Readonly}
                 rows={3}
-                value={description}
+                title={description}
+                value={
+                    formControlMode === FormMode.Readonly && !description
+                        ? '(' + t('noInformation') + ')'
+                        : description
+                }
+                className={`${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                } ${
+                    formControlMode === FormMode.Readonly && !description
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
                 onChange={(e) => setDescription(e.currentTarget.value)}
+                disabled={formControlMode === FormMode.Readonly}
+            />
+            <TextField
+                label={t('modelCreate.comment')}
+                multiline={formControlMode !== FormMode.Readonly}
+                rows={3}
+                title={comment}
+                value={
+                    formControlMode === FormMode.Readonly && !comment
+                        ? '(' + t('noInformation') + ')'
+                        : comment
+                }
+                className={`${
+                    formControlMode === FormMode.Readonly
+                        ? 'cb-modelcreate-readonly'
+                        : ''
+                } ${
+                    formControlMode === FormMode.Readonly && !comment
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                onChange={(e) => setComment(e.currentTarget.value)}
+                disabled={formControlMode === FormMode.Readonly}
             />
         </BaseForm>
     );

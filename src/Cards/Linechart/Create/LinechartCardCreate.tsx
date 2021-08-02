@@ -72,7 +72,7 @@ const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     return (
         <BaseCardCreate
             theme={theme}
-            title={t('create.createLinechart')}
+            title={t('createLinechart')}
             form={
                 <LinechartCreateForm
                     onSubmit={onDonezo}
@@ -131,8 +131,8 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     return (
         <div className="cb-linechart-form">
             <TextField
-                label={t('create.titleInputLabel')}
-                placeholder={t('create.titleInputPlaceholder')}
+                label={t('title')}
+                placeholder={t('enterTitle')}
                 value={title}
                 onChange={(_, value) => setTitle(value)}
             />

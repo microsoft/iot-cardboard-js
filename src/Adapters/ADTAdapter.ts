@@ -17,6 +17,7 @@ import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
+    DTModel,
     IADTTwinComponent,
     KeyValuePairData
 } from '../Models/Constants';
@@ -117,6 +118,24 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
+    deleteADTModel(modelId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTModelData,
+            {
+                method: 'delete',
+                url: `${this.adtProxyServerPath}/models/${modelId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+    }
+
     getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -137,6 +156,25 @@ export default class ADTAdapter implements IADTAdapter {
                     ...(params?.continuationToken && {
                         continuationToken: params.continuationToken
                     })
+                }
+            }
+        );
+    }
+
+    createADTModels(models: DTModel[]) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterModelsData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/models`,
+                data: models,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
                 }
             }
         );
