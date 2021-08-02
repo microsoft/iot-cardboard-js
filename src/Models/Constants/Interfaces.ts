@@ -196,6 +196,17 @@ export interface IADTModel {
     displayName: Record<string, string>;
     decommissioned: boolean;
     uploadTime: string;
+    model?: IADTModelDefinition;
+}
+
+export interface IADTModelDefinition {
+    '@type': string;
+    '@context': string;
+    '@id': string;
+    displayName: string;
+    description: string;
+    comment: string;
+    contents: any[];
 }
 
 export interface IADTTwin {
@@ -218,6 +229,18 @@ export interface IADTRelationship {
     $sourceId: string;
     $targetId: string;
     targetModel: string;
+}
+
+export interface IADTProperty {
+    ['@type']: 'Property';
+    name: string;
+    schema: string | Record<string, any>;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
 }
 
 export interface IADTTwinComponent {
@@ -286,7 +309,7 @@ export interface ITsiClientChartDataAdapter {
 
 export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTModels(
-        params: AdapterMethodParamsForGetADTModels
+        params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
     getADTTwinsByModelId(
         params: AdapterMethodParamsForGetADTTwinsByModelId
@@ -298,6 +321,8 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+    createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
+    deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -378,10 +403,10 @@ export interface AssetTwin {
 }
 
 export interface DTModelContent {
-    '@type': 'Property' | 'Relationship';
+    '@type': 'Property' | 'Relationship' | 'Telemetry';
     name: string;
-    schema?: 'string' | 'double' | 'integer' | Record<string, unknown>;
-    target?: 'string';
+    schema: string | Record<string, any>;
+    [propertyName: string]: any;
 }
 
 export interface DTModel {
@@ -390,6 +415,8 @@ export interface DTModel {
     '@context': string;
     displayName: string;
     contents: DTModelContent[];
+    description?: string;
+    comment?: string;
 }
 
 export interface DTwin {

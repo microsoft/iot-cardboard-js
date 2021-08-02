@@ -8,13 +8,18 @@ export default {
     title: 'CompositeCards/ADTHierarchyWithBoard/Consume'
 };
 
+const cardStyle = {
+    height: '700px',
+    width: '100%'
+};
+
 export const ADT = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div>
+        <div style={cardStyle}>
             <ADTHierarchyWithBoard
                 title={'Twins'}
                 theme={theme}
@@ -38,7 +43,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div>
+        <div style={cardStyle}>
             <ADTHierarchyWithBoard
                 title={'Twins with reverse lookup'}
                 theme={theme}

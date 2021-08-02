@@ -1,0 +1,52 @@
+@import '../../../../Resources/Styles/BaseStyles';
+
+.cb-mbcard-wrapper {
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+
+    .cb-base-composite-card {
+        background-color: var(--cb-color-bg-card);
+    }
+
+    .cb-base-composite-card-item:nth-child(1) {
+        flex-grow: 0;
+    }
+
+    .cb-mbcard-list {
+        height: 100%;
+        width: 260px;
+
+        .cb-base-card-content {
+            height: 100%;
+            top: 0;
+        }
+
+        .cb-hierarchy-node-name-wrapper {
+            height: 32px;
+        }
+    }
+
+    .cb-commandbar {
+        border: 1px solid var(--cb-color-bg-canvas-inset);
+        margin-left: -32px;
+    }
+
+    .cb-mbcard-form {
+        height: 100%;
+
+        .cb-modelcreate-container {
+            height: calc(100% - 46px);
+            overflow: auto;
+            padding-top: 12px;
+        }
+    }
+
+    .cb-mbcard-error-message {
+        bottom: 0;
+        max-height: 60px;
+        overflow: auto;
+        position: absolute;
+        width: 60%;
+    }
+}

@@ -7,29 +7,45 @@ import BaseForm from './BaseForm';
 import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import CreateEnumValueForm from './CreateEnumValueForm';
 import '../ModelCreate.scss';
+import { useTranslation } from 'react-i18next';
+import { DTMIRegex, FormMode } from '../../../Models/Constants';
 
 export enum CreateEnumMode {
     EnumForm,
     EnumValueForm
 }
 
+class EnumValueToEditInfo {
+    enumValue: DTDLEnumValue;
+    index: number;
+
+    constructor() {
+        this.enumValue = null;
+        this.index = -1;
+    }
+}
+
 interface CreateEnumFormProps {
-    t: (str: string) => string;
     onCreateEnum: (dtdlEnum: DTDLEnum) => void;
     onCancel: () => void;
     pushBreadcrumb: (breadcrumbKey: string) => void;
     popBreadcrumb: () => void;
     enumToEdit?: DTDLEnum;
+    formControlMode?: FormMode;
+    cancelLabel?: string;
 }
 
 const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
-    t,
     onCreateEnum,
     onCancel,
     pushBreadcrumb,
     popBreadcrumb,
-    enumToEdit = null
+    enumToEdit = null,
+    formControlMode = FormMode.Edit,
+    cancelLabel
 }) => {
+    const { t } = useTranslation();
+
     const [mode, setMode] = useState(CreateEnumMode.EnumForm);
 
     const valueSchemaOptions: IDropdownOption[] = [
@@ -54,14 +70,18 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
         initialEnum.enumValues
     );
 
+    const [enumValueToEdit, setEnumValueToEdit] = useState(
+        new EnumValueToEditInfo()
+    );
+
     const onClickCreate = () => {
         const newEnum = new DTDLEnum(
             id,
+            enumValues,
+            valueSchema.key === 'integer' ? 'integer' : 'string',
             displayName,
             description,
-            comment,
-            valueSchema.key as string,
-            enumValues
+            comment
         );
         onCreateEnum(newEnum);
     };
@@ -69,6 +89,20 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     const onClickAddEnumValue = () => {
         setMode(CreateEnumMode.EnumValueForm);
         pushBreadcrumb('modelCreate.addEnumValue');
+    };
+
+    const handleSelectEnumValue = (
+        enumValue: DTDLEnumValue,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setMode(CreateEnumMode.EnumValueForm);
+        setEnumValueToEdit({ enumValue, index });
+        pushBreadcrumb(
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.enumValueDetails'
+                : 'modelCreate.editEnumValue'
+        );
     };
 
     const onClickDeleteEnumValue = (index: number) => {
@@ -84,10 +118,18 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
         popBreadcrumb();
     };
 
-    const onAddEnumValue = (newEnumValue: DTDLEnumValue) => {
-        setEnumValues((currentEnumValues) => {
-            return [...currentEnumValues, newEnumValue];
-        });
+    const onCreateEnumValue = (enumValue: DTDLEnumValue) => {
+        if (enumValueToEdit.enumValue) {
+            setEnumValues((currentEnumValues) => {
+                const updatedList = [...currentEnumValues];
+                updatedList[enumValueToEdit.index] = enumValue;
+                return updatedList;
+            });
+        } else {
+            setEnumValues((currentEnumValues) => {
+                return [...currentEnumValues, enumValue];
+            });
+        }
         backToEnumForm();
     };
 
@@ -96,40 +138,117 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
             {mode === CreateEnumMode.EnumForm && (
                 <BaseForm
                     primaryActionLabel={
-                        enumToEdit === null
-                            ? t('modelCreate.add')
-                            : t('modelCreate.update')
+                        enumToEdit === null ? t('add') : t('update')
                     }
-                    cancelLabel={t('modelCreate.cancel')}
+                    cancelLabel={
+                        cancelLabel
+                            ? cancelLabel
+                            : formControlMode === FormMode.Readonly
+                            ? t('close')
+                            : t('cancel')
+                    }
                     onPrimaryAction={onClickCreate}
                     onCancel={onCancel}
+                    formControlMode={formControlMode}
                 >
                     <TextField
                         label={t('modelCreate.enumId')}
-                        prefix="dtmi;"
-                        suffix=";1"
-                        placeholder="com:example:enum1"
-                        value={id}
+                        placeholder="<scheme>:<path>;<version>"
+                        description={'e.g., dtmi:com:example:enum1;1'}
+                        title={id}
+                        value={
+                            formControlMode === FormMode.Readonly && !id
+                                ? '(' + t('noInformation') + ')'
+                                : id
+                        }
+                        className={`${
+                            formControlMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formControlMode === FormMode.Readonly && !id
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setId(e.currentTarget.value)}
+                        validateOnLoad={false}
+                        validateOnFocusOut
+                        onGetErrorMessage={(value) =>
+                            value && !DTMIRegex.test(value)
+                                ? t('modelCreate.invalidIdentifier', {
+                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                  })
+                                : ''
+                        }
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.displayName')}
-                        value={displayName}
+                        title={displayName}
+                        value={
+                            formControlMode === FormMode.Readonly &&
+                            !displayName
+                                ? '(' + t('noInformation') + ')'
+                                : displayName
+                        }
+                        className={`${
+                            formControlMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formControlMode === FormMode.Readonly &&
+                            !displayName
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setDisplayName(e.currentTarget.value)}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.description')}
-                        multiline
+                        multiline={formControlMode !== FormMode.Readonly}
                         rows={3}
-                        value={description}
+                        title={description}
+                        value={
+                            formControlMode === FormMode.Readonly &&
+                            !description
+                                ? '(' + t('noInformation') + ')'
+                                : description
+                        }
+                        className={`${
+                            formControlMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formControlMode === FormMode.Readonly &&
+                            !description
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setDescription(e.currentTarget.value)}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
                         label={t('modelCreate.comment')}
-                        multiline
+                        multiline={formControlMode !== FormMode.Readonly}
                         rows={3}
-                        value={comment}
+                        title={comment}
+                        value={
+                            formControlMode === FormMode.Readonly && !comment
+                                ? '(' + t('noInformation') + ')'
+                                : comment
+                        }
+                        className={`${
+                            formControlMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        } ${
+                            formControlMode === FormMode.Readonly && !comment
+                                ? 'cb-noinformation-value'
+                                : ''
+                        }`}
                         onChange={(e) => setComment(e.currentTarget.value)}
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <Dropdown
                         label={t('modelCreate.valueSchema')}
@@ -137,27 +256,37 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                         options={valueSchemaOptions}
                         selectedKey={valueSchema ? valueSchema.key : undefined}
                         onChange={(_e, item) => setValueSchema(item)}
+                        required
+                        className={
+                            formControlMode === FormMode.Readonly
+                                ? 'cb-modelcreate-readonly'
+                                : ''
+                        }
+                        disabled={formControlMode === FormMode.Readonly}
                     />
                     <Text variant="medium" className="cb-modelcreate-title">
                         {t('modelCreate.enumValues')}
                     </Text>
                     <ElementsList
-                        t={t}
                         noElementLabelKey="modelCreate.noEnumValues"
                         addElementLabelKey="modelCreate.addEnumValue"
                         elements={enumValues}
-                        handleEditElement={onClickAddEnumValue}
+                        handleEditElement={handleSelectEnumValue}
                         handleNewElement={onClickAddEnumValue}
                         handleDeleteElement={onClickDeleteEnumValue}
+                        formControlMode={formControlMode}
                     />
                 </BaseForm>
             )}
 
             {mode === CreateEnumMode.EnumValueForm && (
                 <CreateEnumValueForm
-                    t={t}
                     onCancel={backToEnumForm}
-                    onCreateEnumValue={onAddEnumValue}
+                    onCreateEnumValue={onCreateEnumValue}
+                    valueSchema={valueSchema?.key as string}
+                    enumValueToEdit={enumValueToEdit.enumValue}
+                    formControlMode={formControlMode}
+                    cancelLabel={t('back')}
                 />
             )}
         </>
