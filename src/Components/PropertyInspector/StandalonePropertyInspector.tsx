@@ -1,4 +1,3 @@
-import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useState } from 'react';
 import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
@@ -12,6 +11,7 @@ import './StandalonePropertyInspector.scss';
 interface StandalonePropertyInspectorProps {
     twin: DTwin;
     model: DtdlInterface;
+    components?: DtdlInterface[];
     onCommitChanges?: (patch: DTwinUpdateEvent) => any;
 }
 
@@ -35,39 +35,43 @@ interface StandalonePropertyInspectorProps {
         ]
     */
 
-const parsePropertyIntoNode = (property): PropertyTreeNode => {
+const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
     if (
-        typeof property.schema === 'string' &&
-        dtdlPrimitiveTypesList.indexOf(property.schema) !== -1
+        typeof modelProperty.schema === 'string' &&
+        dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
     ) {
         return {
-            name: property.name,
+            name: modelProperty.displayName ?? modelProperty.name,
             role: NodeRole.leaf,
-            schema: property.schema
+            schema: modelProperty.schema,
+            type: DTDLType.Property
         };
-    } else if (typeof property.schema === 'object') {
-        switch (property.schema['@type']) {
+    } else if (typeof modelProperty.schema === 'object') {
+        switch (modelProperty.schema['@type']) {
             case DTDLSchemaType.Object:
                 return {
-                    name: property.name,
+                    name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.parent,
                     schema: DTDLSchemaType.Object,
-                    children: property.schema.fields.map((field) =>
-                        parsePropertyIntoNode(field)
+                    children: modelProperty.schema.fields.map((field) =>
+                        parsePropertyIntoNode(field, twin)
                     ),
-                    isCollapsed: true
+                    isCollapsed: true,
+                    type: DTDLType.Property
                 };
             case DTDLSchemaType.Enum: // TODO add enum values to node
                 return {
-                    name: property.name,
+                    name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
-                    schema: DTDLSchemaType.Enum
+                    schema: DTDLSchemaType.Enum,
+                    type: DTDLType.Property
                 };
             case DTDLSchemaType.Map: // TODO figure out how maps work
                 return {
-                    name: property.name,
+                    name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
-                    schema: DTDLSchemaType.Map
+                    schema: DTDLSchemaType.Map,
+                    type: DTDLType.Property
                 };
             case DTDLSchemaType.Array: // TODO support arrays in future
             default:
@@ -80,22 +84,41 @@ const parsePropertyIntoNode = (property): PropertyTreeNode => {
 
 const parseModelIntoPropertyTree = (
     twin: DTwin,
-    model: DtdlInterface
+    model: DtdlInterface,
+    components?: DtdlInterface[]
 ): PropertyTreeNode[] => {
     const treeNodes: PropertyTreeNode[] = [];
 
-    model.contents.forEach((item) => {
-        const type = Array.isArray(item['@type'])
-            ? item['@type'][0]
-            : item['@type'];
+    model.contents.forEach((modelItem) => {
+        const type = Array.isArray(modelItem['@type'])
+            ? modelItem['@type'][0]
+            : modelItem['@type'];
 
         let node: PropertyTreeNode;
 
         switch (type) {
             case DTDLType.Property:
-                node = parsePropertyIntoNode(item);
+                node = parsePropertyIntoNode(modelItem, twin);
                 break;
-            case DTDLType.Component:
+            case DTDLType.Component: {
+                const componentInterface = components?.find(
+                    (c) => c['@id'] === modelItem.schema
+                );
+                if (componentInterface) {
+                    node = {
+                        name: modelItem.name,
+                        role: NodeRole.parent,
+                        type: DTDLType.Component,
+                        isCollapsed: true,
+                        children: parseModelIntoPropertyTree(
+                            twin,
+                            componentInterface,
+                            components
+                        )
+                    };
+                }
+                break;
+            }
             case DTDLType.Telemetry:
             case DTDLType.Command:
             case DTDLType.Relationship:
@@ -105,7 +128,9 @@ const parseModelIntoPropertyTree = (
         if (node) {
             treeNodes.push({
                 ...node,
-                isSet: item.name in twin
+                ...(node.type === DTDLType.Property && {
+                    isSet: modelItem.name in twin
+                })
             });
         }
     });
@@ -113,14 +138,18 @@ const parseModelIntoPropertyTree = (
     return treeNodes;
 };
 
+/** StandalonePropertyInspector takes a resolved Twin, Model, and array of components, its parent component
+ *  should handle the fetching and transformation of these objects
+ */
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = ({
     twin,
     model,
+    components,
     onCommitChanges = () => null
 }) => {
     const [propertyTreeNodes, setPropertyTreeNodes] = useState<
         PropertyTreeNode[]
-    >(parseModelIntoPropertyTree(twin, model));
+    >(parseModelIntoPropertyTree(twin, model, components));
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(

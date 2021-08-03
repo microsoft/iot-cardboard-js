@@ -1,9 +1,12 @@
+import { DTDLSchemaType, DTDLType } from '../../../Models/Classes/DTDL';
+
 export interface PropertyTreeNode {
     children?: Array<PropertyTreeNode>;
     name: string;
     role: NodeRole;
     isSet?: boolean;
-    schema: string;
+    schema?: DTDLSchemaType;
+    type?: DTDLType;
     isCollapsed?: boolean;
 }
 

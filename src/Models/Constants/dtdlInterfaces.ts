@@ -1,7 +1,7 @@
 export interface DtdlInterface {
     '@id': string;
     '@type': string;
-    '@context': string | [string];
+    '@context': string | string[];
     comment?: string;
     contents?: DtdlInterfaceContent[];
     description?: string;

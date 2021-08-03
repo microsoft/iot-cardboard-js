@@ -35,6 +35,8 @@ const Tree: React.FC<TreeProps> = ({ data }) => {
 };
 
 const TreeNode: React.FC<NodeProps> = ({ node }) => {
+    const { onParentClick } = useContext(PropertyTreeContext);
+
     const Chevron = ({ collapsed }) => (
         <Icon
             iconName={'ChevronRight'}
@@ -47,9 +49,16 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
     if (node.role === NodeRole.parent) {
         return (
             <div className="cb-property-tree-expandable-row">
-                <Chevron collapsed={node.isCollapsed} />
-                <div className="cb-property-tree-parent-node">
-                    <NodeRow node={node} />
+                <div
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onParentClick(node);
+                    }}
+                >
+                    <Chevron collapsed={node.isCollapsed} />
+                    <div className="cb-property-tree-parent-node">
+                        <NodeRow node={node} />
+                    </div>
                 </div>
                 {!node.isCollapsed && <Tree data={node.children} />}
             </div>
@@ -60,16 +69,9 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeRow: React.FC<NodeProps> = ({ node }) => {
-    const { onParentClick } = useContext(PropertyTreeContext);
-
     return (
-        <div
-            onClick={(e) => {
-                e.stopPropagation();
-                onParentClick(node);
-            }}
-        >
-            {node.name}: <i>{node.schema}</i>
+        <div>
+            {node.name}: <i>{node.schema ?? node.type}</i>
             {node.isSet === false ? ', unset' : null}
         </div>
     );

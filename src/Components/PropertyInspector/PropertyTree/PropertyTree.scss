@@ -30,17 +30,18 @@
     }
 
     .cb-property-tree-list-item {
+        cursor: default;
         list-style: none;
         margin: 4px 0;
         width: fit-content;
     }
 
     .cb-property-tree-parent-node {
+        cursor: pointer;
         padding-left: 16px;
     }
 
     .cb-property-tree-expandable-row {
-        cursor: pointer;
         position: relative;
     }
 }

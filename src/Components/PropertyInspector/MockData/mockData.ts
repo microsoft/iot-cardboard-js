@@ -242,6 +242,76 @@ export const mockModel = {
                     schema: 'string'
                 }
             }
+        },
+        {
+            '@type': 'Component',
+            name: 'location',
+            schema: 'dtmi:digitaltwins:ngsi_ld:city:geoLocation;1'
         }
     ]
 };
+
+export const mockComponents = [
+    {
+        '@id': 'dtmi:digitaltwins:ngsi_ld:city:geoLocation;1',
+        '@type': 'Interface',
+        displayName: 'GeoLocation',
+        contents: [
+            {
+                '@type': 'Property',
+                name: 'type',
+                schema: {
+                    '@type': 'Enum',
+                    valueSchema: 'string',
+                    enumValues: [
+                        {
+                            name: 'position',
+                            displayName: 'Position',
+                            enumValue: 'Position'
+                        },
+                        {
+                            name: 'point',
+                            displayName: 'Point',
+                            enumValue: 'Point'
+                        },
+                        {
+                            name: 'multiPoint',
+                            displayName: 'MultiPoint',
+                            enumValue: 'MultiPoint'
+                        },
+                        {
+                            name: 'lineString',
+                            displayName: 'LineString',
+                            enumValue: 'LineString'
+                        },
+                        {
+                            name: 'multiLineString',
+                            displayName: 'MultiLineString',
+                            enumValue: 'MultiLineString'
+                        },
+                        {
+                            name: 'polygon',
+                            displayName: 'Polygon',
+                            enumValue: 'Polygon'
+                        },
+                        {
+                            name: 'multiPolygon',
+                            displayName: 'MultiPolygon',
+                            enumValue: 'MultiPolygon'
+                        }
+                    ]
+                },
+
+                writable: true
+            },
+            {
+                '@type': 'Property',
+                name: 'coordinates',
+                schema: 'string',
+                writable: true
+            }
+        ],
+
+        '@context': ['dtmi:dtdl:context;2']
+    }
+];
