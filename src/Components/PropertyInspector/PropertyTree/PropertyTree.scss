@@ -1,1 +1,46 @@
 // TODO
+.cb-property-tree-container {
+    font-size: 14px;
+    height: 100%;
+    overflow-y: auto;
+    width: 100%;
+
+    .cb-chevron {
+        display: inline-block;
+        font-family: 'FabricMDL2Icons' !important;
+        font-size: 12px;
+        pointer-events: none;
+        position: absolute;
+        top: 4px;
+        transition: all 0.2s ease;
+        z-index: 1;
+
+        &.cb-collapsed {
+            transform: rotate(0deg);
+        }
+
+        &.cb-expanded {
+            transform: rotate(90deg);
+        }
+    }
+
+    .cb-property-tree-list-group {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .cb-property-tree-list-item {
+        list-style: none;
+        margin: 4px 0;
+        width: fit-content;
+    }
+
+    .cb-property-tree-parent-node {
+        padding-left: 16px;
+    }
+
+    .cb-property-tree-expandable-row {
+        cursor: pointer;
+        position: relative;
+    }
+}

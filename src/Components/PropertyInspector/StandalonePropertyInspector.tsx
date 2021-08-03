@@ -35,45 +35,7 @@ interface StandalonePropertyInspectorProps {
         ]
     */
 
-// -------- BEGIN WITH PRIMITIVE PROPERTIES ---------
-/*
-
-    -- Primitive schemas --
-    boolean
-    date
-    dateTime
-    double
-    duration
-    float
-    integer
-    long
-    string
-    time
-
-    Active - properties currently set on the twin, must be mapped onto active list
-    Inactive - properties that can be added to the twin
-    
-    {
-        active: [
-            {
-                name: "InFlow"
-                schema: "double",
-                value: 5.23
-            }
-        ]
-        inactive: [
-            {
-                name: "Temperature"
-                schema: "double",
-                value: null
-            }
-        ]
-    }
-
-*/
-
 const parsePropertyIntoNode = (property): PropertyTreeNode => {
-    // Parsing primitive property
     if (
         typeof property.schema === 'string' &&
         dtdlPrimitiveTypesList.indexOf(property.schema) !== -1
@@ -111,6 +73,8 @@ const parsePropertyIntoNode = (property): PropertyTreeNode => {
             default:
                 return null;
         }
+    } else {
+        return null;
     }
 };
 
@@ -138,10 +102,12 @@ const parseModelIntoPropertyTree = (
                 return null;
         }
 
-        treeNodes.push({
-            ...node,
-            isSet: item.name in twin
-        });
+        if (node) {
+            treeNodes.push({
+                ...node,
+                isSet: item.name in twin
+            });
+        }
     });
 
     return treeNodes;
@@ -186,7 +152,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 
     return (
         <div className="cb-standalone-property-inspector-container">
-            <h1>{twin['$dtId']}</h1>
+            <h3 style={{ marginLeft: 20 }}>{twin['$dtId']}</h3>
             <PropertyTree
                 data={propertyTreeNodes}
                 onParentClick={(parent) => onParentClick(parent)}

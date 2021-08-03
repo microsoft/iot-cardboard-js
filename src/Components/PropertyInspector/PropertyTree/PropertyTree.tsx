@@ -1,3 +1,4 @@
+import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import React, { createContext, useContext } from 'react';
 import {
     NodeProps,
@@ -5,13 +6,14 @@ import {
     PropertyTreeProps,
     NodeRole
 } from './PropertyTree.types';
+import './PropertyTree.scss';
 
 const PropertyTreeContext = createContext(null);
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({ data, onParentClick }) => {
     return (
         <PropertyTreeContext.Provider value={{ onParentClick }}>
-            <div>
+            <div className="cb-property-tree-container">
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>
@@ -20,10 +22,10 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({ data, onParentClick }) => {
 
 const Tree: React.FC<TreeProps> = ({ data }) => {
     return (
-        <ul>
+        <ul className="cb-property-tree-list-group">
             {data.map((node) => {
                 return (
-                    <li key={node.name}>
+                    <li className="cb-property-tree-list-item" key={node.name}>
                         <TreeNode node={node} />
                     </li>
                 );
@@ -33,10 +35,22 @@ const Tree: React.FC<TreeProps> = ({ data }) => {
 };
 
 const TreeNode: React.FC<NodeProps> = ({ node }) => {
+    const Chevron = ({ collapsed }) => (
+        <Icon
+            iconName={'ChevronRight'}
+            className={`cb-chevron ${
+                collapsed ? 'cb-collapsed' : 'cb-expanded'
+            }`}
+        />
+    );
+
     if (node.role === NodeRole.parent) {
         return (
-            <div>
-                <NodeRow node={node} />
+            <div className="cb-property-tree-expandable-row">
+                <Chevron collapsed={node.isCollapsed} />
+                <div className="cb-property-tree-parent-node">
+                    <NodeRow node={node} />
+                </div>
                 {!node.isCollapsed && <Tree data={node.children} />}
             </div>
         );
