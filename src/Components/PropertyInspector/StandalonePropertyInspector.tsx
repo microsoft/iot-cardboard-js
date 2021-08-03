@@ -1,8 +1,12 @@
 import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useState } from 'react';
+import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
+import { dtdlPrimitiveTypesList } from '../../Models/Constants/Constants';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 import { DTwin, DTwinUpdateEvent } from '../../Models/Constants/Interfaces';
+import PropertyTree from './PropertyTree/PropertyTree';
+import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 
 interface StandalonePropertyInspectorProps {
@@ -68,55 +72,125 @@ interface StandalonePropertyInspectorProps {
 
 */
 
+const parsePropertyIntoNode = (property): PropertyTreeNode => {
+    // Parsing primitive property
+    if (
+        typeof property.schema === 'string' &&
+        dtdlPrimitiveTypesList.indexOf(property.schema) !== -1
+    ) {
+        return {
+            name: property.name,
+            role: NodeRole.leaf,
+            schema: property.schema
+        };
+    } else if (typeof property.schema === 'object') {
+        switch (property.schema['@type']) {
+            case DTDLSchemaType.Object:
+                return {
+                    name: property.name,
+                    role: NodeRole.parent,
+                    schema: DTDLSchemaType.Object,
+                    children: property.schema.fields.map((field) =>
+                        parsePropertyIntoNode(field)
+                    ),
+                    isCollapsed: true
+                };
+            case DTDLSchemaType.Enum: // TODO add enum values to node
+                return {
+                    name: property.name,
+                    role: NodeRole.leaf,
+                    schema: DTDLSchemaType.Enum
+                };
+            case DTDLSchemaType.Map: // TODO figure out how maps work
+                return {
+                    name: property.name,
+                    role: NodeRole.leaf,
+                    schema: DTDLSchemaType.Map
+                };
+            case DTDLSchemaType.Array: // TODO support arrays in future
+            default:
+                return null;
+        }
+    }
+};
+
+const parseModelIntoPropertyTree = (
+    twin: DTwin,
+    model: DtdlInterface
+): PropertyTreeNode[] => {
+    const treeNodes: PropertyTreeNode[] = [];
+
+    model.contents.forEach((item) => {
+        const type = Array.isArray(item['@type'])
+            ? item['@type'][0]
+            : item['@type'];
+
+        let node: PropertyTreeNode;
+
+        switch (type) {
+            case DTDLType.Property:
+                node = parsePropertyIntoNode(item);
+                break;
+            case DTDLType.Component:
+            case DTDLType.Telemetry:
+            case DTDLType.Command:
+            case DTDLType.Relationship:
+                return null;
+        }
+
+        treeNodes.push({
+            ...node,
+            isSet: item.name in twin
+        });
+    });
+
+    return treeNodes;
+};
+
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = ({
     twin,
     model,
     onCommitChanges = () => null
 }) => {
-    console.log('Twin: ', twin);
-    console.log('Model: ', model);
+    const [propertyTreeNodes, setPropertyTreeNodes] = useState<
+        PropertyTreeNode[]
+    >(parseModelIntoPropertyTree(twin, model));
 
-    // const getInitialPropertyObject = () => {
-    //     const initialPropertyObject = { active: [], inactive: [] };
+    const onParentClick = (parent: PropertyTreeNode) => {
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                let targetNode;
 
-    //     const allPrimitiveProperties = model.properties.filter(
-    //         (p) =>
-    //             typeof p.schema === 'string' &&
-    //             primitiveSchemas.includes(p.schema)
-    //     );
+                const findNodeToCollapseToggle = (
+                    nodes: PropertyTreeNode[]
+                ) => {
+                    for (let i = 0; i < nodes.length; i++) {
+                        const node = nodes[i];
+                        if (node.name === parent.name) {
+                            targetNode = node;
+                            return;
+                        } else if (node.children) {
+                            findNodeToCollapseToggle(node.children);
+                        }
+                    }
+                };
 
-    //     // Map current twin values onto model schema form (populate)
-    //     allPrimitiveProperties.forEach((p) => {
-    //         if (p.name in twin) {
-    //             initialPropertyObject.active.push({
-    //                 ...p,
-    //                 value: twin[p.name]
-    //             });
-    //         } else {
-    //             initialPropertyObject.inactive.push(p);
-    //         }
-    //     });
+                findNodeToCollapseToggle(draft);
 
-    //     return initialPropertyObject;
-    // };
-
-    const [properties, setProperties] = useState(null);
-
-    /*
-        -- Complex schemas v hard woah TODO --
-        enum
-        array --> can contain array, enum, map, or object (recursive) 
-        map --> can contain array, enum, map, or object (recursive)
-        object --> can contain array, enum, map, or object (recursive)
-    */
-
-    // Show readonly elements for "$dtId", "$etag", "$metadata", "telemetry", (possibly more)
-
-    // On save, send patch updates to ADT API and show updated result
+                targetNode
+                    ? (targetNode.isCollapsed = !targetNode.isCollapsed)
+                    : null;
+            })
+        );
+    };
 
     return (
         <div className="cb-standalone-property-inspector-container">
             <h1>{twin['$dtId']}</h1>
+            <PropertyTree
+                data={propertyTreeNodes}
+                onParentClick={(parent) => onParentClick(parent)}
+            />
         </div>
     );
 };
