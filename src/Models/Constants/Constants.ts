@@ -15,3 +15,18 @@ export const DTMIRegex = new RegExp(
 export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
+
+export const dtdlPrimitiveTypesList = [
+    'boolean',
+    'date',
+    'dateTime',
+    'double',
+    'duration',
+    'float',
+    'integer',
+    'long',
+    'string',
+    'time'
+];
+
+export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];

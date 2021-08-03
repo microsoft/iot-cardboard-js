@@ -403,7 +403,13 @@ export interface AssetTwin {
 }
 
 export interface DTModelContent {
-    '@type': 'Property' | 'Relationship' | 'Telemetry';
+    '@type':
+        | 'Property'
+        | 'Relationship'
+        | 'Telemetry'
+        | 'Command'
+        | 'Component'
+        | [string, string];
     name: string;
     schema: string | Record<string, any>;
     [propertyName: string]: any;
@@ -411,10 +417,10 @@ export interface DTModelContent {
 
 export interface DTModel {
     '@id': string;
-    '@type': string;
-    '@context': string;
-    displayName: string;
-    contents: DTModelContent[];
+    '@type': string | [string, string];
+    '@context': string | [string];
+    displayName?: string;
+    contents?: DTModelContent[];
     description?: string;
     comment?: string;
 }
