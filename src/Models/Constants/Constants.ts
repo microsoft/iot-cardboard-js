@@ -29,4 +29,17 @@ export const dtdlPrimitiveTypesList = [
     'time'
 ];
 
+export enum dtdlPrimitiveTypesEnum {
+    boolean = 'boolean',
+    date = 'date',
+    dateTime = 'dateTime',
+    double = 'double',
+    duration = 'duration',
+    float = 'float',
+    integer = 'integer',
+    long = 'long',
+    string = 'string',
+    time = 'time'
+}
+
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];

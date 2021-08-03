@@ -1,19 +1,23 @@
 import produce from 'immer';
 import React, { useState } from 'react';
 import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
-import { dtdlPrimitiveTypesList } from '../../Models/Constants/Constants';
-import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
-import { DTwin, DTwinUpdateEvent } from '../../Models/Constants/Interfaces';
+import {
+    dtdlPrimitiveTypesEnum,
+    dtdlPrimitiveTypesList
+} from '../../Models/Constants/Constants';
+import {
+    DtdlInterface,
+    DtdlRelationship
+} from '../../Models/Constants/dtdlInterfaces';
+import { DTwin } from '../../Models/Constants/Interfaces';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
-
-interface StandalonePropertyInspectorProps {
-    twin: DTwin;
-    model: DtdlInterface;
-    components?: DtdlInterface[];
-    onCommitChanges?: (patch: DTwinUpdateEvent) => any;
-}
+import {
+    isTwin,
+    RelationshipStandalonePropertyInspectorProps,
+    TwinStandalonePropertyInspectorProps
+} from './StandalonePropertyInspector.types';
 
 // Build up patch array -- single source of truth for patches -- push to or update existing when user changes form fields
 /*
@@ -35,7 +39,7 @@ interface StandalonePropertyInspectorProps {
         ]
     */
 
-const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
+const parsePropertyIntoNode = (modelProperty): PropertyTreeNode => {
     if (
         typeof modelProperty.schema === 'string' &&
         dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
@@ -54,7 +58,7 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                     role: NodeRole.parent,
                     schema: DTDLSchemaType.Object,
                     children: modelProperty.schema.fields.map((field) =>
-                        parsePropertyIntoNode(field, twin)
+                        parsePropertyIntoNode(field)
                     ),
                     isCollapsed: true,
                     type: DTDLType.Property
@@ -82,7 +86,32 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
     }
 };
 
-const parseModelIntoPropertyTree = (
+const parseRelationshipIntoPropertyTree = (
+    relationship: DtdlRelationship
+): PropertyTreeNode[] => {
+    const treeNodes: PropertyTreeNode[] = [];
+
+    // Push readonly properties to tree
+    Object.keys(relationship).forEach((key) => {
+        if (key !== 'properties') {
+            const val = relationship[key];
+            treeNodes.push({
+                name: key,
+                role: NodeRole.leaf,
+                readonly: true,
+                schema: dtdlPrimitiveTypesEnum.string
+            });
+        }
+    });
+
+    relationship?.properties?.forEach((property) => {
+        treeNodes.push(parsePropertyIntoNode(property));
+    });
+
+    return treeNodes;
+};
+
+const parseTwinIntoPropertyTree = (
     twin: DTwin,
     model: DtdlInterface,
     components?: DtdlInterface[]
@@ -98,7 +127,7 @@ const parseModelIntoPropertyTree = (
 
         switch (type) {
             case DTDLType.Property:
-                node = parsePropertyIntoNode(modelItem, twin);
+                node = parsePropertyIntoNode(modelItem);
                 break;
             case DTDLType.Component: {
                 const componentInterface = components?.find(
@@ -110,7 +139,7 @@ const parseModelIntoPropertyTree = (
                         role: NodeRole.parent,
                         type: DTDLType.Component,
                         isCollapsed: true,
-                        children: parseModelIntoPropertyTree(
+                        children: parseTwinIntoPropertyTree(
                             twin,
                             componentInterface,
                             components
@@ -138,18 +167,25 @@ const parseModelIntoPropertyTree = (
     return treeNodes;
 };
 
-/** StandalonePropertyInspector takes a resolved Twin, Model, and array of components, its parent component
+/**
+ *  StandalonePropertyInspector takes a resolved Twin, Model, and array of components, its parent component
  *  should handle the fetching and transformation of these objects
  */
-const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = ({
-    twin,
-    model,
-    components,
-    onCommitChanges = () => null
-}) => {
+const StandalonePropertyInspector: React.FC<
+    | TwinStandalonePropertyInspectorProps
+    | RelationshipStandalonePropertyInspectorProps
+> = (props) => {
     const [propertyTreeNodes, setPropertyTreeNodes] = useState<
         PropertyTreeNode[]
-    >(parseModelIntoPropertyTree(twin, model, components));
+    >(
+        isTwin(props)
+            ? parseTwinIntoPropertyTree(
+                  props.twin,
+                  props.model,
+                  props.components
+              )
+            : parseRelationshipIntoPropertyTree(props.relationship)
+    );
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(
@@ -181,7 +217,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 
     return (
         <div className="cb-standalone-property-inspector-container">
-            <h3 style={{ marginLeft: 20 }}>{twin['$dtId']}</h3>
+            <h3 style={{ marginLeft: 20 }}>
+                {isTwin(props)
+                    ? props.twin['$dtId']
+                    : props.relationship['$relationshipId']}
+            </h3>
             <PropertyTree
                 data={propertyTreeNodes}
                 onParentClick={(parent) => onParentClick(parent)}
