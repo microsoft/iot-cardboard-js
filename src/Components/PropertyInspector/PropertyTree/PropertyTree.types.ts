@@ -4,6 +4,7 @@ import {
     DTDLType
 } from '../../../Models/Classes/DTDL';
 
+type PrimitiveValueTypes = boolean | string | number;
 export interface PropertyTreeNode {
     children?: Array<PropertyTreeNode>;
     name: string;
@@ -13,6 +14,7 @@ export interface PropertyTreeNode {
     type?: DTDLType;
     isCollapsed?: boolean;
     readonly?: boolean;
+    value?: PrimitiveValueTypes;
 }
 
 export interface PropertyTreeProps {

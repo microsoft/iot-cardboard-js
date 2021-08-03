@@ -44,4 +44,24 @@
     .cb-property-tree-expandable-row {
         position: relative;
     }
+
+    .cb-property-tree-node {
+        display: flex;
+    }
+    .cb-property-tree-node-name {
+        margin-right: 8px;
+    }
+    .cb-property-tree-node-value {
+        font-weight: bold;
+        margin-right: 8px;
+    }
+    .cb-property-tree-node-type {
+        align-items: center;
+        display: flex;
+        font-size: 0.7em;
+        font-style: italic;
+    }
+    .cb-property-tree-node-value-unset {
+        margin-right: 8px;
+    }
 }

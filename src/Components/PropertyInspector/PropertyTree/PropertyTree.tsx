@@ -7,14 +7,20 @@ import {
     NodeRole
 } from './PropertyTree.types';
 import './PropertyTree.scss';
+import { dtdlPrimitiveTypesEnum } from '../../../Models/Constants';
+import { DTDLSchemaType } from '../../../Models/Classes/DTDL';
 
 const PropertyTreeContext = createContext(null);
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({ data, onParentClick }) => {
+    const set = data.filter((node) => node.isSet !== false);
+    const unset = data.filter((node) => node.isSet === false);
+
     return (
         <PropertyTreeContext.Provider value={{ onParentClick }}>
             <div className="cb-property-tree-container">
-                <Tree data={data} />
+                <Tree data={set} />
+                <Tree data={unset} />
             </div>
         </PropertyTreeContext.Provider>
     );
@@ -68,11 +74,32 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
     }
 };
 
+const NodeValue: React.FC<NodeProps> = ({ node }) => {
+    if (node.schema === dtdlPrimitiveTypesEnum.boolean) {
+        return (
+            <div className="cb-property-tree-node-value">
+                {String(node.value)}
+            </div>
+        );
+    } else if (node.schema === DTDLSchemaType.Enum) {
+        return <div className="cb-property-tree-node-value">{node.value}</div>;
+    } else {
+        return <div className="cb-property-tree-node-value">{node.value}</div>;
+    }
+};
+
 const NodeRow: React.FC<NodeProps> = ({ node }) => {
     return (
-        <div>
-            {node.name}: <i>{node.schema ?? node.type}</i>
-            {node.isSet === false ? ', unset' : null}
+        <div className="cb-property-tree-node">
+            <div className="cb-property-tree-node-name"> {node.name}:</div>
+            {node.value ? (
+                <NodeValue node={node} />
+            ) : node.role === NodeRole.leaf ? (
+                <div className="cb-property-tree-node-value-unset">(unset)</div>
+            ) : null}
+            <div className="cb-property-tree-node-type">
+                {node.schema ?? node.type}
+            </div>
         </div>
     );
 };

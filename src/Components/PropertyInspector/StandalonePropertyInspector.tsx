@@ -39,7 +39,11 @@ import {
         ]
     */
 
-const parsePropertyIntoNode = (modelProperty): PropertyTreeNode => {
+const getTwinValueOrDefault = (property, twin) => {
+    return twin[property.name] ?? undefined;
+};
+
+const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
     if (
         typeof modelProperty.schema === 'string' &&
         dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
@@ -48,7 +52,8 @@ const parsePropertyIntoNode = (modelProperty): PropertyTreeNode => {
             name: modelProperty.displayName ?? modelProperty.name,
             role: NodeRole.leaf,
             schema: modelProperty.schema,
-            type: DTDLType.Property
+            type: DTDLType.Property,
+            value: getTwinValueOrDefault(modelProperty, twin)
         };
     } else if (typeof modelProperty.schema === 'object') {
         switch (modelProperty.schema['@type']) {
@@ -58,18 +63,21 @@ const parsePropertyIntoNode = (modelProperty): PropertyTreeNode => {
                     role: NodeRole.parent,
                     schema: DTDLSchemaType.Object,
                     children: modelProperty.schema.fields.map((field) =>
-                        parsePropertyIntoNode(field)
+                        parsePropertyIntoNode(field, twin)
                     ),
                     isCollapsed: true,
                     type: DTDLType.Property
                 };
-            case DTDLSchemaType.Enum: // TODO add enum values to node
+            case DTDLSchemaType.Enum: {
+                // TODO add enum values to node
                 return {
                     name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
                     schema: DTDLSchemaType.Enum,
-                    type: DTDLType.Property
+                    type: DTDLType.Property,
+                    value: getTwinValueOrDefault(modelProperty, twin)
                 };
+            }
             case DTDLSchemaType.Map: // TODO figure out how maps work
                 return {
                     name: modelProperty.displayName ?? modelProperty.name,
@@ -94,18 +102,14 @@ const parseRelationshipIntoPropertyTree = (
     // Push readonly properties to tree
     Object.keys(relationship).forEach((key) => {
         if (key !== 'properties') {
-            const val = relationship[key];
             treeNodes.push({
                 name: key,
                 role: NodeRole.leaf,
                 readonly: true,
-                schema: dtdlPrimitiveTypesEnum.string
+                schema: dtdlPrimitiveTypesEnum.string,
+                value: relationship[key] ?? undefined
             });
         }
-    });
-
-    relationship?.properties?.forEach((property) => {
-        treeNodes.push(parsePropertyIntoNode(property));
     });
 
     return treeNodes;
@@ -127,7 +131,7 @@ const parseTwinIntoPropertyTree = (
 
         switch (type) {
             case DTDLType.Property:
-                node = parsePropertyIntoNode(modelItem);
+                node = parsePropertyIntoNode(modelItem, twin);
                 break;
             case DTDLType.Component: {
                 const componentInterface = components?.find(
