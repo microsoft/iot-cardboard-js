@@ -17,6 +17,7 @@ import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
+    CardErrorType,
     DTwin,
     DTwinRelationship,
     IADTTwinComponent,
@@ -31,7 +32,11 @@ import {
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
 import { DTDLModel } from '../Models/Classes/DTDL';
 import axios from 'axios';
-import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
+import {
+    ADTModelsData,
+    ADTRelationshipsData,
+    ADTTwinsData
+} from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -206,19 +211,31 @@ export default class ADTAdapter implements IADTAdapter {
                 params: {
                     'api-version': ADT_ApiVersion
                 }
+            }).catch((err) => {
+                if (err?.response?.status === 409) {
+                    return { data: models };
+                } else {
+                    adapterMethodSandbox.pushError({
+                        type: CardErrorType.DataUploadFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                    return null;
+                }
             });
-            return new SimulationAdapterData(axiosResult?.data);
+            return new ADTModelsData(axiosResult?.data);
         });
     }
 
-    async createTwins(twins: DTwin[]) {
+    async createTwins(twins: DTwin[], onUploadProgress?) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let uploadCounter = 0;
             const data = await axios.all(
-                twins.map((twin) => {
+                twins.map(async (twin) => {
                     const twinCopy = JSON.parse(JSON.stringify(twin));
                     delete twinCopy['$dtId'];
-                    return axios({
+                    const axiosResponse = await axios({
                         method: 'put',
                         url: `${this.adtProxyServerPath}/digitaltwins/${twin.$dtId}`,
                         data: twinCopy,
@@ -231,22 +248,46 @@ export default class ADTAdapter implements IADTAdapter {
                             'api-version': ADT_ApiVersion
                         }
                     }).catch((err) => {
-                        return err.response.data;
+                        adapterMethodSandbox.pushError({
+                            type: CardErrorType.DataUploadFailed,
+                            isCatastrophic: false,
+                            rawError: err
+                        });
+                        return null;
                     });
+
+                    if (axiosResponse?.status === 200) {
+                        uploadCounter++;
+                        onUploadProgress &&
+                            onUploadProgress(uploadCounter, twins.length);
+                    }
+                    return new ADTTwinData(axiosResponse?.data);
                 })
             );
 
-            return new SimulationAdapterData(data); // TODO rename/move SimulationAdapterData, ALSO, maybe map this to extract data, right now it's an array of axois responses
+            //filter out nulls, i.e. errors
+            const filteredResponses = data.filter((resp) => {
+                return resp !== null;
+            });
+
+            const uploadedTwins = filteredResponses.map((axiosResult) => {
+                return axiosResult.data;
+            });
+
+            return new ADTTwinsData(uploadedTwins);
         });
     }
 
-    async createRelationships(relationships: DTwinRelationship[]) {
+    async createRelationships(
+        relationships: DTwinRelationship[],
+        onUploadProgress?
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let uploadCounter = 0;
             const data = await axios.all(
                 relationships.map((relationship: any) => {
-                    //TODO fix this 'any'
-                    const payload: any = {
+                    const payload = {
                         $targetId: relationship.$targetId,
                         $relationshipName: relationship.$relationshipName
                     };
@@ -261,32 +302,39 @@ export default class ADTAdapter implements IADTAdapter {
                         },
                         params: {
                             'api-version': ADT_ApiVersion
+                        },
+                        onUploadProgress: () => {
+                            uploadCounter++;
+                            onUploadProgress &&
+                                onUploadProgress(
+                                    uploadCounter,
+                                    relationships.length
+                                );
                         }
                     }).catch((err) => {
-                        return err.response.data;
+                        adapterMethodSandbox.pushError({
+                            type: CardErrorType.DataUploadFailed,
+                            isCatastrophic: false,
+                            rawError: err
+                        });
+                        return null;
                     });
                 })
             );
-            return new SimulationAdapterData(data);
-        });
-    }
 
-    pushADTModels(models: Array<DTDLModel>) {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTAdapterModelsData,
-            {
-                method: 'post',
-                url: `${this.adtProxyServerPath}/models`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
-                params: {
-                    'api-version': ADT_ApiVersion
-                },
-                data: models
-            }
-        );
+            //filter out nulls, i.e. errors
+            const filteredResponses = data.filter((resp) => {
+                return resp !== null;
+            });
+
+            const uploadedRelationships = filteredResponses.map(
+                (axiosResult) => {
+                    return axiosResult.data;
+                }
+            );
+
+            return new ADTRelationshipsData(uploadedRelationships);
+        });
     }
 
     getKeyValuePairs(

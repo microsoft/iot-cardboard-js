@@ -1,4 +1,5 @@
-import { FontIcon } from '@fluentui/react';
+import { AuthErrorMessage } from '@azure/msal-browser';
+import { FontIcon, MessageBar, MessageBarType } from '@fluentui/react';
 import React from 'react';
 import { UploadPhase } from '../../Models/Constants';
 import './UploadProgress.scss';
@@ -7,91 +8,99 @@ export const UploadProgress = ({
     twinsStatus,
     relationshipsStatus
 }) => {
-    const getIcon = (phase) => {
-        if (phase === UploadPhase.Uploading) {
-            return 'Upload';
-        }
-        if (phase === UploadPhase.Succeeded) {
-            return 'CheckMark';
-        }
-        if (phase === UploadPhase.Failed) {
-            return 'StatusCircleErrorX';
-        }
-        return '';
-    };
-
-    const getIconClass = (phase) => {
-        return `cb-progress-icon ${
-            phase === UploadPhase.Succeeded ? 'cb-progress-success' : ''
-        }${phase === UploadPhase.Failed ? 'cb-progress-failure' : ''}`;
-    };
-
-    const getProgressText = (phase) => {
-        if (phase === UploadPhase.Uploading) {
-            return 'uploading...';
-        }
-        if (phase === UploadPhase.Succeeded) {
-            return 'success!';
-        }
-        if (phase === UploadPhase.Failed) {
-            return 'failed :(';
-        }
-    };
     return (
         <div className="cb-upload-progress">
-            <h3
-                className={`cb-upload-type cb-status-phase-${modelsStatus.phase}`}
-            >
-                <FontIcon
-                    iconName={getIcon(modelsStatus.phase)}
-                    className={getIconClass(modelsStatus.phase)}
-                ></FontIcon>
-                Models
-                {modelsStatus.phase !== UploadPhase.PreUpload && (
-                    <>: {getProgressText(modelsStatus.phase)}</>
-                )}
-            </h3>
-            {(modelsStatus.phase === UploadPhase.Succeeded ||
-                modelsStatus.phase === UploadPhase.Failed) && (
-                <StatusMessage status={modelsStatus} />
-            )}
+            <hr className="cb-progress-line" />
+            <div className="cb-upload-sections-container">
+                <UploadSection
+                    status={modelsStatus}
+                    uploadType={'models'}
+                    stepNumber={1}
+                />
+                <UploadSection
+                    status={twinsStatus}
+                    uploadType={'twins'}
+                    stepNumber={2}
+                />
+                <UploadSection
+                    status={relationshipsStatus}
+                    uploadType={'relationships'}
+                    stepNumber={3}
+                />
+            </div>
 
-            <h3
-                className={`cb-upload-type cb-status-phase-${twinsStatus.phase}`}
-            >
-                <FontIcon
-                    iconName={getIcon(twinsStatus.phase)}
-                    className={getIconClass(twinsStatus.phase)}
-                ></FontIcon>
-                Twins
-                {twinsStatus.phase !== UploadPhase.PreUpload && (
-                    <>: {getProgressText(twinsStatus.phase)}</>
-                )}
-            </h3>
-            {(twinsStatus.phase === UploadPhase.Succeeded ||
-                twinsStatus.phase === UploadPhase.Failed) && (
-                <StatusMessage status={twinsStatus} />
-            )}
-            <h3
-                className={`cb-upload-type cb-status-phase-${relationshipsStatus.phase}`}
-            >
-                <FontIcon
-                    iconName={getIcon(relationshipsStatus.phase)}
-                    className={getIconClass(relationshipsStatus.phase)}
-                ></FontIcon>
-                Relationships
-                {relationshipsStatus.phase !== UploadPhase.PreUpload && (
-                    <>: {getProgressText(relationshipsStatus.phase)}</>
-                )}
-            </h3>
-            {(relationshipsStatus.phase === UploadPhase.Succeeded ||
-                relationshipsStatus.phase === UploadPhase.Failed) && (
-                <StatusMessage status={relationshipsStatus} />
-            )}
+            <div className="cb-error-section">
+                <ErrorMessage uploadStatus={modelsStatus} />
+                <ErrorMessage uploadStatus={twinsStatus} />
+                <ErrorMessage uploadStatus={relationshipsStatus} />
+            </div>
         </div>
     );
 };
 
-const StatusMessage = ({ status }) => {
-    return <p className={`cb-status-message`}>{status.message}</p>;
+const StepIcon = ({ status, stepNumber }) => {
+    if (
+        status.phase === UploadPhase.PreUpload ||
+        status.phase === UploadPhase.Uploading
+    ) {
+        return <>{stepNumber}</>;
+    }
+
+    const iconMap = {};
+    iconMap[UploadPhase.Failed] = 'StatusCircleErrorX';
+    iconMap[UploadPhase.Succeeded] = 'CheckMark';
+    iconMap[UploadPhase.PartiallyFailed] = 'Warning';
+    return (
+        <FontIcon
+            iconName={iconMap[status.phase]}
+            className="cb-font-icon"
+        ></FontIcon>
+    );
+};
+
+const ErrorMessage = ({ uploadStatus }) => {
+    return (
+        uploadStatus.errorMessage && (
+            <MessageBar messageBarType={MessageBarType.error}>
+                {uploadStatus.errorMessage}
+            </MessageBar>
+        )
+    );
+};
+
+const UploadSection = ({ status, uploadType, stepNumber }) => {
+    const getHeaderText = (phase) => {
+        if (phase === UploadPhase.Uploading) {
+            return `Uploading ${uploadType}...`;
+        }
+        if (phase === UploadPhase.Succeeded) {
+            return `Uploaded ${uploadType}`;
+        }
+        if (phase === UploadPhase.PartiallyFailed) {
+            return `Uploaded ${uploadType} with some failures`;
+        }
+        if (phase === UploadPhase.Failed) {
+            return `Error while uploading ${uploadType}`;
+        }
+    };
+
+    return (
+        <div className="cb-upload-section">
+            <div
+                className={`cb-progress-status cb-status-phase-${status.phase}`}
+            >
+                <StepIcon status={status} stepNumber={stepNumber} />
+            </div>
+            <div className="cb-upload-section-text">
+                <h3 className="cb-upload-section-header">
+                    {getHeaderText(status.phase)}
+                </h3>
+                {status.phase !== UploadPhase.Failed && (
+                    <p className="cb-upload-section-content">
+                        {status.message}
+                    </p>
+                )}
+            </div>
+        </div>
+    );
 };

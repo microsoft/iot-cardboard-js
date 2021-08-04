@@ -10,13 +10,22 @@ const useAssetsFromBIM = (
     ghostBimId,
     ghostTreeId,
     bimFilePath,
-    metadataFilePath
+    metadataFilePath,
+    onIsLoadingChange
 ) => {
     const [assetsState, setAssetsState] = useState({
         models: [],
         twins: [],
         relationships: []
     });
+
+    const resetAssetsState = () => {
+        setAssetsState({
+            models: [],
+            twins: [],
+            relationships: []
+        });
+    };
 
     const transformModels = (typesDictionary) => {
         return Object.keys(typesDictionary).map((modelName) => {
@@ -117,6 +126,7 @@ const useAssetsFromBIM = (
                 twins: transformTwins(twinsDictionary),
                 relationships: Object.values(relationshipsDictionary)
             });
+            onIsLoadingChange(false);
         },
         [bimFilePath, metadataFilePath]
     );
@@ -135,22 +145,26 @@ const useAssetsFromBIM = (
 
             const loader = new XKTLoaderPlugin(viewer);
             (async () => {
+                onIsLoadingChange(true);
                 const model = await loader.load({
                     id: 'model',
                     src: bimFilePath,
                     metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
                     edges: true
                 });
-
                 setTimeout(() => {
-                    const xeokitMetaModel =
-                        model?.scene?.viewer?.metaScene?.metaModels?.model
-                            ?.rootMetaObject;
-                    if (xeokitMetaModel) {
+                    try {
+                        const xeokitMetaModel =
+                            model.scene.viewer.metaScene.metaModels.model
+                                .rootMetaObject;
                         extractAssets(xeokitMetaModel);
+                    } catch (e) {
+                        resetAssetsState();
                     }
-                }, 1000);
+                }, 1000); //hardcoded to a one second delay to ensure xeokit model is loaded
             })();
+        } else {
+            resetAssetsState();
         }
     }, [bimFilePath, metadataFilePath]);
     return assetsState;

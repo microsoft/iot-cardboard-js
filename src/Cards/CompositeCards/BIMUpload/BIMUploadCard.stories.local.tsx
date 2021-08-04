@@ -9,8 +9,8 @@ export default {
 };
 
 const cardStyle = {
-    height: '400px',
-    width: '500px'
+    height: '480px',
+    width: '800px'
 };
 
 export const UploadFromBIM = (_args, { globals: { theme, locale } }) => {

@@ -16,6 +16,7 @@ export enum Locale {
 export enum CardErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',
+    DataUploadFailed = 'DataUploadFailed',
     InvalidCardType = 'InvalidCardType',
     UnknownError = 'UnknownError'
 }
@@ -48,9 +49,10 @@ export enum BIMUploadState {
 }
 
 export enum UploadPhase {
-    PreUpload = 'preUpload',
+    PreUpload = 'preupload',
     Uploading = 'uploading',
     Succeeded = 'succeeded',
+    PartiallyFailed = 'partiallyfailed',
     Failed = 'failed'
 }
 

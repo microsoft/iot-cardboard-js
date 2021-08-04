@@ -1,23 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import BIMFileSelection from '../../../Components/BIMFileSelection/BIMFileSelection';
 import {
     BIMFileTypes,
     BIMUploadState,
-    DTwin,
-    DTwinRelationship,
     UploadPhase
 } from '../../../Models/Constants';
 import { BIMUploadCardProps } from './BIMUploadCard.types';
 import './BIMUploadCard.scss';
-import ModelSelection from '../../../Components/ModelSelection/ModelSelection';
 import useAssetsFromBIM from '../../../Models/Hooks/useAssetsFromBIM';
 import useXeokitRender from '../../../Models/Hooks/useXeokitRender';
-import { useAdapter, useGuid } from '../../../Models/Hooks';
+import { useGuid } from '../../../Models/Hooks';
 import BaseCard from '../../Base/Consume/BaseCard';
-import { DTDLModel } from '../../../Models/Classes/DTDL';
 
-import { UploadProgress } from '../../../Components/UploadProgress/UploadProgress';
+import {
+    Checkbox,
+    DefaultButton,
+    MessageBar,
+    MessageBarType,
+    PrimaryButton,
+    Spinner
+} from '@fluentui/react';
+import GenerateADTAssets from '../../../Components/GenerateADTAssets/GenerateADTAssets';
 
 const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     adapter,
@@ -33,34 +36,18 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     );
     const canvasGuid = useGuid();
 
+    const [isParsingBIM, setIsParsingBIM] = useState(null);
+
     const [bimFilePath, setBimFilePath] = useState(null);
     const [metadataFilePath, setMetadataFilePath] = useState(null);
 
-    const initializeUploadStatus = () => {
-        return {
-            phase: UploadPhase.PreUpload,
-            message: null
-        };
-    };
-
-    const [modelsUploadStatus, setModelsUploadStatus] = useState(
-        initializeUploadStatus()
+    const [generateEnvironmentStatus, setGenerateEnvironmentStatus] = useState(
+        UploadPhase.PreUpload
     );
 
-    const [twinsUploadStatus, setTwinsUploadStatus] = useState(
-        initializeUploadStatus()
-    );
-    const [relationshipsUploadStatus, setRelationshipsUploadStatus] = useState(
-        initializeUploadStatus()
-    );
+    const bimFileInputRef = useRef(null);
+    const metadataFileInputRef = useRef(null);
 
-    const [terminalCondition, setTerminalCondition] = useState({
-        isTerminal: false,
-        conditionType: null,
-        terminationMessage: null
-    });
-
-    // TODO: ensure this only happens once I guess?
     useXeokitRender(
         canvasGuid,
         bimFilePath,
@@ -73,113 +60,19 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         canvasGuid,
         'ghostTree',
         bimFilePath,
-        metadataFilePath
+        metadataFilePath,
+        (isParsing) => setIsParsingBIM(isParsing)
     );
-    // const [assetsFromBim, setAssetsFromBim] = useState(null) //may not be necessary?
-    // useEffect(() => {
-    //     bimFilePath && metadataFilePath && setAssetsFromBim(useAssetsFromBIM('', bimFilePath, metadataFilePath, bimFilePath, () => null));
-    // }, [bimFilePath, metadataFilePath]);
 
-    const pushModelsState = useAdapter({
-        adapterMethod: (models: Array<DTDLModel>) =>
-            adapter.createModels(models),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
-
-    //set upload progress state based on adapter result
+    // for keeping track of which models pulled from the BIM are selected for upload
+    const [modelsDictionary, setModelsDictionary] = useState(null);
     useEffect(() => {
-        if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
-            setModelsUploadStatus({
-                phase: UploadPhase.Failed,
-                message: 'Insert error message here'
-            });
-        } else if (pushModelsState.adapterResult.result) {
-            setModelsUploadStatus({
-                phase: UploadPhase.Succeeded,
-                message: `${
-                    pushModelsState.adapterResult.getData()?.length
-                } models pushed`
-            });
-        }
-    }, [pushModelsState.adapterResult]);
-
-    const pushTwinsState = useAdapter({
-        adapterMethod: (twins: Array<DTwin>) => adapter.createTwins(twins),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
-
-    //set upload progress state based on adapter result
-    useEffect(() => {
-        if (pushTwinsState.adapterResult.errorInfo?.errors?.length) {
-            setTwinsUploadStatus({
-                phase: UploadPhase.Failed,
-                message: 'Insert error message here'
-            });
-        } else if (pushTwinsState.adapterResult.result) {
-            setTwinsUploadStatus({
-                phase: UploadPhase.Succeeded,
-                message: `${
-                    pushTwinsState.adapterResult.getData()?.length
-                } twins pushed`
-            });
-        }
-    }, [pushTwinsState.adapterResult]);
-
-    const pushRelationshipsState = useAdapter({
-        adapterMethod: (relationships: Array<DTwinRelationship>) =>
-            adapter.createRelationships(relationships),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
-
-    //set upload progress state based on adapter result
-    useEffect(() => {
-        if (pushRelationshipsState.adapterResult.errorInfo?.errors?.length) {
-            setRelationshipsUploadStatus({
-                phase: UploadPhase.Failed,
-                message: 'Insert error message here'
-            });
-        } else if (pushTwinsState.adapterResult.result) {
-            setRelationshipsUploadStatus({
-                phase: UploadPhase.Succeeded,
-                message: `${
-                    pushRelationshipsState.adapterResult.getData()?.length
-                } relationships pushed`
-            });
-        }
-    }, [pushRelationshipsState.adapterResult]);
-
-    const initiateEnvironmentCreation = async () => {
-        await initiateModelsUpload();
-        await initiateTwinsUpload();
-        await initiateRelationshipsUpload();
-    };
-
-    const initiateModelsUpload = async () => {
-        setModelsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: 'Uploading...'
+        const newModelsDictionary = {};
+        assetsFromBim?.models?.forEach((model) => {
+            newModelsDictionary[model.displayName] = true;
         });
-        return pushModelsState.callAdapter(assetsFromBim.models);
-    };
-
-    const initiateTwinsUpload = async () => {
-        setTwinsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: 'Uploading...'
-        });
-        return pushTwinsState.callAdapter(assetsFromBim.twins);
-    };
-
-    const initiateRelationshipsUpload = async () => {
-        setRelationshipsUploadStatus({
-            phase: UploadPhase.Uploading,
-            message: 'Uploading...'
-        });
-        return pushRelationshipsState.callAdapter(assetsFromBim.relationships);
-    };
+        setModelsDictionary(newModelsDictionary);
+    }, [assetsFromBim.models]);
 
     const getSectionHeaderText = () => {
         if (uploadState === BIMUploadState.PreProcessing) {
@@ -188,22 +81,94 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         if (uploadState === BIMUploadState.PreUpload) {
             return 'Select models for upload';
         }
-        if (uploadState === BIMUploadState.InUpload) {
-            return 'Upload progress';
+        if (
+            uploadState === BIMUploadState.InUpload ||
+            uploadState === BIMUploadState.PostUpload
+        ) {
+            return 'Generate environment';
         }
     };
 
+    const getSectionSubheaderText = () => {
+        if (uploadState === BIMUploadState.PreProcessing) {
+            return 'The specified BIM file and associated metadata will be used to extract models, twins, and relationships for upload to your ADT environment';
+        }
+        if (uploadState === BIMUploadState.PreUpload) {
+            return 'All checked models and their associated twins and relationships will be inluded in the next step: uploading to your ADT environment';
+        }
+        if (
+            uploadState === BIMUploadState.InUpload ||
+            uploadState === BIMUploadState.PostUpload
+        ) {
+            return 'The Models, twins, and relationships (filtered by the models selected in the previous step) will be pushed to your ADT environment';
+        }
+    };
 
-    const getModelsList = useCallback(() => {
-        return assetsFromBim?.models?.map((model) => {
-            return model.displayName;
-        });
-    }, [assetsFromBim]);
+    const setFilesFromInput = () => {
+        setBimFilePath(bimFileInputRef?.current?.value);
+        setMetadataFilePath(metadataFileInputRef?.current?.value);
+    };
 
-    const onFileSelection = (bimFilePath, metadataFilePath?) => {
-        setBimFilePath(bimFilePath);
-        metadataFilePath && setMetadataFilePath(metadataFilePath);
-        setUploadState(BIMUploadState.PreUpload);
+    const initiateEnvironmentCreation = () => {
+        setGenerateEnvironmentStatus(UploadPhase.Uploading);
+    };
+
+    const onBackClick = () => {
+        if (uploadState === BIMUploadState.PreUpload) {
+            setUploadState(BIMUploadState.PreProcessing);
+            setBimFilePath(null);
+            setMetadataFilePath(null);
+            setModelsDictionary(null);
+        }
+        if (uploadState === BIMUploadState.InUpload) {
+            setUploadState(BIMUploadState.PreUpload);
+        }
+    };
+
+    const onNextClick = () => {
+        if (uploadState === BIMUploadState.PreProcessing) {
+            setUploadState(BIMUploadState.PreUpload);
+            setFilesFromInput();
+        }
+        if (uploadState === BIMUploadState.PreUpload) {
+            setUploadState(BIMUploadState.InUpload);
+        }
+    };
+
+    const isNextDisabled = () => {
+        if (
+            uploadState === BIMUploadState.InUpload ||
+            uploadState === BIMUploadState.PostUpload
+        ) {
+            return true;
+        }
+        if (
+            uploadState === BIMUploadState.PreUpload &&
+            (!modelsDictionary || Object.keys(modelsDictionary).length === 0)
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    const isBackDisabled = () => {
+        if (
+            uploadState === BIMUploadState.PreProcessing ||
+            uploadState === BIMUploadState.PostUpload
+        ) {
+            return true;
+        }
+        if (
+            uploadState === BIMUploadState.InUpload &&
+            generateEnvironmentStatus === UploadPhase.Uploading
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    const onGenerateADTAssetsComplete = () => {
+        setUploadState(BIMUploadState.PostUpload);
     };
 
     return (
@@ -222,29 +187,172 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                 <div className="cb-section-header">
                     {getSectionHeaderText()}
                 </div>
+                <div className="cb-section-subheader">
+                    {getSectionSubheaderText()}
+                </div>
                 <div className="cb-section-content">
                     {uploadState === BIMUploadState.PreProcessing && (
-                        <BIMFileSelection onSubmit={onFileSelection} />
+                        <BIMFileSelection
+                            bimInputRef={bimFileInputRef}
+                            metadataInputRef={metadataFileInputRef}
+                        />
                     )}
                     {uploadState === BIMUploadState.PreUpload && (
                         <ModelSelection
-                            models={getModelsList()}
-                            onSubmit={() => {
-                                setUploadState(BIMUploadState.InUpload);
-                                initiateEnvironmentCreation();
-                            }}
+                            modelsDictionary={modelsDictionary}
+                            setModelsDictionary={setModelsDictionary}
+                            isParsingBIM={isParsingBIM}
                         />
                     )}
-                    {uploadState === BIMUploadState.InUpload && (
-                        <UploadProgress
-                            modelsStatus={modelsUploadStatus}
-                            twinsStatus={twinsUploadStatus}
-                            relationshipsStatus={relationshipsUploadStatus}
-                        />
+                    {(uploadState === BIMUploadState.InUpload ||
+                        uploadState === BIMUploadState.PostUpload) && (
+                        <>
+                            {generateEnvironmentStatus ===
+                                UploadPhase.PreUpload && (
+                                <PrimaryButton
+                                    onClick={initiateEnvironmentCreation}
+                                    className="cb-initiate-upload-button"
+                                >
+                                    Initiate upload
+                                </PrimaryButton>
+                            )}
+                            {generateEnvironmentStatus ===
+                                UploadPhase.Uploading && (
+                                <GenerateADTAssets
+                                    adapter={adapter}
+                                    models={assetsFromBim.models}
+                                    twins={assetsFromBim.twins}
+                                    relationships={assetsFromBim.relationships}
+                                    triggerUpload={true}
+                                    onComplete={onGenerateADTAssetsComplete}
+                                />
+                            )}
+                        </>
                     )}
+                    {uploadState === BIMUploadState.PostUpload && (
+                        <PostUpload />
+                    )}
+                </div>
+                <div className="cb-navigation-buttons">
+                    <PrimaryButton
+                        onClick={onNextClick}
+                        className={'cb-navigation-button cb-next-button'}
+                        disabled={isNextDisabled()}
+                    >
+                        Next
+                    </PrimaryButton>
+                    <DefaultButton
+                        onClick={onBackClick}
+                        disabled={isBackDisabled()}
+                        className={'cb-navigation-button cb-back-button'}
+                    >
+                        Back
+                    </DefaultButton>
                 </div>
             </div>
         </BaseCard>
+    );
+};
+
+const BIMFileSelection = ({ bimInputRef, metadataInputRef }) => {
+    return (
+        <div className="cb-bim-file-selection-container cb-bim-file-selection">
+            <label className="cb-bim-input-label">BIM file path</label>
+            <input
+                ref={bimInputRef}
+                className="cb-bim-input"
+                defaultValue="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt" //Will remove post code review, just here so people can test
+            ></input>
+            <label className="cb-bim-input-label">BIM Metadata path</label>
+            <input
+                ref={metadataInputRef}
+                className="cb-bim-input"
+                defaultValue="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json" //Will remove post code review, just here so people can test
+            ></input>
+        </div>
+    );
+};
+
+const ModelSelection = ({
+    modelsDictionary,
+    setModelsDictionary,
+    isParsingBIM
+}) => {
+    const flipModelSelected = (model) => {
+        const updatedModelsDictionary = { ...modelsDictionary };
+        updatedModelsDictionary[model] = !modelsDictionary[model];
+        setModelsDictionary(updatedModelsDictionary);
+    };
+
+    const getSelectedCount = () => {
+        let selectedCount = 0;
+
+        Object.values(modelsDictionary).forEach((modelSelected) => {
+            if (modelSelected) {
+                selectedCount++;
+            }
+        });
+        return selectedCount;
+    };
+
+    return (
+        <div className="cb-model-selection-container">
+            {isParsingBIM && (
+                <div className="cb-loading-models-container">
+                    <h3 className="cb-loading-models-text">
+                        Parsing models...
+                    </h3>
+                    <Spinner />
+                </div>
+            )}
+            {!isParsingBIM &&
+                !!modelsDictionary &&
+                Object.keys(modelsDictionary).length === 0 && (
+                    <MessageBar
+                        className={'cb-no-models-error'}
+                        messageBarType={MessageBarType.error}
+                    >
+                        No models parsed
+                    </MessageBar>
+                )}
+            {!isParsingBIM &&
+                !!modelsDictionary &&
+                Object.keys(modelsDictionary).length !== 0 && (
+                    <>
+                        <div className="cb-selected-count">
+                            Models selected ({getSelectedCount()})
+                        </div>
+                        <div className="cb-checkbox-container">
+                            {Object.keys(modelsDictionary).map(
+                                (model, modelI) => (
+                                    <Checkbox
+                                        label={model}
+                                        className="cb-model-checkbox"
+                                        checked={modelsDictionary[model]}
+                                        onChange={() =>
+                                            flipModelSelected(model)
+                                        }
+                                        key={modelI}
+                                    ></Checkbox>
+                                )
+                            )}
+                        </div>
+                    </>
+                )}
+        </div>
+    );
+};
+
+const PostUpload = () => {
+    return (
+        <div className="cb-post-upload">
+            <DefaultButton
+                target="_blank"
+                href="https://explorer.digitaltwins.azure.net/"
+            >
+                Go to environment
+            </DefaultButton>
+        </div>
     );
 };
 
