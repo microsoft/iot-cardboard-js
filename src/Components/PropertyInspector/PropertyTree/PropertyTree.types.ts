@@ -12,7 +12,16 @@ export interface PropertyTreeNode {
     isCollapsed?: boolean;
     readonly?: boolean;
     value?: PrimitiveValueTypes;
+    complexPropertyData?: EnumPropertyData;
 }
+
+type EnumPropertyData = {
+    options: Array<{
+        name: string;
+        displayName?: string;
+        enumValue: string | number;
+    }>;
+};
 
 export interface PropertyTreeProps {
     data: Array<PropertyTreeNode>;

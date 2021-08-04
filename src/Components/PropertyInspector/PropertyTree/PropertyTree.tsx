@@ -9,6 +9,7 @@ import {
 import './PropertyTree.scss';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants';
 import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
+import { Dropdown } from '@fluentui/react/lib/components/Dropdown/Dropdown';
 
 const PropertyTreeContext = createContext(null);
 
@@ -135,7 +136,14 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
             );
         case dtdlPropertyTypesEnum.Enum:
             return (
-                <div className="cb-property-tree-node-value">{node.value}</div>
+                <Dropdown
+                    selectedKey={node.value as string | number}
+                    options={node.complexPropertyData.options.map((ev) => ({
+                        key: ev.name,
+                        text: ev.displayName ?? ev.name
+                    }))}
+                    styles={{ root: { minWidth: 100 } }}
+                />
             );
         case dtdlPropertyTypesEnum.Map:
         case dtdlPropertyTypesEnum.Array:

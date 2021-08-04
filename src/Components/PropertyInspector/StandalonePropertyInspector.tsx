@@ -75,7 +75,12 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                     role: NodeRole.leaf,
                     schema: dtdlPropertyTypesEnum.Enum,
                     type: DTDLType.Property,
-                    value: getTwinValueOrDefault(modelProperty, twin)
+                    value: getTwinValueOrDefault(modelProperty, twin),
+                    complexPropertyData: {
+                        options: modelProperty.schema.enumValues.map((ev) => ({
+                            ...ev
+                        }))
+                    }
                 };
             }
             case DTDLSchemaType.Map: // TODO figure out how maps work
