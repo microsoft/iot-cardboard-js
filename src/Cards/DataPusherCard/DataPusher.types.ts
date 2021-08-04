@@ -12,6 +12,7 @@ export interface IDataPusherProps extends ICardBaseProps {
     ) => IAdtPusherSimulation;
     initialInstanceUrl?: string;
     disablePastEvents?: boolean;
+    isOtherOptionsVisible?: boolean;
 }
 
 export interface IQuickFillDataFormProps {
@@ -30,6 +31,7 @@ export interface IDataPusherState {
     isSimulationRunning: boolean;
     isEnvironmentReady: boolean;
     disablePastEvents: boolean;
+    isOtherOptionsVisible: boolean;
     simulationStatus: {
         areModelsReady: boolean;
         areTwinsReady: boolean;

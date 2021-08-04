@@ -13,6 +13,7 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     isDataBackFilled: false,
     isEnvironmentReady: false,
     disablePastEvents: false,
+    isOtherOptionsVisible: true,
     simulationStatus: {
         areModelsReady: false,
         areTwinsReady: false,

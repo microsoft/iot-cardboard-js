@@ -166,6 +166,20 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, []);
 
     useEffect(() => {
+        // resetting state with adapter change
+        focusedModelIdRef.current = null;
+        focusedTwinRef.current = null;
+        dispatch({
+            type: SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
+            payload: null
+        });
+        dispatch({
+            type: SET_ADT_HIERARCHY_NODES,
+            payload: {}
+        });
+    }, [adapter]);
+
+    useEffect(() => {
         if (!modelState.adapterResult.hasNoData()) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value
@@ -517,40 +531,42 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, []);
 
     return (
-        <BaseCard
-            title={title}
-            isLoading={
-                modelState.isLoading && modelState.adapterResult.hasNoData()
-            }
-            adapterResult={modelState.adapterResult}
-            hideInfoBox={true}
-            theme={theme}
-            locale={locale}
-            localeStrings={localeStrings}
-        >
-            <Searchbox
-                className="cb-adt-hierarchy-search"
-                placeholder={t('search')}
-                onSearch={handleOnSearch}
-                onClear={exitSearchMode}
-            />
-            <Hierarchy
-                data={hierarchyNodes}
-                onParentNodeClick={handleOnParentNodeClick}
-                onChildNodeClick={handleOnChildNodeClick}
-                searchTermToMark={searchTerm}
+        <div className="cb-adt-hierarchy-wrapper">
+            <BaseCard
+                title={title}
                 isLoading={
-                    (modelState.isLoading ||
-                        (searchTerm && searchState.isLoading)) &&
-                    !isLoadingTriggeredByShowMore.current
+                    modelState.isLoading && modelState.adapterResult.hasNoData()
                 }
-                noDataText={t('noTwins')}
-                shouldScrollToSelectedNode={
-                    lookupTwinId &&
-                    twinLookupStatus === TwinLookupStatus.Finished
-                }
-            ></Hierarchy>
-        </BaseCard>
+                adapterResult={modelState.adapterResult}
+                hideInfoBox={true}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+            >
+                <Searchbox
+                    className="cb-adt-hierarchy-search"
+                    placeholder={t('search')}
+                    onSearch={handleOnSearch}
+                    onClear={exitSearchMode}
+                />
+                <Hierarchy
+                    data={hierarchyNodes}
+                    onParentNodeClick={handleOnParentNodeClick}
+                    onChildNodeClick={handleOnChildNodeClick}
+                    searchTermToMark={searchTerm}
+                    isLoading={
+                        (modelState.isLoading ||
+                            (searchTerm && searchState.isLoading)) &&
+                        !isLoadingTriggeredByShowMore.current
+                    }
+                    noDataText={t('noTwins')}
+                    shouldScrollToSelectedNode={
+                        lookupTwinId &&
+                        twinLookupStatus === TwinLookupStatus.Finished
+                    }
+                ></Hierarchy>
+            </BaseCard>
+        </div>
     );
 };
 

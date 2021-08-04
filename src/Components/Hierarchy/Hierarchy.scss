@@ -34,10 +34,12 @@
 
     .cb-hierarchy-node-name-wrapper:hover:not(.cb-hierarchy-show-more) {
         background: var(--cb-color-card-contrast);
+        filter: unset;
     }
 
     .cb-hierarchy-node-name-wrapper.cb-selected {
         background: var(--cb-color-bg-canvas-inset);
+        filter: brightness(110%);
     }
 
     .cb-hierarchy-node-name-wrapper.cb-hierarchy-show-more {

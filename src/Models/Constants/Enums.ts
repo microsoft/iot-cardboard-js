@@ -69,7 +69,8 @@ export enum TwinLookupStatus {
     Finished
 }
 
-export enum AuthoringMode {
-    Add,
-    Edit
+export enum FormMode {
+    New,
+    Edit,
+    Readonly
 }

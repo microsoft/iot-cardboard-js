@@ -60,18 +60,26 @@ export const ADTHierarchyCardConsumeReducer = produce(
                     ].isSelected = false;
                 }
 
-                if (payload.modelId && payload.twinId) {
+                if (payload?.modelId && payload?.twinId) {
                     draft.hierarchyNodes[payload.modelId].children[
                         payload.twinId
                     ].isSelected = true;
-                } else if (payload.twinId) {
+
+                    draft.selectedTwin = {
+                        modelId: payload.modelId,
+                        twinId: payload.twinId
+                    };
+                } else if (payload?.twinId) {
                     draft.hierarchyNodes[payload.twinId].isSelected = true;
+
+                    draft.selectedTwin = {
+                        modelId: undefined,
+                        twinId: payload.twinId
+                    };
+                } else {
+                    draft.selectedTwin = null;
                 }
 
-                draft.selectedTwin = {
-                    modelId: payload.modelId,
-                    twinId: payload.twinId
-                };
                 break;
             case SET_ADT_HIERARCHY_SEARCH:
                 draft.searchTerm = payload;

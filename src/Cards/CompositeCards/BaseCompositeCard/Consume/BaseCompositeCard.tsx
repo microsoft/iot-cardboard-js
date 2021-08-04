@@ -25,8 +25,12 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
             <ThemeProvider theme={theme}>
                 <div className="cb-base-composite-card-wrapper">
                     <div className="cb-base-composite-card">
-                        <h3 className="cb-base-card-title">{title}</h3>
-                        <div className="cb-base-card-content">
+                        {title && (
+                            <h3 className="cb-base-composite-card-title">
+                                {title}
+                            </h3>
+                        )}
+                        <div className="cb-base-composite-card-content">
                             {!children ? (
                                 <Overlay>{t('empty')}</Overlay>
                             ) : (

@@ -1,59 +1,49 @@
 @import '../../../../Resources/Styles/BaseStyles';
 
 .cb-base-composite-card-wrapper {
-    @include ms-depth-16;
     height: 100%;
     position: relative;
     width: 100%;
     z-index: 2;
 
-    .cb-case-composite-card {
-        align-items: center;
+    .cb-base-composite-card {
         background: var(--cb-color-bg-canvas);
-        border: 1px solid var(--cb-color-card-border);
         border-radius: 4px;
         color: var(--cb-color-text-primary);
         display: flex;
+        flex-direction: column;
         height: 100%;
-        justify-content: center;
         width: 100%;
     }
 
-    .cb-base-card-title {
-        align-items: center;
-        border-bottom: 1px solid var(--cb-color-bg-canvas-inset);
-        display: flex;
-        font-size: 14px;
+    .cb-base-composite-card-title {
+        font-size: 16px;
         font-weight: 600;
         height: 40px;
+        line-height: 40px;
         margin: 0;
-        padding: 0 16px;
-        position: absolute;
-        top: 0;
+        text-align: left;
         width: 100%;
     }
-    .cb-base-card-content {
-        align-items: center;
-        display: flex;
-        height: calc(100% - 40px);
-        justify-content: center;
-        padding: 20px;
-        position: absolute;
-        top: 40px;
-        width: calc(100%);
+
+    .cb-base-composite-card-content {
+        flex-grow: 1;
+        overflow: auto;
+        position: relative;
+        width: 100%;
     }
 
     .cb-base-composite-card-items {
         display: flex;
         height: 100%;
-        padding: 0 20px;
         width: 100%;
     }
 
     .cb-base-composite-card-item {
-        flex-grow: 1;
+        flex: 1 1 auto;
         height: 100%;
-        /* stylelint-disable-next-line */
+        overflow: auto;
+
         .cb-base-card {
             border: 1px solid var(--cb-color-bg-canvas-inset);
             box-shadow: none;
@@ -61,6 +51,6 @@
     }
 
     .cb-base-composite-card-item:not(:first-child) {
-        margin-left: 20px;
+        padding-left: 20px;
     }
 }

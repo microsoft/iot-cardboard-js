@@ -6,12 +6,14 @@
     width: 1280px;
 
     .cb-hbcard-hierarchy {
+        height: 100%;
         width: 260px;
     }
 
     .cb-hbcard-board {
         flex-grow: 1;
         margin-left: 12px;
+        overflow: auto;
     }
 
     .cb-board {

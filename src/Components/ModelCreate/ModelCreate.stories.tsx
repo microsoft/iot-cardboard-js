@@ -18,7 +18,7 @@ const mockExistingModels = [
 ];
 
 export const Default = (_args, { globals: { locale } }) => (
-    <div style={{ maxWidth: '720px', width: '100%' }}>
+    <div style={{ maxWidth: '720px', width: '100%', height: '600px' }}>
         <ModelCreate
             locale={locale}
             existingModelIds={mockExistingModels}

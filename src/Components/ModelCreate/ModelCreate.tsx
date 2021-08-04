@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
-import { Locale } from '../../Models/Constants';
+import { DTMIRegex, Locale } from '../../Models/Constants';
 import { Text } from '@fluentui/react/lib/Text';
 import { Panel, PanelType } from '@fluentui/react/lib/Panel';
 import { TextField } from '@fluentui/react/lib/TextField';
@@ -17,7 +17,7 @@ import {
     DTDLProperty,
     DTDLRelationship
 } from '../../Models/Classes/DTDL';
-import { AuthoringMode } from '../../Models/Constants/Enums';
+import { FormMode } from '../../Models/Constants/Enums';
 import FormSection from '../FormSection/FormSection';
 import BaseForm from '../ModelCreate/Forms/BaseForm';
 import './ModelCreate.scss';
@@ -36,6 +36,7 @@ interface ModelCreateProps {
     modelToEdit?: DTDLModel;
     onPrimaryAction: (model: DTDLModel) => void;
     onCancel: () => void;
+    formControlMode?: FormMode;
 }
 
 class ElementToEditInfo {
@@ -48,17 +49,26 @@ class ElementToEditInfo {
     }
 }
 
-const ModelCreate: React.FC<ModelCreateProps> = ({
-    locale,
-    existingModelIds,
-    modelToEdit = null,
-    onPrimaryAction,
-    onCancel
-}) => {
+function ModelCreate(props: ModelCreateProps, ref) {
+    const {
+        locale,
+        existingModelIds,
+        modelToEdit = null,
+        onPrimaryAction,
+        onCancel,
+        formControlMode
+    } = props;
+
     const { t } = useTranslation();
 
     const [mode, setMode] = useState(ModelCreateMode.ModelForm);
-    const [authoringMode, setAuthoringMode] = useState(AuthoringMode.Add);
+    const [formMode, setFormMode] = useState(
+        formControlMode
+            ? formControlMode
+            : modelToEdit
+            ? FormMode.Edit
+            : FormMode.New
+    );
     const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumbItem[]>([]);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -74,6 +84,20 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     const [components, setComponents] = useState(initialModel.components);
     const [elementToEdit, setElementToEdit] = useState(new ElementToEditInfo());
     // Currently extends and schemas are not supported.
+
+    useImperativeHandle(ref, () => ({
+        getModel: () => {
+            return new DTDLModel(
+                modelId,
+                displayName,
+                description,
+                comment,
+                properties,
+                relationships,
+                components
+            );
+        }
+    }));
 
     const handleCreateModel = () => {
         const model = new DTDLModel(
@@ -104,13 +128,13 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleClickAddProperty = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(ModelCreateMode.PropertyForm, 'modelCreate.addProperty');
     };
 
     const handleClickAddRelationship = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(
             ModelCreateMode.RelationshipForm,
@@ -119,7 +143,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleClickAddComponent = () => {
-        setAuthoringMode(AuthoringMode.Add);
+        setFormMode(FormMode.New);
         setElementToEdit(new ElementToEditInfo());
         addStep(ModelCreateMode.ComponentForm, 'modelCreate.addComponent');
     };
@@ -137,39 +161,63 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
     };
 
     const handleListFormAction = (element, setter) => {
-        if (authoringMode === AuthoringMode.Add) {
-            setter((currentElements) => {
-                return [...currentElements, element];
-            });
-        } else {
+        if (elementToEdit?.element) {
             setter((currentElements) => {
                 const updatedList = [...currentElements];
                 updatedList[elementToEdit.index] = element;
                 return updatedList;
             });
+        } else {
+            setter((currentElements) => {
+                return [...currentElements, element];
+            });
         }
         backToModelForm();
     };
 
-    const handleSelectProperty = (property, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+    const handleSelectProperty = (
+        property,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
         setElementToEdit({ element: property, index });
-        addStep(ModelCreateMode.PropertyForm, 'modelCreate.editProperty');
-    };
-
-    const handleSelectRelationship = (relationship, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
-        setElementToEdit({ element: relationship, index });
         addStep(
-            ModelCreateMode.RelationshipForm,
-            'modelCreate.editRelationship'
+            ModelCreateMode.PropertyForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.propertyDetails'
+                : 'modelCreate.editProperty'
         );
     };
 
-    const handleSelectComponent = (component, index: number) => {
-        setAuthoringMode(AuthoringMode.Edit);
+    const handleSelectRelationship = (
+        relationship,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
+        setElementToEdit({ element: relationship, index });
+        addStep(
+            ModelCreateMode.RelationshipForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.relationshipDetails'
+                : 'modelCreate.editRelationship'
+        );
+    };
+
+    const handleSelectComponent = (
+        component,
+        index: number,
+        formControlMode: FormMode = FormMode.Edit
+    ) => {
+        setFormMode(formControlMode);
         setElementToEdit({ element: component, index });
-        addStep(ModelCreateMode.ComponentForm, 'modelCreate.editComponent');
+        addStep(
+            ModelCreateMode.ComponentForm,
+            formControlMode === FormMode.Readonly
+                ? 'modelCreate.componentDetails'
+                : 'modelCreate.editComponent'
+        );
     };
 
     const deleteEntity = (index: number, setter) => {
@@ -197,83 +245,160 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
             <I18nProviderWrapper locale={locale} i18n={i18n}>
                 <>
                     <Text variant="large" className="cb-modelcreate-title">
-                        {t('modelCreate.newModel')}
+                        {formMode === FormMode.Readonly
+                            ? t('modelCreate.modelDetails')
+                            : formMode === FormMode.Edit
+                            ? t('modelCreate.editModel')
+                            : t('modelCreate.newModel')}
                     </Text>
                     <BaseForm
-                        primaryActionLabel={t('modelCreate.create')}
-                        cancelLabel={t('modelCreate.cancel')}
+                        primaryActionLabel={
+                            formMode === FormMode.Edit
+                                ? t('update')
+                                : t('create')
+                        }
+                        cancelLabel={
+                            formMode === FormMode.Readonly
+                                ? t('close')
+                                : t('cancel')
+                        }
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
+                        formControlMode={formMode}
                     >
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
                                 label={t('modelCreate.modelId')}
-                                prefix="dtmi;"
-                                suffix=";1"
-                                placeholder="com:example:model1"
+                                placeholder="<scheme>:<path>;<version>"
+                                description={'e.g., dtmi:com:example:model1;1'}
                                 value={modelId}
                                 onChange={(e) =>
                                     setModelId(e.currentTarget.value)
                                 }
                                 required
+                                className={
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                }
+                                disabled={formMode === FormMode.Readonly}
+                                validateOnLoad={false}
+                                validateOnFocusOut
+                                onGetErrorMessage={(value) =>
+                                    !DTMIRegex.test(value)
+                                        ? t('modelCreate.invalidIdentifier', {
+                                              dtmiLink:
+                                                  'http://aka.ms/ADTv2Models'
+                                          })
+                                        : ''
+                                }
                             />
                             <TextField
                                 label={t('modelCreate.displayName')}
-                                value={displayName}
+                                title={displayName}
+                                value={
+                                    formMode === FormMode.Readonly &&
+                                    !displayName
+                                        ? '(' + t('noInformation') + ')'
+                                        : displayName
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly &&
+                                    !displayName
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setDisplayName(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.description')}
-                                multiline
+                                multiline={formMode !== FormMode.Readonly}
                                 rows={3}
-                                value={description}
+                                title={description}
+                                value={
+                                    formMode === FormMode.Readonly &&
+                                    !description
+                                        ? '(' + t('noInformation') + ')'
+                                        : description
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly &&
+                                    !description
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setDescription(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
                                 label={t('modelCreate.comment')}
-                                multiline
+                                multiline={formMode !== FormMode.Readonly}
                                 rows={3}
-                                value={comment}
+                                title={comment}
+                                value={
+                                    formMode === FormMode.Readonly && !comment
+                                        ? '(' + t('noInformation') + ')'
+                                        : comment
+                                }
+                                className={`${
+                                    formMode === FormMode.Readonly
+                                        ? 'cb-modelcreate-readonly'
+                                        : ''
+                                } ${
+                                    formMode === FormMode.Readonly && !comment
+                                        ? 'cb-noinformation-value'
+                                        : ''
+                                }`}
                                 onChange={(e) =>
                                     setComment(e.currentTarget.value)
                                 }
+                                disabled={formMode === FormMode.Readonly}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.properties')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noProperties"
                                 addElementLabelKey="modelCreate.addProperty"
                                 elements={properties}
                                 handleEditElement={handleSelectProperty}
                                 handleNewElement={handleClickAddProperty}
                                 handleDeleteElement={handleDeleteProperty}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.relationships')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noRelationships"
                                 addElementLabelKey="modelCreate.addRelationship"
                                 elements={relationships}
                                 handleEditElement={handleSelectRelationship}
                                 handleNewElement={handleClickAddRelationship}
                                 handleDeleteElement={handleDeleteRelationship}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.components')}>
                             <ElementsList
-                                t={t}
                                 noElementLabelKey="modelCreate.noComponents"
                                 addElementLabelKey="modelCreate.addComponent"
                                 elements={components}
                                 handleEditElement={handleSelectComponent}
                                 handleNewElement={handleClickAddComponent}
                                 handleDeleteElement={handleDeleteComponent}
+                                formControlMode={formMode}
                             />
                         </FormSection>
                     </BaseForm>
@@ -298,7 +423,7 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                             display: 'flex'
                         }
                     }}
-                    closeButtonAriaLabel={t('modelCreate.cancel')}
+                    closeButtonAriaLabel={t('cancel')}
                 >
                     <div className="cb-form-breadcrumbs">
                         <Breadcrumb
@@ -312,7 +437,6 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                     </div>
                     {mode === ModelCreateMode.PropertyForm && (
                         <CreatePropertyForm
-                            t={t}
                             pushBreadcrumb={pushBreadcrumb}
                             popBreadcrumb={popBreadcrumb}
                             onCancel={backToModelForm}
@@ -322,12 +446,12 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                             propertyToEdit={
                                 elementToEdit.element as DTDLProperty
                             }
+                            formControlMode={formMode}
                         />
                     )}
 
                     {mode === ModelCreateMode.RelationshipForm && (
                         <CreateRelationshipForm
-                            t={t}
                             pushBreadcrumb={pushBreadcrumb}
                             popBreadcrumb={popBreadcrumb}
                             existingModelIds={existingModelIds}
@@ -341,12 +465,12 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                             relationshipToEdit={
                                 elementToEdit.element as DTDLRelationship
                             }
+                            formControlMode={formMode}
                         />
                     )}
 
                     {mode === ModelCreateMode.ComponentForm && (
                         <CreateComponentForm
-                            t={t}
                             existingModelIds={existingModelIds}
                             onCancel={backToModelForm}
                             onPrimaryAction={(component) =>
@@ -355,12 +479,13 @@ const ModelCreate: React.FC<ModelCreateProps> = ({
                             componentToEdit={
                                 elementToEdit.element as DTDLComponent
                             }
+                            formControlMode={formMode}
                         />
                     )}
                 </Panel>
             </I18nProviderWrapper>
         </div>
     );
-};
+}
 
-export default ModelCreate;
+export default forwardRef(ModelCreate);
