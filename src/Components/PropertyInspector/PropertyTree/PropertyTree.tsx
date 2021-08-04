@@ -89,11 +89,21 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
             );
         case dtdlPropertyTypesEnum.date:
             return (
-                <div className="cb-property-tree-node-value">{node.value}</div>
+                <div className="cb-property-tree-node-value">
+                    <input
+                        value={node.value as string}
+                        style={{ width: 72 }}
+                    ></input>
+                </div>
             );
         case dtdlPropertyTypesEnum.dateTime:
             return (
-                <div className="cb-property-tree-node-value">{node.value}</div>
+                <div className="cb-property-tree-node-value">
+                    <input
+                        value={node.value as string}
+                        style={{ width: 72 }}
+                    ></input>
+                </div>
             );
         case dtdlPropertyTypesEnum.double:
         case dtdlPropertyTypesEnum.float:
@@ -109,7 +119,12 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
             );
         case dtdlPropertyTypesEnum.duration:
             return (
-                <div className="cb-property-tree-node-value">{node.value}</div>
+                <div className="cb-property-tree-node-value">
+                    <input
+                        value={node.value as string}
+                        style={{ width: 72 }}
+                    ></input>
+                </div>
             );
         case dtdlPropertyTypesEnum.integer:
             return (
@@ -126,24 +141,35 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 <div className="cb-property-tree-node-value">
                     <textarea
                         value={node.value as string}
-                        style={{ width: 72, height: 18 }}
+                        style={{ width: 72, height: 17, padding: '1px 2px' }}
                     ></textarea>
                 </div>
             );
         case dtdlPropertyTypesEnum.time:
             return (
-                <div className="cb-property-tree-node-value">{node.value}</div>
+                <div className="cb-property-tree-node-value">
+                    <input
+                        value={node.value as string}
+                        style={{ width: 72 }}
+                    ></input>
+                </div>
             );
         case dtdlPropertyTypesEnum.Enum:
             return (
-                <Dropdown
-                    selectedKey={node.value as string | number}
-                    options={node.complexPropertyData.options.map((ev) => ({
-                        key: ev.name,
-                        text: ev.displayName ?? ev.name
-                    }))}
-                    styles={{ root: { minWidth: 100 } }}
-                />
+                <div className="cb-property-tree-node-value">
+                    <select
+                        value={node.value as string | number}
+                        style={{ height: 21 }}
+                    >
+                        {node.complexPropertyData.options.map((ev) => {
+                            return (
+                                <option value={ev.name}>
+                                    {ev.displayName ?? ev.name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
             );
         case dtdlPropertyTypesEnum.Map:
         case dtdlPropertyTypesEnum.Array:
