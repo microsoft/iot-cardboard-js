@@ -7,14 +7,16 @@ import {
     NodeRole
 } from './PropertyTree.types';
 import './PropertyTree.scss';
-import { dtdlPrimitiveTypesEnum } from '../../../Models/Constants';
-import { DTDLSchemaType } from '../../../Models/Classes/DTDL';
+import { dtdlPropertyTypesEnum } from '../../../Models/Constants';
+import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
 
 const PropertyTreeContext = createContext(null);
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({ data, onParentClick }) => {
     const set = data.filter((node) => node.isSet !== false);
     const unset = data.filter((node) => node.isSet === false);
+
+    console.log('PropertyTreeData: ', data);
 
     return (
         <PropertyTreeContext.Provider value={{ onParentClick }}>
@@ -75,16 +77,70 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeValue: React.FC<NodeProps> = ({ node }) => {
-    if (node.schema === dtdlPrimitiveTypesEnum.boolean) {
-        return (
-            <div className="cb-property-tree-node-value">
-                {String(node.value)}
-            </div>
-        );
-    } else if (node.schema === DTDLSchemaType.Enum) {
-        return <div className="cb-property-tree-node-value">{node.value}</div>;
-    } else {
-        return <div className="cb-property-tree-node-value">{node.value}</div>;
+    const propertyType = node.schema;
+
+    switch (propertyType) {
+        case dtdlPropertyTypesEnum.boolean:
+            return (
+                <div className="cb-property-tree-node-value">
+                    <Checkbox checked={node.value as boolean} />
+                </div>
+            );
+        case dtdlPropertyTypesEnum.date:
+            return (
+                <div className="cb-property-tree-node-value">{node.value}</div>
+            );
+        case dtdlPropertyTypesEnum.dateTime:
+            return (
+                <div className="cb-property-tree-node-value">{node.value}</div>
+            );
+        case dtdlPropertyTypesEnum.double:
+        case dtdlPropertyTypesEnum.float:
+        case dtdlPropertyTypesEnum.long:
+            return (
+                <div className="cb-property-tree-node-value">
+                    <input
+                        type="number"
+                        value={node.value as number}
+                        style={{ width: 60 }}
+                    ></input>
+                </div>
+            );
+        case dtdlPropertyTypesEnum.duration:
+            return (
+                <div className="cb-property-tree-node-value">{node.value}</div>
+            );
+        case dtdlPropertyTypesEnum.integer:
+            return (
+                <div className="cb-property-tree-node-value">
+                    <input
+                        type="number"
+                        value={node.value as number}
+                        style={{ width: 72 }}
+                    ></input>
+                </div>
+            );
+        case dtdlPropertyTypesEnum.string:
+            return (
+                <div className="cb-property-tree-node-value">
+                    <textarea
+                        value={node.value as string}
+                        style={{ width: 72, height: 18 }}
+                    ></textarea>
+                </div>
+            );
+        case dtdlPropertyTypesEnum.time:
+            return (
+                <div className="cb-property-tree-node-value">{node.value}</div>
+            );
+        case dtdlPropertyTypesEnum.Enum:
+            return (
+                <div className="cb-property-tree-node-value">{node.value}</div>
+            );
+        case dtdlPropertyTypesEnum.Map:
+        case dtdlPropertyTypesEnum.Array:
+        default:
+            return null;
     }
 };
 
@@ -92,14 +148,13 @@ const NodeRow: React.FC<NodeProps> = ({ node }) => {
     return (
         <div className="cb-property-tree-node">
             <div className="cb-property-tree-node-name"> {node.name}:</div>
-            {node.value ? (
-                <NodeValue node={node} />
-            ) : node.role === NodeRole.leaf ? (
-                <div className="cb-property-tree-node-value-unset">(unset)</div>
-            ) : null}
+            <NodeValue node={node} />
             <div className="cb-property-tree-node-type">
                 {node.schema ?? node.type}
             </div>
+            {node.isSet === false && (
+                <div className="cb-property-tree-node-value-unset">(unset)</div>
+            )}
         </div>
     );
 };

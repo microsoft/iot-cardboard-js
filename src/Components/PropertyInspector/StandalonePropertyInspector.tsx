@@ -2,7 +2,7 @@ import produce from 'immer';
 import React, { useState } from 'react';
 import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
 import {
-    dtdlPrimitiveTypesEnum,
+    dtdlPropertyTypesEnum,
     dtdlPrimitiveTypesList
 } from '../../Models/Constants/Constants';
 import {
@@ -61,7 +61,7 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                 return {
                     name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.parent,
-                    schema: DTDLSchemaType.Object,
+                    schema: dtdlPropertyTypesEnum.Object,
                     children: modelProperty.schema.fields.map((field) =>
                         parsePropertyIntoNode(field, twin)
                     ),
@@ -73,7 +73,7 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                 return {
                     name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
-                    schema: DTDLSchemaType.Enum,
+                    schema: dtdlPropertyTypesEnum.Enum,
                     type: DTDLType.Property,
                     value: getTwinValueOrDefault(modelProperty, twin)
                 };
@@ -82,7 +82,7 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                 return {
                     name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
-                    schema: DTDLSchemaType.Map,
+                    schema: dtdlPropertyTypesEnum.Map,
                     type: DTDLType.Property
                 };
             case DTDLSchemaType.Array: // TODO support arrays in future
@@ -106,7 +106,7 @@ const parseRelationshipIntoPropertyTree = (
                 name: key,
                 role: NodeRole.leaf,
                 readonly: true,
-                schema: dtdlPrimitiveTypesEnum.string,
+                schema: dtdlPropertyTypesEnum.string,
                 value: relationship[key] ?? undefined
             });
         }

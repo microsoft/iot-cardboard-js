@@ -3,8 +3,8 @@ export const mockTwin = {
     $etag: 'W/"6b19c2e7-5b26-44d9-ae35-9d32f4fe4a1f"',
     Mileage: 1,
     BatteryDeadState: true,
-    BatteryLevel: 92,
-    BatteryCapacity: 75,
+    BatteryLevel: 92.5,
+    BatteryCapacity: 75.2,
     CarName: 'LeoTheDog',
     CarPackage: 'Standard',
     $metadata: {

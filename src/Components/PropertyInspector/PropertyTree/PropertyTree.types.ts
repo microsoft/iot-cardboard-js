@@ -1,8 +1,5 @@
-import {
-    DTDLPrimitiveSchema,
-    DTDLSchemaType,
-    DTDLType
-} from '../../../Models/Classes/DTDL';
+import { DTDLType } from '../../../Models/Classes/DTDL';
+import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
 
 type PrimitiveValueTypes = boolean | string | number;
 export interface PropertyTreeNode {
@@ -10,7 +7,7 @@ export interface PropertyTreeNode {
     name: string;
     role: NodeRole;
     isSet?: boolean;
-    schema?: DTDLSchemaType | DTDLPrimitiveSchema;
+    schema?: dtdlPropertyTypesEnum;
     type?: DTDLType;
     isCollapsed?: boolean;
     readonly?: boolean;
