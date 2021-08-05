@@ -142,8 +142,13 @@ const useAssetsFromBIM = (
                 autoExpandDepth: 1,
                 hierarchy: 'types'
             });
+            let loader;
+            try {
+                loader = new XKTLoaderPlugin(viewer);
+            } catch (e) {
+                resetAssetsState();
+            }
 
-            const loader = new XKTLoaderPlugin(viewer);
             (async () => {
                 onIsLoadingChange(true);
                 const model = await loader.load({

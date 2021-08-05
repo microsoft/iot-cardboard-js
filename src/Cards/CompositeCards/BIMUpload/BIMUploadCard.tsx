@@ -267,17 +267,11 @@ const BIMFileSelection = ({ bimInputRef, metadataInputRef, t }) => {
             <label className="cb-bim-input-label">
                 {t('BIMUpload.bimFilePath')}
             </label>
-            <input
-                ref={bimInputRef}
-                className="cb-bim-input"
-            ></input>
+            <input ref={bimInputRef} className="cb-bim-input"></input>
             <label className="cb-bim-input-label">
                 {t('BIMUpload.metadataFilePath')}
             </label>
-            <input
-                ref={metadataInputRef}
-                className="cb-bim-input"
-            ></input>
+            <input ref={metadataInputRef} className="cb-bim-input"></input>
         </div>
     );
 };
