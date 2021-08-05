@@ -137,14 +137,27 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.string:
-            return (
-                <div className="cb-property-tree-node-value">
-                    <textarea
-                        value={node.value as string}
-                        style={{ width: 72, height: 17, padding: '1px 2px' }}
-                    ></textarea>
-                </div>
-            );
+            if (node.readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {node.value}
+                    </div>
+                );
+            } else {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        <textarea
+                            value={node.value as string}
+                            style={{
+                                width: 72,
+                                height: 17,
+                                padding: '1px 2px'
+                            }}
+                        ></textarea>
+                    </div>
+                );
+            }
+
         case dtdlPropertyTypesEnum.time:
             return (
                 <div className="cb-property-tree-node-value">
