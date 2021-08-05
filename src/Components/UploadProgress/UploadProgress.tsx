@@ -1,7 +1,7 @@
-import { AuthErrorMessage } from '@azure/msal-browser';
 import { FontIcon, MessageBar, MessageBarType } from '@fluentui/react';
 import React from 'react';
-import { UploadPhase } from '../../Models/Constants';
+import { useTranslation } from 'react-i18next';
+import { AssetTypes, UploadPhase } from '../../Models/Constants';
 import './UploadProgress.scss';
 export const UploadProgress = ({
     modelsStatus,
@@ -14,17 +14,17 @@ export const UploadProgress = ({
             <div className="cb-upload-sections-container">
                 <UploadSection
                     status={modelsStatus}
-                    uploadType={'models'}
+                    uploadType={AssetTypes.Models}
                     stepNumber={1}
                 />
                 <UploadSection
                     status={twinsStatus}
-                    uploadType={'twins'}
+                    uploadType={AssetTypes.Twins}
                     stepNumber={2}
                 />
                 <UploadSection
                     status={relationshipsStatus}
-                    uploadType={'relationships'}
+                    uploadType={AssetTypes.Relationships}
                     stepNumber={3}
                 />
             </div>
@@ -69,18 +69,21 @@ const ErrorMessage = ({ uploadStatus }) => {
 };
 
 const UploadSection = ({ status, uploadType, stepNumber }) => {
+    const { t } = useTranslation();
     const getHeaderText = (phase) => {
         if (phase === UploadPhase.Uploading) {
-            return `Uploading ${uploadType}...`;
+            return t('uploadProgress.uploading', { assetType: uploadType });
         }
         if (phase === UploadPhase.Succeeded) {
-            return `Uploaded ${uploadType}`;
+            return t('uploadProgress.uploadSuccess', { assetType: uploadType });
         }
         if (phase === UploadPhase.PartiallyFailed) {
-            return `Uploaded ${uploadType} with some failures`;
+            return t('uploadProgress.uploadPartiallyFailed', {
+                assetType: uploadType
+            });
         }
         if (phase === UploadPhase.Failed) {
-            return `Error while uploading ${uploadType}`;
+            return t('uploadProgress.uploadFailed', { assetType: uploadType });
         }
     };
 
@@ -95,7 +98,7 @@ const UploadSection = ({ status, uploadType, stepNumber }) => {
                 <h3 className="cb-upload-section-header">
                     {getHeaderText(status.phase)}
                 </h3>
-                {status.phase !== UploadPhase.Failed && (
+                {status.message && (
                     <p className="cb-upload-section-content">
                         {status.message}
                     </p>

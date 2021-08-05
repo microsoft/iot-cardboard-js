@@ -74,3 +74,9 @@ export enum FormMode {
     Edit,
     Readonly
 }
+
+export enum AssetTypes {
+    Models = 'models',
+    Twins = 'twins',
+    Relationships = 'relationships'
+}

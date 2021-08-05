@@ -76,31 +76,31 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
 
     const getSectionHeaderText = () => {
         if (uploadState === BIMUploadState.PreProcessing) {
-            return 'Specify files to upload from';
+            return t('BIMUpload.specifyFiles');
         }
         if (uploadState === BIMUploadState.PreUpload) {
-            return 'Select models for upload';
+            return t('BIMUpload.selectModels');
         }
         if (
             uploadState === BIMUploadState.InUpload ||
             uploadState === BIMUploadState.PostUpload
         ) {
-            return 'Generate environment';
+            return t('BIMUpload.generateEnvironment');
         }
     };
 
     const getSectionSubheaderText = () => {
         if (uploadState === BIMUploadState.PreProcessing) {
-            return 'The specified BIM file and associated metadata will be used to extract models, twins, and relationships for upload to your ADT environment';
+            return t('BIMUpload.specifyFilesSubheader');
         }
         if (uploadState === BIMUploadState.PreUpload) {
-            return 'All checked models and their associated twins and relationships will be inluded in the next step: uploading to your ADT environment';
+            return t('BIMUpload.selectModelsSubheader');
         }
         if (
             uploadState === BIMUploadState.InUpload ||
             uploadState === BIMUploadState.PostUpload
         ) {
-            return 'The Models, twins, and relationships (filtered by the models selected in the previous step) will be pushed to your ADT environment';
+            return t('BIMUpload.generateEnvironmentSubheader');
         }
     };
 
@@ -195,6 +195,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                         <BIMFileSelection
                             bimInputRef={bimFileInputRef}
                             metadataInputRef={metadataFileInputRef}
+                            t={t}
                         />
                     )}
                     {uploadState === BIMUploadState.PreUpload && (
@@ -202,6 +203,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                             modelsDictionary={modelsDictionary}
                             setModelsDictionary={setModelsDictionary}
                             isParsingBIM={isParsingBIM}
+                            t={t}
                         />
                     )}
                     {(uploadState === BIMUploadState.InUpload ||
@@ -213,7 +215,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                     onClick={initiateEnvironmentCreation}
                                     className="cb-initiate-upload-button"
                                 >
-                                    Initiate upload
+                                    {t('BIMUpload.initiateUpload')}
                                 </PrimaryButton>
                             )}
                             {generateEnvironmentStatus ===
@@ -230,7 +232,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                         </>
                     )}
                     {uploadState === BIMUploadState.PostUpload && (
-                        <PostUpload />
+                        <PostUpload t={t} />
                     )}
                 </div>
                 <div className="cb-navigation-buttons">
@@ -239,14 +241,14 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                         className={'cb-navigation-button cb-next-button'}
                         disabled={isNextDisabled()}
                     >
-                        Next
+                        {t('next')}
                     </PrimaryButton>
                     <DefaultButton
                         onClick={onBackClick}
                         disabled={isBackDisabled()}
                         className={'cb-navigation-button cb-back-button'}
                     >
-                        Back
+                        {t('back')}
                     </DefaultButton>
                 </div>
             </div>
@@ -254,16 +256,20 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     );
 };
 
-const BIMFileSelection = ({ bimInputRef, metadataInputRef }) => {
+const BIMFileSelection = ({ bimInputRef, metadataInputRef, t }) => {
     return (
         <div className="cb-bim-file-selection-container cb-bim-file-selection">
-            <label className="cb-bim-input-label">BIM file path</label>
+            <label className="cb-bim-input-label">
+                {t('BIMUpload.bimFilePath')}
+            </label>
             <input
                 ref={bimInputRef}
                 className="cb-bim-input"
                 defaultValue="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt" //Will remove post code review, just here so people can test
             ></input>
-            <label className="cb-bim-input-label">BIM Metadata path</label>
+            <label className="cb-bim-input-label">
+                {t('BIMUpload.metadataFilePath')}
+            </label>
             <input
                 ref={metadataInputRef}
                 className="cb-bim-input"
@@ -276,7 +282,8 @@ const BIMFileSelection = ({ bimInputRef, metadataInputRef }) => {
 const ModelSelection = ({
     modelsDictionary,
     setModelsDictionary,
-    isParsingBIM
+    isParsingBIM,
+    t
 }) => {
     const flipModelSelected = (model) => {
         const updatedModelsDictionary = { ...modelsDictionary };
@@ -300,7 +307,7 @@ const ModelSelection = ({
             {isParsingBIM && (
                 <div className="cb-loading-models-container">
                     <h3 className="cb-loading-models-text">
-                        Parsing models...
+                        {t('BIMUpload.parsingModels')}
                     </h3>
                     <Spinner />
                 </div>
@@ -312,7 +319,7 @@ const ModelSelection = ({
                         className={'cb-no-models-error'}
                         messageBarType={MessageBarType.error}
                     >
-                        No models parsed
+                        {t('BIMUpload.noModelsParsed')}
                     </MessageBar>
                 )}
             {!isParsingBIM &&
@@ -320,7 +327,9 @@ const ModelSelection = ({
                 Object.keys(modelsDictionary).length !== 0 && (
                     <>
                         <div className="cb-selected-count">
-                            Models selected ({getSelectedCount()})
+                            {t('BIMUpload.modelsSelectedCount', {
+                                count: getSelectedCount()
+                            })}
                         </div>
                         <div className="cb-checkbox-container">
                             {Object.keys(modelsDictionary).map(
@@ -343,14 +352,14 @@ const ModelSelection = ({
     );
 };
 
-const PostUpload = () => {
+const PostUpload = ({ t }) => {
     return (
         <div className="cb-post-upload">
             <DefaultButton
                 target="_blank"
                 href="https://explorer.digitaltwins.azure.net/"
             >
-                Go to environment
+                {t('BIMUpload.goToEnvironment')}
             </DefaultButton>
         </div>
     );

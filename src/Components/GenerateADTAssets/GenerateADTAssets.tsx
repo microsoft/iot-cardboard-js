@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { DTwin, DTwinRelationship, UploadPhase } from '../../Models/Constants';
 import { useAdapter } from '../../Models/Hooks';
 import { UploadProgress } from '../UploadProgress/UploadProgress';
+import { AssetTypes } from '../../Models/Constants/Enums';
+import { Asset } from '../../Models/Classes/Simulations/Asset';
 
 const GenerateADTAssets = ({
     adapter,
@@ -13,6 +16,7 @@ const GenerateADTAssets = ({
     onComplete
 }) => {
     const [isUploading, setIsUploading] = useState(false);
+    const { t } = useTranslation();
 
     const pushModelsState = useAdapter({
         adapterMethod: (models: Array<DTDLModel>) =>
@@ -27,14 +31,17 @@ const GenerateADTAssets = ({
             setModelsUploadStatus({
                 phase: UploadPhase.Failed,
                 message: null,
-                errorMessage: 'There was an issue while pushing models to ADT'
+                errorMessage: t('generateADTAssets.assetsPushError', {
+                    assetType: AssetTypes.Models
+                })
             });
         } else if (pushModelsState.adapterResult.result) {
             setModelsUploadStatus({
                 phase: UploadPhase.Succeeded,
-                message: `${
-                    pushModelsState.adapterResult.getData()?.length
-                } models pushed`,
+                message: t('generateADTAssets.assetsPushedCount', {
+                    count: pushModelsState.adapterResult.getData()?.length,
+                    assetType: AssetTypes.Models
+                }),
                 errorMessage: null
             });
         }
@@ -43,7 +50,10 @@ const GenerateADTAssets = ({
     const updateTwinsUploadProgress = (twinsUploaded, totalTwins) => {
         setTwinsUploadStatus({
             phase: UploadPhase.Uploading,
-            message: `${twinsUploaded} of ${totalTwins}`,
+            message: t('generateADTAssets.uploadProgress', {
+                pushed: twinsUploaded,
+                total: totalTwins
+            }),
             errorMessage: null
         });
     };
@@ -61,7 +71,10 @@ const GenerateADTAssets = ({
     ) => {
         setRelationshipsUploadStatus({
             phase: UploadPhase.Uploading,
-            message: `${relationshipsUploaded} of ${totalRelationships}`,
+            message: t('generateADTAssets.uploadProgress', {
+                pushed: relationshipsUploaded,
+                total: totalRelationships
+            }),
             errorMessage: null
         });
     };
@@ -83,22 +96,31 @@ const GenerateADTAssets = ({
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.Failed,
                     message: null,
-                    errorMessage:
-                        'There was an issue while pushing relationships to ADT'
+                    errorMessage: t('generateADTAssets.assetsPushError', {
+                        assetType: AssetTypes.Relationships
+                    })
                 });
             } else {
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
                     message: null,
-                    errorMessage: `Errors while uploading relationships: ${pushRelationshipsState.adapterResult.errorInfo.errors.length} relationships failed to upload`
+                    errorMessage: t('generateADTAssets.partialError', {
+                        assetType: AssetTypes.Relationships,
+                        errorCount:
+                            pushRelationshipsState.adapterResult.errorInfo
+                                .errors.length
+                    })
                 });
             }
         } else if (pushTwinsState.adapterResult.result) {
             setRelationshipsUploadStatus({
                 phase: UploadPhase.Succeeded,
-                message: `${
-                    pushRelationshipsState.adapterResult.getData()?.length
-                } relationships pushed`,
+                message: t('generateADTAssets.assetsPushedCount', {
+                    count: pushRelationshipsState.adapterResult.getData()
+                        ?.length,
+                    assetType: AssetTypes.Relationships
+                }),
+
                 errorMessage: null
             });
         }
@@ -110,22 +132,29 @@ const GenerateADTAssets = ({
             if (!pushTwinsState.adapterResult.result?.hasNoData()) {
                 setTwinsUploadStatus({
                     phase: UploadPhase.Failed,
-                    message: 'There was an issue while pushing tinws to ADT',
-                    errorMessage: 'Twins failed to upload'
+                    message: null,
+                    errorMessage: t('generateADTAssets.assetsPushError', {
+                        assetType: AssetTypes.Twins
+                    })
                 });
             } else {
                 setTwinsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
-                    message: 'Partial failure while uploading twins',
-                    errorMessage: `Errors while uploading twins: ${pushTwinsState.adapterResult.errorInfo.errors.length} twins failed to upload`
+                    message: null,
+                    errorMessage: t('generateADTAssets.partialError', {
+                        assetType: AssetTypes.Twins,
+                        errorCount:
+                            pushTwinsState.adapterResult.errorInfo.errors.length
+                    })
                 });
             }
         } else if (pushTwinsState.adapterResult.result) {
             setTwinsUploadStatus({
                 phase: UploadPhase.Succeeded,
-                message: `${
-                    pushTwinsState.adapterResult.getData()?.length
-                } twins pushed`,
+                message: t('generateADTAssets.assetsPushedCount', {
+                    count: pushTwinsState.adapterResult.getData()?.length,
+                    assetType: AssetTypes.Twins
+                }),
                 errorMessage: null
             });
         }
@@ -147,7 +176,7 @@ const GenerateADTAssets = ({
     const initiateModelsUpload = async () => {
         setModelsUploadStatus({
             phase: UploadPhase.Uploading,
-            message: 'Uploading...',
+            message: t('generateADTAssets.uploading'),
             errorMessage: null
         });
         return pushModelsState.callAdapter(models);
@@ -156,7 +185,7 @@ const GenerateADTAssets = ({
     const initiateTwinsUpload = async () => {
         setTwinsUploadStatus({
             phase: UploadPhase.Uploading,
-            message: 'Uploading...',
+            message: t('generateADTAssets.uploading'),
             errorMessage: null
         });
         return pushTwinsState.callAdapter(twins);
@@ -165,7 +194,7 @@ const GenerateADTAssets = ({
     const initiateRelationshipsUpload = async () => {
         setRelationshipsUploadStatus({
             phase: UploadPhase.Uploading,
-            message: 'Uploading...',
+            message: t('generateADTAssets.uploading'),
             errorMessage: null
         });
         return pushRelationshipsState.callAdapter(relationships);
