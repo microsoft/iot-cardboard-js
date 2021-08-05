@@ -15,6 +15,7 @@ import BaseCard from '../../Base/Consume/BaseCard';
 import {
     Checkbox,
     DefaultButton,
+    FontIcon,
     MessageBar,
     MessageBarType,
     PrimaryButton,
@@ -181,75 +182,79 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
             isLoading={false}
             adapterResult={null}
         >
-            <canvas className="cb-ghost" id={canvasGuid}></canvas>
-            <div className="cb-ghost" id={'ghostTree'}></div>
-            <div className="cb-section-container">
-                <div className="cb-section-header">
-                    {getSectionHeaderText()}
-                </div>
-                <div className="cb-section-subheader">
-                    {getSectionSubheaderText()}
-                </div>
-                <div className="cb-section-content">
-                    {uploadState === BIMUploadState.PreProcessing && (
-                        <BIMFileSelection
-                            bimInputRef={bimFileInputRef}
-                            metadataInputRef={metadataFileInputRef}
-                            t={t}
-                        />
-                    )}
-                    {uploadState === BIMUploadState.PreUpload && (
-                        <ModelSelection
-                            modelsDictionary={modelsDictionary}
-                            setModelsDictionary={setModelsDictionary}
-                            isParsingBIM={isParsingBIM}
-                            t={t}
-                        />
-                    )}
-                    {(uploadState === BIMUploadState.InUpload ||
-                        uploadState === BIMUploadState.PostUpload) && (
-                        <>
-                            {generateEnvironmentStatus ===
-                                UploadPhase.PreUpload && (
-                                <PrimaryButton
-                                    onClick={initiateEnvironmentCreation}
-                                    className="cb-initiate-upload-button"
-                                >
-                                    {t('BIMUpload.initiateUpload')}
-                                </PrimaryButton>
-                            )}
-                            {generateEnvironmentStatus ===
-                                UploadPhase.Uploading && (
-                                <GenerateADTAssets
-                                    adapter={adapter}
-                                    models={assetsFromBim.models}
-                                    twins={assetsFromBim.twins}
-                                    relationships={assetsFromBim.relationships}
-                                    triggerUpload={true}
-                                    onComplete={onGenerateADTAssetsComplete}
-                                />
-                            )}
-                        </>
-                    )}
-                    {uploadState === BIMUploadState.PostUpload && (
-                        <PostUpload t={t} />
-                    )}
-                </div>
-                <div className="cb-navigation-buttons">
-                    <PrimaryButton
-                        onClick={onNextClick}
-                        className={'cb-navigation-button cb-next-button'}
-                        disabled={isNextDisabled()}
-                    >
-                        {t('next')}
-                    </PrimaryButton>
-                    <DefaultButton
-                        onClick={onBackClick}
-                        disabled={isBackDisabled()}
-                        className={'cb-navigation-button cb-back-button'}
-                    >
-                        {t('back')}
-                    </DefaultButton>
+            <div className="cb-bim-upload-container">
+                <canvas className="cb-ghost" id={canvasGuid}></canvas>
+                <div className="cb-ghost" id={'ghostTree'}></div>
+                <div className="cb-section-container">
+                    <div className="cb-section-header">
+                        {getSectionHeaderText()}
+                    </div>
+                    <div className="cb-section-subheader">
+                        {getSectionSubheaderText()}
+                    </div>
+                    <div className="cb-section-content">
+                        {uploadState === BIMUploadState.PreProcessing && (
+                            <BIMFileSelection
+                                bimInputRef={bimFileInputRef}
+                                metadataInputRef={metadataFileInputRef}
+                                t={t}
+                            />
+                        )}
+                        {uploadState === BIMUploadState.PreUpload && (
+                            <ModelSelection
+                                modelsDictionary={modelsDictionary}
+                                setModelsDictionary={setModelsDictionary}
+                                isParsingBIM={isParsingBIM}
+                                t={t}
+                            />
+                        )}
+                        {(uploadState === BIMUploadState.InUpload ||
+                            uploadState === BIMUploadState.PostUpload) && (
+                            <>
+                                {generateEnvironmentStatus ===
+                                    UploadPhase.PreUpload && (
+                                    <PrimaryButton
+                                        onClick={initiateEnvironmentCreation}
+                                        className="cb-initiate-upload-button"
+                                    >
+                                        {t('BIMUpload.initiateUpload')}
+                                    </PrimaryButton>
+                                )}
+                                {generateEnvironmentStatus ===
+                                    UploadPhase.Uploading && (
+                                    <GenerateADTAssets
+                                        adapter={adapter}
+                                        models={assetsFromBim.models}
+                                        twins={assetsFromBim.twins}
+                                        relationships={
+                                            assetsFromBim.relationships
+                                        }
+                                        triggerUpload={true}
+                                        onComplete={onGenerateADTAssetsComplete}
+                                    />
+                                )}
+                            </>
+                        )}
+                        {uploadState === BIMUploadState.PostUpload && (
+                            <PostUpload t={t} />
+                        )}
+                    </div>
+                    <div className="cb-navigation-buttons">
+                        <PrimaryButton
+                            onClick={onNextClick}
+                            className={'cb-navigation-button cb-next-button'}
+                            disabled={isNextDisabled()}
+                        >
+                            {t('next')}
+                        </PrimaryButton>
+                        <DefaultButton
+                            onClick={onBackClick}
+                            disabled={isBackDisabled()}
+                            className={'cb-navigation-button cb-back-button'}
+                        >
+                            {t('back')}
+                        </DefaultButton>
+                    </div>
                 </div>
             </div>
         </BaseCard>
@@ -355,12 +360,17 @@ const ModelSelection = ({
 const PostUpload = ({ t }) => {
     return (
         <div className="cb-post-upload">
-            <DefaultButton
-                target="_blank"
+            <a
                 href="https://explorer.digitaltwins.azure.net/"
+                className="cb-post-upload-link"
+                target="_blank"
             >
                 {t('BIMUpload.goToEnvironment')}
-            </DefaultButton>
+                <FontIcon
+                    iconName="NavigateExternalInline"
+                    className="cb-navigate-icon"
+                ></FontIcon>
+            </a>
         </div>
     );
 };

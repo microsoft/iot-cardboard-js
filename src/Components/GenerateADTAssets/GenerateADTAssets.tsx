@@ -5,7 +5,6 @@ import { DTwin, DTwinRelationship, UploadPhase } from '../../Models/Constants';
 import { useAdapter } from '../../Models/Hooks';
 import { UploadProgress } from '../UploadProgress/UploadProgress';
 import { AssetTypes } from '../../Models/Constants/Enums';
-import { Asset } from '../../Models/Classes/Simulations/Asset';
 
 const GenerateADTAssets = ({
     adapter,
