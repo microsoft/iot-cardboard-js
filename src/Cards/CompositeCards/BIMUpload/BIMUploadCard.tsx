@@ -270,7 +270,6 @@ const BIMFileSelection = ({ bimInputRef, metadataInputRef, t }) => {
             <input
                 ref={bimInputRef}
                 className="cb-bim-input"
-                defaultValue="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt" //Will remove post code review, just here so people can test
             ></input>
             <label className="cb-bim-input-label">
                 {t('BIMUpload.metadataFilePath')}
@@ -278,7 +277,6 @@ const BIMFileSelection = ({ bimInputRef, metadataInputRef, t }) => {
             <input
                 ref={metadataInputRef}
                 className="cb-bim-input"
-                defaultValue="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json" //Will remove post code review, just here so people can test
             ></input>
         </div>
     );
