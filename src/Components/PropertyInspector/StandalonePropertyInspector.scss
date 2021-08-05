@@ -1,21 +1,11 @@
 @import '../../Resources/Styles/BaseStyles';
 
-.cb-inactive-property,
-.cb-active-property {
-    display: flex;
-    margin-bottom: 8px;
-    :nth-child(1) {
-        margin-right: 8px;
+.cb-standalone-property-inspector-container {
+    .cb-standalone-property-inspector-header {
+        align-items: center;
+        display: flex;
+        > button {
+            margin-left: 16px;
+        }
     }
-}
-
-.cb-active-property-input-row {
-    align-items: center;
-    display: flex;
-}
-
-.cb-active-property-remove-button {
-    align-self: flex-end;
-
-    height: 30px;
 }
