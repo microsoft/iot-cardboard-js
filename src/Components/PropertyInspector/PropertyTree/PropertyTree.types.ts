@@ -1,5 +1,6 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
+import { DTwinPatch } from '../../../Models/Constants/Interfaces';
 
 type PrimitiveValueTypes = boolean | string | number;
 export interface PropertyTreeNode {
@@ -13,6 +14,8 @@ export interface PropertyTreeNode {
     readonly?: boolean;
     value?: PrimitiveValueTypes;
     complexPropertyData?: EnumPropertyData;
+    parent?: PropertyTreeNode;
+    path: string;
 }
 
 type EnumPropertyData = {
@@ -26,6 +29,7 @@ type EnumPropertyData = {
 export interface PropertyTreeProps {
     data: Array<PropertyTreeNode>;
     onParentClick: (parent: PropertyTreeNode) => any;
+    onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
 }
 
 export interface TreeProps {

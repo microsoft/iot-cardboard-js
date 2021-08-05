@@ -1,5 +1,5 @@
 import produce from 'immer';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
 import {
     dtdlPropertyTypesEnum,
@@ -9,7 +9,7 @@ import {
     DtdlInterface,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
-import { DTwin } from '../../Models/Constants/Interfaces';
+import { DTwin, DTwinPatch } from '../../Models/Constants/Interfaces';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
@@ -43,7 +43,7 @@ const getTwinValueOrDefault = (property, twin) => {
     return twin[property.name] ?? undefined;
 };
 
-const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
+const parsePropertyIntoNode = (modelProperty, twin, path): PropertyTreeNode => {
     if (
         typeof modelProperty.schema === 'string' &&
         dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
@@ -53,7 +53,8 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
             role: NodeRole.leaf,
             schema: modelProperty.schema,
             type: DTDLType.Property,
-            value: getTwinValueOrDefault(modelProperty, twin)
+            value: getTwinValueOrDefault(modelProperty, twin),
+            path: path + modelProperty.name
         };
     } else if (typeof modelProperty.schema === 'object') {
         switch (modelProperty.schema['@type']) {
@@ -63,10 +64,15 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                     role: NodeRole.parent,
                     schema: dtdlPropertyTypesEnum.Object,
                     children: modelProperty.schema.fields.map((field) =>
-                        parsePropertyIntoNode(field, twin)
+                        parsePropertyIntoNode(
+                            field,
+                            twin,
+                            `${path + modelProperty.name}/`
+                        )
                     ),
                     isCollapsed: true,
-                    type: DTDLType.Property
+                    type: DTDLType.Property,
+                    path: path + modelProperty.name
                 };
             case DTDLSchemaType.Enum: {
                 // TODO add enum values to node
@@ -80,7 +86,8 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                         options: modelProperty.schema.enumValues.map((ev) => ({
                             ...ev
                         }))
-                    }
+                    },
+                    path: path + modelProperty.name
                 };
             }
             case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -88,7 +95,8 @@ const parsePropertyIntoNode = (modelProperty, twin): PropertyTreeNode => {
                     name: modelProperty.displayName ?? modelProperty.name,
                     role: NodeRole.leaf,
                     schema: dtdlPropertyTypesEnum.Map,
-                    type: DTDLType.Property
+                    type: DTDLType.Property,
+                    path: path + modelProperty.name
                 };
             case DTDLSchemaType.Array: // TODO support arrays in future
             default:
@@ -112,7 +120,8 @@ const parseRelationshipIntoPropertyTree = (
                 role: NodeRole.leaf,
                 readonly: true,
                 schema: dtdlPropertyTypesEnum.string,
-                value: relationship[key] ?? undefined
+                value: relationship[key] ?? undefined,
+                path: `/${key}`
             });
         }
     });
@@ -136,7 +145,7 @@ const parseTwinIntoPropertyTree = (
 
         switch (type) {
             case DTDLType.Property:
-                node = parsePropertyIntoNode(modelItem, twin);
+                node = parsePropertyIntoNode(modelItem, twin, '/');
                 break;
             case DTDLType.Component: {
                 const componentInterface = components?.find(
@@ -152,7 +161,8 @@ const parseTwinIntoPropertyTree = (
                             twin,
                             componentInterface,
                             components
-                        )
+                        ),
+                        path: modelItem.name
                     };
                 }
                 break;
@@ -184,42 +194,58 @@ const StandalonePropertyInspector: React.FC<
     | TwinStandalonePropertyInspectorProps
     | RelationshipStandalonePropertyInspectorProps
 > = (props) => {
-    const [propertyTreeNodes, setPropertyTreeNodes] = useState<
-        PropertyTreeNode[]
-    >(
-        isTwin(props)
+    const originalTree = useMemo(() => {
+        return isTwin(props)
             ? parseTwinIntoPropertyTree(
                   props.twin,
                   props.model,
                   props.components
               )
-            : parseRelationshipIntoPropertyTree(props.relationship)
-    );
+            : parseRelationshipIntoPropertyTree(props.relationship);
+    }, []);
+
+    const [propertyTreeNodes, setPropertyTreeNodes] = useState<
+        PropertyTreeNode[]
+    >(originalTree);
+
+    const originalTreeRef = useRef(originalTree);
+
+    const [patchData, setPatchData] = useState<DTwinPatch[]>(null);
+
+    const findNodeRefRecursively = (
+        nodes: PropertyTreeNode[],
+        targetNode: PropertyTreeNode
+    ) => {
+        for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            if (node.name === targetNode.name) {
+                return node;
+            } else if (node.children) {
+                const childNodeFound = findNodeRefRecursively(
+                    node.children,
+                    targetNode
+                );
+                if (childNodeFound) return childNodeFound;
+            }
+        }
+        return null;
+    };
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                let targetNode;
-
-                const findNodeToCollapseToggle = (
-                    nodes: PropertyTreeNode[]
-                ) => {
-                    for (let i = 0; i < nodes.length; i++) {
-                        const node = nodes[i];
-                        if (node.name === parent.name) {
-                            targetNode = node;
-                            return;
-                        } else if (node.children) {
-                            findNodeToCollapseToggle(node.children);
-                        }
-                    }
-                };
-
-                findNodeToCollapseToggle(draft);
-
+                const targetNode = findNodeRefRecursively(draft, parent);
                 targetNode
                     ? (targetNode.isCollapsed = !targetNode.isCollapsed)
                     : null;
+            })
+        );
+    };
+
+    const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                findNodeRefRecursively(draft, node).value = newValue;
             })
         );
     };
@@ -234,6 +260,7 @@ const StandalonePropertyInspector: React.FC<
             <PropertyTree
                 data={propertyTreeNodes}
                 onParentClick={(parent) => onParentClick(parent)}
+                onNodeValueChange={onNodeValueChange}
             />
         </div>
     );

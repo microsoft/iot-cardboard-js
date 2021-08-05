@@ -4,23 +4,31 @@ import {
     NodeProps,
     TreeProps,
     PropertyTreeProps,
-    NodeRole
+    NodeRole,
+    PropertyTreeNode
 } from './PropertyTree.types';
 import './PropertyTree.scss';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants';
 import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
-import { Dropdown } from '@fluentui/react/lib/components/Dropdown/Dropdown';
 
-const PropertyTreeContext = createContext(null);
+const PropertyTreeContext = createContext<Omit<PropertyTreeProps, 'data'>>(
+    null
+);
 
-const PropertyTree: React.FC<PropertyTreeProps> = ({ data, onParentClick }) => {
+const PropertyTree: React.FC<PropertyTreeProps> = ({
+    data,
+    onParentClick,
+    onNodeValueChange
+}) => {
     const set = data.filter((node) => node.isSet !== false);
     const unset = data.filter((node) => node.isSet === false);
 
     console.log('PropertyTreeData: ', data);
 
     return (
-        <PropertyTreeContext.Provider value={{ onParentClick }}>
+        <PropertyTreeContext.Provider
+            value={{ onParentClick, onNodeValueChange }}
+        >
             <div className="cb-property-tree-container">
                 <Tree data={set} />
                 <Tree data={unset} />
@@ -78,13 +86,19 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeValue: React.FC<NodeProps> = ({ node }) => {
+    const { onNodeValueChange } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
     switch (propertyType) {
         case dtdlPropertyTypesEnum.boolean:
             return (
                 <div className="cb-property-tree-node-value">
-                    <Checkbox checked={node.value as boolean} />
+                    <Checkbox
+                        checked={node.value as boolean}
+                        onChange={(_e, checked) =>
+                            onNodeValueChange(node, checked)
+                        }
+                    />
                 </div>
             );
         case dtdlPropertyTypesEnum.date:
@@ -93,6 +107,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );
@@ -102,6 +119,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );
@@ -114,15 +134,21 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         type="number"
                         value={node.value as number}
                         style={{ width: 60 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );
-        case dtdlPropertyTypesEnum.duration:
+        case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
             return (
                 <div className="cb-property-tree-node-value">
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );
@@ -133,6 +159,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         type="number"
                         value={node.value as number}
                         style={{ width: 72 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );
@@ -153,6 +182,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                                 height: 17,
                                 padding: '1px 2px'
                             }}
+                            onChange={(e) =>
+                                onNodeValueChange(node, e.target.value)
+                            }
                         ></textarea>
                     </div>
                 );
@@ -173,6 +205,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                     <select
                         value={node.value as string | number}
                         style={{ height: 21 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     >
                         {node.complexPropertyData.options.map((ev) => {
                             return (
