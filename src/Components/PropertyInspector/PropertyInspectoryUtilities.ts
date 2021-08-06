@@ -161,6 +161,7 @@ abstract class PropertyInspectorUtilities {
                     path: path + key,
                     role: NodeRole.leaf,
                     readonly: true,
+                    isSet: true,
                     value: node,
                     schema: dtdlPropertyTypesEnum.string
                 };
@@ -176,8 +177,6 @@ abstract class PropertyInspectorUtilities {
                     path
                 );
             });
-
-        treeNodes = [...metaDataNodes, ...treeNodes];
 
         model.contents.forEach((modelItem) => {
             const type = Array.isArray(modelItem['@type'])
@@ -206,14 +205,14 @@ abstract class PropertyInspectorUtilities {
                             role: NodeRole.parent,
                             type: DTDLType.Component,
                             isCollapsed: true,
-                            isSet: true,
                             children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
                                 twin[modelItem.name],
                                 componentInterface,
                                 `${path + modelItem.name}/`,
                                 components
                             ),
-                            path: path + modelItem.name
+                            path: path + modelItem.name,
+                            isSet: true
                         };
                     }
                     break;
@@ -233,6 +232,8 @@ abstract class PropertyInspectorUtilities {
                 });
             }
         });
+
+        treeNodes = [...treeNodes, ...metaDataNodes];
 
         return treeNodes;
     };
@@ -256,12 +257,30 @@ abstract class PropertyInspectorUtilities {
         return null;
     };
 
+    static verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
+        let everyChildHasValue = true;
+        tree.forEach((node) => {
+            if (!node.children && !node.value) everyChildHasValue = false;
+            else if (node.children)
+                everyChildHasValue = PropertyInspectorUtilities.verifyEveryChildHasValue(
+                    node.children
+                );
+        });
+        return everyChildHasValue;
+    };
+
     static parseDataFromPropertyTree = (
         tree: PropertyTreeNode[],
         newJson = {}
     ) => {
         tree.forEach((node) => {
-            if (node.children && node.isSet) {
+            if (
+                node.children &&
+                (node.isSet ||
+                    PropertyInspectorUtilities.verifyEveryChildHasValue(
+                        node.children
+                    ))
+            ) {
                 newJson[node.name] = {};
                 newJson[
                     node.name
@@ -269,7 +288,7 @@ abstract class PropertyInspectorUtilities {
                     node.children,
                     newJson[node.name]
                 );
-            } else if (node.value !== undefined) {
+            } else if (node.value !== undefined && node.isSet) {
                 newJson[node.name] = node.value;
             }
         });

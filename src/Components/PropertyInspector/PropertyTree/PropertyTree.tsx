@@ -4,8 +4,7 @@ import {
     NodeProps,
     TreeProps,
     PropertyTreeProps,
-    NodeRole,
-    PropertyTreeNode
+    NodeRole
 } from './PropertyTree.types';
 import './PropertyTree.scss';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants';
@@ -20,9 +19,6 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onParentClick,
     onNodeValueChange
 }) => {
-    const set = data.filter((node) => node.isSet !== false);
-    const unset = data.filter((node) => node.isSet === false);
-
     console.log('PropertyTreeData: ', data);
 
     return (
@@ -30,8 +26,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
             value={{ onParentClick, onNodeValueChange }}
         >
             <div className="cb-property-tree-container">
-                <Tree data={set} />
-                <Tree data={unset} />
+                <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>
     );
@@ -196,6 +191,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
+                        }
                     ></input>
                 </div>
             );

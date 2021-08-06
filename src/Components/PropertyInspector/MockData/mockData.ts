@@ -7,7 +7,6 @@ export const mockTwin = {
     CarName: 'Slaaaa',
     CarPackage: 'Standard',
     location: {
-        coordinates: '101',
         $metadata: {
             coordinates: {
                 lastUpdateTime: '2021-08-06T00:31:30.2917615Z'

@@ -10,6 +10,8 @@ import {
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorUtilities from './PropertyInspectoryUtilities';
 
+// TODO, support extended models
+
 /**
  *  StandalonePropertyInspector takes a resolved Twin, Model, and array of components, its parent component
  *  should handle the fetching and transformation of these objects
@@ -57,6 +59,7 @@ const StandalonePropertyInspector: React.FC<
                     node
                 );
                 targetNode.value = newValue;
+                targetNode.isSet = true;
             })
         );
     };
