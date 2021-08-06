@@ -8,7 +8,7 @@ export interface TwinStandalonePropertyInspectorProps {
     twin: DTwin;
     model: DtdlInterface;
     components?: DtdlInterface[];
-    relationship?: DtdlRelationship;
+    relationships?: DtdlRelationship;
     onCommitChanges?: (patch: DTwinUpdateEvent) => any;
 }
 

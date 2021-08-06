@@ -1,31 +1,35 @@
 export const mockTwin = {
     $dtId: 'LeoTheDog',
-    $etag: 'W/"6b19c2e7-5b26-44d9-ae35-9d32f4fe4a1f"',
-    Mileage: 1,
+    $etag: 'W/"3f67eb41-e742-4306-9c5a-7430a07ae639"',
     BatteryDeadState: true,
     BatteryLevel: 92.5,
     BatteryCapacity: 75.2,
-    CarName: 'LeoTheDog',
+    CarName: 'Slaaaa',
     CarPackage: 'Standard',
+    location: {
+        coordinates: '101',
+        $metadata: {
+            coordinates: {
+                lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
+            }
+        }
+    },
     $metadata: {
         $model: 'dtmi:com:cocrowle:teslamodely;1',
-        Mileage: {
-            lastUpdateTime: '2021-08-03T00:12:45.1002616Z'
-        },
         BatteryDeadState: {
-            lastUpdateTime: '2021-08-03T03:17:13.5440666Z'
+            lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
         },
         BatteryLevel: {
-            lastUpdateTime: '2021-08-03T03:17:13.5440666Z'
+            lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
         },
         BatteryCapacity: {
-            lastUpdateTime: '2021-08-03T03:17:13.5440666Z'
+            lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
         },
         CarName: {
-            lastUpdateTime: '2021-08-03T03:17:13.5440666Z'
+            lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
         },
         CarPackage: {
-            lastUpdateTime: '2021-08-03T03:17:13.5440666Z'
+            lastUpdateTime: '2021-08-06T00:31:30.2917615Z'
         }
     }
 };

@@ -1,11 +1,11 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
-import { DTwinPatch } from '../../../Models/Constants/Interfaces';
 
 type PrimitiveValueTypes = boolean | string | number;
 export interface PropertyTreeNode {
     children?: Array<PropertyTreeNode>;
     name: string;
+    displayName: string;
     role: NodeRole;
     isSet?: boolean;
     schema?: dtdlPropertyTypesEnum;

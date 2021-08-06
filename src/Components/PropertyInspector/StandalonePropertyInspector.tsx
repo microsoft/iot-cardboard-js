@@ -1,6 +1,5 @@
 import produce from 'immer';
-import React, { useMemo, useRef, useState } from 'react';
-import { DTwinPatch } from '../../Models/Constants/Interfaces';
+import React, { useMemo, useState } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
@@ -24,6 +23,7 @@ const StandalonePropertyInspector: React.FC<
             ? PropertyInspectorUtilities.parseTwinIntoPropertyTree(
                   props.twin,
                   props.model,
+                  '/',
                   props.components
               )
             : PropertyInspectorUtilities.parseRelationshipIntoPropertyTree(
@@ -34,10 +34,6 @@ const StandalonePropertyInspector: React.FC<
     const [propertyTreeNodes, setPropertyTreeNodes] = useState<
         PropertyTreeNode[]
     >(originalTree);
-
-    const originalTreeRef = useRef(originalTree);
-
-    const [patchData, setPatchData] = useState<DTwinPatch[]>(null);
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(
@@ -56,10 +52,11 @@ const StandalonePropertyInspector: React.FC<
     const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
                     draft,
                     node
-                ).value = newValue;
+                );
+                targetNode.value = newValue;
             })
         );
     };
@@ -72,7 +69,16 @@ const StandalonePropertyInspector: React.FC<
                         ? props.twin['$dtId']
                         : props.relationship['$relationshipId']}
                 </h3>
-                <button>Commit changes</button>
+                <button
+                    onClick={() =>
+                        PropertyInspectorUtilities.generatePatchData(
+                            isTwin(props) ? props.twin : props.relationship,
+                            propertyTreeNodes
+                        )
+                    }
+                >
+                    Commit changes
+                </button>
             </div>
             <PropertyTree
                 data={propertyTreeNodes}

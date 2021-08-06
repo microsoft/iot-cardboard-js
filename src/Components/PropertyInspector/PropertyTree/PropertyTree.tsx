@@ -209,9 +209,9 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                             onNodeValueChange(node, e.target.value)
                         }
                     >
-                        {node.complexPropertyData.options.map((ev) => {
+                        {node.complexPropertyData.options.map((ev, idx) => {
                             return (
-                                <option value={ev.name}>
+                                <option value={ev.name} key={idx}>
                                     {ev.displayName ?? ev.name}
                                 </option>
                             );

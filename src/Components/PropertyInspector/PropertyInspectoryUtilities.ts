@@ -7,10 +7,11 @@ import {
     DtdlInterface,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
-import { DTwin, DTwinPatch } from '../../Models/Constants/Interfaces';
+import { DTwin } from '../../Models/Constants/Interfaces';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
+import { compare, Operation } from 'fast-json-patch';
 
-class PropertyInspectorUtilities {
+abstract class PropertyInspectorUtilities {
     static getTwinValueOrDefault = (property, twin) => {
         return twin[property.name] ?? undefined;
     };
@@ -25,7 +26,8 @@ class PropertyInspectorUtilities {
             dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
         ) {
             return {
-                name: modelProperty.displayName ?? modelProperty.name,
+                name: modelProperty.name,
+                displayName: modelProperty.displayName ?? modelProperty.name,
                 role: NodeRole.leaf,
                 schema: modelProperty.schema,
                 type: DTDLType.Property,
@@ -39,7 +41,9 @@ class PropertyInspectorUtilities {
             switch (modelProperty.schema['@type']) {
                 case DTDLSchemaType.Object:
                     return {
-                        name: modelProperty.displayName ?? modelProperty.name,
+                        name: modelProperty.name,
+                        displayName:
+                            modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children: modelProperty.schema.fields.map((field) =>
@@ -56,7 +60,9 @@ class PropertyInspectorUtilities {
                 case DTDLSchemaType.Enum: {
                     // TODO add enum values to node
                     return {
-                        name: modelProperty.displayName ?? modelProperty.name,
+                        name: modelProperty.name,
+                        displayName:
+                            modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
@@ -76,7 +82,9 @@ class PropertyInspectorUtilities {
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
                     return {
-                        name: modelProperty.displayName ?? modelProperty.name,
+                        name: modelProperty.name,
+                        displayName:
+                            modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Map,
                         type: DTDLType.Property,
@@ -101,6 +109,7 @@ class PropertyInspectorUtilities {
             if (key !== 'properties') {
                 treeNodes.push({
                     name: key,
+                    displayName: relationship[key]?.displayName ?? key,
                     role: NodeRole.leaf,
                     readonly: true,
                     schema: dtdlPropertyTypesEnum.string,
@@ -116,9 +125,59 @@ class PropertyInspectorUtilities {
     static parseTwinIntoPropertyTree = (
         twin: DTwin,
         model: DtdlInterface,
+        path = '/',
         components?: DtdlInterface[]
     ): PropertyTreeNode[] => {
-        const treeNodes: PropertyTreeNode[] = [];
+        let treeNodes: PropertyTreeNode[] = [];
+
+        const parseMetaDataIntoPropertyTreeNodes = (
+            node: any,
+            key: string,
+            path: string
+        ): PropertyTreeNode => {
+            // Parse ADT metadata $ into nodes
+            if (typeof node === 'object') {
+                return {
+                    displayName: key,
+                    name: key,
+                    path: path + key,
+                    role: NodeRole.parent,
+                    isSet: true,
+                    readonly: true,
+                    isCollapsed: true,
+                    children: Object.keys(node).map((childKey) =>
+                        parseMetaDataIntoPropertyTreeNodes(
+                            node[childKey],
+                            childKey,
+                            `${path + key}/`
+                        )
+                    ),
+                    schema: dtdlPropertyTypesEnum.Object
+                };
+            } else {
+                return {
+                    displayName: key,
+                    name: key,
+                    path: path + key,
+                    role: NodeRole.leaf,
+                    readonly: true,
+                    value: node,
+                    schema: dtdlPropertyTypesEnum.string
+                };
+            }
+        };
+
+        const metaDataNodes = Object.keys(twin)
+            .filter((p) => p.startsWith('$'))
+            .map((metaDataKey) => {
+                return parseMetaDataIntoPropertyTreeNodes(
+                    twin[metaDataKey],
+                    metaDataKey,
+                    path
+                );
+            });
+
+        treeNodes = [...metaDataNodes, ...treeNodes];
 
         model.contents.forEach((modelItem) => {
             const type = Array.isArray(modelItem['@type'])
@@ -132,7 +191,7 @@ class PropertyInspectorUtilities {
                     node = PropertyInspectorUtilities.parsePropertyIntoNode(
                         modelItem,
                         twin,
-                        '/'
+                        path
                     );
                     break;
                 case DTDLType.Component: {
@@ -142,15 +201,19 @@ class PropertyInspectorUtilities {
                     if (componentInterface) {
                         node = {
                             name: modelItem.name,
+                            displayName:
+                                modelItem?.displayName ?? modelItem.name,
                             role: NodeRole.parent,
                             type: DTDLType.Component,
                             isCollapsed: true,
+                            isSet: true,
                             children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
-                                twin,
+                                twin[modelItem.name],
                                 componentInterface,
+                                `${path + modelItem.name}/`,
                                 components
                             ),
-                            path: modelItem.name
+                            path: path + modelItem.name
                         };
                     }
                     break;
@@ -177,10 +240,10 @@ class PropertyInspectorUtilities {
     static findPropertyTreeNodeRefRecursively = (
         nodes: PropertyTreeNode[],
         targetNode: PropertyTreeNode
-    ) => {
+    ): PropertyTreeNode => {
         for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
-            if (node.name === targetNode.name) {
+            if (node.path === targetNode.path) {
                 return node;
             } else if (node.children) {
                 const childNodeFound = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
@@ -193,27 +256,42 @@ class PropertyInspectorUtilities {
         return null;
     };
 
-    // generatePatchData = () => {};
-
-    // Build up patch array -- single source of truth for patches -- push to or update existing when user changes form fields
-    /*
-        [
-            {
-                "op": "replace",
-                "path": "/property1",
-                "value": 1
-            },
-            {
-                "op": "add",
-                "path": "/property2/subProperty1",
-                "value": 1
-            },
-            {
-                "op": "remove",
-                "path": "/property3"
+    static parseDataFromPropertyTree = (
+        tree: PropertyTreeNode[],
+        newJson = {}
+    ) => {
+        tree.forEach((node) => {
+            if (node.children && node.isSet) {
+                newJson[node.name] = {};
+                newJson[
+                    node.name
+                ] = PropertyInspectorUtilities.parseDataFromPropertyTree(
+                    node.children,
+                    newJson[node.name]
+                );
+            } else if (node.value !== undefined) {
+                newJson[node.name] = node.value;
             }
-        ]
-    */
+        });
+
+        return newJson;
+    };
+
+    static generatePatchData = (
+        originalJson: any,
+        newTree: PropertyTreeNode[]
+    ): Operation[] => {
+        // Recurse through new PropertyTreeNode[] and build a simple JSON representation of the data tree
+        const newJson = PropertyInspectorUtilities.parseDataFromPropertyTree(
+            newTree
+        );
+        // Compare originalJson with the newly generated JSON using compare lib
+        const delta = compare(originalJson, newJson);
+        console.log('New Json ---', newJson);
+        console.log('Old Json ---', originalJson);
+        console.log('Delta ---', delta);
+        return delta;
+    };
 }
 
 export default PropertyInspectorUtilities;
