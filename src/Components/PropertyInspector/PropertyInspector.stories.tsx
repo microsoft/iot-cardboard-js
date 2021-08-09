@@ -1,8 +1,8 @@
 import React from 'react';
 import {
     mockTwin,
-    mockModel,
-    mockComponents,
+    mockExpandedModel,
+    mockRootModel,
     mockRelationship
 } from './MockData/mockData';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
@@ -15,8 +15,8 @@ export const TwinMock = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <StandalonePropertyInspector
             twin={mockTwin}
-            model={mockModel}
-            components={mockComponents}
+            expandedModel={mockExpandedModel}
+            rootModel={mockRootModel}
             onCommitChanges={(patch) => console.log(patch)}
         />
     </div>

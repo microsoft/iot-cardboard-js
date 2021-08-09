@@ -6,7 +6,7 @@ export interface DtdlInterface {
     contents?: DtdlInterfaceContent[];
     description?: string;
     displayName?: string;
-    extends?: DtdlInterface[];
+    extends?: string | string[];
     schemas?: DtdlInterfaceSchema[];
 }
 
@@ -33,6 +33,7 @@ export interface DtdlInterfaceContent {
     comment?: string;
     description?: string;
     displayName?: string;
-    schema: string | Record<string, any>;
+    writable?: boolean;
+    schema?: string | Record<string, any>;
     [propertyName: string]: any;
 }

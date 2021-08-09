@@ -5,6 +5,7 @@ import {
 } from '../../Models/Constants/Constants';
 import {
     DtdlInterface,
+    DtdlInterfaceContent,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
 import { DTwin } from '../../Models/Constants/Interfaces';
@@ -122,11 +123,77 @@ abstract class PropertyInspectorUtilities {
         return treeNodes;
     };
 
+    static parseModelContentsIntoNodes = (
+        contents: DtdlInterfaceContent[],
+        twin: DTwin,
+        expandedModel: DtdlInterface[],
+        path = '/'
+    ): PropertyTreeNode[] => {
+        const treeNodes: PropertyTreeNode[] = [];
+
+        contents.forEach((modelItem) => {
+            const type = Array.isArray(modelItem['@type'])
+                ? modelItem['@type'][0]
+                : modelItem['@type'];
+
+            let node: PropertyTreeNode;
+
+            switch (type) {
+                case DTDLType.Property:
+                    node = PropertyInspectorUtilities.parsePropertyIntoNode(
+                        modelItem,
+                        twin,
+                        path
+                    );
+                    break;
+                case DTDLType.Component: {
+                    const componentInterface = expandedModel?.find(
+                        (m) => m['@id'] === modelItem.schema
+                    );
+                    if (componentInterface) {
+                        node = {
+                            name: modelItem.name,
+                            displayName:
+                                modelItem?.displayName ?? modelItem.name,
+                            role: NodeRole.parent,
+                            type: DTDLType.Component,
+                            isCollapsed: true,
+                            children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
+                                twin[modelItem.name],
+                                expandedModel,
+                                componentInterface,
+                                `${path + modelItem.name}/`
+                            ),
+                            path: path + modelItem.name,
+                            isSet: true
+                        };
+                    }
+                    break;
+                }
+                case DTDLType.Telemetry:
+                case DTDLType.Command:
+                case DTDLType.Relationship:
+                    return null;
+            }
+
+            if (node) {
+                treeNodes.push({
+                    ...node,
+                    ...(node.type === DTDLType.Property && {
+                        isSet: modelItem.name in twin
+                    })
+                });
+            }
+        });
+
+        return treeNodes;
+    };
+
     static parseTwinIntoPropertyTree = (
         twin: DTwin,
-        model: DtdlInterface,
-        path = '/',
-        components?: DtdlInterface[]
+        expandedModel: DtdlInterface[],
+        rootModel: DtdlInterface,
+        path = '/'
     ): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
 
@@ -168,6 +235,7 @@ abstract class PropertyInspectorUtilities {
             }
         };
 
+        // Parse meta data nodes
         const metaDataNodes = Object.keys(twin)
             .filter((p) => p.startsWith('$'))
             .map((metaDataKey) => {
@@ -178,63 +246,51 @@ abstract class PropertyInspectorUtilities {
                 );
             });
 
-        model.contents.forEach((modelItem) => {
-            const type = Array.isArray(modelItem['@type'])
-                ? modelItem['@type'][0]
-                : modelItem['@type'];
+        // Parse root model
+        const rootModelNodes = PropertyInspectorUtilities.parseModelContentsIntoNodes(
+            rootModel.contents,
+            twin,
+            expandedModel,
+            path
+        );
 
-            let node: PropertyTreeNode;
+        // Parse extended models
+        const extendedModelNodes: PropertyTreeNode[] = [];
 
-            switch (type) {
-                case DTDLType.Property:
-                    node = PropertyInspectorUtilities.parsePropertyIntoNode(
-                        modelItem,
-                        twin,
-                        path
+        let extendedModelIds = null;
+
+        if (Array.isArray(rootModel.extends)) {
+            extendedModelIds = [...rootModel.extends];
+        } else if (typeof rootModel.extends === 'string') {
+            extendedModelIds = [rootModel.extends];
+        }
+        if (extendedModelIds) {
+            extendedModelIds.forEach((extendedModelId) => {
+                const extendedModel = Object.assign(
+                    {},
+                    expandedModel.find(
+                        (model) => model['@id'] === extendedModelId
+                    )
+                );
+
+                if (extendedModel) {
+                    extendedModelNodes.push(
+                        ...PropertyInspectorUtilities.parseModelContentsIntoNodes(
+                            extendedModel.contents,
+                            twin,
+                            expandedModel,
+                            path
+                        )
                     );
-                    break;
-                case DTDLType.Component: {
-                    const componentInterface = components?.find(
-                        (c) => c['@id'] === modelItem.schema
-                    );
-                    if (componentInterface) {
-                        node = {
-                            name: modelItem.name,
-                            displayName:
-                                modelItem?.displayName ?? modelItem.name,
-                            role: NodeRole.parent,
-                            type: DTDLType.Component,
-                            isCollapsed: true,
-                            children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
-                                twin[modelItem.name],
-                                componentInterface,
-                                `${path + modelItem.name}/`,
-                                components
-                            ),
-                            path: path + modelItem.name,
-                            isSet: true
-                        };
-                    }
-                    break;
                 }
-                case DTDLType.Telemetry:
-                case DTDLType.Command:
-                case DTDLType.Relationship:
-                    return null;
-            }
+            });
+        }
 
-            if (node) {
-                treeNodes.push({
-                    ...node,
-                    ...(node.type === DTDLType.Property && {
-                        isSet: modelItem.name in twin
-                    })
-                });
-            }
-        });
-
-        treeNodes = [...treeNodes, ...metaDataNodes];
-
+        treeNodes = [
+            ...rootModelNodes,
+            ...extendedModelNodes,
+            ...metaDataNodes
+        ];
         return treeNodes;
     };
 
