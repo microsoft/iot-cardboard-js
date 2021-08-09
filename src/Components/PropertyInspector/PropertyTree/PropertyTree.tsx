@@ -8,7 +8,7 @@ import {
 } from './PropertyTree.types';
 import './PropertyTree.scss';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants';
-import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
+import { DTDLType } from '../../../Models/Classes/DTDL';
 
 const PropertyTreeContext = createContext<Omit<PropertyTreeProps, 'data'>>(
     null
@@ -17,13 +17,14 @@ const PropertyTreeContext = createContext<Omit<PropertyTreeProps, 'data'>>(
 const PropertyTree: React.FC<PropertyTreeProps> = ({
     data,
     onParentClick,
-    onNodeValueChange
+    onNodeValueChange,
+    onNodeValueUnset
 }) => {
     console.log('PropertyTreeData: ', data);
 
     return (
         <PropertyTreeContext.Provider
-            value={{ onParentClick, onNodeValueChange }}
+            value={{ onParentClick, onNodeValueChange, onNodeValueUnset }}
         >
             <div className="cb-property-tree-container">
                 <Tree data={data} />
@@ -88,10 +89,11 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.boolean:
             return (
                 <div className="cb-property-tree-node-value">
-                    <Checkbox
-                        checked={node.value as boolean}
-                        onChange={(_e, checked) =>
-                            onNodeValueChange(node, checked)
+                    <input
+                        type="checkbox"
+                        checked={(node.value as boolean) || false}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.checked)
                         }
                     />
                 </div>
@@ -201,12 +203,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className="cb-property-tree-node-value">
                     <select
-                        value={node.value as string | number}
+                        value={(node.value as string | number) ?? 'enum-unset'}
                         style={{ height: 21 }}
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
                         }
                     >
+                        <option value={'enum-unset'}>--</option>
                         {node.complexPropertyData.options.map((ev, idx) => {
                             return (
                                 <option value={ev.name} key={idx}>
@@ -225,6 +228,32 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeRow: React.FC<NodeProps> = ({ node }) => {
+    const { onNodeValueUnset } = useContext(PropertyTreeContext);
+
+    const NodeRowUnset = () => {
+        if (node.isSet === false) {
+            return (
+                <div className="cb-property-tree-node-value-unset">(unset)</div>
+            );
+        } else if (
+            node.type === DTDLType.Property &&
+            node.isObjectChild !== true
+        ) {
+            return (
+                <button
+                    style={{ marginLeft: 8 }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onNodeValueUnset(node);
+                    }}
+                >
+                    Remove
+                </button>
+            );
+        }
+        return null;
+    };
+
     return (
         <div className="cb-property-tree-node">
             <div className="cb-property-tree-node-name"> {node.name}:</div>
@@ -232,9 +261,7 @@ const NodeRow: React.FC<NodeProps> = ({ node }) => {
             <div className="cb-property-tree-node-type">
                 {node.schema ?? node.type}
             </div>
-            {node.isSet === false && (
-                <div className="cb-property-tree-node-value-unset">(unset)</div>
-            )}
+            <NodeRowUnset />
         </div>
     );
 };

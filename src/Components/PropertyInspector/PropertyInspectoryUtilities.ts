@@ -17,10 +17,39 @@ abstract class PropertyInspectorUtilities {
         return twin[property.name] ?? undefined;
     };
 
+    static getEmptyValueForNode = (node: PropertyTreeNode) => {
+        switch (node.schema) {
+            case dtdlPropertyTypesEnum.string:
+                return '';
+            case dtdlPropertyTypesEnum.Enum:
+                return 'enum-unset';
+            case dtdlPropertyTypesEnum.Map:
+                return {};
+            case dtdlPropertyTypesEnum.Object:
+                return undefined;
+            case dtdlPropertyTypesEnum.boolean:
+                return false;
+            case dtdlPropertyTypesEnum.date:
+            case dtdlPropertyTypesEnum.dateTime:
+            case dtdlPropertyTypesEnum.duration:
+            case dtdlPropertyTypesEnum.time:
+                return '';
+            case dtdlPropertyTypesEnum.double:
+            case dtdlPropertyTypesEnum.integer:
+            case dtdlPropertyTypesEnum.long:
+            case dtdlPropertyTypesEnum.float:
+                return '';
+            case dtdlPropertyTypesEnum.Array:
+            default:
+                return null;
+        }
+    };
+
     static parsePropertyIntoNode = (
         modelProperty,
         twin,
-        path
+        path,
+        isObjectChild = false
     ): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
@@ -36,7 +65,8 @@ abstract class PropertyInspectorUtilities {
                     modelProperty,
                     twin
                 ),
-                path: path + modelProperty.name
+                path: path + modelProperty.name,
+                ...(isObjectChild && { isObjectChild: true })
             };
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
@@ -50,16 +80,17 @@ abstract class PropertyInspectorUtilities {
                         children: modelProperty.schema.fields.map((field) =>
                             PropertyInspectorUtilities.parsePropertyIntoNode(
                                 field,
-                                twin,
-                                `${path + modelProperty.name}/`
+                                twin[modelProperty.name],
+                                `${path + modelProperty.name}/`,
+                                true
                             )
                         ),
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name
+                        path: path + modelProperty.name,
+                        ...(isObjectChild && { isObjectChild: true })
                     };
                 case DTDLSchemaType.Enum: {
-                    // TODO add enum values to node
                     return {
                         name: modelProperty.name,
                         displayName:
@@ -78,7 +109,8 @@ abstract class PropertyInspectorUtilities {
                                 })
                             )
                         },
-                        path: path + modelProperty.name
+                        path: path + modelProperty.name,
+                        ...(isObjectChild && { isObjectChild: true })
                     };
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -89,7 +121,8 @@ abstract class PropertyInspectorUtilities {
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Map,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name
+                        path: path + modelProperty.name,
+                        ...(isObjectChild && { isObjectChild: true })
                     };
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
@@ -330,13 +363,7 @@ abstract class PropertyInspectorUtilities {
         newJson = {}
     ) => {
         tree.forEach((node) => {
-            if (
-                node.children &&
-                (node.isSet ||
-                    PropertyInspectorUtilities.verifyEveryChildHasValue(
-                        node.children
-                    ))
-            ) {
+            if (node.children && (node.isSet || node.isObjectChild)) {
                 newJson[node.name] = {};
                 newJson[
                     node.name
@@ -344,7 +371,10 @@ abstract class PropertyInspectorUtilities {
                     node.children,
                     newJson[node.name]
                 );
-            } else if (node.value !== undefined && node.isSet) {
+            } else if (
+                node.value !== undefined &&
+                (node.isSet || node.isObjectChild)
+            ) {
                 newJson[node.name] = node.value;
             }
         });

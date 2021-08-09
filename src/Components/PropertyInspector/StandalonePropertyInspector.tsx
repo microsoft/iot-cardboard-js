@@ -62,6 +62,34 @@ const StandalonePropertyInspector: React.FC<
         );
     };
 
+    const onNodeValueUnset = (node: PropertyTreeNode) => {
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                    draft,
+                    node
+                );
+
+                const setNodeToDefaultValue = (
+                    nodeToUnset: PropertyTreeNode
+                ) => {
+                    nodeToUnset.value = PropertyInspectorUtilities.getEmptyValueForNode(
+                        nodeToUnset
+                    );
+                    if (nodeToUnset.children) {
+                        nodeToUnset.children.forEach((child) => {
+                            setNodeToDefaultValue(child);
+                        });
+                    }
+                };
+
+                // Unsetting object should set all children values to default
+                setNodeToDefaultValue(targetNode);
+                targetNode.isSet = false;
+            })
+        );
+    };
+
     return (
         <div className="cb-standalone-property-inspector-container">
             <div className="cb-standalone-property-inspector-header">
@@ -85,6 +113,7 @@ const StandalonePropertyInspector: React.FC<
                 data={propertyTreeNodes}
                 onParentClick={(parent) => onParentClick(parent)}
                 onNodeValueChange={onNodeValueChange}
+                onNodeValueUnset={onNodeValueUnset}
             />
         </div>
     );

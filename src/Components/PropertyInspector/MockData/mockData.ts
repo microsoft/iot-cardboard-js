@@ -2,6 +2,16 @@ export const mockTwin = {
     $dtId: 'LeoTheDog',
     $etag: 'W/"7cece777-dbf3-47ca-947e-5842ff8021fb"',
     CarName: 'Slaaaa',
+    WheelInformation: {
+        leftFrontPressure: 34,
+        rightFrontPressure: 36,
+        leftRearPressure: 38,
+        rightRearPressure: 39,
+        tireSpecification: {
+            tireModel: 'Sport',
+            tireWidth: 19
+        }
+    },
     address: {
         $metadata: {}
     },
