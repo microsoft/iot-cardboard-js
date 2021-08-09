@@ -13,12 +13,19 @@ import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import { compare, Operation } from 'fast-json-patch';
 
 abstract class PropertyInspectorUtilities {
-    static getTwinValueOrDefault = (property, twin) => {
-        return twin[property.name] ?? undefined;
+    static getTwinValueOrDefault = (
+        property,
+        twin,
+        schema: dtdlPropertyTypesEnum
+    ) => {
+        return (
+            twin[property.name] ??
+            PropertyInspectorUtilities.getEmptyValueForNode(schema)
+        );
     };
 
-    static getEmptyValueForNode = (node: PropertyTreeNode) => {
-        switch (node.schema) {
+    static getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
+        switch (schema) {
             case dtdlPropertyTypesEnum.string:
                 return '';
             case dtdlPropertyTypesEnum.Enum:
@@ -63,7 +70,8 @@ abstract class PropertyInspectorUtilities {
                 type: DTDLType.Property,
                 value: PropertyInspectorUtilities.getTwinValueOrDefault(
                     modelProperty,
-                    twin
+                    twin,
+                    modelProperty.schema
                 ),
                 path: path + modelProperty.name,
                 ...(isObjectChild && { isObjectChild: true })
@@ -100,7 +108,8 @@ abstract class PropertyInspectorUtilities {
                         type: DTDLType.Property,
                         value: PropertyInspectorUtilities.getTwinValueOrDefault(
                             modelProperty,
-                            twin
+                            twin,
+                            dtdlPropertyTypesEnum.Enum
                         ),
                         complexPropertyData: {
                             options: modelProperty.schema.enumValues.map(

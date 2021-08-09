@@ -74,7 +74,7 @@ const StandalonePropertyInspector: React.FC<
                     nodeToUnset: PropertyTreeNode
                 ) => {
                     nodeToUnset.value = PropertyInspectorUtilities.getEmptyValueForNode(
-                        nodeToUnset
+                        nodeToUnset.schema
                     );
                     if (nodeToUnset.children) {
                         nodeToUnset.children.forEach((child) => {
