@@ -56,7 +56,8 @@ abstract class PropertyInspectorUtilities {
         modelProperty,
         twin,
         path,
-        isObjectChild = false
+        isObjectChild = false,
+        inherited = false
     ): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
@@ -74,7 +75,8 @@ abstract class PropertyInspectorUtilities {
                     modelProperty.schema
                 ),
                 path: path + modelProperty.name,
-                ...(isObjectChild && { isObjectChild: true })
+                ...(isObjectChild && { isObjectChild: true }),
+                inherited
             };
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
@@ -96,7 +98,8 @@ abstract class PropertyInspectorUtilities {
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true })
+                        ...(isObjectChild && { isObjectChild: true }),
+                        inherited
                     };
                 case DTDLSchemaType.Enum: {
                     return {
@@ -119,7 +122,8 @@ abstract class PropertyInspectorUtilities {
                             )
                         },
                         path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true })
+                        ...(isObjectChild && { isObjectChild: true }),
+                        inherited
                     };
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -131,7 +135,8 @@ abstract class PropertyInspectorUtilities {
                         schema: dtdlPropertyTypesEnum.Map,
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true })
+                        ...(isObjectChild && { isObjectChild: true }),
+                        inherited
                     };
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
@@ -169,7 +174,8 @@ abstract class PropertyInspectorUtilities {
         contents: DtdlInterfaceContent[],
         twin: DTwin,
         expandedModel: DtdlInterface[],
-        path = '/'
+        path = '/',
+        inherited = false
     ): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
@@ -185,7 +191,8 @@ abstract class PropertyInspectorUtilities {
                     node = PropertyInspectorUtilities.parsePropertyIntoNode(
                         modelItem,
                         twin,
-                        path
+                        path,
+                        inherited
                     );
                     break;
                 case DTDLType.Component: {
@@ -207,7 +214,8 @@ abstract class PropertyInspectorUtilities {
                                 `${path + modelItem.name}/`
                             ),
                             path: path + modelItem.name,
-                            isSet: true
+                            isSet: true,
+                            inherited: true
                         };
                     }
                     break;
@@ -321,7 +329,8 @@ abstract class PropertyInspectorUtilities {
                             extendedModel.contents,
                             twin,
                             expandedModel,
-                            path
+                            path,
+                            true
                         )
                     );
                 }

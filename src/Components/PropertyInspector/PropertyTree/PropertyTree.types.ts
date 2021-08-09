@@ -17,6 +17,7 @@ export interface PropertyTreeNode {
     parent?: PropertyTreeNode;
     path: string;
     isObjectChild?: boolean;
+    inherited?: boolean;
 }
 
 type EnumPropertyData = {
