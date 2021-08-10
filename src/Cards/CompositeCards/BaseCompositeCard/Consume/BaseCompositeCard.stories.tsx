@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import BaseCard from './BaseCompositeCard';
+import BaseCompositeCard from './BaseCompositeCard';
 
 export default {
     title: 'CompositeCards/BaseCompositeCard/Consume'
 };
 
-export const BaseCompositeCard = (args, { globals: { theme, locale } }) => {
+export const EmptyCompositeCard = (_args, { globals: { theme, locale } }) => {
     const { t } = useTranslation();
 
     return (
@@ -16,7 +16,7 @@ export const BaseCompositeCard = (args, { globals: { theme, locale } }) => {
                 position: 'relative'
             }}
         >
-            <BaseCard
+            <BaseCompositeCard
                 title={t('emptyCompositeCard')}
                 theme={theme}
                 locale={locale}

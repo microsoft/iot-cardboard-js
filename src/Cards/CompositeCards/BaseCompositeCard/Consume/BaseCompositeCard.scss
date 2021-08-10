@@ -43,6 +43,7 @@
         flex: 1 1 auto;
         height: 100%;
         overflow: auto;
+        min-width: 240px;
 
         .cb-base-card {
             border: 1px solid var(--cb-color-bg-canvas-inset);

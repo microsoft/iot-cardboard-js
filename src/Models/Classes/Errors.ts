@@ -17,23 +17,38 @@ class CardError extends Error {
     public rawError;
     public messageParams: { [key: string]: string };
 
-    private getCardErrorMessageFromType = (
-        errorType: CardErrorType,
-        messageParams: { [key: string]: string }
-    ) => {
+    private getCardErrorNameFromType = (errorType: CardErrorType) => {
         switch (errorType) {
             case CardErrorType.TokenRetrievalFailed:
                 return i18n.t('adapterErrors.tokenFailed');
             case CardErrorType.DataFetchFailed:
                 return i18n.t('adapterErrors.dataFetchFailed');
             case CardErrorType.InvalidCardType:
-                return i18n.t('boardErrors.invalidCardType', messageParams);
+                return i18n.t('boardErrors.invalidCardType');
+            case CardErrorType.ErrorBoundary:
+                return i18n.t('errors.errorBoundary');
             default:
-                return i18n.t('adapterErrors.unkownError');
+                return i18n.t('errors.unkownError');
+        }
+    };
+
+    private getCardErrorMessageFromType = (
+        errorType: CardErrorType,
+        messageParams: { [key: string]: string }
+    ) => {
+        switch (errorType) {
+            case CardErrorType.InvalidCardType:
+                return i18n.t(
+                    'boardErrors.invalidCardTypeMessage',
+                    messageParams
+                );
+            default:
+                return i18n.t('errors.unkownError');
         }
     };
 
     constructor({
+        name,
         message,
         type = CardErrorType.UnknownError,
         isCatastrophic = false,
@@ -41,6 +56,7 @@ class CardError extends Error {
         messageParams = {}
     }: ICardError) {
         super(message);
+        this.name = name ? name : this.getCardErrorNameFromType(type);
         this.message = message
             ? message
             : this.getCardErrorMessageFromType(type, messageParams);

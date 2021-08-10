@@ -126,7 +126,10 @@ export interface IUseAdapter<T extends IAdapterData> {
 }
 
 export interface ICardError {
-    /** Text description of the adapter error */
+    /** Name of the error to be used as title */
+    name?: string;
+
+    /** Text description of the error */
     message?: string;
 
     /** Classification of error type */

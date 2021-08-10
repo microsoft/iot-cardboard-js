@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useReducer, useRef } from 'react';
 import './ADTHierarchyCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
@@ -27,6 +27,7 @@ import {
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
 import Searchbox from '../../../Components/Searchbox/Searchbox';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary/ErrorBoundary';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,
@@ -570,4 +571,4 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     );
 };
 
-export default ADTHierarchyCard;
+export default withErrorBoundary(memo(ADTHierarchyCard));
