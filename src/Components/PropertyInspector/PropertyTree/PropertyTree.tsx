@@ -167,7 +167,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.string:
-            if (node.readonly) {
+            if (!node.writable) {
                 return (
                     <div className="cb-property-tree-node-value">
                         {node.value}

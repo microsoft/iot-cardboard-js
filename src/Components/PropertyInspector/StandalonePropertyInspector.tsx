@@ -1,45 +1,58 @@
 import produce from 'immer';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 import {
     isTwin,
-    RelationshipStandalonePropertyInspectorProps,
-    TwinStandalonePropertyInspectorProps
+    StandalonePropertyInspectorProps,
+    TwinParams
 } from './StandalonePropertyInspector.types';
-import PropertyInspectorUtilities from './PropertyInspectoryUtilities';
+import PropertyInspectorModel from './PropertyInspectoryModel';
 
 /**
  *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
  *  all base and component models, its parent component should handle the fetching and transformation
  *  of these objects
  */
-const StandalonePropertyInspector: React.FC<
-    | TwinStandalonePropertyInspectorProps
-    | RelationshipStandalonePropertyInspectorProps
-> = (props) => {
-    const originalTree = useMemo(() => {
-        return isTwin(props)
-            ? PropertyInspectorUtilities.parseTwinIntoPropertyTree(
-                  props.twin,
-                  props.expandedModel,
-                  props.rootModel,
-                  '/'
-              )
-            : PropertyInspectorUtilities.parseRelationshipIntoPropertyTree(
-                  props.relationship
+const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = (
+    props
+) => {
+    const PropertyInspectorModelRef = useRef(
+        new PropertyInspectorModel(
+            (props.inputData as TwinParams)?.expandedModel
+        )
+    );
+
+    // Reset property inspector when input data changes
+    useEffect(() => {
+        PropertyInspectorModelRef.current = new PropertyInspectorModel(
+            (props.inputData as TwinParams)?.expandedModel
+        );
+        setPropertyTreeNodes(originalTree());
+    }, [props.inputData]);
+
+    const originalTree = useCallback(() => {
+        return isTwin(props.inputData)
+            ? PropertyInspectorModelRef.current.parseTwinIntoPropertyTree({
+                  inherited: false,
+                  path: '/',
+                  rootModel: props.inputData.rootModel,
+                  twin: props.inputData.twin
+              })
+            : PropertyInspectorModelRef.current.parseRelationshipIntoPropertyTree(
+                  props.inputData.relationship
               );
-    }, []);
+    }, [props.inputData]);
 
     const [propertyTreeNodes, setPropertyTreeNodes] = useState<
         PropertyTreeNode[]
-    >(originalTree);
+    >(originalTree());
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
                     parent
                 );
@@ -53,7 +66,7 @@ const StandalonePropertyInspector: React.FC<
     const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
                     node
                 );
@@ -66,7 +79,7 @@ const StandalonePropertyInspector: React.FC<
     const onObjectAdd = (node: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
                     node
                 );
@@ -78,7 +91,7 @@ const StandalonePropertyInspector: React.FC<
     const onNodeValueUnset = (node: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
                     node
                 );
@@ -86,17 +99,17 @@ const StandalonePropertyInspector: React.FC<
                 const setNodeToDefaultValue = (
                     nodeToUnset: PropertyTreeNode
                 ) => {
-                    nodeToUnset.value = PropertyInspectorUtilities.getEmptyValueForNode(
+                    nodeToUnset.value = PropertyInspectorModelRef.current.getEmptyValueForNode(
                         nodeToUnset.schema
                     );
                     if (nodeToUnset.children) {
+                        // Unsetting object should set all children values to default
                         nodeToUnset.children.forEach((child) => {
                             setNodeToDefaultValue(child);
                         });
                     }
                 };
 
-                // Unsetting object should set all children values to default
                 setNodeToDefaultValue(targetNode);
                 targetNode.isSet = false;
             })
@@ -107,14 +120,16 @@ const StandalonePropertyInspector: React.FC<
         <div className="cb-standalone-property-inspector-container">
             <div className="cb-standalone-property-inspector-header">
                 <h3 style={{ marginLeft: 20 }}>
-                    {isTwin(props)
-                        ? props.twin['$dtId']
-                        : props.relationship['$relationshipId']}
+                    {isTwin(props.inputData)
+                        ? props.inputData.twin['$dtId']
+                        : props.inputData.relationship['$relationshipId']}
                 </h3>
                 <button
                     onClick={() =>
-                        PropertyInspectorUtilities.generatePatchData(
-                            isTwin(props) ? props.twin : props.relationship,
+                        PropertyInspectorModelRef.current.generatePatchData(
+                            isTwin(props.inputData)
+                                ? props.inputData.twin
+                                : props.inputData.relationship,
                             propertyTreeNodes
                         )
                     }

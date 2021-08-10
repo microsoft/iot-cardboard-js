@@ -12,19 +12,25 @@ import { DTwin } from '../../Models/Constants/Interfaces';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import { compare, Operation } from 'fast-json-patch';
 
-abstract class PropertyInspectorUtilities {
-    static getTwinValueOrDefault = (
-        property,
-        twin,
+class PropertyInspectorModel {
+    expandedModel: DtdlInterface[];
+
+    constructor(expandedModel?: DtdlInterface[]) {
+        this.expandedModel = expandedModel;
+    }
+
+    getPropertyValueOrDefault = (
+        property: DtdlInterfaceContent,
+        propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
         return (
-            twin?.[property.name] ??
-            PropertyInspectorUtilities.getEmptyValueForNode(schema)
+            propertySourceObject?.[property.name] ??
+            this.getEmptyValueForNode(schema)
         );
     };
 
-    static getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
+    getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
         switch (schema) {
             case dtdlPropertyTypesEnum.string:
                 return '';
@@ -52,13 +58,19 @@ abstract class PropertyInspectorUtilities {
         }
     };
 
-    static parsePropertyIntoNode = (
+    parsePropertyIntoNode = ({
+        inherited,
+        isObjectChild,
         modelProperty,
-        twin: Record<string, any>,
         path,
-        isObjectChild = false,
-        inherited = false
-    ): PropertyTreeNode => {
+        propertySourceObject
+    }: {
+        modelProperty: DtdlInterfaceContent;
+        propertySourceObject: Record<string, any>;
+        path: string;
+        isObjectChild: boolean;
+        inherited: boolean;
+    }): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
             dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
@@ -67,18 +79,19 @@ abstract class PropertyInspectorUtilities {
                 name: modelProperty.name,
                 displayName: modelProperty.displayName ?? modelProperty.name,
                 role: NodeRole.leaf,
-                schema: modelProperty.schema,
+                schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
-                value: PropertyInspectorUtilities.getTwinValueOrDefault(
+                value: this.getPropertyValueOrDefault(
                     modelProperty,
-                    twin,
-                    modelProperty.schema
+                    propertySourceObject,
+                    modelProperty.schema as dtdlPropertyTypesEnum
                 ),
                 path: path + modelProperty.name,
-                ...(isObjectChild && { isObjectChild: true }),
+                isObjectChild,
                 isRemovable: !isObjectChild,
-                isSet: modelProperty.name in twin,
-                inherited
+                isSet: modelProperty.name in propertySourceObject,
+                inherited,
+                writable: !!modelProperty?.writable || isObjectChild
             };
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
@@ -90,21 +103,26 @@ abstract class PropertyInspectorUtilities {
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children: modelProperty.schema.fields.map((field) =>
-                            PropertyInspectorUtilities.parsePropertyIntoNode(
-                                field,
-                                twin?.[modelProperty.name] ?? {},
-                                `${path + modelProperty.name}/`,
-                                true
-                            )
+                            this.parsePropertyIntoNode({
+                                modelProperty: field,
+                                propertySourceObject:
+                                    propertySourceObject?.[
+                                        modelProperty.name
+                                    ] ?? {},
+                                inherited,
+                                path: `${path + modelProperty.name}/`,
+                                isObjectChild: true
+                            })
                         ),
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true }),
+                        isObjectChild,
                         isRemovable: !isObjectChild,
                         inherited,
-                        isSet: modelProperty.name in twin,
-                        value: undefined
+                        isSet: modelProperty.name in propertySourceObject,
+                        value: undefined,
+                        writable: !!modelProperty?.writable
                     };
                 case DTDLSchemaType.Enum: {
                     return {
@@ -114,9 +132,9 @@ abstract class PropertyInspectorUtilities {
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
-                        value: PropertyInspectorUtilities.getTwinValueOrDefault(
+                        value: this.getPropertyValueOrDefault(
                             modelProperty,
-                            twin,
+                            propertySourceObject,
                             dtdlPropertyTypesEnum.Enum
                         ),
                         complexPropertyData: {
@@ -127,10 +145,11 @@ abstract class PropertyInspectorUtilities {
                             )
                         },
                         path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true }),
+                        isObjectChild,
                         inherited,
                         isRemovable: !isObjectChild,
-                        isSet: modelProperty.name in twin
+                        isSet: modelProperty.name in propertySourceObject,
+                        writable: !!modelProperty?.writable
                     };
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -146,7 +165,8 @@ abstract class PropertyInspectorUtilities {
                         inherited,
                         isRemovable: !isObjectChild,
                         value: undefined,
-                        isSet: modelProperty.name in twin
+                        isSet: modelProperty.name in propertySourceObject,
+                        writable: !!modelProperty?.writable
                     };
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
@@ -157,7 +177,7 @@ abstract class PropertyInspectorUtilities {
         }
     };
 
-    static parseRelationshipIntoPropertyTree = (
+    parseRelationshipIntoPropertyTree = (
         relationship: DtdlRelationship
     ): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
@@ -169,7 +189,7 @@ abstract class PropertyInspectorUtilities {
                     name: key,
                     displayName: relationship[key]?.displayName ?? key,
                     role: NodeRole.leaf,
-                    readonly: true,
+                    writable: false,
                     schema: dtdlPropertyTypesEnum.string,
                     value: relationship[key] ?? undefined,
                     path: `/${key}`,
@@ -185,13 +205,17 @@ abstract class PropertyInspectorUtilities {
         return treeNodes;
     };
 
-    static parseModelContentsIntoNodes = (
-        contents: DtdlInterfaceContent[],
-        twin: DTwin,
-        expandedModel: DtdlInterface[],
-        path = '/',
-        inherited = false
-    ): PropertyTreeNode[] => {
+    parseModelContentsIntoNodes = ({
+        contents,
+        path,
+        inherited,
+        twin
+    }: {
+        contents: DtdlInterfaceContent[];
+        twin: DTwin;
+        path: string;
+        inherited: boolean;
+    }): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
         contents.forEach((modelItem) => {
@@ -203,41 +227,44 @@ abstract class PropertyInspectorUtilities {
 
             switch (type) {
                 case DTDLType.Property:
-                    node = PropertyInspectorUtilities.parsePropertyIntoNode(
-                        modelItem,
-                        twin,
-                        path,
-                        false,
-                        inherited
-                    );
+                    node = this.parsePropertyIntoNode({
+                        inherited,
+                        isObjectChild: false,
+                        propertySourceObject: twin,
+                        modelProperty: modelItem,
+                        path
+                    });
                     break;
                 case DTDLType.Component: {
-                    const componentInterface = expandedModel?.find(
-                        (m) => m['@id'] === modelItem.schema
-                    );
-                    if (componentInterface) {
-                        node = {
-                            name: modelItem.name,
-                            displayName:
-                                modelItem?.displayName ?? modelItem.name,
-                            role: NodeRole.parent,
-                            type: DTDLType.Component,
-                            schema: undefined,
-                            isCollapsed: true,
-                            children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
-                                twin[modelItem.name],
-                                expandedModel,
-                                componentInterface,
-                                `${path + modelItem.name}/`,
-                                inherited
-                            ),
-                            path: path + modelItem.name,
-                            isSet: true,
-                            inherited,
-                            value: undefined,
-                            isObjectChild: false,
-                            isRemovable: false
-                        };
+                    if (this.expandedModel) {
+                        const componentInterface = this.expandedModel?.find(
+                            (m) => m['@id'] === modelItem.schema
+                        );
+
+                        if (componentInterface) {
+                            node = {
+                                name: modelItem.name,
+                                displayName:
+                                    modelItem?.displayName ?? modelItem.name,
+                                role: NodeRole.parent,
+                                type: DTDLType.Component,
+                                schema: undefined,
+                                isCollapsed: true,
+                                children: this.parseTwinIntoPropertyTree({
+                                    inherited,
+                                    path: `${path + modelItem.name}/`,
+                                    rootModel: componentInterface,
+                                    twin: twin[modelItem.name]
+                                }),
+                                path: path + modelItem.name,
+                                isSet: true,
+                                inherited,
+                                value: undefined,
+                                isObjectChild: false,
+                                isRemovable: false,
+                                writable: false
+                            };
+                        }
                     }
                     break;
                 }
@@ -260,21 +287,30 @@ abstract class PropertyInspectorUtilities {
         return treeNodes;
     };
 
-    static parseTwinIntoPropertyTree = (
-        twin: DTwin,
-        expandedModel: DtdlInterface[],
-        rootModel: DtdlInterface,
-        path = '/',
-        inherited = false
-    ): PropertyTreeNode[] => {
+    parseTwinIntoPropertyTree = ({
+        inherited,
+        path,
+        rootModel,
+        twin
+    }: {
+        twin: DTwin;
+        rootModel: DtdlInterface;
+        path: string;
+        inherited: boolean;
+    }): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
 
-        const parseMetaDataIntoPropertyTreeNodes = (
-            node: any,
-            key: string,
-            path: string,
-            isObjectChild = false
-        ): PropertyTreeNode => {
+        const parseMetaDataIntoPropertyTreeNodes = ({
+            node,
+            key,
+            path,
+            isObjectChild
+        }: {
+            node: any;
+            key: string;
+            path: string;
+            isObjectChild: boolean;
+        }): PropertyTreeNode => {
             // Parse ADT metadata $ into nodes
             if (typeof node === 'object') {
                 return {
@@ -283,15 +319,15 @@ abstract class PropertyInspectorUtilities {
                     path: path + key,
                     role: NodeRole.parent,
                     isSet: true,
-                    readonly: true,
+                    writable: false,
                     isCollapsed: true,
                     children: Object.keys(node).map((childKey) =>
-                        parseMetaDataIntoPropertyTreeNodes(
-                            node[childKey],
-                            childKey,
-                            `${path + key}/`,
-                            true
-                        )
+                        parseMetaDataIntoPropertyTreeNodes({
+                            node: node[childKey],
+                            key: childKey,
+                            path: `${path + key}/`,
+                            isObjectChild: true
+                        })
                     ),
                     schema: dtdlPropertyTypesEnum.Object,
                     type: DTDLType.Property,
@@ -306,7 +342,7 @@ abstract class PropertyInspectorUtilities {
                     name: key,
                     path: path + key,
                     role: NodeRole.leaf,
-                    readonly: true,
+                    writable: false,
                     isSet: true,
                     value: node,
                     schema: dtdlPropertyTypesEnum.string,
@@ -322,20 +358,21 @@ abstract class PropertyInspectorUtilities {
         const metaDataNodes = Object.keys(twin)
             .filter((p) => p.startsWith('$'))
             .map((metaDataKey) => {
-                return parseMetaDataIntoPropertyTreeNodes(
-                    twin[metaDataKey],
-                    metaDataKey,
+                return parseMetaDataIntoPropertyTreeNodes({
+                    isObjectChild: false,
+                    node: twin[metaDataKey],
+                    key: metaDataKey,
                     path
-                );
+                });
             });
 
         // Parse root model
-        const rootModelNodes = PropertyInspectorUtilities.parseModelContentsIntoNodes(
-            rootModel.contents,
+        const rootModelNodes = this.parseModelContentsIntoNodes({
+            contents: rootModel.contents,
             twin,
-            expandedModel,
-            path
-        );
+            path,
+            inherited
+        });
 
         // Parse extended models
         const extendedModelNodes: PropertyTreeNode[] = [];
@@ -347,24 +384,23 @@ abstract class PropertyInspectorUtilities {
         } else if (typeof rootModel.extends === 'string') {
             extendedModelIds = [rootModel.extends];
         }
-        if (extendedModelIds) {
+        if (extendedModelIds && this.expandedModel) {
             extendedModelIds.forEach((extendedModelId) => {
                 const extendedModel = Object.assign(
                     {},
-                    expandedModel.find(
+                    this.expandedModel.find(
                         (model) => model['@id'] === extendedModelId
                     )
                 );
 
                 if (extendedModel) {
                     extendedModelNodes.push(
-                        ...PropertyInspectorUtilities.parseModelContentsIntoNodes(
-                            extendedModel.contents,
-                            twin,
-                            expandedModel,
+                        ...this.parseModelContentsIntoNodes({
+                            contents: extendedModel.contents,
+                            inherited: true,
                             path,
-                            true
-                        )
+                            twin
+                        })
                     );
                 }
             });
@@ -379,7 +415,7 @@ abstract class PropertyInspectorUtilities {
         return treeNodes;
     };
 
-    static findPropertyTreeNodeRefRecursively = (
+    findPropertyTreeNodeRefRecursively = (
         nodes: PropertyTreeNode[],
         targetNode: PropertyTreeNode
     ): PropertyTreeNode => {
@@ -388,7 +424,7 @@ abstract class PropertyInspectorUtilities {
             if (node.path === targetNode.path) {
                 return node;
             } else if (node.children) {
-                const childNodeFound = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                const childNodeFound = this.findPropertyTreeNodeRefRecursively(
                     node.children,
                     targetNode
                 );
@@ -398,29 +434,24 @@ abstract class PropertyInspectorUtilities {
         return null;
     };
 
-    static verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
+    verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
         let everyChildHasValue = true;
         tree.forEach((node) => {
             if (!node.children && !node.value) everyChildHasValue = false;
             else if (node.children)
-                everyChildHasValue = PropertyInspectorUtilities.verifyEveryChildHasValue(
+                everyChildHasValue = this.verifyEveryChildHasValue(
                     node.children
                 );
         });
         return everyChildHasValue;
     };
 
-    static parseDataFromPropertyTree = (
-        tree: PropertyTreeNode[],
-        newJson = {}
-    ) => {
+    parseDataFromPropertyTree = (tree: PropertyTreeNode[], newJson = {}) => {
         tree.forEach((node) => {
             if (node.isSet || node.isObjectChild) {
                 if (node.children) {
                     newJson[node.name] = {};
-                    newJson[
-                        node.name
-                    ] = PropertyInspectorUtilities.parseDataFromPropertyTree(
+                    newJson[node.name] = this.parseDataFromPropertyTree(
                         node.children,
                         newJson[node.name]
                     );
@@ -433,14 +464,12 @@ abstract class PropertyInspectorUtilities {
         return newJson;
     };
 
-    static generatePatchData = (
+    generatePatchData = (
         originalJson: any,
         newTree: PropertyTreeNode[]
     ): Operation[] => {
         // Recurse through new PropertyTreeNode[] and build a simple JSON representation of the data tree
-        const newJson = PropertyInspectorUtilities.parseDataFromPropertyTree(
-            newTree
-        );
+        const newJson = this.parseDataFromPropertyTree(newTree);
         // Compare originalJson with the newly generated JSON using compare lib
         const delta = compare(originalJson, newJson);
         // console.log('New Json ---', newJson);
@@ -450,4 +479,4 @@ abstract class PropertyInspectorUtilities {
     };
 }
 
-export default PropertyInspectorUtilities;
+export default PropertyInspectorModel;

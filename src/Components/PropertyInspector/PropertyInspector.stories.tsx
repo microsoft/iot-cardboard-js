@@ -14,9 +14,11 @@ export default {
 export const TwinMock = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <StandalonePropertyInspector
-            twin={mockTwin}
-            expandedModel={mockExpandedModel}
-            rootModel={mockRootModel}
+            inputData={{
+                twin: mockTwin,
+                expandedModel: mockExpandedModel,
+                rootModel: mockRootModel
+            }}
             onCommitChanges={(patch) => console.log(patch)}
         />
     </div>
@@ -25,7 +27,9 @@ export const TwinMock = () => (
 export const RelationsipMock = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <StandalonePropertyInspector
-            relationship={mockRelationship}
+            inputData={{
+                relationship: mockRelationship
+            }}
             onCommitChanges={(patch) => console.log(patch)}
         />
     </div>

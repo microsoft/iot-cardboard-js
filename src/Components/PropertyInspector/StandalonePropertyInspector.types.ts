@@ -1,25 +1,26 @@
-import { DTwin, DTwinUpdateEvent } from '../..';
+import { DTwin } from '../..';
 import {
     DtdlInterface,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
 
-export interface TwinStandalonePropertyInspectorProps {
-    twin: DTwin;
-    expandedModel: DtdlInterface[];
-    rootModel: DtdlInterface;
-    onCommitChanges?: (patch: DTwinUpdateEvent) => any;
-}
-
-export interface RelationshipStandalonePropertyInspectorProps {
-    relationship?: DtdlRelationship;
+export interface StandalonePropertyInspectorProps {
+    inputData: TwinParams | RelationshipParams;
     onCommitChanges?: (patch: any) => any;
 }
 
+export type TwinParams = {
+    twin: DTwin;
+    expandedModel: DtdlInterface[];
+    rootModel: DtdlInterface;
+};
+
+export type RelationshipParams = {
+    relationship?: DtdlRelationship;
+};
+
 export const isTwin = (
-    json:
-        | TwinStandalonePropertyInspectorProps
-        | RelationshipStandalonePropertyInspectorProps
-): json is TwinStandalonePropertyInspectorProps => {
-    return (json as TwinStandalonePropertyInspectorProps).twin !== undefined;
+    inputData: TwinParams | RelationshipParams
+): inputData is TwinParams => {
+    return (inputData as TwinParams).twin !== undefined;
 };

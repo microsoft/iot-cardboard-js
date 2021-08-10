@@ -13,10 +13,10 @@ export interface PropertyTreeNode {
     path: string;
     isObjectChild: boolean;
     inherited: boolean;
-    children?: Array<PropertyTreeNode>;
+    writable: boolean;
     isSet: boolean;
+    children?: Array<PropertyTreeNode>;
     isCollapsed?: boolean;
-    readonly?: boolean;
     complexPropertyData?: EnumPropertyData;
 }
 
