@@ -18,13 +18,19 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     data,
     onParentClick,
     onNodeValueChange,
-    onNodeValueUnset
+    onNodeValueUnset,
+    onObjectAdd
 }) => {
     console.log('PropertyTreeData: ', data);
 
     return (
         <PropertyTreeContext.Provider
-            value={{ onParentClick, onNodeValueChange, onNodeValueUnset }}
+            value={{
+                onParentClick,
+                onNodeValueChange,
+                onNodeValueUnset,
+                onObjectAdd
+            }}
         >
             <div className="cb-property-tree-container">
                 <Tree data={data} />
@@ -228,29 +234,45 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeRow: React.FC<NodeProps> = ({ node }) => {
-    const { onNodeValueUnset } = useContext(PropertyTreeContext);
+    const { onNodeValueUnset, onObjectAdd } = useContext(PropertyTreeContext);
 
     const NodeRowUnset = () => {
-        if (node.isSet === false) {
-            return (
-                <div className="cb-property-tree-node-value-unset">(unset)</div>
-            );
-        } else if (
-            node.type === DTDLType.Property &&
-            node.isObjectChild !== true
-        ) {
-            return (
-                <button
-                    style={{ marginLeft: 8 }}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onNodeValueUnset(node);
-                    }}
-                >
-                    Remove
-                </button>
-            );
+        if (node.isRemovable && DTDLType.Property) {
+            if (node.isSet === false) {
+                if (node.schema === dtdlPropertyTypesEnum.Object) {
+                    return (
+                        <button
+                            style={{ marginLeft: 8 }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onObjectAdd(node);
+                            }}
+                        >
+                            Add
+                        </button>
+                    );
+                } else {
+                    return (
+                        <div className="cb-property-tree-node-value-unset">
+                            (unset)
+                        </div>
+                    );
+                }
+            } else {
+                return (
+                    <button
+                        style={{ marginLeft: 8 }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onNodeValueUnset(node);
+                        }}
+                    >
+                        Remove
+                    </button>
+                );
+            }
         }
+
         return null;
     };
 

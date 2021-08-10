@@ -3,21 +3,21 @@ import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
 export interface PropertyTreeNode {
-    children?: Array<PropertyTreeNode>;
     name: string;
     displayName: string;
     role: NodeRole;
-    isSet?: boolean;
-    schema?: dtdlPropertyTypesEnum;
-    type?: DTDLType;
+    isRemovable: boolean;
+    schema: dtdlPropertyTypesEnum;
+    type: DTDLType;
+    value: PrimitiveValueTypes;
+    path: string;
+    isObjectChild: boolean;
+    inherited: boolean;
+    children?: Array<PropertyTreeNode>;
+    isSet: boolean;
     isCollapsed?: boolean;
     readonly?: boolean;
-    value?: PrimitiveValueTypes;
     complexPropertyData?: EnumPropertyData;
-    parent?: PropertyTreeNode;
-    path: string;
-    isObjectChild?: boolean;
-    inherited?: boolean;
 }
 
 type EnumPropertyData = {
@@ -33,6 +33,7 @@ export interface PropertyTreeProps {
     onParentClick: (parent: PropertyTreeNode) => any;
     onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
     onNodeValueUnset: (node: PropertyTreeNode) => any;
+    onObjectAdd: (node: PropertyTreeNode) => any;
 }
 
 export interface TreeProps {

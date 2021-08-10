@@ -62,6 +62,18 @@ const StandalonePropertyInspector: React.FC<
         );
     };
 
+    const onObjectAdd = (node: PropertyTreeNode) => {
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                const targetNode = PropertyInspectorUtilities.findPropertyTreeNodeRefRecursively(
+                    draft,
+                    node
+                );
+                targetNode.isSet = true;
+            })
+        );
+    };
+
     const onNodeValueUnset = (node: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
@@ -114,6 +126,7 @@ const StandalonePropertyInspector: React.FC<
                 onParentClick={(parent) => onParentClick(parent)}
                 onNodeValueChange={onNodeValueChange}
                 onNodeValueUnset={onNodeValueUnset}
+                onObjectAdd={onObjectAdd}
             />
         </div>
     );

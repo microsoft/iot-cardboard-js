@@ -19,7 +19,7 @@ abstract class PropertyInspectorUtilities {
         schema: dtdlPropertyTypesEnum
     ) => {
         return (
-            twin[property.name] ??
+            twin?.[property.name] ??
             PropertyInspectorUtilities.getEmptyValueForNode(schema)
         );
     };
@@ -54,7 +54,7 @@ abstract class PropertyInspectorUtilities {
 
     static parsePropertyIntoNode = (
         modelProperty,
-        twin,
+        twin: Record<string, any>,
         path,
         isObjectChild = false,
         inherited = false
@@ -76,6 +76,8 @@ abstract class PropertyInspectorUtilities {
                 ),
                 path: path + modelProperty.name,
                 ...(isObjectChild && { isObjectChild: true }),
+                isRemovable: !isObjectChild,
+                isSet: modelProperty.name in twin,
                 inherited
             };
         } else if (typeof modelProperty.schema === 'object') {
@@ -90,7 +92,7 @@ abstract class PropertyInspectorUtilities {
                         children: modelProperty.schema.fields.map((field) =>
                             PropertyInspectorUtilities.parsePropertyIntoNode(
                                 field,
-                                twin[modelProperty.name],
+                                twin?.[modelProperty.name] ?? {},
                                 `${path + modelProperty.name}/`,
                                 true
                             )
@@ -99,7 +101,10 @@ abstract class PropertyInspectorUtilities {
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
-                        inherited
+                        isRemovable: !isObjectChild,
+                        inherited,
+                        isSet: modelProperty.name in twin,
+                        value: undefined
                     };
                 case DTDLSchemaType.Enum: {
                     return {
@@ -123,7 +128,9 @@ abstract class PropertyInspectorUtilities {
                         },
                         path: path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
-                        inherited
+                        inherited,
+                        isRemovable: !isObjectChild,
+                        isSet: modelProperty.name in twin
                     };
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -136,7 +143,10 @@ abstract class PropertyInspectorUtilities {
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
-                        inherited
+                        inherited,
+                        isRemovable: !isObjectChild,
+                        value: undefined,
+                        isSet: modelProperty.name in twin
                     };
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
@@ -162,7 +172,12 @@ abstract class PropertyInspectorUtilities {
                     readonly: true,
                     schema: dtdlPropertyTypesEnum.string,
                     value: relationship[key] ?? undefined,
-                    path: `/${key}`
+                    path: `/${key}`,
+                    type: DTDLType.Property,
+                    isObjectChild: false,
+                    inherited: false,
+                    isRemovable: false,
+                    isSet: true
                 });
             }
         });
@@ -207,16 +222,21 @@ abstract class PropertyInspectorUtilities {
                                 modelItem?.displayName ?? modelItem.name,
                             role: NodeRole.parent,
                             type: DTDLType.Component,
+                            schema: undefined,
                             isCollapsed: true,
                             children: PropertyInspectorUtilities.parseTwinIntoPropertyTree(
                                 twin[modelItem.name],
                                 expandedModel,
                                 componentInterface,
-                                `${path + modelItem.name}/`
+                                `${path + modelItem.name}/`,
+                                inherited
                             ),
                             path: path + modelItem.name,
                             isSet: true,
-                            inherited: true
+                            inherited,
+                            value: undefined,
+                            isObjectChild: false,
+                            isRemovable: false
                         };
                     }
                     break;
@@ -244,14 +264,16 @@ abstract class PropertyInspectorUtilities {
         twin: DTwin,
         expandedModel: DtdlInterface[],
         rootModel: DtdlInterface,
-        path = '/'
+        path = '/',
+        inherited = false
     ): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
 
         const parseMetaDataIntoPropertyTreeNodes = (
             node: any,
             key: string,
-            path: string
+            path: string,
+            isObjectChild = false
         ): PropertyTreeNode => {
             // Parse ADT metadata $ into nodes
             if (typeof node === 'object') {
@@ -267,10 +289,16 @@ abstract class PropertyInspectorUtilities {
                         parseMetaDataIntoPropertyTreeNodes(
                             node[childKey],
                             childKey,
-                            `${path + key}/`
+                            `${path + key}/`,
+                            true
                         )
                     ),
-                    schema: dtdlPropertyTypesEnum.Object
+                    schema: dtdlPropertyTypesEnum.Object,
+                    type: DTDLType.Property,
+                    value: undefined,
+                    isObjectChild,
+                    inherited,
+                    isRemovable: false
                 };
             } else {
                 return {
@@ -281,7 +309,11 @@ abstract class PropertyInspectorUtilities {
                     readonly: true,
                     isSet: true,
                     value: node,
-                    schema: dtdlPropertyTypesEnum.string
+                    schema: dtdlPropertyTypesEnum.string,
+                    type: DTDLType.Property,
+                    isObjectChild,
+                    inherited,
+                    isRemovable: false
                 };
             }
         };
@@ -382,19 +414,18 @@ abstract class PropertyInspectorUtilities {
         newJson = {}
     ) => {
         tree.forEach((node) => {
-            if (node.children && (node.isSet || node.isObjectChild)) {
-                newJson[node.name] = {};
-                newJson[
-                    node.name
-                ] = PropertyInspectorUtilities.parseDataFromPropertyTree(
-                    node.children,
-                    newJson[node.name]
-                );
-            } else if (
-                node.value !== undefined &&
-                (node.isSet || node.isObjectChild)
-            ) {
-                newJson[node.name] = node.value;
+            if (node.isSet || node.isObjectChild) {
+                if (node.children) {
+                    newJson[node.name] = {};
+                    newJson[
+                        node.name
+                    ] = PropertyInspectorUtilities.parseDataFromPropertyTree(
+                        node.children,
+                        newJson[node.name]
+                    );
+                } else {
+                    newJson[node.name] = node.value;
+                }
             }
         });
 
