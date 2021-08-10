@@ -142,21 +142,22 @@ const useAssetsFromBIM = (
                 autoExpandDepth: 1,
                 hierarchy: 'types'
             });
-            let loader;
-            try {
-                loader = new XKTLoaderPlugin(viewer);
-            } catch (e) {
-                resetAssetsState();
-            }
+            const loader = new XKTLoaderPlugin(viewer);
 
             (async () => {
                 onIsLoadingChange(true);
-                const model = await loader.load({
-                    id: 'model',
-                    src: bimFilePath,
-                    metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
-                    edges: true
-                });
+                let model;
+                try {
+                    model = await loader.load({
+                        id: 'model',
+                        src: bimFilePath,
+                        metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
+                        edges: true
+                    });
+                } catch (e) {
+                    resetAssetsState();
+                }
+
                 setTimeout(() => {
                     try {
                         const xeokitMetaModel =

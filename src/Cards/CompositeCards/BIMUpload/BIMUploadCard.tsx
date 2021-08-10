@@ -117,8 +117,6 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     const onBackClick = () => {
         if (uploadState === BIMUploadState.PreUpload) {
             setUploadState(BIMUploadState.PreProcessing);
-            setBimFilePath(null);
-            setMetadataFilePath(null);
             setModelsDictionary(null);
         }
         if (uploadState === BIMUploadState.InUpload) {
@@ -198,6 +196,8 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                 bimInputRef={bimFileInputRef}
                                 metadataInputRef={metadataFileInputRef}
                                 t={t}
+                                defaultBIMPath={bimFilePath}
+                                defaultMetadataPath={metadataFilePath}
                             />
                         )}
                         {uploadState === BIMUploadState.PreUpload && (
@@ -261,17 +261,31 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     );
 };
 
-const BIMFileSelection = ({ bimInputRef, metadataInputRef, t }) => {
+const BIMFileSelection = ({
+    bimInputRef,
+    metadataInputRef,
+    t,
+    defaultBIMPath,
+    defaultMetadataPath
+}) => {
     return (
         <div className="cb-bim-file-selection-container cb-bim-file-selection">
             <label className="cb-bim-input-label">
                 {t('BIMUpload.bimFilePath')}
             </label>
-            <input ref={bimInputRef} className="cb-bim-input"></input>
+            <input
+                ref={bimInputRef}
+                className="cb-bim-input"
+                defaultValue={defaultBIMPath ? defaultBIMPath : ''}
+            ></input>
             <label className="cb-bim-input-label">
                 {t('BIMUpload.metadataFilePath')}
             </label>
-            <input ref={metadataInputRef} className="cb-bim-input"></input>
+            <input
+                ref={metadataInputRef}
+                className="cb-bim-input"
+                defaultValue={defaultMetadataPath ? defaultMetadataPath : ''}
+            ></input>
         </div>
     );
 };

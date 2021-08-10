@@ -163,11 +163,11 @@ const GenerateADTAssets = ({
         (async () => {
             if (isUploading === false) {
                 setIsUploading(true);
-                await initiateModelsUpload();
-                await initiateTwinsUpload();
-                await initiateRelationshipsUpload();
+                const models = await initiateModelsUpload();
+                const twins = await initiateTwinsUpload();
+                const relationships = await initiateRelationshipsUpload();
                 setIsUploading(false);
-                onComplete();
+                onComplete(models, twins, relationships);
             }
         })();
     }, [triggerUpload]);
