@@ -192,6 +192,7 @@ abstract class PropertyInspectorUtilities {
                         modelItem,
                         twin,
                         path,
+                        false,
                         inherited
                     );
                     break;
