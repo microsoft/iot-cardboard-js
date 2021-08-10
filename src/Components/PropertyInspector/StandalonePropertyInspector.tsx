@@ -11,8 +11,9 @@ import {
 import PropertyInspectorUtilities from './PropertyInspectoryUtilities';
 
 /**
- *  StandalonePropertyInspector takes a resolved Twin, Model, and array of components, its parent component
- *  should handle the fetching and transformation of these objects
+ *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
+ *  all base and component models, its parent component should handle the fetching and transformation
+ *  of these objects
  */
 const StandalonePropertyInspector: React.FC<
     | TwinStandalonePropertyInspectorProps

@@ -371,9 +371,10 @@ abstract class PropertyInspectorUtilities {
         }
 
         treeNodes = [
-            ...rootModelNodes,
-            ...extendedModelNodes,
-            ...metaDataNodes
+            ...metaDataNodes,
+            ...[...rootModelNodes, ...extendedModelNodes].sort((a) =>
+                a.isSet ? -1 : 1
+            )
         ];
         return treeNodes;
     };
@@ -442,8 +443,8 @@ abstract class PropertyInspectorUtilities {
         );
         // Compare originalJson with the newly generated JSON using compare lib
         const delta = compare(originalJson, newJson);
-        console.log('New Json ---', newJson);
-        console.log('Old Json ---', originalJson);
+        // console.log('New Json ---', newJson);
+        // console.log('Old Json ---', originalJson);
         console.log('Delta ---', delta);
         return delta;
     };

@@ -21,8 +21,6 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onNodeValueUnset,
     onObjectAdd
 }) => {
-    console.log('PropertyTreeData: ', data);
-
     return (
         <PropertyTreeContext.Provider
             value={{
@@ -278,7 +276,10 @@ const NodeRow: React.FC<NodeProps> = ({ node }) => {
 
     return (
         <div className="cb-property-tree-node">
-            <div className="cb-property-tree-node-name"> {node.name}:</div>
+            <div className="cb-property-tree-node-name">
+                {' '}
+                {node.displayName ?? node.name}:
+            </div>
             <NodeValue node={node} />
             <div className="cb-property-tree-node-type">
                 {node.schema ?? node.type}
