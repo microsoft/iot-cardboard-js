@@ -11,6 +11,7 @@ import {
 import { DTwin } from '../../Models/Constants/Interfaces';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import { compare, Operation } from 'fast-json-patch';
+import { getModelContentType } from '../../Models/Services/Utils';
 
 class PropertyInspectorModel {
     expandedModel: DtdlInterface[];
@@ -219,10 +220,7 @@ class PropertyInspectorModel {
         const treeNodes: PropertyTreeNode[] = [];
 
         contents.forEach((modelItem) => {
-            const type = Array.isArray(modelItem['@type'])
-                ? modelItem['@type'][0]
-                : modelItem['@type'];
-
+            const type = getModelContentType(modelItem['@type']);
             let node: PropertyTreeNode;
 
             switch (type) {

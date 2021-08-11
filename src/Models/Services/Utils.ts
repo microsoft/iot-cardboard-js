@@ -125,3 +125,7 @@ export const getNumericPart = (value: string): number | undefined => {
     }
     return undefined;
 };
+
+export const getModelContentType = (type: string | string[]) => {
+    return Array.isArray(type) ? type[0] : type;
+};

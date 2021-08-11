@@ -28,6 +28,11 @@ import {
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
+import axios from 'axios';
+import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
+import { getModelContentType } from '../Models/Services/Utils';
+import { DTDLType } from '../Models/Classes/DTDL';
+import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -348,5 +353,72 @@ export default class ADTAdapter implements IADTAdapter {
             }
         );
         return new ADTTwinLookupData(twinData.getData(), modelData.getData());
+    }
+
+    async getExpandedAdtModel(modelId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const expandedModels: DtdlInterface[] = [];
+
+            const fetchFullModel = async (targetModelId: string) => {
+                return axios({
+                    method: 'get',
+                    url: `${this.adtProxyServerPath}/models/${targetModelId}?includeModelDefinition=True`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token,
+                        'x-adt-host': this.adtHostUrl
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
+                });
+            };
+
+            const recursivelyAddToExpandedModels = async (modelId: string) => {
+                // Add root model
+                const rootModel = (await fetchFullModel(modelId)).data.model;
+                expandedModels.push(rootModel);
+
+                // Add extended models
+                const baseModelsRaw = rootModel?.extends;
+                if (baseModelsRaw) {
+                    const baseModelsList = Array.isArray(baseModelsRaw)
+                        ? baseModelsRaw
+                        : [baseModelsRaw];
+
+                    await axios.all(
+                        baseModelsList.map((baseModelId) => {
+                            return recursivelyAddToExpandedModels(baseModelId);
+                        })
+                    );
+                }
+
+                // Add component models
+                const componentModelIds = rootModel.contents
+                    .filter(
+                        (m) =>
+                            getModelContentType(m['@type']) ===
+                            DTDLType.Component
+                    )
+                    .map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
+
+                await axios.all(
+                    componentModelIds.map((componentModelId) => {
+                        return recursivelyAddToExpandedModels(componentModelId);
+                    })
+                );
+
+                return rootModel;
+            };
+
+            await recursivelyAddToExpandedModels(modelId);
+
+            return new ExpandedADTModelData({
+                expandedModels,
+                rootModel: expandedModels[0]
+            });
+        });
     }
 }

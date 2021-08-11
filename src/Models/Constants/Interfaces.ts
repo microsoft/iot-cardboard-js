@@ -36,6 +36,7 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
+import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 
 export interface IAction {
     type: string;
@@ -323,6 +324,9 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
+    getExpandedAdtModel(
+        modelId: string
+    ): AdapterReturnType<ExpandedADTModelData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
