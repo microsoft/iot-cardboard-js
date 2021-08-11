@@ -17,9 +17,10 @@ export const mockTwin = {
 };
 
 export const mockRelationship = {
-    $relationshipId: 'f100e83e-0d4c-4bd1-a7bc-bd186b741bbd',
-    $etag: 'W/"7107e622-c4d9-499d-aff5-c3c900ebc714"',
+    $relationshipId: '40a6d7b9-3399-41c4-97e4-0d07aa4ed530',
+    $etag: 'W/"4215f07a-ed6e-4c8d-a516-d65715f207d9"',
     $sourceId: 'LeoTheDog',
     $relationshipName: 'chargedBy',
-    $targetId: 'PasteurizationMachine_A03'
+    $targetId: 'Windmill_1',
+    lastChargedStation: 'Eugene Oregon Tesla Supercharger'
 };

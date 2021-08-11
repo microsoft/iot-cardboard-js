@@ -24,7 +24,7 @@ export interface DtdlRelationship {
     $relationshipName: string;
     $sourceId: string;
     $targetId: string;
-    properties?: any;
+    properties?: Record<string, any>;
 }
 
 export interface DtdlInterfaceContent {
