@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-    mockTwin,
-    mockExpandedModel,
-    mockRootModel,
-    mockRelationship
-} from './MockData/mockData';
+import { mockTwin, mockRelationship } from './MockData/mockData';
+import mockExpandedModel from './MockData/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 
 export default {
@@ -17,7 +13,7 @@ export const TwinMock = () => (
             inputData={{
                 twin: mockTwin,
                 expandedModel: mockExpandedModel,
-                rootModel: mockRootModel
+                rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
         />
