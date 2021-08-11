@@ -9,6 +9,7 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
+import { DTwinPatch } from '../../Models/Constants';
 
 /**
  *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
@@ -125,14 +126,21 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         : props.inputData.relationship['$relationshipId']}
                 </h3>
                 <button
-                    onClick={() =>
-                        PropertyInspectorModelRef.current.generatePatchData(
+                    onClick={() => {
+                        const patchData = PropertyInspectorModelRef.current.generatePatchData(
                             isTwin(props.inputData)
                                 ? props.inputData.twin
                                 : props.inputData.relationship,
                             propertyTreeNodes
-                        )
-                    }
+                        );
+                        if (isTwin(props.inputData)) {
+                            props.onCommitChanges({
+                                twinId: props.inputData.twin.$dtId,
+                                patches: patchData as Array<DTwinPatch>
+                            });
+                        }
+                        // TODO - add commit changes callback for relationship
+                    }}
                 >
                     Commit changes
                 </button>

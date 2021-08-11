@@ -1,12 +1,17 @@
-import { DTwin } from '../..';
+import { DTwin, DTwinPatch } from '../..';
 import {
     DtdlInterface,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
 
+export interface OnCommitTwinPatchParams {
+    twinId: string;
+    patches: Array<DTwinPatch>;
+}
+
 export interface StandalonePropertyInspectorProps {
     inputData: TwinParams | RelationshipParams;
-    onCommitChanges?: (patch: any) => any;
+    onCommitChanges?: (patchData: OnCommitTwinPatchParams) => any;
 }
 
 export type TwinParams = {

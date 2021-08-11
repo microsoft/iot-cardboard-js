@@ -1,5 +1,6 @@
-import { IAdapterData } from '../../Constants/Interfaces';
+import { DTwinPatch, IAdapterData } from '../../Constants/Interfaces';
 import { ADTModelsApiData, ADTTwinsApiData } from '../../Constants/Types';
+import { DtdlInterface } from '../../Constants/dtdlInterfaces';
 
 export class ADTAdapterModelsData implements IAdapterData {
     data: ADTModelsApiData;
@@ -29,6 +30,39 @@ export class ADTAdapterTwinsData implements IAdapterData {
             this.data === undefined ||
             this.data === null ||
             this.data.value.length === 0
+        );
+    }
+}
+
+interface IADTAdapterExpandedModelData {
+    rootModel: DtdlInterface;
+    expandedModels: DtdlInterface[];
+}
+
+export class ADTAdapterExpandedModelData implements IAdapterData {
+    data: IADTAdapterExpandedModelData;
+
+    constructor(data: IADTAdapterExpandedModelData) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return this.data === null || this.data === undefined;
+    }
+}
+
+export class ADTAdapterTwinPatchData implements IAdapterData {
+    data: Array<DTwinPatch>;
+
+    constructor(data: Array<DTwinPatch>) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return (
+            this.data === null ||
+            this.data === undefined ||
+            this.data.length === 0
         );
     }
 }

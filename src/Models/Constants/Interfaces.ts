@@ -327,6 +327,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getExpandedAdtModel(
         modelId: string
     ): AdapterReturnType<ExpandedADTModelData>;
+    updateTwin(
+        twinId: string,
+        patches: Array<DTwinPatch>
+    ): AdapterReturnType<SimulationAdapterData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -375,7 +379,7 @@ export interface DTwinUpdateEvent {
 export interface DTwinPatch {
     op: 'add' | 'replace' | 'remove';
     path: string; // property path e.g. /property1
-    value: any;
+    value?: any;
 }
 
 export interface SimulationParams {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { DTwinPatch, IADTAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 import {
+    OnCommitTwinPatchParams,
     RelationshipParams,
     TwinParams
 } from './StandalonePropertyInspector.types';
@@ -29,8 +30,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
     });
 
     const modelData = useAdapter({
-        adapterMethod: (params: { modelId?: string }) =>
-            adapter.getExpandedAdtModel(params.modelId), //adapter.getExpandedModels(params.modelId), // TODO update to new ADTAdapter method to resolve all models
+        adapterMethod: (params: { modelId: string }) =>
+            adapter.getExpandedAdtModel(params.modelId),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
+    const patchTwinData = useAdapter({
+        adapterMethod: (params: {
+            twinId: string;
+            patches: Array<DTwinPatch>;
+        }) => adapter.updateTwin(params.twinId, params.patches),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -56,13 +66,41 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
         }
     }, [modelData.adapterResult]);
 
+    const onCommitChanges = (patchData: OnCommitTwinPatchParams) => {
+        // TODO - check if patching twin or relationship
+        if (patchData?.patches && patchData.patches?.length > 0) {
+            patchTwinData.callAdapter({
+                twinId: patchData.twinId,
+                patches: patchData.patches
+            });
+        }
+    };
+
+    // Notify when patch data returned
+    useEffect(() => {
+        if (patchTwinData.adapterResult.getData()) {
+            console.log(
+                'Twin patched: ',
+                patchTwinData.adapterResult.getData()
+            );
+
+            // Refetch twin after patch
+            twinData.callAdapter(); // TODO stop expanded model from refetching
+        }
+    }, [patchTwinData.adapterResult]);
+
     if (modelData.isLoading || twinData.isLoading) return <div>Loading...</div>;
 
     if (!inputData) {
         return <div>No data found</div>;
     }
 
-    return <StandalonePropertyInspector inputData={inputData} />;
+    return (
+        <StandalonePropertyInspector
+            inputData={inputData}
+            onCommitChanges={onCommitChanges}
+        />
+    );
 };
 
 export default PropertyInspector;

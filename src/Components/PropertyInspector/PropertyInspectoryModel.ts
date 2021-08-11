@@ -470,9 +470,7 @@ class PropertyInspectorModel {
         const newJson = this.parseDataFromPropertyTree(newTree);
         // Compare originalJson with the newly generated JSON using compare lib
         const delta = compare(originalJson, newJson);
-        // console.log('New Json ---', newJson);
-        // console.log('Old Json ---', originalJson);
-        console.log('Delta ---', delta);
+        console.log('--- Patch Delta ---', delta);
         return delta;
     };
 }

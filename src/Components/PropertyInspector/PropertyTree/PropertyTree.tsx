@@ -136,7 +136,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         value={node.value as number}
                         style={{ width: 60 }}
                         onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
+                            onNodeValueChange(node, Number(e.target.value))
                         }
                     ></input>
                 </div>
@@ -161,7 +161,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         value={node.value as number}
                         style={{ width: 72 }}
                         onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
+                            onNodeValueChange(node, Number(e.target.value))
                         }
                     ></input>
                 </div>
@@ -216,7 +216,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         <option value={'enum-unset'}>--</option>
                         {node.complexPropertyData.options.map((ev, idx) => {
                             return (
-                                <option value={ev.name} key={idx}>
+                                <option value={ev.enumValue} key={idx}>
                                     {ev.displayName ?? ev.name}
                                 </option>
                             );
