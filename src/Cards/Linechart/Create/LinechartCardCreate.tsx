@@ -24,6 +24,7 @@ import {
     TextField
 } from '@fluentui/react';
 import BaseCardCreate from '../../Base/Create/BaseCardCreate';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const LinechartCardCreate: React.FC<LinechartCardCreateProps> = ({
     theme,
@@ -154,4 +155,4 @@ const LinechartCreateForm: React.FC<LinechartCardCreateFormProps> = ({
     );
 };
 
-export default LinechartCardCreate;
+export default withErrorBoundary(LinechartCardCreate);

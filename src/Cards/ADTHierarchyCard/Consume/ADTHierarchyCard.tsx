@@ -27,7 +27,7 @@ import {
 } from '../../../Models/Constants/ActionTypes';
 import { useTranslation } from 'react-i18next';
 import Searchbox from '../../../Components/Searchbox/Searchbox';
-import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary/ErrorBoundary';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     adapter,

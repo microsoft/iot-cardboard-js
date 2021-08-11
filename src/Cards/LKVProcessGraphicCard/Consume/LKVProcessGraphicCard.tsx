@@ -3,7 +3,7 @@ import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
-import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary/ErrorBoundary';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,

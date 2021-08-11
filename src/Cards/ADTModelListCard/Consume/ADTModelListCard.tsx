@@ -28,6 +28,7 @@ import {
     IHierarchyNode
 } from '../../../Models/Constants/Interfaces';
 import { ActionButton } from '@fluentui/react';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 function ADTModelListCard(props: ADTModelListCardProps, ref) {
     const {
@@ -221,4 +222,4 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
     );
 }
 
-export default forwardRef(ADTModelListCard);
+export default withErrorBoundary(forwardRef(ADTModelListCard));

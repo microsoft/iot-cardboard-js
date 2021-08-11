@@ -8,6 +8,7 @@ import {
     ADTModel_BimFilePath_PropertyName,
     ADTModel_MetadataFilePath_PropertyName
 } from '../../../Models/Constants';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const properties = [
     ADTModel_BimFilePath_PropertyName,
@@ -50,4 +51,4 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     );
 };
 
-export default BIMViewerCard;
+export default withErrorBoundary(BIMViewerCard);

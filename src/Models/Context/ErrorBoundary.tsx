@@ -6,7 +6,9 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import './ErrorBoundary.scss';
+import BaseCard from '../../Cards/Base/Consume/BaseCard';
+import { CardError } from '../Classes/Errors';
+import { CardErrorType, Theme } from '../Constants/Enums';
 
 interface IErrorBoundaryContext {
     error: Error;
@@ -19,7 +21,11 @@ const ErrorBoundaryContext = React.createContext<IErrorBoundaryContext>({
     errorInfo: null,
     setIsHandled: (_isHandled: boolean) => undefined
 });
-// this hook exposes the error and errorInfo from the error boundary context, use this in components to display the error message (e.g. in cards)
+
+/** This hook exposes the error and errorInfo from the error boundary context
+ * can be used to handle the error within children components, but make sure the buggy component
+ * is going to be unmounted and when re-render handle error nicely: https://github.com/facebook/react/issues/12865
+ *  */
 export const useErrorBoundaryContext = (): [
     Error,
     ErrorInfo,
@@ -29,7 +35,10 @@ export const useErrorBoundaryContext = (): [
     return [context.error, context.errorInfo, context.setIsHandled];
 };
 
-const ErrorBoundaryWrapper: React.FC = React.memo(({ children }) => {
+const ErrorBoundaryWrapper: React.FC<{
+    theme?: Theme;
+    title?: string;
+}> = React.memo(({ theme, title, children }) => {
     const [error, setError] = useState(null);
     const [errorInfo, setErrorInfo] = useState(null);
     const [isHandled, setIsHandled] = useState(false);
@@ -41,7 +50,6 @@ const ErrorBoundaryWrapper: React.FC = React.memo(({ children }) => {
         }),
         [error, errorInfo]
     );
-    const childrenComponent = useMemo(() => children, []);
     return (
         <ErrorBoundaryContext.Provider value={errorContextValue}>
             <ErrorBoundary
@@ -50,20 +58,21 @@ const ErrorBoundaryWrapper: React.FC = React.memo(({ children }) => {
                     setErrorInfo(errorInfo);
                 }}
                 isHandled={isHandled}
+                theme={theme}
+                cardTitle={title}
             >
-                {childrenComponent}
+                {children}
             </ErrorBoundary>
         </ErrorBoundaryContext.Provider>
     );
 });
 
-// apply this method to a component to wrap it within ErrorBoundary class component which keeps track of errors
+// Apply this method to a component to wrap it within ErrorBoundary class component which keeps track of errors
 export function withErrorBoundary<Props = Record<string, unknown>>(
     Component: ComponentType<Props>
 ): React.FC<Props> {
-    debugger;
     return (props: Props) => (
-        <ErrorBoundaryWrapper>
+        <ErrorBoundaryWrapper {...props}>
             <Component {...props} />
         </ErrorBoundaryWrapper>
     );
@@ -71,7 +80,9 @@ export function withErrorBoundary<Props = Record<string, unknown>>(
 
 interface ErrorBoundaryProps {
     onError: (error: Error, errorInfo: ErrorInfo) => void;
-    isHandled: boolean;
+    isHandled?: boolean;
+    theme: Theme;
+    cardTitle?: string;
 }
 
 interface ErrorBoundaryState {
@@ -79,6 +90,8 @@ interface ErrorBoundaryState {
     hasError: boolean;
 }
 
+/** Error boundaries catch errors during rendering, in lifecycle methods, and in constructors of the whole tree below them.
+ * Error boundaries do not catch errors inside event handlers, use try/catch block for those: https://reactjs.org/docs/error-boundaries.html */
 class ErrorBoundary extends React.Component<
     ErrorBoundaryProps,
     ErrorBoundaryState
@@ -88,7 +101,7 @@ class ErrorBoundary extends React.Component<
         this.state = { error: null, hasError: false };
     }
 
-    // invoked after an error has been thrown by a descendant component, updating state to render fallback UI
+    // Invoked after an error has been thrown by a descendant component, updating state to render fallback UI
     static getDerivedStateFromError(error) {
         return {
             error: error,
@@ -96,43 +109,31 @@ class ErrorBoundary extends React.Component<
         };
     }
 
-    // call the callback function as side effect to populate error through context when an error is thrown
+    // Call the callback function as side effect to expose error via context when an error is thrown
     componentDidCatch(error, errorInfo) {
         this.props.onError(error, errorInfo);
     }
 
     render() {
-        // if (!this.props.isHandled && this.state.hasError) {
-        //     // this fallback UI is still needed to show the errors which even prevents base cards in card components to be rendered
-        //     // return (
-        //     //     <div className="cb-error-boundary">
-        //     //         <h2>Something went wrong.</h2>
-        //     //         <details className="cb-error-boundary-details">
-        //     //             {this.state.error &&
-        //     //                 this.state.error.name +
-        //     //                     ': ' +
-        //     //                     this.state.error.message}
-        //     //             <br />
-        //     //             {this.state.error.stack}
-        //     //         </details>
-        //     //     </div>
-        //     // );
-        //     // return (
-        //     //     <BaseCard
-        //     //         isLoading={false}
-        //     //         adapterResult={null}
-        //     //         cardError={
-        //     //             new CardError({
-        //     //                 isCatastrophic: true,
-        //     //                 type: CardErrorType.ErrorBoundary,
-        //     //                 name: this.state.error.name,
-        //     //                 message: this.state.error.message,
-        //     //                 rawError: new Error(this.state.error.stack)
-        //     //             })
-        //     //         }
-        //     //     />
-        //     // );
-        // }
+        if (!this.props.isHandled && this.state.hasError) {
+            return (
+                <BaseCard
+                    theme={this.props.theme}
+                    title={this.props.cardTitle}
+                    isLoading={false}
+                    adapterResult={null}
+                    cardError={
+                        new CardError({
+                            isCatastrophic: true,
+                            type: CardErrorType.ErrorBoundary,
+                            name: this.state.error.name,
+                            message: this.state.error.message,
+                            rawError: new Error(this.state.error.stack)
+                        })
+                    }
+                />
+            );
+        }
         return this.props.children;
     }
 }
