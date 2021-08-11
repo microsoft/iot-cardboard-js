@@ -55,6 +55,10 @@ export default class ADTAdapter implements IADTAdapter {
         this.authService.login();
     }
 
+    getAdtHostUrl() {
+        return this.adtHostUrl;
+    }
+
     getRelationships(id: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 

@@ -236,7 +236,10 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                             </>
                         )}
                         {uploadState === BIMUploadState.PostUpload && (
-                            <PostUpload t={t} />
+                            <PostUpload
+                                t={t}
+                                environmentId={adapter.getAdtHostUrl()}
+                            />
                         )}
                     </div>
                     <div className="cb-navigation-buttons">
@@ -363,12 +366,11 @@ const ModelSelection = ({
     );
 };
 
-const PostUpload = ({ t }) => {
+const PostUpload = ({ t, environmentId }) => {
     return (
         <div className="cb-post-upload">
-            <a
-                href="https://explorer.digitaltwins.azure.net/"
-                className="cb-post-upload-link"
+            <PrimaryButton
+                href={`http://explorer.digitaltwins.azure.net/?eid=${environmentId}`}
                 target="_blank"
             >
                 {t('BIMUpload.goToEnvironment')}
@@ -376,7 +378,7 @@ const PostUpload = ({ t }) => {
                     iconName="NavigateExternalInline"
                     className="cb-navigate-icon"
                 ></FontIcon>
-            </a>
+            </PrimaryButton>
         </div>
     );
 };
