@@ -21,6 +21,7 @@
     "copied": "Copied",
     "close": "Close",
     "back": "Back",
+    "next": "Next",
     "properties": "Properties",
     "blank": "blank",
     "new": "New",
@@ -82,6 +83,34 @@
         "relationships": "Relationships",
         "simulating": "Simulating",
         "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated"
+    },
+    "BIMUpload": {
+        "specifyFiles": "Specify files to upload from",
+        "selectModels": "Select models for upload",
+        "generateEnvironment": "Generate environment",
+        "specifyFilesSubheader": "The specified BIM file and associated metadata will be used to extract models, twins, and relationships for upload to your ADT environment",
+        "selectModelsSubheader": "All checked models and their associated twins and relationships will be inluded in the next step: uploading to your ADT environment",
+        "generateEnvironmentSubheader": "The Models, twins, and relationships (filtered by the models selected in the previous step) will be pushed to your ADT environment",
+        "initiateUpload": "Initiate upload",
+        "bimFilePath": "BIM file path",
+        "metadataFilePath": "Metadata file path",
+        "parsingModels": "Parsing models...",
+        "noModelsParsed": "No models parsed",
+        "modelsSelectedCount": "Models selected ({{count}})",
+        "goToEnvironment": "Go to environment"
+    },
+    "generateADTAssets": {
+        "assetsPushError": "There was an issue while pushing {{assetType}} to ADT",
+        "assetsPushedCount": "{{count}} {{assetType}} pushed",
+        "uploadProgress": "{{pushed}} of {{total}}",
+        "uploading": "Uploading...",
+        "partialError": "Errors while uploading {{assetType}}: {{errorCount}} {{assetType}} failed to upload"
+    },
+    "uploadProgress": {
+        "uploading": "Uploading {{assetType}}",
+        "uploadSuccess": "Uploaded {{assetType}}",
+        "uploadPartiallyFailed": "Uploaded {{assetType}} with some failures",
+        "uploadFailed": "Failed to upload {{assetType}} "
     },
     "modelSearch": {
         "placeholder": "Enter model search string",
