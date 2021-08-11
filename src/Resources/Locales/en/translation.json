@@ -49,7 +49,8 @@
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
-        "dataFetchFailed": "Data retrieval failed"
+        "dataFetchFailed": "Data retrieval failed",
+        "dataUploadFailed": "Data upload failed"
     },
     "relationshipsTable": {
         "twinID": "Twin Id",

@@ -23,6 +23,8 @@ class CardError extends Error {
                 return i18n.t('adapterErrors.tokenFailed');
             case CardErrorType.DataFetchFailed:
                 return i18n.t('adapterErrors.dataFetchFailed');
+            case CardErrorType.DataUploadFailed:
+                return i18n.t('adapterErrors.dataUploadFailed');
             case CardErrorType.InvalidCardType:
                 return i18n.t('boardErrors.invalidCardType');
             case CardErrorType.ErrorBoundary:

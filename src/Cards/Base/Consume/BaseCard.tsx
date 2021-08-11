@@ -44,7 +44,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
                     <div className="cb-base-card-content">
                         {showCatastrophicError && (
                             <ErrorComponent
-                                errorTitle={catastrophicError.message}
+                                errorTitle={catastrophicError.name}
                                 errorContent={
                                     catastrophicError?.rawError?.message
                                 }
