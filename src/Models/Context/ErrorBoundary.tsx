@@ -38,7 +38,7 @@ export const useErrorBoundaryContext = (): [
 const ErrorBoundaryWrapper: React.FC<{
     theme?: Theme;
     title?: string;
-}> = React.memo(({ theme, title, children }) => {
+}> = ({ theme, title, children }) => {
     const [error, setError] = useState(null);
     const [errorInfo, setErrorInfo] = useState(null);
     const [isHandled, setIsHandled] = useState(false);
@@ -65,7 +65,7 @@ const ErrorBoundaryWrapper: React.FC<{
             </ErrorBoundary>
         </ErrorBoundaryContext.Provider>
     );
-});
+};
 
 // Apply this method to a component to wrap it within ErrorBoundary class component which keeps track of errors
 export function withErrorBoundary<Props = Record<string, unknown>>(
