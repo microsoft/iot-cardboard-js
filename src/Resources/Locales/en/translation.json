@@ -94,7 +94,7 @@
         "selectModels": "Select models for upload",
         "generateEnvironment": "Generate environment",
         "specifyFilesSubheader": "The specified BIM file and associated metadata will be used to extract models, twins, and relationships for upload to your ADT environment",
-        "selectModelsSubheader": "All checked models and their associated twins and relationships will be included in the next step - uploading to your ADT environment",
+        "selectModelsSubheader": "The selected models and their associated twins and relationships will be added to your environment in the next step",
         "generateEnvironmentSubheader": "The Models, twins, and relationships (filtered by the models selected in the previous step) will be pushed to your ADT environment",
         "initiateUpload": "Initiate upload",
         "bimFilePath": "BIM file path",
