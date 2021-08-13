@@ -5,7 +5,7 @@ import './BaseCard.scss';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../../i18n';
-import Error from '../../../Components/Error/Error';
+import { default as ErrorComponent } from '../../../Components/Error/Error';
 import Overlay from '../../../Components/Modal/Overlay';
 
 const BaseCard: React.FC<BaseCardProps> = ({
@@ -43,15 +43,22 @@ const BaseCard: React.FC<BaseCardProps> = ({
                     {title && <h3 className="cb-base-card-title">{title}</h3>}
                     <div className="cb-base-card-content">
                         {showCatastrophicError && (
-                            <Error
-                                errorTitle={catastrophicError.message}
+                            <ErrorComponent
+                                errorTitle={catastrophicError.name}
                                 errorContent={
                                     catastrophicError?.rawError?.message
                                 }
                             />
                         )}
                         {showErrorMessage && (
-                            <Error errorTitle={cardError.message} />
+                            <ErrorComponent
+                                errorTitle={cardError.name}
+                                errorContent={
+                                    cardError.message
+                                        ? cardError.message
+                                        : cardError.rawError?.toString()
+                                }
+                            />
                         )}
                         {showLoading && (
                             <Overlay>
