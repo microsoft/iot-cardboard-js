@@ -42,7 +42,8 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                   twin: props.inputData.twin
               })
             : PropertyInspectorModelRef.current.parseRelationshipIntoPropertyTree(
-                  props.inputData.relationship
+                  props.inputData.relationship,
+                  props.inputData.relationshipModel
               );
     }, [props.inputData]);
 

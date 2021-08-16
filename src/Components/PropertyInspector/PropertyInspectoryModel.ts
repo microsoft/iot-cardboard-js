@@ -8,7 +8,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
-import { DTwin } from '../../Models/Constants/Interfaces';
+import { DTwin, IADTRelationship } from '../../Models/Constants/Interfaces';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import { compare, Operation } from 'fast-json-patch';
 import { getModelContentType } from '../../Models/Services/Utils';
@@ -89,7 +89,7 @@ class PropertyInspectorModel {
                 ),
                 path: path + modelProperty.name,
                 isObjectChild,
-                isRemovable: !isObjectChild,
+                isRemovable: !isObjectChild && !!modelProperty.writable,
                 isSet: modelProperty.name in propertySourceObject,
                 inherited,
                 writable: !!modelProperty?.writable || isObjectChild
@@ -119,7 +119,8 @@ class PropertyInspectorModel {
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
                         isObjectChild,
-                        isRemovable: !isObjectChild,
+                        isRemovable:
+                            !isObjectChild && !!modelProperty?.writable,
                         inherited,
                         isSet: modelProperty.name in propertySourceObject,
                         value: undefined,
@@ -148,7 +149,8 @@ class PropertyInspectorModel {
                         path: path + modelProperty.name,
                         isObjectChild,
                         inherited,
-                        isRemovable: !isObjectChild,
+                        isRemovable:
+                            !isObjectChild && !!modelProperty?.writable,
                         isSet: modelProperty.name in propertySourceObject,
                         writable: !!modelProperty?.writable
                     };
@@ -164,7 +166,8 @@ class PropertyInspectorModel {
                         path: path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
                         inherited,
-                        isRemovable: !isObjectChild,
+                        isRemovable:
+                            !isObjectChild && !!modelProperty?.writable,
                         value: undefined,
                         isSet: modelProperty.name in propertySourceObject,
                         writable: !!modelProperty?.writable
@@ -179,13 +182,14 @@ class PropertyInspectorModel {
     };
 
     parseRelationshipIntoPropertyTree = (
-        relationship: DtdlRelationship
+        relationship: IADTRelationship,
+        relationshipModel: DtdlRelationship
     ): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
         // Push readonly properties to tree
         Object.keys(relationship).forEach((key) => {
-            if (key !== 'properties') {
+            if (key.startsWith('$')) {
                 treeNodes.push({
                     name: key,
                     displayName: relationship[key]?.displayName ?? key,
@@ -202,6 +206,21 @@ class PropertyInspectorModel {
                 });
             }
         });
+
+        if (relationshipModel.properties) {
+            // Merge relationship model with active relationship properties
+            relationshipModel.properties.forEach((relationshipProperty) => {
+                const node = this.parsePropertyIntoNode({
+                    inherited: false,
+                    isObjectChild: false,
+                    modelProperty: relationshipProperty,
+                    path: '/',
+                    propertySourceObject: relationship
+                });
+
+                treeNodes.push(node);
+            });
+        }
 
         return treeNodes;
     };

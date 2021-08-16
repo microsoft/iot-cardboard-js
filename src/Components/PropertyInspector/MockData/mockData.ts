@@ -24,3 +24,18 @@ export const mockRelationship = {
     $targetId: 'Windmill_1',
     lastChargedStation: 'Eugene Oregon Tesla Supercharger'
 };
+
+export const mockRelationshipPropertiesModel = {
+    '@type': 'Relationship',
+    name: 'chargedBy',
+    minMultiplicity: 0,
+    maxMultiplicity: 1,
+    properties: [
+        {
+            '@type': 'Property',
+            name: 'lastChargedStation',
+            schema: 'string',
+            writable: true
+        }
+    ]
+};

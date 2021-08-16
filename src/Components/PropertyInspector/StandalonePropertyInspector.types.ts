@@ -1,4 +1,4 @@
-import { DTwin, DTwinPatch } from '../..';
+import { DTwin, DTwinPatch, IADTRelationship } from '../..';
 import {
     DtdlInterface,
     DtdlRelationship
@@ -21,7 +21,8 @@ export type TwinParams = {
 };
 
 export type RelationshipParams = {
-    relationship?: DtdlRelationship;
+    relationship: IADTRelationship;
+    relationshipModel: DtdlRelationship;
 };
 
 export const isTwin = (

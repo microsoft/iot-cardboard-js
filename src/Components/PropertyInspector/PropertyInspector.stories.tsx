@@ -1,5 +1,9 @@
 import React from 'react';
-import { mockTwin, mockRelationship } from './MockData/mockData';
+import {
+    mockTwin,
+    mockRelationship,
+    mockRelationshipPropertiesModel
+} from './MockData/mockData';
 import mockExpandedModel from './MockData/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 
@@ -24,7 +28,8 @@ export const RelationsipMock = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <StandalonePropertyInspector
             inputData={{
-                relationship: mockRelationship
+                relationship: mockRelationship,
+                relationshipModel: mockRelationshipPropertiesModel
             }}
             onCommitChanges={(patch) => console.log(patch)}
         />

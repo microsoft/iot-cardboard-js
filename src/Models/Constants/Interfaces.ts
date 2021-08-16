@@ -229,7 +229,8 @@ export interface IADTRelationship {
     $relationshipName: string;
     $sourceId: string;
     $targetId: string;
-    targetModel: string;
+    targetModel?: string;
+    [property: string]: any;
 }
 
 export interface IADTProperty {

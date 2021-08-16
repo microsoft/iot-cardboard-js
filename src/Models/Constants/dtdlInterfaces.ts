@@ -20,11 +20,17 @@ export interface DtdlInterfaceSchema {
 }
 
 export interface DtdlRelationship {
-    $relationshipId: string;
-    $relationshipName: string;
-    $sourceId: string;
-    $targetId: string;
-    properties?: Record<string, any>;
+    '@type': string | string[];
+    name: string;
+    '@id'?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    maxMultiplicity?: number;
+    minMultiplicity?: number;
+    properties?: DtdlProperty[];
+    target?: string;
+    writable?: boolean;
 }
 
 export interface DtdlInterfaceContent {
@@ -36,4 +42,16 @@ export interface DtdlInterfaceContent {
     writable?: boolean;
     schema?: string | Record<string, any>;
     [propertyName: string]: any;
+}
+
+export interface DtdlProperty {
+    '@type': string | string[];
+    name: string;
+    schema?: string | Record<string, any>;
+    '@id'?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
 }
