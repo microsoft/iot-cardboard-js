@@ -44,7 +44,8 @@ export const AdtRelationship = () => {
                         )
                     )
                 }
-                relationshipId={'40a6d7b9-3399-41c4-97e4-0d07aa4ed530'}
+                relationshipId={'4690c125-aac8-4456-9203-298c93f5fcf0'}
+                twinId={'LeoTheDog'}
             />
         </div>
     );

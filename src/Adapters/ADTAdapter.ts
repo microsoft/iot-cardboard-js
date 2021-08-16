@@ -14,7 +14,10 @@ import {
 } from '../Models/Constants/Types';
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import {
+    ADTRelationshipData,
+    ADTRelationshipsData
+} from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
     DTModel,
@@ -75,7 +78,7 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTRelationshipData,
+            ADTRelationshipsData,
             {
                 method: 'get',
                 url: `${this.adtProxyServerPath}/digitaltwins/${id}/relationships`,
@@ -447,6 +450,27 @@ export default class ADTAdapter implements IADTAdapter {
             } else {
                 throw new Error(axiosResponse.statusText);
             }
+        });
+    }
+
+    async getADTRelationship(twinId: string, relationshipId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResponse = await axios({
+                method: 'get',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}/relationships/${relationshipId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            });
+
+            return new ADTRelationshipData(axiosResponse.data);
         });
     }
 

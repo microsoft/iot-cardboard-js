@@ -1,5 +1,6 @@
 import {
     ADTModelData,
+    ADTRelationshipsData,
     ADTRelationshipData,
     ADTTwinData,
     KeyValuePairAdapterData,
@@ -320,10 +321,14 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     searchADTTwins(
         params: AdapterMethodParamsForSearchADTTwins
     ): AdapterReturnType<ADTAdapterTwinsData>;
-    getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
+    getRelationships(id: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+    getADTRelationship(
+        twinId: string,
+        relationshipId: string
+    ): AdapterReturnType<ADTRelationshipData>;
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
     getExpandedAdtModel(
