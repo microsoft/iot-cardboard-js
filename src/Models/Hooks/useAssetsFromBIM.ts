@@ -16,14 +16,16 @@ const useAssetsFromBIM = (
     const [assetsState, setAssetsState] = useState({
         models: [],
         twins: [],
-        relationships: []
+        relationships: [],
+        modelCounts: {}
     });
 
     const resetAssetsState = () => {
         setAssetsState({
             models: [],
             twins: [],
-            relationships: []
+            relationships: [],
+            modelCounts: {}
         });
     };
 
@@ -39,6 +41,14 @@ const useAssetsFromBIM = (
                 []
             );
         });
+    };
+
+    const getModelCounts = (typesDictionary) => {
+        const countsDictionary = {};
+        Object.keys(typesDictionary).forEach((modelName) => {
+            countsDictionary[modelName] = typesDictionary[modelName].count;
+        });
+        return countsDictionary;
     };
 
     const transformTwins = (twinsDictionary) => {
@@ -60,7 +70,8 @@ const useAssetsFromBIM = (
                     bimFilePath: bimFilePath,
                     metadataFilePath: metadataFilePath
                 },
-                relationships: []
+                relationships: [],
+                count: 1
             };
 
             const twinsDictionary = {};
@@ -78,8 +89,11 @@ const useAssetsFromBIM = (
                                 target: 'dtmi:assetGen:BIMContainer;1'
                             }
                         ],
-                        properties: []
+                        properties: [],
+                        count: 1
                     };
+                } else {
+                    typesDictionary[node.type].count += 1;
                 }
                 twinsDictionary[node.id] = {
                     model: createDTDLModelId(node.type)
@@ -124,7 +138,8 @@ const useAssetsFromBIM = (
             setAssetsState({
                 models: transformModels(typesDictionary),
                 twins: transformTwins(twinsDictionary),
-                relationships: Object.values(relationshipsDictionary)
+                relationships: Object.values(relationshipsDictionary),
+                modelCounts: getModelCounts(typesDictionary)
             });
             onIsLoadingChange(false);
         },

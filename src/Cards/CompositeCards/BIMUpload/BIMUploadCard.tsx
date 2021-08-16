@@ -205,6 +205,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                 modelsDictionary={modelsDictionary}
                                 setModelsDictionary={setModelsDictionary}
                                 isParsingBIM={isParsingBIM}
+                                modelCounts={assetsFromBim.modelCounts}
                                 t={t}
                             />
                         )}
@@ -297,6 +298,7 @@ const ModelSelection = ({
     modelsDictionary,
     setModelsDictionary,
     isParsingBIM,
+    modelCounts,
     t
 }) => {
     const flipModelSelected = (model) => {
@@ -314,6 +316,17 @@ const ModelSelection = ({
             }
         });
         return selectedCount;
+    };
+
+    const getCheckboxLabel = (model) => {
+        return (
+            <>
+                {model}
+                <span className={'cb-model-twin-count'}>
+                    ({modelCounts[model]} twins)
+                </span>
+            </>
+        );
     };
 
     return (
@@ -349,7 +362,9 @@ const ModelSelection = ({
                             {Object.keys(modelsDictionary).map(
                                 (model, modelI) => (
                                     <Checkbox
-                                        label={model}
+                                        onRenderLabel={() =>
+                                            getCheckboxLabel(model)
+                                        }
                                         className="cb-model-checkbox"
                                         checked={modelsDictionary[model]}
                                         onChange={() =>
