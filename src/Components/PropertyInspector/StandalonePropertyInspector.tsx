@@ -147,7 +147,9 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                                 id:
                                     props.inputData.relationship
                                         .$relationshipId,
-                                patches: patchData as Array<AdtPatch>
+                                patches: patchData as Array<AdtPatch>,
+                                sourceTwinId:
+                                    props.inputData.relationship.$sourceId
                             });
                         }
                     }}

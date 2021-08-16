@@ -8,6 +8,7 @@ import {
 } from '../Classes';
 import {
     ADTAdapterModelsData,
+    ADTAdapterPatchData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import {
@@ -331,7 +332,12 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     updateTwin(
         twinId: string,
         patches: Array<AdtPatch>
-    ): AdapterReturnType<SimulationAdapterData>;
+    ): AdapterReturnType<ADTAdapterPatchData>;
+    updateRelationship(
+        twinId: string,
+        relationshipId: string,
+        patches: Array<AdtPatch>
+    ): AdapterReturnType<ADTAdapterPatchData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

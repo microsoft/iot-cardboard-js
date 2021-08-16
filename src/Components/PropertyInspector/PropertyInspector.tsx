@@ -44,6 +44,21 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
         isAdapterCalledOnMount: false
     });
 
+    const patchRelationshipData = useAdapter({
+        adapterMethod: (params: {
+            twinId: string;
+            relationshipId: string;
+            patches: Array<AdtPatch>;
+        }) =>
+            adapter.updateRelationship(
+                params.twinId,
+                params.relationshipId,
+                params.patches
+            ),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
     // Use model ID from twin metadata to fetch target model and
     // flat expanded list of all models referenced
     useEffect(() => {
@@ -75,7 +90,11 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
             } else if (
                 patchData.patchMode === propertyInspectorPatchMode.relationship
             ) {
-                // TODO add relationship patch
+                patchRelationshipData.callAdapter({
+                    twinId: patchData.sourceTwinId,
+                    relationshipId: patchData.id,
+                    patches: patchData.patches
+                });
             }
         }
     };
@@ -91,7 +110,16 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
             // Refetch twin after patch
             twinData.callAdapter(); // TODO stop expanded model from refetching
         }
-    }, [patchTwinData.adapterResult]);
+
+        if (patchRelationshipData.adapterResult.getData()) {
+            console.log(
+                'Relationship patched: ',
+                patchRelationshipData.adapterResult.getData()
+            );
+
+            // TODO refetch relationship after patch
+        }
+    }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
 
     if (modelData.isLoading || twinData.isLoading) return <div>Loading...</div>;
 

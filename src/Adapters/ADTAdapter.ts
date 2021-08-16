@@ -26,7 +26,7 @@ import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     ADTAdapterModelsData,
-    ADTAdapterTwinPatchData,
+    ADTAdapterPatchData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
@@ -443,7 +443,37 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
             if (axiosResponse.status === 204) {
-                return new ADTAdapterTwinPatchData(patches);
+                return new ADTAdapterPatchData(axiosResponse.data);
+            } else {
+                throw new Error(axiosResponse.statusText);
+            }
+        });
+    }
+
+    async updateRelationship(
+        twinId: string,
+        relationshipId: string,
+        patches: Array<AdtPatch>
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResponse = await axios({
+                method: 'patch',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}/relationships/${relationshipId}`,
+                data: patches,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            });
+
+            if (axiosResponse.status === 204) {
+                return new ADTAdapterPatchData(axiosResponse.data);
             } else {
                 throw new Error(axiosResponse.statusText);
             }

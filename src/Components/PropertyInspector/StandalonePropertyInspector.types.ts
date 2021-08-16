@@ -12,6 +12,7 @@ import {
 export interface OnCommitPatchParams {
     patchMode: propertyInspectorPatchMode;
     id: string;
+    sourceTwinId?: string;
     patches: Array<AdtPatch>;
 }
 
