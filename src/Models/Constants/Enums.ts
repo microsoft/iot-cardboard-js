@@ -58,3 +58,8 @@ export enum FormMode {
     Edit,
     Readonly
 }
+
+export enum propertyInspectorPatchMode {
+    twin,
+    relationship
+}

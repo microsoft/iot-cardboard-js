@@ -18,7 +18,7 @@ import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelatio
 import {
     ADT_ApiVersion,
     DTModel,
-    DTwinPatch,
+    AdtPatch,
     IADTTwinComponent,
     KeyValuePairData
 } from '../Models/Constants';
@@ -424,7 +424,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async updateTwin(twinId: string, patches: Array<DTwinPatch>) {
+    async updateTwin(twinId: string, patches: Array<AdtPatch>) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {

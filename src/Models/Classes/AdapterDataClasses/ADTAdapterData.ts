@@ -1,4 +1,4 @@
-import { DTwinPatch, IAdapterData } from '../../Constants/Interfaces';
+import { AdtPatch, IAdapterData } from '../../Constants/Interfaces';
 import { ADTModelsApiData, ADTTwinsApiData } from '../../Constants/Types';
 import { DtdlInterface } from '../../Constants/dtdlInterfaces';
 
@@ -52,9 +52,9 @@ export class ADTAdapterExpandedModelData implements IAdapterData {
 }
 
 export class ADTAdapterTwinPatchData implements IAdapterData {
-    data: Array<DTwinPatch>;
+    data: Array<AdtPatch>;
 
-    constructor(data: Array<DTwinPatch>) {
+    constructor(data: Array<AdtPatch>) {
         this.data = data;
     }
 

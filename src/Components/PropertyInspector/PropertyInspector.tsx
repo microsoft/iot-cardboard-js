@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { DTwinPatch, IADTAdapter } from '../../Models/Constants/Interfaces';
+import { propertyInspectorPatchMode } from '../../Models/Constants/Enums';
+import { AdtPatch, IADTAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 import {
-    OnCommitTwinPatchParams,
+    OnCommitPatchParams,
     RelationshipParams,
     TwinParams
 } from './StandalonePropertyInspector.types';
@@ -37,10 +38,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
     });
 
     const patchTwinData = useAdapter({
-        adapterMethod: (params: {
-            twinId: string;
-            patches: Array<DTwinPatch>;
-        }) => adapter.updateTwin(params.twinId, params.patches),
+        adapterMethod: (params: { twinId: string; patches: Array<AdtPatch> }) =>
+            adapter.updateTwin(params.twinId, params.patches),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -66,13 +65,18 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
         }
     }, [modelData.adapterResult]);
 
-    const onCommitChanges = (patchData: OnCommitTwinPatchParams) => {
-        // TODO - check if patching twin or relationship
+    const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
-            patchTwinData.callAdapter({
-                twinId: patchData.twinId,
-                patches: patchData.patches
-            });
+            if (patchData.patchMode === propertyInspectorPatchMode.twin) {
+                patchTwinData.callAdapter({
+                    twinId: patchData.id,
+                    patches: patchData.patches
+                });
+            } else if (
+                patchData.patchMode === propertyInspectorPatchMode.relationship
+            ) {
+                // TODO add relationship patch
+            }
         }
     };
 

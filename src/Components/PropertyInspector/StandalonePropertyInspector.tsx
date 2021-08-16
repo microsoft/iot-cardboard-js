@@ -9,7 +9,7 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import { DTwinPatch } from '../../Models/Constants';
+import { AdtPatch, propertyInspectorPatchMode } from '../../Models/Constants';
 
 /**
  *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
@@ -136,11 +136,20 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         );
                         if (isTwin(props.inputData)) {
                             props.onCommitChanges({
-                                twinId: props.inputData.twin.$dtId,
-                                patches: patchData as Array<DTwinPatch>
+                                patchMode: propertyInspectorPatchMode.twin,
+                                id: props.inputData.twin.$dtId,
+                                patches: patchData as Array<AdtPatch>
+                            });
+                        } else {
+                            props.onCommitChanges({
+                                patchMode:
+                                    propertyInspectorPatchMode.relationship,
+                                id:
+                                    props.inputData.relationship
+                                        .$relationshipId,
+                                patches: patchData as Array<AdtPatch>
                             });
                         }
-                        // TODO - add commit changes callback for relationship
                     }}
                 >
                     Commit changes
