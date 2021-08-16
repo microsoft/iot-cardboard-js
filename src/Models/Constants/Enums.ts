@@ -18,6 +18,7 @@ export enum CardErrorType {
     DataFetchFailed = 'DataFetchFailed',
     DataUploadFailed = 'DataUploadFailed',
     InvalidCardType = 'InvalidCardType',
+    ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError'
 }
 

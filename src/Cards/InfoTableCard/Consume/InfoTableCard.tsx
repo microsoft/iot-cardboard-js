@@ -4,6 +4,7 @@ import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../../i18n';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import './InfoTableCard.scss';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const InfoTableCard: React.FC<InfoTableCardProps> = ({
     theme,
@@ -54,4 +55,4 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
     );
 };
 
-export default InfoTableCard;
+export default withErrorBoundary(InfoTableCard);

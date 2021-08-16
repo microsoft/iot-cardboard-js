@@ -38,6 +38,7 @@ import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput
 import { useTranslation } from 'react-i18next';
 import ExpandableSlideInContent from '../../Components/ExpandableContent/ExpandableContent';
 import { Icon } from '@fluentui/react/lib/Icon';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -675,4 +676,4 @@ const FormFieldDescription = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default DataPusherCard;
+export default withErrorBoundary(DataPusherCard);

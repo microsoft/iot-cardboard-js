@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import './KeyValuePairCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { KeyValuePairCardProps } from './KeyValuePairCard.types';
 import { KeyValuePairData } from '../../../Models/Constants/Types';
 import { useTranslation } from 'react-i18next';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
     id,
@@ -33,7 +34,7 @@ const KeyValuePairCard: React.FC<KeyValuePairCardProps> = ({
                 cardState.isLoading && cardState.adapterResult.hasNoData()
             }
             adapterResult={cardState.adapterResult}
-            title={properties[0]}
+            title={properties?.[0]}
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
@@ -144,4 +145,4 @@ const KVP: React.FC<any> = ({
     );
 };
 
-export default KeyValuePairCard;
+export default withErrorBoundary(memo(KeyValuePairCard));

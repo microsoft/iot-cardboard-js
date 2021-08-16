@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { LKVProcessGraphicCardProps } from './LKVProcessGraphicCard.types';
 import './LKVProcessGraphicCard.scss';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     id,
@@ -81,4 +82,4 @@ const LKVValue: React.FC<any> = ({ title, value, pulse, style }) => {
     );
 };
 
-export default LKVProcessGraphicCard;
+export default withErrorBoundary(memo(LKVProcessGraphicCard));

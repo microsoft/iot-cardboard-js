@@ -117,7 +117,6 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     const onBackClick = () => {
         if (uploadState === BIMUploadState.PreUpload) {
             setUploadState(BIMUploadState.PreProcessing);
-            setModelsDictionary(null);
         }
         if (uploadState === BIMUploadState.InUpload) {
             setUploadState(BIMUploadState.PreUpload);
@@ -327,8 +326,8 @@ const ModelSelection = ({
                 </div>
             )}
             {!isParsingBIM &&
-                !!modelsDictionary &&
-                Object.keys(modelsDictionary).length === 0 && (
+                (!modelsDictionary ||
+                    Object.keys(modelsDictionary).length === 0) && (
                     <MessageBar
                         className={'cb-no-models-error'}
                         messageBarType={MessageBarType.error}

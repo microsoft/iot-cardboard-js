@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './LinechartCard.scss';
 import 'tsiclient/tsiclient.css';
 import { LinechartCardProps } from './LinechartCard.types';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Theme } from '../../../Models/Constants/Enums';
 import Linechart from '../../../Components/Linechart/Linechart';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const LinechartCard: React.FC<LinechartCardProps> = ({
     id,
@@ -69,4 +70,4 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     );
 };
 
-export default React.memo(LinechartCard);
+export default withErrorBoundary(memo(LinechartCard));
