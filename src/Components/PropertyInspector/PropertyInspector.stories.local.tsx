@@ -8,7 +8,7 @@ export default {
     title: 'Components/Property Inspector'
 };
 
-export const AdtTwin = () => {
+export const AdtTwin = (args) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -23,13 +23,20 @@ export const AdtTwin = () => {
                         )
                     )
                 }
-                twinId={'LeoTheDog'}
+                twinId={args.twinId}
             />
         </div>
     );
 };
 
-export const AdtRelationship = () => {
+AdtTwin.argTypes = {
+    twinId: {
+        control: { type: 'text' },
+        defaultValue: 'LeoTheDog'
+    }
+};
+
+export const AdtRelationship = (args) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -44,9 +51,20 @@ export const AdtRelationship = () => {
                         )
                     )
                 }
-                relationshipId={'4690c125-aac8-4456-9203-298c93f5fcf0'}
-                twinId={'LeoTheDog'}
+                relationshipId={args.relationshipId}
+                twinId={args.twinId}
             />
         </div>
     );
+};
+
+AdtRelationship.argTypes = {
+    twinId: {
+        control: { type: 'text' },
+        defaultValue: 'LeoTheDog'
+    },
+    relationshipId: {
+        control: { type: 'text' },
+        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
+    }
 };

@@ -1,4 +1,3 @@
-import { MAX_HEX_LENGTH } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { propertyInspectorPatchMode } from '../../Models/Constants/Enums';
