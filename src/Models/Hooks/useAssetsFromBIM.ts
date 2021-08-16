@@ -27,6 +27,7 @@ const useAssetsFromBIM = (
             relationships: [],
             modelCounts: {}
         });
+        onIsLoadingChange(false);
     };
 
     const transformModels = (typesDictionary) => {
@@ -148,6 +149,7 @@ const useAssetsFromBIM = (
 
     useEffect(() => {
         if (bimFilePath && metadataFilePath) {
+            onIsLoadingChange(true);
             const viewer = new Viewer({
                 canvasId: ghostBimId
             });
@@ -160,7 +162,6 @@ const useAssetsFromBIM = (
             const loader = new XKTLoaderPlugin(viewer);
 
             (async () => {
-                onIsLoadingChange(true);
                 let model;
                 try {
                     model = await loader.load({

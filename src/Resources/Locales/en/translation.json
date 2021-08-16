@@ -9,6 +9,7 @@
     "hierarchy": "Hierarchy",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
+    "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
@@ -42,10 +43,14 @@
     "createLinechart": "Line chart card creator",
     "noInformation": "No information provided",
     "notAvailable": "Not available",
+    "errors": {
+        "errorBoundary": "Error boundary",
+        "unkownError": "Unknown error occurred"
+    },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
         "dataFetchFailed": "Data retrieval failed",
-        "unkownError": "Unknown error occurred"
+        "dataUploadFailed": "Data upload failed"
     },
     "relationshipsTable": {
         "twinID": "Twin Id",
@@ -89,7 +94,7 @@
         "selectModels": "Select models for upload",
         "generateEnvironment": "Generate environment",
         "specifyFilesSubheader": "The specified BIM file and associated metadata will be used to extract models, twins, and relationships for upload to your ADT environment",
-        "selectModelsSubheader": "All checked models and their associated twins and relationships will be inluded in the next step: uploading to your ADT environment",
+        "selectModelsSubheader": "The selected models and their associated twins and relationships will be added to your environment in the next step",
         "generateEnvironmentSubheader": "The Models, twins, and relationships (filtered by the models selected in the previous step) will be pushed to your ADT environment",
         "initiateUpload": "Initiate upload",
         "bimFilePath": "BIM file path",
@@ -132,7 +137,8 @@
     },
     "boardErrors": {
         "failure": "Unable to load board data",
-        "invalidCardType": "The card type {{cardType}} is invalid"
+        "invalidCardType": "Invalid card type",
+        "invalidCardTypeMessage": "The card type {{cardType}} is invalid"
     },
     "modelCreate": {
         "newModel": "New model",

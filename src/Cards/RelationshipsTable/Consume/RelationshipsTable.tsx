@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import ADTTwinData from '../../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import { AdapterResult } from '../../../Models/Classes';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     theme,
@@ -108,4 +109,4 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     );
 };
 
-export default RelationshipsTable;
+export default withErrorBoundary(RelationshipsTable);
