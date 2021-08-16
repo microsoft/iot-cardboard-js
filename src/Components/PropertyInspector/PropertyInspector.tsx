@@ -9,37 +9,49 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 
-type PropertyInspectorProps = {
+type TwinPropertyInspectorProps = {
     twinId: string;
     adapter: IADTAdapter;
+    relationshipId?: never;
 };
 
-// TODO update props and logic to take relationship | twin
-const PropertyInspector: React.FC<PropertyInspectorProps> = ({
-    twinId,
-    adapter
-}) => {
+type RelationshipPropertyInspectorProps = {
+    relationshipId: string;
+    adapter: IADTAdapter;
+    twinId?: never;
+};
+
+const isTwin = (
+    props: TwinPropertyInspectorProps | RelationshipPropertyInspectorProps
+): props is TwinPropertyInspectorProps => {
+    return (props as TwinPropertyInspectorProps).twinId !== undefined;
+};
+
+const PropertyInspector: React.FC<
+    TwinPropertyInspectorProps | RelationshipPropertyInspectorProps
+> = (props) => {
     const [inputData, setInputData] = useState<TwinParams | RelationshipParams>(
         null
     );
 
     // Fetch twin using twinId
     const twinData = useAdapter({
-        adapterMethod: () => adapter.getADTTwin(twinId),
-        refetchDependencies: [twinId],
-        isAdapterCalledOnMount: true
+        adapterMethod: (params: { twinId: string }) =>
+            props.adapter.getADTTwin(params.twinId),
+        refetchDependencies: [props.twinId],
+        isAdapterCalledOnMount: false
     });
 
     const modelData = useAdapter({
         adapterMethod: (params: { modelId: string }) =>
-            adapter.getExpandedAdtModel(params.modelId),
+            props.adapter.getExpandedAdtModel(params.modelId),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
     const patchTwinData = useAdapter({
         adapterMethod: (params: { twinId: string; patches: Array<AdtPatch> }) =>
-            adapter.updateTwin(params.twinId, params.patches),
+            props.adapter.updateTwin(params.twinId, params.patches),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -50,7 +62,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
             relationshipId: string;
             patches: Array<AdtPatch>;
         }) =>
-            adapter.updateRelationship(
+            props.adapter.updateRelationship(
                 params.twinId,
                 params.relationshipId,
                 params.patches
@@ -58,6 +70,15 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
+
+    // On mount, fetch necessary data for twin | relationship
+    useEffect(() => {
+        if (isTwin(props)) {
+            twinData.callAdapter({ twinId: props.twinId });
+        } else {
+            // TODO fetch initial relationship
+        }
+    }, []);
 
     // Use model ID from twin metadata to fetch target model and
     // flat expanded list of all models referenced
@@ -108,7 +129,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = ({
             );
 
             // Refetch twin after patch
-            twinData.callAdapter(); // TODO stop expanded model from refetching
+            twinData.callAdapter({ twinId: props.twinId }); // TODO stop expanded model from refetching
         }
 
         if (patchRelationshipData.adapterResult.getData()) {

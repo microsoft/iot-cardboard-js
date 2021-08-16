@@ -443,7 +443,7 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
             if (axiosResponse.status === 204) {
-                return new ADTAdapterPatchData(axiosResponse.data);
+                return new ADTAdapterPatchData(patches);
             } else {
                 throw new Error(axiosResponse.statusText);
             }
@@ -473,7 +473,7 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
             if (axiosResponse.status === 204) {
-                return new ADTAdapterPatchData(axiosResponse.data);
+                return new ADTAdapterPatchData(patches);
             } else {
                 throw new Error(axiosResponse.statusText);
             }
