@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { propertyInspectorPatchMode } from '../../Models/Constants/Enums';
 import { AdtPatch, IADTAdapter } from '../../Models/Constants/Interfaces';
@@ -32,6 +33,7 @@ const isTwin = (
 const PropertyInspector: React.FC<
     TwinPropertyInspectorProps | RelationshipPropertyInspectorProps
 > = (props) => {
+    const { t } = useTranslation();
     const [inputData, setInputData] = useState<TwinParams | RelationshipParams>(
         null
     );
@@ -198,7 +200,7 @@ const PropertyInspector: React.FC<
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
 
     if (modelData.isLoading || twinData.isLoading || relationshipData.isLoading)
-        return <div>Loading...</div>;
+        return <div>{t('loading')}</div>;
 
     if (!inputData) {
         return <div>No data found</div>;

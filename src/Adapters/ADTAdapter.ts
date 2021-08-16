@@ -402,7 +402,7 @@ export default class ADTAdapter implements IADTAdapter {
 
                 // Add component models
                 const componentModelIds = rootModel.contents
-                    .filter(
+                    ?.filter(
                         (m) =>
                             getModelContentType(m['@type']) ===
                             DTDLType.Component
