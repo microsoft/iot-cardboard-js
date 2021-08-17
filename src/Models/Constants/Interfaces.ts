@@ -433,7 +433,7 @@ export interface DTwinRelationship {
     $dtId: string;
     $targetId: string;
     $name: string;
-    targetModel: string;
+    targetModel?: string;
 }
 
 export interface ISimulationAdapter {

@@ -5,6 +5,7 @@ import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/Tr
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
 import { DTDLModel } from '../Classes/DTDL';
 import { createDTDLModelId } from '../Services/Utils';
+import { AssetsFromBIMState, DTwin, DTwinRelationship } from '../Constants';
 
 const useAssetsFromBIM = (
     ghostBimId,
@@ -13,7 +14,7 @@ const useAssetsFromBIM = (
     metadataFilePath,
     onIsLoadingChange
 ) => {
-    const [assetsState, setAssetsState] = useState({
+    const [assetsState, setAssetsState] = useState<AssetsFromBIMState>({
         models: [],
         twins: [],
         relationships: [],
@@ -52,17 +53,6 @@ const useAssetsFromBIM = (
         return countsDictionary;
     };
 
-    const transformTwins = (twinsDictionary) => {
-        return Object.keys(twinsDictionary).map((twinId) => {
-            return {
-                $dtId: twinId,
-                $metadata: {
-                    $model: twinsDictionary[twinId].model
-                }
-            };
-        });
-    };
-
     const extractAssets = useCallback(
         (root) => {
             const typesDictionary = {};
@@ -75,8 +65,8 @@ const useAssetsFromBIM = (
                 count: 1
             };
 
-            const twinsDictionary = {};
-            const relationshipsDictionary = {};
+            const twinsDictionary:Record<string, DTwin> = {};
+            const relationshipsDictionary:Record<string, DTwinRelationship> = {};
 
             // recursive traversal of every asset to extract model, twin and  information
             const addAsset = (node) => {
@@ -97,7 +87,10 @@ const useAssetsFromBIM = (
                     typesDictionary[node.type].count += 1;
                 }
                 twinsDictionary[node.id] = {
-                    model: createDTDLModelId(node.type)
+                    $dtId: node.id,
+                    $metadata: {
+                        $model: createDTDLModelId(node.type)
+                    }
                 };
                 if (node.children) {
                     const relationshipsMap = {};
@@ -124,10 +117,10 @@ const useAssetsFromBIM = (
                             (child, childIndex) => {
                                 const relationshipId = `${node.type}_contains_${childType}_${childIndex}`;
                                 relationshipsDictionary[relationshipId] = {
-                                    relationshipId: relationshipId,
-                                    sourceId: node.id,
+                                    $relId: relationshipId,
+                                    $dtId: node.id,
                                     $targetId: child.id,
-                                    $relationshipName: relationshipName
+                                    $name: relationshipName
                                 };
                             }
                         );
@@ -138,7 +131,7 @@ const useAssetsFromBIM = (
 
             setAssetsState({
                 models: transformModels(typesDictionary),
-                twins: transformTwins(twinsDictionary),
+                twins: Object.values(twinsDictionary),
                 relationships: Object.values(relationshipsDictionary),
                 modelCounts: getModelCounts(typesDictionary)
             });

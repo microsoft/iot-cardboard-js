@@ -1,9 +1,12 @@
 import {
+    DTwin,
+    DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
+import { DTDLModel } from '../Classes/DTDL';
 import {
     IADTModel,
     IADTTwin,
@@ -120,6 +123,13 @@ export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
 };
+
+export type AssetsFromBIMState = {
+    models: Array<DTDLModel>,
+    twins: Array<DTwin>,
+    relationships: Array<DTwinRelationship>;
+    modelCounts: Record<string, number>;
+}
 
 export type AdapterTypes =
     | IKeyValuePairAdapter
