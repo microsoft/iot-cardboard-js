@@ -468,6 +468,15 @@ class PropertyInspectorModel {
         return null;
     };
 
+    setIsTreeCollapsed = (nodes: PropertyTreeNode[], isCollapsed: boolean) => {
+        nodes.forEach((node) => {
+            if (node.children) {
+                node.isCollapsed = isCollapsed;
+                this.setIsTreeCollapsed(node.children, isCollapsed);
+            }
+        });
+    };
+
     verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
         let everyChildHasValue = true;
         tree.forEach((node) => {

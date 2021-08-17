@@ -127,6 +127,17 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
     };
 
+    const setIsTreeCollapsed = (isCollapsed: boolean) => {
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                PropertyInspectorModelRef.current.setIsTreeCollapsed(
+                    draft,
+                    isCollapsed
+                );
+            })
+        );
+    };
+
     return (
         <div className="cb-standalone-property-inspector-container">
             <div className="cb-standalone-property-inspector-header">
@@ -135,6 +146,12 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         ? props.inputData.twin['$dtId']
                         : props.inputData.relationship['$relationshipId']}
                 </h3>
+                <button onClick={() => setIsTreeCollapsed(false)}>
+                    Expand tree
+                </button>
+                <button onClick={() => setIsTreeCollapsed(true)}>
+                    Collapse tree
+                </button>
                 <button
                     onClick={() => {
                         const patchData = PropertyInspectorModelRef.current.generatePatchData(
