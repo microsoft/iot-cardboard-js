@@ -6,12 +6,16 @@ import {
 import {
     DtdlInterface,
     DtdlInterfaceContent,
+    DtdlProperty,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
 import { DTwin, IADTRelationship } from '../../Models/Constants/Interfaces';
 import { NodeRole, PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import { compare, Operation } from 'fast-json-patch';
-import { getModelContentType } from '../../Models/Services/Utils';
+import {
+    getModelContentUnit,
+    getModelContentType
+} from '../../Models/Services/Utils';
 
 class PropertyInspectorModel {
     expandedModel: DtdlInterface[];
@@ -66,7 +70,7 @@ class PropertyInspectorModel {
         path,
         propertySourceObject
     }: {
-        modelProperty: DtdlInterfaceContent;
+        modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
@@ -92,7 +96,8 @@ class PropertyInspectorModel {
                 isRemovable: !isObjectChild && !!modelProperty.writable,
                 isSet: modelProperty.name in propertySourceObject,
                 inherited,
-                writable: !!modelProperty?.writable || isObjectChild
+                writable: !!modelProperty?.writable || isObjectChild,
+                unit: getModelContentUnit(modelProperty['@type'], modelProperty)
             };
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
@@ -124,7 +129,11 @@ class PropertyInspectorModel {
                         inherited,
                         isSet: modelProperty.name in propertySourceObject,
                         value: undefined,
-                        writable: !!modelProperty?.writable
+                        writable: !!modelProperty?.writable,
+                        unit: getModelContentUnit(
+                            modelProperty['@type'],
+                            modelProperty
+                        )
                     };
                 case DTDLSchemaType.Enum: {
                     return {
@@ -152,7 +161,11 @@ class PropertyInspectorModel {
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
                         isSet: modelProperty.name in propertySourceObject,
-                        writable: !!modelProperty?.writable
+                        writable: !!modelProperty?.writable,
+                        unit: getModelContentUnit(
+                            modelProperty['@type'],
+                            modelProperty
+                        )
                     };
                 }
                 case DTDLSchemaType.Map: // TODO figure out how maps work
@@ -170,7 +183,11 @@ class PropertyInspectorModel {
                             !isObjectChild && !!modelProperty?.writable,
                         value: undefined,
                         isSet: modelProperty.name in propertySourceObject,
-                        writable: !!modelProperty?.writable
+                        writable: !!modelProperty?.writable,
+                        unit: getModelContentUnit(
+                            modelProperty['@type'],
+                            modelProperty
+                        )
                     };
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:

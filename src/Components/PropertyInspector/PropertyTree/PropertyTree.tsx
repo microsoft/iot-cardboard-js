@@ -282,7 +282,12 @@ const NodeRow: React.FC<NodeProps> = ({ node }) => {
             </div>
             <NodeValue node={node} />
             <div className="cb-property-tree-node-type">
-                {node.schema ?? node.type}
+                <span>{node.schema ?? node.type}</span>
+                {node?.unit && (
+                    <span className="cb-property-tree-node-unit">
+                        ({node.unit})
+                    </span>
+                )}
             </div>
             <NodeRowUnset />
         </div>

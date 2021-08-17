@@ -6,6 +6,7 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName
 } from '../Constants';
+import { DtdlProperty } from '../Constants/dtdlInterfaces';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -128,4 +129,11 @@ export const getNumericPart = (value: string): number | undefined => {
 
 export const getModelContentType = (type: string | string[]) => {
     return Array.isArray(type) ? type[0] : type;
+};
+
+export const getModelContentUnit = (
+    type: string | string[],
+    property: DtdlProperty
+) => {
+    return Array.isArray(type) && type[1] ? property?.unit : null;
 };
