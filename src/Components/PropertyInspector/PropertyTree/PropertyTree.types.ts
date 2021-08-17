@@ -19,6 +19,7 @@ export interface PropertyTreeNode {
     isCollapsed?: boolean;
     complexPropertyData?: EnumPropertyData;
     unit?: string;
+    edited?: boolean;
 }
 
 type EnumPropertyData = {

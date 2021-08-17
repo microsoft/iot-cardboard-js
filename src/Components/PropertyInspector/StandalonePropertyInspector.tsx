@@ -72,8 +72,17 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     draft,
                     node
                 );
+                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    originalTree(),
+                    node
+                );
                 targetNode.value = newValue;
                 targetNode.isSet = true;
+                if (originalNode.value !== targetNode.value) {
+                    targetNode.edited = true;
+                } else {
+                    targetNode.edited = false;
+                }
             })
         );
     };
