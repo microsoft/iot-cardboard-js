@@ -13,7 +13,7 @@ export const AdtTwin = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ maxWidth: '720px', width: '100%' }}>
+        <div style={{ maxWidth: '360px', width: '100%' }}>
             <PropertyInspector
                 adapter={
                     new ADTAdapter(
@@ -41,7 +41,7 @@ export const AdtRelationship = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ maxWidth: '720px', width: '100%' }}>
+        <div style={{ maxWidth: '360px', width: '100%' }}>
             <PropertyInspector
                 adapter={
                     new ADTAdapter(

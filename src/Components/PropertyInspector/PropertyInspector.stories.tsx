@@ -12,7 +12,7 @@ export default {
 };
 
 export const TwinMock = () => (
-    <div style={{ maxWidth: '720px', width: '100%' }}>
+    <div style={{ maxWidth: '360px', width: '100%' }}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
@@ -25,7 +25,7 @@ export const TwinMock = () => (
 );
 
 export const ReadOnlyTwinMock = () => (
-    <div style={{ maxWidth: '720px', width: '100%' }}>
+    <div style={{ maxWidth: '360px', width: '100%' }}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,

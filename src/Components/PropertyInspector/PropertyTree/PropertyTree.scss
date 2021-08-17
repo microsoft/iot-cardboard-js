@@ -1,8 +1,45 @@
+@import '../../../Resources/Styles/BaseStyles';
+
 .cb-property-tree-container {
     font-size: 14px;
     height: 100%;
     overflow-y: auto;
     width: 100%;
+
+    .cb-property-tree-list-group {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .cb-property-tree-list-item {
+        cursor: default;
+        list-style: none;
+        margin: 4px 0;
+        width: fit-content;
+    }
+
+    .cb-property-tree-node {
+        display: flex;
+    }
+
+    .cb-property-tree-node-name {
+        display: inline-flex;
+        margin-right: 8px;
+        position: relative;
+    }
+
+    .cb-property-tree-parent-node {
+        cursor: pointer;
+    }
+
+    .cb-property-tree-node-icon {
+        margin-right: 4px;
+    }
+
+    .cb-property-tree-parent-node-inset {
+        display: inline-flex;
+        margin-left: 16px;
+    }
 
     .cb-chevron {
         display: inline-block;
@@ -23,50 +60,14 @@
         }
     }
 
-    .cb-property-tree-list-group {
-        margin: 0;
-        padding-left: 20px;
-    }
-
-    .cb-property-tree-list-item {
-        cursor: default;
-        list-style: none;
-        margin: 4px 0;
-        width: fit-content;
-    }
-
-    .cb-property-tree-parent-node {
-        cursor: pointer;
-        padding-left: 16px;
-    }
-
-    .cb-property-tree-expandable-row {
-        position: relative;
-    }
-
-    .cb-property-tree-node {
-        display: flex;
-    }
-    .cb-property-tree-node-name {
-        margin-right: 8px;
-    }
     .cb-property-tree-node-value {
         margin-right: 8px;
     }
-    .cb-property-tree-node-type {
-        align-items: center;
-        display: flex;
-        font-size: 0.7em;
-        font-style: italic;
-    }
-    .cb-property-tree-node-unit {
-        margin-left: 8px;
-    }
+
     .cb-property-tree-node-value-unset {
         align-items: center;
         display: flex;
         font-size: 0.7em;
         font-style: italic;
-        margin-left: 8px;
     }
 }

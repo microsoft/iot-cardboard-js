@@ -147,10 +147,10 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         : props.inputData.relationship['$relationshipId']}
                 </h3>
                 <button onClick={() => setIsTreeCollapsed(false)}>
-                    Expand tree
+                    Expand
                 </button>
                 <button onClick={() => setIsTreeCollapsed(true)}>
-                    Collapse tree
+                    Collapse
                 </button>
                 <button
                     onClick={() => {
@@ -180,7 +180,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         }
                     }}
                 >
-                    Commit changes
+                    Save
                 </button>
             </div>
             <PropertyTree
