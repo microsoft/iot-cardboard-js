@@ -94,7 +94,7 @@ const GenerateADTAssets = ({
     //set upload progress state based on adapter result
     useEffect(() => {
         if (pushRelationshipsState.adapterResult.errorInfo?.errors?.length) {
-            if (!pushRelationshipsState.adapterResult.result?.hasNoData()) {
+            if (pushRelationshipsState.adapterResult.result?.hasNoData()) {
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.Failed,
                     message: null,
@@ -131,7 +131,7 @@ const GenerateADTAssets = ({
     //set upload progress state based on adapter result
     useEffect(() => {
         if (pushTwinsState.adapterResult.errorInfo?.errors?.length) {
-            if (!pushTwinsState.adapterResult.result?.hasNoData()) {
+            if (pushTwinsState.adapterResult.result?.hasNoData()) {
                 setTwinsUploadStatus({
                     phase: UploadPhase.Failed,
                     message: null,

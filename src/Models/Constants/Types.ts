@@ -125,11 +125,11 @@ export type ADTRelationshipsApiData = {
 };
 
 export type AssetsFromBIMState = {
-    models: Array<DTDLModel>,
-    twins: Array<DTwin>,
+    models: Array<DTDLModel>;
+    twins: Array<DTwin>;
     relationships: Array<DTwinRelationship>;
     modelCounts: Record<string, number>;
-}
+};
 
 export type AdapterTypes =
     | IKeyValuePairAdapter

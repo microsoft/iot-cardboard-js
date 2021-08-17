@@ -65,8 +65,11 @@ const useAssetsFromBIM = (
                 count: 1
             };
 
-            const twinsDictionary:Record<string, DTwin> = {};
-            const relationshipsDictionary:Record<string, DTwinRelationship> = {};
+            const twinsDictionary: Record<string, DTwin> = {};
+            const relationshipsDictionary: Record<
+                string,
+                DTwinRelationship
+            > = {};
 
             // recursive traversal of every asset to extract model, twin and  information
             const addAsset = (node) => {

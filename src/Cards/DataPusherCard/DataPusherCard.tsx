@@ -75,6 +75,10 @@ const DataPusherCard = ({
             type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
             payload: false
         });
+        dispatch({
+            type: dataPusherActionType.SET_ARE_ASSETS_SET,
+            payload: false
+        });
         clearInterval(intervalRef.current);
         adapter.packetNumber = 0;
     };
