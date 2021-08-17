@@ -1,11 +1,14 @@
+import { ADTAdapter } from '../../Adapters';
 import {
     ICardBaseProps,
     IAdtPusherSimulation,
-    ISimulationAdapter
+    DTModel,
+    DTwin,
+    DTwinRelationship
 } from '../../Models/Constants';
 
 export interface IDataPusherProps extends ICardBaseProps {
-    adapter: ISimulationAdapter;
+    adapter: ADTAdapter;
     Simulation: new (
         startTimeMillis: number,
         frequency: number
@@ -32,10 +35,12 @@ export interface IDataPusherState {
     isEnvironmentReady: boolean;
     disablePastEvents: boolean;
     isOtherOptionsVisible: boolean;
+    models: DTModel[];
+    twins: DTwin[];
+    relationships: DTwinRelationship[];
+    areAssetsSet: boolean;
     simulationStatus: {
-        areModelsReady: boolean;
-        areTwinsReady: boolean;
-        areRelationshipsReady: boolean;
+        areAssetsUploaded: boolean;
         liveStatus: {
             packetNumber: number;
             totalTwinsPatched: number;
@@ -60,8 +65,10 @@ export enum dataPusherActionType {
     SET_IS_SIMULATION_RUNNING,
     SET_IS_DATA_BACK_FILLED,
     SET_IS_ENVIRONMENT_READY,
-    SET_ARE_MODELS_READY,
-    SET_ARE_TWINS_READY,
-    SET_ARE_RELATIONSHIPS_READY,
-    SET_LIVE_STATUS
+    SET_LIVE_STATUS,
+    SET_MODELS,
+    SET_TWINS,
+    SET_RELATIONSHIPS,
+    SET_ARE_ASSETS_UPLOADED,
+    SET_ARE_ASSETS_SET
 }

@@ -22,7 +22,8 @@ import {
     DTwinRelationship,
     DTModel,
     IADTTwinComponent,
-    KeyValuePairData
+    KeyValuePairData,
+    DTwinUpdateEvent
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -31,18 +32,19 @@ import {
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
-import { DTDLModel } from '../Models/Classes/DTDL';
 import axios from 'axios';
 import {
     ADTModelsData,
     ADTRelationshipsData,
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
+import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
-    private adtHostUrl: string;
+    public adtHostUrl: string; //TODO create setter/getter
     private adtProxyServerPath: string;
+    public packetNumber = 0;
 
     constructor(
         adtHostUrl: string,
@@ -194,6 +196,34 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
+    async updateTwins(events: Array<DTwinUpdateEvent>) {
+        this.packetNumber++;
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const data = await axios.all(
+                events.map((event) => {
+                    const id = event.dtId;
+                    return axios({
+                        method: 'patch',
+                        url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
+                        data: event.patchJSON,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token,
+                            'x-adt-host': this.adtHostUrl
+                        },
+                        params: {
+                            'api-version': ADT_ApiVersion
+                        }
+                    }).catch((err) => {
+                        return err.response.data;
+                    });
+                })
+            );
+            return new SimulationAdapterData(data);
+        });
+    }
+
     getADTTwinsByModelId(params: AdapterMethodParamsForGetADTTwinsByModelId) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -238,7 +268,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async createModels(models: DTDLModel[]) {
+    async createModels(models: DTModel[]) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await axios({
@@ -328,14 +358,14 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
             const data = await axios.all(
-                relationships.map((relationship: any) => {
+                relationships.map((relationship: DTwinRelationship) => {
                     const payload = {
                         $targetId: relationship.$targetId,
-                        $relationshipName: relationship.$relationshipName
+                        $relationshipName: relationship.$name
                     };
                     return axios({
                         method: 'put',
-                        url: `${this.adtProxyServerPath}/digitaltwins/${relationship.sourceId}/relationships/${relationship.relationshipId}`,
+                        url: `${this.adtProxyServerPath}/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
                         data: payload,
                         headers: {
                             'Content-Type': 'application/json',
