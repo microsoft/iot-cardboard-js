@@ -19,6 +19,7 @@ export interface OnCommitPatchParams {
 export interface StandalonePropertyInspectorProps {
     inputData: TwinParams | RelationshipParams;
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
+    readonly?: boolean;
 }
 
 export type TwinParams = {

@@ -24,6 +24,20 @@ export const TwinMock = () => (
     </div>
 );
 
+export const ReadOnlyTwinMock = () => (
+    <div style={{ maxWidth: '720px', width: '100%' }}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModel: mockExpandedModel,
+                rootModel: mockExpandedModel[0]
+            }}
+            readonly={true}
+            onCommitChanges={(patch) => console.log(patch)}
+        />
+    </div>
+);
+
 export const RelationsipMock = () => (
     <div style={{ maxWidth: '720px', width: '100%' }}>
         <StandalonePropertyInspector

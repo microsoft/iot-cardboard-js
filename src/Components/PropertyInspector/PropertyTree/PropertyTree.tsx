@@ -19,7 +19,8 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onParentClick,
     onNodeValueChange,
     onNodeValueUnset,
-    onObjectAdd
+    onObjectAdd,
+    readonly = false
 }) => {
     return (
         <PropertyTreeContext.Provider
@@ -27,7 +28,8 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 onParentClick,
                 onNodeValueChange,
                 onNodeValueUnset,
-                onObjectAdd
+                onObjectAdd,
+                readonly
             }}
         >
             <div className="cb-property-tree-container">
@@ -86,11 +88,18 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeValue: React.FC<NodeProps> = ({ node }) => {
-    const { onNodeValueChange } = useContext(PropertyTreeContext);
+    const { onNodeValueChange, readonly } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
     switch (propertyType) {
         case dtdlPropertyTypesEnum.boolean:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -103,6 +112,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.date:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -115,6 +131,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.dateTime:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -129,6 +152,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.double:
         case dtdlPropertyTypesEnum.float:
         case dtdlPropertyTypesEnum.long:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -142,6 +172,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -154,6 +191,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.integer:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -167,7 +211,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.string:
-            if (!node.writable) {
+            if (!node.writable || readonly) {
                 return (
                     <div className="cb-property-tree-node-value">
                         {node.value}
@@ -192,6 +236,13 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
             }
 
         case dtdlPropertyTypesEnum.time:
+            if (readonly) {
+                return (
+                    <div className="cb-property-tree-node-value">
+                        {String(node.value)}
+                    </div>
+                );
+            }
             return (
                 <div className="cb-property-tree-node-value">
                     <input
@@ -212,6 +263,7 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
                         }
+                        disabled={readonly}
                     >
                         <option value={'enum-unset'}>--</option>
                         {node.complexPropertyData.options.map((ev, idx) => {
@@ -232,22 +284,26 @@ const NodeValue: React.FC<NodeProps> = ({ node }) => {
 };
 
 const NodeRow: React.FC<NodeProps> = ({ node }) => {
-    const { onNodeValueUnset, onObjectAdd } = useContext(PropertyTreeContext);
+    const { onNodeValueUnset, onObjectAdd, readonly } = useContext(
+        PropertyTreeContext
+    );
 
     const NodeRowUnset = () => {
         if (node.isRemovable && DTDLType.Property) {
             if (node.isSet === false) {
                 if (node.schema === dtdlPropertyTypesEnum.Object) {
                     return (
-                        <button
-                            style={{ marginLeft: 8 }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onObjectAdd(node);
-                            }}
-                        >
-                            Add
-                        </button>
+                        !readonly && (
+                            <button
+                                style={{ marginLeft: 8 }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onObjectAdd(node);
+                                }}
+                            >
+                                Add
+                            </button>
+                        )
                     );
                 } else {
                     return (
@@ -258,15 +314,17 @@ const NodeRow: React.FC<NodeProps> = ({ node }) => {
                 }
             } else {
                 return (
-                    <button
-                        style={{ marginLeft: 8 }}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onNodeValueUnset(node);
-                        }}
-                    >
-                        Remove
-                    </button>
+                    !readonly && (
+                        <button
+                            style={{ marginLeft: 8 }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onNodeValueUnset(node);
+                            }}
+                        >
+                            Remove
+                        </button>
+                    )
                 );
             }
         }

@@ -172,6 +172,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 onNodeValueChange={onNodeValueChange}
                 onNodeValueUnset={onNodeValueUnset}
                 onObjectAdd={onObjectAdd}
+                readonly={!!props.readonly}
             />
         </div>
     );

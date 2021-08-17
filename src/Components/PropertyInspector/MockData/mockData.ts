@@ -2,6 +2,7 @@ export const mockTwin = {
     $dtId: 'LeoTheDog',
     $etag: 'W/"7cece777-dbf3-47ca-947e-5842ff8021fb"',
     CarName: 'Slaaaa',
+    CarPackage: 'Basic',
     address: {
         $metadata: {}
     },

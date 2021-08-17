@@ -36,6 +36,7 @@ export interface PropertyTreeProps {
     onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
     onNodeValueUnset: (node: PropertyTreeNode) => any;
     onObjectAdd: (node: PropertyTreeNode) => any;
+    readonly?: boolean;
 }
 
 export interface TreeProps {
