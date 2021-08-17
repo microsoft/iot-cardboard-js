@@ -37,6 +37,7 @@ const PropertyInspector: React.FC<
     const [inputData, setInputData] = useState<TwinParams | RelationshipParams>(
         null
     );
+    const [refetchTrigger, setRefetchTrigger] = useState(false);
 
     const twinData = useAdapter({
         adapterMethod: (params: { twinId: string }) =>
@@ -111,9 +112,11 @@ const PropertyInspector: React.FC<
     // flat expanded list of all models referenced
     useEffect(() => {
         const twin = twinData.adapterResult.getData();
-        if (twin) {
+        if (twin && !modelData.adapterResult.getData()) {
             const modelId = twin['$metadata']['$model'];
             modelData.callAdapter({ modelId });
+        } else {
+            setRefetchTrigger((prev) => !prev);
         }
     }, [twinData.adapterResult]);
 
@@ -153,7 +156,7 @@ const PropertyInspector: React.FC<
                 relationshipModel
             });
         }
-    }, [modelData.adapterResult]);
+    }, [modelData.adapterResult, refetchTrigger]);
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
@@ -183,7 +186,7 @@ const PropertyInspector: React.FC<
             );
 
             // Refetch twin after patch
-            twinData.callAdapter({ twinId: props.twinId }); // TODO stop expanded model from refetching
+            twinData.callAdapter({ twinId: props.twinId });
         }
 
         if (patchRelationshipData.adapterResult.getData()) {
