@@ -327,13 +327,10 @@ export default class ADTAdapter implements IADTAdapter {
                         });
                         return null;
                     });
-
-                    if (axiosResponse?.status === 200) {
-                        uploadCounter++;
-                        onUploadProgress &&
-                            onUploadProgress(uploadCounter, twins.length);
-                    }
-                    return new ADTTwinData(axiosResponse?.data);
+                    uploadCounter++;
+                    onUploadProgress &&
+                        onUploadProgress(uploadCounter, twins.length);
+                    return axiosResponse ? axiosResponse.data : null;
                 })
             );
 
@@ -342,11 +339,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return resp !== null;
             });
 
-            const uploadedTwins = filteredResponses.map((axiosResult) => {
-                return axiosResult.data;
-            });
-
-            return new ADTTwinsData(uploadedTwins);
+            return new ADTTwinsData(filteredResponses);
         });
     }
 
@@ -358,12 +351,12 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
             const data = await axios.all(
-                relationships.map((relationship: DTwinRelationship) => {
+                relationships.map(async (relationship: DTwinRelationship) => {
                     const payload = {
                         $targetId: relationship.$targetId,
                         $relationshipName: relationship.$name
                     };
-                    return axios({
+                    const axiosResponse = await axios({
                         method: 'put',
                         url: `${this.adtProxyServerPath}/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
                         data: payload,
@@ -374,14 +367,6 @@ export default class ADTAdapter implements IADTAdapter {
                         },
                         params: {
                             'api-version': ADT_ApiVersion
-                        },
-                        onUploadProgress: () => {
-                            uploadCounter++;
-                            onUploadProgress &&
-                                onUploadProgress(
-                                    uploadCounter,
-                                    relationships.length
-                                );
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
@@ -391,6 +376,12 @@ export default class ADTAdapter implements IADTAdapter {
                         });
                         return null;
                     });
+
+                    uploadCounter++;
+                    onUploadProgress &&
+                        onUploadProgress(uploadCounter, relationships.length);
+
+                    return axiosResponse ? axiosResponse.data : null;
                 })
             );
 
@@ -399,13 +390,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return resp !== null;
             });
 
-            const uploadedRelationships = filteredResponses.map(
-                (axiosResult) => {
-                    return axiosResult.data;
-                }
-            );
-
-            return new ADTRelationshipsData(uploadedRelationships);
+            return new ADTRelationshipsData(filteredResponses);
         });
     }
 
