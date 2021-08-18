@@ -1,0 +1,20 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-file-uploader {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .cb-drop-files-container {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 172px;
+        padding: 32px 40px;
+        width: 304px;
+    }
+
+    .cb-choose-file-button {
+        margin-top: 20px;
+    }
+}
