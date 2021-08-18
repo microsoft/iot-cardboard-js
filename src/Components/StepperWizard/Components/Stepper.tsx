@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { IStepperWizardStep } from '../StepperWizard';
+import { IStepperWizardStep } from '../../../Models/Constants/Interfaces';
 import { IStep, Step } from './Step';
 import { StepSeparator } from './StepSeparator';
 
@@ -7,21 +7,17 @@ interface IStepper {
     steps: Array<IStepperWizardStep>;
     currentStepIndex: number;
 }
-export const Stepper: React.FC<IStepper> = (props) => {
-    const [currentStepIndex, setCurrentStepIndex] = React.useState(
-        props.currentStepIndex ?? 0
-    );
-    const [steps, setSteps] = React.useState(props.steps);
+export const Stepper: React.FC<IStepper> = ({ steps, currentStepIndex }) => {
+    const [
+        internalCurrentStepIndex,
+        setInternalCurrentStepIndex
+    ] = React.useState(currentStepIndex ?? 0);
 
     useEffect(() => {
-        setSteps(props.steps);
-    }, [props.steps]);
-
-    useEffect(() => {
-        if (props.currentStepIndex !== undefined) {
-            setCurrentStepIndex(props.currentStepIndex);
+        if (currentStepIndex !== undefined) {
+            setInternalCurrentStepIndex(currentStepIndex);
         }
-    }, [props.currentStepIndex]);
+    }, [currentStepIndex]);
 
     const stepperMapProps = useMemo(
         () =>
@@ -30,7 +26,7 @@ export const Stepper: React.FC<IStepper> = (props) => {
                     ({
                         label: step.label,
                         onClick: () => {
-                            setCurrentStepIndex(index);
+                            setInternalCurrentStepIndex(index);
                             if (step.onClick) {
                                 step.onClick();
                             }
@@ -45,13 +41,15 @@ export const Stepper: React.FC<IStepper> = (props) => {
             {stepperMapProps.map(({ label, onClick }, index) => (
                 <div className={'cb-stepper-wizard-stepper'} key={index}>
                     <Step
-                        isFinished={currentStepIndex > index}
-                        isSelected={currentStepIndex === index}
+                        isFinished={internalCurrentStepIndex > index}
+                        isSelected={internalCurrentStepIndex === index}
                         label={label}
                         onClick={onClick}
                     />
                     {index !== steps.length - 1 && (
-                        <StepSeparator isFinished={currentStepIndex > index} />
+                        <StepSeparator
+                            isFinished={internalCurrentStepIndex > index}
+                        />
                     )}
                 </div>
             ))}
