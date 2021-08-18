@@ -41,6 +41,7 @@ export interface PropertyTreeProps {
 
 export interface TreeProps {
     data: Array<PropertyTreeNode>;
+    isChildTree?: boolean;
 }
 
 export interface NodeProps {

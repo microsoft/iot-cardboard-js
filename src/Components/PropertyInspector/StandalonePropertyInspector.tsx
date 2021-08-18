@@ -10,6 +10,7 @@ import {
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { AdtPatch, propertyInspectorPatchMode } from '../../Models/Constants';
+import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 
 /**
  *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
@@ -138,51 +139,35 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
     };
 
+    const onCommitChanges = () => {
+        const patchData = PropertyInspectorModelRef.current.generatePatchData(
+            isTwin(props.inputData)
+                ? props.inputData.twin
+                : props.inputData.relationship,
+            propertyTreeNodes
+        );
+        if (isTwin(props.inputData)) {
+            props.onCommitChanges({
+                patchMode: propertyInspectorPatchMode.twin,
+                id: props.inputData.twin.$dtId,
+                patches: patchData as Array<AdtPatch>
+            });
+        } else {
+            props.onCommitChanges({
+                patchMode: propertyInspectorPatchMode.relationship,
+                id: props.inputData.relationship.$relationshipId,
+                patches: patchData as Array<AdtPatch>,
+                sourceTwinId: props.inputData.relationship.$sourceId
+            });
+        }
+    };
+
     return (
         <div className="cb-standalone-property-inspector-container">
-            <div className="cb-standalone-property-inspector-header">
-                <h3 style={{ marginLeft: 20 }}>
-                    {isTwin(props.inputData)
-                        ? props.inputData.twin['$dtId']
-                        : props.inputData.relationship['$relationshipId']}
-                </h3>
-                <button onClick={() => setIsTreeCollapsed(false)}>
-                    Expand
-                </button>
-                <button onClick={() => setIsTreeCollapsed(true)}>
-                    Collapse
-                </button>
-                <button
-                    onClick={() => {
-                        const patchData = PropertyInspectorModelRef.current.generatePatchData(
-                            isTwin(props.inputData)
-                                ? props.inputData.twin
-                                : props.inputData.relationship,
-                            propertyTreeNodes
-                        );
-                        if (isTwin(props.inputData)) {
-                            props.onCommitChanges({
-                                patchMode: propertyInspectorPatchMode.twin,
-                                id: props.inputData.twin.$dtId,
-                                patches: patchData as Array<AdtPatch>
-                            });
-                        } else {
-                            props.onCommitChanges({
-                                patchMode:
-                                    propertyInspectorPatchMode.relationship,
-                                id:
-                                    props.inputData.relationship
-                                        .$relationshipId,
-                                patches: patchData as Array<AdtPatch>,
-                                sourceTwinId:
-                                    props.inputData.relationship.$sourceId
-                            });
-                        }
-                    }}
-                >
-                    Save
-                </button>
-            </div>
+            <StandalonePropertyInspectorCommandBar
+                setIsTreeCollapsed={setIsTreeCollapsed}
+                onCommitChanges={onCommitChanges}
+            />
             <PropertyTree
                 data={propertyTreeNodes}
                 onParentClick={(parent) => onParentClick(parent)}
@@ -190,6 +175,53 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 onNodeValueUnset={onNodeValueUnset}
                 onObjectAdd={onObjectAdd}
                 readonly={!!props.readonly}
+            />
+        </div>
+    );
+};
+
+type StandalonePropertyInspectorCommandBarProps = {
+    setIsTreeCollapsed: (isCollapsed: boolean) => any;
+    onCommitChanges: () => any;
+};
+
+const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspectorCommandBarProps> = ({
+    setIsTreeCollapsed,
+    onCommitChanges
+}) => {
+    return (
+        <div className="cb-standalone-property-inspector-header">
+            <div className="cb-standalone-property-inspector-header-label">
+                PROPERTIES
+            </div>
+            <CommandBar
+                items={[]}
+                farItems={[
+                    {
+                        key: 'expandTree',
+                        text: 'Expand tree',
+                        ariaLabel: 'Expand tree',
+                        iconOnly: true,
+                        iconProps: { iconName: 'ExploreContent' },
+                        onClick: () => setIsTreeCollapsed(false)
+                    },
+                    {
+                        key: 'collapseTree',
+                        text: 'Collapse tree',
+                        ariaLabel: 'Collapse tree',
+                        iconOnly: true,
+                        iconProps: { iconName: 'CollapseContent' },
+                        onClick: () => setIsTreeCollapsed(true)
+                    },
+                    {
+                        key: 'save',
+                        text: 'Save',
+                        ariaLabel: 'Save',
+                        iconOnly: true,
+                        iconProps: { iconName: 'Save' },
+                        onClick: () => onCommitChanges()
+                    }
+                ]}
             />
         </div>
     );

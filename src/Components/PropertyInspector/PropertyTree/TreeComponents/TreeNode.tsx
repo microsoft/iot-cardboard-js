@@ -15,7 +15,7 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                 <TreeNodeSetUnset node={node} />
             </div>
             {!node.isCollapsed && node.children && (
-                <Tree data={node.children} />
+                <Tree data={node.children} isChildTree={true} />
             )}
         </>
     );

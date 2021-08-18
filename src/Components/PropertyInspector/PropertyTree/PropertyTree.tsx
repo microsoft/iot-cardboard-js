@@ -32,9 +32,13 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     );
 };
 
-export const Tree: React.FC<TreeProps> = ({ data }) => {
+export const Tree: React.FC<TreeProps> = ({ data, isChildTree = false }) => {
     return (
-        <ul className="cb-property-tree-list-group">
+        <ul
+            className={`cb-property-tree-list-group${
+                isChildTree ? ' cb-is-child-tree' : ''
+            }`}
+        >
             {data.map((node) => {
                 return (
                     <li className="cb-property-tree-list-item" key={node.name}>
