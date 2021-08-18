@@ -1,18 +1,9 @@
 import React from 'react';
 import './StepperWizard.scss';
 import { Stepper } from './Components/Stepper';
+import { IStepperWizardProps } from '../../Models/Constants/Interfaces';
 
-export interface IStepperWizardStep {
-    label: string;
-    onClick?: () => void;
-}
-
-interface StepperWizardProps {
-    steps: Array<IStepperWizardStep>;
-    currentStepIndex?: number;
-}
-
-const StepperWizard = ({ steps, currentStepIndex }: StepperWizardProps) => {
+const StepperWizard = ({ steps, currentStepIndex }: IStepperWizardProps) => {
     return (
         <div className={'cb-stepper-wizard'}>
             <Stepper steps={steps} currentStepIndex={currentStepIndex} />

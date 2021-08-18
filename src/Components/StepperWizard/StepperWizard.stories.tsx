@@ -1,5 +1,6 @@
 import React from 'react';
-import StepperWizard, { IStepperWizardStep } from './StepperWizard';
+import { IStepperWizardStep } from '../../Models/Constants/Interfaces';
+import StepperWizard from './StepperWizard';
 
 export default {
     title: 'Components/StepperWizard'
