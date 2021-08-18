@@ -4,8 +4,9 @@
     .cb-standalone-property-inspector-header {
         align-items: center;
         display: flex;
-        > button {
-            margin-left: 16px;
-        }
+    }
+    .cb-standalone-property-inspector-header-label {
+        flex-grow: 1;
+        font-size: 12px;
     }
 }

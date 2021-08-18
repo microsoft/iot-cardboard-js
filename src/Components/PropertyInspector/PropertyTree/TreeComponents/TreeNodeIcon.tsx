@@ -6,7 +6,7 @@ const TreeNodeIcon = () => {
     // TODO update with actual property type icons
     return (
         <div className="cb-property-tree-node-icon">
-            <Icon iconName={'CircleFill'} />
+            {/* <Icon iconName={'CircleFill'} /> */}
         </div>
     );
 };
