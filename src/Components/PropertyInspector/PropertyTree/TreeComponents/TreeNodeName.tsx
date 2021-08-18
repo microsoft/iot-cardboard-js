@@ -31,7 +31,15 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 <Chevron collapsed={node.isCollapsed} />
                 <div className="cb-property-tree-parent-node-inset">
                     <TreeNodeIcon node={node} />
-                    <div>{node.displayName ?? node.name}:</div>
+                    <div
+                        className={`${
+                            node.edited
+                                ? 'cb-property-tree-node-name-edited'
+                                : ''
+                        }`}
+                    >
+                        {node.displayName ?? node.name}:
+                    </div>
                 </div>
             </div>
         );
@@ -39,7 +47,13 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
         return (
             <div className="cb-property-tree-node-name">
                 <TreeNodeIcon node={node} />
-                {node.displayName ?? node.name}:
+                <div
+                    className={`${
+                        node.edited ? 'cb-property-tree-node-name-edited' : ''
+                    }`}
+                >
+                    {node.displayName ?? node.name}:
+                </div>
             </div>
         );
     }

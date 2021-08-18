@@ -95,7 +95,16 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     draft,
                     node
                 );
+                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    originalTree(),
+                    node
+                );
                 targetNode.isSet = true;
+                if (originalNode.isSet !== targetNode.isSet) {
+                    targetNode.edited = true;
+                } else {
+                    targetNode.edited = false;
+                }
             })
         );
     };
@@ -107,23 +116,37 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     draft,
                     node
                 );
+                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    originalTree(),
+                    node
+                );
 
                 const setNodeToDefaultValue = (
-                    nodeToUnset: PropertyTreeNode
+                    nodeToUnset: PropertyTreeNode,
+                    isChildNode = false
                 ) => {
+                    if (isChildNode) {
+                        nodeToUnset.edited = false;
+                    }
                     nodeToUnset.value = PropertyInspectorModelRef.current.getEmptyValueForNode(
                         nodeToUnset.schema
                     );
                     if (nodeToUnset.children) {
                         // Unsetting object should set all children values to default
                         nodeToUnset.children.forEach((child) => {
-                            setNodeToDefaultValue(child);
+                            setNodeToDefaultValue(child, true);
                         });
                     }
                 };
 
                 setNodeToDefaultValue(targetNode);
                 targetNode.isSet = false;
+
+                if (originalNode.isSet !== targetNode.isSet) {
+                    targetNode.edited = true;
+                } else {
+                    targetNode.edited = false;
+                }
             })
         );
     };
