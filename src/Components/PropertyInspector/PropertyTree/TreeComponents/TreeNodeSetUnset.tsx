@@ -54,7 +54,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
                         }}
                         title={'Unset property'}
                     >
-                        <Icon iconName={'Remove'} styles={iconStyles} />
+                        <Icon iconName={'Cancel'} styles={iconStyles} />
                     </div>
                 )
             );
