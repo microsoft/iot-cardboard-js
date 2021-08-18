@@ -271,5 +271,25 @@
         "Add": "Add",
         "Search": "Search",
         "Date/Time": "Date/Time"
+    },
+    "propertyInspector": {
+        "property": "Property",
+        "component": "Component",
+        "propertyTypes": {
+            "boolean": "Boolean",
+            "date": "Date",
+            "dateTime": "Date-time",
+            "double": "Double",
+            "float": "Float",
+            "long": "Long",
+            "duration": "Duration",
+            "integer": "Integer",
+            "string": "String",
+            "time": "Time",
+            "enum": "Enum",
+            "map": "Map",
+            "array": "Array",
+            "object": "Object"
+        }
     }
 }
