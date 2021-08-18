@@ -14,6 +14,8 @@
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
     "noTwins": "No twins",
     "noModels": "No models",
+    "true": "True",
+    "false": "False",
     "on": "On",
     "off": "Off",
     "wrapText": "Wrap text",
@@ -273,7 +275,8 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
-        "commandBarTitle": "PROPERTIES",
+        "commandBarTitleTwin": "TWIN PROPERTIES",
+        "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",
         "unsetProperty": "Unset property",
         "unset": "unset",

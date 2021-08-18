@@ -12,6 +12,11 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
             <div className="cb-property-tree-node">
                 <TreeNodeName node={node} />
                 <TreeNodeValue node={node} />
+                {node.unit && (
+                    <div className="cb-property-tree-node-unit">
+                        {node.unit}
+                    </div>
+                )}
                 <TreeNodeSetUnset node={node} />
             </div>
             {!node.isCollapsed && node.children && (

@@ -94,4 +94,16 @@
             background-color: var(--cb-color-icon-hover-bg);
         }
     }
+    .cb-property-tree-node-unit {
+        font-size: 10px;
+        font-style: italic;
+        margin-right: 8px;
+    }
+    .cb-property-tree-node-name-metadata,
+    .cb-property-tree-node-value-metadata {
+        font-family: monospace;
+    }
+    .cb-property-tree-node-boolean-value-label {
+        margin-left: 4px;
+    }
 }

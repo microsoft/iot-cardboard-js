@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = (
     props
 ) => {
+    const { t } = useTranslation();
     const PropertyInspectorModelRef = useRef(
         new PropertyInspectorModel(
             (props.inputData as TwinParams)?.expandedModel
@@ -51,6 +52,10 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     const [propertyTreeNodes, setPropertyTreeNodes] = useState<
         PropertyTreeNode[]
     >(originalTree());
+
+    const undoAllChanges = () => {
+        setPropertyTreeNodes(originalTree());
+    };
 
     const onParentClick = (parent: PropertyTreeNode) => {
         setPropertyTreeNodes(
@@ -190,6 +195,12 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             <StandalonePropertyInspectorCommandBar
                 setIsTreeCollapsed={setIsTreeCollapsed}
                 onCommitChanges={onCommitChanges}
+                undoAllChanges={undoAllChanges}
+                commandBarTitle={
+                    isTwin(props.inputData)
+                        ? t('propertyInspector.commandBarTitleTwin')
+                        : t('propertyInspector.commandBarTitleRelationship')
+                }
             />
             <PropertyTree
                 data={propertyTreeNodes}
@@ -206,21 +217,33 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 type StandalonePropertyInspectorCommandBarProps = {
     setIsTreeCollapsed: (isCollapsed: boolean) => any;
     onCommitChanges: () => any;
+    undoAllChanges: () => any;
+    commandBarTitle: string;
 };
 
 const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspectorCommandBarProps> = ({
     setIsTreeCollapsed,
-    onCommitChanges
+    onCommitChanges,
+    undoAllChanges,
+    commandBarTitle
 }) => {
     const { t } = useTranslation();
     return (
         <div className="cb-standalone-property-inspector-header">
             <div className="cb-standalone-property-inspector-header-label">
-                {t('propertyInspector.commandBarTitle')}
+                {commandBarTitle}
             </div>
             <CommandBar
                 items={[]}
                 farItems={[
+                    {
+                        key: 'undoAll',
+                        text: 'Undo all changes',
+                        ariaLabel: 'Undo all changes',
+                        iconOnly: true,
+                        iconProps: { iconName: 'Undo' },
+                        onClick: () => undoAllChanges()
+                    },
                     {
                         key: 'expandTree',
                         text: 'Expand tree',
@@ -239,8 +262,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                     },
                     {
                         key: 'save',
-                        text: 'Save',
-                        ariaLabel: 'Save',
+                        text: 'Save changes',
+                        ariaLabel: 'Save changes',
                         iconOnly: true,
                         iconProps: { iconName: 'Save' },
                         onClick: () => onCommitChanges()

@@ -3,8 +3,10 @@ import { dtdlPropertyTypesEnum } from '../../../..';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
+import { useTranslation } from 'react-i18next';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
+    const { t } = useTranslation();
     const { onNodeValueChange, readonly } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
@@ -26,6 +28,11 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                             onNodeValueChange(node, e.target.checked)
                         }
                     />
+                    {node.isSet && (
+                        <div className="cb-property-tree-node-boolean-value-label">
+                            {node.value ? t('true') : t('false')}
+                        </div>
+                    )}
                 </div>
             );
         case dtdlPropertyTypesEnum.date:
@@ -130,7 +137,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.string:
             if (!node.writable || readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div
+                        className={`cb-property-tree-node-value ${
+                            node.isMetadata
+                                ? 'cb-property-tree-node-value-metadata'
+                                : ''
+                        }`}
+                    >
                         {node.value}
                     </div>
                 );

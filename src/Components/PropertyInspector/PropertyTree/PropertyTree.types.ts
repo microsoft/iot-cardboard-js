@@ -20,6 +20,7 @@ export interface PropertyTreeNode {
     complexPropertyData?: EnumPropertyData;
     unit?: string;
     edited?: boolean;
+    isMetadata?: boolean;
 }
 
 type EnumPropertyData = {

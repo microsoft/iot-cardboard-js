@@ -18,6 +18,9 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     let iconName = 'FieldEmpty';
     let iconTitle = t('propertyInspector.property');
 
+    // No icon for metadata nodes
+    if (node.isMetadata) return null;
+
     if (node.type === DTDLType.Component) {
         iconName = 'OEM';
         iconTitle = t('propertyInspector.component');

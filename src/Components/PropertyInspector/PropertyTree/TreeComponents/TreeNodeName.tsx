@@ -33,6 +33,10 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                     <TreeNodeIcon node={node} />
                     <div
                         className={`${
+                            node.isMetadata
+                                ? 'cb-property-tree-node-name-metadata'
+                                : ''
+                        } ${
                             node.edited
                                 ? 'cb-property-tree-node-name-edited'
                                 : ''
@@ -49,6 +53,10 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 <TreeNodeIcon node={node} />
                 <div
                     className={`${
+                        node.isMetadata
+                            ? 'cb-property-tree-node-name-metadata'
+                            : ''
+                    } ${
                         node.edited ? 'cb-property-tree-node-name-edited' : ''
                     }`}
                 >

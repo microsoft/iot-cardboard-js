@@ -234,7 +234,8 @@ class PropertyInspectorModel {
                     isObjectChild: false,
                     inherited: false,
                     isRemovable: false,
-                    isSet: true
+                    isSet: true,
+                    isMetadata: true
                 });
             }
         });
@@ -387,7 +388,8 @@ class PropertyInspectorModel {
                     value: undefined,
                     isObjectChild,
                     inherited,
-                    isRemovable: false
+                    isRemovable: false,
+                    isMetadata: true
                 };
             } else {
                 return {
@@ -402,7 +404,8 @@ class PropertyInspectorModel {
                     type: DTDLType.Property,
                     isObjectChild,
                     inherited,
-                    isRemovable: false
+                    isRemovable: false,
+                    isMetadata: true
                 };
             }
         };
@@ -492,8 +495,14 @@ class PropertyInspectorModel {
     setIsTreeCollapsed = (nodes: PropertyTreeNode[], isCollapsed: boolean) => {
         nodes.forEach((node) => {
             if (node.children) {
-                node.isCollapsed = isCollapsed;
-                this.setIsTreeCollapsed(node.children, isCollapsed);
+                // Exclude metadata properties from expanding
+                if (!isCollapsed && !node.name.startsWith('$')) {
+                    node.isCollapsed = isCollapsed;
+                    this.setIsTreeCollapsed(node.children, isCollapsed);
+                } else if (isCollapsed) {
+                    node.isCollapsed = isCollapsed;
+                    this.setIsTreeCollapsed(node.children, isCollapsed);
+                }
             }
         });
     };
