@@ -137,3 +137,7 @@ export const getModelContentUnit = (
 ) => {
     return Array.isArray(type) && type[1] ? property?.unit : null;
 };
+
+export const createDTDLModelId = (name) => {
+    return `dtmi:assetGen:${name};1`;
+};

@@ -16,7 +16,9 @@ export enum Locale {
 export enum CardErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',
+    DataUploadFailed = 'DataUploadFailed',
     InvalidCardType = 'InvalidCardType',
+    ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError'
 }
 
@@ -38,6 +40,21 @@ export enum CardTypes {
     LKVProcessGraphicCard = 'LKVProcessGraphicCard',
     RelationshipsTable = 'RelationshipsTable',
     InfoTable = 'InfoTable'
+}
+
+export enum BIMUploadState {
+    PreProcessing = 'preProcessing',
+    PreUpload = 'preUpload',
+    InUpload = 'inUpload',
+    PostUpload = 'postUpload'
+}
+
+export enum UploadPhase {
+    PreUpload = 'preupload',
+    Uploading = 'uploading',
+    Succeeded = 'succeeded',
+    PartiallyFailed = 'partiallyfailed',
+    Failed = 'failed'
 }
 
 export enum modelActionType {
@@ -62,4 +79,10 @@ export enum FormMode {
 export enum propertyInspectorPatchMode {
     twin,
     relationship
+}
+
+export enum AssetTypes {
+    Models = 'models',
+    Twins = 'twins',
+    Relationships = 'relationships'
 }
