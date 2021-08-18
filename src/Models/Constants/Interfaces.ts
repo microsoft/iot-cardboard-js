@@ -31,7 +31,6 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins
 } from './Types';
-import { SimulationAdapterData } from '../Classes/AdapterDataClasses/SimulationAdapterData';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
@@ -434,19 +433,6 @@ export interface DTwinRelationship {
     $targetId: string;
     $name: string;
     targetModel?: string;
-}
-
-export interface ISimulationAdapter {
-    adtHostUrl: string;
-    packetNumber: number;
-    createModels(models: DTModel[]): AdapterReturnType<SimulationAdapterData>;
-    createTwins(twins: DTwin[]): AdapterReturnType<SimulationAdapterData>;
-    updateTwins(
-        events: Array<DTwinUpdateEvent>
-    ): AdapterReturnType<SimulationAdapterData>;
-    createRelationships(
-        relationships: DTwinRelationship[]
-    ): AdapterReturnType<SimulationAdapterData>;
 }
 
 export interface IAdtPusherSimulation {
