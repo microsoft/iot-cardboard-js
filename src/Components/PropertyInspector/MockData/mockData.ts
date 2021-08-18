@@ -3,6 +3,20 @@ export const mockTwin = {
     $etag: 'W/"7cece777-dbf3-47ca-947e-5842ff8021fb"',
     CarName: 'Slaaaa',
     CarPackage: 'Basic',
+    BatteryDeadState: false,
+    Mileage: 18324,
+    BatteryLevel: 92,
+    BatteryCapacity: 75,
+    WheelInformation: {
+        leftFrontPressure: 42,
+        rightFrontPressure: 43,
+        leftRearPressure: 42,
+        rightRearPressure: 44,
+        tireSpecification: {
+            tireModel: 'Standard',
+            tireWidth: '18'
+        }
+    },
     address: {
         $metadata: {}
     },

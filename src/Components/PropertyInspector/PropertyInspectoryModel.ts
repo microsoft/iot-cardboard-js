@@ -17,6 +17,12 @@ import {
     getModelContentType
 } from '../../Models/Services/Utils';
 
+/** Utility class for standalone property inspector.  This class is responsible for:
+ *  - Merging set and modelled properties and constructing property tree nodes;
+ *  - Finding nodes in the property tree
+ *  - Comparing edited and original data to generate JSON patch delta
+ *  - Various utitilies to do with PropertyInspector model
+ */
 class PropertyInspectorModel {
     expandedModel: DtdlInterface[];
 
@@ -24,6 +30,7 @@ class PropertyInspectorModel {
         this.expandedModel = expandedModel;
     }
 
+    /** Looks up property on Twin | Relationship or returns default value if unset */
     getPropertyValueOrDefault = (
         property: DtdlInterfaceContent,
         propertySourceObject: Record<string, any>,
@@ -35,6 +42,9 @@ class PropertyInspectorModel {
         );
     };
 
+    /** Returns default value that matches input schema
+     *  Note: numeric types return empty string to represent empty input box
+     */
     getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
         switch (schema) {
             case dtdlPropertyTypesEnum.string:
@@ -63,6 +73,10 @@ class PropertyInspectorModel {
         }
     };
 
+    /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
+     *  This method is called recursively for nested types. Values which have been set
+     *  are attached to nodes.
+     */
     parsePropertyIntoNode = ({
         inherited,
         isObjectChild,
@@ -198,6 +212,7 @@ class PropertyInspectorModel {
         }
     };
 
+    /** Merges relationship data returned by ADT API with the DTDL relationship model. */
     parseRelationshipIntoPropertyTree = (
         relationship: IADTRelationship,
         relationshipModel: DtdlRelationship
@@ -242,6 +257,8 @@ class PropertyInspectorModel {
         return treeNodes;
     };
 
+    /** Parses DTDL Properties and Components into PropertyTreeNodes.
+     *  Note: Telemetry, Commands, and Relationships are currently unupported */
     parseModelContentsIntoNodes = ({
         contents,
         path,
@@ -321,6 +338,8 @@ class PropertyInspectorModel {
         return treeNodes;
     };
 
+    /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
+     *  is an instance of. */
     parseTwinIntoPropertyTree = ({
         inherited,
         path,
@@ -449,6 +468,7 @@ class PropertyInspectorModel {
         return treeNodes;
     };
 
+    /** Recursively searches all nodes in the property tree to find a target node */
     findPropertyTreeNodeRefRecursively = (
         nodes: PropertyTreeNode[],
         targetNode: PropertyTreeNode
@@ -468,6 +488,7 @@ class PropertyInspectorModel {
         return null;
     };
 
+    /** Toggles are parent node collapsed state */
     setIsTreeCollapsed = (nodes: PropertyTreeNode[], isCollapsed: boolean) => {
         nodes.forEach((node) => {
             if (node.children) {
@@ -477,6 +498,7 @@ class PropertyInspectorModel {
         });
     };
 
+    /** Utility method for checking that all object children have values set */
     verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
         let everyChildHasValue = true;
         tree.forEach((node) => {
@@ -489,6 +511,7 @@ class PropertyInspectorModel {
         return everyChildHasValue;
     };
 
+    /** Transforms property tree nodes into JSON, retaining values only*/
     parseDataFromPropertyTree = (tree: PropertyTreeNode[], newJson = {}) => {
         tree.forEach((node) => {
             if (node.isSet || node.isObjectChild) {
@@ -507,6 +530,7 @@ class PropertyInspectorModel {
         return newJson;
     };
 
+    /** Generates JSON patch using delta between original json and updated property tree */
     generatePatchData = (
         originalJson: any,
         newTree: PropertyTreeNode[]

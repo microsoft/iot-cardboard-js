@@ -24,15 +24,19 @@ type RelationshipPropertyInspectorProps = {
     twinId: string;
 };
 
+type PropertyInspectorProps =
+    | TwinPropertyInspectorProps
+    | RelationshipPropertyInspectorProps;
+
+/** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
 const isTwin = (
-    props: TwinPropertyInspectorProps | RelationshipPropertyInspectorProps
+    props: PropertyInspectorProps
 ): props is TwinPropertyInspectorProps => {
     return (props as TwinPropertyInspectorProps).relationshipId === undefined;
 };
 
-const PropertyInspector: React.FC<
-    TwinPropertyInspectorProps | RelationshipPropertyInspectorProps
-> = (props) => {
+/** Cardboard data layer wrapper component around StandalonePropertyInspector */
+const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     const { t } = useTranslation();
     const [inputData, setInputData] = useState<TwinParams | RelationshipParams>(
         null
@@ -88,10 +92,8 @@ const PropertyInspector: React.FC<
     // On mount, fetch necessary data for twin | relationship
     useEffect(() => {
         if (isTwin(props)) {
-            // Fetch ADT twin data
             twinData.callAdapter({ twinId: props.twinId });
         } else {
-            // Fetch ADT relationship data
             relationshipData.callAdapter({
                 twinId: props.twinId,
                 relationshipId: props.relationshipId
@@ -108,8 +110,8 @@ const PropertyInspector: React.FC<
         }
     }, [relationshipData.adapterResult]);
 
-    // Use model ID from twin metadata to fetch target model and
-    // flat expanded list of all models referenced
+    // Once twin data is resolved, use model ID from twin metadata
+    // to fetch target model and flat expanded list of all models referenced
     useEffect(() => {
         const twin = twinData.adapterResult.getData();
         if (twin && !modelData.adapterResult.getData()) {
@@ -120,7 +122,7 @@ const PropertyInspector: React.FC<
         }
     }, [twinData.adapterResult]);
 
-    // Combine twin, target model, and expanded models into input data object
+    // Combine twin or relationship and model data into input data object
     useEffect(() => {
         const data = modelData.adapterResult.getData();
         if (isTwin(props) && data) {
@@ -177,25 +179,15 @@ const PropertyInspector: React.FC<
         }
     };
 
-    // Notify when patch data returned
+    // Actions upon patch completion
     useEffect(() => {
         if (patchTwinData.adapterResult.getData()) {
-            console.log(
-                'Twin patched: ',
-                patchTwinData.adapterResult.getData()
-            );
-
-            // Refetch twin after patch
-            twinData.callAdapter({ twinId: props.twinId });
+            twinData.callAdapter({ twinId: props.twinId }); // refetch twin after patch
         }
 
         if (patchRelationshipData.adapterResult.getData()) {
-            console.log(
-                'Relationship patched: ',
-                patchRelationshipData.adapterResult.getData()
-            );
-
             relationshipData.callAdapter({
+                // refetch relationship after patch
                 twinId: props.twinId,
                 relationshipId: props.relationshipId
             });
@@ -206,7 +198,13 @@ const PropertyInspector: React.FC<
         return <div>{t('loading')}</div>;
 
     if (!inputData) {
-        return <div>No data found</div>;
+        return (
+            <div className="cb-property-inspector-no-data">
+                {isTwin(props)
+                    ? t('propertyInspector.noTwinFound')
+                    : t('propertyInspector.noRelationshipFound')}
+            </div>
+        );
     }
 
     return (

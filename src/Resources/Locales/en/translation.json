@@ -273,8 +273,14 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
+        "commandBarTitle": "PROPERTIES",
+        "addProperty": "Add property",
+        "unsetProperty": "Unset property",
+        "unset": "unset",
         "property": "Property",
         "component": "Component",
+        "noTwinFound": "No Twin found",
+        "noRelationshipFound": "no Relationship found",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",

@@ -11,8 +11,13 @@ export default {
     title: 'Components/Property Inspector'
 };
 
+const propertyInspectorStoryStyles = {
+    maxWidth: '360px',
+    width: '100%'
+};
+
 export const TwinMock = () => (
-    <div style={{ maxWidth: '360px', width: '100%' }}>
+    <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
@@ -25,7 +30,7 @@ export const TwinMock = () => (
 );
 
 export const ReadOnlyTwinMock = () => (
-    <div style={{ maxWidth: '360px', width: '100%' }}>
+    <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
@@ -39,7 +44,7 @@ export const ReadOnlyTwinMock = () => (
 );
 
 export const RelationsipMock = () => (
-    <div style={{ maxWidth: '720px', width: '100%' }}>
+    <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,

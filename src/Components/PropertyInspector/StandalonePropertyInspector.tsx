@@ -11,11 +11,11 @@ import {
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { AdtPatch, propertyInspectorPatchMode } from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
+import { useTranslation } from 'react-i18next';
 
 /**
- *  StandalonePropertyInspector takes a Twin, target model, and expanded model array containing
- *  all base and component models, its parent component should handle the fetching and transformation
- *  of these objects
+ *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
+ *  This component constructs a property tree and generates a JSON delta patch on save.
  */
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = (
     props
@@ -212,10 +212,11 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     setIsTreeCollapsed,
     onCommitChanges
 }) => {
+    const { t } = useTranslation();
     return (
         <div className="cb-standalone-property-inspector-header">
             <div className="cb-standalone-property-inspector-header-label">
-                PROPERTIES
+                {t('propertyInspector.commandBarTitle')}
             </div>
             <CommandBar
                 items={[]}

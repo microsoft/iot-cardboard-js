@@ -7,8 +7,10 @@ import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
+    const { t } = useTranslation();
     const { onNodeValueUnset, onObjectAdd, readonly } = useContext(
         PropertyTreeContext
     );
@@ -30,7 +32,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
                                 e.stopPropagation();
                                 onObjectAdd(node);
                             }}
-                            title={'Add property'}
+                            title={t('propertyInspector.addProperty')}
                         >
                             <Icon iconName={'Add'} styles={iconStyles} />
                         </div>
@@ -39,7 +41,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
             } else {
                 return (
                     <div className="cb-property-tree-node-value-unset">
-                        (unset)
+                        ({t('propertyInspector.unset')})
                     </div>
                 );
             }
@@ -52,7 +54,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
                             e.stopPropagation();
                             onNodeValueUnset(node);
                         }}
-                        title={'Unset property'}
+                        title={t('propertyInspector.unsetProperty')}
                     >
                         <Icon iconName={'Cancel'} styles={iconStyles} />
                     </div>

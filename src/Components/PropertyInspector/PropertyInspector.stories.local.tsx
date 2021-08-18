@@ -8,12 +8,17 @@ export default {
     title: 'Components/Property Inspector'
 };
 
+const propertyInspectorStoryStyles = {
+    maxWidth: '360px',
+    width: '100%'
+};
+
 export const AdtTwin = (args) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ maxWidth: '360px', width: '100%' }}>
+        <div style={propertyInspectorStoryStyles}>
             <PropertyInspector
                 adapter={
                     new ADTAdapter(
@@ -41,7 +46,7 @@ export const AdtRelationship = (args) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ maxWidth: '360px', width: '100%' }}>
+        <div style={propertyInspectorStoryStyles}>
             <PropertyInspector
                 adapter={
                     new ADTAdapter(
