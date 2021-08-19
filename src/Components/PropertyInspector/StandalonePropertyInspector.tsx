@@ -227,7 +227,6 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     undoAllChanges,
     commandBarTitle
 }) => {
-    const { t } = useTranslation();
     return (
         <div className="cb-standalone-property-inspector-header">
             <div className="cb-standalone-property-inspector-header-label">
