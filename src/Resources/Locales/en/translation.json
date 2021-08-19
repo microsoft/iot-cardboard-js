@@ -43,6 +43,7 @@
     "createLinechart": "Line chart card creator",
     "noInformation": "No information provided",
     "notAvailable": "Not available",
+    "size": "Size",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"

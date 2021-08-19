@@ -1,9 +1,9 @@
 import { getTheme, Icon, ITheme, PrimaryButton } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import FilesList from './FilesList';
-import './FileUploader.scss';
+import './JsonUploader.scss';
 
-const FileUploader: React.FC = () => {
+const JsonUploader: React.FC = () => {
     const [files, setFiles] = useState<Array<File>>([]);
     const chooseFileButton = useRef(null);
     const filesRef = useRef(files);
@@ -29,7 +29,8 @@ const FileUploader: React.FC = () => {
         const selectedFiles = Array.from<File>(event.target.files);
         const existingFileNames = files.map((f) => f.name);
         selectedFiles.forEach((sF) => {
-            if (!existingFileNames.includes(sF.name)) {
+            const fileType = sF.name.split('.').pop().toLowerCase();
+            if (!existingFileNames.includes(sF.name) && fileType === 'json') {
                 newFiles.push(sF);
             }
         });
@@ -54,7 +55,6 @@ const FileUploader: React.FC = () => {
                     onClick={(_e) => chooseFileButton.current.click()}
                 />
                 <input
-                    id="myInput"
                     type="file"
                     multiple
                     ref={(ref) => (chooseFileButton.current = ref)}
@@ -70,4 +70,4 @@ const FileUploader: React.FC = () => {
     );
 };
 
-export default FileUploader;
+export default JsonUploader;

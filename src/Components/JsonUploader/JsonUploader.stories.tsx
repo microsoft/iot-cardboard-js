@@ -1,8 +1,8 @@
 import React from 'react';
-import FileUploader from './FileUploader';
+import JsonUploader from './JsonUploader';
 
 export default {
-    title: 'Components/FileUploader'
+    title: 'Components/JsonUploader'
 };
 
 export const UploadFiles = (_args) => {
@@ -13,7 +13,7 @@ export const UploadFiles = (_args) => {
                 height: '300px'
             }}
         >
-            <FileUploader />
+            <JsonUploader />
         </div>
     );
 };
