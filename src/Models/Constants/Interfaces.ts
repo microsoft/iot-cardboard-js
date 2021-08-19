@@ -416,7 +416,7 @@ export interface DTModel {
     '@type': string;
     '@context': string;
     displayName: string;
-    contents: DTModelContent[];
+    contents: readonly DTModelContent[];
     description?: string;
     comment?: string;
 }

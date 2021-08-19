@@ -35,9 +35,9 @@ export interface IDataPusherState {
     isEnvironmentReady: boolean;
     disablePastEvents: boolean;
     isOtherOptionsVisible: boolean;
-    models: DTModel[];
-    twins: DTwin[];
-    relationships: DTwinRelationship[];
+    models: readonly DTModel[];
+    twins: readonly DTwin[];
+    relationships: readonly DTwinRelationship[];
     areAssetsSet: boolean;
     simulationStatus: {
         areAssetsUploaded: boolean;

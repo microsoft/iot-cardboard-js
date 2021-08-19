@@ -82,12 +82,15 @@
         "startSimulation": "Start simulation",
         "stopSimulation": "Stop simulation",
         "days": "days",
-        "simulationStatus": "Simulation status",
+        "create": "Create",
+        "simulate": "Simulate",
         "models": "Models",
         "twins": "Twins",
         "relationships": "Relationships",
         "simulating": "Simulating",
-        "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated"
+        "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
+        "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
+        "simulateDescription": "Push events to your environment"
     },
     "BIMUpload": {
         "specifyFiles": "Specify files to upload from",

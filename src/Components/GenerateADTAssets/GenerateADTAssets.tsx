@@ -105,7 +105,11 @@ const GenerateADTAssets = ({
             } else {
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
-                    message: null,
+                    message: t('generateADTAssets.assetsPushedCount', {
+                        count: pushRelationshipsState.adapterResult.getData()
+                            ?.length,
+                        assetType: AssetTypes.Relationships
+                    }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Relationships,
                         errorCount:
@@ -142,7 +146,10 @@ const GenerateADTAssets = ({
             } else {
                 setTwinsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
-                    message: null,
+                    message: t('generateADTAssets.assetsPushedCount', {
+                        count: pushTwinsState.adapterResult.getData()?.length,
+                        assetType: AssetTypes.Twins
+                    }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Twins,
                         errorCount:

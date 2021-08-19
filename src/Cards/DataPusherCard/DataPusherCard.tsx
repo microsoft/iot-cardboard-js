@@ -75,10 +75,6 @@ const DataPusherCard = ({
             type: dataPusherActionType.SET_IS_SIMULATION_RUNNING,
             payload: false
         });
-        dispatch({
-            type: dataPusherActionType.SET_ARE_ASSETS_SET,
-            payload: false
-        });
         clearInterval(intervalRef.current);
         adapter.packetNumber = 0;
     };
@@ -161,6 +157,13 @@ const DataPusherCard = ({
         };
     }, []);
 
+    const onComplete = () => {
+        dispatch({
+            type: dataPusherActionType.SET_ARE_ASSETS_UPLOADED,
+            payload: true
+        });
+    };
+
     useEffect(() => {
         const data = updateTwinState.adapterResult?.getData();
         if (data) {
@@ -190,7 +193,6 @@ const DataPusherCard = ({
             });
         }
     }, [state.simulationStatus.areAssetsUploaded]);
-
     return (
         <BaseCard
             isLoading={false}
@@ -202,132 +204,134 @@ const DataPusherCard = ({
         >
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
-                    <AdtDataPusher adapter={adapter} />
-                    <div className="cb-datapusher-footer">
-                        <Stack
-                            horizontal
+                    <div className="cb-adt-data-pusher">
+                        <TextField
+                            label={t('dataPusher.instanceUrl')}
+                            placeholder={
+                                '<your_adt_instance_url>.digitaltwins.azure.net'
+                            }
+                            value={state.instanceUrl}
+                            onChange={(_e, newValue) =>
+                                dispatch({
+                                    type: dataPusherActionType.SET_INSTANCE_URL,
+                                    payload: newValue
+                                        .replace('https://', '')
+                                        .replace('http://', '')
+                                })
+                            }
                             styles={{
-                                root: {
-                                    width: 800
-                                }
+                                fieldGroup: { width: '600px' },
+                                root: { marginBottom: '8px' }
                             }}
-                            tokens={{ childrenGap: 16 }}
+                        />
+                        {!state.disablePastEvents && (
+                            <>
+                                <Separator
+                                    alignContent="start"
+                                    styles={separatorStyles}
+                                >
+                                    {t('dataPusher.pastEventsLabel')}
+                                </Separator>
+                                <QuickFillDataForm />
+                            </>
+                        )}
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
                         >
+                            {t('dataPusher.liveStreamLabel')}
+                        </Separator>
+                        <LiveStreamDataForm />
+                        {state.isOtherOptionsVisible && (
+                            <>
+                                <Separator
+                                    alignContent="start"
+                                    styles={separatorStyles}
+                                >
+                                    {t('dataPusher.otherOptionsLabel')}
+                                </Separator>
+                                <OtherOptionsForm />
+                            </>
+                        )}
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
+                        >
+                            {t('dataPusher.create')}
+                        </Separator>
+                        <FormFieldDescription>
+                            {t('dataPusher.generateEnvironmentDescription')}
+                        </FormFieldDescription>
+                        <div className="cb-generate-assets-container">
+                            {state.areAssetsSet && (
+                                <GenerateADTAssets
+                                    adapter={adapter}
+                                    models={state.models}
+                                    twins={state.twins}
+                                    relationships={state.relationships}
+                                    triggerUpload={state.areAssetsSet}
+                                    onComplete={onComplete}
+                                />
+                            )}
                             <PrimaryButton
                                 text={t('dataPusher.generateEnvironment')}
-                                disabled={state.isEnvironmentReady}
+                                disabled={state.areAssetsSet}
+                                className={'cb-initiate-action-button'}
                                 onClick={() => {
                                     generateEnvironment();
                                 }}
                             />
-
-                            <PrimaryButton
-                                text={
-                                    state.isSimulationRunning
-                                        ? t('dataPusher.stopSimulation')
-                                        : t('dataPusher.startSimulation')
-                                }
-                                disabled={
-                                    (!state.isSimulationRunning &&
-                                        !state.isDataBackFilled &&
-                                        !state.isLiveDataSimulated) ||
-                                    !state.isEnvironmentReady
-                                }
-                                onClick={() =>
-                                    state.isSimulationRunning
-                                        ? stopSimulation()
-                                        : startSimulation()
-                                }
-                            />
-                        </Stack>
+                        </div>
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
+                        >
+                            {t('dataPusher.simulate')}
+                        </Separator>
+                        <FormFieldDescription>
+                            {t('dataPusher.simulateDescription')}
+                        </FormFieldDescription>
+                        <div>
+                            {!!state.isSimulationRunning && (
+                                <ProgressIndicator
+                                    label={t('dataPusher.simulating')}
+                                    description={t('dataPusher.liveStatus', {
+                                        packetNumber:
+                                            state.simulationStatus.liveStatus
+                                                ?.packetNumber ?? 0,
+                                        totalSuccessfulPatches:
+                                            state.simulationStatus.liveStatus
+                                                ?.totalSuccessfulPatches ?? 0,
+                                        totalTwinsPatched:
+                                            state.simulationStatus.liveStatus
+                                                ?.totalTwinsPatched ?? 0
+                                    })}
+                                />
+                            )}
+                        </div>
+                        <PrimaryButton
+                            text={
+                                state.isSimulationRunning
+                                    ? t('dataPusher.stopSimulation')
+                                    : t('dataPusher.startSimulation')
+                            }
+                            disabled={
+                                (!state.isSimulationRunning &&
+                                    !state.isDataBackFilled &&
+                                    !state.isLiveDataSimulated) ||
+                                !state.isEnvironmentReady
+                            }
+                            onClick={() =>
+                                state.isSimulationRunning
+                                    ? stopSimulation()
+                                    : startSimulation()
+                            }
+                            className={'cb-initiate-action-button'}
+                        />
                     </div>
                 </div>
             </DataPusherContext.Provider>
         </BaseCard>
-    );
-};
-
-const AdtDataPusher = ({ adapter }) => {
-    const { t } = useTranslation();
-    const { state, dispatch } = useDataPusherContext();
-    const onComplete = () => {
-        dispatch({
-            type: dataPusherActionType.SET_ARE_ASSETS_UPLOADED,
-            payload: true
-        });
-    };
-    return (
-        <div className="cb-adt-data-pusher">
-            <TextField
-                label={t('dataPusher.instanceUrl')}
-                placeholder={'<your_adt_instance_url>.digitaltwins.azure.net'}
-                value={state.instanceUrl}
-                onChange={(_e, newValue) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_INSTANCE_URL,
-                        payload: newValue
-                            .replace('https://', '')
-                            .replace('http://', '')
-                    })
-                }
-                styles={{
-                    fieldGroup: { width: '600px' },
-                    root: { marginBottom: '8px' }
-                }}
-            />
-            {!state.disablePastEvents && (
-                <>
-                    <Separator alignContent="start" styles={separatorStyles}>
-                        {t('dataPusher.pastEventsLabel')}
-                    </Separator>
-                    <QuickFillDataForm />
-                </>
-            )}
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.liveStreamLabel')}
-            </Separator>
-            <LiveStreamDataForm />
-            {state.isOtherOptionsVisible && (
-                <>
-                    <Separator alignContent="start" styles={separatorStyles}>
-                        {t('dataPusher.otherOptionsLabel')}
-                    </Separator>
-                    <OtherOptionsForm />
-                </>
-            )}
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.simulationStatus')}
-            </Separator>
-            <div>
-                {!state.isSimulationRunning ? (
-                    <div className="cb-generate-assets-container">
-                        <GenerateADTAssets
-                            adapter={adapter}
-                            models={state.models}
-                            twins={state.twins}
-                            relationships={state.relationships}
-                            triggerUpload={state.areAssetsSet}
-                            onComplete={onComplete}
-                        />
-                    </div>
-                ) : (
-                    <ProgressIndicator
-                        label={t('dataPusher.simulating')}
-                        description={t('dataPusher.liveStatus', {
-                            packetNumber:
-                                state.simulationStatus.liveStatus
-                                    ?.packetNumber ?? 0,
-                            totalSuccessfulPatches:
-                                state.simulationStatus.liveStatus
-                                    ?.totalSuccessfulPatches ?? 0,
-                            totalTwinsPatched:
-                                state.simulationStatus.liveStatus
-                                    ?.totalTwinsPatched ?? 0
-                        })}
-                    />
-                )}
-            </div>
-        </div>
     );
 };
 
