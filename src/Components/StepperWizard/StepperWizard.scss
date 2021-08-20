@@ -1,0 +1,46 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-stepper-wizard {
+    font-size: 14px;
+
+    .cb-stepper-wizard-step {
+        align-items: center;
+        cursor: pointer;
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 2px;
+
+        &.cb-step-is-selected {
+            font-weight: 600;
+        }
+    }
+
+    .cb-stepper-wizard-step-circle {
+        background: transparent;
+        border: 2px solid var(--cb-color-natural-light);
+        border-radius: 16px;
+        height: 16px;
+        width: 16px;
+
+        &.cb-step-is-finished,
+        &.cb-step-is-selected {
+            background: var(--cb-color-theme-primary);
+            border-color: var(--cb-color-theme-primary);
+        }
+    }
+
+    .cb-stepper-wizard-stepper-separator {
+        padding: 0 9px 2px;
+    }
+
+    .cb-stepper-wizard-stepper-separator-line {
+        background: var(--cb-color-natural-light);
+        height: 20px;
+        width: 2px;
+
+        &.cb-step-is-finished {
+            background: var(--cb-color-theme-primary);
+        }
+    }
+}
