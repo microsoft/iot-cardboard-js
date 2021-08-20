@@ -44,6 +44,7 @@
     "noInformation": "No information provided",
     "notAvailable": "Not available",
     "size": "Size",
+    "upload": "Upload",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -114,7 +115,7 @@
     },
     "uploadProgress": {
         "uploading": "Uploading {{assetType}}",
-        "uploadSuccess": "Uploaded {{assetType}}",
+        "uploadSuccess": "Uploaded {{assetType}} successfully",
         "uploadPartiallyFailed": "Uploaded {{assetType}} with some failures",
         "uploadFailed": "Failed to upload {{assetType}} "
     },

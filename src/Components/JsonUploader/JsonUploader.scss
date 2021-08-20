@@ -3,6 +3,7 @@
 .cb-file-uploader {
     display: flex;
     flex-direction: column;
+    min-height: 0;
     width: 100%;
 
     .cb-drop-files-container {
@@ -17,5 +18,15 @@
     .cb-choose-file-button {
         font-size: 13px;
         margin-top: 20px;
+    }
+
+    .cb-file-list {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .cb-warning-icon {
+        font-size: 16px;
     }
 }

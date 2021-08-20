@@ -82,7 +82,7 @@ export enum AssetTypes {
     Relationships = 'relationships'
 }
 
-export enum FileUploadedStatus {
+export enum FileUploadStatus {
     Uploading = 'uploading',
     Uploaded = 'uploaded'
 }

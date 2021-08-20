@@ -1,12 +1,20 @@
 import { getTheme, Icon, ITheme, PrimaryButton } from '@fluentui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 import FilesList from './FilesList';
 import './JsonUploader.scss';
 
-const JsonUploader: React.FC = () => {
+function JsonUploader(_props, ref) {
     const [files, setFiles] = useState<Array<File>>([]);
     const chooseFileButton = useRef(null);
     const filesRef = useRef(files);
+    const fileListRef = useRef();
 
     const theme: ITheme = getTheme();
     const { palette } = theme;
@@ -42,6 +50,12 @@ const JsonUploader: React.FC = () => {
         setFiles(filesRef.current.filter((_f, idx) => idx !== index));
     }, []);
 
+    useImperativeHandle(ref, () => ({
+        getJsonItems: () => {
+            return (fileListRef.current as any)?.getItemContents();
+        }
+    }));
+
     return (
         <div className={'cb-file-uploader'}>
             <div
@@ -65,9 +79,10 @@ const JsonUploader: React.FC = () => {
             <FilesList
                 files={files}
                 onRemoveFile={removeFileHandler}
+                ref={fileListRef}
             ></FilesList>
         </div>
     );
-};
+}
 
-export default JsonUploader;
+export default forwardRef(JsonUploader);

@@ -1,7 +1,9 @@
 import {
+    ColumnActionsMode,
     DetailsList,
     DetailsListLayoutMode,
     DirectionalHint,
+    FontIcon,
     IconButton,
     MessageBar,
     MessageBarType,
@@ -10,9 +12,16 @@ import {
     TooltipHost
 } from '@fluentui/react';
 import prettyBytes from 'pretty-bytes';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { FileUploadedStatus } from '../../Models/Constants';
+import { FileUploadStatus } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import { useId } from '@fluentui/react-hooks';
 
@@ -25,10 +34,10 @@ interface IFileItem {
     name: string;
     size: string;
     content?: JSON | Error;
-    status: FileUploadedStatus;
+    status: FileUploadStatus;
 }
 
-const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
+function FilesList({ files, onRemoveFile }: IFilesList, ref) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
     const [isLoadFinished, setIsLoadFinished] = useState(false);
@@ -42,7 +51,7 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
                     ({
                         name: f.name,
                         size: prettyBytes(f.size),
-                        status: FileUploadedStatus.Uploading
+                        status: FileUploadStatus.Uploading
                     } as IFileItem)
             ) ?? [],
         [files]
@@ -54,12 +63,15 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
 
     useEffect(() => {
         files?.forEach(async (f, idx) => {
-            try {
-                const content = await f.text();
-                listItems[idx].content = JSON.parse(content);
-            } catch (error) {
-                listItems[idx].content = new Error(error);
+            if (listItems[idx].content === undefined) {
+                try {
+                    const content = await f.text();
+                    listItems[idx].content = JSON.parse(content);
+                } catch (error) {
+                    listItems[idx].content = new Error(error);
+                }
             }
+
             if (idx === files.length - 1) {
                 setIsLoadFinished(true);
             }
@@ -75,13 +87,29 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
         onRemoveFile(index);
     }, []);
 
+    useImperativeHandle(ref, () => ({
+        getItemContents: () => {
+            return listItems
+                .filter((i) => !(i.content instanceof Error))
+                .reduce((acc, currItem) => {
+                    if (Array.isArray(currItem.content)) {
+                        acc = acc.concat(currItem.content);
+                    } else {
+                        acc.push(currItem.content);
+                    }
+                    return acc;
+                }, []);
+        }
+    }));
+
     return (
         <>
             <DetailsList
+                className="cb-file-list"
                 items={listItems}
                 columns={[
                     {
-                        key: 'cb-file-uploader-column-name',
+                        key: 'cb-file-list-column-name',
                         name: t('name'),
                         minWidth: 210,
                         maxWidth: 350,
@@ -89,14 +117,41 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
                         onRender: (item: IFileItem) => <span>{item.name}</span>
                     },
                     {
-                        key: 'cb-file-uploader-column-size',
+                        key: 'cb-file-list-column-size',
                         name: t('size'),
                         minWidth: 110,
                         maxWidth: 250,
                         onRender: (item: IFileItem) => <span>{item.size}</span>
                     },
                     {
-                        key: 'cb-file-uploader-column-actions',
+                        key: 'cb-file-list-column-status',
+                        name: '',
+                        minWidth: 40,
+                        columnActionsMode: ColumnActionsMode.disabled,
+                        onRender: (item: IFileItem) =>
+                            isLoadFinished &&
+                            item.content instanceof Error && (
+                                <ViewWithTooltip
+                                    tooltipContent={
+                                        <MessageBar
+                                            className={'cb-no-models-error'}
+                                            messageBarType={
+                                                MessageBarType.error
+                                            }
+                                        >
+                                            {item.content.toString()}
+                                        </MessageBar>
+                                    }
+                                >
+                                    <FontIcon
+                                        iconName="Warning"
+                                        className="cb-warning-icon  "
+                                    ></FontIcon>
+                                </ViewWithTooltip>
+                            )
+                    },
+                    {
+                        key: 'cb-file-list-column-actions',
                         name: t('action'),
                         minWidth: 110,
                         maxWidth: 250,
@@ -114,29 +169,14 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
                                             }}
                                         />
                                     ) : (
-                                        <ViewWithTooltip
-                                            tooltipContent={
-                                                <MessageBar
-                                                    className={
-                                                        'cb-no-models-error'
-                                                    }
-                                                    messageBarType={
-                                                        MessageBarType.error
-                                                    }
-                                                >
-                                                    {item.content.toString()}
-                                                </MessageBar>
-                                            }
-                                        >
-                                            <IconButton
-                                                iconProps={{
-                                                    iconName: 'FileCode'
-                                                }}
-                                                title={t('view')}
-                                                ariaLabel={t('view')}
-                                                disabled
-                                            />
-                                        </ViewWithTooltip>
+                                        <IconButton
+                                            iconProps={{
+                                                iconName: 'FileCode'
+                                            }}
+                                            title={t('view')}
+                                            ariaLabel={t('view')}
+                                            disabled
+                                        />
                                     ))}
                                 <IconButton
                                     iconProps={{
@@ -181,7 +221,7 @@ const FilesList: React.FC<IFilesList> = ({ files, onRemoveFile }) => {
             )}
         </>
     );
-};
+}
 
 const ViewWithTooltip: React.FunctionComponent<{
     tooltipContent: JSX.Element;
@@ -203,4 +243,4 @@ const ViewWithTooltip: React.FunctionComponent<{
     );
 };
 
-export default FilesList;
+export default forwardRef(FilesList);
