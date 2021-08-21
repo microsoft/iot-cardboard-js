@@ -1,4 +1,4 @@
-import { getTheme, Icon, ITheme, PrimaryButton } from '@fluentui/react';
+import { getTheme, Icon, ITheme, Link } from '@fluentui/react';
 import React, {
     forwardRef,
     useCallback,
@@ -9,42 +9,35 @@ import React, {
 } from 'react';
 import FilesList from './FilesList';
 import './JsonUploader.scss';
+import { useDropzone } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 
 function JsonUploader(_props, ref) {
     const [files, setFiles] = useState<Array<File>>([]);
-    const chooseFileButton = useRef(null);
     const filesRef = useRef(files);
     const fileListRef = useRef();
 
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const { t } = useTranslation();
+
     const theme: ITheme = getTheme();
     const { palette } = theme;
-
-    const iconStyles = {
-        root: {
-            fontSize: 32,
-            color: 'var(--cb-color-theme-primary)'
-        }
-    };
 
     useEffect(() => {
         filesRef.current = files;
     }, [files]);
 
-    const handleOnChangeFiles = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
+    useEffect(() => {
         const newFiles = [...files];
-        const selectedFiles = Array.from<File>(event.target.files);
         const existingFileNames = files.map((f) => f.name);
-        selectedFiles.forEach((sF) => {
+        acceptedFiles.forEach((sF) => {
             const fileType = sF.name.split('.').pop().toLowerCase();
             if (!existingFileNames.includes(sF.name) && fileType === 'json') {
                 newFiles.push(sF);
             }
         });
         setFiles(newFiles);
-        event.target.value = null;
-    };
+    }, [acceptedFiles]);
 
     const removeFileHandler = useCallback((index: number) => {
         setFiles(filesRef.current.filter((_f, idx) => idx !== index));
@@ -59,22 +52,23 @@ function JsonUploader(_props, ref) {
     return (
         <div className={'cb-file-uploader'}>
             <div
-                className={'cb-drop-files-container'}
                 style={{ background: palette.neutralLighter }}
+                {...getRootProps({ className: 'cb-drop-files-container' })}
             >
-                <Icon iconName="CloudUpload" styles={iconStyles} />
-                <PrimaryButton
-                    className={'cb-choose-file-button'}
-                    text="Browse for files"
-                    onClick={(_e) => chooseFileButton.current.click()}
+                <input {...getInputProps()} />
+                <Icon
+                    iconName="CloudUpload"
+                    styles={{
+                        root: {
+                            fontSize: 32,
+                            paddingBottom: 20,
+                            color: 'var(--cb-color-theme-primary)'
+                        }
+                    }}
                 />
-                <input
-                    type="file"
-                    multiple
-                    ref={(ref) => (chooseFileButton.current = ref)}
-                    style={{ display: 'none' }}
-                    onChange={handleOnChangeFiles}
-                />
+                <span>{t('fileUploader.dragAndDrop')}</span>
+                <span>{t('or')}</span>
+                <Link>{t('fileUploader.browseFiles')}</Link>
             </div>
             <FilesList
                 files={files}

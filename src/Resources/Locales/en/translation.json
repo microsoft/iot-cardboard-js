@@ -45,6 +45,7 @@
     "notAvailable": "Not available",
     "size": "Size",
     "upload": "Upload",
+    "or": "or",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -205,6 +206,10 @@
         "addEnumValue": "Add enum value",
         "editEnumValue": "Edit enum value",
         "enumValueDetails": "Enum value details"
+    },
+    "fileUploader": {
+        "dragAndDrop": "Drag and drop files here",
+        "browseFiles": "Browse for files"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
