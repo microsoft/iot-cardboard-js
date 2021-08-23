@@ -211,6 +211,11 @@
         "dragAndDrop": "Drag and drop files here",
         "browseFiles": "Browse for files"
     },
+    "modelAuthoring": {
+        "selectType": "Select type",
+        "review": "Review",
+        "publish": "Publish"
+    },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

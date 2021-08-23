@@ -86,3 +86,15 @@ export enum FileUploadStatus {
     Uploading = 'uploading',
     Uploaded = 'uploaded'
 }
+
+export enum ModelAuthoringModes {
+    UploadFiles,
+    FromTemplate,
+    BuildForm
+}
+
+export enum ModelAuthoringSteps {
+    SelectType,
+    Review,
+    Publish
+}
