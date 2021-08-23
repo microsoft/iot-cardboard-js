@@ -21,7 +21,6 @@ export const ADTAuthoring = (_args, { globals: { theme, locale } }) => {
     ) : (
         <div style={cardStyle}>
             <ADTModelAuthoringCard
-                title="Create new model"
                 theme={theme}
                 locale={locale}
                 adapter={
@@ -32,6 +31,7 @@ export const ADTAuthoring = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
+                onCancel={() => console.log('Closed!')}
             />
         </div>
     );

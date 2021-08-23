@@ -471,4 +471,5 @@ export interface IStepperWizardStep {
 export interface IStepperWizardProps {
     steps: Array<IStepperWizardStep>;
     currentStepIndex?: number;
+    isNavigationDisabled?: boolean;
 }

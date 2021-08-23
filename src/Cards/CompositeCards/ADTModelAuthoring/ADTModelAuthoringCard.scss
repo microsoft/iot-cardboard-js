@@ -4,9 +4,93 @@
     height: 100%;
     min-height: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .cb-base-composite-card {
+        background-color: var(--cb-color-bg-card);
+
+        .cb-base-composite-card-item:nth-child(1) {
+            flex-grow: 0;
+        }
+    }
+}
+
+.cb-model-authoring-card-main {
+    flex-grow: 1;
+}
+
+.cb-model-authoring-card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+
+    .cb-navigation-right {
+        button {
+            margin-left: 20px;
+        }
+    }
+}
+
+.cb-model-authoring-card-wizard {
+    height: 100%;
+    width: 256px;
+    padding: 20px;
+    background: var(--cb-color-bg-canvas);
+    border: 1px solid var(--cb-color-card-border);
 }
 
 .cb-model-authoring-card-upload-files {
     width: 800px;
     height: 520px;
+
+    .cb-base-card-content {
+        top: 0;
+    }
+}
+
+.cb-model-authoring-card-mode-selector {
+    @include ms-depth-4;
+    width: 300px;
+    height: 128px;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    margin-right: 20px;
+    background: var(--cb-color-bg-canvas);
+}
+
+.cb-model-authoring-card-mode-selector-icon {
+    width: 35px;
+    height: 35px;
+    background: var(--cb-color-theme-primary);
+    color: #fff;
+    padding: 10px;
+}
+
+.cb-model-authoring-card-mode-selector-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 12px;
+    font-size: 14px;
+    flex-direction: column;
+    overflow: hidden;
+
+    .cb-title {
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
+        width: 100%;
+        display: block;
+    }
+
+    .cb-description {
+        margin: 0;
+        padding-top: 8px;
+        height: 48px;
+        overflow: hidden;
+    }
 }
