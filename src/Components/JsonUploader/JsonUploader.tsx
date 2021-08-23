@@ -31,9 +31,13 @@ function JsonUploader(_props, ref) {
         const newFiles = [...files];
         const existingFileNames = files.map((f) => f.name);
         acceptedFiles.forEach((sF) => {
-            const fileType = sF.name.split('.').pop().toLowerCase();
-            if (!existingFileNames.includes(sF.name) && fileType === 'json') {
-                newFiles.push(sF);
+            if (sF.type === 'application/json') {
+                const index = existingFileNames.findIndex((n) => n === sF.name);
+                if (index === -1) {
+                    newFiles.push(sF);
+                } else {
+                    newFiles[index] = sF;
+                }
             }
         });
         setFiles(newFiles);

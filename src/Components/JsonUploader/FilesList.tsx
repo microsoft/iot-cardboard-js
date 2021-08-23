@@ -17,7 +17,6 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
-    useMemo,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -40,43 +39,34 @@ interface IFileItem {
 function FilesList({ files, onRemoveFile }: IFilesList, ref) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
-    const [isLoadFinished, setIsLoadFinished] = useState(false);
+    const [listItems, setListItems] = useState([]);
 
     const { t } = useTranslation();
 
-    const listItems = useMemo(
-        () =>
-            files?.map(
-                (f: File) =>
-                    ({
-                        name: f.name,
-                        size: prettyBytes(f.size),
-                        status: FileUploadStatus.Uploading
-                    } as IFileItem)
-            ) ?? [],
-        [files]
-    );
-
     useEffect(() => {
-        setIsLoadFinished(false);
-    }, [files]);
-
-    useEffect(() => {
-        files?.forEach(async (f, idx) => {
-            if (listItems[idx].content === undefined) {
+        if (files.length) {
+            const newListItems = [];
+            files?.forEach(async (f, idx) => {
+                const newListItem = {
+                    name: f.name,
+                    size: prettyBytes(f.size),
+                    status: FileUploadStatus.Uploading
+                } as IFileItem;
                 try {
                     const content = await f.text();
-                    listItems[idx].content = JSON.parse(content);
+                    newListItem.content = JSON.parse(content);
                 } catch (error) {
-                    listItems[idx].content = new Error(error);
+                    newListItem.content = new Error(error);
                 }
-            }
-
-            if (idx === files.length - 1) {
-                setIsLoadFinished(true);
-            }
-        });
-    }, [listItems]);
+                newListItems.push(newListItem);
+                if (idx === files.length - 1) {
+                    setListItems(newListItems);
+                }
+            });
+        } else {
+            setListItems([]);
+        }
+    }, [files]);
 
     const handleViewItem = useCallback((item: IFileItem) => {
         setSelectedFileItem(item);
@@ -129,7 +119,6 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                         minWidth: 40,
                         columnActionsMode: ColumnActionsMode.disabled,
                         onRender: (item: IFileItem) =>
-                            isLoadFinished &&
                             item.content instanceof Error && (
                                 <ViewWithTooltip
                                     tooltipContent={
@@ -157,27 +146,16 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                         maxWidth: 250,
                         onRender: (item: IFileItem, index: number) => (
                             <div>
-                                {isLoadFinished &&
-                                    (!(item.content instanceof Error) ? (
-                                        <IconButton
-                                            iconProps={{ iconName: 'FileCode' }}
-                                            title={t('view')}
-                                            ariaLabel={t('view')}
-                                            onClick={(event) => {
-                                                event.stopPropagation();
-                                                handleViewItem(item);
-                                            }}
-                                        />
-                                    ) : (
-                                        <IconButton
-                                            iconProps={{
-                                                iconName: 'FileCode'
-                                            }}
-                                            title={t('view')}
-                                            ariaLabel={t('view')}
-                                            disabled
-                                        />
-                                    ))}
+                                <IconButton
+                                    iconProps={{ iconName: 'FileCode' }}
+                                    title={t('view')}
+                                    ariaLabel={t('view')}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        handleViewItem(item);
+                                    }}
+                                    disabled={item.content instanceof Error}
+                                />
                                 <IconButton
                                     iconProps={{
                                         iconName: 'Delete',
@@ -226,8 +204,6 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
 const ViewWithTooltip: React.FunctionComponent<{
     tooltipContent: JSX.Element;
 }> = ({ tooltipContent, children }) => {
-    // Use useId() to ensure that the ID is unique on the page.
-    // (It's also okay to use a plain string and manually ensure uniqueness.)
     const tooltipId = useId('tooltip');
 
     return (
