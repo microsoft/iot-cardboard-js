@@ -46,7 +46,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     const twinData = useAdapter({
         adapterMethod: (params: { twinId: string }) =>
             props.adapter.getADTTwin(params.twinId),
-        refetchDependencies: [props.twinId],
+        refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
@@ -56,7 +56,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 params.twinId,
                 params.relationshipId
             ),
-        refetchDependencies: [props.relationshipId, props.twinId],
+        refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
@@ -91,6 +91,12 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
 
     // On mount, fetch necessary data for twin | relationship
     useEffect(() => {
+        // Reset input data
+        setInputData(null);
+        twinData.cancelAdapter();
+        modelData.cancelAdapter();
+        relationshipData.cancelAdapter();
+
         if (isTwin(props)) {
             twinData.callAdapter({ twinId: props.twinId });
         } else {
@@ -99,7 +105,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 relationshipId: props.relationshipId
             });
         }
-    }, []);
+    }, [props.twinId, props.relationshipId]);
 
     // Once relationship is resolved, use source twin ID to query twin
     useEffect(() => {
