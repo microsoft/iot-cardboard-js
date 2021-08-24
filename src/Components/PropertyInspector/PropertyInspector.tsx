@@ -83,9 +83,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     });
 
     const relationshipData = useAdapter({
-        adapterMethod: (params: { twinId: string; relationshipId: string }) => {
+        adapterMethod: (params: {
+            twinId: string;
+            relationshipId: string;
+            isBeingRefreshedAfterPatch?: boolean;
+        }) => {
             // Bypass relationship network request if resolved relationship passed into component
-            if (!isTwin(props) && props.resolvedRelationship) {
+            if (
+                !isTwin(props) &&
+                props.resolvedRelationship &&
+                !params.isBeingRefreshedAfterPatch
+            ) {
                 return Promise.resolve(
                     new AdapterResult<ADTRelationshipData>({
                         result: new ADTRelationshipData(
@@ -251,7 +259,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             relationshipData.callAdapter({
                 // refetch relationship after patch
                 twinId: props.twinId,
-                relationshipId: props.relationshipId
+                relationshipId: props.relationshipId,
+                isBeingRefreshedAfterPatch: true
             });
         }
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
