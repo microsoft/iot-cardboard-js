@@ -3,7 +3,7 @@
 .cb-property-tree-container {
     font-size: 14px;
     height: 100%;
-    overflow-y: auto;
+    overflow: inherit;
     width: 100%;
 
     .cb-property-tree-list-group {

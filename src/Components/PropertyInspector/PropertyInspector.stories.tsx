@@ -29,6 +29,19 @@ export const TwinMock = () => (
     </div>
 );
 
+export const SmallContainer = () => (
+    <div style={{ width: 300, height: 400, overflow: 'auto' }}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModel: mockExpandedModel,
+                rootModel: mockExpandedModel[0]
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+        />
+    </div>
+);
+
 export const ReadOnlyTwinMock = () => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
