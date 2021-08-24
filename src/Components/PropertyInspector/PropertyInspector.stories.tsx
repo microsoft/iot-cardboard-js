@@ -8,7 +8,7 @@ import mockExpandedModel from './MockData/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 
 export default {
-    title: 'Components/Property Inspector'
+    title: 'Components/Property Inspector/Standalone'
 };
 
 const propertyInspectorStoryStyles = {

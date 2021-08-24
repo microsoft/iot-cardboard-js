@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
@@ -64,6 +64,65 @@ export const AdtRelationship = (args) => {
 };
 
 AdtRelationship.argTypes = {
+    twinId: {
+        control: { type: 'text' },
+        defaultValue: 'LeoTheDog'
+    },
+    relationshipId: {
+        control: { type: 'text' },
+        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
+    }
+};
+
+export const ChangingBetweenTwinAndRelationship = (args) => {
+    const authenticationParameters = useAuthParams();
+    const [mode, setMode] = useState('twin');
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div>
+            <button
+                onClick={() =>
+                    setMode((prev) =>
+                        prev === 'twin' ? 'relationship' : 'twin'
+                    )
+                }
+            >
+                {mode === 'twin' ? 'Change to relationship' : 'Change to twin'}
+            </button>
+            <div style={propertyInspectorStoryStyles}>
+                {mode === 'twin' ? (
+                    <PropertyInspector
+                        adapter={
+                            new ADTAdapter(
+                                authenticationParameters.adt.hostUrl,
+                                new MsalAuthService(
+                                    authenticationParameters.adt.aadParameters
+                                )
+                            )
+                        }
+                        twinId={args.twinId}
+                    />
+                ) : (
+                    <PropertyInspector
+                        adapter={
+                            new ADTAdapter(
+                                authenticationParameters.adt.hostUrl,
+                                new MsalAuthService(
+                                    authenticationParameters.adt.aadParameters
+                                )
+                            )
+                        }
+                        relationshipId={args.relationshipId}
+                        twinId={args.twinId}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+ChangingBetweenTwinAndRelationship.argTypes = {
     twinId: {
         control: { type: 'text' },
         defaultValue: 'LeoTheDog'

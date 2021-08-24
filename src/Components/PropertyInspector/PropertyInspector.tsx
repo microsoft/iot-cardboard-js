@@ -56,6 +56,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         null
     );
     const [refetchTrigger, setRefetchTrigger] = useState(false);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const twinData = useAdapter({
         adapterMethod: (params: {
@@ -225,6 +226,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 relationshipModel
             });
         }
+        setIsInitialLoad(false);
     }, [modelData.adapterResult, refetchTrigger]);
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
@@ -269,7 +271,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         modelData.isLoading ||
         twinData.isLoading ||
         relationshipData.isLoading ||
-        props.isPropertyInspectorLoading
+        props.isPropertyInspectorLoading ||
+        isInitialLoad
     )
         return <div>{t('loading')}</div>;
 
