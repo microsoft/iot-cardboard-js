@@ -6,7 +6,7 @@ import { ADTModelAuthoringCardProps } from './ADTModelAuthoringCard.types';
 import StepperWizard from '../../../Components/StepperWizard/StepperWizard';
 import { IStepperWizardStep } from '../../../Models/Constants/Interfaces';
 import ADTModelUploaderCard from '../../ADTModelUploaderCard/ADTModelUploaderCard';
-import { DefaultButton, Icon, Link, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
 import {
     ModelAuthoringModes,
     ModelAuthoringSteps
@@ -80,8 +80,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                 <AuthoringModeSelector
                                     iconName={'Upload'}
                                     title="Upload DTDL files"
-                                    description="Files must be .Json format, no exceed than 50MB."
-                                    actionText="Upload"
+                                    description="File type must be JSON, no exceed than 50MB."
                                     onClick={() => {
                                         setAuthoringMode(
                                             ModelAuthoringModes.UploadFiles
@@ -95,7 +94,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     iconName={'TextDocument'}
                                     title="Create from templates"
                                     description="Bring in standard models from library and edit from there."
-                                    actionText="Open"
                                     onClick={() => {
                                         setAuthoringMode(
                                             ModelAuthoringModes.UploadFiles
@@ -109,7 +107,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     iconName={'Document'}
                                     title="Build from scratch"
                                     description="Using built-in modules to create a DTDL model, no code is needed."
-                                    actionText="Start"
                                     onClick={() => {
                                         setAuthoringMode(
                                             ModelAuthoringModes.UploadFiles
@@ -149,24 +146,28 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                 <div className="cb-navigation-left">
                     <DefaultButton onClick={onCancel} text={t('cancel')} />
                 </div>
-                <div className="cb-navigation-right">
-                    <DefaultButton onClick={onCancel} text={t('previous')} />
-                    <PrimaryButton onClick={onCancel} text={t('next')} />
-                </div>
+                {authoringSteps !== ModelAuthoringSteps.SelectType && (
+                    <div className="cb-navigation-right">
+                        <DefaultButton
+                            onClick={() =>
+                                setAuthoringSteps(authoringSteps - 1)
+                            }
+                            text={t('previous')}
+                        />
+                        <PrimaryButton onClick={onCancel} text={t('next')} />
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
-const AuthoringModeSelector = ({
-    iconName,
-    title,
-    description,
-    actionText,
-    onClick
-}) => {
+const AuthoringModeSelector = ({ iconName, title, description, onClick }) => {
     return (
-        <div className="cb-model-authoring-card-mode-selector">
+        <div
+            className="cb-model-authoring-card-mode-selector"
+            onClick={onClick}
+        >
             <div className="cb-model-authoring-card-mode-selector-icon">
                 <Icon iconName={iconName} />
             </div>
@@ -174,9 +175,6 @@ const AuthoringModeSelector = ({
                 <div>
                     <span className="cb-title">{title}</span>
                     <p className="cb-description">{description}</p>
-                </div>
-                <div>
-                    <Link onClick={onClick}>{actionText}</Link>
                 </div>
             </div>
         </div>

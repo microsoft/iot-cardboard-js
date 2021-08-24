@@ -52,12 +52,19 @@
 .cb-model-authoring-card-mode-selector {
     @include ms-depth-4;
     width: 300px;
-    height: 128px;
+    height: 102px;
     display: flex;
     flex-direction: row;
     padding: 16px;
     margin-right: 20px;
     background: var(--cb-color-bg-canvas);
+    cursor: pointer;
+    pointer-events: visible;
+
+    &:hover {
+        @include ms-depth-8;
+        background: var(--cb-color-card-contrast);
+    }
 }
 
 .cb-model-authoring-card-mode-selector-icon {

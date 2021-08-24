@@ -5,7 +5,7 @@ import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTModelAuthoringCard from './ADTModelAuthoringCard';
 
 export default {
-    title: 'CompositeCards/ADTAuthoringCard'
+    title: 'CompositeCards/ADTModelAuthoringCard'
 };
 
 const cardStyle = {
@@ -13,7 +13,7 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADTAuthoring = (_args, { globals: { theme, locale } }) => {
+export const ADTModelAuthoring = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
