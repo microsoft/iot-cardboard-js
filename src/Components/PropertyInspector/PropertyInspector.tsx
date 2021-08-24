@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
+import AdapterResult from '../../Models/Classes/AdapterResult';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { propertyInspectorPatchMode } from '../../Models/Constants/Enums';
-import { AdtPatch, IADTAdapter } from '../../Models/Constants/Interfaces';
+import {
+    AdtPatch,
+    IADTAdapter,
+    IADTRelationship,
+    IADTTwin
+} from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import { getModelContentType } from '../../Models/Services/Utils';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
@@ -16,17 +24,19 @@ type TwinPropertyInspectorProps = {
     twinId: string;
     adapter: IADTAdapter;
     relationshipId?: never;
+    resolvedTwin?: IADTTwin;
 };
 
 type RelationshipPropertyInspectorProps = {
     relationshipId: string;
     adapter: IADTAdapter;
     twinId: string;
+    resolvedRelationship?: IADTRelationship;
 };
 
-type PropertyInspectorProps =
-    | TwinPropertyInspectorProps
-    | RelationshipPropertyInspectorProps;
+type PropertyInspectorProps = {
+    isPropertyInspectorLoading?: boolean;
+} & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
 const isTwin = (
@@ -44,18 +54,49 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     const [refetchTrigger, setRefetchTrigger] = useState(false);
 
     const twinData = useAdapter({
-        adapterMethod: (params: { twinId: string }) =>
-            props.adapter.getADTTwin(params.twinId),
+        adapterMethod: (params: {
+            twinId: string;
+            isBeingRefreshedAfterPatch?: boolean;
+        }) => {
+            // Bypass twin network request if resolved twin passed into component
+            if (
+                isTwin(props) &&
+                props.resolvedTwin &&
+                !params.isBeingRefreshedAfterPatch
+            ) {
+                return Promise.resolve(
+                    new AdapterResult<ADTTwinData>({
+                        result: new ADTTwinData(props.resolvedTwin),
+                        errorInfo: null
+                    })
+                );
+            } else {
+                return props.adapter.getADTTwin(params.twinId);
+            }
+        },
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
     const relationshipData = useAdapter({
-        adapterMethod: (params: { twinId: string; relationshipId: string }) =>
-            props.adapter.getADTRelationship(
-                params.twinId,
-                params.relationshipId
-            ),
+        adapterMethod: (params: { twinId: string; relationshipId: string }) => {
+            // Bypass relationship network request if resolved relationship passed into component
+            if (!isTwin(props) && props.resolvedRelationship) {
+                return Promise.resolve(
+                    new AdapterResult<ADTRelationshipData>({
+                        result: new ADTRelationshipData(
+                            props.resolvedRelationship
+                        ),
+                        errorInfo: null
+                    })
+                );
+            } else {
+                return props.adapter.getADTRelationship(
+                    params.twinId,
+                    params.relationshipId
+                );
+            }
+        },
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -188,7 +229,10 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     // Actions upon patch completion
     useEffect(() => {
         if (patchTwinData.adapterResult.getData()) {
-            twinData.callAdapter({ twinId: props.twinId }); // refetch twin after patch
+            twinData.callAdapter({
+                twinId: props.twinId,
+                isBeingRefreshedAfterPatch: true
+            }); // refetch twin after patch
         }
 
         if (patchRelationshipData.adapterResult.getData()) {
@@ -200,7 +244,12 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         }
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
 
-    if (modelData.isLoading || twinData.isLoading || relationshipData.isLoading)
+    if (
+        modelData.isLoading ||
+        twinData.isLoading ||
+        relationshipData.isLoading ||
+        props.isPropertyInspectorLoading
+    )
         return <div>{t('loading')}</div>;
 
     if (!inputData) {
