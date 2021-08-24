@@ -25,6 +25,7 @@ type TwinPropertyInspectorProps = {
     adapter: IADTAdapter;
     relationshipId?: never;
     resolvedTwin?: IADTTwin;
+    resolvedRelationship?: never;
 };
 
 type RelationshipPropertyInspectorProps = {
@@ -32,6 +33,7 @@ type RelationshipPropertyInspectorProps = {
     adapter: IADTAdapter;
     twinId: string;
     resolvedRelationship?: IADTRelationship;
+    resolvedTwin?: IADTTwin;
 };
 
 type PropertyInspectorProps = {
@@ -64,11 +66,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             isBeingRefreshedAfterPatch?: boolean;
         }) => {
             // Bypass twin network request if resolved twin passed into component
-            if (
-                isTwin(props) &&
-                props.resolvedTwin &&
-                !params.isBeingRefreshedAfterPatch
-            ) {
+            if (props.resolvedTwin && !params.isBeingRefreshedAfterPatch) {
                 return Promise.resolve(
                     new AdapterResult<ADTTwinData>({
                         result: new ADTTwinData(props.resolvedTwin),

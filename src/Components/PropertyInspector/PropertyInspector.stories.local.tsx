@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
+import { mockRelationship, mockTwin } from './MockData/mockData';
 import PropertyInspector from './PropertyInspector';
 
 export default {
@@ -74,7 +75,7 @@ AdtRelationship.argTypes = {
     }
 };
 
-export const ChangingBetweenTwinAndRelationship = (args) => {
+export const ModeToggleWithResolvedData = (args) => {
     const authenticationParameters = useAuthParams();
     const [mode, setMode] = useState('twin');
     return !authenticationParameters ? (
@@ -102,6 +103,7 @@ export const ChangingBetweenTwinAndRelationship = (args) => {
                             )
                         }
                         twinId={args.twinId}
+                        resolvedTwin={mockTwin}
                     />
                 ) : (
                     <PropertyInspector
@@ -115,6 +117,7 @@ export const ChangingBetweenTwinAndRelationship = (args) => {
                         }
                         relationshipId={args.relationshipId}
                         twinId={args.twinId}
+                        resolvedRelationship={mockRelationship}
                     />
                 )}
             </div>
@@ -122,7 +125,7 @@ export const ChangingBetweenTwinAndRelationship = (args) => {
     );
 };
 
-ChangingBetweenTwinAndRelationship.argTypes = {
+ModeToggleWithResolvedData.argTypes = {
     twinId: {
         control: { type: 'text' },
         defaultValue: 'LeoTheDog'
