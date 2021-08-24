@@ -513,7 +513,7 @@ export default class ADTAdapter implements IADTAdapter {
         return new ADTTwinLookupData(twinData.getData(), modelData.getData());
     }
 
-    async getExpandedAdtModel(modelId: string) {
+    async getExpandedAdtModel(modelId: string, baseModelIds?: string[]) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -571,11 +571,28 @@ export default class ADTAdapter implements IADTAdapter {
                 return rootModel;
             };
 
-            await recursivelyAddToExpandedModels(modelId);
+            const parallelFetchModel = async (modelId: string) => {
+                const model = (await fetchFullModel(modelId)).data.model;
+                expandedModels.push(model);
+            };
+
+            // If list of base models known, fetch all models in parallel
+            if (baseModelIds) {
+                await axios.all(
+                    [modelId, ...baseModelIds].map((id) => {
+                        return parallelFetchModel(id);
+                    })
+                );
+            } else {
+                // If base models unknown, recursively expand and fetch in sequence
+                await recursivelyAddToExpandedModels(modelId);
+            }
 
             return new ExpandedADTModelData({
                 expandedModels,
-                rootModel: expandedModels[0]
+                rootModel: expandedModels.find(
+                    (model) => model['@id'] === modelId
+                )
             });
         });
     }

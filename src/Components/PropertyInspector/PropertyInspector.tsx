@@ -36,6 +36,10 @@ type RelationshipPropertyInspectorProps = {
 
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
+    rootAndBaseModelIdsToFlatten?: {
+        rootModelId: string;
+        baseModelIds: string[];
+    };
 } & (TwinPropertyInspectorProps | RelationshipPropertyInspectorProps);
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
@@ -102,8 +106,16 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     });
 
     const modelData = useAdapter({
-        adapterMethod: (params: { modelId: string }) =>
-            props.adapter.getExpandedAdtModel(params.modelId),
+        adapterMethod: (params: { modelId: string }) => {
+            if (props.rootAndBaseModelIdsToFlatten) {
+                return props.adapter.getExpandedAdtModel(
+                    params.modelId,
+                    props.rootAndBaseModelIdsToFlatten.baseModelIds
+                );
+            } else {
+                return props.adapter.getExpandedAdtModel(params.modelId);
+            }
+        },
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });

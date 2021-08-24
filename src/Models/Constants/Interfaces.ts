@@ -335,7 +335,8 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
     getExpandedAdtModel(
-        modelId: string
+        modelId: string,
+        baseModelIds?: string[]
     ): AdapterReturnType<ExpandedADTModelData>;
     updateTwin(
         twinId: string,
