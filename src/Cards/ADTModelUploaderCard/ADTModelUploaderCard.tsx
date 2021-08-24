@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 import './ADTModelUploaderCard.scss';
 import { useTranslation } from 'react-i18next';
 import BaseCard from '../Base/Consume/BaseCard';
@@ -13,16 +19,17 @@ import { ADTModelsData } from '../../Models/Classes/AdapterDataClasses/ADTUpload
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import { UploadPhase } from '../../Models/Constants';
 
-const ADTModelUploaderCard: React.FC<ADTModelUploaderCardProps> = ({
-    adapter,
-    title,
-    theme,
-    locale,
-    localeStrings,
-    hasUploadButton,
-    hasMessageBar,
-    onUploadFinish
-}) => {
+function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
+    const {
+        adapter,
+        title,
+        theme,
+        locale,
+        localeStrings,
+        hasUploadButton,
+        hasMessageBar,
+        onUploadFinish
+    } = props;
     const { t } = useTranslation();
     const jsonUploaderComponentRef = useRef();
     const [uploadingStatus, setUploadingStatus] = useState(
@@ -95,6 +102,11 @@ const ADTModelUploaderCard: React.FC<ADTModelUploaderCardProps> = ({
         }
     };
 
+    useImperativeHandle(ref, () => ({
+        uploadFiles: uploadHandler,
+        getJsonList: (jsonUploaderComponentRef.current as any)?.getJsonItems()
+    }));
+
     return (
         <div className="cb-adt-model-uploader-wrapper">
             <BaseCard
@@ -143,6 +155,6 @@ const ADTModelUploaderCard: React.FC<ADTModelUploaderCardProps> = ({
             </BaseCard>
         </div>
     );
-};
+}
 
-export default withErrorBoundary(ADTModelUploaderCard);
+export default withErrorBoundary(forwardRef(ADTModelUploaderCard));
