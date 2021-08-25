@@ -12,12 +12,13 @@
 
         .cb-base-composite-card-item:nth-child(1) {
             flex-grow: 0;
+            overflow: hidden;
         }
     }
 }
 
 .cb-model-authoring-card-main {
-    flex-grow: 1;
+    height: 100%;
 }
 
 .cb-model-authoring-card-footer {
@@ -42,10 +43,31 @@
 
 .cb-model-authoring-card-upload-files {
     width: 800px;
-    height: 520px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .cb-base-card-content {
         top: 0;
+        height: 100%;
+    }
+}
+
+.cb-model-authoring-card-new-model {
+    width: 800px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .cb-modelcreate-title {
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .cb-modelcreate-container {
+        flex-grow: 1;
+        overflow: auto;
     }
 }
 
