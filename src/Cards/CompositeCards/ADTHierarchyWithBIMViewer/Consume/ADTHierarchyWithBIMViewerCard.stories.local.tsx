@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import { ADTModel_BIMContainerId } from '../../../../Models/Constants';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithBIMViewerCard from './ADTHierarchyWithBIMViewerCard';
 
@@ -27,7 +28,7 @@ export const ADTHierarchyWithBIMViewer = (
                 title={'Hierarchy With BIM Viewer'}
                 theme={theme}
                 locale={locale}
-                bimTwinId={'TODO_BIMName'}
+                bimTwinId={ADTModel_BIMContainerId}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

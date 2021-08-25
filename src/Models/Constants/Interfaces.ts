@@ -219,7 +219,9 @@ export interface IADTTwin {
         [propertyName: string]: any;
     };
     cb_viewdata?: {
-        boardInfo: string;
+        boardInfo?: string;
+        bimFilePath?: string;
+        bimMetadataFilePath?: string;
     };
     [propertyName: string]: any;
 }
@@ -325,6 +327,12 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
+    createModels(models: DTModel[]): any;
+    createTwins(twins: DTwin[], onUploadProgress?): any;
+    createRelationships(
+        relationships: DTwinRelationship[],
+        onUploadProgress?
+    ): any;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -447,4 +455,13 @@ export interface IAdtPusherSimulation {
         download?: boolean
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
+}
+
+export interface IGenerateADTAssetsProps {
+    adapter: IADTAdapter;
+    models: readonly DTModel[];
+    twins: readonly DTwin[];
+    relationships: readonly DTwinRelationship[];
+    triggerUpload: boolean;
+    onComplete(models, twins, relationships): void;
 }

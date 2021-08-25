@@ -3,9 +3,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { Viewer } from '@xeokit/xeokit-sdk/src/viewer/Viewer';
 import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/TreeViewPlugin';
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
-import { DTDLModel } from '../Classes/DTDL';
 import { createDTDLModelId } from '../Services/Utils';
-import { AssetsFromBIMState, DTwin, DTwinRelationship } from '../Constants';
+import {
+    ADTModel_BIMContainerId,
+    ADTModel_BimFilePath_PropertyName,
+    ADTModel_MetadataFilePath_PropertyName,
+    ADTModel_ViewData_PropertyName,
+    AssetsFromBIMState,
+    DTModel,
+    DTwin,
+    DTwinRelationship
+} from '../Constants';
 
 const useAssetsFromBIM = (
     ghostBimId,
@@ -31,17 +39,21 @@ const useAssetsFromBIM = (
         onIsLoadingChange(false);
     };
 
-    const transformModels = (typesDictionary) => {
+    const transformModels = (typesDictionary): DTModel[] => {
         return Object.keys(typesDictionary).map((modelName) => {
-            return new DTDLModel(
-                createDTDLModelId(modelName),
-                modelName,
-                '',
-                '',
-                [],
-                typesDictionary[modelName].relationships,
-                []
-            );
+            const properties = typesDictionary[modelName].properties
+                ? typesDictionary[modelName].properties
+                : [];
+            return {
+                '@id': createDTDLModelId(modelName),
+                '@type': 'Interface',
+                '@context': 'dtmi:dtdl:context;2',
+                displayName: modelName,
+                contents: [
+                    ...properties,
+                    ...typesDictionary[modelName].relationships
+                ]
+            };
         });
     };
 
@@ -53,19 +65,47 @@ const useAssetsFromBIM = (
         return countsDictionary;
     };
 
+    const viewData = {
+        [ADTModel_BimFilePath_PropertyName]: bimFilePath,
+        [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
+    };
+
     const extractAssets = useCallback(
         (root) => {
             const typesDictionary = {};
-            typesDictionary['BIMContainer'] = {
-                properties: {
-                    bimFilePath: bimFilePath,
-                    metadataFilePath: metadataFilePath
-                },
+            typesDictionary[ADTModel_BIMContainerId] = {
+                properties: [
+                    {
+                        '@type': 'Property',
+                        name: ADTModel_ViewData_PropertyName,
+                        schema: {
+                            '@type': 'Object',
+                            fields: [
+                                {
+                                    name: ADTModel_BimFilePath_PropertyName,
+                                    schema: 'string'
+                                },
+                                {
+                                    name: ADTModel_MetadataFilePath_PropertyName,
+                                    schema: 'string'
+                                }
+                            ]
+                        }
+                    }
+                ],
                 relationships: [],
                 count: 1
             };
 
+            const bimModelID = createDTDLModelId(ADTModel_BIMContainerId);
             const twinsDictionary: Record<string, DTwin> = {};
+            twinsDictionary[ADTModel_BIMContainerId] = {
+                $dtId: ADTModel_BIMContainerId,
+                $metadata: {
+                    $model: bimModelID
+                },
+                [ADTModel_ViewData_PropertyName]: viewData
+            };
             const relationshipsDictionary: Record<
                 string,
                 DTwinRelationship
@@ -80,10 +120,28 @@ const useAssetsFromBIM = (
                                 '@type': 'Relationship',
                                 name: 'inBIM',
                                 displayName: 'in BIM',
-                                target: 'dtmi:assetGen:BIMContainer;1'
+                                target: bimModelID
                             }
                         ],
-                        properties: [],
+                        properties: [
+                            {
+                                '@type': 'Property',
+                                name: ADTModel_ViewData_PropertyName,
+                                schema: {
+                                    '@type': 'Object',
+                                    fields: [
+                                        {
+                                            name: ADTModel_BimFilePath_PropertyName,
+                                            schema: 'string'
+                                        },
+                                        {
+                                            name: ADTModel_MetadataFilePath_PropertyName,
+                                            schema: 'string'
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
                         count: 1
                     };
                 } else {
@@ -93,7 +151,8 @@ const useAssetsFromBIM = (
                     $dtId: node.id,
                     $metadata: {
                         $model: createDTDLModelId(node.type)
-                    }
+                    },
+                    [ADTModel_ViewData_PropertyName]: viewData
                 };
                 if (node.children) {
                     const relationshipsMap = {};
@@ -131,7 +190,6 @@ const useAssetsFromBIM = (
                 }
             };
             addAsset(root);
-
             setAssetsState({
                 models: transformModels(typesDictionary),
                 twins: Object.values(twinsDictionary),

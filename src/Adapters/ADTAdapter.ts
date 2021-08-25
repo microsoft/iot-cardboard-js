@@ -5,6 +5,7 @@ import {
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
+import axiosRetry from 'axios-retry';
 import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
@@ -32,7 +33,7 @@ import {
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
-import axios from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import {
     ADTModelsData,
     ADTRelationshipsData,
@@ -42,9 +43,10 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
-    public adtHostUrl: string; //TODO create setter/getter
+    public adtHostUrl: string;
     private adtProxyServerPath: string;
     public packetNumber = 0;
+    private axiosInstance: AxiosInstance;
 
     constructor(
         adtHostUrl: string,
@@ -55,6 +57,20 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.authService.login();
+        this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
+        axiosRetry(this.axiosInstance, {
+            retries: 3,
+            retryCondition: (axiosError: AxiosError) => {
+                return (
+                    axiosError?.response?.status == 429 ||
+                    axiosError?.response?.status >= 500
+                );
+            },
+            retryDelay: (retryCount) => {
+                console.log((Math.pow(2, retryCount) - Math.random()) * 1000);
+                return (Math.pow(2, retryCount) - Math.random()) * 1000;
+            }
+        });
     }
 
     getAdtHostUrl() {
@@ -200,7 +216,7 @@ export default class ADTAdapter implements IADTAdapter {
         this.packetNumber++;
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const data = await axios.all(
+            const data = await Promise.all(
                 events.map((event) => {
                     const id = event.dtId;
                     return axios({
@@ -271,9 +287,9 @@ export default class ADTAdapter implements IADTAdapter {
     async createModels(models: DTModel[]) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const axiosResult = await axios({
+            const axiosResult = await this.axiosInstance({
                 method: 'post',
-                url: `${this.adtProxyServerPath}/models`,
+                url: `/models`,
                 data: models,
                 headers: {
                     'Content-Type': 'application/json',
@@ -303,13 +319,13 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
+            const data = await Promise.all(
                 twins.map(async (twin) => {
                     const twinCopy = JSON.parse(JSON.stringify(twin));
                     delete twinCopy['$dtId'];
-                    const axiosResponse = await axios({
+                    const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `${this.adtProxyServerPath}/digitaltwins/${twin.$dtId}`,
+                        url: `/digitaltwins/${twin.$dtId}`,
                         data: twinCopy,
                         headers: {
                             'Content-Type': 'application/json',
@@ -350,15 +366,15 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
+            const data = await Promise.all(
                 relationships.map(async (relationship: DTwinRelationship) => {
                     const payload = {
                         $targetId: relationship.$targetId,
                         $relationshipName: relationship.$name
                     };
-                    const axiosResponse = await axios({
+                    const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `${this.adtProxyServerPath}/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
+                        url: `/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
                         data: payload,
                         headers: {
                             'Content-Type': 'application/json',

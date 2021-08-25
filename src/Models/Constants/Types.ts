@@ -1,4 +1,5 @@
 import {
+    DTModel,
     DTwin,
     DTwinRelationship,
     IADTAdapter,
@@ -6,7 +7,6 @@ import {
     ITsiClientChartDataAdapter
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
-import { DTDLModel } from '../Classes/DTDL';
 import {
     IADTModel,
     IADTTwin,
@@ -125,7 +125,7 @@ export type ADTRelationshipsApiData = {
 };
 
 export type AssetsFromBIMState = {
-    models: Array<DTDLModel>;
+    models: Array<DTModel>;
     twins: Array<DTwin>;
     relationships: Array<DTwinRelationship>;
     modelCounts: Record<string, number>;

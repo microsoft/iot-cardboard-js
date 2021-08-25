@@ -4,13 +4,14 @@ import {
     DTwin,
     DTwinRelationship,
     DTModel,
-    UploadPhase
+    UploadPhase,
+    IGenerateADTAssetsProps
 } from '../../Models/Constants';
 import { useAdapter } from '../../Models/Hooks';
 import { UploadProgress } from '../UploadProgress/UploadProgress';
 import { AssetTypes } from '../../Models/Constants/Enums';
 
-const GenerateADTAssets = ({
+const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
     adapter,
     models,
     twins,
@@ -171,7 +172,7 @@ const GenerateADTAssets = ({
 
     useEffect(() => {
         (async () => {
-            if (isUploading === false && triggerUpload === true) {
+            if (!isUploading && triggerUpload) {
                 setIsUploading(true);
                 const models = await initiateModelsUpload();
                 const twins = await initiateTwinsUpload();
