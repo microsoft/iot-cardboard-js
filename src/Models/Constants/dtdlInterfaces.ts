@@ -20,7 +20,7 @@ export interface DtdlInterfaceSchema {
 }
 
 export interface DtdlRelationship {
-    '@type': string | string[];
+    '@type': 'Relationship';
     name: string;
     '@id'?: string;
     comment?: string;

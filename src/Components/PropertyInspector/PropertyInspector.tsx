@@ -4,7 +4,7 @@ import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADT
 import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import { DTDLType } from '../../Models/Classes/DTDL';
-import { propertyInspectorPatchMode } from '../../Models/Constants/Enums';
+import { PropertyInspectorPatchMode } from '../../Models/Constants/Enums';
 import {
     AdtPatch,
     IADTAdapter,
@@ -229,13 +229,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
-            if (patchData.patchMode === propertyInspectorPatchMode.twin) {
+            if (patchData.patchMode === PropertyInspectorPatchMode.twin) {
                 patchTwinData.callAdapter({
                     twinId: patchData.id,
                     patches: patchData.patches
                 });
             } else if (
-                patchData.patchMode === propertyInspectorPatchMode.relationship
+                patchData.patchMode === PropertyInspectorPatchMode.relationship
             ) {
                 patchRelationshipData.callAdapter({
                     twinId: patchData.sourceTwinId,

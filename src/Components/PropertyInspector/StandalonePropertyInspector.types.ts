@@ -2,7 +2,7 @@ import {
     DTwin,
     AdtPatch,
     IADTRelationship,
-    propertyInspectorPatchMode
+    PropertyInspectorPatchMode
 } from '../..';
 import {
     DtdlInterface,
@@ -10,7 +10,7 @@ import {
 } from '../../Models/Constants/dtdlInterfaces';
 
 export interface OnCommitPatchParams {
-    patchMode: propertyInspectorPatchMode;
+    patchMode: PropertyInspectorPatchMode;
     id: string;
     sourceTwinId?: string;
     patches: Array<AdtPatch>;

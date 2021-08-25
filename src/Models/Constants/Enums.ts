@@ -76,7 +76,7 @@ export enum FormMode {
     Readonly
 }
 
-export enum propertyInspectorPatchMode {
+export enum PropertyInspectorPatchMode {
     twin,
     relationship
 }

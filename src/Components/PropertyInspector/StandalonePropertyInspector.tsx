@@ -9,7 +9,7 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import { AdtPatch, propertyInspectorPatchMode } from '../../Models/Constants';
+import { AdtPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 import { useTranslation } from 'react-i18next';
 
@@ -176,13 +176,13 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
         if (isTwin(props.inputData)) {
             props.onCommitChanges({
-                patchMode: propertyInspectorPatchMode.twin,
+                patchMode: PropertyInspectorPatchMode.twin,
                 id: props.inputData.twin.$dtId,
                 patches: patchData as Array<AdtPatch>
             });
         } else {
             props.onCommitChanges({
-                patchMode: propertyInspectorPatchMode.relationship,
+                patchMode: PropertyInspectorPatchMode.relationship,
                 id: props.inputData.relationship.$relationshipId,
                 patches: patchData as Array<AdtPatch>,
                 sourceTwinId: props.inputData.relationship.$sourceId
