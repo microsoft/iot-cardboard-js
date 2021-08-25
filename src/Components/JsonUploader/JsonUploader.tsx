@@ -1,4 +1,4 @@
-import { getTheme, Icon, ITheme, Link } from '@fluentui/react';
+import { getTheme, Icon, ITheme, PrimaryButton } from '@fluentui/react';
 import React, {
     forwardRef,
     useCallback,
@@ -72,7 +72,7 @@ function JsonUploader(_props, ref) {
                 />
                 <span>{t('fileUploader.dragAndDrop')}</span>
                 <span>{t('or')}</span>
-                <Link>{t('fileUploader.browseFiles')}</Link>
+                <PrimaryButton>{t('fileUploader.browseFiles')}</PrimaryButton>
             </div>
             <FilesList
                 files={files}
