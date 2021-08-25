@@ -492,3 +492,13 @@ export interface IAdtPusherSimulation {
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
 }
+
+export interface IStepperWizardStep {
+    label: string;
+    onClick?: () => void;
+}
+
+export interface IStepperWizardProps {
+    steps: Array<IStepperWizardStep>;
+    currentStepIndex?: number;
+}
