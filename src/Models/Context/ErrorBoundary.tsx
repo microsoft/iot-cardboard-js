@@ -1,5 +1,4 @@
 import React, {
-    ComponentType,
     Dispatch,
     ErrorInfo,
     useContext,
@@ -68,16 +67,18 @@ const ErrorBoundaryWrapper: React.FC<{
 };
 
 // Apply this method to a component to wrap it within ErrorBoundary class component which keeps track of errors
-export function withErrorBoundary<Props = Record<string, unknown>>(
-    Component: ComponentType<Props>
-): React.FC<Props> {
-    return (props: Props) => (
-        <ErrorBoundaryWrapper {...props}>
-            <Component {...props} />
-        </ErrorBoundaryWrapper>
+export const withErrorBoundary = (Component) =>
+    React.forwardRef((props: Record<string, any>, ref) =>
+        ref ? (
+            <ErrorBoundaryWrapper theme={props.theme} title={props.title}>
+                <Component {...props} ref={ref} />
+            </ErrorBoundaryWrapper>
+        ) : (
+            <ErrorBoundaryWrapper theme={props.theme} title={props.title}>
+                <Component {...props} />
+            </ErrorBoundaryWrapper>
+        )
     );
-}
-
 interface ErrorBoundaryProps {
     onError: (error: Error, errorInfo: ErrorInfo) => void;
     isHandled?: boolean;
