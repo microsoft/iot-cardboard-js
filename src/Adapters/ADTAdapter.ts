@@ -103,7 +103,9 @@ export default class ADTAdapter implements IADTAdapter {
             ADTRelationshipData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${id}/relationships`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(id)}/relationships`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },
@@ -121,7 +123,9 @@ export default class ADTAdapter implements IADTAdapter {
             ADTTwinData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(twinId)}`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },
@@ -325,7 +329,7 @@ export default class ADTAdapter implements IADTAdapter {
                     delete twinCopy['$dtId'];
                     const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `/digitaltwins/${twin.$dtId}`,
+                        url: `/digitaltwins/${encodeURIComponent(twin.$dtId)}`,
                         data: twinCopy,
                         headers: {
                             'Content-Type': 'application/json',
@@ -374,7 +378,11 @@ export default class ADTAdapter implements IADTAdapter {
                     };
                     const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `/digitaltwins/${relationship.$dtId}/relationships/${relationship.$relId}`,
+                        url: `/digitaltwins/${encodeURIComponent(
+                            relationship.$dtId
+                        )}/relationships/${encodeURIComponent(
+                            relationship.$relId
+                        )}`,
                         data: payload,
                         headers: {
                             'Content-Type': 'application/json',
@@ -490,7 +498,9 @@ export default class ADTAdapter implements IADTAdapter {
             KeyValuePairAdapterData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(id)}`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },
@@ -508,7 +518,9 @@ export default class ADTAdapter implements IADTAdapter {
             ADTTwinData,
             {
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(twinId)}`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },

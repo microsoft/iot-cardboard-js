@@ -465,3 +465,12 @@ export interface IGenerateADTAssetsProps {
     triggerUpload: boolean;
     onComplete(models, twins, relationships): void;
 }
+export interface IStepperWizardStep {
+    label: string;
+    onClick?: () => void;
+}
+
+export interface IStepperWizardProps {
+    steps: Array<IStepperWizardStep>;
+    currentStepIndex?: number;
+}
