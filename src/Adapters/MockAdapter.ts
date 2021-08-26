@@ -7,7 +7,7 @@ import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { CardError } from '../Models/Classes/Errors';
-import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
     IADTAdapter,
@@ -150,7 +150,7 @@ export default class MockAdapter
 
             await this.mockNetwork();
 
-            return new ADTRelationshipData(getRelationshipsData());
+            return new ADTRelationshipsData(getRelationshipsData());
         });
     }
 

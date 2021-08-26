@@ -1,5 +1,6 @@
 import {
     ADTModelData,
+    ADTRelationshipsData,
     ADTRelationshipData,
     ADTTwinData,
     KeyValuePairAdapterData,
@@ -8,6 +9,7 @@ import {
 } from '../Classes';
 import {
     ADTAdapterModelsData,
+    ADTAdapterPatchData,
     ADTAdapterTwinsData
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import {
@@ -36,6 +38,7 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
+import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 
 export interface IAction {
     type: string;
@@ -231,7 +234,8 @@ export interface IADTRelationship {
     $relationshipName: string;
     $sourceId: string;
     $targetId: string;
-    targetModel: string;
+    targetModel?: string;
+    [property: string]: any;
 }
 
 export interface IADTProperty {
@@ -320,12 +324,29 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     searchADTTwins(
         params: AdapterMethodParamsForSearchADTTwins
     ): AdapterReturnType<ADTAdapterTwinsData>;
-    getRelationships(id: string): Promise<AdapterResult<ADTRelationshipData>>;
+    getRelationships(id: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
     getADTModel(modelId: string): Promise<AdapterResult<ADTModelData>>;
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
+    getADTRelationship(
+        twinId: string,
+        relationshipId: string
+    ): AdapterReturnType<ADTRelationshipData>;
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
+    getExpandedAdtModel(
+        modelId: string,
+        baseModelIds?: string[]
+    ): AdapterReturnType<ExpandedADTModelData>;
+    updateTwin(
+        twinId: string,
+        patches: Array<ADTPatch>
+    ): AdapterReturnType<ADTAdapterPatchData>;
+    updateRelationship(
+        twinId: string,
+        relationshipId: string,
+        patches: Array<ADTPatch>
+    ): AdapterReturnType<ADTAdapterPatchData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -368,13 +389,13 @@ export interface IStandardModelIndexData {
 
 export interface DTwinUpdateEvent {
     dtId: string;
-    patchJSON: DTwinPatch[];
+    patchJSON: ADTPatch[];
 }
 
-export interface DTwinPatch {
+export interface ADTPatch {
     op: 'add' | 'replace' | 'remove';
     path: string; // property path e.g. /property1
-    value: any;
+    value?: any;
 }
 
 export interface SimulationParams {
@@ -406,7 +427,13 @@ export interface AssetTwin {
 }
 
 export interface DTModelContent {
-    '@type': 'Property' | 'Relationship' | 'Telemetry';
+    '@type':
+        | 'Property'
+        | 'Relationship'
+        | 'Telemetry'
+        | 'Command'
+        | 'Component'
+        | [string, string];
     name: string;
     schema: string | Record<string, any>;
     [propertyName: string]: any;
@@ -414,17 +441,20 @@ export interface DTModelContent {
 
 export interface DTModel {
     '@id': string;
-    '@type': string;
-    '@context': string;
-    displayName: string;
-    contents: DTModelContent[];
+    '@type': string | [string, string];
+    '@context': string | [string];
+    displayName?: string;
+    contents?: DTModelContent[];
     description?: string;
     comment?: string;
 }
 
 export interface DTwin {
     $dtId: string;
-    $metadata: { $model: string };
+    $metadata: {
+        $model: string;
+        [propertyName: string]: any;
+    };
     [propertyName: string]: any;
 }
 

@@ -1,0 +1,109 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-property-tree-container {
+    font-size: 14px;
+    height: 100%;
+    overflow: inherit;
+    width: 100%;
+
+    .cb-property-tree-list-group {
+        margin: 0;
+        padding-left: 0;
+        &.cb-is-child-tree {
+            padding-left: 20px;
+        }
+    }
+
+    .cb-property-tree-list-item {
+        cursor: default;
+        list-style: none;
+        margin: 4px 0;
+        width: fit-content;
+    }
+
+    .cb-property-tree-node {
+        align-items: center;
+        display: flex;
+        min-height: 24px;
+    }
+
+    .cb-property-tree-node-name {
+        display: inline-flex;
+        margin-right: 8px;
+        position: relative;
+    }
+
+    .cb-property-tree-node-name-edited {
+        font-style: italic;
+    }
+
+    .cb-property-tree-parent-node {
+        cursor: pointer;
+    }
+
+    .cb-property-tree-node-icon {
+        align-items: center;
+        display: flex;
+        margin-right: 8px;
+    }
+
+    .cb-property-tree-parent-node-inset {
+        display: inline-flex;
+        margin-left: 20px;
+    }
+
+    .cb-chevron {
+        display: inline-block;
+        font-family: 'FabricMDL2Icons' !important;
+        font-size: 12px;
+        pointer-events: none;
+        position: absolute;
+        top: 4px;
+        transition: all 0.2s ease;
+        z-index: 1;
+
+        &.cb-collapsed {
+            transform: rotate(0deg);
+        }
+
+        &.cb-expanded {
+            transform: rotate(90deg);
+        }
+    }
+
+    .cb-property-tree-node-value {
+        align-items: center;
+        display: flex;
+        margin-right: 8px;
+    }
+
+    .cb-property-tree-node-value-unset {
+        align-items: center;
+        display: flex;
+        font-size: 0.7em;
+        font-style: italic;
+    }
+    .cb-property-tree-node-set-unset-icon {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        min-height: inherit;
+        width: 24px;
+        &:hover {
+            background-color: var(--cb-color-icon-hover-bg);
+        }
+    }
+    .cb-property-tree-node-unit {
+        font-size: 10px;
+        font-style: italic;
+        margin-right: 8px;
+    }
+    .cb-property-tree-node-name-metadata,
+    .cb-property-tree-node-value-metadata {
+        font-family: monospace;
+    }
+    .cb-property-tree-node-boolean-value-label {
+        margin-left: 4px;
+    }
+}
