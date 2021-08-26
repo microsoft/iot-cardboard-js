@@ -17,7 +17,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.themePrimary
+            color: props.theme.palette.neutralPrimaryAlt
         }
     });
 

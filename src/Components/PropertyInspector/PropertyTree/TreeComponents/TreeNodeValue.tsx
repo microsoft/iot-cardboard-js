@@ -4,47 +4,58 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
+import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
     const { onNodeValueChange, readonly } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
+    const nodeValueClassname = `cb-property-tree-node-value ${
+        node.edited ? 'cb-property-tree-node-value-edited' : ''
+    }`;
+
     switch (propertyType) {
         case dtdlPropertyTypesEnum.boolean:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
-                    <input
-                        type="checkbox"
+                <div className={nodeValueClassname}>
+                    <Checkbox
+                        label={node.value ? t('true') : t('false')}
                         checked={(node.value as boolean) || false}
-                        onChange={(e) =>
-                            onNodeValueChange(node, e.target.checked)
+                        onChange={(_e, checked) =>
+                            onNodeValueChange(node, checked)
                         }
+                        styles={{
+                            checkbox: {
+                                width: 16,
+                                height: 16,
+                                border: '1px solid var(--cb-color-card-border)'
+                            },
+                            label: {
+                                display: 'flex',
+                                alignItems: 'center'
+                            }
+                        }}
                     />
-                    {node.isSet && (
-                        <div className="cb-property-tree-node-boolean-value-label">
-                            {node.value ? t('true') : t('false')}
-                        </div>
-                    )}
                 </div>
             );
         case dtdlPropertyTypesEnum.date:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
@@ -57,13 +68,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.dateTime:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
@@ -78,13 +89,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.long:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         type="number"
                         value={node.value as number}
@@ -98,13 +109,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
@@ -117,13 +128,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.integer:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         type="number"
                         value={node.value as number}
@@ -138,7 +149,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             if (!node.writable || readonly) {
                 return (
                     <div
-                        className={`cb-property-tree-node-value ${
+                        className={`${nodeValueClassname} ${
                             node.isMetadata
                                 ? 'cb-property-tree-node-value-metadata'
                                 : ''
@@ -149,7 +160,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                 );
             } else {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         <textarea
                             value={node.value as string}
                             style={{
@@ -168,13 +179,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.time:
             if (readonly) {
                 return (
-                    <div className="cb-property-tree-node-value">
+                    <div className={nodeValueClassname}>
                         {String(node.value)}
                     </div>
                 );
             }
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <input
                         value={node.value as string}
                         style={{ width: 72 }}
@@ -186,7 +197,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             );
         case dtdlPropertyTypesEnum.Enum:
             return (
-                <div className="cb-property-tree-node-value">
+                <div className={nodeValueClassname}>
                     <select
                         value={(node.value as string | number) ?? 'enum-unset'}
                         style={{ height: 21 }}

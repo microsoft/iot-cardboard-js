@@ -1,4 +1,10 @@
-import { IIconStyleProps, IIconStyles, TooltipHost } from '@fluentui/react';
+import {
+    ICalloutContentStyleProps,
+    ICalloutContentStyles,
+    IIconStyleProps,
+    IIconStyles,
+    TooltipHost
+} from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,6 +48,23 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             return null;
     }
 
+    const tooltipStyles = (
+        props: ICalloutContentStyleProps
+    ): Partial<ICalloutContentStyles> => ({
+        beak: {
+            backgroundColor: props.theme.palette.neutralTertiaryAlt
+        },
+        beakCurtain: {
+            backgroundColor: props.theme.palette.neutralTertiaryAlt
+        },
+        calloutMain: {
+            backgroundColor: props.theme.palette.neutralTertiaryAlt
+        },
+        root: {
+            backgroundColor: props.theme.palette.neutralTertiaryAlt
+        }
+    });
+
     return (
         <TooltipHost
             content={tooltipInfo}
@@ -51,6 +74,11 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
                     display: 'flex',
                     marginLeft: '8px',
                     marginTop: '2px'
+                }
+            }}
+            tooltipProps={{
+                calloutProps: {
+                    styles: tooltipStyles
                 }
             }}
         >
