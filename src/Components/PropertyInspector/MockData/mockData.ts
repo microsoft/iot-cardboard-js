@@ -32,7 +32,7 @@ export const mockTwin = {
 };
 
 export const mockRelationship = {
-    $relationshipId: '40a6d7b9-3399-41c4-97e4-0d07aa4ed530',
+    $relationshipId: '4690c125-aac8-4456-9203-298c93f5fcf0',
     $etag: 'W/"4215f07a-ed6e-4c8d-a516-d65715f207d9"',
     $sourceId: 'LeoTheDog',
     $relationshipName: 'chargedBy',

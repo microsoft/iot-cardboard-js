@@ -6,7 +6,7 @@ import AdapterResult from '../../Models/Classes/AdapterResult';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { PropertyInspectorPatchMode } from '../../Models/Constants/Enums';
 import {
-    AdtPatch,
+    ADTPatch,
     IADTAdapter,
     IADTRelationship,
     IADTTwin
@@ -63,13 +63,14 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     const twinData = useAdapter({
         adapterMethod: (params: {
             twinId: string;
-            isBeingRefreshedAfterPatch?: boolean;
+            shouldRefreshAfterPatch?: boolean;
+            resolvedTwin?: IADTTwin;
         }) => {
             // Bypass twin network request if resolved twin passed into component
-            if (props.resolvedTwin && !params.isBeingRefreshedAfterPatch) {
+            if (params.resolvedTwin && !params.shouldRefreshAfterPatch) {
                 return Promise.resolve(
                     new AdapterResult<ADTTwinData>({
-                        result: new ADTTwinData(props.resolvedTwin),
+                        result: new ADTTwinData(params.resolvedTwin),
                         errorInfo: null
                     })
                 );
@@ -85,18 +86,19 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         adapterMethod: (params: {
             twinId: string;
             relationshipId: string;
-            isBeingRefreshedAfterPatch?: boolean;
+            shouldRefreshAfterPatch?: boolean;
+            resolvedRelationship?: IADTRelationship;
         }) => {
             // Bypass relationship network request if resolved relationship passed into component
             if (
                 !isTwin(props) &&
-                props.resolvedRelationship &&
-                !params.isBeingRefreshedAfterPatch
+                params.resolvedRelationship &&
+                !params.shouldRefreshAfterPatch
             ) {
                 return Promise.resolve(
                     new AdapterResult<ADTRelationshipData>({
                         result: new ADTRelationshipData(
-                            props.resolvedRelationship
+                            params.resolvedRelationship
                         ),
                         errorInfo: null
                     })
@@ -128,7 +130,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     });
 
     const patchTwinData = useAdapter({
-        adapterMethod: (params: { twinId: string; patches: Array<AdtPatch> }) =>
+        adapterMethod: (params: { twinId: string; patches: Array<ADTPatch> }) =>
             props.adapter.updateTwin(params.twinId, params.patches),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
@@ -138,7 +140,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         adapterMethod: (params: {
             twinId: string;
             relationshipId: string;
-            patches: Array<AdtPatch>;
+            patches: Array<ADTPatch>;
         }) =>
             props.adapter.updateRelationship(
                 params.twinId,
@@ -162,7 +164,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         } else {
             relationshipData.callAdapter({
                 twinId: props.twinId,
-                relationshipId: props.relationshipId
+                relationshipId: props.relationshipId,
+                resolvedRelationship: props.resolvedRelationship
             });
         }
     }, [props.twinId, props.relationshipId]);
@@ -172,7 +175,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         const relationship = relationshipData.adapterResult.getData();
         if (relationship) {
             const twinId = relationship['$sourceId'];
-            twinData.callAdapter({ twinId });
+            twinData.callAdapter({ twinId, resolvedTwin: props.resolvedTwin });
         }
     }, [relationshipData.adapterResult]);
 
@@ -193,12 +196,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         const data = modelData.adapterResult.getData();
         if (isTwin(props) && data) {
             setInputData({
-                expandedModel: modelData.adapterResult.getData().expandedModels,
+                expandedModels: modelData.adapterResult.getData()
+                    .expandedModels,
                 rootModel: modelData.adapterResult.getData().rootModel,
                 twin: twinData.adapterResult.getData()
             });
         } else if (data) {
-            let relationshipModel = null;
+            let relationshipDefinition = null;
             const relationship = relationshipData.adapterResult.getData();
             const expandedModels = modelData.adapterResult.getData()
                 .expandedModels;
@@ -211,17 +215,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                             type === DTDLType.Relationship &&
                             relationship['$relationshipName'] === item.name
                         ) {
-                            relationshipModel = item;
+                            relationshipDefinition = item;
                             break;
                         }
                     }
                 }
-                if (relationshipModel) break;
+                if (relationshipDefinition) break;
             }
 
             setInputData({
                 relationship: relationship,
-                relationshipModel
+                relationshipDefinition
             });
         }
         setIsInitialLoad(false);
@@ -251,7 +255,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         if (patchTwinData.adapterResult.getData()) {
             twinData.callAdapter({
                 twinId: props.twinId,
-                isBeingRefreshedAfterPatch: true
+                shouldRefreshAfterPatch: true,
+                resolvedTwin: props.resolvedTwin
             }); // refetch twin after patch
         }
 
@@ -260,7 +265,8 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 // refetch relationship after patch
                 twinId: props.twinId,
                 relationshipId: props.relationshipId,
-                isBeingRefreshedAfterPatch: true
+                shouldRefreshAfterPatch: true,
+                resolvedRelationship: props.resolvedRelationship
             });
         }
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);

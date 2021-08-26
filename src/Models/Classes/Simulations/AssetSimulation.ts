@@ -12,7 +12,7 @@ import {
 import {
     AssetRelationship,
     AssetTwin,
-    AdtPatch,
+    ADTPatch,
     DTwinUpdateEvent
 } from '../../Constants/Interfaces';
 import { downloadText } from '../../Services/Utils';
@@ -68,7 +68,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                 const updateTwin: DTwinUpdateEvent = {
                     dtId: twin.name,
                     patchJSON: asset.devices.map(function (d) {
-                        return d.tick() as AdtPatch;
+                        return d.tick() as ADTPatch;
                     })
                 };
                 events.push(updateTwin);

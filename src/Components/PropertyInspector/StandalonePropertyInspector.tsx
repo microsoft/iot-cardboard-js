@@ -9,7 +9,7 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import { AdtPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
+import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 import { useTranslation } from 'react-i18next';
 
@@ -23,14 +23,14 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     const { t } = useTranslation();
     const PropertyInspectorModelRef = useRef(
         new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModel
+            (props.inputData as TwinParams)?.expandedModels
         )
     );
 
     // Reset property inspector when input data changes
     useEffect(() => {
         PropertyInspectorModelRef.current = new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModel
+            (props.inputData as TwinParams)?.expandedModels
         );
         setPropertyTreeNodes(originalTree());
     }, [props.inputData]);
@@ -38,14 +38,14 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     const originalTree = useCallback(() => {
         return isTwin(props.inputData)
             ? PropertyInspectorModelRef.current.parseTwinIntoPropertyTree({
-                  inherited: false,
+                  isInherited: false,
                   path: '/',
                   rootModel: props.inputData.rootModel,
                   twin: props.inputData.twin
               })
             : PropertyInspectorModelRef.current.parseRelationshipIntoPropertyTree(
                   props.inputData.relationship,
-                  props.inputData.relationshipModel
+                  props.inputData.relationshipDefinition
               );
     }, [props.inputData]);
 
@@ -178,13 +178,13 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.twin,
                 id: props.inputData.twin.$dtId,
-                patches: patchData as Array<AdtPatch>
+                patches: patchData as Array<ADTPatch>
             });
         } else {
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.relationship,
                 id: props.inputData.relationship.$relationshipId,
-                patches: patchData as Array<AdtPatch>,
+                patches: patchData as Array<ADTPatch>,
                 sourceTwinId: props.inputData.relationship.$sourceId
             });
         }

@@ -24,10 +24,10 @@ import {
  *  - Various utitilies to do with PropertyInspector model
  */
 class PropertyInspectorModel {
-    expandedModel: DtdlInterface[];
+    expandedModels: DtdlInterface[];
 
-    constructor(expandedModel?: DtdlInterface[]) {
-        this.expandedModel = expandedModel;
+    constructor(expandedModels?: DtdlInterface[]) {
+        this.expandedModels = expandedModels;
     }
 
     /** Looks up property on Twin | Relationship or returns default value if unset */
@@ -78,7 +78,7 @@ class PropertyInspectorModel {
      *  are attached to nodes.
      */
     parsePropertyIntoNode = ({
-        inherited,
+        isInherited,
         isObjectChild,
         modelProperty,
         path,
@@ -88,7 +88,7 @@ class PropertyInspectorModel {
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
-        inherited: boolean;
+        isInherited: boolean;
     }): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
@@ -109,7 +109,7 @@ class PropertyInspectorModel {
                 isObjectChild,
                 isRemovable: !isObjectChild && !!modelProperty.writable,
                 isSet: modelProperty.name in propertySourceObject,
-                inherited,
+                isInherited,
                 writable: !!modelProperty?.writable || isObjectChild,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
             };
@@ -122,25 +122,26 @@ class PropertyInspectorModel {
                             modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
-                        children: modelProperty.schema.fields.map((field) =>
-                            this.parsePropertyIntoNode({
-                                modelProperty: field,
-                                propertySourceObject:
-                                    propertySourceObject?.[
-                                        modelProperty.name
-                                    ] ?? {},
-                                inherited,
-                                path: `${path + modelProperty.name}/`,
-                                isObjectChild: true
-                            })
-                        ),
+                        children:
+                            modelProperty.schema?.fields?.map((field) =>
+                                this.parsePropertyIntoNode({
+                                    modelProperty: field,
+                                    propertySourceObject:
+                                        propertySourceObject?.[
+                                            modelProperty.name
+                                        ] ?? {},
+                                    isInherited,
+                                    path: `${path + modelProperty.name}/`,
+                                    isObjectChild: true
+                                })
+                            ) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
                         isObjectChild,
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
-                        inherited,
+                        isInherited,
                         isSet: modelProperty.name in propertySourceObject,
                         value: undefined,
                         writable: !!modelProperty?.writable,
@@ -162,16 +163,17 @@ class PropertyInspectorModel {
                             propertySourceObject,
                             dtdlPropertyTypesEnum.Enum
                         ),
-                        complexPropertyData: {
-                            options: modelProperty.schema.enumValues.map(
-                                (ev) => ({
-                                    ...ev
-                                })
-                            )
-                        },
+                        complexPropertyData:
+                            {
+                                options: modelProperty.schema?.enumValues?.map(
+                                    (ev) => ({
+                                        ...ev
+                                    })
+                                )
+                            } ?? null,
                         path: path + modelProperty.name,
                         isObjectChild,
-                        inherited,
+                        isInherited,
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
                         isSet: modelProperty.name in propertySourceObject,
@@ -192,7 +194,7 @@ class PropertyInspectorModel {
                         type: DTDLType.Property,
                         path: path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
-                        inherited,
+                        isInherited,
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
                         value: undefined,
@@ -215,7 +217,7 @@ class PropertyInspectorModel {
     /** Merges relationship data returned by ADT API with the DTDL relationship model. */
     parseRelationshipIntoPropertyTree = (
         relationship: IADTRelationship,
-        relationshipModel: DtdlRelationship
+        relationshipDefinition: DtdlRelationship
     ): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
@@ -232,7 +234,7 @@ class PropertyInspectorModel {
                     path: `/${key}`,
                     type: DTDLType.Property,
                     isObjectChild: false,
-                    inherited: false,
+                    isInherited: false,
                     isRemovable: false,
                     isSet: true,
                     isMetadata: true
@@ -240,19 +242,21 @@ class PropertyInspectorModel {
             }
         });
 
-        if (relationshipModel.properties) {
+        if (relationshipDefinition.properties) {
             // Merge relationship model with active relationship properties
-            relationshipModel.properties.forEach((relationshipProperty) => {
-                const node = this.parsePropertyIntoNode({
-                    inherited: false,
-                    isObjectChild: false,
-                    modelProperty: relationshipProperty,
-                    path: '/',
-                    propertySourceObject: relationship
-                });
+            relationshipDefinition.properties.forEach(
+                (relationshipProperty) => {
+                    const node = this.parsePropertyIntoNode({
+                        isInherited: false,
+                        isObjectChild: false,
+                        modelProperty: relationshipProperty,
+                        path: '/',
+                        propertySourceObject: relationship
+                    });
 
-                treeNodes.push(node);
-            });
+                    treeNodes.push(node);
+                }
+            );
         }
 
         return treeNodes;
@@ -263,13 +267,13 @@ class PropertyInspectorModel {
     parseModelContentsIntoNodes = ({
         contents,
         path,
-        inherited,
+        isInherited,
         twin
     }: {
         contents: DtdlInterfaceContent[];
         twin: DTwin;
         path: string;
-        inherited: boolean;
+        isInherited: boolean;
     }): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
@@ -280,7 +284,7 @@ class PropertyInspectorModel {
             switch (type) {
                 case DTDLType.Property:
                     node = this.parsePropertyIntoNode({
-                        inherited,
+                        isInherited,
                         isObjectChild: false,
                         propertySourceObject: twin,
                         modelProperty: modelItem,
@@ -288,8 +292,8 @@ class PropertyInspectorModel {
                     });
                     break;
                 case DTDLType.Component: {
-                    if (this.expandedModel) {
-                        const componentInterface = this.expandedModel?.find(
+                    if (this.expandedModels) {
+                        const componentInterface = this.expandedModels?.find(
                             (m) => m['@id'] === modelItem.schema
                         );
 
@@ -303,14 +307,14 @@ class PropertyInspectorModel {
                                 schema: undefined,
                                 isCollapsed: true,
                                 children: this.parseTwinIntoPropertyTree({
-                                    inherited,
+                                    isInherited,
                                     path: `${path + modelItem.name}/`,
                                     rootModel: componentInterface,
                                     twin: twin[modelItem.name]
                                 }),
                                 path: path + modelItem.name,
                                 isSet: true,
-                                inherited,
+                                isInherited,
                                 value: undefined,
                                 isObjectChild: false,
                                 isRemovable: false,
@@ -342,7 +346,7 @@ class PropertyInspectorModel {
     /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
      *  is an instance of. */
     parseTwinIntoPropertyTree = ({
-        inherited,
+        isInherited,
         path,
         rootModel,
         twin
@@ -350,7 +354,7 @@ class PropertyInspectorModel {
         twin: DTwin;
         rootModel: DtdlInterface;
         path: string;
-        inherited: boolean;
+        isInherited: boolean;
     }): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
 
@@ -387,7 +391,7 @@ class PropertyInspectorModel {
                     type: DTDLType.Property,
                     value: undefined,
                     isObjectChild,
-                    inherited,
+                    isInherited,
                     isRemovable: false,
                     isMetadata: true
                 };
@@ -403,7 +407,7 @@ class PropertyInspectorModel {
                     schema: dtdlPropertyTypesEnum.string,
                     type: DTDLType.Property,
                     isObjectChild,
-                    inherited,
+                    isInherited,
                     isRemovable: false,
                     isMetadata: true
                 };
@@ -427,7 +431,7 @@ class PropertyInspectorModel {
             contents: rootModel.contents,
             twin,
             path,
-            inherited
+            isInherited
         });
 
         // Parse extended models
@@ -440,11 +444,11 @@ class PropertyInspectorModel {
         } else if (typeof rootModel.extends === 'string') {
             extendedModelIds = [rootModel.extends];
         }
-        if (extendedModelIds && this.expandedModel) {
+        if (extendedModelIds && this.expandedModels) {
             extendedModelIds.forEach((extendedModelId) => {
                 const extendedModel = Object.assign(
                     {},
-                    this.expandedModel.find(
+                    this.expandedModels.find(
                         (model) => model['@id'] === extendedModelId
                     )
                 );
@@ -453,7 +457,7 @@ class PropertyInspectorModel {
                     extendedModelNodes.push(
                         ...this.parseModelContentsIntoNodes({
                             contents: extendedModel.contents,
-                            inherited: true,
+                            isInherited: true,
                             path,
                             twin
                         })

@@ -1,4 +1,4 @@
-import { AssetRelationship, AssetTwin, AdtPatch } from '../../Constants';
+import { AssetRelationship, AssetTwin, ADTPatch } from '../../Constants';
 import AssetSimulation from './AssetSimulation';
 
 export class Asset {
@@ -607,7 +607,7 @@ export class AssetDevice {
             direction *
             (Math.random() * (this.maxValue - this.minValue) * 0.02);
         this.seedValue += step;
-        const event: AdtPatch = {
+        const event: ADTPatch = {
             op: 'replace',
             path: `/${this.deviceName}`,
             value: this.seedValue

@@ -12,7 +12,7 @@ export interface PropertyTreeNode {
     value: PrimitiveValueTypes;
     path: string;
     isObjectChild: boolean;
-    inherited: boolean;
+    isInherited: boolean;
     writable: boolean;
     isSet: boolean;
     children?: Array<PropertyTreeNode>;

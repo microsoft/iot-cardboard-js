@@ -21,7 +21,7 @@ export const TwinMock = () => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModel: mockExpandedModel,
+                expandedModels: mockExpandedModel,
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
@@ -34,7 +34,7 @@ export const SmallContainer = () => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModel: mockExpandedModel,
+                expandedModels: mockExpandedModel,
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
@@ -47,7 +47,7 @@ export const ReadOnlyTwinMock = () => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModel: mockExpandedModel,
+                expandedModels: mockExpandedModel,
                 rootModel: mockExpandedModel[0]
             }}
             readonly={true}
@@ -61,7 +61,7 @@ export const RelationsipMock = () => (
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,
-                relationshipModel: mockRelationshipPropertiesModel
+                relationshipDefinition: mockRelationshipPropertiesModel
             }}
             onCommitChanges={(patch) => console.log(patch)}
         />

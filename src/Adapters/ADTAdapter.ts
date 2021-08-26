@@ -24,7 +24,7 @@ import {
     DTwin,
     DTwinRelationship,
     DTModel,
-    AdtPatch,
+    ADTPatch,
     IADTTwinComponent,
     KeyValuePairData
 } from '../Models/Constants';
@@ -285,7 +285,7 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
+            const data = await Promise.all(
                 twins.map(async (twin) => {
                     const twinCopy = JSON.parse(JSON.stringify(twin));
                     delete twinCopy['$dtId'];
@@ -341,7 +341,7 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
+            const data = await Promise.all(
                 relationships.map((relationship: any) => {
                     const payload = {
                         $targetId: relationship.$targetId,
@@ -538,7 +538,11 @@ export default class ADTAdapter implements IADTAdapter {
             const fetchFullModel = async (targetModelId: string) => {
                 return axios({
                     method: 'get',
-                    url: `${this.adtProxyServerPath}/models/${targetModelId}?includeModelDefinition=True`,
+                    url: `${
+                        this.adtProxyServerPath
+                    }/models/${encodeURIComponent(
+                        targetModelId
+                    )}?includeModelDefinition=True`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
@@ -562,7 +566,7 @@ export default class ADTAdapter implements IADTAdapter {
                         ? baseModelsRaw
                         : [baseModelsRaw];
 
-                    await axios.all(
+                    await Promise.all(
                         baseModelsList.map((baseModelId) => {
                             return recursivelyAddToExpandedModels(baseModelId);
                         })
@@ -578,7 +582,7 @@ export default class ADTAdapter implements IADTAdapter {
                     )
                     .map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
 
-                await axios.all(
+                await Promise.all(
                     componentModelIds.map((componentModelId) => {
                         return recursivelyAddToExpandedModels(componentModelId);
                     })
@@ -594,7 +598,7 @@ export default class ADTAdapter implements IADTAdapter {
 
             // If list of base models known, fetch all models in parallel
             if (baseModelIds) {
-                await axios.all(
+                await Promise.all(
                     [modelId, ...baseModelIds].map((id) => {
                         return parallelFetchModel(id);
                     })
@@ -613,13 +617,15 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async updateTwin(twinId: string, patches: Array<AdtPatch>) {
+    async updateTwin(twinId: string, patches: Array<ADTPatch>) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'patch',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(twinId)}`,
                 data: patches,
                 headers: {
                     'Content-Type': 'application/json',
@@ -645,7 +651,11 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'get',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}/relationships/${relationshipId}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(
+                    twinId
+                )}/relationships/${encodeURIComponent(relationshipId)}`,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
@@ -663,14 +673,18 @@ export default class ADTAdapter implements IADTAdapter {
     async updateRelationship(
         twinId: string,
         relationshipId: string,
-        patches: Array<AdtPatch>
+        patches: Array<ADTPatch>
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResponse = await axios({
                 method: 'patch',
-                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}/relationships/${relationshipId}`,
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(
+                    twinId
+                )}/relationships/${encodeURIComponent(relationshipId)}`,
                 data: patches,
                 headers: {
                     'Content-Type': 'application/json',
