@@ -45,6 +45,9 @@
     "createLinechart": "Line chart card creator",
     "noInformation": "No information provided",
     "notAvailable": "Not available",
+    "size": "Size",
+    "upload": "Upload",
+    "or": "or",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -115,7 +118,7 @@
     },
     "uploadProgress": {
         "uploading": "Uploading {{assetType}}",
-        "uploadSuccess": "Uploaded {{assetType}}",
+        "uploadSuccess": "Uploaded {{assetType}} successfully",
         "uploadPartiallyFailed": "Uploaded {{assetType}} with some failures",
         "uploadFailed": "Failed to upload {{assetType}} "
     },
@@ -205,6 +208,10 @@
         "addEnumValue": "Add enum value",
         "editEnumValue": "Edit enum value",
         "enumValueDetails": "Enum value details"
+    },
+    "fileUploader": {
+        "dragAndDrop": "Drag and drop files here",
+        "browseFiles": "Browse for files"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

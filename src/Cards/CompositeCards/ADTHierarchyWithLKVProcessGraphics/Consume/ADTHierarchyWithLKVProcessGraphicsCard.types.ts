@@ -6,7 +6,7 @@ import {
 
 export interface ADTHierarchyWithLKVProcessGraphicsCardProps
     extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter; // for now only ADT adapter
+    adapter: IADTAdapter;
     pollingIntervalMillis: number;
     getHierarchyNodeProperties: (node: IHierarchyNode) => string[];
 }

@@ -86,3 +86,8 @@ export enum AssetTypes {
     Twins = 'twins',
     Relationships = 'relationships'
 }
+
+export enum FileUploadStatus {
+    Uploading = 'uploading',
+    Uploaded = 'uploaded'
+}

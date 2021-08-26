@@ -1,0 +1,33 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-file-uploader {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+
+    .cb-drop-files-container {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        font-size: 13px;
+        height: 180px;
+        line-height: 18px;
+        padding: 32px 40px;
+        width: 304px;
+
+        button {
+            margin-top: 8px;
+        }
+    }
+
+    .cb-file-list {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .cb-warning-icon {
+        font-size: 16px;
+    }
+}
