@@ -1,0 +1,13 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-standalone-property-inspector-container {
+    min-width: 300px;
+    .cb-standalone-property-inspector-header {
+        align-items: center;
+        display: flex;
+    }
+    .cb-standalone-property-inspector-header-label {
+        flex-grow: 1;
+        font-size: 12px;
+    }
+}
