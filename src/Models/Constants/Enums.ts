@@ -1,6 +1,7 @@
 export enum Theme {
     Light = 'light',
-    Dark = 'dark'
+    Dark = 'dark',
+    Explorer = 'explorer'
 }
 
 export enum TSIComponentTypes {

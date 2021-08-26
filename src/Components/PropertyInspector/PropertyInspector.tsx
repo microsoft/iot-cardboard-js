@@ -4,7 +4,11 @@ import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADT
 import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import { DTDLType } from '../../Models/Classes/DTDL';
-import { PropertyInspectorPatchMode } from '../../Models/Constants/Enums';
+import {
+    Locale,
+    PropertyInspectorPatchMode,
+    Theme
+} from '../../Models/Constants/Enums';
 import {
     ADTPatch,
     IADTAdapter,
@@ -38,6 +42,9 @@ type RelationshipPropertyInspectorProps = {
 
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
     rootAndBaseModelIdsToFlatten?: {
         rootModelId: string;
         baseModelIds: string[];
@@ -294,6 +301,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         <StandalonePropertyInspector
             inputData={inputData}
             onCommitChanges={onCommitChanges}
+            theme={props.theme}
+            locale={props.locale}
+            localeStrings={props.localeStrings}
         />
     );
 };

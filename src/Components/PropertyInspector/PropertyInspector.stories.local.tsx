@@ -14,7 +14,7 @@ const propertyInspectorStoryStyles = {
     width: '100%'
 };
 
-export const AdtTwin = (args) => {
+export const AdtTwin = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -30,6 +30,8 @@ export const AdtTwin = (args) => {
                     )
                 }
                 twinId={args.twinId}
+                theme={theme}
+                locale={locale}
             />
         </div>
     );
@@ -42,7 +44,7 @@ AdtTwin.argTypes = {
     }
 };
 
-export const AdtRelationship = (args) => {
+export const AdtRelationship = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -59,6 +61,8 @@ export const AdtRelationship = (args) => {
                 }
                 relationshipId={args.relationshipId}
                 twinId={args.twinId}
+                theme={theme}
+                locale={locale}
             />
         </div>
     );
@@ -75,7 +79,10 @@ AdtRelationship.argTypes = {
     }
 };
 
-export const ModeToggleWithResolvedData = (args) => {
+export const ModeToggleWithResolvedData = (
+    args,
+    { globals: { theme, locale } }
+) => {
     const authenticationParameters = useAuthParams();
     const [mode, setMode] = useState('twin');
     return !authenticationParameters ? (
@@ -104,6 +111,8 @@ export const ModeToggleWithResolvedData = (args) => {
                         }
                         twinId={args.twinId}
                         resolvedTwin={mockTwin}
+                        theme={theme}
+                        locale={locale}
                     />
                 ) : (
                     <PropertyInspector
@@ -118,6 +127,8 @@ export const ModeToggleWithResolvedData = (args) => {
                         relationshipId={args.relationshipId}
                         twinId={args.twinId}
                         resolvedRelationship={mockRelationship}
+                        theme={theme}
+                        locale={locale}
                     />
                 )}
             </div>

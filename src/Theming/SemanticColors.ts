@@ -9,3 +9,5 @@ import { ISemanticColors } from '@fluentui/react';
 export const fluentLightThemeSemanticColors: Partial<ISemanticColors> = {};
 
 export const fluentDarkThemeSemanticColors: Partial<ISemanticColors> = {};
+
+export const fluentExplorerThemeSemanticColors: Partial<ISemanticColors> = {};

@@ -11,7 +11,7 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.themePrimary
+            color: props.theme.palette.neutralPrimary
         }
     });
 

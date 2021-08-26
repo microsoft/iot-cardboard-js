@@ -1,4 +1,5 @@
 import React from 'react';
+import { DtdlRelationship } from '../../Models/Constants';
 import {
     mockTwin,
     mockRelationship,
@@ -16,7 +17,7 @@ const propertyInspectorStoryStyles = {
     width: '100%'
 };
 
-export const TwinMock = () => (
+export const TwinMock = (args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -25,11 +26,13 @@ export const TwinMock = () => (
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const SmallContainer = () => (
+export const SmallContainer = (args, { globals: { theme, locale } }) => (
     <div style={{ width: 300, height: 400, overflow: 'auto' }}>
         <StandalonePropertyInspector
             inputData={{
@@ -38,11 +41,13 @@ export const SmallContainer = () => (
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const ReadOnlyTwinMock = () => (
+export const ReadOnlyTwinMock = (args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -52,18 +57,22 @@ export const ReadOnlyTwinMock = () => (
             }}
             readonly={true}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const RelationsipMock = () => (
+export const RelationsipMock = (args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,
-                relationshipDefinition: mockRelationshipPropertiesModel
+                relationshipDefinition: mockRelationshipPropertiesModel as DtdlRelationship
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );

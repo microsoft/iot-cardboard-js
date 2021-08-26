@@ -1,6 +1,8 @@
 @import '../../Resources/Styles/BaseStyles';
 
 .cb-standalone-property-inspector-container {
+    background-color: var(--cb-color-bg-canvas);
+    color: var(--cb-color-text-primary);
     min-width: 300px;
     .cb-standalone-property-inspector-header {
         align-items: center;

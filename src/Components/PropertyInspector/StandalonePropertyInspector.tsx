@@ -9,9 +9,16 @@ import {
     TwinParams
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
+import {
+    ADTPatch,
+    PropertyInspectorPatchMode,
+    Theme
+} from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 import { useTranslation } from 'react-i18next';
+import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
+import { ThemeProvider } from '../../Theming/ThemeProvider';
+import i18n from '../../i18n';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -191,26 +198,36 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     };
 
     return (
-        <div className="cb-standalone-property-inspector-container">
-            <StandalonePropertyInspectorCommandBar
-                setIsTreeCollapsed={setIsTreeCollapsed}
-                onCommitChanges={onCommitChanges}
-                undoAllChanges={undoAllChanges}
-                commandBarTitle={
-                    isTwin(props.inputData)
-                        ? t('propertyInspector.commandBarTitleTwin')
-                        : t('propertyInspector.commandBarTitleRelationship')
-                }
-            />
-            <PropertyTree
-                data={propertyTreeNodes}
-                onParentClick={(parent) => onParentClick(parent)}
-                onNodeValueChange={onNodeValueChange}
-                onNodeValueUnset={onNodeValueUnset}
-                onObjectAdd={onObjectAdd}
-                readonly={!!props.readonly}
-            />
-        </div>
+        <I18nProviderWrapper
+            locale={props.locale}
+            localeStrings={props.localeStrings}
+            i18n={i18n}
+        >
+            <ThemeProvider theme={props.theme ?? Theme.Light}>
+                <div className="cb-standalone-property-inspector-container">
+                    <StandalonePropertyInspectorCommandBar
+                        setIsTreeCollapsed={setIsTreeCollapsed}
+                        onCommitChanges={onCommitChanges}
+                        undoAllChanges={undoAllChanges}
+                        commandBarTitle={
+                            isTwin(props.inputData)
+                                ? t('propertyInspector.commandBarTitleTwin')
+                                : t(
+                                      'propertyInspector.commandBarTitleRelationship'
+                                  )
+                        }
+                    />
+                    <PropertyTree
+                        data={propertyTreeNodes}
+                        onParentClick={(parent) => onParentClick(parent)}
+                        onNodeValueChange={onNodeValueChange}
+                        onNodeValueUnset={onNodeValueUnset}
+                        onObjectAdd={onObjectAdd}
+                        readonly={!!props.readonly}
+                    />
+                </div>
+            </ThemeProvider>
+        </I18nProviderWrapper>
     );
 };
 
