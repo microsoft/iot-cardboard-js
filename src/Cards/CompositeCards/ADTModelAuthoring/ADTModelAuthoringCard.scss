@@ -43,7 +43,7 @@
 
 .cb-model-authoring-card-upload-files {
     width: 800px;
-    height: 100%;
+    height: calc(100% - 20px);
     display: flex;
     flex-direction: column;
 
@@ -55,7 +55,7 @@
 
 .cb-model-authoring-card-new-model {
     width: 800px;
-    height: 100%;
+    height: calc(100% - 20px);
     display: flex;
     flex-direction: column;
 

@@ -185,6 +185,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     }
                                     onPrimaryAction={handleNewModelClick}
                                     formControlMode={FormMode.New}
+                                    isActionButtonsVisible={false}
+                                    isShowDTDLButtonVisible={true}
                                     ref={newModelComponentRef}
                                 />
                             </div>

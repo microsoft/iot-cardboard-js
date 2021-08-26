@@ -21,6 +21,8 @@ import { FormMode } from '../../Models/Constants/Enums';
 import FormSection from '../FormSection/FormSection';
 import BaseForm from '../ModelCreate/Forms/BaseForm';
 import './ModelCreate.scss';
+import { DefaultButton } from '@fluentui/react';
+import JsonPreview from '../JsonPreview/JsonPreview';
 
 enum ModelCreateMode {
     ModelForm,
@@ -37,6 +39,8 @@ interface ModelCreateProps {
     onPrimaryAction: (model: DTDLModel) => void;
     onCancel: () => void;
     formControlMode?: FormMode;
+    isActionButtonsVisible?: boolean;
+    isShowDTDLButtonVisible?: boolean;
 }
 
 class ElementToEditInfo {
@@ -56,7 +60,9 @@ function ModelCreate(props: ModelCreateProps, ref) {
         modelToEdit = null,
         onPrimaryAction,
         onCancel,
-        formControlMode
+        formControlMode,
+        isActionButtonsVisible = true,
+        isShowDTDLButtonVisible = true
     } = props;
 
     const { t } = useTranslation();
@@ -83,6 +89,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
     );
     const [components, setComponents] = useState(initialModel.components);
     const [elementToEdit, setElementToEdit] = useState(new ElementToEditInfo());
+    const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     // Currently extends and schemas are not supported.
 
     useImperativeHandle(ref, () => ({
@@ -244,13 +251,23 @@ function ModelCreate(props: ModelCreateProps, ref) {
         <div className="cb-modelcreate-container">
             <I18nProviderWrapper locale={locale} i18n={i18n}>
                 <>
-                    <Text variant="large" className="cb-modelcreate-title">
-                        {formMode === FormMode.Readonly
-                            ? t('modelCreate.modelDetails')
-                            : formMode === FormMode.Edit
-                            ? t('modelCreate.editModel')
-                            : t('modelCreate.newModel')}
-                    </Text>
+                    <div className="cb-modelcreate-header">
+                        <Text variant="large" className="cb-modelcreate-title">
+                            {formMode === FormMode.Readonly
+                                ? t('modelCreate.modelDetails')
+                                : formMode === FormMode.Edit
+                                ? t('modelCreate.editModel')
+                                : t('modelCreate.newModel')}
+                        </Text>
+                        {isShowDTDLButtonVisible && (
+                            <DefaultButton
+                                onClick={() => setIsModelPreviewOpen(true)}
+                            >
+                                {`${t('view')} DTDL`}
+                            </DefaultButton>
+                        )}
+                    </div>
+
                     <BaseForm
                         primaryActionLabel={
                             formMode === FormMode.Edit
@@ -265,6 +282,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
                         formControlMode={formMode}
+                        isActionButtonsVisible={isActionButtonsVisible}
                     >
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
@@ -483,6 +501,22 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         />
                     )}
                 </Panel>
+                <JsonPreview
+                    json={
+                        new DTDLModel(
+                            modelId,
+                            displayName,
+                            description,
+                            comment,
+                            properties,
+                            relationships,
+                            components
+                        )
+                    }
+                    isOpen={isModelPreviewOpen}
+                    onDismiss={() => setIsModelPreviewOpen(false)}
+                    modalTitle={displayName || modelId}
+                />
             </I18nProviderWrapper>
         </div>
     );
