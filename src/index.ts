@@ -4,3 +4,4 @@ export * from './Models/Classes';
 export * from './Models/Constants';
 export * from './Models/Hooks';
 export * from './Models/Services';
+export * from './Components';

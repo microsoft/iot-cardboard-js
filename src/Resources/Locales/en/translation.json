@@ -15,6 +15,8 @@
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
     "noTwins": "No twins",
     "noModels": "No models",
+    "true": "True",
+    "false": "False",
     "on": "On",
     "off": "Off",
     "wrapText": "Wrap text",
@@ -43,6 +45,9 @@
     "createLinechart": "Line chart card creator",
     "noInformation": "No information provided",
     "notAvailable": "Not available",
+    "size": "Size",
+    "upload": "Upload",
+    "or": "or",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -116,7 +121,7 @@
     },
     "uploadProgress": {
         "uploading": "Uploading {{assetType}}",
-        "uploadSuccess": "Uploaded {{assetType}}",
+        "uploadSuccess": "Uploaded {{assetType}} successfully",
         "uploadPartiallyFailed": "Uploaded {{assetType}} with some failures",
         "uploadFailed": "Failed to upload {{assetType}} "
     },
@@ -206,6 +211,10 @@
         "addEnumValue": "Add enum value",
         "editEnumValue": "Edit enum value",
         "enumValueDetails": "Enum value details"
+    },
+    "fileUploader": {
+        "dragAndDrop": "Drag and drop files here",
+        "browseFiles": "Browse for files"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
@@ -309,5 +318,32 @@
         "Add": "Add",
         "Search": "Search",
         "Date/Time": "Date/Time"
+    },
+    "propertyInspector": {
+        "commandBarTitleTwin": "TWIN PROPERTIES",
+        "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
+        "addProperty": "Add property",
+        "unsetProperty": "Unset property",
+        "unset": "unset",
+        "property": "Property",
+        "component": "Component",
+        "noTwinFound": "No Twin found",
+        "noRelationshipFound": "no Relationship found",
+        "propertyTypes": {
+            "boolean": "Boolean",
+            "date": "Date",
+            "dateTime": "Date-time",
+            "double": "Double",
+            "float": "Float",
+            "long": "Long",
+            "duration": "Duration",
+            "integer": "Integer",
+            "string": "String",
+            "time": "Time",
+            "enum": "Enum",
+            "map": "Map",
+            "array": "Array",
+            "object": "Object"
+        }
     }
 }

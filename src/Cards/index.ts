@@ -15,3 +15,4 @@ export { default as DataPusherCard } from './DataPusherCard/DataPusherCard';
 export { default as ADTModelListCard } from './ADTModelListCard/Consume/ADTModelListCard';
 export { default as ADTModelListWithModelDetailsCard } from './CompositeCards/ADTModelListWithModelDetails/Consume/ADTModelListWithModelDetailsCard';
 export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCard';
+export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
