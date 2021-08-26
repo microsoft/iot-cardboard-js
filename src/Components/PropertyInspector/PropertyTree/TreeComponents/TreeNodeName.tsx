@@ -4,6 +4,7 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, NodeRole } from '../PropertyTree.types';
 import TreeNodeIcon from './TreeNodeIcon';
 import '../PropertyTree.scss';
+import TreeNodeInfo from './TreeNodeInfo';
 
 const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
     const { onParentClick } = useContext(PropertyTreeContext);
@@ -44,6 +45,7 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                     >
                         {node.displayName ?? node.name}:
                     </div>
+                    <TreeNodeInfo node={node} />
                 </div>
             </div>
         );
@@ -62,6 +64,7 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 >
                     {node.displayName ?? node.name}:
                 </div>
+                <TreeNodeInfo node={node} />
             </div>
         );
     }

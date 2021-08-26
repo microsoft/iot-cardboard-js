@@ -334,6 +334,13 @@
             "map": "Map",
             "array": "Array",
             "object": "Object"
+        },
+        "schemaInfo": {
+            "date": "Enter a date value in YYYY-MM-DD format",
+            "dateTime": "Enter a value in RFC 3339 date-time format, for example: 2007-04-05T14:30−08:00",
+            "duration": "Enter a value in RFC 3339 duration format, for example: P3Y6M4DT12H30M5S",
+            "integer": "Enter a non-decimal integer value",
+            "time": "Enter a value in RFC 3339 full-time format, for example: 14:22:33−08:00"
         }
     }
 }

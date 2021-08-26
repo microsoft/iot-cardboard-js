@@ -28,7 +28,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
         iconTitle = t('propertyInspector.property');
         switch (node.schema) {
             case dtdlPropertyTypesEnum.boolean:
-                iconName = 'CheckboxComposite';
+                iconName = 'ToggleRight';
                 iconTitle = t('propertyInspector.propertyTypes.boolean');
                 break;
             case dtdlPropertyTypesEnum.date:
@@ -40,19 +40,19 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.dateTime');
                 break;
             case dtdlPropertyTypesEnum.double:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.double');
                 break;
             case dtdlPropertyTypesEnum.float:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.float');
                 break;
             case dtdlPropertyTypesEnum.long:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.long');
                 break;
             case dtdlPropertyTypesEnum.duration:
-                iconName = 'Clock';
+                iconName = 'BufferTimeBefore';
                 iconTitle = t('propertyInspector.propertyTypes.duration');
                 break;
             case dtdlPropertyTypesEnum.integer:
@@ -72,7 +72,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.object');
                 break;
             case dtdlPropertyTypesEnum.Enum:
-                iconName = 'Combobox';
+                iconName = 'BulletedList2';
                 iconTitle = t('propertyInspector.propertyTypes.enum');
                 break;
             case dtdlPropertyTypesEnum.Map:
