@@ -14,10 +14,12 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     isEnvironmentReady: false,
     disablePastEvents: false,
     isOtherOptionsVisible: true,
+    models: [],
+    twins: [],
+    relationships: [],
+    areAssetsSet: false,
     simulationStatus: {
-        areModelsReady: false,
-        areTwinsReady: false,
-        areRelationshipsReady: false,
+        areAssetsUploaded: false,
         liveStatus: null
     }
 };
@@ -61,14 +63,20 @@ export const dataPusherReducer = produce(
             case dataPusherActionType.SET_IS_ENVIRONMENT_READY:
                 draft.isEnvironmentReady = payload;
                 return;
-            case dataPusherActionType.SET_ARE_MODELS_READY:
-                draft.simulationStatus.areModelsReady = payload;
+            case dataPusherActionType.SET_MODELS:
+                draft.models = payload;
                 return;
-            case dataPusherActionType.SET_ARE_TWINS_READY:
-                draft.simulationStatus.areTwinsReady = payload;
+            case dataPusherActionType.SET_TWINS:
+                draft.twins = payload;
                 return;
-            case dataPusherActionType.SET_ARE_RELATIONSHIPS_READY:
-                draft.simulationStatus.areRelationshipsReady = payload;
+            case dataPusherActionType.SET_RELATIONSHIPS:
+                draft.relationships = payload;
+                return;
+            case dataPusherActionType.SET_ARE_ASSETS_SET:
+                draft.areAssetsSet = payload;
+                return;
+            case dataPusherActionType.SET_ARE_ASSETS_UPLOADED:
+                draft.simulationStatus.areAssetsUploaded = payload;
                 return;
             case dataPusherActionType.SET_LIVE_STATUS:
                 draft.simulationStatus.liveStatus = payload;

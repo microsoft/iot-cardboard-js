@@ -1,4 +1,7 @@
 import {
+    DTModel,
+    DTwin,
+    DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter
@@ -119,6 +122,13 @@ export type AdapterMethodParamsForSearchADTTwins = {
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;
+};
+
+export type AssetsFromBIMState = {
+    models: Array<DTModel>;
+    twins: Array<DTwin>;
+    relationships: Array<DTwinRelationship>;
+    modelCounts: Record<string, number>;
 };
 
 export type AdapterTypes =

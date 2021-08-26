@@ -6,7 +6,7 @@
     position: relative;
     width: 100%;
     .cb-adt-data-pusher {
-        height: calc(100% - 52px);
+        height: 100%;
         overflow-y: auto;
     }
     .cb-form-field-description {
@@ -28,5 +28,12 @@
     .cb-status-row-container {
         align-items: center;
         display: flex;
+    }
+    .cb-generate-assets-container {
+        max-width: 600px;
+        width: 100%;
+    }
+    .cb-initiate-action-button {
+        margin-top: 16px;
     }
 }
