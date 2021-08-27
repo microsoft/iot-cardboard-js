@@ -60,8 +60,35 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         PropertyTreeNode[]
     >(originalTree());
 
+    const [editStatus, setEditStatus] = useState<Record<string, boolean>>({});
+
     const undoAllChanges = () => {
         setPropertyTreeNodes(originalTree());
+        setEditStatus({});
+    };
+
+    const setNodeEditedFlag = (
+        originalNode: PropertyTreeNode,
+        newNode: PropertyTreeNode
+    ) => {
+        if (
+            originalNode.value !== newNode.value ||
+            originalNode.isSet !== newNode.isSet
+        ) {
+            newNode.edited = true;
+            setEditStatus(
+                produce((draft) => {
+                    draft[newNode.path] = true;
+                })
+            );
+        } else {
+            newNode.edited = false;
+            setEditStatus(
+                produce((draft) => {
+                    delete draft[newNode.path];
+                })
+            );
+        }
     };
 
     const onParentClick = (parent: PropertyTreeNode) => {
@@ -91,11 +118,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 );
                 targetNode.value = newValue;
                 targetNode.isSet = true;
-                if (originalNode.value !== targetNode.value) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
+                setNodeEditedFlag(originalNode, targetNode);
             })
         );
     };
@@ -112,11 +135,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     node
                 );
                 targetNode.isSet = true;
-                if (originalNode.isSet !== targetNode.isSet) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
+                setNodeEditedFlag(originalNode, targetNode);
             })
         );
     };
@@ -153,12 +172,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 
                 setNodeToDefaultValue(targetNode);
                 targetNode.isSet = false;
-
-                if (originalNode.isSet !== targetNode.isSet) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
+                setNodeEditedFlag(originalNode, targetNode);
             })
         );
     };
@@ -216,6 +230,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                                       'propertyInspector.commandBarTitleRelationship'
                                   )
                         }
+                        editStatus={editStatus}
                     />
                     <PropertyTree
                         data={propertyTreeNodes}
@@ -236,13 +251,15 @@ type StandalonePropertyInspectorCommandBarProps = {
     onCommitChanges: () => any;
     undoAllChanges: () => any;
     commandBarTitle: string;
+    editStatus: Record<string, boolean>;
 };
 
 const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspectorCommandBarProps> = ({
     setIsTreeCollapsed,
     onCommitChanges,
     undoAllChanges,
-    commandBarTitle
+    commandBarTitle,
+    editStatus
 }) => {
     const { t } = useTranslation();
 
@@ -260,7 +277,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         ariaLabel: t('propertyInspector.commandBar.undoAll'),
                         iconOnly: true,
                         iconProps: { iconName: 'Undo' },
-                        onClick: () => undoAllChanges()
+                        onClick: () => undoAllChanges(),
+                        disabled: Object.keys(editStatus).length === 0
                     },
                     {
                         key: 'expandTree',
@@ -286,7 +304,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         ariaLabel: t('propertyInspector.commandBar.save'),
                         iconOnly: true,
                         iconProps: { iconName: 'Save' },
-                        onClick: () => onCommitChanges()
+                        onClick: () => onCommitChanges(),
+                        disabled: Object.keys(editStatus).length === 0
                     }
                 ]}
             />
