@@ -244,6 +244,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     undoAllChanges,
     commandBarTitle
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="cb-standalone-property-inspector-header">
             <div className="cb-standalone-property-inspector-header-label">
@@ -254,32 +256,34 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                 farItems={[
                     {
                         key: 'undoAll',
-                        text: 'Undo all changes',
-                        ariaLabel: 'Undo all changes',
+                        text: t('propertyInspector.commandBar.undoAll'),
+                        ariaLabel: t('propertyInspector.commandBar.undoAll'),
                         iconOnly: true,
                         iconProps: { iconName: 'Undo' },
                         onClick: () => undoAllChanges()
                     },
                     {
                         key: 'expandTree',
-                        text: 'Expand tree',
-                        ariaLabel: 'Expand tree',
+                        text: t('propertyInspector.commandBar.expandTree'),
+                        ariaLabel: t('propertyInspector.commandBar.expandTree'),
                         iconOnly: true,
                         iconProps: { iconName: 'ExploreContent' },
                         onClick: () => setIsTreeCollapsed(false)
                     },
                     {
                         key: 'collapseTree',
-                        text: 'Collapse tree',
-                        ariaLabel: 'Collapse tree',
+                        text: t('propertyInspector.commandBar.collapseTree'),
+                        ariaLabel: t(
+                            'propertyInspector.commandBar.collapseTree'
+                        ),
                         iconOnly: true,
                         iconProps: { iconName: 'CollapseContent' },
                         onClick: () => setIsTreeCollapsed(true)
                     },
                     {
                         key: 'save',
-                        text: 'Save changes',
-                        ariaLabel: 'Save changes',
+                        text: t('propertyInspector.commandBar.save'),
+                        ariaLabel: t('propertyInspector.commandBar.save'),
                         iconOnly: true,
                         iconProps: { iconName: 'Save' },
                         onClick: () => onCommitChanges()

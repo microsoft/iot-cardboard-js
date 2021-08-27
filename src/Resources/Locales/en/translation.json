@@ -341,6 +341,12 @@
             "duration": "Enter a value in RFC 3339 duration format, for example: P3Y6M4DT12H30M5S",
             "integer": "Enter a non-decimal integer value",
             "time": "Enter a value in RFC 3339 full-time format, for example: 14:22:33−08:00"
+        },
+        "commandBar": {
+            "undoAll": "Undo all changes",
+            "expandTree": "Expand tree",
+            "collapseTree": "Collapse tree",
+            "save": "Save changes"
         }
     }
 }
