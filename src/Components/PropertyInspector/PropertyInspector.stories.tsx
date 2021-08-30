@@ -13,7 +13,7 @@ export default {
 };
 
 const propertyInspectorStoryStyles = {
-    maxWidth: '360px',
+    maxWidth: '380px',
     width: '100%'
 };
 
