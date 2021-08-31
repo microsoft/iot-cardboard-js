@@ -78,7 +78,12 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipProps={{
                 onRenderContent: () => {
                     return tooltipInfo;
-                }
+                },
+                styles: (props) => ({
+                    content: {
+                        '& a': { color: props.theme.palette.themePrimary }
+                    }
+                })
             }}
             styles={{
                 root: {
