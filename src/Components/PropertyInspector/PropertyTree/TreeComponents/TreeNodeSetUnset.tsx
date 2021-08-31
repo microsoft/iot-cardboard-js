@@ -23,7 +23,10 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
 
     if (node.isRemovable && DTDLType.Property) {
         if (node.isSet === false) {
-            if (node.schema === dtdlPropertyTypesEnum.Object) {
+            if (
+                node.schema === dtdlPropertyTypesEnum.Object ||
+                node.schema === dtdlPropertyTypesEnum.Map
+            ) {
                 return (
                     !readonly && (
                         <div

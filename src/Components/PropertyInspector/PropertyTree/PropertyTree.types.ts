@@ -1,4 +1,5 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
+import { DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
@@ -21,6 +22,7 @@ export interface PropertyTreeNode {
     unit?: string;
     edited?: boolean;
     isMetadata?: boolean;
+    mapDefinition?: DtdlProperty;
 }
 
 type EnumPropertyData = {
@@ -38,6 +40,7 @@ export interface PropertyTreeProps {
     onNodeValueUnset: (node: PropertyTreeNode) => any;
     onObjectAdd: (node: PropertyTreeNode) => any;
     readonly?: boolean;
+    onAddMapValue: (node: PropertyTreeNode, mapKey: string) => any;
 }
 
 export interface TreeProps {

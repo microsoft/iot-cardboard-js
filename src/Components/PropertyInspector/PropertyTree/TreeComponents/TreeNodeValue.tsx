@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { dtdlPropertyTypesEnum } from '../../../..';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
+import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
+import {
+    IIconStyleProps,
+    IIconStyles
+} from '@fluentui/react/lib/components/Icon/Icon.types';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -221,11 +226,64 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </select>
                 </div>
             );
-        case dtdlPropertyTypesEnum.Map:
+        case dtdlPropertyTypesEnum.Map: {
+            return <MapProperty node={node} />;
+        }
         case dtdlPropertyTypesEnum.Array:
         default:
             return null;
     }
+};
+
+const MapProperty: React.FC<NodeProps> = ({ node }) => {
+    const { t } = useTranslation();
+    const { onAddMapValue } = useContext(PropertyTreeContext);
+    const [newMapKey, setNewMapKey] = useState('');
+
+    useEffect(() => {
+        setNewMapKey('');
+    }, [node.isSet]);
+
+    const isAddMapValueDisabled =
+        newMapKey === '' ||
+        node.children?.findIndex((c) => c.name === newMapKey) !== -1;
+
+    const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
+        root: {
+            color: props.theme.palette.neutralPrimaryAlt,
+            opacity: isAddMapValueDisabled ? 0.5 : 1
+        }
+    });
+
+    if (!node.isSet) return null;
+
+    return (
+        <div className={`cb-property-tree-node-value`}>
+            <input
+                style={{ width: 92 }}
+                value={newMapKey}
+                onChange={(e) => setNewMapKey(e.target.value)}
+                placeholder={t('propertyInspector.mapKeyPlaceholder')}
+            ></input>
+            <div
+                className={`cb-property-tree-node-map-add-icon-container${
+                    isAddMapValueDisabled ? ' cb-add-map-disabled' : ''
+                }`}
+                onClick={() => {
+                    if (!isAddMapValueDisabled) {
+                        onAddMapValue(node, newMapKey);
+                        setNewMapKey('');
+                    }
+                }}
+            >
+                <Icon
+                    title={t('propertyInspector.addMapIconTitle')}
+                    iconName={'AddTo'}
+                    styles={iconStyles}
+                />
+            </div>
+        </div>
+    );
 };
 
 export default TreeNodeValue;

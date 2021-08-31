@@ -13,6 +13,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onNodeValueChange,
     onNodeValueUnset,
     onObjectAdd,
+    onAddMapValue,
     readonly = false
 }) => {
     return (
@@ -22,6 +23,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 onNodeValueChange,
                 onNodeValueUnset,
                 onObjectAdd,
+                onAddMapValue,
                 readonly
             }}
         >

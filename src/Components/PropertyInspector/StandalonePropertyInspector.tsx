@@ -11,6 +11,7 @@ import {
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import {
     ADTPatch,
+    dtdlPropertyTypesEnum,
     PropertyInspectorPatchMode,
     Theme
 } from '../../Models/Constants';
@@ -140,6 +141,33 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
     };
 
+    const onAddMapValue = (mapNode: PropertyTreeNode, mapKey: string) => {
+        // Construct empty tree node
+        const newTreeNode = PropertyInspectorModelRef.current.parsePropertyIntoNode(
+            {
+                isInherited: mapNode.isInherited,
+                isObjectChild: mapNode.isObjectChild,
+                path: mapNode.path + '/',
+                mapInfo: { key: mapKey },
+                propertySourceObject: {},
+                modelProperty: (mapNode.mapDefinition.schema as any).mapValue
+            }
+        );
+
+        // Add new node to map and expand map node
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    draft,
+                    mapNode
+                );
+
+                targetNode.children = [...targetNode.children, newTreeNode];
+                targetNode.isCollapsed = false;
+            })
+        );
+    };
+
     const onNodeValueUnset = (node: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
@@ -171,6 +199,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 };
 
                 setNodeToDefaultValue(targetNode);
+
+                // On maps, clear map values
+                if (targetNode.schema === dtdlPropertyTypesEnum.Map) {
+                    targetNode.children = null;
+                }
                 targetNode.isSet = false;
                 setNodeEditedFlag(originalNode, targetNode);
             })
@@ -237,6 +270,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onParentClick={(parent) => onParentClick(parent)}
                         onNodeValueChange={onNodeValueChange}
                         onNodeValueUnset={onNodeValueUnset}
+                        onAddMapValue={onAddMapValue}
                         onObjectAdd={onObjectAdd}
                         readonly={!!props.readonly}
                     />

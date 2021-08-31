@@ -319,6 +319,8 @@
         "component": "Component",
         "noTwinFound": "No Twin found",
         "noRelationshipFound": "no Relationship found",
+        "mapKeyPlaceholder": "Enter map key",
+        "addMapIconTitle": "Add map value",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",

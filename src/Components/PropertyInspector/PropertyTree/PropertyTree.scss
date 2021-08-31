@@ -74,7 +74,8 @@
     .cb-property-tree-node-value {
         align-items: center;
         display: flex;
-        margin-right: 8px;
+        margin-right: 4px;
+        min-height: inherit;
         position: relative;
 
         input,
@@ -118,6 +119,24 @@
         display: flex;
         font-size: 0.7em;
         font-style: italic;
+    }
+    .cb-property-tree-node-map-add-icon-container {
+        align-items: center;
+        border-radius: 4px;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        margin-left: 4px;
+        min-height: inherit;
+        width: 24px;
+        &:hover {
+            background-color: var(--cb-color-icon-hover-bg);
+        }
+        &.cb-add-map-disabled {
+            &:hover {
+                background-color: inherit;
+            }
+        }
     }
     .cb-property-tree-node-set-unset-icon {
         align-items: center;

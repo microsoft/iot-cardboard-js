@@ -82,21 +82,25 @@ class PropertyInspectorModel {
         isObjectChild,
         modelProperty,
         path,
-        propertySourceObject
+        propertySourceObject,
+        mapInfo = null
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
         isInherited: boolean;
+        mapInfo?: { key: string };
     }): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
             dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
         ) {
             return {
-                name: modelProperty.name,
-                displayName: modelProperty.displayName ?? modelProperty.name,
+                name: mapInfo ? mapInfo.key : modelProperty.name,
+                displayName: mapInfo
+                    ? mapInfo.key
+                    : modelProperty.displayName ?? modelProperty.name,
                 role: NodeRole.leaf,
                 schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
@@ -105,7 +109,7 @@ class PropertyInspectorModel {
                     propertySourceObject,
                     modelProperty.schema as dtdlPropertyTypesEnum
                 ),
-                path: path + modelProperty.name,
+                path: mapInfo ? path + mapInfo.key : path + modelProperty.name,
                 isObjectChild,
                 isRemovable: !isObjectChild && !!modelProperty.writable,
                 isSet: modelProperty.name in propertySourceObject,
@@ -117,27 +121,34 @@ class PropertyInspectorModel {
             switch (modelProperty.schema['@type']) {
                 case DTDLSchemaType.Object:
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
                             modelProperty.schema?.fields?.map((field) =>
                                 this.parsePropertyIntoNode({
                                     modelProperty: field,
-                                    propertySourceObject:
-                                        propertySourceObject?.[
-                                            modelProperty.name
-                                        ] ?? {},
+                                    propertySourceObject: mapInfo
+                                        ? propertySourceObject?.[mapInfo.key] ??
+                                          {}
+                                        : propertySourceObject?.[
+                                              modelProperty.name
+                                          ] ?? {},
                                     isInherited,
-                                    path: `${path + modelProperty.name}/`,
+                                    path: mapInfo
+                                        ? `${path + mapInfo.key}/`
+                                        : `${path + modelProperty.name}/`,
                                     isObjectChild: true
                                 })
                             ) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name,
+                        path: mapInfo
+                            ? path + mapInfo.key
+                            : path + modelProperty.name,
                         isObjectChild,
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
@@ -152,16 +163,17 @@ class PropertyInspectorModel {
                     };
                 case DTDLSchemaType.Enum: {
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
                         value: this.getPropertyValueOrDefault(
                             modelProperty,
                             propertySourceObject,
-                            dtdlPropertyTypesEnum.Enum
+                            dtdlPropertyTypesEnum.Map
                         ),
                         complexPropertyData:
                             {
@@ -171,7 +183,9 @@ class PropertyInspectorModel {
                                     })
                                 )
                             } ?? null,
-                        path: path + modelProperty.name,
+                        path: mapInfo
+                            ? path + mapInfo.key
+                            : path + modelProperty.name,
                         isObjectChild,
                         isInherited,
                         isRemovable:
@@ -184,27 +198,53 @@ class PropertyInspectorModel {
                         )
                     };
                 }
-                case DTDLSchemaType.Map: // TODO figure out how maps work
+                case DTDLSchemaType.Map: {
+                    const mapValue = this.getPropertyValueOrDefault(
+                        modelProperty,
+                        propertySourceObject,
+                        dtdlPropertyTypesEnum.Map
+                    );
+
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
-                        role: NodeRole.leaf,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
+                        role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Map,
+                        isCollapsed: true,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name,
+                        path: mapInfo
+                            ? path + mapInfo.key
+                            : path + modelProperty.name,
                         ...(isObjectChild && { isObjectChild: true }),
                         isInherited,
                         isRemovable:
                             !isObjectChild && !!modelProperty?.writable,
-                        value: undefined,
+                        value: mapValue,
                         isSet: modelProperty.name in propertySourceObject,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
-                        )
+                        ),
+                        mapDefinition: modelProperty,
+                        children:
+                            Object.keys(mapValue).length > 0
+                                ? Object.keys(mapValue).map((key) => {
+                                      return this.parsePropertyIntoNode({
+                                          isInherited,
+                                          isObjectChild,
+                                          modelProperty: (modelProperty.schema as any)
+                                              .mapValue,
+                                          path: `${path + modelProperty.name}/`,
+                                          propertySourceObject: mapValue,
+                                          mapInfo: { key }
+                                      });
+                                  })
+                                : null
                     };
+                }
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
                     return null;
