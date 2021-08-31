@@ -1,7 +1,7 @@
 import { IIconStyleProps, IIconStyles, TooltipHost } from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { dtdlPropertyTypesEnum } from '../../../../Models/Constants/Constants';
 import '../PropertyTree.scss';
@@ -16,7 +16,7 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     });
 
     const iconName = 'Info';
-    let tooltipInfo = t('propertyInspector.property');
+    let tooltipInfo: any = t('propertyInspector.property');
 
     // No icon for metadata or component nodes
     if (node.isMetadata || node.type === DTDLType.Component) return null;
@@ -27,7 +27,22 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = t('propertyInspector.schemaInfo.date');
             break;
         case dtdlPropertyTypesEnum.dateTime:
-            tooltipInfo = t('propertyInspector.schemaInfo.dateTime');
+            tooltipInfo = (
+                <Trans
+                    t={t}
+                    i18nKey="propertyInspector.schemaInfo.dateTime"
+                    components={{
+                        DocLink: (
+                            <a
+                                href={
+                                    'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
+                                }
+                                target="_blank"
+                            ></a>
+                        )
+                    }}
+                />
+            );
             break;
         case dtdlPropertyTypesEnum.duration:
             tooltipInfo = t('propertyInspector.schemaInfo.duration');
@@ -36,7 +51,22 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = t('propertyInspector.schemaInfo.integer');
             break;
         case dtdlPropertyTypesEnum.time:
-            tooltipInfo = t('propertyInspector.schemaInfo.time');
+            tooltipInfo = (
+                <Trans
+                    t={t}
+                    i18nKey="propertyInspector.schemaInfo.time"
+                    components={{
+                        DocLink: (
+                            <a
+                                href={
+                                    'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
+                                }
+                                target="_blank"
+                            ></a>
+                        )
+                    }}
+                />
+            );
             break;
         default:
             return null;
@@ -45,6 +75,11 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     return (
         <TooltipHost
             content={tooltipInfo}
+            tooltipProps={{
+                onRenderContent: () => {
+                    return tooltipInfo;
+                }
+            }}
             styles={{
                 root: {
                     alignItems: 'center',

@@ -57,6 +57,8 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
+                        placeholder="yyyy-mm-dd"
+                        pattern="\d{4}-\d{2}-\d{2}"
                         value={node.value as string}
                         style={{ width: 72 }}
                         onChange={(e) =>
@@ -76,8 +78,9 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
+                        placeholder="yyyy-mm-ddThh:mm:ss"
                         value={node.value as string}
-                        style={{ width: 72 }}
+                        style={{ width: 172 }}
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
                         }
@@ -187,8 +190,9 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
+                        placeholder="hh:mm:ss"
                         value={node.value as string}
-                        style={{ width: 72 }}
+                        style={{ width: 92 }}
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
                         }
