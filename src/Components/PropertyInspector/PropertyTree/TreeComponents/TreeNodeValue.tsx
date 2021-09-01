@@ -246,7 +246,8 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
 
     const isAddMapValueDisabled =
         newMapKey === '' ||
-        node.children?.findIndex((c) => c.name === newMapKey) !== -1;
+        (node.children &&
+            node.children.findIndex((c) => c.name === newMapKey) !== -1);
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
@@ -254,6 +255,13 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
             opacity: isAddMapValueDisabled ? 0.5 : 1
         }
     });
+
+    const handleAddMapValue = () => {
+        if (!isAddMapValueDisabled) {
+            onAddMapValue(node, newMapKey);
+            setNewMapKey('');
+        }
+    };
 
     if (!node.isSet) return null;
 
@@ -264,17 +272,15 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
                 value={newMapKey}
                 onChange={(e) => setNewMapKey(e.target.value)}
                 placeholder={t('propertyInspector.mapKeyPlaceholder')}
+                onKeyDown={(e) =>
+                    e.key === 'Enter' ? handleAddMapValue() : null
+                }
             ></input>
             <div
                 className={`cb-property-tree-node-map-add-icon-container${
                     isAddMapValueDisabled ? ' cb-add-map-disabled' : ''
                 }`}
-                onClick={() => {
-                    if (!isAddMapValueDisabled) {
-                        onAddMapValue(node, newMapKey);
-                        setNewMapKey('');
-                    }
-                }}
+                onClick={handleAddMapValue}
             >
                 <Icon
                     title={t('propertyInspector.addMapIconTitle')}

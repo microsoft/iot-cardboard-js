@@ -73,8 +73,10 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         newNode: PropertyTreeNode
     ) => {
         if (
+            !originalNode ||
             originalNode.value !== newNode.value ||
-            originalNode.isSet !== newNode.isSet
+            originalNode.isSet !== newNode.isSet ||
+            originalNode.children?.length !== newNode.children?.length
         ) {
             newNode.edited = true;
             setEditStatus(
@@ -97,7 +99,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
-                    parent
+                    parent.path
                 );
                 targetNode
                     ? (targetNode.isCollapsed = !targetNode.isCollapsed)
@@ -111,11 +113,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
-                    node
+                    node.path
                 );
                 const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     originalTree(),
-                    node
+                    node.path
                 );
                 targetNode.value = newValue;
                 targetNode.isSet = true;
@@ -129,11 +131,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
-                    node
+                    node.path
                 );
                 const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     originalTree(),
-                    node
+                    node.path
                 );
                 targetNode.isSet = true;
                 setNodeEditedFlag(originalNode, targetNode);
@@ -150,7 +152,8 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 path: mapNode.path + '/',
                 mapInfo: { key: mapKey },
                 propertySourceObject: {},
-                modelProperty: (mapNode.mapDefinition.schema as any).mapValue
+                modelProperty: (mapNode.mapDefinition.schema as any).mapValue,
+                isMapChild: true
             }
         );
 
@@ -159,11 +162,44 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
-                    mapNode
+                    mapNode.path
+                );
+                if (Array.isArray(targetNode.children)) {
+                    targetNode.children = [...targetNode.children, newTreeNode];
+                } else {
+                    targetNode.children = [newTreeNode];
+                }
+                targetNode.isCollapsed = false;
+                if (newTreeNode?.children) {
+                    newTreeNode.isCollapsed = false;
+                }
+                setNodeEditedFlag(mapNode, targetNode);
+            })
+        );
+    };
+
+    const onRemoveMapValue = (node: PropertyTreeNode) => {
+        // Add new node to map and expand map node
+        setPropertyTreeNodes(
+            produce((draft: PropertyTreeNode[]) => {
+                const mapNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    draft,
+                    node.path.slice(0, node.path.lastIndexOf('/'))
+                );
+                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+                    originalTree(),
+                    node.path.slice(0, node.path.lastIndexOf('/'))
                 );
 
-                targetNode.children = [...targetNode.children, newTreeNode];
-                targetNode.isCollapsed = false;
+                const childToRemoveIdx = mapNode.children.findIndex(
+                    (el) => el.path === node.path
+                );
+
+                if (childToRemoveIdx !== -1) {
+                    mapNode.children.splice(childToRemoveIdx, 1);
+                }
+
+                setNodeEditedFlag(originalNode, mapNode);
             })
         );
     };
@@ -173,11 +209,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     draft,
-                    node
+                    node.path
                 );
                 const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
                     originalTree(),
-                    node
+                    node.path
                 );
 
                 const setNodeToDefaultValue = (
@@ -271,6 +307,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onNodeValueChange={onNodeValueChange}
                         onNodeValueUnset={onNodeValueUnset}
                         onAddMapValue={onAddMapValue}
+                        onRemoveMapValue={onRemoveMapValue}
                         onObjectAdd={onObjectAdd}
                         readonly={!!props.readonly}
                     />

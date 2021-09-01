@@ -6,6 +6,7 @@ import TreeNodeName from './TreeNodeName';
 import TreeNodeValue from './TreeNodeValue';
 import TreeNodeSetUnset from './TreeNodeSetUnset';
 import { useTranslation } from 'react-i18next';
+import TreeNodeMapTool from './TreeNodeMapTool';
 
 const TreeNode: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -19,6 +20,7 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                         {node.unit}
                     </div>
                 )}
+                <TreeNodeMapTool node={node} />
                 <TreeNodeSetUnset node={node} />
             </div>
             {!node.isCollapsed && node.children && node.children.length > 0 && (

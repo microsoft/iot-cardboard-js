@@ -13,6 +13,7 @@ export interface PropertyTreeNode {
     value: PrimitiveValueTypes;
     path: string;
     isObjectChild: boolean;
+    isMapChild: boolean;
     isInherited: boolean;
     writable: boolean;
     isSet: boolean;
@@ -41,6 +42,7 @@ export interface PropertyTreeProps {
     onObjectAdd: (node: PropertyTreeNode) => any;
     readonly?: boolean;
     onAddMapValue: (node: PropertyTreeNode, mapKey: string) => any;
+    onRemoveMapValue: (node: PropertyTreeNode) => any;
 }
 
 export interface TreeProps {

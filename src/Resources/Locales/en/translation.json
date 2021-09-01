@@ -321,6 +321,7 @@
         "noRelationshipFound": "no Relationship found",
         "mapKeyPlaceholder": "Enter map key",
         "addMapIconTitle": "Add map value",
+        "removeMapValueIconTitle": "Remove map value",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",

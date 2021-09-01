@@ -80,6 +80,7 @@ class PropertyInspectorModel {
     parsePropertyIntoNode = ({
         isInherited,
         isObjectChild,
+        isMapChild,
         modelProperty,
         path,
         propertySourceObject,
@@ -89,6 +90,7 @@ class PropertyInspectorModel {
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
+        isMapChild: boolean;
         isInherited: boolean;
         mapInfo?: { key: string };
     }): PropertyTreeNode => {
@@ -111,7 +113,9 @@ class PropertyInspectorModel {
                 ),
                 path: mapInfo ? path + mapInfo.key : path + modelProperty.name,
                 isObjectChild,
-                isRemovable: !isObjectChild && !!modelProperty.writable,
+                isMapChild,
+                isRemovable:
+                    !isObjectChild && !isMapChild && !!modelProperty.writable,
                 isSet: modelProperty.name in propertySourceObject,
                 isInherited,
                 writable: !!modelProperty?.writable || isObjectChild,
@@ -141,7 +145,8 @@ class PropertyInspectorModel {
                                     path: mapInfo
                                         ? `${path + mapInfo.key}/`
                                         : `${path + modelProperty.name}/`,
-                                    isObjectChild: true
+                                    isObjectChild: true,
+                                    isMapChild: false
                                 })
                             ) ?? [],
                         isCollapsed: true,
@@ -150,8 +155,11 @@ class PropertyInspectorModel {
                             ? path + mapInfo.key
                             : path + modelProperty.name,
                         isObjectChild,
+                        isMapChild,
                         isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
+                            !isObjectChild &&
+                            !isMapChild &&
+                            !!modelProperty?.writable,
                         isInherited,
                         isSet: modelProperty.name in propertySourceObject,
                         value: undefined,
@@ -187,9 +195,12 @@ class PropertyInspectorModel {
                             ? path + mapInfo.key
                             : path + modelProperty.name,
                         isObjectChild,
+                        isMapChild,
                         isInherited,
                         isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
+                            !isObjectChild &&
+                            !isMapChild &&
+                            !!modelProperty?.writable,
                         isSet: modelProperty.name in propertySourceObject,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
@@ -217,10 +228,13 @@ class PropertyInspectorModel {
                         path: mapInfo
                             ? path + mapInfo.key
                             : path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true }),
+                        isObjectChild,
                         isInherited,
+                        isMapChild,
                         isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
+                            !isObjectChild &&
+                            !isMapChild &&
+                            !!modelProperty?.writable,
                         value: mapValue,
                         isSet: modelProperty.name in propertySourceObject,
                         writable: !!modelProperty?.writable,
@@ -239,7 +253,8 @@ class PropertyInspectorModel {
                                               .mapValue,
                                           path: `${path + modelProperty.name}/`,
                                           propertySourceObject: mapValue,
-                                          mapInfo: { key }
+                                          mapInfo: { key },
+                                          isMapChild: true
                                       });
                                   })
                                 : null
@@ -277,7 +292,8 @@ class PropertyInspectorModel {
                     isInherited: false,
                     isRemovable: false,
                     isSet: true,
-                    isMetadata: true
+                    isMetadata: true,
+                    isMapChild: false
                 });
             }
         });
@@ -291,7 +307,8 @@ class PropertyInspectorModel {
                         isObjectChild: false,
                         modelProperty: relationshipProperty,
                         path: '/',
-                        propertySourceObject: relationship
+                        propertySourceObject: relationship,
+                        isMapChild: false
                     });
 
                     treeNodes.push(node);
@@ -326,6 +343,7 @@ class PropertyInspectorModel {
                     node = this.parsePropertyIntoNode({
                         isInherited,
                         isObjectChild: false,
+                        isMapChild: false,
                         propertySourceObject: twin,
                         modelProperty: modelItem,
                         path
@@ -357,6 +375,7 @@ class PropertyInspectorModel {
                                 isInherited,
                                 value: undefined,
                                 isObjectChild: false,
+                                isMapChild: false,
                                 isRemovable: false,
                                 writable: false
                             };
@@ -431,6 +450,7 @@ class PropertyInspectorModel {
                     type: DTDLType.Property,
                     value: undefined,
                     isObjectChild,
+                    isMapChild: false,
                     isInherited,
                     isRemovable: false,
                     isMetadata: true
@@ -447,6 +467,7 @@ class PropertyInspectorModel {
                     schema: dtdlPropertyTypesEnum.string,
                     type: DTDLType.Property,
                     isObjectChild,
+                    isMapChild: false,
                     isInherited,
                     isRemovable: false,
                     isMetadata: true
@@ -518,16 +539,16 @@ class PropertyInspectorModel {
     /** Recursively searches all nodes in the property tree to find a target node */
     findPropertyTreeNodeRefRecursively = (
         nodes: PropertyTreeNode[],
-        targetNode: PropertyTreeNode
+        targetNodePath: string
     ): PropertyTreeNode => {
         for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
-            if (node.path === targetNode.path) {
+            if (node.path === targetNodePath) {
                 return node;
             } else if (node.children) {
                 const childNodeFound = this.findPropertyTreeNodeRefRecursively(
                     node.children,
-                    targetNode
+                    targetNodePath
                 );
                 if (childNodeFound) return childNodeFound;
             }
@@ -567,7 +588,7 @@ class PropertyInspectorModel {
     /** Transforms property tree nodes into JSON, retaining values only*/
     parseDataFromPropertyTree = (tree: PropertyTreeNode[], newJson = {}) => {
         tree.forEach((node) => {
-            if (node.isSet || node.isObjectChild) {
+            if (node.isSet || node.isObjectChild || node.isMapChild) {
                 if (node.children) {
                     newJson[node.name] = {};
                     newJson[node.name] = this.parseDataFromPropertyTree(

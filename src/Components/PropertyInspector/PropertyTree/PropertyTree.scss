@@ -120,24 +120,9 @@
         font-size: 0.7em;
         font-style: italic;
     }
-    .cb-property-tree-node-map-add-icon-container {
-        align-items: center;
-        border-radius: 4px;
-        display: flex;
-        height: 100%;
-        justify-content: center;
-        margin-left: 4px;
-        min-height: inherit;
-        width: 24px;
-        &:hover {
-            background-color: var(--cb-color-icon-hover-bg);
-        }
-        &.cb-add-map-disabled {
-            &:hover {
-                background-color: inherit;
-            }
-        }
-    }
+
+    .cb-property-tree-node-map-value-tool-icon,
+    .cb-property-tree-node-map-add-icon-container,
     .cb-property-tree-node-set-unset-icon {
         align-items: center;
         border-radius: 4px;
@@ -150,6 +135,20 @@
             background-color: var(--cb-color-icon-hover-bg);
         }
     }
+
+    .cb-property-tree-node-map-value-tool-icon,
+    .cb-property-tree-node-map-add-icon-container {
+        margin-left: 4px;
+    }
+
+    .cb-property-tree-node-map-add-icon-container {
+        &.cb-add-map-disabled {
+            &:hover {
+                background-color: inherit;
+            }
+        }
+    }
+
     .cb-property-tree-node-unit {
         font-size: 10px;
         font-style: italic;
