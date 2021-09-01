@@ -10,7 +10,9 @@
         margin: 0;
         padding-left: 0;
         &.cb-is-child-tree {
-            padding-left: 32px;
+            border-left: 1px dashed var(--cb-color-card-border);
+            margin-left: 26px;
+            padding-left: 12px;
         }
     }
 
