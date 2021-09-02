@@ -240,6 +240,21 @@
                                     "name": "amountCharged",
                                     "displayName": "Amount charged",
                                     "schema": "double"
+                                },
+                                {
+                                    "name": "chargeEvent",
+                                    "displayName": "Charge event",
+                                    "schema": {
+                                        "@type": "Map",
+                                        "mapKey": {
+                                            "name": "eventName",
+                                            "schema": "string"
+                                        },
+                                        "mapValue": {
+                                            "name": "eventData",
+                                            "schema": "string"
+                                        }
+                                    }
                                 }
                             ]
                         }

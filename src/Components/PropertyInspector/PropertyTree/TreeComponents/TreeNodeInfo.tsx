@@ -68,6 +68,24 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
                 />
             );
             break;
+        case dtdlPropertyTypesEnum.Map:
+            tooltipInfo = (
+                <Trans
+                    t={t}
+                    i18nKey="propertyInspector.schemaInfo.map"
+                    components={{
+                        DocLink: (
+                            <a
+                                href={
+                                    'https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#mapkey'
+                                }
+                                target="_blank"
+                            ></a>
+                        )
+                    }}
+                />
+            );
+            break;
         default:
             return null;
     }

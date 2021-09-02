@@ -263,14 +263,21 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
         }
     };
 
-    if (!node.isSet) return null;
+    const handleChangeMapKey = (e) => {
+        let newVal = e.target.value;
+        // Strip invalid map key characters
+        newVal = newVal.replace(/[^a-zA-Z0-9_]/g, '');
+        setNewMapKey(newVal);
+    };
+
+    if (!node.isSet && !node.isObjectChild) return null;
 
     return (
         <div className={`cb-property-tree-node-value`}>
             <input
                 style={{ width: 92 }}
                 value={newMapKey}
-                onChange={(e) => setNewMapKey(e.target.value)}
+                onChange={(e) => handleChangeMapKey(e)}
                 placeholder={t('propertyInspector.mapKeyPlaceholder')}
                 onKeyDown={(e) =>
                     e.key === 'Enter' ? handleAddMapValue() : null
