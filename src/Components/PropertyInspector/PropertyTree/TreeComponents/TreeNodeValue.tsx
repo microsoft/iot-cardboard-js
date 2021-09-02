@@ -13,7 +13,9 @@ import {
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueChange, readonly } = useContext(PropertyTreeContext);
+    const { onNodeValueChange, onNodeValueUnset, readonly } = useContext(
+        PropertyTreeContext
+    );
     const propertyType = node.schema;
 
     const nodeValueClassname = `cb-property-tree-node-value ${
@@ -209,14 +211,25 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <select
-                        value={(node.value as string | number) ?? 'enum-unset'}
-                        style={{ height: 21 }}
-                        onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
+                        value={
+                            (node.value as string | number) ??
+                            'cb-property-tree-enum-unset'
                         }
+                        style={{ height: 21 }}
+                        onChange={(e) => {
+                            if (
+                                e.target.value === 'cb-property-tree-enum-unset'
+                            ) {
+                                onNodeValueUnset(node);
+                            } else {
+                                onNodeValueChange(node, e.target.value);
+                            }
+                        }}
                         disabled={readonly}
                     >
-                        <option value={'enum-unset'}>--</option>
+                        <option value={'cb-property-tree-enum-unset'}>
+                            --
+                        </option>
                         {node.complexPropertyData.options.map((ev, idx) => {
                             return (
                                 <option value={ev.enumValue} key={idx}>

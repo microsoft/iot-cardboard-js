@@ -50,7 +50,7 @@ class PropertyInspectorModel {
             case dtdlPropertyTypesEnum.string:
                 return '';
             case dtdlPropertyTypesEnum.Enum:
-                return 'enum-unset';
+                return 'cb-property-tree-enum-unset';
             case dtdlPropertyTypesEnum.Map:
                 return {};
             case dtdlPropertyTypesEnum.Object:
@@ -181,7 +181,7 @@ class PropertyInspectorModel {
                         value: this.getPropertyValueOrDefault(
                             mapInfo ? mapInfo.key : modelProperty.name,
                             propertySourceObject,
-                            dtdlPropertyTypesEnum.Map
+                            dtdlPropertyTypesEnum.Enum
                         ),
                         complexPropertyData:
                             {
