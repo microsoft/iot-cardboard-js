@@ -10,7 +10,7 @@ import {
     IIconStyleProps,
     IIconStyles
 } from '@fluentui/react/lib/components/Icon/Icon.types';
-import { DateTimeValue, DateValue, TimeValue } from './TreeNodeDateTimeValues';
+import { DateTimeValue } from './TreeNodeDateTimeValue';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -62,7 +62,21 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return <DateValue node={node} />;
+            return (
+                <DateTimeValue
+                    iconName="Calendar"
+                    node={node}
+                    pickerTitle={t(
+                        'propertyInspector.dateTimePicker.datePickerTitle'
+                    )}
+                    inputProps={{
+                        placeholder: 'yyyy-mm-dd',
+                        value: node.value as string,
+                        style: { width: 72 }
+                    }}
+                    type="date"
+                />
+            );
         case dtdlPropertyTypesEnum.dateTime:
             if (readonly) {
                 return (
@@ -71,7 +85,22 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return <DateTimeValue node={node} />;
+            return (
+                <DateTimeValue
+                    iconName="DateTime"
+                    node={node}
+                    pickerTitle={t(
+                        'propertyInspector.dateTimePicker.dateTimePickerTitle'
+                    )}
+                    step={'2'}
+                    inputProps={{
+                        placeholder: 'yyyy-mm-ddThh:mm:ss',
+                        value: node.value as string,
+                        style: { width: 172 }
+                    }}
+                    type="datetime-local"
+                />
+            );
         case dtdlPropertyTypesEnum.double:
         case dtdlPropertyTypesEnum.float:
         case dtdlPropertyTypesEnum.long:
@@ -173,7 +202,22 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return <TimeValue node={node} />;
+            return (
+                <DateTimeValue
+                    iconName="Clock"
+                    node={node}
+                    pickerTitle={t(
+                        'propertyInspector.dateTimePicker.timePickerTitle'
+                    )}
+                    step={'2'}
+                    inputProps={{
+                        placeholder: 'hh:mm:ss',
+                        value: node.value as string,
+                        style: { width: 92 }
+                    }}
+                    type="time"
+                />
+            );
         case dtdlPropertyTypesEnum.Enum:
             return (
                 <div className={nodeValueClassname}>

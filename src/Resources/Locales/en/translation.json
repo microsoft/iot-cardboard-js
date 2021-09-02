@@ -351,6 +351,11 @@
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
             "save": "Save changes"
+        },
+        "dateTimePicker": {
+            "datePickerTitle": "Date picker",
+            "dateTimePickerTitle": "Datetime picker",
+            "timePickerTitle": "Time picker"
         }
     }
 }
