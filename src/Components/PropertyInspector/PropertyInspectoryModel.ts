@@ -32,12 +32,12 @@ class PropertyInspectorModel {
 
     /** Looks up property on Twin | Relationship or returns default value if unset */
     getPropertyValueOrDefault = (
-        property: DtdlInterfaceContent,
+        propertyName: string,
         propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
         return (
-            propertySourceObject?.[property.name] ??
+            propertySourceObject?.[propertyName] ??
             this.getEmptyValueForNode(schema)
         );
     };
@@ -107,7 +107,7 @@ class PropertyInspectorModel {
                 schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
                 value: this.getPropertyValueOrDefault(
-                    modelProperty,
+                    mapInfo ? mapInfo.key : modelProperty.name,
                     propertySourceObject,
                     modelProperty.schema as dtdlPropertyTypesEnum
                 ),
@@ -179,7 +179,7 @@ class PropertyInspectorModel {
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
                         value: this.getPropertyValueOrDefault(
-                            modelProperty,
+                            mapInfo ? mapInfo.key : modelProperty.name,
                             propertySourceObject,
                             dtdlPropertyTypesEnum.Map
                         ),
@@ -211,7 +211,7 @@ class PropertyInspectorModel {
                 }
                 case DTDLSchemaType.Map: {
                     const mapValue = this.getPropertyValueOrDefault(
-                        modelProperty,
+                        mapInfo ? mapInfo.key : modelProperty.name,
                         propertySourceObject,
                         dtdlPropertyTypesEnum.Map
                     );

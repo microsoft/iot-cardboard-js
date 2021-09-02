@@ -341,10 +341,10 @@
         "schemaInfo": {
             "date": "Enter a date value in YYYY-MM-DD format",
             "dateTime": "Enter a value in <DocLink>RFC 3339 date-time format</DocLink>, for example: 2007-04-05T14:30:15-08:00",
-            "duration": "Enter a value in RFC 3339 duration format, for example: P3Y6M4DT12H30M5S",
+            "duration": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
             "integer": "Enter a non-decimal integer value",
             "time": "Enter a value in <DocLink>RFC 3339 full-time format</DocLink>, for example: 14:22:33−08:00",
-            "map": "Enter a <DocLink>map key</DocLink> containing the characters a-z, A-Z, 0-9, and underscore."
+            "map": "<DocLink>Map keys</DocLink> can contain the characters a-z, A-Z, 0-9, and underscore."
         },
         "commandBar": {
             "undoAll": "Undo all changes",

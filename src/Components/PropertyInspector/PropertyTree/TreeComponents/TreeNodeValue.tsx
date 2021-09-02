@@ -125,8 +125,9 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
+                        placeholder="PnYnMnDTnHnMnS"
                         value={node.value as string}
-                        style={{ width: 72 }}
+                        style={{ width: 136 }}
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
                         }
