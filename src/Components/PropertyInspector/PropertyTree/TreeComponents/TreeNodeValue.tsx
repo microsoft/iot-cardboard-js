@@ -10,6 +10,7 @@ import {
     IIconStyleProps,
     IIconStyles
 } from '@fluentui/react/lib/components/Icon/Icon.types';
+import { DateTimeValue, DateValue, TimeValue } from './TreeNodeDateTimeValues';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -61,19 +62,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return (
-                <div className={nodeValueClassname}>
-                    <input
-                        placeholder="yyyy-mm-dd"
-                        pattern="\d{4}-\d{2}-\d{2}"
-                        value={node.value as string}
-                        style={{ width: 72 }}
-                        onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
-                        }
-                    ></input>
-                </div>
-            );
+            return <DateValue node={node} />;
         case dtdlPropertyTypesEnum.dateTime:
             if (readonly) {
                 return (
@@ -82,18 +71,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return (
-                <div className={nodeValueClassname}>
-                    <input
-                        placeholder="yyyy-mm-ddThh:mm:ss"
-                        value={node.value as string}
-                        style={{ width: 172 }}
-                        onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
-                        }
-                    ></input>
-                </div>
-            );
+            return <DateTimeValue node={node} />;
         case dtdlPropertyTypesEnum.double:
         case dtdlPropertyTypesEnum.float:
         case dtdlPropertyTypesEnum.long:
@@ -195,18 +173,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 );
             }
-            return (
-                <div className={nodeValueClassname}>
-                    <input
-                        placeholder="hh:mm:ss"
-                        value={node.value as string}
-                        style={{ width: 92 }}
-                        onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)
-                        }
-                    ></input>
-                </div>
-            );
+            return <TimeValue node={node} />;
         case dtdlPropertyTypesEnum.Enum:
             return (
                 <div className={nodeValueClassname}>

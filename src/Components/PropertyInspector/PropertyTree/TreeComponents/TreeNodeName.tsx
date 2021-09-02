@@ -33,13 +33,13 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 <div className="cb-property-tree-parent-node-inset">
                     <TreeNodeIcon node={node} />
                     <div
-                        className={`${
+                        className={`cb-property-tree-node-name-text${
                             node.isMetadata
-                                ? 'cb-property-tree-node-name-metadata'
+                                ? ' cb-property-tree-node-name-metadata'
                                 : ''
-                        } ${
+                        }${
                             node.edited
-                                ? 'cb-property-tree-node-name-edited'
+                                ? ' cb-property-tree-node-name-edited'
                                 : ''
                         }`}
                     >
@@ -54,12 +54,12 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
             <div className="cb-property-tree-node-name">
                 <TreeNodeIcon node={node} />
                 <div
-                    className={`${
+                    className={`cb-property-tree-node-name-text${
                         node.isMetadata
-                            ? 'cb-property-tree-node-name-metadata'
+                            ? ' cb-property-tree-node-name-metadata'
                             : ''
                     } ${
-                        node.edited ? 'cb-property-tree-node-name-edited' : ''
+                        node.edited ? ' cb-property-tree-node-name-edited' : ''
                     }`}
                 >
                     {node.displayName ?? node.name}:

@@ -125,6 +125,7 @@
 
     .cb-property-tree-node-map-value-tool-icon,
     .cb-property-tree-node-map-add-icon-container,
+    .cb-property-tree-node-datetime-picker-icon-container,
     .cb-property-tree-node-set-unset-icon {
         align-items: center;
         border-radius: 4px;
@@ -139,7 +140,8 @@
     }
 
     .cb-property-tree-node-map-value-tool-icon,
-    .cb-property-tree-node-map-add-icon-container {
+    .cb-property-tree-node-map-add-icon-container,
+    .cb-property-tree-node-datetime-picker-icon-container {
         margin-left: 4px;
     }
 
@@ -162,5 +164,13 @@
     }
     .cb-property-tree-node-boolean-value-label {
         margin-left: 4px;
+    }
+    .cb-property-tree-node-datetime-picker-input {
+        height: 21px;
+        overflow: hidden !important;
+        padding: 0 2px !important;
+    }
+    .cb-property-tree-node-name-text {
+        white-space: nowrap;
     }
 }
