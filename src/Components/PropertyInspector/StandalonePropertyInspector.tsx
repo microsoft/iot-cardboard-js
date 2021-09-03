@@ -73,7 +73,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         newNode: PropertyTreeNode
     ) => {
         if (
-            !originalNode ||
+            (!originalNode && newNode) ||
             originalNode.value !== newNode.value ||
             originalNode.isSet !== newNode.isSet ||
             originalNode.children?.length !== newNode.children?.length
@@ -126,7 +126,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
     };
 
-    const onObjectAdd = (node: PropertyTreeNode) => {
+    const onAddObjectOrMap = (node: PropertyTreeNode) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
                 const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
@@ -153,7 +153,8 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 mapInfo: { key: mapKey },
                 propertySourceObject: {},
                 modelProperty: (mapNode.mapDefinition.schema as any).mapValue,
-                isMapChild: true
+                isMapChild: true,
+                forceSet: true
             }
         );
 
@@ -226,6 +227,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     nodeToUnset.value = PropertyInspectorModelRef.current.getEmptyValueForNode(
                         nodeToUnset.schema
                     );
+                    nodeToUnset.isSet = false;
                     if (nodeToUnset.children) {
                         // Unsetting object should set all children values to default
                         nodeToUnset.children.forEach((child) => {
@@ -308,7 +310,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onNodeValueUnset={onNodeValueUnset}
                         onAddMapValue={onAddMapValue}
                         onRemoveMapValue={onRemoveMapValue}
-                        onObjectAdd={onObjectAdd}
+                        onAddObjectOrMap={onAddObjectOrMap}
                         readonly={!!props.readonly}
                     />
                 </div>

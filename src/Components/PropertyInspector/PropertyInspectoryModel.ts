@@ -52,7 +52,6 @@ class PropertyInspectorModel {
             case dtdlPropertyTypesEnum.Enum:
                 return 'cb-property-tree-enum-unset';
             case dtdlPropertyTypesEnum.Map:
-                return {};
             case dtdlPropertyTypesEnum.Object:
                 return undefined;
             case dtdlPropertyTypesEnum.boolean:
@@ -84,7 +83,8 @@ class PropertyInspectorModel {
         modelProperty,
         path,
         propertySourceObject,
-        mapInfo = null
+        mapInfo = null,
+        forceSet = false
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
@@ -93,6 +93,7 @@ class PropertyInspectorModel {
         isMapChild: boolean;
         isInherited: boolean;
         mapInfo?: { key: string };
+        forceSet?: boolean;
     }): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
@@ -114,9 +115,8 @@ class PropertyInspectorModel {
                 path: mapInfo ? path + mapInfo.key : path + modelProperty.name,
                 isObjectChild,
                 isMapChild,
-                isRemovable:
-                    !isObjectChild && !isMapChild && !!modelProperty.writable,
-                isSet: modelProperty.name in propertySourceObject,
+                isRemovable: !isMapChild,
+                isSet: modelProperty.name in propertySourceObject || forceSet,
                 isInherited,
                 writable: !!modelProperty?.writable || isObjectChild,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
@@ -156,12 +156,11 @@ class PropertyInspectorModel {
                             : path + modelProperty.name,
                         isObjectChild,
                         isMapChild,
-                        isRemovable:
-                            !isObjectChild &&
-                            !isMapChild &&
-                            !!modelProperty?.writable,
+                        isRemovable: !isMapChild,
                         isInherited,
-                        isSet: modelProperty.name in propertySourceObject,
+                        isSet:
+                            modelProperty.name in propertySourceObject ||
+                            forceSet,
                         value: undefined,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
@@ -197,11 +196,10 @@ class PropertyInspectorModel {
                         isObjectChild,
                         isMapChild,
                         isInherited,
-                        isRemovable:
-                            !isObjectChild &&
-                            !isMapChild &&
-                            !!modelProperty?.writable,
-                        isSet: modelProperty.name in propertySourceObject,
+                        isRemovable: !isMapChild,
+                        isSet:
+                            modelProperty.name in propertySourceObject ||
+                            forceSet,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
@@ -231,12 +229,11 @@ class PropertyInspectorModel {
                         isObjectChild,
                         isInherited,
                         isMapChild,
-                        isRemovable:
-                            !isObjectChild &&
-                            !isMapChild &&
-                            !!modelProperty?.writable,
-                        value: mapValue,
-                        isSet: modelProperty.name in propertySourceObject,
+                        isRemovable: !isMapChild,
+                        value: undefined,
+                        isSet:
+                            modelProperty.name in propertySourceObject ||
+                            forceSet,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
@@ -244,7 +241,7 @@ class PropertyInspectorModel {
                         ),
                         mapDefinition: modelProperty,
                         children:
-                            Object.keys(mapValue).length > 0
+                            mapValue && Object.keys(mapValue).length > 0
                                 ? Object.keys(mapValue).map((key) => {
                                       return this.parsePropertyIntoNode({
                                           isInherited,
@@ -254,7 +251,8 @@ class PropertyInspectorModel {
                                           path: `${path + modelProperty.name}/`,
                                           propertySourceObject: mapValue,
                                           mapInfo: { key },
-                                          isMapChild: true
+                                          isMapChild: true,
+                                          forceSet: true
                                       });
                                   })
                                 : null
@@ -588,7 +586,7 @@ class PropertyInspectorModel {
     /** Transforms property tree nodes into JSON, retaining values only*/
     parseDataFromPropertyTree = (tree: PropertyTreeNode[], newJson = {}) => {
         tree.forEach((node) => {
-            if (node.isSet || node.isObjectChild || node.isMapChild) {
+            if (node.isSet) {
                 if (node.children) {
                     newJson[node.name] = {};
                     newJson[node.name] = this.parseDataFromPropertyTree(

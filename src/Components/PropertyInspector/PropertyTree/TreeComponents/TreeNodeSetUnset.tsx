@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueUnset, onObjectAdd, readonly } = useContext(
+    const { onNodeValueUnset, onAddObjectOrMap, readonly } = useContext(
         PropertyTreeContext
     );
 
@@ -33,7 +33,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
                             className="cb-property-tree-node-set-unset-icon"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onObjectAdd(node);
+                                onAddObjectOrMap(node);
                             }}
                             title={t('propertyInspector.addProperty')}
                         >

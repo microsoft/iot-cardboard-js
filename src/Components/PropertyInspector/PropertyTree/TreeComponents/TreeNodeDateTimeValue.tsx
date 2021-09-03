@@ -59,6 +59,20 @@ export const DateTimeValue: React.FC<{
         node.edited ? 'cb-property-tree-node-value-edited' : ''
     }`;
 
+    const onSubmitPicker = () => {
+        let valToSubmit = pickerVal;
+
+        if (type === 'datetime-local') {
+            // If seconds set to :00 in datetime-local picker, value truncates
+            // Replace :00 in output value
+            if (valToSubmit.slice(valToSubmit.indexOf('T')).length === 6) {
+                valToSubmit += ':00';
+            }
+        }
+        setIsPickerOpen(false);
+        onNodeValueChange(node, valToSubmit);
+    };
+
     if (isPickerOpen) {
         return (
             <div className={nodeValueClassname}>
@@ -69,13 +83,11 @@ export const DateTimeValue: React.FC<{
                     value={pickerVal}
                     onChange={(e) => setPickerVal(e.target.value)}
                     onBlur={() => {
-                        setIsPickerOpen(false);
-                        onNodeValueChange(node, pickerVal);
+                        onSubmitPicker();
                     }}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            setIsPickerOpen(false);
-                            onNodeValueChange(node, pickerVal);
+                            onSubmitPicker();
                         }
                     }}
                     step={step}

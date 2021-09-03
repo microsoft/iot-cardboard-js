@@ -92,7 +92,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     pickerTitle={t(
                         'propertyInspector.dateTimePicker.dateTimePickerTitle'
                     )}
-                    step={'2'}
+                    step={'1'}
                     inputProps={{
                         placeholder: 'yyyy-mm-ddThh:mm:ss',
                         value: node.value as string,
@@ -209,7 +209,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     pickerTitle={t(
                         'propertyInspector.dateTimePicker.timePickerTitle'
                     )}
-                    step={'2'}
+                    step={'1'}
                     inputProps={{
                         placeholder: 'hh:mm:ss',
                         value: node.value as string,
@@ -295,7 +295,7 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
         setNewMapKey(newVal);
     };
 
-    if (!node.isSet && !node.isObjectChild) return null;
+    if (!node.isSet) return null;
 
     return (
         <div className={`cb-property-tree-node-value`}>
