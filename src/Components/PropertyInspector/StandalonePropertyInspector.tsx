@@ -148,7 +148,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         const newTreeNode = PropertyInspectorModelRef.current.parsePropertyIntoNode(
             {
                 isInherited: mapNode.isInherited,
-                isObjectChild: mapNode.isObjectChild,
+                isObjectChild: !!mapNode.parentObjectPath,
                 path: mapNode.path + '/',
                 mapInfo: { key: mapKey },
                 propertySourceObject: {},

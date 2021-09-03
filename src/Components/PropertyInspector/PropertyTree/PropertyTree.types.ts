@@ -12,11 +12,11 @@ export interface PropertyTreeNode {
     type: DTDLType;
     value: PrimitiveValueTypes;
     path: string;
-    isObjectChild: boolean;
     isMapChild: boolean;
     isInherited: boolean;
     writable: boolean;
     isSet: boolean;
+    parentObjectPath?: string;
     children?: Array<PropertyTreeNode>;
     isCollapsed?: boolean;
     complexPropertyData?: EnumPropertyData;

@@ -113,7 +113,7 @@ class PropertyInspectorModel {
                     modelProperty.schema as dtdlPropertyTypesEnum
                 ),
                 path: mapInfo ? path + mapInfo.key : path + modelProperty.name,
-                isObjectChild,
+                parentObjectPath: isObjectChild && path,
                 isMapChild,
                 isRemovable: !isMapChild,
                 isSet: modelProperty.name in propertySourceObject || forceSet,
@@ -154,7 +154,7 @@ class PropertyInspectorModel {
                         path: mapInfo
                             ? path + mapInfo.key
                             : path + modelProperty.name,
-                        isObjectChild,
+                        parentObjectPath: isObjectChild && path,
                         isMapChild,
                         isRemovable: !isMapChild,
                         isInherited,
@@ -193,7 +193,7 @@ class PropertyInspectorModel {
                         path: mapInfo
                             ? path + mapInfo.key
                             : path + modelProperty.name,
-                        isObjectChild,
+                        parentObjectPath: isObjectChild && path,
                         isMapChild,
                         isInherited,
                         isRemovable: !isMapChild,
@@ -226,7 +226,7 @@ class PropertyInspectorModel {
                         path: mapInfo
                             ? path + mapInfo.key
                             : path + modelProperty.name,
-                        isObjectChild,
+                        parentObjectPath: isObjectChild && path,
                         isInherited,
                         isMapChild,
                         isRemovable: !isMapChild,
@@ -286,7 +286,6 @@ class PropertyInspectorModel {
                     value: relationship[key] ?? undefined,
                     path: `/${key}`,
                     type: DTDLType.Property,
-                    isObjectChild: false,
                     isInherited: false,
                     isRemovable: false,
                     isSet: true,
@@ -372,7 +371,6 @@ class PropertyInspectorModel {
                                 isSet: true,
                                 isInherited,
                                 value: undefined,
-                                isObjectChild: false,
                                 isMapChild: false,
                                 isRemovable: false,
                                 writable: false
@@ -447,7 +445,7 @@ class PropertyInspectorModel {
                     schema: dtdlPropertyTypesEnum.Object,
                     type: DTDLType.Property,
                     value: undefined,
-                    isObjectChild,
+                    parentObjectPath: isObjectChild && path,
                     isMapChild: false,
                     isInherited,
                     isRemovable: false,
@@ -464,7 +462,7 @@ class PropertyInspectorModel {
                     value: node,
                     schema: dtdlPropertyTypesEnum.string,
                     type: DTDLType.Property,
-                    isObjectChild,
+                    parentObjectPath: isObjectChild && path,
                     isMapChild: false,
                     isInherited,
                     isRemovable: false,
