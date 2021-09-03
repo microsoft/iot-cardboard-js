@@ -23,31 +23,11 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
 
     if (node.isRemovable && DTDLType.Property) {
         if (node.isSet === false) {
-            if (
-                node.schema === dtdlPropertyTypesEnum.Object ||
-                node.schema === dtdlPropertyTypesEnum.Map
-            ) {
-                return (
-                    !readonly && (
-                        <div
-                            className="cb-property-tree-node-set-unset-icon"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onAddObjectOrMap(node);
-                            }}
-                            title={t('propertyInspector.addProperty')}
-                        >
-                            <Icon iconName={'Add'} styles={iconStyles} />
-                        </div>
-                    )
-                );
-            } else {
-                return (
-                    <div className="cb-property-tree-node-value-unset">
-                        ({t('propertyInspector.unset')})
-                    </div>
-                );
-            }
+            return (
+                <div className="cb-property-tree-node-value-unset">
+                    ({t('propertyInspector.unset')})
+                </div>
+            );
         } else {
             return (
                 !readonly && (

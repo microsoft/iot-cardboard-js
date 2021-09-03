@@ -72,6 +72,10 @@ class PropertyInspectorModel {
         }
     };
 
+    buildPath = (path, newRoute) => {
+        return `${path}/${newRoute}`;
+    };
+
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
      *  This method is called recursively for nested types. Values which have been set
      *  are attached to nodes.
@@ -112,7 +116,9 @@ class PropertyInspectorModel {
                     propertySourceObject,
                     modelProperty.schema as dtdlPropertyTypesEnum
                 ),
-                path: mapInfo ? path + mapInfo.key : path + modelProperty.name,
+                path: mapInfo
+                    ? this.buildPath(path, mapInfo.key)
+                    : this.buildPath(path, modelProperty.name),
                 parentObjectPath: isObjectChild && path,
                 isMapChild,
                 isRemovable: !isMapChild,
@@ -143,8 +149,11 @@ class PropertyInspectorModel {
                                           ] ?? {},
                                     isInherited,
                                     path: mapInfo
-                                        ? `${path + mapInfo.key}/`
-                                        : `${path + modelProperty.name}/`,
+                                        ? this.buildPath(path, mapInfo.key)
+                                        : this.buildPath(
+                                              path,
+                                              modelProperty.name
+                                          ),
                                     isObjectChild: true,
                                     isMapChild: false
                                 })
@@ -152,8 +161,8 @@ class PropertyInspectorModel {
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: mapInfo
-                            ? path + mapInfo.key
-                            : path + modelProperty.name,
+                            ? this.buildPath(path, mapInfo.key)
+                            : this.buildPath(path, modelProperty.name),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
                         isRemovable: !isMapChild,
@@ -191,8 +200,8 @@ class PropertyInspectorModel {
                                 )
                             } ?? null,
                         path: mapInfo
-                            ? path + mapInfo.key
-                            : path + modelProperty.name,
+                            ? this.buildPath(path, mapInfo.key)
+                            : this.buildPath(path, modelProperty.name),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
                         isInherited,
@@ -224,8 +233,8 @@ class PropertyInspectorModel {
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: mapInfo
-                            ? path + mapInfo.key
-                            : path + modelProperty.name,
+                            ? this.buildPath(path, mapInfo.key)
+                            : this.buildPath(path, modelProperty.name),
                         parentObjectPath: isObjectChild && path,
                         isInherited,
                         isMapChild,
@@ -248,7 +257,10 @@ class PropertyInspectorModel {
                                           isObjectChild,
                                           modelProperty: (modelProperty.schema as any)
                                               .mapValue,
-                                          path: `${path + modelProperty.name}/`,
+                                          path: this.buildPath(
+                                              path,
+                                              modelProperty.name
+                                          ),
                                           propertySourceObject: mapValue,
                                           mapInfo: { key },
                                           isMapChild: true,
@@ -303,7 +315,7 @@ class PropertyInspectorModel {
                         isInherited: false,
                         isObjectChild: false,
                         modelProperty: relationshipProperty,
-                        path: '/',
+                        path: '',
                         propertySourceObject: relationship,
                         isMapChild: false
                     });
@@ -363,11 +375,11 @@ class PropertyInspectorModel {
                                 isCollapsed: true,
                                 children: this.parseTwinIntoPropertyTree({
                                     isInherited,
-                                    path: `${path + modelItem.name}/`,
+                                    path: this.buildPath(path, modelItem.name),
                                     rootModel: componentInterface,
                                     twin: twin[modelItem.name]
                                 }),
-                                path: path + modelItem.name,
+                                path: this.buildPath(path, modelItem.name),
                                 isSet: true,
                                 isInherited,
                                 value: undefined,
@@ -429,7 +441,7 @@ class PropertyInspectorModel {
                 return {
                     displayName: key,
                     name: key,
-                    path: path + key,
+                    path: this.buildPath(path, key),
                     role: NodeRole.parent,
                     isSet: true,
                     writable: false,
@@ -438,7 +450,7 @@ class PropertyInspectorModel {
                         parseMetaDataIntoPropertyTreeNodes({
                             node: node[childKey],
                             key: childKey,
-                            path: `${path + key}/`,
+                            path: this.buildPath(path, key),
                             isObjectChild: true
                         })
                     ),
@@ -455,7 +467,7 @@ class PropertyInspectorModel {
                 return {
                     displayName: key,
                     name: key,
-                    path: path + key,
+                    path: this.buildPath(path, key),
                     role: NodeRole.leaf,
                     writable: false,
                     isSet: true,

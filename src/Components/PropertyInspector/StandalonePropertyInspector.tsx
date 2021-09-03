@@ -47,7 +47,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         return isTwin(props.inputData)
             ? PropertyInspectorModelRef.current.parseTwinIntoPropertyTree({
                   isInherited: false,
-                  path: '/',
+                  path: '',
                   rootModel: props.inputData.rootModel,
                   twin: props.inputData.twin
               })
@@ -72,6 +72,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         originalNode: PropertyTreeNode,
         newNode: PropertyTreeNode
     ) => {
+        const editPath = newNode.path;
         if (
             (!originalNode && newNode) ||
             originalNode.value !== newNode.value ||
@@ -81,14 +82,14 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             newNode.edited = true;
             setEditStatus(
                 produce((draft) => {
-                    draft[newNode.path] = true;
+                    draft[editPath] = true;
                 })
             );
         } else {
             newNode.edited = false;
             setEditStatus(
                 produce((draft) => {
-                    delete draft[newNode.path];
+                    delete draft[editPath];
                 })
             );
         }
@@ -108,6 +109,27 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         );
     };
 
+    // If targetNode references parent object, recurse upwards, auto-setting parent objects
+    const autoSetParentObjects = (
+        draft: PropertyTreeNode[],
+        parentPath: string
+    ) => {
+        const parentNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+            draft,
+            parentPath
+        );
+        const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
+            originalTree(),
+            parentPath
+        );
+
+        parentNode.isSet = true;
+        setNodeEditedFlag(originalNode, parentNode);
+        if (parentNode.parentObjectPath) {
+            autoSetParentObjects(draft, parentNode.parentObjectPath);
+        }
+    };
+
     const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
         setPropertyTreeNodes(
             produce((draft: PropertyTreeNode[]) => {
@@ -122,6 +144,10 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 targetNode.value = newValue;
                 targetNode.isSet = true;
                 setNodeEditedFlag(originalNode, targetNode);
+
+                if (targetNode.parentObjectPath) {
+                    autoSetParentObjects(draft, targetNode.parentObjectPath);
+                }
             })
         );
     };
@@ -138,6 +164,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     node.path
                 );
                 targetNode.isSet = true;
+
+                if (targetNode.parentObjectPath) {
+                    autoSetParentObjects(draft, targetNode.parentObjectPath);
+                }
+
                 setNodeEditedFlag(originalNode, targetNode);
             })
         );
@@ -149,7 +180,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             {
                 isInherited: mapNode.isInherited,
                 isObjectChild: !!mapNode.parentObjectPath,
-                path: mapNode.path + '/',
+                path: mapNode.path,
                 mapInfo: { key: mapKey },
                 propertySourceObject: {},
                 modelProperty: (mapNode.mapDefinition.schema as any).mapValue,
@@ -170,6 +201,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                 } else {
                     targetNode.children = [newTreeNode];
                 }
+                targetNode.isSet = true;
                 targetNode.isCollapsed = false;
                 if (newTreeNode?.children) {
                     newTreeNode.isCollapsed = false;

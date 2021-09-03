@@ -295,8 +295,6 @@ const MapProperty: React.FC<NodeProps> = ({ node }) => {
         setNewMapKey(newVal);
     };
 
-    if (!node.isSet) return null;
-
     return (
         <div className={`cb-property-tree-node-value`}>
             <input
