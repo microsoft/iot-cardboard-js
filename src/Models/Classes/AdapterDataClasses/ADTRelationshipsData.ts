@@ -1,7 +1,7 @@
-import { IAdapterData } from '../../Constants/Interfaces';
+import { IAdapterData, IADTRelationship } from '../../Constants/Interfaces';
 import { ADTRelationship } from '../../Constants/Types';
 
-class ADTRelationshipData implements IAdapterData {
+class ADTRelationshipsData implements IAdapterData {
     data: ADTRelationship[];
 
     constructor(data: ADTRelationship[]) {
@@ -13,4 +13,16 @@ class ADTRelationshipData implements IAdapterData {
     }
 }
 
-export default ADTRelationshipData;
+class ADTRelationshipData implements IAdapterData {
+    data: IADTRelationship;
+
+    constructor(data: IADTRelationship) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return this.data === null || this.data.length === 0;
+    }
+}
+
+export { ADTRelationshipsData, ADTRelationshipData };

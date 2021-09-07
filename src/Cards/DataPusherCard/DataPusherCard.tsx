@@ -27,18 +27,13 @@ import {
     Stack
 } from '@fluentui/react';
 import { useAdapter } from '../../Models/Hooks';
-import {
-    DTModel,
-    DTwin,
-    DTwinRelationship,
-    DTwinUpdateEvent
-} from '../../Models/Constants/Interfaces';
+import { DTwinUpdateEvent } from '../../Models/Constants/Interfaces';
 import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import NumericSpinInput from '../../Components/NumericSpinInput/NumericSpinInput';
 import { useTranslation } from 'react-i18next';
 import ExpandableSlideInContent from '../../Components/ExpandableContent/ExpandableContent';
-import { Icon } from '@fluentui/react/lib/Icon';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
+import GenerateADTAssets from '../../Components/GenerateADTAssets/GenerateADTAssets';
 
 const DataPusherContext = createContext<IDataPusherContext>(null);
 const useDataPusherContext = () => useContext(DataPusherContext);
@@ -67,27 +62,6 @@ const DataPusherCard = ({
     });
 
     const intervalRef = useRef(null);
-
-    const modelState = useAdapter({
-        adapterMethod: (params: { models: DTModel[] }) =>
-            adapter.createModels(params.models),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
-
-    const relationshipState = useAdapter({
-        adapterMethod: (params: { relationships: DTwinRelationship[] }) =>
-            adapter.createRelationships(params.relationships),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
-
-    const twinState = useAdapter({
-        adapterMethod: (params: { twins: DTwin[] }) =>
-            adapter.createTwins(params.twins),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
-    });
 
     const updateTwinState = useAdapter({
         adapterMethod: (params: { events: Array<DTwinUpdateEvent> }) =>
@@ -151,16 +125,24 @@ const DataPusherCard = ({
 
     const generateEnvironment = async () => {
         const assetSimulation = new AssetSimulation(0, 0);
-        const models = assetSimulation.generateDTModels(
-            state.includeImagesForModel
-        );
-        const twins = assetSimulation.generateDTwins(
-            state.includeImagesForModel
-        );
-        const relationships = assetSimulation.generateTwinRelationships();
-        await modelState.callAdapter({ models });
-        await twinState.callAdapter({ twins });
-        await relationshipState.callAdapter({ relationships });
+        dispatch({
+            type: dataPusherActionType.SET_MODELS,
+            payload: assetSimulation.generateDTModels(
+                state.includeImagesForModel
+            )
+        });
+        dispatch({
+            type: dataPusherActionType.SET_TWINS,
+            payload: assetSimulation.generateDTwins(state.includeImagesForModel)
+        });
+        dispatch({
+            type: dataPusherActionType.SET_RELATIONSHIPS,
+            payload: assetSimulation.generateTwinRelationships()
+        });
+        dispatch({
+            type: dataPusherActionType.SET_ARE_ASSETS_SET,
+            payload: true
+        });
     };
 
     // Update adapter's ADT Url when input changes
@@ -175,37 +157,12 @@ const DataPusherCard = ({
         };
     }, []);
 
-    useEffect(() => {
-        // 409 error means duplicate models in environment -- OK
-        if (
-            (modelState.adapterResult?.getCatastrophicError()?.rawError as any)
-                ?.request?.status === 409 ||
-            modelState.adapterResult?.getData()
-        ) {
-            dispatch({
-                type: dataPusherActionType.SET_ARE_MODELS_READY,
-                payload: true
-            });
-        }
-    }, [modelState.adapterResult]);
-
-    useEffect(() => {
-        if (twinState.adapterResult?.getData()) {
-            dispatch({
-                type: dataPusherActionType.SET_ARE_TWINS_READY,
-                payload: true
-            });
-        }
-    }, [twinState.adapterResult]);
-
-    useEffect(() => {
-        if (relationshipState.adapterResult?.getData()) {
-            dispatch({
-                type: dataPusherActionType.SET_ARE_RELATIONSHIPS_READY,
-                payload: true
-            });
-        }
-    }, [relationshipState.adapterResult]);
+    const onComplete = () => {
+        dispatch({
+            type: dataPusherActionType.SET_ARE_ASSETS_UPLOADED,
+            payload: true
+        });
+    };
 
     useEffect(() => {
         const data = updateTwinState.adapterResult?.getData();
@@ -229,22 +186,13 @@ const DataPusherCard = ({
     }, [updateTwinState.adapterResult]);
 
     useEffect(() => {
-        if (
-            state.simulationStatus.areModelsReady &&
-            state.simulationStatus.areTwinsReady &&
-            state.simulationStatus.areRelationshipsReady
-        ) {
+        if (state.simulationStatus.areAssetsUploaded) {
             dispatch({
                 type: dataPusherActionType.SET_IS_ENVIRONMENT_READY,
                 payload: true
             });
         }
-    }, [
-        state.simulationStatus.areModelsReady,
-        state.simulationStatus.areTwinsReady,
-        state.simulationStatus.areRelationshipsReady
-    ]);
-
+    }, [state.simulationStatus.areAssetsUploaded]);
     return (
         <BaseCard
             isLoading={false}
@@ -256,168 +204,134 @@ const DataPusherCard = ({
         >
             <DataPusherContext.Provider value={{ state, dispatch }}>
                 <div className="cb-datapusher-container">
-                    <AdtDataPusher />
-                    <div className="cb-datapusher-footer">
-                        <Stack
-                            horizontal
+                    <div className="cb-adt-data-pusher">
+                        <TextField
+                            label={t('dataPusher.instanceUrl')}
+                            placeholder={
+                                '<your_adt_instance_url>.digitaltwins.azure.net'
+                            }
+                            value={state.instanceUrl}
+                            onChange={(_e, newValue) =>
+                                dispatch({
+                                    type: dataPusherActionType.SET_INSTANCE_URL,
+                                    payload: newValue
+                                        .replace('https://', '')
+                                        .replace('http://', '')
+                                })
+                            }
                             styles={{
-                                root: {
-                                    width: 800
-                                }
+                                fieldGroup: { width: '600px' },
+                                root: { marginBottom: '8px' }
                             }}
-                            tokens={{ childrenGap: 16 }}
+                        />
+                        {!state.disablePastEvents && (
+                            <>
+                                <Separator
+                                    alignContent="start"
+                                    styles={separatorStyles}
+                                >
+                                    {t('dataPusher.pastEventsLabel')}
+                                </Separator>
+                                <QuickFillDataForm />
+                            </>
+                        )}
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
                         >
+                            {t('dataPusher.liveStreamLabel')}
+                        </Separator>
+                        <LiveStreamDataForm />
+                        {state.isOtherOptionsVisible && (
+                            <>
+                                <Separator
+                                    alignContent="start"
+                                    styles={separatorStyles}
+                                >
+                                    {t('dataPusher.otherOptionsLabel')}
+                                </Separator>
+                                <OtherOptionsForm />
+                            </>
+                        )}
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
+                        >
+                            {t('dataPusher.create')}
+                        </Separator>
+                        <FormFieldDescription>
+                            {t('dataPusher.generateEnvironmentDescription')}
+                        </FormFieldDescription>
+                        <div className="cb-generate-assets-container">
+                            {state.areAssetsSet && (
+                                <GenerateADTAssets
+                                    adapter={adapter}
+                                    models={state.models}
+                                    twins={state.twins}
+                                    relationships={state.relationships}
+                                    triggerUpload={state.areAssetsSet}
+                                    onComplete={onComplete}
+                                />
+                            )}
                             <PrimaryButton
                                 text={t('dataPusher.generateEnvironment')}
-                                disabled={state.isEnvironmentReady}
+                                disabled={state.areAssetsSet}
+                                className={'cb-initiate-action-button'}
                                 onClick={() => {
                                     generateEnvironment();
                                 }}
                             />
-
-                            <PrimaryButton
-                                text={
-                                    state.isSimulationRunning
-                                        ? t('dataPusher.stopSimulation')
-                                        : t('dataPusher.startSimulation')
-                                }
-                                disabled={
-                                    (!state.isSimulationRunning &&
-                                        !state.isDataBackFilled &&
-                                        !state.isLiveDataSimulated) ||
-                                    !state.isEnvironmentReady
-                                }
-                                onClick={() =>
-                                    state.isSimulationRunning
-                                        ? stopSimulation()
-                                        : startSimulation()
-                                }
-                            />
-                        </Stack>
+                        </div>
+                        <Separator
+                            alignContent="start"
+                            styles={separatorStyles}
+                        >
+                            {t('dataPusher.simulate')}
+                        </Separator>
+                        <FormFieldDescription>
+                            {t('dataPusher.simulateDescription')}
+                        </FormFieldDescription>
+                        <div>
+                            {!!state.isSimulationRunning && (
+                                <ProgressIndicator
+                                    label={t('dataPusher.simulating')}
+                                    description={t('dataPusher.liveStatus', {
+                                        packetNumber:
+                                            state.simulationStatus.liveStatus
+                                                ?.packetNumber ?? 0,
+                                        totalSuccessfulPatches:
+                                            state.simulationStatus.liveStatus
+                                                ?.totalSuccessfulPatches ?? 0,
+                                        totalTwinsPatched:
+                                            state.simulationStatus.liveStatus
+                                                ?.totalTwinsPatched ?? 0
+                                    })}
+                                />
+                            )}
+                        </div>
+                        <PrimaryButton
+                            text={
+                                state.isSimulationRunning
+                                    ? t('dataPusher.stopSimulation')
+                                    : t('dataPusher.startSimulation')
+                            }
+                            disabled={
+                                (!state.isSimulationRunning &&
+                                    !state.isDataBackFilled &&
+                                    !state.isLiveDataSimulated) ||
+                                !state.isEnvironmentReady
+                            }
+                            onClick={() =>
+                                state.isSimulationRunning
+                                    ? stopSimulation()
+                                    : startSimulation()
+                            }
+                            className={'cb-initiate-action-button'}
+                        />
                     </div>
                 </div>
             </DataPusherContext.Provider>
         </BaseCard>
-    );
-};
-
-const SimulationStatus = () => {
-    const { t } = useTranslation();
-    const { state } = useDataPusherContext();
-
-    const StatusIndicator = ({ label, ready }) => {
-        const iconStyles = {
-            root: {
-                fontSize: 8,
-                width: 20,
-                color: 'var(--cb-color-inactive)'
-            }
-        };
-
-        const checkMarkStyles = {
-            root: {
-                fontSize: 14,
-                width: 20,
-                fontWeight: 'bold',
-                color: 'var(--cb-color-theme-primary)'
-            }
-        };
-        return (
-            <div className="cb-status-row-container">
-                {ready ? (
-                    <Icon iconName={'Checkmark'} styles={checkMarkStyles} />
-                ) : (
-                    <Icon iconName={'StatusCircleOuter'} styles={iconStyles} />
-                )}
-                <Text variant={'medium'}>{label}</Text>
-            </div>
-        );
-    };
-
-    return (
-        <div>
-            {!state.isSimulationRunning ? (
-                <>
-                    <StatusIndicator
-                        label={t('dataPusher.models')}
-                        ready={state.simulationStatus.areModelsReady}
-                    />
-                    <StatusIndicator
-                        label={t('dataPusher.twins')}
-                        ready={state.simulationStatus.areTwinsReady}
-                    />
-                    <StatusIndicator
-                        label={t('dataPusher.relationships')}
-                        ready={state.simulationStatus.areRelationshipsReady}
-                    />
-                </>
-            ) : (
-                <ProgressIndicator
-                    label={t('dataPusher.simulating')}
-                    description={t('dataPusher.liveStatus', {
-                        packetNumber:
-                            state.simulationStatus.liveStatus?.packetNumber ??
-                            0,
-                        totalSuccessfulPatches:
-                            state.simulationStatus.liveStatus
-                                ?.totalSuccessfulPatches ?? 0,
-                        totalTwinsPatched:
-                            state.simulationStatus.liveStatus
-                                ?.totalTwinsPatched ?? 0
-                    })}
-                />
-            )}
-        </div>
-    );
-};
-
-const AdtDataPusher = () => {
-    const { t } = useTranslation();
-    const { state, dispatch } = useDataPusherContext();
-    return (
-        <div className="cb-adt-data-pusher">
-            <TextField
-                label={t('dataPusher.instanceUrl')}
-                placeholder={'<your_adt_instance_url>.digitaltwins.azure.net'}
-                value={state.instanceUrl}
-                onChange={(_e, newValue) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_INSTANCE_URL,
-                        payload: newValue
-                            .replace('https://', '')
-                            .replace('http://', '')
-                    })
-                }
-                styles={{
-                    fieldGroup: { width: '600px' },
-                    root: { marginBottom: '8px' }
-                }}
-            />
-            {!state.disablePastEvents && (
-                <>
-                    <Separator alignContent="start" styles={separatorStyles}>
-                        {t('dataPusher.pastEventsLabel')}
-                    </Separator>
-                    <QuickFillDataForm />
-                </>
-            )}
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.liveStreamLabel')}
-            </Separator>
-            <LiveStreamDataForm />
-            {state.isOtherOptionsVisible && (
-                <>
-                    <Separator alignContent="start" styles={separatorStyles}>
-                        {t('dataPusher.otherOptionsLabel')}
-                    </Separator>
-                    <OtherOptionsForm />
-                </>
-            )}
-            <Separator alignContent="start" styles={separatorStyles}>
-                {t('dataPusher.simulationStatus')}
-            </Separator>
-            <SimulationStatus />
-        </div>
     );
 };
 

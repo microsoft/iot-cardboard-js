@@ -5,6 +5,7 @@ import {
     IAuthService,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants/Interfaces';
+import axiosRetry from 'axios-retry';
 import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
@@ -14,35 +15,46 @@ import {
 } from '../Models/Constants/Types';
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import ADTRelationshipData from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
+import {
+    ADTRelationshipData,
+    ADTRelationshipsData
+} from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
     CardErrorType,
     DTwin,
     DTwinRelationship,
     DTModel,
+    ADTPatch,
     IADTTwinComponent,
-    KeyValuePairData
+    KeyValuePairData,
+    DTwinUpdateEvent
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     ADTAdapterModelsData,
+    ADTAdapterPatchData,
     ADTAdapterTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
-import { DTDLModel } from '../Models/Classes/DTDL';
-import axios from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
+import { getModelContentType } from '../Models/Services/Utils';
+import { DTDLType } from '../Models/Classes/DTDL';
+import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
     ADTModelsData,
-    ADTRelationshipsData,
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
+import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
-    private adtHostUrl: string;
+    public adtHostUrl: string;
     private adtProxyServerPath: string;
+    public packetNumber = 0;
+    private axiosInstance: AxiosInstance;
 
     constructor(
         adtHostUrl: string,
@@ -53,6 +65,20 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.authService.login();
+        this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
+        axiosRetry(this.axiosInstance, {
+            retries: 3,
+            retryCondition: (axiosError: AxiosError) => {
+                return (
+                    axiosError?.response?.status == 429 ||
+                    axiosError?.response?.status >= 500
+                );
+            },
+            retryDelay: (retryCount) => {
+                console.log((Math.pow(2, retryCount) - Math.random()) * 1000);
+                return (Math.pow(2, retryCount) - Math.random()) * 1000;
+            }
+        });
     }
 
     getAdtHostUrl() {
@@ -82,7 +108,7 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTRelationshipData,
+            ADTRelationshipsData,
             {
                 method: 'get',
                 url: `${
@@ -198,6 +224,34 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
+    async updateTwins(events: Array<DTwinUpdateEvent>) {
+        this.packetNumber++;
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const data = await Promise.all(
+                events.map((event) => {
+                    const id = event.dtId;
+                    return axios({
+                        method: 'patch',
+                        url: `${this.adtProxyServerPath}/digitaltwins/${id}`,
+                        data: event.patchJSON,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token,
+                            'x-adt-host': this.adtHostUrl
+                        },
+                        params: {
+                            'api-version': ADT_ApiVersion
+                        }
+                    }).catch((err) => {
+                        return err.response.data;
+                    });
+                })
+            );
+            return new SimulationAdapterData(data);
+        });
+    }
+
     getADTTwinsByModelId(params: AdapterMethodParamsForGetADTTwinsByModelId) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -242,12 +296,12 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async createModels(models: DTDLModel[]) {
+    async createModels(models: DTModel[]) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const axiosResult = await axios({
+            const axiosResult = await this.axiosInstance({
                 method: 'post',
-                url: `${this.adtProxyServerPath}/models`,
+                url: `/models`,
                 data: models,
                 headers: {
                     'Content-Type': 'application/json',
@@ -277,15 +331,13 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
+            const data = await Promise.all(
                 twins.map(async (twin) => {
                     const twinCopy = JSON.parse(JSON.stringify(twin));
                     delete twinCopy['$dtId'];
-                    const axiosResponse = await axios({
+                    const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `${
-                            this.adtProxyServerPath
-                        }/digitaltwins/${encodeURIComponent(twin.$dtId)}`,
+                        url: `/digitaltwins/${encodeURIComponent(twin.$dtId)}`,
                         data: twinCopy,
                         headers: {
                             'Content-Type': 'application/json',
@@ -303,13 +355,10 @@ export default class ADTAdapter implements IADTAdapter {
                         });
                         return null;
                     });
-
-                    if (axiosResponse?.status === 200) {
-                        uploadCounter++;
-                        onUploadProgress &&
-                            onUploadProgress(uploadCounter, twins.length);
-                    }
-                    return new ADTTwinData(axiosResponse?.data);
+                    uploadCounter++;
+                    onUploadProgress &&
+                        onUploadProgress(uploadCounter, twins.length);
+                    return axiosResponse ? axiosResponse.data : null;
                 })
             );
 
@@ -318,11 +367,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return resp !== null;
             });
 
-            const uploadedTwins = filteredResponses.map((axiosResult) => {
-                return axiosResult.data;
-            });
-
-            return new ADTTwinsData(uploadedTwins);
+            return new ADTTwinsData(filteredResponses);
         });
     }
 
@@ -333,20 +378,18 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let uploadCounter = 0;
-            const data = await axios.all(
-                relationships.map((relationship: any) => {
+            const data = await Promise.all(
+                relationships.map(async (relationship: DTwinRelationship) => {
                     const payload = {
                         $targetId: relationship.$targetId,
-                        $relationshipName: relationship.$relationshipName
+                        $relationshipName: relationship.$name
                     };
-                    return axios({
+                    const axiosResponse = await this.axiosInstance({
                         method: 'put',
-                        url: `${
-                            this.adtProxyServerPath
-                        }/digitaltwins/${encodeURIComponent(
-                            relationship.sourceId
+                        url: `/digitaltwins/${encodeURIComponent(
+                            relationship.$dtId
                         )}/relationships/${encodeURIComponent(
-                            relationship.relationshipId
+                            relationship.$relId
                         )}`,
                         data: payload,
                         headers: {
@@ -356,14 +399,6 @@ export default class ADTAdapter implements IADTAdapter {
                         },
                         params: {
                             'api-version': ADT_ApiVersion
-                        },
-                        onUploadProgress: () => {
-                            uploadCounter++;
-                            onUploadProgress &&
-                                onUploadProgress(
-                                    uploadCounter,
-                                    relationships.length
-                                );
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
@@ -373,6 +408,12 @@ export default class ADTAdapter implements IADTAdapter {
                         });
                         return null;
                     });
+
+                    uploadCounter++;
+                    onUploadProgress &&
+                        onUploadProgress(uploadCounter, relationships.length);
+
+                    return axiosResponse ? axiosResponse.data : null;
                 })
             );
 
@@ -381,13 +422,7 @@ export default class ADTAdapter implements IADTAdapter {
                 return resp !== null;
             });
 
-            const uploadedRelationships = filteredResponses.map(
-                (axiosResult) => {
-                    return axiosResult.data;
-                }
-            );
-
-            return new ADTRelationshipsData(uploadedRelationships);
+            return new ADTRelationshipsData(filteredResponses);
         });
     }
 
@@ -519,5 +554,180 @@ export default class ADTAdapter implements IADTAdapter {
             }
         );
         return new ADTTwinLookupData(twinData.getData(), modelData.getData());
+    }
+
+    async getExpandedAdtModel(modelId: string, baseModelIds?: string[]) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const expandedModels: DtdlInterface[] = [];
+
+            const fetchFullModel = async (targetModelId: string) => {
+                return axios({
+                    method: 'get',
+                    url: `${
+                        this.adtProxyServerPath
+                    }/models/${encodeURIComponent(
+                        targetModelId
+                    )}?includeModelDefinition=True`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token,
+                        'x-adt-host': this.adtHostUrl
+                    },
+                    params: {
+                        'api-version': ADT_ApiVersion
+                    }
+                });
+            };
+
+            const recursivelyAddToExpandedModels = async (modelId: string) => {
+                // Add root model
+                const rootModel = (await fetchFullModel(modelId)).data.model;
+                expandedModels.push(rootModel);
+
+                // Add extended models
+                const baseModelsRaw = rootModel?.extends;
+                if (baseModelsRaw) {
+                    const baseModelsList = Array.isArray(baseModelsRaw)
+                        ? baseModelsRaw
+                        : [baseModelsRaw];
+
+                    await Promise.all(
+                        baseModelsList.map((baseModelId) => {
+                            return recursivelyAddToExpandedModels(baseModelId);
+                        })
+                    );
+                }
+
+                // Add component models
+                const componentModelIds = rootModel.contents
+                    ?.filter(
+                        (m) =>
+                            getModelContentType(m['@type']) ===
+                            DTDLType.Component
+                    )
+                    .map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
+
+                await Promise.all(
+                    componentModelIds.map((componentModelId) => {
+                        return recursivelyAddToExpandedModels(componentModelId);
+                    })
+                );
+
+                return rootModel;
+            };
+
+            const parallelFetchModel = async (modelId: string) => {
+                const model = (await fetchFullModel(modelId)).data.model;
+                expandedModels.push(model);
+            };
+
+            // If list of base models known, fetch all models in parallel
+            if (baseModelIds) {
+                await Promise.all(
+                    [modelId, ...baseModelIds].map((id) => {
+                        return parallelFetchModel(id);
+                    })
+                );
+            } else {
+                // If base models unknown, recursively expand and fetch in sequence
+                await recursivelyAddToExpandedModels(modelId);
+            }
+
+            return new ExpandedADTModelData({
+                expandedModels,
+                rootModel: expandedModels.find(
+                    (model) => model['@id'] === modelId
+                )
+            });
+        });
+    }
+
+    async updateTwin(twinId: string, patches: Array<ADTPatch>) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResponse = await axios({
+                method: 'patch',
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(twinId)}`,
+                data: patches,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            });
+
+            if (axiosResponse.status === 204) {
+                return new ADTAdapterPatchData(patches);
+            } else {
+                throw new Error(axiosResponse.statusText);
+            }
+        });
+    }
+
+    async getADTRelationship(twinId: string, relationshipId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResponse = await axios({
+                method: 'get',
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(
+                    twinId
+                )}/relationships/${encodeURIComponent(relationshipId)}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            });
+
+            return new ADTRelationshipData(axiosResponse.data);
+        });
+    }
+
+    async updateRelationship(
+        twinId: string,
+        relationshipId: string,
+        patches: Array<ADTPatch>
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const axiosResponse = await axios({
+                method: 'patch',
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(
+                    twinId
+                )}/relationships/${encodeURIComponent(relationshipId)}`,
+                data: patches,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token,
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            });
+
+            if (axiosResponse.status === 204) {
+                return new ADTAdapterPatchData(patches);
+            } else {
+                throw new Error(axiosResponse.statusText);
+            }
+        });
     }
 }

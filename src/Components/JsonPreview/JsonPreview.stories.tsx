@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { default as JsonPreviewView } from './JsonPreview';
 import { DefaultButton } from '@fluentui/react';
-import json from '../../../.storybook/test_data/mockTwin.json';
+import json from '../../../.storybook/test_data/mockModel.json';
 import { useTranslation } from 'react-i18next';
 
 export default {

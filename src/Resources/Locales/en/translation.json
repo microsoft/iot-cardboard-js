@@ -15,6 +15,8 @@
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
     "noTwins": "No twins",
     "noModels": "No models",
+    "true": "True",
+    "false": "False",
     "on": "On",
     "off": "Off",
     "wrapText": "Wrap text",
@@ -90,12 +92,15 @@
         "startSimulation": "Start simulation",
         "stopSimulation": "Stop simulation",
         "days": "days",
-        "simulationStatus": "Simulation status",
+        "create": "Create",
+        "simulate": "Simulate",
         "models": "Models",
         "twins": "Twins",
         "relationships": "Relationships",
         "simulating": "Simulating",
-        "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated"
+        "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
+        "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
+        "simulateDescription": "Push events to your environment"
     },
     "BIMUpload": {
         "specifyFiles": "Specify files to upload from",
@@ -335,5 +340,32 @@
         "Add": "Add",
         "Search": "Search",
         "Date/Time": "Date/Time"
+    },
+    "propertyInspector": {
+        "commandBarTitleTwin": "TWIN PROPERTIES",
+        "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
+        "addProperty": "Add property",
+        "unsetProperty": "Unset property",
+        "unset": "unset",
+        "property": "Property",
+        "component": "Component",
+        "noTwinFound": "No Twin found",
+        "noRelationshipFound": "no Relationship found",
+        "propertyTypes": {
+            "boolean": "Boolean",
+            "date": "Date",
+            "dateTime": "Date-time",
+            "double": "Double",
+            "float": "Float",
+            "long": "Long",
+            "duration": "Duration",
+            "integer": "Integer",
+            "string": "String",
+            "time": "Time",
+            "enum": "Enum",
+            "map": "Map",
+            "array": "Array",
+            "object": "Object"
+        }
     }
 }
