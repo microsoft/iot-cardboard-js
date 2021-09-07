@@ -12,7 +12,6 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onParentClick,
     onNodeValueChange,
     onNodeValueUnset,
-    onAddObjectOrMap,
     onAddMapValue,
     onRemoveMapValue,
     readonly = false
@@ -23,7 +22,6 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 onParentClick,
                 onNodeValueChange,
                 onNodeValueUnset,
-                onAddObjectOrMap,
                 onAddMapValue,
                 onRemoveMapValue,
                 readonly

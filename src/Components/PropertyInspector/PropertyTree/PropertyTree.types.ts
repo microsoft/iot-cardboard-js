@@ -39,7 +39,6 @@ export interface PropertyTreeProps {
     onParentClick: (parent: PropertyTreeNode) => any;
     onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
     onNodeValueUnset: (node: PropertyTreeNode) => any;
-    onAddObjectOrMap: (node: PropertyTreeNode) => any;
     readonly?: boolean;
     onAddMapValue: (node: PropertyTreeNode, mapKey: string) => any;
     onRemoveMapValue: (node: PropertyTreeNode) => any;

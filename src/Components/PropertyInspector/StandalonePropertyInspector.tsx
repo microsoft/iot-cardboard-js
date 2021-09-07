@@ -1,17 +1,14 @@
-import produce from 'immer';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 import {
     isTwin,
-    StandalonePropertyInspectorProps,
-    TwinParams
+    StandalonePropertyInspectorProps
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import {
     ADTPatch,
-    dtdlPropertyTypesEnum,
     PropertyInspectorPatchMode,
     Theme
 } from '../../Models/Constants';
@@ -20,6 +17,10 @@ import { useTranslation } from 'react-i18next';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import { ThemeProvider } from '../../Theming/ThemeProvider';
 import i18n from '../../i18n';
+import StandalonePropertyInspectorReducer, {
+    defaultStandalonePropertyInspectorState,
+    spiActionType
+} from './StandalonePropertyInspector.state';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -29,274 +30,96 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     props
 ) => {
     const { t } = useTranslation();
-    const PropertyInspectorModelRef = useRef(
-        new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModels
-        )
-    );
-
-    // Reset property inspector when input data changes
-    useEffect(() => {
-        PropertyInspectorModelRef.current = new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModels
-        );
-        setPropertyTreeNodes(originalTree());
-    }, [props.inputData]);
 
     const originalTree = useCallback(() => {
         return isTwin(props.inputData)
-            ? PropertyInspectorModelRef.current.parseTwinIntoPropertyTree({
+            ? PropertyInspectorModel.parseTwinIntoPropertyTree({
                   isInherited: false,
                   path: '',
                   rootModel: props.inputData.rootModel,
-                  twin: props.inputData.twin
+                  twin: props.inputData.twin,
+                  expandedModels: props.inputData.expandedModels
               })
-            : PropertyInspectorModelRef.current.parseRelationshipIntoPropertyTree(
+            : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                   props.inputData.relationship,
                   props.inputData.relationshipDefinition
               );
     }, [props.inputData]);
 
-    const [propertyTreeNodes, setPropertyTreeNodes] = useState<
-        PropertyTreeNode[]
-    >(originalTree());
+    const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
+        ...defaultStandalonePropertyInspectorState,
+        propertyTreeNodes: originalTree(),
+        originalPropertyTreeNodes: Object.assign({}, originalTree())
+    });
 
-    const [editStatus, setEditStatus] = useState<Record<string, boolean>>({});
+    // Reset property inspector when input data changes
+    useEffect(() => {
+        dispatch({
+            type: spiActionType.SET_PROPERTY_TREE_NODES,
+            nodes: originalTree()
+        });
+    }, [props.inputData]);
 
     const undoAllChanges = () => {
-        setPropertyTreeNodes(originalTree());
-        setEditStatus({});
+        dispatch({
+            type: spiActionType.SET_PROPERTY_TREE_NODES,
+            nodes: originalTree()
+        });
+        dispatch({
+            type: spiActionType.RESET_EDIT_STATUS
+        });
     };
 
-    const setNodeEditedFlag = (
-        originalNode: PropertyTreeNode,
-        newNode: PropertyTreeNode
-    ) => {
-        const editPath = newNode.path;
-        if (
-            (!originalNode && newNode) ||
-            originalNode.value !== newNode.value ||
-            originalNode.isSet !== newNode.isSet ||
-            originalNode.children?.length !== newNode.children?.length
-        ) {
-            newNode.edited = true;
-            setEditStatus(
-                produce((draft) => {
-                    draft[editPath] = true;
-                })
-            );
-        } else {
-            newNode.edited = false;
-            setEditStatus(
-                produce((draft) => {
-                    delete draft[editPath];
-                })
-            );
-        }
-    };
-
-    const onParentClick = (parent: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    parent.path
-                );
-                targetNode
-                    ? (targetNode.isCollapsed = !targetNode.isCollapsed)
-                    : null;
-            })
-        );
-    };
-
-    // If targetNode references parent object, recurse upwards, auto-setting parent objects
-    const autoSetParentObjects = (
-        draft: PropertyTreeNode[],
-        parentPath: string
-    ) => {
-        const parentNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-            draft,
-            parentPath
-        );
-        const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-            originalTree(),
-            parentPath
-        );
-
-        parentNode.isSet = true;
-        setNodeEditedFlag(originalNode, parentNode);
-        if (parentNode.parentObjectPath) {
-            autoSetParentObjects(draft, parentNode.parentObjectPath);
-        }
+    const onParentClick = (parentNode: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.TOGGLE_PARENT_NODE_COLLAPSE_STATE,
+            parentNode
+        });
     };
 
     const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node.path
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node.path
-                );
-                targetNode.value = newValue;
-                targetNode.isSet = true;
-                setNodeEditedFlag(originalNode, targetNode);
-
-                if (targetNode.parentObjectPath) {
-                    autoSetParentObjects(draft, targetNode.parentObjectPath);
-                }
-            })
-        );
-    };
-
-    const onAddObjectOrMap = (node: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node.path
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node.path
-                );
-                targetNode.isSet = true;
-
-                if (targetNode.parentObjectPath) {
-                    autoSetParentObjects(draft, targetNode.parentObjectPath);
-                }
-
-                setNodeEditedFlag(originalNode, targetNode);
-            })
-        );
+        dispatch({
+            type: spiActionType.ON_NODE_VALUE_CHANGED,
+            node,
+            newValue
+        });
     };
 
     const onAddMapValue = (mapNode: PropertyTreeNode, mapKey: string) => {
-        // Construct empty tree node
-        const newTreeNode = PropertyInspectorModelRef.current.parsePropertyIntoNode(
-            {
-                isInherited: mapNode.isInherited,
-                isObjectChild: !!mapNode.parentObjectPath,
-                path: mapNode.path,
-                mapInfo: { key: mapKey },
-                propertySourceObject: {},
-                modelProperty: (mapNode.mapDefinition.schema as any).mapValue,
-                isMapChild: true,
-                forceSet: true
-            }
-        );
-
-        // Add new node to map and expand map node
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    mapNode.path
-                );
-                if (Array.isArray(targetNode.children)) {
-                    targetNode.children = [...targetNode.children, newTreeNode];
-                } else {
-                    targetNode.children = [newTreeNode];
-                }
-                targetNode.isSet = true;
-                targetNode.isCollapsed = false;
-                if (newTreeNode?.children) {
-                    newTreeNode.isCollapsed = false;
-                }
-                setNodeEditedFlag(mapNode, targetNode);
-            })
-        );
+        dispatch({
+            type: spiActionType.ON_ADD_MAP_VALUE,
+            mapKey,
+            mapNode
+        });
     };
 
-    const onRemoveMapValue = (node: PropertyTreeNode) => {
-        // Add new node to map and expand map node
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const mapNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node.path.slice(0, node.path.lastIndexOf('/'))
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node.path.slice(0, node.path.lastIndexOf('/'))
-                );
-
-                const childToRemoveIdx = mapNode.children.findIndex(
-                    (el) => el.path === node.path
-                );
-
-                if (childToRemoveIdx !== -1) {
-                    mapNode.children.splice(childToRemoveIdx, 1);
-                }
-
-                setNodeEditedFlag(originalNode, mapNode);
-            })
-        );
+    const onRemoveMapValue = (mapChildToRemove: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.ON_REMOVE_MAP_VALUE,
+            mapChildToRemove
+        });
     };
 
     const onNodeValueUnset = (node: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node.path
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node.path
-                );
-
-                const setNodeToDefaultValue = (
-                    nodeToUnset: PropertyTreeNode,
-                    isChildNode = false
-                ) => {
-                    if (isChildNode) {
-                        nodeToUnset.edited = false;
-                    }
-                    nodeToUnset.value = PropertyInspectorModelRef.current.getEmptyValueForNode(
-                        nodeToUnset.schema
-                    );
-                    nodeToUnset.isSet = false;
-                    if (nodeToUnset.children) {
-                        // Unsetting object should set all children values to default
-                        nodeToUnset.children.forEach((child) => {
-                            setNodeToDefaultValue(child, true);
-                        });
-                    }
-                };
-
-                setNodeToDefaultValue(targetNode);
-
-                // On maps, clear map values
-                if (targetNode.schema === dtdlPropertyTypesEnum.Map) {
-                    targetNode.children = null;
-                }
-                targetNode.isSet = false;
-                setNodeEditedFlag(originalNode, targetNode);
-            })
-        );
+        dispatch({
+            type: spiActionType.ON_NODE_VALUE_UNSET,
+            node
+        });
     };
 
     const setIsTreeCollapsed = (isCollapsed: boolean) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                PropertyInspectorModelRef.current.setIsTreeCollapsed(
-                    draft,
-                    isCollapsed
-                );
-            })
-        );
+        dispatch({
+            type: spiActionType.SET_IS_TREE_COLLAPSED,
+            isCollapsed
+        });
     };
 
     const onCommitChanges = () => {
-        const patchData = PropertyInspectorModelRef.current.generatePatchData(
+        const patchData = PropertyInspectorModel.generatePatchData(
             isTwin(props.inputData)
                 ? props.inputData.twin
                 : props.inputData.relationship,
-            propertyTreeNodes
+            state.propertyTreeNodes as PropertyTreeNode[]
         );
         if (isTwin(props.inputData)) {
             props.onCommitChanges({
@@ -333,16 +156,15 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                                       'propertyInspector.commandBarTitleRelationship'
                                   )
                         }
-                        editStatus={editStatus}
+                        editStatus={state.editStatus}
                     />
                     <PropertyTree
-                        data={propertyTreeNodes}
+                        data={state.propertyTreeNodes as PropertyTreeNode[]}
                         onParentClick={(parent) => onParentClick(parent)}
                         onNodeValueChange={onNodeValueChange}
                         onNodeValueUnset={onNodeValueUnset}
                         onAddMapValue={onAddMapValue}
                         onRemoveMapValue={onRemoveMapValue}
-                        onAddObjectOrMap={onAddObjectOrMap}
                         readonly={!!props.readonly}
                     />
                 </div>
