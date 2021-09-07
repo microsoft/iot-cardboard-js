@@ -30,7 +30,7 @@ const TreeNodeMapTool: React.FC<NodeProps> = ({ node }) => {
         >
             <Icon
                 title={t('propertyInspector.removeMapValueIconTitle')}
-                iconName={'Remove'}
+                iconName={'Trash'}
                 styles={iconStyles}
             />
         </div>
