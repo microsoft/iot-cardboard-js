@@ -564,7 +564,7 @@ class PropertyInspectorModel {
         return null;
     };
 
-    /** Toggles are parent node collapsed state */
+    /** Toggles all parent nodes' collapsed state */
     setIsTreeCollapsed = (nodes: PropertyTreeNode[], isCollapsed: boolean) => {
         nodes.forEach((node) => {
             if (node.children) {

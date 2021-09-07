@@ -1,6 +1,5 @@
 import React from 'react';
 import { useContext } from 'react';
-import { dtdlPropertyTypesEnum } from '../../../..';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
@@ -11,9 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueUnset, onAddObjectOrMap, readonly } = useContext(
-        PropertyTreeContext
-    );
+    const { onNodeValueUnset, readonly } = useContext(PropertyTreeContext);
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
