@@ -10,8 +10,9 @@ export default {
 };
 
 const propertyInspectorStoryStyles = {
-    maxWidth: '380px',
-    width: '100%'
+    maxWidth: '428px',
+    width: '100%',
+    overflow: 'auto'
 };
 
 export const AdtTwin = (args, { globals: { theme, locale } }) => {

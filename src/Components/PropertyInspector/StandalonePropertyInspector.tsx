@@ -49,7 +49,9 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
         ...defaultStandalonePropertyInspectorState,
         propertyTreeNodes: originalTree(),
-        originalPropertyTreeNodes: Object.assign({}, originalTree())
+        originalPropertyTreeNodes: originalTree().map((el) =>
+            Object.assign({}, el)
+        )
     });
 
     // Reset property inspector when input data changes

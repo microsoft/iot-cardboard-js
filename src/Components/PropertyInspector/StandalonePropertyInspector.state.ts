@@ -68,7 +68,9 @@ const StandalonePropertyInspectorReducer = produce(
             case spiActionType.SET_PROPERTY_TREE_NODES: {
                 const { nodes } = action;
                 draft.propertyTreeNodes = nodes;
-                draft.originalPropertyTreeNodes = Object.assign({}, nodes);
+                draft.originalPropertyTreeNodes = nodes.map((el) =>
+                    Object.assign({}, el)
+                );
                 break;
             }
             case spiActionType.RESET_EDIT_STATUS:

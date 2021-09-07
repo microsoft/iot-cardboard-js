@@ -13,11 +13,12 @@ export default {
 };
 
 const propertyInspectorStoryStyles = {
-    maxWidth: '380px',
-    width: '100%'
+    maxWidth: '428px',
+    width: '100%',
+    overflow: 'auto'
 };
 
-export const TwinMock = (args, { globals: { theme, locale } }) => (
+export const TwinMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -32,7 +33,7 @@ export const TwinMock = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const SmallContainer = (args, { globals: { theme, locale } }) => (
+export const SmallContainer = (_args, { globals: { theme, locale } }) => (
     <div style={{ width: 300, height: 400, overflow: 'auto' }}>
         <StandalonePropertyInspector
             inputData={{
@@ -47,7 +48,7 @@ export const SmallContainer = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const ReadOnlyTwinMock = (args, { globals: { theme, locale } }) => (
+export const ReadOnlyTwinMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -63,7 +64,7 @@ export const ReadOnlyTwinMock = (args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const RelationsipMock = (args, { globals: { theme, locale } }) => (
+export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
