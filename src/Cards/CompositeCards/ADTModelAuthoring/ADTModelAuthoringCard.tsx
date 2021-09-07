@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import { useTranslation } from 'react-i18next';
 import './ADTModelAuthoringCard.scss';
@@ -7,19 +7,34 @@ import StepperWizard from '../../../Components/StepperWizard/StepperWizard';
 import {
     DTModel,
     IADTModel,
+    IJSONUploaderFileItem,
     IStepperWizardStep
 } from '../../../Models/Constants/Interfaces';
 import ADTModelUploaderCard from '../../ADTModelUploaderCard/ADTModelUploaderCard';
-import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
+import {
+    ActivityItem,
+    DefaultButton,
+    DetailsList,
+    DetailsListLayoutMode,
+    IActivityItemProps,
+    Icon,
+    Link,
+    MessageBar,
+    MessageBarType,
+    PrimaryButton,
+    SelectionMode
+} from '@fluentui/react';
 import {
     FormMode,
     ModelAuthoringModes,
-    ModelAuthoringSteps
+    ModelAuthoringSteps,
+    UploadPhase
 } from '../../../Models/Constants/Enums';
 import ModelCreate from '../../../Components/ModelCreate/ModelCreate';
 import { DTDLModel } from '../../../Models/Classes/DTDL';
-import AdapterResult from '../../../Models/Classes/AdapterResult';
-import { ADTAdapterModelsData } from '../../../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ModelSearch from '../../../Components/ModelSearch/ModelSearch';
+import CdnModelSearchAdapter from '../../../Adapters/CdnModelSearchAdapter';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     adapter,
@@ -28,6 +43,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     localeStrings,
     title,
     onCancel,
+    onPublish,
     existingModelIds
 }) => {
     const { t } = useTranslation();
@@ -35,41 +51,120 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
         authoringMode,
         setAuthoringMode
     ] = useState<ModelAuthoringModes | null>(null);
-    const [authoringSteps, setAuthoringSteps] = useState<ModelAuthoringSteps>(
+    const [authoringStep, setAuthoringSteps] = useState<ModelAuthoringSteps>(
         ModelAuthoringSteps.SelectType
     );
+    const [modelsToPublish, setModelsToPublish] = useState([]);
     const existingModelIdsRef = useRef(existingModelIds ?? []);
-    const newModelComponentRef = useRef();
+    const modelCreateComponentRef = useRef();
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [uploadingStatus, setUploadingStatus] = useState(
+        UploadPhase.PreUpload
+    );
+
+    const pushModelsState = useAdapter({
+        adapterMethod: (models: Array<DTModel>) =>
+            adapter.createADTModels(models),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
     const steps: Array<IStepperWizardStep> = [
-        {
-            label: t('modelAuthoring.selectType'),
-            onClick: () => {
-                setAuthoringSteps(ModelAuthoringSteps.SelectType);
-            }
-        },
-        {
-            label: t('modelAuthoring.review')
-        },
-        {
-            label: t('modelAuthoring.publish')
-        }
+        { label: t('modelAuthoring.selectType') },
+        { label: t('modelAuthoring.review') },
+        { label: t('modelAuthoring.publish') }
     ];
 
-    const handleNewModelClick = async (model: DTDLModel) => {
-        const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
-            [model.trimmedCopy() as DTModel]
-        );
-        // if (resolvedModels.getCatastrophicError()?.rawError) {
-        //     setErrorMessage(
-        //         (resolvedModels.getCatastrophicError().rawError as any).response
-        //             ?.data?.error?.message
-        //     );
-        // } else {
-        const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
-        console.log(resolvedModel);
-        // }
+    const onNextClick = () => {
+        if (authoringStep === ModelAuthoringSteps.Publish) {
+            setErrorMessage(null);
+            // createModels();
+            pushModelsState.callAdapter(modelsToPublish);
+        } else {
+            if (authoringMode === ModelAuthoringModes.BuildForm) {
+                const modelToPublish = (modelCreateComponentRef.current as any)?.getModel();
+                setModelsToPublish([modelToPublish.trimmedCopy() as DTModel]);
+            }
+            setAuthoringSteps(authoringStep + 1);
+        }
     };
+
+    const onPreviousClick = () => {
+        if (authoringStep === ModelAuthoringSteps.Review) {
+            setErrorMessage(null);
+        }
+        setAuthoringSteps(authoringStep - 1);
+    };
+
+    const onCancelClick = () => {
+        if (onCancel && typeof onCancel === 'function') {
+            onCancel();
+        }
+    };
+
+    const onFileListChanged = (items: Array<IJSONUploaderFileItem>) => {
+        setModelsToPublish(items.map((i: IJSONUploaderFileItem) => i.content));
+    };
+
+    const onRemoveSelectedModel = (modelId: string) => {
+        setModelsToPublish(modelsToPublish.filter((m) => m['@id'] !== modelId));
+    };
+
+    const isNextButtonVisible = useMemo(() => {
+        if (
+            (authoringMode === ModelAuthoringModes.UploadFiles ||
+                authoringMode === ModelAuthoringModes.FromTemplate) &&
+            authoringStep === ModelAuthoringSteps.Review &&
+            modelsToPublish.length === 0
+        ) {
+            return false;
+        }
+        return true;
+    }, [modelsToPublish, authoringStep]);
+
+    useEffect(() => {
+        setModelsToPublish([]);
+    }, [authoringMode]);
+
+    useEffect(() => {
+        if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
+            if (
+                pushModelsState.adapterResult.getCatastrophicError()?.rawError
+            ) {
+                setUploadingStatus(UploadPhase.Failed);
+                setErrorMessage(
+                    t('uploadProgress.uploadFailed', {
+                        assetType: 'models'
+                    }) +
+                        ': ' +
+                        (pushModelsState.adapterResult?.getCatastrophicError()
+                            ?.rawError as any).response.data.error.message
+                );
+            } else {
+                setUploadingStatus(UploadPhase.PartiallyFailed);
+                setErrorMessage(
+                    t('generateADTAssets.partialError', {
+                        assetType: 'models',
+                        errorCount:
+                            pushModelsState.adapterResult.errorInfo.errors
+                                .length
+                    })
+                );
+            }
+        } else if (pushModelsState.adapterResult?.getData()) {
+            setUploadingStatus(UploadPhase.Succeeded);
+            setErrorMessage(
+                t('uploadProgress.uploadSuccess', {
+                    assetType: 'models'
+                })
+            );
+        }
+
+        const createdModels = pushModelsState?.adapterResult.getData() as Array<IADTModel>;
+        if (createdModels?.length) {
+            onPublish(createdModels);
+        }
+    }, [pushModelsState?.adapterResult]);
 
     return (
         <div className="cb-model-authoring-card-wrapper">
@@ -83,130 +178,289 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                     <div className="cb-model-authoring-card-wizard">
                         <StepperWizard
                             steps={steps}
-                            currentStepIndex={authoringSteps}
+                            currentStepIndex={authoringStep}
                             isNavigationDisabled={true}
                         />
                     </div>
-                    {authoringSteps === ModelAuthoringSteps.SelectType ? (
-                        <div>
-                            <div
-                                style={{
-                                    fontSize: 18,
-                                    fontWeight: 600,
-                                    padding: '20px 0px'
-                                }}
-                            >
-                                Select Type
-                            </div>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'row'
-                                }}
-                            >
-                                <AuthoringModeSelector
-                                    iconName={'Upload'}
-                                    title="Upload DTDL files"
-                                    description="File type must be JSON, no exceed than 50MB."
-                                    onClick={() => {
-                                        setAuthoringMode(
-                                            ModelAuthoringModes.UploadFiles
-                                        );
-                                        setAuthoringSteps(
-                                            ModelAuthoringSteps.Review
-                                        );
-                                    }}
-                                />
-                                <AuthoringModeSelector
-                                    iconName={'TextDocument'}
-                                    title="Create from templates"
-                                    description="Bring in standard models from library and edit from there."
-                                    onClick={() => {
-                                        setAuthoringMode(
-                                            ModelAuthoringModes.UploadFiles
-                                        );
-                                        setAuthoringSteps(
-                                            ModelAuthoringSteps.Review
-                                        );
-                                    }}
-                                />
-                                <AuthoringModeSelector
-                                    iconName={'Document'}
-                                    title="Build from scratch"
-                                    description="Using built-in modules to create a DTDL model, no code is needed."
-                                    onClick={() => {
-                                        setAuthoringMode(
-                                            ModelAuthoringModes.BuildForm
-                                        );
-                                        setAuthoringSteps(
-                                            ModelAuthoringSteps.Review
-                                        );
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    ) : authoringMode === ModelAuthoringModes.UploadFiles ? (
-                        <div className="cb-model-authoring-card-upload-files">
-                            <div
-                                style={{
-                                    fontSize: 18,
-                                    fontWeight: 600,
-                                    padding: '20px 0px'
-                                }}
-                            >
-                                Upload DTDL files
-                            </div>
-                            <ADTModelUploaderCard
-                                adapter={adapter}
-                                theme={theme}
-                                locale={locale}
-                                hasUploadButton={false}
-                                hasMessageBar={true}
-                            />
-                        </div>
-                    ) : (
-                        authoringMode === ModelAuthoringModes.BuildForm && (
-                            <div className="cb-model-authoring-card-new-model">
+                    <div className="cb-model-authoring-card-step">
+                        {authoringStep === ModelAuthoringSteps.SelectType ? (
+                            <>
+                                <div className="cb-model-authoring-card-step-title">
+                                    {t('modelAuthoring.selectType')}
+                                </div>
                                 <div
                                     style={{
-                                        padding: '10px 0px'
+                                        display: 'flex',
+                                        flexDirection: 'row'
                                     }}
-                                ></div>
-                                <ModelCreate
-                                    locale={locale}
-                                    modelToEdit={null}
-                                    existingModelIds={
-                                        existingModelIdsRef.current
-                                    }
-                                    onCancel={() =>
-                                        setAuthoringSteps(
-                                            ModelAuthoringSteps.SelectType
-                                        )
-                                    }
-                                    onPrimaryAction={handleNewModelClick}
-                                    formControlMode={FormMode.New}
-                                    isActionButtonsVisible={false}
-                                    isShowDTDLButtonVisible={true}
-                                    ref={newModelComponentRef}
+                                >
+                                    <AuthoringModeSelector
+                                        iconName={'Upload'}
+                                        title={t(
+                                            'modelAuthoring.authoringModes.uploadDTDLFiles'
+                                        )}
+                                        description={t(
+                                            'modelAuthoring.authoringModes.uploadDTDLFilesDesc'
+                                        )}
+                                        onClick={() => {
+                                            setAuthoringMode(
+                                                ModelAuthoringModes.UploadFiles
+                                            );
+                                            setAuthoringSteps(
+                                                ModelAuthoringSteps.Review
+                                            );
+                                        }}
+                                    />
+                                    <AuthoringModeSelector
+                                        iconName={'TextDocument'}
+                                        title={t(
+                                            'modelAuthoring.authoringModes.createFromTemplates'
+                                        )}
+                                        description={t(
+                                            'modelAuthoring.authoringModes.createFromTemplatesDesc'
+                                        )}
+                                        onClick={() => {
+                                            setAuthoringMode(
+                                                ModelAuthoringModes.FromTemplate
+                                            );
+                                            setAuthoringSteps(
+                                                ModelAuthoringSteps.Review
+                                            );
+                                        }}
+                                    />
+                                    <AuthoringModeSelector
+                                        iconName={'Document'}
+                                        title={t(
+                                            'modelAuthoring.authoringModes.buildFromScratch'
+                                        )}
+                                        description={t(
+                                            'modelAuthoring.authoringModes.buildFromScratchDesc'
+                                        )}
+                                        onClick={() => {
+                                            setAuthoringMode(
+                                                ModelAuthoringModes.BuildForm
+                                            );
+                                            setAuthoringSteps(
+                                                ModelAuthoringSteps.Review
+                                            );
+                                        }}
+                                    />
+                                </div>
+                            </>
+                        ) : authoringStep === ModelAuthoringSteps.Review ? (
+                            <>
+                                {authoringMode ===
+                                    ModelAuthoringModes.UploadFiles && (
+                                    <div className="cb-model-authoring-card-upload-files">
+                                        <div className="cb-model-authoring-card-step-title">
+                                            {t(
+                                                'modelAuthoring.authoringModes.uploadDTDLFiles'
+                                            )}
+                                        </div>
+                                        <ADTModelUploaderCard
+                                            adapter={adapter}
+                                            theme={theme}
+                                            locale={locale}
+                                            hasUploadButton={false}
+                                            hasMessageBar={true}
+                                            onFileListChanged={
+                                                onFileListChanged
+                                            }
+                                        />
+                                    </div>
+                                )}
+
+                                {authoringMode ===
+                                    ModelAuthoringModes.FromTemplate && (
+                                    <div className="cb-model-authoring-card-from-template">
+                                        <div className="cb-model-authoring-card-step-title">
+                                            {t(
+                                                'modelAuthoring.selectTemplates'
+                                            )}
+                                        </div>
+                                        <ModelSearch
+                                            adapter={
+                                                new CdnModelSearchAdapter(
+                                                    'https://devicemodelstest.azure.com',
+                                                    10
+                                                )
+                                            }
+                                            onStandardModelSelection={(
+                                                modelData
+                                            ) =>
+                                                setModelsToPublish(
+                                                    modelsToPublish.concat(
+                                                        modelData.filter(
+                                                            function (item) {
+                                                                return (
+                                                                    modelsToPublish.findIndex(
+                                                                        (mTp) =>
+                                                                            mTp[
+                                                                                '@id'
+                                                                            ] ===
+                                                                            item[
+                                                                                '@id'
+                                                                            ]
+                                                                    ) === -1
+                                                                );
+                                                            }
+                                                        )
+                                                    )
+                                                )
+                                            }
+                                            primaryActionText={t('select')}
+                                        />
+                                        <div
+                                            className={`cb-selected-models ${
+                                                modelsToPublish.length === 0
+                                                    ? 'cb-collapse'
+                                                    : ''
+                                            }`}
+                                        >
+                                            {modelsToPublish
+                                                .map((m) => ({
+                                                    key: `cb-selected-model-${m['@id']}`,
+                                                    activityDescription: [
+                                                        <span
+                                                            key={`cb-selected-model-name-${m['@id']}`}
+                                                            style={{
+                                                                fontWeight:
+                                                                    'bold'
+                                                            }}
+                                                        >
+                                                            {m['@id']}
+                                                        </span>,
+                                                        <span
+                                                            key={`cb-selected-model-desc-${m['@id']}`}
+                                                        >
+                                                            {' '}
+                                                            {t(
+                                                                'modelAuthoring.addedToBePublished'
+                                                            )}
+                                                        </span>,
+                                                        <span
+                                                            key={`cb-selected-model-action-${m['@id']}`}
+                                                        >
+                                                            {' '}
+                                                            <Link
+                                                                onClick={() =>
+                                                                    onRemoveSelectedModel(
+                                                                        m['@id']
+                                                                    )
+                                                                }
+                                                            >
+                                                                {t('remove')}
+                                                            </Link>
+                                                        </span>
+                                                    ],
+                                                    activityIcon: (
+                                                        <Icon
+                                                            iconName={'Add'}
+                                                        />
+                                                    ),
+                                                    isCompact: true
+                                                }))
+                                                .map(
+                                                    (item: {
+                                                        key: string | number;
+                                                    }) => (
+                                                        <ActivityItem
+                                                            {...(item as IActivityItemProps)}
+                                                            key={item.key}
+                                                            className="cb-selected-model"
+                                                        />
+                                                    )
+                                                )}
+                                        </div>
+                                    </div>
+                                )}
+                                {authoringMode ===
+                                    ModelAuthoringModes.BuildForm && (
+                                    <div className="cb-model-authoring-card-new-model">
+                                        <ModelCreate
+                                            locale={locale}
+                                            modelToEdit={
+                                                modelsToPublish[0] instanceof
+                                                DTDLModel
+                                                    ? modelsToPublish[0]
+                                                    : null
+                                            }
+                                            existingModelIds={
+                                                existingModelIdsRef.current
+                                            }
+                                            onCancel={() =>
+                                                setAuthoringSteps(
+                                                    ModelAuthoringSteps.SelectType
+                                                )
+                                            }
+                                            onPrimaryAction={(
+                                                _model: DTDLModel
+                                            ) => {}}
+                                            formControlMode={FormMode.New}
+                                            isPrimaryActionButtonsVisible={
+                                                false
+                                            }
+                                            isShowDTDLButtonVisible={true}
+                                            ref={modelCreateComponentRef}
+                                        />
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <div className="cb-model-authoring-card-step-title">
+                                    {t('modelAuthoring.publish')}
+                                </div>
+                                <ModelsToPublishList
+                                    models={modelsToPublish}
+                                    t={t}
                                 />
-                            </div>
-                        )
-                    )}
+                            </>
+                        )}
+                    </div>
                 </BaseCompositeCard>
             </div>
             <div className="cb-model-authoring-card-footer">
                 <div className="cb-navigation-left">
-                    <DefaultButton onClick={onCancel} text={t('cancel')} />
+                    <DefaultButton onClick={onCancelClick} text={t('cancel')} />
                 </div>
-                {authoringSteps !== ModelAuthoringSteps.SelectType && (
+                {errorMessage && (
+                    <MessageBar
+                        messageBarType={
+                            uploadingStatus === UploadPhase.Succeeded
+                                ? MessageBarType.success
+                                : uploadingStatus ===
+                                  UploadPhase.PartiallyFailed
+                                ? MessageBarType.warning
+                                : MessageBarType.error
+                        }
+                        dismissButtonAriaLabel={t('close')}
+                        onDismiss={() => setErrorMessage(null)}
+                        className="cb-model-authoring-card-error-message"
+                    >
+                        {errorMessage}
+                    </MessageBar>
+                )}
+                {authoringStep !== ModelAuthoringSteps.SelectType && (
                     <div className="cb-navigation-right">
                         <DefaultButton
-                            onClick={() =>
-                                setAuthoringSteps(authoringSteps - 1)
-                            }
+                            onClick={onPreviousClick}
                             text={t('previous')}
                         />
-                        <PrimaryButton onClick={onCancel} text={t('next')} />
+                        {isNextButtonVisible && (
+                            <PrimaryButton
+                                className="cb-model-authoring-primary-action-button"
+                                onClick={onNextClick}
+                                text={
+                                    pushModelsState.isLoading
+                                        ? t('modelAuthoring.publishing')
+                                        : authoringStep ===
+                                          ModelAuthoringSteps.Publish
+                                        ? t('modelAuthoring.publish')
+                                        : t('next')
+                                }
+                            />
+                        )}
                     </div>
                 )}
             </div>
@@ -230,6 +484,65 @@ const AuthoringModeSelector = ({ iconName, title, description, onClick }) => {
                 </div>
             </div>
         </div>
+    );
+};
+
+const ModelsToPublishList = ({ models, t }) => {
+    return (
+        <DetailsList
+            className="cb-file-list"
+            items={models}
+            columns={[
+                {
+                    key: 'cb-model-list-column-name',
+                    name: t('modelCreate.displayName'),
+                    minWidth: 210,
+                    maxWidth: 350,
+                    isResizable: true,
+                    onRender: (item) => (
+                        <span>{item.displayName.en ?? item.displayName}</span>
+                    )
+                },
+                {
+                    key: 'cb-model-list-column-type',
+                    name: t('type'),
+                    minWidth: 60,
+                    maxWidth: 120,
+                    onRender: (item) => <span>{item['@type']}</span>
+                },
+                {
+                    key: 'cb-model-list-column-id',
+                    name: t('id'),
+                    minWidth: 40,
+                    onRender: (item) => item['@id']
+                },
+                {
+                    key: 'cb-model-list-column-inherit',
+                    name: t('modelCreate.inherit'),
+                    minWidth: 110,
+                    maxWidth: 250,
+                    onRender: (item) => item.extends?.toString(', ')
+                }
+            ]}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            styles={{
+                root: {
+                    selectors: {
+                        '.ms-DetailsRow-cell': {
+                            height: 32,
+                            paddingLeft: 20
+                        },
+                        '.ms-DetailsHeader': {
+                            paddingTop: 0
+                        },
+                        '.ms-DetailsHeader-cellTitle': {
+                            paddingLeft: 20
+                        }
+                    }
+                }
+            }}
+        />
     );
 };
 

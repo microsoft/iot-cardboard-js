@@ -39,7 +39,7 @@ interface ModelCreateProps {
     onPrimaryAction: (model: DTDLModel) => void;
     onCancel: () => void;
     formControlMode?: FormMode;
-    isActionButtonsVisible?: boolean;
+    isPrimaryActionButtonsVisible?: boolean;
     isShowDTDLButtonVisible?: boolean;
 }
 
@@ -61,7 +61,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
         onPrimaryAction,
         onCancel,
         formControlMode,
-        isActionButtonsVisible = true,
+        isPrimaryActionButtonsVisible = true,
         isShowDTDLButtonVisible = true
     } = props;
 
@@ -282,7 +282,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         onPrimaryAction={handleCreateModel}
                         onCancel={onCancel}
                         formControlMode={formMode}
-                        isActionButtonsVisible={isActionButtonsVisible}
+                        isActionButtonsVisible={isPrimaryActionButtonsVisible}
                     >
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField

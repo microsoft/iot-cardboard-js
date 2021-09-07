@@ -28,7 +28,8 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
         localeStrings,
         hasUploadButton,
         hasMessageBar,
-        onUploadFinish
+        onUploadFinish,
+        onFileListChanged
     } = props;
     const { t } = useTranslation();
     const jsonUploaderComponentRef = useRef();
@@ -119,7 +120,10 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 localeStrings={localeStrings}
             >
                 <div className="cb-adt-model-uploader">
-                    <JsonUploader ref={jsonUploaderComponentRef} />
+                    <JsonUploader
+                        onFileListChanged={onFileListChanged}
+                        ref={jsonUploaderComponentRef}
+                    />
                     <div className="cb-adt-model-uploader-footer">
                         {hasMessageBar && progressMessage && (
                             <MessageBar

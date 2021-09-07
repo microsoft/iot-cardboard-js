@@ -20,23 +20,20 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FileUploadStatus } from '../../Models/Constants';
+import {
+    FileUploadStatus,
+    IJSONUploaderFileItem as IFileItem
+} from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import { useId } from '@fluentui/react-hooks';
 
 interface IFilesList {
     files: Array<File>;
     onRemoveFile: (idx: number) => void;
+    onListUpdated?: (items: Array<IFileItem>) => void;
 }
 
-interface IFileItem {
-    name: string;
-    size: string;
-    content?: JSON | Error;
-    status: FileUploadStatus;
-}
-
-function FilesList({ files, onRemoveFile }: IFilesList, ref) {
+function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
     const [listItems, setListItems] = useState([]);
@@ -67,6 +64,12 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
             setListItems([]);
         }
     }, [files]);
+
+    useEffect(() => {
+        if (onListUpdated && typeof onListUpdated === 'function') {
+            onListUpdated(listItems);
+        }
+    }, [listItems]);
 
     const handleViewItem = useCallback((item: IFileItem) => {
         setSelectedFileItem(item);

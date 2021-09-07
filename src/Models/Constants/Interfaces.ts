@@ -22,7 +22,8 @@ import {
     Locale,
     Theme,
     HierarchyNodeType,
-    modelActionType
+    modelActionType,
+    FileUploadStatus
 } from './Enums';
 import {
     AdapterReturnType,
@@ -472,4 +473,15 @@ export interface IStepperWizardProps {
     steps: Array<IStepperWizardStep>;
     currentStepIndex?: number;
     isNavigationDisabled?: boolean;
+}
+
+export interface IJSONUploaderProps {
+    onFileListChanged?: (items: Array<IJSONUploaderFileItem>) => void;
+}
+
+export interface IJSONUploaderFileItem {
+    name: string;
+    size: string;
+    content?: JSON | Error;
+    status: FileUploadStatus;
 }

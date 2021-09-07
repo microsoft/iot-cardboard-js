@@ -18,7 +18,7 @@ const BaseForm: React.FC<BaseFormProps> = ({
     onPrimaryAction,
     onCancel,
     formControlMode,
-    isActionButtonsVisible,
+    isActionButtonsVisible = true,
     children
 }) => (
     <div className="cb-form-container">

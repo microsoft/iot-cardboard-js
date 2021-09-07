@@ -382,7 +382,9 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 const currentNodes = { ...hierarchyNodes };
                 targetModelNode = {
                     id: twinAndModel.data.model.id,
-                    name: twinAndModel.data.model.displayName.en,
+                    name:
+                        twinAndModel.data.model.displayName.en ??
+                        twinAndModel.data.model.displayName,
                     nodeData: twinAndModel.data.model,
                     nodeType: HierarchyNodeType.Parent,
                     isCollapsed: true

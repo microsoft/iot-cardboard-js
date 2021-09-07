@@ -1,11 +1,11 @@
 @import '../../../Resources/Styles/BaseStyles';
 
 .cb-model-authoring-card-wrapper {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     min-height: 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
 
     .cb-base-composite-card {
         background-color: var(--cb-color-bg-card);
@@ -25,8 +25,11 @@
     display: flex;
     justify-content: space-between;
     padding: 16px 0;
+    position: relative;
 
     .cb-navigation-right {
+        display: flex;
+        flex-direction: row;
         button {
             margin-left: 20px;
         }
@@ -34,35 +37,82 @@
 }
 
 .cb-model-authoring-card-wizard {
-    height: 100%;
-    width: 256px;
-    padding: 20px;
     background: var(--cb-color-bg-canvas);
     border: 1px solid var(--cb-color-card-border);
+    height: 100%;
+    padding: 20px;
+    width: 240px;
+}
+
+.cb-model-authoring-card-step {
+    height: 100%;
+    padding: 20px 20px 20px 0;
+}
+
+.cb-model-authoring-card-step-title {
+    color: var(--cb-color-text-primary);
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+.cb-model-authoring-card-upload-files,
+.cb-model-authoring-card-from-template,
+.cb-model-authoring-card-new-model {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .cb-model-authoring-card-upload-files {
-    width: 800px;
-    height: calc(100% - 20px);
-    display: flex;
-    flex-direction: column;
-
     .cb-base-card-content {
-        top: 0;
         height: 100%;
+        top: 0;
+    }
+}
+
+.cb-model-authoring-card-from-template {
+    .cb-modelsearch-container {
+        flex-basis: auto;
+        flex-grow: 1;
+        flex-shrink: 1;
+        padding: 0;
+        transition: all 0.7s;
+
+        .cb-modelsearchlist-container {
+            flex-grow: 1;
+        }
+    }
+
+    .cb-selected-models {
+        display: flex;
+        flex-basis: auto;
+        flex-direction: column-reverse;
+        flex-grow: 1;
+        flex-shrink: 0;
+        font-size: 14px;
+        font-style: italic;
+        margin-top: 16px;
+        max-height: 100px;
+        overflow-y: auto;
+        transition: all 0.7s;
+    }
+
+    .cb-collapse {
+        flex-grow: 0;
+    }
+
+    .cb-selected-model {
+        margin-top: 4px;
     }
 }
 
 .cb-model-authoring-card-new-model {
-    width: 800px;
-    height: calc(100% - 20px);
-    display: flex;
-    flex-direction: column;
-
     .cb-modelcreate-title {
-        margin-bottom: 20px;
-        font-weight: 600;
+        color: var(--cb-color-text-primary);
         font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
     }
 
     .cb-modelcreate-container {
@@ -73,15 +123,15 @@
 
 .cb-model-authoring-card-mode-selector {
     @include ms-depth-4;
-    width: 300px;
-    height: 102px;
-    display: flex;
-    flex-direction: row;
-    padding: 16px;
-    margin-right: 20px;
     background: var(--cb-color-bg-canvas);
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    height: 102px;
+    margin-right: 20px;
+    padding: 16px;
     pointer-events: visible;
+    width: 300px;
 
     &:hover {
         @include ms-depth-8;
@@ -90,36 +140,50 @@
 }
 
 .cb-model-authoring-card-mode-selector-icon {
-    width: 35px;
-    height: 35px;
     background: var(--cb-color-theme-primary);
     color: #fff;
+    height: 35px;
     padding: 10px;
+    width: 35px;
 }
 
 .cb-model-authoring-card-mode-selector-content {
-    flex-grow: 1;
     display: flex;
-    justify-content: space-between;
-    padding-left: 12px;
-    font-size: 14px;
     flex-direction: column;
+    flex-grow: 1;
+    font-size: 14px;
+    justify-content: space-between;
     overflow: hidden;
+    padding-left: 12px;
 
     .cb-title {
+        display: block;
+        font-weight: 600;
         height: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-weight: 600;
         width: 100%;
-        display: block;
     }
 
     .cb-description {
-        margin: 0;
-        padding-top: 8px;
         height: 48px;
+        margin: 0;
         overflow: hidden;
+        padding-top: 8px;
     }
+}
+
+.cb-model-authoring-card-error-message {
+    bottom: 20px;
+    max-height: 48px;
+    max-width: 50%;
+    overflow: auto;
+    position: absolute;
+    right: 256px;
+    top: 16px;
+}
+
+.cb-model-authoring-primary-action-button {
+    width: 120px;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
+import { IADTModel } from '../../../Models/Constants/Interfaces';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTModelAuthoringCard from './ADTModelAuthoringCard';
 
@@ -9,7 +10,7 @@ export default {
 };
 
 const cardStyle = {
-    height: '700px',
+    height: '720px',
     width: '100%'
 };
 
@@ -32,6 +33,9 @@ export const ADTModelAuthoring = (_args, { globals: { theme, locale } }) => {
                     )
                 }
                 onCancel={() => console.log('Closed!')}
+                onPublish={(models: Array<IADTModel>) =>
+                    console.log(models.map((m) => m.id))
+                }
             />
         </div>
     );
