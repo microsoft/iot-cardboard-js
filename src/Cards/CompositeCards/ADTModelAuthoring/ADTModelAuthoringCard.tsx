@@ -31,10 +31,10 @@ import {
     UploadPhase
 } from '../../../Models/Constants/Enums';
 import ModelCreate from '../../../Components/ModelCreate/ModelCreate';
-import { DTDLModel } from '../../../Models/Classes/DTDL';
 import ModelSearch from '../../../Components/ModelSearch/ModelSearch';
 import CdnModelSearchAdapter from '../../../Adapters/CdnModelSearchAdapter';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
 
 const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     adapter,
@@ -78,7 +78,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     const onNextClick = () => {
         if (authoringStep === ModelAuthoringSteps.Publish) {
             setErrorMessage(null);
-            // createModels();
             pushModelsState.callAdapter(modelsToPublish);
         } else {
             if (authoringMode === ModelAuthoringModes.BuildForm) {
@@ -121,10 +120,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
         }
         return true;
     }, [modelsToPublish, authoringStep]);
-
-    useEffect(() => {
-        setModelsToPublish([]);
-    }, [authoringMode]);
 
     useEffect(() => {
         if (pushModelsState.adapterResult.errorInfo?.errors?.length) {
@@ -209,6 +204,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             setAuthoringSteps(
                                                 ModelAuthoringSteps.Review
                                             );
+                                            setModelsToPublish([]);
                                         }}
                                     />
                                     <AuthoringModeSelector
@@ -226,6 +222,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             setAuthoringSteps(
                                                 ModelAuthoringSteps.Review
                                             );
+                                            setModelsToPublish([]);
                                         }}
                                     />
                                     <AuthoringModeSelector
@@ -243,6 +240,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             setAuthoringSteps(
                                                 ModelAuthoringSteps.Review
                                             );
+                                            setModelsToPublish([]);
                                         }}
                                     />
                                 </div>
@@ -380,9 +378,10 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                         <ModelCreate
                                             locale={locale}
                                             modelToEdit={
-                                                modelsToPublish[0] instanceof
-                                                DTDLModel
-                                                    ? modelsToPublish[0]
+                                                modelsToPublish[0]
+                                                    ? DTDLModel.fromObject(
+                                                          modelsToPublish[0]
+                                                      )
                                                     : null
                                             }
                                             existingModelIds={
@@ -393,9 +392,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                     ModelAuthoringSteps.SelectType
                                                 )
                                             }
-                                            onPrimaryAction={(
-                                                _model: DTDLModel
-                                            ) => {}}
                                             formControlMode={FormMode.New}
                                             isPrimaryActionButtonsVisible={
                                                 false
@@ -500,7 +496,7 @@ const ModelsToPublishList = ({ models, t }) => {
                     maxWidth: 350,
                     isResizable: true,
                     onRender: (item) => (
-                        <span>{item.displayName.en ?? item.displayName}</span>
+                        <span>{item.displayName?.en ?? item.displayName}</span>
                     )
                 },
                 {

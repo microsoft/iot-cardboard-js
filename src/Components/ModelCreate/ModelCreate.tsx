@@ -36,7 +36,7 @@ interface ModelCreateProps {
     locale: Locale;
     existingModelIds: string[];
     modelToEdit?: DTDLModel;
-    onPrimaryAction: (model: DTDLModel) => void;
+    onPrimaryAction?: (model: DTDLModel) => void;
     onCancel: () => void;
     formControlMode?: FormMode;
     isPrimaryActionButtonsVisible?: boolean;
@@ -116,7 +116,9 @@ function ModelCreate(props: ModelCreateProps, ref) {
             relationships,
             components
         );
-        onPrimaryAction(model);
+        if (onPrimaryAction && typeof onPrimaryAction === 'function') {
+            onPrimaryAction(model);
+        }
     };
 
     const pushBreadcrumb = (breadcrumbKey: string) => {

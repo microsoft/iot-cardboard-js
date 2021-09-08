@@ -383,7 +383,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 targetModelNode = {
                     id: twinAndModel.data.model.id,
                     name:
-                        twinAndModel.data.model.displayName.en ??
+                        twinAndModel.data.model.displayName?.en ??
                         twinAndModel.data.model.displayName,
                     nodeData: twinAndModel.data.model,
                     nodeType: HierarchyNodeType.Parent,
