@@ -194,6 +194,7 @@ export interface IHierarchyNode {
     isCollapsed?: boolean;
     isSelected?: boolean;
     isLoading?: boolean;
+    isNewlyAdded?: boolean;
 }
 
 export interface IADTModel {

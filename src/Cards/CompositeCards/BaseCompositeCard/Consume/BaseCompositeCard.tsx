@@ -35,11 +35,15 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
                                 <Overlay>{t('empty')}</Overlay>
                             ) : (
                                 <div className="cb-base-composite-card-items">
-                                    {React.Children.map(children, (child) => (
-                                        <div className="cb-base-composite-card-item">
-                                            {child}
-                                        </div>
-                                    ))}
+                                    {React.Children.map(
+                                        children,
+                                        (child) =>
+                                            child && (
+                                                <div className="cb-base-composite-card-item">
+                                                    {child}
+                                                </div>
+                                            )
+                                    )}
                                 </div>
                             )}
                         </div>

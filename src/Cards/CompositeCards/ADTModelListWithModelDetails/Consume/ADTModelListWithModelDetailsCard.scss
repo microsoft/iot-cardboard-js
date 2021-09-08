@@ -9,8 +9,9 @@
         background-color: var(--cb-color-bg-card);
     }
 
-    .cb-base-composite-card-item:nth-child(1) {
-        flex-grow: 0;
+    .cb-base-composite-card-item:last-child {
+        flex-grow: 1;
+        overflow-x: hidden;
     }
 
     .cb-mbcard-list {
@@ -48,5 +49,22 @@
         overflow: auto;
         position: absolute;
         width: 60%;
+    }
+
+    .cb-mbcard-authoring {
+        animation: 0.4s slide-in ease-in-out;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        transform: translateX(30%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
     }
 }

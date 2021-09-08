@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    DTModel,
     IADTModel,
     IHierarchyNode
 } from '../../../../Models/Constants/Interfaces';
@@ -25,10 +24,7 @@ import JsonPreview from '../../../../Components/JsonPreview/JsonPreview';
 import { downloadText } from '../../../../Models/Services/Utils';
 import { FormMode } from '../../../../Models/Constants/Enums';
 import './ADTModelListWithModelDetailsCard.scss';
-import {
-    AdapterResult,
-    ADTAdapterModelsData
-} from '../../../../Models/Classes';
+import ADTModelAuthoringCard from '../../ADTModelAuthoring/ADTModelAuthoringCard';
 
 const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCardProps> = ({
     adapter,
@@ -38,11 +34,15 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
 }) => {
     const { t } = useTranslation();
     const [selectedModel, setSelectedModel] = useState(undefined);
+    const [isModelAuthoringVisible, setIsModelAuthoringVisible] = useState(
+        false
+    );
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
     );
     const [errorMessage, setErrorMessage] = useState(null);
+    const newlyAddedModels = useRef([]);
     const selectedModelRef = useRef(selectedModel);
     const existingModelIdsRef = useRef([]);
     const modelListComponentRef = useRef();
@@ -54,27 +54,7 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
 
     const handleNewModelClick = () => {
         setSelectedModel(null);
-    };
-
-    const handleCreateModelClick = async (model: DTDLModel) => {
-        const resolvedModels: AdapterResult<ADTAdapterModelsData> = await adapter.createADTModels(
-            [model.trimmedCopy() as DTModel]
-        );
-        if (resolvedModels.getCatastrophicError()?.rawError) {
-            setErrorMessage(
-                (resolvedModels.getCatastrophicError().rawError as any).response
-                    ?.data?.error?.message
-            );
-        } else {
-            const resolvedModel = resolvedModels.getData()?.[0] as IADTModel;
-            if (resolvedModel) {
-                (modelListComponentRef.current as any)?.addNewModel({
-                    ...resolvedModel,
-                    model: model as DTModel
-                });
-                setSelectedModel(model);
-            }
-        }
+        setIsModelAuthoringVisible(true);
     };
 
     const onDowloadClick = () => {
@@ -165,18 +145,21 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                 locale={locale}
                 localeStrings={localeStrings}
             >
-                <div className="cb-mbcard-list">
-                    <ADTModelListCard
-                        theme={theme}
-                        locale={locale}
-                        adapter={adapter}
-                        onModelClick={handleModelClick}
-                        onNewModelClick={handleNewModelClick}
-                        selectedModelId={selectedModel?.['@id']}
-                        ref={modelListComponentRef}
-                    />
-                </div>
-                {selectedModel !== undefined && (
+                {!isModelAuthoringVisible && (
+                    <div className="cb-mbcard-list">
+                        <ADTModelListCard
+                            theme={theme}
+                            locale={locale}
+                            adapter={adapter}
+                            onModelClick={handleModelClick}
+                            onNewModelClick={handleNewModelClick}
+                            selectedModelId={selectedModel?.['@id']}
+                            ref={modelListComponentRef}
+                            newlyAddedModelIds={newlyAddedModels.current}
+                        />
+                    </div>
+                )}
+                {selectedModel && (
                     <div className="cb-mbcard-form">
                         <CommandBar
                             className={'cb-commandbar'}
@@ -189,10 +172,8 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             modelToEdit={selectedModel}
                             existingModelIds={existingModelIdsRef.current}
                             onCancel={() => setSelectedModel(undefined)}
-                            onPrimaryAction={handleCreateModelClick}
-                            formControlMode={
-                                selectedModel ? FormMode.Readonly : FormMode.New
-                            }
+                            isShowDTDLButtonVisible={false}
+                            formControlMode={FormMode.Readonly}
                             ref={modelCreateComponentRef}
                         />
                         {errorMessage && (
@@ -205,6 +186,24 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                                 {errorMessage}
                             </MessageBar>
                         )}
+                    </div>
+                )}
+                {isModelAuthoringVisible && (
+                    <div className="cb-mbcard-authoring">
+                        <ADTModelAuthoringCard
+                            theme={theme}
+                            locale={locale}
+                            adapter={adapter}
+                            onCancel={() => setIsModelAuthoringVisible(false)}
+                            onPublish={(models: Array<IADTModel>) => {
+                                newlyAddedModels.current = models.map(
+                                    (m) => m.id
+                                );
+                                setTimeout(() => {
+                                    setIsModelAuthoringVisible(false);
+                                }, 2000);
+                            }}
+                        />
                     </div>
                 )}
             </BaseCompositeCard>
