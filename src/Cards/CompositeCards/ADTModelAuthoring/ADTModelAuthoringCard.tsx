@@ -89,9 +89,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     };
 
     const onPreviousClick = () => {
-        if (authoringStep === ModelAuthoringSteps.Review) {
-            setErrorMessage(null);
-        }
+        setErrorMessage(null);
         setAuthoringSteps(authoringStep - 1);
     };
 
@@ -405,7 +403,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                         ) : (
                             <>
                                 <div className="cb-model-authoring-card-step-title">
-                                    {t('modelAuthoring.publish')}
+                                    {t('modelAuthoring.publishModels')}
                                 </div>
                                 <ModelsToPublishList
                                     models={modelsToPublish}

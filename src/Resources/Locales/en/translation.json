@@ -226,6 +226,7 @@
         "selectType": "Select type",
         "review": "Review",
         "publish": "Publish",
+        "publishModels": "Publish models",
         "publishing": "Publishing...",
         "addedToBePublished": "added to be published",
         "selectTemplates": "Select standard templates",

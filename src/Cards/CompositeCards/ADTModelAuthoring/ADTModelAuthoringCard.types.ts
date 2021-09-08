@@ -1,11 +1,11 @@
-import { ADTAdapter } from '../../../Adapters';
 import {
+    IADTAdapter,
     IADTModel,
     IConsumeCompositeCardProps
 } from '../../../Models/Constants/Interfaces';
 
 export interface ADTModelAuthoringCardProps extends IConsumeCompositeCardProps {
-    adapter: ADTAdapter;
+    adapter: IADTAdapter;
     onCancel: () => void;
     onPublish: (models: Array<IADTModel>) => void;
     existingModelIds?: Array<string>;
