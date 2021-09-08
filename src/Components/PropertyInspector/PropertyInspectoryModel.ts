@@ -119,7 +119,10 @@ abstract class PropertyInspectorModel {
                 parentObjectPath: isObjectChild && path,
                 isMapChild,
                 isRemovable: !isMapChild,
-                isSet: modelProperty.name in propertySourceObject || forceSet,
+                isSet:
+                    (propertySourceObject &&
+                        modelProperty.name in propertySourceObject) ||
+                    forceSet,
                 isInherited,
                 writable: !!modelProperty?.writable || isObjectChild,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
@@ -174,7 +177,8 @@ abstract class PropertyInspectorModel {
                         isRemovable: !isMapChild,
                         isInherited,
                         isSet:
-                            modelProperty.name in propertySourceObject ||
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
                             forceSet,
                         value: undefined,
                         writable: !!modelProperty?.writable,
@@ -219,7 +223,8 @@ abstract class PropertyInspectorModel {
                         isInherited,
                         isRemovable: !isMapChild,
                         isSet:
-                            modelProperty.name in propertySourceObject ||
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
                             forceSet,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
@@ -259,7 +264,8 @@ abstract class PropertyInspectorModel {
                         isRemovable: !isMapChild,
                         value: undefined,
                         isSet:
-                            modelProperty.name in propertySourceObject ||
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
                             forceSet,
                         writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
@@ -395,18 +401,46 @@ abstract class PropertyInspectorModel {
                                 type: DTDLType.Component,
                                 schema: undefined,
                                 isCollapsed: true,
-                                children: PropertyInspectorModel.parseTwinIntoPropertyTree(
-                                    {
-                                        isInherited,
-                                        expandedModels,
-                                        path: PropertyInspectorModel.buildPath(
-                                            path,
-                                            modelItem.name
-                                        ),
-                                        rootModel: componentInterface,
-                                        twin: twin[modelItem.name]
-                                    }
-                                ),
+                                children: [
+                                    ...(!twin?.[modelItem.name] // If component not populated on twin, must add $metadata empty object {}
+                                        ? [
+                                              {
+                                                  displayName: '$metadata',
+                                                  name: '$metadata',
+                                                  path: PropertyInspectorModel.buildPath(
+                                                      `path/${modelItem.name}`,
+                                                      '$metadata'
+                                                  ),
+                                                  role: NodeRole.parent,
+                                                  isSet: true,
+                                                  writable: false,
+                                                  isCollapsed: true,
+                                                  children: [],
+                                                  schema:
+                                                      dtdlPropertyTypesEnum.Object,
+                                                  type: DTDLType.Property,
+                                                  value: {},
+                                                  parentObjectPath: path,
+                                                  isMapChild: false,
+                                                  isInherited,
+                                                  isRemovable: false,
+                                                  isMetadata: true
+                                              }
+                                          ]
+                                        : []),
+                                    ...PropertyInspectorModel.parseTwinIntoPropertyTree(
+                                        {
+                                            isInherited,
+                                            expandedModels,
+                                            path: PropertyInspectorModel.buildPath(
+                                                path,
+                                                modelItem.name
+                                            ),
+                                            rootModel: componentInterface,
+                                            twin: twin?.[modelItem.name]
+                                        }
+                                    )
+                                ],
                                 path: PropertyInspectorModel.buildPath(
                                     path,
                                     modelItem.name
@@ -432,7 +466,8 @@ abstract class PropertyInspectorModel {
                 treeNodes.push({
                     ...node,
                     ...(node.type === DTDLType.Property && {
-                        isSet: modelItem.name in twin
+                        isSet:
+                            typeof twin === 'object' && modelItem.name in twin
                     })
                 });
             }
@@ -581,7 +616,7 @@ abstract class PropertyInspectorModel {
             .flat(Infinity);
 
         // Parse meta data nodes
-        const metaDataNodes = Object.keys(twin)
+        const metaDataNodes = Object.keys(twin || {})
             .filter(
                 (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
             )
