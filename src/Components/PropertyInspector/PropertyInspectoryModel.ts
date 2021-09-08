@@ -516,37 +516,28 @@ abstract class PropertyInspectorModel {
             }
         };
 
-        // Parse meta data nodes
-        const metaDataNodes = Object.keys(twin)
-            .filter((p) => p.startsWith('$'))
-            .map((metaDataKey) => {
-                return parseMetaDataIntoPropertyTreeNodes({
-                    isObjectChild: false,
-                    node: twin[metaDataKey],
-                    key: metaDataKey,
-                    path
-                });
-            });
-
         // Parse root model
-        const rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
-            {
-                contents: rootModel.contents,
-                expandedModels,
-                twin,
-                path,
-                isInherited
-            }
-        );
+        let rootModelNodes = [];
+        if (rootModel?.contents) {
+            rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
+                {
+                    contents: rootModel.contents,
+                    expandedModels,
+                    twin,
+                    path,
+                    isInherited
+                }
+            );
+        }
 
         // Parse extended models
         const extendedModelNodes: PropertyTreeNode[] = [];
 
         let extendedModelIds = null;
 
-        if (Array.isArray(rootModel.extends)) {
+        if (Array.isArray(rootModel?.extends)) {
             extendedModelIds = [...rootModel.extends];
-        } else if (typeof rootModel.extends === 'string') {
+        } else if (typeof rootModel?.extends === 'string') {
             extendedModelIds = [rootModel.extends];
         }
         if (extendedModelIds && expandedModels) {
@@ -571,6 +562,37 @@ abstract class PropertyInspectorModel {
                 }
             });
         }
+
+        // Flatten all modelled property names into array, this is used to check for floating twin properties
+        const modelledPropertyNames = [...rootModelNodes, ...extendedModelNodes]
+            .map((node) => {
+                const flattenNode = (n: PropertyTreeNode) => {
+                    if (n.children) {
+                        return [
+                            n.name,
+                            ...n.children.map((child) => flattenNode(child))
+                        ];
+                    } else {
+                        return n.name;
+                    }
+                };
+                return flattenNode(node);
+            })
+            .flat(Infinity);
+
+        // Parse meta data nodes
+        const metaDataNodes = Object.keys(twin)
+            .filter(
+                (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
+            )
+            .map((metaDataKey) => {
+                return parseMetaDataIntoPropertyTreeNodes({
+                    isObjectChild: false,
+                    node: twin[metaDataKey],
+                    key: metaDataKey,
+                    path
+                });
+            });
 
         treeNodes = [
             ...metaDataNodes,

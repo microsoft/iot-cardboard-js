@@ -9,6 +9,12 @@
         "comment": "",
         "contents": [
             {
+                "@type": "Telemetry",
+                "name": "batteryTemp",
+                "displayName": "Battery temperature",
+                "schema": "double"
+            },
+            {
                 "@type": "Relationship",
                 "name": "chargedBy",
                 "minMultiplicity": 0,
