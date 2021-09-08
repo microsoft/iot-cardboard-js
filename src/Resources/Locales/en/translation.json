@@ -310,6 +310,7 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
+        "modelNotFound": "Model {{modelId}} not found.",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",

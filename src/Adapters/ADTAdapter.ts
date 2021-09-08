@@ -46,6 +46,7 @@ import {
     ADTModelsData,
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
+import i18n from '../i18n';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -599,7 +600,9 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         isCatastrophic: false,
                         rawError: err,
-                        message: `model ${modelId} not found`
+                        message: i18n.t('propertyInspector.modelNotFound', {
+                            modelId
+                        })
                     });
                     return;
                 }
@@ -613,7 +616,9 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         isCatastrophic: false,
                         rawError: err,
-                        message: `model ${modelId} not found`
+                        message: i18n.t('propertyInspector.modelNotFound', {
+                            modelId
+                        })
                     });
                 }
             };

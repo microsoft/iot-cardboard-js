@@ -1,3 +1,4 @@
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
@@ -66,6 +67,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     );
     const [refetchTrigger, setRefetchTrigger] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [modelErrors, setModelErrors] = useState([]);
 
     const twinData = useAdapter({
         adapterMethod: (params: {
@@ -162,6 +164,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     useEffect(() => {
         // Reset input data
         setInputData(null);
+        setModelErrors([]);
         twinData.cancelAdapter();
         modelData.cancelAdapter();
         relationshipData.cancelAdapter();
@@ -201,6 +204,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     // Combine twin or relationship and model data into input data object
     useEffect(() => {
         const data = modelData.adapterResult.getData();
+        if (modelData.adapterResult?.errorInfo?.errors) {
+            setModelErrors(modelData.adapterResult.errorInfo.errors.slice());
+        }
         if (isTwin(props) && data) {
             setInputData({
                 expandedModels: modelData.adapterResult.getData()
@@ -298,13 +304,33 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     }
 
     return (
-        <StandalonePropertyInspector
-            inputData={inputData}
-            onCommitChanges={onCommitChanges}
-            theme={props.theme}
-            locale={props.locale}
-            localeStrings={props.localeStrings}
-        />
+        <div>
+            <div className="cb-property-inspector-model-error-container">
+                {modelErrors.map((error, idx) => (
+                    <MessageBar
+                        key={idx}
+                        messageBarType={MessageBarType.warning}
+                        dismissButtonAriaLabel={t('close')}
+                        onDismiss={() => {
+                            if (modelErrors.length === 1) {
+                                setModelErrors([]);
+                            } else {
+                                setModelErrors((prev) => prev.splice(idx, 1));
+                            }
+                        }}
+                    >
+                        {error.message}
+                    </MessageBar>
+                ))}
+            </div>
+            <StandalonePropertyInspector
+                inputData={inputData}
+                onCommitChanges={onCommitChanges}
+                theme={props.theme}
+                locale={props.locale}
+                localeStrings={props.localeStrings}
+            />
+        </div>
     );
 };
 
