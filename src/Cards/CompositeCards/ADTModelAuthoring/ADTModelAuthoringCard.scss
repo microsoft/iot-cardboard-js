@@ -18,7 +18,8 @@
 }
 
 .cb-model-authoring-card-main {
-    height: 100%;
+    flex-grow: 1;
+    overflow: auto;
 }
 
 .cb-model-authoring-card-footer {
