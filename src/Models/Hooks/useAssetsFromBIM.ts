@@ -26,6 +26,7 @@ const useAssetsFromBIM = (
         models: [],
         twins: [],
         relationships: [],
+        mediaTwin: null,
         modelCounts: {}
     });
 
@@ -34,6 +35,7 @@ const useAssetsFromBIM = (
             models: [],
             twins: [],
             relationships: [],
+            mediaTwin: null,
             modelCounts: {}
         });
         onIsLoadingChange(false);
@@ -70,58 +72,85 @@ const useAssetsFromBIM = (
         [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
     };
 
+    const createHasMemberRelId = (targetName) => {
+        return `bim_contains_${targetName}`;
+    }
+
+    const createHasMemberRelationship = (mediaTwinId, targetId): DTwinRelationship => {
+        return {
+            $relId: createHasMemberRelId(targetId),
+            $dtId: mediaTwinId,
+            $name: 'HasMember',
+            $targetId: targetId
+        };
+    }
+
+    const createMediaTwinId = () => {
+        return 'bimFile';
+    }
+
     const extractAssets = useCallback(
         (root) => {
             const typesDictionary = {};
-            typesDictionary[ADTModel_BIMContainerId] = {
-                properties: [
-                    {
-                        '@type': 'Property',
-                        name: ADTModel_ViewData_PropertyName,
-                        schema: {
-                            '@type': 'Object',
-                            fields: [
-                                {
-                                    name: ADTModel_BimFilePath_PropertyName,
-                                    schema: 'string'
-                                },
-                                {
-                                    name: ADTModel_MetadataFilePath_PropertyName,
-                                    schema: 'string'
-                                }
-                            ]
-                        }
-                    }
-                ],
-                relationships: [],
-                count: 1
-            };
-
-            const bimModelID = createDTDLModelId(ADTModel_BIMContainerId);
-            const twinsDictionary: Record<string, DTwin> = {};
-            twinsDictionary[ADTModel_BIMContainerId] = {
-                $dtId: ADTModel_BIMContainerId,
+            const mediaTwin: DTwin = {
+                $dtId: createMediaTwinId(),
                 $metadata: {
-                    $model: bimModelID
+                    $model: 'dtmi:com:niusoff:mediatwin;1'
                 },
-                [ADTModel_ViewData_PropertyName]: viewData
-            };
+                MediaSrc: bimFilePath,
+            }
+            // typesDictionary[ADTModel_BIMContainerId] = {`
+            //     properties: [
+            //         {
+            //             '@type': 'Property',
+            //             name: ADTModel_ViewData_PropertyName,
+            //             schema: {
+            //                 '@type': 'Object',
+            //                 fields: [
+            //                     {
+            //                         name: ADTModel_BimFilePath_PropertyName,
+            //                         schema: 'string'
+            //                     },
+            //                     {
+            //                         name: ADTModel_MetadataFilePath_PropertyName,
+            //                         schema: 'string'
+            //                     }
+            //                 ]
+            //             }
+            //         }
+            //     ],
+            //     relationships: [],
+            //     count: 1
+            // };
+
+            // const bimModelID = createDTDLModelId(ADTModel_BIMContainerId);
+            const twinsDictionary: Record<string, DTwin> = {};
+            twinsDictionary[createMediaTwinId()] = mediaTwin;
+            // twinsDictionary[ADTModel_BIMContainerId] = {
+            //     $dtId: ADTModel_BIMContainerId,
+            //     $metadata: {
+            //         $model: bimModelID
+            //     },
+            //     [ADTModel_ViewData_PropertyName]: viewData
+            // };
             const relationshipsDictionary: Record<
                 string,
                 DTwinRelationship
             > = {};
+            const mediaTwinRelationships: Array<DTwinRelationship> = [];
 
             // recursive traversal of every asset to extract model, twin and  information
             const addAsset = (node) => {
                 if (!typesDictionary[node.type]) {
+                    
                     typesDictionary[node.type] = {
                         relationships: [
-                            {
-                                '@type': 'Relationship',
-                                name: 'inBIM',
-                                displayName: 'in BIM',
-                                target: bimModelID
-                            }
+                            // {
+                            //     '@type': 'Relationship',
+                            //     name: 'inBIM',
+                            //     displayName: 'in BIM',
+                            //     target: bimModelID
+                            // }
                         ],
                         properties: [
                             {
@@ -154,6 +183,10 @@ const useAssetsFromBIM = (
                     },
                     [ADTModel_ViewData_PropertyName]: viewData
                 };
+
+                // add has member for media twin to this twin
+                mediaTwinRelationships.push(createHasMemberRelationship(mediaTwin.$dtId, node.id));
+
                 if (node.children) {
                     const relationshipsMap = {};
 
@@ -193,7 +226,8 @@ const useAssetsFromBIM = (
             setAssetsState({
                 models: transformModels(typesDictionary),
                 twins: Object.values(twinsDictionary),
-                relationships: Object.values(relationshipsDictionary),
+                relationships: Object.values(relationshipsDictionary).concat(mediaTwinRelationships),
+                mediaTwin: mediaTwin,
                 modelCounts: getModelCounts(typesDictionary)
             });
             onIsLoadingChange(false);

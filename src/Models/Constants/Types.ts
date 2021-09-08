@@ -128,6 +128,7 @@ export type AssetsFromBIMState = {
     models: Array<DTModel>;
     twins: Array<DTwin>;
     relationships: Array<DTwinRelationship>;
+    mediaTwin: DTwin;
     modelCounts: Record<string, number>;
 };
 
