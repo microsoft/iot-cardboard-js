@@ -56,6 +56,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     );
     const [modelsToPublish, setModelsToPublish] = useState([]);
     const existingModelIdsRef = useRef(existingModelIds ?? []);
+    const modelUploaderComponentRef = useRef();
     const modelCreateComponentRef = useRef();
     const [errorMessage, setErrorMessage] = useState(null);
     const [uploadingStatus, setUploadingStatus] = useState(
@@ -99,8 +100,10 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
         }
     };
 
-    const onFileListChanged = (items: Array<IJSONUploaderFileItem>) => {
-        setModelsToPublish(items.map((i: IJSONUploaderFileItem) => i.content));
+    const onFileListChanged = (_items: Array<IJSONUploaderFileItem>) => {
+        setModelsToPublish(
+            (modelUploaderComponentRef.current as any).getJsonList()
+        );
     };
 
     const onRemoveSelectedModel = (modelId: string) => {
@@ -262,6 +265,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             onFileListChanged={
                                                 onFileListChanged
                                             }
+                                            ref={modelUploaderComponentRef}
                                         />
                                     </div>
                                 )}
