@@ -105,7 +105,8 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
 
     useImperativeHandle(ref, () => ({
         uploadFiles: uploadHandler,
-        getJsonList: (jsonUploaderComponentRef.current as any)?.getJsonItems()
+        getJsonList: () =>
+            (jsonUploaderComponentRef.current as any)?.getJsonItems()
     }));
 
     return (
