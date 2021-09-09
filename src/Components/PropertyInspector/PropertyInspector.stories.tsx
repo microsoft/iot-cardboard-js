@@ -4,8 +4,8 @@ import {
     mockTwin,
     mockRelationship,
     mockRelationshipPropertiesModel
-} from './MockData/mockData';
-import mockExpandedModel from './MockData/TeslaExampleModels.json';
+} from './__mockdata__/mockData';
+import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 
 export default {

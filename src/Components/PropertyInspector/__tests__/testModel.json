@@ -1,0 +1,193 @@
+[
+    {
+        "@type": "Interface",
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:com:test:testmodel;1",
+        "extends": "dtmi:com:test:testBaseModel;1",
+        "displayName": "Test model",
+        "description": "Model for testing purposes",
+        "comment": "",
+        "contents": [
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:boolean;1",
+                "name": "testBoolean",
+                "schema": "boolean",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:date;1",
+                "name": "testDate",
+                "schema": "date",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:dateTime;1",
+                "name": "testDateTime",
+                "schema": "dateTime",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:double;1",
+                "name": "testDouble",
+                "schema": "double",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:duration;1",
+                "name": "testDuration",
+                "schema": "duration",
+                "writable": true
+            },
+            {
+                "@type": ["Property", "Energy"],
+                "@id": "dtmi:com:test:float;1",
+                "name": "testFloatWithUnit",
+                "schema": "float",
+                "unit": "kilowattHour",
+                "writable": true
+            },
+            {
+                "@type": ["Property", "Distance"],
+                "@id": "dtmi:com:test:integer;1",
+                "name": "testIntegerWithUnit",
+                "schema": "integer",
+                "unit": "mile",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:long;1",
+                "name": "testLong",
+                "schema": "long",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:string;1",
+                "name": "testString",
+                "schema": "string",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:time;1",
+                "name": "testTime",
+                "schema": "time",
+                "writable": true
+            },
+            {
+                "@type": "Property",
+                "@id": "dtmi:com:test:enum;1",
+                "name": "testEnum",
+                "schema": {
+                    "@type": "Enum",
+                    "@id": "dtmi:com:test:enumSchema;1",
+                    "valueSchema": "string",
+                    "enumValues": [
+                        {
+                            "@id": "dtmi:com:test:enumValueA;1",
+                            "name": "testEnumValueA",
+                            "enumValue": "A"
+                        },
+                        {
+                            "@id": "dtmi:com:test:enumValueB;1",
+                            "name": "testEnumValueB",
+                            "enumValue": "B"
+                        }
+                    ]
+                },
+                "writable": true
+            }
+        ]
+    },
+    {
+        "@id": "dtmi:com:test:testBaseModel;1",
+        "@type": "Interface",
+        "contents": [
+            {
+                "@type": "Component",
+                "name": "testComponentObjectModel",
+                "schema": "dtmi:com:test:testComponentObjectModel;1"
+            },
+            {
+                "@type": "Component",
+                "name": "testComponentMapModel",
+                "schema": "dtmi:com:test:testComponentMapModel;1"
+            }
+        ],
+        "@context": ["dtmi:dtdl:context;2"]
+    },
+    {
+        "@id": "dtmi:com:test:testComponentObjectModel;1",
+        "@type": "Interface",
+        "contents": [
+            {
+                "@type": "Property",
+                "name": "testObject",
+                "schema": {
+                    "@type": "Object",
+                    "fields": [
+                        {
+                            "name": "testObject_DoubleChild",
+                            "schema": "double"
+                        },
+                        {
+                            "name": "testObject_ObjectChild",
+                            "schema": {
+                                "@type": "Object",
+                                "fields": [
+                                    {
+                                        "name": "testObject_ObjectChild_StringChild",
+                                        "schema": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "writable": true
+            }
+        ],
+        "@context": ["dtmi:dtdl:context;2"]
+    },
+    {
+        "@id": "dtmi:com:test:testComponentMapModel;1",
+        "@type": "Interface",
+        "contents": [
+            {
+                "@type": "Property",
+                "name": "testMap",
+                "writable": true,
+                "schema": {
+                    "@type": "Map",
+                    "mapKey": {
+                        "name": "testMapKey",
+                        "schema": "string"
+                    },
+                    "mapValue": {
+                        "name": "testMapValue",
+                        "schema": {
+                            "@type": "Object",
+                            "fields": [
+                                {
+                                    "name": "testString",
+                                    "schema": "string"
+                                },
+                                {
+                                    "name": "testDouble",
+                                    "schema": "double"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        ],
+        "@context": ["dtmi:dtdl:context;2"]
+    }
+]

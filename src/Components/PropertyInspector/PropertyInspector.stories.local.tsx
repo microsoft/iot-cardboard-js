@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import { mockRelationship, mockTwin } from './MockData/mockData';
+import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
 
 export default {

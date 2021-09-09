@@ -1,0 +1,35 @@
+{
+    "$dtId": "testTwin",
+    "$etag": "W/\"7cece789-dbf3-47ca-947e-5842ff8021fb\"",
+    "testBoolean": true,
+    "testDate": "2021-09-21",
+    "testDateTime": "2021-09-21T20:22:20",
+    "testDouble": 21.2,
+    "testFloatWithUnit": 54.9,
+    "testIntegerWithUnit": 11,
+    "testLong": 10289102,
+    "testString": "testing123",
+    "testTime": "19:23:27",
+    "testEnum": "A",
+    "testComponentObjectModel": {
+        "$metadata": {},
+        "testObject": {
+            "testObject_DoubleChild": 15.3,
+            "testObject_ObjectChild": {
+                "testObject_ObjectChild_StringChild": "testing321"
+            }
+        }
+    },
+    "testComponentMapModel": {
+        "$metadata": {},
+        "testMap": {
+            "testValue": {
+                "testString": "abc",
+                "testDouble": 123
+            }
+        }
+    },
+    "$metadata": {
+        "$model": "dtmi:com:test:testmodel;1"
+    }
+}
