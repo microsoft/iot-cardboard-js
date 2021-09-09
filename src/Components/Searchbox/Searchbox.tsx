@@ -1,6 +1,5 @@
 import { SearchBox } from '@fluentui/react';
 import React from 'react';
-import './Searchbox.scss';
 import { ISearchboxProps } from '../../Models/Constants/Interfaces';
 
 const Searchbox: React.FC<ISearchboxProps> = ({
