@@ -14,8 +14,8 @@ export interface PropertyTreeNode {
     path: string;
     isMapChild: boolean;
     isInherited: boolean;
-    writable: boolean;
     isSet: boolean;
+    readonly?: boolean;
     parentObjectPath?: string;
     children?: Array<PropertyTreeNode>;
     isCollapsed?: boolean;

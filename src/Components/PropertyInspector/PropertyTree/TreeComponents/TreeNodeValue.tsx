@@ -164,7 +164,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.string:
-            if (!node.writable || readonly) {
+            if (node.readonly || readonly) {
                 return (
                     <div
                         className={`${nodeValueClassname} ${

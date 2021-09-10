@@ -124,7 +124,6 @@ abstract class PropertyInspectorModel {
                         modelProperty.name in propertySourceObject) ||
                     forceSet,
                 isInherited,
-                writable: !!modelProperty?.writable || isObjectChild,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
             };
         } else if (typeof modelProperty.schema === 'object') {
@@ -181,7 +180,6 @@ abstract class PropertyInspectorModel {
                                 modelProperty.name in propertySourceObject) ||
                             forceSet,
                         value: undefined,
-                        writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
@@ -226,7 +224,6 @@ abstract class PropertyInspectorModel {
                             (propertySourceObject &&
                                 modelProperty.name in propertySourceObject) ||
                             forceSet,
-                        writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
@@ -267,7 +264,6 @@ abstract class PropertyInspectorModel {
                             (propertySourceObject &&
                                 modelProperty.name in propertySourceObject) ||
                             forceSet,
-                        writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
@@ -319,7 +315,7 @@ abstract class PropertyInspectorModel {
                     name: key,
                     displayName: relationship[key]?.displayName ?? key,
                     role: NodeRole.leaf,
-                    writable: false,
+                    readonly: true,
                     schema: dtdlPropertyTypesEnum.string,
                     value: relationship[key] ?? undefined,
                     path: `/${key}`,
@@ -413,7 +409,7 @@ abstract class PropertyInspectorModel {
                                                   ),
                                                   role: NodeRole.parent,
                                                   isSet: true,
-                                                  writable: false,
+                                                  readonly: true,
                                                   isCollapsed: true,
                                                   children: [],
                                                   schema:
@@ -450,7 +446,7 @@ abstract class PropertyInspectorModel {
                                 value: undefined,
                                 isMapChild: false,
                                 isRemovable: false,
-                                writable: false
+                                readonly: true
                             };
                         }
                     }
@@ -514,7 +510,7 @@ abstract class PropertyInspectorModel {
                     path: PropertyInspectorModel.buildPath(path, key),
                     role: NodeRole.parent,
                     isSet: !isFloating,
-                    writable: false,
+                    readonly: true,
                     isCollapsed: true,
                     children: Object.keys(node).map((childKey) =>
                         parseMetaDataIntoPropertyTreeNodes({
@@ -540,7 +536,7 @@ abstract class PropertyInspectorModel {
                     name: key,
                     path: PropertyInspectorModel.buildPath(path, key),
                     role: NodeRole.leaf,
-                    writable: false,
+                    readonly: true,
                     isSet: !isFloating,
                     value: node,
                     schema: dtdlPropertyTypesEnum.string,

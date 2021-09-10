@@ -43,6 +43,7 @@ type RelationshipPropertyInspectorProps = {
 
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
+    onPatch?: (patchData: OnCommitPatchParams) => any;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
@@ -246,6 +247,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
+            if (props.onPatch) {
+                props.onPatch(patchData);
+            }
             if (patchData.patchMode === PropertyInspectorPatchMode.twin) {
                 patchTwinData.callAdapter({
                     twinId: patchData.id,
