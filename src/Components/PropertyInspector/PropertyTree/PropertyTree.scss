@@ -2,8 +2,8 @@
 
 .cb-property-tree-container {
     font-size: 14px;
-    height: 100%;
-    overflow: inherit;
+    height: calc(100% - 44px);
+    overflow: auto;
     width: 100%;
 
     .cb-property-tree-list-group {
@@ -121,6 +121,7 @@
         display: flex;
         font-size: 0.7em;
         font-style: italic;
+        white-space: nowrap;
     }
 
     .cb-property-tree-node-map-value-tool-icon,

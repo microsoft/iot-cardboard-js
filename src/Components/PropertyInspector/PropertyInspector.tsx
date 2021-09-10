@@ -24,6 +24,7 @@ import {
     RelationshipParams,
     TwinParams
 } from './StandalonePropertyInspector.types';
+import './PropertyInspector.scss';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
@@ -321,7 +322,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     }
 
     return (
-        <div>
+        <div className="cb-property-inspector-container">
             <div className="cb-property-inspector-model-error-container">
                 {modelErrors.map((error, idx) => (
                     <MessageBar

@@ -14,8 +14,8 @@ export default {
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
-    width: '100%',
-    overflow: 'auto'
+    height: '600px',
+    width: '100%'
 };
 
 export const TwinMock = (_args, { globals: { theme, locale } }) => (
@@ -34,7 +34,7 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
 );
 
 export const SmallContainer = (_args, { globals: { theme, locale } }) => (
-    <div style={{ width: 300, height: 400, overflow: 'auto' }}>
+    <div style={{ width: 300, height: 400 }}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
