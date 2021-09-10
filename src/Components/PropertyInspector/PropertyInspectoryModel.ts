@@ -497,12 +497,14 @@ abstract class PropertyInspectorModel {
             node,
             key,
             path,
-            isObjectChild
+            isObjectChild,
+            isFloating = false
         }: {
             node: any;
             key: string;
             path: string;
             isObjectChild: boolean;
+            isFloating: boolean;
         }): PropertyTreeNode => {
             // Parse ADT metadata $ into nodes
             if (typeof node === 'object') {
@@ -511,7 +513,7 @@ abstract class PropertyInspectorModel {
                     name: key,
                     path: PropertyInspectorModel.buildPath(path, key),
                     role: NodeRole.parent,
-                    isSet: true,
+                    isSet: !isFloating,
                     writable: false,
                     isCollapsed: true,
                     children: Object.keys(node).map((childKey) =>
@@ -519,7 +521,8 @@ abstract class PropertyInspectorModel {
                             node: node[childKey],
                             key: childKey,
                             path: PropertyInspectorModel.buildPath(path, key),
-                            isObjectChild: true
+                            isObjectChild: true,
+                            isFloating
                         })
                     ),
                     schema: dtdlPropertyTypesEnum.Object,
@@ -538,7 +541,7 @@ abstract class PropertyInspectorModel {
                     path: PropertyInspectorModel.buildPath(path, key),
                     role: NodeRole.leaf,
                     writable: false,
-                    isSet: true,
+                    isSet: !isFloating,
                     value: node,
                     schema: dtdlPropertyTypesEnum.string,
                     type: DTDLType.Property,
@@ -627,7 +630,8 @@ abstract class PropertyInspectorModel {
                     isObjectChild: false,
                     node: twin[metaDataKey],
                     key: metaDataKey,
-                    path
+                    path,
+                    isFloating: !metaDataKey.startsWith('$')
                 });
             });
 
