@@ -1,11 +1,14 @@
-
-import { DtdlInterface, DtdlProperty, DtdlRelationship } from "./dtdlInterfaces";
+import {
+    DtdlInterface,
+    DtdlProperty,
+    DtdlRelationship
+} from './dtdlInterfaces';
 
 export const MediaMemberPosition: DtdlInterface = {
     '@type': 'Interface',
-    "@context": "dtmi:dtdl:context;2",
-    "@id": "dtmi:com:niusoff:mediamemberposition;1",
-    'displayName': 'MediaMemberPosition',
+    '@context': 'dtmi:dtdl:context;2',
+    '@id': 'dtmi:com:niusoff:mediamemberposition;1',
+    displayName: 'MediaMemberPosition',
     contents: [
         {
             '@type': 'Property',
@@ -15,8 +18,7 @@ export const MediaMemberPosition: DtdlInterface = {
         {
             '@type': 'Property',
             name: 'y',
-            schema: 'double',
-            
+            schema: 'double'
         },
         {
             '@type': 'Property',
@@ -54,13 +56,13 @@ export const MediaMemberPosition: DtdlInterface = {
             schema: 'double'
         }
     ]
-}
+};
 
 export const MediaTwinRelationships: DtdlRelationship[] = [
     {
         '@type': 'Relationship',
         name: 'HasMember',
-        '@id': "dtmi:com:niusoff:mediatwinhasmember;1",
+        '@id': 'dtmi:com:niusoff:mediatwinhasmember;1',
         properties: [
             {
                 '@type': 'Property',
@@ -111,17 +113,17 @@ export const MediaTwinRelationships: DtdlRelationship[] = [
                         }
                     ]
                 }
-            },
+            }
         ]
     },
     {
         '@type': 'Relationship',
         name: 'Represents',
-        '@id': "dtmi:com:niusoff:mediatwinrepresents;1",
+        '@id': 'dtmi:com:niusoff:mediatwinrepresents;1',
         minMultiplicity: 0,
         maxMultiplicity: 1
     }
-]
+];
 
 const properties: DtdlProperty[] = [
     {
@@ -142,14 +144,14 @@ const properties: DtdlProperty[] = [
     {
         '@type': 'Property',
         name: 'MediaSrcSecret',
-        schema: 'string',
-    },
+        schema: 'string'
+    }
 ];
 
 export const MediaTwinModel: DtdlInterface = {
     '@type': 'Interface',
-    "@context": "dtmi:dtdl:context;2",
-    "@id": "dtmi:com:niusoff:mediatwin;1",
+    '@context': 'dtmi:dtdl:context;2',
+    '@id': 'dtmi:com:niusoff:mediatwin;1',
     displayName: 'MediaTwinModel',
-    contents: [...properties, ...MediaTwinRelationships],
-}
+    contents: [...properties, ...MediaTwinRelationships]
+};

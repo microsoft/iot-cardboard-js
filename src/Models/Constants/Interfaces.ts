@@ -471,6 +471,7 @@ export interface DTwinRelationship {
     $targetId: string;
     $name: string;
     targetModel?: string;
+    [propertyName: string]: any;
 }
 
 export interface IAdtPusherSimulation {

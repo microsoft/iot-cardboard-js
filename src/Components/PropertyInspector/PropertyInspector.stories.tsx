@@ -8,7 +8,10 @@ import {
 } from './MockData/mockData';
 import mockExpandedModel from './MockData/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
-import {MediaTwinModel, MediaTwinRelationships} from '../../Models/Constants/MediaTwinModel';
+import {
+    MediaTwinModel,
+    MediaTwinRelationships
+} from '../../Models/Constants/MediaTwinModel';
 
 export default {
     title: 'Components/Property Inspector/Standalone'

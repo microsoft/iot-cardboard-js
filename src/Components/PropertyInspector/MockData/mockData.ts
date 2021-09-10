@@ -63,11 +63,10 @@ export const mockMediaTwin = {
         $model: 'dtmi:com:niusoff:mediatwin;1'
     },
     MediaSrc: 'bimfilepath.com'
-}
+};
 
 export const mockHasMemberRelationship = {
     $relationshipId: '',
     $sourceId: 'bimFile',
     $targetId: 'imAssetTwin'
-}
-
+};

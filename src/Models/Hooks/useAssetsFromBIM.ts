@@ -74,20 +74,23 @@ const useAssetsFromBIM = (
 
     const createHasMemberRelId = (targetName) => {
         return `bim_contains_${targetName}`;
-    }
+    };
 
-    const createHasMemberRelationship = (mediaTwinId, targetId): DTwinRelationship => {
+    const createHasMemberRelationship = (
+        mediaTwinId,
+        targetId
+    ): DTwinRelationship => {
         return {
             $relId: createHasMemberRelId(targetId),
             $dtId: mediaTwinId,
             $name: 'HasMember',
             $targetId: targetId
         };
-    }
+    };
 
     const createMediaTwinId = () => {
         return 'bimFile';
-    }
+    };
 
     const extractAssets = useCallback(
         (root) => {
@@ -98,32 +101,11 @@ const useAssetsFromBIM = (
                     $model: 'dtmi:com:niusoff:mediatwin;1'
                 },
                 MediaSrc: bimFilePath,
-            }
-            // typesDictionary[ADTModel_BIMContainerId] = {`
-            //     properties: [
-            //         {
-            //             '@type': 'Property',
-            //             name: ADTModel_ViewData_PropertyName,
-            //             schema: {
-            //                 '@type': 'Object',
-            //                 fields: [
-            //                     {
-            //                         name: ADTModel_BimFilePath_PropertyName,
-            //                         schema: 'string'
-            //                     },
-            //                     {
-            //                         name: ADTModel_MetadataFilePath_PropertyName,
-            //                         schema: 'string'
-            //                     }
-            //                 ]
-            //             }
-            //         }
-            //     ],
-            //     relationships: [],
-            //     count: 1
-            // };
+                AdditionalProperties: JSON.stringify({
+                    metadataFile: metadataFilePath
+                })
+            };
 
-            // const bimModelID = createDTDLModelId(ADTModel_BIMContainerId);
             const twinsDictionary: Record<string, DTwin> = {};
             twinsDictionary[createMediaTwinId()] = mediaTwin;
             // twinsDictionary[ADTModel_BIMContainerId] = {
@@ -142,7 +124,6 @@ const useAssetsFromBIM = (
             // recursive traversal of every asset to extract model, twin and  information
             const addAsset = (node) => {
                 if (!typesDictionary[node.type]) {
-                    
                     typesDictionary[node.type] = {
                         relationships: [
                             // {
@@ -185,7 +166,9 @@ const useAssetsFromBIM = (
                 };
 
                 // add has member for media twin to this twin
-                mediaTwinRelationships.push(createHasMemberRelationship(mediaTwin.$dtId, node.id));
+                mediaTwinRelationships.push(
+                    createHasMemberRelationship(mediaTwin.$dtId, node.id)
+                );
 
                 if (node.children) {
                     const relationshipsMap = {};
@@ -215,7 +198,12 @@ const useAssetsFromBIM = (
                                     $relId: relationshipId,
                                     $dtId: node.id,
                                     $targetId: child.id,
-                                    $name: relationshipName
+                                    $name: relationshipName,
+                                    MediaMemberProperties: {
+                                        Position: {
+                                            id: node.id
+                                        }
+                                    }
                                 };
                             }
                         );
@@ -226,7 +214,9 @@ const useAssetsFromBIM = (
             setAssetsState({
                 models: transformModels(typesDictionary),
                 twins: Object.values(twinsDictionary),
-                relationships: Object.values(relationshipsDictionary).concat(mediaTwinRelationships),
+                relationships: Object.values(relationshipsDictionary).concat(
+                    mediaTwinRelationships
+                ),
                 mediaTwin: mediaTwin,
                 modelCounts: getModelCounts(typesDictionary)
             });

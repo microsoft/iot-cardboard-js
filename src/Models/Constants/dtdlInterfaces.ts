@@ -3,7 +3,7 @@ export interface DtdlInterface {
     '@type': string;
     '@context': string | string[];
     comment?: string;
-    contents?: (DtdlProperty|DtdlRelationship)[];
+    contents?: (DtdlProperty | DtdlRelationship)[];
     description?: string;
     displayName?: string;
     extends?: string | string[];

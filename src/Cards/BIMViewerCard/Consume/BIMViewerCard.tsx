@@ -4,14 +4,9 @@ import './BIMViewerCard.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import BIMViewer from '../../../Components/BIMViewer/BIMViewer';
 import React from 'react';
-import {
-    ADTModel_BimFilePath_PropertyName,
-    ADTModel_MetadataFilePath_PropertyName,
-    ADTModel_ViewData_PropertyName
-} from '../../../Models/Constants';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const properties = [ADTModel_ViewData_PropertyName];
+const properties = ['MediaSrc', 'AdditionalProperties'];
 
 const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     adapter,
@@ -28,6 +23,14 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
         pollingIntervalMillis: null
     });
 
+    const getMetadataFile = (adapterResult) => {
+        return JSON.parse(
+            adapterResult?.getData()?.[1].value
+                ? adapterResult?.getData()?.[1].value
+                : '{}'
+        )?.['metadataFile'];
+    };
+
     return (
         <BaseCard
             adapterResult={cardState.adapterResult}
@@ -38,16 +41,8 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
         >
             {cardState.adapterResult?.getData() && (
                 <BIMViewer
-                    bimFilePath={
-                        cardState.adapterResult?.getData()[0].value?.[
-                            ADTModel_BimFilePath_PropertyName
-                        ]
-                    }
-                    metadataFilePath={
-                        cardState.adapterResult?.getData()[0].value?.[
-                            ADTModel_MetadataFilePath_PropertyName
-                        ]
-                    }
+                    bimFilePath={cardState.adapterResult?.getData()[0].value}
+                    metadataFilePath={getMetadataFile(cardState.adapterResult)}
                     centeredObject={centeredObject}
                 ></BIMViewer>
             )}

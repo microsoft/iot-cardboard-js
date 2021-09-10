@@ -20,7 +20,7 @@ export const ADT = (_args, { globals: { theme } }) => {
     ) : (
         <div style={wrapperStyle}>
             <BIMViewerCard
-                id={'TODO_BIMName'}
+                id={'bimFile'}
                 theme={theme}
                 adapter={
                     new ADTAdapter(
