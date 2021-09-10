@@ -15,6 +15,11 @@
             overflow: hidden;
         }
     }
+
+    .cb-file-list {
+        height: 100%;
+        overflow-y: auto;
+    }
 }
 
 .cb-model-authoring-card-main {
@@ -46,6 +51,8 @@
 }
 
 .cb-model-authoring-card-step {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     padding: 12px 20px 20px 0;
 }
@@ -109,12 +116,12 @@
     }
 
     .cb-ms-show-more {
-        margin-bottom: 8px;
+        margin-bottom: 20px;
     }
 
     .cb-ms-results {
         background-color: var(--cb-color-bg-canvas);
-        padding-left: 12px;
+        padding: 0 20px;
     }
 }
 
@@ -189,9 +196,8 @@
 }
 
 .cb-model-authoring-card-error-message {
-    bottom: 20px;
     max-height: 48px;
-    max-width: 50%;
+    max-width: 60%;
     overflow: auto;
     position: absolute;
     right: 256px;

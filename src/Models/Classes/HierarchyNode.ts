@@ -22,8 +22,8 @@ export class HierarchyNode implements IHierarchyNode {
         return models
             ? models
                   .sort((a, b) =>
-                      a.displayName?.en?.localeCompare(
-                          b.displayName.en,
+                      (a.displayName?.en || a.id).localeCompare(
+                          b.displayName?.en || b.id,
                           undefined,
                           {
                               numeric: true,

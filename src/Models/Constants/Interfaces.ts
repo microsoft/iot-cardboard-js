@@ -510,6 +510,7 @@ export interface IStepperWizardProps {
 
 export interface IJSONUploaderProps {
     onFileListChanged?: (items: Array<IJSONUploaderFileItem>) => void;
+    existingFileListItems?: Array<IJSONUploaderFileItem>;
 }
 
 export interface IJSONUploaderFileItem {

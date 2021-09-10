@@ -31,12 +31,16 @@ interface IFilesList {
     files: Array<File>;
     onRemoveFile: (idx: number) => void;
     onListUpdated?: (items: Array<IFileItem>) => void;
+    existingFileListItems?: Array<IFileItem>;
 }
 
-function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
+function FilesList(
+    { files, onRemoveFile, onListUpdated, existingFileListItems }: IFilesList,
+    ref
+) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
-    const [listItems, setListItems] = useState([]);
+    const [listItems, setListItems] = useState(existingFileListItems ?? []);
 
     const { t } = useTranslation();
 
@@ -61,7 +65,7 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                 }
             });
         } else {
-            setListItems([]);
+            setListItems(existingFileListItems ?? []);
         }
     }, [files]);
 
@@ -105,14 +109,13 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                         key: 'cb-file-list-column-name',
                         name: t('name'),
                         minWidth: 210,
-                        maxWidth: 350,
                         isResizable: true,
                         onRender: (item: IFileItem) => <span>{item.name}</span>
                     },
                     {
                         key: 'cb-file-list-column-size',
                         name: t('size'),
-                        minWidth: 110,
+                        minWidth: 160,
                         maxWidth: 250,
                         onRender: (item: IFileItem) => <span>{item.size}</span>
                     },
@@ -145,7 +148,7 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                     {
                         key: 'cb-file-list-column-actions',
                         name: t('action'),
-                        minWidth: 110,
+                        minWidth: 160,
                         maxWidth: 250,
                         onRender: (item: IFileItem, index: number) => (
                             <div>
