@@ -599,21 +599,23 @@ abstract class PropertyInspectorModel {
         }
 
         // Flatten all modelled property names into array, this is used to check for floating twin properties
-        const modelledPropertyNames = [...rootModelNodes, ...extendedModelNodes]
-            .map((node) => {
-                const flattenNode = (n: PropertyTreeNode) => {
-                    if (n.children) {
-                        return [
-                            n.name,
-                            ...n.children.map((child) => flattenNode(child))
-                        ];
-                    } else {
-                        return n.name;
-                    }
-                };
-                return flattenNode(node);
-            })
-            .flat(Infinity);
+        const flatten = (arr: PropertyTreeNode[]) => {
+            return arr.reduce(
+                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
+                    return flat.concat(
+                        Array.isArray(toFlatten.children)
+                            ? [toFlatten, ...flatten(toFlatten.children)]
+                            : toFlatten
+                    );
+                },
+                []
+            );
+        };
+
+        const modelledPropertyNames = flatten([
+            ...rootModelNodes,
+            ...extendedModelNodes
+        ]).map((node) => node.name);
 
         // Parse meta data nodes
         const metaDataNodes = Object.keys(twin || {})
