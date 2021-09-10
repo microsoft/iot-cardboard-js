@@ -13,7 +13,10 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { IJSONUploaderProps } from '../../Models/Constants/Interfaces';
 
-function JsonUploader({ onFileListChanged }: IJSONUploaderProps, ref) {
+function JsonUploader(
+    { onFileListChanged, existingFileListItems }: IJSONUploaderProps,
+    ref
+) {
     const [files, setFiles] = useState<Array<File>>([]);
     const filesRef = useRef(files);
     const fileListRef = useRef();
@@ -80,6 +83,7 @@ function JsonUploader({ onFileListChanged }: IJSONUploaderProps, ref) {
                 onRemoveFile={removeFileHandler}
                 ref={fileListRef}
                 onListUpdated={onFileListChanged}
+                existingFileListItems={existingFileListItems}
             ></FilesList>
         </div>
     );

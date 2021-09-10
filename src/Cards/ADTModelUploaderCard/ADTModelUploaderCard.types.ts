@@ -12,4 +12,5 @@ export interface ADTModelUploaderCardProps extends IStandaloneConsumeCardProps {
     hasMessageBar: boolean;
     onUploadFinish?: (adapterResult: AdapterResult<ADTModelsData>) => void;
     onFileListChanged?: (fileItems: Array<IJSONUploaderFileItem>) => void;
+    existingFileListItems?: Array<IJSONUploaderFileItem>;
 }
