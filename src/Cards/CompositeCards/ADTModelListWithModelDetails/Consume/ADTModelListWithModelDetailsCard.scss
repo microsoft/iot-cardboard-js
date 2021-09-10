@@ -52,19 +52,21 @@
     }
 
     .cb-mbcard-authoring {
-        animation: 0.4s slide-in ease-in-out;
+        animation: 0.5s slide-in ease-in-out;
         height: 100%;
         width: 100%;
+    }
+
+    .cb-model-authoring-card-step {
+        padding: 12px 20px 0 0;
     }
 }
 
 @keyframes slide-in {
     0% {
-        opacity: 0;
-        transform: translateX(30%);
+        transform: translateX(100%);
     }
     100% {
-        opacity: 1;
         transform: translateX(0);
     }
 }
