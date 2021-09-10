@@ -247,9 +247,6 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
 
     const onCommitChanges = (patchData: OnCommitPatchParams) => {
         if (patchData?.patches && patchData.patches?.length > 0) {
-            if (props.onPatch) {
-                props.onPatch(patchData);
-            }
             if (patchData.patchMode === PropertyInspectorPatchMode.twin) {
                 patchTwinData.callAdapter({
                     twinId: patchData.id,
@@ -275,6 +272,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 shouldRefreshAfterPatch: true,
                 resolvedTwin: props.resolvedTwin
             }); // refetch twin after patch
+
+            props.onPatch &&
+                props.onPatch(patchTwinData.adapterResult.getData());
+        } else if (patchTwinData.adapterResult.errorInfo?.catastrophicError) {
+            const error = (patchTwinData.adapterResult.errorInfo
+                .catastrophicError.rawError as any)?.response?.data?.error;
+            props.onPatch && props.onPatch(error);
         }
 
         if (patchRelationshipData.adapterResult.getData()) {
@@ -285,6 +289,15 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 shouldRefreshAfterPatch: true,
                 resolvedRelationship: props.resolvedRelationship
             });
+
+            props.onPatch &&
+                props.onPatch(patchRelationshipData.adapterResult.getData());
+        } else if (
+            patchRelationshipData.adapterResult.errorInfo?.catastrophicError
+        ) {
+            const error = (patchRelationshipData.adapterResult.errorInfo
+                .catastrophicError.rawError as any)?.response?.data?.error;
+            props.onPatch && props.onPatch(error);
         }
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
 
@@ -338,4 +351,4 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     );
 };
 
-export default PropertyInspector;
+export default React.memo(PropertyInspector);
