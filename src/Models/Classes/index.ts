@@ -3,7 +3,10 @@ export {
     ADTAdapterTwinsData
 } from './AdapterDataClasses/ADTAdapterData';
 export { default as ADTModelData } from './AdapterDataClasses/ADTModelData';
-export { default as ADTRelationshipData } from './AdapterDataClasses/ADTRelationshipsData';
+export {
+    ADTRelationshipsData,
+    ADTRelationshipData
+} from './AdapterDataClasses/ADTRelationshipsData';
 export { default as ADTTwinData } from './AdapterDataClasses/ADTTwinData';
 export { default as KeyValuePairAdapterData } from './AdapterDataClasses/KeyValuePairAdapterData';
 export { default as TsiClientAdapterData } from './AdapterDataClasses/TsiClientAdapterData';

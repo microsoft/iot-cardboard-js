@@ -4,6 +4,8 @@
     --cb-color-bg-canvas-inset: #cacacac4;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #cb2431;
+    --cb-color-text-error: #a4262c;
+    --cb-color-text-warning: #d58e00;
     --cb-color-success: #32a852;
     --cb-color-card-contrast: #f2f2f2;
     --cb-color-input-border: #ccc;
@@ -11,6 +13,7 @@
     --cb-color-text-primary: 0, 0, 0;
     --cb-color-theme-primary: #0078d4;
     --cb-color-bg-card: #f9f9f9;
+    --cb-color-icon-hover-bg: #f3f2f1;
     --cb-color-natural-light: #dadada;
 }
 
@@ -19,6 +22,8 @@
     --cb-color-bg-canvas-inset: #4949499e;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #f85149;
+    --cb-color-text-error: #751d20;
+    --cb-color-text-warning: #b17600;
     --cb-color-success: #32a852;
     --cb-color-card-contrast: #232323;
     --cb-color-input-border: #777;
@@ -26,5 +31,6 @@
     --cb-color-text-primary: #fff;
     --cb-color-theme-primary: #058bf2;
     --cb-color-bg-card: #2c2c2c;
+    --cb-color-icon-hover-bg: #0d0f0e;
     --cb-color-natural-light: #5c5656;
 }

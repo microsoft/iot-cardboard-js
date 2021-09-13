@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { DTwin, DTwinRelationship, UploadPhase } from '../../Models/Constants';
+import {
+    DTwin,
+    DTwinRelationship,
+    DTModel,
+    UploadPhase,
+    IGenerateADTAssetsProps
+} from '../../Models/Constants';
 import { useAdapter } from '../../Models/Hooks';
 import { UploadProgress } from '../UploadProgress/UploadProgress';
 import { AssetTypes } from '../../Models/Constants/Enums';
 
-const GenerateADTAssets = ({
+const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
     adapter,
     models,
     twins,
@@ -18,8 +23,7 @@ const GenerateADTAssets = ({
     const { t } = useTranslation();
 
     const pushModelsState = useAdapter({
-        adapterMethod: (models: Array<DTDLModel>) =>
-            adapter.createModels(models),
+        adapterMethod: (models: Array<DTModel>) => adapter.createModels(models),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
@@ -91,7 +95,7 @@ const GenerateADTAssets = ({
     //set upload progress state based on adapter result
     useEffect(() => {
         if (pushRelationshipsState.adapterResult.errorInfo?.errors?.length) {
-            if (!pushRelationshipsState.adapterResult.result?.hasNoData()) {
+            if (pushRelationshipsState.adapterResult.result?.hasNoData()) {
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.Failed,
                     message: null,
@@ -102,7 +106,11 @@ const GenerateADTAssets = ({
             } else {
                 setRelationshipsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
-                    message: null,
+                    message: t('generateADTAssets.assetsPushedCount', {
+                        count: pushRelationshipsState.adapterResult.getData()
+                            ?.length,
+                        assetType: AssetTypes.Relationships
+                    }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Relationships,
                         errorCount:
@@ -128,7 +136,7 @@ const GenerateADTAssets = ({
     //set upload progress state based on adapter result
     useEffect(() => {
         if (pushTwinsState.adapterResult.errorInfo?.errors?.length) {
-            if (!pushTwinsState.adapterResult.result?.hasNoData()) {
+            if (pushTwinsState.adapterResult.result?.hasNoData()) {
                 setTwinsUploadStatus({
                     phase: UploadPhase.Failed,
                     message: null,
@@ -139,7 +147,10 @@ const GenerateADTAssets = ({
             } else {
                 setTwinsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
-                    message: null,
+                    message: t('generateADTAssets.assetsPushedCount', {
+                        count: pushTwinsState.adapterResult.getData()?.length,
+                        assetType: AssetTypes.Twins
+                    }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Twins,
                         errorCount:
@@ -161,7 +172,7 @@ const GenerateADTAssets = ({
 
     useEffect(() => {
         (async () => {
-            if (isUploading === false) {
+            if (!isUploading && triggerUpload) {
                 setIsUploading(true);
                 const models = await initiateModelsUpload();
                 const twins = await initiateTwinsUpload();

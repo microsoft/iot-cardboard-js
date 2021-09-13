@@ -76,8 +76,18 @@ export enum FormMode {
     Readonly
 }
 
+export enum PropertyInspectorPatchMode {
+    twin,
+    relationship
+}
+
 export enum AssetTypes {
     Models = 'models',
     Twins = 'twins',
     Relationships = 'relationships'
+}
+
+export enum FileUploadStatus {
+    Uploading = 'uploading',
+    Uploaded = 'uploaded'
 }
