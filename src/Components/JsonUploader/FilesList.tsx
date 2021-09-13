@@ -140,7 +140,7 @@ function FilesList(
                                 >
                                     <FontIcon
                                         iconName="Warning"
-                                        className="cb-warning-icon  "
+                                        className="cb-warning-icon"
                                     ></FontIcon>
                                 </ViewWithTooltip>
                             )
@@ -189,7 +189,8 @@ function FilesList(
                     root: {
                         selectors: {
                             '.ms-DetailsRow-cell': {
-                                lineHeight: '32px'
+                                lineHeight: '32px',
+                                fontSize: '14px'
                             }
                         }
                     }
