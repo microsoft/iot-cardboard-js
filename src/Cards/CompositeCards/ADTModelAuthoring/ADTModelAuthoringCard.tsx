@@ -419,6 +419,24 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     models={modelsToPublish}
                                     t={t}
                                 />
+                                {errorMessage && (
+                                    <MessageBar
+                                        messageBarType={
+                                            uploadingStatus ===
+                                            UploadPhase.Succeeded
+                                                ? MessageBarType.success
+                                                : uploadingStatus ===
+                                                  UploadPhase.PartiallyFailed
+                                                ? MessageBarType.warning
+                                                : MessageBarType.error
+                                        }
+                                        dismissButtonAriaLabel={t('close')}
+                                        onDismiss={() => setErrorMessage(null)}
+                                        className="cb-model-authoring-card-error-message"
+                                    >
+                                        {errorMessage}
+                                    </MessageBar>
+                                )}
                             </>
                         )}
                     </div>
@@ -428,23 +446,6 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                 <div className="cb-navigation-left">
                     <DefaultButton onClick={onCancelClick} text={t('cancel')} />
                 </div>
-                {errorMessage && (
-                    <MessageBar
-                        messageBarType={
-                            uploadingStatus === UploadPhase.Succeeded
-                                ? MessageBarType.success
-                                : uploadingStatus ===
-                                  UploadPhase.PartiallyFailed
-                                ? MessageBarType.warning
-                                : MessageBarType.error
-                        }
-                        dismissButtonAriaLabel={t('close')}
-                        onDismiss={() => setErrorMessage(null)}
-                        className="cb-model-authoring-card-error-message"
-                    >
-                        {errorMessage}
-                    </MessageBar>
-                )}
                 {authoringStep !== ModelAuthoringSteps.SelectType && (
                     <div className="cb-navigation-right">
                         <DefaultButton
@@ -532,10 +533,12 @@ const ModelsToPublishList = ({ models, t }) => {
             selectionMode={SelectionMode.none}
             styles={{
                 root: {
+                    overflow: 'hidden',
                     selectors: {
                         '.ms-DetailsRow-cell': {
                             height: 32,
-                            paddingLeft: 20
+                            paddingLeft: 20,
+                            fontSize: '14px'
                         },
                         '.ms-DetailsHeader': {
                             paddingTop: 0

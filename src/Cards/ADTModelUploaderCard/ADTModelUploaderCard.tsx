@@ -71,11 +71,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                     })
                 );
             }
-        } else if (
-            (pushModelsState.adapterResult?.getCatastrophicError()
-                ?.rawError as any)?.request?.status === 409 ||
-            pushModelsState.adapterResult?.getData()
-        ) {
+        } else if (pushModelsState.adapterResult?.getData()) {
             setUploadingStatus(UploadPhase.Succeeded);
             setProgressMessage(
                 t('uploadProgress.uploadSuccess', {
