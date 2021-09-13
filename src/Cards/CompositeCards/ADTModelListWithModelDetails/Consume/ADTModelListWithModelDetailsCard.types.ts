@@ -6,4 +6,6 @@ import {
 export interface ADTModelListWithModelDetailsCardProps
     extends IConsumeCompositeCardProps {
     adapter: IADTAdapter;
+    onAuthoringOpen?: () => void;
+    onAuthoringClose?: () => void;
 }

@@ -43,14 +43,6 @@
         }
     }
 
-    .cb-mbcard-error-message {
-        bottom: 0;
-        max-height: 60px;
-        overflow: auto;
-        position: absolute;
-        width: 60%;
-    }
-
     .cb-mbcard-authoring {
         animation: 0.5s slide-in ease-in-out;
         height: 100%;
@@ -60,13 +52,19 @@
     .cb-model-authoring-card-step {
         padding: 12px 20px 0 0;
     }
+
+    .cb-selected-models {
+        padding-bottom: 20px;
+    }
 }
 
 @keyframes slide-in {
     0% {
-        transform: translateX(100%);
+        opacity: 0;
+        transform: translateX(50%);
     }
     100% {
+        opacity: 1;
         transform: translateX(0);
     }
 }

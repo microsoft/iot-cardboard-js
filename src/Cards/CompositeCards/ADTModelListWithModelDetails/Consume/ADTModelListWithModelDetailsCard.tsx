@@ -30,7 +30,9 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     adapter,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    onAuthoringOpen,
+    onAuthoringClose
 }) => {
     const { t } = useTranslation();
     const [selectedModel, setSelectedModel] = useState(undefined);
@@ -55,6 +57,23 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     const handleNewModelClick = () => {
         setSelectedModel(null);
         setIsModelAuthoringVisible(true);
+        if (onAuthoringOpen && typeof onAuthoringOpen === 'function') {
+            onAuthoringOpen();
+        }
+    };
+
+    const handleModelAuthoringCancel = () => {
+        setIsModelAuthoringVisible(false);
+        if (onAuthoringClose && typeof onAuthoringClose === 'function') {
+            onAuthoringClose();
+        }
+    };
+
+    const handleModelAuthoringPublish = (models: Array<IADTModel>) => {
+        newlyAddedModels.current = models.map((m) => m.id);
+        setTimeout(() => {
+            handleModelAuthoringCancel();
+        }, 2000);
     };
 
     const onDowloadClick = () => {
@@ -194,15 +213,8 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
                             theme={theme}
                             locale={locale}
                             adapter={adapter}
-                            onCancel={() => setIsModelAuthoringVisible(false)}
-                            onPublish={(models: Array<IADTModel>) => {
-                                newlyAddedModels.current = models.map(
-                                    (m) => m.id
-                                );
-                                setTimeout(() => {
-                                    setIsModelAuthoringVisible(false);
-                                }, 2000);
-                            }}
+                            onCancel={handleModelAuthoringCancel}
+                            onPublish={handleModelAuthoringPublish}
                         />
                     </div>
                 )}
