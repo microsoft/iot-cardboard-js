@@ -5,7 +5,6 @@ import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/Tr
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
 import { createDTDLModelId } from '../Services/Utils';
 import {
-    ADTModel_BIMContainerId,
     ADTModel_BimFilePath_PropertyName,
     ADTModel_MetadataFilePath_PropertyName,
     ADTModel_ViewData_PropertyName,
@@ -89,7 +88,7 @@ const useAssetsFromBIM = (
     };
 
     const createMediaTwinId = () => {
-        return 'bimFile';
+        return 'bimFile'; // TODO paramterize this so that it's uniqu for each bim upload
     };
 
     const extractAssets = useCallback(
@@ -108,13 +107,6 @@ const useAssetsFromBIM = (
 
             const twinsDictionary: Record<string, DTwin> = {};
             twinsDictionary[createMediaTwinId()] = mediaTwin;
-            // twinsDictionary[ADTModel_BIMContainerId] = {
-            //     $dtId: ADTModel_BIMContainerId,
-            //     $metadata: {
-            //         $model: bimModelID
-            //     },
-            //     [ADTModel_ViewData_PropertyName]: viewData
-            // };
             const relationshipsDictionary: Record<
                 string,
                 DTwinRelationship
@@ -125,33 +117,8 @@ const useAssetsFromBIM = (
             const addAsset = (node) => {
                 if (!typesDictionary[node.type]) {
                     typesDictionary[node.type] = {
-                        relationships: [
-                            // {
-                            //     '@type': 'Relationship',
-                            //     name: 'inBIM',
-                            //     displayName: 'in BIM',
-                            //     target: bimModelID
-                            // }
-                        ],
-                        properties: [
-                            {
-                                '@type': 'Property',
-                                name: ADTModel_ViewData_PropertyName,
-                                schema: {
-                                    '@type': 'Object',
-                                    fields: [
-                                        {
-                                            name: ADTModel_BimFilePath_PropertyName,
-                                            schema: 'string'
-                                        },
-                                        {
-                                            name: ADTModel_MetadataFilePath_PropertyName,
-                                            schema: 'string'
-                                        }
-                                    ]
-                                }
-                            }
-                        ],
+                        relationships: [],
+                        properties: [],
                         count: 1
                     };
                 } else {
