@@ -14,10 +14,10 @@ import { useTranslation } from 'react-i18next';
 import { IJSONUploaderProps } from '../../Models/Constants/Interfaces';
 
 function JsonUploader(
-    { onFileListChanged, existingFileListItems }: IJSONUploaderProps,
+    { onFileListChanged, existingFiles }: IJSONUploaderProps,
     ref
 ) {
-    const [files, setFiles] = useState<Array<File>>([]);
+    const [files, setFiles] = useState<Array<File>>(existingFiles ?? []);
     const filesRef = useRef(files);
     const fileListRef = useRef();
 
@@ -77,7 +77,6 @@ function JsonUploader(
                 onRemoveFile={removeFileHandler}
                 ref={fileListRef}
                 onListUpdated={onFileListChanged}
-                existingFileListItems={existingFileListItems}
             ></FilesList>
         </div>
     );
