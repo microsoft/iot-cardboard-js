@@ -2,17 +2,10 @@ import React from 'react';
 import {
     mockTwin,
     mockRelationship,
-    mockRelationshipPropertiesModel,
-    mockMediaTwin,
-    mockHasMemberRelationship
+    mockRelationshipPropertiesModel
 } from './MockData/mockData';
 import mockExpandedModel from './MockData/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
-import {
-    MediaTwinModel,
-    MediaTwinRelationships
-} from '../../Models/Constants/MediaTwinModel';
-
 export default {
     title: 'Components/Property Inspector/Standalone'
 };
@@ -29,31 +22,6 @@ export const TwinMock = () => (
                 twin: mockTwin,
                 expandedModels: mockExpandedModel,
                 rootModel: mockExpandedModel[0]
-            }}
-            onCommitChanges={(patch) => console.log(patch)}
-        />
-    </div>
-);
-
-export const MediaTwin = () => (
-    <div style={propertyInspectorStoryStyles}>
-        <StandalonePropertyInspector
-            inputData={{
-                twin: mockMediaTwin,
-                expandedModels: [MediaTwinModel],
-                rootModel: MediaTwinModel
-            }}
-            onCommitChanges={(patch) => console.log(patch)}
-        />
-    </div>
-);
-
-export const MediaTwinHasMember = () => (
-    <div style={propertyInspectorStoryStyles}>
-        <StandalonePropertyInspector
-            inputData={{
-                relationship: mockHasMemberRelationship,
-                relationshipDefinition: MediaTwinRelationships[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
         />

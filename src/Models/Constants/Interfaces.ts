@@ -442,7 +442,7 @@ export interface DTModelContent {
         | 'Component'
         | readonly [string, string];
     name: string;
-    schema: string | Record<string, any>;
+    schema?: string | Record<string, any>;
     [propertyName: string]: any;
 }
 

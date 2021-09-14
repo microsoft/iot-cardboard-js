@@ -5,9 +5,6 @@ import { TreeViewPlugin } from '@xeokit/xeokit-sdk/src/plugins/TreeViewPlugin/Tr
 import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin';
 import { createDTDLModelId } from '../Services/Utils';
 import {
-    ADTModel_BimFilePath_PropertyName,
-    ADTModel_MetadataFilePath_PropertyName,
-    ADTModel_ViewData_PropertyName,
     AssetsFromBIMState,
     DTModel,
     DTwin,
@@ -64,11 +61,6 @@ const useAssetsFromBIM = (
             countsDictionary[modelName] = typesDictionary[modelName].count;
         });
         return countsDictionary;
-    };
-
-    const viewData = {
-        [ADTModel_BimFilePath_PropertyName]: bimFilePath,
-        [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
     };
 
     const createHasMemberRelId = (targetName) => {
@@ -128,8 +120,7 @@ const useAssetsFromBIM = (
                     $dtId: node.id,
                     $metadata: {
                         $model: createDTDLModelId(node.type)
-                    },
-                    [ADTModel_ViewData_PropertyName]: viewData
+                    }
                 };
 
                 // add has member for media twin to this twin

@@ -22,6 +22,7 @@ import {
     Spinner
 } from '@fluentui/react';
 import GenerateADTAssets from '../../../Components/GenerateADTAssets/GenerateADTAssets';
+import { MediaTwinModel } from '../../../Models/Constants/MediaTwinModel';
 
 const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     adapter,
@@ -149,6 +150,24 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         return false;
     };
 
+    const filterModels = (models, modelsDictionary) => {
+        return models.filter(() => {
+            return true;
+        });
+    };
+
+    const filterTwins = (twins, modelsDictionary) => {
+        return twins.filter(() => {
+            return true;
+        });
+    };
+
+    const filterRelationships = (relationships, modelsDictionary) => {
+        return relationships.filter(() => {
+            return true;
+        });
+    };
+
     const isBackDisabled = () => {
         if (
             uploadState === BIMUploadState.PreProcessing ||
@@ -224,11 +243,21 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                     UploadPhase.Uploading && (
                                     <GenerateADTAssets
                                         adapter={adapter}
-                                        models={assetsFromBim.models}
-                                        twins={assetsFromBim.twins}
-                                        relationships={
-                                            assetsFromBim.relationships
-                                        }
+                                        models={[
+                                            MediaTwinModel,
+                                            ...filterModels(
+                                                assetsFromBim.models,
+                                                modelsDictionary
+                                            )
+                                        ]}
+                                        twins={filterTwins(
+                                            assetsFromBim.twins,
+                                            modelsDictionary
+                                        )}
+                                        relationships={filterRelationships(
+                                            assetsFromBim.relationships,
+                                            modelsDictionary
+                                        )}
                                         triggerUpload={true}
                                         onComplete={onGenerateADTAssetsComplete}
                                     />
