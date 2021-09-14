@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.cb-modelcreate-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .cb-modelcreate-title {
     display: block;
     font-weight: bold;

@@ -24,6 +24,7 @@
     "copied": "Copied",
     "close": "Close",
     "back": "Back",
+    "previous": "Previous",
     "next": "Next",
     "properties": "Properties",
     "blank": "blank",
@@ -32,6 +33,7 @@
     "download": "Download",
     "create": "Create",
     "add": "Add",
+    "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
     "delete": "Delete",
@@ -48,6 +50,9 @@
     "size": "Size",
     "upload": "Upload",
     "or": "or",
+    "type": "Type",
+    "id": "Id",
+    "select": "Select",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -210,11 +215,29 @@
         "noEnumValues": "This enum schema has no enum values",
         "addEnumValue": "Add enum value",
         "editEnumValue": "Edit enum value",
-        "enumValueDetails": "Enum value details"
+        "enumValueDetails": "Enum value details",
+        "inherit": "Inherit"
     },
     "fileUploader": {
         "dragAndDrop": "Drag and drop files here",
         "browseFiles": "Browse for files"
+    },
+    "modelAuthoring": {
+        "selectType": "Select type",
+        "review": "Review",
+        "publish": "Publish",
+        "publishModels": "Publish models",
+        "publishing": "Publishing...",
+        "addedToBePublished": "added to be published",
+        "selectTemplates": "Select standard templates",
+        "authoringModes": {
+            "uploadDTDLFiles": "Upload DTDL files",
+            "uploadDTDLFilesDesc": "File type must be JSON, no exceed than 50MB",
+            "createFromTemplates": "Create from templates",
+            "createFromTemplatesDesc": "Bring in standard models from library and edit from there",
+            "buildFromScratch": "Build from scratch",
+            "buildFromScratchDesc": "Using built-in modules to create a DTDL model, no code is needed"
+        }
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

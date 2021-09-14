@@ -1,5 +1,9 @@
 .cb-modelsearch-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     padding: 8px;
+
     .cb-ms-info {
         display: flex;
         font-style: italic;
@@ -34,5 +38,10 @@
     }
     .cb-modelsearch-suggestion-item-description {
         font-size: 0.8rem;
+    }
+
+    .cb-ms-results {
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 }

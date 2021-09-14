@@ -9,6 +9,7 @@ interface BaseFormProps {
     onPrimaryAction: (element: any) => void;
     onCancel: () => void;
     formControlMode?: FormMode;
+    isActionButtonsVisible?: boolean;
 }
 
 const BaseForm: React.FC<BaseFormProps> = ({
@@ -17,18 +18,21 @@ const BaseForm: React.FC<BaseFormProps> = ({
     onPrimaryAction,
     onCancel,
     formControlMode,
+    isActionButtonsVisible = true,
     children
 }) => (
     <div className="cb-form-container">
         <div className="cb-form-main">{children}</div>
-        <div className="cb-form-footer">
-            <DefaultButton onClick={onCancel}>{cancelLabel}</DefaultButton>
-            {formControlMode !== FormMode.Readonly && (
-                <PrimaryButton onClick={onPrimaryAction}>
-                    {primaryActionLabel}
-                </PrimaryButton>
-            )}
-        </div>
+        {isActionButtonsVisible && (
+            <div className="cb-form-footer">
+                <DefaultButton onClick={onCancel}>{cancelLabel}</DefaultButton>
+                {formControlMode !== FormMode.Readonly && (
+                    <PrimaryButton onClick={onPrimaryAction}>
+                        {primaryActionLabel}
+                    </PrimaryButton>
+                )}
+            </div>
+        )}
     </div>
 );
 

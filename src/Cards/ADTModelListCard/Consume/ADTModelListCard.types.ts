@@ -9,6 +9,7 @@ export interface ADTModelListCardProps extends IStandaloneConsumeCardProps {
     onModelClick?: (node: IHierarchyNode) => void;
     onNewModelClick?: () => void;
     selectedModelId?: string;
+    newlyAddedModelIds?: Array<string>;
 }
 
 export interface ADTModelListCardConsumeState {
