@@ -13,7 +13,7 @@ const hierarchyCardStyle = {
     width: '720px'
 };
 
-export const ADTHierarchy = (args, { globals: { theme, locale } }) => {
+export const ADTHierarchy = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
