@@ -10,8 +10,8 @@
     .cb-base-composite-card {
         background-color: var(--cb-color-bg-card);
 
-        .cb-base-composite-card-item:nth-child(1) {
-            flex-grow: 0;
+        .cb-base-composite-card-item:last-child {
+            flex-grow: 1;
             overflow: hidden;
         }
     }
@@ -148,7 +148,6 @@
     display: flex;
     flex-direction: row;
     height: 102px;
-    margin-right: 20px;
     padding: 16px;
     pointer-events: visible;
     width: 300px;
@@ -156,6 +155,10 @@
     &:hover {
         @include ms-depth-8;
         background: var(--cb-color-card-contrast);
+    }
+
+    &:not(:last-child) {
+        margin-right: 20px;
     }
 }
 

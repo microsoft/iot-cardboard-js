@@ -122,6 +122,12 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                             <Spinner size={SpinnerSize.xSmall} />
                         ) : (
                             <span className="cb-hierarchy-node-name">
+                                {node.isNewlyAdded && (
+                                    <Icon
+                                        iconName={'Glimmer'}
+                                        className={'cb-glimmer'}
+                                    />
+                                )}
                                 {formattedNodeName()}
                             </span>
                         )}

@@ -34,6 +34,8 @@ export const ADTModelListWithModelDetails = (
                         )
                     )
                 }
+                onAuthoringOpen={() => console.log('Model authoring opened!')}
+                onAuthoringClose={() => console.log('Model authoring closed!')}
             />
         </div>
     );

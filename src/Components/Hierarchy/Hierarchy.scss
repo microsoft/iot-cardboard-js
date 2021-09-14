@@ -47,8 +47,11 @@
     }
 
     .cb-hierarchy-node-name {
+        margin-left: -8px;
         overflow: hidden;
+        padding-left: 8px;
         padding-right: 8px;
+        position: relative;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
@@ -89,6 +92,17 @@
         &.cb-expanded {
             transform: rotate(90deg);
         }
+    }
+
+    .cb-glimmer {
+        color: var(--cb-color-theme-primary);
+        display: inline-block;
+        font-family: 'FabricMDL2Icons' !important;
+        font-size: 8px;
+        height: 20px;
+        left: 2px;
+        position: absolute;
+        top: -8px;
     }
 
     .cb-hierarchy-no-results {
