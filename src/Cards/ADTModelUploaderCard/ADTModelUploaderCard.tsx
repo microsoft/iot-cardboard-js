@@ -28,7 +28,9 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
         localeStrings,
         hasUploadButton,
         hasMessageBar,
-        onUploadFinish
+        onUploadFinish,
+        onFileListChanged,
+        existingFileListItems
     } = props;
     const { t } = useTranslation();
     const jsonUploaderComponentRef = useRef();
@@ -69,11 +71,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                     })
                 );
             }
-        } else if (
-            (pushModelsState.adapterResult?.getCatastrophicError()
-                ?.rawError as any)?.request?.status === 409 ||
-            pushModelsState.adapterResult?.getData()
-        ) {
+        } else if (pushModelsState.adapterResult?.getData()) {
             setUploadingStatus(UploadPhase.Succeeded);
             setProgressMessage(
                 t('uploadProgress.uploadSuccess', {
@@ -104,7 +102,8 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
 
     useImperativeHandle(ref, () => ({
         uploadFiles: uploadHandler,
-        getJsonList: (jsonUploaderComponentRef.current as any)?.getJsonItems()
+        getJsonList: () =>
+            (jsonUploaderComponentRef.current as any)?.getJsonItems()
     }));
 
     return (
@@ -119,7 +118,11 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 localeStrings={localeStrings}
             >
                 <div className="cb-adt-model-uploader">
-                    <JsonUploader ref={jsonUploaderComponentRef} />
+                    <JsonUploader
+                        onFileListChanged={onFileListChanged}
+                        ref={jsonUploaderComponentRef}
+                        existingFileListItems={existingFileListItems}
+                    />
                     <div className="cb-adt-model-uploader-footer">
                         {hasMessageBar && progressMessage && (
                             <MessageBar

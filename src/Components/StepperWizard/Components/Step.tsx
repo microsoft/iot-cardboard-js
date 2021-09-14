@@ -4,19 +4,21 @@ export interface IStep {
     onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void | undefined;
     isSelected?: boolean;
     isFinished?: boolean;
+    isNavigationDisabled?: boolean;
 }
 
 export const Step: React.FC<IStep> = ({
     label,
     onClick,
     isSelected,
-    isFinished
+    isFinished,
+    isNavigationDisabled
 }) => {
     return (
         <div
             className={`cb-stepper-wizard-step ${
                 isSelected ? 'cb-step-is-selected' : ''
-            }`}
+            } ${isNavigationDisabled ? 'cb-step-is-disabled' : ''}`}
             tabIndex={0}
             onClick={onClick}
             role="button"

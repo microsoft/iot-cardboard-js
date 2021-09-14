@@ -6,8 +6,13 @@ import { StepSeparator } from './StepSeparator';
 interface IStepper {
     steps: Array<IStepperWizardStep>;
     currentStepIndex: number;
+    isNavigationDisabled: boolean;
 }
-export const Stepper: React.FC<IStepper> = ({ steps, currentStepIndex }) => {
+export const Stepper: React.FC<IStepper> = ({
+    steps,
+    currentStepIndex,
+    isNavigationDisabled
+}) => {
     const [
         internalCurrentStepIndex,
         setInternalCurrentStepIndex
@@ -45,6 +50,7 @@ export const Stepper: React.FC<IStepper> = ({ steps, currentStepIndex }) => {
                         isSelected={internalCurrentStepIndex === index}
                         label={label}
                         onClick={onClick}
+                        isNavigationDisabled={isNavigationDisabled}
                     />
                     {index !== steps.length - 1 && (
                         <StepSeparator

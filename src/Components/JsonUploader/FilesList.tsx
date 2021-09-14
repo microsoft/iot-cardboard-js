@@ -20,26 +20,27 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FileUploadStatus } from '../../Models/Constants';
+import {
+    FileUploadStatus,
+    IJSONUploaderFileItem as IFileItem
+} from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import { useId } from '@fluentui/react-hooks';
 
 interface IFilesList {
     files: Array<File>;
     onRemoveFile: (idx: number) => void;
+    onListUpdated?: (items: Array<IFileItem>) => void;
+    existingFileListItems?: Array<IFileItem>;
 }
 
-interface IFileItem {
-    name: string;
-    size: string;
-    content?: JSON | Error;
-    status: FileUploadStatus;
-}
-
-function FilesList({ files, onRemoveFile }: IFilesList, ref) {
+function FilesList(
+    { files, onRemoveFile, onListUpdated, existingFileListItems }: IFilesList,
+    ref
+) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
-    const [listItems, setListItems] = useState([]);
+    const [listItems, setListItems] = useState(existingFileListItems ?? []);
 
     const { t } = useTranslation();
 
@@ -64,9 +65,15 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                 }
             });
         } else {
-            setListItems([]);
+            setListItems(existingFileListItems ?? []);
         }
     }, [files]);
+
+    useEffect(() => {
+        if (onListUpdated && typeof onListUpdated === 'function') {
+            onListUpdated(listItems);
+        }
+    }, [listItems]);
 
     const handleViewItem = useCallback((item: IFileItem) => {
         setSelectedFileItem(item);
@@ -102,14 +109,13 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                         key: 'cb-file-list-column-name',
                         name: t('name'),
                         minWidth: 210,
-                        maxWidth: 350,
                         isResizable: true,
                         onRender: (item: IFileItem) => <span>{item.name}</span>
                     },
                     {
                         key: 'cb-file-list-column-size',
                         name: t('size'),
-                        minWidth: 110,
+                        minWidth: 160,
                         maxWidth: 250,
                         onRender: (item: IFileItem) => <span>{item.size}</span>
                     },
@@ -134,7 +140,7 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                                 >
                                     <FontIcon
                                         iconName="Warning"
-                                        className="cb-warning-icon  "
+                                        className="cb-warning-icon"
                                     ></FontIcon>
                                 </ViewWithTooltip>
                             )
@@ -142,7 +148,7 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                     {
                         key: 'cb-file-list-column-actions',
                         name: t('action'),
-                        minWidth: 110,
+                        minWidth: 160,
                         maxWidth: 250,
                         onRender: (item: IFileItem, index: number) => (
                             <div>
@@ -183,7 +189,8 @@ function FilesList({ files, onRemoveFile }: IFilesList, ref) {
                     root: {
                         selectors: {
                             '.ms-DetailsRow-cell': {
-                                lineHeight: '32px'
+                                lineHeight: '32px',
+                                fontSize: '14px'
                             }
                         }
                     }
