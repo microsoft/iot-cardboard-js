@@ -6,9 +6,13 @@ import { XKTLoaderPlugin } from '@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/
 import { createDTDLModelId } from '../Services/Utils';
 import {
     AssetsFromBIMState,
+    BimTwinId,
     DTModel,
     DTwin,
-    DTwinRelationship
+    DTwinRelationship,
+    MediaTwinModelId,
+    mediaTwinRelationshipNames,
+    MetadataFilePath
 } from '../Constants';
 
 const useAssetsFromBIM = (
@@ -74,31 +78,27 @@ const useAssetsFromBIM = (
         return {
             $relId: createHasMemberRelId(targetId),
             $dtId: mediaTwinId,
-            $name: 'HasMember',
+            $name: mediaTwinRelationshipNames.HasMember,
             $targetId: targetId
         };
-    };
-
-    const createMediaTwinId = () => {
-        return 'bimFile'; // TODO paramterize this so that it's uniqu for each bim upload
     };
 
     const extractAssets = useCallback(
         (root) => {
             const typesDictionary = {};
             const mediaTwin: DTwin = {
-                $dtId: createMediaTwinId(),
+                $dtId: BimTwinId,
                 $metadata: {
-                    $model: 'dtmi:com:niusoff:mediatwin;1'
+                    $model: MediaTwinModelId
                 },
                 MediaSrc: bimFilePath,
                 AdditionalProperties: JSON.stringify({
-                    metadataFile: metadataFilePath
+                    [MetadataFilePath]: metadataFilePath
                 })
             };
 
             const twinsDictionary: Record<string, DTwin> = {};
-            twinsDictionary[createMediaTwinId()] = mediaTwin;
+            twinsDictionary[BimTwinId] = mediaTwin;
             const relationshipsDictionary: Record<
                 string,
                 DTwinRelationship

@@ -62,6 +62,16 @@ export enum modelActionType {
     preview = 'preview'
 }
 
+export enum MediaTwinProperties {
+    MediaSrc = 'MediaSrc',
+    AdditionalProperties = 'AdditionalProperties'
+}
+
+export enum mediaTwinRelationshipNames {
+    HasMember = 'HasMember',
+    Represents = 'Represents'
+}
+
 export enum TwinLookupStatus {
     Idle,
     Ready,

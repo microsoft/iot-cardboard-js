@@ -60,7 +60,7 @@ export const mockMediaTwin = {
     $etag: '',
     $relationshipName: 'isMemberOf',
     $metadata: {
-        $model: 'dtmi:com:niusoff:mediatwin;1'
+        $model: 'dtmi:adt:mediatwin;1'
     },
     MediaSrc: 'bimfilepath.com'
 };

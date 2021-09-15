@@ -3,7 +3,7 @@ import { DTModel } from '.';
 export const MediaTwinModel: DTModel = {
     '@type': 'Interface',
     '@context': 'dtmi:dtdl:context;2',
-    '@id': 'dtmi:com:niusoff:mediatwin;1',
+    '@id': 'dtmi:adt:mediatwin;1',
     displayName: 'MediaTwinModel',
     contents: [
         {
@@ -29,7 +29,7 @@ export const MediaTwinModel: DTModel = {
         {
             '@type': 'Relationship',
             name: 'HasMember',
-            '@id': 'dtmi:com:niusoff:mediatwinhasmember;1',
+            '@id': 'dtmi:adt:mediatwinhasmember;1',
             properties: [
                 {
                     '@type': 'Property',
@@ -125,7 +125,7 @@ export const MediaTwinModel: DTModel = {
         {
             '@type': 'Relationship',
             name: 'Represents',
-            '@id': 'dtmi:com:niusoff:mediatwinrepresents;1',
+            '@id': 'dtmi:adt:mediatwinrepresents;1',
             minMultiplicity: 0,
             maxMultiplicity: 1
         }

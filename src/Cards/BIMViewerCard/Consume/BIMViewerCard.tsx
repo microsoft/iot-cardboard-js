@@ -5,8 +5,10 @@ import { useAdapter } from '../../../Models/Hooks';
 import BIMViewer from '../../../Components/BIMViewer/BIMViewer';
 import React from 'react';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-
-const properties = ['MediaSrc', 'AdditionalProperties'];
+import {
+    MediaTwinProperties,
+    MetadataFilePath
+} from '../../../Models/Constants';
 
 const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     adapter,
@@ -17,7 +19,15 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     centeredObject
 }) => {
     const cardState = useAdapter({
-        adapterMethod: () => adapter.getKeyValuePairs(id, properties, {}),
+        adapterMethod: () =>
+            adapter.getKeyValuePairs(
+                id,
+                [
+                    MediaTwinProperties.MediaSrc,
+                    MediaTwinProperties.AdditionalProperties
+                ],
+                {}
+            ),
         refetchDependencies: [id],
         isLongPolling: false,
         pollingIntervalMillis: null
@@ -28,7 +38,7 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
             adapterResult?.getData()?.[1].value
                 ? adapterResult?.getData()?.[1].value
                 : '{}'
-        )?.['metadataFile'];
+        )?.[MetadataFilePath];
     };
 
     return (

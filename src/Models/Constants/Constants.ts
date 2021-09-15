@@ -4,12 +4,13 @@ export const ADTModel_ViewData_PropertyName = 'cb_viewdata';
 export const ADTModel_ImgPropertyPositions_PropertyName =
     'processGraphicLabelPositions';
 export const ADTModel_InBIM_RelationshipName = 'inBIM';
-export const ADTModel_BimFilePath_PropertyName = 'bimFilePath';
-export const ADTModel_MetadataFilePath_PropertyName = 'metadataFilePath';
 export const ADTModel_BIMContainerId = 'BIMContainer';
 export const ADT_ApiVersion = '2020-10-31';
 export const ViewDataPropertyName = 'cb_viewdata';
 export const BoardInfoPropertyName = 'boardInfo';
+export const MetadataFilePath = 'metadataFilePath';
+export const MediaTwinModelId = 'dtmi:adt:mediatwin;1';
+export const BimTwinId = 'bimFile';
 export const DTMIRegex = new RegExp(
     '^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$'
 );
