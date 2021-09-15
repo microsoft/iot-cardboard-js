@@ -30,17 +30,13 @@ import { useId } from '@fluentui/react-hooks';
 interface IFilesList {
     files: Array<File>;
     onRemoveFile: (idx: number) => void;
-    onListUpdated?: (items: Array<IFileItem>) => void;
-    existingFileListItems?: Array<IFileItem>;
+    onListUpdated?: (files: Array<File>) => void;
 }
 
-function FilesList(
-    { files, onRemoveFile, onListUpdated, existingFileListItems }: IFilesList,
-    ref
-) {
+function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
     const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
     const [selectedFileItem, setSelectedFileItem] = useState<IFileItem>(null);
-    const [listItems, setListItems] = useState(existingFileListItems ?? []);
+    const [listItems, setListItems] = useState([]);
 
     const { t } = useTranslation();
 
@@ -65,13 +61,13 @@ function FilesList(
                 }
             });
         } else {
-            setListItems(existingFileListItems ?? []);
+            setListItems([]);
         }
     }, [files]);
 
     useEffect(() => {
         if (onListUpdated && typeof onListUpdated === 'function') {
-            onListUpdated(listItems);
+            onListUpdated(files);
         }
     }, [listItems]);
 

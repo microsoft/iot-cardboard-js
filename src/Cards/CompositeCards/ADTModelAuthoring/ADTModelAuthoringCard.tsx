@@ -7,7 +7,6 @@ import StepperWizard from '../../../Components/StepperWizard/StepperWizard';
 import {
     DTModel,
     IADTModel,
-    IJSONUploaderFileItem,
     IStepperWizardStep
 } from '../../../Models/Constants/Interfaces';
 import ADTModelUploaderCard from '../../ADTModelUploaderCard/ADTModelUploaderCard';
@@ -56,7 +55,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     );
     const [modelsToPublish, setModelsToPublish] = useState([]);
     const existingModelIdsRef = useRef(existingModelIds ?? []);
-    const existingFileListItemsRef = useRef([]);
+    const existingFilesRef = useRef([]);
     const modelUploaderComponentRef = useRef();
     const modelCreateComponentRef = useRef();
     const [errorMessage, setErrorMessage] = useState(null);
@@ -101,8 +100,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
         }
     };
 
-    const onFileListChanged = (items: Array<IJSONUploaderFileItem>) => {
-        existingFileListItemsRef.current = items;
+    const onFileListChanged = (files: Array<File>) => {
+        existingFilesRef.current = files;
         setModelsToPublish(
             (modelUploaderComponentRef.current as any).getJsonList()
         );
@@ -208,7 +207,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                 ModelAuthoringSteps.Review
                                             );
                                             setModelsToPublish([]);
-                                            existingFileListItemsRef.current = [];
+                                            existingFilesRef.current = [];
                                         }}
                                     />
                                     <AuthoringModeSelector
@@ -268,8 +267,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             onFileListChanged={
                                                 onFileListChanged
                                             }
-                                            existingFileListItems={
-                                                existingFileListItemsRef.current
+                                            existingFiles={
+                                                existingFilesRef.current
                                             }
                                             ref={modelUploaderComponentRef}
                                         />
