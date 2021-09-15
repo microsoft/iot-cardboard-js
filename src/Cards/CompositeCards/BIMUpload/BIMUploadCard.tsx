@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     BIMFileTypes,
+    BimTwinId,
     BIMUploadState,
+    DTModel,
+    DTwin,
+    DTwinRelationship,
     UploadPhase
 } from '../../../Models/Constants';
 import { BIMUploadCardProps } from './BIMUploadCard.types';
@@ -71,7 +75,10 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     useEffect(() => {
         const newModelsDictionary = {};
         assetsFromBim?.models?.forEach((model) => {
-            newModelsDictionary[model.displayName] = true;
+            newModelsDictionary[model['@id']] = {
+                isSelected: true,
+                displayName: model.displayName
+            };
         });
         setModelsDictionary(newModelsDictionary);
     }, [assetsFromBim.models]);
@@ -150,21 +157,49 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         return false;
     };
 
-    const filterModels = (models, modelsDictionary) => {
-        return models.filter(() => {
-            return true;
+    const filterModels = (models: DTModel[], modelsDictionary) => {
+        return models.filter((model: DTModel) => {
+            return modelsDictionary[model['@id']]?.isSelected;
         });
     };
 
-    const filterTwins = (twins, modelsDictionary) => {
-        return twins.filter(() => {
-            return true;
+    const filterTwins = (twins: DTwin[], modelsDictionary) => {
+        return twins.filter((twin: DTwin) => {
+            if (twin.$dtId === BimTwinId) {
+                return true;
+            }
+            return modelsDictionary[twin.$metadata.$model]?.isSelected;
         });
     };
 
-    const filterRelationships = (relationships, modelsDictionary) => {
-        return relationships.filter(() => {
-            return true;
+    const createTwinToModelMap = (twins: DTwin[]) => {
+        const twinDict = {};
+        twins.forEach((twin: DTwin) => {
+            twinDict[twin.$dtId] = twin.$metadata?.$model;
+        });
+        return twinDict;
+    };
+
+    const filterRelationships = (
+        relationships: DTwinRelationship[],
+        twins: DTwin[],
+        modelsDictionary
+    ) => {
+        const twinToModelMap = createTwinToModelMap(twins);
+        return relationships.filter((relationship: DTwinRelationship) => {
+            //media twin relationship check
+            if (relationship.$dtId === BimTwinId) {
+                return modelsDictionary[twinToModelMap[relationship.$targetId]]
+                    ?.isSelected;
+            }
+
+            //all other relationship check
+            return (
+                modelsDictionary[twinToModelMap[relationship.$dtId]]
+                    ?.isSelected &&
+                modelsDictionary[twinToModelMap[relationship.$targetId]]
+                    ?.isSelected
+            );
         });
     };
 
@@ -256,6 +291,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                         )}
                                         relationships={filterRelationships(
                                             assetsFromBim.relationships,
+                                            assetsFromBim.twins,
                                             modelsDictionary
                                         )}
                                         triggerUpload={true}
@@ -331,15 +367,16 @@ const ModelSelection = ({
 }) => {
     const flipModelSelected = (model) => {
         const updatedModelsDictionary = { ...modelsDictionary };
-        updatedModelsDictionary[model] = !modelsDictionary[model];
+        updatedModelsDictionary[model].isSelected = !modelsDictionary[model]
+            .isSelected;
         setModelsDictionary(updatedModelsDictionary);
     };
 
     const getSelectedCount = () => {
         let selectedCount = 0;
 
-        Object.values(modelsDictionary).forEach((modelSelected) => {
-            if (modelSelected) {
+        Object.values(modelsDictionary).forEach((model: any) => {
+            if (model.isSelected) {
                 selectedCount++;
             }
         });
@@ -349,9 +386,9 @@ const ModelSelection = ({
     const getCheckboxLabel = (model) => {
         return (
             <>
-                {model}
+                {model.displayName}
                 <span className={'cb-model-twin-count'}>
-                    ({modelCounts[model]} twins)
+                    ({modelCounts[model.displayName]} twins)
                 </span>
             </>
         );
@@ -388,13 +425,17 @@ const ModelSelection = ({
                         </div>
                         <div className="cb-checkbox-container">
                             {Object.keys(modelsDictionary).map(
-                                (model, modelI) => (
+                                (model: any, modelI) => (
                                     <Checkbox
                                         onRenderLabel={() =>
-                                            getCheckboxLabel(model)
+                                            getCheckboxLabel(
+                                                modelsDictionary[model]
+                                            )
                                         }
                                         className="cb-model-checkbox"
-                                        checked={modelsDictionary[model]}
+                                        checked={
+                                            modelsDictionary[model].isSelected
+                                        }
                                         onChange={() =>
                                             flipModelSelected(model)
                                         }
