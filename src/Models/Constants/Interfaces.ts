@@ -38,7 +38,8 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import SceneViewData from '../Classes/SceneViewData';
+import SceneViewLabel from '../Classes/SceneViewLabel';
+import * as BABYLON from 'babylonjs';
 
 export interface IAction {
     type: string;
@@ -85,7 +86,10 @@ export interface IOverlayProps {
 }
 
 export interface SceneViewProps {
-    data: SceneViewData;
+    modelUrl: string;
+    cameraRadius:number; 
+    cameraCenter?: BABYLON.Vector3;
+    labels?: SceneViewLabel[];
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {

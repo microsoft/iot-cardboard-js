@@ -14,59 +14,40 @@ async function loadPromise(root, file, scene, onProgress: any, onError: any): Pr
     });
 }
 
-export const SceneView: React.FC<SceneViewProps> = ({data}) => {
+export const SceneView: React.FC<SceneViewProps> = ({modelUrl, cameraRadius, cameraCenter, labels}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
+    const [scene, setScene] = useState(null);
 
     useEffect(() => {
         const canvas = document.getElementById('canvas') as HTMLCanvasElement;
         const engine = new BABYLON.Engine(canvas, true);
-        const scene = new BABYLON.Scene(engine);
-        scene.clearColor = new BABYLON.Color4(9 / 255, 8 / 255, 35 / 255);
-        const center = data.cameraCenter || new BABYLON.Vector3(0, 0, 0);
-        const camera = new BABYLON.ArcRotateCamera('camera', 3.2, Math.PI / 2.5, data.cameraRadius, center, scene, true);
+        const tempScene = new BABYLON.Scene(engine);
+        tempScene.clearColor = new BABYLON.Color4(9 / 255, 8 / 255, 35 / 255);
+        const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
+        const camera = new BABYLON.ArcRotateCamera('camera', 3.2, Math.PI / 2.5, cameraRadius, center, tempScene, true);
         camera.attachControl(canvas, false);
     
-        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, 1, 0), scene);
-        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, -1, 0), scene);
-        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, -1, 0), scene);
-        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, 1, 0), scene);
+        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, 1, 0), tempScene);
+        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, -1, 0), tempScene);
+        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, -1, 0), tempScene);
+        new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, 1, 0), tempScene);
 
-        async function load (scene: any) {
-            const assets = await loadPromise(data.modelRoot, data.modelFile, scene, (e) => onProgress(e), () => setIsLoading(undefined));
+        async function load (root: string, file: string, scene: any) {
+            const assets = await loadPromise(root, file, scene, (e) => onProgress(e), () => setIsLoading(undefined));
             assets.addAllToScene();
-
-            if(data.labels) {
-                data.labels.forEach(item => {
-                    const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-                    const rect1 = new GUI.Rectangle();
-                    rect1.width = '150px';
-                    rect1.height = '100px';
-                    rect1.cornerRadius = 10;
-                    rect1.color = '#364944';
-                    rect1.thickness = 1;
-                    rect1.background = '#161B36';
-                    advancedTexture.addControl(rect1);
-                
-                    const label1 = new GUI.TextBlock();
-                    label1.color = 'white'
-                    label1.text = item.metric + '\n\n' + item.value.toFixed(5);
-                    rect1.addControl(label1);
-                    const targetMesh = scene.meshes.find(mesh => mesh.id === item.meshId);
-                    if (targetMesh) {
-                        rect1.linkWithMesh(targetMesh); 
-                    }
-                });
-            }
-
+            setScene(scene);
             setIsLoading(false);
         }
 
-        if (data.modelRoot && data.modelFile) {
-            load(scene);
+        if (modelUrl) {
+            const n = modelUrl.lastIndexOf('/') + 1;
+            const root = modelUrl.substring(0, n);
+            const file = modelUrl.substring(n);
+            load(root, file, tempScene);
         }
         
-        engine.runRenderLoop(() => { scene.render(); });
+        engine.runRenderLoop(() => { tempScene.render(); });
         window.addEventListener('resize', () => { engine.resize(); });
 
         function onProgress(e: any) {
@@ -76,7 +57,41 @@ export const SceneView: React.FC<SceneViewProps> = ({data}) => {
                 setLoadProgress(0);
             }
         }
-      }, [data]);
+      }, [modelUrl]);
+
+      useEffect(() => {
+          const rects: any[] = [];
+          const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+            if(labels && scene) {
+                labels.forEach(item => {
+                    const rect = new GUI.Rectangle();
+                    rect.width = '150px';
+                    rect.height = '100px';
+                    rect.cornerRadius = 10;
+                    rect.color = '#364944';
+                    rect.thickness = 1;
+                    rect.background = '#161B36';
+                    rects.push(rect);
+                    advancedTexture.addControl(rect);
+                
+                    const label = new GUI.TextBlock();
+                    label.color = 'white'
+                    label.text = item.metric + '\n\n' + item.value.toFixed(5);
+                    rect.addControl(label);
+                    const targetMesh = scene?.meshes.find(mesh => mesh.id === item.meshId);
+                    if (targetMesh) {
+                        rect.linkWithMesh(targetMesh); 
+                    }
+                });
+            }
+
+            return () => {
+                for (const rect of rects) {
+                    advancedTexture.removeControl(rect); 
+                }
+            }
+
+      }, [labels, scene]);
 
 
 
