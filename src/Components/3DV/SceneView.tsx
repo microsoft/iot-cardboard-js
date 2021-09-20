@@ -76,7 +76,7 @@ export const SceneView: React.FC<SceneViewProps> = ({data}) => {
                 setLoadProgress(0);
             }
         }
-      }, [data.modelFile, data.modelFile, data.labels]);
+      }, [data]);
 
 
 
