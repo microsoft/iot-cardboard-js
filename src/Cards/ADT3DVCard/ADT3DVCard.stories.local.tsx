@@ -18,11 +18,12 @@ export const Truck = () => {
                 adapter={
                     new ADTAdapter(
                     authenticationParameters.adt.hostUrl,
-                    new MsalAuthService(
-                        authenticationParameters.adt.aadParameters
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
                     )
-                )
-            }/>
+                }
+                twinId='TankImage'/>
         </div>
     )
 };

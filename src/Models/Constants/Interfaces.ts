@@ -38,6 +38,7 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
+import SceneViewData from '../Classes/SceneViewData';
 
 export interface IAction {
     type: string;
@@ -81,6 +82,10 @@ export interface IErrorComponentProps {
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
+}
+
+export interface SceneViewProps {
+    data: SceneViewData;
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
