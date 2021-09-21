@@ -35,13 +35,14 @@ export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({ adapter, twinId }) => {
         }
       }
 
+      console.log(vsrs);
+      
       for (const vsr of vsrs) {
         const relationshipResult = await adapter.getRelationships(vsr.$dtId);
         for (const data of relationshipResult.result.data) {
           const relationship = await adapter.getADTRelationship(vsr.$dtId, data.relationshipId);
           const label = new SceneViewLabel();
-          label.metric = vsr.BadgeValueExpression;
-          vsr.BadgeColorExpression = vsr.BadgeColorExpression.replace('?', '>');  // HACK: correct the expression
+          label.metric = vsr.BadgeTitle;
           label.color = Parser.evaluate(vsr.BadgeColorExpression, sourceTwins) as any as string;
           label.value = Parser.evaluate(vsr.BadgeValueExpression, sourceTwins);
           label.meshId = relationship.result.data['MediaMemberProperties'].Position.id;

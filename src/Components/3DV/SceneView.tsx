@@ -94,7 +94,7 @@ export const SceneView: React.FC<SceneViewProps> = ({ modelUrl, cameraRadius, ca
         if (targetMesh) {
           rect.linkWithMesh(targetMesh);
           if (item.color) {   // TODO: Better color handling
-            targetMesh.material.albedoColor = item.color === 'yellow' ? BABYLON.Color3.Yellow() : BABYLON.Color3.Green();
+            targetMesh.material.albedoColor = BABYLON.Color3.FromHexString(item.color);
           }
         }
       });
