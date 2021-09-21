@@ -23,7 +23,7 @@ export const Truck = () => {
                         )
                     )
                 }
-                twinId='TankImage'/>
+                twinId='TankVisual'/>
         </div>
     )
 };
