@@ -2,9 +2,6 @@
 
 .cb-property-tree-container {
     font-size: 14px;
-    height: calc(100% - 44px);
-    overflow: auto;
-    width: 100%;
 
     .cb-property-tree-list-group {
         margin: 0;
@@ -79,6 +76,7 @@
         margin-right: 4px;
         min-height: inherit;
         position: relative;
+        user-select: text;
 
         input,
         textarea,
@@ -161,6 +159,7 @@
     }
     .cb-property-tree-node-name-metadata,
     .cb-property-tree-node-value-metadata {
+        cursor: text;
         font-family: monospace;
     }
     .cb-property-tree-node-boolean-value-label {
