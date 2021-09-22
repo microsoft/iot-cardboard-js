@@ -23,6 +23,7 @@ export interface StandalonePropertyInspectorProps {
     locale?: Locale;
     localeStrings?: Record<string, any>;
     inputData: TwinParams | RelationshipParams;
+    missingModelIds?: Array<string>;
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
     readonly?: boolean;
 }

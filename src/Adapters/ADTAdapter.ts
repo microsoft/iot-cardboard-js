@@ -627,9 +627,7 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         isCatastrophic: false,
                         rawError: err,
-                        message: i18n.t('propertyInspector.modelNotFound', {
-                            modelId
-                        })
+                        message: modelId
                     });
                     return;
                 }

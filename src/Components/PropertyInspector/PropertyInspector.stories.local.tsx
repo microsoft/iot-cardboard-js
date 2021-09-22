@@ -75,7 +75,7 @@ AdtRelationship.argTypes = {
     },
     relationshipId: {
         control: { type: 'text' },
-        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
+        defaultValue: '2932c97a-2939-416f-93a9-ecccff9b82fd'
     }
 };
 

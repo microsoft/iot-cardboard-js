@@ -306,30 +306,9 @@ abstract class PropertyInspectorModel {
         relationship: IADTRelationship,
         relationshipDefinition: DtdlRelationship
     ): PropertyTreeNode[] => {
-        const treeNodes: PropertyTreeNode[] = [];
+        const modelledProperties = [];
 
-        // Push readonly properties to tree
-        Object.keys(relationship).forEach((key) => {
-            if (key.startsWith('$')) {
-                treeNodes.push({
-                    name: key,
-                    displayName: relationship[key]?.displayName ?? key,
-                    role: NodeRole.leaf,
-                    readonly: true,
-                    schema: dtdlPropertyTypesEnum.string,
-                    value: relationship[key] ?? undefined,
-                    path: `/${key}`,
-                    type: DTDLType.Property,
-                    isInherited: false,
-                    isRemovable: false,
-                    isSet: true,
-                    isMetadata: true,
-                    isMapChild: false
-                });
-            }
-        });
-
-        if (relationshipDefinition.properties) {
+        if (relationshipDefinition?.properties) {
             // Merge relationship model with active relationship properties
             relationshipDefinition.properties.forEach(
                 (relationshipProperty) => {
@@ -342,12 +321,50 @@ abstract class PropertyInspectorModel {
                         isMapChild: false
                     });
 
-                    treeNodes.push(node);
+                    modelledProperties.push(node);
                 }
             );
         }
 
-        return treeNodes;
+        // Flatten all modelled property names into array, this is used to check for floating twin properties
+        const flatten = (arr: PropertyTreeNode[]) => {
+            return arr.reduce(
+                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
+                    return flat.concat(
+                        Array.isArray(toFlatten.children)
+                            ? [toFlatten, ...flatten(toFlatten.children)]
+                            : toFlatten
+                    );
+                },
+                []
+            );
+        };
+
+        const modelledPropertyNames = flatten([...modelledProperties]).map(
+            (node) => node.name
+        );
+
+        const metaDataNodes = [];
+
+        // Push readonly properties to tree
+        Object.keys(relationship || {}).forEach((key) => {
+            if (key.startsWith('$') || !modelledPropertyNames.includes(key)) {
+                metaDataNodes.push(
+                    PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes({
+                        isFloating: !key.startsWith('$'),
+                        isInherited: false,
+                        isObjectChild: false,
+                        path: '',
+                        node: relationship?.[key],
+                        key: key
+                    })
+                );
+            }
+        });
+
+        return [...metaDataNodes, ...modelledProperties].sort((a) =>
+            a.isSet ? -1 : 1
+        );
     };
 
     /** Parses DTDL Properties and Components into PropertyTreeNodes.
@@ -472,6 +489,70 @@ abstract class PropertyInspectorModel {
         return treeNodes;
     };
 
+    static parseMetaDataIntoPropertyTreeNodes = ({
+        node,
+        key,
+        path,
+        isObjectChild,
+        isInherited,
+        isFloating = false
+    }: {
+        node: any;
+        key: string;
+        path: string;
+        isObjectChild: boolean;
+        isInherited: boolean;
+        isFloating: boolean;
+    }): PropertyTreeNode => {
+        // Parse ADT metadata $ into nodes
+        if (typeof node === 'object') {
+            return {
+                displayName: key,
+                name: key,
+                path: PropertyInspectorModel.buildPath(path, key),
+                role: NodeRole.parent,
+                isSet: !isFloating,
+                readonly: true,
+                isCollapsed: true,
+                children: Object.keys(node).map((childKey) =>
+                    PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes({
+                        node: node[childKey],
+                        key: childKey,
+                        path: PropertyInspectorModel.buildPath(path, key),
+                        isObjectChild: true,
+                        isFloating,
+                        isInherited
+                    })
+                ),
+                schema: dtdlPropertyTypesEnum.Object,
+                type: DTDLType.Property,
+                value: undefined,
+                parentObjectPath: isObjectChild && path,
+                isMapChild: false,
+                isInherited,
+                isRemovable: false,
+                isMetadata: true
+            };
+        } else {
+            return {
+                displayName: key,
+                name: key,
+                path: PropertyInspectorModel.buildPath(path, key),
+                role: NodeRole.leaf,
+                readonly: true,
+                isSet: !isFloating,
+                value: node,
+                schema: dtdlPropertyTypesEnum.string,
+                type: DTDLType.Property,
+                parentObjectPath: isObjectChild && path,
+                isMapChild: false,
+                isInherited,
+                isRemovable: false,
+                isMetadata: true
+            };
+        }
+    };
+
     /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
      *  is an instance of. */
     static parseTwinIntoPropertyTree = ({
@@ -488,67 +569,6 @@ abstract class PropertyInspectorModel {
         isInherited: boolean;
     }): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
-
-        const parseMetaDataIntoPropertyTreeNodes = ({
-            node,
-            key,
-            path,
-            isObjectChild,
-            isFloating = false
-        }: {
-            node: any;
-            key: string;
-            path: string;
-            isObjectChild: boolean;
-            isFloating: boolean;
-        }): PropertyTreeNode => {
-            // Parse ADT metadata $ into nodes
-            if (typeof node === 'object') {
-                return {
-                    displayName: key,
-                    name: key,
-                    path: PropertyInspectorModel.buildPath(path, key),
-                    role: NodeRole.parent,
-                    isSet: !isFloating,
-                    readonly: true,
-                    isCollapsed: true,
-                    children: Object.keys(node).map((childKey) =>
-                        parseMetaDataIntoPropertyTreeNodes({
-                            node: node[childKey],
-                            key: childKey,
-                            path: PropertyInspectorModel.buildPath(path, key),
-                            isObjectChild: true,
-                            isFloating
-                        })
-                    ),
-                    schema: dtdlPropertyTypesEnum.Object,
-                    type: DTDLType.Property,
-                    value: undefined,
-                    parentObjectPath: isObjectChild && path,
-                    isMapChild: false,
-                    isInherited,
-                    isRemovable: false,
-                    isMetadata: true
-                };
-            } else {
-                return {
-                    displayName: key,
-                    name: key,
-                    path: PropertyInspectorModel.buildPath(path, key),
-                    role: NodeRole.leaf,
-                    readonly: true,
-                    isSet: !isFloating,
-                    value: node,
-                    schema: dtdlPropertyTypesEnum.string,
-                    type: DTDLType.Property,
-                    parentObjectPath: isObjectChild && path,
-                    isMapChild: false,
-                    isInherited,
-                    isRemovable: false,
-                    isMetadata: true
-                };
-            }
-        };
 
         // Parse root model
         let rootModelNodes = [];
@@ -622,13 +642,16 @@ abstract class PropertyInspectorModel {
                 (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
             )
             .map((metaDataKey) => {
-                return parseMetaDataIntoPropertyTreeNodes({
-                    isObjectChild: false,
-                    node: twin[metaDataKey],
-                    key: metaDataKey,
-                    path,
-                    isFloating: !metaDataKey.startsWith('$')
-                });
+                return PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes(
+                    {
+                        isObjectChild: false,
+                        node: twin[metaDataKey],
+                        key: metaDataKey,
+                        path,
+                        isFloating: !metaDataKey.startsWith('$'),
+                        isInherited
+                    }
+                );
             });
 
         treeNodes = [

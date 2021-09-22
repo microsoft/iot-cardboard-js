@@ -320,7 +320,7 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
-        "modelNotFound": "Model {{modelId}} not found.",
+        "modelNotFound": "There are missing models used by this {{piMode}}.  Unmodelled properties will show as read-only.  To regain edit capability for these properties, please add the following missing models to this environment:",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",

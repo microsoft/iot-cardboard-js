@@ -21,6 +21,8 @@ import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
     spiActionType
 } from './StandalonePropertyInspector.state';
+import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
+import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -160,6 +162,29 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         }
                         editStatus={state.editStatus}
                     />
+
+                    {props.missingModelIds && props.missingModelIds.length > 0 && (
+                        <div className="cb-property-inspector-model-error-container">
+                            <MessageBar
+                                messageBarType={MessageBarType.severeWarning}
+                                styles={{}}
+                            >
+                                {t('propertyInspector.modelNotFound', {
+                                    piMode: isTwin(props.inputData)
+                                        ? 'Twin'
+                                        : 'Relationship'
+                                })}
+
+                                <ul className="cb-missing-model-id-list">
+                                    {props.missingModelIds.map((mmid, idx) => (
+                                        <li key={idx}>
+                                            <b>{mmid}</b>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </MessageBar>
+                        </div>
+                    )}
                     <PropertyTree
                         data={state.propertyTreeNodes as PropertyTreeNode[]}
                         onParentClick={(parent) => onParentClick(parent)}
