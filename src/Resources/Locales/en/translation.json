@@ -325,7 +325,7 @@
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",
         "unsetProperty": "Unset property",
-        "unset": "not set",
+        "notSet": "not set",
         "property": "Property",
         "component": "Component",
         "noTwinFound": "No Twin found",

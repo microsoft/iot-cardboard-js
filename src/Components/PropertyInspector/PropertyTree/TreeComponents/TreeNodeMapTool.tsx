@@ -9,9 +9,10 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 
 const TreeNodeMapTool: React.FC<NodeProps> = ({ node }) => {
-    if (!node.isMapChild) return null;
     const { t } = useTranslation();
-    const { onRemoveMapValue } = useContext(PropertyTreeContext);
+    const { onRemoveMapValue, readonly } = useContext(PropertyTreeContext);
+
+    if (!node.isMapChild || readonly) return null;
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {

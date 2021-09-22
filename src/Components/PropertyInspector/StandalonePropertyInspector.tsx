@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
@@ -31,7 +31,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 ) => {
     const { t } = useTranslation();
 
-    const originalTree = useCallback(() => {
+    const originalTree = useMemo(() => {
         return isTwin(props.inputData)
             ? PropertyInspectorModel.parseTwinIntoPropertyTree({
                   isInherited: false,
@@ -48,8 +48,8 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
         ...defaultStandalonePropertyInspectorState,
-        propertyTreeNodes: originalTree(),
-        originalPropertyTreeNodes: originalTree().map((el) =>
+        propertyTreeNodes: originalTree,
+        originalPropertyTreeNodes: originalTree.map((el) =>
             Object.assign({}, el)
         )
     });
@@ -58,14 +58,14 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     useEffect(() => {
         dispatch({
             type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree()
+            nodes: originalTree
         });
     }, [props.inputData]);
 
     const undoAllChanges = () => {
         dispatch({
             type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree()
+            nodes: originalTree
         });
         dispatch({
             type: spiActionType.RESET_EDIT_STATUS

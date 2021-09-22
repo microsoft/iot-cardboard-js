@@ -22,7 +22,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
         if (node.isSet === false) {
             return (
                 <div className="cb-property-tree-node-value-unset">
-                    ({t('propertyInspector.unset')})
+                    ({t('propertyInspector.notSet')})
                 </div>
             );
         } else {

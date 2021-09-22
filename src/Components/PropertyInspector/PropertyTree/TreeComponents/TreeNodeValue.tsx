@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { dtdlPropertyTypesEnum } from '../../../..';
 import { PropertyTreeContext } from '../PropertyTree';
-import { NodeProps } from '../PropertyTree.types';
+import { NodeProps, PropertyTreeNode } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
@@ -252,7 +252,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                 </div>
             );
         case dtdlPropertyTypesEnum.Map: {
-            return <MapProperty node={node} />;
+            return <MapProperty readonly={readonly} node={node} />;
         }
         case dtdlPropertyTypesEnum.Array:
         default:
@@ -260,10 +260,15 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     }
 };
 
-const MapProperty: React.FC<NodeProps> = ({ node }) => {
+const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
+    node,
+    readonly
+}) => {
     const { t } = useTranslation();
     const { onAddMapValue } = useContext(PropertyTreeContext);
     const [newMapKey, setNewMapKey] = useState('');
+
+    if (readonly) return null;
 
     useEffect(() => {
         setNewMapKey('');
