@@ -362,9 +362,10 @@ abstract class PropertyInspectorModel {
             }
         });
 
-        return [...metaDataNodes, ...modelledProperties].sort((a) =>
-            a.isSet ? -1 : 1
-        );
+        return [
+            ...metaDataNodes,
+            ...modelledProperties.sort((a) => (a.isSet ? -1 : 1))
+        ];
     };
 
     /** Parses DTDL Properties and Components into PropertyTreeNodes.

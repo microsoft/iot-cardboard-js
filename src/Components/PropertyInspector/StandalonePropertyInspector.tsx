@@ -162,38 +162,44 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         }
                         editStatus={state.editStatus}
                     />
+                    <div className="cb-property-inspector-scrollable-container">
+                        {props.missingModelIds &&
+                            props.missingModelIds.length > 0 && (
+                                <div className="cb-property-inspector-model-error-container">
+                                    <MessageBar
+                                        messageBarType={
+                                            MessageBarType.severeWarning
+                                        }
+                                        styles={{}}
+                                    >
+                                        {t('propertyInspector.modelNotFound', {
+                                            piMode: isTwin(props.inputData)
+                                                ? 'Twin'
+                                                : 'Relationship'
+                                        })}
 
-                    {props.missingModelIds && props.missingModelIds.length > 0 && (
-                        <div className="cb-property-inspector-model-error-container">
-                            <MessageBar
-                                messageBarType={MessageBarType.severeWarning}
-                                styles={{}}
-                            >
-                                {t('propertyInspector.modelNotFound', {
-                                    piMode: isTwin(props.inputData)
-                                        ? 'Twin'
-                                        : 'Relationship'
-                                })}
-
-                                <ul className="cb-missing-model-id-list">
-                                    {props.missingModelIds.map((mmid, idx) => (
-                                        <li key={idx}>
-                                            <b>{mmid}</b>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </MessageBar>
-                        </div>
-                    )}
-                    <PropertyTree
-                        data={state.propertyTreeNodes as PropertyTreeNode[]}
-                        onParentClick={(parent) => onParentClick(parent)}
-                        onNodeValueChange={onNodeValueChange}
-                        onNodeValueUnset={onNodeValueUnset}
-                        onAddMapValue={onAddMapValue}
-                        onRemoveMapValue={onRemoveMapValue}
-                        readonly={!!props.readonly}
-                    />
+                                        <ul className="cb-missing-model-id-list">
+                                            {props.missingModelIds.map(
+                                                (mmid, idx) => (
+                                                    <li key={idx}>
+                                                        <b>{mmid}</b>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    </MessageBar>
+                                </div>
+                            )}
+                        <PropertyTree
+                            data={state.propertyTreeNodes as PropertyTreeNode[]}
+                            onParentClick={(parent) => onParentClick(parent)}
+                            onNodeValueChange={onNodeValueChange}
+                            onNodeValueUnset={onNodeValueUnset}
+                            onAddMapValue={onAddMapValue}
+                            onRemoveMapValue={onRemoveMapValue}
+                            readonly={!!props.readonly}
+                        />
+                    </div>
                 </div>
             </ThemeProvider>
         </I18nProviderWrapper>
