@@ -56,6 +56,19 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
 
             let adxResults;
             try {
+                // // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
+                // const connectionsData = await axios({
+                //     method: 'get',
+                //     url: `https://management.azure.com${ADTInstanceAzureResourceId}/timeSeriesDatabaseConnections`,
+                //     headers: {
+                //         Authorization: 'Bearer ' + token,
+                //         Accept: 'application/json',
+                //         'Content-Type': 'application/json'
+                //     },
+                //     params: {
+                //         'api-version': '2021-06-30-preview'
+                //     }
+                // });
                 const axiosGets = properties.map(async (prop) => {
                     return await axios({
                         method: 'post',
@@ -131,8 +144,4 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
             return new TsiClientAdapterData(transformedResults);
         });
     }
-
-    getADXClusters = () => {
-        return null;
-    };
 }
