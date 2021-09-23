@@ -23,11 +23,14 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         node.edited ? 'cb-property-tree-node-value-edited' : ''
     }`;
 
+    const readOnlyValueClassname =
+        'cb-property-tree-node-value cb-property-tree-node-value-readonly';
+
     switch (propertyType) {
         case dtdlPropertyTypesEnum.boolean:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -57,7 +60,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.date:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -80,7 +83,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.dateTime:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -106,7 +109,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.long:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -126,7 +129,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -146,7 +149,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.integer:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );
@@ -167,7 +170,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             if (node.readonly || readonly) {
                 return (
                     <div
-                        className={`${nodeValueClassname} ${
+                        className={`${readOnlyValueClassname} ${
                             node.isMetadata
                                 ? 'cb-property-tree-node-value-metadata'
                                 : ''
@@ -197,7 +200,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.time:
             if (readonly) {
                 return (
-                    <div className={nodeValueClassname}>
+                    <div className={readOnlyValueClassname}>
                         {String(node.value)}
                     </div>
                 );

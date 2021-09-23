@@ -159,8 +159,11 @@
     }
     .cb-property-tree-node-name-metadata,
     .cb-property-tree-node-value-metadata {
-        cursor: text;
         font-family: monospace;
+    }
+    .cb-property-tree-node-value-metadata,
+    .cb-property-tree-node-value-readonly {
+        cursor: text;
     }
     .cb-property-tree-node-boolean-value-label {
         margin-left: 4px;
