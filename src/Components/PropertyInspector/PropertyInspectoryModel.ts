@@ -709,10 +709,11 @@ abstract class PropertyInspectorModel {
     };
 
     static flattenRelationshipPatch = (
-        originalJson,
+        originalJsonInput,
         newJson,
         delta: Operation[]
     ) => {
+        const originalJson = Object.assign({}, originalJsonInput);
         const originalJsonClone = Object.assign({}, originalJson);
 
         // Loop over each delta operation
