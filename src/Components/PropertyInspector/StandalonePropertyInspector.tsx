@@ -119,19 +119,24 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     };
 
     const onCommitChanges = () => {
-        const patchData = PropertyInspectorModel.generatePatchData(
-            isTwin(props.inputData)
-                ? props.inputData.twin
-                : props.inputData.relationship,
-            state.propertyTreeNodes as PropertyTreeNode[]
-        );
+        let patchData;
+
         if (isTwin(props.inputData)) {
+            patchData = PropertyInspectorModel.generatePatchData(
+                props.inputData.twin,
+                state.propertyTreeNodes as PropertyTreeNode[]
+            );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.twin,
                 id: props.inputData.twin.$dtId,
                 patches: patchData as Array<ADTPatch>
             });
         } else {
+            patchData = PropertyInspectorModel.generatePatchData(
+                props.inputData.relationship,
+                state.propertyTreeNodes as PropertyTreeNode[],
+                true
+            );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.relationship,
                 id: props.inputData.relationship.$relationshipId,

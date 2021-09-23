@@ -684,19 +684,6 @@ abstract class PropertyInspectorModel {
         return null;
     };
 
-    /** Utility method for checking that all object children have values set */
-    static verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
-        let everyChildHasValue = true;
-        tree.forEach((node) => {
-            if (!node.children && !node.value) everyChildHasValue = false;
-            else if (node.children)
-                everyChildHasValue = PropertyInspectorModel.verifyEveryChildHasValue(
-                    node.children
-                );
-        });
-        return everyChildHasValue;
-    };
-
     /** Transforms property tree nodes into JSON, retaining values only*/
     static parseDataFromPropertyTree = (
         tree: PropertyTreeNode[],
@@ -721,17 +708,62 @@ abstract class PropertyInspectorModel {
         return newJson;
     };
 
+    static flattenRelationshipPatch = (
+        originalJson,
+        newJson,
+        delta: Operation[]
+    ) => {
+        const originalJsonClone = Object.assign({}, originalJson);
+
+        // Loop over each delta operation
+        delta.forEach((op) => {
+            // If nested path found
+            if (op.path.match(new RegExp('/', 'g')).length > 1) {
+                // Remove root of nested path from originalJson
+                delete originalJson[op.path.split('/')[1]];
+            }
+        });
+
+        // Recompute delta
+        const newDelta = compare(originalJson, newJson);
+
+        // Loop over each delta operation
+        newDelta.map((op) => {
+            // if any ADD path key already already exists on originalJsonClone, change to REPLACE
+            if (op.path.split('/')[1] in originalJsonClone && op.op === 'add') {
+                (op.op as any) = 'replace';
+            }
+        });
+
+        return newDelta;
+    };
+
     /** Generates JSON patch using delta between original json and updated property tree */
     static generatePatchData = (
         originalJson: any,
-        newTree: PropertyTreeNode[]
+        newTree: PropertyTreeNode[],
+        isRelationship = false
     ): Operation[] => {
         // Recurse through new PropertyTreeNode[] and build a simple JSON representation of the data tree
         const newJson = PropertyInspectorModel.parseDataFromPropertyTree(
             newTree
         );
+
         // Compare originalJson with the newly generated JSON using compare lib
-        const delta = compare(originalJson, newJson);
+        let delta = compare(originalJson, newJson);
+
+        // TODO remove this block once relationship sub-property patching is supported
+        // by ADT API.
+        // --------------------------------------------------------
+        if (isRelationship) {
+            delta = PropertyInspectorModel.flattenRelationshipPatch(
+                originalJson,
+                newJson,
+                delta
+            );
+        }
+        // --------------------------------------------------------
+
         return delta;
     };
 }
