@@ -7,6 +7,7 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
+    ModelsDictionaryItem,
     UploadPhase
 } from '../../../Models/Constants';
 import { BIMUploadCardProps } from './BIMUploadCard.types';
@@ -73,11 +74,13 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     // for keeping track of which models pulled from the BIM are selected for upload
     const [modelsDictionary, setModelsDictionary] = useState(null);
     useEffect(() => {
-        const newModelsDictionary = {};
+        const newModelsDictionary: Record<string, ModelsDictionaryItem> = {};
         assetsFromBim?.models?.forEach((model) => {
             newModelsDictionary[model['@id']] = {
                 isSelected: true,
                 displayName: model.displayName
+                    ? model.displayName
+                    : model['@id']
             };
         });
         setModelsDictionary(newModelsDictionary);
@@ -375,11 +378,13 @@ const ModelSelection = ({
     const getSelectedCount = () => {
         let selectedCount = 0;
 
-        Object.values(modelsDictionary).forEach((model: any) => {
-            if (model.isSelected) {
-                selectedCount++;
+        Object.values(modelsDictionary).forEach(
+            (model: ModelsDictionaryItem) => {
+                if (model.isSelected) {
+                    selectedCount++;
+                }
             }
-        });
+        );
         return selectedCount;
     };
 
@@ -425,7 +430,7 @@ const ModelSelection = ({
                         </div>
                         <div className="cb-checkbox-container">
                             {Object.keys(modelsDictionary).map(
-                                (model: any, modelI) => (
+                                (model, modelI) => (
                                     <Checkbox
                                         onRenderLabel={() =>
                                             getCheckboxLabel(

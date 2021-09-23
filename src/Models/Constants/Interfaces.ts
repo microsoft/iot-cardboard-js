@@ -520,3 +520,8 @@ export interface IJSONUploaderFileItem {
     content?: JSON | Error;
     status: FileUploadStatus;
 }
+
+export interface ModelsDictionaryItem {
+    displayName: string;
+    isSelected: boolean;
+}
