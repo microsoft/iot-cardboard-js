@@ -13,5 +13,7 @@ export const fluentDarkThemeSemanticColors: Partial<ISemanticColors> = {
 };
 
 export const fluentExplorerThemeSemanticColors: Partial<ISemanticColors> = {
-    menuBackground: '#323130'
+    menuBackground: '#323130',
+    severeWarningBackground: '#442726',
+    messageText: '#ffffff'
 };
