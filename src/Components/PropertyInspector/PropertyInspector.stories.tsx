@@ -77,3 +77,19 @@ export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
         />
     </div>
 );
+
+export const MissingModelsMock = (_args, { globals: { theme, locale } }) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModel.slice(0, 2),
+                rootModel: mockExpandedModel[0]
+            }}
+            missingModelIds={mockExpandedModel.slice(2).map((mm) => mm['@id'])}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+        />
+    </div>
+);

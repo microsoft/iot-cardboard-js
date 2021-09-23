@@ -170,23 +170,28 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                                         messageBarType={
                                             MessageBarType.severeWarning
                                         }
-                                        styles={{}}
+                                        isMultiline={false}
+                                        truncated={true}
                                     >
                                         {t('propertyInspector.modelNotFound', {
                                             piMode: isTwin(props.inputData)
                                                 ? 'Twin'
                                                 : 'Relationship'
-                                        })}
-
-                                        <ul className="cb-missing-model-id-list">
+                                        })}{' '}
+                                        <span className="cb-missing-model-id-list">
                                             {props.missingModelIds.map(
                                                 (mmid, idx) => (
-                                                    <li key={idx}>
+                                                    <span key={idx}>
                                                         <b>{mmid}</b>
-                                                    </li>
+                                                        {idx <
+                                                            props
+                                                                .missingModelIds
+                                                                .length -
+                                                                1 && ', '}
+                                                    </span>
                                                 )
                                             )}
-                                        </ul>
+                                        </span>
                                     </MessageBar>
                                 </div>
                             )}
