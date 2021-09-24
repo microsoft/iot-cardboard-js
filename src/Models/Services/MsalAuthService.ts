@@ -157,4 +157,14 @@ export default class MsalAuthService implements IAuthService {
             })
         ) as Promise<string>;
     };
+
+    public getAzureManagementTokenPromise = () =>
+        new Promise(
+            this.getGenericTokenPromiseCallback(
+                {
+                    scopes: ['https://management.azure.com//.default']
+                },
+                true
+            )
+        );
 }

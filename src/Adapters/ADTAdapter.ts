@@ -50,9 +50,9 @@ import {
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 
 export default class ADTAdapter implements IADTAdapter {
-    private authService: IAuthService;
+    protected authService: IAuthService;
     public adtHostUrl: string;
-    private adtProxyServerPath: string;
+    protected adtProxyServerPath: string;
     public packetNumber = 0;
     private axiosInstance: AxiosInstance;
 

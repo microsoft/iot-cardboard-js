@@ -92,7 +92,12 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         // resetting state with adapter change
         setSelectedTwin(null);
         setErrorMessage(null);
+        getConnectionInformation();
     }, [adapter]);
+
+    const getConnectionInformation = useCallback(async () => {
+        const instances = await adapter.getConnectionInformation();
+    }, []);
 
     return (
         <div className="cb-hbcard-container">

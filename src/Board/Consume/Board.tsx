@@ -142,7 +142,11 @@ const Board: React.FC<IBoardProps> = ({
 
 function getCardElement(
     cardInfo: CardInfo,
-    searchSpan: SearchSpan,
+    searchSpan: SearchSpan = new SearchSpan(
+        new Date('2021-09-10'),
+        new Date('2021-09-17'),
+        '6h'
+    ),
     adapter: AdapterTypes,
     theme: Theme,
     locale: Locale,
@@ -296,10 +300,21 @@ function getDefaultBoardInfo(
         })
     );
 
+    // const propertyCards = Object.keys(twinProperties).map((name: string) => {
+    //     const cardInfo = CardInfo.fromObject({
+    //         key: `property-${name}`,
+    //         type: CardTypes.KeyValuePairCard,
+    //         size: { rows: 2 },
+    //         cardProperties: { pollingIntervalMillis: 5000 },
+    //         entities: [{ id: dtTwin.$dtId, properties: [name] }]
+    //     });
+
+    //     return cardInfo;
+    // });
     const propertyCards = Object.keys(twinProperties).map((name: string) => {
         const cardInfo = CardInfo.fromObject({
             key: `property-${name}`,
-            type: CardTypes.KeyValuePairCard,
+            type: CardTypes.LineChart,
             size: { rows: 2 },
             cardProperties: { pollingIntervalMillis: 5000 },
             entities: [{ id: dtTwin.$dtId, properties: [name] }]

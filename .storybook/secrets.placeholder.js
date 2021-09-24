@@ -27,9 +27,6 @@ export const AuthenticationParameters = {
         }
     },
     adx: {
-        clusterUrl: 'ADX_CLUSTER_URL',
-        databaseName: 'ADX_DATABASE_NAME_IN_CLUSTER',
-        tableName: 'ADX_TABLE_NAME_IN_DATABASE',
         aadParameters: {
             authority: 'AUTHORITY_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',

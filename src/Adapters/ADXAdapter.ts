@@ -56,7 +56,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
 
             let adxResults;
             try {
-                // // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
+                // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
                 // const connectionsData = await axios({
                 //     method: 'get',
                 //     url: `https://management.azure.com${ADTInstanceAzureResourceId}/timeSeriesDatabaseConnections`,

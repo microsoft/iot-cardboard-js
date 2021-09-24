@@ -1,6 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import ADTandADXAdapter from '../../../../Adapters/ADTandADXAdapter';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithBoard from './ADTHierarchyWithBoard';
 
@@ -25,10 +25,16 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
+                    new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
+                        ),
+                        new MsalAuthService(
+                            authenticationParameters.azureManagement.aadParameters
+                        ),
+                        new MsalAuthService(
+                            authenticationParameters.adx.aadParameters
                         )
                     )
                 }
@@ -49,10 +55,16 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
+                    new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
+                        ),
+                        new MsalAuthService(
+                            authenticationParameters.azureManagement.aadParameters
+                        ),
+                        new MsalAuthService(
+                            authenticationParameters.adx.aadParameters
                         )
                     )
                 }

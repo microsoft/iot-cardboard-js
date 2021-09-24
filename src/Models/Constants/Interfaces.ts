@@ -197,6 +197,12 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
+export interface IADTInstance {
+    hostName: string;
+    resourceId: string;
+    location: string;
+}
+
 export interface IADTModel {
     id: string;
     description: any;
@@ -356,6 +362,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
+}
+
+export interface IADTandADXAdapter extends IADTAdapter {
+    getConnectionInformation: () => any;
 }
 
 export interface IBaseStandardModelSearchAdapter {
