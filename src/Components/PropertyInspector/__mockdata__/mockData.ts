@@ -17,6 +17,18 @@ export const mockTwin = {
             tireWidth: '18'
         }
     },
+    chargeHistory: {
+        eugene: {
+            city: 'Eugene, OR',
+            cost: 25,
+            amountCharged: 60
+        },
+        vancouver: {
+            city: 'Vancouver, BC',
+            cost: 29,
+            amountCharged: 74
+        }
+    },
     address: {
         $metadata: {}
     },

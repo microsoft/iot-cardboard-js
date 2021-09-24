@@ -4,7 +4,11 @@ import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADT
 import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import { DTDLType } from '../../Models/Classes/DTDL';
-import { PropertyInspectorPatchMode } from '../../Models/Constants/Enums';
+import {
+    Locale,
+    PropertyInspectorPatchMode,
+    Theme
+} from '../../Models/Constants/Enums';
 import {
     ADTPatch,
     IADTAdapter,
@@ -19,6 +23,7 @@ import {
     RelationshipParams,
     TwinParams
 } from './StandalonePropertyInspector.types';
+import './PropertyInspector.scss';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
@@ -38,6 +43,10 @@ type RelationshipPropertyInspectorProps = {
 
 type PropertyInspectorProps = {
     isPropertyInspectorLoading?: boolean;
+    onPatch?: (patchData: OnCommitPatchParams) => any;
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
     rootAndBaseModelIdsToFlatten?: {
         rootModelId: string;
         baseModelIds: string[];
@@ -59,6 +68,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     );
     const [refetchTrigger, setRefetchTrigger] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [missingModelIds, setMissingModelIds] = useState([]);
 
     const twinData = useAdapter({
         adapterMethod: (params: {
@@ -155,6 +165,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     useEffect(() => {
         // Reset input data
         setInputData(null);
+        setMissingModelIds([]);
         twinData.cancelAdapter();
         modelData.cancelAdapter();
         relationshipData.cancelAdapter();
@@ -194,6 +205,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     // Combine twin or relationship and model data into input data object
     useEffect(() => {
         const data = modelData.adapterResult.getData();
+        if (modelData.adapterResult?.errorInfo?.errors) {
+            setMissingModelIds(
+                modelData.adapterResult.errorInfo.errors
+                    .slice()
+                    .map((e) => e.message)
+            );
+        }
         if (isTwin(props) && data) {
             setInputData({
                 expandedModels: modelData.adapterResult.getData()
@@ -258,6 +276,13 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 shouldRefreshAfterPatch: true,
                 resolvedTwin: props.resolvedTwin
             }); // refetch twin after patch
+
+            props.onPatch &&
+                props.onPatch(patchTwinData.adapterResult.getData());
+        } else if (patchTwinData.adapterResult.errorInfo?.catastrophicError) {
+            const error = (patchTwinData.adapterResult.errorInfo
+                .catastrophicError.rawError as any)?.response?.data?.error;
+            props.onPatch && props.onPatch(error);
         }
 
         if (patchRelationshipData.adapterResult.getData()) {
@@ -268,6 +293,15 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 shouldRefreshAfterPatch: true,
                 resolvedRelationship: props.resolvedRelationship
             });
+
+            props.onPatch &&
+                props.onPatch(patchRelationshipData.adapterResult.getData());
+        } else if (
+            patchRelationshipData.adapterResult.errorInfo?.catastrophicError
+        ) {
+            const error = (patchRelationshipData.adapterResult.errorInfo
+                .catastrophicError.rawError as any)?.response?.data?.error;
+            props.onPatch && props.onPatch(error);
         }
     }, [patchTwinData.adapterResult, patchRelationshipData.adapterResult]);
 
@@ -291,11 +325,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     }
 
     return (
-        <StandalonePropertyInspector
-            inputData={inputData}
-            onCommitChanges={onCommitChanges}
-        />
+        <div className="cb-property-inspector-container">
+            <StandalonePropertyInspector
+                inputData={inputData}
+                onCommitChanges={onCommitChanges}
+                theme={props.theme}
+                locale={props.locale}
+                localeStrings={props.localeStrings}
+                missingModelIds={missingModelIds}
+            />
+        </div>
     );
 };
 
-export default PropertyInspector;
+export default React.memo(PropertyInspector);

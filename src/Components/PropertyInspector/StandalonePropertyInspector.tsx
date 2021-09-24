@@ -1,17 +1,28 @@
-import produce from 'immer';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 import {
     isTwin,
-    StandalonePropertyInspectorProps,
-    TwinParams
+    StandalonePropertyInspectorProps
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
+import {
+    ADTPatch,
+    PropertyInspectorPatchMode,
+    Theme
+} from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 import { useTranslation } from 'react-i18next';
+import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
+import { ThemeProvider } from '../../Theming/ThemeProvider';
+import i18n from '../../i18n';
+import StandalonePropertyInspectorReducer, {
+    defaultStandalonePropertyInspectorState,
+    spiActionType
+} from './StandalonePropertyInspector.state';
+import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
+import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -21,166 +32,111 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     props
 ) => {
     const { t } = useTranslation();
-    const PropertyInspectorModelRef = useRef(
-        new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModels
-        )
-    );
 
-    // Reset property inspector when input data changes
-    useEffect(() => {
-        PropertyInspectorModelRef.current = new PropertyInspectorModel(
-            (props.inputData as TwinParams)?.expandedModels
-        );
-        setPropertyTreeNodes(originalTree());
-    }, [props.inputData]);
-
-    const originalTree = useCallback(() => {
+    const originalTree = useMemo(() => {
         return isTwin(props.inputData)
-            ? PropertyInspectorModelRef.current.parseTwinIntoPropertyTree({
+            ? PropertyInspectorModel.parseTwinIntoPropertyTree({
                   isInherited: false,
-                  path: '/',
+                  path: '',
                   rootModel: props.inputData.rootModel,
-                  twin: props.inputData.twin
+                  twin: props.inputData.twin,
+                  expandedModels: props.inputData.expandedModels
               })
-            : PropertyInspectorModelRef.current.parseRelationshipIntoPropertyTree(
+            : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                   props.inputData.relationship,
                   props.inputData.relationshipDefinition
               );
     }, [props.inputData]);
 
-    const [propertyTreeNodes, setPropertyTreeNodes] = useState<
-        PropertyTreeNode[]
-    >(originalTree());
+    const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
+        ...defaultStandalonePropertyInspectorState,
+        propertyTreeNodes: originalTree,
+        originalPropertyTreeNodes: originalTree.map((el) =>
+            Object.assign({}, el)
+        )
+    });
+
+    // Reset property inspector when input data changes
+    useEffect(() => {
+        dispatch({
+            type: spiActionType.SET_PROPERTY_TREE_NODES,
+            nodes: originalTree
+        });
+    }, [props.inputData]);
 
     const undoAllChanges = () => {
-        setPropertyTreeNodes(originalTree());
+        dispatch({
+            type: spiActionType.SET_PROPERTY_TREE_NODES,
+            nodes: originalTree
+        });
+        dispatch({
+            type: spiActionType.RESET_EDIT_STATUS
+        });
     };
 
-    const onParentClick = (parent: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    parent
-                );
-                targetNode
-                    ? (targetNode.isCollapsed = !targetNode.isCollapsed)
-                    : null;
-            })
-        );
+    const onParentClick = (parentNode: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.TOGGLE_PARENT_NODE_COLLAPSE_STATE,
+            parentNode
+        });
     };
 
     const onNodeValueChange = (node: PropertyTreeNode, newValue: any) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node
-                );
-                targetNode.value = newValue;
-                targetNode.isSet = true;
-                if (originalNode.value !== targetNode.value) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
-            })
-        );
+        dispatch({
+            type: spiActionType.ON_NODE_VALUE_CHANGED,
+            node,
+            newValue
+        });
     };
 
-    const onObjectAdd = (node: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node
-                );
-                targetNode.isSet = true;
-                if (originalNode.isSet !== targetNode.isSet) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
-            })
-        );
+    const onAddMapValue = (mapNode: PropertyTreeNode, mapKey: string) => {
+        dispatch({
+            type: spiActionType.ON_ADD_MAP_VALUE,
+            mapKey,
+            mapNode
+        });
+    };
+
+    const onRemoveMapValue = (mapChildToRemove: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.ON_REMOVE_MAP_VALUE,
+            mapChildToRemove
+        });
     };
 
     const onNodeValueUnset = (node: PropertyTreeNode) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                const targetNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    draft,
-                    node
-                );
-                const originalNode = PropertyInspectorModelRef.current.findPropertyTreeNodeRefRecursively(
-                    originalTree(),
-                    node
-                );
-
-                const setNodeToDefaultValue = (
-                    nodeToUnset: PropertyTreeNode,
-                    isChildNode = false
-                ) => {
-                    if (isChildNode) {
-                        nodeToUnset.edited = false;
-                    }
-                    nodeToUnset.value = PropertyInspectorModelRef.current.getEmptyValueForNode(
-                        nodeToUnset.schema
-                    );
-                    if (nodeToUnset.children) {
-                        // Unsetting object should set all children values to default
-                        nodeToUnset.children.forEach((child) => {
-                            setNodeToDefaultValue(child, true);
-                        });
-                    }
-                };
-
-                setNodeToDefaultValue(targetNode);
-                targetNode.isSet = false;
-
-                if (originalNode.isSet !== targetNode.isSet) {
-                    targetNode.edited = true;
-                } else {
-                    targetNode.edited = false;
-                }
-            })
-        );
+        dispatch({
+            type: spiActionType.ON_NODE_VALUE_UNSET,
+            node
+        });
     };
 
     const setIsTreeCollapsed = (isCollapsed: boolean) => {
-        setPropertyTreeNodes(
-            produce((draft: PropertyTreeNode[]) => {
-                PropertyInspectorModelRef.current.setIsTreeCollapsed(
-                    draft,
-                    isCollapsed
-                );
-            })
-        );
+        dispatch({
+            type: spiActionType.SET_IS_TREE_COLLAPSED,
+            isCollapsed
+        });
     };
 
     const onCommitChanges = () => {
-        const patchData = PropertyInspectorModelRef.current.generatePatchData(
-            isTwin(props.inputData)
-                ? props.inputData.twin
-                : props.inputData.relationship,
-            propertyTreeNodes
-        );
+        let patchData;
+
         if (isTwin(props.inputData)) {
+            patchData = PropertyInspectorModel.generatePatchData(
+                props.inputData.twin,
+                state.propertyTreeNodes as PropertyTreeNode[]
+            );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.twin,
                 id: props.inputData.twin.$dtId,
                 patches: patchData as Array<ADTPatch>
             });
         } else {
+            patchData = PropertyInspectorModel.generatePatchData(
+                props.inputData.relationship,
+                state.propertyTreeNodes as PropertyTreeNode[],
+                true
+            );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.relationship,
                 id: props.inputData.relationship.$relationshipId,
@@ -191,26 +147,72 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     };
 
     return (
-        <div className="cb-standalone-property-inspector-container">
-            <StandalonePropertyInspectorCommandBar
-                setIsTreeCollapsed={setIsTreeCollapsed}
-                onCommitChanges={onCommitChanges}
-                undoAllChanges={undoAllChanges}
-                commandBarTitle={
-                    isTwin(props.inputData)
-                        ? t('propertyInspector.commandBarTitleTwin')
-                        : t('propertyInspector.commandBarTitleRelationship')
-                }
-            />
-            <PropertyTree
-                data={propertyTreeNodes}
-                onParentClick={(parent) => onParentClick(parent)}
-                onNodeValueChange={onNodeValueChange}
-                onNodeValueUnset={onNodeValueUnset}
-                onObjectAdd={onObjectAdd}
-                readonly={!!props.readonly}
-            />
-        </div>
+        <I18nProviderWrapper
+            locale={props.locale}
+            localeStrings={props.localeStrings}
+            i18n={i18n}
+        >
+            <ThemeProvider theme={props.theme ?? Theme.Light}>
+                <div className="cb-standalone-property-inspector-container">
+                    <StandalonePropertyInspectorCommandBar
+                        setIsTreeCollapsed={setIsTreeCollapsed}
+                        onCommitChanges={onCommitChanges}
+                        undoAllChanges={undoAllChanges}
+                        commandBarTitle={
+                            isTwin(props.inputData)
+                                ? t('propertyInspector.commandBarTitleTwin')
+                                : t(
+                                      'propertyInspector.commandBarTitleRelationship'
+                                  )
+                        }
+                        editStatus={state.editStatus}
+                    />
+                    <div className="cb-property-inspector-scrollable-container">
+                        {props.missingModelIds &&
+                            props.missingModelIds.length > 0 && (
+                                <div className="cb-property-inspector-model-error-container">
+                                    <MessageBar
+                                        messageBarType={
+                                            MessageBarType.severeWarning
+                                        }
+                                        isMultiline={false}
+                                        truncated={true}
+                                    >
+                                        {t('propertyInspector.modelNotFound', {
+                                            piMode: isTwin(props.inputData)
+                                                ? 'Twin'
+                                                : 'Relationship'
+                                        })}{' '}
+                                        <span className="cb-missing-model-id-list">
+                                            {props.missingModelIds.map(
+                                                (mmid, idx) => (
+                                                    <span key={idx}>
+                                                        <i>{mmid}</i>
+                                                        {idx <
+                                                            props
+                                                                .missingModelIds
+                                                                .length -
+                                                                1 && ', '}
+                                                    </span>
+                                                )
+                                            )}
+                                        </span>
+                                    </MessageBar>
+                                </div>
+                            )}
+                        <PropertyTree
+                            data={state.propertyTreeNodes as PropertyTreeNode[]}
+                            onParentClick={(parent) => onParentClick(parent)}
+                            onNodeValueChange={onNodeValueChange}
+                            onNodeValueUnset={onNodeValueUnset}
+                            onAddMapValue={onAddMapValue}
+                            onRemoveMapValue={onRemoveMapValue}
+                            readonly={!!props.readonly}
+                        />
+                    </div>
+                </div>
+            </ThemeProvider>
+        </I18nProviderWrapper>
     );
 };
 
@@ -219,14 +221,18 @@ type StandalonePropertyInspectorCommandBarProps = {
     onCommitChanges: () => any;
     undoAllChanges: () => any;
     commandBarTitle: string;
+    editStatus: Record<string, boolean>;
 };
 
 const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspectorCommandBarProps> = ({
     setIsTreeCollapsed,
     onCommitChanges,
     undoAllChanges,
-    commandBarTitle
+    commandBarTitle,
+    editStatus
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="cb-standalone-property-inspector-header">
             <div className="cb-standalone-property-inspector-header-label">
@@ -237,35 +243,39 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                 farItems={[
                     {
                         key: 'undoAll',
-                        text: 'Undo all changes',
-                        ariaLabel: 'Undo all changes',
+                        text: t('propertyInspector.commandBar.undoAll'),
+                        ariaLabel: t('propertyInspector.commandBar.undoAll'),
                         iconOnly: true,
                         iconProps: { iconName: 'Undo' },
-                        onClick: () => undoAllChanges()
+                        onClick: () => undoAllChanges(),
+                        disabled: Object.keys(editStatus).length === 0
                     },
                     {
                         key: 'expandTree',
-                        text: 'Expand tree',
-                        ariaLabel: 'Expand tree',
+                        text: t('propertyInspector.commandBar.expandTree'),
+                        ariaLabel: t('propertyInspector.commandBar.expandTree'),
                         iconOnly: true,
                         iconProps: { iconName: 'ExploreContent' },
                         onClick: () => setIsTreeCollapsed(false)
                     },
                     {
                         key: 'collapseTree',
-                        text: 'Collapse tree',
-                        ariaLabel: 'Collapse tree',
+                        text: t('propertyInspector.commandBar.collapseTree'),
+                        ariaLabel: t(
+                            'propertyInspector.commandBar.collapseTree'
+                        ),
                         iconOnly: true,
                         iconProps: { iconName: 'CollapseContent' },
                         onClick: () => setIsTreeCollapsed(true)
                     },
                     {
                         key: 'save',
-                        text: 'Save changes',
-                        ariaLabel: 'Save changes',
+                        text: t('propertyInspector.commandBar.save'),
+                        ariaLabel: t('propertyInspector.commandBar.save'),
                         iconOnly: true,
                         iconProps: { iconName: 'Save' },
-                        onClick: () => onCommitChanges()
+                        onClick: () => onCommitChanges(),
+                        disabled: Object.keys(editStatus).length === 0
                     }
                 ]}
             />
