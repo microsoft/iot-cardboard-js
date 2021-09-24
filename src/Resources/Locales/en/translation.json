@@ -353,7 +353,8 @@
             "date": "Enter a date value in YYYY-MM-DD format",
             "dateTime": "Enter a value in <DocLink>RFC 3339 date-time format</DocLink>, for example: 2007-04-05T14:30:15-08:00",
             "duration": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
-            "integer": "Enter a non-decimal numeric value",
+            "integer": "Enter a non-decimal numeric value (signed 4-byte integer)",
+            "long": "Enter a non-decimal numeric value (signed 8-byte integer)",
             "time": "Enter a value in <DocLink>RFC 3339 full-time format</DocLink>, for example: 14:22:33−08:00",
             "map": "A <DocLink>map key</DocLink> uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore."
         },

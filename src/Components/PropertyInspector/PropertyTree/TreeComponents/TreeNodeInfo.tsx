@@ -50,6 +50,9 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
         case dtdlPropertyTypesEnum.integer:
             tooltipInfo = t('propertyInspector.schemaInfo.integer');
             break;
+        case dtdlPropertyTypesEnum.long:
+            tooltipInfo = t('propertyInspector.schemaInfo.long');
+            break;
         case dtdlPropertyTypesEnum.time:
             tooltipInfo = (
                 <Trans

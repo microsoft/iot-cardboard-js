@@ -104,8 +104,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     type="datetime-local"
                 />
             );
-        case dtdlPropertyTypesEnum.double:
-        case dtdlPropertyTypesEnum.float:
+        case dtdlPropertyTypesEnum.integer:
         case dtdlPropertyTypesEnum.long:
             if (readonly) {
                 return (
@@ -119,9 +118,40 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         type="number"
                         value={node.value as number}
-                        style={{ width: 60 }}
+                        style={{ width: 72 }}
+                        onKeyDown={(e) => {
+                            if (['e', 'E', '+', '.'].includes(e.key)) {
+                                e.preventDefault();
+                            }
+                        }}
                         onChange={(e) =>
-                            onNodeValueChange(node, Number(e.target.value))
+                            onNodeValueChange(node, e.target.value)
+                        }
+                    ></input>
+                </div>
+            );
+        case dtdlPropertyTypesEnum.double:
+        case dtdlPropertyTypesEnum.float:
+            if (readonly) {
+                return (
+                    <div className={readOnlyValueClassname}>
+                        {String(node.value)}
+                    </div>
+                );
+            }
+            return (
+                <div className={nodeValueClassname}>
+                    <input
+                        type="number"
+                        value={node.value as number}
+                        style={{ width: 60 }}
+                        onKeyDown={(e) => {
+                            if (['e', 'E', '+'].includes(e.key)) {
+                                e.preventDefault();
+                            }
+                        }}
+                        onChange={(e) =>
+                            onNodeValueChange(node, e.target.value)
                         }
                     ></input>
                 </div>
@@ -142,26 +172,6 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                         style={{ width: 136 }}
                         onChange={(e) =>
                             onNodeValueChange(node, e.target.value)
-                        }
-                    ></input>
-                </div>
-            );
-        case dtdlPropertyTypesEnum.integer:
-            if (readonly) {
-                return (
-                    <div className={readOnlyValueClassname}>
-                        {String(node.value)}
-                    </div>
-                );
-            }
-            return (
-                <div className={nodeValueClassname}>
-                    <input
-                        type="number"
-                        value={node.value as number}
-                        style={{ width: 72 }}
-                        onChange={(e) =>
-                            onNodeValueChange(node, Number(e.target.value))
                         }
                     ></input>
                 </div>

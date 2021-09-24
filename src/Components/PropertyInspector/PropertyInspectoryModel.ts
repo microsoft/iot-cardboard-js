@@ -700,7 +700,26 @@ abstract class PropertyInspectorModel {
                         newJson[node.name]
                     );
                 } else {
-                    newJson[node.name] = node.value;
+                    let finalValue = node.value;
+
+                    // Transform numeric values from strings to numbers
+                    if (
+                        [
+                            dtdlPropertyTypesEnum.integer,
+                            dtdlPropertyTypesEnum.float,
+                            dtdlPropertyTypesEnum.double,
+                            dtdlPropertyTypesEnum.long,
+                            dtdlPropertyTypesEnum
+                        ].includes(node.schema)
+                    ) {
+                        try {
+                            finalValue = Number(node.value);
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+
+                    newJson[node.name] = finalValue;
                 }
             }
         });
