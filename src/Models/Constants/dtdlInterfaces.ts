@@ -3,11 +3,58 @@ export interface DtdlInterface {
     '@type': string;
     '@context': string | string[];
     comment?: string;
-    contents?: (DtdlProperty | DtdlRelationship)[];
+    contents?: (
+        | DtdlProperty
+        | DtdlRelationship
+        | DtdlTelemetry
+        | DtdlCommand
+        | DtdlComponent
+    )[];
     description?: string;
     displayName?: string;
     extends?: string | string[];
     schemas?: DtdlInterfaceSchema[];
+}
+
+export interface DtdlTelemetry {
+    '@type': string;
+    name: string;
+    schema: string | Record<string, any>;
+    '@id'?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+}
+
+export interface DtdlCommand {
+    '@type': string;
+    name: string;
+    '@id'?: string;
+    description?: string;
+    displayName?: string;
+    commandType?: string;
+    request?: DtdlCommandPayload;
+    response?: DtdlCommandPayload;
+}
+
+export interface DtdlCommandPayload {
+    name: string;
+    schema: string | Record<string, any>;
+    '@id'?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+}
+
+export interface DtdlComponent {
+    '@type': string;
+    name: string;
+    schema: string;
+    '@id'?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
 }
 
 export interface DtdlInterfaceSchema {

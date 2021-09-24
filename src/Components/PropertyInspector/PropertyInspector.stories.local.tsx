@@ -75,39 +75,6 @@ AdtRelationship.argTypes = {
     }
 };
 
-export const HasMemberRelationship = (args) => {
-    const authenticationParameters = useAuthParams();
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={propertyInspectorStoryStyles}>
-            <PropertyInspector
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
-                relationshipId={args.relationshipId}
-                twinId={args.twinId}
-            />
-        </div>
-    );
-};
-
-HasMemberRelationship.argTypes = {
-    twinId: {
-        control: { type: 'text' },
-        defaultValue: 'BIMFile'
-    },
-    relationshipId: {
-        control: { type: 'text' },
-        defaultValue: '22619cf5-80be-4e05-8dcd-59ff66a387d1'
-    }
-};
-
 export const ModeToggleWithResolvedData = (args) => {
     const authenticationParameters = useAuthParams();
     const [mode, setMode] = useState('twin');
