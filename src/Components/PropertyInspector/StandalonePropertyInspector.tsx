@@ -187,7 +187,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                                             {props.missingModelIds.map(
                                                 (mmid, idx) => (
                                                     <span key={idx}>
-                                                        <b>{mmid}</b>
+                                                        <i>{mmid}</i>
                                                         {idx <
                                                             props
                                                                 .missingModelIds
