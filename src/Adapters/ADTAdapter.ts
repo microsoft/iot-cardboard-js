@@ -48,6 +48,7 @@ import {
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class ADTAdapter implements IADTAdapter {
     protected authService: IAuthService;
@@ -730,4 +731,73 @@ export default class ADTAdapter implements IADTAdapter {
             }
         });
     }
+
+    getADTInstances = async () => {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const getTenants = await axios({
+                method: 'get',
+                url: `https://management.azure.com/tenants`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token
+                },
+                params: {
+                    'api-version': '2020-01-01'
+                }
+            });
+
+            const msTenantId = getTenants.data.value.filter(
+                (t) => t.defaultDomain === 'microsoft.onmicrosoft.com'
+            )[0].tenantId;
+
+            const subscriptions = await axios({
+                method: 'get',
+                url: `https://management.azure.com/subscriptions`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token
+                },
+                params: {
+                    'api-version': '2020-01-01'
+                }
+            });
+
+            const subscriptionsByTenantId = subscriptions.data.value
+                .filter((s) => s.tenantId === msTenantId)
+                .map((s) => s.subscriptionId);
+
+            const digitalTwinInstances = await Promise.all(
+                subscriptionsByTenantId.map((subscriptionId) => {
+                    return axios({
+                        method: 'get',
+                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances`,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token
+                        },
+                        params: {
+                            'api-version': '2020-12-01'
+                        }
+                    });
+                })
+            );
+
+            const digitalTwinsInstanceDictionary = [];
+            digitalTwinInstances.forEach((i: any) => {
+                if (i.data.value.length) {
+                    i.data.value.map((instance) =>
+                        digitalTwinsInstanceDictionary.push({
+                            hostName: instance.properties.hostName,
+                            resourceId: instance.id,
+                            location: instance.location
+                        })
+                    );
+                }
+            });
+
+            return new ADTInstancesData(digitalTwinsInstanceDictionary);
+        }, 'azureManagement');
+    };
 }

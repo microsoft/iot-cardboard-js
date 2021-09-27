@@ -31,9 +31,6 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                             authenticationParameters.adt.aadParameters
                         ),
                         new MsalAuthService(
-                            authenticationParameters.azureManagement.aadParameters
-                        ),
-                        new MsalAuthService(
                             authenticationParameters.adx.aadParameters
                         )
                     )
@@ -59,12 +56,6 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        ),
-                        new MsalAuthService(
-                            authenticationParameters.azureManagement.aadParameters
-                        ),
-                        new MsalAuthService(
-                            authenticationParameters.adx.aadParameters
                         )
                     )
                 }

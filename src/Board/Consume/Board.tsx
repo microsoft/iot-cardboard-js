@@ -81,6 +81,18 @@ const Board: React.FC<IBoardProps> = ({
             : {};
 
         cardComponents = boardInfo.cards.map((card: CardInfo, i: number) => {
+            // if searchSpan is not provided set it to last 7 days
+            const defaultSearchSpanTo = new Date();
+            const defaultSearchSpanFrom = new Date();
+            defaultSearchSpanFrom.setDate(defaultSearchSpanFrom.getDate() - 7);
+            searchSpan =
+                searchSpan ??
+                new SearchSpan(
+                    defaultSearchSpanFrom,
+                    defaultSearchSpanTo,
+                    '6h'
+                );
+
             const cardElement = getCardElement(
                 card,
                 searchSpan,
@@ -140,13 +152,10 @@ const Board: React.FC<IBoardProps> = ({
     );
 };
 
+// if search span is not provided always show last 7 days
 function getCardElement(
     cardInfo: CardInfo,
-    searchSpan: SearchSpan = new SearchSpan(
-        new Date('2021-09-10'),
-        new Date('2021-09-17'),
-        '6h'
-    ),
+    searchSpan: SearchSpan,
     adapter: AdapterTypes,
     theme: Theme,
     locale: Locale,
@@ -300,28 +309,26 @@ function getDefaultBoardInfo(
         })
     );
 
-    // const propertyCards = Object.keys(twinProperties).map((name: string) => {
-    //     const cardInfo = CardInfo.fromObject({
-    //         key: `property-${name}`,
-    //         type: CardTypes.KeyValuePairCard,
-    //         size: { rows: 2 },
-    //         cardProperties: { pollingIntervalMillis: 5000 },
-    //         entities: [{ id: dtTwin.$dtId, properties: [name] }]
-    //     });
-
-    //     return cardInfo;
-    // });
-    const propertyCards = Object.keys(twinProperties).map((name: string) => {
-        const cardInfo = CardInfo.fromObject({
-            key: `property-${name}`,
-            type: CardTypes.LineChart,
-            size: { rows: 2 },
-            cardProperties: { pollingIntervalMillis: 5000 },
-            entities: [{ id: dtTwin.$dtId, properties: [name] }]
-        });
-
-        return cardInfo;
-    });
+    // show some of the properties in linechart card with data history, while some in KVP card
+    const propertyCards = Object.keys(twinProperties).map(
+        (name: string, idx: number) => {
+            return idx < Object.keys(twinProperties).length / 2
+                ? CardInfo.fromObject({
+                      key: `property-${name}`,
+                      type: CardTypes.LineChart,
+                      size: { rows: 2 },
+                      cardProperties: { pollingIntervalMillis: 5000 },
+                      entities: [{ id: dtTwin.$dtId, properties: [name] }]
+                  })
+                : CardInfo.fromObject({
+                      key: `property-${name}`,
+                      type: CardTypes.KeyValuePairCard,
+                      size: { rows: 2 },
+                      cardProperties: { pollingIntervalMillis: 5000 },
+                      entities: [{ id: dtTwin.$dtId, properties: [name] }]
+                  });
+        }
+    );
 
     if (hasAllProcessGraphicsCardProperties(dtTwin)) {
         board.cards.push(

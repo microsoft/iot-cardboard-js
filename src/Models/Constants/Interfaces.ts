@@ -39,6 +39,8 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
+import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import ADTInstanceConnectionData from '../Classes/AdapterDataClasses/ADTInstanceConnectionData';
 
 export interface IAction {
     type: string;
@@ -90,7 +92,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 
 export interface IAuthService {
     login: () => void;
-    getToken: () => Promise<string>;
+    getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -201,6 +203,12 @@ export interface IADTInstance {
     hostName: string;
     resourceId: string;
     location: string;
+}
+
+export interface IADTInstanceConnection {
+    kustoClusterUrl: string;
+    kustoDatabaseName: string;
+    kustoTableName: string;
 }
 
 export interface IADTModel {
@@ -362,10 +370,11 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
+    getADTInstances: () => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IADTandADXAdapter extends IADTAdapter {
-    getConnectionInformation: () => any;
+    getConnectionInformation: () => AdapterReturnType<ADTInstanceConnectionData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

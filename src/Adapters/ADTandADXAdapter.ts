@@ -3,9 +3,11 @@ import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 import TsqExpression from 'tsiclient/TsqExpression';
 import {
     AdapterMethodSandbox,
+    AdapterResult,
     SearchSpan,
     TsiClientAdapterData
 } from '../Models/Classes';
+import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import { CardErrorType } from '../Models/Constants';
 import {
@@ -17,7 +19,6 @@ import ADTAdapter from './ADTAdapter';
 export default class ADTandADXAdapter
     extends ADTAdapter
     implements ITsiClientChartDataAdapter {
-    private authServiceAzureManagement: IAuthService;
     private authServiceADX: IAuthService;
     private ADXClusterUrl: string;
     private ADXDatabaseName: string;
@@ -26,12 +27,10 @@ export default class ADTandADXAdapter
     constructor(
         adtHostUrl: string,
         authServiceADT: IAuthService,
-        authServiceAzureManagement: IAuthService,
-        authServiceADX: IAuthService,
+        authServiceADX?: IAuthService,
         adtProxyServerPath = '/api/proxy'
     ) {
         super(adtHostUrl, authServiceADT, adtProxyServerPath);
-        this.authServiceAzureManagement = authServiceAzureManagement;
         this.authServiceADX = authServiceADX;
     }
     async getTsiclientChartDataShape(
@@ -39,13 +38,9 @@ export default class ADTandADXAdapter
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        this.authServiceADX.login();
-        const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.authServiceADX
-        );
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            debugger;
             const tsqExpressions = [];
             properties.forEach((prop) => {
                 const variableObject = {
@@ -140,88 +135,15 @@ export default class ADTandADXAdapter
             ) as any;
 
             return new TsiClientAdapterData(transformedResults);
-        });
+        }, 'adx');
     }
 
-    getADTInstances = async () => {
-        this.authServiceAzureManagement.login();
-        const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.authServiceAzureManagement
-        );
-
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const getTenants = await axios({
-                method: 'get',
-                url: `https://management.azure.com/tenants`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: {
-                    'api-version': '2020-01-01'
-                }
-            });
-
-            const msTenantId = getTenants.data.value.filter(
-                (t) => t.defaultDomain === 'microsoft.onmicrosoft.com'
-            )[0].tenantId;
-
-            const subscriptions = await axios({
-                method: 'get',
-                url: `https://management.azure.com/subscriptions`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: {
-                    'api-version': '2020-01-01'
-                }
-            });
-
-            const subscriptionsByTenantId = subscriptions.data.value
-                .filter((s) => s.tenantId === msTenantId)
-                .map((s) => s.subscriptionId);
-
-            const digitalTwinInstances = await Promise.all(
-                subscriptionsByTenantId.map((subscriptionId) => {
-                    return axios({
-                        method: 'get',
-                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances`,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token
-                        },
-                        params: {
-                            'api-version': '2020-12-01'
-                        }
-                    });
-                })
-            );
-
-            const digitalTwinsInstanceDictionary = [];
-            digitalTwinInstances.forEach((i: any) => {
-                if (i.data.value.length) {
-                    i.data.value.map((instance) =>
-                        digitalTwinsInstanceDictionary.push({
-                            hostName: instance.properties.hostName,
-                            resourceId: instance.id,
-                            location: instance.location
-                        })
-                    );
-                }
-            });
-            return new ADTInstancesData(digitalTwinsInstanceDictionary);
-        });
-    };
-
     getConnectionInformation = async () => {
-        const dictionary: any = await this.getADTInstances();
-        const instance = dictionary.result.data.find(
+        const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances();
+        const instance = instanceDictionary.result.data.find(
             (d) => d.hostName === this.adtHostUrl
         );
-        const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.authServiceAzureManagement
-        );
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
@@ -245,7 +167,11 @@ export default class ADTandADXAdapter
                 instance.location
             }`;
 
-            return null;
-        });
+            return new ADTInstanceConnectionData({
+                kustoClusterUrl: this.ADXClusterUrl,
+                kustoDatabaseName: this.ADXDatabaseName,
+                kustoTableName: this.ADXTableName
+            });
+        }, 'azureManagement');
     };
 }

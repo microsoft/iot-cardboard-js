@@ -10,6 +10,7 @@ import {
     IResolvedRelationshipClickErrors
 } from '../../../../Models/Constants/Interfaces';
 import './ADTHierarchyWithBoard.scss';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
 
 const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     title,
@@ -30,6 +31,11 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     );
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
+
+    const connectionState = useAdapter({
+        adapterMethod: () => adapter.getConnectionInformation(),
+        refetchDependencies: [adapter]
+    });
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -92,39 +98,41 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         // resetting state with adapter change
         setSelectedTwin(null);
         setErrorMessage(null);
-        getConnectionInformation();
     }, [adapter]);
 
-    const getConnectionInformation = useCallback(async () => {
-        const instances = await adapter.getConnectionInformation();
-    }, []);
+    // useEffect(() => {
+    //     if (!connectionState.adapterResult.hasNoData()) {
+    //     }
+    // }, [connectionState.adapterResult.result]);
 
     return (
-        <div className="cb-hbcard-container">
-            <div className="cb-hbcard-hierarchy">
-                <ADTHierarchyCard
-                    adapter={adapter}
-                    title={title || t('hierarchy')}
-                    theme={theme}
-                    locale={locale}
-                    localeStrings={localeStrings}
-                    onChildNodeClick={handleChildNodeClick}
-                    lookupTwinId={reverseLookupTwinId}
-                />
-            </div>
-            <div className="cb-hbcard-board">
-                {selectedTwin && (
-                    <Board
+        !connectionState.isLoading && (
+            <div className="cb-hbcard-container">
+                <div className="cb-hbcard-hierarchy">
+                    <ADTHierarchyCard
+                        adapter={adapter}
+                        title={title || t('hierarchy')}
                         theme={theme}
                         locale={locale}
-                        adtTwin={selectedTwin}
-                        adapter={adapter}
-                        errorMessage={errorMessage}
-                        onEntitySelect={onEntitySelect}
+                        localeStrings={localeStrings}
+                        onChildNodeClick={handleChildNodeClick}
+                        lookupTwinId={reverseLookupTwinId}
                     />
-                )}
+                </div>
+                <div className="cb-hbcard-board">
+                    {selectedTwin && (
+                        <Board
+                            theme={theme}
+                            locale={locale}
+                            adtTwin={selectedTwin}
+                            adapter={adapter}
+                            errorMessage={errorMessage}
+                            onEntitySelect={onEntitySelect}
+                        />
+                    )}
+                </div>
             </div>
-        </div>
+        )
     );
 };
 
