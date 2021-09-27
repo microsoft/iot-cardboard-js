@@ -324,7 +324,7 @@ function getDefaultBoardInfo(
         key: `historized-data`,
         title: t('board.dataHistory'),
         type: CardTypes.LineChart,
-        size: { rows: 3 },
+        size: { rows: 3, columns: 3 },
         cardProperties: { pollingIntervalMillis: 5000 },
         entities: [
             { id: dtTwin.$dtId, properties: Object.keys(twinProperties) }
