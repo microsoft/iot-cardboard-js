@@ -71,9 +71,9 @@ export const ADXData = (
                 properties={twinProperties}
                 adapter={
                     new ADXAdapter(
-                        'https://matdardatahistory2.westus2.kusto.windows.net',
-                        'matdar-data-history',
-                        'adt_dh_matdar_data_history_westcentralus',
+                        authenticationParameters.adx.clusterUrl,
+                        authenticationParameters.adx.databaseName,
+                        authenticationParameters.adx.tableName,
                         new MsalAuthService(
                             authenticationParameters.adx.aadParameters
                         )

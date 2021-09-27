@@ -33,10 +33,11 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         undefined,
                         {
                             kustoClusterUrl:
-                                'https://matdardatahistory2.westus2.kusto.windows.net',
-                            kustoDatabaseName: 'matdar-data-history',
+                                authenticationParameters.adt.clusterUrl,
+                            kustoDatabaseName:
+                                authenticationParameters.adt.databaseName,
                             kustoTableName:
-                                'adt_dh_matdar_data_history_westcentralus'
+                                authenticationParameters.adt.tableName
                         }
                     )
                 }
