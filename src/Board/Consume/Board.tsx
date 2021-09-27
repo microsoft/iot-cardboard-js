@@ -81,10 +81,10 @@ const Board: React.FC<IBoardProps> = ({
             : {};
 
         cardComponents = boardInfo.cards.map((card: CardInfo, i: number) => {
-            // if searchSpan is not provided set it to last 7 days
+            // if searchSpan is not provided set it to last 60 days
             const defaultSearchSpanTo = new Date();
             const defaultSearchSpanFrom = new Date();
-            defaultSearchSpanFrom.setDate(defaultSearchSpanFrom.getDate() - 7);
+            defaultSearchSpanFrom.setDate(defaultSearchSpanFrom.getDate() - 60);
             searchSpan =
                 searchSpan ??
                 new SearchSpan(

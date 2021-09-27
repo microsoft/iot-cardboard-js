@@ -11,6 +11,7 @@ import {
 } from '../../../../Models/Constants/Interfaces';
 import './ADTHierarchyWithBoard.scss';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
+import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 
 const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     title,
@@ -100,14 +101,14 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         setErrorMessage(null);
     }, [adapter]);
 
-    // useEffect(() => {
-    //     if (!connectionState.adapterResult.hasNoData()) {
-    //     }
-    // }, [connectionState.adapterResult.result]);
-
     return (
-        !connectionState.isLoading && (
-            <div className="cb-hbcard-container">
+        <div className="cb-hbcard-container">
+            <BaseCompositeCard
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                isLoading={connectionState.isLoading}
+            >
                 <div className="cb-hbcard-hierarchy">
                     <ADTHierarchyCard
                         adapter={adapter}
@@ -131,8 +132,8 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                         />
                     )}
                 </div>
-            </div>
-        )
+            </BaseCompositeCard>
+        </div>
     );
 };
 

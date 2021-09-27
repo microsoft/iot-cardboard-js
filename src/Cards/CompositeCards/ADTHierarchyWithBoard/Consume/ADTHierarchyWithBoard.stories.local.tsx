@@ -30,9 +30,14 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
-                        new MsalAuthService(
-                            authenticationParameters.adx.aadParameters
-                        )
+                        undefined,
+                        {
+                            kustoClusterUrl:
+                                'https://matdardatahistory2.westus2.kusto.windows.net',
+                            kustoDatabaseName: 'matdar-data-history',
+                            kustoTableName:
+                                'adt_dh_matdar_data_history_westcentralus'
+                        }
                     )
                 }
             />

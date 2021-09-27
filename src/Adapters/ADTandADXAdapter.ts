@@ -9,7 +9,7 @@ import {
 } from '../Models/Classes';
 import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import { CardErrorType } from '../Models/Constants';
+import { CardErrorType, IADTInstanceConnection } from '../Models/Constants';
 import {
     IAuthService,
     ITsiClientChartDataAdapter
@@ -19,19 +19,30 @@ import ADTAdapter from './ADTAdapter';
 export default class ADTandADXAdapter
     extends ADTAdapter
     implements ITsiClientChartDataAdapter {
-    private authServiceADX: IAuthService;
-    private ADXClusterUrl: string;
-    private ADXDatabaseName: string;
-    private ADXTableName: string;
+    private ADXConnectionInformation: {
+        clusterUrl: string;
+        databaseName: string;
+        tableName: string;
+        ADTInstanceResourceId?: string;
+    };
 
     constructor(
         adtHostUrl: string,
         authServiceADT: IAuthService,
-        authServiceADX?: IAuthService,
-        adtProxyServerPath = '/api/proxy'
+        adtProxyServerPath = '/api/proxy',
+        adxInformation?: IADTInstanceConnection & {
+            ADTInstanceResourceId?: string;
+        }
     ) {
         super(adtHostUrl, authServiceADT, adtProxyServerPath);
-        this.authServiceADX = authServiceADX;
+        if (adxInformation) {
+            this.ADXConnectionInformation = {
+                clusterUrl: adxInformation.kustoClusterUrl,
+                databaseName: adxInformation.kustoDatabaseName,
+                tableName: adxInformation.kustoTableName,
+                ADTInstanceResourceId: adxInformation.ADTInstanceResourceId
+            };
+        }
     }
     async getTsiclientChartDataShape(
         id: string,
@@ -65,16 +76,16 @@ export default class ADTandADXAdapter
                 const axiosGets = properties.map(async (prop) => {
                     return await axios({
                         method: 'post',
-                        url: `${this.ADXClusterUrl}/v2/rest/query`,
+                        url: `${this.ADXConnectionInformation.clusterUrl}/v2/rest/query`,
                         headers: {
                             Authorization: 'Bearer ' + token,
                             Accept: 'application/json',
                             'Content-Type': 'application/json'
                         },
                         data: {
-                            db: this.ADXDatabaseName,
+                            db: this.ADXConnectionInformation.databaseName,
                             csl: `${
-                                this.ADXTableName
+                                this.ADXConnectionInformation.tableName
                             } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
                         }
                     });
@@ -139,6 +150,18 @@ export default class ADTandADXAdapter
     }
 
     getConnectionInformation = async () => {
+        if (this.ADXConnectionInformation) {
+            return new AdapterResult<ADTInstanceConnectionData>({
+                result: new ADTInstanceConnectionData({
+                    kustoClusterUrl: this.ADXConnectionInformation.clusterUrl,
+                    kustoDatabaseName: this.ADXConnectionInformation
+                        .databaseName,
+                    kustoTableName: this.ADXConnectionInformation.tableName
+                }),
+                errorInfo: null
+            });
+        }
+
         const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances();
         const instance = instanceDictionary.result.data.find(
             (d) => d.hostName === this.adtHostUrl
@@ -159,18 +182,19 @@ export default class ADTandADXAdapter
                     'api-version': '2021-06-30-preview'
                 }
             });
-            this.ADXClusterUrl =
+            this.ADXConnectionInformation.clusterUrl =
                 connectionsData.data.value[0].properties.adxEndpointUri;
-            this.ADXDatabaseName =
+            this.ADXConnectionInformation.databaseName =
                 connectionsData.data.value[0].properties.adxDatabaseName;
-            this.ADXTableName = `adt_dh_${this.adtHostUrl.split('.')[0]}_${
-                instance.location
-            }`;
+            this.ADXConnectionInformation.tableName = `adt_dh_${this.ADXConnectionInformation.databaseName.replaceAll(
+                '-',
+                '_'
+            )}_${instance.location}`;
 
             return new ADTInstanceConnectionData({
-                kustoClusterUrl: this.ADXClusterUrl,
-                kustoDatabaseName: this.ADXDatabaseName,
-                kustoTableName: this.ADXTableName
+                kustoClusterUrl: this.ADXConnectionInformation.clusterUrl,
+                kustoDatabaseName: this.ADXConnectionInformation.databaseName,
+                kustoTableName: this.ADXConnectionInformation.tableName
             });
         }, 'azureManagement');
     };
