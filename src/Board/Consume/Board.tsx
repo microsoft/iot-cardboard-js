@@ -191,7 +191,6 @@ function getCardElement(
                     adapterAdditionalParameters={{
                         chartDataOptions: entityInfo?.chartDataOptions
                     }}
-                    pollingIntervalMillis={pollingIntervalMillis}
                     chartDataOptions={entityInfo?.chartDataOptions}
                 />
             );
