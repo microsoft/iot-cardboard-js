@@ -2,7 +2,9 @@ import {
     DTwin,
     ADTPatch,
     IADTRelationship,
-    PropertyInspectorPatchMode
+    PropertyInspectorPatchMode,
+    Theme,
+    Locale
 } from '../..';
 import {
     DtdlInterface,
@@ -17,7 +19,11 @@ export interface OnCommitPatchParams {
 }
 
 export interface StandalonePropertyInspectorProps {
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
     inputData: TwinParams | RelationshipParams;
+    missingModelIds?: Array<string>;
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
     readonly?: boolean;
 }

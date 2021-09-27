@@ -4,11 +4,16 @@ import {
     ITheme,
     Theme as FluentTheme
 } from '@fluentui/react';
-import { fluentDarkThemePalette, fluentLightThemePalette } from './Palettes';
+import {
+    fluentDarkThemePalette,
+    fluentExplorerThemePalette,
+    fluentLightThemePalette
+} from './Palettes';
 import { Theme } from '../Models/Constants/Enums';
 import { getCustomComponentStyles } from './FluentComponentStyles';
 import {
     fluentDarkThemeSemanticColors,
+    fluentExplorerThemeSemanticColors,
     fluentLightThemeSemanticColors
 } from './SemanticColors';
 
@@ -18,6 +23,8 @@ export const getFluentTheme = (theme: Theme): ITheme => {
             return fluentDarkTheme;
         case Theme.Light:
             return fluentLightTheme;
+        case Theme.Explorer:
+            return fluentExplorerTheme;
         default:
             return fluentLightTheme;
     }
@@ -52,11 +59,22 @@ const fluentDarkThemeInfo: IPartialTheme = {
     semanticColors: fluentDarkThemeSemanticColors
 };
 
+const fluentExplorerThemeInfo: IPartialTheme = {
+    palette: fluentExplorerThemePalette,
+    semanticColors: fluentExplorerThemeSemanticColors
+};
+
 const fluentLightTheme = createThemeWithCustomStyles(
     fluentLightThemeInfo,
     Theme.Light
 );
+
 const fluentDarkTheme = createThemeWithCustomStyles(
     fluentDarkThemeInfo,
     Theme.Dark
+);
+
+const fluentExplorerTheme = createThemeWithCustomStyles(
+    fluentExplorerThemeInfo,
+    Theme.Explorer
 );

@@ -9,6 +9,12 @@
         "comment": "",
         "contents": [
             {
+                "@type": "Telemetry",
+                "name": "batteryTemp",
+                "displayName": "Battery temperature",
+                "schema": "double"
+            },
+            {
                 "@type": "Relationship",
                 "name": "chargedBy",
                 "minMultiplicity": 0,
@@ -16,8 +22,53 @@
                 "properties": [
                     {
                         "@type": "Property",
-                        "name": "lastChargedStation",
-                        "schema": "string",
+                        "name": "WheelInformation",
+                        "displayName": "Wheel information",
+                        "description": "Information about car tires",
+                        "schema": {
+                            "@type": "Object",
+                            "fields": [
+                                {
+                                    "name": "leftFrontPressure",
+                                    "displayName": "Left front pressure",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "rightFrontPressure",
+                                    "displayName": "Right front pressure",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "leftRearPressure",
+                                    "displayName": "Left rear pressure",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "rightRearPressure",
+                                    "displayName": "Right rear pressure",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "tireSpecification",
+                                    "displayName": "Tire specification",
+                                    "schema": {
+                                        "@type": "Object",
+                                        "fields": [
+                                            {
+                                                "name": "tireModel",
+                                                "displayName": "Tire model",
+                                                "schema": "string"
+                                            },
+                                            {
+                                                "name": "tireWidth",
+                                                "displayName": "Tire width",
+                                                "schema": "double"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
                         "writable": true
                     }
                 ]
@@ -212,18 +263,52 @@
             },
             {
                 "@type": "Property",
-                "name": "SystemModuleState",
-                "displayName": "System state",
+                "name": "chargeHistory",
+                "displayName": "Charge history",
                 "writable": true,
                 "schema": {
                     "@type": "Map",
                     "mapKey": {
-                        "name": "moduleName",
+                        "name": "ChargeStationName",
                         "schema": "string"
                     },
                     "mapValue": {
-                        "name": "moduleState",
-                        "schema": "string"
+                        "name": "ChargeInformation",
+                        "schema": {
+                            "@type": "Object",
+                            "fields": [
+                                {
+                                    "name": "city",
+                                    "displayName": "City",
+                                    "schema": "string"
+                                },
+                                {
+                                    "name": "cost",
+                                    "displayName": "Cost",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "amountCharged",
+                                    "displayName": "Amount charged",
+                                    "schema": "double"
+                                },
+                                {
+                                    "name": "chargeEvent",
+                                    "displayName": "Charge event",
+                                    "schema": {
+                                        "@type": "Map",
+                                        "mapKey": {
+                                            "name": "eventName",
+                                            "schema": "string"
+                                        },
+                                        "mapValue": {
+                                            "name": "eventData",
+                                            "schema": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     }
                 }
             }

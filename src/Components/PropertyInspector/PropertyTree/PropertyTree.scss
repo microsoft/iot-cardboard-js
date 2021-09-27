@@ -2,15 +2,14 @@
 
 .cb-property-tree-container {
     font-size: 14px;
-    height: 100%;
-    overflow: inherit;
-    width: 100%;
 
     .cb-property-tree-list-group {
         margin: 0;
         padding-left: 0;
         &.cb-is-child-tree {
-            padding-left: 20px;
+            border-left: 1px dashed var(--cb-color-card-border);
+            margin-left: 26px;
+            padding-left: 12px;
         }
     }
 
@@ -74,7 +73,45 @@
     .cb-property-tree-node-value {
         align-items: center;
         display: flex;
-        margin-right: 8px;
+        margin-right: 4px;
+        min-height: inherit;
+        position: relative;
+        user-select: text;
+
+        input,
+        textarea,
+        select {
+            background-color: var(--cb-color-bg-canvas);
+            border: 1px solid var(--cb-color-card-border);
+            border-radius: 4px;
+            color: var(--cb-color-text-primary);
+            overflow: auto;
+
+            &:focus {
+                border: 1px solid var(--cb-color-theme-primary);
+                outline: none;
+            }
+        }
+
+        input,
+        textarea {
+            padding: 2px 6px;
+        }
+
+        textarea {
+            max-width: 180px;
+            min-height: 17px;
+            min-width: 80px;
+            overflow: hidden;
+        }
+    }
+
+    .cb-property-tree-node-value-edited {
+        input,
+        textarea,
+        select {
+            background-color: var(--cb-color-natural-light);
+        }
     }
 
     .cb-property-tree-node-value-unset {
@@ -82,9 +119,15 @@
         display: flex;
         font-size: 0.7em;
         font-style: italic;
+        white-space: nowrap;
     }
+
+    .cb-property-tree-node-map-value-tool-icon,
+    .cb-property-tree-node-map-add-icon-container,
+    .cb-property-tree-node-datetime-picker-icon-container,
     .cb-property-tree-node-set-unset-icon {
         align-items: center;
+        border-radius: 4px;
         display: flex;
         height: 100%;
         justify-content: center;
@@ -94,6 +137,21 @@
             background-color: var(--cb-color-icon-hover-bg);
         }
     }
+
+    .cb-property-tree-node-map-value-tool-icon,
+    .cb-property-tree-node-map-add-icon-container,
+    .cb-property-tree-node-datetime-picker-icon-container {
+        margin-left: 4px;
+    }
+
+    .cb-property-tree-node-map-add-icon-container {
+        &.cb-add-map-disabled {
+            &:hover {
+                background-color: inherit;
+            }
+        }
+    }
+
     .cb-property-tree-node-unit {
         font-size: 10px;
         font-style: italic;
@@ -103,7 +161,19 @@
     .cb-property-tree-node-value-metadata {
         font-family: monospace;
     }
+    .cb-property-tree-node-value-metadata,
+    .cb-property-tree-node-value-readonly {
+        cursor: text;
+    }
     .cb-property-tree-node-boolean-value-label {
         margin-left: 4px;
+    }
+    .cb-property-tree-node-datetime-picker-input {
+        height: 21px;
+        overflow: hidden !important;
+        padding: 0 2px !important;
+    }
+    .cb-property-tree-node-name-text {
+        white-space: nowrap;
     }
 }
