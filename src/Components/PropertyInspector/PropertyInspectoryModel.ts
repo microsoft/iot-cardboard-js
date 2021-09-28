@@ -588,35 +588,47 @@ abstract class PropertyInspectorModel {
         // Parse extended models
         const extendedModelNodes: PropertyTreeNode[] = [];
 
-        let extendedModelIds = null;
+        const parseExtendedModels = (modelIds) => {
+            // Check if base model extends any models
+            let extendedModelIds = null;
 
-        if (Array.isArray(rootModel?.extends)) {
-            extendedModelIds = [...rootModel.extends];
-        } else if (typeof rootModel?.extends === 'string') {
-            extendedModelIds = [rootModel.extends];
-        }
-        if (extendedModelIds && expandedModels) {
-            extendedModelIds.forEach((extendedModelId) => {
-                const extendedModel = Object.assign(
-                    {},
-                    expandedModels.find(
-                        (model) => model['@id'] === extendedModelId
-                    )
-                );
+            if (Array.isArray(modelIds)) {
+                extendedModelIds = [...modelIds];
+            } else if (typeof modelIds === 'string') {
+                extendedModelIds = [modelIds];
+            }
 
-                if (extendedModel) {
-                    extendedModelNodes.push(
-                        ...PropertyInspectorModel.parseModelContentsIntoNodes({
-                            contents: extendedModel.contents,
-                            expandedModels,
-                            isInherited: true,
-                            path,
-                            twin
-                        })
+            if (extendedModelIds && expandedModels) {
+                extendedModelIds.forEach((extendedModelId) => {
+                    const extendedModel = Object.assign(
+                        {},
+                        expandedModels.find(
+                            (model) => model['@id'] === extendedModelId
+                        )
                     );
-                }
-            });
-        }
+
+                    if (extendedModel) {
+                        // recursively add deeply extended models
+                        parseExtendedModels(extendedModel?.extends);
+
+                        // parse model
+                        extendedModelNodes.push(
+                            ...PropertyInspectorModel.parseModelContentsIntoNodes(
+                                {
+                                    contents: extendedModel.contents,
+                                    expandedModels,
+                                    isInherited: true,
+                                    path,
+                                    twin
+                                }
+                            )
+                        );
+                    }
+                });
+            }
+        };
+
+        parseExtendedModels(rootModel?.extends);
 
         // Flatten all modelled property names into array, this is used to check for floating twin properties
         const flatten = (arr: PropertyTreeNode[]) => {
