@@ -344,6 +344,7 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
+        "propertyInspectorTitle": "Property inspector",
         "modelNotFound": "One or many models used by this {{piMode}} are missing. To edit unmodelled properties, please add the following missing models to this environment:",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",

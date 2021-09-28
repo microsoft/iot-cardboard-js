@@ -14,7 +14,8 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
     localeStrings,
     headers,
     tableRows,
-    editTwinId
+    editTwinId,
+    onPropertyInspectorActionClicked
 }) => {
     const { t } = useTranslation();
 
@@ -64,7 +65,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                         <div className="cb-property-inspector-button-container">
                             <DefaultButton
                                 text={t('editTwin')}
-                                onClick={() => null}
+                                onClick={onPropertyInspectorActionClicked}
                             />
                         </div>
                     )}

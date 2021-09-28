@@ -7,4 +7,5 @@ export interface InfoTableCardProps {
     headers: string[];
     tableRows: string[][];
     editTwinId?: string;
+    onPropertyInspectorActionClicked: () => any;
 }
