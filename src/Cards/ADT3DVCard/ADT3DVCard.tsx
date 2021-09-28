@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import {SceneView} from "../../Components/3DV/SceneView";
 import * as BABYLON from 'babylonjs';
 import { IADTAdapter } from "../../Models/Constants/Interfaces";
-import SceneViewLabel from '../../Models/Classes/SceneViewLabel';
-import { Parser } from "expr-eval";
+import { useAdapter } from '../../Models/Hooks';
 
 interface ADT3DVCardProps {
   adapter: IADTAdapter;
@@ -14,46 +13,21 @@ export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({ adapter, twinId }) => {
   const [modelUrl, setModelUrl] = useState('');
   const [labels, setLabels] = useState([]);
 
-  async function getMediaTwin() {
-    const twin = await adapter.getADTTwin(twinId);
+  const visualTwin = useAdapter({
+    adapterMethod: () => adapter.getVisualADTTwin(twinId),
+    refetchDependencies: [twinId],
+    isLongPolling: true,
+    pollingIntervalMillis: 10000
+  });
 
-    const src: string = twin?.result?.data?.MediaSrc;
-    if (src) {
-      setModelUrl(src);
-    }
-
-    const searchResults = await adapter.searchADTTwins({ searchTerm: 'visualstaterule' });      // TODO: Improve this query
-    const vsrs = searchResults?.result?.data?.value?.filter((v) => v.$metadata?.BadgeValueExpression !== undefined);
-    
-    if (vsrs) {
-      const labelsList: SceneViewLabel[] = [];
-      const sourceTwins = {};
-      for (const vsr of vsrs) {
-        for (const src in vsr.SourceTwins) {
-          const sourceTwin = await adapter.getADTTwin(vsr.SourceTwins[src]);
-          sourceTwins[src] = sourceTwin.result.data;
-        }
-      }
-
-      console.log(vsrs);
-      
-      for (const vsr of vsrs) {
-        const relationshipResult = await adapter.getRelationships(vsr.$dtId);
-        for (const data of relationshipResult.result.data) {
-          const relationship = await adapter.getADTRelationship(vsr.$dtId, data.relationshipId);
-          const label = new SceneViewLabel();
-          label.metric = vsr.BadgeTitle;
-          label.color = Parser.evaluate(vsr.BadgeColorExpression, sourceTwins) as any as string;
-          label.value = Parser.evaluate(vsr.BadgeValueExpression, sourceTwins);
-          label.meshId = relationship.result.data['MediaMemberProperties'].Position.id;
-          labelsList.push(label);
-        }
-      }
-      setLabels(labelsList);
+  function visualTwinLoaded() {
+    if (visualTwin.adapterResult.result?.data) {
+      setModelUrl(visualTwin.adapterResult.result.data.modelUrl)
+      setLabels(visualTwin.adapterResult.result.data.labels)
     }
   }
- 
-  useEffect(() => { getMediaTwin(); }, []);
+
+  useEffect(() => { visualTwinLoaded(); }, [visualTwin.adapterResult.result]);
 
   return (
     <div style={{ width: '800px', height: '800px', position: 'relative', fontFamily: 'sans-serif' }}>

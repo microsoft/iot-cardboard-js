@@ -48,6 +48,9 @@ import {
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
+import SceneViewLabel from '../Models/Classes/SceneViewLabel';
+import { Parser } from "expr-eval";
+import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -729,5 +732,41 @@ export default class ADTAdapter implements IADTAdapter {
                 throw new Error(axiosResponse.statusText);
             }
         });
+    }
+
+    async getVisualADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+
+            const visualADTTwin = await this.getADTTwin(twinId);
+            const visualStateRulesResults = await this.searchADTTwins({ searchTerm: 'visualstaterule' });      // TODO: Improve this query
+            const visualStateRules = visualStateRulesResults.result?.data?.value?.filter((v) => v.$metadata?.BadgeValueExpression !== undefined);
+            const sourceTwins = {};
+
+            for (const vsr of visualStateRules) {
+                for (const src in vsr.SourceTwins) {
+                    const sourceTwin = await this.getADTTwin(vsr.SourceTwins[src]);
+                    sourceTwins[src] = sourceTwin.result?.data;
+                }
+            }
+
+            const labelsList: SceneViewLabel[] = []
+
+            for (const vsr of visualStateRules) {
+                const relationships = await await this.getRelationships(vsr.$dtId);
+
+                for (const data of relationships.result?.data) {
+                    const relationship = await this.getADTRelationship(vsr.$dtId, data.relationshipId);
+                    const label = new SceneViewLabel();
+                    label.metric = vsr.BadgeTitle;
+                    label.color = Parser.evaluate(vsr.BadgeColorExpression, sourceTwins) as any as string;
+                    label.value = Parser.evaluate(vsr.BadgeValueExpression, sourceTwins);
+                    label.meshId = relationship.result?.data['MediaMemberProperties'].Position.id;
+                    labelsList.push(label);
+                }
+            }
+
+            return new ADTVisualTwinData(visualADTTwin.result?.data.MediaSrc, labelsList);
+        }); 
     }
 }

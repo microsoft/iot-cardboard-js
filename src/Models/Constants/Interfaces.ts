@@ -40,6 +40,7 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import SceneViewLabel from '../Classes/SceneViewLabel';
 import * as BABYLON from 'babylonjs';
+import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export interface IAction {
     type: string;
@@ -363,6 +364,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
+    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
