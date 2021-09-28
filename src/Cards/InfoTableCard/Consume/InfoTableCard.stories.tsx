@@ -19,3 +19,13 @@ export const Mock = (_args, { globals: { theme, locale } }) => (
         ]}
     />
 );
+
+export const MockTwinEdit = (_args, { globals: { theme, locale } }) => (
+    <InfoTableCard
+        theme={theme}
+        locale={locale}
+        headers={['Twin Name', 'Model ID']}
+        tableRows={[['LeoTheDog', 'dtmi:com:cocrowle:teslamodely;1']]}
+        editTwinId="LeoTheDog"
+    />
+);

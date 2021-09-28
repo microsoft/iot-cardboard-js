@@ -5,14 +5,19 @@ import i18n from '../../../i18n';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import './InfoTableCard.scss';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
+import { DefaultButton } from '@fluentui/react/lib/components/Button/DefaultButton/DefaultButton';
+import { useTranslation } from 'react-i18next';
 
 const InfoTableCard: React.FC<InfoTableCardProps> = ({
     theme,
     locale,
     localeStrings,
     headers,
-    tableRows
+    tableRows,
+    editTwinId
 }) => {
+    const { t } = useTranslation();
+
     return (
         <I18nProviderWrapper
             locale={locale}
@@ -21,34 +26,48 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
         >
             <ThemeProvider theme={theme}>
                 <div className="cb-infotable-card">
-                    <table>
-                        <thead>
-                            <tr>
-                                {headers.map((h, i) => (
-                                    <th
-                                        key={i}
-                                        className="cb-table-header cb-table-cell"
-                                    >
-                                        {h}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableRows.map((row, i) => (
-                                <tr key={i}>
-                                    {row.map((cell, j) => (
-                                        <td
-                                            key={`cell-${i}-${j}`}
-                                            className="cb-table-cell"
+                    <div
+                        className={`cb-infotable-table-container ${
+                            editTwinId && 'cb-info-table-container-constrained'
+                        }`}
+                    >
+                        <table>
+                            <thead>
+                                <tr>
+                                    {headers.map((h, i) => (
+                                        <th
+                                            key={i}
+                                            className="cb-table-header cb-table-cell"
                                         >
-                                            {cell}
-                                        </td>
+                                            {h}
+                                        </th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {tableRows.map((row, i) => (
+                                    <tr key={i}>
+                                        {row.map((cell, j) => (
+                                            <td
+                                                key={`cell-${i}-${j}`}
+                                                className="cb-table-cell"
+                                            >
+                                                {cell}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {editTwinId && (
+                        <div className="cb-property-inspector-button-container">
+                            <DefaultButton
+                                text={t('editTwin')}
+                                onClick={() => null}
+                            />
+                        </div>
+                    )}
                 </div>
             </ThemeProvider>
         </I18nProviderWrapper>

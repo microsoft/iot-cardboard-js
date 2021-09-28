@@ -6,4 +6,5 @@ export interface InfoTableCardProps {
     localeStrings?: Record<string, any>;
     headers: string[];
     tableRows: string[][];
+    editTwinId?: string;
 }
