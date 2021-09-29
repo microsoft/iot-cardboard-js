@@ -64,6 +64,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                     {editTwinId && (
                         <div className="cb-property-inspector-button-container">
                             <DefaultButton
+                                iconProps={{ iconName: 'Edit' }}
                                 text={t('editTwin')}
                                 onClick={onPropertyInspectorActionClicked}
                             />

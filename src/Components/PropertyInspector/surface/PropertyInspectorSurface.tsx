@@ -32,7 +32,7 @@ const PropertyInspectorSurface: React.FC<Props> = ({
             isLightDismiss
             onDismiss={onDismiss}
             closeButtonAriaLabel={t('close')}
-            headerText={t('propertyInspector.propertyInspectorTitle')}
+            headerText={twinId}
             type={PanelType.medium}
             className={'cb-property-inspector-panel-container'}
             styles={{
