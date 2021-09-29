@@ -11,19 +11,19 @@ import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
 export default class ADXAdapter implements ITsiClientChartDataAdapter {
     private authService: IAuthService;
-    private ADXClusterUrl: string;
-    private ADXDBName: string;
-    private ADXTableName: string;
+    private clusterUrl: string;
+    private databaseName: string;
+    private tableName: string;
 
     constructor(
-        ADXClusterUrl: string,
-        ADXDBName: string,
-        ADXTableName: string,
+        clusterUrl: string,
+        databaseName: string,
+        tableName: string,
         authService: IAuthService
     ) {
-        this.ADXClusterUrl = ADXClusterUrl;
-        this.ADXDBName = ADXDBName;
-        this.ADXTableName = ADXTableName;
+        this.clusterUrl = clusterUrl;
+        this.databaseName = databaseName;
+        this.tableName = tableName;
         this.authService = authService;
         this.authService.login();
     }
@@ -59,16 +59,16 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 const axiosGets = properties.map(async (prop) => {
                     return await axios({
                         method: 'post',
-                        url: `${this.ADXClusterUrl}/v2/rest/query`,
+                        url: `${this.clusterUrl}/v2/rest/query`,
                         headers: {
                             Authorization: 'Bearer ' + token,
                             Accept: 'application/json',
                             'Content-Type': 'application/json'
                         },
                         data: {
-                            db: this.ADXDBName,
+                            db: this.databaseName,
                             csl: `${
-                                this.ADXTableName
+                                this.tableName
                             } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
                         }
                     });
