@@ -390,7 +390,8 @@
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
             "dateTimePickerTitle": "Datetime picker",
-            "timePickerTitle": "Time picker"
+            "timePickerTitle": "Time picker",
+            "plainTextInput": "Plain text input"
         }
     }
 }
