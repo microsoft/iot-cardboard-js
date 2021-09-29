@@ -5,8 +5,8 @@ import i18n from '../../../i18n';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import './InfoTableCard.scss';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-import { DefaultButton } from '@fluentui/react/lib/components/Button/DefaultButton/DefaultButton';
 import { useTranslation } from 'react-i18next';
+import { ActionButton } from '@fluentui/react';
 
 const InfoTableCard: React.FC<InfoTableCardProps> = ({
     theme,
@@ -63,7 +63,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                     </div>
                     {editTwinId && (
                         <div className="cb-property-inspector-button-container">
-                            <DefaultButton
+                            <ActionButton
                                 iconProps={{ iconName: 'Edit' }}
                                 text={t('editTwin')}
                                 onClick={onPropertyInspectorActionClicked}
