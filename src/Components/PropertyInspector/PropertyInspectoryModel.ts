@@ -586,7 +586,7 @@ abstract class PropertyInspectorModel {
         let treeNodes: PropertyTreeNode[] = [];
 
         // Parse root model
-        let rootModelNodes = [];
+        let rootModelNodes: PropertyTreeNode[] = [];
         if (rootModel?.contents) {
             rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
                 {
@@ -664,7 +664,7 @@ abstract class PropertyInspectorModel {
         ]).map((node) => node.name);
 
         // Parse meta data nodes
-        const metaDataNodes = Object.keys(twin || {})
+        let metaDataNodes = Object.keys(twin || {})
             .filter(
                 (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
             )
@@ -681,11 +681,40 @@ abstract class PropertyInspectorModel {
                 );
             });
 
+        const idNode = metaDataNodes.find((n) => n.name === '$dtId');
+        metaDataNodes = metaDataNodes.filter((n) => n.name !== '$dtId');
+
+        const nodeAlphaSorter = (
+            nodeA: PropertyTreeNode,
+            nodeB: PropertyTreeNode
+        ) => {
+            const nodeAName = (
+                nodeA?.displayName ?? nodeA.name
+            ).toLocaleLowerCase();
+            const nodeBName = (
+                nodeB?.displayName ?? nodeB.name
+            ).toLocaleLowerCase();
+            if (nodeAName < nodeBName) {
+                return -1;
+            }
+            if (nodeAName > nodeBName) {
+                return 1;
+            }
+            return 0;
+        };
+
+        const setNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => n.isSet)
+            .sort(nodeAlphaSorter);
+        const unsetNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => !n.isSet)
+            .sort(nodeAlphaSorter);
+
         treeNodes = [
-            ...metaDataNodes,
-            ...[...rootModelNodes, ...extendedModelNodes].sort((a) =>
-                a.isSet ? -1 : 1
-            )
+            ...(idNode ? [idNode] : []),
+            ...setNodes,
+            ...unsetNodes,
+            ...metaDataNodes
         ];
         return treeNodes;
     };
