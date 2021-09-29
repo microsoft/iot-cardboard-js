@@ -353,7 +353,7 @@
         "component": "Component",
         "noTwinFound": "No Twin found",
         "noRelationshipFound": "No Relationship found",
-        "mapKeyPlaceholder": "Enter map key",
+        "mapKeyPlaceholder": "Enter new map key",
         "addMapIconTitle": "Add map value",
         "removeMapValueIconTitle": "Remove map value",
         "propertyTypes": {

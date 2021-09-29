@@ -30,10 +30,24 @@ abstract class PropertyInspectorModel {
         propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
-        return (
-            propertySourceObject?.[propertyName] ??
-            PropertyInspectorModel.getEmptyValueForNode(schema)
-        );
+        if (
+            [
+                dtdlPropertyTypesEnum.integer,
+                dtdlPropertyTypesEnum.float,
+                dtdlPropertyTypesEnum.double,
+                dtdlPropertyTypesEnum.long,
+                dtdlPropertyTypesEnum
+            ].includes(schema)
+        ) {
+            return propertySourceObject?.[propertyName]
+                ? String(propertySourceObject[propertyName])
+                : PropertyInspectorModel.getEmptyValueForNode(schema);
+        } else {
+            return (
+                propertySourceObject?.[propertyName] ??
+                PropertyInspectorModel.getEmptyValueForNode(schema)
+            );
+        }
     };
 
     /** Returns default value that matches input schema

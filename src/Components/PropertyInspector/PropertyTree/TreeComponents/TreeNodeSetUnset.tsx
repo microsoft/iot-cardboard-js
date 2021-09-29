@@ -7,6 +7,7 @@ import '../PropertyTree.scss';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { dtdlPropertyTypesEnum } from '../../../..';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -18,14 +19,14 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
         }
     });
 
-    if (node.isRemovable && DTDLType.Property) {
+    if (node.isRemovable && node.type === DTDLType.Property) {
         if (node.isSet === false) {
             return (
                 <div className="cb-property-tree-node-value-unset">
                     ({t('propertyInspector.notSet')})
                 </div>
             );
-        } else {
+        } else if (node.schema !== dtdlPropertyTypesEnum.Enum) {
             return (
                 !readonly && (
                     <div

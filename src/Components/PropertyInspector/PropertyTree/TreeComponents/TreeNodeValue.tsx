@@ -316,7 +316,7 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     return (
         <div className={`cb-property-tree-node-value`}>
             <input
-                style={{ width: 92 }}
+                style={{ width: 120 }}
                 value={newMapKey}
                 onChange={(e) => handleChangeMapKey(e)}
                 placeholder={t('propertyInspector.mapKeyPlaceholder')}
