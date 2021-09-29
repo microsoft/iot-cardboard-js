@@ -243,8 +243,9 @@ export interface IADTRelationship {
     $etag: string;
     $relationshipId: string;
     $relationshipName: string;
-    $sourceId: string;
-    $targetId: string;
+    $relationshipLink?: string;
+    $sourceId?: string;
+    $targetId?: string;
     targetModel?: string;
     [property: string]: any;
 }
@@ -364,6 +365,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
+    getIncomingRelationships(twinId: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
 }
 
