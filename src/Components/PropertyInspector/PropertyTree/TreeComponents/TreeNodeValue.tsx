@@ -208,7 +208,11 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                             style={{
                                 width: 72,
                                 height: 17,
-                                padding: '1px 2px'
+                                padding: '1px 4px',
+                                ...((node.value as string).length > 0 && {
+                                    minWidth: 120,
+                                    minHeight: 24
+                                })
                             }}
                             onChange={(e) =>
                                 onNodeValueChange(node, e.target.value)

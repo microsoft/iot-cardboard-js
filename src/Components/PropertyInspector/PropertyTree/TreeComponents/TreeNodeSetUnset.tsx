@@ -7,7 +7,6 @@ import '../PropertyTree.scss';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { dtdlPropertyTypesEnum } from '../../../..';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -26,7 +25,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
                     ({t('propertyInspector.notSet')})
                 </div>
             );
-        } else if (node.schema !== dtdlPropertyTypesEnum.Enum) {
+        } else {
             return (
                 !readonly && (
                     <div

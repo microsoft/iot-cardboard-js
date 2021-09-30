@@ -16,7 +16,7 @@
     .cb-property-tree-list-item {
         cursor: default;
         list-style: none;
-        margin: 4px 0;
+        margin: 6px 0;
         width: fit-content;
     }
 
@@ -27,8 +27,11 @@
     }
 
     .cb-property-tree-node-name {
+        align-items: center;
+        align-self: flex-start;
         display: inline-flex;
         margin-right: 8px;
+        min-height: inherit;
         position: relative;
     }
 
