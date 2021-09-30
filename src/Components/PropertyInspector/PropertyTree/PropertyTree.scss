@@ -187,3 +187,9 @@
         white-space: nowrap;
     }
 }
+
+[cardboard-data-theme='explorer'] {
+    ::-webkit-calendar-picker-indicator {
+        filter: invert(0.75);
+    }
+}
