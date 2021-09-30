@@ -35,8 +35,7 @@ abstract class PropertyInspectorModel {
                 dtdlPropertyTypesEnum.integer,
                 dtdlPropertyTypesEnum.float,
                 dtdlPropertyTypesEnum.double,
-                dtdlPropertyTypesEnum.long,
-                dtdlPropertyTypesEnum
+                dtdlPropertyTypesEnum.long
             ].includes(schema)
         ) {
             return propertySourceObject?.[propertyName]

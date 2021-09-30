@@ -144,7 +144,19 @@ describe('Parsing twin into property tree', () => {
             propertyInspectorTwinNodes,
             `/${targetNodeName}`
         );
-        const valueOnTwin = testTwin[targetNodeName];
+        let valueOnTwin = testTwin[targetNodeName];
+
+        // numeric types stored internally as strings (convert)
+        if (
+            [
+                dtdlPropertyTypesEnum.integer,
+                dtdlPropertyTypesEnum.float,
+                dtdlPropertyTypesEnum.double,
+                dtdlPropertyTypesEnum.long
+            ].includes(targetPiNode.schema)
+        ) {
+            valueOnTwin = String(valueOnTwin);
+        }
         expect(targetPiNode.value).toEqual(valueOnTwin);
 
         return {
@@ -229,7 +241,7 @@ describe('Parsing twin into property tree', () => {
             '/testComponentObjectModel/testObject/testObject_DoubleChild'
         );
 
-        expect(objectOnTwin.testObject_DoubleChild).toEqual(
+        expect(String(objectOnTwin.testObject_DoubleChild)).toEqual(
             testObject_DoubleChildNode.value
         );
 
@@ -274,7 +286,7 @@ describe('Parsing twin into property tree', () => {
             (child) => child.name === 'testDouble'
         );
         expect(testDouble.value).toEqual(
-            testTwin.testComponentMapModel.testMap.testValue.testDouble
+            String(testTwin.testComponentMapModel.testMap.testValue.testDouble)
         );
     });
 });
