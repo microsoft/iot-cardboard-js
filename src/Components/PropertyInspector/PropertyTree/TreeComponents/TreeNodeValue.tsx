@@ -14,9 +14,12 @@ import { DateTimeValue } from './TreeNodeDateTimeValue';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueChange, onNodeValueUnset, readonly } = useContext(
-        PropertyTreeContext
-    );
+    const {
+        onNodeValueChange,
+        onNodeValueUnset,
+        readonly,
+        isTreeEdited
+    } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
     const nodeValueClassname = `cb-property-tree-node-value ${
@@ -180,9 +183,17 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             if (node.readonly || readonly) {
                 return (
                     <div
-                        className={`${readOnlyValueClassname} ${
+                        className={`${readOnlyValueClassname}${
                             node.isMetadata
-                                ? 'cb-property-tree-node-value-metadata'
+                                ? ' cb-property-tree-node-value-metadata'
+                                : ''
+                        }${
+                            node.isFloating
+                                ? ' cb-property-tree-node-value-floating'
+                                : ''
+                        }${
+                            isTreeEdited
+                                ? ' cb-property-tree-node-floating-strikethrough'
                                 : ''
                         }`}
                     >
@@ -197,7 +208,11 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                             style={{
                                 width: 72,
                                 height: 17,
-                                padding: '1px 2px'
+                                padding: '1px 4px',
+                                ...((node.value as string).length > 0 && {
+                                    minWidth: 120,
+                                    minHeight: 24
+                                })
                             }}
                             onChange={(e) =>
                                 onNodeValueChange(node, e.target.value)
@@ -316,7 +331,7 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     return (
         <div className={`cb-property-tree-node-value`}>
             <input
-                style={{ width: 92 }}
+                style={{ width: 120 }}
                 value={newMapKey}
                 onChange={(e) => handleChangeMapKey(e)}
                 placeholder={t('propertyInspector.mapKeyPlaceholder')}

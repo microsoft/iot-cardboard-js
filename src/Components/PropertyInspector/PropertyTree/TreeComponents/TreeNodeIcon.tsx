@@ -9,7 +9,7 @@ import { NodeProps } from '../PropertyTree.types';
 
 const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
+    let iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
             color: props.theme.palette.themePrimary
         }
@@ -21,7 +21,15 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     // No icon for metadata nodes
     if (node.isMetadata) return null;
 
-    if (node.type === DTDLType.Component) {
+    if (node.isFloating) {
+        iconName = 'Warning';
+        iconTitle = t('propertyInspector.unmodelledProperty');
+        iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
+            root: {
+                color: props.theme.palette.orange
+            }
+        });
+    } else if (node.type === DTDLType.Component) {
         iconName = 'OEM';
         iconTitle = t('propertyInspector.component');
     } else if (node.type === DTDLType.Property) {
@@ -83,6 +91,8 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.array');
                 break;
         }
+    } else {
+        return null;
     }
     return (
         <div className="cb-property-tree-node-icon">

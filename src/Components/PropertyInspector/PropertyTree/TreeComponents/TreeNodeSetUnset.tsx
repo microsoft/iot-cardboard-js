@@ -18,7 +18,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
         }
     });
 
-    if (node.isRemovable && DTDLType.Property) {
+    if (node.isRemovable && node.type === DTDLType.Property) {
         if (node.isSet === false) {
             return (
                 <div className="cb-property-tree-node-value-unset">

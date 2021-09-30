@@ -23,6 +23,7 @@ export interface PropertyTreeNode {
     unit?: string;
     edited?: boolean;
     isMetadata?: boolean;
+    isFloating?: boolean;
     mapDefinition?: DtdlProperty;
 }
 
@@ -36,6 +37,7 @@ type EnumPropertyData = {
 
 export interface PropertyTreeProps {
     data: Array<PropertyTreeNode>;
+    isTreeEdited: boolean;
     onParentClick: (parent: PropertyTreeNode) => any;
     onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
     onNodeValueUnset: (node: PropertyTreeNode) => any;

@@ -343,7 +343,9 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
-        "modelNotFound": "One or many models used by this {{piMode}} are missing. To edit unmodelled properties, please add the following missing models to this environment:",
+        "modelNotFound": "One or many models used by this {{piMode}} are missing. Please add the following missing models to this environment:",
+        "unmodelledPropertyWarning": "Properties missing a model, indicated by a warning icon, will be removed on the next update event. To keep these properties, add their model to the environment prior to updating this {{piMode}}.",
+        "unmodelledProperty": "No model found for this property",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",
@@ -353,7 +355,7 @@
         "component": "Component",
         "noTwinFound": "No Twin found",
         "noRelationshipFound": "No Relationship found",
-        "mapKeyPlaceholder": "Enter map key",
+        "mapKeyPlaceholder": "Enter new map key",
         "addMapIconTitle": "Add map value",
         "removeMapValueIconTitle": "Remove map value",
         "propertyTypes": {
@@ -390,7 +392,8 @@
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
             "dateTimePickerTitle": "Datetime picker",
-            "timePickerTitle": "Time picker"
+            "timePickerTitle": "Time picker",
+            "plainTextInput": "Plain text input"
         }
     }
 }

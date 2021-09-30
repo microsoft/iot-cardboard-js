@@ -16,7 +16,7 @@
     .cb-property-tree-list-item {
         cursor: default;
         list-style: none;
-        margin: 4px 0;
+        margin: 6px 0;
         width: fit-content;
     }
 
@@ -27,8 +27,11 @@
     }
 
     .cb-property-tree-node-name {
+        align-items: center;
+        align-self: flex-start;
         display: inline-flex;
         margin-right: 8px;
+        min-height: inherit;
         position: relative;
     }
 
@@ -99,7 +102,7 @@
         }
 
         textarea {
-            max-width: 180px;
+            max-width: 600px;
             min-height: 17px;
             min-width: 80px;
             overflow: hidden;
@@ -165,6 +168,13 @@
     .cb-property-tree-node-value-readonly {
         cursor: text;
     }
+    .cb-property-tree-node-name-floating,
+    .cb-property-tree-node-value-floating {
+        color: var(--cb-color-inactive);
+        &.cb-property-tree-node-floating-strikethrough {
+            text-decoration: line-through;
+        }
+    }
     .cb-property-tree-node-boolean-value-label {
         margin-left: 4px;
     }
@@ -175,5 +185,11 @@
     }
     .cb-property-tree-node-name-text {
         white-space: nowrap;
+    }
+}
+
+[cardboard-data-theme='explorer'] {
+    ::-webkit-calendar-picker-indicator {
+        filter: invert(0.75);
     }
 }
