@@ -165,6 +165,13 @@
     .cb-property-tree-node-value-readonly {
         cursor: text;
     }
+    .cb-property-tree-node-name-floating,
+    .cb-property-tree-node-value-floating {
+        color: var(--cb-color-inactive);
+        &.cb-property-tree-node-floating-strikethrough {
+            text-decoration: line-through;
+        }
+    }
     .cb-property-tree-node-boolean-value-label {
         margin-left: 4px;
     }

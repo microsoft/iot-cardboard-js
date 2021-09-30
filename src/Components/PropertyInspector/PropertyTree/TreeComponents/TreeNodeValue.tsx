@@ -14,9 +14,12 @@ import { DateTimeValue } from './TreeNodeDateTimeValue';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueChange, onNodeValueUnset, readonly } = useContext(
-        PropertyTreeContext
-    );
+    const {
+        onNodeValueChange,
+        onNodeValueUnset,
+        readonly,
+        isTreeEdited
+    } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
     const nodeValueClassname = `cb-property-tree-node-value ${
@@ -180,9 +183,17 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             if (node.readonly || readonly) {
                 return (
                     <div
-                        className={`${readOnlyValueClassname} ${
+                        className={`${readOnlyValueClassname}${
                             node.isMetadata
-                                ? 'cb-property-tree-node-value-metadata'
+                                ? ' cb-property-tree-node-value-metadata'
+                                : ''
+                        }${
+                            node.isFloating
+                                ? ' cb-property-tree-node-value-floating'
+                                : ''
+                        }${
+                            isTreeEdited
+                                ? ' cb-property-tree-node-floating-strikethrough'
                                 : ''
                         }`}
                     >

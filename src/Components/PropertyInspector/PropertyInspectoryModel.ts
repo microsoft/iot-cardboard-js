@@ -340,22 +340,8 @@ abstract class PropertyInspectorModel {
             );
         }
 
-        // Flatten all modelled property names into array, this is used to check for floating twin properties
-        const flatten = (arr: PropertyTreeNode[]) => {
-            return arr.reduce(
-                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
-                    return flat.concat(
-                        Array.isArray(toFlatten.children)
-                            ? [toFlatten, ...flatten(toFlatten.children)]
-                            : toFlatten
-                    );
-                },
-                []
-            );
-        };
-
-        const modelledPropertyNames = flatten([...modelledProperties]).map(
-            (node) => node.name
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            modelledProperties
         );
 
         const metaDataNodes = [];
@@ -546,7 +532,8 @@ abstract class PropertyInspectorModel {
                 isMapChild: false,
                 isInherited,
                 isRemovable: false,
-                isMetadata: true
+                isMetadata: !isFloating,
+                isFloating
             };
         } else {
             return {
@@ -563,7 +550,8 @@ abstract class PropertyInspectorModel {
                 isMapChild: false,
                 isInherited,
                 isRemovable: false,
-                isMetadata: true
+                isMetadata: !isFloating,
+                isFloating
             };
         }
     };
@@ -644,24 +632,9 @@ abstract class PropertyInspectorModel {
 
         parseExtendedModels(rootModel?.extends);
 
-        // Flatten all modelled property names into array, this is used to check for floating twin properties
-        const flatten = (arr: PropertyTreeNode[]) => {
-            return arr.reduce(
-                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
-                    return flat.concat(
-                        Array.isArray(toFlatten.children)
-                            ? [toFlatten, ...flatten(toFlatten.children)]
-                            : toFlatten
-                    );
-                },
-                []
-            );
-        };
-
-        const modelledPropertyNames = flatten([
-            ...rootModelNodes,
-            ...extendedModelNodes
-        ]).map((node) => node.name);
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            [...rootModelNodes, ...extendedModelNodes]
+        );
 
         // Parse meta data nodes
         let metaDataNodes = Object.keys(twin || {})
@@ -811,6 +784,43 @@ abstract class PropertyInspectorModel {
         });
 
         return newDelta;
+    };
+
+    static getModelledPropertyNames = (tree: PropertyTreeNode[]) => {
+        // Flatten all modelled property names into array, this is used to check for floating twin properties
+        const flatten = (arr: PropertyTreeNode[]) => {
+            return arr.reduce(
+                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
+                    return flat.concat(
+                        Array.isArray(toFlatten.children)
+                            ? [toFlatten, ...flatten(toFlatten.children)]
+                            : toFlatten
+                    );
+                },
+                []
+            );
+        };
+
+        return flatten(tree).map((node) => node.name);
+    };
+
+    static getAreUnmodelledPropertiesPresent = (tree: PropertyTreeNode[]) => {
+        let areUnmodelledPropertiesPresent = false;
+
+        const searchForFloatingProperty = (tree: PropertyTreeNode[]) => {
+            for (const node of tree) {
+                if (node.isFloating) {
+                    areUnmodelledPropertiesPresent = true;
+                    return;
+                }
+                if (node.children) {
+                    searchForFloatingProperty(node.children);
+                }
+            }
+        };
+
+        searchForFloatingProperty(tree);
+        return areUnmodelledPropertiesPresent;
     };
 
     /** Generates JSON patch using delta between original json and updated property tree */

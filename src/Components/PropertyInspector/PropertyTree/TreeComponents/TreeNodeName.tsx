@@ -7,7 +7,7 @@ import '../PropertyTree.scss';
 import TreeNodeInfo from './TreeNodeInfo';
 
 const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
-    const { onParentClick } = useContext(PropertyTreeContext);
+    const { onParentClick, isTreeEdited } = useContext(PropertyTreeContext);
 
     const Chevron = ({ collapsed }) => (
         <Icon
@@ -41,6 +41,14 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                             node.edited
                                 ? ' cb-property-tree-node-name-edited'
                                 : ''
+                        }${
+                            node.isFloating
+                                ? ' cb-property-tree-node-name-floating'
+                                : ''
+                        }${
+                            isTreeEdited
+                                ? ' cb-property-tree-node-floating-strikethrough'
+                                : ''
                         }`}
                     >
                         {node.displayName ?? node.name}:
@@ -60,6 +68,14 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                             : ''
                     } ${
                         node.edited ? ' cb-property-tree-node-name-edited' : ''
+                    }${
+                        node.isFloating
+                            ? ' cb-property-tree-node-name-floating'
+                            : ''
+                    }${
+                        isTreeEdited
+                            ? ' cb-property-tree-node-floating-strikethrough'
+                            : ''
                     }`}
                 >
                     {node.displayName ?? node.name}:
