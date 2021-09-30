@@ -3,13 +3,16 @@ import {SceneView} from "../../Components/3DV/SceneView";
 import * as BABYLON from 'babylonjs';
 import { IADTAdapter } from "../../Models/Constants/Interfaces";
 import { useAdapter } from '../../Models/Hooks';
+import BaseCard from "../Base/Consume/BaseCard";
+import './ADT3DVCard.scss';
 
 interface ADT3DVCardProps {
   adapter: IADTAdapter;
   twinId: string;
+  title?: string
 }
 
-export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({ adapter, twinId }) => {
+export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({ adapter, twinId, title }) => {
   const [modelUrl, setModelUrl] = useState('');
   const [labels, setLabels] = useState([]);
 
@@ -30,8 +33,16 @@ export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({ adapter, twinId }) => {
   useEffect(() => { visualTwinLoaded(); }, [visualTwin.adapterResult.result]);
 
   return (
-    <div style={{ width: '800px', height: '800px', position: 'relative', fontFamily: 'sans-serif' }}>
-      <SceneView modelUrl={modelUrl} labels={labels} cameraRadius={800} cameraCenter={new BABYLON.Vector3(0, 100, 0)} />
-    </div>
+    <BaseCard
+      isLoading={
+        visualTwin.isLoading && visualTwin.adapterResult.hasNoData()
+      }
+      adapterResult={visualTwin.adapterResult}
+      title={title}
+    >
+      <div className='adt-3dv-wrapper'>
+        <SceneView modelUrl={modelUrl} labels={labels} cameraRadius={800} cameraCenter={new BABYLON.Vector3(0, 100, 0)} />
+      </div>
+    </BaseCard>
   )
 }

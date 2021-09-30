@@ -13,8 +13,9 @@ export const Truck = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div>
-            <ADT3DVCard                 
+        <div style={{width: '600px', height: '400px'}}>
+            <ADT3DVCard  
+                title='3D Viewer'               
                 adapter={
                     new ADTAdapter(
                     authenticationParameters.adt.hostUrl,

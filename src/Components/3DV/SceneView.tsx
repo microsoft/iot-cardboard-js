@@ -45,7 +45,7 @@ export const SceneView: React.FC<SceneViewProps> = ({ modelUrl, cameraRadius, ca
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const engine = new BABYLON.Engine(canvas, true);
     const tempScene = new BABYLON.Scene(engine);
-    tempScene.clearColor = new BABYLON.Color4(9 / 255, 8 / 255, 35 / 255);
+    tempScene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
     const camera = new BABYLON.ArcRotateCamera('camera', 3.2, Math.PI / 2.5, cameraRadius, center, tempScene, true);
     camera.attachControl(canvas, false);
@@ -110,8 +110,8 @@ export const SceneView: React.FC<SceneViewProps> = ({ modelUrl, cameraRadius, ca
 
   return (
     <div className='sceneview-container'>
-      <canvas id='canvas' touch-action='none' />
-      {isLoading && <ProgressIndicator className='sceneview-progressbar' styles={{ itemDescription: { color: 'white', fontSize: 26, marginTop: 10 } }}
+      <canvas id='canvas' touch-action='none' className='sceneview-canvas' />
+      {(isLoading && modelUrl) && <ProgressIndicator className='sceneview-progressbar' styles={{ itemDescription: { color: 'white', fontSize: 26, marginTop: 10 } }}
         description={`Loading (${Math.floor(loadProgress * 100)}%)...`} percentComplete={loadProgress} barHeight={10} />}
       {isLoading === undefined && <div className='sceneview-errormessage' style={{}}>Error loading model</div>}
     </div>

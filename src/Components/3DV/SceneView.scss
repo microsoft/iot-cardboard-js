@@ -18,3 +18,8 @@
     font-size: '24px';
     margin-left: '-100px';
 }
+
+.sceneview-canvas {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
