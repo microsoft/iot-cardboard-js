@@ -343,7 +343,7 @@ abstract class PropertyInspectorModel {
             modelledProperties
         );
 
-        const metaDataNodes = [];
+        let metaDataNodes: PropertyTreeNode[] = [];
 
         // Push readonly properties to tree
         Object.keys(relationship || {}).forEach((key) => {
@@ -361,9 +361,23 @@ abstract class PropertyInspectorModel {
             }
         });
 
+        const setNodes = modelledProperties
+            .filter((n) => n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        const unsetNodes = modelledProperties
+            .filter((n) => !n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
+
         return [
             ...metaDataNodes,
-            ...modelledProperties.sort((a) => (a.isSet ? -1 : 1))
+            ...unmodelledNodes,
+            ...setNodes,
+            ...unsetNodes
         ];
     };
 
@@ -656,39 +670,45 @@ abstract class PropertyInspectorModel {
         const idNode = metaDataNodes.find((n) => n.name === '$dtId');
         metaDataNodes = metaDataNodes.filter((n) => n.name !== '$dtId');
 
-        const nodeAlphaSorter = (
-            nodeA: PropertyTreeNode,
-            nodeB: PropertyTreeNode
-        ) => {
-            const nodeAName = (
-                nodeA?.displayName ?? nodeA.name
-            ).toLocaleLowerCase();
-            const nodeBName = (
-                nodeB?.displayName ?? nodeB.name
-            ).toLocaleLowerCase();
-            if (nodeAName < nodeBName) {
-                return -1;
-            }
-            if (nodeAName > nodeBName) {
-                return 1;
-            }
-            return 0;
-        };
-
         const setNodes = [...rootModelNodes, ...extendedModelNodes]
             .filter((n) => n.isSet)
-            .sort(nodeAlphaSorter);
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
         const unsetNodes = [...rootModelNodes, ...extendedModelNodes]
             .filter((n) => !n.isSet)
-            .sort(nodeAlphaSorter);
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
 
         treeNodes = [
             ...(idNode ? [idNode] : []),
+            ...unmodelledNodes,
             ...setNodes,
             ...unsetNodes,
             ...metaDataNodes
         ];
         return treeNodes;
+    };
+
+    static nodeAlphaSorter = (
+        nodeA: PropertyTreeNode,
+        nodeB: PropertyTreeNode
+    ) => {
+        const nodeAName = (
+            nodeA?.displayName ?? nodeA.name
+        ).toLocaleLowerCase();
+        const nodeBName = (
+            nodeB?.displayName ?? nodeB.name
+        ).toLocaleLowerCase();
+        if (nodeAName < nodeBName) {
+            return -1;
+        }
+        if (nodeAName > nodeBName) {
+            return 1;
+        }
+        return 0;
     };
 
     /** Recursively searches all nodes in the property tree to find a target node */
