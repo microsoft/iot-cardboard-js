@@ -16,13 +16,14 @@ export class HierarchyNode implements IHierarchyNode {
 
     public static createNodesFromADTModels = (
         models: Array<IADTModel>,
-        nodeType: HierarchyNodeType = HierarchyNodeType.Parent
+        nodeType: HierarchyNodeType = HierarchyNodeType.Parent,
+        newlyAddedModelIds?: Array<string>
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
             ? models
                   .sort((a, b) =>
-                      a.displayName?.en?.localeCompare(
-                          b.displayName.en,
+                      (a.displayName?.en || a.id).localeCompare(
+                          b.displayName?.en || b.id,
                           undefined,
                           {
                               numeric: true,
@@ -39,7 +40,8 @@ export class HierarchyNode implements IHierarchyNode {
                           ...(nodeType === HierarchyNodeType.Parent && {
                               children: {},
                               isCollapsed: true
-                          })
+                          }),
+                          isNewlyAdded: newlyAddedModelIds?.includes(c.id)
                       } as IHierarchyNode;
                       return p;
                   }, {})

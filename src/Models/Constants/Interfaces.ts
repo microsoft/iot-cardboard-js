@@ -24,7 +24,8 @@ import {
     Locale,
     Theme,
     HierarchyNodeType,
-    modelActionType
+    modelActionType,
+    FileUploadStatus
 } from './Enums';
 import {
     AdapterReturnType,
@@ -203,6 +204,7 @@ export interface IHierarchyNode {
     isCollapsed?: boolean;
     isSelected?: boolean;
     isLoading?: boolean;
+    isNewlyAdded?: boolean;
 }
 
 export interface IADTModel {
@@ -516,4 +518,17 @@ export interface IStepperWizardStep {
 export interface IStepperWizardProps {
     steps: Array<IStepperWizardStep>;
     currentStepIndex?: number;
+    isNavigationDisabled?: boolean;
+}
+
+export interface IJSONUploaderProps {
+    onFileListChanged?: (files: Array<File>) => void;
+    existingFiles?: Array<File>;
+}
+
+export interface IJSONUploaderFileItem {
+    name: string;
+    size: string;
+    content?: JSON | Error;
+    status: FileUploadStatus;
 }

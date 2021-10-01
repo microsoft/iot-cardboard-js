@@ -47,6 +47,7 @@ import {
     ADTModelsData,
     ADTTwinsData
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
+import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 import SceneViewLabel from '../Models/Classes/SceneViewLabel';
 import { Parser } from "expr-eval";
@@ -585,45 +586,69 @@ export default class ADTAdapter implements IADTAdapter {
             };
 
             const recursivelyAddToExpandedModels = async (modelId: string) => {
-                // Add root model
-                const rootModel = (await fetchFullModel(modelId)).data.model;
-                expandedModels.push(rootModel);
+                try {
+                    // Add root model
+                    const rootModel = (await fetchFullModel(modelId)).data
+                        .model;
+                    expandedModels.push(rootModel);
 
-                // Add extended models
-                const baseModelsRaw = rootModel?.extends;
-                if (baseModelsRaw) {
-                    const baseModelsList = Array.isArray(baseModelsRaw)
-                        ? baseModelsRaw
-                        : [baseModelsRaw];
+                    // Add extended models
+                    const baseModelsRaw = rootModel?.extends;
+                    if (baseModelsRaw) {
+                        const baseModelsList = Array.isArray(baseModelsRaw)
+                            ? baseModelsRaw
+                            : [baseModelsRaw];
+
+                        await Promise.all(
+                            baseModelsList.map((baseModelId) => {
+                                return recursivelyAddToExpandedModels(
+                                    baseModelId
+                                );
+                            })
+                        );
+                    }
+
+                    // Add component models
+                    const componentModelIds = rootModel?.contents
+                        ?.filter(
+                            (m) =>
+                                getModelContentType(m['@type']) ===
+                                DTDLType.Component
+                        )
+                        ?.map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
 
                     await Promise.all(
-                        baseModelsList.map((baseModelId) => {
-                            return recursivelyAddToExpandedModels(baseModelId);
+                        componentModelIds.map((componentModelId) => {
+                            return recursivelyAddToExpandedModels(
+                                componentModelId
+                            );
                         })
                     );
+
+                    return rootModel;
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: false,
+                        rawError: err,
+                        message: modelId
+                    });
+                    return;
                 }
-
-                // Add component models
-                const componentModelIds = rootModel.contents
-                    ?.filter(
-                        (m) =>
-                            getModelContentType(m['@type']) ===
-                            DTDLType.Component
-                    )
-                    .map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
-
-                await Promise.all(
-                    componentModelIds.map((componentModelId) => {
-                        return recursivelyAddToExpandedModels(componentModelId);
-                    })
-                );
-
-                return rootModel;
             };
 
             const parallelFetchModel = async (modelId: string) => {
-                const model = (await fetchFullModel(modelId)).data.model;
-                expandedModels.push(model);
+                try {
+                    const model = (await fetchFullModel(modelId)).data.model;
+                    expandedModels.push(model);
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: false,
+                        rawError: err,
+                        message: i18n.t('propertyInspector.modelNotFound', {
+                            modelId
+                        })
+                    });
+                }
             };
 
             // If list of base models known, fetch all models in parallel

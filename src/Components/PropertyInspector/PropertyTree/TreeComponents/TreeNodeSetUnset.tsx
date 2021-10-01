@@ -1,6 +1,5 @@
 import React from 'react';
 import { useContext } from 'react';
-import { dtdlPropertyTypesEnum } from '../../../..';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
@@ -11,40 +10,21 @@ import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const { onNodeValueUnset, onObjectAdd, readonly } = useContext(
-        PropertyTreeContext
-    );
+    const { onNodeValueUnset, readonly } = useContext(PropertyTreeContext);
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.themePrimary
+            color: props.theme.palette.neutralPrimaryAlt
         }
     });
 
-    if (node.isRemovable && DTDLType.Property) {
+    if (node.isRemovable && node.type === DTDLType.Property) {
         if (node.isSet === false) {
-            if (node.schema === dtdlPropertyTypesEnum.Object) {
-                return (
-                    !readonly && (
-                        <div
-                            className="cb-property-tree-node-set-unset-icon"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onObjectAdd(node);
-                            }}
-                            title={t('propertyInspector.addProperty')}
-                        >
-                            <Icon iconName={'Add'} styles={iconStyles} />
-                        </div>
-                    )
-                );
-            } else {
-                return (
-                    <div className="cb-property-tree-node-value-unset">
-                        ({t('propertyInspector.unset')})
-                    </div>
-                );
-            }
+            return (
+                <div className="cb-property-tree-node-value-unset">
+                    ({t('propertyInspector.notSet')})
+                </div>
+            );
         } else {
             return (
                 !readonly && (

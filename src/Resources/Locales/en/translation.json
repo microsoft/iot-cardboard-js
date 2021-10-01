@@ -24,6 +24,7 @@
     "copied": "Copied",
     "close": "Close",
     "back": "Back",
+    "previous": "Previous",
     "next": "Next",
     "properties": "Properties",
     "blank": "blank",
@@ -32,6 +33,7 @@
     "download": "Download",
     "create": "Create",
     "add": "Add",
+    "remove": "Remove",
     "update": "Update",
     "cancel": "Cancel",
     "delete": "Delete",
@@ -48,6 +50,9 @@
     "size": "Size",
     "upload": "Upload",
     "or": "or",
+    "type": "Type",
+    "id": "Id",
+    "select": "Select",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -210,11 +215,29 @@
         "noEnumValues": "This enum schema has no enum values",
         "addEnumValue": "Add enum value",
         "editEnumValue": "Edit enum value",
-        "enumValueDetails": "Enum value details"
+        "enumValueDetails": "Enum value details",
+        "inherit": "Inherit"
     },
     "fileUploader": {
         "dragAndDrop": "Drag and drop files here",
         "browseFiles": "Browse for files"
+    },
+    "modelAuthoring": {
+        "selectType": "Select type",
+        "review": "Review",
+        "publish": "Publish",
+        "publishModels": "Publish models",
+        "publishing": "Publishing...",
+        "addedToBePublished": "added to be published",
+        "selectTemplates": "Select standard templates",
+        "authoringModes": {
+            "uploadDTDLFiles": "Upload DTDL files",
+            "uploadDTDLFilesDesc": "File type must be JSON, no exceed than 50MB",
+            "createFromTemplates": "Create from templates",
+            "createFromTemplatesDesc": "Bring in standard models from library and edit from there",
+            "buildFromScratch": "Build from scratch",
+            "buildFromScratchDesc": "Using built-in modules to create a DTDL model, no code is needed"
+        }
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
@@ -320,15 +343,21 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
+        "modelNotFound": "One or many models used by this {{piMode}} are missing. Please add the following missing models to this environment:",
+        "unmodelledPropertyWarning": "Properties missing a model, indicated by a warning icon, will be removed on the next update event. To keep these properties, add their model to the environment prior to updating this {{piMode}}.",
+        "unmodelledProperty": "No model found for this property",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",
         "unsetProperty": "Unset property",
-        "unset": "unset",
+        "notSet": "not set",
         "property": "Property",
         "component": "Component",
         "noTwinFound": "No Twin found",
-        "noRelationshipFound": "no Relationship found",
+        "noRelationshipFound": "No Relationship found",
+        "mapKeyPlaceholder": "Enter new map key",
+        "addMapIconTitle": "Add map value",
+        "removeMapValueIconTitle": "Remove map value",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",
@@ -344,6 +373,27 @@
             "map": "Map",
             "array": "Array",
             "object": "Object"
+        },
+        "schemaInfo": {
+            "date": "Enter a date value in YYYY-MM-DD format",
+            "dateTime": "Enter a value in <DocLink>RFC 3339 date-time format</DocLink>, for example: 2007-04-05T14:30:15-08:00",
+            "duration": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+            "integer": "Enter a non-decimal numeric value (signed 4-byte integer)",
+            "long": "Enter a non-decimal numeric value (signed 8-byte integer)",
+            "time": "Enter a value in <DocLink>RFC 3339 full-time format</DocLink>, for example: 14:22:33−08:00",
+            "map": "A <DocLink>map key</DocLink> uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore."
+        },
+        "commandBar": {
+            "undoAll": "Undo all changes",
+            "expandTree": "Expand tree",
+            "collapseTree": "Collapse tree",
+            "save": "Save changes"
+        },
+        "dateTimePicker": {
+            "datePickerTitle": "Date picker",
+            "dateTimePickerTitle": "Datetime picker",
+            "timePickerTitle": "Time picker",
+            "plainTextInput": "Plain text input"
         }
     }
 }

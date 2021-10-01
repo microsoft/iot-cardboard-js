@@ -1,4 +1,4 @@
-import { getTheme, Icon, ITheme, PrimaryButton } from '@fluentui/react';
+import { Icon, PrimaryButton } from '@fluentui/react';
 import React, {
     forwardRef,
     useCallback,
@@ -11,17 +11,18 @@ import FilesList from './FilesList';
 import './JsonUploader.scss';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
+import { IJSONUploaderProps } from '../../Models/Constants/Interfaces';
 
-function JsonUploader(_props, ref) {
-    const [files, setFiles] = useState<Array<File>>([]);
+function JsonUploader(
+    { onFileListChanged, existingFiles }: IJSONUploaderProps,
+    ref
+) {
+    const [files, setFiles] = useState<Array<File>>(existingFiles ?? []);
     const filesRef = useRef(files);
     const fileListRef = useRef();
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
     const { t } = useTranslation();
-
-    const theme: ITheme = getTheme();
-    const { palette } = theme;
 
     useEffect(() => {
         filesRef.current = files;
@@ -55,10 +56,7 @@ function JsonUploader(_props, ref) {
 
     return (
         <div className={'cb-file-uploader'}>
-            <div
-                style={{ background: palette.neutralLighter }}
-                {...getRootProps({ className: 'cb-drop-files-container' })}
-            >
+            <div {...getRootProps({ className: 'cb-drop-files-container' })}>
                 <input {...getInputProps()} />
                 <Icon
                     iconName="CloudUpload"
@@ -78,6 +76,7 @@ function JsonUploader(_props, ref) {
                 files={files}
                 onRemoveFile={removeFileHandler}
                 ref={fileListRef}
+                onListUpdated={onFileListChanged}
             ></FilesList>
         </div>
     );

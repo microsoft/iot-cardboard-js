@@ -1,10 +1,11 @@
 import React from 'react';
+import { DtdlRelationship } from '../../Models/Constants';
 import {
     mockTwin,
     mockRelationship,
     mockRelationshipPropertiesModel
-} from './MockData/mockData';
-import mockExpandedModel from './MockData/TeslaExampleModels.json';
+} from './__mockdata__/mockData';
+import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 
 export default {
@@ -12,11 +13,12 @@ export default {
 };
 
 const propertyInspectorStoryStyles = {
-    maxWidth: '360px',
+    maxWidth: '428px',
+    height: '600px',
     width: '100%'
 };
 
-export const TwinMock = () => (
+export const TwinMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -25,12 +27,14 @@ export const TwinMock = () => (
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const SmallContainer = () => (
-    <div style={{ width: 300, height: 400, overflow: 'auto' }}>
+export const SmallContainer = (_args, { globals: { theme, locale } }) => (
+    <div style={{ width: 300, height: 400 }}>
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
@@ -38,11 +42,13 @@ export const SmallContainer = () => (
                 rootModel: mockExpandedModel[0]
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const ReadOnlyTwinMock = () => (
+export const ReadOnlyTwinMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
@@ -52,18 +58,38 @@ export const ReadOnlyTwinMock = () => (
             }}
             readonly={true}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );
 
-export const RelationsipMock = () => (
+export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,
-                relationshipDefinition: mockRelationshipPropertiesModel
+                relationshipDefinition: mockRelationshipPropertiesModel as DtdlRelationship
             }}
             onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+        />
+    </div>
+);
+
+export const MissingModelsMock = (_args, { globals: { theme, locale } }) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockTwin,
+                expandedModels: mockExpandedModel.slice(0, 2),
+                rootModel: mockExpandedModel[0]
+            }}
+            missingModelIds={mockExpandedModel.slice(2).map((mm) => mm['@id'])}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
         />
     </div>
 );

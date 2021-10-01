@@ -8,4 +8,6 @@ export interface ADTModelUploaderCardProps extends IStandaloneConsumeCardProps {
     hasUploadButton: boolean;
     hasMessageBar: boolean;
     onUploadFinish?: (adapterResult: AdapterResult<ADTModelsData>) => void;
+    onFileListChanged?: (files: Array<File>) => void;
+    existingFiles?: Array<File>;
 }

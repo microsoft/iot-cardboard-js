@@ -14,6 +14,10 @@
         &.cb-step-is-selected {
             font-weight: 600;
         }
+
+        &.cb-step-is-disabled {
+            pointer-events: none;
+        }
     }
 
     .cb-stepper-wizard-step-circle {

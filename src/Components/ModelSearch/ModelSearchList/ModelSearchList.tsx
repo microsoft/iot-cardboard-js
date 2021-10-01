@@ -9,14 +9,20 @@ import './ModelSearchList.scss';
 type ModelSearchListProps = {
     items: Array<any>;
     adapterState: IUseAdapter<StandardModelData>;
+    primaryActionText?: string;
 };
 
 type ModelItemProps = {
     item: any;
     adapterState: IUseAdapter<StandardModelData>;
+    primaryActionText?: string;
 };
 
-const ModelSearchList = ({ items, adapterState }: ModelSearchListProps) => {
+const ModelSearchList = ({
+    items,
+    adapterState,
+    primaryActionText
+}: ModelSearchListProps) => {
     if (!items) {
         return null;
     }
@@ -34,6 +40,7 @@ const ModelSearchList = ({ items, adapterState }: ModelSearchListProps) => {
                         item={item}
                         key={idx}
                         adapterState={adapterState}
+                        primaryActionText={primaryActionText}
                     />
                 );
             })}
@@ -41,7 +48,11 @@ const ModelSearchList = ({ items, adapterState }: ModelSearchListProps) => {
     );
 };
 
-const ModelItem = ({ item, adapterState }: ModelItemProps) => {
+const ModelItem = ({
+    item,
+    adapterState,
+    primaryActionText
+}: ModelItemProps) => {
     const { t } = useTranslation();
 
     return (
@@ -70,7 +81,11 @@ const ModelItem = ({ item, adapterState }: ModelItemProps) => {
                         }
                     />
                     <PrimaryButton
-                        text={t('modelSearch.modelListItemAction')}
+                        text={
+                            primaryActionText
+                                ? primaryActionText
+                                : t('modelSearch.modelListItemAction')
+                        }
                         onClick={() =>
                             adapterState.callAdapter({
                                 dtmi: item.dtmi,

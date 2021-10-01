@@ -23,36 +23,42 @@ import {
  *  - Comparing edited and original data to generate JSON patch delta
  *  - Various utitilies to do with PropertyInspector model
  */
-class PropertyInspectorModel {
-    expandedModels: DtdlInterface[];
-
-    constructor(expandedModels?: DtdlInterface[]) {
-        this.expandedModels = expandedModels;
-    }
-
+abstract class PropertyInspectorModel {
     /** Looks up property on Twin | Relationship or returns default value if unset */
-    getPropertyValueOrDefault = (
-        property: DtdlInterfaceContent,
+    static getPropertyValueOrDefault = (
+        propertyName: string,
         propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
-        return (
-            propertySourceObject?.[property.name] ??
-            this.getEmptyValueForNode(schema)
-        );
+        if (
+            [
+                dtdlPropertyTypesEnum.integer,
+                dtdlPropertyTypesEnum.float,
+                dtdlPropertyTypesEnum.double,
+                dtdlPropertyTypesEnum.long
+            ].includes(schema)
+        ) {
+            return propertySourceObject?.[propertyName]
+                ? String(propertySourceObject[propertyName])
+                : PropertyInspectorModel.getEmptyValueForNode(schema);
+        } else {
+            return (
+                propertySourceObject?.[propertyName] ??
+                PropertyInspectorModel.getEmptyValueForNode(schema)
+            );
+        }
     };
 
     /** Returns default value that matches input schema
      *  Note: numeric types return empty string to represent empty input box
      */
-    getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
+    static getEmptyValueForNode = (schema: dtdlPropertyTypesEnum) => {
         switch (schema) {
             case dtdlPropertyTypesEnum.string:
                 return '';
             case dtdlPropertyTypesEnum.Enum:
-                return 'enum-unset';
+                return 'cb-property-tree-enum-unset';
             case dtdlPropertyTypesEnum.Map:
-                return {};
             case dtdlPropertyTypesEnum.Object:
                 return undefined;
             case dtdlPropertyTypesEnum.boolean:
@@ -73,78 +79,120 @@ class PropertyInspectorModel {
         }
     };
 
+    static buildPath = (path, newRoute) => {
+        return `${path}/${newRoute}`;
+    };
+
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
      *  This method is called recursively for nested types. Values which have been set
      *  are attached to nodes.
      */
-    parsePropertyIntoNode = ({
+    static parsePropertyIntoNode = ({
         isInherited,
         isObjectChild,
+        isMapChild,
         modelProperty,
         path,
-        propertySourceObject
+        propertySourceObject,
+        mapInfo = null,
+        forceSet = false
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
+        isMapChild: boolean;
         isInherited: boolean;
+        mapInfo?: { key: string };
+        forceSet?: boolean;
     }): PropertyTreeNode => {
         if (
             typeof modelProperty.schema === 'string' &&
             dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
         ) {
             return {
-                name: modelProperty.name,
-                displayName: modelProperty.displayName ?? modelProperty.name,
+                name: mapInfo ? mapInfo.key : modelProperty.name,
+                displayName: mapInfo
+                    ? mapInfo.key
+                    : modelProperty.displayName ?? modelProperty.name,
                 role: NodeRole.leaf,
                 schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
-                value: this.getPropertyValueOrDefault(
-                    modelProperty,
+                value: PropertyInspectorModel.getPropertyValueOrDefault(
+                    mapInfo ? mapInfo.key : modelProperty.name,
                     propertySourceObject,
                     modelProperty.schema as dtdlPropertyTypesEnum
                 ),
-                path: path + modelProperty.name,
-                isObjectChild,
-                isRemovable: !isObjectChild && !!modelProperty.writable,
-                isSet: modelProperty.name in propertySourceObject,
+                path: mapInfo
+                    ? PropertyInspectorModel.buildPath(path, mapInfo.key)
+                    : PropertyInspectorModel.buildPath(
+                          path,
+                          modelProperty.name
+                      ),
+                parentObjectPath: isObjectChild && path,
+                isMapChild,
+                isRemovable: !isMapChild,
+                isSet:
+                    (propertySourceObject &&
+                        modelProperty.name in propertySourceObject) ||
+                    forceSet,
                 isInherited,
-                writable: !!modelProperty?.writable || isObjectChild,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
             };
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
                 case DTDLSchemaType.Object:
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
                             modelProperty.schema?.fields?.map((field) =>
-                                this.parsePropertyIntoNode({
+                                PropertyInspectorModel.parsePropertyIntoNode({
                                     modelProperty: field,
-                                    propertySourceObject:
-                                        propertySourceObject?.[
-                                            modelProperty.name
-                                        ] ?? {},
+                                    propertySourceObject: mapInfo
+                                        ? propertySourceObject?.[mapInfo.key] ??
+                                          {}
+                                        : propertySourceObject?.[
+                                              modelProperty.name
+                                          ] ?? {},
                                     isInherited,
-                                    path: `${path + modelProperty.name}/`,
-                                    isObjectChild: true
+                                    path: mapInfo
+                                        ? PropertyInspectorModel.buildPath(
+                                              path,
+                                              mapInfo.key
+                                          )
+                                        : PropertyInspectorModel.buildPath(
+                                              path,
+                                              modelProperty.name
+                                          ),
+                                    isObjectChild: true,
+                                    isMapChild: false
                                 })
                             ) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name,
-                        isObjectChild,
-                        isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
+                        path: mapInfo
+                            ? PropertyInspectorModel.buildPath(
+                                  path,
+                                  mapInfo.key
+                              )
+                            : PropertyInspectorModel.buildPath(
+                                  path,
+                                  modelProperty.name
+                              ),
+                        parentObjectPath: isObjectChild && path,
+                        isMapChild,
+                        isRemovable: !isMapChild,
                         isInherited,
-                        isSet: modelProperty.name in propertySourceObject,
+                        isSet:
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
+                            forceSet,
                         value: undefined,
-                        writable: !!modelProperty?.writable,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
@@ -152,14 +200,15 @@ class PropertyInspectorModel {
                     };
                 case DTDLSchemaType.Enum: {
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
-                        value: this.getPropertyValueOrDefault(
-                            modelProperty,
+                        value: PropertyInspectorModel.getPropertyValueOrDefault(
+                            mapInfo ? mapInfo.key : modelProperty.name,
                             propertySourceObject,
                             dtdlPropertyTypesEnum.Enum
                         ),
@@ -171,40 +220,91 @@ class PropertyInspectorModel {
                                     })
                                 )
                             } ?? null,
-                        path: path + modelProperty.name,
-                        isObjectChild,
+                        path: mapInfo
+                            ? PropertyInspectorModel.buildPath(
+                                  path,
+                                  mapInfo.key
+                              )
+                            : PropertyInspectorModel.buildPath(
+                                  path,
+                                  modelProperty.name
+                              ),
+                        parentObjectPath: isObjectChild && path,
+                        isMapChild,
                         isInherited,
-                        isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
-                        isSet: modelProperty.name in propertySourceObject,
-                        writable: !!modelProperty?.writable,
+                        isRemovable: !isMapChild,
+                        isSet:
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
+                            forceSet,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
                         )
                     };
                 }
-                case DTDLSchemaType.Map: // TODO figure out how maps work
+                case DTDLSchemaType.Map: {
+                    const mapValue = PropertyInspectorModel.getPropertyValueOrDefault(
+                        mapInfo ? mapInfo.key : modelProperty.name,
+                        propertySourceObject,
+                        dtdlPropertyTypesEnum.Map
+                    );
+
                     return {
-                        name: modelProperty.name,
-                        displayName:
-                            modelProperty.displayName ?? modelProperty.name,
-                        role: NodeRole.leaf,
+                        name: mapInfo ? mapInfo.key : modelProperty.name,
+                        displayName: mapInfo
+                            ? mapInfo.key
+                            : modelProperty.displayName ?? modelProperty.name,
+                        role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Map,
+                        isCollapsed: true,
                         type: DTDLType.Property,
-                        path: path + modelProperty.name,
-                        ...(isObjectChild && { isObjectChild: true }),
+                        path: mapInfo
+                            ? PropertyInspectorModel.buildPath(
+                                  path,
+                                  mapInfo.key
+                              )
+                            : PropertyInspectorModel.buildPath(
+                                  path,
+                                  modelProperty.name
+                              ),
+                        parentObjectPath: isObjectChild && path,
                         isInherited,
-                        isRemovable:
-                            !isObjectChild && !!modelProperty?.writable,
+                        isMapChild,
+                        isRemovable: !isMapChild,
                         value: undefined,
-                        isSet: modelProperty.name in propertySourceObject,
-                        writable: !!modelProperty?.writable,
+                        isSet:
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
+                            forceSet,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
                             modelProperty
-                        )
+                        ),
+                        mapDefinition: modelProperty,
+                        children:
+                            mapValue && Object.keys(mapValue).length > 0
+                                ? Object.keys(mapValue).map((key) => {
+                                      return PropertyInspectorModel.parsePropertyIntoNode(
+                                          {
+                                              isInherited,
+                                              isObjectChild,
+                                              modelProperty: (modelProperty.schema as any)
+                                                  .mapValue,
+                                              path: PropertyInspectorModel.buildPath(
+                                                  path,
+                                                  modelProperty.name
+                                              ),
+                                              propertySourceObject: mapValue,
+                                              mapInfo: { key },
+                                              isMapChild: true,
+                                              forceSet: true
+                                          }
+                                      );
+                                  })
+                                : null
                     };
+                }
                 case DTDLSchemaType.Array: // TODO support arrays in future
                 default:
                     return null;
@@ -215,62 +315,83 @@ class PropertyInspectorModel {
     };
 
     /** Merges relationship data returned by ADT API with the DTDL relationship model. */
-    parseRelationshipIntoPropertyTree = (
+    static parseRelationshipIntoPropertyTree = (
         relationship: IADTRelationship,
         relationshipDefinition: DtdlRelationship
     ): PropertyTreeNode[] => {
-        const treeNodes: PropertyTreeNode[] = [];
+        const modelledProperties = [];
 
-        // Push readonly properties to tree
-        Object.keys(relationship).forEach((key) => {
-            if (key.startsWith('$')) {
-                treeNodes.push({
-                    name: key,
-                    displayName: relationship[key]?.displayName ?? key,
-                    role: NodeRole.leaf,
-                    writable: false,
-                    schema: dtdlPropertyTypesEnum.string,
-                    value: relationship[key] ?? undefined,
-                    path: `/${key}`,
-                    type: DTDLType.Property,
-                    isObjectChild: false,
-                    isInherited: false,
-                    isRemovable: false,
-                    isSet: true,
-                    isMetadata: true
-                });
-            }
-        });
-
-        if (relationshipDefinition.properties) {
+        if (relationshipDefinition?.properties) {
             // Merge relationship model with active relationship properties
             relationshipDefinition.properties.forEach(
                 (relationshipProperty) => {
-                    const node = this.parsePropertyIntoNode({
+                    const node = PropertyInspectorModel.parsePropertyIntoNode({
                         isInherited: false,
                         isObjectChild: false,
                         modelProperty: relationshipProperty,
-                        path: '/',
-                        propertySourceObject: relationship
+                        path: '',
+                        propertySourceObject: relationship,
+                        isMapChild: false
                     });
 
-                    treeNodes.push(node);
+                    modelledProperties.push(node);
                 }
             );
         }
 
-        return treeNodes;
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            modelledProperties
+        );
+
+        let metaDataNodes: PropertyTreeNode[] = [];
+
+        // Push readonly properties to tree
+        Object.keys(relationship || {}).forEach((key) => {
+            if (key.startsWith('$') || !modelledPropertyNames.includes(key)) {
+                metaDataNodes.push(
+                    PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes({
+                        isFloating: !key.startsWith('$'),
+                        isInherited: false,
+                        isObjectChild: false,
+                        path: '',
+                        node: relationship?.[key],
+                        key: key
+                    })
+                );
+            }
+        });
+
+        const setNodes = modelledProperties
+            .filter((n) => n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        const unsetNodes = modelledProperties
+            .filter((n) => !n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
+
+        return [
+            ...metaDataNodes,
+            ...unmodelledNodes,
+            ...setNodes,
+            ...unsetNodes
+        ];
     };
 
     /** Parses DTDL Properties and Components into PropertyTreeNodes.
      *  Note: Telemetry, Commands, and Relationships are currently unupported */
-    parseModelContentsIntoNodes = ({
+    static parseModelContentsIntoNodes = ({
         contents,
+        expandedModels,
         path,
         isInherited,
         twin
     }: {
         contents: DtdlInterfaceContent[];
+        expandedModels: DtdlInterface[];
         twin: DTwin;
         path: string;
         isInherited: boolean;
@@ -283,17 +404,18 @@ class PropertyInspectorModel {
 
             switch (type) {
                 case DTDLType.Property:
-                    node = this.parsePropertyIntoNode({
+                    node = PropertyInspectorModel.parsePropertyIntoNode({
                         isInherited,
                         isObjectChild: false,
+                        isMapChild: false,
                         propertySourceObject: twin,
                         modelProperty: modelItem,
                         path
                     });
                     break;
                 case DTDLType.Component: {
-                    if (this.expandedModels) {
-                        const componentInterface = this.expandedModels?.find(
+                    if (expandedModels) {
+                        const componentInterface = expandedModels?.find(
                             (m) => m['@id'] === modelItem.schema
                         );
 
@@ -306,19 +428,56 @@ class PropertyInspectorModel {
                                 type: DTDLType.Component,
                                 schema: undefined,
                                 isCollapsed: true,
-                                children: this.parseTwinIntoPropertyTree({
-                                    isInherited,
-                                    path: `${path + modelItem.name}/`,
-                                    rootModel: componentInterface,
-                                    twin: twin[modelItem.name]
-                                }),
-                                path: path + modelItem.name,
+                                children: [
+                                    ...(!twin?.[modelItem.name] // If component not populated on twin, must add $metadata empty object {}
+                                        ? [
+                                              {
+                                                  displayName: '$metadata',
+                                                  name: '$metadata',
+                                                  path: PropertyInspectorModel.buildPath(
+                                                      `path/${modelItem.name}`,
+                                                      '$metadata'
+                                                  ),
+                                                  role: NodeRole.parent,
+                                                  isSet: true,
+                                                  readonly: true,
+                                                  isCollapsed: true,
+                                                  children: [],
+                                                  schema:
+                                                      dtdlPropertyTypesEnum.Object,
+                                                  type: DTDLType.Property,
+                                                  value: {},
+                                                  parentObjectPath: path,
+                                                  isMapChild: false,
+                                                  isInherited,
+                                                  isRemovable: false,
+                                                  isMetadata: true
+                                              }
+                                          ]
+                                        : []),
+                                    ...PropertyInspectorModel.parseTwinIntoPropertyTree(
+                                        {
+                                            isInherited,
+                                            expandedModels,
+                                            path: PropertyInspectorModel.buildPath(
+                                                path,
+                                                modelItem.name
+                                            ),
+                                            rootModel: componentInterface,
+                                            twin: twin?.[modelItem.name]
+                                        }
+                                    )
+                                ],
+                                path: PropertyInspectorModel.buildPath(
+                                    path,
+                                    modelItem.name
+                                ),
                                 isSet: true,
                                 isInherited,
                                 value: undefined,
-                                isObjectChild: false,
+                                isMapChild: false,
                                 isRemovable: false,
-                                writable: false
+                                readonly: true
                             };
                         }
                     }
@@ -334,7 +493,8 @@ class PropertyInspectorModel {
                 treeNodes.push({
                     ...node,
                     ...(node.type === DTDLType.Property && {
-                        isSet: modelItem.name in twin
+                        isSet:
+                            typeof twin === 'object' && modelItem.name in twin
                     })
                 });
             }
@@ -343,151 +503,227 @@ class PropertyInspectorModel {
         return treeNodes;
     };
 
+    static parseMetaDataIntoPropertyTreeNodes = ({
+        node,
+        key,
+        path,
+        isObjectChild,
+        isInherited,
+        isFloating = false
+    }: {
+        node: any;
+        key: string;
+        path: string;
+        isObjectChild: boolean;
+        isInherited: boolean;
+        isFloating: boolean;
+    }): PropertyTreeNode => {
+        // Parse ADT metadata $ into nodes
+        if (typeof node === 'object') {
+            return {
+                displayName: key,
+                name: key,
+                path: PropertyInspectorModel.buildPath(path, key),
+                role: NodeRole.parent,
+                isSet: !isFloating,
+                readonly: true,
+                isCollapsed: true,
+                children: Object.keys(node).map((childKey) =>
+                    PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes({
+                        node: node[childKey],
+                        key: childKey,
+                        path: PropertyInspectorModel.buildPath(path, key),
+                        isObjectChild: true,
+                        isFloating,
+                        isInherited
+                    })
+                ),
+                schema: dtdlPropertyTypesEnum.Object,
+                type: DTDLType.Property,
+                value: undefined,
+                parentObjectPath: isObjectChild && path,
+                isMapChild: false,
+                isInherited,
+                isRemovable: false,
+                isMetadata: !isFloating,
+                isFloating
+            };
+        } else {
+            return {
+                displayName: key,
+                name: key,
+                path: PropertyInspectorModel.buildPath(path, key),
+                role: NodeRole.leaf,
+                readonly: true,
+                isSet: !isFloating,
+                value: node,
+                schema: dtdlPropertyTypesEnum.string,
+                type: DTDLType.Property,
+                parentObjectPath: isObjectChild && path,
+                isMapChild: false,
+                isInherited,
+                isRemovable: false,
+                isMetadata: !isFloating,
+                isFloating
+            };
+        }
+    };
+
     /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
      *  is an instance of. */
-    parseTwinIntoPropertyTree = ({
-        isInherited,
-        path,
+    static parseTwinIntoPropertyTree = ({
+        twin,
         rootModel,
-        twin
+        expandedModels,
+        path,
+        isInherited
     }: {
         twin: DTwin;
         rootModel: DtdlInterface;
+        expandedModels: DtdlInterface[];
         path: string;
         isInherited: boolean;
     }): PropertyTreeNode[] => {
         let treeNodes: PropertyTreeNode[] = [];
 
-        const parseMetaDataIntoPropertyTreeNodes = ({
-            node,
-            key,
-            path,
-            isObjectChild
-        }: {
-            node: any;
-            key: string;
-            path: string;
-            isObjectChild: boolean;
-        }): PropertyTreeNode => {
-            // Parse ADT metadata $ into nodes
-            if (typeof node === 'object') {
-                return {
-                    displayName: key,
-                    name: key,
-                    path: path + key,
-                    role: NodeRole.parent,
-                    isSet: true,
-                    writable: false,
-                    isCollapsed: true,
-                    children: Object.keys(node).map((childKey) =>
-                        parseMetaDataIntoPropertyTreeNodes({
-                            node: node[childKey],
-                            key: childKey,
-                            path: `${path + key}/`,
-                            isObjectChild: true
-                        })
-                    ),
-                    schema: dtdlPropertyTypesEnum.Object,
-                    type: DTDLType.Property,
-                    value: undefined,
-                    isObjectChild,
-                    isInherited,
-                    isRemovable: false,
-                    isMetadata: true
-                };
-            } else {
-                return {
-                    displayName: key,
-                    name: key,
-                    path: path + key,
-                    role: NodeRole.leaf,
-                    writable: false,
-                    isSet: true,
-                    value: node,
-                    schema: dtdlPropertyTypesEnum.string,
-                    type: DTDLType.Property,
-                    isObjectChild,
-                    isInherited,
-                    isRemovable: false,
-                    isMetadata: true
-                };
-            }
-        };
-
-        // Parse meta data nodes
-        const metaDataNodes = Object.keys(twin)
-            .filter((p) => p.startsWith('$'))
-            .map((metaDataKey) => {
-                return parseMetaDataIntoPropertyTreeNodes({
-                    isObjectChild: false,
-                    node: twin[metaDataKey],
-                    key: metaDataKey,
-                    path
-                });
-            });
-
         // Parse root model
-        const rootModelNodes = this.parseModelContentsIntoNodes({
-            contents: rootModel.contents,
-            twin,
-            path,
-            isInherited
-        });
+        let rootModelNodes: PropertyTreeNode[] = [];
+        if (rootModel?.contents) {
+            rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
+                {
+                    contents: rootModel.contents,
+                    expandedModels,
+                    twin,
+                    path,
+                    isInherited
+                }
+            );
+        }
 
         // Parse extended models
         const extendedModelNodes: PropertyTreeNode[] = [];
 
-        let extendedModelIds = null;
+        const parseExtendedModels = (modelIds) => {
+            // Check if base model extends any models
+            let extendedModelIds = null;
 
-        if (Array.isArray(rootModel.extends)) {
-            extendedModelIds = [...rootModel.extends];
-        } else if (typeof rootModel.extends === 'string') {
-            extendedModelIds = [rootModel.extends];
-        }
-        if (extendedModelIds && this.expandedModels) {
-            extendedModelIds.forEach((extendedModelId) => {
-                const extendedModel = Object.assign(
-                    {},
-                    this.expandedModels.find(
-                        (model) => model['@id'] === extendedModelId
-                    )
-                );
+            if (Array.isArray(modelIds)) {
+                extendedModelIds = [...modelIds];
+            } else if (typeof modelIds === 'string') {
+                extendedModelIds = [modelIds];
+            }
 
-                if (extendedModel) {
-                    extendedModelNodes.push(
-                        ...this.parseModelContentsIntoNodes({
-                            contents: extendedModel.contents,
-                            isInherited: true,
-                            path,
-                            twin
-                        })
+            if (extendedModelIds && expandedModels) {
+                extendedModelIds.forEach((extendedModelId) => {
+                    const extendedModel = Object.assign(
+                        {},
+                        expandedModels.find(
+                            (model) => model['@id'] === extendedModelId
+                        )
                     );
-                }
+
+                    if (extendedModel) {
+                        // recursively add deeply extended models
+                        parseExtendedModels(extendedModel?.extends);
+
+                        // parse model
+                        extendedModelNodes.push(
+                            ...PropertyInspectorModel.parseModelContentsIntoNodes(
+                                {
+                                    contents: extendedModel.contents,
+                                    expandedModels,
+                                    isInherited: true,
+                                    path,
+                                    twin
+                                }
+                            )
+                        );
+                    }
+                });
+            }
+        };
+
+        parseExtendedModels(rootModel?.extends);
+
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            [...rootModelNodes, ...extendedModelNodes]
+        );
+
+        // Parse meta data nodes
+        let metaDataNodes = Object.keys(twin || {})
+            .filter(
+                (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
+            )
+            .map((metaDataKey) => {
+                return PropertyInspectorModel.parseMetaDataIntoPropertyTreeNodes(
+                    {
+                        isObjectChild: false,
+                        node: twin[metaDataKey],
+                        key: metaDataKey,
+                        path,
+                        isFloating: !metaDataKey.startsWith('$'),
+                        isInherited
+                    }
+                );
             });
-        }
+
+        const idNode = metaDataNodes.find((n) => n.name === '$dtId');
+        metaDataNodes = metaDataNodes.filter((n) => n.name !== '$dtId');
+
+        const setNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        const unsetNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => !n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
 
         treeNodes = [
-            ...metaDataNodes,
-            ...[...rootModelNodes, ...extendedModelNodes].sort((a) =>
-                a.isSet ? -1 : 1
-            )
+            ...(idNode ? [idNode] : []),
+            ...unmodelledNodes,
+            ...setNodes,
+            ...unsetNodes,
+            ...metaDataNodes
         ];
         return treeNodes;
     };
 
+    static nodeAlphaSorter = (
+        nodeA: PropertyTreeNode,
+        nodeB: PropertyTreeNode
+    ) => {
+        const nodeAName = (
+            nodeA?.displayName ?? nodeA.name
+        ).toLocaleLowerCase();
+        const nodeBName = (
+            nodeB?.displayName ?? nodeB.name
+        ).toLocaleLowerCase();
+        if (nodeAName < nodeBName) {
+            return -1;
+        }
+        if (nodeAName > nodeBName) {
+            return 1;
+        }
+        return 0;
+    };
+
     /** Recursively searches all nodes in the property tree to find a target node */
-    findPropertyTreeNodeRefRecursively = (
+    static findPropertyTreeNodeRefRecursively = (
         nodes: PropertyTreeNode[],
-        targetNode: PropertyTreeNode
+        targetNodePath: string
     ): PropertyTreeNode => {
         for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
-            if (node.path === targetNode.path) {
+            if (node.path === targetNodePath) {
                 return node;
             } else if (node.children) {
-                const childNodeFound = this.findPropertyTreeNodeRefRecursively(
+                const childNodeFound = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     node.children,
-                    targetNode
+                    targetNodePath
                 );
                 if (childNodeFound) return childNodeFound;
             }
@@ -495,47 +731,42 @@ class PropertyInspectorModel {
         return null;
     };
 
-    /** Toggles are parent node collapsed state */
-    setIsTreeCollapsed = (nodes: PropertyTreeNode[], isCollapsed: boolean) => {
-        nodes.forEach((node) => {
-            if (node.children) {
-                // Exclude metadata properties from expanding
-                if (!isCollapsed && !node.name.startsWith('$')) {
-                    node.isCollapsed = isCollapsed;
-                    this.setIsTreeCollapsed(node.children, isCollapsed);
-                } else if (isCollapsed) {
-                    node.isCollapsed = isCollapsed;
-                    this.setIsTreeCollapsed(node.children, isCollapsed);
-                }
-            }
-        });
-    };
-
-    /** Utility method for checking that all object children have values set */
-    verifyEveryChildHasValue = (tree: PropertyTreeNode[]) => {
-        let everyChildHasValue = true;
-        tree.forEach((node) => {
-            if (!node.children && !node.value) everyChildHasValue = false;
-            else if (node.children)
-                everyChildHasValue = this.verifyEveryChildHasValue(
-                    node.children
-                );
-        });
-        return everyChildHasValue;
-    };
-
     /** Transforms property tree nodes into JSON, retaining values only*/
-    parseDataFromPropertyTree = (tree: PropertyTreeNode[], newJson = {}) => {
+    static parseDataFromPropertyTree = (
+        tree: PropertyTreeNode[],
+        newJson = {}
+    ) => {
         tree.forEach((node) => {
-            if (node.isSet || node.isObjectChild) {
+            if (node.isSet) {
                 if (node.children) {
                     newJson[node.name] = {};
-                    newJson[node.name] = this.parseDataFromPropertyTree(
+                    newJson[
+                        node.name
+                    ] = PropertyInspectorModel.parseDataFromPropertyTree(
                         node.children,
                         newJson[node.name]
                     );
                 } else {
-                    newJson[node.name] = node.value;
+                    let finalValue = node.value;
+
+                    // Transform numeric values from strings to numbers
+                    if (
+                        [
+                            dtdlPropertyTypesEnum.integer,
+                            dtdlPropertyTypesEnum.float,
+                            dtdlPropertyTypesEnum.double,
+                            dtdlPropertyTypesEnum.long,
+                            dtdlPropertyTypesEnum
+                        ].includes(node.schema)
+                    ) {
+                        try {
+                            finalValue = Number(node.value);
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+
+                    newJson[node.name] = finalValue;
                 }
             }
         });
@@ -543,15 +774,100 @@ class PropertyInspectorModel {
         return newJson;
     };
 
+    static flattenRelationshipPatch = (
+        originalJsonInput,
+        newJson,
+        delta: Operation[]
+    ) => {
+        const originalJson = Object.assign({}, originalJsonInput);
+        const originalJsonClone = Object.assign({}, originalJson);
+
+        // Loop over each delta operation
+        delta.forEach((op) => {
+            // If nested path found
+            if (op.path.match(new RegExp('/', 'g')).length > 1) {
+                // Remove root of nested path from originalJson
+                delete originalJson[op.path.split('/')[1]];
+            }
+        });
+
+        // Recompute delta
+        const newDelta = compare(originalJson, newJson);
+
+        // Loop over each delta operation
+        newDelta.map((op) => {
+            // if any ADD path key already already exists on originalJsonClone, change to REPLACE
+            if (op.path.split('/')[1] in originalJsonClone && op.op === 'add') {
+                (op.op as any) = 'replace';
+            }
+        });
+
+        return newDelta;
+    };
+
+    static getModelledPropertyNames = (tree: PropertyTreeNode[]) => {
+        // Flatten all modelled property names into array, this is used to check for floating twin properties
+        const flatten = (arr: PropertyTreeNode[]) => {
+            return arr.reduce(
+                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
+                    return flat.concat(
+                        Array.isArray(toFlatten.children)
+                            ? [toFlatten, ...flatten(toFlatten.children)]
+                            : toFlatten
+                    );
+                },
+                []
+            );
+        };
+
+        return flatten(tree).map((node) => node.name);
+    };
+
+    static getAreUnmodelledPropertiesPresent = (tree: PropertyTreeNode[]) => {
+        let areUnmodelledPropertiesPresent = false;
+
+        const searchForFloatingProperty = (tree: PropertyTreeNode[]) => {
+            for (const node of tree) {
+                if (node.isFloating) {
+                    areUnmodelledPropertiesPresent = true;
+                    return;
+                }
+                if (node.children) {
+                    searchForFloatingProperty(node.children);
+                }
+            }
+        };
+
+        searchForFloatingProperty(tree);
+        return areUnmodelledPropertiesPresent;
+    };
+
     /** Generates JSON patch using delta between original json and updated property tree */
-    generatePatchData = (
+    static generatePatchData = (
         originalJson: any,
-        newTree: PropertyTreeNode[]
+        newTree: PropertyTreeNode[],
+        isRelationship = false
     ): Operation[] => {
         // Recurse through new PropertyTreeNode[] and build a simple JSON representation of the data tree
-        const newJson = this.parseDataFromPropertyTree(newTree);
+        const newJson = PropertyInspectorModel.parseDataFromPropertyTree(
+            newTree
+        );
+
         // Compare originalJson with the newly generated JSON using compare lib
-        const delta = compare(originalJson, newJson);
+        let delta = compare(originalJson, newJson);
+
+        // TODO remove this block once relationship sub-property patching is supported
+        // by ADT API.
+        // --------------------------------------------------------
+        if (isRelationship) {
+            delta = PropertyInspectorModel.flattenRelationshipPatch(
+                originalJson,
+                newJson,
+                delta
+            );
+        }
+        // --------------------------------------------------------
+
         return delta;
     };
 }

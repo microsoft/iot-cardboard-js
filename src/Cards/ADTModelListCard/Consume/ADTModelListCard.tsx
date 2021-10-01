@@ -39,7 +39,8 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
         localeStrings,
         onModelClick,
         onNewModelClick,
-        selectedModelId
+        selectedModelId,
+        newlyAddedModelIds
     } = props;
 
     const { t } = useTranslation();
@@ -118,7 +119,8 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
         if (!modelState.adapterResult.hasNoData()) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value,
-                HierarchyNodeType.Child
+                HierarchyNodeType.Child,
+                newlyAddedModelIds
             );
 
             const modelsNextLink = (modelState.adapterResult.result

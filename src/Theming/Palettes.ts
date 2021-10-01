@@ -50,3 +50,28 @@ export const fluentDarkThemePalette: Partial<IPalette> = {
     black: '#f8f8f8',
     white: '#0d0f0e'
 };
+
+export const fluentExplorerThemePalette: Partial<IPalette> = {
+    themePrimary: '#60aaff',
+    themeLighterAlt: '#f9fcff',
+    themeLighter: '#e6f2ff',
+    themeLight: '#d0e6ff',
+    themeTertiary: '#a0ccff',
+    themeSecondary: '#74b5ff',
+    themeDarkAlt: '#579ae6',
+    themeDark: '#4a82c2',
+    themeDarker: '#36608f',
+    neutralLighterAlt: '#2b2b2b',
+    neutralLighter: '#333333',
+    neutralLight: '#414141',
+    neutralQuaternaryAlt: '#4a4a4a',
+    neutralQuaternary: '#515151',
+    neutralTertiaryAlt: '#6f6f6f',
+    neutralTertiary: '#c8c8c8',
+    neutralSecondary: '#d0d0d0',
+    neutralPrimaryAlt: '#dadada',
+    neutralPrimary: '#ffffff',
+    neutralDark: '#f4f4f4',
+    black: '#f8f8f8',
+    white: '#222222'
+};

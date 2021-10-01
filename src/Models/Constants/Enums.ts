@@ -1,6 +1,7 @@
 export enum Theme {
     Light = 'light',
-    Dark = 'dark'
+    Dark = 'dark',
+    Explorer = 'explorer'
 }
 
 export enum TSIComponentTypes {
@@ -90,4 +91,16 @@ export enum AssetTypes {
 export enum FileUploadStatus {
     Uploading = 'uploading',
     Uploaded = 'uploaded'
+}
+
+export enum ModelAuthoringModes {
+    UploadFiles,
+    FromTemplate,
+    BuildForm
+}
+
+export enum ModelAuthoringSteps {
+    SelectType,
+    Review,
+    Publish
 }

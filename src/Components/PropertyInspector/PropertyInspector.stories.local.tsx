@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import { mockRelationship, mockTwin } from './MockData/mockData';
+import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
 
 export default {
@@ -10,11 +10,11 @@ export default {
 };
 
 const propertyInspectorStoryStyles = {
-    maxWidth: '360px',
+    maxWidth: '428px',
     width: '100%'
 };
 
-export const AdtTwin = (args) => {
+export const AdtTwin = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -30,6 +30,8 @@ export const AdtTwin = (args) => {
                     )
                 }
                 twinId={args.twinId}
+                theme={theme}
+                locale={locale}
             />
         </div>
     );
@@ -42,7 +44,7 @@ AdtTwin.argTypes = {
     }
 };
 
-export const AdtRelationship = (args) => {
+export const AdtRelationship = (args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -59,6 +61,8 @@ export const AdtRelationship = (args) => {
                 }
                 relationshipId={args.relationshipId}
                 twinId={args.twinId}
+                theme={theme}
+                locale={locale}
             />
         </div>
     );
@@ -71,11 +75,14 @@ AdtRelationship.argTypes = {
     },
     relationshipId: {
         control: { type: 'text' },
-        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
+        defaultValue: '2932c97a-2939-416f-93a9-ecccff9b82fd'
     }
 };
 
-export const ModeToggleWithResolvedData = (args) => {
+export const ModeToggleWithResolvedData = (
+    args,
+    { globals: { theme, locale } }
+) => {
     const authenticationParameters = useAuthParams();
     const [mode, setMode] = useState('twin');
     return !authenticationParameters ? (
@@ -104,6 +111,8 @@ export const ModeToggleWithResolvedData = (args) => {
                         }
                         twinId={args.twinId}
                         resolvedTwin={mockTwin}
+                        theme={theme}
+                        locale={locale}
                     />
                 ) : (
                     <PropertyInspector
@@ -118,6 +127,8 @@ export const ModeToggleWithResolvedData = (args) => {
                         relationshipId={args.relationshipId}
                         twinId={args.twinId}
                         resolvedRelationship={mockRelationship}
+                        theme={theme}
+                        locale={locale}
                     />
                 )}
             </div>

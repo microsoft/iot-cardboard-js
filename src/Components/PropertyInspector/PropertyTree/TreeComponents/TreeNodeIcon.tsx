@@ -9,7 +9,7 @@ import { NodeProps } from '../PropertyTree.types';
 
 const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
-    const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
+    let iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
             color: props.theme.palette.themePrimary
         }
@@ -21,14 +21,22 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     // No icon for metadata nodes
     if (node.isMetadata) return null;
 
-    if (node.type === DTDLType.Component) {
+    if (node.isFloating) {
+        iconName = 'Warning';
+        iconTitle = t('propertyInspector.unmodelledProperty');
+        iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
+            root: {
+                color: props.theme.palette.orange
+            }
+        });
+    } else if (node.type === DTDLType.Component) {
         iconName = 'OEM';
         iconTitle = t('propertyInspector.component');
     } else if (node.type === DTDLType.Property) {
         iconTitle = t('propertyInspector.property');
         switch (node.schema) {
             case dtdlPropertyTypesEnum.boolean:
-                iconName = 'CheckboxComposite';
+                iconName = 'ToggleRight';
                 iconTitle = t('propertyInspector.propertyTypes.boolean');
                 break;
             case dtdlPropertyTypesEnum.date:
@@ -40,19 +48,19 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.dateTime');
                 break;
             case dtdlPropertyTypesEnum.double:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.double');
                 break;
             case dtdlPropertyTypesEnum.float:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.float');
                 break;
             case dtdlPropertyTypesEnum.long:
-                iconName = 'Decimals';
+                iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.long');
                 break;
             case dtdlPropertyTypesEnum.duration:
-                iconName = 'Clock';
+                iconName = 'BufferTimeBefore';
                 iconTitle = t('propertyInspector.propertyTypes.duration');
                 break;
             case dtdlPropertyTypesEnum.integer:
@@ -72,7 +80,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.object');
                 break;
             case dtdlPropertyTypesEnum.Enum:
-                iconName = 'Combobox';
+                iconName = 'BulletedList2';
                 iconTitle = t('propertyInspector.propertyTypes.enum');
                 break;
             case dtdlPropertyTypesEnum.Map:
@@ -83,6 +91,8 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.array');
                 break;
         }
+    } else {
+        return null;
     }
     return (
         <div className="cb-property-tree-node-icon">

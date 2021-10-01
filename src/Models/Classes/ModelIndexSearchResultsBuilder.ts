@@ -32,13 +32,13 @@ class ModelIndexSearchResultsBuilder {
         }
         if (
             typeof this.modelIndex[indexKey]?.displayName === 'string' &&
-            this.modelIndex[indexKey].displayName.includes(queryString)
+            this.modelIndex[indexKey].displayName?.includes(queryString)
         ) {
             this.pushItem(indexKey);
         }
         if (
             typeof this.modelIndex[indexKey]?.description === 'string' &&
-            this.modelIndex[indexKey].description.includes(queryString)
+            this.modelIndex[indexKey].description?.includes(queryString)
         ) {
             this.pushItem(indexKey);
         }

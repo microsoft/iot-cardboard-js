@@ -1,4 +1,5 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
+import { DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
@@ -11,16 +12,19 @@ export interface PropertyTreeNode {
     type: DTDLType;
     value: PrimitiveValueTypes;
     path: string;
-    isObjectChild: boolean;
+    isMapChild: boolean;
     isInherited: boolean;
-    writable: boolean;
     isSet: boolean;
+    readonly?: boolean;
+    parentObjectPath?: string;
     children?: Array<PropertyTreeNode>;
     isCollapsed?: boolean;
     complexPropertyData?: EnumPropertyData;
     unit?: string;
     edited?: boolean;
     isMetadata?: boolean;
+    isFloating?: boolean;
+    mapDefinition?: DtdlProperty;
 }
 
 type EnumPropertyData = {
@@ -33,11 +37,13 @@ type EnumPropertyData = {
 
 export interface PropertyTreeProps {
     data: Array<PropertyTreeNode>;
+    isTreeEdited: boolean;
     onParentClick: (parent: PropertyTreeNode) => any;
     onNodeValueChange: (node: PropertyTreeNode, newValue: any) => any;
     onNodeValueUnset: (node: PropertyTreeNode) => any;
-    onObjectAdd: (node: PropertyTreeNode) => any;
     readonly?: boolean;
+    onAddMapValue: (node: PropertyTreeNode, mapKey: string) => any;
+    onRemoveMapValue: (node: PropertyTreeNode) => any;
 }
 
 export interface TreeProps {

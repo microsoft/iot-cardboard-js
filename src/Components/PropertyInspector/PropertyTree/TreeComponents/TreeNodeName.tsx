@@ -4,9 +4,10 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, NodeRole } from '../PropertyTree.types';
 import TreeNodeIcon from './TreeNodeIcon';
 import '../PropertyTree.scss';
+import TreeNodeInfo from './TreeNodeInfo';
 
 const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
-    const { onParentClick } = useContext(PropertyTreeContext);
+    const { onParentClick, isTreeEdited } = useContext(PropertyTreeContext);
 
     const Chevron = ({ collapsed }) => (
         <Icon
@@ -32,18 +33,27 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 <div className="cb-property-tree-parent-node-inset">
                     <TreeNodeIcon node={node} />
                     <div
-                        className={`${
+                        className={`cb-property-tree-node-name-text${
                             node.isMetadata
-                                ? 'cb-property-tree-node-name-metadata'
+                                ? ' cb-property-tree-node-name-metadata'
                                 : ''
-                        } ${
+                        }${
                             node.edited
-                                ? 'cb-property-tree-node-name-edited'
+                                ? ' cb-property-tree-node-name-edited'
+                                : ''
+                        }${
+                            node.isFloating
+                                ? ' cb-property-tree-node-name-floating'
+                                : ''
+                        }${
+                            isTreeEdited
+                                ? ' cb-property-tree-node-floating-strikethrough'
                                 : ''
                         }`}
                     >
                         {node.displayName ?? node.name}:
                     </div>
+                    <TreeNodeInfo node={node} />
                 </div>
             </div>
         );
@@ -52,16 +62,25 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
             <div className="cb-property-tree-node-name">
                 <TreeNodeIcon node={node} />
                 <div
-                    className={`${
+                    className={`cb-property-tree-node-name-text${
                         node.isMetadata
-                            ? 'cb-property-tree-node-name-metadata'
+                            ? ' cb-property-tree-node-name-metadata'
                             : ''
                     } ${
-                        node.edited ? 'cb-property-tree-node-name-edited' : ''
+                        node.edited ? ' cb-property-tree-node-name-edited' : ''
+                    }${
+                        node.isFloating
+                            ? ' cb-property-tree-node-name-floating'
+                            : ''
+                    }${
+                        isTreeEdited
+                            ? ' cb-property-tree-node-floating-strikethrough'
+                            : ''
                     }`}
                 >
                     {node.displayName ?? node.name}:
                 </div>
+                <TreeNodeInfo node={node} />
             </div>
         );
     }

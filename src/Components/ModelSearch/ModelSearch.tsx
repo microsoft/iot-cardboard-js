@@ -26,11 +26,13 @@ import ModelIndexSearchResultsBuilder from '../../Models/Classes/ModelIndexSearc
 type ModelSearchProps = {
     onStandardModelSelection?: (modelJsonData: any) => any;
     adapter: IStandardModelSearchAdapter;
+    primaryActionText?: string;
 };
 
 const ModelSearch = ({
     onStandardModelSelection = () => null,
-    adapter
+    adapter,
+    primaryActionText
 }: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
@@ -203,25 +205,29 @@ const ModelSearch = ({
                     }
                 />
             )}
-            <ModelSearchList
-                items={mergedSearchResults}
-                adapterState={modelDataState}
-            />
-            {searchDataState.adapterResult.getData()?.metadata
-                ?.hasMoreItems && (
-                <DefaultButton
-                    className="cb-ms-show-more"
-                    text={t('showMore')}
-                    onClick={() =>
-                        searchDataState.callAdapter({
-                            queryString: searchString,
-                            pageIdx: searchDataState.adapterResult.getData()
-                                .metadata?.pageIdx
-                        })
-                    }
-                    disabled={searchDataState.isLoading}
+            <div className="cb-ms-results">
+                <ModelSearchList
+                    items={mergedSearchResults}
+                    adapterState={modelDataState}
+                    primaryActionText={primaryActionText}
                 />
-            )}
+                {searchDataState.adapterResult.getData()?.metadata
+                    ?.hasMoreItems && (
+                    <DefaultButton
+                        className="cb-ms-show-more"
+                        text={t('showMore')}
+                        onClick={() =>
+                            searchDataState.callAdapter({
+                                queryString: searchString,
+                                pageIdx: searchDataState.adapterResult.getData()
+                                    .metadata?.pageIdx
+                            })
+                        }
+                        disabled={searchDataState.isLoading}
+                    />
+                )}
+            </div>
+
             {isModelPreviewOpen && (
                 <JsonPreview
                     json={modelDataState.adapterResult.getData()?.json}

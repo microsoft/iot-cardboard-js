@@ -8,4 +8,12 @@ import { ISemanticColors } from '@fluentui/react';
 
 export const fluentLightThemeSemanticColors: Partial<ISemanticColors> = {};
 
-export const fluentDarkThemeSemanticColors: Partial<ISemanticColors> = {};
+export const fluentDarkThemeSemanticColors: Partial<ISemanticColors> = {
+    menuBackground: '#2b2b2b'
+};
+
+export const fluentExplorerThemeSemanticColors: Partial<ISemanticColors> = {
+    menuBackground: '#323130',
+    severeWarningBackground: '#442726',
+    messageText: '#ffffff'
+};
