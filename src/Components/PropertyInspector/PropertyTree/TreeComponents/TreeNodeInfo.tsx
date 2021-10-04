@@ -19,7 +19,8 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     let tooltipInfo: any = t('propertyInspector.property');
 
     // No icon for metadata or component nodes
-    if (node.isMetadata || node.type === DTDLType.Component) return null;
+    if (node.isMetadata || node.isFloating || node.type === DTDLType.Component)
+        return null;
 
     // Attach info icons to specific property schemas
     switch (node.schema) {
