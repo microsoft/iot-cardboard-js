@@ -9,7 +9,7 @@ export default {
 };
 
 const cardStyle = {
-    height: '900px',
+    height: '700px',
     width: '100%'
 };
 
@@ -29,18 +29,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        ),
-                        undefined,
-                        {
-                            // if connection information not provided, adapter will try to retrieve data from management plane
-                            // check your secrets file to make sure authentication works for it
-                            kustoClusterUrl:
-                                authenticationParameters.adt.clusterUrl,
-                            kustoDatabaseName:
-                                authenticationParameters.adt.databaseName,
-                            kustoTableName:
-                                authenticationParameters.adt.tableName
-                        }
+                        )
                     )
                 }
             />
@@ -64,18 +53,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        ),
-                        undefined,
-                        {
-                            // if connection information not provided, adapter will try to retrieve data from management plane
-                            // check your secrets file to make sure authentication works for it
-                            kustoClusterUrl:
-                                authenticationParameters.adt.clusterUrl,
-                            kustoDatabaseName:
-                                authenticationParameters.adt.databaseName,
-                            kustoTableName:
-                                authenticationParameters.adt.tableName
-                        }
+                        )
                     )
                 }
                 lookupTwinId={args.lookupTwinId}

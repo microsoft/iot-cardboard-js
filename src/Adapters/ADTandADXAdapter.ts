@@ -182,14 +182,16 @@ export default class ADTandADXAdapter
                     'api-version': '2021-06-30-preview'
                 }
             });
-            this.ADXConnectionInformation.clusterUrl =
-                connectionsData.data.value[0].properties.adxEndpointUri;
-            this.ADXConnectionInformation.databaseName =
-                connectionsData.data.value[0].properties.adxDatabaseName;
-            this.ADXConnectionInformation.tableName = `adt_dh_${this.ADXConnectionInformation.databaseName.replaceAll(
-                '-',
-                '_'
-            )}_${instance.location}`;
+            this.ADXConnectionInformation = {
+                clusterUrl:
+                    connectionsData.data.value[0].properties.adxEndpointUri,
+                databaseName:
+                    connectionsData.data.value[0].properties.adxDatabaseName,
+                tableName: `adt_dh_${connectionsData.data.value[0].properties.adxDatabaseName.replaceAll(
+                    '-',
+                    '_'
+                )}_${instance.location}`
+            };
 
             return new ADTInstanceConnectionData({
                 kustoClusterUrl: this.ADXConnectionInformation.clusterUrl,

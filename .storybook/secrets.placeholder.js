@@ -39,13 +39,5 @@ export const AuthenticationParameters = {
             scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER'
         }
-    },
-    azureManagement: {
-        aadParameters: {
-            authority: 'AUTHORITY_PLACEHOLDER',
-            clientId: 'CLIENTID_PLACEHOLDER',
-            scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
-        }
     }
 };
