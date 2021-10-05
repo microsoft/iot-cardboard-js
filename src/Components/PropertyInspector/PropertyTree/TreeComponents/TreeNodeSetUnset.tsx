@@ -29,11 +29,19 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
             return (
                 !readonly && (
                     <div
+                        tabIndex={0}
                         className="cb-property-tree-node-set-unset-icon"
                         onClick={(e) => {
                             e.stopPropagation();
                             onNodeValueUnset(node);
                         }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.stopPropagation();
+                                onNodeValueUnset(node);
+                            }
+                        }}
+                        aria-label={t('propertyInspector.unsetProperty')}
                         title={t('propertyInspector.unsetProperty')}
                     >
                         <Icon iconName={'Cancel'} styles={iconStyles} />

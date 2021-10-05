@@ -5,8 +5,10 @@ import { NodeProps, NodeRole } from '../PropertyTree.types';
 import TreeNodeIcon from './TreeNodeIcon';
 import '../PropertyTree.scss';
 import TreeNodeInfo from './TreeNodeInfo';
+import { useTranslation } from 'react-i18next';
 
 const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
+    const { t } = useTranslation();
     const { onParentClick, isTreeEdited } = useContext(PropertyTreeContext);
 
     const Chevron = ({ collapsed }) => (
@@ -21,12 +23,24 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
     if (node.role === NodeRole.parent) {
         return (
             <div
+                tabIndex={0}
                 className={
                     'cb-property-tree-node-name cb-property-tree-parent-node'
+                }
+                aria-label={
+                    node.isCollapsed
+                        ? t('propertyInspector.chevronExpand')
+                        : t('propertyInspector.chevronCollapse')
                 }
                 onClick={(e) => {
                     e.stopPropagation();
                     onParentClick(node);
+                }}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.stopPropagation();
+                        onParentClick(node);
+                    }
                 }}
             >
                 <Chevron collapsed={node.isCollapsed} />
