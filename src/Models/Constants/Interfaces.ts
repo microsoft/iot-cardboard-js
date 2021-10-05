@@ -40,7 +40,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import SceneViewLabel from '../Classes/SceneViewLabel';
-import {Vector3} from 'babylonjs';
+import { Vector3 } from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export interface IAction {

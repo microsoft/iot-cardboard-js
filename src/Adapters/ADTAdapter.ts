@@ -831,9 +831,7 @@ export default class ADTAdapter implements IADTAdapter {
             const labelsList: SceneViewLabel[] = [];
 
             for (const vsr of visualStateRules) {
-                const relationships = await this.getRelationships(
-                    vsr.$dtId
-                );
+                const relationships = await this.getRelationships(vsr.$dtId);
                 if (relationships.result?.data) {
                     for (const data of relationships.result?.data) {
                         const relationship = await this.getADTRelationship(

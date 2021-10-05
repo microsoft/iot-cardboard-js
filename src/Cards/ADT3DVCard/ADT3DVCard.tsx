@@ -9,14 +9,14 @@ import './ADT3DVCard.scss';
 interface ADT3DVCardProps {
     adapter: IADTAdapter;
     twinId: string;
-    pollingInterval: number
+    pollingInterval: number;
     title?: string;
 }
 
 export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
     adapter,
     twinId,
-    title, 
+    title,
     pollingInterval
 }) => {
     const [modelUrl, setModelUrl] = useState('');
