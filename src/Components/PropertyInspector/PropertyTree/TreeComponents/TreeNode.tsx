@@ -16,7 +16,10 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                 <TreeNodeName node={node} />
                 <TreeNodeValue node={node} />
                 {node.unit && (
-                    <div className="cb-property-tree-node-unit">
+                    <div
+                        className="cb-property-tree-node-unit"
+                        aria-label={node.unit}
+                    >
                         {node.unit}
                     </div>
                 )}
