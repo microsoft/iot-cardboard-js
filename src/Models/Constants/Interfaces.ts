@@ -40,7 +40,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import SceneViewLabel from '../Classes/SceneViewLabel';
-import * as BABYLON from 'babylonjs';
+import {Vector3} from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export interface IAction {
@@ -89,8 +89,8 @@ export interface IOverlayProps {
 
 export interface SceneViewProps {
     modelUrl: string;
-    cameraRadius:number; 
-    cameraCenter?: BABYLON.Vector3;
+    cameraRadius: number;
+    cameraCenter?: Vector3;
     labels?: SceneViewLabel[];
 }
 
@@ -367,7 +367,9 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
-    getIncomingRelationships(twinId: string): Promise<AdapterResult<ADTRelationshipsData>>;
+    getIncomingRelationships(
+        twinId: string
+    ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
 }
 

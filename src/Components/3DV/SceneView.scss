@@ -1,25 +1,25 @@
-.sceneview-container {
+.cb-sceneview-container {
     position: relative;
 }
 
-.sceneview-progressbar {
+.cb-sceneview-progressbar {
+    color: #fff;
+    left: 50%;
+    margin-left: -100px;
     position: absolute;
     top: 50%;
-    left: 50%;
-    color: white;
-    margin-left: -100px; 
 }
 
-.sceneview-errormessage {
-    position: 'absolute'; 
-    top: '50%';
-    left: '50%';
-    color: 'white';
+.cb-sceneview-errormessage {
+    color: #fff;
     font-size: '24px';
+    left: '50%';
     margin-left: '-100px';
+    position: 'absolute';
+    top: '50%';
 }
 
-.sceneview-canvas {
+.cb-sceneview-canvas {
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }

@@ -50,7 +50,7 @@ import {
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 import SceneViewLabel from '../Models/Classes/SceneViewLabel';
-import { Parser } from "expr-eval";
+import { Parser } from 'expr-eval';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export default class ADTAdapter implements IADTAdapter {
@@ -798,16 +798,22 @@ export default class ADTAdapter implements IADTAdapter {
     async getVisualADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async () => {
-
             const visualADTTwin = await this.getADTTwin(twinId);
-            const incomingRelationships = await this.getIncomingRelationships(twinId);
+            const incomingRelationships = await this.getIncomingRelationships(
+                twinId
+            );
             const sourceTwins = {};
             const visualStateRules = [];
 
             if (incomingRelationships.result?.data) {
                 for (const relationship of incomingRelationships.result.data) {
-                    const visualStateRule = await this.getADTTwin(relationship.sourceId)
-                    if(visualStateRule.result?.data?.$metadata?.BadgeValueExpression !== undefined) {
+                    const visualStateRule = await this.getADTTwin(
+                        relationship.sourceId
+                    );
+                    if (
+                        visualStateRule.result?.data?.$metadata
+                            ?.BadgeValueExpression !== undefined
+                    ) {
                         visualStateRules.push(visualStateRule.result?.data);
                     }
                 }
@@ -815,29 +821,48 @@ export default class ADTAdapter implements IADTAdapter {
 
             for (const vsr of visualStateRules) {
                 for (const src in vsr.SourceTwins) {
-                    const sourceTwin = await this.getADTTwin(vsr.SourceTwins[src]);
+                    const sourceTwin = await this.getADTTwin(
+                        vsr.SourceTwins[src]
+                    );
                     sourceTwins[src] = sourceTwin.result?.data;
                 }
             }
 
-            const labelsList: SceneViewLabel[] = []
+            const labelsList: SceneViewLabel[] = [];
 
             for (const vsr of visualStateRules) {
-                const relationships = await await this.getRelationships(vsr.$dtId);
+                const relationships = await this.getRelationships(
+                    vsr.$dtId
+                );
                 if (relationships.result?.data) {
                     for (const data of relationships.result?.data) {
-                        const relationship = await this.getADTRelationship(vsr.$dtId, data.relationshipId);
+                        const relationship = await this.getADTRelationship(
+                            vsr.$dtId,
+                            data.relationshipId
+                        );
                         const label = new SceneViewLabel();
                         label.metric = vsr.BadgeTitle;
-                        label.color = Parser.evaluate(vsr.BadgeColorExpression, sourceTwins) as any as string;
-                        label.value = Parser.evaluate(vsr.BadgeValueExpression, sourceTwins);
-                        label.meshId = relationship.result?.data['MediaMemberProperties'].Position.id;
+                        label.color = (Parser.evaluate(
+                            vsr.BadgeColorExpression,
+                            sourceTwins
+                        ) as any) as string;
+                        label.value = Parser.evaluate(
+                            vsr.BadgeValueExpression,
+                            sourceTwins
+                        );
+                        label.meshId =
+                            relationship.result?.data[
+                                'MediaMemberProperties'
+                            ].Position.id;
                         labelsList.push(label);
                     }
                 }
             }
 
-            return new ADTVisualTwinData(visualADTTwin.result?.data.MediaSrc, labelsList);
-        }); 
+            return new ADTVisualTwinData(
+                visualADTTwin.result?.data.MediaSrc,
+                labelsList
+            );
+        });
     }
 }
