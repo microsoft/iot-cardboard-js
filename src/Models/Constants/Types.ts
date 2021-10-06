@@ -59,8 +59,11 @@ export type BIMData = {
 export type ADTRelationship = {
     relationshipName: string;
     relationshipId: string;
-    targetId: string;
+    targetId?: string;
+    relationshipLink?: string;
+    sourceId?: string;
     targetModel?: string;
+    sourceModel?: string;
 };
 
 export type TsiClientData = any[];
