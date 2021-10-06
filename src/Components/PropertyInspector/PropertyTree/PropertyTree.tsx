@@ -9,6 +9,7 @@ export const PropertyTreeContext = createContext<
 
 const PropertyTree: React.FC<PropertyTreeProps> = ({
     data,
+    isTreeEdited,
     onParentClick,
     onNodeValueChange,
     onNodeValueUnset,
@@ -19,6 +20,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     return (
         <PropertyTreeContext.Provider
             value={{
+                isTreeEdited,
                 onParentClick,
                 onNodeValueChange,
                 onNodeValueUnset,

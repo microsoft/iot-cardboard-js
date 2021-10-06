@@ -345,7 +345,11 @@
     },
     "propertyInspector": {
         "propertyInspectorTitle": "Property inspector",
-        "modelNotFound": "One or many models used by this {{piMode}} are missing. To edit unmodelled properties, please add the following missing models to this environment:",
+        "chevronExpand": "Expand node",
+        "chevronCollapse": "Collapse node",
+        "modelNotFound": "One or many models used by this {{piMode}} are missing. Please add the following missing models to this environment:",
+        "unmodelledPropertyWarning": "Properties missing a model, indicated by a warning icon, will be removed on the next update event. To keep these properties, add their model to the environment prior to updating this {{piMode}}.",
+        "unmodelledProperty": "No model found for this property",
         "commandBarTitleTwin": "TWIN PROPERTIES",
         "commandBarTitleRelationship": "RELATIONSHIP PROPERTIES",
         "addProperty": "Add property",
@@ -355,7 +359,7 @@
         "component": "Component",
         "noTwinFound": "No Twin found",
         "noRelationshipFound": "No Relationship found",
-        "mapKeyPlaceholder": "Enter map key",
+        "mapKeyPlaceholder": "Enter new map key",
         "addMapIconTitle": "Add map value",
         "removeMapValueIconTitle": "Remove map value",
         "propertyTypes": {
@@ -375,16 +379,37 @@
             "object": "Object"
         },
         "schemaInfo": {
-            "date": "Enter a date value in YYYY-MM-DD format",
-            "dateTime": "Enter a value in <DocLink>RFC 3339 date-time format</DocLink>, for example: 2007-04-05T14:30:15-08:00",
-            "duration": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
-            "integer": "Enter a non-decimal numeric value (signed 4-byte integer)",
-            "long": "Enter a non-decimal numeric value (signed 8-byte integer)",
-            "time": "Enter a value in <DocLink>RFC 3339 full-time format</DocLink>, for example: 14:22:33−08:00",
-            "map": "A <DocLink>map key</DocLink> uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore."
+            "date": {
+                "text": "Enter a date value in YYYY-MM-DD format",
+                "ariaLabel": "Enter a date value in YYYY-MM-DD format"
+            },
+            "dateTime": {
+                "text": "Enter a value in <DocLink>RFC 3339 date-time format</DocLink>, for example: 2007-04-05T14:30:15-08:00",
+                "ariaLabel": "Enter a value in RFC 3339 date-time format, for example: 2007-04-05T14:30:15-08:00"
+            },
+            "duration": {
+                "text": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+                "ariaLabel": "Enter a duration value in ISO-8601 format, where n is a number: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+            },
+            "integer": {
+                "text": "Enter a non-decimal numeric value (signed 4-byte integer)",
+                "ariaLabel": "Enter a non-decimal numeric value (signed 4-byte integer)"
+            },
+            "long": {
+                "text": "Enter a non-decimal numeric value (signed 8-byte integer)",
+                "ariaLabel": "Enter a non-decimal numeric value (signed 8-byte integer)"
+            },
+            "time": {
+                "text": "Enter a value in <DocLink>RFC 3339 full-time format</DocLink>, for example: 14:22:33−08:00",
+                "ariaLabel": "Enter a value in RFC 3339 full-time format, for example: 14:22:33−08:00"
+            },
+            "map": {
+                "text": "A <DocLink>map key</DocLink> uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore.",
+                "ariaLabel": "A map key uses a string to describe the key in a map.  Use the following characters: a-z, A-Z, 0-9, and underscore."
+            }
         },
         "commandBar": {
-            "undoAll": "Undo all changes",
+            "undoAll": "Reset all edits",
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
             "save": "Save changes"
@@ -392,7 +417,8 @@
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
             "dateTimePickerTitle": "Datetime picker",
-            "timePickerTitle": "Time picker"
+            "timePickerTitle": "Time picker",
+            "plainTextInput": "Plain text input"
         }
     }
 }

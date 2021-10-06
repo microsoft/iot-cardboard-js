@@ -124,6 +124,8 @@ const StandalonePropertyInspectorReducer = produce(
                     }
                 );
 
+                newTreeNode.edited = true;
+
                 // Add new node to map and expand map node
                 const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
@@ -173,7 +175,15 @@ const StandalonePropertyInspectorReducer = produce(
                     mapNode.children.splice(childToRemoveIdx, 1);
                 }
 
+                // Remove all edit status flags for map children
+                Object.keys(draft.editStatus).forEach((key) => {
+                    if (key.startsWith(mapNode.path)) {
+                        delete draft.editStatus[key];
+                    }
+                });
+
                 setNodeEditedFlag(draft, originalNode, mapNode);
+
                 break;
             }
             case spiActionType.ON_NODE_VALUE_UNSET: {

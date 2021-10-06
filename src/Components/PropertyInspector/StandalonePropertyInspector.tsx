@@ -168,38 +168,10 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         editStatus={state.editStatus}
                     />
                     <div className="cb-property-inspector-scrollable-container">
-                        {props.missingModelIds &&
-                            props.missingModelIds.length > 0 && (
-                                <div className="cb-property-inspector-model-error-container">
-                                    <MessageBar
-                                        messageBarType={
-                                            MessageBarType.severeWarning
-                                        }
-                                        isMultiline={false}
-                                        truncated={true}
-                                    >
-                                        {t('propertyInspector.modelNotFound', {
-                                            piMode: isTwin(props.inputData)
-                                                ? 'Twin'
-                                                : 'Relationship'
-                                        })}{' '}
-                                        <span className="cb-missing-model-id-list">
-                                            {props.missingModelIds.map(
-                                                (mmid, idx) => (
-                                                    <span key={idx}>
-                                                        <i>{mmid}</i>
-                                                        {idx <
-                                                            props
-                                                                .missingModelIds
-                                                                .length -
-                                                                1 && ', '}
-                                                    </span>
-                                                )
-                                            )}
-                                        </span>
-                                    </MessageBar>
-                                </div>
-                            )}
+                        <PropertyInspectorMessaging
+                            {...props}
+                            nodes={state.propertyTreeNodes}
+                        />
                         <PropertyTree
                             data={state.propertyTreeNodes as PropertyTreeNode[]}
                             onParentClick={(parent) => onParentClick(parent)}
@@ -208,11 +180,79 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                             onAddMapValue={onAddMapValue}
                             onRemoveMapValue={onRemoveMapValue}
                             readonly={!!props.readonly}
+                            isTreeEdited={
+                                Object.keys(state.editStatus).length > 0
+                            }
                         />
                     </div>
                 </div>
             </ThemeProvider>
         </I18nProviderWrapper>
+    );
+};
+
+const PropertyInspectorMessaging: React.FC<
+    StandalonePropertyInspectorProps & { nodes: PropertyTreeNode[] }
+> = (props) => {
+    const { t } = useTranslation();
+    const showMissingModelsWarning =
+        props.missingModelIds && props.missingModelIds.length > 0;
+    const showUnmodelledPropertiesWarning = PropertyInspectorModel.getAreUnmodelledPropertiesPresent(
+        props.nodes
+    );
+
+    if (!showMissingModelsWarning && !showUnmodelledPropertiesWarning)
+        return null;
+
+    return (
+        <div className="cb-property-inspector-warning-container">
+            {showMissingModelsWarning && (
+                <div className="cb-property-inspector-warning-missing-models">
+                    <MessageBar
+                        messageBarType={MessageBarType.severeWarning}
+                        isMultiline={false}
+                        truncated={true}
+                    >
+                        {t('propertyInspector.modelNotFound', {
+                            piMode: isTwin(props.inputData)
+                                ? 'Twin'
+                                : 'Relationship'
+                        })}{' '}
+                        <span className="cb-missing-model-id-list">
+                            {props.missingModelIds.map((mmid, idx) => (
+                                <span key={idx}>
+                                    <i>{mmid}</i>
+                                    {idx < props.missingModelIds.length - 1 &&
+                                        ', '}
+                                </span>
+                            ))}
+                        </span>
+                    </MessageBar>
+                </div>
+            )}
+            {showUnmodelledPropertiesWarning && (
+                <div
+                    className={`cb-property-inspector-warning-unmodelled-properties${
+                        showMissingModelsWarning &&
+                        showUnmodelledPropertiesWarning
+                            ? ' cb-property-inspector-warning-spacing'
+                            : ''
+                    }`}
+                >
+                    <MessageBar
+                        messageBarType={MessageBarType.severeWarning}
+                        isMultiline={false}
+                        truncated={true}
+                    >
+                        {t('propertyInspector.unmodelledPropertyWarning', {
+                            piMode: isTwin(props.inputData)
+                                ? 'Twin'
+                                : 'Relationship'
+                        })}
+                    </MessageBar>
+                </div>
+            )}
+        </div>
     );
 };
 

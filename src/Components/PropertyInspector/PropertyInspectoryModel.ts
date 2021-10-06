@@ -30,10 +30,23 @@ abstract class PropertyInspectorModel {
         propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
-        return (
-            propertySourceObject?.[propertyName] ??
-            PropertyInspectorModel.getEmptyValueForNode(schema)
-        );
+        if (
+            [
+                dtdlPropertyTypesEnum.integer,
+                dtdlPropertyTypesEnum.float,
+                dtdlPropertyTypesEnum.double,
+                dtdlPropertyTypesEnum.long
+            ].includes(schema)
+        ) {
+            return propertySourceObject?.[propertyName]
+                ? String(propertySourceObject[propertyName])
+                : PropertyInspectorModel.getEmptyValueForNode(schema);
+        } else {
+            return (
+                propertySourceObject?.[propertyName] ??
+                PropertyInspectorModel.getEmptyValueForNode(schema)
+            );
+        }
     };
 
     /** Returns default value that matches input schema
@@ -326,25 +339,11 @@ abstract class PropertyInspectorModel {
             );
         }
 
-        // Flatten all modelled property names into array, this is used to check for floating twin properties
-        const flatten = (arr: PropertyTreeNode[]) => {
-            return arr.reduce(
-                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
-                    return flat.concat(
-                        Array.isArray(toFlatten.children)
-                            ? [toFlatten, ...flatten(toFlatten.children)]
-                            : toFlatten
-                    );
-                },
-                []
-            );
-        };
-
-        const modelledPropertyNames = flatten([...modelledProperties]).map(
-            (node) => node.name
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            modelledProperties
         );
 
-        const metaDataNodes = [];
+        let metaDataNodes: PropertyTreeNode[] = [];
 
         // Push readonly properties to tree
         Object.keys(relationship || {}).forEach((key) => {
@@ -362,9 +361,23 @@ abstract class PropertyInspectorModel {
             }
         });
 
+        const setNodes = modelledProperties
+            .filter((n) => n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        const unsetNodes = modelledProperties
+            .filter((n) => !n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
+
         return [
             ...metaDataNodes,
-            ...modelledProperties.sort((a) => (a.isSet ? -1 : 1))
+            ...unmodelledNodes,
+            ...setNodes,
+            ...unsetNodes
         ];
     };
 
@@ -532,7 +545,8 @@ abstract class PropertyInspectorModel {
                 isMapChild: false,
                 isInherited,
                 isRemovable: false,
-                isMetadata: true
+                isMetadata: !isFloating,
+                isFloating
             };
         } else {
             return {
@@ -549,7 +563,8 @@ abstract class PropertyInspectorModel {
                 isMapChild: false,
                 isInherited,
                 isRemovable: false,
-                isMetadata: true
+                isMetadata: !isFloating,
+                isFloating
             };
         }
     };
@@ -572,7 +587,7 @@ abstract class PropertyInspectorModel {
         let treeNodes: PropertyTreeNode[] = [];
 
         // Parse root model
-        let rootModelNodes = [];
+        let rootModelNodes: PropertyTreeNode[] = [];
         if (rootModel?.contents) {
             rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
                 {
@@ -588,57 +603,54 @@ abstract class PropertyInspectorModel {
         // Parse extended models
         const extendedModelNodes: PropertyTreeNode[] = [];
 
-        let extendedModelIds = null;
+        const parseExtendedModels = (modelIds) => {
+            // Check if base model extends any models
+            let extendedModelIds = null;
 
-        if (Array.isArray(rootModel?.extends)) {
-            extendedModelIds = [...rootModel.extends];
-        } else if (typeof rootModel?.extends === 'string') {
-            extendedModelIds = [rootModel.extends];
-        }
-        if (extendedModelIds && expandedModels) {
-            extendedModelIds.forEach((extendedModelId) => {
-                const extendedModel = Object.assign(
-                    {},
-                    expandedModels.find(
-                        (model) => model['@id'] === extendedModelId
-                    )
-                );
+            if (Array.isArray(modelIds)) {
+                extendedModelIds = [...modelIds];
+            } else if (typeof modelIds === 'string') {
+                extendedModelIds = [modelIds];
+            }
 
-                if (extendedModel) {
-                    extendedModelNodes.push(
-                        ...PropertyInspectorModel.parseModelContentsIntoNodes({
-                            contents: extendedModel.contents,
-                            expandedModels,
-                            isInherited: true,
-                            path,
-                            twin
-                        })
+            if (extendedModelIds && expandedModels) {
+                extendedModelIds.forEach((extendedModelId) => {
+                    const extendedModel = Object.assign(
+                        {},
+                        expandedModels.find(
+                            (model) => model['@id'] === extendedModelId
+                        )
                     );
-                }
-            });
-        }
 
-        // Flatten all modelled property names into array, this is used to check for floating twin properties
-        const flatten = (arr: PropertyTreeNode[]) => {
-            return arr.reduce(
-                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
-                    return flat.concat(
-                        Array.isArray(toFlatten.children)
-                            ? [toFlatten, ...flatten(toFlatten.children)]
-                            : toFlatten
-                    );
-                },
-                []
-            );
+                    if (extendedModel) {
+                        // recursively add deeply extended models
+                        parseExtendedModels(extendedModel?.extends);
+
+                        // parse model
+                        extendedModelNodes.push(
+                            ...PropertyInspectorModel.parseModelContentsIntoNodes(
+                                {
+                                    contents: extendedModel.contents,
+                                    expandedModels,
+                                    isInherited: true,
+                                    path,
+                                    twin
+                                }
+                            )
+                        );
+                    }
+                });
+            }
         };
 
-        const modelledPropertyNames = flatten([
-            ...rootModelNodes,
-            ...extendedModelNodes
-        ]).map((node) => node.name);
+        parseExtendedModels(rootModel?.extends);
+
+        const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
+            [...rootModelNodes, ...extendedModelNodes]
+        );
 
         // Parse meta data nodes
-        const metaDataNodes = Object.keys(twin || {})
+        let metaDataNodes = Object.keys(twin || {})
             .filter(
                 (p) => p.startsWith('$') || !modelledPropertyNames.includes(p)
             )
@@ -655,13 +667,48 @@ abstract class PropertyInspectorModel {
                 );
             });
 
+        const idNode = metaDataNodes.find((n) => n.name === '$dtId');
+        metaDataNodes = metaDataNodes.filter((n) => n.name !== '$dtId');
+
+        const setNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        const unsetNodes = [...rootModelNodes, ...extendedModelNodes]
+            .filter((n) => !n.isSet)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+
+        const unmodelledNodes = metaDataNodes
+            .filter((n) => n.isFloating)
+            .sort(PropertyInspectorModel.nodeAlphaSorter);
+        metaDataNodes = metaDataNodes.filter((n) => !n.isFloating);
+
         treeNodes = [
-            ...metaDataNodes,
-            ...[...rootModelNodes, ...extendedModelNodes].sort((a) =>
-                a.isSet ? -1 : 1
-            )
+            ...(idNode ? [idNode] : []),
+            ...unmodelledNodes,
+            ...setNodes,
+            ...unsetNodes,
+            ...metaDataNodes
         ];
         return treeNodes;
+    };
+
+    static nodeAlphaSorter = (
+        nodeA: PropertyTreeNode,
+        nodeB: PropertyTreeNode
+    ) => {
+        const nodeAName = (
+            nodeA?.displayName ?? nodeA.name
+        ).toLocaleLowerCase();
+        const nodeBName = (
+            nodeB?.displayName ?? nodeB.name
+        ).toLocaleLowerCase();
+        if (nodeAName < nodeBName) {
+            return -1;
+        }
+        if (nodeAName > nodeBName) {
+            return 1;
+        }
+        return 0;
     };
 
     /** Recursively searches all nodes in the property tree to find a target node */
@@ -756,6 +803,43 @@ abstract class PropertyInspectorModel {
         });
 
         return newDelta;
+    };
+
+    static getModelledPropertyNames = (tree: PropertyTreeNode[]) => {
+        // Flatten all modelled property names into array, this is used to check for floating twin properties
+        const flatten = (arr: PropertyTreeNode[]) => {
+            return arr.reduce(
+                (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
+                    return flat.concat(
+                        Array.isArray(toFlatten.children)
+                            ? [toFlatten, ...flatten(toFlatten.children)]
+                            : toFlatten
+                    );
+                },
+                []
+            );
+        };
+
+        return flatten(tree).map((node) => node.name);
+    };
+
+    static getAreUnmodelledPropertiesPresent = (tree: PropertyTreeNode[]) => {
+        let areUnmodelledPropertiesPresent = false;
+
+        const searchForFloatingProperty = (tree: PropertyTreeNode[]) => {
+            for (const node of tree) {
+                if (node.isFloating) {
+                    areUnmodelledPropertiesPresent = true;
+                    return;
+                }
+                if (node.children) {
+                    searchForFloatingProperty(node.children);
+                }
+            }
+        };
+
+        searchForFloatingProperty(tree);
+        return areUnmodelledPropertiesPresent;
     };
 
     /** Generates JSON patch using delta between original json and updated property tree */

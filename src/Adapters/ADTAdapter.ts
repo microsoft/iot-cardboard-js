@@ -28,7 +28,8 @@ import {
     ADTPatch,
     IADTTwinComponent,
     KeyValuePairData,
-    DTwinUpdateEvent
+    DTwinUpdateEvent,
+    ICardError
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -49,6 +50,9 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
+import SceneViewLabel from '../Models/Classes/SceneViewLabel';
+import { Parser } from 'expr-eval';
+import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 
 export default class ADTAdapter implements IADTAdapter {
     private authService: IAuthService;
@@ -753,6 +757,133 @@ export default class ADTAdapter implements IADTAdapter {
             } else {
                 throw new Error(axiosResponse.statusText);
             }
+        });
+    }
+
+    async getIncomingRelationships(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        const createRelationships = (
+            axiosData: ADTRelationshipsApiData
+        ): ADTRelationship[] =>
+            axiosData.value.map((rawRelationship: IADTRelationship) => {
+                return {
+                    relationshipId: rawRelationship.$relationshipId,
+                    relationshipName: rawRelationship.$relationshipName,
+                    relationshipLink: rawRelationship.$relationshipLink,
+                    sourceId: rawRelationship.$sourceId
+                };
+            });
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTRelationshipsData,
+            {
+                method: 'get',
+                url: `${
+                    this.adtProxyServerPath
+                }/digitaltwins/${encodeURIComponent(
+                    twinId
+                )}/incomingrelationships`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            },
+            createRelationships
+        );
+    }
+
+    async getVisualADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        function pushErrors(errors: ICardError[]) {
+            if (errors) {
+                for (const error of errors) {
+                    adapterMethodSandbox.pushError({
+                        type: error.type,
+                        isCatastrophic: error.isCatastrophic,
+                        rawError: new Error(error.message)
+                    });
+                }
+            }
+        }
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            const visualADTTwin = await this.getADTTwin(twinId);
+            pushErrors(visualADTTwin.getErrors());
+
+            const incomingRelationships = await this.getIncomingRelationships(
+                twinId
+            );
+            pushErrors(incomingRelationships.getErrors());
+
+            const sourceTwins = {};
+            const visualStateRules = [];
+
+            if (incomingRelationships.result?.data) {
+                for (const relationship of incomingRelationships.result.data) {
+                    const visualStateRule = await this.getADTTwin(
+                        relationship.sourceId
+                    );
+                    pushErrors(visualStateRule.getErrors());
+
+                    if (
+                        visualStateRule.result?.data?.$metadata
+                            ?.BadgeValueExpression !== undefined
+                    ) {
+                        visualStateRules.push(visualStateRule.result?.data);
+                    }
+                }
+            }
+
+            for (const vsr of visualStateRules) {
+                for (const src in vsr.SourceTwins) {
+                    const sourceTwin = await this.getADTTwin(
+                        vsr.SourceTwins[src]
+                    );
+                    pushErrors(sourceTwin.getErrors());
+                    sourceTwins[src] = sourceTwin.result?.data;
+                }
+            }
+
+            const labelsList: SceneViewLabel[] = [];
+
+            for (const vsr of visualStateRules) {
+                const relationships = await this.getRelationships(vsr.$dtId);
+                pushErrors(relationships.getErrors());
+                if (relationships.result?.data) {
+                    for (const data of relationships.result?.data) {
+                        const relationship = await this.getADTRelationship(
+                            vsr.$dtId,
+                            data.relationshipId
+                        );
+                        pushErrors(relationship.getErrors());
+                        const label = new SceneViewLabel();
+                        label.metric = vsr.BadgeTitle;
+                        label.color = (Parser.evaluate(
+                            vsr.BadgeColorExpression,
+                            sourceTwins
+                        ) as any) as string;
+                        label.value = Parser.evaluate(
+                            vsr.BadgeValueExpression,
+                            sourceTwins
+                        );
+                        label.meshId =
+                            relationship.result?.data[
+                                'MediaMemberProperties'
+                            ].Position.id;
+                        labelsList.push(label);
+                    }
+                }
+            }
+
+            return new ADTVisualTwinData(
+                visualADTTwin.result?.data.MediaSrc,
+                labelsList
+            );
         });
     }
 }

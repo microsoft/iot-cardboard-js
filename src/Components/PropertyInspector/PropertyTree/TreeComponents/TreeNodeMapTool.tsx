@@ -26,8 +26,15 @@ const TreeNodeMapTool: React.FC<NodeProps> = ({ node }) => {
 
     return (
         <div
+            tabIndex={0}
             className={'cb-property-tree-node-map-value-tool-icon'}
+            aria-label={t('propertyInspector.removeMapValueIconTitle')}
             onClick={handleRemoveMapValue}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    handleRemoveMapValue();
+                }
+            }}
         >
             <Icon
                 title={t('propertyInspector.removeMapValueIconTitle')}
