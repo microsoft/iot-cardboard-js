@@ -799,12 +799,12 @@ export default class ADTAdapter implements IADTAdapter {
     async getVisualADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
-        function pushErrors (errors: ICardError[]) {
+        function pushErrors(errors: ICardError[]) {
             if (errors) {
                 for (const error of errors) {
                     adapterMethodSandbox.pushError({
                         type: error.type,
-                        isCatastrophic: error.isCatastrophic,                    
+                        isCatastrophic: error.isCatastrophic,
                         rawError: new Error(error.message)
                     });
                 }
