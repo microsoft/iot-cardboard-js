@@ -5,6 +5,7 @@ import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DVCard.scss';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 interface ADT3DVCardProps {
     adapter: IADTAdapter;
@@ -13,7 +14,7 @@ interface ADT3DVCardProps {
     title?: string;
 }
 
-export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
+const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
     adapter,
     twinId,
     title,
@@ -59,3 +60,5 @@ export const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
         </BaseCard>
     );
 };
+
+export default withErrorBoundary(ADT3DVCard);

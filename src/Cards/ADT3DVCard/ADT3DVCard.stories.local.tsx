@@ -2,7 +2,7 @@ import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import { ADT3DVCard } from './ADT3DVCard';
+import ADT3DVCard from './ADT3DVCard';
 
 export default {
     title: '3DV/ADT3DVCard'
