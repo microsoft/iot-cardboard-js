@@ -84,7 +84,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.enum');
                 break;
             case dtdlPropertyTypesEnum.Map:
-                iconName = 'Globe';
+                iconName = 'Code';
                 iconTitle = t('propertyInspector.propertyTypes.map');
                 break;
             case dtdlPropertyTypesEnum.Array:
@@ -96,7 +96,12 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     }
     return (
         <div className="cb-property-tree-node-icon">
-            <Icon iconName={iconName} styles={iconStyles} title={iconTitle} />
+            <Icon
+                iconName={iconName}
+                styles={iconStyles}
+                title={iconTitle}
+                aria-label={iconTitle}
+            />
         </div>
     );
 };
