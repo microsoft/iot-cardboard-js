@@ -28,7 +28,8 @@ import {
     ADTPatch,
     IADTTwinComponent,
     KeyValuePairData,
-    DTwinUpdateEvent
+    DTwinUpdateEvent,
+    ICardError
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -797,11 +798,28 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getVisualADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        function pushErrors (errors: ICardError[]) {
+            if (errors) {
+                for (const error of errors) {
+                    adapterMethodSandbox.pushError({
+                        type: error.type,
+                        isCatastrophic: error.isCatastrophic,                    
+                        rawError: new Error(error.message)
+                    });
+                }
+            }
+        }
+
         return await adapterMethodSandbox.safelyFetchData(async () => {
             const visualADTTwin = await this.getADTTwin(twinId);
+            pushErrors(visualADTTwin.getErrors());
+
             const incomingRelationships = await this.getIncomingRelationships(
                 twinId
             );
+            pushErrors(incomingRelationships.getErrors());
+
             const sourceTwins = {};
             const visualStateRules = [];
 
@@ -810,6 +828,8 @@ export default class ADTAdapter implements IADTAdapter {
                     const visualStateRule = await this.getADTTwin(
                         relationship.sourceId
                     );
+                    pushErrors(visualStateRule.getErrors());
+
                     if (
                         visualStateRule.result?.data?.$metadata
                             ?.BadgeValueExpression !== undefined
@@ -824,6 +844,7 @@ export default class ADTAdapter implements IADTAdapter {
                     const sourceTwin = await this.getADTTwin(
                         vsr.SourceTwins[src]
                     );
+                    pushErrors(sourceTwin.getErrors());
                     sourceTwins[src] = sourceTwin.result?.data;
                 }
             }
@@ -832,12 +853,14 @@ export default class ADTAdapter implements IADTAdapter {
 
             for (const vsr of visualStateRules) {
                 const relationships = await this.getRelationships(vsr.$dtId);
+                pushErrors(relationships.getErrors());
                 if (relationships.result?.data) {
                     for (const data of relationships.result?.data) {
                         const relationship = await this.getADTRelationship(
                             vsr.$dtId,
                             data.relationshipId
                         );
+                        pushErrors(relationship.getErrors());
                         const label = new SceneViewLabel();
                         label.metric = vsr.BadgeTitle;
                         label.color = (Parser.evaluate(
