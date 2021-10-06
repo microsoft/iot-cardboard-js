@@ -252,14 +252,14 @@ export const SceneView: React.FC<SceneViewProps> = ({
         window.addEventListener('resize', resize);
 
         return () => {
-            window.removeEventListener('resize', resize)
-            if(scene) {
+            window.removeEventListener('resize', resize);
+            if (scene) {
                 scene.dispose();
             }
-            if(engine) {
+            if (engine) {
                 engine.dispose();
             }
-        }
+        };
     }, [modelUrl]);
 
     useEffect(() => {
