@@ -5,7 +5,6 @@ import i18n from '../../../i18n';
 import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import './InfoTableCard.scss';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-import { useTranslation } from 'react-i18next';
 import { DefaultButton } from '@fluentui/react';
 
 const InfoTableCard: React.FC<InfoTableCardProps> = ({
@@ -14,11 +13,8 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
     localeStrings,
     headers,
     tableRows,
-    editTwinId,
-    onPropertyInspectorActionClicked
+    infoTableActionButtonProps
 }) => {
-    const { t } = useTranslation();
-
     return (
         <I18nProviderWrapper
             locale={locale}
@@ -29,7 +25,8 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                 <div className="cb-infotable-card">
                     <div
                         className={`cb-infotable-table-container ${
-                            editTwinId && 'cb-info-table-container-constrained'
+                            infoTableActionButtonProps &&
+                            'cb-info-table-container-constrained'
                         }`}
                     >
                         <table>
@@ -61,12 +58,12 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                             </tbody>
                         </table>
                     </div>
-                    {editTwinId && (
+                    {infoTableActionButtonProps && (
                         <div className="cb-property-inspector-button-container">
                             <DefaultButton
                                 iconProps={{ iconName: 'Edit' }}
-                                text={t('editTwin')}
-                                onClick={onPropertyInspectorActionClicked}
+                                text={infoTableActionButtonProps.label}
+                                onClick={infoTableActionButtonProps.onClick}
                             />
                         </div>
                     )}

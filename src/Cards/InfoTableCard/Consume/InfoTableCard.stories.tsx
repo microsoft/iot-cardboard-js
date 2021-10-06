@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import InfoTableCard from './InfoTableCard';
 
 export default {
@@ -20,12 +21,18 @@ export const Mock = (_args, { globals: { theme, locale } }) => (
     />
 );
 
-export const MockTwinEdit = (_args, { globals: { theme, locale } }) => (
-    <InfoTableCard
-        theme={theme}
-        locale={locale}
-        headers={['Twin Name', 'Model ID']}
-        tableRows={[['LeoTheDog', 'dtmi:com:cocrowle:teslamodely;1']]}
-        editTwinId="LeoTheDog"
-    />
-);
+export const MockTwinEdit = (_args, { globals: { theme, locale } }) => {
+    const { t } = useTranslation();
+    return (
+        <InfoTableCard
+            theme={theme}
+            locale={locale}
+            headers={['Twin Name', 'Model ID']}
+            tableRows={[['LeoTheDog', 'dtmi:com:cocrowle:teslamodely;1']]}
+            infoTableActionButtonProps={{
+                label: t('editTwin'),
+                onClick: () => console.log('edit twin clicked')
+            }}
+        />
+    );
+};

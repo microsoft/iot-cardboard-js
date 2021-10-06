@@ -344,7 +344,6 @@
         "Date/Time": "Date/Time"
     },
     "propertyInspector": {
-        "propertyInspectorTitle": "Property inspector",
         "chevronExpand": "Expand node",
         "chevronCollapse": "Collapse node",
         "modelNotFound": "One or many models used by this {{piMode}} are missing. Please add the following missing models to this environment:",

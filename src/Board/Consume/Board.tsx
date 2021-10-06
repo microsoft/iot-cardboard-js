@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThemeProvider } from '../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
     CardTypes,
     IADTAdapter,
@@ -92,7 +92,8 @@ const Board: React.FC<IBoardProps> = ({
                 locale,
                 localeStrings,
                 onEntitySelect,
-                setIsInspectorOpen
+                setIsInspectorOpen,
+                t
             );
             const cardSizeStyles = {
                 gridRow: card.size?.rows ? `span ${card.size.rows}` : null,
@@ -164,7 +165,8 @@ function getCardElement(
         model: IADTModel,
         errors?: IResolvedRelationshipClickErrors
     ) => void,
-    setIsInspectorOpen
+    setIsInspectorOpen,
+    t: TFunction<string>
 ) {
     // TODO: In the current asset specific view defintion schema, an asset can specify
     // multiple entities to display. Is that what we want to use? For now, I simply get
@@ -248,10 +250,10 @@ function getCardElement(
                     localeStrings={localeStrings}
                     headers={cardInfo.cardProperties.headers}
                     tableRows={entityInfo?.tableRows}
-                    editTwinId={cardInfo.cardProperties?.twinId}
-                    onPropertyInspectorActionClicked={() =>
-                        setIsInspectorOpen(true)
-                    }
+                    infoTableActionButtonProps={{
+                        label: t('editTwin'),
+                        onClick: () => setIsInspectorOpen(true)
+                    }}
                 />
             );
         default:
