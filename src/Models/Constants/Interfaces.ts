@@ -39,6 +39,9 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
+import SceneViewLabel from '../Classes/SceneViewLabel';
+import { Vector3 } from 'babylonjs';
+import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 import ADTInstanceConnectionData from '../Classes/AdapterDataClasses/ADTInstanceConnectionData';
 
@@ -84,6 +87,13 @@ export interface IErrorComponentProps {
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
+}
+
+export interface SceneViewProps {
+    modelUrl: string;
+    cameraRadius: number;
+    cameraCenter?: Vector3;
+    labels?: SceneViewLabel[];
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
@@ -249,8 +259,9 @@ export interface IADTRelationship {
     $etag: string;
     $relationshipId: string;
     $relationshipName: string;
-    $sourceId: string;
-    $targetId: string;
+    $relationshipLink?: string;
+    $sourceId?: string;
+    $targetId?: string;
     targetModel?: string;
     [property: string]: any;
 }
@@ -370,6 +381,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         relationshipId: string,
         patches: Array<ADTPatch>
     ): AdapterReturnType<ADTAdapterPatchData>;
+    getIncomingRelationships(
+        twinId: string
+    ): Promise<AdapterResult<ADTRelationshipsData>>;
+    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
     getADTInstances: () => AdapterReturnType<ADTInstancesData>;
 }
 

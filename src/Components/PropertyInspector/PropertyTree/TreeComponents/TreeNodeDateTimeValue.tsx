@@ -20,8 +20,15 @@ const PickerIcon: React.FC<{
     });
     return (
         <div
+            tabIndex={0}
+            aria-label={title}
             className="cb-property-tree-node-datetime-picker-icon-container"
             onClick={onClick}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    onClick();
+                }
+            }}
         >
             <Icon iconName={iconName} styles={iconStyles} title={title} />
         </div>

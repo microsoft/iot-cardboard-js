@@ -340,10 +340,17 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
                 }
             ></input>
             <div
+                tabIndex={0}
+                aria-label={t('propertyInspector.addMapIconTitle')}
                 className={`cb-property-tree-node-map-add-icon-container${
                     isAddMapValueDisabled ? ' cb-add-map-disabled' : ''
                 }`}
                 onClick={handleAddMapValue}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleAddMapValue();
+                    }
+                }}
             >
                 <Icon
                     title={t('propertyInspector.addMapIconTitle')}
