@@ -6,8 +6,11 @@
     border: 1px solid var(--cb-color-card-border);
     border-radius: 4px;
     color: var(--cb-color-text-primary);
+    display: flex;
     height: 100%;
+    justify-content: space-between;
     padding: 10px;
+    position: relative;
 
     .cb-table-header {
         color: rgba(var(--cb-color-text-primary), 0.5);
@@ -17,5 +20,19 @@
     .cb-table-cell {
         font-size: 14px;
         padding: 0 8px;
+    }
+
+    .cb-infotable-table-container {
+        overflow-x: auto;
+        &.cb-info-table-container-constrained {
+            max-width: calc(100% - 120px);
+        }
+    }
+
+    .cb-property-inspector-button-container {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin-right: 4px;
     }
 }

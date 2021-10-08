@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from '../../Theming/ThemeProvider';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
     CardTypes,
     IADTAdapter,
@@ -38,6 +38,7 @@ import {
 import BaseCard from '../../Cards/Base/Consume/BaseCard';
 import { hasAllProcessGraphicsCardProperties } from '../../Models/Services/Utils';
 import './Board.scss';
+import PropertyInspectorSurface from '../../Components/PropertyInspector/surface/PropertyInspectorSurface';
 
 const Board: React.FC<IBoardProps> = ({
     adapter,
@@ -51,6 +52,8 @@ const Board: React.FC<IBoardProps> = ({
     onEntitySelect
 }) => {
     const { t } = useTranslation();
+    const [isInspectorOpen, setIsInspectorOpen] = useState(false);
+
     let layoutStyles = {};
     let cardComponents = [];
 
@@ -88,7 +91,9 @@ const Board: React.FC<IBoardProps> = ({
                 theme,
                 locale,
                 localeStrings,
-                onEntitySelect
+                onEntitySelect,
+                setIsInspectorOpen,
+                t
             );
             const cardSizeStyles = {
                 gridRow: card.size?.rows ? `span ${card.size.rows}` : null,
@@ -135,6 +140,14 @@ const Board: React.FC<IBoardProps> = ({
                         {cardComponents}
                     </div>
                 )}
+                <PropertyInspectorSurface
+                    isOpen={isInspectorOpen}
+                    onDismiss={() => setIsInspectorOpen(false)}
+                    twinId={adtTwin['$dtId']}
+                    adapter={adapter as IADTAdapter}
+                    theme={theme}
+                    locale={locale}
+                />
             </ThemeProvider>
         </I18nProviderWrapper>
     );
@@ -151,7 +164,9 @@ function getCardElement(
         twin: IADTTwin,
         model: IADTModel,
         errors?: IResolvedRelationshipClickErrors
-    ) => void
+    ) => void,
+    setIsInspectorOpen,
+    t: TFunction<string>
 ) {
     // TODO: In the current asset specific view defintion schema, an asset can specify
     // multiple entities to display. Is that what we want to use? For now, I simply get
@@ -235,6 +250,10 @@ function getCardElement(
                     localeStrings={localeStrings}
                     headers={cardInfo.cardProperties.headers}
                     tableRows={entityInfo?.tableRows}
+                    infoTableActionButtonProps={{
+                        label: t('editTwin'),
+                        onClick: () => setIsInspectorOpen(true)
+                    }}
                 />
             );
         default:
@@ -276,7 +295,8 @@ function getDefaultBoardInfo(
             type: CardTypes.InfoTable,
             size: { rows: 1, columns: 3 },
             cardProperties: {
-                headers: [t('board.twinID'), t('board.model')]
+                headers: [t('board.twinID'), t('board.model')],
+                twinId: dtTwin['$dtId']
             },
             entities: [
                 {
