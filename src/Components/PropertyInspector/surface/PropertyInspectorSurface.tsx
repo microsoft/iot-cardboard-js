@@ -36,13 +36,16 @@ const PropertyInspectorSurface: React.FC<Props> = ({
             type={PanelType.medium}
             className={'cb-property-inspector-panel-container'}
             styles={{
+                header: {
+                    paddingLeft: 24
+                },
                 scrollableContent: {
                     overflowY: 'hidden'
                 },
                 content: {
                     height: '100%',
                     display: 'flex',
-                    paddingLeft: '24px',
+                    paddingLeft: '20px',
                     paddingRight: '0px'
                 }
             }}

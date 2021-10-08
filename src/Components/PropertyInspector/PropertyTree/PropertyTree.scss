@@ -4,7 +4,7 @@
     font-size: 14px;
 
     .cb-property-tree-list-group {
-        margin: 0;
+        margin: 0 4px;
         padding-left: 0;
         &.cb-is-child-tree {
             border-left: 1px dashed var(--cb-color-card-border);
