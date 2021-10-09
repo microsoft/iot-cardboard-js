@@ -38,6 +38,7 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
+    "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
     "action": "Action",

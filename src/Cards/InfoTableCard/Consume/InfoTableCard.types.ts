@@ -6,4 +6,8 @@ export interface InfoTableCardProps {
     localeStrings?: Record<string, any>;
     headers: string[];
     tableRows: string[][];
+    infoTableActionButtonProps?: {
+        label: string;
+        onClick: () => any;
+    };
 }

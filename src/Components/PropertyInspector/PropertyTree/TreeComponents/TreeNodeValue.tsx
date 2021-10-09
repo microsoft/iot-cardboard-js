@@ -121,7 +121,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         type="number"
                         value={node.value as number}
-                        style={{ width: 72 }}
+                        style={{ width: 88 }}
                         onKeyDown={(e) => {
                             if (['e', 'E', '+', '.'].includes(e.key)) {
                                 e.preventDefault();
@@ -147,7 +147,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     <input
                         type="number"
                         value={node.value as number}
-                        style={{ width: 60 }}
+                        style={{ width: 88 }}
                         onKeyDown={(e) => {
                             if (['e', 'E', '+'].includes(e.key)) {
                                 e.preventDefault();

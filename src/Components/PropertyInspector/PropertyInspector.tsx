@@ -312,7 +312,9 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         props.isPropertyInspectorLoading ||
         isInitialLoad
     )
-        return <div>{t('loading')}</div>;
+        return (
+            <div className="cb-property-inspector-loading">{t('loading')}</div>
+        );
 
     if (!inputData) {
         return (
