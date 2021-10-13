@@ -16,7 +16,6 @@ import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar
 import { useTranslation } from 'react-i18next';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import { ThemeProvider } from '../../Theming/ThemeProvider';
-import i18n from '../../i18n';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
     spiActionType
@@ -31,7 +30,7 @@ import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/Messag
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = (
     props
 ) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const originalTree = useMemo(() => {
         return isTwin(props.inputData)
@@ -46,7 +45,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                   props.inputData.relationship,
                   props.inputData.relationshipDefinition
               );
-    }, [props.inputData]);
+    }, [props.inputData, i18n.language]);
 
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
         ...defaultStandalonePropertyInspectorState,
@@ -62,7 +61,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             type: spiActionType.SET_PROPERTY_TREE_NODES,
             nodes: originalTree
         });
-    }, [props.inputData]);
+    }, [props.inputData, i18n.language]);
 
     const undoAllChanges = () => {
         dispatch({

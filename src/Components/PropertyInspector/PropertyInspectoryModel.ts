@@ -16,6 +16,7 @@ import {
     getModelContentUnit,
     getModelContentType
 } from '../../Models/Services/Utils';
+import i18n from 'i18next';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -706,11 +707,11 @@ abstract class PropertyInspectorModel {
         const getStringOrNull = (valToTest) =>
             typeof valToTest === 'string' ? valToTest : null;
 
-        const displayName: any = node?.displayName;
-        return displayName;
+        const currentLanguage = i18n?.language;
+
         return (
-            getStringOrNull(displayName?.en) ||
-            getStringOrNull(displayName?.displayName) ||
+            getStringOrNull(node?.displayName) ||
+            getStringOrNull(node?.displayName?.[currentLanguage]) ||
             node.name
         );
     };
