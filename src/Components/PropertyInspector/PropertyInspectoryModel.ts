@@ -16,6 +16,7 @@ import {
     getModelContentUnit,
     getModelContentType
 } from '../../Models/Services/Utils';
+import i18n from 'i18next';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -114,7 +115,9 @@ abstract class PropertyInspectorModel {
                 name: mapInfo ? mapInfo.key : modelProperty.name,
                 displayName: mapInfo
                     ? mapInfo.key
-                    : modelProperty.displayName ?? modelProperty.name,
+                    : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                          modelProperty
+                      ),
                 role: NodeRole.leaf,
                 schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
@@ -146,7 +149,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
@@ -203,7 +208,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
@@ -254,7 +261,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Map,
                         isCollapsed: true,
@@ -422,8 +431,9 @@ abstract class PropertyInspectorModel {
                         if (componentInterface) {
                             node = {
                                 name: modelItem.name,
-                                displayName:
-                                    modelItem?.displayName ?? modelItem.name,
+                                displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                    modelItem
+                                ),
                                 role: NodeRole.parent,
                                 type: DTDLType.Component,
                                 schema: undefined,
@@ -692,6 +702,21 @@ abstract class PropertyInspectorModel {
         return treeNodes;
     };
 
+    /** Safely parse display name from DTDL interface content*/
+    static parsePropertyTreeDisplayName = (node: DtdlInterfaceContent) => {
+        const getStringOrNull = (valToTest) =>
+            typeof valToTest === 'string' ? valToTest : null;
+
+        const currentLanguage = i18n?.language;
+
+        return (
+            getStringOrNull(node?.displayName) ||
+            getStringOrNull(node?.displayName?.[currentLanguage]) ||
+            node.name
+        );
+    };
+
+    /** Sorts property tree nodes alphabetically based on name */
     static nodeAlphaSorter = (
         nodeA: PropertyTreeNode,
         nodeB: PropertyTreeNode
