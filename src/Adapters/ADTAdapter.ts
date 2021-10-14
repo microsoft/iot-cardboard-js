@@ -618,13 +618,15 @@ export default class ADTAdapter implements IADTAdapter {
                         )
                         ?.map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
 
-                    await Promise.all(
-                        componentModelIds.map((componentModelId) => {
-                            return recursivelyAddToExpandedModels(
-                                componentModelId
-                            );
-                        })
-                    );
+                    if (componentModelIds) {
+                        await Promise.all(
+                            componentModelIds?.map((componentModelId) => {
+                                return recursivelyAddToExpandedModels(
+                                    componentModelId
+                                );
+                            })
+                        );
+                    }
 
                     return rootModel;
                 } catch (err) {
