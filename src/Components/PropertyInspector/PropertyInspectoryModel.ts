@@ -407,7 +407,7 @@ abstract class PropertyInspectorModel {
     }): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
-        contents.forEach((modelItem) => {
+        contents?.forEach((modelItem) => {
             const type = getModelContentType(modelItem['@type']);
             let node: PropertyTreeNode;
 
@@ -636,18 +636,20 @@ abstract class PropertyInspectorModel {
                         // recursively add deeply extended models
                         parseExtendedModels(extendedModel?.extends);
 
-                        // parse model
-                        extendedModelNodes.push(
-                            ...PropertyInspectorModel.parseModelContentsIntoNodes(
-                                {
-                                    contents: extendedModel.contents,
-                                    expandedModels,
-                                    isInherited: true,
-                                    path,
-                                    twin
-                                }
-                            )
-                        );
+                        if (extendedModel?.contents) {
+                            // parse model
+                            extendedModelNodes.push(
+                                ...PropertyInspectorModel.parseModelContentsIntoNodes(
+                                    {
+                                        contents: extendedModel.contents,
+                                        expandedModels,
+                                        isInherited: true,
+                                        path,
+                                        twin
+                                    }
+                                )
+                            );
+                        }
                     }
                 });
             }
