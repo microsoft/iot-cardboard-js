@@ -416,7 +416,11 @@ export class DTDLModel {
         this.displayName = displayName;
         this.description = description;
         this.comment = comment;
-        this.contents = [...properties, ...relationships, ...components];
+        this.contents = [
+            ...(properties ?? []),
+            ...(relationships ?? []),
+            ...(components ?? [])
+        ];
     }
 
     static getBlank(): DTDLModel {
