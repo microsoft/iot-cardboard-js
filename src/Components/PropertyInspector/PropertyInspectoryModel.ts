@@ -223,7 +223,12 @@ abstract class PropertyInspectorModel {
                             {
                                 options: modelProperty.schema?.enumValues?.map(
                                     (ev) => ({
-                                        ...ev
+                                        ...ev,
+                                        ...(ev.displayName && {
+                                            displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                                ev
+                                            )
+                                        })
                                     })
                                 )
                             } ?? null,
@@ -705,7 +710,10 @@ abstract class PropertyInspectorModel {
     };
 
     /** Safely parse display name from DTDL interface content*/
-    static parsePropertyTreeDisplayName = (node: DtdlInterfaceContent) => {
+    static parsePropertyTreeDisplayName = (node: {
+        name: string;
+        [key: string]: any;
+    }) => {
         const getStringOrNull = (valToTest) =>
             typeof valToTest === 'string' ? valToTest : null;
 
@@ -723,11 +731,13 @@ abstract class PropertyInspectorModel {
         nodeA: PropertyTreeNode,
         nodeB: PropertyTreeNode
     ) => {
-        const nodeAName = (
-            nodeA?.displayName ?? nodeA.name
+        const nodeAName = (typeof nodeA?.displayName === 'string'
+            ? nodeA.displayName
+            : nodeA.name
         ).toLocaleLowerCase();
-        const nodeBName = (
-            nodeB?.displayName ?? nodeB.name
+        const nodeBName = (typeof nodeB?.displayName === 'string'
+            ? nodeB.displayName
+            : nodeB.name
         ).toLocaleLowerCase();
         if (nodeAName < nodeBName) {
             return -1;
