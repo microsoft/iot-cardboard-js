@@ -8,7 +8,11 @@ class ADTInstancesData implements IAdapterData {
     }
 
     hasNoData() {
-        return this.data === null || this.data === undefined;
+        return (
+            this.data === null ||
+            this.data === undefined ||
+            this.data.length === 0
+        );
     }
 }
 

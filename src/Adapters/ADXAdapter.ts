@@ -35,46 +35,99 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const tsqExpressions = [];
-            properties.forEach((prop) => {
-                const variableObject = {
-                    [prop]: {
-                        kind: 'numeric',
-                        value: { tsx: `$event.${prop}.Double` },
-                        filter: null,
-                        aggregation: { tsx: 'avg($value)' }
-                    }
-                };
-                const tsqExpression = new TsqExpression(
-                    { timeSeriesId: [id] },
-                    variableObject,
-                    searchSpan,
-                    { alias: prop }
-                );
-                tsqExpressions.push(tsqExpression);
-            });
-
-            let adxResults;
-            try {
-                const axiosGets = properties.map(async (prop) => {
-                    return await axios({
-                        method: 'post',
-                        url: `${this.clusterUrl}/v2/rest/query`,
-                        headers: {
-                            Authorization: 'Bearer ' + token,
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        data: {
-                            db: this.databaseName,
-                            csl: `${
-                                this.tableName
-                            } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
+            const getTsqExpressions = () =>
+                properties.map((prop) => {
+                    const variableObject = {
+                        [prop]: {
+                            kind: 'numeric',
+                            value: { tsx: `$event.${prop}.Double` },
+                            filter: null,
+                            aggregation: { tsx: 'avg($value)' }
                         }
-                    });
+                    };
+                    const tsqExpression = new TsqExpression(
+                        { timeSeriesId: [id] },
+                        variableObject,
+                        searchSpan,
+                        { alias: prop }
+                    );
+                    return tsqExpression;
                 });
 
-                adxResults = await axios.all(axiosGets);
+            const getDataHistoryOfProperty = (prop: string) => {
+                return axios({
+                    method: 'post',
+                    url: `${this.clusterUrl}/v2/rest/query`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: this.databaseName,
+                        csl: `${
+                            this.tableName
+                        } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
+                    }
+                });
+            };
+
+            try {
+                // fetch data history of the properties using ADX api
+                const adxDataHistoryResults = await Promise.all(
+                    properties.map(async (prop) =>
+                        getDataHistoryOfProperty(prop)
+                    )
+                );
+
+                // parse all data history results to get available timestamp and value pairs for the properties
+                const tsqResults = [];
+                adxDataHistoryResults?.map((result, idx) => {
+                    const primaryResultFrames = result.data.filter(
+                        (frame) => frame.TableKind === 'PrimaryResult'
+                    );
+                    if (primaryResultFrames.length) {
+                        const timeStampColumnIndex = primaryResultFrames[0].Columns.findIndex(
+                            (c) => c.ColumnName === 'TimeStamp'
+                        );
+                        const valueColumnIndex = primaryResultFrames[0].Columns.findIndex(
+                            (c) => c.ColumnName === 'Value'
+                        );
+                        const mergedTimeStampAndValuePairs = [];
+                        primaryResultFrames.forEach((rF) =>
+                            rF.Rows.forEach((r) =>
+                                mergedTimeStampAndValuePairs.push([
+                                    r[timeStampColumnIndex],
+                                    r[valueColumnIndex]
+                                ])
+                            )
+                        );
+                        const adxTimestamps = mergedTimeStampAndValuePairs.map(
+                            (tSandValuePair) => tSandValuePair[0]
+                        );
+                        const adxValues = mergedTimeStampAndValuePairs.map(
+                            (tSandValuePair) => tSandValuePair[1]
+                        );
+                        const tsqResult = {};
+                        tsqResult['timestamps'] = adxTimestamps;
+                        tsqResult['properties'] = [
+                            {
+                                values: adxValues,
+                                name: properties[idx],
+                                type: 'Double'
+                            }
+                        ];
+                        tsqResults.push(tsqResult);
+                    }
+                });
+
+                const tsqExpressions = getTsqExpressions();
+                const transformedResults = transformTsqResultsForVisualization(
+                    tsqResults,
+                    tsqExpressions
+                ) as any;
+
+                return new TsiClientAdapterData(transformedResults);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: CardErrorType.DataFetchFailed,
@@ -82,53 +135,6 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                     rawError: err
                 });
             }
-
-            const tsqResults = [];
-            adxResults.map((result, idx) => {
-                const primaryResultFrames = result.data.filter(
-                    (frame) => frame.TableKind === 'PrimaryResult'
-                );
-                if (primaryResultFrames.length) {
-                    const timeStampColumnIndex = primaryResultFrames[0].Columns.findIndex(
-                        (c) => c.ColumnName === 'TimeStamp'
-                    );
-                    const valueColumnIndex = primaryResultFrames[0].Columns.findIndex(
-                        (c) => c.ColumnName === 'Value'
-                    );
-                    const mergedTimeStampAndValuePairs = [];
-                    primaryResultFrames.forEach((rF) =>
-                        rF.Rows.forEach((r) =>
-                            mergedTimeStampAndValuePairs.push([
-                                r[timeStampColumnIndex],
-                                r[valueColumnIndex]
-                            ])
-                        )
-                    );
-                    const adxTimestamps = mergedTimeStampAndValuePairs.map(
-                        (tSandValuePair) => tSandValuePair[0]
-                    );
-                    const adxValues = mergedTimeStampAndValuePairs.map(
-                        (tSandValuePair) => tSandValuePair[1]
-                    );
-                    const tsqResult = {};
-                    tsqResult['timestamps'] = adxTimestamps;
-                    tsqResult['properties'] = [
-                        {
-                            values: adxValues,
-                            name: properties[idx],
-                            type: 'Double'
-                        }
-                    ];
-                    tsqResults.push(tsqResult);
-                }
-            });
-
-            const transformedResults = transformTsqResultsForVisualization(
-                tsqResults,
-                tsqExpressions
-            ) as any;
-
-            return new TsiClientAdapterData(transformedResults);
         });
     }
 }
