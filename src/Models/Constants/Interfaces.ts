@@ -43,7 +43,6 @@ import SceneViewLabel from '../Classes/SceneViewLabel';
 import { Vector3 } from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import ADTInstanceConnectionData from '../Classes/AdapterDataClasses/ADTInstanceConnectionData';
 
 export interface IAction {
     type: string;
@@ -386,10 +385,6 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
     getADTInstances: () => AdapterReturnType<ADTInstancesData>;
-}
-
-export interface IADTandADXAdapter extends IADTAdapter {
-    getConnectionInformation: () => AdapterReturnType<ADTInstanceConnectionData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

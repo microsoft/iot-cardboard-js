@@ -10,29 +10,31 @@ import TsqExpression from 'tsiclient/TsqExpression';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
 export default class ADXAdapter implements ITsiClientChartDataAdapter {
-    private authService: IAuthService;
-    private clusterUrl: string;
-    private databaseName: string;
-    private tableName: string;
+    protected adxAuthService: IAuthService;
+    protected clusterUrl: string;
+    protected databaseName: string;
+    protected tableName: string;
 
     constructor(
         clusterUrl: string,
         databaseName: string,
         tableName: string,
-        authService: IAuthService
+        adxAuthService: IAuthService
     ) {
         this.clusterUrl = clusterUrl;
         this.databaseName = databaseName;
         this.tableName = tableName;
-        this.authService = authService;
-        this.authService.login();
+        this.adxAuthService = adxAuthService;
+        this.adxAuthService.login();
     }
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
         properties: string[]
     ) {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.adxAuthService
+        );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const getTsqExpressions = () =>
@@ -135,6 +137,6 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                     rawError: err
                 });
             }
-        });
+        }, 'adx');
     }
 }

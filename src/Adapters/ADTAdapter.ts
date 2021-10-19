@@ -60,7 +60,7 @@ export default class ADTAdapter implements IADTAdapter {
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
     public packetNumber = 0;
-    private axiosInstance: AxiosInstance;
+    protected axiosInstance: AxiosInstance;
 
     constructor(
         adtHostUrl: string,
@@ -860,7 +860,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    getADTInstances = async () => {
+    async getADTInstances() {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -927,5 +927,5 @@ export default class ADTAdapter implements IADTAdapter {
 
             return new ADTInstancesData(digitalTwinsInstanceDictionary);
         }, 'azureManagement');
-    };
+    }
 }

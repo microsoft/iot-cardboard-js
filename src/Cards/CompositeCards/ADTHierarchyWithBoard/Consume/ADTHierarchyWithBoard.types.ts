@@ -1,11 +1,11 @@
+import { ADTandADXAdapter } from '../../../../Adapters';
 import {
-    IADTandADXAdapter,
     IADTTwin,
     IConsumeCompositeCardProps
 } from '../../../../Models/Constants/Interfaces';
 
 export interface ADTHierarchyWithBoardProps extends IConsumeCompositeCardProps {
-    adapter: IADTandADXAdapter;
+    adapter: ADTandADXAdapter;
     lookupTwinId?: string;
     onTwinClick?: (twin: IADTTwin) => void;
 }

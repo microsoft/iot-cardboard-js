@@ -34,7 +34,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     const lookupTwinIdRef = useRef(lookupTwinId);
 
     const connectionState = useAdapter({
-        adapterMethod: () => adapter.getConnectionInformation(),
+        adapterMethod: adapter.getConnectionInformation,
         refetchDependencies: [adapter]
     });
 
