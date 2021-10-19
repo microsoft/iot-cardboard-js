@@ -236,7 +236,7 @@ export interface IADTModelDefinition {
     displayName: string;
     description: string;
     comment: string;
-    contents: any[];
+    contents?: any[];
 }
 
 export interface IADTTwin {

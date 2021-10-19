@@ -16,6 +16,7 @@ import {
     getModelContentUnit,
     getModelContentType
 } from '../../Models/Services/Utils';
+import i18n from 'i18next';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -114,7 +115,9 @@ abstract class PropertyInspectorModel {
                 name: mapInfo ? mapInfo.key : modelProperty.name,
                 displayName: mapInfo
                     ? mapInfo.key
-                    : modelProperty.displayName ?? modelProperty.name,
+                    : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                          modelProperty
+                      ),
                 role: NodeRole.leaf,
                 schema: modelProperty.schema as dtdlPropertyTypesEnum,
                 type: DTDLType.Property,
@@ -146,7 +149,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
@@ -203,7 +208,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.leaf,
                         schema: dtdlPropertyTypesEnum.Enum,
                         type: DTDLType.Property,
@@ -216,7 +223,12 @@ abstract class PropertyInspectorModel {
                             {
                                 options: modelProperty.schema?.enumValues?.map(
                                     (ev) => ({
-                                        ...ev
+                                        ...ev,
+                                        ...(ev.displayName && {
+                                            displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                                ev
+                                            )
+                                        })
                                     })
                                 )
                             } ?? null,
@@ -254,7 +266,9 @@ abstract class PropertyInspectorModel {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
                             ? mapInfo.key
-                            : modelProperty.displayName ?? modelProperty.name,
+                            : PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                  modelProperty
+                              ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Map,
                         isCollapsed: true,
@@ -398,7 +412,7 @@ abstract class PropertyInspectorModel {
     }): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
-        contents.forEach((modelItem) => {
+        contents?.forEach((modelItem) => {
             const type = getModelContentType(modelItem['@type']);
             let node: PropertyTreeNode;
 
@@ -422,8 +436,9 @@ abstract class PropertyInspectorModel {
                         if (componentInterface) {
                             node = {
                                 name: modelItem.name,
-                                displayName:
-                                    modelItem?.displayName ?? modelItem.name,
+                                displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
+                                    modelItem
+                                ),
                                 role: NodeRole.parent,
                                 type: DTDLType.Component,
                                 schema: undefined,
@@ -626,18 +641,20 @@ abstract class PropertyInspectorModel {
                         // recursively add deeply extended models
                         parseExtendedModels(extendedModel?.extends);
 
-                        // parse model
-                        extendedModelNodes.push(
-                            ...PropertyInspectorModel.parseModelContentsIntoNodes(
-                                {
-                                    contents: extendedModel.contents,
-                                    expandedModels,
-                                    isInherited: true,
-                                    path,
-                                    twin
-                                }
-                            )
-                        );
+                        if (extendedModel?.contents) {
+                            // parse model
+                            extendedModelNodes.push(
+                                ...PropertyInspectorModel.parseModelContentsIntoNodes(
+                                    {
+                                        contents: extendedModel.contents,
+                                        expandedModels,
+                                        isInherited: true,
+                                        path,
+                                        twin
+                                    }
+                                )
+                            );
+                        }
                     }
                 });
             }
@@ -692,15 +709,35 @@ abstract class PropertyInspectorModel {
         return treeNodes;
     };
 
+    /** Safely parse display name from DTDL interface content*/
+    static parsePropertyTreeDisplayName = (node: {
+        name: string;
+        [key: string]: any;
+    }) => {
+        const getStringOrNull = (valToTest) =>
+            typeof valToTest === 'string' ? valToTest : null;
+
+        const currentLanguage = i18n?.language;
+
+        return (
+            getStringOrNull(node?.displayName) ||
+            getStringOrNull(node?.displayName?.[currentLanguage]) ||
+            node.name
+        );
+    };
+
+    /** Sorts property tree nodes alphabetically based on name */
     static nodeAlphaSorter = (
         nodeA: PropertyTreeNode,
         nodeB: PropertyTreeNode
     ) => {
-        const nodeAName = (
-            nodeA?.displayName ?? nodeA.name
+        const nodeAName = (typeof nodeA?.displayName === 'string'
+            ? nodeA.displayName
+            : nodeA.name
         ).toLocaleLowerCase();
-        const nodeBName = (
-            nodeB?.displayName ?? nodeB.name
+        const nodeBName = (typeof nodeB?.displayName === 'string'
+            ? nodeB.displayName
+            : nodeB.name
         ).toLocaleLowerCase();
         if (nodeAName < nodeBName) {
             return -1;
