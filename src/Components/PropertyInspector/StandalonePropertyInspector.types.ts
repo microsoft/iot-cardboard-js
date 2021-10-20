@@ -6,10 +6,7 @@ import {
     Theme,
     Locale
 } from '../..';
-import {
-    DtdlInterface,
-    DtdlRelationship
-} from '../../Models/Constants/dtdlInterfaces';
+import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 
 export interface OnCommitPatchParams {
     patchMode: PropertyInspectorPatchMode;

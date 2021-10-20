@@ -18,7 +18,7 @@ import {
     getModelContentType
 } from '../../Models/Services/Utils';
 import i18n from 'i18next';
-import { dtdlSyntaxMap } from './DtdlSyntaxMap';
+import { dtdlSyntaxMap } from '../../Models/Constants/DtdlSyntaxMap';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;

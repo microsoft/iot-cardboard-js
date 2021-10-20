@@ -305,20 +305,7 @@ describe('Parsing relationship into property tree', () => {
     beforeAll(() => {
         propertyInspectorRelationshipNodes = PropertyInspectorModel.parseRelationshipIntoPropertyTree(
             relationshipData,
-            {
-                '@type': 'Relationship',
-                name: 'chargedBy',
-                minMultiplicity: 0,
-                maxMultiplicity: 1,
-                properties: [
-                    {
-                        '@type': 'Property',
-                        name: 'lastChargedStation',
-                        schema: 'string',
-                        writable: true
-                    }
-                ]
-            }
+            testModel.find((m) => m['@id'] === 'dtmi:com:test:testmodel;1')
         );
     });
 
