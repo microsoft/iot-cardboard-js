@@ -384,7 +384,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
-    getADTInstances: () => AdapterReturnType<ADTInstancesData>;
+    getADTInstances: (tenantId?: string) => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

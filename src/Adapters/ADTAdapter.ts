@@ -862,26 +862,10 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getADTInstances() {
+    async getADTInstances(tenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47') {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const getTenants = await axios({
-                method: 'get',
-                url: `https://management.azure.com/tenants`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: {
-                    'api-version': '2020-01-01'
-                }
-            });
-
-            const msTenantId = getTenants.data.value.filter(
-                (t) => t.defaultDomain === 'microsoft.onmicrosoft.com'
-            )[0].tenantId;
-
             const subscriptions = await axios({
                 method: 'get',
                 url: `https://management.azure.com/subscriptions`,
@@ -894,8 +878,9 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             });
 
+            // default is Microsoft tenant
             const subscriptionsByTenantId = subscriptions.data.value
-                .filter((s) => s.tenantId === msTenantId)
+                .filter((s) => s.tenantId === tenantId)
                 .map((s) => s.subscriptionId);
 
             const digitalTwinInstances = await Promise.all(

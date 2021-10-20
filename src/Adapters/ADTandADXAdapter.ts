@@ -9,15 +9,18 @@ import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 
 export default class ADTandADXAdapter {
+    private tenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47'; // Microsoft tenant
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        adtProxyServerPath = '/api/proxy',
-        adxInformation?: IADTInstanceConnection
+        tenantId?: string,
+        adxInformation?: IADTInstanceConnection,
+        adtProxyServerPath = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.adxAuthService = authService;
         this.adtProxyServerPath = adtProxyServerPath;
+        this.tenantId = tenantId;
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
         this.authService.login();
 
@@ -44,7 +47,9 @@ export default class ADTandADXAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             // find the current ADT instance by its hostUrl
-            const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances();
+            const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances(
+                this.tenantId
+            );
             const instance = instanceDictionary.result.data.find(
                 (d) => d.hostName === this.adtHostUrl
             );
@@ -80,5 +85,9 @@ export default class ADTandADXAdapter {
     };
 }
 
-export default interface ADTandADXAdapter extends ADTAdapter, ADXAdapter {}
+export default interface ADTandADXAdapter extends ADTAdapter, ADXAdapter {
+    getConnectionInformation: () => Promise<
+        AdapterResult<ADTInstanceConnectionData>
+    >;
+}
 applyMixins(ADTandADXAdapter, [ADTAdapter, ADXAdapter]);
