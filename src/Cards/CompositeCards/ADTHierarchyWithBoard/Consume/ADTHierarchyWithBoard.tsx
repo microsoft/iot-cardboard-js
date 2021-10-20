@@ -20,7 +20,8 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     locale,
     localeStrings,
     lookupTwinId,
-    onTwinClick
+    onTwinClick,
+    searchSpanForDataHistory
 }) => {
     const [selectedTwin, setSelectedTwin]: [
         IADTTwin,
@@ -129,6 +130,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                             adapter={adapter}
                             errorMessage={errorMessage}
                             onEntitySelect={onEntitySelect}
+                            searchSpan={searchSpanForDataHistory}
                         />
                     )}
                 </div>

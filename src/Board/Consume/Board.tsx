@@ -165,7 +165,7 @@ const Board: React.FC<IBoardProps> = ({
     );
 };
 
-// if search span is not provided always show last 7 days
+// if search span is not provided pull data history for the last 7 days
 function getCardElement(
     cardInfo: CardInfo,
     searchSpan: SearchSpan,

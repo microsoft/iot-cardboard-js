@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
 import ADTandADXAdapter from '../../../../Adapters/ADTandADXAdapter';
+import { SearchSpan } from '../../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithBoard from './ADTHierarchyWithBoard';
 
@@ -30,6 +31,13 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         )
+                    )
+                }
+                searchSpanForDataHistory={
+                    new SearchSpan(
+                        new Date('2021-09-20T20:00:00Z'),
+                        new Date('2021-10-20T20:00:00Z'),
+                        '6h'
                     )
                 }
             />
