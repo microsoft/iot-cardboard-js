@@ -6,6 +6,7 @@ import {
 import {
     DtdlInterface,
     DtdlInterfaceContent,
+    DtdlInterfaceSchema,
     DtdlProperty,
     DtdlRelationship
 } from '../../Models/Constants/dtdlInterfaces';
@@ -17,6 +18,7 @@ import {
     getModelContentType
 } from '../../Models/Services/Utils';
 import i18n from 'i18next';
+import { dtdlSyntaxMap } from '../../Models/Constants/DtdlSyntaxMap';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -86,7 +88,8 @@ abstract class PropertyInspectorModel {
 
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
      *  This method is called recursively for nested types. Values which have been set
-     *  are attached to nodes.
+     *  are attached to nodes.  An optional set of complex schemas can be passed in for
+     *  reusability https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#interface-schemas
      */
     static parsePropertyIntoNode = ({
         isInherited,
@@ -96,7 +99,8 @@ abstract class PropertyInspectorModel {
         path,
         propertySourceObject,
         mapInfo = null,
-        forceSet = false
+        forceSet = false,
+        schemas
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
@@ -106,8 +110,34 @@ abstract class PropertyInspectorModel {
         isInherited: boolean;
         mapInfo?: { key: string };
         forceSet?: boolean;
+        schemas?: DtdlInterfaceSchema[];
     }): PropertyTreeNode => {
+        // Check if property is using reusable schema from schemas set
         if (
+            typeof modelProperty.schema === 'string' &&
+            Array.isArray(schemas) &&
+            schemas.map((s) => s['@id']).includes(modelProperty.schema)
+        ) {
+            const targetSchema = schemas.find(
+                (s) => s['@id'] === modelProperty.schema
+            );
+
+            return PropertyInspectorModel.parsePropertyIntoNode({
+                isInherited,
+                isObjectChild,
+                isMapChild,
+                propertySourceObject,
+                modelProperty: {
+                    ...modelProperty,
+                    schema: targetSchema,
+                    ...(targetSchema.displayName && {
+                        displayName: targetSchema.displayName
+                    })
+                },
+                path,
+                schemas
+            });
+        } else if (
             typeof modelProperty.schema === 'string' &&
             dtdlPrimitiveTypesList.indexOf(modelProperty.schema) !== -1
         ) {
@@ -331,26 +361,50 @@ abstract class PropertyInspectorModel {
     /** Merges relationship data returned by ADT API with the DTDL relationship model. */
     static parseRelationshipIntoPropertyTree = (
         relationship: IADTRelationship,
-        relationshipDefinition: DtdlRelationship
+        relationshipModel: DtdlInterface
     ): PropertyTreeNode[] => {
         const modelledProperties = [];
 
-        if (relationshipDefinition?.properties) {
-            // Merge relationship model with active relationship properties
-            relationshipDefinition.properties.forEach(
-                (relationshipProperty) => {
-                    const node = PropertyInspectorModel.parsePropertyIntoNode({
-                        isInherited: false,
-                        isObjectChild: false,
-                        modelProperty: relationshipProperty,
-                        path: '',
-                        propertySourceObject: relationship,
-                        isMapChild: false
-                    });
+        relationshipModel = PropertyInspectorModel.conformDtdlInterface(
+            relationshipModel
+        );
 
-                    modelledProperties.push(node);
+        if (relationshipModel.contents) {
+            let relationshipDefinition: DtdlRelationship = null;
+
+            for (const item of relationshipModel.contents) {
+                const type = getModelContentType(item['@type']);
+                if (
+                    type === DTDLType.Relationship &&
+                    relationship['$relationshipName'] === item.name
+                ) {
+                    relationshipDefinition = item as DtdlRelationship;
+                    break;
                 }
-            );
+            }
+
+            if (relationshipDefinition?.properties) {
+                // Merge relationship model with active relationship properties
+                relationshipDefinition.properties.forEach(
+                    (relationshipProperty) => {
+                        const node = PropertyInspectorModel.parsePropertyIntoNode(
+                            {
+                                isInherited: false,
+                                isObjectChild: false,
+                                modelProperty: relationshipProperty,
+                                path: '',
+                                propertySourceObject: relationship,
+                                isMapChild: false,
+                                schemas: relationshipModel.schemas
+                            }
+                        );
+
+                        if (node) {
+                            modelledProperties.push(node);
+                        }
+                    }
+                );
+            }
         }
 
         const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
@@ -402,13 +456,15 @@ abstract class PropertyInspectorModel {
         expandedModels,
         path,
         isInherited,
-        twin
+        twin,
+        schemas
     }: {
         contents: DtdlInterfaceContent[];
         expandedModels: DtdlInterface[];
         twin: DTwin;
         path: string;
         isInherited: boolean;
+        schemas?: DtdlInterfaceSchema[];
     }): PropertyTreeNode[] => {
         const treeNodes: PropertyTreeNode[] = [];
 
@@ -424,7 +480,8 @@ abstract class PropertyInspectorModel {
                         isMapChild: false,
                         propertySourceObject: twin,
                         modelProperty: modelItem,
-                        path
+                        path,
+                        schemas
                     });
                     break;
                 case DTDLType.Component: {
@@ -584,6 +641,57 @@ abstract class PropertyInspectorModel {
         }
     };
 
+    static conformDtdlInterface = (model: DtdlInterface) => {
+        const conformedModel = Object.assign({}, model);
+
+        const replaceKeyInObj = (obj, oldKey, newKey) => {
+            const temp = obj[oldKey];
+            delete obj[oldKey];
+            obj[newKey] = temp;
+        };
+
+        const conformSyntax = (inputEl) => {
+            // Update syntax of all object keys
+            if (typeof inputEl === 'object') {
+                Object.keys(inputEl).forEach((key) => {
+                    // Update to simplified DTDL syntax (conform to our interface)
+                    if (key in dtdlSyntaxMap) {
+                        replaceKeyInObj(inputEl, key, dtdlSyntaxMap[key]);
+                    }
+
+                    // If value @ key is string, check if string is present in syntax map
+                    if (
+                        typeof inputEl[key] === 'string' &&
+                        inputEl[key] in dtdlSyntaxMap
+                    ) {
+                        inputEl[key] = dtdlSyntaxMap[inputEl[key]];
+                    }
+
+                    // If value @ key is array, recursively iterate array items
+                    if (Array.isArray(inputEl[key])) {
+                        inputEl[key].forEach((item) => {
+                            conformSyntax(item);
+                        });
+                    }
+
+                    // if value @ key is object, recursively iterate object keys
+                    if (inputEl[key] && typeof inputEl[key] === 'object') {
+                        conformSyntax(inputEl[key]);
+                    }
+                });
+            } else if (Array.isArray(inputEl)) {
+                inputEl.forEach((item, idx) => {
+                    if (typeof item === 'string' && item in dtdlSyntaxMap) {
+                        replaceKeyInObj(inputEl, idx, dtdlSyntaxMap[item]);
+                    }
+                });
+            }
+        };
+
+        conformSyntax(conformedModel);
+        return conformedModel;
+    };
+
     /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
      *  is an instance of. */
     static parseTwinIntoPropertyTree = ({
@@ -603,6 +711,12 @@ abstract class PropertyInspectorModel {
 
         // Parse root model
         let rootModelNodes: PropertyTreeNode[] = [];
+
+        // Conform model syntax to our interface
+        rootModel = PropertyInspectorModel.conformDtdlInterface(
+            rootModel
+        ) as DtdlInterface;
+
         if (rootModel?.contents) {
             rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
                 {
@@ -610,7 +724,8 @@ abstract class PropertyInspectorModel {
                     expandedModels,
                     twin,
                     path,
-                    isInherited
+                    isInherited,
+                    schemas: rootModel.schemas
                 }
             );
         }
@@ -630,7 +745,7 @@ abstract class PropertyInspectorModel {
 
             if (extendedModelIds && expandedModels) {
                 extendedModelIds.forEach((extendedModelId) => {
-                    const extendedModel = Object.assign(
+                    let extendedModel = Object.assign(
                         {},
                         expandedModels.find(
                             (model) => model['@id'] === extendedModelId
@@ -638,6 +753,11 @@ abstract class PropertyInspectorModel {
                     );
 
                     if (extendedModel) {
+                        // Conform model syntax to our interface
+                        extendedModel = PropertyInspectorModel.conformDtdlInterface(
+                            extendedModel
+                        );
+
                         // recursively add deeply extended models
                         parseExtendedModels(extendedModel?.extends);
 
@@ -650,7 +770,8 @@ abstract class PropertyInspectorModel {
                                         expandedModels,
                                         isInherited: true,
                                         path,
-                                        twin
+                                        twin,
+                                        schemas: extendedModel.schemas
                                     }
                                 )
                             );

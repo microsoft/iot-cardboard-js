@@ -23,53 +23,7 @@
                     {
                         "@type": "Property",
                         "name": "WheelInformation",
-                        "displayName": "Wheel information",
-                        "description": "Information about car tires",
-                        "schema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "name": "leftFrontPressure",
-                                    "displayName": "Left front pressure",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "rightFrontPressure",
-                                    "displayName": "Right front pressure",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "leftRearPressure",
-                                    "displayName": "Left rear pressure",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "rightRearPressure",
-                                    "displayName": "Right rear pressure",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "tireSpecification",
-                                    "displayName": "Tire specification",
-                                    "schema": {
-                                        "@type": "Object",
-                                        "fields": [
-                                            {
-                                                "name": "tireModel",
-                                                "displayName": "Tire model",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "name": "tireWidth",
-                                                "displayName": "Tire width",
-                                                "schema": "double"
-                                            }
-                                        ]
-                                    }
-                                }
-                            ]
-                        },
-                        "writable": true
+                        "schema": "dtmi:com:cocrowle:wheelinformation;1"
                     }
                 ]
             },
@@ -213,53 +167,7 @@
             {
                 "@type": "Property",
                 "name": "WheelInformation",
-                "displayName": "Wheel information",
-                "description": "Information about car tires",
-                "schema": {
-                    "@type": "Object",
-                    "fields": [
-                        {
-                            "name": "leftFrontPressure",
-                            "displayName": "Left front pressure",
-                            "schema": "double"
-                        },
-                        {
-                            "name": "rightFrontPressure",
-                            "displayName": "Right front pressure",
-                            "schema": "double"
-                        },
-                        {
-                            "name": "leftRearPressure",
-                            "displayName": "Left rear pressure",
-                            "schema": "double"
-                        },
-                        {
-                            "name": "rightRearPressure",
-                            "displayName": "Right rear pressure",
-                            "schema": "double"
-                        },
-                        {
-                            "name": "tireSpecification",
-                            "displayName": "Tire specification",
-                            "schema": {
-                                "@type": "Object",
-                                "fields": [
-                                    {
-                                        "name": "tireModel",
-                                        "displayName": "Tire model",
-                                        "schema": "string"
-                                    },
-                                    {
-                                        "name": "tireWidth",
-                                        "displayName": "Tire width",
-                                        "schema": "double"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "writable": true
+                "schema": "dtmi:com:cocrowle:wheelinformation;1"
             },
             {
                 "@type": "Property",
@@ -311,6 +219,55 @@
                         }
                     }
                 }
+            }
+        ],
+        "schemas": [
+            {
+                "@id": "dtmi:com:cocrowle:wheelinformation;1",
+                "@type": "Object",
+                "displayName": "Wheel information",
+                "description": "Information about car tires",
+                "fields": [
+                    {
+                        "name": "leftFrontPressure",
+                        "displayName": "Left front pressure",
+                        "schema": "double"
+                    },
+                    {
+                        "name": "rightFrontPressure",
+                        "displayName": "Right front pressure",
+                        "schema": "double"
+                    },
+                    {
+                        "name": "leftRearPressure",
+                        "displayName": "Left rear pressure",
+                        "schema": "double"
+                    },
+                    {
+                        "name": "rightRearPressure",
+                        "displayName": "Right rear pressure",
+                        "schema": "double"
+                    },
+                    {
+                        "name": "tireSpecification",
+                        "displayName": "Tire specification",
+                        "schema": {
+                            "@type": "Object",
+                            "fields": [
+                                {
+                                    "name": "tireModel",
+                                    "displayName": "Tire model",
+                                    "schema": "string"
+                                },
+                                {
+                                    "name": "tireWidth",
+                                    "displayName": "Tire width",
+                                    "schema": "double"
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
         ]
     },

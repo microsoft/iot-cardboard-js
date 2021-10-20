@@ -16,6 +16,20 @@
                 "writable": true
             },
             {
+                "@type": "Relationship",
+                "name": "chargedBy",
+                "minMultiplicity": 0,
+                "maxMultiplicity": 1,
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "lastChargedStation",
+                        "schema": "string",
+                        "writable": true
+                    }
+                ]
+            },
+            {
                 "@type": "Property",
                 "@id": "dtmi:com:test:date;1",
                 "name": "testDate",
