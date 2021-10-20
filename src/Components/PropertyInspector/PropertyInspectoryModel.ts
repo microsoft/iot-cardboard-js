@@ -17,6 +17,7 @@ import {
     getModelContentType
 } from '../../Models/Services/Utils';
 import i18n from 'i18next';
+import { dtdlSyntaxMap } from './DtdlSyntaxMap';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -335,6 +336,10 @@ abstract class PropertyInspectorModel {
     ): PropertyTreeNode[] => {
         const modelledProperties = [];
 
+        relationshipDefinition = PropertyInspectorModel.conformDtdlInterface(
+            relationshipDefinition
+        );
+
         if (relationshipDefinition?.properties) {
             // Merge relationship model with active relationship properties
             relationshipDefinition.properties.forEach(
@@ -584,6 +589,57 @@ abstract class PropertyInspectorModel {
         }
     };
 
+    static conformDtdlInterface = (model) => {
+        const conformedModel = Object.assign({}, model);
+
+        const replaceKeyInObj = (obj, oldKey, newKey) => {
+            const temp = obj[oldKey];
+            delete obj[oldKey];
+            obj[newKey] = temp;
+        };
+
+        const conformSyntax = (inputEl) => {
+            // Update syntax of all object keys
+            if (typeof inputEl === 'object') {
+                Object.keys(inputEl).forEach((key) => {
+                    // Update to simplified DTDL syntax (conform to our interface)
+                    if (key in dtdlSyntaxMap) {
+                        replaceKeyInObj(inputEl, key, dtdlSyntaxMap[key]);
+                    }
+
+                    // If value @ key is string, check if string is present in syntax map
+                    if (
+                        typeof inputEl[key] === 'string' &&
+                        inputEl[key] in dtdlSyntaxMap
+                    ) {
+                        inputEl[key] = dtdlSyntaxMap[inputEl[key]];
+                    }
+
+                    // If value @ key is array, recursively iterate array items
+                    if (Array.isArray(inputEl[key])) {
+                        inputEl[key].forEach((item) => {
+                            conformSyntax(item);
+                        });
+                    }
+
+                    // if value @ key is object, recursively iterate object keys
+                    if (inputEl[key] && typeof inputEl[key] === 'object') {
+                        conformSyntax(inputEl[key]);
+                    }
+                });
+            } else if (Array.isArray(inputEl)) {
+                inputEl.forEach((item, idx) => {
+                    if (typeof item === 'string' && item in dtdlSyntaxMap) {
+                        replaceKeyInObj(inputEl, idx, dtdlSyntaxMap[item]);
+                    }
+                });
+            }
+        };
+
+        conformSyntax(conformedModel);
+        return conformedModel;
+    };
+
     /** Merges twin data returned by ADT API with the DTDL interfaces that the twin
      *  is an instance of. */
     static parseTwinIntoPropertyTree = ({
@@ -603,6 +659,12 @@ abstract class PropertyInspectorModel {
 
         // Parse root model
         let rootModelNodes: PropertyTreeNode[] = [];
+
+        // Conform model syntax to our interface
+        rootModel = PropertyInspectorModel.conformDtdlInterface(
+            rootModel
+        ) as DtdlInterface;
+
         if (rootModel?.contents) {
             rootModelNodes = PropertyInspectorModel.parseModelContentsIntoNodes(
                 {
@@ -630,7 +692,7 @@ abstract class PropertyInspectorModel {
 
             if (extendedModelIds && expandedModels) {
                 extendedModelIds.forEach((extendedModelId) => {
-                    const extendedModel = Object.assign(
+                    let extendedModel = Object.assign(
                         {},
                         expandedModels.find(
                             (model) => model['@id'] === extendedModelId
@@ -638,6 +700,11 @@ abstract class PropertyInspectorModel {
                     );
 
                     if (extendedModel) {
+                        // Conform model syntax to our interface
+                        extendedModel = PropertyInspectorModel.conformDtdlInterface(
+                            extendedModel
+                        );
+
                         // recursively add deeply extended models
                         parseExtendedModels(extendedModel?.extends);
 
