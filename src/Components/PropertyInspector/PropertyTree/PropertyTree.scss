@@ -37,9 +37,7 @@
 
     .cb-property-tree-node-name-edited {
         font-style: italic;
-        &::after {
-            content: ' *';
-        }
+        font-weight: bold;
     }
 
     .cb-property-tree-parent-node {
@@ -115,7 +113,7 @@
         input,
         textarea,
         select {
-            background-color: var(--cb-color-natural-light);
+            background-color: var(--cb-color-input-edited-bg);
         }
     }
 

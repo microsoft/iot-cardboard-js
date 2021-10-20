@@ -127,7 +127,13 @@ abstract class PropertyInspectorModel {
                 isObjectChild,
                 isMapChild,
                 propertySourceObject,
-                modelProperty: { ...modelProperty, schema: targetSchema },
+                modelProperty: {
+                    ...modelProperty,
+                    schema: targetSchema,
+                    ...(targetSchema.displayName && {
+                        displayName: targetSchema.displayName
+                    })
+                },
                 path,
                 schemas
             });
