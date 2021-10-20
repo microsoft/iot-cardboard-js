@@ -37,6 +37,9 @@
 
     .cb-property-tree-node-name-edited {
         font-style: italic;
+        &::after {
+            content: ' *';
+        }
     }
 
     .cb-property-tree-parent-node {

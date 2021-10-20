@@ -36,7 +36,7 @@ export type TwinParams = {
 
 export type RelationshipParams = {
     relationship: IADTRelationship;
-    relationshipDefinition: DtdlRelationship;
+    relationshipModel: DtdlInterface;
 };
 
 export const isTwin = (
