@@ -43,7 +43,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
               })
             : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                   props.inputData.relationship,
-                  props.inputData.relationshipDefinition
+                  props.inputData.relationshipModel
               );
     }, [props.inputData, i18n.language]);
 

@@ -12,7 +12,7 @@ export interface DtdlInterface {
 
 export interface DtdlInterfaceSchema {
     '@id': string;
-    '@type': 'Array' | 'String' | 'Map' | 'Object';
+    '@type': 'Array' | 'Enum' | 'Map' | 'Object';
     comment?: string;
     description?: string;
     displayName?: string;

@@ -220,7 +220,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 twin: twinData.adapterResult.getData()
             });
         } else if (data) {
-            let relationshipDefinition = null;
+            let relationshipModel = null;
             const relationship = relationshipData.adapterResult.getData();
             const expandedModels = modelData.adapterResult.getData()
                 .expandedModels;
@@ -233,17 +233,17 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                             type === DTDLType.Relationship &&
                             relationship['$relationshipName'] === item.name
                         ) {
-                            relationshipDefinition = item;
+                            relationshipModel = model;
                             break;
                         }
                     }
                 }
-                if (relationshipDefinition) break;
+                if (relationshipModel) break;
             }
 
             setInputData({
                 relationship: relationship,
-                relationshipDefinition
+                relationshipModel
             });
         }
         setIsInitialLoad(false);
