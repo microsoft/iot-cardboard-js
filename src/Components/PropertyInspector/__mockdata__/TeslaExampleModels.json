@@ -31,7 +31,7 @@
                 "@type": "Property",
                 "@id": "dtmi:com:cocrowle:batterydead;1",
                 "name": "BatteryDeadState",
-                "schema": "boolean",
+                "dtmi:dtdl:property:schema;2": "boolean",
                 "comment": "",
                 "description": "Battery state",
                 "displayName": "Battery dead",
@@ -61,7 +61,7 @@
                 "@type": "Property",
                 "@id": "dtmi:com:cocrowle:batteryLevel;1",
                 "name": "BatteryLevel",
-                "schema": "double",
+                "dtmi:dtdl:property:schema;2": "double",
                 "comment": "",
                 "description": "Current Battery Level",
                 "displayName": "Battery level",
@@ -176,11 +176,11 @@
                 "writable": true,
                 "schema": {
                     "@type": "Map",
-                    "mapKey": {
+                    "dtmi:dtdl:property:mapKey;2": {
                         "name": "ChargeStationName",
                         "schema": "string"
                     },
-                    "mapValue": {
+                    "dtmi:dtdl:property:mapValue;2": {
                         "name": "ChargeInformation",
                         "schema": {
                             "@type": "Object",
