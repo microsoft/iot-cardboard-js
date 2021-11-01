@@ -8,8 +8,6 @@
 This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
 > Note: Stories which require authentication or API interaction can be found in the local development storybook. 
 
-## Questions for maintainers 🙏
-If you have a question for one of the project maintainers, please post the question [here](https://github.com/microsoft/iot-cardboard-js/discussions/categories/q-a).  We'll get back to you as soon as possible!
 ## Using **iot-cardboard-js** components 🔥
 ### Installing
 Install our `beta` package from npm with:
@@ -34,6 +32,12 @@ Storybook stories are the best way to learn how to use our components.  Files en
 Check out the [KeyValuePairCard](src/Cards/KeyValuePairCard/Consume/KeyValuePairCard.stories.tsx) stories for an example of this.
 
 You can also see the code required to use a component by opening either the [live](https://601c6b2fcd385c002100f14c-exzabxrkak.chromatic.com/?path=/docs/keyvaluepaircard-consume--mock) or local storybook, selecting the **docs** tab at the top of a story, and clicking **show code** at the bottom right of a story panel.  This opens a view of the code used to render that story!
+
+## Questions for maintainers 🙏
+If you have a question for one of the project maintainers, please post the question [here](https://github.com/microsoft/iot-cardboard-js/discussions/categories/q-a).  We'll get back to you as soon as possible!
+### Issue templates
+- [File a bug](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=bug+%3Abug%3A&template=bug-report.md&title=) 🐛
+- [Request a new feature](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=enhancement+%3Abulb%3A&template=feature_request.md&title=) 💡
 ## Contributing 🚀
 ### Setting up local development
 1. Clone this repository.
@@ -46,7 +50,7 @@ You can also see the code required to use a component by opening either the [liv
 7.  Create a `secrets.user.js` file in the `.storybook/` folder using the [`secrets.placeholder.js`](.storybook/secrets.placeholder.js) file as a template.
 8. `npm run storybook` starts the local development storybook.  Navigate to the callback URL you entered in the `secrets.user.js` file to see the development storybook!
 
-> Note: If you have any questions about setting up your hosts file, configuring your development secrets, or any other local development setup issues, please contact one of the [maintainers](#questions-for-maintainers-🙏)
+> Note: If you have any questions about setting up your hosts file, configuring your development secrets, or any other local development setup issues, please post in the Q&A forum [here](https://github.com/microsoft/iot-cardboard-js/discussions/categories/q-a)
 
 ### Important npm scripts
 |Command (prefix with `npm run`)|Effect|
