@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import PropertyTree from './PropertyTree/PropertyTree';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
@@ -32,41 +32,51 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
 ) => {
     const { t, i18n } = useTranslation();
 
-    const originalTree = useMemo(() => {
-        return isTwin(props.inputData)
-            ? PropertyInspectorModel.parseTwinIntoPropertyTree({
-                  isInherited: false,
-                  path: '',
-                  rootModel: props.inputData.rootModel,
-                  twin: props.inputData.twin,
-                  expandedModels: props.inputData.expandedModels
-              })
-            : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
-                  props.inputData.relationship,
-                  props.inputData.relationshipModel
-              );
-    }, [props.inputData, i18n.language]);
-
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
         ...defaultStandalonePropertyInspectorState,
-        propertyTreeNodes: originalTree,
-        originalPropertyTreeNodes: originalTree.map((el) =>
-            Object.assign({}, el)
-        )
+        propertyTreeNodes: [],
+        originalPropertyTreeNodes: []
     });
 
     // Reset property inspector when input data changes
     useEffect(() => {
-        dispatch({
-            type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree
-        });
+        const parseTreeAsync = async () => {
+            const parsedModels = isTwin(props.inputData)
+                ? await PropertyInspectorModel.parseDtdl(
+                      props.inputData.expandedModels
+                  )
+                : await PropertyInspectorModel.parseDtdl([
+                      props.inputData.relationshipModel
+                  ]);
+
+            console.log(parsedModels);
+
+            const parsedTree = isTwin(props.inputData)
+                ? PropertyInspectorModel.parseTwinIntoPropertyTree({
+                      isInherited: false,
+                      path: '',
+                      rootModel: props.inputData.rootModel,
+                      twin: props.inputData.twin,
+                      expandedModels: props.inputData.expandedModels
+                  })
+                : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
+                      props.inputData.relationship,
+                      props.inputData.relationshipModel
+                  );
+
+            dispatch({
+                type: spiActionType.SET_PROPERTY_TREE_NODES,
+                nodes: parsedTree
+            });
+        };
+
+        parseTreeAsync();
     }, [props.inputData, i18n.language]);
 
     const undoAllChanges = () => {
         dispatch({
             type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree
+            nodes: state.originalPropertyTreeNodes
         });
         dispatch({
             type: spiActionType.RESET_EDIT_STATUS

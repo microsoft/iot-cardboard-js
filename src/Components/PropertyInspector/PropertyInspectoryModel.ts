@@ -19,6 +19,7 @@ import {
 } from '../../Models/Services/Utils';
 import i18n from 'i18next';
 import { dtdlSyntaxMap } from '../../Models/Constants/DtdlSyntaxMap';
+import { ModelParserFactory, ModelParsingOption } from 'azure-iot-parser-node';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -27,6 +28,24 @@ import { dtdlSyntaxMap } from '../../Models/Constants/DtdlSyntaxMap';
  *  - Various utitilies to do with PropertyInspector model
  */
 abstract class PropertyInspectorModel {
+    static parseDtdl = async (dtdlModels: DtdlInterface[]) => {
+        try {
+            const parser = ModelParserFactory.create(
+                ModelParsingOption.PermitAnyTopLevelElement
+            );
+        } catch (err) {
+            console.log(err);
+        }
+        // const rawModelJsonStrings = dtdlModels.map((model) =>
+        //     JSON.stringify(model)
+        // );
+        // debugger;
+        // const parsedModels = await parser.parse(rawModelJsonStrings);
+        // debugger;
+        // return parsedModels;
+        return null;
+    };
+
     /** Looks up property on Twin | Relationship or returns default value if unset */
     static getPropertyValueOrDefault = (
         propertyName: string,
