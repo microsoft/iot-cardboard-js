@@ -369,7 +369,7 @@ abstract class PropertyInspectorModel {
             relationshipModel
         );
 
-        if (relationshipModel.contents) {
+        if (relationshipModel?.contents) {
             let relationshipDefinition: DtdlRelationship = null;
 
             for (const item of relationshipModel.contents) {
@@ -642,6 +642,7 @@ abstract class PropertyInspectorModel {
     };
 
     static conformDtdlInterface = (model: DtdlInterface) => {
+        if (!model) return null;
         const conformedModel = JSON.parse(JSON.stringify(model));
 
         const replaceKeyInObj = (obj, oldKey, newKey) => {
