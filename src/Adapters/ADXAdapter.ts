@@ -75,15 +75,12 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
             };
 
             try {
-                let adxDataHistoryResults = [];
-                if (this.clusterUrl && this.databaseName && this.tableName) {
-                    // fetch data history of the properties using ADX api
-                    adxDataHistoryResults = await Promise.all(
-                        properties.map(async (prop) =>
-                            getDataHistoryOfProperty(prop)
-                        )
-                    );
-                }
+                // fetch data history of the properties using ADX api
+                const adxDataHistoryResults = await Promise.all(
+                    properties.map(async (prop) =>
+                        getDataHistoryOfProperty(prop)
+                    )
+                );
 
                 // parse all data history results to get available timestamp and value pairs for the properties
                 const tsqResults = [];
