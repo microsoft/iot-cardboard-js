@@ -100,7 +100,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 }
 
 export interface IAuthService {
-    login: () => void;
+    login: (continuation?: any) => void; // continuation is for a callback function to pass some login information when it succeeds (e.g. name, userName)
     getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
 }
 
@@ -384,7 +384,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
-    getADTInstances: (tenantId?: string) => AdapterReturnType<ADTInstancesData>;
+    getADTInstances: (tenantId: string) => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

@@ -9,7 +9,7 @@ import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 
 export default class ADTandADXAdapter {
-    private tenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47'; // Microsoft tenant
+    private tenantId = '';
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
@@ -20,9 +20,14 @@ export default class ADTandADXAdapter {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.adxAuthService = authService;
         this.adtProxyServerPath = adtProxyServerPath;
-        this.tenantId = tenantId;
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
-        this.authService.login();
+        this.authService.login((_name, _userName, tenants) => {
+            if (tenants?.map((t) => t.tenantId).includes(tenantId)) {
+                this.tenantId = tenantId;
+            } else {
+                this.tenantId = tenants[0]?.tenantId;
+            }
+        });
 
         if (adxInformation) {
             this.clusterUrl = adxInformation.kustoClusterUrl;

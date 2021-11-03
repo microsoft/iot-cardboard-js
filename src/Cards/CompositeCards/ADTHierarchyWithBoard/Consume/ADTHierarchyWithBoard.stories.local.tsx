@@ -61,7 +61,8 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId
                     )
                 }
                 lookupTwinId={args.lookupTwinId}

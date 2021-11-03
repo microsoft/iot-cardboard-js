@@ -23,7 +23,8 @@ export const AuthenticationParameters = {
             authority: 'AUTHORITY_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',
             scope: 'SCOPE_PLACEHOLDER',
-            redirectUri: 'REDIRECTURI_PLACEHOLDER'
+            redirectUri: 'REDIRECTURI_PLACEHOLDER',
+            tenantId: 'TENANTID_PLACEHOLDER'
         }
     },
     adx: {

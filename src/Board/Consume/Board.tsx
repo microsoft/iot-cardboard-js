@@ -67,7 +67,7 @@ const Board: React.FC<IBoardProps> = ({
 
         boardInfo =
             boardInfoObject === null
-                ? getDefaultBoardInfo(adtTwin, t)
+                ? getDefaultBoardInfo(adtTwin, t, searchSpan)
                 : BoardInfo.fromObject(boardInfoObject);
     }
 
@@ -288,7 +288,8 @@ function getCardElement(
 
 function getDefaultBoardInfo(
     dtTwin: IADTTwin,
-    t: (str: string) => string
+    t: (str: string) => string,
+    searchSpan?: SearchSpan
 ): BoardInfo {
     const board = new BoardInfo();
     board.layout = { numColumns: 3 };
@@ -341,7 +342,9 @@ function getDefaultBoardInfo(
 
     const dataHistory = CardInfo.fromObject({
         key: `historized-data`,
-        title: t('board.dataHistory'),
+        title: `${t('board.dataHistory')}${
+            searchSpan ? '' : ', ' + t('sdkStrings.Last 7 Days')
+        }`,
         type: CardTypes.LineChart,
         size: { rows: 3, columns: 3 },
         cardProperties: { pollingIntervalMillis: 5000 },
