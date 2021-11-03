@@ -866,6 +866,24 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            if (!tenantId) {
+                const tenants = await axios({
+                    method: 'get',
+                    url: `https://management.azure.com/tenants`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token
+                    },
+                    params: {
+                        'api-version': '2020-01-01'
+                    }
+                });
+
+                tenantId = tenants.data.value.filter(
+                    (t) => t.defaultDomain === 'microsoft.onmicrosoft.com'
+                )[0].tenantId;
+            }
+
             const subscriptions = await axios({
                 method: 'get',
                 url: `https://management.azure.com/subscriptions`,

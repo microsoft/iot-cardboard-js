@@ -100,7 +100,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 }
 
 export interface IAuthService {
-    login: (continuation?: any) => void; // continuation is for a callback function to pass some login information when it succeeds (e.g. name, userName)
+    login: () => void;
     getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
 }
 

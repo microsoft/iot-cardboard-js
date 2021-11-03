@@ -49,49 +49,13 @@ export default class MsalAuthService implements IAuthService {
         );
     }
 
-    public login = (continuation) => {
-        const getTenantsAndContinuation = (name, userName) => {
-            this.getToken('azureManagement').then((token) => {
-                if (!token) {
-                    console.log(
-                        'Retrieving management token failed, assuming MSA flow'
-                    );
-                    continuation(name, userName, [], true);
-                } else {
-                    MsalAuthService.promiseHttpRequest(
-                        token,
-                        `https://management.azure.com/tenants?api-version=2020-01-01`,
-                        {},
-                        'GET'
-                    )
-                        .then((tenants: any) => {
-                            try {
-                                const responsePayload = JSON.parse(tenants);
-                                tenants = responsePayload.value;
-                                continuation(name, userName, tenants);
-                            } catch (e) {
-                                continuation(name, userName, []);
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            continuation(name, userName, []);
-                        });
-                }
-            });
-        };
-
+    public login = () => {
         this.isLoggingIn = true;
+
         const accounts = this.authContext.getAllAccounts();
         if (accounts.length) {
             this.authContext.setActiveAccount(accounts[0]);
             this.isLoggingIn = false;
-            if (continuation) {
-                getTenantsAndContinuation(
-                    accounts[0].name,
-                    accounts[0].username
-                );
-            }
             this.shiftAndExecuteGetTokenCall();
         } else {
             this.authContext
@@ -101,12 +65,6 @@ export default class MsalAuthService implements IAuthService {
                     const currentAccounts = this.authContext.getAllAccounts();
                     this.authContext.setActiveAccount(currentAccounts[0]);
                     this.isLoggingIn = false;
-                    if (continuation) {
-                        getTenantsAndContinuation(
-                            currentAccounts[0].name,
-                            currentAccounts[0].username
-                        );
-                    }
                     this.shiftAndExecuteGetTokenCall();
                 })
                 .catch(function (error) {
@@ -222,27 +180,4 @@ export default class MsalAuthService implements IAuthService {
             ) as Promise<string>;
         }
     };
-
-    static promiseHttpRequest = (token, url, payload, verb = 'POST') =>
-        new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState !== 4) {
-                    return;
-                }
-
-                if (xhr.status === 200 || xhr.status === 202) {
-                    if (xhr.responseText.length === 0) {
-                        resolve({});
-                    } else {
-                        resolve(xhr.responseText);
-                    }
-                } else {
-                    reject(xhr);
-                }
-            };
-            xhr.open(verb, url);
-            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-            xhr.send(payload);
-        });
 }
