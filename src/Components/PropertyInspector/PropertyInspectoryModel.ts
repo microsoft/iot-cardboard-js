@@ -205,7 +205,8 @@ abstract class PropertyInspectorModel {
                                               modelProperty.name
                                           ),
                                     isObjectChild: true,
-                                    isMapChild: false
+                                    isMapChild: false,
+                                    schemas
                                 })
                             ) ?? [],
                         isCollapsed: true,
@@ -342,7 +343,8 @@ abstract class PropertyInspectorModel {
                                               propertySourceObject: mapValue,
                                               mapInfo: { key },
                                               isMapChild: true,
-                                              forceSet: true
+                                              forceSet: true,
+                                              schemas
                                           }
                                       );
                                   })
