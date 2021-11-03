@@ -152,7 +152,6 @@ export default class ADTAdapter implements IADTAdapter {
 
     getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTModelData,
             {
@@ -879,9 +878,7 @@ export default class ADTAdapter implements IADTAdapter {
                     }
                 });
 
-                tenantId = tenants.data.value.filter(
-                    (t) => t.defaultDomain === 'microsoft.onmicrosoft.com'
-                )[0].tenantId;
+                tenantId = tenants.data.value[0].tenantId;
             }
 
             const subscriptions = await axios({
@@ -896,7 +893,6 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             });
 
-            // default is Microsoft tenant
             const subscriptionsByTenantId = subscriptions.data.value
                 .filter((s) => s.tenantId === tenantId)
                 .map((s) => s.subscriptionId);

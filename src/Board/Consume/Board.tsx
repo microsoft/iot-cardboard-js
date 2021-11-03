@@ -343,7 +343,7 @@ function getDefaultBoardInfo(
     const dataHistory = CardInfo.fromObject({
         key: `historized-data`,
         title: `${t('board.dataHistory')}${
-            searchSpan ? '' : ', ' + t('sdkStrings.Last 7 Days')
+            searchSpan ? '' : ', ' + t('board.last7days')
         }`,
         type: CardTypes.LineChart,
         size: { rows: 3, columns: 3 },

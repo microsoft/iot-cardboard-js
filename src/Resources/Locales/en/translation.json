@@ -148,7 +148,8 @@
         "model": "Model",
         "relationshipsTable": "Relationships Table",
         "processGraphic": "Process Graphic",
-        "dataHistory": "Data history"
+        "dataHistory": "Data history",
+        "last7days": "Last 7 days"
     },
     "boardErrors": {
         "failure": "Unable to load board data",
