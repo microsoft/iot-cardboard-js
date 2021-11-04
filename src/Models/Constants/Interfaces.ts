@@ -548,3 +548,10 @@ export interface IJSONUploaderFileItem {
     content?: JSON | Error;
     status: FileUploadStatus;
 }
+
+export interface IADTEnvironments {
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
+    adapter: IADTAdapter;
+}
