@@ -53,13 +53,14 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 import SceneViewLabel from '../Models/Classes/SceneViewLabel';
 import { Parser } from 'expr-eval';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class ADTAdapter implements IADTAdapter {
-    private authService: IAuthService;
+    protected authService: IAuthService;
     public adtHostUrl: string;
-    private adtProxyServerPath: string;
+    protected adtProxyServerPath: string;
     public packetNumber = 0;
-    private axiosInstance: AxiosInstance;
+    protected axiosInstance: AxiosInstance;
 
     constructor(
         adtHostUrl: string,
@@ -151,7 +152,6 @@ export default class ADTAdapter implements IADTAdapter {
 
     getADTModel(modelId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTModelData,
             {
@@ -526,37 +526,9 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async lookupADTTwin(twinId: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const twinData = await adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTTwinData,
-            {
-                method: 'get',
-                url: `${
-                    this.adtProxyServerPath
-                }/digitaltwins/${encodeURIComponent(twinId)}`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
-                params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
-        );
-
-        const modelData = await adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTModelData,
-            {
-                method: 'get',
-                url: `${this.adtProxyServerPath}/models/${
-                    twinData.getData()?.$metadata?.$model
-                }`,
-                headers: {
-                    'x-adt-host': this.adtHostUrl
-                },
-                params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+        const twinData = await this.getADTTwin(twinId);
+        const modelData = await this.getADTModel(
+            twinData.getData()?.$metadata?.$model
         );
         return new ADTTwinLookupData(twinData.getData(), modelData.getData());
     }
@@ -887,5 +859,74 @@ export default class ADTAdapter implements IADTAdapter {
                 labelsList
             );
         });
+    }
+
+    async getADTInstances(tenantId?: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            if (!tenantId) {
+                const tenants = await axios({
+                    method: 'get',
+                    url: `https://management.azure.com/tenants`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + token
+                    },
+                    params: {
+                        'api-version': '2020-01-01'
+                    }
+                });
+
+                tenantId = tenants.data.value[0].tenantId;
+            }
+
+            const subscriptions = await axios({
+                method: 'get',
+                url: `https://management.azure.com/subscriptions`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token
+                },
+                params: {
+                    'api-version': '2020-01-01'
+                }
+            });
+
+            const subscriptionsByTenantId = subscriptions.data.value
+                .filter((s) => s.tenantId === tenantId)
+                .map((s) => s.subscriptionId);
+
+            const digitalTwinInstances = await Promise.all(
+                subscriptionsByTenantId.map((subscriptionId) => {
+                    return axios({
+                        method: 'get',
+                        url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances`,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + token
+                        },
+                        params: {
+                            'api-version': '2020-12-01'
+                        }
+                    });
+                })
+            );
+
+            const digitalTwinsInstanceDictionary = [];
+            digitalTwinInstances.forEach((i: any) => {
+                if (i.data.value.length) {
+                    i.data.value.map((instance) =>
+                        digitalTwinsInstanceDictionary.push({
+                            hostName: instance.properties.hostName,
+                            resourceId: instance.id,
+                            location: instance.location
+                        })
+                    );
+                }
+            });
+
+            return new ADTInstancesData(digitalTwinsInstanceDictionary);
+        }, 'azureManagement');
     }
 }

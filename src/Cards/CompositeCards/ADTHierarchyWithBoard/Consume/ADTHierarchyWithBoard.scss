@@ -1,9 +1,7 @@
 .cb-hbcard-container {
-    display: flex;
-    flex-direction: row;
     height: 100%;
     min-height: 600px;
-    width: 1280px;
+    width: 100%;
 
     .cb-hbcard-hierarchy {
         height: 100%;
@@ -18,5 +16,9 @@
 
     .cb-board {
         grid-template-rows: 80px;
+    }
+
+    .cb-base-composite-card-item:last-child {
+        flex-grow: 1;
     }
 }

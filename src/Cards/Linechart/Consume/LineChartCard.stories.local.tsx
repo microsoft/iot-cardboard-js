@@ -4,6 +4,7 @@ import TsiAdapter from '../../../Adapters/TsiAdapter';
 import { SearchSpan } from '../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../.storybook/useAuthParams';
+import ADXAdapter from '../../../Adapters/ADXAdapter';
 
 export default {
     title: 'Linechart/Consume',
@@ -37,6 +38,44 @@ export const TsiData = (
                         authenticationParameters.tsi.environmentFqdn,
                         new MsalAuthService(
                             authenticationParameters.tsi.aadParameters
+                        )
+                    )
+                }
+            />
+        </div>
+    );
+};
+
+export const ADXData = (
+    _args,
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+) => {
+    const authenticationParameters = useAuthParams();
+    const twinId = 'CarTwin';
+    const twinProperties = ['Speed', 'OilPressure'];
+    const twinSearchSpan = new SearchSpan(
+        new Date('2021-09-10'),
+        new Date('2021-09-17'),
+        '6h'
+    );
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={defaultCardWrapperStyle}>
+            <LinechartCard
+                title={twinId}
+                theme={theme}
+                locale={locale}
+                id={twinId}
+                searchSpan={twinSearchSpan}
+                properties={twinProperties}
+                adapter={
+                    new ADXAdapter(
+                        authenticationParameters.adx.clusterUrl,
+                        authenticationParameters.adx.databaseName,
+                        authenticationParameters.adx.tableName,
+                        new MsalAuthService(
+                            authenticationParameters.adx.aadParameters
                         )
                     )
                 }

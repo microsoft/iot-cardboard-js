@@ -10,7 +10,7 @@ import {
 } from '../../../.storybook/test_data/sampleBoardInfo';
 
 const boardStyle = {
-    height: '720px',
+    height: '900px',
     width: '1280px'
 };
 
