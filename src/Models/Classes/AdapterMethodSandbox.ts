@@ -53,7 +53,7 @@ class AdapterMethodSandbox {
      * Fetch token wrapped in try / catch block.  If token fetch fails, will attach
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
-    private async safelyFetchToken() {
+    private async safelyFetchToken(tokenFor?: 'azureManagement' | 'adx') {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
             return null;
@@ -61,7 +61,7 @@ class AdapterMethodSandbox {
 
         let token;
         try {
-            token = await this.authService.getToken();
+            token = await this.authService.getToken(tokenFor);
             if (!token) {
                 throw new Error('Token undefined');
             }
@@ -86,11 +86,12 @@ class AdapterMethodSandbox {
      * • Uncaught errors will be treated as catastrophic errors with unknown types and will also halt adapter execution.
      *  */
     async safelyFetchData<T extends IAdapterData>(
-        fetchDataWithToken: (token?: string) => Promise<T>
+        fetchDataWithToken: (token?: string) => Promise<T>,
+        tokenFor?: 'azureManagement' | 'adx'
     ) {
         try {
             // Fetch token
-            const token = await this.safelyFetchToken();
+            const token = await this.safelyFetchToken(tokenFor);
             // Execute data fetching callback
             const data = await fetchDataWithToken(token);
 

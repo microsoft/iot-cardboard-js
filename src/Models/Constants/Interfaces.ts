@@ -42,6 +42,7 @@ import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModel
 import SceneViewLabel from '../Classes/SceneViewLabel';
 import { Vector3 } from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
+import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 
 export interface IAction {
     type: string;
@@ -100,7 +101,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 
 export interface IAuthService {
     login: () => void;
-    getToken: () => Promise<string>;
+    getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -205,6 +206,18 @@ export interface IHierarchyNode {
     isSelected?: boolean;
     isLoading?: boolean;
     isNewlyAdded?: boolean;
+}
+
+export interface IADTInstance {
+    hostName: string;
+    resourceId: string;
+    location: string;
+}
+
+export interface IADTInstanceConnection {
+    kustoClusterUrl: string;
+    kustoDatabaseName: string;
+    kustoTableName: string;
 }
 
 export interface IADTModel {
@@ -371,6 +384,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
+    getADTInstances: (tenantId?: string) => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
