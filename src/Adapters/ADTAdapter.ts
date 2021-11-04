@@ -861,7 +861,7 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getADTInstances(tenantId) {
+    async getADTInstances(tenantId?: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
