@@ -38,37 +38,6 @@ If you have a question for one of the project maintainers, please post the quest
 ### Issue templates
 - [File a bug](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=bug+%3Abug%3A&template=bug-report.md&title=) 🐛
 - [Request a new feature](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=enhancement+%3Abulb%3A&template=feature_request.md&title=) 💡
-## Contributing 🚀
-### Setting up local development
-1. Clone this repository.
-2. Open this project in VS code
-3. Install the [recommended VS Code extensions](#recommended-vs-code-extensions)
-4. Add `127.0.0.1 <your_callback_url>` to your hosts file.  A valid callback URL is required for auth tokens in local development.
-    - Windows `hosts` file path: `C:\Windows\System32\drivers\etc`
-    - Mac `hosts` file path: `/etc/hosts`
-5. `npm install` to install this project's dependencies
-7.  Create a `secrets.user.js` file in the `.storybook/` folder using the [`secrets.placeholder.js`](.storybook/secrets.placeholder.js) file as a template.
-8. `npm run storybook` starts the local development storybook.  Navigate to the callback URL you entered in the `secrets.user.js` file to see the development storybook!
-
-> Note: If you have any questions about setting up your hosts file, configuring your development secrets, or any other local development setup issues, please post in the Q&A forum [here](https://github.com/microsoft/iot-cardboard-js/discussions/categories/q-a)
-
-### Important npm scripts
-|Command (prefix with `npm run`)|Effect|
-|----|-------|
-|`build`|Bundles library with rollup.js|
-|`storybook`|Starts Storybook UI component explorer|
-|`test`| Run jest test suite|
-|`test:watch`| Run tests in hot-reloading *watch* mode|
-|`lint`| Formats code to conform to *prettier* and *stylelint* format|
-|`lint:check`| Checks for *eslint*, *prettier*, and *stylelint* formatting errors/warnings.|
-
-### Recommended VS Code extensions
-We recommend you install the following vs-code extensions to streamline the code quality and linting process.
-|Name|Purpose|
-|----|-------|
-|Prettier - Code formatter| Enforces a [consistent style](https://prettier.io/docs/en/why-prettier.html) by parsing your code and re-printing it. To ensure that this extension is used over other extensions you may have installed, be sure to set it as the [default formatter](https://github.com/prettier/prettier-vscode#default-formatter) in your VS Code settings. This setting can be set for all languages or by a specific language. To allow for auto-linting on file save, you must have the default formatter set as `prettier-vscode` and have `Editor: format on save` checked.  These settings can be changed in your VS Code preferences.|
-|ESLint| Integrates ESLint into VS Code. If you are new to ESLint check the [documentation](https://eslint.org/).|
-|stylelint| A Visual Studio Code extension to lint CSS/SCSS/Less with [stylelint](https://stylelint.io/)|
 
 ## Contributor License Agreement 📃
 
