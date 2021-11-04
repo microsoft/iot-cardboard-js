@@ -35,9 +35,15 @@ You can also see the code required to use a component by opening either the [liv
 
 ## Questions for maintainers 🙏
 If you have a question for one of the project maintainers, please post the question [here](https://github.com/microsoft/iot-cardboard-js/discussions/categories/q-a).  We'll get back to you as soon as possible!
+
 ### Issue templates
 - [File a bug](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=bug+%3Abug%3A&template=bug-report.md&title=) 🐛
 - [Request a new feature](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=enhancement+%3Abulb%3A&template=feature_request.md&title=) 💡
+
+## Contributing 🚀
+- To contribute to this project, head over to our [contribution guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Contributing-%F0%9F%9A%80) to get started.
+- To learn about our codebase philosophy, check out the [design patterns wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Design-patterns).
+- For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-integration-and-delivery-%F0%9F%94%8E).
 
 ## Contributor License Agreement 📃
 
