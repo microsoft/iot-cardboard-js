@@ -1,11 +1,13 @@
+import { ADTandADXAdapter } from '../../../../Adapters';
+import { SearchSpan } from '../../../../Models/Classes';
 import {
-    IADTAdapter,
     IADTTwin,
     IConsumeCompositeCardProps
 } from '../../../../Models/Constants/Interfaces';
 
 export interface ADTHierarchyWithBoardProps extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter;
+    adapter: ADTandADXAdapter;
     lookupTwinId?: string;
     onTwinClick?: (twin: IADTTwin) => void;
+    searchSpanForDataHistory?: SearchSpan; // if not provided it pulls data history for the last 7 days
 }

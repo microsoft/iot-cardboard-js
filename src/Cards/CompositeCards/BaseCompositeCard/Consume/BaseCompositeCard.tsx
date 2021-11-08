@@ -8,6 +8,7 @@ import i18n from '../../../../i18n';
 import Overlay from '../../../../Components/Modal/Overlay';
 
 const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
+    isLoading,
     children,
     title,
     theme,
@@ -31,6 +32,7 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
                             </h3>
                         )}
                         <div className="cb-base-composite-card-content">
+                            {isLoading && <Overlay>{t('loading')}</Overlay>}
                             {!children ? (
                                 <Overlay>{t('empty')}</Overlay>
                             ) : (
