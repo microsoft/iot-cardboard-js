@@ -120,7 +120,8 @@ const StandalonePropertyInspectorReducer = produce(
                         modelProperty: (mapNode.mapDefinition.schema as any)
                             .mapValue,
                         isMapChild: true,
-                        forceSet: true
+                        forceSet: true,
+                        schemas: mapNode.mapSchemas
                     }
                 );
 

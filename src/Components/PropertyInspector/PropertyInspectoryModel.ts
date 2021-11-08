@@ -348,7 +348,8 @@ abstract class PropertyInspectorModel {
                                           }
                                       );
                                   })
-                                : null
+                                : null,
+                        ...(schemas && { mapSchemas: schemas })
                     };
                 }
                 case DTDLSchemaType.Array: // TODO support arrays in future
