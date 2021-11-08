@@ -114,3 +114,12 @@ export const MissingAllModelsMock = (_args, { globals: { theme, locale } }) => (
         />
     </div>
 );
+
+export const PropertyInspectorErrorBoundary = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector theme={theme} locale={locale} />
+    </div>
+);
