@@ -135,7 +135,9 @@ abstract class PropertyInspectorModel {
                     })
                 },
                 path,
-                schemas
+                schemas,
+                mapInfo,
+                forceSet
             });
         } else if (
             typeof modelProperty.schema === 'string' &&
