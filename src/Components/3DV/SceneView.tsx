@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
+// THIS CODE AND INFORMATION IS PROVIDED AS IS WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
+//
+// Copyright (c) Microsoft. All rights reserved
+//
+
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
-import { ProgressIndicator } from '@fluentui/react';
-import '@babylonjs/loaders/glTF';
-import './SceneView.scss';
 import * as GUI from 'babylonjs-gui';
-import { SceneViewProps } from '../../Models/Constants/Interfaces';
+import { ProgressIndicator } from '@fluentui/react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import './SceneView.scss';
+
+const debug = false;
 
 const widths = [
     0,
@@ -147,6 +155,28 @@ function measureText(str: string, fontSize: number) {
     );
 }
 
+export function UUID(): string {
+    const nbr = Math.random();
+    let randStr = '';
+    do {
+        randStr += nbr.toString(16).substr(2);
+    } while (randStr.length < 30);
+
+    // tslint:disable-next-line: no-bitwise
+    return [
+        randStr.substr(0, 8),
+        '-',
+        randStr.substr(8, 4),
+        '-4',
+        randStr.substr(12, 3),
+        '-',
+        (((nbr * 4) | 0) + 8).toString(16),
+        randStr.substr(15, 3),
+        '-',
+        randStr.substr(18, 12)
+    ].join('');
+}
+
 async function loadPromise(
     root,
     file,
@@ -163,173 +193,516 @@ async function loadPromise(
                 resolve(container);
             },
             (e) => onProgress(e),
-            () => onError()
+            (s, m, e) => onError(s, m, e)
         );
     });
 }
 
-export const SceneView: React.FC<SceneViewProps> = ({
+export function convertLatLonToVector3(
+    latitude: number,
+    longitude: number,
+    earthRadius = 50
+): BABYLON.Vector3 {
+    let latitude_rad = (latitude * Math.PI) / 180;
+    let longitude_rad = (longitude * Math.PI) / 180;
+    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
+    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
+    const y = earthRadius * Math.sin(latitude_rad);
+    return new BABYLON.Vector3(x, y, z);
+}
+
+type SceneViewCallbackHandler = (
+    marker: Marker,
+    mesh: BABYLON.AbstractMesh,
+    e: PointerEvent
+) => void;
+
+export interface SceneViewLabel {
+    metric: string;
+    value: number;
+    meshId: string;
+    color: string;
+}
+
+export class Marker {
+    name: string;
+    position?: BABYLON.Vector3;
+    latitude?: number;
+    longitude?: number;
+    color: BABYLON.Color3;
+    isNav?: boolean;
+}
+
+export class ChildTwin {
+    name: string;
+    position: string;
+}
+
+interface IProp {
+    modelUrl: string;
+    cameraRadius: number;
+    cameraCenter?: BABYLON.Vector3;
+    markers?: Marker[];
+    onMarkerClick?: (
+        marker: Marker,
+        mesh: BABYLON.AbstractMesh,
+        e: PointerEvent
+    ) => void;
+    onMarkerHover?: (
+        marker: Marker,
+        mesh: BABYLON.AbstractMesh,
+        e: PointerEvent
+    ) => void;
+    labels?: SceneViewLabel[];
+    children?: ChildTwin[];
+}
+
+let lastName = '';
+
+export const SceneView: React.FC<IProp> = ({
     modelUrl,
     cameraRadius,
     cameraCenter,
-    labels
+    markers,
+    onMarkerClick,
+    onMarkerHover,
+    labels,
+    children
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
-    const [scene, setScene] = useState(null);
+    const oldLabelsRef = useRef<SceneViewLabel[]>(undefined);
+    const [canvasId] = useState(UUID());
+    const [scene, setScene] = useState<BABYLON.Scene>(undefined);
+    const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
+    const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
+    const sceneRef = useRef<BABYLON.Scene>(null);
+    const engineRef = useRef<BABYLON.Engine>(null);
+    const cameraRef = useRef<BABYLON.Camera>(null);
+    const lastMeshRef = useRef<BABYLON.AbstractMesh>(null);
+    const lastMarkerRef = useRef<Marker>(null);
+    const modelUrlRef = useRef('blank');
+    const newInstanceRef = useRef(false);
+    const [tooltipText, setTooltipText] = useState('');
+    const tooltipLeft = useRef(0);
+    const tooltipTop = useRef(0);
 
-    function onProgress(e: any) {
-        if (e.total) {
-            setLoadProgress(e.loaded / e.total);
-        } else {
-            setLoadProgress(0);
+    const defaultMarkerHover = (marker: Marker, mesh: any, e: any) => {
+        if (lastName !== marker?.name) {
+            tooltipLeft.current = e.offsetX + 5;
+            tooltipTop.current = e.offsetY - 30;
+            setTooltipText(marker?.name);
+            lastName = marker?.name;
         }
+    };
+
+    // These next two lines are important! The handlers change very frequently (every parent render)
+    // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
+    onMarkerClickRef.current = onMarkerClick;
+    onMarkerHoverRef.current = onMarkerHover || defaultMarkerHover;
+    if (debug && !newInstanceRef.current) {
+        console.log('-----------New instance-----------');
+        newInstanceRef.current = true;
     }
 
-    async function load(root: string, file: string, scene: any) {
-        const assets = await loadPromise(
-            root,
-            file,
-            scene,
-            (e) => onProgress(e),
-            () => setIsLoading(undefined)
-        );
-        assets.addAllToScene();
-        setScene(scene);
-        setIsLoading(false);
+    if (debug) {
+        console.log(modelUrl);
     }
 
-    useEffect(() => {
-        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-        const engine = new BABYLON.Engine(canvas, true);
-        const tempScene = new BABYLON.Scene(engine);
-        tempScene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-        const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
-        const camera = new BABYLON.ArcRotateCamera(
-            'camera',
-            3.2,
-            Math.PI / 2.5,
-            cameraRadius,
-            center,
-            tempScene,
-            true
-        );
-        camera.attachControl(canvas, false);
-
-        new BABYLON.HemisphericLight(
-            'light',
-            new BABYLON.Vector3(1, 1, 0),
-            tempScene
-        );
-        new BABYLON.HemisphericLight(
-            'light',
-            new BABYLON.Vector3(-1, -1, 0),
-            tempScene
-        );
-        new BABYLON.HemisphericLight(
-            'light',
-            new BABYLON.Vector3(1, -1, 0),
-            tempScene
-        );
-        new BABYLON.HemisphericLight(
-            'light',
-            new BABYLON.Vector3(-1, 1, 0),
-            tempScene
-        );
-
-        if (modelUrl) {
-            const n = modelUrl.lastIndexOf('/') + 1;
-            load(modelUrl.substring(0, n), modelUrl.substring(n), tempScene);
+    // INITIALIZE AND LOAD SCENE
+    const init = useCallback(() => {
+        if (debug) {
+            console.log('**************init');
         }
 
-        engine.runRenderLoop(() => {
-            tempScene.render();
-        });
-
-        const resize = () => {
-            engine.resize();
-        };
-        window.addEventListener('resize', resize);
-
-        return () => {
-            window.removeEventListener('resize', resize);
-            if (scene) {
-                scene.dispose();
-            }
-            if (engine) {
-                engine.dispose();
-            }
-        };
-    }, [modelUrl]);
-
-    useEffect(() => {
-        const rects: any[] = [];
-        const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-            'UI'
-        );
-        if (labels && scene) {
-            labels.forEach((item) => {
-                const text1 = item.metric;
-                const text2 = item.value.toFixed(5);
-                const text = text1 + '\n\n' + text2;
-                const w = measureText(
-                    text1.length > text2.length ? text1 : text2,
-                    25
-                );
-                const rect = new GUI.Rectangle();
-                rect.width = w + 'px';
-                rect.height = '100px';
-                rect.cornerRadius = 10;
-                rect.color = 'white';
-                rect.thickness = 1;
-                rect.background = 'rgba(22, 27, 154, 0.5)';
-                rects.push(rect);
-                advancedTexture.addControl(rect);
-
-                const label = new GUI.TextBlock();
-                label.color = item.color || 'white';
-                label.text = text;
-                rect.addControl(label);
-                const targetMesh = scene?.meshes?.find(
-                    (mesh) => mesh.id === item.meshId
-                );
-                if (targetMesh) {
-                    rect.linkWithMesh(targetMesh);
-                    if (item.color) {
-                        // TODO: Better color handling
-                        targetMesh.material.albedoColor = BABYLON.Color3.FromHexString(
-                            item.color
-                        );
-                    }
+        async function load(root: string, file: string, sc: BABYLON.Scene) {
+            let success = true;
+            const assets = await loadPromise(
+                root,
+                file,
+                sc,
+                (e) => onProgress(e),
+                (s, m, e) => {
+                    console.log('Error loading model. Try Ctrl-F5', s, e);
+                    success = false;
+                    setIsLoading(undefined);
                 }
+            );
+
+            if (success) {
+                assets.addAllToScene();
+                setIsLoading(false);
+            }
+        }
+
+        function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
+            if (e.total) {
+                setLoadProgress(e.loaded / e.total);
+            } else {
+                setLoadProgress(0);
+            }
+        }
+
+        // Only load scene once (componentDidMount)
+        if (!sceneRef.current) {
+            const canvas = document.getElementById(
+                canvasId
+            ) as HTMLCanvasElement; // Get the canvas element
+            const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+            engineRef.current = engine;
+            const sc = new BABYLON.Scene(engine);
+            sceneRef.current = sc;
+            sc.clearColor = new BABYLON.Color4(9 / 255, 8 / 255, 35 / 255);
+            const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
+            const camera = new BABYLON.ArcRotateCamera(
+                'camera',
+                0,
+                Math.PI / 2.5,
+                cameraRadius,
+                center,
+                sc,
+                true
+            );
+            cameraRef.current = camera;
+            camera.attachControl(canvas, false);
+
+            new BABYLON.HemisphericLight(
+                'light',
+                new BABYLON.Vector3(1, 1, 0),
+                sc
+            );
+            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, -1, 0), sc);
+            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, -1, 0), sc);
+            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, 1, 0), sc);
+            new BABYLON.DirectionalLight(
+                'light',
+                new BABYLON.Vector3(0, -100, 0),
+                sc
+            );
+            new BABYLON.DirectionalLight(
+                'light',
+                new BABYLON.Vector3(0, -200, 0),
+                sc
+            );
+            new BABYLON.DirectionalLight(
+                'light',
+                new BABYLON.Vector3(0, -300, 0),
+                sc
+            );
+
+            if (modelUrl) {
+                const n = modelUrl.lastIndexOf('/') + 1;
+                load(modelUrl.substring(0, n), modelUrl.substring(n), sc);
+            }
+
+            // Add the marker spheres
+            if (markers) {
+                for (const marker of markers) {
+                    let sphereMaterial = new BABYLON.StandardMaterial(
+                        'SphereM',
+                        sc
+                    );
+                    sphereMaterial.diffuseColor = marker.color;
+                    let sphere = BABYLON.Mesh.CreateSphere(
+                        'VisibleMarker_' + marker.name,
+                        16,
+                        2,
+                        sc
+                    );
+                    const position =
+                        marker.position ||
+                        convertLatLonToVector3(
+                            marker.latitude,
+                            marker.longitude
+                        );
+                    sphere.position = position;
+                    sphere.material = sphereMaterial;
+
+                    // Make the hit targets larger in case iPhone
+                    sphereMaterial = new BABYLON.StandardMaterial(
+                        'SphereM',
+                        sc
+                    );
+                    sphereMaterial.diffuseColor = marker.color;
+                    sphereMaterial.alpha = 0;
+                    sphere = BABYLON.Mesh.CreateSphere(
+                        'Marker_' + marker.name,
+                        16,
+                        4,
+                        sc
+                    );
+                    sphere.position = position;
+                    sphere.material = sphereMaterial;
+                }
+            }
+
+            // Register a render loop to repeatedly render the scene
+            engine.runRenderLoop(() => {
+                sc.render();
             });
         }
 
+        return sceneRef.current;
+    }, [cameraCenter, cameraRadius, canvasId, markers, modelUrl]);
+
+    // This is really our componentDidMount/componentWillUnmount stuff
+    useEffect(() => {
+        if (debug) {
+            console.log(
+                'init effect' + (scene ? ' with scene ' : ' no scene ')
+            );
+        }
+        if (modelUrl && modelUrl !== modelUrlRef.current) {
+            // Reload if modelUrl changes
+            modelUrlRef.current = modelUrl;
+            setScene(() => init());
+        }
+
+        const resize = () => {
+            engineRef.current.resize();
+        };
+        window.addEventListener('resize', resize);
+
+        // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
+        // This should save a lot of memory for large scenes
         return () => {
-            for (const rect of rects) {
-                advancedTexture.removeControl(rect);
+            if (debug) {
+                console.log(
+                    'init effect clean' + (scene ? ' with scene' : ' no scene')
+                );
+            }
+            if (scene) {
+                if (debug) {
+                    console.log('scene dispose');
+                }
+                try {
+                    scene.dispose();
+                    if (engineRef.current) {
+                        engineRef.current.dispose();
+                    }
+                } catch {}
+            }
+
+            oldLabelsRef.current = null;
+            setIsLoading(true);
+            sceneRef.current = null;
+            window.removeEventListener('resize', resize);
+        };
+    }, [scene, modelUrl, init]);
+
+    // SETUP LOGIC FOR onMarkerHover
+    useEffect(() => {
+        if (debug) {
+            console.log('hover effect' + (scene ? ' with scene' : ' no scene'));
+        }
+        if (scene && onMarkerHoverRef.current && (markers || children)) {
+            scene.onPointerMove = (e, p) => {
+                p = scene.pick(
+                    scene.pointerX,
+                    scene.pointerY,
+                    (mesh) => {
+                        return !!mesh;
+                    },
+                    false,
+                    cameraRef.current
+                );
+
+                const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
+                let marker: Marker = null;
+
+                if (mesh?.name && p?.pickedMesh?.name.startsWith('Marker_')) {
+                    for (const m of markers) {
+                        if (mesh.name === 'Marker_' + m.name) {
+                            marker = m;
+                            break;
+                        }
+                    }
+                }
+
+                if (
+                    mesh !== lastMeshRef.current ||
+                    lastMarkerRef.current !== marker
+                ) {
+                    if (debug) {
+                        console.log('pointer move');
+                    }
+                    onMarkerHoverRef.current(marker, mesh, e);
+                    lastMarkerRef.current = marker;
+                    lastMeshRef.current = mesh;
+                }
+            };
+        }
+
+        return () => {
+            if (debug) {
+                console.log(
+                    'hover clean' + (scene ? ' with scene' : ' no scene')
+                );
             }
         };
-    }, [labels, scene]);
+    }, [scene, markers, children]);
+
+    // SETUP LOGIC FOR onMarkerClick
+    useEffect(() => {
+        let pd: BABYLON.Observer<BABYLON.PointerInfo>;
+        if (debug) {
+            console.log(
+                'pointerDown effect' + (scene ? ' with scene' : ' no scene')
+            );
+        }
+        if (scene && onMarkerClickRef.current) {
+            const pointerDown = (e) => {
+                setTooltipText('');
+                const p = e.pickInfo;
+                const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
+                let marker: Marker = null;
+
+                if (
+                    mesh?.name &&
+                    p.pickedMesh.name.startsWith('Marker_') &&
+                    markers
+                ) {
+                    for (const m of markers) {
+                        if (mesh.name === 'Marker_' + m.name) {
+                            marker = m;
+                            break;
+                        }
+                    }
+                    // } else {
+                    //   if (p?.pickedPoint) {
+                    //     console.log(`x: ${p.pickedPoint.x}, y: ${p.pickedPoint.y}, z: ${p.pickedPoint.z}`);
+                    //   }
+                }
+
+                if (onMarkerClickRef.current) {
+                    onMarkerClickRef.current(marker, mesh, e);
+                }
+            };
+
+            if (scene) {
+                pd = scene.onPointerObservable.add(
+                    pointerDown,
+                    BABYLON.PointerEventTypes.POINTERDOWN
+                );
+            }
+        }
+
+        return () => {
+            if (debug) {
+                console.log('pointerDown effect clean');
+            }
+            if (pd) {
+                scene.onPointerObservable.remove(pd);
+            }
+        };
+    }, [scene, markers]);
+
+    // SETUP LOGIC FOR HANDLING GUI LABELS ON THE MODEL
+    useEffect(() => {
+        function labelsChanged() {
+            if (labels && oldLabelsRef.current) {
+                return (
+                    JSON.stringify(labels) !==
+                    JSON.stringify(oldLabelsRef.current)
+                );
+            }
+
+            return true;
+        }
+
+        if (debug) {
+            console.log(
+                'labels effect' + (scene ? ' with scene' : ' no scene')
+            );
+        }
+        if (scene && labelsChanged() && labels && !isLoading) {
+            if (debug) {
+                console.log('labels updating');
+            }
+            let advancedTexture: any = null;
+            const rects: GUI.Rectangle[] = [];
+            try {
+                advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI'
+                );
+                labels.forEach((item) => {
+                    const targetMesh = scene?.meshes?.find(
+                        (mesh) => mesh.id === item.meshId
+                    );
+                    if (targetMesh) {
+                        if (debug) {
+                            console.log('found label mesh');
+                        }
+                        const text1 = item.metric;
+                        const text2 = item.value.toFixed(5);
+                        const text = text1 + '\n\n' + text2;
+                        const w = measureText(
+                            text1.length > text2.length ? text1 : text2,
+                            25
+                        );
+                        const rect = new GUI.Rectangle();
+                        rect.width = w + 'px';
+                        rect.height = '100px';
+                        rect.cornerRadius = 10;
+                        rect.color = 'white';
+                        rect.thickness = 1;
+                        rect.background = 'rgba(22, 27, 154, 0.5)';
+                        rects.push(rect);
+
+                        const label = new GUI.TextBlock();
+                        label.color = item.color || 'white';
+                        label.text = text;
+                        rect.addControl(label);
+                        advancedTexture.addControl(rect);
+                        rect.linkWithMesh(targetMesh);
+                        if (item.color) {
+                            (targetMesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                item.color
+                            );
+                        }
+                        oldLabelsRef.current = labels;
+                    }
+                });
+            } catch {}
+
+            return () => {
+                if (debug) {
+                    console.log('labels effect cleanup');
+                }
+
+                if (advancedTexture) {
+                    for (const rect of rects) {
+                        advancedTexture.removeControl(rect);
+                    }
+                    oldLabelsRef.current = undefined;
+                }
+            };
+        }
+    }, [labels, scene, isLoading]);
 
     return (
-        <div className="cb-sceneview-container">
+        <div className="sceneview-container">
             <canvas
-                id="canvas"
+                className={
+                    isLoading === true
+                        ? 'cb-sceneview-canvas'
+                        : 'cb-sceneview-canvas cb-o1'
+                }
+                id={canvasId}
                 touch-action="none"
-                className="cb-sceneview-canvas"
             />
-            {isLoading && modelUrl && (
+            {isLoading && (
                 <ProgressIndicator
                     className="cb-sceneview-progressbar"
                     styles={{
                         itemDescription: {
                             color: 'white',
                             fontSize: 26,
-                            marginTop: 10
+                            marginTop: 10,
+                            textAlign: 'center'
                         }
                     }}
-                    description={`Loading (${Math.floor(
+                    description={`Loading model (${Math.floor(
                         loadProgress * 100
                     )}%)...`}
                     percentComplete={loadProgress}
@@ -337,8 +710,20 @@ export const SceneView: React.FC<SceneViewProps> = ({
                 />
             )}
             {isLoading === undefined && (
-                <div className="cb-sceneview-errormessage" style={{}}>
-                    Error loading model
+                <div className="cb-sceneview-errormessage">
+                    Error loading model. Try Ctrl-F5
+                </div>
+            )}
+            {tooltipText && (
+                <div
+                    className="cb-sceneview-tooltip"
+                    style={{
+                        top: tooltipTop.current,
+                        left: tooltipLeft.current
+                    }}
+                    id="tooltip"
+                >
+                    {tooltipText}
                 </div>
             )}
         </div>
