@@ -173,55 +173,56 @@
                 "@type": "Property",
                 "name": "chargeHistory",
                 "displayName": "Charge history",
-                "writable": true,
-                "schema": {
-                    "@type": "Map",
-                    "dtmi:dtdl:property:mapKey;2": {
-                        "name": "ChargeStationName",
-                        "schema": "string"
-                    },
-                    "dtmi:dtdl:property:mapValue;2": {
-                        "name": "ChargeInformation",
-                        "schema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "name": "city",
-                                    "displayName": "City",
-                                    "schema": "string"
-                                },
-                                {
-                                    "name": "cost",
-                                    "displayName": "Cost",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "amountCharged",
-                                    "displayName": "Amount charged",
-                                    "schema": "double"
-                                },
-                                {
-                                    "name": "chargeEvent",
-                                    "displayName": "Charge event",
-                                    "schema": {
-                                        "@type": "Map",
-                                        "mapKey": {
-                                            "name": "eventName",
-                                            "schema": "string"
-                                        },
-                                        "mapValue": {
-                                            "name": "eventData",
-                                            "schema": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
+                "schema": "dtmi:com:cocrowle:chargehistory;1"
             }
         ],
         "schemas": [
+            {
+                "@id": "dtmi:com:cocrowle:chargehistory;1",
+                "@type": "Map",
+                "dtmi:dtdl:property:mapKey;2": {
+                    "name": "ChargeStationName",
+                    "schema": "string"
+                },
+                "dtmi:dtdl:property:mapValue;2": {
+                    "name": "ChargeInformation",
+                    "schema": {
+                        "@type": "Object",
+                        "fields": [
+                            {
+                                "name": "city",
+                                "displayName": "City",
+                                "schema": "string"
+                            },
+                            {
+                                "name": "cost",
+                                "displayName": "Cost",
+                                "schema": "double"
+                            },
+                            {
+                                "name": "amountCharged",
+                                "displayName": "Amount charged",
+                                "schema": "double"
+                            },
+                            {
+                                "name": "chargeEvent",
+                                "displayName": "Charge event",
+                                "schema": {
+                                    "@type": "Map",
+                                    "mapKey": {
+                                        "name": "eventName",
+                                        "schema": "string"
+                                    },
+                                    "mapValue": {
+                                        "name": "eventData",
+                                        "schema": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
             {
                 "@id": "dtmi:com:cocrowle:wheelinformation;1",
                 "@type": "Object",

@@ -1,3 +1,5 @@
+import { EntityKind } from 'azure-iot-parser-node';
+
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
 export const ADTModel_ViewData_PropertyName = 'cb_viewdata';
@@ -17,34 +19,34 @@ export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
 
-export const dtdlPrimitiveTypesList = [
-    'boolean',
-    'date',
-    'dateTime',
-    'double',
-    'duration',
-    'float',
-    'integer',
-    'long',
-    'string',
-    'time'
+export const primitiveDtdlEntityKinds = [
+    EntityKind.BOOLEAN,
+    EntityKind.DATE,
+    EntityKind.DATETIME,
+    EntityKind.DOUBLE,
+    EntityKind.DURATION,
+    EntityKind.FLOAT,
+    EntityKind.INTEGER,
+    EntityKind.LONG,
+    EntityKind.STRING,
+    EntityKind.TIME
 ];
 
 export enum dtdlPropertyTypesEnum {
-    boolean = 'boolean',
-    date = 'date',
-    dateTime = 'dateTime',
-    double = 'double',
-    duration = 'duration',
-    float = 'float',
-    integer = 'integer',
-    long = 'long',
-    string = 'string',
-    time = 'time',
-    Array = 'Array',
-    Enum = 'Enum',
-    Map = 'Map',
-    Object = 'Object'
+    boolean = EntityKind.BOOLEAN,
+    date = EntityKind.DATE,
+    dateTime = EntityKind.DATETIME,
+    double = EntityKind.DOUBLE,
+    duration = EntityKind.DURATION,
+    float = EntityKind.FLOAT,
+    integer = EntityKind.INTEGER,
+    long = EntityKind.LONG,
+    string = EntityKind.STRING,
+    time = EntityKind.TIME,
+    Array = EntityKind.ARRAY,
+    Enum = EntityKind.ENUM,
+    Map = EntityKind.MAP,
+    Object = EntityKind.OBJECT
 }
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];

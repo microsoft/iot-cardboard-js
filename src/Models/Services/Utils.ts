@@ -1,4 +1,6 @@
+import { PropertyInfo, UnitInfo } from 'azure-iot-parser-node';
 import React from 'react';
+import i18n from '../../i18n';
 import {
     IADTTwin,
     ADTModel_ViewData_PropertyName,
@@ -131,11 +133,33 @@ export const getModelContentType = (type: string | string[]) => {
     return Array.isArray(type) ? type[0] : type;
 };
 
-export const getModelContentUnit = (
-    type: string | string[],
-    property: DtdlProperty
+export const getModelContentUnit = (unitInfoImpl: UnitInfo) => {
+    if (unitInfoImpl.symbol) {
+        return unitInfoImpl.symbol;
+    } else {
+        return parsePropertyTreeDisplayName(
+            unitInfoImpl.displayName,
+            unitInfoImpl.id
+        );
+    }
+};
+
+/** Safely parse display name from displayName property*/
+export const parsePropertyTreeDisplayName = (
+    displayName: string | { [key: string]: string },
+    fallbackName = 'NAME_INVALID'
 ) => {
-    return Array.isArray(type) && type[1] ? property?.unit : null;
+    const currentLanguage = i18n?.language;
+
+    if (typeof displayName === 'string') {
+        return displayName;
+    } else if (
+        typeof displayName === 'object' &&
+        typeof displayName?.[currentLanguage] === 'string'
+    ) {
+        return displayName[currentLanguage];
+    }
+    return fallbackName;
 };
 
 export const createDTDLModelId = (name) => {

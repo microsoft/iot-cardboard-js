@@ -1,3 +1,4 @@
+import { EntityKind } from 'azure-iot-parser-node';
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
@@ -8,8 +9,8 @@ export interface PropertyTreeNode {
     displayName: string;
     role: NodeRole;
     isRemovable: boolean;
-    schema: dtdlPropertyTypesEnum;
-    type: DTDLType;
+    schema: EntityKind;
+    type: EntityKind;
     value: PrimitiveValueTypes;
     path: string;
     isMapChild: boolean;

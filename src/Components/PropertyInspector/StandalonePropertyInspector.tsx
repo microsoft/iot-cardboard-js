@@ -50,14 +50,13 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                   ]);
 
             console.log(parsedModels);
+            debugger;
 
             const parsedTree = isTwin(props.inputData)
                 ? PropertyInspectorModel.parseTwinIntoPropertyTree({
-                      isInherited: false,
                       path: '',
-                      rootModel: props.inputData.rootModel,
                       twin: props.inputData.twin,
-                      expandedModels: props.inputData.expandedModels
+                      modelDict: parsedModels
                   })
                 : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                       props.inputData.relationship,
