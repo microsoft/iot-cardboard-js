@@ -15,135 +15,9 @@ import './SceneView.scss';
 
 const debug = false;
 
-const widths = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0.2796875,
-    0.2765625,
-    0.3546875,
-    0.5546875,
-    0.5546875,
-    0.8890625,
-    0.665625,
-    0.190625,
-    0.3328125,
-    0.3328125,
-    0.3890625,
-    0.5828125,
-    0.2765625,
-    0.3328125,
-    0.2765625,
-    0.3015625,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.2765625,
-    0.2765625,
-    0.584375,
-    0.5828125,
-    0.584375,
-    0.5546875,
-    1.0140625,
-    0.665625,
-    0.665625,
-    0.721875,
-    0.721875,
-    0.665625,
-    0.609375,
-    0.7765625,
-    0.721875,
-    0.2765625,
-    0.5,
-    0.665625,
-    0.5546875,
-    0.8328125,
-    0.721875,
-    0.7765625,
-    0.665625,
-    0.7765625,
-    0.721875,
-    0.665625,
-    0.609375,
-    0.721875,
-    0.665625,
-    0.94375,
-    0.665625,
-    0.665625,
-    0.609375,
-    0.2765625,
-    0.3546875,
-    0.2765625,
-    0.4765625,
-    0.5546875,
-    0.3328125,
-    0.5546875,
-    0.5546875,
-    0.5,
-    0.5546875,
-    0.5546875,
-    0.2765625,
-    0.5546875,
-    0.5546875,
-    0.221875,
-    0.240625,
-    0.5,
-    0.221875,
-    0.8328125,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.5546875,
-    0.3328125,
-    0.5,
-    0.2765625,
-    0.5546875,
-    0.5,
-    0.721875,
-    0.5,
-    0.5,
-    0.5,
-    0.3546875,
-    0.259375,
-    0.353125,
-    0.5890625
-];
+/*eslint-disable-next-line: */
+// prettier-ignore
+const widths = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2796875,0.2765625,0.3546875,0.5546875,0.5546875,0.8890625,0.665625,0.190625,0.3328125,0.3328125,0.3890625,0.5828125,0.2765625,0.3328125,0.2765625,0.3015625,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.2765625,0.2765625,0.584375,0.5828125,0.584375,0.5546875,1.0140625,0.665625,0.665625,0.721875,0.721875,0.665625,0.609375,0.7765625,0.721875,0.2765625,0.5,0.665625,0.5546875,0.8328125,0.721875,0.7765625,0.665625,0.7765625,0.721875,0.665625,0.609375,0.721875,0.665625,0.94375,0.665625,0.665625,0.609375,0.2765625,0.3546875,0.2765625,0.4765625,0.5546875,0.3328125,0.5546875,0.5546875,0.5,0.5546875,0.5546875,0.2765625,0.5546875,0.5546875,0.221875,0.240625,0.5,0.221875,0.8328125,0.5546875,0.5546875,0.5546875,0.5546875,0.3328125,0.5,0.2765625,0.5546875,0.5,0.721875,0.5,0.5,0.5,0.3546875,0.259375,0.353125,0.5890625];
 const avg = 0.5279276315789471;
 
 function measureText(str: string, fontSize: number) {
@@ -203,8 +77,8 @@ export function convertLatLonToVector3(
     longitude: number,
     earthRadius = 50
 ): BABYLON.Vector3 {
-    let latitude_rad = (latitude * Math.PI) / 180;
-    let longitude_rad = (longitude * Math.PI) / 180;
+    const latitude_rad = (latitude * Math.PI) / 180;
+    const longitude_rad = (longitude * Math.PI) / 180;
     const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
     const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
     const y = earthRadius * Math.sin(latitude_rad);
@@ -352,7 +226,7 @@ export const SceneView: React.FC<IProp> = ({
             engineRef.current = engine;
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
-            sc.clearColor = new BABYLON.Color4(9 / 255, 8 / 255, 35 / 255);
+            sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
             const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
             const camera = new BABYLON.ArcRotateCamera(
                 'camera',
@@ -447,6 +321,34 @@ export const SceneView: React.FC<IProp> = ({
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
+        const resize = () => {
+            engineRef.current.resize();
+        };
+
+        window.addEventListener('resize', resize);
+
+        // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
+        // This should save a lot of memory for large scenes
+        return () => {
+            if (sceneRef.current) {
+                console.log('Unmount - has scene');
+                try {
+                    sceneRef.current.dispose();
+                    if (engineRef.current) {
+                        engineRef.current.dispose();
+                    }
+                } catch {
+                    console.log('unable to dispose scene');
+                }
+            }
+
+            oldLabelsRef.current = null;
+            sceneRef.current = null;
+            window.removeEventListener('resize', resize);
+        };
+    }, []);
+
+    useEffect(() => {
         if (debug) {
             console.log(
                 'init effect' + (scene ? ' with scene ' : ' no scene ')
@@ -457,37 +359,6 @@ export const SceneView: React.FC<IProp> = ({
             modelUrlRef.current = modelUrl;
             setScene(() => init());
         }
-
-        const resize = () => {
-            engineRef.current.resize();
-        };
-        window.addEventListener('resize', resize);
-
-        // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
-        // This should save a lot of memory for large scenes
-        return () => {
-            if (debug) {
-                console.log(
-                    'init effect clean' + (scene ? ' with scene' : ' no scene')
-                );
-            }
-            if (scene) {
-                if (debug) {
-                    console.log('scene dispose');
-                }
-                try {
-                    scene.dispose();
-                    if (engineRef.current) {
-                        engineRef.current.dispose();
-                    }
-                } catch {}
-            }
-
-            oldLabelsRef.current = null;
-            setIsLoading(true);
-            sceneRef.current = null;
-            window.removeEventListener('resize', resize);
-        };
     }, [scene, modelUrl, init]);
 
     // SETUP LOGIC FOR onMarkerHover
@@ -663,7 +534,9 @@ export const SceneView: React.FC<IProp> = ({
                         oldLabelsRef.current = labels;
                     }
                 });
-            } catch {}
+            } catch {
+                console.log('unable to create labels');
+            }
 
             return () => {
                 if (debug) {
