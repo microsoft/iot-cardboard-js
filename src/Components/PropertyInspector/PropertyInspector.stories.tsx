@@ -120,6 +120,13 @@ export const PropertyInspectorErrorBoundary = (
     { globals: { theme, locale } }
 ) => (
     <div style={propertyInspectorStoryStyles}>
-        <StandalonePropertyInspector theme={theme} locale={locale} />
+        <StandalonePropertyInspector
+            inputData={null}
+            theme={theme}
+            locale={locale}
+            onErrorBoundary={(error, errorInfo) => {
+                console.log('in onErrorBoundary callback.', error, errorInfo);
+            }}
+        />
     </div>
 );
