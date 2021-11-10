@@ -245,9 +245,6 @@ export const SceneView: React.FC<IProp> = ({
                 new BABYLON.Vector3(1, 1, 0),
                 sc
             );
-            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, -1, 0), sc);
-            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, -1, 0), sc);
-            // new BABYLON.HemisphericLight('light', new BABYLON.Vector3(-1, 1, 0), sc);
             new BABYLON.DirectionalLight(
                 'light',
                 new BABYLON.Vector3(0, -100, 0),
@@ -321,12 +318,6 @@ export const SceneView: React.FC<IProp> = ({
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
-        const resize = () => {
-            engineRef.current.resize();
-        };
-
-        window.addEventListener('resize', resize);
-
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
         // This should save a lot of memory for large scenes
         return () => {
@@ -342,6 +333,10 @@ export const SceneView: React.FC<IProp> = ({
                 }
             }
 
+            const resize = () => {
+                engineRef.current.resize();
+            };
+    
             oldLabelsRef.current = null;
             sceneRef.current = null;
             window.removeEventListener('resize', resize);
@@ -349,6 +344,13 @@ export const SceneView: React.FC<IProp> = ({
     }, []);
 
     useEffect(() => {
+        if (engineRef.current) {
+            const resize = () => {
+                engineRef.current.resize();
+            };
+            window.addEventListener('resize', resize);
+        }
+
         if (debug) {
             console.log(
                 'init effect' + (scene ? ' with scene ' : ' no scene ')
@@ -439,10 +441,6 @@ export const SceneView: React.FC<IProp> = ({
                             break;
                         }
                     }
-                    // } else {
-                    //   if (p?.pickedPoint) {
-                    //     console.log(`x: ${p.pickedPoint.x}, y: ${p.pickedPoint.y}, z: ${p.pickedPoint.z}`);
-                    //   }
                 }
 
                 if (onMarkerClickRef.current) {
