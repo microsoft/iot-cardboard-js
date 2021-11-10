@@ -336,7 +336,7 @@ export const SceneView: React.FC<IProp> = ({
             const resize = () => {
                 engineRef.current.resize();
             };
-    
+
             oldLabelsRef.current = null;
             sceneRef.current = null;
             window.removeEventListener('resize', resize);
