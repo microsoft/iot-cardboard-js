@@ -88,6 +88,7 @@ export function convertLatLonToVector3(
 type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: BABYLON.AbstractMesh,
+    selectedMeshes: SelectedMesh[],
     e: PointerEvent
 ) => void;
 
@@ -120,15 +121,23 @@ interface IProp {
     onMarkerClick?: (
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
+        selectedMeshes: SelectedMesh[],
         e: PointerEvent
     ) => void;
     onMarkerHover?: (
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
+        selectedMeshes: SelectedMesh[],
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];
     children?: ChildTwin[];
+    canSelectMesh?: boolean;
+}
+
+export class SelectedMesh {
+    id: string;
+    color: BABYLON.Color3;
 }
 
 let lastName = '';
@@ -141,7 +150,8 @@ export const SceneView: React.FC<IProp> = ({
     onMarkerClick,
     onMarkerHover,
     labels,
-    children
+    children,
+    canSelectMesh
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -160,6 +170,7 @@ export const SceneView: React.FC<IProp> = ({
     const [tooltipText, setTooltipText] = useState('');
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
+    let selectedMeshes: SelectedMesh[] = [];
 
     const defaultMarkerHover = (marker: Marker, mesh: any, e: any) => {
         if (lastName !== marker?.name) {
@@ -322,7 +333,9 @@ export const SceneView: React.FC<IProp> = ({
         // This should save a lot of memory for large scenes
         return () => {
             if (sceneRef.current) {
-                console.log('Unmount - has scene');
+                if (debug) {
+                    console.log('Unmount - has scene');
+                }
                 try {
                     sceneRef.current.dispose();
                     if (engineRef.current) {
@@ -399,7 +412,7 @@ export const SceneView: React.FC<IProp> = ({
                     if (debug) {
                         console.log('pointer move');
                     }
-                    onMarkerHoverRef.current(marker, mesh, e);
+                    onMarkerHoverRef.current(marker, mesh, selectedMeshes, e);
                     lastMarkerRef.current = marker;
                     lastMeshRef.current = mesh;
                 }
@@ -417,14 +430,14 @@ export const SceneView: React.FC<IProp> = ({
 
     // SETUP LOGIC FOR onMarkerClick
     useEffect(() => {
-        let pd: BABYLON.Observer<BABYLON.PointerInfo>;
+        let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerDown effect' + (scene ? ' with scene' : ' no scene')
+                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && onMarkerClickRef.current) {
-            const pointerDown = (e) => {
+        if (scene && (onMarkerClickRef.current || canSelectMesh)) {
+            const pointerTap = (e) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -443,25 +456,59 @@ export const SceneView: React.FC<IProp> = ({
                     }
                 }
 
+                if (canSelectMesh) {
+                    if (mesh) {
+                        const selectedMesh = selectedMeshes.find(
+                            (item) => item.id === mesh.id
+                        );
+                        if (selectedMesh) {
+                            (mesh.material as any).albedoColor =
+                                selectedMesh.color;
+                            selectedMeshes = selectedMeshes.filter(
+                                (item) => item !== selectedMesh
+                            );
+                        } else {
+                            const meshColor: SelectedMesh = new SelectedMesh();
+                            meshColor.id = mesh.id;
+                            meshColor.color = (mesh.material as any).albedoColor;
+                            selectedMeshes.push(meshColor);
+                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                '#1EA0F7'
+                            );
+                        }
+                    } else {
+                        for (const meshColor of selectedMeshes) {
+                            const matchedMesh = scene.meshes.find(
+                                (m) => m.id === meshColor.id
+                            );
+                            if (matchedMesh) {
+                                (matchedMesh.material as any).albedoColor =
+                                    meshColor.color;
+                            }
+                        }
+                        selectedMeshes = [];
+                    }
+                }
+
                 if (onMarkerClickRef.current) {
-                    onMarkerClickRef.current(marker, mesh, e);
+                    onMarkerClickRef.current(marker, mesh, selectedMeshes, e);
                 }
             };
 
             if (scene) {
-                pd = scene.onPointerObservable.add(
-                    pointerDown,
-                    BABYLON.PointerEventTypes.POINTERDOWN
+                pt = scene.onPointerObservable.add(
+                    pointerTap,
+                    BABYLON.PointerEventTypes.POINTERTAP
                 );
             }
         }
 
         return () => {
             if (debug) {
-                console.log('pointerDown effect clean');
+                console.log('pointerTap effect clean');
             }
-            if (pd) {
-                scene.onPointerObservable.remove(pd);
+            if (pt) {
+                scene.onPointerObservable.remove(pt);
             }
         };
     }, [scene, markers]);
