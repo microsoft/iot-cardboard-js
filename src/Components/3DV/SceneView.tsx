@@ -4,42 +4,24 @@ import * as GUI from 'babylonjs-gui';
 import { ProgressIndicator } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
-import { CharacterWidths } from '../../Models/Constants/Constants';
+import {
+    convertLatLonToVector3,
+    measureText,
+    createGUID
+} from '../../Models/Services/Utils';
+import {
+    ISceneViewProp,
+    SceneViewLabel,
+    Marker,
+    SceneViewCallbackHandler
+} from '../../Models/Classes/SceneView.types';
+import {
+    Scene_Marker,
+    Scene_Visible_Marker,
+    SphereMaterial
+} from '../../Models/Constants/SceneView.constants';
 
 const debug = false;
-const avg = 0.5279276315789471;
-
-function measureText(str: string, fontSize: number) {
-    return (
-        Array.from(str).reduce(
-            (acc, cur) => acc + (CharacterWidths[cur.charCodeAt(0)] ?? avg),
-            0
-        ) * fontSize
-    );
-}
-
-export function UUID(): string {
-    const nbr = Math.random();
-    let randStr = '';
-    do {
-        randStr += nbr.toString(16).substr(2);
-    } while (randStr.length < 30);
-
-    // tslint:disable-next-line: no-bitwise
-    return [
-        randStr.substr(0, 8),
-        '-',
-        randStr.substr(8, 4),
-        '-4',
-        randStr.substr(12, 3),
-        '-',
-        (((nbr * 4) | 0) + 8).toString(16),
-        randStr.substr(15, 3),
-        '-',
-        randStr.substr(18, 12)
-    ].join('');
-}
-
 async function loadPromise(
     root,
     file,
@@ -61,68 +43,9 @@ async function loadPromise(
     });
 }
 
-export function convertLatLonToVector3(
-    latitude: number,
-    longitude: number,
-    earthRadius = 50
-): BABYLON.Vector3 {
-    const latitude_rad = (latitude * Math.PI) / 180;
-    const longitude_rad = (longitude * Math.PI) / 180;
-    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
-    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
-    const y = earthRadius * Math.sin(latitude_rad);
-    return new BABYLON.Vector3(x, y, z);
-}
-
-type SceneViewCallbackHandler = (
-    marker: Marker,
-    mesh: BABYLON.AbstractMesh,
-    e: PointerEvent
-) => void;
-
-export interface SceneViewLabel {
-    metric: string;
-    value: number;
-    meshId: string;
-    color: string;
-}
-
-export class Marker {
-    name: string;
-    position?: BABYLON.Vector3;
-    latitude?: number;
-    longitude?: number;
-    color: BABYLON.Color3;
-    isNav?: boolean;
-}
-
-export class ChildTwin {
-    name: string;
-    position: string;
-}
-
-interface IProp {
-    modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: BABYLON.Vector3;
-    markers?: Marker[];
-    onMarkerClick?: (
-        marker: Marker,
-        mesh: BABYLON.AbstractMesh,
-        e: PointerEvent
-    ) => void;
-    onMarkerHover?: (
-        marker: Marker,
-        mesh: BABYLON.AbstractMesh,
-        e: PointerEvent
-    ) => void;
-    labels?: SceneViewLabel[];
-    children?: ChildTwin[];
-}
-
 let lastName = '';
 
-export const SceneView: React.FC<IProp> = ({
+export const SceneView: React.FC<ISceneViewProp> = ({
     modelUrl,
     cameraRadius,
     cameraCenter,
@@ -135,7 +58,7 @@ export const SceneView: React.FC<IProp> = ({
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
     const oldLabelsRef = useRef<SceneViewLabel[]>(undefined);
-    const [canvasId] = useState(UUID());
+    const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
@@ -259,12 +182,12 @@ export const SceneView: React.FC<IProp> = ({
             if (markers) {
                 for (const marker of markers) {
                     let sphereMaterial = new BABYLON.StandardMaterial(
-                        'SphereM',
+                        SphereMaterial,
                         sc
                     );
                     sphereMaterial.diffuseColor = marker.color;
                     let sphere = BABYLON.Mesh.CreateSphere(
-                        'VisibleMarker_' + marker.name,
+                        `${Scene_Visible_Marker}marker.name`,
                         16,
                         2,
                         sc
@@ -280,13 +203,13 @@ export const SceneView: React.FC<IProp> = ({
 
                     // Make the hit targets larger in case iPhone
                     sphereMaterial = new BABYLON.StandardMaterial(
-                        'SphereM',
+                        SphereMaterial,
                         sc
                     );
                     sphereMaterial.diffuseColor = marker.color;
                     sphereMaterial.alpha = 0;
                     sphere = BABYLON.Mesh.CreateSphere(
-                        'Marker_' + marker.name,
+                        `${Scene_Marker}marker.name`,
                         16,
                         4,
                         sc
@@ -372,9 +295,12 @@ export const SceneView: React.FC<IProp> = ({
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
                 let marker: Marker = null;
 
-                if (mesh?.name && p?.pickedMesh?.name.startsWith('Marker_')) {
+                if (
+                    mesh?.name &&
+                    p?.pickedMesh?.name.startsWith(Scene_Marker)
+                ) {
                     for (const m of markers) {
-                        if (mesh.name === 'Marker_' + m.name) {
+                        if (mesh.name === `${Scene_Marker}m.name`) {
                             marker = m;
                             break;
                         }
@@ -421,11 +347,11 @@ export const SceneView: React.FC<IProp> = ({
 
                 if (
                     mesh?.name &&
-                    p.pickedMesh.name.startsWith('Marker_') &&
+                    p.pickedMesh.name.startsWith(Scene_Marker) &&
                     markers
                 ) {
                     for (const m of markers) {
-                        if (mesh.name === 'Marker_' + m.name) {
+                        if (mesh.name === `${Scene_Marker}m.name`) {
                             marker = m;
                             break;
                         }
@@ -493,7 +419,7 @@ export const SceneView: React.FC<IProp> = ({
                         }
                         const text1 = item.metric;
                         const text2 = item.value.toFixed(5);
-                        const text = text1 + '\n\n' + text2;
+                        const text = `${text1}\n\n${text2}`;
                         const w = measureText(
                             text1.length > text2.length ? text1 : text2,
                             25
@@ -541,7 +467,7 @@ export const SceneView: React.FC<IProp> = ({
     }, [labels, scene, isLoading]);
 
     return (
-        <div className="sceneview-container">
+        <div className="cb-sceneview-container">
             <canvas
                 className={
                     isLoading === true

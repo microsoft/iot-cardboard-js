@@ -50,7 +50,7 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
-import SceneViewLabel from '../Models/Classes/SceneViewLabel';
+import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 import { Parser } from 'expr-eval';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
