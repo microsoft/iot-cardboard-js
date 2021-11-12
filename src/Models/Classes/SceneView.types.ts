@@ -7,6 +7,11 @@ export class SceneViewLabel {
     color: string;
 }
 
+export class SelectedMesh {
+    id: string;
+    color: BABYLON.Color3;
+}
+
 export class Marker {
     name: string;
     position?: Vector3;
@@ -24,6 +29,7 @@ export class ChildTwin {
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
+    selectedMeshes: SelectedMesh[],
     e: PointerEvent
 ) => void;
 
@@ -35,13 +41,16 @@ export interface ISceneViewProp {
     onMarkerClick?: (
         marker: Marker,
         mesh: AbstractMesh,
+        selectedMeshes: SelectedMesh[],
         e: PointerEvent
     ) => void;
     onMarkerHover?: (
         marker: Marker,
         mesh: AbstractMesh,
+        selectedMeshes: SelectedMesh[],
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];
     children?: ChildTwin[];
+    canSelectMesh?: boolean;
 }
