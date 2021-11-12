@@ -13,8 +13,7 @@ import {
     ISceneViewProp,
     SceneViewLabel,
     Marker,
-    SceneViewCallbackHandler,
-    SelectedMesh
+    SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
     Scene_Marker,
@@ -54,8 +53,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMarkerClick,
     onMarkerHover,
     labels,
-    children,
-    canSelectMesh
+    children
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -74,7 +72,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [tooltipText, setTooltipText] = useState('');
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
-    let selectedMeshes: SelectedMesh[] = [];
 
     const defaultMarkerHover = (marker: Marker, mesh: any, e: any) => {
         if (lastName !== marker?.name) {
@@ -319,7 +316,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     if (debug) {
                         console.log('pointer move');
                     }
-                    onMarkerHoverRef.current(marker, mesh, selectedMeshes, e);
+                    onMarkerHoverRef.current(marker, mesh, scene, e);
                     lastMarkerRef.current = marker;
                     lastMeshRef.current = mesh;
                 }
@@ -343,7 +340,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 'pointerTap effect' + (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && (onMarkerClickRef.current || canSelectMesh)) {
+        if (scene && onMarkerClickRef.current) {
             const pointerTap = (e) => {
                 setTooltipText('');
                 const p = e.pickInfo;
@@ -363,42 +360,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
-                if (canSelectMesh) {
-                    if (mesh) {
-                        const selectedMesh = selectedMeshes.find(
-                            (item) => item.id === mesh.id
-                        );
-                        if (selectedMesh) {
-                            (mesh.material as any).albedoColor =
-                                selectedMesh.color;
-                            selectedMeshes = selectedMeshes.filter(
-                                (item) => item !== selectedMesh
-                            );
-                        } else {
-                            const meshColor: SelectedMesh = new SelectedMesh();
-                            meshColor.id = mesh.id;
-                            meshColor.color = (mesh.material as any).albedoColor;
-                            selectedMeshes.push(meshColor);
-                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                '#1EA0F7'
-                            );
-                        }
-                    } else {
-                        for (const meshColor of selectedMeshes) {
-                            const matchedMesh = scene.meshes.find(
-                                (m) => m.id === meshColor.id
-                            );
-                            if (matchedMesh) {
-                                (matchedMesh.material as any).albedoColor =
-                                    meshColor.color;
-                            }
-                        }
-                        selectedMeshes = [];
-                    }
-                }
-
                 if (onMarkerClickRef.current) {
-                    onMarkerClickRef.current(marker, mesh, selectedMeshes, e);
+                    onMarkerClickRef.current(marker, mesh, scene, e);
                 }
             };
 
