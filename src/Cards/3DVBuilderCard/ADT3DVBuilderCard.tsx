@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import { Scene, Vector3 } from 'babylonjs';
 import BaseCard from '../Base/Consume/BaseCard';
@@ -11,11 +11,13 @@ interface ADT3DVBuilderCardProps {
     title?: string;
 }
 
+let selectedMeshes: SelectedMesh[] = [];
+
 const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
     modelUrl,
     title
 }) => {
-    let selectedMeshes: SelectedMesh[] = [];
+    const [meshes, setMeshes] = useState([]);
 
     const meshClick = (marker: Marker, mesh: any, scene: Scene) => {
         if (mesh) {
@@ -47,8 +49,11 @@ const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
             }
             selectedMeshes = [];
         }
+
+        setMeshes([...selectedMeshes]);
     };
 
+    console.log('render', selectedMeshes);
     return (
         <BaseCard title={title} isLoading={false} adapterResult={null}>
             <div className="cb-adt3dvbuilder-wrapper">
@@ -60,6 +65,14 @@ const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
                         meshClick(marker, mesh, scene)
                     }
                 />
+                <div className="cb-adt3dvbuilder-mesh-list-container">
+                    <div className="cb-adt3dvbuilder-mesh-list-title">
+                        Selected Meshes
+                    </div>
+                    {meshes.map((mesh, index) => {
+                        return <div key={index}>{mesh.id}</div>;
+                    })}
+                </div>
             </div>
         </BaseCard>
     );
