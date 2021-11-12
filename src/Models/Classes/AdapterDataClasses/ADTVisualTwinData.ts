@@ -1,5 +1,5 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import SceneViewLabel from '../SceneViewLabel';
+import { SceneViewLabel } from '../SceneView.types';
 
 class ADTVisualTwinData implements IAdapterData {
     data: { modelUrl: string; labels: SceneViewLabel[] };
