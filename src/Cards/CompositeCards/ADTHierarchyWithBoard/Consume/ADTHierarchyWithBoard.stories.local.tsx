@@ -42,6 +42,13 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         '6h'
                     )
                 }
+                searchSpanForDataHistory={
+                    new SearchSpan(
+                        new Date('2021-09-20T20:00:00Z'),
+                        new Date('2021-10-20T20:00:00Z'),
+                        '6h'
+                    )
+                }
             />
         </div>
     );

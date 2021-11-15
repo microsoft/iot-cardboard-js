@@ -39,8 +39,6 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import SceneViewLabel from '../Classes/SceneViewLabel';
-import { Vector3 } from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 
@@ -86,13 +84,6 @@ export interface IErrorComponentProps {
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
-}
-
-export interface SceneViewProps {
-    modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: Vector3;
-    labels?: SceneViewLabel[];
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {

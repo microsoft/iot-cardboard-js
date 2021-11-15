@@ -1,25 +1,50 @@
 .cb-sceneview-container {
+    height: 100%;
     position: relative;
+    width: 100%;
 }
 
 .cb-sceneview-progressbar {
     color: #fff;
+    font-size: 24px;
     left: 50%;
-    margin-left: -100px;
     position: absolute;
     top: 50%;
+    transform: translate(-50%, 0%);
+    width: 300px;
 }
 
 .cb-sceneview-errormessage {
     color: #fff;
-    font-size: '24px';
-    left: '50%';
-    margin-left: '-100px';
-    position: 'absolute';
-    top: '50%';
+    font-size: 24px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, 0%);
 }
 
 .cb-sceneview-canvas {
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.cb-sceneview-tooltip {
+    background: rgba(22, 27, 54, 0.8);
+    border: #364944 1px solid;
+    border-radius: 10px;
+    color: #fff;
+    padding: 5px;
+    pointer-events: none !important;
+    position: absolute;
+}
+
+.cb-sceneview-canvas {
+    height: 100%;
+    opacity: 0;
+    width: 100%;
+}
+
+.cb-o1 {
+    opacity: 1;
+    transition: 2s;
 }
