@@ -56,6 +56,8 @@ import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwi
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class ADTAdapter implements IADTAdapter {
+    protected tenantId: string;
+    protected uniqueObjectId: string;
     protected authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
@@ -65,11 +67,16 @@ export default class ADTAdapter implements IADTAdapter {
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
+        tenantId?: string,
+        uniqueObjectId?: string,
         adtProxyServerPath = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
+        this.tenantId = tenantId;
+        this.uniqueObjectId = uniqueObjectId;
+
         this.authService.login();
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
         axiosRetry(this.axiosInstance, {
@@ -861,26 +868,12 @@ export default class ADTAdapter implements IADTAdapter {
         });
     }
 
-    async getADTInstances(tenantId?: string) {
+    async getADTInstances(tenantId?: string, uniqueObjectId?: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const tenantId_ = tenantId ?? this.tenantId;
+        const uniqueObjectId_ = uniqueObjectId ?? this.uniqueObjectId;
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            if (!tenantId) {
-                const tenants = await axios({
-                    method: 'get',
-                    url: `https://management.azure.com/tenants`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + token
-                    },
-                    params: {
-                        'api-version': '2020-01-01'
-                    }
-                });
-
-                tenantId = tenants.data.value[0].tenantId;
-            }
-
             const subscriptions = await axios({
                 method: 'get',
                 url: `https://management.azure.com/subscriptions`,
@@ -894,10 +887,10 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
             const subscriptionsByTenantId = subscriptions.data.value
-                .filter((s) => s.tenantId === tenantId)
+                .filter((s) => s.tenantId === tenantId_)
                 .map((s) => s.subscriptionId);
 
-            const digitalTwinInstances = await Promise.all(
+            const digitalTwinInstancesBySubscriptions = await Promise.all(
                 subscriptionsByTenantId.map((subscriptionId) => {
                     return axios({
                         method: 'get',
@@ -914,18 +907,61 @@ export default class ADTAdapter implements IADTAdapter {
             );
 
             const digitalTwinsInstanceDictionary = [];
-            digitalTwinInstances.forEach((i: any) => {
-                if (i.data.value.length) {
-                    i.data.value.map((instance) =>
-                        digitalTwinsInstanceDictionary.push({
-                            hostName: instance.properties.hostName,
-                            resourceId: instance.id,
-                            location: instance.location
-                        })
-                    );
-                }
-            });
+            for (
+                let i = 0;
+                i < digitalTwinInstancesBySubscriptions.length;
+                i++
+            ) {
+                const instances: any = digitalTwinInstancesBySubscriptions[i];
+                if (instances.data.value.length) {
+                    let userRoleAssignments;
+                    try {
+                        userRoleAssignments = await Promise.all(
+                            instances.data.value.map((instance) => {
+                                return axios({
+                                    method: 'get',
+                                    url: `https://management.azure.com${instance.id}/providers/Microsoft.Authorization/roleAssignments`,
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        authorization: 'Bearer ' + token
+                                    },
+                                    params: {
+                                        'api-version': '2021-04-01-preview',
+                                        $filter: `atScope() and assignedTo('${uniqueObjectId_}')`
+                                    }
+                                });
+                            })
+                        );
+                        instances.data.value.map((instance, idx) => {
+                            const assignedUserRoleIds = userRoleAssignments[
+                                idx
+                            ]?.data?.value?.map((v) => {
+                                return v.properties.roleDefinitionId
+                                    .split('/')
+                                    .pop();
+                            });
 
+                            // return the adt instances only if the user has 'Azure Digital Twins Data Reader' or 'Azure Digital Twins Data Owner' permission assigned for it
+                            if (
+                                assignedUserRoleIds?.includes(
+                                    'd57506d4-4c8d-48b1-8587-93c323f6a5a3'
+                                ) ||
+                                assignedUserRoleIds?.includes(
+                                    'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+                                )
+                            ) {
+                                digitalTwinsInstanceDictionary.push({
+                                    hostName: instance.properties.hostName,
+                                    resourceId: instance.id,
+                                    location: instance.location
+                                });
+                            }
+                        });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            }
             return new ADTInstancesData(digitalTwinsInstanceDictionary);
         }, 'azureManagement');
     }
