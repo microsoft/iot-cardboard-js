@@ -67,8 +67,8 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
                     <TooltipHost content={t('ADTInstancesInfo')}>
                         <IconButton
                             iconProps={{ iconName: 'Info' }}
-                            title="Info"
-                            ariaLabel="Info"
+                            title={t('Info')}
+                            ariaLabel={t('Info')}
                             styles={{ root: { marginBottom: -3 } }}
                         />
                     </TooltipHost>
