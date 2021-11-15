@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import { Scene, Vector3 } from 'babylonjs';
 import BaseCard from '../Base/Consume/BaseCard';
-import './ADT3DVBuilderCard.scss';
+import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { SelectedMesh, Marker } from '../../Models/Classes/SceneView.types';
+import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
 
-interface ADT3DVBuilderCardProps {
+interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
 }
 
 let selectedMeshes: SelectedMesh[] = [];
 
-const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
+const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     modelUrl,
     title
 }) => {
@@ -56,7 +56,7 @@ const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
     console.log('render', selectedMeshes);
     return (
         <BaseCard title={title} isLoading={false} adapterResult={null}>
-            <div className="cb-adt3dvbuilder-wrapper">
+            <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     cameraRadius={800}
@@ -65,8 +65,8 @@ const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
                         meshClick(marker, mesh, scene)
                     }
                 />
-                <div className="cb-adt3dvbuilder-mesh-list-container">
-                    <div className="cb-adt3dvbuilder-mesh-list-title">
+                <div className="cb-adt3dbuilder-mesh-list-container">
+                    <div className="cb-adt3dbuilder-mesh-list-title">
                         Selected Meshes
                     </div>
                     {meshes.map((mesh, index) => {
@@ -78,4 +78,4 @@ const ADT3DVBuilderCard: React.FC<ADT3DVBuilderCardProps> = ({
     );
 };
 
-export default withErrorBoundary(ADT3DVBuilderCard);
+export default withErrorBoundary(ADT3DBuilderCard);
