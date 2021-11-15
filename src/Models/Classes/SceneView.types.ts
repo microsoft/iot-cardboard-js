@@ -6,12 +6,6 @@ export class SceneViewLabel {
     meshId: string;
     color: string;
 }
-
-export class SelectedMesh {
-    id: string;
-    color: BABYLON.Color3;
-}
-
 export class Marker {
     name: string;
     position?: Vector3;
