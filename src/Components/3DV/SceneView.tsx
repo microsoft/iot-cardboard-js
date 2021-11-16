@@ -234,7 +234,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         // This should save a lot of memory for large scenes
         return () => {
             if (sceneRef.current) {
-                console.log('Unmount - has scene');
+                if (debug) {
+                    console.log('Unmount - has scene');
+                }
                 try {
                     sceneRef.current.dispose();
                     if (engineRef.current) {
@@ -314,7 +316,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     if (debug) {
                         console.log('pointer move');
                     }
-                    onMarkerHoverRef.current(marker, mesh, e);
+                    onMarkerHoverRef.current(marker, mesh, scene, e);
                     lastMarkerRef.current = marker;
                     lastMeshRef.current = mesh;
                 }
@@ -332,14 +334,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
     // SETUP LOGIC FOR onMarkerClick
     useEffect(() => {
-        let pd: BABYLON.Observer<BABYLON.PointerInfo>;
+        let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerDown effect' + (scene ? ' with scene' : ' no scene')
+                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
             );
         }
         if (scene && onMarkerClickRef.current) {
-            const pointerDown = (e) => {
+            const pointerTap = (e) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -359,24 +361,24 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 if (onMarkerClickRef.current) {
-                    onMarkerClickRef.current(marker, mesh, e);
+                    onMarkerClickRef.current(marker, mesh, scene, e);
                 }
             };
 
             if (scene) {
-                pd = scene.onPointerObservable.add(
-                    pointerDown,
-                    BABYLON.PointerEventTypes.POINTERDOWN
+                pt = scene.onPointerObservable.add(
+                    pointerTap,
+                    BABYLON.PointerEventTypes.POINTERTAP
                 );
             }
         }
 
         return () => {
             if (debug) {
-                console.log('pointerDown effect clean');
+                console.log('pointerTap effect clean');
             }
-            if (pd) {
-                scene.onPointerObservable.remove(pd);
+            if (pt) {
+                scene.onPointerObservable.remove(pt);
             }
         };
     }, [scene, markers]);
