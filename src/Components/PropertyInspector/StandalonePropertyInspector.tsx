@@ -22,6 +22,7 @@ import StandalonePropertyInspectorReducer, {
 } from './StandalonePropertyInspector.state';
 import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
 import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -325,4 +326,4 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     );
 };
 
-export default StandalonePropertyInspector;
+export default withErrorBoundary(StandalonePropertyInspector);

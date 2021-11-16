@@ -115,6 +115,7 @@
         "storybook:noSSL": "start-storybook -p 3001",
         "storybook:export": "build-storybook",
         "test": "jest",
+        "test:ci": "node --max_old_space_size=4096 node_modules/.bin/jest --config jest.config.js --maxWorkers=2",
         "test:watch": "jest --watch",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",
         "prettier:check": "prettier --check src/**/*.{js,ts,tsx,scss}",

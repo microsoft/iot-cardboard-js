@@ -109,3 +109,19 @@ export const MissingAllModelsMock = (_args, { globals: { theme, locale } }) => (
         />
     </div>
 );
+
+export const PropertyInspectorErrorBoundary = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={propertyInspectorStoryStyles}>
+        <StandalonePropertyInspector
+            inputData={null}
+            theme={theme}
+            locale={locale}
+            onErrorBoundary={(error, errorInfo) => {
+                console.log('in onErrorBoundary callback.', error, errorInfo);
+            }}
+        />
+    </div>
+);
