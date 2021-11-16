@@ -870,8 +870,12 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getADTInstances(tenantId?: string, uniqueObjectId?: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        const tenantId_ = tenantId ?? this.tenantId;
-        const uniqueObjectId_ = uniqueObjectId ?? this.uniqueObjectId;
+        if (tenantId) {
+            this.tenantId = tenantId;
+        }
+        if (uniqueObjectId) {
+            this.uniqueObjectId = uniqueObjectId;
+        }
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const subscriptions = await axios({
@@ -887,7 +891,7 @@ export default class ADTAdapter implements IADTAdapter {
             });
 
             const subscriptionsByTenantId = subscriptions.data.value
-                .filter((s) => s.tenantId === tenantId_)
+                .filter((s) => s.tenantId === this.tenantId)
                 .map((s) => s.subscriptionId);
 
             const digitalTwinInstancesBySubscriptions = await Promise.all(
@@ -927,7 +931,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     },
                                     params: {
                                         'api-version': '2021-04-01-preview',
-                                        $filter: `atScope() and assignedTo('${uniqueObjectId_}')`
+                                        $filter: `atScope() and assignedTo('${this.uniqueObjectId}')`
                                     }
                                 });
                             })
