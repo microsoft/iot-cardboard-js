@@ -1,10 +1,15 @@
-import { Vector3, Color3, AbstractMesh } from 'babylonjs';
+import { Vector3, Color3, AbstractMesh, Scene } from 'babylonjs';
 
 export class SceneViewLabel {
     metric: string;
     value: number;
     meshId: string;
     color: string;
+}
+
+export class SelectedMesh {
+    id: string;
+    color: Color3;
 }
 
 export class Marker {
@@ -24,6 +29,7 @@ export class ChildTwin {
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
+    scene: Scene,
     e: PointerEvent
 ) => void;
 
@@ -35,11 +41,13 @@ export interface ISceneViewProp {
     onMarkerClick?: (
         marker: Marker,
         mesh: AbstractMesh,
+        scene: Scene,
         e: PointerEvent
     ) => void;
     onMarkerHover?: (
         marker: Marker,
         mesh: AbstractMesh,
+        scene: Scene,
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];

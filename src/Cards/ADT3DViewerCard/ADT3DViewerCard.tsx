@@ -4,17 +4,17 @@ import * as BABYLON from 'babylonjs';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
-import './ADT3DVCard.scss';
+import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
-interface ADT3DVCardProps {
+interface ADT3DViewerCardProps {
     adapter: IADTAdapter;
     twinId: string;
     pollingInterval: number;
     title?: string;
 }
 
-const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
+const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
     twinId,
     title,
@@ -49,7 +49,7 @@ const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
             adapterResult={visualTwin.adapterResult}
             title={title}
         >
-            <div className="cb-adt-3dv-wrapper">
+            <div className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
@@ -61,4 +61,4 @@ const ADT3DVCard: React.FC<ADT3DVCardProps> = ({
     );
 };
 
-export default withErrorBoundary(ADT3DVCard);
+export default withErrorBoundary(ADT3DViewerCard);
