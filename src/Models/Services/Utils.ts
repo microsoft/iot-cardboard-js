@@ -1,4 +1,4 @@
-import { PropertyInfo, UnitInfo } from 'azure-iot-parser-node';
+import { UnitInfo } from 'azure-iot-parser-node';
 import React from 'react';
 import i18n from '../../i18n';
 import {
@@ -8,7 +8,6 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName
 } from '../Constants';
-import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { Vector3 } from 'babylonjs';
 import { CharacterWidths } from '../Constants/Constants';
 

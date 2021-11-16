@@ -281,7 +281,8 @@ abstract class PropertyInspectorModel {
         if (relationship && modelDict) {
             // Find relationship definition
             let relationshipInfo: RelationshipInfo = null;
-            for (const [_, modelDictEntity] of Object.entries(modelDict)) {
+            for (const key of Object.keys(modelDict)) {
+                const modelDictEntity = modelDict[key];
                 if (
                     modelDictEntity.entityKind === EntityKind.RELATIONSHIP &&
                     (modelDictEntity as RelationshipInfo).name ===
@@ -365,9 +366,8 @@ abstract class PropertyInspectorModel {
         const treeNodes: PropertyTreeNode[] = [];
 
         if (interfaceInfo?.contents) {
-            for (const [_, modelContentValue] of Object.entries(
-                interfaceInfo.contents
-            )) {
+            for (const key of Object.keys(interfaceInfo.contents)) {
+                const modelContentValue = interfaceInfo.contents[key];
                 let node: PropertyTreeNode;
 
                 switch (modelContentValue.entityKind) {

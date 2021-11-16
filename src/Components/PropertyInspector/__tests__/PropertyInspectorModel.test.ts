@@ -1,5 +1,4 @@
 import { EntityKind } from 'azure-iot-parser-node';
-import { DTDLType } from '../../../Models/Classes/DTDL';
 import PropertyInspectorModel from '../PropertyInspectoryModel';
 import testModel from './testModel.json';
 import testTwin from './testTwin.json';
@@ -69,12 +68,12 @@ describe('Parsing twin into property tree', () => {
 
     test('Float property with unit is set in inspector and matches value on twin', () => {
         const { targetPiNode } = checkPrimitiveNode('testFloatWithUnit');
-        expect(targetPiNode.unit).toEqual('kilowattHour');
+        expect(targetPiNode.unit).toEqual('kWh');
     });
 
     test('Integer property with unit is set in inspector and matches value on twin', () => {
         const { targetPiNode } = checkPrimitiveNode('testIntegerWithUnit');
-        expect(targetPiNode.unit).toEqual('mile');
+        expect(targetPiNode.unit).toEqual('mi');
     });
 
     test('Long property is set in inspector and matches value on twin', () => {
@@ -99,7 +98,7 @@ describe('Parsing twin into property tree', () => {
             propertyInspectorTwinNodes,
             `/testComponentObjectModel`
         );
-        expect(componentA.type).toEqual(DTDLType.Component);
+        expect(componentA.type).toEqual(EntityKind.COMPONENT);
         expect(componentA.name).toEqual('testComponentObjectModel');
 
         // Check testComponentMapModel is parsed into tree
@@ -107,7 +106,7 @@ describe('Parsing twin into property tree', () => {
             propertyInspectorTwinNodes,
             `/testComponentMapModel`
         );
-        expect(componentB.type).toEqual(DTDLType.Component);
+        expect(componentB.type).toEqual(EntityKind.COMPONENT);
         expect(componentB.name).toEqual('testComponentMapModel');
     });
 

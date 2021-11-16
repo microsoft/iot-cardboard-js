@@ -116,10 +116,9 @@ const StandalonePropertyInspectorReducer = produce(
                         path: mapNode.path,
                         mapInfo: { key: mapKey },
                         propertySourceObject: {},
-                        modelProperty: mapNode.mapValueInfo.schema,
+                        modelProperty: mapNode.mapValueInfo,
                         isMapChild: true,
-                        forceSet: true,
-                        schemas: mapNode.mapSchemas
+                        forceSet: true
                     }
                 );
 
