@@ -8,15 +8,20 @@ export default {
     title: 'SceneListCard/Consume'
 };
 
-export const Foo = (args, { globals: { theme } }) => {
+const sceneListCardStyle = {
+    height: '100%'
+};
+
+export const SceneCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ height: '400px' }}>
+        <div style={sceneListCardStyle}>
             <SceneListCard
+                title={'Scene List Card'}
                 theme={theme}
-                title={'SceneListCard card'}
+                locale={locale}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -25,8 +30,15 @@ export const Foo = (args, { globals: { theme } }) => {
                         )
                     )
                 }
-                id={''}
-                properties={[]}
+                editSceneListCardClick={(item, itemIndex) => {
+                    console.log(`${item.$dtId} of ${itemIndex} is clicked!`);
+                }}
+                addNewSceneListCardClick={() => {
+                    console.log('Add New button clicked!');
+                }}
+                deleteSceneListCardClick={() => {
+                    console.log('Delete button clicked!');
+                }}
             />
         </div>
     );

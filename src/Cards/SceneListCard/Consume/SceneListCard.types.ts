@@ -1,7 +1,17 @@
+import { FormMode } from '../../../Models/Constants/Enums';
 import {
     IADTAdapter,
-    IConsumeCardProps
+    IConsumeCompositeCardProps,
+    IHierarchyNode
 } from '../../../Models/Constants/Interfaces';
-export interface SceneListCardProps extends IConsumeCardProps {
+
+export interface SceneListCardProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter;
+    addNewSceneListCardClick?: () => void;
+    deleteSceneListCardClick?: () => void;
+    editSceneListCardClick: (
+        element: any,
+        index: number,
+    ) => void;
+    formControlMode?: FormMode;
 }
