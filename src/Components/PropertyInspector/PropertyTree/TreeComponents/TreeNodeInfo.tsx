@@ -1,9 +1,9 @@
 import { IIconStyleProps, IIconStyles, TooltipHost } from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
+import { EntityKind } from 'azure-iot-parser-node';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
-import { dtdlPropertyTypesEnum } from '../../../../Models/Constants/Constants';
 import '../PropertyTree.scss';
 import { NodeProps } from '../PropertyTree.types';
 
@@ -20,16 +20,20 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     let ariaLabel = t('propertyInspector.property');
 
     // No icon for metadata or component nodes
-    if (node.isMetadata || node.isFloating || node.type === DTDLType.Component)
+    if (
+        node.isMetadata ||
+        node.isFloating ||
+        node.type === EntityKind.COMPONENT
+    )
         return null;
 
     // Attach info icons to specific property schemas
     switch (node.schema) {
-        case dtdlPropertyTypesEnum.date:
+        case EntityKind.DATE:
             tooltipInfo = t('propertyInspector.schemaInfo.date.text');
             ariaLabel = t('propertyInspector.schemaInfo.date.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.dateTime:
+        case EntityKind.DATETIME:
             tooltipInfo = (
                 <Trans
                     t={t}
@@ -48,19 +52,19 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             );
             ariaLabel = t('propertyInspector.schemaInfo.dateTime.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.duration:
+        case EntityKind.DURATION:
             tooltipInfo = t('propertyInspector.schemaInfo.duration.text');
             ariaLabel = t('propertyInspector.schemaInfo.duration.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.integer:
+        case EntityKind.INTEGER:
             tooltipInfo = t('propertyInspector.schemaInfo.integer.text');
             ariaLabel = t('propertyInspector.schemaInfo.integer.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.long:
+        case EntityKind.LONG:
             tooltipInfo = t('propertyInspector.schemaInfo.long.text');
             ariaLabel = t('propertyInspector.schemaInfo.long.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.time:
+        case EntityKind.TIME:
             tooltipInfo = (
                 <Trans
                     t={t}
@@ -79,7 +83,7 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             );
             ariaLabel = t('propertyInspector.schemaInfo.time.ariaLabel');
             break;
-        case dtdlPropertyTypesEnum.Map:
+        case EntityKind.MAP:
             tooltipInfo = (
                 <Trans
                     t={t}

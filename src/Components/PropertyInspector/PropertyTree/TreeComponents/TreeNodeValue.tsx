@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { dtdlPropertyTypesEnum } from '../../../..';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, PropertyTreeNode } from '../PropertyTree.types';
 import '../PropertyTree.scss';
@@ -11,6 +10,7 @@ import {
     IIconStyles
 } from '@fluentui/react/lib/components/Icon/Icon.types';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
+import { EntityKind } from 'azure-iot-parser-node';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -30,7 +30,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         'cb-property-tree-node-value cb-property-tree-node-value-readonly';
 
     switch (propertyType) {
-        case dtdlPropertyTypesEnum.boolean:
+        case EntityKind.BOOLEAN:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -60,7 +60,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     />
                 </div>
             );
-        case dtdlPropertyTypesEnum.date:
+        case EntityKind.DATE:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -83,7 +83,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     type="date"
                 />
             );
-        case dtdlPropertyTypesEnum.dateTime:
+        case EntityKind.DATETIME:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -107,8 +107,8 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     type="datetime-local"
                 />
             );
-        case dtdlPropertyTypesEnum.integer:
-        case dtdlPropertyTypesEnum.long:
+        case EntityKind.INTEGER:
+        case EntityKind.LONG:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -133,8 +133,8 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     ></input>
                 </div>
             );
-        case dtdlPropertyTypesEnum.double:
-        case dtdlPropertyTypesEnum.float:
+        case EntityKind.DOUBLE:
+        case EntityKind.FLOAT:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -159,7 +159,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     ></input>
                 </div>
             );
-        case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
+        case EntityKind.DURATION:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -179,7 +179,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     ></input>
                 </div>
             );
-        case dtdlPropertyTypesEnum.string:
+        case EntityKind.STRING:
             if (node.readonly || readonly) {
                 return (
                     <div
@@ -222,7 +222,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                 );
             }
 
-        case dtdlPropertyTypesEnum.time:
+        case EntityKind.TIME:
             if (readonly) {
                 return (
                     <div className={readOnlyValueClassname}>
@@ -246,7 +246,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     type="time"
                 />
             );
-        case dtdlPropertyTypesEnum.Enum:
+        case EntityKind.ENUM:
             return (
                 <div className={nodeValueClassname}>
                     <select
@@ -279,10 +279,10 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                     </select>
                 </div>
             );
-        case dtdlPropertyTypesEnum.Map: {
+        case EntityKind.MAP: {
             return <MapProperty readonly={readonly} node={node} />;
         }
-        case dtdlPropertyTypesEnum.Array:
+        case EntityKind.ARRAY:
         default:
             return null;
     }

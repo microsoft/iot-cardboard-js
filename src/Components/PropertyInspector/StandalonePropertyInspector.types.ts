@@ -16,11 +16,11 @@ export interface OnCommitPatchParams {
 }
 
 export interface StandalonePropertyInspectorProps {
+    inputData: TwinParams | RelationshipParams;
+    missingModelIds?: Array<string>;
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    inputData: TwinParams | RelationshipParams;
-    missingModelIds?: Array<string>;
     onCommitChanges?: (patchData: OnCommitPatchParams) => any;
     readonly?: boolean;
 }
@@ -28,12 +28,11 @@ export interface StandalonePropertyInspectorProps {
 export type TwinParams = {
     twin: DTwin;
     expandedModels: DtdlInterface[];
-    rootModel: DtdlInterface;
 };
 
 export type RelationshipParams = {
     relationship: IADTRelationship;
-    relationshipModel: DtdlInterface;
+    expandedModels: DtdlInterface[];
 };
 
 export const isTwin = (

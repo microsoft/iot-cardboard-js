@@ -1,135 +1,21 @@
-import { dtdlPropertyTypesEnum } from '../../..';
+import { EntityKind } from 'azure-iot-parser-node';
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import PropertyInspectorModel from '../PropertyInspectoryModel';
-import { NodeRole } from '../PropertyTree/PropertyTree.types';
 import testModel from './testModel.json';
 import testTwin from './testTwin.json';
 
-describe('Property nodes are parsed correctly', () => {
-    test('Object property is correctly parsed into a tree node', () => {
-        const testObject = {
-            '@type': 'Property',
-            name: 'testObject',
-            schema: {
-                '@type': 'Object',
-                fields: [
-                    {
-                        name: 'testObject_DoubleChild',
-                        schema: 'double'
-                    },
-                    {
-                        name: 'testObject_ObjectChild',
-                        schema: {
-                            '@type': 'Object',
-                            fields: [
-                                {
-                                    name: 'testObject_ObjectChild_StringChild',
-                                    schema: 'string'
-                                }
-                            ]
-                        }
-                    }
-                ]
-            },
-            writable: true
-        };
-
-        const node = PropertyInspectorModel.parsePropertyIntoNode({
-            isInherited: false,
-            isMapChild: false,
-            isObjectChild: false,
-            modelProperty: testObject,
-            path: '',
-            propertySourceObject: {}
-        });
-
-        expect(node.name).toBe('testObject');
-        expect(node.role).toBe(NodeRole.parent);
-        expect(node.children).toHaveLength(2);
-
-        const firstChild = node?.children?.[0];
-        expect(firstChild.name).toBe('testObject_DoubleChild');
-        expect(firstChild.role).toBe(NodeRole.leaf);
-        expect(firstChild.path).toBe('/testObject/testObject_DoubleChild');
-        expect(firstChild.schema).toBe(dtdlPropertyTypesEnum.double);
-
-        const secondChild = node?.children?.[1];
-        expect(secondChild.name).toBe('testObject_ObjectChild');
-        expect(secondChild.role).toBe(NodeRole.parent);
-        expect(secondChild.path).toBe('/testObject/testObject_ObjectChild');
-        expect(secondChild.schema).toBe(dtdlPropertyTypesEnum.Object);
-        expect(secondChild.children).toHaveLength(1);
-    });
-
-    test('Map property is correctly parsed into a tree node', () => {
-        const testMap = {
-            '@type': 'Property',
-            name: 'testMap',
-            writable: true,
-            schema: {
-                '@type': 'Map',
-                mapKey: {
-                    name: 'testMapKey',
-                    schema: 'string'
-                },
-                mapValue: {
-                    name: 'testMapValue',
-                    schema: {
-                        '@type': 'Object',
-                        fields: [
-                            {
-                                name: 'testString',
-                                schema: 'string'
-                            },
-                            {
-                                name: 'testDouble',
-                                schema: 'double'
-                            }
-                        ]
-                    }
-                }
-            }
-        };
-
-        const node = PropertyInspectorModel.parsePropertyIntoNode({
-            isInherited: false,
-            isMapChild: false,
-            isObjectChild: false,
-            modelProperty: testMap,
-            path: '',
-            propertySourceObject: {
-                testMap: {
-                    testValue: {
-                        testString: 'abc',
-                        testDouble: 123
-                    }
-                }
-            }
-        });
-
-        expect(node.name).toBe('testMap');
-        expect(node.role).toBe(NodeRole.parent);
-        expect(node.children).toHaveLength(1);
-
-        const mapValue = node?.children?.[0];
-        expect(mapValue.path).toBe('/testMap/testValue');
-
-        const mapValueChild = mapValue?.children?.[0];
-        expect(mapValueChild.path).toBe('/testMap/testValue/testString');
-        expect(mapValueChild.value).toBe('abc');
-    });
-});
-
+const rootModelId = 'dtmi:com:test:testmodel;1';
 let propertyInspectorTwinNodes = null;
 
 describe('Parsing twin into property tree', () => {
-    beforeAll(() => {
+    beforeAll(async () => {
+        const modelDict = await PropertyInspectorModel.parseDtdl(testModel);
+        expect(modelDict).toBeTruthy();
+
         propertyInspectorTwinNodes = PropertyInspectorModel.parseTwinIntoPropertyTree(
             {
                 twin: testTwin,
-                expandedModels: testModel,
-                rootModel: testModel[0],
-                isInherited: false,
+                interfaceInfo: modelDict[rootModelId],
                 path: ''
             }
         );
@@ -149,10 +35,10 @@ describe('Parsing twin into property tree', () => {
         // numeric types stored internally as strings (convert)
         if (
             [
-                dtdlPropertyTypesEnum.integer,
-                dtdlPropertyTypesEnum.float,
-                dtdlPropertyTypesEnum.double,
-                dtdlPropertyTypesEnum.long
+                EntityKind.INTEGER,
+                EntityKind.FLOAT,
+                EntityKind.DOUBLE,
+                EntityKind.LONG
             ].includes(targetPiNode.schema)
         ) {
             valueOnTwin = String(valueOnTwin);
@@ -273,7 +159,7 @@ describe('Parsing twin into property tree', () => {
         expect(mapValue).toBeTruthy();
 
         //Check that map value is type object and children match values on twin
-        expect(mapValue.schema).toEqual(dtdlPropertyTypesEnum.Object);
+        expect(mapValue.schema).toEqual(EntityKind.OBJECT);
 
         const testString = mapValue.children.find(
             (child) => child.name === 'testString'
@@ -302,10 +188,13 @@ const relationshipData = {
 };
 
 describe('Parsing relationship into property tree', () => {
-    beforeAll(() => {
+    beforeAll(async () => {
+        const modelDict = await PropertyInspectorModel.parseDtdl(testModel);
+        expect(modelDict).toBeTruthy();
+
         propertyInspectorRelationshipNodes = PropertyInspectorModel.parseRelationshipIntoPropertyTree(
             relationshipData,
-            testModel.find((m) => m['@id'] === 'dtmi:com:test:testmodel;1')
+            modelDict
         );
     });
 

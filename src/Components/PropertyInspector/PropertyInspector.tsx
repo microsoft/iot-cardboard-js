@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { ADTRelationshipData } from '../../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../../Models/Classes/AdapterResult';
-import { DTDLType } from '../../Models/Classes/DTDL';
 import {
     Locale,
     PropertyInspectorPatchMode,
@@ -16,7 +15,6 @@ import {
     IADTTwin
 } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
-import { getModelContentType } from '../../Models/Services/Utils';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 import {
     OnCommitPatchParams,
@@ -216,34 +214,16 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             setInputData({
                 expandedModels: modelData.adapterResult.getData()
                     .expandedModels,
-                rootModel: modelData.adapterResult.getData().rootModel,
                 twin: twinData.adapterResult.getData()
             });
         } else if (data) {
-            let relationshipModel = null;
             const relationship = relationshipData.adapterResult.getData();
             const expandedModels = modelData.adapterResult.getData()
                 .expandedModels;
 
-            for (const model of expandedModels) {
-                if (model.contents) {
-                    for (const item of model.contents) {
-                        const type = getModelContentType(item['@type']);
-                        if (
-                            type === DTDLType.Relationship &&
-                            relationship['$relationshipName'] === item.name
-                        ) {
-                            relationshipModel = model;
-                            break;
-                        }
-                    }
-                }
-                if (relationshipModel) break;
-            }
-
             setInputData({
                 relationship: relationship,
-                relationshipModel
+                expandedModels
             });
         }
         setIsInitialLoad(false);

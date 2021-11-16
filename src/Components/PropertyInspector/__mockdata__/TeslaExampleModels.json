@@ -15,19 +15,6 @@
                 "schema": "double"
             },
             {
-                "@type": "Relationship",
-                "name": "chargedBy",
-                "minMultiplicity": 0,
-                "maxMultiplicity": 1,
-                "properties": [
-                    {
-                        "@type": "Property",
-                        "name": "WheelInformation",
-                        "schema": "dtmi:com:cocrowle:wheelinformation;1"
-                    }
-                ]
-            },
-            {
                 "@type": "Property",
                 "@id": "dtmi:com:cocrowle:batterydead;1",
                 "name": "BatteryDeadState",
@@ -278,6 +265,19 @@
         "displayName": "NGSILDBaseModel",
         "contents": [
             {
+                "@type": "Relationship",
+                "name": "chargedBy",
+                "minMultiplicity": 0,
+                "maxMultiplicity": 1,
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "chargeInfo",
+                        "schema": "dtmi:com:cocrowle:chargeInfo;1"
+                    }
+                ]
+            },
+            {
                 "@type": "Property",
                 "name": "dataProvider",
                 "schema": "string",
@@ -340,6 +340,46 @@
                 "@type": "Component",
                 "name": "location",
                 "schema": "dtmi:digitaltwins:ngsi_ld:city:geoLocation;1"
+            }
+        ],
+        "schemas": [
+            {
+                "@id": "dtmi:com:cocrowle:chargeInfo;1",
+                "@type": "Object",
+                "displayName": "Charge info",
+                "description": "Information about the current charge",
+                "fields": [
+                    {
+                        "name": "adapter",
+                        "displayName": "Charging adapter",
+                        "schema": "string"
+                    },
+                    {
+                        "name": "chargeStatus",
+                        "displayName": "Charge status",
+                        "schema": {
+                            "@type": "Enum",
+                            "valueSchema": "string",
+                            "enumValues": [
+                                {
+                                    "name": "idle",
+                                    "displayName": "Idle",
+                                    "enumValue": "idle"
+                                },
+                                {
+                                    "name": "charging",
+                                    "displayName": { "en": "Charging" },
+                                    "enumValue": "charging"
+                                },
+                                {
+                                    "name": "charged",
+                                    "displayName": "charged",
+                                    "enumValue": "charged"
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
         ],
         "@context": ["dtmi:dtdl:context;2"]

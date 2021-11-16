@@ -23,8 +23,7 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                expandedModels: mockExpandedModels as DtdlInterface[]
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -38,8 +37,7 @@ export const SmallContainer = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                expandedModels: mockExpandedModels as DtdlInterface[]
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -53,8 +51,7 @@ export const ReadOnlyTwinMock = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                expandedModels: mockExpandedModels as DtdlInterface[]
             }}
             readonly={true}
             onCommitChanges={(patch) => console.log(patch)}
@@ -69,7 +66,7 @@ export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,
-                relationshipModel: mockExpandedModels[0] as DtdlInterface
+                expandedModels: mockExpandedModels as DtdlInterface[]
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -89,8 +86,7 @@ export const MissingSomeModelsMock = (
                 expandedModels: mockExpandedModels.slice(
                     0,
                     2
-                ) as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                ) as DtdlInterface[]
             }}
             missingModelIds={mockExpandedModel.slice(2).map((mm) => mm['@id'])}
             onCommitChanges={(patch) => console.log(patch)}
@@ -105,8 +101,7 @@ export const MissingAllModelsMock = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 twin: mockTwin,
-                expandedModels: null,
-                rootModel: null
+                expandedModels: null
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}

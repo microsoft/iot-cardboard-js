@@ -32,21 +32,4 @@ export const primitiveDtdlEntityKinds = [
     EntityKind.TIME
 ];
 
-export enum dtdlPropertyTypesEnum {
-    boolean = EntityKind.BOOLEAN,
-    date = EntityKind.DATE,
-    dateTime = EntityKind.DATETIME,
-    double = EntityKind.DOUBLE,
-    duration = EntityKind.DURATION,
-    float = EntityKind.FLOAT,
-    integer = EntityKind.INTEGER,
-    long = EntityKind.LONG,
-    string = EntityKind.STRING,
-    time = EntityKind.TIME,
-    Array = EntityKind.ARRAY,
-    Enum = EntityKind.ENUM,
-    Map = EntityKind.MAP,
-    Object = EntityKind.OBJECT
-}
-
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];

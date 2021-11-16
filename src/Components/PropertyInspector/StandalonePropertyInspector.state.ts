@@ -1,5 +1,5 @@
+import { EntityKind } from 'azure-iot-parser-node';
 import produce, { setAutoFreeze } from 'immer';
-import { dtdlPropertyTypesEnum } from '../../Models/Constants/Constants';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 setAutoFreeze(false);
@@ -112,13 +112,11 @@ const StandalonePropertyInspectorReducer = produce(
                 // Construct empty tree node
                 const newTreeNode = PropertyInspectorModel.parsePropertyIntoNode(
                     {
-                        isInherited: mapNode.isInherited,
                         isObjectChild: !!mapNode.parentObjectPath,
                         path: mapNode.path,
                         mapInfo: { key: mapKey },
                         propertySourceObject: {},
-                        modelProperty: (mapNode.mapDefinition.schema as any)
-                            .mapValue,
+                        modelProperty: mapNode.mapValueInfo.schema,
                         isMapChild: true,
                         forceSet: true
                     }
@@ -220,7 +218,7 @@ const StandalonePropertyInspectorReducer = produce(
                 setNodeToDefaultValue(targetNode);
 
                 // On maps, clear map values
-                if (targetNode.schema === dtdlPropertyTypesEnum.Map) {
+                if (targetNode.schema === EntityKind.MAP) {
                     targetNode.children = null;
                 }
                 targetNode.isSet = false;

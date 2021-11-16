@@ -41,26 +41,20 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     // Reset property inspector when input data changes
     useEffect(() => {
         const parseTreeAsync = async () => {
-            const parsedModels = isTwin(props.inputData)
-                ? await PropertyInspectorModel.parseDtdl(
-                      props.inputData.expandedModels
-                  )
-                : await PropertyInspectorModel.parseDtdl([
-                      props.inputData.relationshipModel
-                  ]);
-
-            console.log(parsedModels);
-            debugger;
+            const parsedModels = await PropertyInspectorModel.parseDtdl(
+                props.inputData.expandedModels
+            );
 
             const parsedTree = isTwin(props.inputData)
                 ? PropertyInspectorModel.parseTwinIntoPropertyTree({
                       path: '',
                       twin: props.inputData.twin,
-                      modelDict: parsedModels
+                      interfaceInfo:
+                          parsedModels[props.inputData.twin?.$metadata?.$model]
                   })
                 : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                       props.inputData.relationship,
-                      props.inputData.relationshipModel
+                      parsedModels
                   );
 
             dispatch({

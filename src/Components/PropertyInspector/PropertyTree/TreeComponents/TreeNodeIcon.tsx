@@ -1,9 +1,8 @@
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
+import { EntityKind } from 'azure-iot-parser-node';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DTDLType } from '../../../../Models/Classes/DTDL';
-import { dtdlPropertyTypesEnum } from '../../../../Models/Constants/Constants';
 import '../PropertyTree.scss';
 import { NodeProps } from '../PropertyTree.types';
 
@@ -29,65 +28,65 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 color: props.theme.palette.orange
             }
         });
-    } else if (node.type === DTDLType.Component) {
+    } else if (node.type === EntityKind.COMPONENT) {
         iconName = 'OEM';
         iconTitle = t('propertyInspector.component');
-    } else if (node.type === DTDLType.Property) {
+    } else if (node.type === EntityKind.PROPERTY) {
         iconTitle = t('propertyInspector.property');
         switch (node.schema) {
-            case dtdlPropertyTypesEnum.boolean:
+            case EntityKind.BOOLEAN:
                 iconName = 'ToggleRight';
                 iconTitle = t('propertyInspector.propertyTypes.boolean');
                 break;
-            case dtdlPropertyTypesEnum.date:
+            case EntityKind.DATE:
                 iconName = 'Calendar';
                 iconTitle = t('propertyInspector.propertyTypes.date');
                 break;
-            case dtdlPropertyTypesEnum.dateTime:
+            case EntityKind.DATETIME:
                 iconName = 'DateTime';
                 iconTitle = t('propertyInspector.propertyTypes.dateTime');
                 break;
-            case dtdlPropertyTypesEnum.double:
+            case EntityKind.DOUBLE:
                 iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.double');
                 break;
-            case dtdlPropertyTypesEnum.float:
+            case EntityKind.FLOAT:
                 iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.float');
                 break;
-            case dtdlPropertyTypesEnum.long:
+            case EntityKind.LONG:
                 iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.long');
                 break;
-            case dtdlPropertyTypesEnum.duration:
+            case EntityKind.DURATION:
                 iconName = 'BufferTimeBefore';
                 iconTitle = t('propertyInspector.propertyTypes.duration');
                 break;
-            case dtdlPropertyTypesEnum.integer:
+            case EntityKind.INTEGER:
                 iconName = 'NumberSymbol';
                 iconTitle = t('propertyInspector.propertyTypes.integer');
                 break;
-            case dtdlPropertyTypesEnum.string:
+            case EntityKind.STRING:
                 iconName = 'TextField';
                 iconTitle = t('propertyInspector.propertyTypes.string');
                 break;
-            case dtdlPropertyTypesEnum.time:
+            case EntityKind.TIME:
                 iconName = 'Clock';
                 iconTitle = t('propertyInspector.propertyTypes.time');
                 break;
-            case dtdlPropertyTypesEnum.Object:
+            case EntityKind.OBJECT:
                 iconName = 'CubeShape';
                 iconTitle = t('propertyInspector.propertyTypes.object');
                 break;
-            case dtdlPropertyTypesEnum.Enum:
+            case EntityKind.ENUM:
                 iconName = 'BulletedList2';
                 iconTitle = t('propertyInspector.propertyTypes.enum');
                 break;
-            case dtdlPropertyTypesEnum.Map:
+            case EntityKind.MAP:
                 iconName = 'Code';
                 iconTitle = t('propertyInspector.propertyTypes.map');
                 break;
-            case dtdlPropertyTypesEnum.Array:
+            case EntityKind.ARRAY:
                 iconTitle = t('propertyInspector.propertyTypes.array');
                 break;
         }

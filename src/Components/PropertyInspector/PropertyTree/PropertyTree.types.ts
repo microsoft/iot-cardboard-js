@@ -1,7 +1,4 @@
-import { EntityKind } from 'azure-iot-parser-node';
-import { DTDLType } from '../../../Models/Classes/DTDL';
-import { DtdlProperty } from '../../../Models/Constants';
-import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
+import { EntityKind, MapValueInfo } from 'azure-iot-parser-node';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
 export interface PropertyTreeNode {
@@ -14,7 +11,6 @@ export interface PropertyTreeNode {
     value: PrimitiveValueTypes;
     path: string;
     isMapChild: boolean;
-    isInherited: boolean;
     isSet: boolean;
     readonly?: boolean;
     parentObjectPath?: string;
@@ -25,7 +21,7 @@ export interface PropertyTreeNode {
     edited?: boolean;
     isMetadata?: boolean;
     isFloating?: boolean;
-    mapDefinition?: DtdlProperty;
+    mapValueInfo?: MapValueInfo;
 }
 
 type EnumPropertyData = {
