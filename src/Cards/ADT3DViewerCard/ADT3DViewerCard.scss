@@ -2,3 +2,25 @@
     height: 100%;
     width: 100%;
 }
+
+.cb-adt-3dviewer-popup-container {
+    position: absolute;
+    padding: 20px;
+    left: 20px;
+    top: 20px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.cb-adt-3dviewer-close-btn {
+    margin-top: 20px;
+    float:right;
+}
+
+.cb-adt-3dviewer-popup-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}

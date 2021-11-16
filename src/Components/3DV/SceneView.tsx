@@ -438,9 +438,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         const label = new GUI.TextBlock();
                         label.color = item.color || 'white';
                         label.text = text;
-                        rect.addControl(label);
-                        advancedTexture.addControl(rect);
-                        rect.linkWithMesh(targetMesh);
+                        // rect.addControl(label);
+                        // advancedTexture.addControl(rect);
+                        // rect.linkWithMesh(targetMesh);
                         if (item.color) {
                             (targetMesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
                                 item.color
