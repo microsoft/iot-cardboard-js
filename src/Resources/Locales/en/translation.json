@@ -54,6 +54,12 @@
     "type": "Type",
     "id": "Id",
     "select": "Select",
+    "info": "Info",
+    "ADTInstances": "Azure Digital Twins Instances",
+    "ADTInstancesInfo": "List of ADT instances for which the user has Azure Digital Twins Data Owner or Azure Digital Twins Data Reader permission",
+    "loadingInstances": "Loading instances...",
+    "selectInstance": "Select an instance",
+    "selectOption": "Select an option",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -201,7 +207,6 @@
         "propertyId": "Property Id",
         "true": "True",
         "false": "False",
-        "selectOption": "Select an option",
         "primitives": "Primitives",
         "selectExistingModel": "Select from one of your existing models",
         "maxMultiplicity": "Maximum multiplicity",

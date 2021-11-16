@@ -31,11 +31,14 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
+    const [isADXConnectionInfoLoaded, setIsADXConnectionInfoLoaded] = useState(
+        false
+    );
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
 
     const connectionState = useAdapter({
-        adapterMethod: adapter.getConnectionInformation,
+        adapterMethod: () => adapter.getConnectionInformation(),
         refetchDependencies: [adapter]
     });
 
@@ -102,6 +105,12 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         setErrorMessage(null);
     }, [adapter]);
 
+    useEffect(() => {
+        if (!connectionState.adapterResult.hasNoData()) {
+            setIsADXConnectionInfoLoaded(true);
+        }
+    }, [connectionState.adapterResult.result]);
+
     return (
         <div className="cb-hbcard-container">
             <BaseCompositeCard
@@ -122,7 +131,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                     />
                 </div>
                 <div className="cb-hbcard-board">
-                    {selectedTwin && (
+                    {selectedTwin && isADXConnectionInfoLoaded && (
                         <Board
                             theme={theme}
                             locale={locale}
