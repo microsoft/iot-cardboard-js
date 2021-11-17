@@ -23,6 +23,7 @@ import StandalonePropertyInspectorReducer, {
 import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
 import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
+import useAsyncError from '../../Models/Hooks/useAsyncError';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -32,6 +33,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     props
 ) => {
     const { t, i18n } = useTranslation();
+    const throwError = useAsyncError();
 
     const [state, dispatch] = useReducer(StandalonePropertyInspectorReducer, {
         ...defaultStandalonePropertyInspectorState,
@@ -42,28 +44,37 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     // Reset property inspector when input data changes
     useEffect(() => {
         const parseTreeAsync = async () => {
-            const parsedModels = await PropertyInspectorModel.parseDtdl(
-                props.inputData.expandedModels
-            );
+            let parsedModels;
+            try {
+                parsedModels = await PropertyInspectorModel.parseDtdl(
+                    props.inputData.expandedModels
+                );
+            } catch (err) {
+                throwError(err);
+            }
 
-            const parsedTree = isTwin(props.inputData)
-                ? PropertyInspectorModel.parseTwinIntoPropertyTree({
-                      path: '',
-                      twin: props.inputData.twin,
-                      interfaceInfo:
-                          parsedModels[props.inputData.twin?.$metadata?.$model]
-                  })
-                : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
-                      props.inputData.relationship,
-                      parsedModels
-                  );
-
-            dispatch({
-                type: spiActionType.SET_PROPERTY_TREE_NODES,
-                nodes: parsedTree
-            });
+            try {
+                const parsedTree = isTwin(props.inputData)
+                    ? PropertyInspectorModel.parseTwinIntoPropertyTree({
+                          path: '',
+                          twin: props.inputData.twin,
+                          interfaceInfo:
+                              parsedModels[
+                                  props.inputData.twin?.$metadata?.$model
+                              ]
+                      })
+                    : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
+                          props.inputData.relationship,
+                          parsedModels
+                      );
+                dispatch({
+                    type: spiActionType.SET_PROPERTY_TREE_NODES,
+                    nodes: parsedTree
+                });
+            } catch (err) {
+                throwError(err);
+            }
         };
-
         parseTreeAsync();
     }, [props.inputData, i18n.language]);
 
