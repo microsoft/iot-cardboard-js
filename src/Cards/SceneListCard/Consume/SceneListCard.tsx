@@ -19,6 +19,7 @@ import { FormMode } from '../../../Models/Constants/Enums';
 import { Text } from '@fluentui/react/lib/Text';
 
 const editIcon: IIconProps = { iconName: 'Edit' };
+const deleteIcon: IIconProps = { iconName: 'Delete' };
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -78,7 +79,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         </div>
     );
 
-    function renderItemColumn(item: any, index: number, column: IColumn) {
+    function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
             case 'scene-action':
@@ -90,7 +91,16 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             ariaLabel={t('edit')}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                editSceneListCardClick(item, index);
+                                editSceneListCardClick(item, itemIndex);
+                            }}
+                        />
+                        <IconButton
+                            iconProps={deleteIcon}
+                            title={t('delete')}
+                            ariaLabel={t('delete')}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                deleteSceneListCardClick(itemIndex);
                             }}
                         />
                     </>
@@ -120,16 +130,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 }}
                             >
                                 {t('addNew')}
-                            </ActionButton>
-                            <ActionButton
-                                iconProps={{ iconName: 'Delete' }}
-                                onClick={() => {
-                                    if (deleteSceneListCardClick) {
-                                        deleteSceneListCardClick();
-                                    }
-                                }}
-                            >
-                                {t('deleteScene')}
                             </ActionButton>
                         </div>
 

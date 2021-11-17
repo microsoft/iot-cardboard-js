@@ -7,7 +7,7 @@ import {
 export interface SceneListCardProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter;
     addNewSceneListCardClick?: () => void;
-    deleteSceneListCardClick?: () => void;
+    deleteSceneListCardClick?: (index: number) => void;
     editSceneListCardClick: (
         element: any,
         index: number,

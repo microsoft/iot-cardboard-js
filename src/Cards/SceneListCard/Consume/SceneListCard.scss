@@ -19,16 +19,16 @@
         padding-right: 20px;
     }
     .cb-scenes-list-empty {
+        align-items: center;
         display: flex;
         flex-direction: column;
-        align-items: center;
         padding: 40px 0 25px;
     }
     .cb-scenes-list-empty button {
-        margin: 10px 0px;
-        color: white;
-        font-weight: 400;
-        font-style: italic;
         background-color: #457bb9;
+        color: #fff;
+        font-style: italic;
+        font-weight: 400;
+        margin: 10px 0;
     }
 }
