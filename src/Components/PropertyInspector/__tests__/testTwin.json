@@ -10,13 +10,13 @@
     "testLong": 10289102,
     "testString": "testing123",
     "testTime": "19:23:27",
-    "testEnum": "A",
     "testComponentObjectModel": {
         "$metadata": {},
         "testObject": {
             "testObject_DoubleChild": 15.3,
             "testObject_ObjectChild": {
-                "testObject_ObjectChild_StringChild": "testing321"
+                "testObject_ObjectChild_StringChild": "testing321",
+                "testObject_EnumChild": "A"
             }
         }
     },

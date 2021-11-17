@@ -1,12 +1,12 @@
 import React from 'react';
 import { useContext } from 'react';
-import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { EntityKind } from 'azure-iot-parser-node';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -18,7 +18,7 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
         }
     });
 
-    if (node.isRemovable && node.type === DTDLType.Property) {
+    if (node.isRemovable && node.type === EntityKind.PROPERTY) {
         if (node.isSet === false) {
             return (
                 <div className="cb-property-tree-node-value-unset">

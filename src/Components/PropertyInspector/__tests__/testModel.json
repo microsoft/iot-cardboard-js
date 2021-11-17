@@ -93,29 +93,6 @@
                 "name": "testTime",
                 "schema": "time",
                 "writable": true
-            },
-            {
-                "@type": "Property",
-                "@id": "dtmi:com:test:enum;1",
-                "name": "testEnum",
-                "schema": {
-                    "@type": "Enum",
-                    "@id": "dtmi:com:test:enumSchema;1",
-                    "valueSchema": "string",
-                    "enumValues": [
-                        {
-                            "@id": "dtmi:com:test:enumValueA;1",
-                            "name": "testEnumValueA",
-                            "enumValue": "A"
-                        },
-                        {
-                            "@id": "dtmi:com:test:enumValueB;1",
-                            "name": "testEnumValueB",
-                            "enumValue": "B"
-                        }
-                    ]
-                },
-                "writable": true
             }
         ]
     },
@@ -158,6 +135,10 @@
                                     {
                                         "name": "testObject_ObjectChild_StringChild",
                                         "schema": "string"
+                                    },
+                                    {
+                                        "name": "testObject_EnumChild",
+                                        "schema": "dtmi:com:test:enum;1"
                                     }
                                 ]
                             }
@@ -165,6 +146,25 @@
                     ]
                 },
                 "writable": true
+            }
+        ],
+        "schemas": [
+            {
+                "@id": "dtmi:com:test:enum;1",
+                "@type": "Enum",
+                "valueSchema": "string",
+                "enumValues": [
+                    {
+                        "@id": "dtmi:com:test:enumValueA;1",
+                        "name": "testEnumValueA",
+                        "enumValue": "A"
+                    },
+                    {
+                        "@id": "dtmi:com:test:enumValueB;1",
+                        "name": "testEnumValueB",
+                        "enumValue": "B"
+                    }
+                ]
             }
         ],
         "@context": ["dtmi:dtdl:context;2"]
