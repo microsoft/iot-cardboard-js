@@ -1,0 +1,24 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-scenes-list-card-wrapper {
+    .cb-base-composite-card-items {
+        flex-direction: column;
+        width: 100%;
+    }
+    .cb-base-composite-card {
+        background-color: var(--cb-color-bg-card);
+        padding: 20px 0px 40px 0px;
+    }
+
+    .cb-base-composite-card-title {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .cb-base-composite-card-item {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .cb-scenes-list .root-100 {
+        padding-top: 0px !important;
+    }
+}
