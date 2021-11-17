@@ -34,7 +34,7 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                     console.log(`${item.$dtId} of ${itemIndex} is clicked!`);
                 }}
                 addNewSceneListCardClick={() => {
-                    console.log('Add New button clicked!');
+                    console.log('Add new button clicked!');
                 }}
                 deleteSceneListCardClick={() => {
                     console.log('Delete button clicked!');
