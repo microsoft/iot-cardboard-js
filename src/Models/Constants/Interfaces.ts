@@ -375,7 +375,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
-    getADTInstances: (tenantId?: string) => AdapterReturnType<ADTInstancesData>;
+    getADTInstances: (
+        tenantId?: string,
+        uniqueObjectId?: string
+    ) => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -538,4 +541,14 @@ export interface IJSONUploaderFileItem {
     size: string;
     content?: JSON | Error;
     status: FileUploadStatus;
+}
+
+export interface IADTInstancesProps {
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
+    adapter: IADTAdapter;
+    hasLabel?: boolean;
+    selectedInstance?: string;
+    onInstanceChange?: (instanceHostName: string) => void;
 }

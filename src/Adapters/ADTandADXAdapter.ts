@@ -9,17 +9,19 @@ import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 
 export default class ADTandADXAdapter {
-    private tenantId;
     constructor(
         adtHostUrl: string,
         authService: IAuthService,
-        tenantId?: string,
+        tenantId: string,
+        uniqueObjectId: string,
         adxInformation?: IADTInstanceConnection,
         adtProxyServerPath = '/api/proxy'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.adxAuthService = authService;
-        this.tenantId = tenantId ?? '';
+        this.tenantId = tenantId;
+        this.uniqueObjectId = uniqueObjectId;
+
         this.adtProxyServerPath = adtProxyServerPath;
         this.axiosInstance = axios.create({ baseURL: this.adtProxyServerPath });
         this.authService.login();
@@ -47,9 +49,7 @@ export default class ADTandADXAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             // find the current ADT instance by its hostUrl
-            const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances(
-                this.tenantId
-            );
+            const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances();
             const instance = instanceDictionary.result.data.find(
                 (d) => d.hostName === this.adtHostUrl
             );

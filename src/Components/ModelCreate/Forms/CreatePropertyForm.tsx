@@ -261,7 +261,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 schemaDropdown ? schemaDropdown.key : undefined
                             }
                             label={t('modelCreate.schema')}
-                            placeholder={t('modelCreate.selectOption')}
+                            placeholder={t('selectOption')}
                             onChange={(_e, option) =>
                                 onSchemaOptionChange(option)
                             }
