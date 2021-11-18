@@ -192,56 +192,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         return sceneRef.current;
     }, [cameraCenter, cameraRadius, canvasId, modelUrl]);
 
-    useEffect(() => {
-        // Add the marker spheres
-        const spheres: BABYLON.Mesh[] = [];
-        if (markers && sceneRef.current) {
-            for (const marker of markers) {
-                let sphereMaterial = new BABYLON.StandardMaterial(
-                    SphereMaterial,
-                    sceneRef.current
-                );
-                sphereMaterial.diffuseColor = marker.color;
-                let sphere = BABYLON.Mesh.CreateSphere(
-                    `${Scene_Visible_Marker}${marker.name}`,
-                    16,
-                    2,
-                    sceneRef.current
-                );
-                const position =
-                    marker.position ||
-                    convertLatLonToVector3(marker.latitude, marker.longitude);
-                sphere.position = position;
-                sphere.material = sphereMaterial;
-                spheres.push(sphere);
-
-                // Make the hit targets larger in case iPhone
-                sphereMaterial = new BABYLON.StandardMaterial(
-                    SphereMaterial,
-                    sceneRef.current
-                );
-                sphereMaterial.diffuseColor = marker.color;
-                sphereMaterial.alpha = 0;
-                sphere = BABYLON.Mesh.CreateSphere(
-                    `${Scene_Marker}${marker.name}`,
-                    16,
-                    4,
-                    sceneRef.current
-                );
-                sphere.position = position;
-                sphere.material = sphereMaterial;
-                spheres.push(sphere);
-            }
-        }
-
-        return () => {
-            for (const sphere of spheres) {
-                sceneRef.current?.removeMesh(sphere);
-                sphere.dispose(true, true);
-            }
-        };
-    }, [markers]);
-
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
@@ -291,6 +241,56 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             setScene(() => init());
         }
     }, [scene, modelUrl, init]);
+
+    useEffect(() => {
+        // Add the marker spheres
+        const spheres: BABYLON.Mesh[] = [];
+        if (markers && sceneRef.current) {
+            for (const marker of markers) {
+                let sphereMaterial = new BABYLON.StandardMaterial(
+                    SphereMaterial,
+                    sceneRef.current
+                );
+                sphereMaterial.diffuseColor = marker.color;
+                let sphere = BABYLON.Mesh.CreateSphere(
+                    `${Scene_Visible_Marker}${marker.name}`,
+                    16,
+                    2,
+                    sceneRef.current
+                );
+                const position =
+                    marker.position ||
+                    convertLatLonToVector3(marker.latitude, marker.longitude);
+                sphere.position = position;
+                sphere.material = sphereMaterial;
+                spheres.push(sphere);
+
+                // Make the hit targets larger in case iPhone
+                sphereMaterial = new BABYLON.StandardMaterial(
+                    SphereMaterial,
+                    sceneRef.current
+                );
+                sphereMaterial.diffuseColor = marker.color;
+                sphereMaterial.alpha = 0;
+                sphere = BABYLON.Mesh.CreateSphere(
+                    `${Scene_Marker}${marker.name}`,
+                    16,
+                    4,
+                    sceneRef.current
+                );
+                sphere.position = position;
+                sphere.material = sphereMaterial;
+                spheres.push(sphere);
+            }
+        }
+
+        return () => {
+            for (const sphere of spheres) {
+                sceneRef.current?.removeMesh(sphere);
+                sphere.dispose(true, true);
+            }
+        };
+    }, [markers]);
 
     // SETUP LOGIC FOR onMarkerHover
     useEffect(() => {

@@ -24,10 +24,10 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({ adapter, title }) => {
         refetchDependencies: [adapter]
     });
 
-    function scenesLoaded() {
+    useEffect(() => {
         const markers: Marker[] = [];
         if (scenes.adapterResult.result?.data?.value) {
-            for (const scene of scenes.adapterResult.result?.data.value) {
+            for (const scene of scenes.adapterResult.result.data.value) {
                 const marker = new Marker();
                 marker.color = BABYLON.Color3.Red();
                 marker.latitude = scene.latitude;
@@ -39,10 +39,6 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({ adapter, title }) => {
 
             setMarkers(markers);
         }
-    }
-
-    useEffect(() => {
-        scenesLoaded();
     }, [scenes.adapterResult.result]);
 
     return (
