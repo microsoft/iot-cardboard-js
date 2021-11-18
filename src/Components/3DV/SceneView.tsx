@@ -52,6 +52,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     markers,
     onMarkerClick,
     onMarkerHover,
+    onCameraMove,
     labels,
     children
 }) => {
@@ -62,6 +63,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
+    const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
     const cameraRef = useRef<BABYLON.Camera>(null);
@@ -85,6 +87,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
     onMarkerClickRef.current = onMarkerClick;
+    onCameraMoveRef.current = onCameraMove;
     onMarkerHoverRef.current = onMarkerHover || defaultMarkerHover;
     if (debug && !newInstanceRef.current) {
         console.log('-----------New instance-----------');
@@ -282,7 +285,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (debug) {
             console.log('hover effect' + (scene ? ' with scene' : ' no scene'));
         }
-        if (scene && onMarkerHoverRef.current && (markers || children)) {
+        if (scene && onMarkerHoverRef.current && (markers || children || labels)) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
                     scene.pointerX,
@@ -382,6 +385,39 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         };
     }, [scene, markers]);
+
+    useEffect(() => {
+        let pt: BABYLON.Observer<BABYLON.PointerInfo>;
+        if (debug) {
+            console.log(
+                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
+            );
+        }
+        if (scene && onMarkerClickRef.current) {
+            const cameraMove = (e) => {
+
+                if (onCameraMoveRef.current) {
+                    onCameraMoveRef.current(null, null, scene, e);
+                }
+            };
+
+            if (scene) {
+                pt = scene.onPointerObservable.add(
+                    cameraMove,
+                    BABYLON.PointerEventTypes.POINTERMOVE
+                );
+            }
+        }
+
+        return () => {
+            if (debug) {
+                console.log('pointerMove effect clean');
+            }
+            if (pt) {
+                scene.onPointerObservable.remove(pt);
+            }
+        };
+    }, [scene]);
 
     // SETUP LOGIC FOR HANDLING GUI LABELS ON THE MODEL
     useEffect(() => {

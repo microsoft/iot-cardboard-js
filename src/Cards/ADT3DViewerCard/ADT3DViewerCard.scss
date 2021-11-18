@@ -13,6 +13,7 @@
     border-width: 1px;
     background-color: white;
     border-radius: 4px;
+    cursor: move;
 }
 
 .cb-adt-3dviewer-close-btn {
@@ -23,4 +24,12 @@
 .cb-adt-3dviewer-popup-title {
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.position {
+    width: 10px;
+    height: 10px; 
+    background: #0058cc;
+    position: absolute;
+    transform: translate(-50%, -50%);
 }

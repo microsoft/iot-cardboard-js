@@ -50,6 +50,12 @@ export interface ISceneViewProp {
         scene: Scene,
         e: PointerEvent
     ) => void;
+    onCameraMove?: (
+        marker: Marker,
+        mesh: AbstractMesh,
+        scene: Scene,
+        e: PointerEvent
+    ) => void;
     labels?: SceneViewLabel[];
     children?: ChildTwin[];
 }

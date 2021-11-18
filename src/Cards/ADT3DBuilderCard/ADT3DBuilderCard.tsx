@@ -53,7 +53,6 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
         setMeshes([...selectedMeshes]);
     };
 
-    console.log('render', selectedMeshes);
     return (
         <BaseCard title={title} isLoading={false} adapterResult={null}>
             <div className="cb-adt3dbuilder-wrapper">
