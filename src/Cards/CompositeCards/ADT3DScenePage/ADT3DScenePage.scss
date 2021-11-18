@@ -1,0 +1,30 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-scene-page-container {
+    height: 100%;
+    min-height: 600px;
+    width: 100%;
+
+    .cb-base-composite-card-item:last-child {
+        flex-grow: 1;
+    }
+
+    .cb-scene-page-scene-list-container {
+        height: 600px;
+    }
+
+    .cb-scene-page-action-button {
+        margin-top: 20px;
+    }
+
+    .cb-scene-builder-twin-bindings {
+        background-color: var(--cb-color-bg-card);
+        height: 600px;
+        width: 300px;
+    }
+
+    .cb-scene-builder-builder,
+    .cb-scene-builder-viewer {
+        height: 600px;
+    }
+}

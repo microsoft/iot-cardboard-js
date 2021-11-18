@@ -4,7 +4,17 @@ import { SceneListCardProps } from './SceneListCard.types';
 import './SceneListCard.scss';
 import { useAdapter } from '../../../Models/Hooks';
 import { useTranslation } from 'react-i18next';
-import { SelectionMode, DetailsListLayoutMode, DetailsRow, ActionButton, IDetailsListProps, DetailsList, IColumn, IconButton, IIconProps } from '@fluentui/react';
+import {
+    SelectionMode,
+    DetailsListLayoutMode,
+    DetailsRow,
+    ActionButton,
+    IDetailsListProps,
+    DetailsList,
+    IColumn,
+    IconButton,
+    IIconProps
+} from '@fluentui/react';
 import { FormMode } from '../../../Models/Constants/Enums';
 import { Text } from '@fluentui/react/lib/Text';
 
@@ -24,7 +34,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     const scenes = useAdapter({
         adapterMethod: () =>
             adapter.getADTTwinsByModelId({
-                modelId: 'dtmi:com:visualontology:scene;1'
+                modelId: 'dtmi:com:niusoff:visualtwin;1'
             }),
         refetchDependencies: [adapter]
     });
@@ -34,8 +44,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
             setSceneList(scenes.adapterResult.getData().value);
-        }
-        else {
+        } else {
             setSceneList([]);
         }
     }, [scenes?.adapterResult]);
@@ -55,7 +64,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         alignItems: 'center'
                     }
                 }}
-                className='cb-elementslist-row'
+                className="cb-elementslist-row"
                 {...props}
             />
         </div>
@@ -85,104 +94,111 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     return (
         <div className="cb-scenes-list-card-wrapper">
-        <BaseCompositeCard
-            theme={theme}
-            title={title}
-            locale={locale}
-            localeStrings={localeStrings}
-         >
-
-            {sceneList.length > 0 ? (
-                <>
-                <div className="cb-scenes-list-action-buttons">
-                    <ActionButton
-                        iconProps={{ iconName: 'Add' }}
-                        onClick={() => {
-                        if (addNewSceneListCardClick) {
-                                addNewSceneListCardClick();
-                            }
-                        }}
-                    >
-                        {t('addNew')}
-                    </ActionButton>
-                    <ActionButton
-                        iconProps={{ iconName: 'Delete' }}
-                        onClick={() => {
-                        if (deleteSceneListCardClick) {
-                                deleteSceneListCardClick();
-                            }
-                        }}
-                    >
-                        {t('deleteScene')}
-                    </ActionButton>
-                </div>
-
-<div className="cb-scenes-list">
-<DetailsList
-    selectionMode={SelectionMode.none}
-    items={sceneList}
-    columns={[
-    {
-        key: 'scene-name',
-        name: t('sceneName'),
-        minWidth: 100,
-        onRender: (item) => <span>{item.$dtId?.en ?? item.$dtId}</span>
-    },
-    {
-        key: 'scene-model',
-        name: t('sceneModel'),
-        minWidth: 100,
-        onRender: (item) => <span>{item.$metadata?.$model}</span>
-    },
-    {
-        key: 'scene-latitude',
-        name: t('sceneLatitude'),
-        minWidth: 100,
-        onRender: (item) => item['latitude']
-    },
-    {
-        key: 'scene-longitude',
-        name: t('sceneLongitude'),
-        minWidth: 100,
-        onRender: (item) => item['longitude']
-    },
-    {
-        key: 'scene-action',
-        name: t('sceneAction'),
-        fieldName: 'action',
-        minWidth: 100,
-        headerClassName: 'cb-detail-list-header-cell'
-    }
-    ]}
-    setKey="set"
-    layoutMode={DetailsListLayoutMode.justified}
-    onRenderRow={renderListRow}
-    onRenderItemColumn={renderItemColumn}
-    onItemInvoked={(item, itemIndex) => {
-        if (formControlMode === FormMode.Edit) {
-            editSceneListCardClick(item, itemIndex);
-        }
-    }}
-/>
-</div>
-</>
-            ) 
-            :
-            <div className="cb-scenes-list-empty">
-            <Text>{t('noScenes')}</Text>
-            <ActionButton
-                iconProps={{ iconName: 'Add' }}
-                onClick={() => {
-                if (addNewSceneListCardClick) {
-                        addNewSceneListCardClick();
-                    }
-                }}
+            <BaseCompositeCard
+                theme={theme}
+                title={title}
+                locale={locale}
+                localeStrings={localeStrings}
             >
-                {t('addScene')}
-            </ActionButton>
-            </div>
-            }
-        </BaseCompositeCard>
+                {sceneList.length > 0 ? (
+                    <>
+                        <div className="cb-scenes-list-action-buttons">
+                            <ActionButton
+                                iconProps={{ iconName: 'Add' }}
+                                onClick={() => {
+                                    if (addNewSceneListCardClick) {
+                                        addNewSceneListCardClick();
+                                    }
+                                }}
+                            >
+                                {t('addNew')}
+                            </ActionButton>
+                            <ActionButton
+                                iconProps={{ iconName: 'Delete' }}
+                                onClick={() => {
+                                    if (deleteSceneListCardClick) {
+                                        deleteSceneListCardClick();
+                                    }
+                                }}
+                            >
+                                {t('deleteScene')}
+                            </ActionButton>
+                        </div>
+
+                        <div className="cb-scenes-list">
+                            <DetailsList
+                                selectionMode={SelectionMode.none}
+                                items={sceneList}
+                                columns={[
+                                    {
+                                        key: 'scene-name',
+                                        name: t('sceneName'),
+                                        minWidth: 100,
+                                        onRender: (item) => (
+                                            <span>
+                                                {item.$dtId?.en ?? item.$dtId}
+                                            </span>
+                                        )
+                                    },
+                                    {
+                                        key: 'scene-model',
+                                        name: t('sceneModel'),
+                                        minWidth: 100,
+                                        onRender: (item) => (
+                                            <span>
+                                                {item.$metadata?.$model}
+                                            </span>
+                                        )
+                                    },
+                                    {
+                                        key: 'scene-latitude',
+                                        name: t('sceneLatitude'),
+                                        minWidth: 100,
+                                        onRender: (item) => item['latitude']
+                                    },
+                                    {
+                                        key: 'scene-longitude',
+                                        name: t('sceneLongitude'),
+                                        minWidth: 100,
+                                        onRender: (item) => item['longitude']
+                                    },
+                                    {
+                                        key: 'scene-action',
+                                        name: t('sceneAction'),
+                                        fieldName: 'action',
+                                        minWidth: 100,
+                                        headerClassName:
+                                            'cb-detail-list-header-cell'
+                                    }
+                                ]}
+                                setKey="set"
+                                layoutMode={DetailsListLayoutMode.justified}
+                                onRenderRow={renderListRow}
+                                onRenderItemColumn={renderItemColumn}
+                                onItemInvoked={(item, itemIndex) => {
+                                    if (formControlMode === FormMode.Edit) {
+                                        editSceneListCardClick(item, itemIndex);
+                                    }
+                                }}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <div className="cb-scenes-list-empty">
+                        <Text>{t('noScenes')}</Text>
+                        <ActionButton
+                            iconProps={{ iconName: 'Add' }}
+                            onClick={() => {
+                                if (addNewSceneListCardClick) {
+                                    addNewSceneListCardClick();
+                                }
+                            }}
+                        >
+                            {t('addScene')}
+                        </ActionButton>
+                    </div>
+                )}
+            </BaseCompositeCard>
         </div>
     );
 };
