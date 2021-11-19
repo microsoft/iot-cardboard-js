@@ -10,6 +10,7 @@ import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import * as d3 from "d3";
 import Draggable from 'react-draggable';
+import { createGUID } from '../../Models/Services/Utils';
 
 interface ADT3DViewerCardProps {
     adapter: IADTAdapter;
@@ -29,10 +30,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpTile, setPopUpTitle] = useState('');
     const [popUpContent, setPopUpContent] = useState('');
-    const [popUpLeft, setPopUpLeft] = useState(0);
-    const [popUpTop, setPopUpTop] = useState(0);
+    const [lineId] = useState(createGUID());
+    const [popUpId] = useState(createGUID());
+    const [sceneWrapperId] = useState(createGUID());
+    const [popUpContainerId] = useState(createGUID());
+    
 
     const selectedMesh = useRef<BABYLON.AbstractMesh>(null);
+    const sceneRef = useRef<BABYLON.Scene>(null);
 
     const visualTwin = useAdapter({
         adapterMethod: () => adapter.getVisualADTTwin(twinId),
@@ -40,6 +45,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
+
+    useEffect(() => {
+        window.addEventListener('resize', setConnectionLine);
+
+        return () => {
+            window.removeEventListener('resize', setConnectionLine);
+        }
+    }, []);
 
     function visualTwinLoaded() {
         if (visualTwin.adapterResult.result?.data) {
@@ -56,14 +69,12 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         const label = labels.find((label) => label.meshId === mesh.id);
         if(label) {
             selectedMesh.current = mesh;
+            sceneRef.current = scene;
             setPopUpTitle(label.metric)
             setPopUpContent(label.value)
             showPopUp ? selectedMesh.current = null : selectedMesh.current = mesh;
             setShowPopUp(!showPopUp);
-
-            const position = getClientRectFromMesh(mesh, scene);
-            setPopUpLeft(position[0]);
-            setPopUpTop(position[1]);
+            setConnectionLine();
         }
     }
 
@@ -80,23 +91,40 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const cameraMoved = (marker: Marker, mesh: any, scene: Scene) => {
         if(selectedMesh.current) {
-            const position = getClientRectFromMesh(selectedMesh.current, scene);
-            setPopUpLeft(position[0]);
-            setPopUpTop(position[1]);
+            setConnectionLine();
         }
     }
 
-    function getClientRectFromMesh (mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
+    function setConnectionLine() {
+        const position = getMeshPosition(selectedMesh.current, sceneRef.current);
+        const popUp = document.getElementById(popUpId);
+        const rect = popUp.getBoundingClientRect();
+        const container = document.getElementById(popUpContainerId);        
 
+        const canvas: HTMLCanvasElement = document.getElementById(lineId) as HTMLCanvasElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        const context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+               
+        context.beginPath();
+        context.strokeStyle = "#0058cc";
+        context.moveTo(((rect.right - rect.left) / 2 + rect.left), ((rect.bottom - rect.top) / 2 + rect.top));
+        context.lineTo(position[0], position[1]); 
+        context.stroke();
+    }
+
+    function getMeshPosition (mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
         const meshVectors = mesh.getBoundingInfo().boundingBox.vectors
         const worldMatrix = mesh.getWorldMatrix()
         const transformMatrix = scene.getTransformMatrix()
         const viewport = scene.activeCamera!.viewport
     
+        const sceneWrapper = document.getElementById(sceneWrapperId);
         const coordinates = meshVectors.map(v => {
           const proj = BABYLON.Vector3.Project(v, worldMatrix, transformMatrix, viewport);
-          proj.x = proj.x * 600;
-          proj.y = proj.y * 400;
+          proj.x = proj.x * sceneWrapper.clientWidth;
+          proj.y = proj.y * sceneWrapper.clientHeight;
           return proj;
         })
     
@@ -114,7 +142,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             adapterResult={visualTwin.adapterResult}
             title={title}
         >
-            <div className="cb-adt-3dviewer-wrapper">
+            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
@@ -131,11 +159,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                 />
                 {
-                    (showPopUp) &&
-                        <div>
-                         <div className='position' style={{top: popUpTop, left: popUpLeft}}/>
-                         <Draggable>
-                            <div className='cb-adt-3dviewer-popup-container' >
+                (showPopUp) &&
+                    <div id={popUpContainerId} className='cb-adt-3dviewer-popup-container'>
+                        <canvas id={lineId} className='cb-adt-3dviewer-line-canvas'/>
+                        <Draggable bounds='parent' onDrag={() => setConnectionLine()}>
+                            <div id={popUpId} className='cb-adt-3dviewer-popup'>
                                 <div className='cb-adt-3dviewer-popup-title'>
                                     {popUpTile}
                                 </div>
@@ -146,8 +174,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                                     <button className='cb-adt-3dviewer-close-btn' onClick={() => setShowPopUp(false)}>Close</button>
                                 </div>
                             </div>
-                         </Draggable>
-                        </div>
+                        </Draggable>
+                    </div>
                 }
             </div>
         </BaseCard>
