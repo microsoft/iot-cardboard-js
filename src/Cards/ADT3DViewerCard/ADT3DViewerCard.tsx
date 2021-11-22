@@ -25,15 +25,18 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     title,
     pollingInterval
 }) => {
-    const [modelUrl, setModelUrl] = useState('');
+    const [modelUrl, setModelUrl] = useState<string>('');
     const [labels, setLabels] = useState([]);
-    const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpTile, setPopUpTitle] = useState('');
-    const [popUpContent, setPopUpContent] = useState('');
-    const [lineId] = useState(createGUID());
-    const [popUpId] = useState(createGUID());
-    const [sceneWrapperId] = useState(createGUID());
-    const [popUpContainerId] = useState(createGUID());
+    const [showPopUp, setShowPopUp] = useState<boolean>(false);
+    const [popUpTile, setPopUpTitle] = useState<string>('');
+    const [popUpContent, setPopUpContent] = useState<string>('');
+    const lineId = useState<string>(createGUID());
+    const popUpId = useState<string>(createGUID());
+    const sceneWrapperId = useState<string>(createGUID());
+    const popUpContainerId = useState<string>(createGUID());
+
+    const popUpX = useRef<number>(0);
+    const popUpY = useRef<number>(0);
 
     const selectedMesh = useRef<BABYLON.AbstractMesh>(null);
     const sceneRef = useRef<BABYLON.Scene>(null);
@@ -79,6 +82,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 ? (selectedMesh.current = null)
                 : (selectedMesh.current = mesh);
             setShowPopUp(!showPopUp);
+            const popUp = document.getElementById(popUpId);
+            popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
+            popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
             setConnectionLine();
         }
     };
@@ -105,8 +111,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             selectedMesh.current,
             sceneRef.current
         );
-        const popUp = document.getElementById(popUpId);
-        const rect = popUp.getBoundingClientRect();
         const container = document.getElementById(popUpContainerId);
 
         const canvas: HTMLCanvasElement = document.getElementById(
@@ -119,10 +123,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
         context.beginPath();
         context.strokeStyle = '#0058cc';
-        context.moveTo(
-            (rect.right - rect.left) / 2 + rect.left,
-            (rect.bottom - rect.top) / 2 + rect.top
-        );
+        context.moveTo(popUpX.current, popUpY.current);
         context.lineTo(position[0], position[1]);
         context.stroke();
     }
@@ -150,6 +151,12 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         const [minY, maxY] = d3.extent(coordinates, (c) => c.y) as number[];
 
         return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
+    }
+
+    function setPopPosition(e, data) {
+        popUpX.current += data.deltaX;
+        popUpY.current += data.deltaY;
+        setConnectionLine();
     }
 
     return (
@@ -183,7 +190,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                         />
                         <Draggable
                             bounds="parent"
-                            onDrag={() => setConnectionLine()}
+                            onDrag={(e, data) => setPopPosition(e, data)}
                         >
                             <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <div className="cb-adt-3dviewer-popup-title">
