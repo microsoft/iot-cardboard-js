@@ -412,7 +412,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 'pointerTap effect' + (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && onMarkerClickRef.current) {
+        if (scene && onCameraMoveRef.current) {
             const cameraMove = (e) => {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, null, scene, e);
