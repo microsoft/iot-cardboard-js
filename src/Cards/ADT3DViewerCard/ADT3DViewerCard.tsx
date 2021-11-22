@@ -8,7 +8,7 @@ import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import Draggable from 'react-draggable';
 import { createGUID } from '../../Models/Services/Utils';
 
@@ -34,7 +34,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const [popUpId] = useState(createGUID());
     const [sceneWrapperId] = useState(createGUID());
     const [popUpContainerId] = useState(createGUID());
-    
 
     const selectedMesh = useRef<BABYLON.AbstractMesh>(null);
     const sceneRef = useRef<BABYLON.Scene>(null);
@@ -51,7 +50,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
         return () => {
             window.removeEventListener('resize', setConnectionLine);
-        }
+        };
     }, []);
 
     function visualTwinLoaded() {
@@ -65,73 +64,92 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         visualTwinLoaded();
     }, [visualTwin.adapterResult.result]);
 
-    const meshClick = (marker: Marker, mesh: BABYLON.AbstractMesh, scene: Scene, e: any) => {
+    const meshClick = (
+        marker: Marker,
+        mesh: BABYLON.AbstractMesh,
+        scene: Scene
+    ) => {
         const label = labels.find((label) => label.meshId === mesh.id);
-        if(label) {
+        if (label) {
             selectedMesh.current = mesh;
             sceneRef.current = scene;
-            setPopUpTitle(label.metric)
-            setPopUpContent(label.value)
-            showPopUp ? selectedMesh.current = null : selectedMesh.current = mesh;
+            setPopUpTitle(label.metric);
+            setPopUpContent(label.value);
+            showPopUp
+                ? (selectedMesh.current = null)
+                : (selectedMesh.current = mesh);
             setShowPopUp(!showPopUp);
             setConnectionLine();
         }
-    }
+    };
 
-    const meshHover = (marker: Marker, mesh: any, scene: Scene) => {
-        if(mesh) {
+    const meshHover = (marker: Marker, mesh: any) => {
+        if (mesh) {
             const label = labels.find((label) => label.meshId === mesh.id);
-            if(label) {
-                document.body.style.cursor='pointer';
+            if (label) {
+                document.body.style.cursor = 'pointer';
             } else {
-                document.body.style.cursor='';
+                document.body.style.cursor = '';
             }
         }
-    }
+    };
 
-    const cameraMoved = (marker: Marker, mesh: any, scene: Scene) => {
-        if(selectedMesh.current) {
+    const cameraMoved = () => {
+        if (selectedMesh.current) {
             setConnectionLine();
         }
-    }
+    };
 
     function setConnectionLine() {
-        const position = getMeshPosition(selectedMesh.current, sceneRef.current);
+        const position = getMeshPosition(
+            selectedMesh.current,
+            sceneRef.current
+        );
         const popUp = document.getElementById(popUpId);
         const rect = popUp.getBoundingClientRect();
-        const container = document.getElementById(popUpContainerId);        
+        const container = document.getElementById(popUpContainerId);
 
-        const canvas: HTMLCanvasElement = document.getElementById(lineId) as HTMLCanvasElement;
+        const canvas: HTMLCanvasElement = document.getElementById(
+            lineId
+        ) as HTMLCanvasElement;
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
-        const context = canvas.getContext("2d");
+        const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
-               
+
         context.beginPath();
-        context.strokeStyle = "#0058cc";
-        context.moveTo(((rect.right - rect.left) / 2 + rect.left), ((rect.bottom - rect.top) / 2 + rect.top));
-        context.lineTo(position[0], position[1]); 
+        context.strokeStyle = '#0058cc';
+        context.moveTo(
+            (rect.right - rect.left) / 2 + rect.left,
+            (rect.bottom - rect.top) / 2 + rect.top
+        );
+        context.lineTo(position[0], position[1]);
         context.stroke();
     }
 
-    function getMeshPosition (mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
-        const meshVectors = mesh.getBoundingInfo().boundingBox.vectors
-        const worldMatrix = mesh.getWorldMatrix()
-        const transformMatrix = scene.getTransformMatrix()
-        const viewport = scene.activeCamera!.viewport
-    
+    function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
+        const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
+        const worldMatrix = mesh.getWorldMatrix();
+        const transformMatrix = scene.getTransformMatrix();
+        const viewport = scene.activeCamera?.viewport;
+
         const sceneWrapper = document.getElementById(sceneWrapperId);
-        const coordinates = meshVectors.map(v => {
-          const proj = BABYLON.Vector3.Project(v, worldMatrix, transformMatrix, viewport);
-          proj.x = proj.x * sceneWrapper.clientWidth;
-          proj.y = proj.y * sceneWrapper.clientHeight;
-          return proj;
-        })
-    
-        const [minX, maxX] = d3.extent(coordinates, c => c.x) as number[];
-        const [minY, maxY] = d3.extent(coordinates, c => c.y) as number[];
-        
-        return [((maxX - minX) / 2 + minX), ((maxY - minY) / 2 + minY)];
+        const coordinates = meshVectors.map((v) => {
+            const proj = BABYLON.Vector3.Project(
+                v,
+                worldMatrix,
+                transformMatrix,
+                viewport
+            );
+            proj.x = proj.x * sceneWrapper.clientWidth;
+            proj.y = proj.y * sceneWrapper.clientHeight;
+            return proj;
+        });
+
+        const [minX, maxX] = d3.extent(coordinates, (c) => c.x) as number[];
+        const [minY, maxY] = d3.extent(coordinates, (c) => c.y) as number[];
+
+        return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
     }
 
     return (
@@ -148,35 +166,42 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     labels={labels}
                     cameraRadius={800}
                     cameraCenter={new BABYLON.Vector3(0, 100, 0)}
-                    onMarkerClick={(marker, mesh, scene, e) =>
-                        meshClick(marker, mesh, scene, e)
+                    onMarkerClick={(marker, mesh, scene) =>
+                        meshClick(marker, mesh, scene)
                     }
-                    onMarkerHover={(marker, mesh, scene) =>
-                        meshHover(marker, mesh, scene)
-                    }
-                    onCameraMove={(marker, mesh, scene) =>
-                        cameraMoved(marker, mesh, scene)
-                    }
+                    onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
+                    onCameraMove={() => cameraMoved()}
                 />
-                {
-                (showPopUp) &&
-                    <div id={popUpContainerId} className='cb-adt-3dviewer-popup-container'>
-                        <canvas id={lineId} className='cb-adt-3dviewer-line-canvas'/>
-                        <Draggable bounds='parent' onDrag={() => setConnectionLine()}>
-                            <div id={popUpId} className='cb-adt-3dviewer-popup'>
-                                <div className='cb-adt-3dviewer-popup-title'>
+                {showPopUp && (
+                    <div
+                        id={popUpContainerId}
+                        className="cb-adt-3dviewer-popup-container"
+                    >
+                        <canvas
+                            id={lineId}
+                            className="cb-adt-3dviewer-line-canvas"
+                        />
+                        <Draggable
+                            bounds="parent"
+                            onDrag={() => setConnectionLine()}
+                        >
+                            <div id={popUpId} className="cb-adt-3dviewer-popup">
+                                <div className="cb-adt-3dviewer-popup-title">
                                     {popUpTile}
                                 </div>
+                                <div>{popUpContent}</div>
                                 <div>
-                                    {popUpContent}
-                                </div>
-                                <div>
-                                    <button className='cb-adt-3dviewer-close-btn' onClick={() => setShowPopUp(false)}>Close</button>
+                                    <button
+                                        className="cb-adt-3dviewer-close-btn"
+                                        onClick={() => setShowPopUp(false)}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
                             </div>
                         </Draggable>
                     </div>
-                }
+                )}
             </div>
         </BaseCard>
     );

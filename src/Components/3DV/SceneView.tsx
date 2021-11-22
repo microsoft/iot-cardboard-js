@@ -300,7 +300,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (debug) {
             console.log('hover effect' + (scene ? ' with scene' : ' no scene'));
         }
-        if (scene && onMarkerHoverRef.current && (markers || children || labels)) {
+        if (
+            scene &&
+            onMarkerHoverRef.current &&
+            (markers || children || labels)
+        ) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
                     scene.pointerX,
@@ -410,7 +414,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
         if (scene && onMarkerClickRef.current) {
             const cameraMove = (e) => {
-
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, null, scene, e);
                 }
