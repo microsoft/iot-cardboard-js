@@ -329,7 +329,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         placeholder={
                             formMode === FormMode.Readonly && !target
                                 ? '(' + t('noInformation') + ')'
-                                : t('modelCreate.selectOption')
+                                : t('selectOption')
                         }
                         selectedKey={target ? target.key : undefined}
                         onChange={(_e, item) => setTarget(item)}
