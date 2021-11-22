@@ -167,7 +167,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             adapterResult={visualTwin.adapterResult}
             title={title}
         >
-            <div id={sceneWrapperId.toString()} className="cb-adt-3dviewer-wrapper">
+            <div
+                id={sceneWrapperId.toString()}
+                className="cb-adt-3dviewer-wrapper"
+            >
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
@@ -192,7 +195,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                             bounds="parent"
                             onDrag={(e, data) => setPopPosition(e, data)}
                         >
-                            <div id={popUpId.toString()} className="cb-adt-3dviewer-popup">
+                            <div
+                                id={popUpId.toString()}
+                                className="cb-adt-3dviewer-popup"
+                            >
                                 <div className="cb-adt-3dviewer-popup-title">
                                     {popUpTile}
                                 </div>
