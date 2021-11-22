@@ -82,7 +82,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 ? (selectedMesh.current = null)
                 : (selectedMesh.current = mesh);
             setShowPopUp(!showPopUp);
-            const popUp = document.getElementById(popUpId);
+            const popUp = document.getElementById(popUpId.toString());
             popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
             popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
             setConnectionLine();
@@ -111,10 +111,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             selectedMesh.current,
             sceneRef.current
         );
-        const container = document.getElementById(popUpContainerId);
+        const container = document.getElementById(popUpContainerId.toString());
 
         const canvas: HTMLCanvasElement = document.getElementById(
-            lineId
+            lineId.toString()
         ) as HTMLCanvasElement;
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
@@ -134,7 +134,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         const transformMatrix = scene.getTransformMatrix();
         const viewport = scene.activeCamera?.viewport;
 
-        const sceneWrapper = document.getElementById(sceneWrapperId);
+        const sceneWrapper = document.getElementById(sceneWrapperId.toString());
         const coordinates = meshVectors.map((v) => {
             const proj = BABYLON.Vector3.Project(
                 v,
@@ -167,7 +167,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             adapterResult={visualTwin.adapterResult}
             title={title}
         >
-            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
+            <div id={sceneWrapperId.toString()} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
@@ -181,18 +181,18 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 />
                 {showPopUp && (
                     <div
-                        id={popUpContainerId}
+                        id={popUpContainerId.toString()}
                         className="cb-adt-3dviewer-popup-container"
                     >
                         <canvas
-                            id={lineId}
+                            id={lineId.toString()}
                             className="cb-adt-3dviewer-line-canvas"
                         />
                         <Draggable
                             bounds="parent"
                             onDrag={(e, data) => setPopPosition(e, data)}
                         >
-                            <div id={popUpId} className="cb-adt-3dviewer-popup">
+                            <div id={popUpId.toString()} className="cb-adt-3dviewer-popup">
                                 <div className="cb-adt-3dviewer-popup-title">
                                     {popUpTile}
                                 </div>
