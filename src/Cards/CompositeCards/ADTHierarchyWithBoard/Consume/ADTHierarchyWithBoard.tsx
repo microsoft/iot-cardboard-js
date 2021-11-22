@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -7,7 +13,8 @@ import {
     IHierarchyNode,
     IADTTwin,
     IADTModel,
-    IResolvedRelationshipClickErrors
+    IResolvedRelationshipClickErrors,
+    IADTInstanceConnection
 } from '../../../../Models/Constants/Interfaces';
 import './ADTHierarchyWithBoard.scss';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
@@ -31,9 +38,10 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
-    const [isADXConnectionInfoLoaded, setIsADXConnectionInfoLoaded] = useState(
-        false
-    );
+    const [
+        ADXConnectionInfo,
+        setADXConnectionInfo
+    ] = useState<IADTInstanceConnection>(null);
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
 
@@ -41,6 +49,16 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         adapterMethod: () => adapter.getConnectionInformation(),
         refetchDependencies: [adapter]
     });
+
+    const hasConnectionInfo = useMemo(
+        () =>
+            Boolean(
+                ADXConnectionInfo?.kustoClusterUrl &&
+                    ADXConnectionInfo?.kustoDatabaseName &&
+                    ADXConnectionInfo?.kustoTableName
+            ),
+        [ADXConnectionInfo]
+    );
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -107,7 +125,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
 
     useEffect(() => {
         if (!connectionState.adapterResult.hasNoData()) {
-            setIsADXConnectionInfoLoaded(true);
+            setADXConnectionInfo(connectionState.adapterResult.getData());
         }
     }, [connectionState.adapterResult.result]);
 
@@ -131,7 +149,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                     />
                 </div>
                 <div className="cb-hbcard-board">
-                    {selectedTwin && isADXConnectionInfoLoaded && (
+                    {selectedTwin && ADXConnectionInfo && (
                         <Board
                             theme={theme}
                             locale={locale}
@@ -140,6 +158,7 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
                             errorMessage={errorMessage}
                             onEntitySelect={onEntitySelect}
                             searchSpan={searchSpanForDataHistory}
+                            hasDataHistory={hasConnectionInfo}
                         />
                     )}
                 </div>

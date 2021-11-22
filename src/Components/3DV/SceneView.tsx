@@ -73,7 +73,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
 
-    const defaultMarkerHover = (marker: Marker, mesh: any, e: any) => {
+    const defaultMarkerHover = (
+        marker: Marker,
+        mesh: any,
+        scene: BABYLON.Scene,
+        e: any
+    ) => {
         if (lastName !== marker?.name) {
             tooltipLeft.current = e.offsetX + 5;
             tooltipTop.current = e.offsetY - 30;
@@ -178,47 +183,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 load(modelUrl.substring(0, n), modelUrl.substring(n), sc);
             }
 
-            // Add the marker spheres
-            if (markers) {
-                for (const marker of markers) {
-                    let sphereMaterial = new BABYLON.StandardMaterial(
-                        SphereMaterial,
-                        sc
-                    );
-                    sphereMaterial.diffuseColor = marker.color;
-                    let sphere = BABYLON.Mesh.CreateSphere(
-                        `${Scene_Visible_Marker}marker.name`,
-                        16,
-                        2,
-                        sc
-                    );
-                    const position =
-                        marker.position ||
-                        convertLatLonToVector3(
-                            marker.latitude,
-                            marker.longitude
-                        );
-                    sphere.position = position;
-                    sphere.material = sphereMaterial;
-
-                    // Make the hit targets larger in case iPhone
-                    sphereMaterial = new BABYLON.StandardMaterial(
-                        SphereMaterial,
-                        sc
-                    );
-                    sphereMaterial.diffuseColor = marker.color;
-                    sphereMaterial.alpha = 0;
-                    sphere = BABYLON.Mesh.CreateSphere(
-                        `${Scene_Marker}marker.name`,
-                        16,
-                        4,
-                        sc
-                    );
-                    sphere.position = position;
-                    sphere.material = sphereMaterial;
-                }
-            }
-
             // Register a render loop to repeatedly render the scene
             engine.runRenderLoop(() => {
                 sc.render();
@@ -226,7 +190,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         return sceneRef.current;
-    }, [cameraCenter, cameraRadius, canvasId, markers, modelUrl]);
+    }, [cameraCenter, cameraRadius, canvasId, modelUrl]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
@@ -237,6 +201,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 if (debug) {
                     console.log('Unmount - has scene');
                 }
+
                 try {
                     sceneRef.current.dispose();
                     if (engineRef.current) {
@@ -277,6 +242,56 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
     }, [scene, modelUrl, init]);
 
+    useEffect(() => {
+        // Add the marker spheres
+        const spheres: BABYLON.Mesh[] = [];
+        if (markers && sceneRef.current) {
+            for (const marker of markers) {
+                let sphereMaterial = new BABYLON.StandardMaterial(
+                    SphereMaterial,
+                    sceneRef.current
+                );
+                sphereMaterial.diffuseColor = marker.color;
+                let sphere = BABYLON.Mesh.CreateSphere(
+                    `${Scene_Visible_Marker}${marker.name}`,
+                    16,
+                    2,
+                    sceneRef.current
+                );
+                const position =
+                    marker.position ||
+                    convertLatLonToVector3(marker.latitude, marker.longitude);
+                sphere.position = position;
+                sphere.material = sphereMaterial;
+                spheres.push(sphere);
+
+                // Make the hit targets larger in case iPhone
+                sphereMaterial = new BABYLON.StandardMaterial(
+                    SphereMaterial,
+                    sceneRef.current
+                );
+                sphereMaterial.diffuseColor = marker.color;
+                sphereMaterial.alpha = 0;
+                sphere = BABYLON.Mesh.CreateSphere(
+                    `${Scene_Marker}${marker.name}`,
+                    16,
+                    4,
+                    sceneRef.current
+                );
+                sphere.position = position;
+                sphere.material = sphereMaterial;
+                spheres.push(sphere);
+            }
+        }
+
+        return () => {
+            for (const sphere of spheres) {
+                sceneRef.current?.removeMesh(sphere);
+                sphere.dispose(true, true);
+            }
+        };
+    }, [markers]);
+
     // SETUP LOGIC FOR onMarkerHover
     useEffect(() => {
         if (debug) {
@@ -302,7 +317,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     p?.pickedMesh?.name.startsWith(Scene_Marker)
                 ) {
                     for (const m of markers) {
-                        if (mesh.name === `${Scene_Marker}m.name`) {
+                        if (mesh.name === `${Scene_Marker}${m.name}`) {
                             marker = m;
                             break;
                         }
@@ -353,7 +368,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     markers
                 ) {
                     for (const m of markers) {
-                        if (mesh.name === `${Scene_Marker}m.name`) {
+                        if (mesh.name === `${Scene_Marker}${m.name}`) {
                             marker = m;
                             break;
                         }
