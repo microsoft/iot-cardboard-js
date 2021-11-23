@@ -30,17 +30,6 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                editSceneListCardClick={(item, index) => {
-                    console.log(
-                        `Edit button for ${item.$dtId} index ${index} is clicked!`
-                    );
-                }}
-                addNewSceneListCardClick={() => {
-                    console.log('Add new button clicked!');
-                }}
-                deleteSceneListCardClick={(index) => {
-                    console.log(`Delete button for index ${index} is clicked!`);
-                }}
             />
         </div>
     );

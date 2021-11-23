@@ -9,7 +9,6 @@
         background-color: var(--cb-color-bg-card);
         padding: 20px 0 40px;
     }
-
     .cb-base-composite-card-title {
         padding-left: 20px;
         padding-right: 20px;
@@ -31,4 +30,20 @@
         font-weight: 400;
         margin: 10px 0;
     }
+}
+
+.cb-scenes-list-dialog-wrapper div {
+    text-align: start;
+}
+
+.cb-scenes-list-dialog-wrapper div p {
+    margin: 0;
+}
+
+.cb-scenes-list-dialog-wrapper div span {
+    margin: 0;
+}
+
+.cb-scenes-list-dialog-wrapper button {
+    margin: 10px 10px 0 0;
 }
