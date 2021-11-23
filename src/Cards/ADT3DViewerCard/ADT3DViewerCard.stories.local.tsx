@@ -13,7 +13,7 @@ export const Truck = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: '600px', height: '400px' }}>
+        <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewerCard
                 title="3D Viewer"
                 adapter={
@@ -26,6 +26,7 @@ export const Truck = () => {
                 }
                 pollingInterval={10000}
                 twinId="TankVisual"
+                connectionLineColor="#000"
             />
         </div>
     );
