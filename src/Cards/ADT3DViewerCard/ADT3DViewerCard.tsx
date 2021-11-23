@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import * as BABYLON from 'babylonjs';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
-import { useAdapter } from '../../Models/Hooks';
+import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -10,30 +10,31 @@ import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import * as d3 from 'd3';
 import Draggable from 'react-draggable';
-import { createGUID } from '../../Models/Services/Utils';
 
 interface ADT3DViewerCardProps {
     adapter: IADTAdapter;
     twinId: string;
     pollingInterval: number;
     title?: string;
+    connectionLineColor?: string;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
     twinId,
     title,
-    pollingInterval
+    pollingInterval,
+    connectionLineColor
 }) => {
-    const [modelUrl, setModelUrl] = useState<string>('');
+    const [modelUrl, setModelUrl] = useState('');
     const [labels, setLabels] = useState([]);
-    const [showPopUp, setShowPopUp] = useState<boolean>(false);
-    const [popUpTile, setPopUpTitle] = useState<string>('');
-    const [popUpContent, setPopUpContent] = useState<string>('');
-    const lineId = useState<string>(createGUID());
-    const popUpId = useState<string>(createGUID());
-    const sceneWrapperId = useState<string>(createGUID());
-    const popUpContainerId = useState<string>(createGUID());
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [popUpTile, setPopUpTitle] = useState('');
+    const [popUpContent, setPopUpContent] = useState('');
+    const lineId = useGuid();
+    const popUpId = useGuid();
+    const sceneWrapperId = useGuid();
+    const popUpContainerId = useGuid();
 
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
@@ -78,14 +79,20 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             sceneRef.current = scene;
             setPopUpTitle(label.metric);
             setPopUpContent(label.value);
-            showPopUp
-                ? (selectedMesh.current = null)
-                : (selectedMesh.current = mesh);
+
+            if (showPopUp) {
+                selectedMesh.current = null;
+            } else {
+                selectedMesh.current = mesh;
+            }
+
             setShowPopUp(!showPopUp);
-            const popUp = document.getElementById(popUpId.toString());
-            popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
-            popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
-            setConnectionLine();
+            const popUp = document.getElementById(popUpId);
+            if (popUp) {
+                popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
+                popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
+                setConnectionLine();
+            }
         }
     };
 
@@ -111,10 +118,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             selectedMesh.current,
             sceneRef.current
         );
-        const container = document.getElementById(popUpContainerId.toString());
+        const container = document.getElementById(popUpContainerId);
 
         const canvas: HTMLCanvasElement = document.getElementById(
-            lineId.toString()
+            lineId
         ) as HTMLCanvasElement;
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
@@ -122,7 +129,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         context.beginPath();
-        context.strokeStyle = '#0058cc';
+        context.strokeStyle = connectionLineColor
+            ? connectionLineColor
+            : '#0058cc';
         context.moveTo(popUpX.current, popUpY.current);
         context.lineTo(position[0], position[1]);
         context.stroke();
@@ -134,7 +143,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         const transformMatrix = scene.getTransformMatrix();
         const viewport = scene.activeCamera?.viewport;
 
-        const sceneWrapper = document.getElementById(sceneWrapperId.toString());
+        const sceneWrapper = document.getElementById(sceneWrapperId);
         const coordinates = meshVectors.map((v) => {
             const proj = BABYLON.Vector3.Project(
                 v,
@@ -167,10 +176,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             adapterResult={visualTwin.adapterResult}
             title={title}
         >
-            <div
-                id={sceneWrapperId.toString()}
-                className="cb-adt-3dviewer-wrapper"
-            >
+            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
@@ -184,21 +190,18 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 />
                 {showPopUp && (
                     <div
-                        id={popUpContainerId.toString()}
+                        id={popUpContainerId}
                         className="cb-adt-3dviewer-popup-container"
                     >
                         <canvas
-                            id={lineId.toString()}
+                            id={lineId}
                             className="cb-adt-3dviewer-line-canvas"
                         />
                         <Draggable
                             bounds="parent"
                             onDrag={(e, data) => setPopPosition(e, data)}
                         >
-                            <div
-                                id={popUpId.toString()}
-                                className="cb-adt-3dviewer-popup"
-                            >
+                            <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <div className="cb-adt-3dviewer-popup-title">
                                     {popUpTile}
                                 </div>

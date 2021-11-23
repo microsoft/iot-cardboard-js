@@ -26,6 +26,7 @@ export const Truck = () => {
                 }
                 pollingInterval={10000}
                 twinId="TankVisual"
+                connectionLineColor="#000"
             />
         </div>
     );
