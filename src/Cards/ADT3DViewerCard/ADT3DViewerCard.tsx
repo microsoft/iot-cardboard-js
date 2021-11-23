@@ -162,7 +162,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
     }
 
-    function setPopPosition(e, data) {
+    function setPopUpPosition(e, data) {
         popUpX.current += data.deltaX;
         popUpY.current += data.deltaY;
         setConnectionLine();
@@ -199,7 +199,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                         />
                         <Draggable
                             bounds="parent"
-                            onDrag={(e, data) => setPopPosition(e, data)}
+                            onDrag={(e, data) => setPopUpPosition(e, data)}
                         >
                             <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <div className="cb-adt-3dviewer-popup-title">
