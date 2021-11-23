@@ -8,7 +8,6 @@ import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
-import * as d3 from 'd3';
 import Draggable from 'react-draggable';
 
 interface ADT3DViewerCardProps {
@@ -129,9 +128,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         context.beginPath();
-        context.strokeStyle = connectionLineColor
-            ? connectionLineColor
-            : '#0058cc';
+        context.strokeStyle = connectionLineColor || '#0058cc';
         context.moveTo(popUpX.current, popUpY.current);
         context.lineTo(position[0], position[1]);
         context.stroke();
@@ -156,8 +153,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             return proj;
         });
 
-        const [minX, maxX] = d3.extent(coordinates, (c) => c.x) as number[];
-        const [minY, maxY] = d3.extent(coordinates, (c) => c.y) as number[];
+        const maxX = Math.max(...coordinates.map((p) => p.x));
+        const minX = Math.min(...coordinates.map((p) => p.x));
+        const maxY = Math.max(...coordinates.map((p) => p.y));
+        const minY = Math.min(...coordinates.map((p) => p.y));
 
         return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
     }

@@ -15,7 +15,6 @@
         "babylonjs-gui": "^4.2.0",
         "babylonjs-loaders": "^4.2.0",
         "copy-to-clipboard": "^3.3.1",
-        "d3": "^7.1.1",
         "expr-eval": "^2.0.2",
         "fast-json-patch": "^3.0.0-1",
         "i18next": "^19.8.7",
