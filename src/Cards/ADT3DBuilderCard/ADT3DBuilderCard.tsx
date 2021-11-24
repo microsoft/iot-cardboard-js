@@ -9,16 +9,14 @@ import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
 interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (
-        meshes: SelectedMesh[],
-    ) => void;
+    onMeshSelected?: (meshes: SelectedMesh[]) => void;
 }
 
 let selectedMeshes: SelectedMesh[] = [];
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     modelUrl,
-    title, 
+    title,
     onMeshSelected
 }) => {
     const meshClick = (marker: Marker, mesh: any, scene: Scene) => {

@@ -6,17 +6,18 @@ export default {
 };
 
 export const Truck = () => {
-    
     const onMeshSelected = (selectedMeshes) => {
         console.log(selectedMeshes);
-    }
+    };
 
     return (
         <div style={{ width: '600px', height: '400px' }}>
             <ADT3DBuilderCard
                 title="3D Builder"
                 modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf"
-                onMeshSelected={(selectedMeshes) => onMeshSelected(selectedMeshes)}
+                onMeshSelected={(selectedMeshes) =>
+                    onMeshSelected(selectedMeshes)
+                }
             />
         </div>
     );
