@@ -118,26 +118,27 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     };
 
     function setConnectionLine() {
-        if(selectedMesh.current) {
-        const position = getMeshPosition(
-            selectedMesh.current,
-            sceneRef.current
-        );
-        const container = document.getElementById(popUpContainerId);
+        if (selectedMesh.current) {
+            const position = getMeshPosition(
+                selectedMesh.current,
+                sceneRef.current
+            );
+            const container = document.getElementById(popUpContainerId);
+            if (container) {
+                const canvas: HTMLCanvasElement = document.getElementById(
+                    lineId
+                ) as HTMLCanvasElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                const context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
 
-        const canvas: HTMLCanvasElement = document.getElementById(
-            lineId
-        ) as HTMLCanvasElement;
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        context.beginPath();
-        context.strokeStyle = connectionLineColor || '#0058cc';
-        context.moveTo(popUpX.current, popUpY.current);
-        context.lineTo(position[0], position[1]);
-        context.stroke();
+                context.beginPath();
+                context.strokeStyle = connectionLineColor || '#0058cc';
+                context.moveTo(popUpX.current, popUpY.current);
+                context.lineTo(position[0], position[1]);
+                context.stroke();
+            }
         }
     }
 
