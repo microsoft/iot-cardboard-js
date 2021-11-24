@@ -22,6 +22,8 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
+import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
+import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 
 export default class MockAdapter
     implements
@@ -227,6 +229,27 @@ export default class MockAdapter
 
             await this.mockNetwork();
             return new TsiClientAdapterData(getData());
+        });
+    }
+
+    async getVisualADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        const getData = () => {
+            const label = new SceneViewLabel();
+            label.color = '#FF0000';
+            label.meshId = 'Model_primitive1';
+            label.metric = `${twinId} Temperature`;
+            label.value = 45;
+            const labels = [label];
+            return labels;
+        };
+        await this.mockNetwork();
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            return new ADTVisualTwinData(
+                'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
+                getData()
+            );
         });
     }
 }

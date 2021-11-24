@@ -9,13 +9,16 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
+import MockAdapter from '../../Adapters/MockAdapter';
 
 interface ADT3DViewerCardProps {
-    adapter: IADTAdapter;
+    adapter: IADTAdapter | MockAdapter;
     twinId: string;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
+    cameraCenter?: BABYLON.Vector3;
+    cameraRadius?: number;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -23,7 +26,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     twinId,
     title,
     pollingInterval,
-    connectionLineColor
+    connectionLineColor,
+    cameraCenter,
+    cameraRadius
 }) => {
     const [modelUrl, setModelUrl] = useState('');
     const [labels, setLabels] = useState([]);
@@ -72,25 +77,27 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         mesh: BABYLON.AbstractMesh,
         scene: Scene
     ) => {
-        const label = labels.find((label) => label.meshId === mesh.id);
-        if (label) {
-            selectedMesh.current = mesh;
-            sceneRef.current = scene;
-            setPopUpTitle(label.metric);
-            setPopUpContent(label.value);
-
-            if (showPopUp) {
-                selectedMesh.current = null;
-            } else {
+        if (labels) {
+            const label = labels.find((label) => label.meshId === mesh.id);
+            if (label) {
                 selectedMesh.current = mesh;
-            }
+                sceneRef.current = scene;
+                setPopUpTitle(label.metric);
+                setPopUpContent(label.value);
 
-            setShowPopUp(!showPopUp);
-            const popUp = document.getElementById(popUpId);
-            if (popUp) {
-                popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
-                popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
-                setConnectionLine();
+                if (showPopUp) {
+                    selectedMesh.current = null;
+                } else {
+                    selectedMesh.current = mesh;
+                }
+
+                setShowPopUp(!showPopUp);
+                const popUp = document.getElementById(popUpId);
+                if (popUp) {
+                    popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
+                    popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
+                    setConnectionLine();
+                }
             }
         }
     };
@@ -179,8 +186,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
-                    cameraRadius={800}
-                    cameraCenter={new BABYLON.Vector3(0, 100, 0)}
+                    cameraRadius={cameraRadius}
+                    cameraCenter={cameraCenter}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }
