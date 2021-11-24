@@ -114,12 +114,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     };
 
     const cameraMoved = () => {
-        if (selectedMesh.current) {
-            setConnectionLine();
-        }
+        setConnectionLine();
     };
 
     function setConnectionLine() {
+        if(selectedMesh.current) {
         const position = getMeshPosition(
             selectedMesh.current,
             sceneRef.current
@@ -139,6 +138,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         context.moveTo(popUpX.current, popUpY.current);
         context.lineTo(position[0], position[1]);
         context.stroke();
+        }
     }
 
     function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {

@@ -236,12 +236,17 @@ export default class MockAdapter
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
-            const label = new SceneViewLabel();
-            label.color = '#FF0000';
-            label.meshId = 'Model_primitive1';
-            label.metric = `${twinId} Temperature`;
-            label.value = 45;
-            const labels = [label];
+            const label1 = new SceneViewLabel();
+            label1.color = '#FF0000';
+            label1.meshId = 'Model_primitive1';
+            label1.metric = `${twinId} Temperature`;
+            label1.value = 45;
+            const label2 = new SceneViewLabel();
+            label2.color = '#FFFF00';
+            label2.meshId = 'Model_primitive2';
+            label2.metric = `${twinId} Pressure`;
+            label2.value = 43;
+            const labels = [label1, label2];
             return labels;
         };
         await this.mockNetwork();
