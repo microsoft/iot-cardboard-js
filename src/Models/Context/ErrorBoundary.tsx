@@ -1,4 +1,5 @@
 import React, {
+    ComponentType,
     Dispatch,
     ErrorInfo,
     useContext,
@@ -37,7 +38,8 @@ export const useErrorBoundaryContext = (): [
 const ErrorBoundaryWrapper: React.FC<{
     theme?: Theme;
     title?: string;
-}> = ({ theme, title, children }) => {
+    onErrorBoundary?: (error, errorInfo) => any;
+}> = ({ theme, title, onErrorBoundary, children }) => {
     const [error, setError] = useState(null);
     const [errorInfo, setErrorInfo] = useState(null);
     const [isHandled, setIsHandled] = useState(false);
@@ -55,6 +57,9 @@ const ErrorBoundaryWrapper: React.FC<{
                 onError={(error, errorInfo) => {
                     setError(error);
                     setErrorInfo(errorInfo);
+                    if (typeof onErrorBoundary === 'function') {
+                        onErrorBoundary(error, errorInfo);
+                    }
                 }}
                 isHandled={isHandled}
                 theme={theme}
@@ -67,18 +72,26 @@ const ErrorBoundaryWrapper: React.FC<{
 };
 
 // Apply this method to a component to wrap it within ErrorBoundary class component which keeps track of errors
-export const withErrorBoundary = (Component) =>
-    React.forwardRef((props: Record<string, any>, ref) =>
-        ref ? (
-            <ErrorBoundaryWrapper theme={props.theme} title={props.title}>
-                <Component {...props} ref={ref} />
+export function withErrorBoundary<T>(Component: ComponentType<T>) {
+    return React.forwardRef<
+        unknown,
+        T & {
+            theme?: Theme;
+            title?: string;
+            onErrorBoundary?: (error, errorInfo) => any;
+        }
+    >((props, ref) => {
+        return (
+            <ErrorBoundaryWrapper
+                theme={props.theme}
+                title={props.title}
+                onErrorBoundary={props.onErrorBoundary}
+            >
+                <Component {...props} ref={ref ?? undefined} />
             </ErrorBoundaryWrapper>
-        ) : (
-            <ErrorBoundaryWrapper theme={props.theme} title={props.title}>
-                <Component {...props} />
-            </ErrorBoundaryWrapper>
-        )
-    );
+        );
+    });
+}
 interface ErrorBoundaryProps {
     onError: (error: Error, errorInfo: ErrorInfo) => void;
     isHandled?: boolean;

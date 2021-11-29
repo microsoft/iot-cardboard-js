@@ -7,6 +7,8 @@ import {
     ADTModel_InBIM_RelationshipName
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
+import { Vector3 } from 'babylonjs';
+import { CharacterWidths } from '../Constants/Constants';
 
 export const createGUID = () => {
     const s4 = () => {
@@ -141,3 +143,39 @@ export const getModelContentUnit = (
 export const createDTDLModelId = (name) => {
     return `dtmi:assetGen:${name};1`;
 };
+
+export const applyMixins = (derivedCtor: any, constructors: any[]) => {
+    constructors.forEach((baseCtor) => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
+            Object.defineProperty(
+                derivedCtor.prototype,
+                name,
+                Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
+                    Object.create(null)
+            );
+        });
+    });
+};
+
+export function convertLatLonToVector3(
+    latitude: number,
+    longitude: number,
+    earthRadius = 50
+): Vector3 {
+    const latitude_rad = (latitude * Math.PI) / 180;
+    const longitude_rad = (longitude * Math.PI) / 180;
+    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
+    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
+    const y = earthRadius * Math.sin(latitude_rad);
+    return new Vector3(x, y, z);
+}
+
+export function measureText(str: string, fontSize: number) {
+    const avg = 0.5279276315789471;
+    return (
+        Array.from(str).reduce(
+            (acc, cur) => acc + (CharacterWidths[cur.charCodeAt(0)] ?? avg),
+            0
+        ) * fontSize
+    );
+}

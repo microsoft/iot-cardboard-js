@@ -252,7 +252,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                     />
                     <Dropdown
                         label={t('modelCreate.valueSchema')}
-                        placeholder={t('modelCreate.selectOption')}
+                        placeholder={t('selectOption')}
                         options={valueSchemaOptions}
                         selectedKey={valueSchema ? valueSchema.key : undefined}
                         onChange={(_e, item) => setValueSchema(item)}

@@ -16,3 +16,4 @@ export { default as ADTModelListCard } from './ADTModelListCard/Consume/ADTModel
 export { default as ADTModelListWithModelDetailsCard } from './CompositeCards/ADTModelListWithModelDetails/Consume/ADTModelListWithModelDetailsCard';
 export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCard';
 export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
+export { default as ADT3DViewerCard } from './ADT3DViewerCard/ADT3DViewerCard';

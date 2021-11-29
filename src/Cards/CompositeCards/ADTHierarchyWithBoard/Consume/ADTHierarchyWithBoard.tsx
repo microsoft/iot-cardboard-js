@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTHierarchyWithBoardProps } from './ADTHierarchyWithBoard.types';
 import ADTHierarchyCard from '../../../ADTHierarchyCard/Consume/ADTHierarchyCard';
@@ -7,9 +13,12 @@ import {
     IHierarchyNode,
     IADTTwin,
     IADTModel,
-    IResolvedRelationshipClickErrors
+    IResolvedRelationshipClickErrors,
+    IADTInstanceConnection
 } from '../../../../Models/Constants/Interfaces';
 import './ADTHierarchyWithBoard.scss';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
+import BaseCompositeCard from '../../BaseCompositeCard/Consume/BaseCompositeCard';
 
 const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     title,
@@ -18,7 +27,8 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     locale,
     localeStrings,
     lookupTwinId,
-    onTwinClick
+    onTwinClick,
+    searchSpanForDataHistory
 }) => {
     const [selectedTwin, setSelectedTwin]: [
         IADTTwin,
@@ -28,8 +38,27 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
+    const [
+        ADXConnectionInfo,
+        setADXConnectionInfo
+    ] = useState<IADTInstanceConnection>(null);
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
+
+    const connectionState = useAdapter({
+        adapterMethod: () => adapter.getConnectionInformation(),
+        refetchDependencies: [adapter]
+    });
+
+    const hasConnectionInfo = useMemo(
+        () =>
+            Boolean(
+                ADXConnectionInfo?.kustoClusterUrl &&
+                    ADXConnectionInfo?.kustoDatabaseName &&
+                    ADXConnectionInfo?.kustoTableName
+            ),
+        [ADXConnectionInfo]
+    );
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
@@ -94,31 +123,46 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
         setErrorMessage(null);
     }, [adapter]);
 
+    useEffect(() => {
+        if (!connectionState.adapterResult.hasNoData()) {
+            setADXConnectionInfo(connectionState.adapterResult.getData());
+        }
+    }, [connectionState.adapterResult.result]);
+
     return (
         <div className="cb-hbcard-container">
-            <div className="cb-hbcard-hierarchy">
-                <ADTHierarchyCard
-                    adapter={adapter}
-                    title={title || t('hierarchy')}
-                    theme={theme}
-                    locale={locale}
-                    localeStrings={localeStrings}
-                    onChildNodeClick={handleChildNodeClick}
-                    lookupTwinId={reverseLookupTwinId}
-                />
-            </div>
-            <div className="cb-hbcard-board">
-                {selectedTwin && (
-                    <Board
+            <BaseCompositeCard
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                isLoading={connectionState.isLoading}
+            >
+                <div className="cb-hbcard-hierarchy">
+                    <ADTHierarchyCard
+                        adapter={adapter}
+                        title={title || t('hierarchy')}
                         theme={theme}
                         locale={locale}
-                        adtTwin={selectedTwin}
-                        adapter={adapter}
-                        errorMessage={errorMessage}
-                        onEntitySelect={onEntitySelect}
+                        localeStrings={localeStrings}
+                        onChildNodeClick={handleChildNodeClick}
+                        lookupTwinId={reverseLookupTwinId}
                     />
-                )}
-            </div>
+                </div>
+                <div className="cb-hbcard-board">
+                    {selectedTwin && ADXConnectionInfo && (
+                        <Board
+                            theme={theme}
+                            locale={locale}
+                            adtTwin={selectedTwin}
+                            adapter={adapter}
+                            errorMessage={errorMessage}
+                            onEntitySelect={onEntitySelect}
+                            searchSpan={searchSpanForDataHistory}
+                            hasDataHistory={hasConnectionInfo}
+                        />
+                    )}
+                </div>
+            </BaseCompositeCard>
         </div>
     );
 };

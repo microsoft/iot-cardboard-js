@@ -22,4 +22,5 @@ export interface IBoardProps {
         model: IADTModel,
         errors?: IResolvedRelationshipClickErrors
     ) => void;
+    hasDataHistory?: boolean;
 }

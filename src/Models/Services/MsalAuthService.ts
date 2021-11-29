@@ -149,12 +149,35 @@ export default class MsalAuthService implements IAuthService {
         };
     };
 
-    public getToken = () => {
-        const scope = this.environmentToConstantMapping.scope;
-        return new Promise(
-            this.getGenericTokenPromiseCallback({
-                scopes: [scope]
-            })
-        ) as Promise<string>;
+    public getToken = (tokenFor?: 'azureManagement' | 'adx') => {
+        let scope;
+        if (tokenFor === 'azureManagement') {
+            scope = 'https://management.azure.com//.default';
+            return new Promise(
+                this.getGenericTokenPromiseCallback(
+                    {
+                        scopes: [scope]
+                    },
+                    true
+                )
+            ) as Promise<string>;
+        } else if (tokenFor === 'adx') {
+            scope = 'https://help.kusto.windows.net/user_impersonation';
+            return new Promise(
+                this.getGenericTokenPromiseCallback(
+                    {
+                        scopes: [scope]
+                    },
+                    true
+                )
+            ) as Promise<string>;
+        } else {
+            scope = this.environmentToConstantMapping.scope;
+            return new Promise(
+                this.getGenericTokenPromiseCallback({
+                    scopes: [scope]
+                })
+            ) as Promise<string>;
+        }
     };
 }

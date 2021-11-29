@@ -1,5 +1,5 @@
 import { DTDLType } from '../../../Models/Classes/DTDL';
-import { DtdlProperty } from '../../../Models/Constants';
+import { DtdlInterfaceSchema, DtdlProperty } from '../../../Models/Constants';
 import { dtdlPropertyTypesEnum } from '../../../Models/Constants/Constants';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
@@ -25,6 +25,7 @@ export interface PropertyTreeNode {
     isMetadata?: boolean;
     isFloating?: boolean;
     mapDefinition?: DtdlProperty;
+    mapSchemas?: DtdlInterfaceSchema[];
 }
 
 type EnumPropertyData = {

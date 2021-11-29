@@ -49,7 +49,8 @@ const Board: React.FC<IBoardProps> = ({
     boardInfo,
     adtTwin,
     errorMessage,
-    onEntitySelect
+    onEntitySelect,
+    hasDataHistory = false
 }) => {
     const { t } = useTranslation();
     const [isInspectorOpen, setIsInspectorOpen] = useState(false);
@@ -67,7 +68,7 @@ const Board: React.FC<IBoardProps> = ({
 
         boardInfo =
             boardInfoObject === null
-                ? getDefaultBoardInfo(adtTwin, t)
+                ? getDefaultBoardInfo(adtTwin, t, searchSpan, hasDataHistory)
                 : BoardInfo.fromObject(boardInfoObject);
     }
 
@@ -84,6 +85,18 @@ const Board: React.FC<IBoardProps> = ({
             : {};
 
         cardComponents = boardInfo.cards.map((card: CardInfo, i: number) => {
+            // if searchSpan is not provided set it to last 7 days
+            const defaultSearchSpanTo = new Date();
+            const defaultSearchSpanFrom = new Date();
+            defaultSearchSpanFrom.setDate(defaultSearchSpanFrom.getDate() - 7);
+            searchSpan =
+                searchSpan ??
+                new SearchSpan(
+                    defaultSearchSpanFrom,
+                    defaultSearchSpanTo,
+                    '6h'
+                );
+
             const cardElement = getCardElement(
                 card,
                 searchSpan,
@@ -153,6 +166,7 @@ const Board: React.FC<IBoardProps> = ({
     );
 };
 
+// if search span is not provided pull data history for the last 7 days
 function getCardElement(
     cardInfo: CardInfo,
     searchSpan: SearchSpan,
@@ -275,7 +289,9 @@ function getCardElement(
 
 function getDefaultBoardInfo(
     dtTwin: IADTTwin,
-    t: (str: string) => string
+    t: (str: string) => string,
+    searchSpan?: SearchSpan,
+    hasDataHistory?: boolean
 ): BoardInfo {
     const board = new BoardInfo();
     board.layout = { numColumns: 3 };
@@ -316,16 +332,27 @@ function getDefaultBoardInfo(
         })
     );
 
-    const propertyCards = Object.keys(twinProperties).map((name: string) => {
-        const cardInfo = CardInfo.fromObject({
+    const propertyCards = Object.keys(twinProperties).map((name: string) =>
+        CardInfo.fromObject({
             key: `property-${name}`,
             type: CardTypes.KeyValuePairCard,
             size: { rows: 2 },
             cardProperties: { pollingIntervalMillis: 5000 },
             entities: [{ id: dtTwin.$dtId, properties: [name] }]
-        });
+        })
+    );
 
-        return cardInfo;
+    const dataHistory = CardInfo.fromObject({
+        key: `historized-data`,
+        title: `${t('board.dataHistory')}${
+            searchSpan ? '' : ', ' + t('board.last7days')
+        }`,
+        type: CardTypes.LineChart,
+        size: { rows: 3, columns: 3 },
+        cardProperties: { pollingIntervalMillis: 5000 },
+        entities: [
+            { id: dtTwin.$dtId, properties: Object.keys(twinProperties) }
+        ]
     });
 
     if (hasAllProcessGraphicsCardProperties(dtTwin)) {
@@ -357,7 +384,9 @@ function getDefaultBoardInfo(
         );
     }
 
-    board.cards = [...board.cards, ...propertyCards];
+    board.cards = hasDataHistory
+        ? [...board.cards, ...propertyCards, dataHistory]
+        : [...board.cards, ...propertyCards];
 
     return board;
 }

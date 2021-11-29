@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../../Adapters/ADTAdapter';
+import ADTandADXAdapter from '../../../../Adapters/ADTandADXAdapter';
+import { SearchSpan } from '../../../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithBoard from './ADTHierarchyWithBoard';
 
@@ -25,11 +26,27 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
+                    new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                    )
+                }
+                searchSpanForDataHistory={
+                    new SearchSpan(
+                        new Date('2021-09-20T20:00:00Z'),
+                        new Date('2021-10-20T20:00:00Z'),
+                        '6h'
+                    )
+                }
+                searchSpanForDataHistory={
+                    new SearchSpan(
+                        new Date('2021-09-20T20:00:00Z'),
+                        new Date('2021-10-20T20:00:00Z'),
+                        '6h'
                     )
                 }
             />
@@ -49,11 +66,13 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
+                    new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
                 }
                 lookupTwinId={args.lookupTwinId}

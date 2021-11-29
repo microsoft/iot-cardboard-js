@@ -23,6 +23,19 @@ export const AuthenticationParameters = {
             authority: 'AUTHORITY_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',
             scope: 'SCOPE_PLACEHOLDER',
+            redirectUri: 'REDIRECTURI_PLACEHOLDER',
+            tenantId: 'TENANTID_PLACEHOLDER',
+            uniqueObjectId: 'UNIQUE_OBJECTID_PLACEHOLDER'
+        }
+    },
+    adx: {
+        clusterUrl: 'ADX_CLUSTER_URL',
+        databaseName: 'ADX_DATABASE_NAME_IN_CLUSTER',
+        tableName: 'ADX_TABLE_NAME_IN_DATABASE',
+        aadParameters: {
+            authority: 'AUTHORITY_PLACEHOLDER',
+            clientId: 'CLIENTID_PLACEHOLDER',
+            scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER'
         }
     }

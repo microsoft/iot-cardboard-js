@@ -16,6 +16,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     adapter,
     theme,
     adapterAdditionalParameters,
+    pollingIntervalMillis,
     chartDataOptions,
     chartOptions,
     title,
@@ -32,7 +33,9 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 properties,
                 adapterAdditionalParameters
             ),
-        refetchDependencies: [id, properties, searchSpan]
+        refetchDependencies: [id, properties, searchSpan],
+        isLongPolling: !!pollingIntervalMillis,
+        pollingIntervalMillis: pollingIntervalMillis || null
     });
 
     const getData = () => {

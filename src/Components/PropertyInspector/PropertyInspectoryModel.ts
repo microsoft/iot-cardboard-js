@@ -135,7 +135,9 @@ abstract class PropertyInspectorModel {
                     })
                 },
                 path,
-                schemas
+                schemas,
+                mapInfo,
+                forceSet
             });
         } else if (
             typeof modelProperty.schema === 'string' &&
@@ -205,7 +207,8 @@ abstract class PropertyInspectorModel {
                                               modelProperty.name
                                           ),
                                     isObjectChild: true,
-                                    isMapChild: false
+                                    isMapChild: false,
+                                    schemas
                                 })
                             ) ?? [],
                         isCollapsed: true,
@@ -342,11 +345,13 @@ abstract class PropertyInspectorModel {
                                               propertySourceObject: mapValue,
                                               mapInfo: { key },
                                               isMapChild: true,
-                                              forceSet: true
+                                              forceSet: true,
+                                              schemas
                                           }
                                       );
                                   })
-                                : null
+                                : null,
+                        ...(schemas && { mapSchemas: schemas })
                     };
                 }
                 case DTDLSchemaType.Array: // TODO support arrays in future
