@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { GeoSpatialProps } from './GeoSpatial.types';
-import { KeyValuePairData } from '../../../Models/Constants/Types';
 import './GeoSpatial.scss';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
@@ -16,13 +15,11 @@ const GeoSpatial: React.FC<GeoSpatialProps> = ({
     locale,
     localeStrings,
     adapterAdditionalParameters
-    //imageSrc
-    //imagePropertyPositions
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
-        refetchDependencies: [id, properties], //when id or properties change, then call the adapter method again
-        isLongPolling: true, //should it continuously call the adapter method or just call once
+        refetchDependencies: [id, properties],
+        isLongPolling: true,
         pollingIntervalMillis: pollingIntervalMillis
     });
     return (
