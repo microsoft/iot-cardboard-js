@@ -131,33 +131,45 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         function centerModel() {
-            for (const mesh of sceneRef.current.meshes){
+            for (const mesh of sceneRef.current.meshes) {
                 mesh.computeWorldMatrix(true);
-            } 
+            }
 
             const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-            someMeshFromTheArrayOfMeshes.setBoundingInfo(totalBoundingInfo(sceneRef.current.meshes));
-            someMeshFromTheArrayOfMeshes.showBoundingBox = false; 
+            someMeshFromTheArrayOfMeshes.setBoundingInfo(
+                totalBoundingInfo(sceneRef.current.meshes)
+            );
+            someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
-            const es = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.extendSize;
+            const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                .boundingBox.extendSize;
             const es_scaled = es.scale(2);
             const width = es_scaled.x;
             const height = es_scaled.y;
             const depth = es_scaled.z;
 
-            const center = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.centerWorld;
-            const parentBox = BABYLON.MeshBuilder.CreateBox("parentBox", {width: width, height: height, depth: depth} );
-            parentBox.position = new BABYLON.Vector3(center.x, center.y, center.z);
+            const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                .boundingBox.centerWorld;
+            const parentBox = BABYLON.MeshBuilder.CreateBox('parentBox', {
+                width: width,
+                height: height,
+                depth: depth
+            });
+            parentBox.position = new BABYLON.Vector3(
+                center.x,
+                center.y,
+                center.z
+            );
             parentBox.isVisible = false;
 
             for (const mesh of sceneRef.current.meshes) {
-                if(mesh != parentBox) {
+                if (mesh != parentBox) {
                     mesh.setParent(parentBox);
                 }
             }
 
             parentBox.position = BABYLON.Vector3.Zero();
-            parentBox.normalizeToUnitCube(true)
+            parentBox.normalizeToUnitCube(true);
             parentBox.computeWorldMatrix(true);
 
             cameraRef.current.minZ = 0;
@@ -165,15 +177,21 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             cameraRef.current.pinchPrecision = 100;
         }
 
-        function totalBoundingInfo(meshes){
+        function totalBoundingInfo(meshes) {
             let boundingInfo = meshes[0].getBoundingInfo();
             let min = boundingInfo.boundingBox.minimumWorld;
             let max = boundingInfo.boundingBox.maximumWorld;
 
-            for(const mesh of meshes){
+            for (const mesh of meshes) {
                 boundingInfo = mesh.getBoundingInfo();
-                min = BABYLON.Vector3.Minimize(min, boundingInfo.boundingBox.minimumWorld);
-                max = BABYLON.Vector3.Maximize(max, boundingInfo.boundingBox.maximumWorld);      
+                min = BABYLON.Vector3.Minimize(
+                    min,
+                    boundingInfo.boundingBox.minimumWorld
+                );
+                max = BABYLON.Vector3.Maximize(
+                    max,
+                    boundingInfo.boundingBox.maximumWorld
+                );
             }
             return new BABYLON.BoundingInfo(min, max);
         }
@@ -196,7 +214,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
-            const camera = new BABYLON.ArcRotateCamera("camera", 0, Math.PI / 2.5, 2, BABYLON.Vector3.Zero(), scene);
+            const camera = new BABYLON.ArcRotateCamera(
+                'camera',
+                0,
+                Math.PI / 2.5,
+                2,
+                BABYLON.Vector3.Zero(),
+                scene
+            );
             cameraRef.current = camera;
             camera.attachControl(canvas, false);
 
@@ -223,7 +248,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (modelUrl) {
                 const n = modelUrl.lastIndexOf('/') + 1;
-                load(modelUrl.substring(0, n), modelUrl.substring(n), sc, camera);
+                load(
+                    modelUrl.substring(0, n),
+                    modelUrl.substring(n),
+                    sc,
+                    camera
+                );
             }
 
             // Register a render loop to repeatedly render the scene
