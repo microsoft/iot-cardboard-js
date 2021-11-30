@@ -78,26 +78,36 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         scene: Scene
     ) => {
         if (labels) {
-            const label = labels.find((label) => label.meshId === mesh.id);
+            const label = labels.find((label) => label.meshId === mesh?.id);
             if (label) {
-                selectedMesh.current = mesh;
-                sceneRef.current = scene;
-                setPopUpTitle(label.metric);
-                setPopUpContent(label.value);
-
-                if (showPopUp) {
+                if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
+                    setShowPopUp(false);
                 } else {
+                    let resetPopUpPosition = true;
+                    if (showPopUp) {
+                        resetPopUpPosition = false;
+                    }
                     selectedMesh.current = mesh;
-                }
+                    sceneRef.current = scene;
+                    setPopUpTitle(label.metric);
+                    setPopUpContent(label.value);
+                    setShowPopUp(true);
 
-                setShowPopUp(!showPopUp);
-                const popUp = document.getElementById(popUpId);
-                if (popUp) {
-                    popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
-                    popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
+                    if (resetPopUpPosition) {
+                        const popUp = document.getElementById(popUpId);
+                        if (popUp) {
+                            popUpX.current =
+                                popUp.offsetLeft + popUp.offsetWidth / 2;
+                            popUpY.current =
+                                popUp.offsetTop + popUp.offsetHeight / 2;
+                        }
+                    }
                     setConnectionLine();
                 }
+            } else {
+                selectedMesh.current = null;
+                setShowPopUp(false);
             }
         }
     };
