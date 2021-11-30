@@ -10,6 +10,7 @@ import { CardError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
+    IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
@@ -28,6 +29,7 @@ import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
         Partial<IADTAdapter> {
     private mockData = null;

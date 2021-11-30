@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import * as BABYLON from 'babylonjs';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
@@ -12,7 +12,7 @@ import Draggable from 'react-draggable';
 import MockAdapter from '../../Adapters/MockAdapter';
 
 interface ADT3DViewerCardProps {
-    adapter: IADTAdapter | MockAdapter;
+    adapter: IADT3DViewerAdapter;
     twinId: string;
     pollingInterval: number;
     title?: string;
