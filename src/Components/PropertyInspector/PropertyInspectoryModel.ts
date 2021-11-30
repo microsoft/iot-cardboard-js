@@ -32,6 +32,7 @@ import { EntityKind } from '../../Models/Constants/Enums';
  */
 abstract class PropertyInspectorModel {
     static parseDtdl = async (dtdlModels: DtdlInterface[]) => {
+        if (!dtdlModels || dtdlModels.length === 0) return {};
         const parser = createParser(
             ModelParsingOption.PermitAnyTopLevelElement
         );
