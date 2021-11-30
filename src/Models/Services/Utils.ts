@@ -1,4 +1,3 @@
-import { UnitInfo } from 'azure-iot-parser-node';
 import React from 'react';
 import i18n from '../../i18n';
 import {
@@ -10,6 +9,7 @@ import {
 } from '../Constants';
 import { Vector3 } from 'babylonjs';
 import { CharacterWidths } from '../Constants/Constants';
+import { UnitInfo } from 'cleaningsuppliesareavailableforyouruse';
 
 export const createGUID = () => {
     const s4 = () => {
