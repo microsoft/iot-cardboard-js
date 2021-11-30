@@ -66,7 +66,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
-    const cameraRef = useRef<BABYLON.Camera>(null);
+    const cameraRef = useRef<BABYLON.ArcRotateCamera>(null);
     const lastMeshRef = useRef<BABYLON.AbstractMesh>(null);
     const lastMarkerRef = useRef<Marker>(null);
     const modelUrlRef = useRef('blank');
@@ -109,7 +109,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             console.log('**************init');
         }
 
-        async function load(root: string, file: string, sc: BABYLON.Scene, camera: BABYLON.ArcRotateCamera) {
+        async function load(root: string, file: string, sc: BABYLON.Scene) {
             let success = true;
             const assets = await loadPromise(
                 root,
@@ -125,73 +125,58 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
-
-                for (const mesh of sc.meshes){
-                    mesh.computeWorldMatrix(true);
-                } 
-
-                const someMeshFromTheArrayOfMeshes = sc.meshes[0];
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(totalBoundingInfo(sc.meshes));
-                someMeshFromTheArrayOfMeshes.showBoundingBox = false; 
-
-                //at this point we can take values from the bounding box 
-                //get extendSize (the values from the center to the edges of the bounding box, so basically you get 1/2xW, 1/2xH, 1/2xD);
-                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.extendSize;
-                //get full WxHxD values
-                const es_scaled = es.scale(2);
-                //now you have the dimension of the bounding box
-                const width = es_scaled.x;
-                const height = es_scaled.y;
-                const depth = es_scaled.z;
-
-                //get center of the bounding box, I find this helpful, so I can position the parent box in the center
-                //of bounding box
-                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.centerWorld;
-                //get max value from these dimension
-                const boundingBoxMaxDistance = Math.max(width, height, depth);
-
-                const parentBox = BABYLON.MeshBuilder.CreateBox("parentBox", {size: boundingBoxMaxDistance});
-                //position the box 
-                parentBox.position = new BABYLON.Vector3(center.x, center.y, center.z);
-                //hhide the box
-                parentBox.isVisible = false;
-                //parent everything in the scene to the box 
-                // for (const mesh of sc.meshes){
-                //     mesh.setParent(parentBox);
-                // }
-                sc.meshes[0].setParent(parentBox);
-                //position the box in the 0 0 0 after parenting (if you want)
-                parentBox.position = BABYLON.Vector3.Zero();
-                //normalize the cube to 1x1x1;
-                parentBox.normalizeToUnitCube(true)
-                parentBox.computeWorldMatrix(true);
-
-                camera.minZ = 0;
-                camera.wheelPrecision = 100;
-                camera.pinchPrecision = 100;
-
+                centerModel();
                 setIsLoading(false);
             }
         }
 
+        function centerModel() {
+            for (const mesh of sceneRef.current.meshes){
+                mesh.computeWorldMatrix(true);
+            } 
+
+            const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
+            someMeshFromTheArrayOfMeshes.setBoundingInfo(totalBoundingInfo(sceneRef.current.meshes));
+            someMeshFromTheArrayOfMeshes.showBoundingBox = false; 
+
+            const es = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.extendSize;
+            const es_scaled = es.scale(2);
+            const width = es_scaled.x;
+            const height = es_scaled.y;
+            const depth = es_scaled.z;
+
+            const center = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.centerWorld;
+            const parentBox = BABYLON.MeshBuilder.CreateBox("parentBox", {width: width, height: height, depth: depth} );
+            parentBox.position = new BABYLON.Vector3(center.x, center.y, center.z);
+            parentBox.isVisible = false;
+
+            for (const mesh of sceneRef.current.meshes) {
+                if(mesh != parentBox) {
+                    mesh.setParent(parentBox);
+                }
+            }
+
+            parentBox.position = BABYLON.Vector3.Zero();
+            parentBox.normalizeToUnitCube(true)
+            parentBox.computeWorldMatrix(true);
+
+            cameraRef.current.minZ = 0;
+            cameraRef.current.wheelPrecision = 100;
+            cameraRef.current.pinchPrecision = 100;
+        }
+
         function totalBoundingInfo(meshes){
-            //first mesh boundingInfo
             let boundingInfo = meshes[0].getBoundingInfo();
-            //default values of min and max from the first mesh
             let min = boundingInfo.boundingBox.minimumWorld;
             let max = boundingInfo.boundingBox.maximumWorld;
-            //now iterate through every other mesh
+
             for(const mesh of meshes){
-                //take their boundingInfos
                 boundingInfo = mesh.getBoundingInfo();
-                //and if any value is lower than min assign it as new min, same goes for max
                 min = BABYLON.Vector3.Minimize(min, boundingInfo.boundingBox.minimumWorld);
                 max = BABYLON.Vector3.Maximize(max, boundingInfo.boundingBox.maximumWorld);      
-        
-          } //for loop closed
-            //return BoundingInfo object with min and max values
+            }
             return new BABYLON.BoundingInfo(min, max);
-        } //totalBoundingInfo closed
+        }
 
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
             if (e.total) {
