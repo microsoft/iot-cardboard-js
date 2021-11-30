@@ -109,7 +109,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             console.log('**************init');
         }
 
-        async function load(root: string, file: string, sc: BABYLON.Scene) {
+        async function load(root: string, file: string, sc: BABYLON.Scene, camera: BABYLON.ArcRotateCamera) {
             let success = true;
             const assets = await loadPromise(
                 root,
@@ -125,9 +125,73 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
+
+                for (const mesh of sc.meshes){
+                    mesh.computeWorldMatrix(true);
+                } 
+
+                const someMeshFromTheArrayOfMeshes = sc.meshes[0];
+                someMeshFromTheArrayOfMeshes.setBoundingInfo(totalBoundingInfo(sc.meshes));
+                someMeshFromTheArrayOfMeshes.showBoundingBox = false; 
+
+                //at this point we can take values from the bounding box 
+                //get extendSize (the values from the center to the edges of the bounding box, so basically you get 1/2xW, 1/2xH, 1/2xD);
+                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.extendSize;
+                //get full WxHxD values
+                const es_scaled = es.scale(2);
+                //now you have the dimension of the bounding box
+                const width = es_scaled.x;
+                const height = es_scaled.y;
+                const depth = es_scaled.z;
+
+                //get center of the bounding box, I find this helpful, so I can position the parent box in the center
+                //of bounding box
+                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo().boundingBox.centerWorld;
+                //get max value from these dimension
+                const boundingBoxMaxDistance = Math.max(width, height, depth);
+
+                const parentBox = BABYLON.MeshBuilder.CreateBox("parentBox", {size: boundingBoxMaxDistance});
+                //position the box 
+                parentBox.position = new BABYLON.Vector3(center.x, center.y, center.z);
+                //hhide the box
+                parentBox.isVisible = false;
+                //parent everything in the scene to the box 
+                // for (const mesh of sc.meshes){
+                //     mesh.setParent(parentBox);
+                // }
+                sc.meshes[0].setParent(parentBox);
+                //position the box in the 0 0 0 after parenting (if you want)
+                parentBox.position = BABYLON.Vector3.Zero();
+                //normalize the cube to 1x1x1;
+                parentBox.normalizeToUnitCube(true)
+                parentBox.computeWorldMatrix(true);
+
+                camera.minZ = 0;
+                camera.wheelPrecision = 100;
+                camera.pinchPrecision = 100;
+
                 setIsLoading(false);
             }
         }
+
+        function totalBoundingInfo(meshes){
+            //first mesh boundingInfo
+            let boundingInfo = meshes[0].getBoundingInfo();
+            //default values of min and max from the first mesh
+            let min = boundingInfo.boundingBox.minimumWorld;
+            let max = boundingInfo.boundingBox.maximumWorld;
+            //now iterate through every other mesh
+            for(const mesh of meshes){
+                //take their boundingInfos
+                boundingInfo = mesh.getBoundingInfo();
+                //and if any value is lower than min assign it as new min, same goes for max
+                min = BABYLON.Vector3.Minimize(min, boundingInfo.boundingBox.minimumWorld);
+                max = BABYLON.Vector3.Maximize(max, boundingInfo.boundingBox.maximumWorld);      
+        
+          } //for loop closed
+            //return BoundingInfo object with min and max values
+            return new BABYLON.BoundingInfo(min, max);
+        } //totalBoundingInfo closed
 
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
             if (e.total) {
@@ -147,16 +211,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
-            const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
-            const camera = new BABYLON.ArcRotateCamera(
-                'camera',
-                0,
-                Math.PI / 2.5,
-                cameraRadius,
-                center,
-                sc,
-                true
-            );
+            const camera = new BABYLON.ArcRotateCamera("camera", 0, Math.PI / 2.5, 2, BABYLON.Vector3.Zero(), scene);
             cameraRef.current = camera;
             camera.attachControl(canvas, false);
 
@@ -183,7 +238,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (modelUrl) {
                 const n = modelUrl.lastIndexOf('/') + 1;
-                load(modelUrl.substring(0, n), modelUrl.substring(n), sc);
+                load(modelUrl.substring(0, n), modelUrl.substring(n), sc, camera);
             }
 
             // Register a render loop to repeatedly render the scene
