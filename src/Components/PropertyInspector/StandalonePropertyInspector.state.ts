@@ -1,5 +1,5 @@
-import { EntityKind } from 'azure-iot-parser-node';
 import produce, { setAutoFreeze } from 'immer';
+import { EntityKind } from '../../Models/Constants/Enums';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 setAutoFreeze(false);

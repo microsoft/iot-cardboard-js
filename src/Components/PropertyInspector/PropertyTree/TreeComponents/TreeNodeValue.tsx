@@ -10,7 +10,7 @@ import {
     IIconStyles
 } from '@fluentui/react/lib/components/Icon/Icon.types';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
-import { EntityKind } from 'azure-iot-parser-node';
+import { EntityKind } from '../../../../Models/Constants/Enums';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();

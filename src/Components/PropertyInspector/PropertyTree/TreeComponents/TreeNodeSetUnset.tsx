@@ -6,7 +6,7 @@ import '../PropertyTree.scss';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { EntityKind } from 'azure-iot-parser-node';
+import { EntityKind } from '../../../../Models/Constants/Enums';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();

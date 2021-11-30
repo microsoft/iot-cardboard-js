@@ -1,8 +1,8 @@
 import { IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
-import { EntityKind } from 'azure-iot-parser-node';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { EntityKind } from '../../../../Models/Constants/Enums';
 import '../PropertyTree.scss';
 import { NodeProps } from '../PropertyTree.types';
 

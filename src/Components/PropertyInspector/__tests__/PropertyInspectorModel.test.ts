@@ -1,5 +1,4 @@
-import { EntityKind } from 'azure-iot-parser-node';
-import { DtdlInterface } from '../../../Models/Constants';
+import { DtdlInterface, EntityKind } from '../../../Models/Constants';
 import PropertyInspectorModel from '../PropertyInspectoryModel';
 import testModel from './testModel.json';
 import testTwin from './testTwin.json';
@@ -49,7 +48,7 @@ describe('Testing PropertyInspectorModel', () => {
                     EntityKind.FLOAT,
                     EntityKind.DOUBLE,
                     EntityKind.LONG
-                ].includes(targetPiNode.schema)
+                ].includes(targetPiNode.schema as EntityKind)
             ) {
                 valueOnTwin = String(valueOnTwin);
             }

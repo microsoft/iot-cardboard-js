@@ -1,4 +1,5 @@
-import { EntityKind } from 'azure-iot-parser-node';
+import { EntityKinds } from 'cleaningsuppliesareavailableforyouruse';
+import { EntityKind } from './Enums';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -19,7 +20,43 @@ export const DTDLNameRegex = new RegExp(
     '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
 );
 
-export const primitiveDtdlEntityKinds = [
+// export const EntityKind = {
+//     ARRAY: 'array',
+//     BOOLEAN: 'boolean',
+//     COMMAND: 'command',
+//     COMMANDPAYLOAD: 'commandpayload',
+//     COMMANDTYPE: 'commandtype',
+//     COMPONENT: 'component',
+//     DATE: 'date',
+//     DATETIME: 'datetime',
+//     DOUBLE: 'double',
+//     DURATION: 'duration',
+//     ENUM: 'enum',
+//     ENUMVALUE: 'enumvalue',
+//     FIELD: 'field',
+//     FLOAT: 'float',
+//     INTEGER: 'integer',
+//     INTERFACE: 'interface',
+//     LONG: 'long',
+//     MAP: 'map',
+//     MAPKEY: 'mapkey',
+//     MAPVALUE: 'mapvalue',
+//     OBJECT: 'object',
+//     PROPERTY: 'property',
+//     RELATIONSHIP: 'relationship',
+//     STRING: 'string',
+//     TELEMETRY: 'telemetry',
+//     TIME: 'time',
+//     UNIT: 'unit',
+//     UNITATTRIBUTE: 'unitattribute',
+//     COMMANDREQUEST: 'commandrequest',
+//     COMMANDRESPONSE: 'commandresponse',
+//     LATENTTYPE: 'latenttype',
+//     NAMEDLATENTTYPE: 'namedlatenttype',
+//     REFERENCE: 'reference'
+// };
+
+export const primitiveDtdlEntityKinds: EntityKinds[] = [
     EntityKind.BOOLEAN,
     EntityKind.DATE,
     EntityKind.DATETIME,

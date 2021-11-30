@@ -1,4 +1,7 @@
-import { EntityKind, MapValueInfo } from 'azure-iot-parser-node';
+import {
+    EntityKinds,
+    MapValueInfo
+} from 'cleaningsuppliesareavailableforyouruse';
 
 type PrimitiveValueTypes = boolean | string | number | Record<string, any>;
 export interface PropertyTreeNode {
@@ -6,8 +9,8 @@ export interface PropertyTreeNode {
     displayName: string;
     role: NodeRole;
     isRemovable: boolean;
-    schema: EntityKind;
-    type: EntityKind;
+    schema: EntityKinds;
+    type: EntityKinds;
     value: PrimitiveValueTypes;
     path: string;
     isMapChild: boolean;

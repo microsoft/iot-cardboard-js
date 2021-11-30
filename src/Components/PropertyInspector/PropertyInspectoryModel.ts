@@ -8,19 +8,21 @@ import {
     parsePropertyTreeDisplayName
 } from '../../Models/Services/Utils';
 import {
-    ModelParserFactory,
     ModelParsingOption,
     ModelDict,
     InterfaceInfo,
-    EntityKind,
     PropertyInfo,
     ObjectInfo,
     EnumInfo,
     MapValueInfo,
     MapInfo,
     RelationshipInfo,
-    ComponentInfo
-} from 'azure-iot-parser-node';
+    ComponentInfo,
+    createParser,
+    EntityKinds,
+    FieldInfo
+} from 'cleaningsuppliesareavailableforyouruse';
+import { EntityKind } from '../../Models/Constants/Enums';
 
 /** Utility class for standalone property inspector.  This class is responsible for:
  *  - Merging set and modelled properties and constructing property tree nodes;
@@ -30,7 +32,7 @@ import {
  */
 abstract class PropertyInspectorModel {
     static parseDtdl = async (dtdlModels: DtdlInterface[]) => {
-        const parser = ModelParserFactory.create(
+        const parser = createParser(
             ModelParsingOption.PermitAnyTopLevelElement
         );
         const modelDict = await parser.parse(
@@ -43,7 +45,7 @@ abstract class PropertyInspectorModel {
     static getPropertyValueOrDefault = (
         propertyName: string,
         propertySourceObject: Record<string, any>,
-        schema: EntityKind
+        schema: EntityKinds
     ) => {
         if (
             [
@@ -51,7 +53,7 @@ abstract class PropertyInspectorModel {
                 EntityKind.FLOAT,
                 EntityKind.DOUBLE,
                 EntityKind.LONG
-            ].includes(schema)
+            ].includes(schema as EntityKind)
         ) {
             return propertySourceObject?.[propertyName]
                 ? String(propertySourceObject[propertyName])
@@ -67,7 +69,7 @@ abstract class PropertyInspectorModel {
     /** Returns default value that matches input schema
      *  Note: numeric types return empty string to represent empty input box
      */
-    static getEmptyValueForNode = (schema: EntityKind) => {
+    static getEmptyValueForNode = (schema: EntityKinds) => {
         switch (schema) {
             case EntityKind.STRING:
                 return '';
@@ -111,7 +113,7 @@ abstract class PropertyInspectorModel {
         mapInfo = null,
         forceSet = false
     }: {
-        modelProperty: PropertyInfo | MapValueInfo;
+        modelProperty: PropertyInfo | MapValueInfo | FieldInfo;
         propertySourceObject: Record<string, any>;
         path: string;
         isObjectChild: boolean;
@@ -123,7 +125,7 @@ abstract class PropertyInspectorModel {
         if (!modelProperty) return null;
 
         const getSchemaEntityKind = () => {
-            return modelProperty.schema?.entityKind;
+            return modelProperty.schema?.entityKind as EntityKinds;
         };
 
         const getCommonProperties = () => {
@@ -144,7 +146,7 @@ abstract class PropertyInspectorModel {
                 name,
                 displayName,
                 schema: getSchemaEntityKind(),
-                type: EntityKind.PROPERTY,
+                type: EntityKind.PROPERTY as EntityKinds,
                 path: mapInfo
                     ? PropertyInspectorModel.buildPath(path, mapInfo.key)
                     : PropertyInspectorModel.buildPath(
@@ -284,11 +286,11 @@ abstract class PropertyInspectorModel {
             for (const key of Object.keys(modelDict)) {
                 const modelDictEntity = modelDict[key];
                 if (
-                    modelDictEntity.entityKind === EntityKind.RELATIONSHIP &&
+                    modelDictEntity.entityKind === 'relationship' &&
                     (modelDictEntity as RelationshipInfo).name ===
                         relationship.$relationshipName
                 ) {
-                    relationshipInfo = modelDictEntity;
+                    relationshipInfo = modelDictEntity as RelationshipInfo;
                     break;
                 }
             }
@@ -388,7 +390,7 @@ abstract class PropertyInspectorModel {
                                 modelContentValue.name
                             ),
                             role: NodeRole.parent,
-                            type: EntityKind.COMPONENT,
+                            type: EntityKind.COMPONENT as EntityKinds,
                             schema: undefined,
                             isCollapsed: true,
                             children: [
@@ -406,8 +408,8 @@ abstract class PropertyInspectorModel {
                                               readonly: true,
                                               isCollapsed: true,
                                               children: [],
-                                              schema: EntityKind.OBJECT,
-                                              type: EntityKind.PROPERTY,
+                                              schema: EntityKind.OBJECT as EntityKinds,
+                                              type: EntityKind.PROPERTY as EntityKinds,
                                               value: {},
                                               parentObjectPath: path,
                                               isMapChild: false,
@@ -491,8 +493,8 @@ abstract class PropertyInspectorModel {
                         isFloating
                     })
                 ),
-                schema: EntityKind.OBJECT,
-                type: EntityKind.PROPERTY,
+                schema: EntityKind.OBJECT as EntityKinds,
+                type: EntityKind.PROPERTY as EntityKinds,
                 value: undefined,
                 parentObjectPath: isObjectChild && path,
                 isMapChild: false,
@@ -510,7 +512,7 @@ abstract class PropertyInspectorModel {
                 isSet: !isFloating,
                 value: node,
                 schema: EntityKind.STRING,
-                type: EntityKind.PROPERTY,
+                type: EntityKind.PROPERTY as EntityKinds,
                 parentObjectPath: isObjectChild && path,
                 isMapChild: false,
                 isRemovable: false,
@@ -657,7 +659,7 @@ abstract class PropertyInspectorModel {
                             EntityKind.FLOAT,
                             EntityKind.DOUBLE,
                             EntityKind.LONG
-                        ].includes(node.schema)
+                        ].includes(node.schema as EntityKind)
                     ) {
                         try {
                             finalValue = Number(node.value);
