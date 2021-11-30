@@ -7,5 +7,6 @@ storybook-static/
 build-storybook.log
 certificates/
 .vscode/
+*.tgz
 build_artifacts/
 .storybook/secrets.user.js
