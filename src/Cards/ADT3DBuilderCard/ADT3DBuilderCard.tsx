@@ -9,7 +9,7 @@ import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
 interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (meshes: SelectedMesh[]) => void;
+    onMeshSelected?: (selectedMeshes: SelectedMesh[]) => void;
 }
 
 let selectedMeshes: SelectedMesh[] = [];
@@ -19,7 +19,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     title,
     onMeshSelected
 }) => {
-    const meshClick = (marker: Marker, mesh: any, scene: Scene) => {
+    const meshClick = (_marker: Marker, mesh: any, scene: Scene) => {
         if (mesh) {
             const selectedMesh = selectedMeshes.find(
                 (item) => item.id === mesh.id
