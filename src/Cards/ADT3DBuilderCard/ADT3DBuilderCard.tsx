@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import { Scene, Vector3 } from 'babylonjs';
 import BaseCard from '../Base/Consume/BaseCard';
@@ -9,17 +9,17 @@ import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
 interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
+    onMeshSelected?: (selectedMeshes: SelectedMesh[]) => void;
 }
 
 let selectedMeshes: SelectedMesh[] = [];
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     modelUrl,
-    title
+    title,
+    onMeshSelected
 }) => {
-    const [meshes, setMeshes] = useState([]);
-
-    const meshClick = (marker: Marker, mesh: any, scene: Scene) => {
+    const meshClick = (_marker: Marker, mesh: any, scene: Scene) => {
         if (mesh) {
             const selectedMesh = selectedMeshes.find(
                 (item) => item.id === mesh.id
@@ -50,7 +50,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             selectedMeshes = [];
         }
 
-        setMeshes([...selectedMeshes]);
+        onMeshSelected(selectedMeshes);
     };
 
     return (
@@ -64,14 +64,6 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                         meshClick(marker, mesh, scene)
                     }
                 />
-                <div className="cb-adt3dbuilder-mesh-list-container">
-                    <div className="cb-adt3dbuilder-mesh-list-title">
-                        Selected Meshes
-                    </div>
-                    {meshes.map((mesh, index) => {
-                        return <div key={index}>{mesh.id}</div>;
-                    })}
-                </div>
             </div>
         </BaseCard>
     );
