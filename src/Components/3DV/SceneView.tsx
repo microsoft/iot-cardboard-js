@@ -184,7 +184,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             if (modelUrl) {
                 let url = modelUrl;
                 if (url === 'Globe') {
-                    url = 'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
+                    url =
+                        'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
                 }
 
                 const n = url.lastIndexOf('/') + 1;
