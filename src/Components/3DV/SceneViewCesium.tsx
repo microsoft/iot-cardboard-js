@@ -56,7 +56,12 @@ export const SceneViewCesium: React.FC<ISceneViewCesiumProp> = ({
 
     (window as any).CESIUM_BASE_URL = 'https://baby3d.azurewebsites.net/cesium';
 
-    const defaultMarkerHover = (marker: Marker, mesh: any, e: any) => {
+    const defaultMarkerHover = (
+        marker: Marker,
+        _mesh: any,
+        _scene: any,
+        e: any
+    ) => {
         if (lastName !== marker?.name) {
             tooltipLeft.current = e.offsetX + 5;
             tooltipTop.current = e.offsetY - 30;
@@ -240,7 +245,10 @@ export const SceneViewCesium: React.FC<ISceneViewCesiumProp> = ({
                 const mesh = pickedFeature?.mesh;
                 if (isClick) {
                     setTooltipText('');
-                    callback(marker, mesh, { offsetX: pos.x, offsetY: pos.y });
+                    callback(marker, mesh, null, {
+                        offsetX: pos.x,
+                        offsetY: pos.y
+                    }); // NOTE: Not setting scene parameter
                 } else if (
                     mesh !== lastMeshRef.current ||
                     lastMarkerRef.current !== marker
@@ -248,7 +256,10 @@ export const SceneViewCesium: React.FC<ISceneViewCesiumProp> = ({
                     if (debug) {
                         console.log('mouse move');
                     }
-                    callback(marker, mesh, { offsetX: pos.x, offsetY: pos.y });
+                    callback(marker, mesh, null, {
+                        offsetX: pos.x,
+                        offsetY: pos.y
+                    });
                     lastMarkerRef.current = marker;
                     lastMeshRef.current = mesh;
                 }

@@ -89,7 +89,7 @@ export const Globe = () => {
 
 export const Truck = () => {
     const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
-    const markerClick = (_marker: Marker, mesh: any, _e: any) => {
+    const markerClick = (_marker: Marker, mesh: any) => {
         if (mesh?.name) {
             const meshes = [...selectedMeshes];
             const n = meshes.indexOf(mesh.name);
@@ -113,9 +113,7 @@ export const Truck = () => {
             <SceneViewCesium
                 selectedMeshNames={selectedMeshes}
                 modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf"
-                onMarkerClick={(marker, mesh, e) =>
-                    markerClick(marker, mesh, e)
-                }
+                onMarkerClick={(marker, mesh) => markerClick(marker, mesh)}
             />
         </div>
     );
