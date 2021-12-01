@@ -1,6 +1,6 @@
 import React from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { Scene, Vector3 } from 'babylonjs';
+import { Scene } from 'babylonjs';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -58,8 +58,6 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    cameraRadius={800}
-                    cameraCenter={new Vector3(0, 100, 0)}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }

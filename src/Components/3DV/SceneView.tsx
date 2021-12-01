@@ -47,8 +47,6 @@ let lastName = '';
 
 export const SceneView: React.FC<ISceneViewProp> = ({
     modelUrl,
-    cameraRadius,
-    cameraCenter,
     markers,
     onMarkerClick,
     onMarkerHover,
@@ -125,12 +123,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
-                centerModel();
+                createCamera();
                 setIsLoading(false);
             }
         }
 
-        function centerModel() {
+        function createCamera() {
             for (const mesh of sceneRef.current.meshes) {
                 mesh.computeWorldMatrix(true);
             }
@@ -143,7 +141,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                 .boundingBox.extendSize;
-            const es_scaled = es.scale(2);
+            const es_scaled = es.scale(3);
             const width = es_scaled.x;
             const height = es_scaled.y;
             const depth = es_scaled.z;
@@ -151,35 +149,21 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                 .boundingBox.centerWorld;
 
-             
+                const canvas = document.getElementById(
+                    canvasId
+                ) as HTMLCanvasElement; 
 
-                // cameraRef.current.setTarget();
-            // const parentBox = BABYLON.MeshBuilder.CreateBox('parentBox', {
-            //     width: width,
-            //     height: height,
-            //     depth: depth
-            // });
+                const camera = new BABYLON.ArcRotateCamera(
+                    'camera',
+                    0,
+                    Math.PI / 2.5,
+                    Math.max(width, height, depth),
+                    center,
+                    scene
+                );
 
-            // parentBox.position = new BABYLON.Vector3(
-            //     center.x,
-            //     center.y,
-            //     center.z
-            // );
-            // parentBox.isVisible = false;
-
-            // for (const mesh of sceneRef.current.meshes) {
-            //     if (mesh != parentBox) {
-            //         mesh.setParent(parentBox);
-            //     }
-            // }
-
-            // parentBox.position = BABYLON.Vector3.Zero();
-            // parentBox.normalizeToUnitCube(true);
-            // parentBox.computeWorldMatrix(true);
-
-            // cameraRef.current.minZ = 0;
-            // cameraRef.current.wheelPrecision = 100;
-            // cameraRef.current.pinchPrecision = 100;
+                cameraRef.current = camera;
+                camera.attachControl(canvas, false);
         }
 
         function totalBoundingInfo(meshes) {
@@ -219,16 +203,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
-            const camera = new BABYLON.ArcRotateCamera(
-                'camera',
-                0,
-                Math.PI / 2.5,
-                2,
-                BABYLON.Vector3.Zero(),
-                scene
-            );
-            cameraRef.current = camera;
-            camera.attachControl(canvas, false);
 
             new BABYLON.HemisphericLight(
                 'light',
@@ -262,12 +236,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             // Register a render loop to repeatedly render the scene
             engine.runRenderLoop(() => {
-                sc.render();
+                if(cameraRef.current) {
+                    sc.render();
+                }
             });
         }
 
         return sceneRef.current;
-    }, [cameraCenter, cameraRadius, canvasId, modelUrl]);
+    }, [canvasId, modelUrl]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {

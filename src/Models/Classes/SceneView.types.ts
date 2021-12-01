@@ -35,8 +35,6 @@ export type SceneViewCallbackHandler = (
 
 export interface ISceneViewProp {
     modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: Vector3;
     markers?: Marker[];
     onMarkerClick?: (
         marker: Marker,
