@@ -21,11 +21,6 @@ export class Marker {
     isNav?: boolean;
 }
 
-export class ChildTwin {
-    name: string;
-    position: string;
-}
-
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
@@ -55,5 +50,6 @@ export interface ISceneViewProp {
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];
-    children?: ChildTwin[];
+    selectedMeshes?: SelectedMesh[];
+    showMeshesOnHover?: boolean;
 }
