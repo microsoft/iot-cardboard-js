@@ -9,7 +9,6 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
-import MockAdapter from '../../Adapters/MockAdapter';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;

@@ -150,31 +150,36 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                 .boundingBox.centerWorld;
-            const parentBox = BABYLON.MeshBuilder.CreateBox('parentBox', {
-                width: width,
-                height: height,
-                depth: depth
-            });
-            parentBox.position = new BABYLON.Vector3(
-                center.x,
-                center.y,
-                center.z
-            );
-            parentBox.isVisible = false;
 
-            for (const mesh of sceneRef.current.meshes) {
-                if (mesh != parentBox) {
-                    mesh.setParent(parentBox);
-                }
-            }
+             
 
-            parentBox.position = BABYLON.Vector3.Zero();
-            parentBox.normalizeToUnitCube(true);
-            parentBox.computeWorldMatrix(true);
+                // cameraRef.current.setTarget();
+            // const parentBox = BABYLON.MeshBuilder.CreateBox('parentBox', {
+            //     width: width,
+            //     height: height,
+            //     depth: depth
+            // });
 
-            cameraRef.current.minZ = 0;
-            cameraRef.current.wheelPrecision = 100;
-            cameraRef.current.pinchPrecision = 100;
+            // parentBox.position = new BABYLON.Vector3(
+            //     center.x,
+            //     center.y,
+            //     center.z
+            // );
+            // parentBox.isVisible = false;
+
+            // for (const mesh of sceneRef.current.meshes) {
+            //     if (mesh != parentBox) {
+            //         mesh.setParent(parentBox);
+            //     }
+            // }
+
+            // parentBox.position = BABYLON.Vector3.Zero();
+            // parentBox.normalizeToUnitCube(true);
+            // parentBox.computeWorldMatrix(true);
+
+            // cameraRef.current.minZ = 0;
+            // cameraRef.current.wheelPrecision = 100;
+            // cameraRef.current.pinchPrecision = 100;
         }
 
         function totalBoundingInfo(meshes) {
@@ -251,8 +256,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 load(
                     modelUrl.substring(0, n),
                     modelUrl.substring(n),
-                    sc,
-                    camera
+                    sc
                 );
             }
 
