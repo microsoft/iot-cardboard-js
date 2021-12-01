@@ -24,25 +24,24 @@ import {
     DialogType,
     TextField
 } from '@fluentui/react';
-import { FormMode } from '../../../Models/Constants/Enums';
 import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const editIcon: IIconProps = { iconName: 'Edit' };
 const deleteIcon: IIconProps = { iconName: 'Delete' };
+const sceneTwinModelId = 'dtmi:com:visualontology:scenee;1';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
     title,
     theme,
     locale,
-    localeStrings,
-    formControlMode = FormMode.Edit
+    localeStrings
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
             adapter.getADTTwinsByModelId({
-                modelId: 'dtmi:com:visualontology:scene;1'
+                modelId: sceneTwinModelId
             }),
         refetchDependencies: [adapter]
     });
@@ -68,15 +67,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     const [sceneList, setSceneList] = useState<Array<IADTTwin>>([]);
     const [selectedTwin, setSelectedTwin] = useState<DTwin>(undefined);
-    const [twinToEdit, setTwinToEdit] = useState<DTwin>(undefined);
-    const [newTwinId, setNewTwinId] = useState('');
-    const [newTwinBlobUrl, setNewTwinBlobUrl] = useState('');
-
-    const [addNewSceneDialogOpen, setAddNewSceneDialogOpen] = useState(false);
+    const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
     );
-    const [updateSceneDialogOpen, setUpdateSceneDialogOpen] = useState(false);
 
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
@@ -90,8 +84,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         if (addScene.adapterResult.result) {
             setTimeout(() => {
                 scenes.callAdapter();
-                setAddNewSceneDialogOpen(false);
-            }, 3000);
+                setIsSceneDialogOpen(false);
+            }, 5000);
         } else {
             setSceneList([]);
         }
@@ -101,8 +95,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         if (editScene.adapterResult.result) {
             setTimeout(() => {
                 scenes.callAdapter();
-                setUpdateSceneDialogOpen(false);
-            }, 3000);
+                setIsSceneDialogOpen(false);
+                setSelectedTwin(null);
+            }, 5000);
         } else {
             setSceneList([]);
         }
@@ -113,7 +108,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             setTimeout(() => {
                 scenes.callAdapter();
                 setIsConfirmDeleteDialogOpen(false);
-            }, 3000);
+                setSelectedTwin(null);
+            }, 5000);
         } else {
             setSceneList([]);
         }
@@ -141,46 +137,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         []
     );
 
-    const isAddNewSceneDialogOpenContent = {
-        type: DialogType.normal,
-        title: t('scenes.addDialogTitle'),
-        closeButtonAriaLabel: t('close'),
-        subText: t('scenes.addDialogSubText')
-    };
-
-    const isAddNewSceneDialogOpenStyle = {
-        main: { maxWidth: 450, minHeight: 165 }
-    };
-
-    const isAddNewSceneDialogOpenProps = React.useMemo(
-        () => ({
-            isBlocking: false,
-            styles: isAddNewSceneDialogOpenStyle,
-            className: 'cb-scenes-list-dialog-wrapper'
-        }),
-        []
-    );
-
-    const editSceneDialogOpenContent = {
-        type: DialogType.normal,
-        title: t('scenes.editDialogTitle'),
-        closeButtonAriaLabel: t('close'),
-        subText: t('scenes.editDialogSubText')
-    };
-
-    const editSceneDialogOpenStyle = {
-        main: { maxWidth: 450, minHeight: 165 }
-    };
-
-    const editSceneDialogOpenProps = React.useMemo(
-        () => ({
-            isBlocking: false,
-            styles: editSceneDialogOpenStyle,
-            className: 'cb-scenes-list-dialog-wrapper'
-        }),
-        []
-    );
-
     function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
@@ -193,8 +149,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             ariaLabel={t('edit')}
                             onClick={() => {
                                 setSelectedTwin(item);
-                                setTwinToEdit(item);
-                                setUpdateSceneDialogOpen(true);
+                                setIsSceneDialogOpen(true);
                             }}
                         />
                         <IconButton
@@ -227,7 +182,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             <ActionButton
                                 iconProps={{ iconName: 'Add' }}
                                 onClick={() => {
-                                    setAddNewSceneDialogOpen(true);
+                                    setIsSceneDialogOpen(true);
                                 }}
                             >
                                 {t('addNew')}
@@ -309,222 +264,167 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 />
                             </DialogFooter>
                         </Dialog>
-
-                        <Dialog
-                            hidden={!updateSceneDialogOpen}
-                            onDismiss={() => setUpdateSceneDialogOpen(false)}
-                            dialogContentProps={editSceneDialogOpenContent}
-                            modalProps={editSceneDialogOpenProps}
-                        >
-                            <TextField
-                                label={t('scenes.sceneName')}
-                                title={newTwinId}
-                                value={
-                                    formControlMode === FormMode.Readonly &&
-                                    (selectedTwin
-                                        ? twinToEdit?.$dtId
-                                        : newTwinId)
-                                        ? '(' + t('noInformation') + ')'
-                                        : selectedTwin
-                                        ? twinToEdit?.$dtId
-                                        : newTwinId
-                                }
-                                className={`${
-                                    formControlMode === FormMode.Readonly
-                                        ? 'cb-modelcreate-readonly'
-                                        : ''
-                                } ${
-                                    formControlMode === FormMode.Readonly &&
-                                    (selectedTwin
-                                        ? twinToEdit?.$dtId
-                                        : newTwinId)
-                                        ? 'cb-noinformation-value'
-                                        : ''
-                                }`}
-                                onChange={(e) => {
-                                    if (selectedTwin) {
-                                        const selectedTwinCopy = Object.assign(
-                                            {},
-                                            twinToEdit
-                                        );
-                                        selectedTwinCopy.$dtId =
-                                            e.currentTarget.value;
-                                        setTwinToEdit(selectedTwinCopy);
-                                    } else {
-                                        setNewTwinId(e.currentTarget.value);
-                                    }
-                                }}
-                                disabled
-                            />
-                            <TextField
-                                label={t('scenes.blobUrl')}
-                                title={newTwinBlobUrl}
-                                value={
-                                    formControlMode === FormMode.Readonly &&
-                                    (selectedTwin
-                                        ? twinToEdit?.['assetFile']
-                                        : newTwinBlobUrl)
-                                        ? '(' + t('noInformation') + ')'
-                                        : selectedTwin
-                                        ? twinToEdit?.['assetFile']
-                                        : newTwinBlobUrl
-                                }
-                                className={`${
-                                    formControlMode === FormMode.Readonly
-                                        ? 'cb-modelcreate-readonly'
-                                        : ''
-                                } ${
-                                    formControlMode === FormMode.Readonly &&
-                                    (selectedTwin
-                                        ? twinToEdit?.['assetFile']
-                                        : newTwinBlobUrl)
-                                        ? 'cb-noinformation-value'
-                                        : ''
-                                }`}
-                                onChange={(e) => {
-                                    if (selectedTwin) {
-                                        const selectedTwinCopy = Object.assign(
-                                            {},
-                                            twinToEdit
-                                        );
-                                        selectedTwinCopy['assetFile'] =
-                                            e.currentTarget.value;
-                                        setTwinToEdit(selectedTwinCopy);
-                                    } else {
-                                        setNewTwinBlobUrl(
-                                            e.currentTarget.value
-                                        );
-                                    }
-                                }}
-                                disabled={formControlMode === FormMode.Readonly}
-                            />
-                            <DialogFooter>
-                                <PrimaryButton
-                                    onClick={() => {
-                                        if (selectedTwin) {
-                                            const updateBlobPatch: ADTPatch = {
-                                                op: 'replace',
-                                                path: '/assetFile',
-                                                value: twinToEdit['assetFile']
-                                            };
-                                            editScene.callAdapter([
-                                                updateBlobPatch
-                                            ]);
-                                        } else {
-                                            const newTwin: DTwin = {
-                                                $dtId: newTwinId,
-                                                $metadata: {
-                                                    $model:
-                                                        'dtmi:com:visualontology:scene;1'
-                                                },
-                                                assetFile: newTwinBlobUrl
-                                            };
-                                            addScene.callAdapter([newTwin]);
-                                        }
-                                    }}
-                                    text={t('update')}
-                                />
-                                <DefaultButton
-                                    onClick={() =>
-                                        setUpdateSceneDialogOpen(false)
-                                    }
-                                    text={t('cancel')}
-                                />
-                            </DialogFooter>
-                        </Dialog>
-
-                        <Dialog
-                            hidden={!addNewSceneDialogOpen}
-                            onDismiss={() => setAddNewSceneDialogOpen(false)}
-                            dialogContentProps={isAddNewSceneDialogOpenContent}
-                            modalProps={isAddNewSceneDialogOpenProps}
-                        >
-                            <TextField
-                                label={t('scenes.sceneName')}
-                                title={newTwinId}
-                                value={
-                                    formControlMode === FormMode.Readonly &&
-                                    !newTwinId
-                                        ? '(' + t('noInformation') + ')'
-                                        : newTwinId
-                                }
-                                className={`${
-                                    formControlMode === FormMode.Readonly
-                                        ? 'cb-modelcreate-readonly'
-                                        : ''
-                                } ${
-                                    formControlMode === FormMode.Readonly &&
-                                    !newTwinId
-                                        ? 'cb-noinformation-value'
-                                        : ''
-                                }`}
-                                onChange={(e) =>
-                                    setNewTwinId(e.currentTarget.value)
-                                }
-                                disabled={formControlMode === FormMode.Readonly}
-                            />
-                            <TextField
-                                label={t('scenes.blobUrl')}
-                                title={newTwinBlobUrl}
-                                value={
-                                    formControlMode === FormMode.Readonly &&
-                                    !newTwinBlobUrl
-                                        ? '(' + t('noInformation') + ')'
-                                        : newTwinBlobUrl
-                                }
-                                className={`${
-                                    formControlMode === FormMode.Readonly
-                                        ? 'cb-modelcreate-readonly'
-                                        : ''
-                                } ${
-                                    formControlMode === FormMode.Readonly &&
-                                    !newTwinBlobUrl
-                                        ? 'cb-noinformation-value'
-                                        : ''
-                                }`}
-                                onChange={(e) =>
-                                    setNewTwinBlobUrl(e.currentTarget.value)
-                                }
-                                disabled={formControlMode === FormMode.Readonly}
-                            />
-                            <DialogFooter>
-                                <PrimaryButton
-                                    onClick={() => {
-                                        const newTwin: DTwin = {
-                                            $dtId: newTwinId,
-                                            $metadata: {
-                                                $model:
-                                                    'dtmi:com:visualontology:scene;1'
-                                            },
-                                            assetFile: newTwinBlobUrl
-                                        };
-                                        addScene.callAdapter([newTwin]);
-                                    }}
-                                    text={t('connect')}
-                                />
-                                <DefaultButton
-                                    onClick={() =>
-                                        setAddNewSceneDialogOpen(false)
-                                    }
-                                    text={t('cancel')}
-                                />
-                            </DialogFooter>
-                        </Dialog>
                     </>
                 ) : (
                     <div className="cb-scenes-list-empty">
                         <Text>{t('scenes.noScenes')}</Text>
                         <ActionButton
+                            className="cb-scenes-list-empty-button"
                             onClick={() => {
-                                setAddNewSceneDialogOpen(true);
+                                setIsSceneDialogOpen(true);
                             }}
                         >
                             {t('scenes.addScene')}
                         </ActionButton>
                     </div>
                 )}
+                <SceneListDialog
+                    isOpen={isSceneDialogOpen}
+                    onClose={() => {
+                        setIsSceneDialogOpen(false);
+                        setSelectedTwin(null);
+                    }}
+                    setTwinToEdit={setSelectedTwin}
+                    twinToEdit={selectedTwin}
+                    onEditScene={(updateBlobPatch) => {
+                        editScene.callAdapter(updateBlobPatch);
+                    }}
+                    onAddScene={(newTwin) => {
+                        addScene.callAdapter(newTwin);
+                    }}
+                ></SceneListDialog>
             </BaseCompositeCard>
         </div>
+    );
+};
+
+const SceneListDialog = ({
+    isOpen,
+    onClose,
+    twinToEdit,
+    setTwinToEdit,
+    onAddScene,
+    onEditScene
+}: {
+    isOpen: any;
+    onClose: any;
+    twinToEdit: any;
+    setTwinToEdit: any;
+    onAddScene: any;
+    onEditScene: any;
+}) => {
+    const [newTwinId, setNewTwinId] = useState('');
+    const [newTwinBlobUrl, setNewTwinBlobUrl] = useState('');
+    const { t } = useTranslation();
+
+    const isDialogOpenContent = {
+        type: DialogType.normal,
+        title: twinToEdit
+            ? t('scenes.editDialogTitle')
+            : t('scenes.addDialogTitle'),
+        closeButtonAriaLabel: t('close'),
+        subText: twinToEdit
+            ? t('scenes.editDialogSubText')
+            : t('scenes.addDialogSubText')
+    };
+
+    const isDialogOpenStyles = {
+        main: { maxWidth: 450, minHeight: 165 }
+    };
+
+    const isDialogOpenProps = React.useMemo(
+        () => ({
+            isBlocking: false,
+            styles: isDialogOpenStyles,
+            className: 'cb-scenes-list-dialog-wrapper'
+        }),
+        []
+    );
+
+    useEffect(() => {
+        if (isOpen) {
+            setNewTwinId('');
+            setNewTwinBlobUrl('');
+        }
+    }, [isOpen]);
+
+    return (
+        <Dialog
+            hidden={!isOpen}
+            onDismiss={() => onClose()}
+            dialogContentProps={isDialogOpenContent}
+            modalProps={isDialogOpenProps}
+        >
+            <TextField
+                label={t('scenes.sceneName')}
+                title={newTwinId}
+                value={twinToEdit ? twinToEdit?.$dtId : newTwinId}
+                className={`${
+                    (twinToEdit ? twinToEdit?.$dtId : !newTwinId)
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                onChange={(e) => {
+                    if (twinToEdit) {
+                        const selectedTwinCopy = Object.assign({}, twinToEdit);
+                        selectedTwinCopy.$dtId = e.currentTarget.value;
+                        setTwinToEdit(selectedTwinCopy);
+                    } else {
+                        setNewTwinId(e.currentTarget.value);
+                    }
+                }}
+                disabled={twinToEdit ? true : false}
+            />
+            <TextField
+                label={t('scenes.blobUrl')}
+                title={newTwinBlobUrl}
+                value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
+                className={`${
+                    (twinToEdit ? twinToEdit?.['assetFile'] : !newTwinBlobUrl)
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                onChange={(e) => {
+                    if (twinToEdit) {
+                        const selectedTwinCopy = Object.assign({}, twinToEdit);
+                        selectedTwinCopy['assetFile'] = e.currentTarget.value;
+                        setTwinToEdit(selectedTwinCopy);
+                    } else {
+                        setNewTwinBlobUrl(e.currentTarget.value);
+                    }
+                }}
+            />
+            <DialogFooter>
+                <PrimaryButton
+                    className="cb-scenes-list-dialog-buttons"
+                    onClick={() => {
+                        if (twinToEdit) {
+                            const updateBlobPatch: ADTPatch = {
+                                op: 'replace',
+                                path: '/assetFile',
+                                value: twinToEdit['assetFile']
+                            };
+                            onEditScene([updateBlobPatch]);
+                        } else {
+                            const newTwin: DTwin = {
+                                $dtId: newTwinId,
+                                $metadata: {
+                                    $model: sceneTwinModelId
+                                },
+                                assetFile: newTwinBlobUrl
+                            };
+                            onAddScene([newTwin]);
+                        }
+                    }}
+                    text={twinToEdit ? t('update') : t('connect')}
+                />
+                <DefaultButton
+                    className="cb-scenes-list-modal-buttons"
+                    onClick={() => onClose()}
+                    text={t('cancel')}
+                />
+            </DialogFooter>
+        </Dialog>
     );
 };
 

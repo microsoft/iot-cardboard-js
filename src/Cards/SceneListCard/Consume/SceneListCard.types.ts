@@ -1,10 +1,8 @@
-import { FormMode } from '../../../Models/Constants/Enums';
 import {
     IADTAdapter,
-    IConsumeCompositeCardProps
+    IConsumeCardProps
 } from '../../../Models/Constants/Interfaces';
 
-export interface SceneListCardProps extends IConsumeCompositeCardProps {
+export interface SceneListCardProps extends IConsumeCardProps {
     adapter: IADTAdapter;
-    formControlMode?: FormMode;
 }

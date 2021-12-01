@@ -23,7 +23,7 @@
         flex-direction: column;
         padding: 40px 0 25px;
     }
-    .cb-scenes-list-empty button {
+    .cb-scenes-list-empty .cb-scenes-list-empty-button {
         background-color: #457bb9;
         color: #fff;
         font-style: italic;
@@ -32,18 +32,6 @@
     }
 }
 
-.cb-scenes-list-dialog-wrapper div {
-    text-align: start;
-}
-
-.cb-scenes-list-dialog-wrapper div p {
-    margin: 0;
-}
-
-.cb-scenes-list-dialog-wrapper div span {
-    margin: 0;
-}
-
-.cb-scenes-list-dialog-wrapper button {
+.cb-scenes-list-dialog-wrapper .cb-scenes-list-dialog-buttons {
     margin: 10px 10px 0 0;
 }
