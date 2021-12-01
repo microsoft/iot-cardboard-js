@@ -332,7 +332,11 @@ export interface ITsiClientChartDataAdapter {
     ): AdapterReturnType<TsiClientAdapterData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter {
+export interface IADT3DViewerAdapter {
+    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
+}
+
+export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
@@ -374,7 +378,6 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
     getADTInstances: (
         tenantId?: string,
         uniqueObjectId?: string

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import * as BABYLON from 'babylonjs';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
@@ -9,13 +9,16 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
+import MockAdapter from '../../Adapters/MockAdapter';
 
 interface ADT3DViewerCardProps {
-    adapter: IADTAdapter;
+    adapter: IADT3DViewerAdapter;
     twinId: string;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
+    cameraCenter?: BABYLON.Vector3;
+    cameraRadius?: number;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -23,7 +26,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     twinId,
     title,
     pollingInterval,
-    connectionLineColor
+    connectionLineColor,
+    cameraCenter,
+    cameraRadius
 }) => {
     const [modelUrl, setModelUrl] = useState('');
     const [labels, setLabels] = useState([]);
@@ -72,25 +77,37 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         mesh: BABYLON.AbstractMesh,
         scene: Scene
     ) => {
-        const label = labels.find((label) => label.meshId === mesh.id);
-        if (label) {
-            selectedMesh.current = mesh;
-            sceneRef.current = scene;
-            setPopUpTitle(label.metric);
-            setPopUpContent(label.value);
+        if (labels) {
+            const label = labels.find((label) => label.meshId === mesh?.id);
+            if (label) {
+                if (selectedMesh.current === mesh) {
+                    selectedMesh.current = null;
+                    setShowPopUp(false);
+                } else {
+                    let resetPopUpPosition = true;
+                    if (showPopUp) {
+                        resetPopUpPosition = false;
+                    }
+                    selectedMesh.current = mesh;
+                    sceneRef.current = scene;
+                    setPopUpTitle(label.metric);
+                    setPopUpContent(label.value);
+                    setShowPopUp(true);
 
-            if (showPopUp) {
-                selectedMesh.current = null;
+                    if (resetPopUpPosition) {
+                        const popUp = document.getElementById(popUpId);
+                        if (popUp) {
+                            popUpX.current =
+                                popUp.offsetLeft + popUp.offsetWidth / 2;
+                            popUpY.current =
+                                popUp.offsetTop + popUp.offsetHeight / 2;
+                        }
+                    }
+                    setConnectionLine();
+                }
             } else {
-                selectedMesh.current = mesh;
-            }
-
-            setShowPopUp(!showPopUp);
-            const popUp = document.getElementById(popUpId);
-            if (popUp) {
-                popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
-                popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
-                setConnectionLine();
+                selectedMesh.current = null;
+                setShowPopUp(false);
             }
         }
     };
@@ -107,31 +124,32 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     };
 
     const cameraMoved = () => {
-        if (selectedMesh.current) {
-            setConnectionLine();
-        }
+        setConnectionLine();
     };
 
     function setConnectionLine() {
-        const position = getMeshPosition(
-            selectedMesh.current,
-            sceneRef.current
-        );
-        const container = document.getElementById(popUpContainerId);
+        if (selectedMesh.current) {
+            const position = getMeshPosition(
+                selectedMesh.current,
+                sceneRef.current
+            );
+            const container = document.getElementById(popUpContainerId);
+            if (container) {
+                const canvas: HTMLCanvasElement = document.getElementById(
+                    lineId
+                ) as HTMLCanvasElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                const context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
 
-        const canvas: HTMLCanvasElement = document.getElementById(
-            lineId
-        ) as HTMLCanvasElement;
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        context.beginPath();
-        context.strokeStyle = connectionLineColor || '#0058cc';
-        context.moveTo(popUpX.current, popUpY.current);
-        context.lineTo(position[0], position[1]);
-        context.stroke();
+                context.beginPath();
+                context.strokeStyle = connectionLineColor || '#0058cc';
+                context.moveTo(popUpX.current, popUpY.current);
+                context.lineTo(position[0], position[1]);
+                context.stroke();
+            }
+        }
     }
 
     function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
@@ -179,8 +197,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
-                    cameraRadius={800}
-                    cameraCenter={new BABYLON.Vector3(0, 100, 0)}
+                    cameraRadius={cameraRadius}
+                    cameraCenter={cameraCenter}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }
