@@ -14,10 +14,9 @@ export class SelectedMesh {
 
 export class Marker {
     name: string;
-    position?: Vector3;
     latitude?: number;
     longitude?: number;
-    color: Color3;
+    color: { r: number; g: number; b: number; a?: number };
     isNav?: boolean;
 }
 
@@ -38,24 +37,9 @@ export interface ISceneViewProp {
     cameraRadius: number;
     cameraCenter?: Vector3;
     markers?: Marker[];
-    onMarkerClick?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: Scene,
-        e: PointerEvent
-    ) => void;
-    onMarkerHover?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: Scene,
-        e: PointerEvent
-    ) => void;
-    onCameraMove?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: Scene,
-        e: PointerEvent
-    ) => void;
+    onMarkerClick?: SceneViewCallbackHandler;
+    onMarkerHover?: SceneViewCallbackHandler;
+    onCameraMove?: SceneViewCallbackHandler;
     labels?: SceneViewLabel[];
     children?: ChildTwin[];
 }

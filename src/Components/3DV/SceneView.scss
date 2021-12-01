@@ -9,9 +9,15 @@
     font-size: 24px;
     left: 50%;
     position: absolute;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     top: 50%;
     transform: translate(-50%, 0%);
     width: 300px;
+}
+
+.cb-sceneview-o1 {
+    opacity: 1!important;
+    transition: 2s;
 }
 
 .cb-sceneview-errormessage {
@@ -19,13 +25,17 @@
     font-size: 24px;
     left: 50%;
     position: absolute;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     top: 50%;
     transform: translate(-50%, 0%);
 }
 
 .cb-sceneview-canvas {
+    height: 100%;
+    opacity: 0;
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    width: 100%;
 }
 
 .cb-sceneview-tooltip {
@@ -36,15 +46,4 @@
     padding: 5px;
     pointer-events: none !important;
     position: absolute;
-}
-
-.cb-sceneview-canvas {
-    height: 100%;
-    opacity: 0;
-    width: 100%;
-}
-
-.cb-o1 {
-    opacity: 1;
-    transition: 2s;
 }

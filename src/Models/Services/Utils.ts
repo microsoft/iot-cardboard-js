@@ -10,6 +10,10 @@ import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { Vector3 } from 'babylonjs';
 import { CharacterWidths } from '../Constants/Constants';
 
+export function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const createGUID = () => {
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)

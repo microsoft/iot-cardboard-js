@@ -182,8 +182,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
 
             if (modelUrl) {
-                const n = modelUrl.lastIndexOf('/') + 1;
-                load(modelUrl.substring(0, n), modelUrl.substring(n), sc);
+                let url = modelUrl;
+                if (url === 'Globe') {
+                    url = 'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
+                }
+
+                const n = url.lastIndexOf('/') + 1;
+                load(url.substring(0, n), url.substring(n), sc);
             }
 
             // Register a render loop to repeatedly render the scene
@@ -254,16 +259,18 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = marker.color;
+                const c = marker.color;
+                sphereMaterial.diffuseColor = new BABYLON.Color3(c.r, c.g, c.b);
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
                     16,
                     2,
                     sceneRef.current
                 );
-                const position =
-                    marker.position ||
-                    convertLatLonToVector3(marker.latitude, marker.longitude);
+                const position = convertLatLonToVector3(
+                    marker.latitude,
+                    marker.longitude
+                );
                 sphere.position = position;
                 sphere.material = sphereMaterial;
                 spheres.push(sphere);
@@ -273,7 +280,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = marker.color;
+                sphereMaterial.diffuseColor = new BABYLON.Color3(c.r, c.g, c.b);
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
@@ -528,7 +535,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 className={
                     isLoading === true
                         ? 'cb-sceneview-canvas'
-                        : 'cb-sceneview-canvas cb-o1'
+                        : 'cb-sceneview-canvas cb-sceneview-o1'
                 }
                 id={canvasId}
                 touch-action="none"

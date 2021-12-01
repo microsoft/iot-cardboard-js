@@ -46,63 +46,63 @@ export const Globe = () => {
             name: 'Ibhayi',
             latitude: -33.872,
             longitude: 25.571,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Ponta Grossa',
             latitude: -25.0994,
             longitude: -50.1583,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Putian',
             latitude: 25.433,
             longitude: 119.0167,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Magor',
             latitude: 51.5804,
             longitude: -2.833,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Ningbo',
             latitude: 29.8667,
             longitude: 121.55,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Passa Fundo',
             latitude: -28.2624,
             longitude: -52.409,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Tocancipa',
             latitude: 4.9667,
             longitude: -73.9167,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Leuven',
             latitude: 50.8795,
             longitude: 4.7005,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         },
         {
             name: 'Uberlandia',
             latitude: -18.9231,
             longitude: -48.2886,
-            color: BABYLON.Color3.Red(),
+            color: { r: 255, g: 0, b: 0 },
             isNav: true
         }
     ];
@@ -121,7 +121,7 @@ export const Globe = () => {
     return (
         <div style={{ height: '100%', position: 'relative' }}>
             <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf"
+                modelUrl="Globe"
                 markers={markers}
                 cameraRadius={150}
                 onMarkerClick={(marker, mesh, e) => meshClick(marker, mesh, e)}
