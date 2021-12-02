@@ -377,24 +377,28 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     if(mesh) {
                         // reset mesh color if hightlighted mesh does not match the picked mesh AND the picked mesh is not currently selected
                         if(hightlightedMeshRef.current && hightlightedMeshRef.current.id !== mesh?.id) {
-                            const lastHighlightedMesh = scene.meshes.find((m) => m.id === hightlightedMeshRef.current.id)
-                            if (lastHighlightedMesh && !selectedMeshesRef.current.find((m) => m.id === lastHighlightedMesh.id)) {
-                                (lastHighlightedMesh.material as any).albedoColor = hightlightedMeshRef.current.color;
+                            const meshToReset = scene.meshes.find((m) => m.id === hightlightedMeshRef.current.id)
+                            if (meshToReset && !selectedMeshesRef.current.find((m) => m.id === meshToReset.id)) {
+                                (meshToReset.material as any).albedoColor = hightlightedMeshRef.current.color;
                             }
                             hightlightedMeshRef.current = null;
-                        } else if (!hightlightedMeshRef.current && !selectedMeshesRef.current.find((m) => m.id === mesh.id)) {
-                            console.log('here')
-                            // highlight the mesh if the picked mesh is not currently selected
+                        } else if (!hightlightedMeshRef.current) {
+                            // highlight the mesh
                             const selectedMesh = new SelectedMesh();
-                            selectedMesh.color = (mesh.material as any).albedoColor;
-                            selectedMesh.id = mesh?.id;
+                            selectedMesh.id = mesh.id;
+                            const m = selectedMeshesRef.current.find((m) => m.id === mesh.id);
+                            if(m) {
+                                selectedMesh.color = m.color;
+                            } else {
+                                selectedMesh.color = (mesh.material as any).albedoColor;
+                                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                    '#96D2FE'
+                                );
+                            }
                             hightlightedMeshRef.current = selectedMesh;
-                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                '#ff0000'
-                            );
                         }
                     } else if(hightlightedMeshRef.current) {
-                        // reset the mesh color if no mesh is picked
+                        // reset the highlighted mesh color if no mesh is picked
                         const lastMesh = scene.meshes.find((m) => m.id === hightlightedMeshRef.current.id)
                         if(lastMesh) {
                             (lastMesh.material as any).albedoColor = hightlightedMeshRef.current.color;
@@ -492,28 +496,40 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         // color selected meshes
         for (const selectedMesh of selectedMeshes) {
-            const mesh = sceneRef.current.meshes.find((item) => item.id === selectedMesh.id);
-            if (mesh) {
+            const mesh = sceneRef.current.meshes.find((item) => item.id === selectedMesh);
+            // only color mesh if it isn't already colored
+            if (mesh && !selectedMeshesRef.current.find((m) => m.id === selectedMesh)) {
+                const m = new SelectedMesh();
+                m.id = mesh.id;
+                if(selectedMesh !== hightlightedMeshRef.current?.id) {
+                    m.color = (mesh.material as any).albedoColor;
+                } else {
+                    m.color = hightlightedMeshRef.current?.color;
+                }
+                selectedMeshesRef.current.push(m);
                 (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
                     '#1EA0F7'
                 );
             }
         }
 
-        console.log(selectedMeshesRef.current);
-
         // reset mesh color if not selected
         if(selectedMeshesRef.current) {
-            const meshesToReset = selectedMeshesRef.current.filter((m) => !selectedMeshes.includes(m));
+            const meshesToReset = selectedMeshesRef.current.filter((m) => !selectedMeshes.includes(m.id));
             for (const meshToReset of meshesToReset) {
+                selectedMeshesRef.current = selectedMeshesRef.current.filter((m) => m !== meshToReset);
                 const mesh = sceneRef.current.meshes.find((item) => item.id === meshToReset.id);
                 if (mesh) {
-                    (mesh.material as any).albedoColor = meshToReset.color;
+                    if(meshToReset.id === hightlightedMeshRef.current?.id) {
+                        (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                            '#96D2FE'
+                        );
+                    } else {
+                        (mesh.material as any).albedoColor = meshToReset.color;
+                    }
                 }
             }
         }
-
-        selectedMeshesRef.current = selectedMeshes;
  
     }, [selectedMeshes]);
 
