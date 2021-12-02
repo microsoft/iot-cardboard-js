@@ -14,9 +14,7 @@ export const Truck = () => {
                 position: 'relative'
             }}
         >
-            <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf"
-            />
+            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf" />
         </div>
     );
 };
@@ -29,9 +27,7 @@ export const Factory = () => {
                 position: 'relative'
             }}
         >
-            <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf"
-            />
+            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf" />
         </div>
     );
 };

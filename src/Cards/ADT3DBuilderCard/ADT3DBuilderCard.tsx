@@ -16,7 +16,6 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     title,
     onMeshSelected
 }) => {
-
     const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
@@ -26,9 +25,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                 (item) => item === mesh.id
             );
             if (selectedMesh) {
-                meshes = selectedMeshes.filter(
-                    (item) => item !== selectedMesh
-                );
+                meshes = selectedMeshes.filter((item) => item !== selectedMesh);
                 setSelectedMeshes(meshes);
             } else {
                 meshes.push(mesh.id);
@@ -46,9 +43,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh) =>
-                        meshClick(marker, mesh)
-                    }
+                    onMarkerClick={(marker, mesh) => meshClick(marker, mesh)}
                     showMeshesOnHover={true}
                     selectedMeshes={selectedMeshes}
                 />
