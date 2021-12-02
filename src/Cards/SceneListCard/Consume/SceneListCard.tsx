@@ -29,7 +29,7 @@ import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const editIcon: IIconProps = { iconName: 'Edit' };
 const deleteIcon: IIconProps = { iconName: 'Delete' };
-const sceneTwinModelId = 'dtmi:com:visualontology:scenee;1';
+const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -248,6 +248,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             modalProps={confirmDeletionModalProps}
                         >
                             <DialogFooter>
+                                <DefaultButton
+                                    onClick={() =>
+                                        setIsConfirmDeleteDialogOpen(false)
+                                    }
+                                    text={t('cancel')}
+                                />
                                 <PrimaryButton
                                     onClick={() => {
                                         deleteScene.callAdapter([
@@ -256,26 +262,19 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     }}
                                     text={t('delete')}
                                 />
-                                <DefaultButton
-                                    onClick={() =>
-                                        setIsConfirmDeleteDialogOpen(false)
-                                    }
-                                    text={t('cancel')}
-                                />
                             </DialogFooter>
                         </Dialog>
                     </>
                 ) : (
                     <div className="cb-scenes-list-empty">
                         <Text>{t('scenes.noScenes')}</Text>
-                        <ActionButton
+                        <PrimaryButton
                             className="cb-scenes-list-empty-button"
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
-                        >
-                            {t('scenes.addScene')}
-                        </ActionButton>
+                            text={t('scenes.addScene')}
+                        />
                     </div>
                 )}
                 <SceneListDialog
@@ -395,6 +394,11 @@ const SceneListDialog = ({
                 }}
             />
             <DialogFooter>
+                <DefaultButton
+                    className="cb-scenes-list-modal-buttons"
+                    onClick={() => onClose()}
+                    text={t('cancel')}
+                />
                 <PrimaryButton
                     className="cb-scenes-list-dialog-buttons"
                     onClick={() => {
@@ -417,11 +421,6 @@ const SceneListDialog = ({
                         }
                     }}
                     text={twinToEdit ? t('update') : t('connect')}
-                />
-                <DefaultButton
-                    className="cb-scenes-list-modal-buttons"
-                    onClick={() => onClose()}
-                    text={t('cancel')}
                 />
             </DialogFooter>
         </Dialog>
