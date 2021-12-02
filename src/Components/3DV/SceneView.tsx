@@ -506,49 +506,56 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     }, [scene, markers]);
 
     useEffect(() => {
-        // color selected meshes
-        for (const selectedMesh of selectedMeshes) {
-            const mesh = sceneRef.current.meshes.find(
-                (item) => item.id === selectedMesh
-            );
-            // only color mesh if it isn't already colored
-            if (
-                mesh &&
-                !selectedMeshesRef.current.find((m) => m.id === selectedMesh)
-            ) {
-                const m = new SelectedMesh();
-                m.id = mesh.id;
-                if (selectedMesh !== hightlightedMeshRef.current?.id) {
-                    m.color = (mesh.material as any).albedoColor;
-                } else {
-                    m.color = hightlightedMeshRef.current?.color;
-                }
-                selectedMeshesRef.current.push(m);
-                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                    '#1EA0F7'
-                );
-            }
-        }
-
-        // reset mesh color if not selected
-        if (selectedMeshesRef.current) {
-            const meshesToReset = selectedMeshesRef.current.filter(
-                (m) => !selectedMeshes.includes(m.id)
-            );
-            for (const meshToReset of meshesToReset) {
-                selectedMeshesRef.current = selectedMeshesRef.current.filter(
-                    (m) => m !== meshToReset
-                );
+        if (selectedMeshes) {
+            // color selected meshes
+            for (const selectedMesh of selectedMeshes) {
                 const mesh = sceneRef.current.meshes.find(
-                    (item) => item.id === meshToReset.id
+                    (item) => item.id === selectedMesh
                 );
-                if (mesh) {
-                    if (meshToReset.id === hightlightedMeshRef.current?.id) {
-                        (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                            '#96D2FE'
-                        );
+                // only color mesh if it isn't already colored
+                if (
+                    mesh &&
+                    !selectedMeshesRef.current.find(
+                        (m) => m.id === selectedMesh
+                    )
+                ) {
+                    const m = new SelectedMesh();
+                    m.id = mesh.id;
+                    if (selectedMesh !== hightlightedMeshRef.current?.id) {
+                        m.color = (mesh.material as any).albedoColor;
                     } else {
-                        (mesh.material as any).albedoColor = meshToReset.color;
+                        m.color = hightlightedMeshRef.current?.color;
+                    }
+                    selectedMeshesRef.current.push(m);
+                    (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                        '#1EA0F7'
+                    );
+                }
+            }
+
+            // reset mesh color if not selected
+            if (selectedMeshesRef.current) {
+                const meshesToReset = selectedMeshesRef.current.filter(
+                    (m) => !selectedMeshes.includes(m.id)
+                );
+                for (const meshToReset of meshesToReset) {
+                    selectedMeshesRef.current = selectedMeshesRef.current.filter(
+                        (m) => m !== meshToReset
+                    );
+                    const mesh = sceneRef.current.meshes.find(
+                        (item) => item.id === meshToReset.id
+                    );
+                    if (mesh) {
+                        if (
+                            meshToReset.id === hightlightedMeshRef.current?.id
+                        ) {
+                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                '#96D2FE'
+                            );
+                        } else {
+                            (mesh.material as any).albedoColor =
+                                meshToReset.color;
+                        }
                     }
                 }
             }
