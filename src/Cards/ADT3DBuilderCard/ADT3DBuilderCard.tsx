@@ -3,12 +3,12 @@ import { SceneView } from '../../Components/3DV/SceneView';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
+import { Marker } from '../../Models/Classes/SceneView.types';
 
 interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshes: SelectedMesh[]) => void;
+    onMeshSelected?: (selectedMeshes: string[]) => void;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
@@ -17,13 +17,13 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     onMeshSelected
 }) => {
 
-    const [selectedMeshes, setSelectedMeshes] = useState<SelectedMesh[]>([]);
+    const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
         let meshes = [...selectedMeshes];
         if (mesh) {
             const selectedMesh = selectedMeshes.find(
-                (item) => item.id === mesh.id
+                (item) => item === mesh.id
             );
             if (selectedMesh) {
                 meshes = selectedMeshes.filter(
@@ -31,10 +31,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                 );
                 setSelectedMeshes(meshes);
             } else {
-                const meshColor: SelectedMesh = new SelectedMesh();
-                meshColor.id = mesh.id;
-                meshColor.color = (mesh.material as any).albedoColor;
-                meshes.push(meshColor);
+                meshes.push(mesh.id);
                 setSelectedMeshes(meshes);
             }
         } else {

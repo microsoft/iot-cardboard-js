@@ -50,6 +50,6 @@ export interface ISceneViewProp {
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];
-    selectedMeshes?: SelectedMesh[];
+    selectedMeshes?: string[];
     showMeshesOnHover?: boolean;
 }
