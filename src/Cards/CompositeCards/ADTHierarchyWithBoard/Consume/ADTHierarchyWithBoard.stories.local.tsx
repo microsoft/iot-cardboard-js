@@ -30,7 +30,16 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                    )
+                }
+                searchSpanForDataHistory={
+                    new SearchSpan(
+                        new Date('2021-09-20T20:00:00Z'),
+                        new Date('2021-10-20T20:00:00Z'),
+                        '6h'
                     )
                 }
                 searchSpanForDataHistory={
@@ -62,7 +71,8 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
-                        authenticationParameters.adt.aadParameters.tenantId
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
                 }
                 lookupTwinId={args.lookupTwinId}

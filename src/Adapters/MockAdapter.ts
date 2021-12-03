@@ -14,6 +14,7 @@ import {
     ADTPatch,
     ADTSceneTwinModelId,
     DTwin,
+    IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
@@ -28,10 +29,13 @@ import {
 } from '../Models/Constants/Types';
 import mockScenes from '../Cards/SceneListCard/Consume/mockData/mockScenes.json';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
+import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
+import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
         Partial<IADTAdapter> {
     private mockData = null;
@@ -287,6 +291,32 @@ export default class MockAdapter
 
             await this.mockNetwork();
             return new TsiClientAdapterData(getData());
+        });
+    }
+
+    async getVisualADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        const getData = () => {
+            const label1 = new SceneViewLabel();
+            label1.color = '#FF0000';
+            label1.meshId = 'Model_primitive1';
+            label1.metric = `${twinId} Temperature`;
+            label1.value = 45;
+            const label2 = new SceneViewLabel();
+            label2.color = '#FFFF00';
+            label2.meshId = 'Model_primitive2';
+            label2.metric = `${twinId} Pressure`;
+            label2.value = 43;
+            const labels = [label1, label2];
+            return labels;
+        };
+        await this.mockNetwork();
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            return new ADTVisualTwinData(
+                'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
+                getData()
+            );
         });
     }
 }

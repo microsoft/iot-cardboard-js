@@ -14,7 +14,7 @@ initializeIcons();
 
 export const ThemeProvider = ({ children, theme = LibThemes.Light }) => {
     const fluentTheme = useMemo(() => getFluentTheme(theme), [theme]);
-    const unsetStyles: CSSProperties = { all: 'unset' };
+    const unsetStyles: CSSProperties = { all: 'unset', minHeight: 'inherit' };
 
     return (
         <Theme.Provider value={theme}>

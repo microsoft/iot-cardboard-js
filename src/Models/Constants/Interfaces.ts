@@ -39,8 +39,6 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import SceneViewLabel from '../Classes/SceneViewLabel';
-import { Vector3 } from 'babylonjs';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 
@@ -86,13 +84,6 @@ export interface IErrorComponentProps {
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
-}
-
-export interface SceneViewProps {
-    modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: Vector3;
-    labels?: SceneViewLabel[];
 }
 
 export interface IConsumeCompositeCardProps extends ICardBaseProps {
@@ -341,7 +332,11 @@ export interface ITsiClientChartDataAdapter {
     ): AdapterReturnType<TsiClientAdapterData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter {
+export interface IADT3DViewerAdapter {
+    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
+}
+
+export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
@@ -384,8 +379,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
-    getADTInstances: (tenantId?: string) => AdapterReturnType<ADTInstancesData>;
+    getADTInstances: (
+        tenantId?: string,
+        uniqueObjectId?: string
+    ) => AdapterReturnType<ADTInstancesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -548,4 +545,14 @@ export interface IJSONUploaderFileItem {
     size: string;
     content?: JSON | Error;
     status: FileUploadStatus;
+}
+
+export interface IADTInstancesProps {
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
+    adapter: IADTAdapter;
+    hasLabel?: boolean;
+    selectedInstance?: string;
+    onInstanceChange?: (instanceHostName: string) => void;
 }

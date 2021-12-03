@@ -49,7 +49,8 @@ const Board: React.FC<IBoardProps> = ({
     boardInfo,
     adtTwin,
     errorMessage,
-    onEntitySelect
+    onEntitySelect,
+    hasDataHistory = false
 }) => {
     const { t } = useTranslation();
     const [isInspectorOpen, setIsInspectorOpen] = useState(false);
@@ -67,7 +68,7 @@ const Board: React.FC<IBoardProps> = ({
 
         boardInfo =
             boardInfoObject === null
-                ? getDefaultBoardInfo(adtTwin, t, searchSpan)
+                ? getDefaultBoardInfo(adtTwin, t, searchSpan, hasDataHistory)
                 : BoardInfo.fromObject(boardInfoObject);
     }
 
@@ -289,7 +290,8 @@ function getCardElement(
 function getDefaultBoardInfo(
     dtTwin: IADTTwin,
     t: (str: string) => string,
-    searchSpan?: SearchSpan
+    searchSpan?: SearchSpan,
+    hasDataHistory?: boolean
 ): BoardInfo {
     const board = new BoardInfo();
     board.layout = { numColumns: 3 };
@@ -382,7 +384,9 @@ function getDefaultBoardInfo(
         );
     }
 
-    board.cards = [...board.cards, ...propertyCards, dataHistory];
+    board.cards = hasDataHistory
+        ? [...board.cards, ...propertyCards, dataHistory]
+        : [...board.cards, ...propertyCards];
 
     return board;
 }

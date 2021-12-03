@@ -24,7 +24,8 @@ export const AuthenticationParameters = {
             clientId: 'CLIENTID_PLACEHOLDER',
             scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER',
-            tenantId: 'TENANTID_PLACEHOLDER'
+            tenantId: 'TENANTID_PLACEHOLDER',
+            uniqueObjectId: 'UNIQUE_OBJECTID_PLACEHOLDER'
         }
     },
     adx: {
