@@ -9,7 +9,6 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
-import MockAdapter from '../../Adapters/MockAdapter';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -17,8 +16,6 @@ interface ADT3DViewerCardProps {
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
-    cameraCenter?: BABYLON.Vector3;
-    cameraRadius?: number;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -26,9 +23,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     twinId,
     title,
     pollingInterval,
-    connectionLineColor,
-    cameraCenter,
-    cameraRadius
+    connectionLineColor
 }) => {
     const [modelUrl, setModelUrl] = useState('');
     const [labels, setLabels] = useState([]);
@@ -197,8 +192,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 <SceneView
                     modelUrl={modelUrl}
                     labels={labels}
-                    cameraRadius={cameraRadius}
-                    cameraCenter={cameraCenter}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }
