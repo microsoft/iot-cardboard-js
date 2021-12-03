@@ -67,11 +67,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         visualTwinLoaded();
     }, [visualTwin.adapterResult.result]);
 
-    const meshClick = (
-        marker: Marker,
-        mesh: any,
-        scene: Scene
-    ) => {
+    const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
             const label = labels.find((label) => label.meshId === mesh?.id);
             if (label) {

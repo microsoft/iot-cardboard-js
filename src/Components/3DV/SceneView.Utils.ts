@@ -1,6 +1,10 @@
 import * as BABYLON from 'babylonjs';
 
-export function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene, wrapper: HTMLElement) {
+export function getMeshPosition(
+    mesh: BABYLON.AbstractMesh,
+    scene: BABYLON.Scene,
+    wrapper: HTMLElement
+) {
     const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
     const worldMatrix = mesh.getWorldMatrix();
     const transformMatrix = scene.getTransformMatrix();
