@@ -46,6 +46,8 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     onMarkerClick={(marker, mesh) => meshClick(marker, mesh)}
                     showMeshesOnHover={true}
                     selectedMeshes={selectedMeshes}
+                    meshHoverColor="#FCFF80"
+                    meshSelectionColor="#00A8F0"
                 />
             </div>
         </BaseCard>

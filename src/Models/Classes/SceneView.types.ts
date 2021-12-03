@@ -52,4 +52,6 @@ export interface ISceneViewProp {
     labels?: SceneViewLabel[];
     selectedMeshes?: string[];
     showMeshesOnHover?: boolean;
+    meshSelectionColor?: string;
+    meshHoverColor?: string;
 }

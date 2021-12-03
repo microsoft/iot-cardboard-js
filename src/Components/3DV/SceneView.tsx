@@ -54,7 +54,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onCameraMove,
     labels,
     showMeshesOnHover,
-    selectedMeshes
+    selectedMeshes,
+    meshSelectionColor,
+    meshHoverColor
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -76,6 +78,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const tooltipTop = useRef(0);
     const hightlightedMeshRef = useRef<SelectedMesh>(null);
     const selectedMeshesRef = useRef<SelectedMesh[]>([]);
+
+    const hoverColor = meshHoverColor ? meshHoverColor : '#96D2FE';
+    const selectionColor = meshSelectionColor ? meshSelectionColor : '#1EA0F7';
 
     const defaultMarkerHover = (
         marker: Marker,
@@ -401,7 +406,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             } else {
                                 selectedMesh.color = (mesh.material as any).albedoColor;
                                 (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                    '#96D2FE'
+                                    hoverColor
                                 );
                             }
                             hightlightedMeshRef.current = selectedMesh;
@@ -528,7 +533,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                     selectedMeshesRef.current.push(m);
                     (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                        '#1EA0F7'
+                        selectionColor
                     );
                 }
             }
@@ -550,7 +555,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             meshToReset.id === hightlightedMeshRef.current?.id
                         ) {
                             (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                '#96D2FE'
+                                hoverColor
                             );
                         } else {
                             (mesh.material as any).albedoColor =
