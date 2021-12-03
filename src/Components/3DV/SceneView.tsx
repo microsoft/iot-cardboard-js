@@ -79,8 +79,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const hightlightedMeshRef = useRef<SelectedMesh>(null);
     const selectedMeshesRef = useRef<SelectedMesh[]>([]);
 
-    const hoverColor = meshHoverColor ? meshHoverColor : '#96D2FE';
-    const selectionColor = meshSelectionColor ? meshSelectionColor : '#1EA0F7';
+    const hoverColor = meshHoverColor || '#96D2FE';
+    const selectionColor = meshSelectionColor || '#1EA0F7';
 
     const defaultMarkerHover = (
         marker: Marker,
