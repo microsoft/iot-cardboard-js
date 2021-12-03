@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderModes,
@@ -15,6 +15,14 @@ import {
 import './ADT3DScenePage.scss';
 import { DefaultButton, Pivot, PivotItem } from '@fluentui/react';
 import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
+import {
+    ADT3DScenePageReducer,
+    defaultADT3DScenePageState
+} from './ADT3DScenePage.state';
+import {
+    SET_CURRENT_STEP,
+    SET_SELECTED_TWIN
+} from '../../../Models/Constants/ActionTypes';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -24,21 +32,32 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     localeStrings,
     adapterAdditionalParameters
 }) => {
-    const [currentStep, setCurrentPage] = useState(
-        ADT3DScenePageSteps.SceneTwinList
+    const [state, dispatch] = useReducer(
+        ADT3DScenePageReducer,
+        defaultADT3DScenePageState
     );
-    const [selectedTwin, setSelectedTwin] = useState<IADTTwin>(null);
-
     const { t } = useTranslation();
 
     const onEditTwinClicked = (twin: IADTTwin) => {
-        setSelectedTwin(twin);
-        setCurrentPage(ADT3DScenePageSteps.TwinBindingsWithScene);
+        dispatch({
+            type: SET_SELECTED_TWIN,
+            payload: twin
+        });
+        dispatch({
+            type: SET_CURRENT_STEP,
+            payload: ADT3DScenePageSteps.TwinBindingsWithScene
+        });
     };
 
     const addNewSceneListCardClick = () => {
-        setSelectedTwin(null);
-        setCurrentPage(ADT3DScenePageSteps.TwinBindingsWithScene);
+        dispatch({
+            type: SET_SELECTED_TWIN,
+            payload: null
+        });
+        dispatch({
+            type: SET_CURRENT_STEP,
+            payload: ADT3DScenePageSteps.TwinBindingsWithScene
+        });
     };
 
     return (
@@ -50,27 +69,28 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 localeStrings={localeStrings}
                 adapterAdditionalParameters={adapterAdditionalParameters}
             >
-                {currentStep === ADT3DScenePageSteps.SceneTwinList && (
+                {state.currentStep === ADT3DScenePageSteps.SceneTwinList && (
                     <div className="cb-scene-page-scene-list-container">
                         <SceneListCard
                             title={'Twins with visual ontology'}
                             theme={theme}
                             locale={locale}
                             adapter={adapter}
-                            editSceneListCardClick={(twin, _twinIndex) => {
+                            onEditScene={(twin, _twinIndex) => {
                                 onEditTwinClicked(twin);
                             }}
-                            addNewSceneListCardClick={addNewSceneListCardClick}
+                            onAddScene={addNewSceneListCardClick}
                         />
                     </div>
                 )}
-                {currentStep === ADT3DScenePageSteps.TwinBindingsWithScene && (
+                {state.currentStep ===
+                    ADT3DScenePageSteps.TwinBindingsWithScene && (
                     <>
                         <div className="cb-scene-builder-container">
                             <ADT3DSceneBuilderCompositeComponent
-                                twin={selectedTwin}
+                                twin={state.selectedTwin}
                                 adapter={adapter}
-                                title={selectedTwin.$dtId}
+                                title={state.selectedTwin.$dtId}
                                 theme={theme}
                                 locale={locale}
                                 localeStrings={localeStrings}
@@ -81,9 +101,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </div>
                         <DefaultButton
                             onClick={() => {
-                                setCurrentPage(
-                                    ADT3DScenePageSteps.SceneTwinList
-                                );
+                                dispatch({
+                                    type: SET_CURRENT_STEP,
+                                    payload: ADT3DScenePageSteps.SceneTwinList
+                                });
                             }}
                             text={t('back')}
                             className="cb-scene-page-action-button"

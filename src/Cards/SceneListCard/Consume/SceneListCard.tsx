@@ -36,7 +36,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     title,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    onEditScene,
+    onAddScene
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>

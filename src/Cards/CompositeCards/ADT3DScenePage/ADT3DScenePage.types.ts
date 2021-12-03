@@ -1,4 +1,7 @@
-import { ADT3DSceneBuilderModes } from '../../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderModes,
+    ADT3DScenePageSteps
+} from '../../../Models/Constants/Enums';
 import {
     IADTAdapter,
     IADTTwin,
@@ -13,4 +16,9 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter;
     defaultMode?: ADT3DSceneBuilderModes;
     twin?: IADTTwin;
+}
+
+export interface ADT3DScenePageState {
+    selectedTwin: IADTTwin;
+    currentStep: ADT3DScenePageSteps;
 }
