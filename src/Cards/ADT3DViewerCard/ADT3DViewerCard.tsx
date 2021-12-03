@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import * as BABYLON from 'babylonjs';
 import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
@@ -9,6 +8,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
+import { getMeshPosition } from '../../Components/3DV/SceneView.Utils';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -38,8 +38,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
 
-    const selectedMesh = useRef<BABYLON.AbstractMesh>(null);
-    const sceneRef = useRef<BABYLON.Scene>(null);
+    const selectedMesh = useRef(null);
+    const sceneRef = useRef(null);
 
     const visualTwin = useAdapter({
         adapterMethod: () => adapter.getVisualADTTwin(twinId),
@@ -69,7 +69,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const meshClick = (
         marker: Marker,
-        mesh: BABYLON.AbstractMesh,
+        mesh: any,
         scene: Scene
     ) => {
         if (labels) {
@@ -124,9 +124,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     function setConnectionLine() {
         if (selectedMesh.current) {
+            const sceneWrapper = document.getElementById(sceneWrapperId);
             const position = getMeshPosition(
                 selectedMesh.current,
-                sceneRef.current
+                sceneRef.current,
+                sceneWrapper
             );
             const container = document.getElementById(popUpContainerId);
             if (container) {
@@ -145,33 +147,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 context.stroke();
             }
         }
-    }
-
-    function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
-        const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
-        const worldMatrix = mesh.getWorldMatrix();
-        const transformMatrix = scene.getTransformMatrix();
-        const viewport = scene.activeCamera?.viewport;
-
-        const sceneWrapper = document.getElementById(sceneWrapperId);
-        const coordinates = meshVectors.map((v) => {
-            const proj = BABYLON.Vector3.Project(
-                v,
-                worldMatrix,
-                transformMatrix,
-                viewport
-            );
-            proj.x = proj.x * sceneWrapper.clientWidth;
-            proj.y = proj.y * sceneWrapper.clientHeight;
-            return proj;
-        });
-
-        const maxX = Math.max(...coordinates.map((p) => p.x));
-        const minX = Math.min(...coordinates.map((p) => p.x));
-        const maxY = Math.max(...coordinates.map((p) => p.y));
-        const minY = Math.min(...coordinates.map((p) => p.y));
-
-        return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
     }
 
     function setPopUpPosition(e, data) {
