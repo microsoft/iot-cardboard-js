@@ -142,37 +142,39 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 mesh.computeWorldMatrix(true);
             }
 
-            const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-            someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                totalBoundingInfo(sceneRef.current.meshes)
-            );
-            someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+            if (sceneRef.current.meshes) {
+                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
+                someMeshFromTheArrayOfMeshes.setBoundingInfo(
+                    totalBoundingInfo(sceneRef.current.meshes)
+                );
+                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
-            const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                .boundingBox.extendSize;
-            const es_scaled = es.scale(3);
-            const width = es_scaled.x;
-            const height = es_scaled.y;
-            const depth = es_scaled.z;
+                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.extendSize;
+                const es_scaled = es.scale(3);
+                const width = es_scaled.x;
+                const height = es_scaled.y;
+                const depth = es_scaled.z;
 
-            const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                .boundingBox.centerWorld;
+                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.centerWorld;
 
-            const canvas = document.getElementById(
-                canvasId
-            ) as HTMLCanvasElement;
+                const canvas = document.getElementById(
+                    canvasId
+                ) as HTMLCanvasElement;
 
-            const camera = new BABYLON.ArcRotateCamera(
-                'camera',
-                0,
-                Math.PI / 2.5,
-                Math.max(width, height, depth),
-                center,
-                scene
-            );
+                const camera = new BABYLON.ArcRotateCamera(
+                    'camera',
+                    0,
+                    Math.PI / 2.5,
+                    Math.max(width, height, depth),
+                    center,
+                    scene
+                );
 
-            cameraRef.current = camera;
-            camera.attachControl(canvas, false);
+                cameraRef.current = camera;
+                camera.attachControl(canvas, false);
+            }
         }
 
         function totalBoundingInfo(meshes) {
