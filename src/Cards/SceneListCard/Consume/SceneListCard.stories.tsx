@@ -1,8 +1,8 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../.storybook/useAuthParams';
+import MockAdapter from '../../../Adapters/MockAdapter';
+import { CardErrorType } from '../../../Models/Constants';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -12,7 +12,7 @@ const sceneListCardStyle = {
     height: '100%'
 };
 
-export const SceneCard = (_args, { globals: { theme, locale } }) => {
+export const Error = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -23,12 +23,9 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
+                    new MockAdapter({
+                        mockError: CardErrorType.TokenRetrievalFailed
+                    })
                 }
             />
         </div>

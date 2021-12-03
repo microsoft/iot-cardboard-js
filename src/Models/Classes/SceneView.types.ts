@@ -21,11 +21,6 @@ export class Marker {
     isNav?: boolean;
 }
 
-export class ChildTwin {
-    name: string;
-    position: string;
-}
-
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
@@ -35,8 +30,6 @@ export type SceneViewCallbackHandler = (
 
 export interface ISceneViewProp {
     modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: Vector3;
     markers?: Marker[];
     onMarkerClick?: (
         marker: Marker,
@@ -50,6 +43,15 @@ export interface ISceneViewProp {
         scene: Scene,
         e: PointerEvent
     ) => void;
+    onCameraMove?: (
+        marker: Marker,
+        mesh: AbstractMesh,
+        scene: Scene,
+        e: PointerEvent
+    ) => void;
     labels?: SceneViewLabel[];
-    children?: ChildTwin[];
+    selectedMeshes?: string[];
+    showMeshesOnHover?: boolean;
+    meshSelectionColor?: string;
+    meshHoverColor?: string;
 }

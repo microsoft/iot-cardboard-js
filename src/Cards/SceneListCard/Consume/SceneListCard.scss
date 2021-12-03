@@ -9,7 +9,6 @@
         background-color: var(--cb-color-bg-card);
         padding: 20px 0 40px;
     }
-
     .cb-base-composite-card-title {
         padding-left: 20px;
         padding-right: 20px;
@@ -18,4 +17,17 @@
         padding-left: 20px;
         padding-right: 20px;
     }
+    .cb-scenes-list-empty {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        padding: 40px 0 25px;
+    }
+    .cb-scenes-list-empty .cb-scenes-list-empty-button {
+        margin: 10px 0;
+    }
+}
+
+.cb-scenes-list-dialog-wrapper .cb-scenes-list-dialog-buttons {
+    margin-top: 10px;
 }

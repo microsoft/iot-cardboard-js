@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import {
+    ADTPatch,
+    DTwin,
+    IADTTwin
+} from '../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../CompositeCards/BaseCompositeCard/Consume/BaseCompositeCard';
 import { SceneListCardProps } from './SceneListCard.types';
 import './SceneListCard.scss';
@@ -7,39 +12,65 @@ import { useTranslation } from 'react-i18next';
 import {
     SelectionMode,
     DetailsListLayoutMode,
-    DetailsRow,
     ActionButton,
-    IDetailsListProps,
     DetailsList,
     IColumn,
     IconButton,
-    IIconProps
+    IIconProps,
+    Dialog,
+    DialogFooter,
+    PrimaryButton,
+    DefaultButton,
+    DialogType,
+    TextField
 } from '@fluentui/react';
-import { FormMode } from '../../../Models/Constants/Enums';
 import { Text } from '@fluentui/react/lib/Text';
+import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const editIcon: IIconProps = { iconName: 'Edit' };
+const deleteIcon: IIconProps = { iconName: 'Delete' };
+const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
     title,
     theme,
     locale,
-    localeStrings,
-    editSceneListCardClick,
-    addNewSceneListCardClick,
-    deleteSceneListCardClick,
-    formControlMode = FormMode.Edit
+    localeStrings
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
             adapter.getADTTwinsByModelId({
-                modelId: 'dtmi:com:niusoff:visualtwin;1'
+                modelId: sceneTwinModelId
             }),
         refetchDependencies: [adapter]
     });
 
-    const [sceneList, setSceneList] = useState([]);
+    const addScene = useAdapter({
+        adapterMethod: (twins: Array<DTwin>) => adapter.createTwins(twins),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const editScene = useAdapter({
+        adapterMethod: (patches: Array<ADTPatch>) =>
+            adapter.updateTwin(selectedTwin.$dtId, patches),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const deleteScene = useAdapter({
+        adapterMethod: () => adapter.deleteADTTwin(selectedTwin.$dtId),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const [sceneList, setSceneList] = useState<Array<IADTTwin>>([]);
+    const [selectedTwin, setSelectedTwin] = useState<DTwin>(undefined);
+    const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
+    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
+        false
+    );
 
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
@@ -49,28 +80,64 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         }
     }, [scenes?.adapterResult]);
 
+    useEffect(() => {
+        if (addScene.adapterResult.result) {
+            setTimeout(() => {
+                scenes.callAdapter();
+                setIsSceneDialogOpen(false);
+            }, 5000);
+        } else {
+            setSceneList([]);
+        }
+    }, [addScene?.adapterResult]);
+
+    useEffect(() => {
+        if (editScene.adapterResult.result) {
+            setTimeout(() => {
+                scenes.callAdapter();
+                setIsSceneDialogOpen(false);
+                setSelectedTwin(null);
+            }, 5000);
+        } else {
+            setSceneList([]);
+        }
+    }, [editScene?.adapterResult]);
+
+    useEffect(() => {
+        if (deleteScene.adapterResult.result) {
+            setTimeout(() => {
+                scenes.callAdapter();
+                setIsConfirmDeleteDialogOpen(false);
+                setSelectedTwin(null);
+            }, 5000);
+        } else {
+            setSceneList([]);
+        }
+    }, [deleteScene?.adapterResult]);
+
     const { t } = useTranslation();
 
-    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
-        <div
-            onClick={() => {
-                editSceneListCardClick(props.item, props.itemIndex);
-            }}
-        >
-            <DetailsRow
-                styles={{
-                    cell: {
-                        display: 'flex',
-                        alignItems: 'center'
-                    }
-                }}
-                className="cb-elementslist-row"
-                {...props}
-            />
-        </div>
+    const confirmDeletionDialogProps = {
+        type: DialogType.normal,
+        title: t('confirmDeletion'),
+        closeButtonAriaLabel: t('close'),
+        subText: t('confirmDeletionDesc')
+    };
+
+    const confirmDeletionDialogStyles = {
+        main: { maxWidth: 450, minHeight: 165 }
+    };
+
+    const confirmDeletionModalProps = React.useMemo(
+        () => ({
+            isBlocking: false,
+            styles: confirmDeletionDialogStyles,
+            className: 'cb-scenes-list-dialog-wrapper'
+        }),
+        []
     );
 
-    function renderItemColumn(item: any, index: number, column: IColumn) {
+    function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
             case 'scene-action':
@@ -80,9 +147,18 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             iconProps={editIcon}
                             title={t('edit')}
                             ariaLabel={t('edit')}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                editSceneListCardClick(item, index);
+                            onClick={() => {
+                                setSelectedTwin(item);
+                                setIsSceneDialogOpen(true);
+                            }}
+                        />
+                        <IconButton
+                            iconProps={deleteIcon}
+                            title={t('delete')}
+                            ariaLabel={t('delete')}
+                            onClick={() => {
+                                setSelectedTwin(item);
+                                setIsConfirmDeleteDialogOpen(true);
                             }}
                         />
                     </>
@@ -106,22 +182,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             <ActionButton
                                 iconProps={{ iconName: 'Add' }}
                                 onClick={() => {
-                                    if (addNewSceneListCardClick) {
-                                        addNewSceneListCardClick();
-                                    }
+                                    setIsSceneDialogOpen(true);
                                 }}
                             >
                                 {t('addNew')}
-                            </ActionButton>
-                            <ActionButton
-                                iconProps={{ iconName: 'Delete' }}
-                                onClick={() => {
-                                    if (deleteSceneListCardClick) {
-                                        deleteSceneListCardClick();
-                                    }
-                                }}
-                            >
-                                {t('deleteScene')}
                             </ActionButton>
                         </div>
 
@@ -132,7 +196,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 columns={[
                                     {
                                         key: 'scene-name',
-                                        name: t('sceneName'),
+                                        name: t('scenes.sceneName'),
                                         minWidth: 100,
                                         onRender: (item) => (
                                             <span>
@@ -142,7 +206,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     },
                                     {
                                         key: 'scene-model',
-                                        name: t('sceneModel'),
+                                        name: t('model'),
                                         minWidth: 100,
                                         onRender: (item) => (
                                             <span>
@@ -152,55 +216,215 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     },
                                     {
                                         key: 'scene-latitude',
-                                        name: t('sceneLatitude'),
+                                        name: t('scenes.sceneLatitude'),
                                         minWidth: 100,
                                         onRender: (item) => item['latitude']
                                     },
                                     {
                                         key: 'scene-longitude',
-                                        name: t('sceneLongitude'),
+                                        name: t('scenes.sceneLongitude'),
                                         minWidth: 100,
                                         onRender: (item) => item['longitude']
                                     },
                                     {
                                         key: 'scene-action',
-                                        name: t('sceneAction'),
+                                        name: t('action'),
                                         fieldName: 'action',
-                                        minWidth: 100,
-                                        headerClassName:
-                                            'cb-detail-list-header-cell'
+                                        minWidth: 100
                                     }
                                 ]}
                                 setKey="set"
                                 layoutMode={DetailsListLayoutMode.justified}
-                                onRenderRow={renderListRow}
                                 onRenderItemColumn={renderItemColumn}
-                                onItemInvoked={(item, itemIndex) => {
-                                    if (formControlMode === FormMode.Edit) {
-                                        editSceneListCardClick(item, itemIndex);
-                                    }
-                                }}
                             />
                         </div>
+
+                        <Dialog
+                            hidden={!isConfirmDeleteDialogOpen}
+                            onDismiss={() =>
+                                setIsConfirmDeleteDialogOpen(false)
+                            }
+                            dialogContentProps={confirmDeletionDialogProps}
+                            modalProps={confirmDeletionModalProps}
+                        >
+                            <DialogFooter>
+                                <DefaultButton
+                                    onClick={() =>
+                                        setIsConfirmDeleteDialogOpen(false)
+                                    }
+                                    text={t('cancel')}
+                                />
+                                <PrimaryButton
+                                    onClick={() => {
+                                        deleteScene.callAdapter([
+                                            selectedTwin.$dtId
+                                        ]);
+                                    }}
+                                    text={t('delete')}
+                                />
+                            </DialogFooter>
+                        </Dialog>
                     </>
                 ) : (
                     <div className="cb-scenes-list-empty">
-                        <Text>{t('noScenes')}</Text>
-                        <ActionButton
-                            iconProps={{ iconName: 'Add' }}
+                        <Text>{t('scenes.noScenes')}</Text>
+                        <PrimaryButton
+                            className="cb-scenes-list-empty-button"
                             onClick={() => {
-                                if (addNewSceneListCardClick) {
-                                    addNewSceneListCardClick();
-                                }
+                                setIsSceneDialogOpen(true);
                             }}
-                        >
-                            {t('addScene')}
-                        </ActionButton>
+                            text={t('scenes.addScene')}
+                        />
                     </div>
                 )}
+                <SceneListDialog
+                    isOpen={isSceneDialogOpen}
+                    onClose={() => {
+                        setIsSceneDialogOpen(false);
+                        setSelectedTwin(null);
+                    }}
+                    setTwinToEdit={setSelectedTwin}
+                    twinToEdit={selectedTwin}
+                    onEditScene={(updateBlobPatch) => {
+                        editScene.callAdapter(updateBlobPatch);
+                    }}
+                    onAddScene={(newTwin) => {
+                        addScene.callAdapter(newTwin);
+                    }}
+                ></SceneListDialog>
             </BaseCompositeCard>
         </div>
     );
 };
 
-export default SceneListCard;
+const SceneListDialog = ({
+    isOpen,
+    onClose,
+    twinToEdit,
+    setTwinToEdit,
+    onAddScene,
+    onEditScene
+}: {
+    isOpen: any;
+    onClose: any;
+    twinToEdit: any;
+    setTwinToEdit: any;
+    onAddScene: any;
+    onEditScene: any;
+}) => {
+    const [newTwinId, setNewTwinId] = useState('');
+    const [newTwinBlobUrl, setNewTwinBlobUrl] = useState('');
+    const { t } = useTranslation();
+
+    const isDialogOpenContent = {
+        type: DialogType.normal,
+        title: twinToEdit
+            ? t('scenes.editDialogTitle')
+            : t('scenes.addDialogTitle'),
+        closeButtonAriaLabel: t('close'),
+        subText: twinToEdit
+            ? t('scenes.editDialogSubText')
+            : t('scenes.addDialogSubText')
+    };
+
+    const isDialogOpenStyles = {
+        main: { maxWidth: 450, minHeight: 165 }
+    };
+
+    const isDialogOpenProps = React.useMemo(
+        () => ({
+            isBlocking: false,
+            styles: isDialogOpenStyles,
+            className: 'cb-scenes-list-dialog-wrapper'
+        }),
+        []
+    );
+
+    useEffect(() => {
+        if (isOpen) {
+            setNewTwinId('');
+            setNewTwinBlobUrl('');
+        }
+    }, [isOpen]);
+
+    return (
+        <Dialog
+            hidden={!isOpen}
+            onDismiss={() => onClose()}
+            dialogContentProps={isDialogOpenContent}
+            modalProps={isDialogOpenProps}
+        >
+            <TextField
+                label={t('scenes.sceneName')}
+                title={newTwinId}
+                value={twinToEdit ? twinToEdit?.$dtId : newTwinId}
+                className={`${
+                    (twinToEdit ? twinToEdit?.$dtId : !newTwinId)
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                onChange={(e) => {
+                    if (twinToEdit) {
+                        const selectedTwinCopy = Object.assign({}, twinToEdit);
+                        selectedTwinCopy.$dtId = e.currentTarget.value;
+                        setTwinToEdit(selectedTwinCopy);
+                    } else {
+                        setNewTwinId(e.currentTarget.value);
+                    }
+                }}
+                disabled={twinToEdit ? true : false}
+            />
+            <TextField
+                label={t('scenes.blobUrl')}
+                title={newTwinBlobUrl}
+                value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
+                className={`${
+                    (twinToEdit ? twinToEdit?.['assetFile'] : !newTwinBlobUrl)
+                        ? 'cb-noinformation-value'
+                        : ''
+                }`}
+                onChange={(e) => {
+                    if (twinToEdit) {
+                        const selectedTwinCopy = Object.assign({}, twinToEdit);
+                        selectedTwinCopy['assetFile'] = e.currentTarget.value;
+                        setTwinToEdit(selectedTwinCopy);
+                    } else {
+                        setNewTwinBlobUrl(e.currentTarget.value);
+                    }
+                }}
+            />
+            <DialogFooter>
+                <DefaultButton
+                    className="cb-scenes-list-modal-buttons"
+                    onClick={() => onClose()}
+                    text={t('cancel')}
+                />
+                <PrimaryButton
+                    className="cb-scenes-list-dialog-buttons"
+                    onClick={() => {
+                        if (twinToEdit) {
+                            const updateBlobPatch: ADTPatch = {
+                                op: 'replace',
+                                path: '/assetFile',
+                                value: twinToEdit['assetFile']
+                            };
+                            onEditScene([updateBlobPatch]);
+                        } else {
+                            const newTwin: DTwin = {
+                                $dtId: newTwinId,
+                                $metadata: {
+                                    $model: sceneTwinModelId
+                                },
+                                assetFile: newTwinBlobUrl
+                            };
+                            onAddScene([newTwin]);
+                        }
+                    }}
+                    text={twinToEdit ? t('update') : t('connect')}
+                />
+            </DialogFooter>
+        </Dialog>
+    );
+};
+
+export default withErrorBoundary(memo(SceneListCard));

@@ -51,7 +51,6 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({ adapter, title }) => {
                 <SceneView
                     modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf"
                     markers={markers}
-                    cameraRadius={150}
                 />
             </div>
         </BaseCard>
