@@ -48,3 +48,4 @@ export enum dtdlPropertyTypesEnum {
 }
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
+export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';

@@ -1,4 +1,5 @@
 import {
+    ADTAdapterTwinsData,
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
@@ -10,6 +11,9 @@ import { CardError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
+    ADTPatch,
+    ADTSceneTwinModelId,
+    DTwin,
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
@@ -22,6 +26,8 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
+import mockScenes from '../Cards/SceneListCard/Consume/mockData/mockScenes.json';
+import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 
 export default class MockAdapter
     implements
@@ -204,6 +210,60 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
+    }
+
+    async getADTTwinsByModelId(params: { modelId: string }) {
+        try {
+            const getTwinsData = () => {
+                return new ADTAdapterTwinsData({
+                    value:
+                        params.modelId === ADTSceneTwinModelId
+                            ? mockScenes
+                            : [
+                                  {
+                                      $dtId: '',
+                                      $etag: '',
+                                      $metadata: {
+                                          $model: params.modelId
+                                      }
+                                  }
+                              ],
+                    continuationToken: ''
+                });
+            };
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: getTwinsData(),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async createTwins(twins: Array<DTwin>) {
+        await this.mockNetwork();
+        return twins;
+    }
+
+    async updateTwin(_twinId: string, _patches: Array<ADTPatch>) {
+        await this.mockNetwork();
+        return new AdapterResult<ADTAdapterPatchData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    async deleteADTTwin(_twinId: string) {
+        await this.mockNetwork();
+        return new AdapterResult<ADTTwinData>({
+            result: null,
+            errorInfo: null
+        });
     }
 
     async getTsiclientChartDataShape(
