@@ -1,6 +1,6 @@
 import * as BABYLON from 'babylonjs';
 
-export function getMeshPosition(
+export function getMeshCenter(
     mesh: BABYLON.AbstractMesh,
     scene: BABYLON.Scene,
     wrapper: HTMLElement

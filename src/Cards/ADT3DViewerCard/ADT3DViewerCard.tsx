@@ -6,9 +6,8 @@ import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
-import { Scene } from 'babylonjs';
 import Draggable from 'react-draggable';
-import { getMeshPosition } from '../../Components/3DV/SceneView.Utils';
+import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -121,7 +120,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     function setConnectionLine() {
         if (selectedMesh.current) {
             const sceneWrapper = document.getElementById(sceneWrapperId);
-            const position = getMeshPosition(
+            const position = getMeshCenter(
                 selectedMesh.current,
                 sceneRef.current,
                 sceneWrapper
