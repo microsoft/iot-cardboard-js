@@ -5,7 +5,7 @@ import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker } from '../../Models/Classes/SceneView.types';
+import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 
@@ -25,7 +25,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     connectionLineColor
 }) => {
     const [modelUrl, setModelUrl] = useState('');
-    const [labels, setLabels] = useState([]);
+    const [labels, setLabels] = useState<SceneViewLabel[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpTile, setPopUpTitle] = useState('');
     const [popUpContent, setPopUpContent] = useState('');
@@ -68,7 +68,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
-            const label = labels.find((label) => label.meshId === mesh?.id);
+            const label = labels.find((label) => label.meshIds.find((id) => id === mesh?.id));
             if (label) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
@@ -81,7 +81,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
                     setPopUpTitle(label.metric);
-                    setPopUpContent(label.value);
+                    setPopUpContent(label.value.toString());
                     setShowPopUp(true);
 
                     if (resetPopUpPosition) {
@@ -104,7 +104,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const meshHover = (marker: Marker, mesh: any) => {
         if (mesh) {
-            const label = labels.find((label) => label.meshId === mesh.id);
+            const label = labels.find((label) => label.meshIds.find((id) => id === mesh?.id));
             if (label) {
                 document.body.style.cursor = 'pointer';
             } else {

@@ -573,7 +573,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
+                'pointerMove effect' + (scene ? ' with scene' : ' no scene')
             );
         }
         if (scene && onCameraMoveRef.current) {
@@ -630,10 +630,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 labels.forEach((item) => {
-                    const targetMesh = scene?.meshes?.find(
-                        (mesh) => mesh.id === item.meshId
-                    );
-                    if (targetMesh) {
+                    const targetMeshes: BABYLON.AbstractMesh[] = [];
+                    item.meshIds.forEach((id) => {
+                       const mesh: BABYLON.AbstractMesh = scene?.meshes?.find((mesh) => mesh.id === id);
+                       if(mesh) {
+                           targetMeshes.push(mesh);
+                       }
+                    })
+                    if (targetMeshes) {
                         if (debug) {
                             console.log('found label mesh');
                         }
@@ -660,9 +664,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         // advancedTexture.addControl(rect);
                         // rect.linkWithMesh(targetMesh);
                         if (item.color) {
-                            (targetMesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                item.color
-                            );
+                            targetMeshes.forEach((mesh) => {
+                                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                    item.color
+                                );
+                            })
                         }
                         oldLabelsRef.current = labels;
                     }

@@ -870,10 +870,10 @@ export default class ADTAdapter implements IADTAdapter {
                             vsr.BadgeValueExpression,
                             sourceTwins
                         );
-                        label.meshId =
+                        label.meshIds = [
                             relationship.result?.data[
                                 'MediaMemberProperties'
-                            ].Position.id;
+                            ].Position.id];
                         labelsList.push(label);
                     }
                 }
