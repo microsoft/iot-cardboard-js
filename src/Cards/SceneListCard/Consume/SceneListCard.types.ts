@@ -6,6 +6,5 @@ import {
 
 export interface SceneListCardProps extends IStandaloneConsumeCardProps {
     adapter: IADTAdapter;
-    onEditScene?: (sceneTwin: IADTTwin, sceneTwinIndex: number) => void;
-    onAddScene?: () => void;
+    onSceneClick?: (sceneTwin: IADTTwin) => void;
 }

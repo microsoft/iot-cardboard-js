@@ -5,6 +5,14 @@
     min-height: 600px;
     width: 100%;
 
+    .cb-scene-page-scene-list-container {
+        margin: -20px 0 0 -20px;
+
+        .cb-base-composite-card {
+            background: transparent;
+        }
+    }
+
     .cb-base-composite-card-item:last-child {
         flex-grow: 1;
     }
@@ -17,14 +25,27 @@
         margin-top: 20px;
     }
 
-    .cb-scene-builder-twin-bindings {
+    .cb-scene-view-twin-bindings {
         background-color: var(--cb-color-bg-card);
         height: 600px;
         width: 300px;
     }
 
-    .cb-scene-builder-builder,
-    .cb-scene-builder-viewer {
+    .cb-scene-view-builder {
         height: 600px;
+    }
+    .cb-scene-view-viewer {
+        animation: 0.8s expand-out ease-in-out;
+        height: 600px;
+    }
+
+    @keyframes expand-out {
+        0% {
+            margin-left: 320px;
+            width: calc(100% - 320px);
+        }
+        100% {
+            width: calc(100%);
+        }
     }
 }

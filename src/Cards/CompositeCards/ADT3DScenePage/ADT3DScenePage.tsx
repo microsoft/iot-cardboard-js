@@ -38,21 +38,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
-    const onEditTwinClicked = (twin: IADTTwin) => {
+    const handleOnSceneClick = (twin: IADTTwin) => {
         dispatch({
             type: SET_SELECTED_TWIN,
             payload: twin
-        });
-        dispatch({
-            type: SET_CURRENT_STEP,
-            payload: ADT3DScenePageSteps.TwinBindingsWithScene
-        });
-    };
-
-    const addNewSceneListCardClick = () => {
-        dispatch({
-            type: SET_SELECTED_TWIN,
-            payload: null
         });
         dispatch({
             type: SET_CURRENT_STEP,
@@ -76,10 +65,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             theme={theme}
                             locale={locale}
                             adapter={adapter}
-                            onEditScene={(twin, _twinIndex) => {
-                                onEditTwinClicked(twin);
+                            onSceneClick={(twin) => {
+                                handleOnSceneClick(twin);
                             }}
-                            onAddScene={addNewSceneListCardClick}
                         />
                     </div>
                 )}
@@ -101,6 +89,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </div>
                         <DefaultButton
                             onClick={() => {
+                                dispatch({
+                                    type: SET_SELECTED_TWIN,
+                                    payload: null
+                                });
                                 dispatch({
                                     type: SET_CURRENT_STEP,
                                     payload: ADT3DScenePageSteps.SceneTwinList
@@ -164,12 +156,10 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                         }
                     >
                         <TwinBuildingsBaseComponentPlaceholder />
-                        <div className="cb-scene-builder-builder">
+                        <div className="cb-scene-view-builder">
                             <ADT3DBuilderCard
                                 title="3D Builder"
-                                modelUrl={
-                                    twin.MediaSrc /*"https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf"*/
-                                }
+                                modelUrl={twin.MediaSrc}
                             />
                         </div>
                     </BaseCompositeCard>
@@ -178,12 +168,12 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                     headerText={t('view')}
                     itemKey={ADT3DSceneBuilderModes.ViewScene}
                 >
-                    <div className="cb-scene-builder-viewer">
+                    <div className="cb-scene-view-viewer">
                         <ADT3DViewerCard
                             title="3D Viewer"
                             adapter={adapter}
                             pollingInterval={10000}
-                            twinId={twin.$dtId /*TankVisual */}
+                            twinId={twin.$dtId}
                         />
                     </div>
                 </PivotItem>
@@ -194,7 +184,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
 
 const TwinBuildingsBaseComponentPlaceholder: React.FC<any> = (_props) => {
     return (
-        <div className="cb-scene-builder-twin-bindings">
+        <div className="cb-scene-view-twin-bindings">
             Twin bindings component placeholder
         </div>
     );

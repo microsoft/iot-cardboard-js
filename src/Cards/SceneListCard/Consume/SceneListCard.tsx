@@ -16,20 +16,19 @@ import {
     DetailsList,
     IColumn,
     IconButton,
-    IIconProps,
     Dialog,
     DialogFooter,
     PrimaryButton,
     DefaultButton,
     DialogType,
-    TextField
+    TextField,
+    IDetailsListProps,
+    DetailsRow
 } from '@fluentui/react';
 import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const editIcon: IIconProps = { iconName: 'Edit' };
-const deleteIcon: IIconProps = { iconName: 'Delete' };
-const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
+const sceneTwinModelId = 'dtmi:com:visualontology:scene;1'; // Use 'dtmi:com:niusoff:visualtwin;1' model for 3D Scene Page as it has properly defined visual twins for 3D viewer/builder components
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -37,8 +36,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     theme,
     locale,
     localeStrings,
-    onEditScene,
-    onAddScene
+    onSceneClick
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
@@ -134,53 +132,72 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
 
-    function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
+    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
+        <div
+            onClick={() => {
+                onSceneClick(props.item);
+            }}
+        >
+            <DetailsRow className={'cb-scene-list-row'} {...props} />
+        </div>
+    );
+
+    const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
+        item: any,
+        _itemIndex: number,
+        column: IColumn
+    ) => {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
             case 'scene-action':
                 return (
                     <>
                         <IconButton
-                            iconProps={editIcon}
+                            iconProps={{ iconName: 'Edit' }}
                             title={t('edit')}
                             ariaLabel={t('edit')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedTwin(item);
                                 setIsSceneDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                         <IconButton
-                            iconProps={deleteIcon}
+                            iconProps={{ iconName: 'Delete' }}
                             title={t('delete')}
                             ariaLabel={t('delete')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedTwin(item);
                                 setIsConfirmDeleteDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                     </>
                 );
             default:
                 return <span>{fieldContent}</span>;
         }
-    }
+    };
 
     return (
-        <div className="cb-scenes-list-card-wrapper">
+        <div className="cb-scene-list-card-wrapper">
             <BaseCompositeCard
                 theme={theme}
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
+                isLoading={scenes.isLoading}
             >
                 {sceneList.length > 0 ? (
                     <>
-                        <div className="cb-scenes-list-action-buttons">
+                        <div className="cb-scene-list-action-buttons">
                             <ActionButton
                                 iconProps={{ iconName: 'Add' }}
                                 onClick={() => {
@@ -237,6 +254,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 ]}
                                 setKey="set"
                                 layoutMode={DetailsListLayoutMode.justified}
+                                onRenderRow={renderListRow}
                                 onRenderItemColumn={renderItemColumn}
                             />
                         </div>
@@ -268,10 +286,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         </Dialog>
                     </>
                 ) : (
-                    <div className="cb-scenes-list-empty">
+                    <div className="cb-scene-list-empty">
                         <Text>{t('scenes.noScenes')}</Text>
                         <PrimaryButton
-                            className="cb-scenes-list-empty-button"
+                            className="cb-scene-list-empty-button"
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
@@ -337,7 +355,7 @@ const SceneListDialog = ({
         () => ({
             isBlocking: false,
             styles: isDialogOpenStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
@@ -360,11 +378,6 @@ const SceneListDialog = ({
                 label={t('scenes.sceneName')}
                 title={newTwinId}
                 value={twinToEdit ? twinToEdit?.$dtId : newTwinId}
-                className={`${
-                    (twinToEdit ? twinToEdit?.$dtId : !newTwinId)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
@@ -380,11 +393,6 @@ const SceneListDialog = ({
                 label={t('scenes.blobUrl')}
                 title={newTwinBlobUrl}
                 value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
-                className={`${
-                    (twinToEdit ? twinToEdit?.['assetFile'] : !newTwinBlobUrl)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
@@ -397,12 +405,12 @@ const SceneListDialog = ({
             />
             <DialogFooter>
                 <DefaultButton
-                    className="cb-scenes-list-modal-buttons"
+                    className="cb-scene-list-modal-buttons"
                     onClick={() => onClose()}
                     text={t('cancel')}
                 />
                 <PrimaryButton
-                    className="cb-scenes-list-dialog-buttons"
+                    className="cb-scene-list-dialog-buttons"
                     onClick={() => {
                         if (twinToEdit) {
                             const updateBlobPatch: ADTPatch = {

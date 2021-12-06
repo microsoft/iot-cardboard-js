@@ -1,6 +1,6 @@
 @import '../../../Resources/Styles/BaseStyles';
 
-.cb-scenes-list-card-wrapper {
+.cb-scene-list-card-wrapper {
     .cb-base-composite-card-items {
         flex-direction: column;
         width: 100%;
@@ -17,14 +17,20 @@
         padding-left: 20px;
         padding-right: 20px;
     }
-    .cb-scenes-list-empty {
+    .cb-scene-list-empty {
         align-items: center;
         display: flex;
         flex-direction: column;
         padding: 40px 0 25px;
     }
-    .cb-scenes-list-empty .cb-scenes-list-empty-button {
+    .cb-scene-list-empty .cb-scenes-list-empty-button {
         margin: 10px 0;
+    }
+    .cb-scenes-action-button {
+        height: 20px;
+    }
+    .cb-scene-list-row {
+        cursor: pointer;
     }
 }
 
