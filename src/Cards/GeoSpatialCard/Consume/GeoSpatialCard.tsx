@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
 import BaseCard from '../../Base/Consume/BaseCard';
 import useAdapter from '../../../Models/Hooks/useAdapter';
-import { GeoSpatialProps } from './GeoSpatial.types';
-import './GeoSpatial.scss';
+import { GeoSpatialCardProps } from './GeoSpatialCard.types';
+import './GeoSpatialCard.scss';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const GeoSpatial: React.FC<GeoSpatialProps> = ({
+const GeoSpatialCard: React.FC<GeoSpatialCardProps> = ({
     adapter,
     pollingIntervalMillis,
     properties,
@@ -74,4 +74,4 @@ const GeoSpatialValue: React.FC<any> = ({ title, value, pulse, style }) => {
     );
 };
 
-export default withErrorBoundary(memo(GeoSpatial));
+export default withErrorBoundary(memo(GeoSpatialCard));
