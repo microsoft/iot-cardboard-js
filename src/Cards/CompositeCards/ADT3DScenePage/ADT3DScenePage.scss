@@ -5,12 +5,12 @@
     min-height: 600px;
     width: 100%;
 
+    .cb-base-composite-card {
+        background: transparent;
+    }
+
     .cb-scene-page-scene-list-container {
         margin: -20px 0 0 -20px;
-
-        .cb-base-composite-card {
-            background: transparent;
-        }
     }
 
     .cb-base-composite-card-item:last-child {
