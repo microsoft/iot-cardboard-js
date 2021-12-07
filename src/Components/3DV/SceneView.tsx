@@ -6,12 +6,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import {
     convertLatLonToVector3,
-    measureText,
     createGUID
 } from '../../Models/Services/Utils';
 import {
     ISceneViewProp,
-    SceneViewLabel,
     Marker,
     SceneViewCallbackHandler,
     SelectedMesh
@@ -60,12 +58,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
-    const oldLabelsRef = useRef<SceneViewLabel[]>(undefined);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
     const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
+    const badgesRef = useRef<any[]>([]);
+    const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
     const cameraRef = useRef<BABYLON.ArcRotateCamera>(null);
@@ -133,6 +132,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             if (success) {
                 assets.addAllToScene();
                 createCamera();
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI'
+                );
                 setIsLoading(false);
             }
         }
@@ -276,7 +278,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 engineRef.current.resize();
             };
 
-            oldLabelsRef.current = null;
             sceneRef.current = null;
             window.removeEventListener('resize', resize);
         };
@@ -513,30 +514,31 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     }, [scene, markers]);
 
     useEffect(() => {
+        removeBadges();
+
         if (selectedMeshes) {
             // color selected meshes
             for (const selectedMesh of selectedMeshes) {
                 const mesh = sceneRef.current.meshes.find(
                     (item) => item.id === selectedMesh
                 );
-                // only color mesh if it isn't already colored
-                if (
-                    mesh &&
-                    !selectedMeshesRef.current.find(
-                        (m) => m.id === selectedMesh
-                    )
-                ) {
-                    const m = new SelectedMesh();
-                    m.id = mesh.id;
-                    if (selectedMesh !== hightlightedMeshRef.current?.id) {
-                        m.color = (mesh.material as any).albedoColor;
-                    } else {
-                        m.color = hightlightedMeshRef.current?.color;
+                if (mesh) {
+                    createBadge(mesh)
+                    // only color mesh if it isn't already colored
+                    if(!selectedMeshesRef.current.find(
+                        (m) => m.id === selectedMesh)) {
+                        const m = new SelectedMesh();
+                        m.id = mesh.id;
+                        if (selectedMesh !== hightlightedMeshRef.current?.id) {
+                            m.color = (mesh.material as any).albedoColor;
+                        } else {
+                            m.color = hightlightedMeshRef.current?.color;
+                        }
+                        selectedMeshesRef.current.push(m);
+                        (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                            selectionColor
+                        );
                     }
-                    selectedMeshesRef.current.push(m);
-                    (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                        selectionColor
-                    );
                 }
             }
 
@@ -603,32 +605,17 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
     // SETUP LOGIC FOR HANDLING GUI LABELS ON THE MODEL
     useEffect(() => {
-        function labelsChanged() {
-            if (labels && oldLabelsRef.current) {
-                return (
-                    JSON.stringify(labels) !==
-                    JSON.stringify(oldLabelsRef.current)
-                );
-            }
-
-            return true;
-        }
-
         if (debug) {
             console.log(
                 'labels effect' + (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && labelsChanged() && labels && !isLoading) {
+        if (scene && labels && !isLoading) {
             if (debug) {
                 console.log('labels updating');
             }
-            let advancedTexture: any = null;
-            const rects: GUI.Rectangle[] = [];
+
             try {
-                advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
                 labels.forEach((item) => {
                     const targetMeshes: BABYLON.AbstractMesh[] = [];
                     item.meshIds.forEach((id) => {
@@ -639,60 +626,39 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             targetMeshes.push(mesh);
                         }
                     });
-                    if (targetMeshes) {
+                    if (targetMeshes && item.color) {
                         if (debug) {
                             console.log('found label mesh');
                         }
-                        const text1 = item.metric;
-                        const text2 = item.value.toFixed(5);
-                        const text = `${text1}\n\n${text2}`;
-                        const w = measureText(
-                            text1.length > text2.length ? text1 : text2,
-                            25
-                        );
-                        const rect = new GUI.Rectangle();
-                        rect.width = w + 'px';
-                        rect.height = '100px';
-                        rect.cornerRadius = 10;
-                        rect.color = 'white';
-                        rect.thickness = 1;
-                        rect.background = 'rgba(22, 27, 154, 0.5)';
-                        rects.push(rect);
-
-                        const label = new GUI.TextBlock();
-                        label.color = item.color || 'white';
-                        label.text = text;
-                        // rect.addControl(label);
-                        // advancedTexture.addControl(rect);
-                        // rect.linkWithMesh(targetMesh);
-                        if (item.color) {
                             targetMeshes.forEach((mesh) => {
                                 (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
                                     item.color
                                 );
                             });
-                        }
-                        oldLabelsRef.current = labels;
                     }
                 });
             } catch {
                 console.log('unable to create labels');
             }
-
-            return () => {
-                if (debug) {
-                    console.log('labels effect cleanup');
-                }
-
-                if (advancedTexture) {
-                    for (const rect of rects) {
-                        advancedTexture.removeControl(rect);
-                    }
-                    oldLabelsRef.current = undefined;
-                }
-            };
         }
     }, [labels, scene, isLoading]);
+
+    function createBadge(mesh) {
+        const badge = new GUI.Ellipse();
+        badge.width = '25px';
+        badge.height = '25px';
+        badge.color = '#4C8577';
+        badge.background = '#4C8577';
+        advancedTextureRef.current.addControl(badge);
+        badgesRef.current.push(badge)
+        badge.linkWithMesh(mesh);
+    }
+
+    function removeBadges() {
+        badgesRef.current.forEach((badge) => {
+            advancedTextureRef.current.removeControl(badge);
+        })
+    }
 
     return (
         <div className="cb-sceneview-container">
