@@ -1,8 +1,9 @@
+import { MockAdapter } from '../../..';
 import {
     IADTAdapter,
-    IConsumeCardProps
+    IStandaloneConsumeCardProps
 } from '../../../Models/Constants/Interfaces';
 
-export interface SceneListCardProps extends IConsumeCardProps {
-    adapter: IADTAdapter;
+export interface SceneListCardProps extends IStandaloneConsumeCardProps {
+    adapter: IADTAdapter | MockAdapter;
 }

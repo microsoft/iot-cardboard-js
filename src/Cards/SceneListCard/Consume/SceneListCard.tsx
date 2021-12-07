@@ -358,11 +358,6 @@ const SceneListDialog = ({
                 label={t('scenes.sceneName')}
                 title={newTwinId}
                 value={twinToEdit ? twinToEdit?.$dtId : newTwinId}
-                className={`${
-                    (twinToEdit ? twinToEdit?.$dtId : !newTwinId)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
@@ -378,11 +373,6 @@ const SceneListDialog = ({
                 label={t('scenes.blobUrl')}
                 title={newTwinBlobUrl}
                 value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
-                className={`${
-                    (twinToEdit ? twinToEdit?.['assetFile'] : !newTwinBlobUrl)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
