@@ -1,6 +1,5 @@
 import React from 'react';
 import { SceneView } from './SceneView';
-import { Vector3 } from 'babylonjs';
 import { Marker } from '../../Models/Classes/SceneView.types';
 
 export default {
@@ -15,11 +14,7 @@ export const Truck = () => {
                 position: 'relative'
             }}
         >
-            <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf"
-                cameraRadius={800}
-                cameraCenter={new Vector3(0, 100, 0)}
-            />
+            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf" />
         </div>
     );
 };
@@ -32,10 +27,7 @@ export const Factory = () => {
                 position: 'relative'
             }}
         >
-            <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf"
-                cameraRadius={100}
-            />
+            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf" />
         </div>
     );
 };
@@ -123,7 +115,6 @@ export const Globe = () => {
             <SceneView
                 modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf"
                 markers={markers}
-                cameraRadius={150}
                 onMarkerClick={(marker, mesh, e) => meshClick(marker, mesh, e)}
             />
         </div>

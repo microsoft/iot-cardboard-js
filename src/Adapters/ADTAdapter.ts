@@ -192,6 +192,24 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
+    deleteADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinData,
+            {
+                method: 'delete',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+    }
+
     getADTModels(params: AdapterMethodParamsForGetADTModels = null) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -852,10 +870,10 @@ export default class ADTAdapter implements IADTAdapter {
                             vsr.BadgeValueExpression,
                             sourceTwins
                         );
-                        label.meshId =
-                            relationship.result?.data[
-                                'MediaMemberProperties'
-                            ].Position.id;
+                        label.meshIds = [
+                            relationship.result?.data['MediaMemberProperties']
+                                .Position.id
+                        ];
                         labelsList.push(label);
                     }
                 }

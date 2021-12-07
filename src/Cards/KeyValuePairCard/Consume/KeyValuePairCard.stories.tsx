@@ -6,6 +6,7 @@ import { IKeyValuePairAdapter } from '../../../Models/Constants/Interfaces';
 import { KeyValuePairData } from '../../../Models/Constants/Types';
 import KeyValuePairCard from './KeyValuePairCard';
 import { useStableGuidRng } from '../../../Models/Context/StableGuidRngProvider';
+import { CardErrorType } from '../../../Models/Constants';
 
 export default {
     title: 'KeyValuePairCard/Consume',
@@ -30,6 +31,24 @@ export const Mock = (
             id="notRelevant"
             properties={properties}
             adapter={new MockAdapter()}
+        />
+    </div>
+);
+
+export const MockError = (
+    _args,
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+) => (
+    <div style={defaultCardWrapperStyle}>
+        <KeyValuePairCard
+            theme={theme}
+            id="notRelevant"
+            properties={properties}
+            adapter={
+                new MockAdapter({
+                    mockError: CardErrorType.TokenRetrievalFailed
+                })
+            }
         />
     </div>
 );
