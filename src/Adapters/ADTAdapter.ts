@@ -871,9 +871,9 @@ export default class ADTAdapter implements IADTAdapter {
                             sourceTwins
                         );
                         label.meshIds = [
-                            relationship.result?.data[
-                                'MediaMemberProperties'
-                            ].Position.id];
+                            relationship.result?.data['MediaMemberProperties']
+                                .Position.id
+                        ];
                         labelsList.push(label);
                     }
                 }

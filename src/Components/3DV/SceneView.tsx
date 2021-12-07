@@ -632,11 +632,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 labels.forEach((item) => {
                     const targetMeshes: BABYLON.AbstractMesh[] = [];
                     item.meshIds.forEach((id) => {
-                       const mesh: BABYLON.AbstractMesh = scene?.meshes?.find((mesh) => mesh.id === id);
-                       if(mesh) {
-                           targetMeshes.push(mesh);
-                       }
-                    })
+                        const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                            (mesh) => mesh.id === id
+                        );
+                        if (mesh) {
+                            targetMeshes.push(mesh);
+                        }
+                    });
                     if (targetMeshes) {
                         if (debug) {
                             console.log('found label mesh');
@@ -668,7 +670,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                 (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
                                     item.color
                                 );
-                            })
+                            });
                         }
                         oldLabelsRef.current = labels;
                     }

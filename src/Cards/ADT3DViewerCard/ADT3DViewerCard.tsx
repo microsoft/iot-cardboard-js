@@ -68,7 +68,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
-            const label = labels.find((label) => label.meshIds.find((id) => id === mesh?.id));
+            const label = labels.find((label) =>
+                label.meshIds.find((id) => id === mesh?.id)
+            );
             if (label) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
@@ -104,7 +106,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     const meshHover = (marker: Marker, mesh: any) => {
         if (mesh) {
-            const label = labels.find((label) => label.meshIds.find((id) => id === mesh?.id));
+            const label = labels.find((label) =>
+                label.meshIds.find((id) => id === mesh?.id)
+            );
             if (label) {
                 document.body.style.cursor = 'pointer';
             } else {
