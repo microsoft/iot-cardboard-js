@@ -27,6 +27,7 @@
         "react-i18next": "^11.8.5",
         "react-syntax-highlighter": "^15.4.3",
         "react-transition-group": "^4.4.2",
+        "ta-json": "^2.5.0",
         "tsiclient": "^1.4.12"
     },
     "devDependencies": {
