@@ -523,10 +523,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     (item) => item.id === selectedMesh
                 );
                 if (mesh) {
-                    createBadge(mesh)
+                    createBadge(mesh);
                     // only color mesh if it isn't already colored
-                    if(!selectedMeshesRef.current.find(
-                        (m) => m.id === selectedMesh)) {
+                    if (
+                        !selectedMeshesRef.current.find(
+                            (m) => m.id === selectedMesh
+                        )
+                    ) {
                         const m = new SelectedMesh();
                         m.id = mesh.id;
                         if (selectedMesh !== hightlightedMeshRef.current?.id) {
@@ -607,12 +610,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         if (debug) {
             console.log(
-                'labels effect' + (scene ? ' with scene' : ' no scene')
+                'color meshes based on labels' +
+                    (scene ? ' with scene' : ' no scene')
             );
         }
         if (scene && labels && !isLoading) {
             if (debug) {
-                console.log('labels updating');
+                console.log('coloring meshes');
             }
 
             try {
@@ -626,19 +630,17 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             targetMeshes.push(mesh);
                         }
                     });
+
                     if (targetMeshes && item.color) {
-                        if (debug) {
-                            console.log('found label mesh');
-                        }
-                            targetMeshes.forEach((mesh) => {
-                                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                    item.color
-                                );
-                            });
+                        targetMeshes.forEach((mesh) => {
+                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                item.color
+                            );
+                        });
                     }
                 });
             } catch {
-                console.log('unable to create labels');
+                console.log('unable to color mesh');
             }
         }
     }, [labels, scene, isLoading]);
@@ -650,14 +652,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         badge.color = '#4C8577';
         badge.background = '#4C8577';
         advancedTextureRef.current.addControl(badge);
-        badgesRef.current.push(badge)
+        badgesRef.current.push(badge);
         badge.linkWithMesh(mesh);
     }
 
     function removeBadges() {
         badgesRef.current.forEach((badge) => {
             advancedTextureRef.current.removeControl(badge);
-        })
+        });
     }
 
     return (
