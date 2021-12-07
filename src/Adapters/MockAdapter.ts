@@ -240,15 +240,15 @@ export default class MockAdapter
         const getData = () => {
             const label1 = new SceneViewLabel();
             label1.color = '#FF0000';
-            label1.meshIds = ['Model_primitive1', 'Model_primitive2'];
+            label1.meshIds = ['Model_primitive2'];
             label1.metric = `${twinId} Temperature`;
             label1.value = 45;
-            // const label2 = new SceneViewLabel();
-            // label2.color = '#FFFF00';
-            // label2.meshIds = ['Model_primitive2'];
-            // label2.metric = `${twinId} Pressure`;
-            // label2.value = 43;
-            const labels = [label1];
+            const label2 = new SceneViewLabel();
+            label2.color = '#FFFF00';
+            label2.meshIds = ['Model_primitive1'];
+            label2.metric = `${twinId} Pressure`;
+            label2.value = 43;
+            const labels = [label1, label2];
             return labels;
         };
         await this.mockNetwork();
