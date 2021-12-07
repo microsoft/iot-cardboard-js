@@ -1,3 +1,4 @@
+import { MockAdapter } from '../../..';
 import {
     IADTAdapter,
     IADTTwin,
@@ -5,6 +6,6 @@ import {
 } from '../../../Models/Constants/Interfaces';
 
 export interface SceneListCardProps extends IStandaloneConsumeCardProps {
-    adapter: IADTAdapter;
+    adapter: IADTAdapter | MockAdapter;
     onSceneClick?: (sceneTwin: IADTTwin) => void;
 }

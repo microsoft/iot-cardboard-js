@@ -1,0 +1,32 @@
+[
+    {
+        "$dtId": "LineA Mock",
+        "$etag": "W/\"62e95974-c323-411e-ae4b-391ffd6fc4e5\"",
+        "latitude": 49,
+        "longitude": 49,
+        "$metadata": {
+            "$model": "dtmi:com:visualontology:scene;1",
+            "latitude": {
+                "lastUpdateTime": "2021-11-10T16:26:32.3929908Z"
+            },
+            "longitude": {
+                "lastUpdateTime": "2021-11-10T16:26:32.3929908Z"
+            }
+        }
+    },
+    {
+        "$dtId": "Belgium Mock",
+        "$etag": "W/\"9201bd32-99a1-4ff3-8530-3eb901e8a734\"",
+        "latitude": 20,
+        "longitude": 20,
+        "$metadata": {
+            "$model": "dtmi:com:visualontology:scene;1",
+            "latitude": {
+                "lastUpdateTime": "2021-11-10T16:26:57.8234921Z"
+            },
+            "longitude": {
+                "lastUpdateTime": "2021-11-10T16:26:57.8234921Z"
+            }
+        }
+    }
+]
