@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from '../../Theming/ThemeProvider';
-import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
-import i18n from '../../i18n';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
     CardTypes,
@@ -39,6 +36,7 @@ import BaseCard from '../../Cards/Base/Consume/BaseCard';
 import { hasAllProcessGraphicsCardProperties } from '../../Models/Services/Utils';
 import './Board.scss';
 import PropertyInspectorSurface from '../../Components/PropertyInspector/surface/PropertyInspectorSurface';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 const Board: React.FC<IBoardProps> = ({
     adapter,
@@ -124,47 +122,45 @@ const Board: React.FC<IBoardProps> = ({
     }
 
     return (
-        <I18nProviderWrapper
+        <BaseComponent
             locale={locale}
             localeStrings={localeStrings}
-            i18n={i18n}
+            theme={theme}
         >
-            <ThemeProvider theme={theme}>
-                {errorMessage && (
-                    <div className="cb-base-catastrophic-error-wrapper">
-                        <div className="cb-base-catastrophic-error-box">
-                            <div className="cb-base-catastrophic-error-message">
-                                {errorMessage}
-                            </div>
+            {errorMessage && (
+                <div className="cb-base-catastrophic-error-wrapper">
+                    <div className="cb-base-catastrophic-error-box">
+                        <div className="cb-base-catastrophic-error-message">
+                            {errorMessage}
                         </div>
                     </div>
-                )}
-                {!errorMessage && cardComponents.length === 0 && (
-                    <div className="cb-base-catastrophic-error-wrapper">
-                        <div className="cb-base-catastrophic-error-box">
-                            <div className="cb-base-catastrophic-error-message">
-                                {t('board.empty')}
-                            </div>
+                </div>
+            )}
+            {!errorMessage && cardComponents.length === 0 && (
+                <div className="cb-base-catastrophic-error-wrapper">
+                    <div className="cb-base-catastrophic-error-box">
+                        <div className="cb-base-catastrophic-error-message">
+                            {t('board.empty')}
                         </div>
                     </div>
-                )}
-                {!errorMessage && cardComponents.length > 0 && (
-                    <div className="cb-board" style={layoutStyles}>
-                        {cardComponents}
-                    </div>
-                )}
-                {adtTwin && (
-                    <PropertyInspectorSurface
-                        isOpen={isInspectorOpen}
-                        onDismiss={() => setIsInspectorOpen(false)}
-                        twinId={adtTwin['$dtId']}
-                        adapter={adapter as IADTAdapter}
-                        theme={theme}
-                        locale={locale}
-                    />
-                )}
-            </ThemeProvider>
-        </I18nProviderWrapper>
+                </div>
+            )}
+            {!errorMessage && cardComponents.length > 0 && (
+                <div className="cb-board" style={layoutStyles}>
+                    {cardComponents}
+                </div>
+            )}
+            {adtTwin && (
+                <PropertyInspectorSurface
+                    isOpen={isInspectorOpen}
+                    onDismiss={() => setIsInspectorOpen(false)}
+                    twinId={adtTwin['$dtId']}
+                    adapter={adapter as IADTAdapter}
+                    theme={theme}
+                    locale={locale}
+                />
+            )}
+        </BaseComponent>
     );
 };
 

@@ -9,6 +9,16 @@ import { default as ErrorComponent } from '../Error/Error';
 import './BaseComponent.scss';
 import Overlay from '../Modal/Overlay';
 
+/** Provides wrapper component for theming and localization.
+ *  Also provides optional UI states for loading, empty data, and errors.
+ *
+ *  If provided adapterResults, any catastrophic errors present will be
+ *  rendered in error overlay.  This functionality can be short circuited by
+ *  explicitly passing a componentError object.
+ *
+ * Note: If theming or localization providers are already present higher in
+ * the component tree, those providers won't be duplicated.
+ */
 const BaseComponent: React.FC<BaseComponentProps> = ({
     adapterResults,
     theme,

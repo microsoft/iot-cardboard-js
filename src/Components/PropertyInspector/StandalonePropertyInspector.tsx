@@ -7,15 +7,9 @@ import {
     StandalonePropertyInspectorProps
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
-import {
-    ADTPatch,
-    PropertyInspectorPatchMode,
-    Theme
-} from '../../Models/Constants';
+import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
 import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
 import { useTranslation } from 'react-i18next';
-import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
-import { ThemeProvider } from '../../Theming/ThemeProvider';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
     spiActionType
@@ -23,6 +17,7 @@ import StandalonePropertyInspectorReducer, {
 import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
 import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -147,47 +142,41 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
     };
 
     return (
-        <I18nProviderWrapper
+        <BaseComponent
             locale={props.locale}
             localeStrings={props.localeStrings}
-            i18n={i18n}
+            theme={props.theme}
         >
-            <ThemeProvider theme={props.theme ?? Theme.Light}>
-                <div className="cb-standalone-property-inspector-container">
-                    <StandalonePropertyInspectorCommandBar
-                        setIsTreeCollapsed={setIsTreeCollapsed}
-                        onCommitChanges={onCommitChanges}
-                        undoAllChanges={undoAllChanges}
-                        commandBarTitle={
-                            isTwin(props.inputData)
-                                ? t('propertyInspector.commandBarTitleTwin')
-                                : t(
-                                      'propertyInspector.commandBarTitleRelationship'
-                                  )
-                        }
-                        editStatus={state.editStatus}
+            <div className="cb-standalone-property-inspector-container">
+                <StandalonePropertyInspectorCommandBar
+                    setIsTreeCollapsed={setIsTreeCollapsed}
+                    onCommitChanges={onCommitChanges}
+                    undoAllChanges={undoAllChanges}
+                    commandBarTitle={
+                        isTwin(props.inputData)
+                            ? t('propertyInspector.commandBarTitleTwin')
+                            : t('propertyInspector.commandBarTitleRelationship')
+                    }
+                    editStatus={state.editStatus}
+                />
+                <div className="cb-property-inspector-scrollable-container">
+                    <PropertyInspectorMessaging
+                        {...props}
+                        nodes={state.propertyTreeNodes}
                     />
-                    <div className="cb-property-inspector-scrollable-container">
-                        <PropertyInspectorMessaging
-                            {...props}
-                            nodes={state.propertyTreeNodes}
-                        />
-                        <PropertyTree
-                            data={state.propertyTreeNodes as PropertyTreeNode[]}
-                            onParentClick={(parent) => onParentClick(parent)}
-                            onNodeValueChange={onNodeValueChange}
-                            onNodeValueUnset={onNodeValueUnset}
-                            onAddMapValue={onAddMapValue}
-                            onRemoveMapValue={onRemoveMapValue}
-                            readonly={!!props.readonly}
-                            isTreeEdited={
-                                Object.keys(state.editStatus).length > 0
-                            }
-                        />
-                    </div>
+                    <PropertyTree
+                        data={state.propertyTreeNodes as PropertyTreeNode[]}
+                        onParentClick={(parent) => onParentClick(parent)}
+                        onNodeValueChange={onNodeValueChange}
+                        onNodeValueUnset={onNodeValueUnset}
+                        onAddMapValue={onAddMapValue}
+                        onRemoveMapValue={onRemoveMapValue}
+                        readonly={!!props.readonly}
+                        isTreeEdited={Object.keys(state.editStatus).length > 0}
+                    />
                 </div>
-            </ThemeProvider>
-        </I18nProviderWrapper>
+            </div>
+        </BaseComponent>
     );
 };
 
