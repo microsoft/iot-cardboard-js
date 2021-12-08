@@ -6,6 +6,8 @@ import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import { ThemeProvider, Theme } from '../../Theming/ThemeProvider';
 import { BaseComponentProps } from './Base.types';
 import { default as ErrorComponent } from '../Error/Error';
+import './BaseComponent.scss';
+import Overlay from '../Modal/Overlay';
 
 const BaseComponent: React.FC<BaseComponentProps> = ({
     adapterResults,
@@ -36,16 +38,8 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
 
     const BaseContents = (
         <div className="cb-base-component">
-            {isLoading && (
-                <div className="cb-base-component-loading-overlay">
-                    <div className="cb-base-component-loading">Loading...</div>
-                </div>
-            )}
-            {isDataEmpty && (
-                <div className="cb-base-component-no-data-overlay">
-                    <div className="cb-base-component-no-data">No data</div>
-                </div>
-            )}
+            {isLoading && <Overlay>{t('loading')}</Overlay>}
+            {isDataEmpty && !isLoading && <Overlay>{t('noData')}</Overlay>}
             {errorToRender && (
                 <div className="cb-base-component-error-overlay">
                     <ErrorComponent

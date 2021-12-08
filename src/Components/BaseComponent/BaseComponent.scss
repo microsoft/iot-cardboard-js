@@ -1,14 +1,7 @@
 @import '../../Resources/Styles/BaseStyles.scss';
 
 .cb-base-component {
+    position: relative;
     width: 100%;
     height: 100%;
-}
-
-.cb-base-component-loading-overlay {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
