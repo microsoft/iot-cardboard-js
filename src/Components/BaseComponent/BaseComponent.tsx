@@ -8,6 +8,7 @@ import { BaseComponentProps } from './Base.types';
 import { default as ErrorComponent } from '../Error/Error';
 import './BaseComponent.scss';
 import Overlay from '../Modal/Overlay';
+import { Spinner } from '@fluentui/react/lib/components/Spinner/Spinner';
 
 /** Provides wrapper component for theming and localization.
  *  Also provides optional UI states for loading, empty data, and errors.
@@ -28,6 +29,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
     localeStrings,
     componentError,
     containerClassName,
+    customLoadingMessage,
     children
 }) => {
     // Access theme and localization contexts to see if they are already present in component tree
@@ -46,8 +48,8 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
     );
 
     const errorToRender: IComponentError = componentError || catastrophicError;
-
     const showInfo = !errorToRender && (isLoading || isDataEmpty);
+    const loadingMessage = customLoadingMessage || t('loading');
 
     const BaseContents = (
         <div
@@ -59,7 +61,13 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
                 <>
                     {
                         <Overlay>
-                            {isLoading ? t('loading') : t('noData')}
+                            {isLoading ? (
+                                <div>
+                                    <Spinner label={loadingMessage} />
+                                </div>
+                            ) : (
+                                t('noData')
+                            )}
                         </Overlay>
                     }
                 </>

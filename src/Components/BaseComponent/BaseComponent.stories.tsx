@@ -29,6 +29,22 @@ export const Loading = (
     </div>
 );
 
+export const CustomLoadingMessage = (
+    _args,
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+) => (
+    <div style={defaultCardWrapperStyle}>
+        <BaseComponent
+            theme={theme}
+            locale={locale}
+            isLoading={true}
+            customLoadingMessage={'Reticulating splines...'}
+        >
+            <div>Example contents</div>
+        </BaseComponent>
+    </div>
+);
+
 export const HardWiredComponentError = (
     _args,
     { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
@@ -87,10 +103,10 @@ export const NestedBaseComponent = (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent theme={theme} locale={locale}>
             <div style={{ padding: 20, color: 'red' }}>
-                Top level BaseComponent
+                Top level BaseComponent with theme &amp; loc providers
                 <BaseComponent>
                     <div style={{ padding: 20, color: 'blue' }}>
-                        Nested BaseComponent
+                        Nested BaseComponent with no duplicated providers
                     </div>
                 </BaseComponent>
             </div>

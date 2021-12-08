@@ -20,4 +20,7 @@ export interface BaseComponentProps {
 
     /** Custom className for BaseComponent container */
     containerClassName?: string;
+
+    /** Custom message to display under loading spinner: defaults to 'loading...' */
+    customLoadingMessage?: string;
 }
