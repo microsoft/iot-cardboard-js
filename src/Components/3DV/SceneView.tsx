@@ -19,6 +19,8 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
+import { BadgeShape } from '../../Models/Constants/Enums';
+import { createBadge } from './SceneView.Utils';
 
 const debug = false;
 async function loadPromise(
@@ -523,7 +525,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     (item) => item.id === selectedMesh
                 );
                 if (mesh) {
-                    createBadge(mesh);
+                   const badge = createBadge('#ff0000', BadgeShape.ELLIPSE, '', '#fff', true);
+                   advancedTextureRef.current.addControl(badge);
+                   badge.linkWithMesh(mesh);
+                   badgesRef.current.push(badge);
                     // only color mesh if it isn't already colored
                     if (
                         !selectedMeshesRef.current.find(
@@ -644,17 +649,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
     }, [labels, scene, isLoading]);
-
-    function createBadge(mesh) {
-        const badge = new GUI.Ellipse();
-        badge.width = '25px';
-        badge.height = '25px';
-        badge.color = '#4C8577';
-        badge.background = '#4C8577';
-        advancedTextureRef.current.addControl(badge);
-        badgesRef.current.push(badge);
-        badge.linkWithMesh(mesh);
-    }
 
     function removeBadges() {
         badgesRef.current.forEach((badge) => {

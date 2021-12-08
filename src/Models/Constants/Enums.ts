@@ -114,3 +114,8 @@ export enum ADT3DSceneBuilderModes {
     BuildScene = 'adt-3d-scene-builder-mode-build',
     ViewScene = 'adt-3d-scene-builder-mode-view'
 }
+
+export enum BadgeShape {
+    ELLIPSE,
+    RECT
+} 
