@@ -21,7 +21,7 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
-    CardErrorType,
+    ComponentErrorType,
     DTwin,
     DTwinRelationship,
     DTModel,
@@ -29,7 +29,7 @@ import {
     IADTTwinComponent,
     KeyValuePairData,
     DTwinUpdateEvent,
-    ICardError
+    IComponentError
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -346,7 +346,7 @@ export default class ADTAdapter implements IADTAdapter {
                     return { data: models };
                 } else {
                     adapterMethodSandbox.pushError({
-                        type: CardErrorType.DataUploadFailed,
+                        type: ComponentErrorType.DataUploadFailed,
                         isCatastrophic: true,
                         rawError: err
                     });
@@ -379,7 +379,7 @@ export default class ADTAdapter implements IADTAdapter {
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
-                            type: CardErrorType.DataUploadFailed,
+                            type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
                             rawError: err
                         });
@@ -432,7 +432,7 @@ export default class ADTAdapter implements IADTAdapter {
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
-                            type: CardErrorType.DataUploadFailed,
+                            type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
                             rawError: err
                         });
@@ -798,7 +798,7 @@ export default class ADTAdapter implements IADTAdapter {
     async getVisualADTTwin(twinId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
-        function pushErrors(errors: ICardError[]) {
+        function pushErrors(errors: IComponentError[]) {
             if (errors) {
                 for (const error of errors) {
                     adapterMethodSandbox.pushError({

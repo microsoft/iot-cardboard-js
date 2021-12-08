@@ -20,7 +20,7 @@ import {
 import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
 import {
-    CardErrorType,
+    ComponentErrorType,
     Locale,
     Theme,
     HierarchyNodeType,
@@ -130,7 +130,7 @@ export interface IUseAdapter<T extends IAdapterData> {
     pulse: boolean;
 }
 
-export interface ICardError {
+export interface IComponentError {
     /** Name of the error to be used as title */
     name?: string;
 
@@ -138,7 +138,7 @@ export interface ICardError {
     message?: string;
 
     /** Classification of error type */
-    type?: CardErrorType;
+    type?: ComponentErrorType;
 
     /** Catastrophic errors stop adapter execution */
     isCatastrophic?: boolean;
@@ -160,15 +160,15 @@ export interface IMockAdapter {
     networkTimeoutMillis?: number;
 
     /** If set, MockAdapter will mock error of set type */
-    mockError?: CardErrorType;
+    mockError?: ComponentErrorType;
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
 }
 
 export interface IErrorInfo {
-    errors: ICardError[];
-    catastrophicError: ICardError;
+    errors: IComponentError[];
+    catastrophicError: IComponentError;
 }
 
 export interface IHierarchyProps {

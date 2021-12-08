@@ -6,7 +6,7 @@ import {
     ThemeProvider as FluentThemeProvider
 } from '@fluentui/react';
 
-export const Theme = React.createContext(LibThemes.Light);
+export const Theme = React.createContext(null);
 export const useLibTheme = () => useContext(Theme);
 
 // Required to load fluent UI icons

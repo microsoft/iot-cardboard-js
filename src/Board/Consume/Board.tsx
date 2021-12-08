@@ -11,7 +11,7 @@ import {
     IResolvedRelationshipClickErrors,
     Locale,
     Theme,
-    CardErrorType,
+    ComponentErrorType,
     ADTModel_ViewData_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -23,7 +23,7 @@ import { IBoardProps } from './Board.types';
 import {
     SearchSpan,
     CardInfo,
-    CardError,
+    ComponentError,
     BoardInfo
 } from '../../Models/Classes';
 import { ADTAdapter } from '../../Adapters';
@@ -277,8 +277,8 @@ function getCardElement(
                     isLoading={false}
                     adapterResult={null}
                     cardError={
-                        new CardError({
-                            type: CardErrorType.InvalidCardType,
+                        new ComponentError({
+                            type: ComponentErrorType.InvalidCardType,
                             messageParams: { cardType: cardInfo.type }
                         })
                     }

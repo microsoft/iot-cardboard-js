@@ -2,7 +2,7 @@ import React from 'react';
 import SceneListCard from './SceneListCard';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { CardErrorType } from '../../../Models/Constants';
+import { ComponentErrorType } from '../../../Models/Constants';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -24,7 +24,7 @@ export const Error = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={
                     new MockAdapter({
-                        mockError: CardErrorType.TokenRetrievalFailed
+                        mockError: ComponentErrorType.TokenRetrievalFailed
                     })
                 }
             />

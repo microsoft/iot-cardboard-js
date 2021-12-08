@@ -6,7 +6,7 @@ import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { CardError } from '../Models/Classes/Errors';
+import { ComponentError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
@@ -63,7 +63,7 @@ export default class MockAdapter
 
         // throw error if mock error type passed into adapter
         if (this.mockError) {
-            throw new CardError({
+            throw new ComponentError({
                 isCatastrophic: true,
                 type: this.mockError,
                 rawError: new Error('Mock error message')
