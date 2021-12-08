@@ -17,4 +17,7 @@ export interface BaseComponentProps {
 
     /** Hardwire error UI with this prop */
     componentError?: ComponentError;
+
+    /** Custom className for BaseComponent container */
+    containerClassName?: string;
 }

@@ -76,7 +76,7 @@ const useAdapter = <T extends IAdapterData>({
                 result: null,
                 errorInfo: null
             }),
-            isLoading: false,
+            isLoading: isAdapterCalledOnMount,
             isLongPolling,
             isInitialCall: true
         }),

@@ -23,11 +23,10 @@ const BaseCard: React.FC<BaseCardProps> = ({
             locale={locale}
             localeStrings={localeStrings}
             theme={theme}
+            containerClassName={'cb-base-card'}
         >
-            <div className="cb-base-card">
-                {title && <h3 className="cb-base-card-title">{title}</h3>}
-                <div className="cb-base-card-content">{children}</div>
-            </div>
+            {title && <h3 className="cb-base-card-title">{title}</h3>}
+            <div className="cb-base-card-content">{children}</div>
         </BaseComponent>
     );
 };

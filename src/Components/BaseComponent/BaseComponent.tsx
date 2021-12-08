@@ -17,6 +17,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
     locale,
     localeStrings,
     componentError,
+    containerClassName,
     children
 }) => {
     // Access theme and localization contexts to see if they are already present in component tree
@@ -36,10 +37,23 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
 
     const errorToRender: IComponentError = componentError || catastrophicError;
 
+    const showInfo = !errorToRender && (isLoading || isDataEmpty);
+
     const BaseContents = (
-        <div className="cb-base-component">
-            {isLoading && <Overlay>{t('loading')}</Overlay>}
-            {isDataEmpty && !isLoading && <Overlay>{t('noData')}</Overlay>}
+        <div
+            className={`cb-base-component ${
+                containerClassName ? containerClassName : ''
+            }`}
+        >
+            {showInfo && (
+                <>
+                    {
+                        <Overlay>
+                            {isLoading ? t('loading') : t('noData')}
+                        </Overlay>
+                    }
+                </>
+            )}
             {errorToRender && (
                 <ErrorComponent
                     errorTitle={errorToRender.name}
