@@ -190,6 +190,10 @@ export default class MockAdapter
         }
     }
 
+    async getScenes() {
+        return null; // TODO: Mock scenes
+    }
+
     async getADTTwin(twinId: string) {
         try {
             const getTwinData = () => {

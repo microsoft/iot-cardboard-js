@@ -13,11 +13,12 @@ export class SelectedMesh {
 }
 
 export class Marker {
+    id?: string;
     name: string;
     position?: Vector3;
     latitude?: number;
     longitude?: number;
-    color: Color3;
+    color: { r: number; g: number; b: number };
     isNav?: boolean;
 }
 

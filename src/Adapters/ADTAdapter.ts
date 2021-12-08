@@ -50,10 +50,13 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
-import { SceneViewLabel } from '../Models/Classes/SceneView.types';
+import { Marker, SceneViewLabel } from '../Models/Classes/SceneView.types';
 import { Parser } from 'expr-eval';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import { TaJson } from 'ta-json';
+import { Config } from './Config';
+import ADTScenesData from '../Models/Classes/AdapterDataClasses/ADTScenesData';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -793,6 +796,68 @@ export default class ADTAdapter implements IADTAdapter {
             },
             createRelationships
         );
+    }
+
+    public static config: Config = null;
+
+    private async getConfig() {
+        if (!ADTAdapter.config) {
+            const cfg = await (
+                await fetch(
+                    'https://baby3d.azurewebsites.net/vconfig-MattReworkFusionChristian.json'
+                )
+            ).json();
+            ADTAdapter.config = TaJson.parse<Config>(
+                JSON.stringify(cfg),
+                Config
+            );
+        }
+    }
+
+    async getScenes() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            await this.getConfig();
+            const markers: Marker[] = [];
+            const scenes = ADTAdapter.config?.viewerConfiguration?.scenes;
+            if (scenes?.length) {
+                for (const scene of scenes) {
+                    const marker = new Marker();
+                    marker.id = scene.id;
+                    if (scene.assets?.length) {
+                        marker.id = scene.assets[0].url; // TODO: id not url
+                    }
+
+                    marker.color = { r: 255, g: 0, b: 0 };
+                    marker.latitude = scene.latitude;
+                    marker.longitude = scene.longitude;
+                    marker.name = scene.name;
+                    markers.push(marker);
+                }
+            }
+
+            return new ADTScenesData(markers);
+        });
+    }
+
+    async getScene(id: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            await this.getConfig();
+            let sceneUrl = '';
+            const scenes = ADTAdapter.config?.viewerConfiguration?.scenes;
+            if (scenes?.length) {
+                for (const scene of scenes) {
+                    if (scene.assets?.length && scene.id === id) {
+                        sceneUrl = scene.assets[0].url; // TODO: return full scene
+                    }
+                }
+            }
+
+            return new ADTVisualTwinData(sceneUrl, null);
+        });
     }
 
     async getVisualADTTwin(twinId: string) {

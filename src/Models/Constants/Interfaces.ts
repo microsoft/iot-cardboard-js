@@ -41,6 +41,7 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import ADTScenesData from '../Classes/AdapterDataClasses/ADTScenesData';
 
 export interface IAction {
     type: string;
@@ -334,6 +335,7 @@ export interface ITsiClientChartDataAdapter {
 
 export interface IADT3DViewerAdapter {
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
+    getScenes(): AdapterReturnType<ADTScenesData>;
 }
 
 export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import * as BABYLON from 'babylonjs';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IADTAdapter, IADTTwin } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DGlobeCard.scss';
@@ -11,35 +10,36 @@ import { Marker } from '../../Models/Classes/SceneView.types';
 interface ADT3DGlobeCardProps {
     adapter: IADTAdapter;
     title?: string;
+    onSceneClick?: (twin: IADTTwin) => void;
 }
 
-const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({ adapter, title }) => {
+const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
+    adapter,
+    title,
+    onSceneClick
+}) => {
     const [markers, setMarkers] = useState<Marker[]>([]);
+    const sceneClickRef = useRef<any>();
+
+    sceneClickRef.current = onSceneClick;
 
     const scenes = useAdapter({
-        adapterMethod: () =>
-            adapter.getADTTwinsByModelId({
-                modelId: 'dtmi:com:visualontology:scene;1'
-            }),
+        adapterMethod: () => adapter.getScenes(),
         refetchDependencies: [adapter]
     });
 
     useEffect(() => {
-        const markers: Marker[] = [];
-        if (scenes.adapterResult.result?.data?.value) {
-            for (const scene of scenes.adapterResult.result.data.value) {
-                const marker = new Marker();
-                marker.color = BABYLON.Color3.Red();
-                marker.latitude = scene.latitude;
-                marker.longitude = scene.longitude;
-                marker.name = scene.name || scene.$dtid || 'Unknown';
-                marker.isNav = true;
-                markers.push(marker);
-            }
-
-            setMarkers(markers);
+        if (scenes.adapterResult.result?.data) {
+            setMarkers(scenes.adapterResult.result?.data?.markers);
         }
     }, [scenes.adapterResult.result]);
+
+    const onMarkerClick = (marker) => {
+        if (marker && sceneClickRef.current) {
+            const twin = { $dtId: 'TankVisual', MediaSrc: marker.id }; // TODO: Pass proper structure
+            sceneClickRef.current(twin);
+        }
+    };
 
     return (
         <BaseCard
@@ -49,8 +49,9 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({ adapter, title }) => {
         >
             <div className="cb-adt-3dglobe-wrapper">
                 <SceneView
-                    modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf"
+                    modelUrl="Globe"
                     markers={markers}
+                    onMarkerClick={(marker) => onMarkerClick(marker)}
                 />
             </div>
         </BaseCard>
