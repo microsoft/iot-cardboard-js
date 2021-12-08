@@ -17,3 +17,4 @@ export { default as ADTModelListWithModelDetailsCard } from './CompositeCards/AD
 export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCard';
 export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
 export { default as ADT3DViewerCard } from './ADT3DViewerCard/ADT3DViewerCard';
+export { default as ADT3DScenePage } from './CompositeCards/ADT3DScenePage/ADT3DScenePage';
