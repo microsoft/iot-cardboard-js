@@ -28,7 +28,7 @@ import {
 import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const sceneTwinModelId = 'dtmi:com:visualontology:scene;1'; // Use 'dtmi:com:niusoff:visualtwin;1' model for 3D Scene Page as it has properly defined visual twins for 3D viewer/builder components
+const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -74,7 +74,13 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
-            setSceneList(scenes.adapterResult.getData().value);
+            setSceneList(
+                scenes.adapterResult.getData().value?.sort((a, b) =>
+                    a.$dtId.localeCompare(b.$dtId, undefined, {
+                        sensitivity: 'base'
+                    })
+                )
+            );
         } else {
             setSceneList([]);
         }
@@ -140,7 +146,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
         <div
             onClick={() => {
-                onSceneClick(props.item);
+                if (typeof onSceneClick === 'function') {
+                    onSceneClick(props.item);
+                }
             }}
         >
             <DetailsRow className={'cb-scene-list-row'} {...props} />
@@ -217,6 +225,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         key: 'scene-name',
                                         name: t('scenes.sceneName'),
                                         minWidth: 100,
+                                        isResizable: true,
                                         onRender: (item) => (
                                             <span>
                                                 {item.$dtId?.en ?? item.$dtId}
@@ -226,7 +235,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     {
                                         key: 'scene-model',
                                         name: t('model'),
-                                        minWidth: 100,
+                                        minWidth: 200,
+                                        maxWidth: 400,
                                         onRender: (item) => (
                                             <span>
                                                 {item.$metadata?.$model}
@@ -392,11 +402,11 @@ const SceneListDialog = ({
             <TextField
                 label={t('scenes.blobUrl')}
                 title={newTwinBlobUrl}
-                value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
+                value={twinToEdit ? twinToEdit?.['MediaSrc'] : newTwinBlobUrl}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
-                        selectedTwinCopy['assetFile'] = e.currentTarget.value;
+                        selectedTwinCopy['MediaSrc'] = e.currentTarget.value;
                         setTwinToEdit(selectedTwinCopy);
                     } else {
                         setNewTwinBlobUrl(e.currentTarget.value);
@@ -415,8 +425,8 @@ const SceneListDialog = ({
                         if (twinToEdit) {
                             const updateBlobPatch: ADTPatch = {
                                 op: 'replace',
-                                path: '/assetFile',
-                                value: twinToEdit['assetFile']
+                                path: '/MediaSrc',
+                                value: twinToEdit['MediaSrc']
                             };
                             onEditScene([updateBlobPatch]);
                         } else {
@@ -425,7 +435,7 @@ const SceneListDialog = ({
                                 $metadata: {
                                     $model: sceneTwinModelId
                                 },
-                                assetFile: newTwinBlobUrl
+                                MediaSrc: newTwinBlobUrl
                             };
                             onAddScene([newTwin]);
                         }
