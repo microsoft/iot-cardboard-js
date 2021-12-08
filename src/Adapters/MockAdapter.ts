@@ -1,4 +1,5 @@
 import {
+    ADTAdapterTwinsData,
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
@@ -10,6 +11,9 @@ import { ComponentError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
+    ADTPatch,
+    ADTSceneTwinModelId,
+    DTwin,
     IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
@@ -23,6 +27,8 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
+import mockScenes from '../Cards/SceneListCard/Consume/mockData/mockScenes.json';
+import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 
@@ -210,6 +216,60 @@ export default class MockAdapter
         }
     }
 
+    async getADTTwinsByModelId(params: { modelId: string }) {
+        try {
+            const getTwinsData = () => {
+                return new ADTAdapterTwinsData({
+                    value:
+                        params.modelId === ADTSceneTwinModelId
+                            ? mockScenes
+                            : [
+                                  {
+                                      $dtId: '',
+                                      $etag: '',
+                                      $metadata: {
+                                          $model: params.modelId
+                                      }
+                                  }
+                              ],
+                    continuationToken: ''
+                });
+            };
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: getTwinsData(),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async createTwins(twins: Array<DTwin>) {
+        await this.mockNetwork();
+        return twins;
+    }
+
+    async updateTwin(_twinId: string, _patches: Array<ADTPatch>) {
+        await this.mockNetwork();
+        return new AdapterResult<ADTAdapterPatchData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    async deleteADTTwin(_twinId: string) {
+        await this.mockNetwork();
+        return new AdapterResult<ADTTwinData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
     async getTsiclientChartDataShape(
         _id: string,
         searchSpan: SearchSpan,
@@ -240,12 +300,12 @@ export default class MockAdapter
         const getData = () => {
             const label1 = new SceneViewLabel();
             label1.color = '#FF0000';
-            label1.meshId = 'Model_primitive1';
+            label1.meshIds = ['Model_primitive2'];
             label1.metric = `${twinId} Temperature`;
             label1.value = 45;
             const label2 = new SceneViewLabel();
             label2.color = '#FFFF00';
-            label2.meshId = 'Model_primitive2';
+            label2.meshIds = ['Model_primitive1'];
             label2.metric = `${twinId} Pressure`;
             label2.value = 43;
             const labels = [label1, label2];

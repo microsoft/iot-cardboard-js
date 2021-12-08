@@ -3,6 +3,7 @@ import SceneListCard from './SceneListCard';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import { ComponentErrorType } from '../../../Models/Constants';
+import mockScenes from './mockData/mockScenes.json';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -10,6 +11,19 @@ export default {
 
 const sceneListCardStyle = {
     height: '100%'
+};
+
+export const Mock = (_args, { globals: { theme, locale } }) => {
+    return (
+        <div style={sceneListCardStyle}>
+            <SceneListCard
+                title={'Mock Scene List Card'}
+                theme={theme}
+                locale={locale}
+                adapter={new MockAdapter({ mockData: mockScenes })}
+            />
+        </div>
+    );
 };
 
 export const Error = (_args, { globals: { theme, locale } }) => {

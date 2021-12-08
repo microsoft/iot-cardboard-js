@@ -3,7 +3,7 @@ import { Vector3, Color3, AbstractMesh, Scene } from 'babylonjs';
 export class SceneViewLabel {
     metric: string;
     value: number;
-    meshId: string;
+    meshIds: string[];
     color: string;
 }
 
