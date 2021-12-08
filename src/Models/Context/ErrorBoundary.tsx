@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import BaseCard from '../../Cards/Base/Consume/BaseCard';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { ComponentError } from '../Classes/Errors';
 import { ComponentErrorType, Theme } from '../Constants/Enums';
 
@@ -131,12 +131,9 @@ class ErrorBoundary extends React.Component<
     render() {
         if (!this.props.isHandled && this.state.hasError) {
             return (
-                <BaseCard
+                <BaseComponent
                     theme={this.props.theme}
-                    title={this.props.cardTitle}
-                    isLoading={false}
-                    adapterResult={null}
-                    cardError={
+                    componentError={
                         new ComponentError({
                             isCatastrophic: true,
                             type: ComponentErrorType.ErrorBoundary,
@@ -145,7 +142,7 @@ class ErrorBoundary extends React.Component<
                             rawError: new Error(this.state.error.stack)
                         })
                     }
-                />
+                ></BaseComponent>
             );
         }
         return this.props.children;

@@ -153,14 +153,16 @@ const Board: React.FC<IBoardProps> = ({
                         {cardComponents}
                     </div>
                 )}
-                <PropertyInspectorSurface
-                    isOpen={isInspectorOpen}
-                    onDismiss={() => setIsInspectorOpen(false)}
-                    twinId={adtTwin['$dtId']}
-                    adapter={adapter as IADTAdapter}
-                    theme={theme}
-                    locale={locale}
-                />
+                {adtTwin && (
+                    <PropertyInspectorSurface
+                        isOpen={isInspectorOpen}
+                        onDismiss={() => setIsInspectorOpen(false)}
+                        twinId={adtTwin['$dtId']}
+                        adapter={adapter as IADTAdapter}
+                        theme={theme}
+                        locale={locale}
+                    />
+                )}
             </ThemeProvider>
         </I18nProviderWrapper>
     );

@@ -175,6 +175,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
+                adapterResults={[scenes.adapterResult]}
             >
                 {sceneList.length > 0 ? (
                     <>

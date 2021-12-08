@@ -41,16 +41,14 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
             {isLoading && <Overlay>{t('loading')}</Overlay>}
             {isDataEmpty && !isLoading && <Overlay>{t('noData')}</Overlay>}
             {errorToRender && (
-                <div className="cb-base-component-error-overlay">
-                    <ErrorComponent
-                        errorTitle={errorToRender.name}
-                        errorContent={
-                            errorToRender.message
-                                ? errorToRender.message
-                                : errorToRender.rawError?.toString()
-                        }
-                    />
-                </div>
+                <ErrorComponent
+                    errorTitle={errorToRender.name}
+                    errorContent={
+                        errorToRender.message
+                            ? errorToRender.message
+                            : errorToRender.rawError?.toString()
+                    }
+                />
             )}
             {children}
         </div>
