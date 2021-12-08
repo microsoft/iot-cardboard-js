@@ -16,19 +16,18 @@ import {
     DetailsList,
     IColumn,
     IconButton,
-    IIconProps,
     Dialog,
     DialogFooter,
     PrimaryButton,
     DefaultButton,
     DialogType,
-    TextField
+    TextField,
+    IDetailsListProps,
+    DetailsRow
 } from '@fluentui/react';
 import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const editIcon: IIconProps = { iconName: 'Edit' };
-const deleteIcon: IIconProps = { iconName: 'Delete' };
 const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
@@ -36,7 +35,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     title,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    onSceneClick
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
@@ -74,7 +74,13 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
-            setSceneList(scenes.adapterResult.getData().value);
+            setSceneList(
+                scenes.adapterResult.getData().value?.sort((a, b) =>
+                    a.$dtId.localeCompare(b.$dtId, undefined, {
+                        sensitivity: 'base'
+                    })
+                )
+            );
         } else {
             setSceneList([]);
         }
@@ -132,53 +138,74 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
 
-    function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
+    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
+        <div
+            onClick={() => {
+                if (typeof onSceneClick === 'function') {
+                    onSceneClick(props.item);
+                }
+            }}
+        >
+            <DetailsRow className={'cb-scene-list-row'} {...props} />
+        </div>
+    );
+
+    const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
+        item: any,
+        _itemIndex: number,
+        column: IColumn
+    ) => {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
             case 'scene-action':
                 return (
                     <>
                         <IconButton
-                            iconProps={editIcon}
+                            iconProps={{ iconName: 'Edit' }}
                             title={t('edit')}
                             ariaLabel={t('edit')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedTwin(item);
                                 setIsSceneDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                         <IconButton
-                            iconProps={deleteIcon}
+                            iconProps={{ iconName: 'Delete' }}
                             title={t('delete')}
                             ariaLabel={t('delete')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedTwin(item);
                                 setIsConfirmDeleteDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                     </>
                 );
             default:
                 return <span>{fieldContent}</span>;
         }
-    }
+    };
 
     return (
-        <div className="cb-scenes-list-card-wrapper">
+        <div className="cb-scene-list-card-wrapper">
             <BaseCompositeCard
                 theme={theme}
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
+                isLoading={scenes.isLoading}
             >
                 {sceneList.length > 0 ? (
                     <>
-                        <div className="cb-scenes-list-action-buttons">
+                        <div className="cb-scene-list-action-buttons">
                             <ActionButton
                                 iconProps={{ iconName: 'Add' }}
                                 onClick={() => {
@@ -198,6 +225,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         key: 'scene-name',
                                         name: t('scenes.sceneName'),
                                         minWidth: 100,
+                                        isResizable: true,
                                         onRender: (item) => (
                                             <span>
                                                 {item.$dtId?.en ?? item.$dtId}
@@ -207,7 +235,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     {
                                         key: 'scene-model',
                                         name: t('model'),
-                                        minWidth: 100,
+                                        minWidth: 200,
+                                        maxWidth: 400,
                                         onRender: (item) => (
                                             <span>
                                                 {item.$metadata?.$model}
@@ -235,6 +264,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 ]}
                                 setKey="set"
                                 layoutMode={DetailsListLayoutMode.justified}
+                                onRenderRow={renderListRow}
                                 onRenderItemColumn={renderItemColumn}
                             />
                         </div>
@@ -266,10 +296,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         </Dialog>
                     </>
                 ) : (
-                    <div className="cb-scenes-list-empty">
+                    <div className="cb-scene-list-empty">
                         <Text>{t('scenes.noScenes')}</Text>
                         <PrimaryButton
-                            className="cb-scenes-list-empty-button"
+                            className="cb-scene-list-empty-button"
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
@@ -335,7 +365,7 @@ const SceneListDialog = ({
         () => ({
             isBlocking: false,
             styles: isDialogOpenStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
@@ -372,11 +402,11 @@ const SceneListDialog = ({
             <TextField
                 label={t('scenes.blobUrl')}
                 title={newTwinBlobUrl}
-                value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
+                value={twinToEdit ? twinToEdit?.['MediaSrc'] : newTwinBlobUrl}
                 onChange={(e) => {
                     if (twinToEdit) {
                         const selectedTwinCopy = Object.assign({}, twinToEdit);
-                        selectedTwinCopy['assetFile'] = e.currentTarget.value;
+                        selectedTwinCopy['MediaSrc'] = e.currentTarget.value;
                         setTwinToEdit(selectedTwinCopy);
                     } else {
                         setNewTwinBlobUrl(e.currentTarget.value);
@@ -385,18 +415,18 @@ const SceneListDialog = ({
             />
             <DialogFooter>
                 <DefaultButton
-                    className="cb-scenes-list-modal-buttons"
+                    className="cb-scene-list-modal-buttons"
                     onClick={() => onClose()}
                     text={t('cancel')}
                 />
                 <PrimaryButton
-                    className="cb-scenes-list-dialog-buttons"
+                    className="cb-scene-list-dialog-buttons"
                     onClick={() => {
                         if (twinToEdit) {
                             const updateBlobPatch: ADTPatch = {
                                 op: 'replace',
-                                path: '/assetFile',
-                                value: twinToEdit['assetFile']
+                                path: '/MediaSrc',
+                                value: twinToEdit['MediaSrc']
                             };
                             onEditScene([updateBlobPatch]);
                         } else {
@@ -405,7 +435,7 @@ const SceneListDialog = ({
                                 $metadata: {
                                     $model: sceneTwinModelId
                                 },
-                                assetFile: newTwinBlobUrl
+                                MediaSrc: newTwinBlobUrl
                             };
                             onAddScene([newTwin]);
                         }
