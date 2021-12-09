@@ -1,6 +1,5 @@
 import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADT3DScenePage from './ADT3DScenePage';

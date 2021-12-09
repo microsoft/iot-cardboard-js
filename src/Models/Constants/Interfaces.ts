@@ -42,6 +42,7 @@ import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModel
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 import ADTScenesData from '../Classes/AdapterDataClasses/ADTScenesData';
+import GenericBlobData from '../Classes/AdapterDataClasses/GenericBlobData';
 
 export interface IAction {
     type: string;
@@ -390,6 +391,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
 
 export interface IBlobAdapter {
     getScenes: () => AdapterReturnType<ADTScenesData>;
+    readBlob: (
+        storateAccountHostUrl: string,
+        blobPath: string
+    ) => AdapterReturnType<GenericBlobData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

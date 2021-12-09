@@ -164,7 +164,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             iconProps={{ iconName: 'Edit' }}
                             title={t('edit')}
                             ariaLabel={t('edit')}
-                            onClick={() => {
+                            onClick={(event) => {
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
@@ -175,7 +175,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             iconProps={{ iconName: 'Delete' }}
                             title={t('delete')}
                             ariaLabel={t('delete')}
-                            onClick={() => {
+                            onClick={(event) => {
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);

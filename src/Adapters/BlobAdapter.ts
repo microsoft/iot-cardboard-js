@@ -5,6 +5,7 @@ import axios from 'axios';
 import ADTScenesData from '../Models/Classes/AdapterDataClasses/ADTScenesData';
 import { Config } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
+import GenericBlobData from '../Models/Classes/AdapterDataClasses/GenericBlobData';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -50,6 +51,34 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
 
                 return new ADTScenesData(scenes);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: CardErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async readBlob(storateAccountHostUrl: string, blobPath: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            try {
+                const blob = await axios({
+                    method: 'GET',
+                    url: `${this.blobProxyServerPath}/${blobPath}`,
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'x-ms-version': '2017-11-09',
+                        'x-blob-host': storateAccountHostUrl
+                    }
+                });
+
+                return new GenericBlobData(blob);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: CardErrorType.DataFetchFailed,
