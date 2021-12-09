@@ -41,6 +41,7 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import ADTScenesData from '../Classes/AdapterDataClasses/ADTScenesData';
 
 export interface IAction {
     type: string;
@@ -92,7 +93,9 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 
 export interface IAuthService {
     login: () => void;
-    getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
+    getToken: (
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+    ) => Promise<string>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -383,6 +386,10 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         tenantId?: string,
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
+}
+
+export interface IBlobAdapter {
+    getScenes: () => AdapterReturnType<ADTScenesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

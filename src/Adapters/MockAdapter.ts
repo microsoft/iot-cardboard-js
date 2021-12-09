@@ -25,6 +25,7 @@ import {
 } from '../Models/Constants/Types';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
+import ADTScenesData from '../Models/Classes/AdapterDataClasses/ADTScenesData';
 
 export default class MockAdapter
     implements
@@ -257,6 +258,15 @@ export default class MockAdapter
                 'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
                 getData()
             );
+        });
+    }
+
+    async getScenes() {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
+            await this.mockNetwork();
+            return new ADTScenesData([]);
         });
     }
 }

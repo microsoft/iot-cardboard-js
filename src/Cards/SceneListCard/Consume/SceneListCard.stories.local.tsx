@@ -1,8 +1,8 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../.storybook/useAuthParams';
+import BlobAdapter from '../../../Adapters/BlobAdapter';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -23,10 +23,11 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
+                    new BlobAdapter(
+                        authenticationParameters.storage.accountHostUrl,
+                        authenticationParameters.storage.blobPath,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.storage.aadParameters
                         )
                     )
                 }

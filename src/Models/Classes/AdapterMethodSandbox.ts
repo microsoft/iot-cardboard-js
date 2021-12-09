@@ -53,7 +53,9 @@ class AdapterMethodSandbox {
      * Fetch token wrapped in try / catch block.  If token fetch fails, will attach
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
-    private async safelyFetchToken(tokenFor?: 'azureManagement' | 'adx') {
+    private async safelyFetchToken(
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+    ) {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
             return null;
@@ -87,7 +89,7 @@ class AdapterMethodSandbox {
      *  */
     async safelyFetchData<T extends IAdapterData>(
         fetchDataWithToken: (token?: string) => Promise<T>,
-        tokenFor?: 'azureManagement' | 'adx'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
     ) {
         try {
             // Fetch token

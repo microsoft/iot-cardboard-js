@@ -4,11 +4,8 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
-    const pathRewrite = function (path) {
-        return path.replace('/api/proxy', '');
-    };
-
     const validAdtHostSuffixes = ['digitaltwins.azure.net'];
+    const validBlobHostSuffixes = ['blob.core.windows.net'];
 
     const validHeaders = [
         'Accept',
@@ -20,7 +17,8 @@ module.exports = function (app) {
         'Host',
         'x-ms-client-request-id',
         'x-ms-useragent',
-        'User-Agent'
+        'User-Agent',
+        'x-ms-version'
     ];
 
     // eslint-disable-next-line max-len
@@ -30,7 +28,7 @@ module.exports = function (app) {
     };
 
     app.use(
-        '/api/proxy',
+        '/proxy/adt',
         createProxyMiddleware({
             changeOrigin: true,
             headers: {
@@ -60,7 +58,9 @@ module.exports = function (app) {
                     proxyRes.headers[header] = proxyResponseHeaders[header];
                 });
             },
-            pathRewrite,
+            pathRewrite: {
+                '/proxy/adt': ''
+            },
             router: (req) => {
                 // Validate ADT environment URL
                 const xAdtHostHeader = req.headers['x-adt-host'].toLowerCase();
@@ -74,6 +74,57 @@ module.exports = function (app) {
                     return adtUrl;
                 }
                 throw new Error('Invalid ADT Environment URL');
+            }
+        })
+    );
+
+    app.use(
+        '/proxy/blob',
+        createProxyMiddleware({
+            changeOrigin: true,
+            headers: {
+                connection: 'keep-alive'
+            },
+            secure: true,
+            target: '/',
+            onProxyReq: (proxyReq) => {
+                // Remove all unnecessary headers
+                const newHeaderMap = {};
+                validHeaders.forEach((header) => {
+                    const headerValue = proxyReq.getHeader(header);
+                    // eslint-disable-next-line no-undefined
+                    if (headerValue !== undefined) {
+                        newHeaderMap[header] = headerValue;
+                    }
+                });
+                Object.keys(proxyReq.getHeaders()).forEach((header) => {
+                    proxyReq.removeHeader(header);
+                });
+                Object.keys(newHeaderMap).forEach((header) => {
+                    proxyReq.setHeader(header, newHeaderMap[header]);
+                });
+            },
+            onProxyRes: (proxyRes) => {
+                Object.keys(proxyResponseHeaders).forEach((header) => {
+                    proxyRes.headers[header] = proxyResponseHeaders[header];
+                });
+            },
+            pathRewrite: {
+                '/proxy/blob': ''
+            },
+            router: (req) => {
+                // Validate Blob URL
+                const blobHost = req.headers['x-blob-host'];
+                const blobHostUrl = `https://${blobHost}/`;
+                const blobHostUrlObject = new URL(blobHostUrl);
+                if (
+                    validBlobHostSuffixes.some((suffix) =>
+                        blobHostUrlObject.host.endsWith(suffix)
+                    )
+                ) {
+                    return blobHostUrl;
+                }
+                throw new Error('Invalid Blob URL');
             }
         })
     );
