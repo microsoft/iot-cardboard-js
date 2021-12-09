@@ -7,10 +7,10 @@ import { Config } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 
 export default class BlobAdapter implements IBlobAdapter {
-    private storateAccountHostUrl: string;
-    private blobPath: string;
-    private authService: IAuthService;
-    private blobProxyServerPath: string;
+    protected storateAccountHostUrl: string;
+    protected blobPath: string;
+    protected blobAuthService: IAuthService;
+    protected blobProxyServerPath: string;
 
     constructor(
         storateAccountHostUrl: string,
@@ -20,12 +20,14 @@ export default class BlobAdapter implements IBlobAdapter {
     ) {
         this.storateAccountHostUrl = storateAccountHostUrl;
         this.blobPath = blobPath;
-        this.authService = authService;
-        this.authService.login();
+        this.blobAuthService = authService;
+        this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
     }
     async getScenes() {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             try {
