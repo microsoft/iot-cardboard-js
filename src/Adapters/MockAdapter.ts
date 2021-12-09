@@ -18,7 +18,7 @@ import {
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
 import {
-    DScene,
+    IADTScene,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
@@ -45,7 +45,6 @@ export default class MockAdapter
     private networkTimeoutMillis;
     private isDataStatic;
     private seededRng = seedRandom('cardboard seed');
-    public static config: Config = null;
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
@@ -219,21 +218,22 @@ export default class MockAdapter
         }
     }
 
-    async getScene(_url: any) {
+    async getScenesConfig(_url: any) {
         try {
-            MockAdapter.config = TaJson.parse<Config>(
-                JSON.stringify(mockVConfig)
+            const sceneConfig = TaJson.parse<Config>(
+                JSON.stringify(mockVConfig),
+                Config
             );
 
-            const scenesArray = MockAdapter.config.viewerConfiguration.scenes.map(
-                (item) => {
-                    return item;
+            const scenes = sceneConfig.viewerConfiguration?.scenes.map(
+                (scene) => {
+                    return scene;
                 }
             );
 
             const getScenesData = () => {
                 return new ScenesAdapterData({
-                    value: scenesArray
+                    value: scenes
                 });
             };
             await this.mockNetwork();
@@ -251,7 +251,7 @@ export default class MockAdapter
     }
 
     //TODO: finish reworking create/update/delete to work with blob adapter
-    async setScene(_scene: Array<DScene>) {
+    async setScene(_scene: Array<IADTScene>) {
         await this.mockNetwork();
         return new AdapterResult<ScenesAdapterData>({
             result: null,

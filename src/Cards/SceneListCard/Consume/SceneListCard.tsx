@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import {
     ADTPatch,
-    DScene,
+    IADTScene,
     IADTSceneList
 } from '../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../CompositeCards/BaseCompositeCard/Consume/BaseCompositeCard';
@@ -41,14 +41,14 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
-            adapter.getScene({
+            adapter.getScenesConfig({
                 url: SceneBlobUrl
             }),
         refetchDependencies: [adapter]
     });
 
     const addScene = useAdapter({
-        adapterMethod: (scenes: Array<DScene>) => adapter.setScene(scenes),
+        adapterMethod: (scenes: Array<IADTScene>) => adapter.setScene(scenes),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -68,7 +68,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     });
 
     const [sceneList, setSceneList] = useState<Array<IADTSceneList>>([]);
-    const [selectedScene, setSelectedScene] = useState<DScene>(undefined);
+    const [selectedScene, setSelectedScene] = useState<IADTScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
@@ -211,7 +211,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         name: t('url'),
                                         minWidth: 350,
                                         onRender: (item) => (
-                                            <span>{item.assets?.url}</span>
+                                            <span>{item.assets[0]['url']}</span>
                                         )
                                     },
                                     {
@@ -411,7 +411,7 @@ const SceneListDialog = ({
                             };
                             onEditScene([updateBlobPatch]);
                         } else {
-                            const newScene: DScene = {
+                            const newScene: IADTScene = {
                                 name: newSceneId,
                                 id: 'Id',
                                 assets: [

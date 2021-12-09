@@ -231,29 +231,22 @@ export interface IADTModelDefinition {
 }
 
 export interface IADTSceneList {
+    type: string;
     name: string;
     id: string;
-    assets: [
-        {
-            url: string;
-        }
-    ];
-    cb_viewdata?: {
-        boardInfo?: string;
-        bimFilePath?: string;
-        bimMetadataFilePath?: string;
-    };
-    [propertyName: string]: any;
+    latitude: number;
+    longitude: number;
+    assets?: IADTSceneAssets[];
 }
 
-export interface DScene {
+export interface IADTScene {
     name: string;
     id: string;
-    assets: [
-        {
-            url: string;
-        }
-    ];
+    assets?: IADTSceneAssets[];
+}
+
+export interface IADTSceneAssets {
+    url: string;
 }
 
 export interface IADTTwin {
