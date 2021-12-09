@@ -33,8 +33,8 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
     children
 }) => {
     // Access theme and localization contexts to see if they are already present in component tree
-    const isLocalizationContextPresent = !!useContext(I18nContext);
-    const isThemeContextPresent = !!useContext(Theme);
+    const localizationContext = useContext(I18nContext);
+    const themeContext = useContext(Theme);
     const { t } = useTranslation();
 
     const catastrophicError: IComponentError = adapterResults?.reduce(
@@ -56,6 +56,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
             className={`cb-base-component ${
                 containerClassName ? containerClassName : ''
             }`}
+            cardboard-data-theme={(theme || themeContext) ?? undefined}
         >
             {showInfo && (
                 <>
@@ -86,7 +87,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
         </div>
     );
 
-    if (!isLocalizationContextPresent && !isThemeContextPresent) {
+    if (!localizationContext && !themeContext) {
         // Missing both theming and localization contexts
         return (
             <I18nProviderWrapper
@@ -97,7 +98,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
                 <ThemeProvider theme={theme}>{BaseContents}</ThemeProvider>
             </I18nProviderWrapper>
         );
-    } else if (!isLocalizationContextPresent) {
+    } else if (!localizationContext) {
         // Missing only localization context
         return (
             <I18nProviderWrapper
@@ -108,7 +109,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
                 {BaseContents}
             </I18nProviderWrapper>
         );
-    } else if (!isThemeContextPresent) {
+    } else if (!themeContext) {
         // Missing only theming context
         return <ThemeProvider theme={theme}>{BaseContents}</ThemeProvider>;
     } else {

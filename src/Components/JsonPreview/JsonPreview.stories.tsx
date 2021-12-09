@@ -8,7 +8,7 @@ export default {
     title: 'Components/JsonPreview'
 };
 
-export const JsonPreview = () => {
+export const JsonPreview = (_args, { globals: { theme } }) => {
     const { t } = useTranslation();
     const [isPreviewOpen, setIsPreviewOpen] = useState(true);
     return (
@@ -21,6 +21,7 @@ export const JsonPreview = () => {
                 onDismiss={() => setIsPreviewOpen(false)}
                 json={json}
                 modalTitle={'EV Charging Station'}
+                theme={theme}
             />
         </div>
     );
