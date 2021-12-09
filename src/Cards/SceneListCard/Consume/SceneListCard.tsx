@@ -20,10 +20,14 @@ import {
     IDetailsListProps,
     DetailsRow
 } from '@fluentui/react';
-import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-import { Asset, Scene } from '../../../Models/Classes/3DVConfig';
+import {
+    Asset,
+    Scene,
+    ViewerConfiguration
+} from '../../../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
+import { Utils } from '../../../Models/Services';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -33,14 +37,15 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     localeStrings,
     onSceneClick
 }) => {
-    const scenes = useAdapter({
-        adapterMethod: () => adapter.getScenes(),
+    const scenesConfig = useAdapter({
+        adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
     });
 
     // TODO: implement other necessary methods for the adapter
     const addScene = useAdapter({
-        adapterMethod: (params: { scene: Scene }) => adapter.getScenes(),
+        adapterMethod: (params: { scene: Scene }) =>
+            adapter.addScene(params.scene),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -48,14 +53,15 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     // TODO: implement other necessary methods for the adapter
     const editScene = useAdapter({
         adapterMethod: (params: { sceneId: string; scene: Scene }) =>
-            adapter.getScenes(),
+            adapter.editScene(params.sceneId, params.scene),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
     // TODO: implement other necessary methods for the adapter
     const deleteScene = useAdapter({
-        adapterMethod: (params: { sceneId: string }) => adapter.getScenes(),
+        adapterMethod: (params: { sceneId: string }) =>
+            adapter.deleteScene(params.sceneId),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -68,9 +74,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     );
 
     useEffect(() => {
-        if (!scenes.adapterResult.hasNoData()) {
+        if (!scenesConfig.adapterResult.hasNoData()) {
+            const config: ViewerConfiguration = scenesConfig.adapterResult.getData();
             setSceneList(
-                scenes.adapterResult.getData().sort((a: Scene, b: Scene) =>
+                config.scenes.sort((a: Scene, b: Scene) =>
                     a.name.localeCompare(b.name, undefined, {
                         sensitivity: 'base'
                     })
@@ -79,12 +86,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         } else {
             setSceneList([]);
         }
-    }, [scenes?.adapterResult]);
+    }, [scenesConfig?.adapterResult]);
 
     useEffect(() => {
         if (addScene.adapterResult.result) {
             setTimeout(() => {
-                scenes.callAdapter();
+                scenesConfig.callAdapter();
                 setIsSceneDialogOpen(false);
             }, 5000);
         } else {
@@ -95,7 +102,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     useEffect(() => {
         if (editScene.adapterResult.result) {
             setTimeout(() => {
-                scenes.callAdapter();
+                scenesConfig.callAdapter();
                 setIsSceneDialogOpen(false);
                 setSelectedScene(null);
             }, 5000);
@@ -107,7 +114,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     useEffect(() => {
         if (deleteScene.adapterResult.result) {
             setTimeout(() => {
-                scenes.callAdapter();
+                scenesConfig.callAdapter();
                 setIsConfirmDeleteDialogOpen(false);
                 setSelectedScene(null);
             }, 5000);
@@ -196,7 +203,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
-                isLoading={scenes.isLoading}
+                isLoading={scenesConfig.isLoading}
             >
                 {sceneList.length > 0 ? (
                     <>
@@ -217,21 +224,33 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 items={sceneList}
                                 columns={[
                                     {
-                                        key: 'scene-model',
-                                        name: t('id'),
-                                        minWidth: 100,
-                                        maxWidth: 400,
-                                        isResizable: true,
-                                        onRender: (item: Scene) => (
-                                            <span>{item.id}</span>
-                                        )
-                                    },
-                                    {
                                         key: 'scene-name',
                                         name: t('scenes.sceneName'),
                                         minWidth: 100,
+                                        isResizable: true,
                                         onRender: (item: Scene) => (
                                             <span>{item.name}</span>
+                                        )
+                                    },
+                                    {
+                                        key: 'scene-urls',
+                                        name: t('scenes.blobUrl'),
+                                        minWidth: 300,
+                                        isResizable: true,
+                                        onRender: (item: Scene) => (
+                                            <ul className="cb-scene-list-blob-urls">
+                                                {item.assets.map(
+                                                    (a: Asset, idx) => {
+                                                        return (
+                                                            <li
+                                                                key={`blob-url-${idx}`}
+                                                            >
+                                                                {a.url}
+                                                            </li>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
                                         )
                                     },
                                     {
@@ -289,7 +308,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                     </>
                 ) : (
                     <div className="cb-scene-list-empty">
-                        <Text>{t('scenes.noScenes')}</Text>
+                        <p>{t('scenes.noScenes')}</p>
                         <PrimaryButton
                             className="cb-scene-list-empty-button"
                             onClick={() => {
@@ -337,8 +356,8 @@ const SceneListDialog = ({
     onAddScene: any;
     onEditScene: any;
 }) => {
-    const [newSceneId, setNewTwinId] = useState('');
-    const [newTwinBlobUrl, setNewTwinBlobUrl] = useState('');
+    const [newSceneName, setNewSceneName] = useState('');
+    const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const { t } = useTranslation();
 
     const isDialogOpenContent = {
@@ -367,8 +386,8 @@ const SceneListDialog = ({
 
     useEffect(() => {
         if (isOpen) {
-            setNewTwinId('');
-            setNewTwinBlobUrl('');
+            setNewSceneName('');
+            setNewSceneBlobUrl('');
         }
     }, [isOpen]);
 
@@ -381,8 +400,8 @@ const SceneListDialog = ({
         >
             <TextField
                 label={t('scenes.sceneName')}
-                title={newSceneId}
-                value={sceneToEdit ? sceneToEdit?.id : newSceneId}
+                title={newSceneName}
+                value={sceneToEdit ? sceneToEdit?.name : newSceneName}
                 onChange={(e) => {
                     if (sceneToEdit) {
                         const selectedSceneCopy: Scene = Object.assign(
@@ -392,20 +411,22 @@ const SceneListDialog = ({
                         selectedSceneCopy.name = e.currentTarget.value;
                         setSceneToEdit(selectedSceneCopy);
                     } else {
-                        setNewTwinId(e.currentTarget.value);
+                        setNewSceneName(e.currentTarget.value);
                     }
                 }}
                 disabled={sceneToEdit ? true : false}
             />
             <TextField
+                multiline
+                rows={3}
                 label={t('scenes.blobUrl')}
-                title={newTwinBlobUrl}
+                title={newSceneBlobUrl}
                 value={
                     sceneToEdit
-                        ? JSON.stringify(
-                              sceneToEdit?.assets.map((a: Asset) => a.url)
-                          )
-                        : newTwinBlobUrl
+                        ? sceneToEdit?.assets
+                              .map((a: Asset) => a.url)
+                              .join('\n')
+                        : newSceneBlobUrl
                 }
                 onChange={(e) => {
                     if (sceneToEdit) {
@@ -413,10 +434,13 @@ const SceneListDialog = ({
                             {},
                             sceneToEdit
                         );
-                        selectedSceneCopy.assets[0].url = e.currentTarget.value;
+                        const urls = e.currentTarget.value?.split('\n');
+                        urls.map((url, idx) => {
+                            selectedSceneCopy.assets[idx].url = url;
+                        });
                         setSceneToEdit(selectedSceneCopy);
                     } else {
-                        setNewTwinBlobUrl(e.currentTarget.value);
+                        setNewSceneBlobUrl(e.currentTarget.value);
                     }
                 }}
             />
@@ -430,13 +454,28 @@ const SceneListDialog = ({
                     className="cb-scene-list-dialog-buttons"
                     onClick={() => {
                         if (sceneToEdit) {
-                            const newScene = TaJson.parse<Scene>(
+                            const updatedScene = TaJson.parse<Scene>(
                                 JSON.stringify(sceneToEdit),
                                 Scene
                             );
-                            onEditScene(newScene);
+                            onEditScene(updatedScene);
                         } else {
-                            onAddScene();
+                            const newScene = TaJson.parse<Scene>(
+                                JSON.stringify({
+                                    id: Utils.createGUID(),
+                                    name: newSceneName,
+                                    type: 'Scene',
+                                    assets: [
+                                        {
+                                            type: 'Asset3D',
+                                            name: 'Asset',
+                                            url: newSceneBlobUrl
+                                        }
+                                    ]
+                                }),
+                                Scene
+                            );
+                            onAddScene(newScene);
                         }
                     }}
                     text={sceneToEdit ? t('update') : t('connect')}

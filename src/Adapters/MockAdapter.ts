@@ -1,5 +1,4 @@
 import {
-    ADTAdapterTwinsData,
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
@@ -11,15 +10,12 @@ import { CardError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
-    ADTPatch,
-    ADTSceneTwinModelId,
-    DTwin,
     IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
     ITsiClientChartDataAdapter
-} from '../Models/Constants';
+} from '../Models/Constants/Interfaces';
 import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -27,11 +23,13 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
-import mockScenes from '../Cards/SceneListCard/Consume/mockData/mockScenes.json';
-import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import ADTScenesData from '../Models/Classes/AdapterDataClasses/ADTScenesData';
+import mockVConfig from '../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
+import { Config, Scene } from '../Models/Classes/3DVConfig';
+import { TaJson } from 'ta-json';
+import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 
 export default class MockAdapter
     implements
@@ -217,55 +215,50 @@ export default class MockAdapter
         }
     }
 
-    async getADTTwinsByModelId(params: { modelId: string }) {
+    async getScenesConfig() {
         try {
-            const getTwinsData = () => {
-                return new ADTAdapterTwinsData({
-                    value:
-                        params.modelId === ADTSceneTwinModelId
-                            ? mockScenes
-                            : [
-                                  {
-                                      $dtId: '',
-                                      $etag: '',
-                                      $metadata: {
-                                          $model: params.modelId
-                                      }
-                                  }
-                              ],
-                    continuationToken: ''
-                });
-            };
+            const sceneConfig = TaJson.parse<Config>(
+                JSON.stringify(mockVConfig),
+                Config
+            );
             await this.mockNetwork();
 
-            return new AdapterResult<ADTAdapterTwinsData>({
-                result: getTwinsData(),
+            return new AdapterResult<ADTScenesConfigData>({
+                result: new ADTScenesConfigData(
+                    sceneConfig.viewerConfiguration
+                ),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ADTAdapterTwinsData>({
+            return new AdapterResult<ADTScenesConfigData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
 
-    async createTwins(twins: Array<DTwin>) {
+    //TODO: implement this properly
+    async addScene(_scene: Scene) {
         await this.mockNetwork();
-        return twins;
-    }
-
-    async updateTwin(_twinId: string, _patches: Array<ADTPatch>) {
-        await this.mockNetwork();
-        return new AdapterResult<ADTAdapterPatchData>({
+        return new AdapterResult<ADTSceneData>({
             result: null,
             errorInfo: null
         });
     }
 
-    async deleteADTTwin(_twinId: string) {
+    //TODO: implement this properly
+    async editScene(_sceneId: string, _scene: Scene) {
         await this.mockNetwork();
-        return new AdapterResult<ADTTwinData>({
+        return new AdapterResult<ADTSceneData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    //TODO: implement this properly
+    async deleteScene(_sceneId: string) {
+        await this.mockNetwork();
+        return new AdapterResult<ADTSceneData>({
             result: null,
             errorInfo: null
         });
@@ -318,15 +311,6 @@ export default class MockAdapter
                 'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
                 getData()
             );
-        });
-    }
-
-    async getScenes() {
-        const adapterMethodSandbox = new AdapterMethodSandbox();
-
-        return await adapterMethodSandbox.safelyFetchData(async () => {
-            await this.mockNetwork();
-            return new ADTScenesData([]);
         });
     }
 }

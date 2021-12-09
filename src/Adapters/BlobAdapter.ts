@@ -2,9 +2,10 @@ import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { CardErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
-import ADTScenesData from '../Models/Classes/AdapterDataClasses/ADTScenesData';
-import { Config } from '../Models/Classes/3DVConfig';
+import { Config, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
+import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -24,7 +25,7 @@ export default class BlobAdapter implements IBlobAdapter {
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
     }
-    async getScenes() {
+    async getScenesConfig() {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -40,16 +41,71 @@ export default class BlobAdapter implements IBlobAdapter {
                         'x-blob-host': this.storateAccountHostUrl
                     }
                 });
-                let scenes = [];
+                let scenesConfig;
                 if (scenesBlob.data) {
-                    const sceneConfig = TaJson.parse<Config>(
+                    const config = TaJson.parse<Config>(
                         JSON.stringify(scenesBlob.data),
                         Config
                     );
-                    scenes = sceneConfig.viewerConfiguration.scenes;
+                    scenesConfig = config.viewerConfiguration;
                 }
 
-                return new ADTScenesData(scenes);
+                return new ADTScenesConfigData(scenesConfig);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: CardErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    //TODO: implement this properly
+    async addScene(_scene: Scene) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                return new ADTSceneData(null);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: CardErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    //TODO: implement this properly
+    async editScene(_sceneId: string, _scene: Scene) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                return new ADTSceneData(null);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: CardErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    //TODO: implement this properly
+    async deleteScene(_sceneId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                return new ADTSceneData(null);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: CardErrorType.DataFetchFailed,

@@ -12,7 +12,7 @@ const sceneListCardStyle = {
     height: '100%'
 };
 
-export const SceneCard = (_args, { globals: { theme, locale } }) => {
+export const ScenesCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
