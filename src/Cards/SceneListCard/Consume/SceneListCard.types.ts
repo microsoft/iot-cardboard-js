@@ -1,7 +1,10 @@
-import { MockAdapter } from '../../../Adapters';
-import { IConsumeCardProps } from '../../../Models/Constants/Interfaces';
+import { MockAdapter } from '../../..';
+import {
+    IADTTwin,
+    IStandaloneConsumeCardProps
+} from '../../../Models/Constants/Interfaces';
 
-export interface SceneListCardProps extends IConsumeCardProps {
-    //TODO: add blob adapter
+export interface SceneListCardProps extends IStandaloneConsumeCardProps {
     adapter: MockAdapter;
+    onSceneClick?: (sceneTwin: IADTTwin) => void;
 }

@@ -31,6 +31,7 @@
     "blank": "blank",
     "new": "New",
     "view": "View",
+    "build": "Build",
     "download": "Download",
     "url": "Url",
     "create": "Create",
@@ -262,6 +263,10 @@
             "buildFromScratch": "Build from scratch",
             "buildFromScratchDesc": "Using built-in modules to create a DTDL model, no code is needed"
         }
+    },
+    "3dScenePage": {
+        "buildMode": "Build mode",
+        "viewMode": "View mode"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

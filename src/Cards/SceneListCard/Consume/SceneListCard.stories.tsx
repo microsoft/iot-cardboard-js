@@ -19,8 +19,6 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter({ mockData: mockVConfig })}
-                id={''}
-                properties={[]}
             />
         </div>
     );

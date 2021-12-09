@@ -24,8 +24,6 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 // TODO: replace with new blob adapter
                 adapter={new MockAdapter({ mockData: mockVConfig })}
-                id={''}
-                properties={[]}
             />
         </div>
     );

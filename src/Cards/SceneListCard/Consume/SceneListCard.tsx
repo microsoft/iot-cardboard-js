@@ -16,19 +16,18 @@ import {
     DetailsList,
     IColumn,
     IconButton,
-    IIconProps,
     Dialog,
     DialogFooter,
     PrimaryButton,
     DefaultButton,
     DialogType,
-    TextField
+    TextField,
+    IDetailsListProps,
+    DetailsRow
 } from '@fluentui/react';
 import { Text } from '@fluentui/react/lib/Text';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
-const editIcon: IIconProps = { iconName: 'Edit' };
-const deleteIcon: IIconProps = { iconName: 'Delete' };
 const SceneBlobUrl =
     'https://cardboardresources.blob.core.windows.net/3dv-workspace-1/vconfig-MattRework.json';
 
@@ -37,7 +36,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     title,
     theme,
     locale,
-    localeStrings
+    localeStrings,
+    onSceneClick
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
@@ -76,7 +76,13 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     useEffect(() => {
         if (!scenes.adapterResult.hasNoData()) {
-            setSceneList(scenes.adapterResult.getData().value);
+            setSceneList(
+                scenes.adapterResult.getData().value?.sort((a, b) =>
+                    a.name.localeCompare(b.name, undefined, {
+                        sensitivity: 'base'
+                    })
+                )
+            );
         } else {
             setSceneList([]);
         }
@@ -134,53 +140,74 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
 
-    function renderItemColumn(item: any, itemIndex: number, column: IColumn) {
+    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
+        <div
+            onClick={() => {
+                if (typeof onSceneClick === 'function') {
+                    onSceneClick(props.item);
+                }
+            }}
+        >
+            <DetailsRow className={'cb-scene-list-row'} {...props} />
+        </div>
+    );
+
+    const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
+        item: any,
+        _itemIndex: number,
+        column: IColumn
+    ) => {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
             case 'scene-action':
                 return (
                     <>
                         <IconButton
-                            iconProps={editIcon}
+                            iconProps={{ iconName: 'Edit' }}
                             title={t('edit')}
                             ariaLabel={t('edit')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                         <IconButton
-                            iconProps={deleteIcon}
+                            iconProps={{ iconName: 'Delete' }}
                             title={t('delete')}
                             ariaLabel={t('delete')}
-                            onClick={() => {
+                            onClick={(event) => {
+                                event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);
                             }}
+                            className={'cb-scenes-action-button'}
                         />
                     </>
                 );
             default:
                 return <span>{fieldContent}</span>;
         }
-    }
+    };
 
     return (
-        <div className="cb-scenes-list-card-wrapper">
+        <div className="cb-scene-list-card-wrapper">
             <BaseCompositeCard
                 theme={theme}
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
+                isLoading={scenes.isLoading}
             >
                 {sceneList.length > 0 ? (
                     <>
-                        <div className="cb-scenes-list-action-buttons">
+                        <div className="cb-scene-list-action-buttons">
                             <ActionButton
                                 iconProps={{ iconName: 'Add' }}
                                 onClick={() => {
@@ -200,6 +227,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         key: 'scene-name',
                                         name: t('scenes.sceneName'),
                                         minWidth: 100,
+                                        isResizable: true,
                                         onRender: (item) => (
                                             <span>
                                                 {item.name?.en ?? item.name}
@@ -210,6 +238,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         key: 'scene-url',
                                         name: t('url'),
                                         minWidth: 350,
+                                        maxWidth: 450,
+                                        isResizable: true,
                                         onRender: (item) => (
                                             <span>{item.assets[0]['url']}</span>
                                         )
@@ -235,6 +265,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 ]}
                                 setKey="set"
                                 layoutMode={DetailsListLayoutMode.justified}
+                                onRenderRow={renderListRow}
                                 onRenderItemColumn={renderItemColumn}
                             />
                         </div>
@@ -266,10 +297,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         </Dialog>
                     </>
                 ) : (
-                    <div className="cb-scenes-list-empty">
+                    <div className="cb-scene-list-empty">
                         <Text>{t('scenes.noScenes')}</Text>
                         <PrimaryButton
-                            className="cb-scenes-list-empty-button"
+                            className="cb-scene-list-empty-button"
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
@@ -335,7 +366,7 @@ const SceneListDialog = ({
         () => ({
             isBlocking: false,
             styles: isDialogOpenStyles,
-            className: 'cb-scenes-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper'
         }),
         []
     );
@@ -396,12 +427,12 @@ const SceneListDialog = ({
             />
             <DialogFooter>
                 <DefaultButton
-                    className="cb-scenes-list-modal-buttons"
+                    className="cb-scene-list-modal-buttons"
                     onClick={() => onClose()}
                     text={t('cancel')}
                 />
                 <PrimaryButton
-                    className="cb-scenes-list-dialog-buttons"
+                    className="cb-scene-list-dialog-buttons"
                     onClick={() => {
                         if (sceneToEdit) {
                             const updateBlobPatch: ADTPatch = {

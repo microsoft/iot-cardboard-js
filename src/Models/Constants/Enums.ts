@@ -104,3 +104,13 @@ export enum ModelAuthoringSteps {
     Review,
     Publish
 }
+
+export enum ADT3DScenePageSteps {
+    SceneTwinList,
+    TwinBindingsWithScene
+}
+
+export enum ADT3DSceneBuilderModes {
+    BuildScene = 'adt-3d-scene-builder-mode-build',
+    ViewScene = 'adt-3d-scene-builder-mode-view'
+}
