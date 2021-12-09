@@ -1,8 +1,7 @@
-import {
-    IADTAdapter,
-    IConsumeCardProps
-} from '../../../Models/Constants/Interfaces';
+import { MockAdapter } from '../../../Adapters';
+import { IConsumeCardProps } from '../../../Models/Constants/Interfaces';
 
 export interface SceneListCardProps extends IConsumeCardProps {
-    adapter: IADTAdapter;
+    //TODO: add blob adapter
+    adapter: MockAdapter;
 }

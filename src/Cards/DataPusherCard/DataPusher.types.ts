@@ -4,7 +4,8 @@ import {
     IAdtPusherSimulation,
     DTModel,
     DTwin,
-    DTwinRelationship
+    DTwinRelationship,
+    DScene
 } from '../../Models/Constants';
 
 export interface IDataPusherProps extends ICardBaseProps {
@@ -37,6 +38,7 @@ export interface IDataPusherState {
     isOtherOptionsVisible: boolean;
     models: readonly DTModel[];
     twins: readonly DTwin[];
+    scenes: readonly DScene[];
     relationships: readonly DTwinRelationship[];
     areAssetsSet: boolean;
     simulationStatus: {

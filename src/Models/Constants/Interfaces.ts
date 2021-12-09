@@ -230,6 +230,32 @@ export interface IADTModelDefinition {
     contents?: any[];
 }
 
+export interface IADTSceneList {
+    name: string;
+    id: string;
+    assets: [
+        {
+            url: string;
+        }
+    ];
+    cb_viewdata?: {
+        boardInfo?: string;
+        bimFilePath?: string;
+        bimMetadataFilePath?: string;
+    };
+    [propertyName: string]: any;
+}
+
+export interface DScene {
+    name: string;
+    id: string;
+    assets: [
+        {
+            url: string;
+        }
+    ];
+}
+
 export interface IADTTwin {
     $dtId: string;
     $etag: string;

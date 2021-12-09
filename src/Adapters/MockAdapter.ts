@@ -10,21 +10,29 @@ import { CardError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
+    ADTPatch,
     IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
     ITsiClientChartDataAdapter
+} from '../Models/Constants/Interfaces';
+import {
+    DScene,
+    IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
-import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
     ADTRelationship,
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
+import { ScenesAdapterData } from '../Models/Classes/AdapterDataClasses/ScenesAdapterData';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
+import mockVConfig from '../Cards/SceneListCard/Consume/mockData/vconfig-MattReworkFusionChristian.json';
+import { Config } from '../Models/Classes/3DVConfig';
+import { TaJson } from 'ta-json';
 
 export default class MockAdapter
     implements
@@ -37,6 +45,7 @@ export default class MockAdapter
     private networkTimeoutMillis;
     private isDataStatic;
     private seededRng = seedRandom('cardboard seed');
+    public static config: Config = null;
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
@@ -208,6 +217,62 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
+    }
+
+    async getScene(_url: any) {
+        try {
+            MockAdapter.config = TaJson.parse<Config>(
+                JSON.stringify(mockVConfig)
+            );
+
+            const scenesArray = MockAdapter.config.viewerConfiguration.scenes.map(
+                (item) => {
+                    return item;
+                }
+            );
+
+            const getScenesData = () => {
+                return new ScenesAdapterData({
+                    value: scenesArray
+                });
+            };
+            await this.mockNetwork();
+
+            return new AdapterResult<ScenesAdapterData>({
+                result: getScenesData(),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ScenesAdapterData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    //TODO: finish reworking create/update/delete to work with blob adapter
+    async setScene(_scene: Array<DScene>) {
+        await this.mockNetwork();
+        return new AdapterResult<ScenesAdapterData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    async updateScene(_scene: string, _patches: Array<ADTPatch>) {
+        await this.mockNetwork();
+        return new AdapterResult<ScenesAdapterData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
+    async deleteScene(_scene: string) {
+        await this.mockNetwork();
+        return new AdapterResult<ScenesAdapterData>({
+            result: null,
+            errorInfo: null
+        });
     }
 
     async getTsiclientChartDataShape(

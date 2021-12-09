@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from 'react';
 import {
     ADTPatch,
-    DTwin,
-    IADTTwin
+    DScene,
+    IADTSceneList
 } from '../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../../CompositeCards/BaseCompositeCard/Consume/BaseCompositeCard';
 import { SceneListCardProps } from './SceneListCard.types';
@@ -29,7 +29,8 @@ import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 
 const editIcon: IIconProps = { iconName: 'Edit' };
 const deleteIcon: IIconProps = { iconName: 'Delete' };
-const sceneTwinModelId = 'dtmi:com:visualontology:scene;1';
+const SceneBlobUrl =
+    'https://cardboardresources.blob.core.windows.net/3dv-workspace-1/vconfig-MattRework.json';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -40,33 +41,34 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 }) => {
     const scenes = useAdapter({
         adapterMethod: () =>
-            adapter.getADTTwinsByModelId({
-                modelId: sceneTwinModelId
+            adapter.getScene({
+                url: SceneBlobUrl
             }),
         refetchDependencies: [adapter]
     });
 
     const addScene = useAdapter({
-        adapterMethod: (twins: Array<DTwin>) => adapter.createTwins(twins),
+        adapterMethod: (scenes: Array<DScene>) => adapter.setScene(scenes),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
+    //TODO: finish reworking create/update/delete to work with blob adapter
     const editScene = useAdapter({
         adapterMethod: (patches: Array<ADTPatch>) =>
-            adapter.updateTwin(selectedTwin.$dtId, patches),
+            adapter.updateScene(selectedScene.id, patches),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
     const deleteScene = useAdapter({
-        adapterMethod: () => adapter.deleteADTTwin(selectedTwin.$dtId),
+        adapterMethod: () => adapter.deleteScene(selectedScene.id),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
-    const [sceneList, setSceneList] = useState<Array<IADTTwin>>([]);
-    const [selectedTwin, setSelectedTwin] = useState<DTwin>(undefined);
+    const [sceneList, setSceneList] = useState<Array<IADTSceneList>>([]);
+    const [selectedScene, setSelectedScene] = useState<DScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
@@ -96,7 +98,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             setTimeout(() => {
                 scenes.callAdapter();
                 setIsSceneDialogOpen(false);
-                setSelectedTwin(null);
+                setSelectedScene(null);
             }, 5000);
         } else {
             setSceneList([]);
@@ -108,7 +110,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             setTimeout(() => {
                 scenes.callAdapter();
                 setIsConfirmDeleteDialogOpen(false);
-                setSelectedTwin(null);
+                setSelectedScene(null);
             }, 5000);
         } else {
             setSceneList([]);
@@ -148,7 +150,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             title={t('edit')}
                             ariaLabel={t('edit')}
                             onClick={() => {
-                                setSelectedTwin(item);
+                                setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
                             }}
                         />
@@ -157,7 +159,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             title={t('delete')}
                             ariaLabel={t('delete')}
                             onClick={() => {
-                                setSelectedTwin(item);
+                                setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);
                             }}
                         />
@@ -200,18 +202,16 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         minWidth: 100,
                                         onRender: (item) => (
                                             <span>
-                                                {item.$dtId?.en ?? item.$dtId}
+                                                {item.name?.en ?? item.name}
                                             </span>
                                         )
                                     },
                                     {
-                                        key: 'scene-model',
-                                        name: t('model'),
-                                        minWidth: 100,
+                                        key: 'scene-url',
+                                        name: t('url'),
+                                        minWidth: 350,
                                         onRender: (item) => (
-                                            <span>
-                                                {item.$metadata?.$model}
-                                            </span>
+                                            <span>{item.assets?.url}</span>
                                         )
                                     },
                                     {
@@ -257,7 +257,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 <PrimaryButton
                                     onClick={() => {
                                         deleteScene.callAdapter([
-                                            selectedTwin.$dtId
+                                            selectedScene.id
                                         ]);
                                     }}
                                     text={t('delete')}
@@ -281,15 +281,15 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                     isOpen={isSceneDialogOpen}
                     onClose={() => {
                         setIsSceneDialogOpen(false);
-                        setSelectedTwin(null);
+                        setSelectedScene(null);
                     }}
-                    setTwinToEdit={setSelectedTwin}
-                    twinToEdit={selectedTwin}
+                    setSceneToEdit={setSelectedScene}
+                    sceneToEdit={selectedScene}
                     onEditScene={(updateBlobPatch) => {
                         editScene.callAdapter(updateBlobPatch);
                     }}
-                    onAddScene={(newTwin) => {
-                        addScene.callAdapter(newTwin);
+                    onAddScene={(newScene) => {
+                        addScene.callAdapter(newScene);
                     }}
                 ></SceneListDialog>
             </BaseCompositeCard>
@@ -300,29 +300,29 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 const SceneListDialog = ({
     isOpen,
     onClose,
-    twinToEdit,
-    setTwinToEdit,
+    sceneToEdit,
+    setSceneToEdit,
     onAddScene,
     onEditScene
 }: {
     isOpen: any;
     onClose: any;
-    twinToEdit: any;
-    setTwinToEdit: any;
+    sceneToEdit: any;
+    setSceneToEdit: any;
     onAddScene: any;
     onEditScene: any;
 }) => {
-    const [newTwinId, setNewTwinId] = useState('');
-    const [newTwinBlobUrl, setNewTwinBlobUrl] = useState('');
+    const [newSceneId, setNewSceneId] = useState('');
+    const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const { t } = useTranslation();
 
     const isDialogOpenContent = {
         type: DialogType.normal,
-        title: twinToEdit
+        title: sceneToEdit
             ? t('scenes.editDialogTitle')
             : t('scenes.addDialogTitle'),
         closeButtonAriaLabel: t('close'),
-        subText: twinToEdit
+        subText: sceneToEdit
             ? t('scenes.editDialogSubText')
             : t('scenes.addDialogSubText')
     };
@@ -342,8 +342,8 @@ const SceneListDialog = ({
 
     useEffect(() => {
         if (isOpen) {
-            setNewTwinId('');
-            setNewTwinBlobUrl('');
+            setNewSceneId('');
+            setNewSceneBlobUrl('');
         }
     }, [isOpen]);
 
@@ -356,40 +356,41 @@ const SceneListDialog = ({
         >
             <TextField
                 label={t('scenes.sceneName')}
-                title={newTwinId}
-                value={twinToEdit ? twinToEdit?.$dtId : newTwinId}
-                className={`${
-                    (twinToEdit ? twinToEdit?.$dtId : !newTwinId)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
+                title={newSceneId}
+                value={sceneToEdit ? sceneToEdit?.id : newSceneId}
                 onChange={(e) => {
-                    if (twinToEdit) {
-                        const selectedTwinCopy = Object.assign({}, twinToEdit);
-                        selectedTwinCopy.$dtId = e.currentTarget.value;
-                        setTwinToEdit(selectedTwinCopy);
+                    if (sceneToEdit) {
+                        const selectedSceneCopy = Object.assign(
+                            {},
+                            sceneToEdit
+                        );
+                        selectedSceneCopy.id = e.currentTarget.value;
+                        setSceneToEdit(selectedSceneCopy);
                     } else {
-                        setNewTwinId(e.currentTarget.value);
+                        setNewSceneId(e.currentTarget.value);
                     }
                 }}
-                disabled={twinToEdit ? true : false}
+                disabled={sceneToEdit ? true : false}
             />
             <TextField
                 label={t('scenes.blobUrl')}
-                title={newTwinBlobUrl}
-                value={twinToEdit ? twinToEdit?.['assetFile'] : newTwinBlobUrl}
-                className={`${
-                    (twinToEdit ? twinToEdit?.['assetFile'] : !newTwinBlobUrl)
-                        ? 'cb-noinformation-value'
-                        : ''
-                }`}
+                title={newSceneBlobUrl}
+                value={
+                    sceneToEdit
+                        ? sceneToEdit?.['assets']['url']
+                        : newSceneBlobUrl
+                }
                 onChange={(e) => {
-                    if (twinToEdit) {
-                        const selectedTwinCopy = Object.assign({}, twinToEdit);
-                        selectedTwinCopy['assetFile'] = e.currentTarget.value;
-                        setTwinToEdit(selectedTwinCopy);
+                    if (sceneToEdit) {
+                        const selectedSceneCopy = Object.assign(
+                            {},
+                            sceneToEdit
+                        );
+                        selectedSceneCopy['assets']['url'] =
+                            e.currentTarget.value;
+                        setSceneToEdit(selectedSceneCopy);
                     } else {
-                        setNewTwinBlobUrl(e.currentTarget.value);
+                        setNewSceneBlobUrl(e.currentTarget.value);
                     }
                 }}
             />
@@ -402,25 +403,27 @@ const SceneListDialog = ({
                 <PrimaryButton
                     className="cb-scenes-list-dialog-buttons"
                     onClick={() => {
-                        if (twinToEdit) {
+                        if (sceneToEdit) {
                             const updateBlobPatch: ADTPatch = {
                                 op: 'replace',
-                                path: '/assetFile',
-                                value: twinToEdit['assetFile']
+                                path: '/assets',
+                                value: sceneToEdit['assets']['url']
                             };
                             onEditScene([updateBlobPatch]);
                         } else {
-                            const newTwin: DTwin = {
-                                $dtId: newTwinId,
-                                $metadata: {
-                                    $model: sceneTwinModelId
-                                },
-                                assetFile: newTwinBlobUrl
+                            const newScene: DScene = {
+                                name: newSceneId,
+                                id: 'Id',
+                                assets: [
+                                    {
+                                        url: newSceneBlobUrl
+                                    }
+                                ]
                             };
-                            onAddScene([newTwin]);
+                            onAddScene([newScene]);
                         }
                     }}
-                    text={twinToEdit ? t('update') : t('connect')}
+                    text={sceneToEdit ? t('update') : t('connect')}
                 />
             </DialogFooter>
         </Dialog>
