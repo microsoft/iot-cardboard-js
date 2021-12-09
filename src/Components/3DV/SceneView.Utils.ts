@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import * as GUI from 'babylonjs-gui';
-import { BadgeShape } from '../../Models/Constants/Enums';
 import { measureText } from '../../Models/Services/Utils';
+import './SceneView.scss';
 
 export function getMeshCenter(
     mesh: BABYLON.AbstractMesh,
@@ -33,24 +33,19 @@ export function getMeshCenter(
     return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
 }
 
-export function createBadge(badgeColor?: string, badgeShape?: BadgeShape, text?: string, textColor?: string, isIcon?: boolean ) {
-    let badge;
-    switch(badgeShape) {
-        case BadgeShape.ELLIPSE:
-            badge = new GUI.Ellipse();
-            break;
-        case BadgeShape.RECT:
-            badge = new GUI.Rectangle();
-            break;
-        default:
-            badge = new GUI.Ellipse();
-            break;
-    }
-
+export function createBadge(badgeColor?: string, text?: string, textColor?: string, isIcon?: boolean, onClickCallback?: any) {
+    const badge = new GUI.Button();
     badge.width = '40px';
     badge.height = '40px';
-    badge.color = badgeColor || '#ffffff';
-    badge.background = badgeColor || '#ffffff';
+    badge.background = 'transparent'; 
+    badge.color = 'transparent'; 
+
+    const badgeBackground = new GUI.Ellipse();
+    badgeBackground.width = '40px';
+    badgeBackground.height = '40px';
+    badgeBackground.color = badgeColor || '#ffffff';
+    badgeBackground.background = badgeColor || '#ffffff';
+    badge.addControl(badgeBackground);
 
     if (text) {
         const width = measureText(text, 16);
@@ -59,12 +54,12 @@ export function createBadge(badgeColor?: string, badgeShape?: BadgeShape, text?:
         }
         const textBlock = new GUI.TextBlock();
         if (isIcon) {
-            textBlock.fontFamily = 'Segoe MDL2 Assets';
+            textBlock.fontFamily = 'iconFont';
         }
         textBlock.fontSize = '16px';
         textBlock.color = textColor || '#000000';
         textBlock.text = text;
-        badge.addControl(textBlock);
+        badgeBackground.addControl(textBlock);
     }
 
     badge.onPointerEnterObservable.add(() => {
@@ -75,8 +70,10 @@ export function createBadge(badgeColor?: string, badgeShape?: BadgeShape, text?:
         document.body.style.cursor = '';
     });
 
-    badge.onPointerUpObservable.add(() => {
-        alert('hello')
+    badge.onPointerClickObservable.add(() => {
+        if (onClickCallback) {
+            onClickCallback();
+        }
     });
 
     return badge;

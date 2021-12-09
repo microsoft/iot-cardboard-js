@@ -19,7 +19,6 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { BadgeShape } from '../../Models/Constants/Enums';
 import { createBadge } from './SceneView.Utils';
 
 const debug = false;
@@ -138,6 +137,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 setIsLoading(false);
+
+                // const badge = createBadge('#ff0000', '', '#fff', true, () => alert('Badge clicked'));
+                // advancedTextureRef.current.addControl(badge);
+                // badge.linkWithMesh(sceneRef.current.meshes[1]);
+                // badgesRef.current.push(badge);
             }
         }
 
@@ -516,8 +520,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     }, [scene, markers]);
 
     useEffect(() => {
-        removeBadges();
-
         if (selectedMeshes) {
             // color selected meshes
             for (const selectedMesh of selectedMeshes) {
@@ -525,11 +527,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     (item) => item.id === selectedMesh
                 );
                 if (mesh) {
-                   const badge = createBadge('#ff0000', BadgeShape.ELLIPSE, '', '#fff', true);
-                   advancedTextureRef.current.addControl(badge);
-                   badge.linkWithMesh(mesh);
-                   badgesRef.current.push(badge);
-                    // only color mesh if it isn't already colored
+                      // only color mesh if it isn't already colored
                     if (
                         !selectedMeshesRef.current.find(
                             (m) => m.id === selectedMesh
@@ -649,12 +647,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
     }, [labels, scene, isLoading]);
-
-    function removeBadges() {
-        badgesRef.current.forEach((badge) => {
-            advancedTextureRef.current.removeControl(badge);
-        });
-    }
 
     return (
         <div className="cb-sceneview-container">
