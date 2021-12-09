@@ -1,3 +1,4 @@
+import { MockAdapter } from '../../..';
 import {
     ADT3DSceneBuilderModes,
     ADT3DScenePageSteps
@@ -9,11 +10,11 @@ import {
 } from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter;
+    adapter: MockAdapter;
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter;
+    adapter: MockAdapter;
     defaultMode?: ADT3DSceneBuilderModes;
     twin?: IADTTwin;
 }

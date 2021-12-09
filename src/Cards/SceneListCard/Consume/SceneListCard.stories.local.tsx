@@ -1,8 +1,8 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../.storybook/useAuthParams';
+import { MockAdapter } from '../../../Adapters';
+import mockVConfig from './mockData/vconfig-MattReworkFusionChristian.json';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -22,14 +22,8 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                 title={'Scene List Card'}
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                // TODO: replace with new blob adapter
+                adapter={new MockAdapter({ mockData: mockVConfig })}
             />
         </div>
     );

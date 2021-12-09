@@ -230,6 +230,25 @@ export interface IADTModelDefinition {
     contents?: any[];
 }
 
+export interface IADTSceneList {
+    type: string;
+    name: string;
+    id: string;
+    latitude: number;
+    longitude: number;
+    assets?: IADTSceneAssets[];
+}
+
+export interface IADTScene {
+    name: string;
+    id: string;
+    assets?: IADTSceneAssets[];
+}
+
+export interface IADTSceneAssets {
+    url: string;
+}
+
 export interface IADTTwin {
     $dtId: string;
     $etag: string;
