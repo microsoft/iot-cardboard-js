@@ -22,6 +22,7 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
             locale={locale}
             localeStrings={localeStrings}
             adapterResults={adapterResults}
+            isLoading={isLoading}
         >
             <div className="cb-base-composite-card-wrapper">
                 <div className="cb-base-composite-card">

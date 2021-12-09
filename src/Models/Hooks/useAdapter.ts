@@ -148,18 +148,17 @@ const useAdapter = <T extends IAdapterData>({
     });
 
     useEffect(() => {
-        if (state.isInitialCall) {
-            if (isAdapterCalledOnMount) {
+        if (isAdapterCalledOnMount) {
+            if (state.isInitialCall) {
+                callAdapter();
+                dispatch({
+                    type: SET_IS_INITIAL_CALL,
+                    payload: false
+                });
+            } else {
                 cancelAdapter();
                 callAdapter();
             }
-            dispatch({
-                type: SET_IS_INITIAL_CALL,
-                payload: false
-            });
-        } else {
-            cancelAdapter();
-            callAdapter();
         }
     }, [...refetchDependencies]);
 
