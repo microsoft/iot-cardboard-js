@@ -4,7 +4,7 @@ import { AdapterResult, IComponentError } from '../..';
 import i18n from '../../i18n';
 import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import { ThemeProvider, Theme } from '../../Theming/ThemeProvider';
-import { BaseComponentProps } from './Base.types';
+import { BaseComponentProps } from './BaseComponent.types';
 import { default as ErrorComponent } from '../Error/Error';
 import './BaseComponent.scss';
 import Overlay from '../Modal/Overlay';

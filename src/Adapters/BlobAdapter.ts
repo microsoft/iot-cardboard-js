@@ -1,6 +1,6 @@
 import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { CardErrorType } from '../Models/Constants/Enums';
+import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import { Config, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
@@ -52,7 +52,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 return new ADTScenesConfigData(config);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -86,7 +86,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 return new ADTScenesConfigData(result);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -113,7 +113,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -143,7 +143,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
@@ -175,7 +175,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });
