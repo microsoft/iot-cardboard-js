@@ -192,6 +192,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
+                adapterResults={[scenesConfig.adapterResult]}
                 isLoading={scenesConfig.isLoading}
             >
                 {sceneList.length > 0 ? (

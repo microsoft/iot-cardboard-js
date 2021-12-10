@@ -8,15 +8,10 @@ import {
 } from '@fluentui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    IADTInstancesProps,
-    IADTInstance,
-    Theme
-} from '../../Models/Constants';
+import { IADTInstancesProps, IADTInstance } from '../../Models/Constants';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
-import { ThemeProvider } from '../../Theming/ThemeProvider';
 import './ADTInstances.scss';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const ADTInstances: React.FC<IADTInstancesProps> = ({
     adapter,
@@ -27,7 +22,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     locale,
     localeStrings
 }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [instances, setInstances] = useState<Array<IADTInstance>>([]);
     const [selectedOption, setSelectedOption] = useState(selectedInstance);
 
@@ -78,34 +73,32 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     };
 
     return (
-        <I18nProviderWrapper
+        <BaseComponent
             locale={locale}
             localeStrings={localeStrings}
-            i18n={i18n}
+            theme={theme}
         >
-            <ThemeProvider theme={theme ?? Theme.Light}>
-                <div className="cb-adt-instances-dropdown-list-container">
-                    <Dropdown
-                        placeholder={
-                            environmentsState.isLoading
-                                ? t('loadingInstances')
-                                : t('selectInstance')
+            <div className="cb-adt-instances-dropdown-list-container">
+                <Dropdown
+                    placeholder={
+                        environmentsState.isLoading
+                            ? t('loadingInstances')
+                            : t('selectInstance')
+                    }
+                    label={t('ADTInstances')}
+                    options={dropdownOptions}
+                    disabled={environmentsState.isLoading}
+                    onRenderLabel={onRenderLabel}
+                    selectedKey={selectedOption}
+                    onChange={(_e, option) => {
+                        setSelectedOption(option.text);
+                        if (onInstanceChange) {
+                            onInstanceChange(option.text);
                         }
-                        label={t('ADTInstances')}
-                        options={dropdownOptions}
-                        disabled={environmentsState.isLoading}
-                        onRenderLabel={onRenderLabel}
-                        selectedKey={selectedOption}
-                        onChange={(_e, option) => {
-                            setSelectedOption(option.text);
-                            if (onInstanceChange) {
-                                onInstanceChange(option.text);
-                            }
-                        }}
-                    />
-                </div>
-            </ThemeProvider>
-        </I18nProviderWrapper>
+                    }}
+                />
+            </div>
+        </BaseComponent>
     );
 };
 

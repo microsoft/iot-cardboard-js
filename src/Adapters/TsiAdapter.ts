@@ -7,7 +7,7 @@ import {
 } from '../Models/Constants/Interfaces';
 import { TsiClientAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { CardErrorType } from '..';
+import { ComponentErrorType } from '..';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
 export default class TsiAdapter implements ITsiClientChartDataAdapter {
@@ -56,7 +56,7 @@ export default class TsiAdapter implements ITsiClientChartDataAdapter {
                 );
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

@@ -3,7 +3,7 @@ import {
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { CardErrorType } from '../Models/Constants/Enums';
+import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import { SearchSpan, TsiClientAdapterData } from '../Models/Classes';
 import TsqExpression from 'tsiclient/TsqExpression';
@@ -132,7 +132,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 return new TsiClientAdapterData(transformedResults);
             } catch (err) {
                 adapterMethodSandbox.pushError({
-                    type: CardErrorType.DataFetchFailed,
+                    type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
                     rawError: err
                 });

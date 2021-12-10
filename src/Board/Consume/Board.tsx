@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from '../../Theming/ThemeProvider';
-import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
-import i18n from '../../i18n';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
     CardTypes,
@@ -11,7 +8,7 @@ import {
     IResolvedRelationshipClickErrors,
     Locale,
     Theme,
-    CardErrorType,
+    ComponentErrorType,
     ADTModel_ViewData_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -23,7 +20,7 @@ import { IBoardProps } from './Board.types';
 import {
     SearchSpan,
     CardInfo,
-    CardError,
+    ComponentError,
     BoardInfo
 } from '../../Models/Classes';
 import { ADTAdapter } from '../../Adapters';
@@ -39,6 +36,7 @@ import BaseCard from '../../Cards/Base/Consume/BaseCard';
 import { hasAllProcessGraphicsCardProperties } from '../../Models/Services/Utils';
 import './Board.scss';
 import PropertyInspectorSurface from '../../Components/PropertyInspector/surface/PropertyInspectorSurface';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 const Board: React.FC<IBoardProps> = ({
     adapter,
@@ -124,35 +122,35 @@ const Board: React.FC<IBoardProps> = ({
     }
 
     return (
-        <I18nProviderWrapper
+        <BaseComponent
             locale={locale}
             localeStrings={localeStrings}
-            i18n={i18n}
+            theme={theme}
         >
-            <ThemeProvider theme={theme}>
-                {errorMessage && (
-                    <div className="cb-base-catastrophic-error-wrapper">
-                        <div className="cb-base-catastrophic-error-box">
-                            <div className="cb-base-catastrophic-error-message">
-                                {errorMessage}
-                            </div>
+            {errorMessage && (
+                <div className="cb-base-catastrophic-error-wrapper">
+                    <div className="cb-base-catastrophic-error-box">
+                        <div className="cb-base-catastrophic-error-message">
+                            {errorMessage}
                         </div>
                     </div>
-                )}
-                {!errorMessage && cardComponents.length === 0 && (
-                    <div className="cb-base-catastrophic-error-wrapper">
-                        <div className="cb-base-catastrophic-error-box">
-                            <div className="cb-base-catastrophic-error-message">
-                                {t('board.empty')}
-                            </div>
+                </div>
+            )}
+            {!errorMessage && cardComponents.length === 0 && (
+                <div className="cb-base-catastrophic-error-wrapper">
+                    <div className="cb-base-catastrophic-error-box">
+                        <div className="cb-base-catastrophic-error-message">
+                            {t('board.empty')}
                         </div>
                     </div>
-                )}
-                {!errorMessage && cardComponents.length > 0 && (
-                    <div className="cb-board" style={layoutStyles}>
-                        {cardComponents}
-                    </div>
-                )}
+                </div>
+            )}
+            {!errorMessage && cardComponents.length > 0 && (
+                <div className="cb-board" style={layoutStyles}>
+                    {cardComponents}
+                </div>
+            )}
+            {adtTwin && (
                 <PropertyInspectorSurface
                     isOpen={isInspectorOpen}
                     onDismiss={() => setIsInspectorOpen(false)}
@@ -161,8 +159,8 @@ const Board: React.FC<IBoardProps> = ({
                     theme={theme}
                     locale={locale}
                 />
-            </ThemeProvider>
-        </I18nProviderWrapper>
+            )}
+        </BaseComponent>
     );
 };
 
@@ -277,8 +275,8 @@ function getCardElement(
                     isLoading={false}
                     adapterResult={null}
                     cardError={
-                        new CardError({
-                            type: CardErrorType.InvalidCardType,
+                        new ComponentError({
+                            type: ComponentErrorType.InvalidCardType,
                             messageParams: { cardType: cardInfo.type }
                         })
                     }
