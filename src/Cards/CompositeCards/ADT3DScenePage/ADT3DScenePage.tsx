@@ -4,7 +4,6 @@ import {
     ADT3DSceneBuilderModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
-import { IADTTwin } from '../../../Models/Constants/Interfaces';
 import ADT3DViewerCard from '../../ADT3DViewerCard/ADT3DViewerCard';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
 import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
@@ -21,8 +20,9 @@ import {
 } from './ADT3DScenePage.state';
 import {
     SET_CURRENT_STEP,
-    SET_SELECTED_TWIN
+    SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
+import { Scene } from '../../../Models/Classes/3DVConfig';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -38,10 +38,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
-    const handleOnSceneClick = (twin: IADTTwin) => {
+    const handleOnSceneClick = (scene: Scene) => {
         dispatch({
-            type: SET_SELECTED_TWIN,
-            payload: twin
+            type: SET_SELECTED_SCENE,
+            payload: scene
         });
         dispatch({
             type: SET_CURRENT_STEP,
@@ -65,8 +65,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             theme={theme}
                             locale={locale}
                             adapter={adapter}
-                            onSceneClick={(twin) => {
-                                handleOnSceneClick(twin);
+                            onSceneClick={(scene) => {
+                                handleOnSceneClick(scene);
                             }}
                         />
                     </div>
@@ -76,9 +76,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     <>
                         <div className="cb-scene-builder-container">
                             <ADT3DSceneBuilderCompositeComponent
-                                twin={state.selectedTwin}
+                                scene={state.selectedScene}
                                 adapter={adapter}
-                                title={state.selectedTwin.$dtId}
+                                title={state.selectedScene.name}
                                 theme={theme}
                                 locale={locale}
                                 localeStrings={localeStrings}
@@ -90,7 +90,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         <DefaultButton
                             onClick={() => {
                                 dispatch({
-                                    type: SET_SELECTED_TWIN,
+                                    type: SET_SELECTED_SCENE,
                                     payload: null
                                 });
                                 dispatch({
@@ -110,7 +110,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
 const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = ({
     defaultMode = ADT3DSceneBuilderModes.BuildScene,
-    twin,
+    scene,
     adapter,
     theme,
     title,
@@ -159,7 +159,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                         <div className="cb-scene-view-builder">
                             <ADT3DBuilderCard
                                 title="3D Builder"
-                                modelUrl={twin.MediaSrc}
+                                modelUrl={scene.assets[0].url}
                             />
                         </div>
                     </BaseCompositeCard>
@@ -173,7 +173,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                             title="3D Viewer"
                             adapter={adapter}
                             pollingInterval={10000}
-                            twinId={twin.$dtId}
+                            twinId={scene.id}
                         />
                     </div>
                 </PivotItem>

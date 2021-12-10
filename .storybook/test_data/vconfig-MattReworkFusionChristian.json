@@ -35,9 +35,7 @@
             {
                 "name": "boilerTooHot",
                 "type": "ColorChange",
-                "layers": [
-                    "ProcessIssues"
-                ],
+                "layers": ["ProcessIssues"],
                 "dataSources": {
                     "type": "SelectionSetTwinDataSource",
                     "aliasSet": [
@@ -49,34 +47,17 @@
                         {
                             "sceneID": "16d31f3a81564c38bd4c25674309c735",
                             "meshSet": [
-                                [
-                                    "object1MeshID",
-                                    "object3MeshID"
-                                ],
-                                [
-                                    "object2MeshID"
-                                ]
+                                ["object1MeshID", "object3MeshID"],
+                                ["object2MeshID"]
                             ],
                             "selectionSet": [
-                                [
-                                    "PasteurizationMachine_A01",
-                                    "Tag01",
-                                    "Tag02"
-                                ],
-                                [
-                                    "PasteurizationMachine_A02",
-                                    "Tag03",
-                                    "Tag04"
-                                ]
+                                ["PasteurizationMachine_A01", "Tag01", "Tag02"],
+                                ["PasteurizationMachine_A02", "Tag03", "Tag04"]
                             ]
                         },
                         {
                             "sceneID": "4cbdf18dff924430a853a56435505791",
-                            "meshSet": [
-                                [
-                                    "object1MeshID"
-                                ]
-                            ],
+                            "meshSet": [["object1MeshID"]],
                             "selectionSet": [
                                 "PasteurizationMachine_A03",
                                 "Tag05",
@@ -91,12 +72,7 @@
                     {
                         "control": "gauge",
                         "controlConfig": {
-                            "valueBreakPoints": [
-                                0,
-                                20,
-                                40,
-                                100
-                            ],
+                            "valueBreakPoints": [0, 20, 40, 100],
                             "property": "TemperatureTwin.value",
                             "label": "Temperature"
                         }
@@ -116,23 +92,12 @@
                 "layers": [],
                 "dataSources": {
                     "type": "SelectionSetTwinDataSource",
-                    "aliasSet": [
-                        "AssetTwin"
-                    ],
+                    "aliasSet": ["AssetTwin"],
                     "values": [
                         {
                             "sceneID": "16d31f3a81564c38bd4c25674309c735",
-                            "meshSet": [
-                                [
-                                    "object1MeshID",
-                                    "object3MeshID"
-                                ]
-                            ],
-                            "selectionSet": [
-                                [
-                                    "PasteurizationMachine_A01"
-                                ]
-                            ]
+                            "meshSet": [["object1MeshID", "object3MeshID"]],
+                            "selectionSet": [["PasteurizationMachine_A01"]]
                         }
                     ]
                 },
@@ -140,12 +105,7 @@
                     {
                         "control": "gauge",
                         "controlConfig": {
-                            "valueBreakPoints": [
-                                -10,
-                                30,
-                                60,
-                                130
-                            ],
+                            "valueBreakPoints": [-10, 30, 60, 130],
                             "property": "AssetTwin.InFlow",
                             "label": "Flow (In)"
                         }

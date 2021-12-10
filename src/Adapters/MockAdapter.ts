@@ -10,7 +10,6 @@ import { CardError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
-    ADTPatch,
     IADT3DViewerAdapter,
     IADTAdapter,
     IKeyValuePairAdapter,
@@ -18,7 +17,7 @@ import {
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
 import {
-    IADTScene,
+    IBlobAdapter,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
@@ -27,18 +26,20 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
-import { ScenesAdapterData } from '../Models/Classes/AdapterDataClasses/ScenesAdapterData';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import mockVConfig from '../Cards/SceneListCard/Consume/mockData/vconfig-MattReworkFusionChristian.json';
-import { Config } from '../Models/Classes/3DVConfig';
+import mockVConfig from '../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
+import { Config, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
+import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
         IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
+        IBlobAdapter,
         Partial<IADTAdapter> {
     private mockData = null;
     private mockError = null;
@@ -218,58 +219,48 @@ export default class MockAdapter
         }
     }
 
-    async getScenesConfig(_url: any) {
+    async getScenesConfig() {
         try {
             const sceneConfig = TaJson.parse<Config>(
                 JSON.stringify(mockVConfig),
                 Config
             );
-
-            const scenes = sceneConfig.viewerConfiguration?.scenes.map(
-                (scene) => {
-                    return scene;
-                }
-            );
-
-            const getScenesData = () => {
-                return new ScenesAdapterData({
-                    value: scenes
-                });
-            };
             await this.mockNetwork();
 
-            return new AdapterResult<ScenesAdapterData>({
-                result: getScenesData(),
+            return new AdapterResult<ADTScenesConfigData>({
+                result: new ADTScenesConfigData(sceneConfig),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ScenesAdapterData>({
+            return new AdapterResult<ADTScenesConfigData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
     }
 
-    //TODO: finish reworking create/update/delete to work with blob adapter
-    async setScene(_scene: Array<IADTScene>) {
+    //TODO: implement this properly
+    async addScene(_config: Config, _scene: Scene) {
         await this.mockNetwork();
-        return new AdapterResult<ScenesAdapterData>({
+        return new AdapterResult<ADTSceneData>({
             result: null,
             errorInfo: null
         });
     }
 
-    async updateScene(_scene: string, _patches: Array<ADTPatch>) {
+    //TODO: implement this properly
+    async editScene(_config: Config, _sceneId: string, _scene: Scene) {
         await this.mockNetwork();
-        return new AdapterResult<ScenesAdapterData>({
+        return new AdapterResult<ADTSceneData>({
             result: null,
             errorInfo: null
         });
     }
 
-    async deleteScene(_scene: string) {
+    //TODO: implement this properly
+    async deleteScene(_config: Config, _sceneId: string) {
         await this.mockNetwork();
-        return new AdapterResult<ScenesAdapterData>({
+        return new AdapterResult<ADTSceneData>({
             result: null,
             errorInfo: null
         });

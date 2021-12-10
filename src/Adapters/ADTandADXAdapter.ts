@@ -15,7 +15,7 @@ export default class ADTandADXAdapter {
         tenantId: string,
         uniqueObjectId: string,
         adxInformation?: IADTInstanceConnection,
-        adtProxyServerPath = '/api/proxy'
+        adtProxyServerPath = '/proxy/adt'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.adxAuthService = authService;

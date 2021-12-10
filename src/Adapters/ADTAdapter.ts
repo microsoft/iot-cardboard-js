@@ -69,7 +69,7 @@ export default class ADTAdapter implements IADTAdapter {
         authService: IAuthService,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/api/proxy'
+        adtProxyServerPath = '/proxy/adt'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adtProxyServerPath = adtProxyServerPath;

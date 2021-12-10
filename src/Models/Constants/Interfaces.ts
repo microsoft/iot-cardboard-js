@@ -41,6 +41,9 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import { Config, Scene } from '../Classes/3DVConfig';
+import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 
 export interface IAction {
     type: string;
@@ -92,7 +95,9 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 
 export interface IAuthService {
     login: () => void;
-    getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
+    getToken: (
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+    ) => Promise<string>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -228,25 +233,6 @@ export interface IADTModelDefinition {
     description: string;
     comment: string;
     contents?: any[];
-}
-
-export interface IADTSceneList {
-    type: string;
-    name: string;
-    id: string;
-    latitude: number;
-    longitude: number;
-    assets?: IADTSceneAssets[];
-}
-
-export interface IADTScene {
-    name: string;
-    id: string;
-    assets?: IADTSceneAssets[];
-}
-
-export interface IADTSceneAssets {
-    url: string;
 }
 
 export interface IADTTwin {
@@ -402,6 +388,20 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         tenantId?: string,
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
+}
+
+export interface IBlobAdapter {
+    getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
+    addScene: (config: Config, scene: Scene) => AdapterReturnType<ADTSceneData>;
+    editScene: (
+        config: Config,
+        sceneId: string,
+        scene: Scene
+    ) => AdapterReturnType<ADTSceneData>;
+    deleteScene: (
+        config: Config,
+        sceneId: string
+    ) => AdapterReturnType<ADTSceneData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

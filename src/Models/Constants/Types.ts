@@ -3,7 +3,6 @@ import {
     DTwin,
     DTwinRelationship,
     IADTAdapter,
-    IADTSceneList,
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter
 } from '.';
@@ -74,10 +73,6 @@ export type HierarchyData = Record<string, IHierarchyNode>;
 export type ADTModelsApiData = {
     value: IADTModel[];
     nextLink: string;
-};
-
-export type ScenesApiData = {
-    value: IADTSceneList[];
 };
 
 export type ADTTwinsApiData = {
