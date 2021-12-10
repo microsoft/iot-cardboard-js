@@ -19,7 +19,6 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { createBadge } from './SceneView.Utils';
 
 const debug = false;
 async function loadPromise(
@@ -64,7 +63,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
     const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
-    const badgesRef = useRef<any[]>([]);
     const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
@@ -137,11 +135,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 setIsLoading(false);
-
-                // const badge = createBadge('#ff0000', '', '#fff', true, () => alert('Badge clicked'));
-                // advancedTextureRef.current.addControl(badge);
-                // badge.linkWithMesh(sceneRef.current.meshes[1]);
-                // badgesRef.current.push(badge);
             }
         }
 

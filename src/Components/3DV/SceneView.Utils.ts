@@ -51,6 +51,7 @@ export function createBadge(badgeColor?: string, text?: string, textColor?: stri
         const width = measureText(text, 16);
         if (width > 40) {
             badge.width = width + 10 + 'px';
+            badgeBackground.width = width + 10 + 'px'
         }
         const textBlock = new GUI.TextBlock();
         if (isIcon) {
