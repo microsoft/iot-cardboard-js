@@ -33,6 +33,7 @@
     "view": "View",
     "build": "Build",
     "download": "Download",
+    "url": "Url",
     "create": "Create",
     "add": "Add",
     "addNew": "Add new",
