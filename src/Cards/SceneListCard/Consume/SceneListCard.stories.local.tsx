@@ -1,8 +1,8 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
+import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import { MockAdapter } from '../../../Adapters';
-import mockVConfig from './mockData/vconfig-MattReworkFusionChristian.json';
+import BlobAdapter from '../../../Adapters/BlobAdapter';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -12,7 +12,7 @@ const sceneListCardStyle = {
     height: '100%'
 };
 
-export const SceneCard = (_args, { globals: { theme, locale } }) => {
+export const ScenesCard = (_arg, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -22,8 +22,15 @@ export const SceneCard = (_args, { globals: { theme, locale } }) => {
                 title={'Scene List Card'}
                 theme={theme}
                 locale={locale}
-                // TODO: replace with new blob adapter
-                adapter={new MockAdapter({ mockData: mockVConfig })}
+                adapter={
+                    new BlobAdapter(
+                        authenticationParameters.storage.accountHostUrl,
+                        authenticationParameters.storage.blobPath,
+                        new MsalAuthService(
+                            authenticationParameters.storage.aadParameters
+                        )
+                    )
+                }
             />
         </div>
     );

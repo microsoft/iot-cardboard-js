@@ -149,7 +149,7 @@ export default class MsalAuthService implements IAuthService {
         };
     };
 
-    public getToken = (tokenFor?: 'azureManagement' | 'adx') => {
+    public getToken = (tokenFor?: 'azureManagement' | 'adx' | 'storage') => {
         let scope;
         if (tokenFor === 'azureManagement') {
             scope = 'https://management.azure.com//.default';
@@ -163,6 +163,16 @@ export default class MsalAuthService implements IAuthService {
             ) as Promise<string>;
         } else if (tokenFor === 'adx') {
             scope = 'https://help.kusto.windows.net/user_impersonation';
+            return new Promise(
+                this.getGenericTokenPromiseCallback(
+                    {
+                        scopes: [scope]
+                    },
+                    true
+                )
+            ) as Promise<string>;
+        } else if (tokenFor === 'storage') {
+            scope = 'https://storage.azure.com/user_impersonation';
             return new Promise(
                 this.getGenericTokenPromiseCallback(
                     {

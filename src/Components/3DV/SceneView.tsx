@@ -116,6 +116,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             console.log('**************init');
         }
 
+        //TODO: load this private blob by getting token and using proxy for blob service REST API
         async function load(root: string, file: string, sc: BABYLON.Scene) {
             let success = true;
             const assets = await loadPromise(
