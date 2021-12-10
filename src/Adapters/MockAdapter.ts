@@ -224,9 +224,7 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(
-                    sceneConfig.viewerConfiguration
-                ),
+                result: new ADTScenesConfigData(sceneConfig),
                 errorInfo: null
             });
         } catch (err) {
@@ -238,7 +236,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async addScene(_scene: Scene) {
+    async addScene(_config: Config, _scene: Scene) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,
@@ -247,7 +245,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async editScene(_sceneId: string, _scene: Scene) {
+    async editScene(_config: Config, _sceneId: string, _scene: Scene) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,
@@ -256,7 +254,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async deleteScene(_sceneId: string) {
+    async deleteScene(_config: Config, _sceneId: string) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,

@@ -18,7 +18,8 @@ module.exports = function (app) {
         'x-ms-client-request-id',
         'x-ms-useragent',
         'User-Agent',
-        'x-ms-version'
+        'x-ms-version',
+        'x-ms-blob-type'
     ];
 
     // eslint-disable-next-line max-len

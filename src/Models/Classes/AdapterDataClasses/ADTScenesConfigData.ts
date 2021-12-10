@@ -1,10 +1,10 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { ViewerConfiguration } from '../3DVConfig';
+import { Config } from '../3DVConfig';
 
 class ADTScenesConfigData implements IAdapterData {
-    data: ViewerConfiguration;
+    data: Config;
 
-    constructor(data: ViewerConfiguration) {
+    constructor(data: Config) {
         this.data = data;
     }
 
