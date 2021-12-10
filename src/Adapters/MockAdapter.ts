@@ -16,7 +16,10 @@ import {
     IMockAdapter,
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
-import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
+import {
+    IBlobAdapter,
+    IGetKeyValuePairsAdditionalParameters
+} from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
     ADTRelationship,
@@ -36,6 +39,7 @@ export default class MockAdapter
         IKeyValuePairAdapter,
         IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
+        IBlobAdapter,
         Partial<IADTAdapter> {
     private mockData = null;
     private mockError = null;
