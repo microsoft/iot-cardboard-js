@@ -33,12 +33,18 @@ export function getMeshCenter(
     return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
 }
 
-export function createBadge(badgeColor?: string, text?: string, textColor?: string, isIcon?: boolean, onClickCallback?: any) {
+export function createBadge(
+    badgeColor?: string,
+    text?: string,
+    textColor?: string,
+    isIcon?: boolean,
+    onClickCallback?: any
+) {
     const badge = new GUI.Button();
     badge.width = '40px';
     badge.height = '40px';
-    badge.background = 'transparent'; 
-    badge.color = 'transparent'; 
+    badge.background = 'transparent';
+    badge.color = 'transparent';
 
     const badgeBackground = new GUI.Ellipse();
     badgeBackground.width = '40px';
@@ -51,7 +57,7 @@ export function createBadge(badgeColor?: string, text?: string, textColor?: stri
         const width = measureText(text, 16);
         if (width > 40) {
             badge.width = width + 10 + 'px';
-            badgeBackground.width = width + 10 + 'px'
+            badgeBackground.width = width + 10 + 'px';
         }
         const textBlock = new GUI.TextBlock();
         if (isIcon) {

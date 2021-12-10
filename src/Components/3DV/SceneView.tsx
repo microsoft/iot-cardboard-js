@@ -520,7 +520,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     (item) => item.id === selectedMesh
                 );
                 if (mesh) {
-                      // only color mesh if it isn't already colored
+                    // only color mesh if it isn't already colored
                     if (
                         !selectedMeshesRef.current.find(
                             (m) => m.id === selectedMesh
