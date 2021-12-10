@@ -1,8 +1,8 @@
 import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../Adapters/ADTAdapter';
-import MsalAuthService from '../../../Models/Services/MsalAuthService';
+import MockAdapter from '../../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
+import mockVConfig from '../../../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
 
 export default {
     title: 'CompositeCards/ADT3DScenePage'
@@ -24,14 +24,7 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                adapter={new MockAdapter({ mockData: mockVConfig })} //TODO: will change this to ADTandBlobAdapter
             />
         </div>
     );

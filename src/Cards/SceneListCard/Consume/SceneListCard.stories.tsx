@@ -1,9 +1,7 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
-import useAuthParams from '../../../../.storybook/useAuthParams';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { ComponentErrorType } from '../../../Models/Constants';
-import mockScenes from './mockData/mockScenes.json';
+import mockVConfig from './mockData/vconfig-MattReworkFusionChristian.json';
 
 export default {
     title: 'SceneListCard/Consume'
@@ -20,27 +18,7 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 title={'Mock Scene List Card'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: mockScenes })}
-            />
-        </div>
-    );
-};
-
-export const Error = (_args, { globals: { theme, locale } }) => {
-    const authenticationParameters = useAuthParams();
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
-        <div style={sceneListCardStyle}>
-            <SceneListCard
-                title={'Scene List Card'}
-                theme={theme}
-                locale={locale}
-                adapter={
-                    new MockAdapter({
-                        mockError: ComponentErrorType.TokenRetrievalFailed
-                    })
-                }
+                adapter={new MockAdapter({ mockData: mockVConfig })}
             />
         </div>
     );

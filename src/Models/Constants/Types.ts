@@ -3,6 +3,7 @@ import {
     DTwin,
     DTwinRelationship,
     IADTAdapter,
+    IADTSceneList,
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter
 } from '.';
@@ -75,6 +76,10 @@ export type ADTModelsApiData = {
     nextLink: string;
 };
 
+export type ScenesApiData = {
+    value: IADTSceneList[];
+};
+
 export type ADTTwinsApiData = {
     value: IADTTwin[];
     continuationToken: string;
@@ -119,6 +124,11 @@ export type AdapterMethodParamsForGetADTTwinsByModelId = {
 
 export type AdapterMethodParamsForSearchADTTwins = {
     searchTerm: string;
+    continuationToken?: string;
+};
+
+export type AdapterMethodParamsForGetScenes = {
+    Id: string;
     continuationToken?: string;
 };
 
