@@ -105,7 +105,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     };
 
     const meshHover = (marker: Marker, mesh: any) => {
-        if (mesh) {
+        if (mesh && labels) {
             const label = labels.find((label) =>
                 label.meshIds.find((id) => id === mesh?.id)
             );

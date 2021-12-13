@@ -22,6 +22,7 @@ import {
     SET_CURRENT_STEP,
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
+import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { Scene } from '../../../Models/Classes/3DVConfig';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
@@ -60,11 +61,50 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             >
                 {state.currentStep === ADT3DScenePageSteps.SceneTwinList && (
                     <div className="cb-scene-page-scene-list-container">
+                        <DefaultButton
+                            onClick={() => {
+                                dispatch({
+                                    type: SET_SELECTED_SCENE,
+                                    payload: null
+                                });
+                                dispatch({
+                                    type: SET_CURRENT_STEP,
+                                    payload: ADT3DScenePageSteps.Globe
+                                });
+                            }}
+                            text={t('globe')}
+                            className="cb-scene-page-view-button"
+                        />
                         <SceneListCard
                             title={'Twins with visual ontology'}
                             theme={theme}
                             locale={locale}
                             adapter={adapter}
+                            onSceneClick={(scene) => {
+                                handleOnSceneClick(scene);
+                            }}
+                        />
+                    </div>
+                )}
+                {state.currentStep === ADT3DScenePageSteps.Globe && (
+                    <div className="cb-scene-page-scene-list-container">
+                        <DefaultButton
+                            onClick={() => {
+                                dispatch({
+                                    type: SET_SELECTED_SCENE,
+                                    payload: null
+                                });
+                                dispatch({
+                                    type: SET_CURRENT_STEP,
+                                    payload: ADT3DScenePageSteps.SceneTwinList
+                                });
+                            }}
+                            text={t('list')}
+                            className="cb-scene-page-view-button"
+                        />
+                        <ADT3DGlobeCard
+                            theme={theme}
+                            adapter={adapter as any} // TODO: Fix
                             onSceneClick={(scene) => {
                                 handleOnSceneClick(scene);
                             }}
