@@ -1,6 +1,6 @@
 import React from 'react';
 import AdapterResult from '../../../Models/Classes/AdapterResult';
-import { CardErrorType } from '../../../Models/Constants';
+import { ComponentErrorType } from '../../../Models/Constants';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { Locale } from '../../../Models/Constants/Enums';
@@ -31,7 +31,7 @@ export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
     </div>
 );
 
-const useMockError = (errorType: CardErrorType) => {
+const useMockError = (errorType: ComponentErrorType) => {
     const adapter = new MockAdapter({
         mockError: errorType
     });
@@ -70,9 +70,9 @@ CatastrophicErrors.argTypes = {
     errorType: {
         control: {
             type: 'radio',
-            options: [...Object.keys(CardErrorType)]
+            options: [...Object.keys(ComponentErrorType)]
         },
-        defaultValue: CardErrorType.TokenRetrievalFailed,
+        defaultValue: ComponentErrorType.TokenRetrievalFailed,
         description: 'Test'
     }
 };

@@ -1,24 +1,26 @@
+import { MockAdapter } from '../../..';
+import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
+import { Scene } from '../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
 import {
     IADTAdapter,
-    IADTTwin,
     IConsumeCompositeCardProps
 } from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter;
+    adapter: ADTandBlobAdapter | MockAdapter;
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
-    adapter: IADTAdapter;
+    adapter: IADTAdapter | MockAdapter;
     defaultMode?: ADT3DSceneBuilderModes;
-    twin?: IADTTwin;
+    scene?: Scene;
 }
 
 export interface ADT3DScenePageState {
-    selectedTwin: IADTTwin;
+    selectedScene: Scene;
     currentStep: ADT3DScenePageSteps;
 }

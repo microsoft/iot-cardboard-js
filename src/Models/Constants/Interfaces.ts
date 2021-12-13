@@ -20,7 +20,7 @@ import {
 import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
 import {
-    CardErrorType,
+    ComponentErrorType,
     Locale,
     Theme,
     HierarchyNodeType,
@@ -42,6 +42,9 @@ import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModel
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
 import ADTScenesData from '../Classes/AdapterDataClasses/ADTScenesData';
+import { Config, Scene } from '../Classes/3DVConfig';
+import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 
 export interface IAction {
     type: string;
@@ -93,7 +96,9 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 
 export interface IAuthService {
     login: () => void;
-    getToken: (tokenFor?: 'azureManagement' | 'adx') => Promise<string>;
+    getToken: (
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+    ) => Promise<string>;
 }
 
 export interface IEnvironmentToConstantMapping {
@@ -131,7 +136,7 @@ export interface IUseAdapter<T extends IAdapterData> {
     pulse: boolean;
 }
 
-export interface ICardError {
+export interface IComponentError {
     /** Name of the error to be used as title */
     name?: string;
 
@@ -139,7 +144,7 @@ export interface ICardError {
     message?: string;
 
     /** Classification of error type */
-    type?: CardErrorType;
+    type?: ComponentErrorType;
 
     /** Catastrophic errors stop adapter execution */
     isCatastrophic?: boolean;
@@ -161,15 +166,15 @@ export interface IMockAdapter {
     networkTimeoutMillis?: number;
 
     /** If set, MockAdapter will mock error of set type */
-    mockError?: CardErrorType;
+    mockError?: ComponentErrorType;
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
 }
 
 export interface IErrorInfo {
-    errors: ICardError[];
-    catastrophicError: ICardError;
+    errors: IComponentError[];
+    catastrophicError: IComponentError;
 }
 
 export interface IHierarchyProps {
@@ -385,6 +390,20 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         tenantId?: string,
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
+}
+
+export interface IBlobAdapter {
+    getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
+    addScene: (config: Config, scene: Scene) => AdapterReturnType<ADTSceneData>;
+    editScene: (
+        config: Config,
+        sceneId: string,
+        scene: Scene
+    ) => AdapterReturnType<ADTSceneData>;
+    deleteScene: (
+        config: Config,
+        sceneId: string
+    ) => AdapterReturnType<ADTSceneData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

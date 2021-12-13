@@ -38,5 +38,15 @@ export const AuthenticationParameters = {
             scope: 'SCOPE_PLACEHOLDER',
             redirectUri: 'REDIRECTURI_PLACEHOLDER'
         }
+    },
+    storage: {
+        accountHostUrl: 'AZURE_STORAGE_ACCOUNT_HOST_URL',
+        blobPath: 'AZURE_STORAGE_BLOB_PATH',
+        aadParameters: {
+            authority: 'AUTHORITY_PLACEHOLDER',
+            clientId: 'CLIENTID_PLACEHOLDER',
+            scope: 'SCOPE_PLACEHOLDER',
+            redirectUri: 'REDIRECTURI_PLACEHOLDER'
+        }
     }
 };

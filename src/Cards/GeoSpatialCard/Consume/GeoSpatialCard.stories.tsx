@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { CardErrorType } from '../../../Models/Constants';
+import { ComponentErrorType } from '../../../Models/Constants';
 import GeoSpatialCard from './GeoSpatialCard';
 import ADTAdapter from '../../../Adapters/ADTAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
@@ -32,7 +32,7 @@ const adtGeoData = [
 ];
 
 export const Mock = (
-    args,
+    _args,
     { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
 ) => {
     const [properties] = useState({
@@ -56,7 +56,7 @@ export const Mock = (
 };
 
 export const FailedToGetData = (
-    args,
+    _args,
     { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
 ) => {
     return (
@@ -70,7 +70,7 @@ export const FailedToGetData = (
                 locale={locale}
                 adapter={
                     new MockAdapter({
-                        mockError: CardErrorType.DataFetchFailed
+                        mockError: ComponentErrorType.DataFetchFailed
                     })
                 }
             />
@@ -79,7 +79,7 @@ export const FailedToGetData = (
 };
 
 export const ADT = (
-    args,
+    _args,
     { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
 ) => {
     const authenticationParameters = useAuthParams();
