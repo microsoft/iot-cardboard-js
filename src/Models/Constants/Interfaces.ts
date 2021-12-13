@@ -41,7 +41,6 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import ADTScenesData from '../Classes/AdapterDataClasses/ADTScenesData';
 import { Config, Scene } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
@@ -340,7 +339,6 @@ export interface ITsiClientChartDataAdapter {
 
 export interface IADT3DViewerAdapter {
     getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
-    getScenes(): AdapterReturnType<ADTScenesData>;
 }
 
 export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {

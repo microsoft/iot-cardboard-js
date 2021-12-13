@@ -65,6 +65,8 @@
     "loadingInstances": "Loading instances...",
     "selectInstance": "Select an instance",
     "selectOption": "Select an option",
+    "globe": "Globe",
+    "list": "List",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"

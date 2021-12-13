@@ -208,10 +208,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
         // Only load scene once (componentDidMount)
         if (!sceneRef.current) {
-            if (debug) {
-                console.log('Loading');
-            }
-
             const canvas = document.getElementById(
                 canvasId
             ) as HTMLCanvasElement; // Get the canvas element

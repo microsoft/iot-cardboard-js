@@ -64,7 +64,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         <DefaultButton
                             onClick={() => {
                                 dispatch({
-                                    type: SET_SELECTED_TWIN,
+                                    type: SET_SELECTED_SCENE,
                                     payload: null
                                 });
                                 dispatch({
@@ -72,7 +72,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     payload: ADT3DScenePageSteps.Globe
                                 });
                             }}
-                            text={'Globe'} // TODO: Translation
+                            text={t('globe')}
                             className="cb-scene-page-view-button"
                         />
                         <SceneListCard
@@ -91,7 +91,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         <DefaultButton
                             onClick={() => {
                                 dispatch({
-                                    type: SET_SELECTED_TWIN,
+                                    type: SET_SELECTED_SCENE,
                                     payload: null
                                 });
                                 dispatch({
@@ -99,14 +99,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     payload: ADT3DScenePageSteps.SceneTwinList
                                 });
                             }}
-                            text={'List'} // TODO: Translation
+                            text={t('list')}
                             className="cb-scene-page-view-button"
                         />
                         <ADT3DGlobeCard
                             theme={theme}
-                            adapter={adapter}
-                            onSceneClick={(twin) => {
-                                handleOnSceneClick(twin);
+                            adapter={adapter as any} // TODO: Fix
+                            onSceneClick={(scene) => {
+                                handleOnSceneClick(scene);
                             }}
                         />
                     </div>

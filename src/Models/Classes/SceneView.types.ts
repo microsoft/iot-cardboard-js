@@ -1,4 +1,6 @@
-import { Vector3, Color3, AbstractMesh, Scene } from 'babylonjs';
+import * as BABYLON from 'babylonjs';
+import { Vector3, Color3, AbstractMesh } from 'babylonjs';
+import { Scene } from './3DVConfig';
 
 export class SceneViewLabel {
     metric: string;
@@ -13,19 +15,19 @@ export class SelectedMesh {
 }
 
 export class Marker {
-    id?: string;
     name: string;
     position?: Vector3;
     latitude?: number;
     longitude?: number;
     color: { r: number; g: number; b: number };
     isNav?: boolean;
+    scene?: Scene;
 }
 
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
-    scene: Scene,
+    scene: BABYLON.Scene,
     e: PointerEvent
 ) => void;
 
@@ -35,19 +37,19 @@ export interface ISceneViewProp {
     onMarkerClick?: (
         marker: Marker,
         mesh: AbstractMesh,
-        scene: Scene,
+        scene: BABYLON.Scene,
         e: PointerEvent
     ) => void;
     onMarkerHover?: (
         marker: Marker,
         mesh: AbstractMesh,
-        scene: Scene,
+        scene: BABYLON.Scene,
         e: PointerEvent
     ) => void;
     onCameraMove?: (
         marker: Marker,
         mesh: AbstractMesh,
-        scene: Scene,
+        scene: BABYLON.Scene,
         e: PointerEvent
     ) => void;
     labels?: SceneViewLabel[];
