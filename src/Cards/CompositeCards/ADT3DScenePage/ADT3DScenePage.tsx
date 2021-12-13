@@ -120,6 +120,10 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
 }) => {
     const { t } = useTranslation();
 
+    const onMeshSelected = (selectedMeshes) => {
+        console.log(selectedMeshes);
+    };
+
     return (
         <BaseCompositeCard
             title={title}
@@ -160,6 +164,9 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                             <ADT3DBuilderCard
                                 title="3D Builder"
                                 modelUrl={scene.assets[0].url}
+                                onMeshSelected={(selectedMeshes) =>
+                                    onMeshSelected(selectedMeshes)
+                                }
                             />
                         </div>
                     </BaseCompositeCard>

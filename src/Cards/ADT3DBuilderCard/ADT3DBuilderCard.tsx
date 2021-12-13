@@ -43,7 +43,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh) => meshClick(marker, mesh)}
+                    onMarkerClick={(marker, mesh) => (onMeshSelected) && meshClick(marker, mesh)}
                     showMeshesOnHover={true}
                     selectedMeshes={selectedMeshes}
                     meshHoverColor="#FCFF80"
