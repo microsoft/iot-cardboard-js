@@ -106,6 +106,7 @@ export enum ModelAuthoringSteps {
 }
 
 export enum ADT3DScenePageSteps {
+    Globe,
     SceneTwinList,
     TwinBindingsWithScene
 }

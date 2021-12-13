@@ -171,11 +171,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     Math.PI / 2.5,
                     Math.max(width, height, depth),
                     center,
-                    scene
+                    sceneRef.current
                 );
 
-                cameraRef.current = camera;
                 camera.attachControl(canvas, false);
+                cameraRef.current = camera;
             }
         }
 
@@ -239,8 +239,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
 
             if (modelUrl) {
-                const n = modelUrl.lastIndexOf('/') + 1;
-                load(modelUrl.substring(0, n), modelUrl.substring(n), sc);
+                let url = modelUrl;
+                if (url === 'Globe') {
+                    url =
+                        'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
+                }
+
+                const n = url.lastIndexOf('/') + 1;
+                load(url.substring(0, n), url.substring(n), sc);
             }
 
             // Register a render loop to repeatedly render the scene
@@ -279,9 +285,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             };
 
             sceneRef.current = null;
+            cameraRef.current = null;
             window.removeEventListener('resize', resize);
         };
-    }, []);
+    }, [modelUrl]);
 
     useEffect(() => {
         if (engineRef.current) {
@@ -312,7 +319,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = marker.color;
+                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
+                    marker.color.r,
+                    marker.color.g,
+                    marker.color.b
+                );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
                     16,
@@ -331,7 +342,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = marker.color;
+                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
+                    marker.color.r,
+                    marker.color.g,
+                    marker.color.b
+                );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
@@ -351,7 +366,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 sphere.dispose(true, true);
             }
         };
-    }, [markers]);
+    }, [markers, modelUrl]);
 
     // SETUP LOGIC FOR onMarkerHover
     useEffect(() => {
