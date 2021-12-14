@@ -6,32 +6,6 @@ export default {
     title: 'Components/SceneView'
 };
 
-export const Truck = () => {
-    return (
-        <div
-            style={{
-                height: '100%',
-                position: 'relative'
-            }}
-        >
-            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/model/Car.gltf" />
-        </div>
-    );
-};
-
-export const Factory = () => {
-    return (
-        <div
-            style={{
-                height: '100%',
-                position: 'relative'
-            }}
-        >
-            <SceneView modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf" />
-        </div>
-    );
-};
-
 export const Globe = () => {
     const markers: Marker[] = [
         {

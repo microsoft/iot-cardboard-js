@@ -4,6 +4,8 @@ import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
+import { MsalAuthService } from '../../Models/Services';
+import useAuthParams from '../../../.storybook/useAuthParams';
 
 interface ADT3DBuilderCardProps {
     modelUrl: string;
@@ -17,6 +19,14 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     onMeshSelected
 }) => {
     const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
+
+    const authenticationParameters = useAuthParams();
+    const authService = authenticationParameters
+        ? new MsalAuthService(authenticationParameters.storage.aadParameters)
+        : null;
+    if (authService) {
+        authService.login();
+    }
 
     const meshClick = (_marker: Marker, mesh: any) => {
         let meshes = [...selectedMeshes];
@@ -38,7 +48,9 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
         onMeshSelected(meshes);
     };
 
-    return (
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <BaseCard title={title} isLoading={false} adapterResult={null}>
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView

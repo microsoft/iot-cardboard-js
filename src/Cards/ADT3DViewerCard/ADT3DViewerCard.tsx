@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
@@ -8,14 +8,14 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { Config } from '../../Models/Classes/3DVConfig';
-import { Parser } from 'expr-eval';
-import { MockAdapter } from '../..';
+import { ViewerConfiguration } from '../../Models/Classes/3DVConfig';
+import { MsalAuthService } from '../../Models/Services';
+import useAuthParams from '../../../.storybook/useAuthParams';
 
 interface ADT3DViewerCardProps {
-    adapter: IADTAdapter | MockAdapter;
+    adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: Config;
+    sceneConfig: ViewerConfiguration;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
@@ -46,64 +46,34 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const visualTwin = useAdapter({
-        adapterMethod: () => adapter.getVisualADTTwin(sceneId),
-        refetchDependencies: [sceneId],
+    const sceneData = useAdapter({
+        adapterMethod: () => adapter.getSceneData(sceneId, sceneConfig),
+        refetchDependencies: [sceneId, sceneConfig],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
 
+    const authenticationParameters = useAuthParams();
+    const authService = authenticationParameters
+        ? new MsalAuthService(authenticationParameters.storage.aadParameters)
+        : null;
+    if (authService) {
+        authService.login();
+    }
+
     useEffect(() => {
         window.addEventListener('resize', setConnectionLine);
-
         return () => {
             window.removeEventListener('resize', setConnectionLine);
         };
     }, []);
 
     useEffect(() => {       
-        if (sceneId && sceneConfig) {
-            const scene = sceneConfig.viewerConfiguration.scenes.find((scene) => scene.id == sceneId);
-            if(scene) {
-                setModelUrl(scene.assets[0].url)
-            }
-
-            const behaviors = sceneConfig.viewerConfiguration.behaviors.filter((behaviour) => behaviour.dataSources.values.find((dataSource) => dataSource.sceneID === sceneId));
-
-            if(behaviors) {
-                behaviors.forEach((behavior) => {
-                    behavior.dataSources.values.forEach(async (value) => {
-                        const colorExpression = behavior.colorExpression;
-                        const labelExpression = behavior.labelExpression;
-                        if(value.sceneID === sceneId) {
-
-                            for(let i = 0; i < behavior.dataSources.aliasSet.length; i++) {
-                                const alias = behavior.dataSources.aliasSet[i];
-                                const selectionSet = value.selectionSet[i];
-                                
-                                const twins = {}; 
-
-                                for(let j =0; j < selectionSet.length; j++) {
-                                    const sourceTwin = await adapter.getADTTwin(selectionSet[j]);
-                                    twins[alias] = sourceTwin.result?.data;
-                                }
-                            }
-
-                            value.meshSet.forEach((meshSet) => {
-                                const label = new SceneViewLabel();
-                                label.meshIds = meshSet;
-                                label.color = (Parser.evaluate(colorExpression, twins) as any) as string;
-                                label.metric = (Parser.evaluate(labelExpression, twins) as any) as string;;
-                                console.log(label)
-                            })
-
-                        }
-                    })
-                })
-            }
+        if(sceneData?.adapterResult?.result?.data) {
+            setModelUrl(sceneData.adapterResult.result.data.modelUrl)
+            setLabels(sceneData.adapterResult.result.data.labels)
         }
-
-    }, [sceneConfig]);
+    }, [sceneData.adapterResult.result]);
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
@@ -193,12 +163,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         setConnectionLine();
     }
 
-    return (
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
         <BaseCard
             isLoading={
-                visualTwin.isLoading && visualTwin.adapterResult.hasNoData()
+                sceneData.isLoading && sceneData.adapterResult.hasNoData()
             }
-            adapterResult={visualTwin.adapterResult}
+            adapterResult={sceneData.adapterResult}
             title={title}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
@@ -210,6 +182,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
                     onCameraMove={() => cameraMoved()}
+                    getToken={() => authService.getToken('storage')}
                 />
                 {showPopUp && (
                     <div
@@ -247,3 +220,4 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 };
 
 export default withErrorBoundary(ADT3DViewerCard);
+

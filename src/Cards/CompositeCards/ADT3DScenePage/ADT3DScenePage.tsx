@@ -220,7 +220,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                             title="3D Viewer"
                             adapter={adapter}
                             pollingInterval={10000}
-                            twinId={scene.id}
+                            sceneId={scene.id}
+                            sceneConfig={null}
                         />
                     </div>
                 </PivotItem>

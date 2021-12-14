@@ -39,11 +39,11 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { Config, Scene } from '../Classes/3DVConfig';
+import { Config, Scene, ViewerConfiguration } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
+import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 
 export interface IAction {
     type: string;
@@ -338,7 +338,7 @@ export interface ITsiClientChartDataAdapter {
 }
 
 export interface IADT3DViewerAdapter {
-    getVisualADTTwin(twinId: string): AdapterReturnType<ADTVisualTwinData>;
+    getSceneData(sceneId: string, config: ViewerConfiguration): AdapterReturnType<ADT3DViewerData>;
 }
 
 export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {

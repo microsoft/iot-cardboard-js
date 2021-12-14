@@ -1,7 +1,7 @@
 import { IAdapterData } from '../../Constants/Interfaces';
 import { SceneViewLabel } from '../SceneView.types';
 
-class ADTVisualTwinData implements IAdapterData {
+class ADT3DViewerData implements IAdapterData {
     data: { modelUrl: string; labels: SceneViewLabel[] };
 
     constructor(modelUrl: string, labels: SceneViewLabel[]) {
@@ -13,4 +13,4 @@ class ADTVisualTwinData implements IAdapterData {
     }
 }
 
-export default ADTVisualTwinData;
+export default ADT3DViewerData;
