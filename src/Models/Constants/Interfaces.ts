@@ -41,7 +41,7 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTVisualTwinData from '../Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { Config, Scene } from '../Classes/3DVConfig';
+import { ScenesConfig, Scene } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 
@@ -392,14 +392,17 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
 
 export interface IBlobAdapter {
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
-    addScene: (config: Config, scene: Scene) => AdapterReturnType<ADTSceneData>;
+    addScene: (
+        config: ScenesConfig,
+        scene: Scene
+    ) => AdapterReturnType<ADTSceneData>;
     editScene: (
-        config: Config,
+        config: ScenesConfig,
         sceneId: string,
         scene: Scene
     ) => AdapterReturnType<ADTSceneData>;
     deleteScene: (
-        config: Config,
+        config: ScenesConfig,
         sceneId: string
     ) => AdapterReturnType<ADTSceneData>;
 }

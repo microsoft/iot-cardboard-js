@@ -2,7 +2,7 @@ import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
-import { Config, Scene } from '../Models/Classes/3DVConfig';
+import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
@@ -43,9 +43,9 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 let config;
                 if (scenesBlob.data) {
-                    config = TaJson.parse<Config>(
+                    config = TaJson.parse<ScenesConfig>(
                         JSON.stringify(scenesBlob.data),
-                        Config
+                        ScenesConfig
                     );
                 }
 
@@ -60,7 +60,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async putScenesConfig(config: Config) {
+    async putScenesConfig(config: ScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -94,7 +94,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async addScene(config: Config, scene: Scene) {
+    async addScene(config: ScenesConfig, scene: Scene) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -121,7 +121,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async editScene(config: Config, sceneId: string, scene: Scene) {
+    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -151,7 +151,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async deleteScene(config: Config, sceneId: string) {
+    async deleteScene(config: ScenesConfig, sceneId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );

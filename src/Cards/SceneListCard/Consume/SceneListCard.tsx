@@ -21,7 +21,7 @@ import {
     DetailsRow
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-import { Asset, Config, Scene } from '../../../Models/Classes/3DVConfig';
+import { Asset, ScenesConfig, Scene } from '../../../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import { Utils } from '../../../Models/Services';
 
@@ -40,7 +40,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     // TODO: implement other necessary methods for the adapter
     const addScene = useAdapter({
-        adapterMethod: (params: { config: Config; scene: Scene }) =>
+        adapterMethod: (params: { config: ScenesConfig; scene: Scene }) =>
             adapter.addScene(params.config, params.scene),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -49,7 +49,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     // TODO: implement other necessary methods for the adapter
     const editScene = useAdapter({
         adapterMethod: (params: {
-            config: Config;
+            config: ScenesConfig;
             sceneId: string;
             scene: Scene;
         }) => adapter.editScene(params.config, params.sceneId, params.scene),
@@ -59,13 +59,13 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     // TODO: implement other necessary methods for the adapter
     const deleteScene = useAdapter({
-        adapterMethod: (params: { config: Config; sceneId: string }) =>
+        adapterMethod: (params: { config: ScenesConfig; sceneId: string }) =>
             adapter.deleteScene(params.config, params.sceneId),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
-    const [config, setConfig] = useState<Config>(null);
+    const [config, setConfig] = useState<ScenesConfig>(null);
     const [sceneList, setSceneList] = useState<Array<Scene>>([]);
     const [selectedScene, setSelectedScene] = useState<Scene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
@@ -75,11 +75,11 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: Config = scenesConfig.adapterResult.getData();
+            const config: ScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
             setSceneList(
                 config.viewerConfiguration?.scenes?.sort((a: Scene, b: Scene) =>
-                    a.name.localeCompare(b.name, undefined, {
+                    a.displayName?.localeCompare(b.displayName, undefined, {
                         sensitivity: 'base'
                     })
                 )
@@ -219,7 +219,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         minWidth: 100,
                                         isResizable: true,
                                         onRender: (item: Scene) => (
-                                            <span>{item.name}</span>
+                                            <span>{item.displayName}</span>
                                         )
                                     },
                                     {
@@ -398,14 +398,14 @@ const SceneListDialog = ({
             <TextField
                 label={t('scenes.sceneName')}
                 title={newSceneName}
-                value={sceneToEdit ? scene?.name : newSceneName}
+                value={sceneToEdit ? scene?.displayName : newSceneName}
                 onChange={(e) => {
                     if (sceneToEdit) {
                         const selectedSceneCopy: Scene = Object.assign(
                             {},
                             sceneToEdit
                         );
-                        selectedSceneCopy.name = e.currentTarget.value;
+                        selectedSceneCopy.displayName = e.currentTarget.value;
                         setScene(selectedSceneCopy);
                     } else {
                         setNewSceneName(e.currentTarget.value);
@@ -454,7 +454,7 @@ const SceneListDialog = ({
                             const newScene = TaJson.parse<Scene>(
                                 JSON.stringify({
                                     id: Utils.createGUID(),
-                                    name: newSceneName,
+                                    displayName: newSceneName,
                                     type: 'Scene',
                                     assets: [
                                         {
