@@ -793,7 +793,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getSceneData(sceneId: string, config: ViewerConfiguration) {
+    async getSceneData(_sceneId: string, _config: ViewerConfiguration) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async () => {
             // TODO rewrite based on config JSON

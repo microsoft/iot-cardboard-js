@@ -294,7 +294,7 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(sceneId: string, config: ViewerConfiguration) {
+    async getSceneData(sceneId: string, _config: ViewerConfiguration) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
