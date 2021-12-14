@@ -118,7 +118,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             <ADT3DSceneBuilderCompositeComponent
                                 scene={state.selectedScene}
                                 adapter={adapter}
-                                title={state.selectedScene.name}
+                                title={state.selectedScene.displayName}
                                 theme={theme}
                                 locale={locale}
                                 localeStrings={localeStrings}

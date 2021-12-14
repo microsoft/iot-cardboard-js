@@ -27,9 +27,9 @@ import {
     TsiClientData
 } from '../Models/Constants/Types';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import mockVConfig from '../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
+import mockVConfig from '../../.storybook/test_data/vconfig-decFinal.json';
 import {
-    Config,
+    ScenesConfig,
     Scene,
     ViewerConfiguration
 } from '../Models/Classes/3DVConfig';
@@ -49,6 +49,7 @@ export default class MockAdapter
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
+    private scenesConfig;
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -225,14 +226,17 @@ export default class MockAdapter
 
     async getScenesConfig() {
         try {
-            const sceneConfig = TaJson.parse<Config>(
-                JSON.stringify(mockVConfig),
-                Config
-            );
+            let scenesConfig = this.scenesConfig;
+            if (!scenesConfig) {
+                scenesConfig = TaJson.parse<ScenesConfig>(
+                    JSON.stringify(mockVConfig),
+                    ScenesConfig
+                );
+            }
             await this.mockNetwork();
 
             return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(sceneConfig),
+                result: new ADTScenesConfigData(scenesConfig),
                 errorInfo: null
             });
         } catch (err) {
@@ -243,31 +247,75 @@ export default class MockAdapter
         }
     }
 
-    //TODO: implement this properly
-    async addScene(_config: Config, _scene: Scene) {
-        await this.mockNetwork();
-        return new AdapterResult<ADTSceneData>({
-            result: null,
-            errorInfo: null
-        });
+    async addScene(config: ScenesConfig, scene: Scene) {
+        try {
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes.push(scene);
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(scene),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
-    //TODO: implement this properly
-    async editScene(_config: Config, _sceneId: string, _scene: Scene) {
-        await this.mockNetwork();
-        return new AdapterResult<ADTSceneData>({
-            result: null,
-            errorInfo: null
-        });
+    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
+        try {
+            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
+                (s) => s.id === sceneId
+            );
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes[sceneIndex] = scene;
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(scene),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
-    //TODO: implement this properly
-    async deleteScene(_config: Config, _sceneId: string) {
-        await this.mockNetwork();
-        return new AdapterResult<ADTSceneData>({
-            result: null,
-            errorInfo: null
-        });
+    async deleteScene(config: ScenesConfig, sceneId: string) {
+        try {
+            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
+                (s) => s.id === sceneId
+            );
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes.splice(sceneIndex, 1);
+
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(
+                    config.viewerConfiguration.scenes[sceneIndex]
+                ),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     async getTsiclientChartDataShape(
