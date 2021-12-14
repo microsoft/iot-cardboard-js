@@ -19,6 +19,7 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
+import { Tools } from 'babylonjs';
 
 const debug = false;
 async function loadPromise(
@@ -54,7 +55,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     showMeshesOnHover,
     selectedMeshes,
     meshSelectionColor,
-    meshHoverColor
+    meshHoverColor,
+    getToken
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -115,8 +117,20 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         //TODO: load this private blob by getting token and using proxy for blob service REST API
-        async function load(root: string, file: string, sc: BABYLON.Scene) {
+        async function load(
+            getToken: () => Promise<string>,
+            root: string,
+            file: string,
+            sc: BABYLON.Scene
+        ) {
             let success = true;
+            if (getToken) {
+                const token = await getToken();
+                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
+                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
+                Tools.UseCustomRequestHeaders = true;
+            }
+
             const assets = await loadPromise(
                 root,
                 file,
@@ -246,7 +260,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 const n = url.lastIndexOf('/') + 1;
-                load(url.substring(0, n), url.substring(n), sc);
+                load(getToken, url.substring(0, n), url.substring(n), sc);
             }
 
             // Register a render loop to repeatedly render the scene
