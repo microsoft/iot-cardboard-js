@@ -26,7 +26,7 @@ export const BasicObjectWithAuth = () => {
             }}
         >
             <SceneView
-                modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-1/BasicObjects.gltf"
+                modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
                 getToken={() => authService.getToken('storage')}
             />
         </div>

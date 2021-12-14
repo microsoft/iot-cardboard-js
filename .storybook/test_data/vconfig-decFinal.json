@@ -5,32 +5,26 @@
             {
                 "type": "Scene",
                 "name": "TruckAndBoxes1",
+                "latitude": 45,
+                "longitude": 45,
                 "twinToObjectMappings": [
                     {
                         "id": "5ba433d52b8445979fabc818fd40ae3d",
                         "displayName": "leftWheels",
                         "primaryTwinID": "Truck05",
-                        "meshIDs": [
-                            "wheel1Mesh",
-                            "wheel2Mesh"
-                        ]
+                        "meshIDs": ["wheel1Mesh", "wheel2Mesh"]
                     },
                     {
                         "id": "2aa6955f3c73418a9be0f7b19c019b75",
                         "displayName": "rightWheels",
                         "primaryTwinID": "Truck05",
-                        "meshIDs": [
-                            "wheel3Mesh",
-                            "wheel4Mesh"
-                        ]
+                        "meshIDs": ["wheel3Mesh", "wheel4Mesh"]
                     },
                     {
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
                         "primaryTwinID": "Tank08",
-                        "meshIDs": [
-                            "tankMesh"
-                        ],
+                        "meshIDs": ["tankMesh"],
                         "twinAliases": {
                             "temperatureTag": "Tag09DF"
                         }
@@ -39,19 +33,13 @@
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
                         "primaryTwinID": "BoxA",
-                        "meshIDs": [
-                            "boxLid1Mesh",
-                            "boxBody1Mesh"
-                        ]
+                        "meshIDs": ["boxLid1Mesh", "boxBody1Mesh"]
                     },
                     {
                         "id": "ceb934ac64744c0b8fbb72aaea29e99e",
                         "displayName": "box2",
                         "primaryTwinID": "BoxB",
-                        "meshIDs": [
-                            "boxLid2Mesh",
-                            "boxBody2Mesh"
-                        ]
+                        "meshIDs": ["boxLid2Mesh", "boxBody2Mesh"]
                     }
                 ],
                 "behaviors": [
@@ -64,7 +52,7 @@
                     {
                         "type": "Asset3D",
                         "name": "TruckAndBoxes",
-                        "url": "https://blob.core/truckAndBoxes.gltf"
+                        "url": "https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
                     }
                 ]
             }
@@ -73,9 +61,7 @@
             {
                 "name": "wheelsTooLow",
                 "type": "Behavior",
-                "layers": [
-                    "PhysicalProperties"
-                ],
+                "layers": ["PhysicalProperties"],
                 "datasources": [
                     {
                         "type": "TwinToObjectMappingDatasource",
@@ -103,11 +89,7 @@
                             {
                                 "type": "Gauge",
                                 "controlConfiguration": {
-                                    "valueBreakPoints": [
-                                        0,
-                                        50,
-                                        100
-                                    ],
+                                    "valueBreakPoints": [0, 50, 100],
                                     "expression": "primaryTwin.avgTirePressure",
                                     "label": "Average Tire Pressure"
                                 }
@@ -129,18 +111,12 @@
             {
                 "name": "tankTooHot",
                 "type": "Behavior",
-                "layers": [
-                    "PhysicalProperties"
-                ],
-                "twinAliases": [
-                    "temperatureTag"
-                ],
+                "layers": ["PhysicalProperties"],
+                "twinAliases": ["temperatureTag"],
                 "datasources": [
                     {
                         "type": "TwinToObjectMappingDatasource",
-                        "mappingIDs": [
-                            "4cb0990d646a4bbea3e1102676e200fe"
-                        ]
+                        "mappingIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
                     }
                 ],
                 "visuals": [
@@ -172,9 +148,7 @@
             {
                 "name": "boxTooHot",
                 "type": "Behavior",
-                "layers": [
-                    "PhysicalProperties"
-                ],
+                "layers": ["PhysicalProperties"],
                 "datasources": [
                     {
                         "type": "FilteredTwinDatasource",
@@ -200,9 +174,7 @@
             {
                 "name": "engineTooHot",
                 "type": "Behavior",
-                "layers": [
-                    "EngineProperties"
-                ],
+                "layers": ["EngineProperties"],
                 "datasources": [
                     {
                         "type": "FilteredTwinDatasource",
