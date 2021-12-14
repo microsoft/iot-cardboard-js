@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
@@ -8,18 +8,24 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
+import { Config } from '../../Models/Classes/3DVConfig';
+import { Parser } from 'expr-eval';
+import { MockAdapter } from '../..';
 
 interface ADT3DViewerCardProps {
-    adapter: IADT3DViewerAdapter;
-    twinId: string;
+    adapter: IADTAdapter | MockAdapter;
+    sceneId: string;
+    sceneConfig: Config;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
+
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
-    twinId,
+    sceneId,
+    sceneConfig,
     title,
     pollingInterval,
     connectionLineColor
@@ -41,8 +47,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const sceneRef = useRef(null);
 
     const visualTwin = useAdapter({
-        adapterMethod: () => adapter.getVisualADTTwin(twinId),
-        refetchDependencies: [twinId],
+        adapterMethod: () => adapter.getVisualADTTwin(sceneId),
+        refetchDependencies: [sceneId],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
@@ -55,16 +61,49 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         };
     }, []);
 
-    function visualTwinLoaded() {
-        if (visualTwin.adapterResult.result?.data) {
-            setModelUrl(visualTwin.adapterResult.result.data.modelUrl);
-            setLabels(visualTwin.adapterResult.result.data.labels);
-        }
-    }
+    useEffect(() => {       
+        if (sceneId && sceneConfig) {
+            const scene = sceneConfig.viewerConfiguration.scenes.find((scene) => scene.id == sceneId);
+            if(scene) {
+                setModelUrl(scene.assets[0].url)
+            }
 
-    useEffect(() => {
-        visualTwinLoaded();
-    }, [visualTwin.adapterResult.result]);
+            const behaviors = sceneConfig.viewerConfiguration.behaviors.filter((behaviour) => behaviour.dataSources.values.find((dataSource) => dataSource.sceneID === sceneId));
+
+            if(behaviors) {
+                behaviors.forEach((behavior) => {
+                    behavior.dataSources.values.forEach(async (value) => {
+                        const colorExpression = behavior.colorExpression;
+                        const labelExpression = behavior.labelExpression;
+                        if(value.sceneID === sceneId) {
+
+                            for(let i = 0; i < behavior.dataSources.aliasSet.length; i++) {
+                                const alias = behavior.dataSources.aliasSet[i];
+                                const selectionSet = value.selectionSet[i];
+                                
+                                const twins = {}; 
+
+                                for(let j =0; j < selectionSet.length; j++) {
+                                    const sourceTwin = await adapter.getADTTwin(selectionSet[j]);
+                                    twins[alias] = sourceTwin.result?.data;
+                                }
+                            }
+
+                            value.meshSet.forEach((meshSet) => {
+                                const label = new SceneViewLabel();
+                                label.meshIds = meshSet;
+                                label.color = (Parser.evaluate(colorExpression, twins) as any) as string;
+                                label.metric = (Parser.evaluate(labelExpression, twins) as any) as string;;
+                                console.log(label)
+                            })
+
+                        }
+                    })
+                })
+            }
+        }
+
+    }, [sceneConfig]);
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
