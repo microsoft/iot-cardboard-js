@@ -28,8 +28,8 @@ import {
 } from '../Models/Constants/Types';
 import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import mockVConfig from '../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
-import { Config, Scene } from '../Models/Classes/3DVConfig';
+import mockVConfig from '../../.storybook/test_data/vconfig-decFinal.json';
+import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
@@ -221,12 +221,13 @@ export default class MockAdapter
 
     async getScenesConfig() {
         try {
-            const sceneConfig = TaJson.parse<Config>(
+            const sceneConfig = TaJson.parse<ScenesConfig>(
                 JSON.stringify(mockVConfig),
-                Config
+                ScenesConfig
             );
             await this.mockNetwork();
 
+            debugger;
             return new AdapterResult<ADTScenesConfigData>({
                 result: new ADTScenesConfigData(sceneConfig),
                 errorInfo: null
@@ -240,7 +241,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async addScene(_config: Config, _scene: Scene) {
+    async addScene(_config: ScenesConfig, _scene: Scene) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,
@@ -249,7 +250,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async editScene(_config: Config, _sceneId: string, _scene: Scene) {
+    async editScene(_config: ScenesConfig, _sceneId: string, _scene: Scene) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,
@@ -258,7 +259,7 @@ export default class MockAdapter
     }
 
     //TODO: implement this properly
-    async deleteScene(_config: Config, _sceneId: string) {
+    async deleteScene(_config: ScenesConfig, _sceneId: string) {
         await this.mockNetwork();
         return new AdapterResult<ADTSceneData>({
             result: null,
