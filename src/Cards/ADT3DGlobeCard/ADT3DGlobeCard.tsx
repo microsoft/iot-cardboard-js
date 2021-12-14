@@ -41,7 +41,7 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
                 marker.color = { r: 255, g: 0, b: 0 };
                 marker.latitude = scene.latitude;
                 marker.longitude = scene.longitude;
-                marker.name = scene.name || 'Unknown';
+                marker.name = scene.displayName || 'Unknown';
                 marker.isNav = true;
                 markers.push(marker);
             }
