@@ -19,7 +19,6 @@ interface ADT3DViewerCardProps {
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
-
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -68,10 +67,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         };
     }, []);
 
-    useEffect(() => {       
-        if(sceneData?.adapterResult?.result?.data) {
-            setModelUrl(sceneData.adapterResult.result.data.modelUrl)
-            setLabels(sceneData.adapterResult.result.data.labels)
+    useEffect(() => {
+        if (sceneData?.adapterResult?.result?.data) {
+            setModelUrl(sceneData.adapterResult.result.data.modelUrl);
+            setLabels(sceneData.adapterResult.result.data.labels);
         }
     }, [sceneData.adapterResult.result]);
 
@@ -220,4 +219,3 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 };
 
 export default withErrorBoundary(ADT3DViewerCard);
-

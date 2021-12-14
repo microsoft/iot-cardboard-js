@@ -28,7 +28,11 @@ import {
 } from '../Models/Constants/Types';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 import mockVConfig from '../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
-import { Config, Scene, ViewerConfiguration } from '../Models/Classes/3DVConfig';
+import {
+    Config,
+    Scene,
+    ViewerConfiguration
+} from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
@@ -296,12 +300,17 @@ export default class MockAdapter
         const getData = () => {
             const label1 = new SceneViewLabel();
             label1.color = '#FF0000';
-            label1.meshIds = ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model', 'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'];
+            label1.meshIds = [
+                'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model',
+                'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'
+            ];
             label1.metric = `${sceneId} Temperature`;
             label1.value = 45;
             const label2 = new SceneViewLabel();
             label2.color = '#FFFF00';
-            label2.meshIds = ['Mesh2 LKHP_40_15_254TC1 Centrifugal_Pumps1 Model'];
+            label2.meshIds = [
+                'Mesh2 LKHP_40_15_254TC1 Centrifugal_Pumps1 Model'
+            ];
             label2.metric = `${sceneId} Pressure`;
             label2.value = 43;
             const labels = [label1, label2];

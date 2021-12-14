@@ -338,7 +338,10 @@ export interface ITsiClientChartDataAdapter {
 }
 
 export interface IADT3DViewerAdapter {
-    getSceneData(sceneId: string, config: ViewerConfiguration): AdapterReturnType<ADT3DViewerData>;
+    getSceneData(
+        sceneId: string,
+        config: ViewerConfiguration
+    ): AdapterReturnType<ADT3DViewerData>;
 }
 
 export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
