@@ -45,7 +45,10 @@ export class Scene {
     type: string;
     @JsonProperty()
     @JsonType(String)
-    name: string;
+    id: string;
+    @JsonProperty()
+    @JsonType(String)
+    displayName: string;
     @JsonProperty()
     @JsonType(Number)
     latitude: number;
@@ -169,7 +172,7 @@ export class Visual {
 export class Behavior {
     @JsonProperty()
     @JsonType(String)
-    name: string;
+    id: string;
     @JsonProperty()
     @JsonType(String)
     type: string;

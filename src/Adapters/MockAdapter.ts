@@ -45,6 +45,7 @@ export default class MockAdapter
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
+    private scenesConfig;
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -221,15 +222,17 @@ export default class MockAdapter
 
     async getScenesConfig() {
         try {
-            const sceneConfig = TaJson.parse<ScenesConfig>(
-                JSON.stringify(mockVConfig),
-                ScenesConfig
-            );
+            let scenesConfig = this.scenesConfig;
+            if (!scenesConfig) {
+                scenesConfig = TaJson.parse<ScenesConfig>(
+                    JSON.stringify(mockVConfig),
+                    ScenesConfig
+                );
+            }
             await this.mockNetwork();
 
-            debugger;
             return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(sceneConfig),
+                result: new ADTScenesConfigData(scenesConfig),
                 errorInfo: null
             });
         } catch (err) {
@@ -244,6 +247,10 @@ export default class MockAdapter
         try {
             const updatedConfig = { ...config };
             updatedConfig.viewerConfiguration.scenes.push(scene);
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
             await this.mockNetwork();
 
             return new AdapterResult({
@@ -265,7 +272,10 @@ export default class MockAdapter
             );
             const updatedConfig = { ...config };
             updatedConfig.viewerConfiguration.scenes[sceneIndex] = scene;
-
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
             await this.mockNetwork();
 
             return new AdapterResult({

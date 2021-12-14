@@ -79,7 +79,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             setConfig(config);
             setSceneList(
                 config.viewerConfiguration?.scenes?.sort((a: Scene, b: Scene) =>
-                    a.name.localeCompare(b.name, undefined, {
+                    a.displayName.localeCompare(b.displayName, undefined, {
                         sensitivity: 'base'
                     })
                 )
@@ -219,7 +219,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         minWidth: 100,
                                         isResizable: true,
                                         onRender: (item: Scene) => (
-                                            <span>{item.name}</span>
+                                            <span>{item.displayName}</span>
                                         )
                                     },
                                     {
@@ -398,14 +398,14 @@ const SceneListDialog = ({
             <TextField
                 label={t('scenes.sceneName')}
                 title={newSceneName}
-                value={sceneToEdit ? scene?.name : newSceneName}
+                value={sceneToEdit ? scene?.displayName : newSceneName}
                 onChange={(e) => {
                     if (sceneToEdit) {
                         const selectedSceneCopy: Scene = Object.assign(
                             {},
                             sceneToEdit
                         );
-                        selectedSceneCopy.name = e.currentTarget.value;
+                        selectedSceneCopy.displayName = e.currentTarget.value;
                         setScene(selectedSceneCopy);
                     } else {
                         setNewSceneName(e.currentTarget.value);
@@ -454,7 +454,7 @@ const SceneListDialog = ({
                             const newScene = TaJson.parse<Scene>(
                                 JSON.stringify({
                                     id: Utils.createGUID(),
-                                    name: newSceneName,
+                                    displayName: newSceneName,
                                     type: 'Scene',
                                     assets: [
                                         {

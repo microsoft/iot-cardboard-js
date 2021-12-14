@@ -4,7 +4,8 @@
         "scenes": [
             {
                 "type": "Scene",
-                "name": "TruckAndBoxes1",
+                "id": "58e02362287440d9a5bf3f8d6d6bfcf9",
+                "displayName": "TruckAndBoxes1",
                 "latitude": 45,
                 "longitude": 45,
                 "twinToObjectMappings": [
@@ -59,7 +60,7 @@
         ],
         "behaviors": [
             {
-                "name": "wheelsTooLow",
+                "id": "wheelsTooLow",
                 "type": "Behavior",
                 "layers": ["PhysicalProperties"],
                 "datasources": [
@@ -109,7 +110,7 @@
                 ]
             },
             {
-                "name": "tankTooHot",
+                "id": "tankTooHot",
                 "type": "Behavior",
                 "layers": ["PhysicalProperties"],
                 "twinAliases": ["temperatureTag"],
@@ -146,7 +147,7 @@
                 ]
             },
             {
-                "name": "boxTooHot",
+                "id": "boxTooHot",
                 "type": "Behavior",
                 "layers": ["PhysicalProperties"],
                 "datasources": [
@@ -172,7 +173,7 @@
                 ]
             },
             {
-                "name": "engineTooHot",
+                "id": "engineTooHot",
                 "type": "Behavior",
                 "layers": ["EngineProperties"],
                 "datasources": [
