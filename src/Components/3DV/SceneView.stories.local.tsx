@@ -1,0 +1,34 @@
+import React from 'react';
+import useAuthParams from '../../../.storybook/useAuthParams';
+import MsalAuthService from '../../Models/Services/MsalAuthService';
+import { SceneView } from './SceneView';
+
+export default {
+    title: 'Components/SceneView'
+};
+
+export const BasicObjectWithAuth = () => {
+    const authenticationParameters = useAuthParams();
+    const authService = authenticationParameters
+        ? new MsalAuthService(authenticationParameters.storage.aadParameters)
+        : null;
+    if (authService) {
+        authService.login();
+    }
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div
+            style={{
+                height: '100%',
+                position: 'relative'
+            }}
+        >
+            <SceneView
+                modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-1/BasicObjects.gltf"
+                getToken={() => authService.getToken('storage')}
+            />
+        </div>
+    );
+};
