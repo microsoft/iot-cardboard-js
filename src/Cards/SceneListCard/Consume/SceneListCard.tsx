@@ -79,7 +79,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             setConfig(config);
             setSceneList(
                 config.viewerConfiguration?.scenes?.sort((a: Scene, b: Scene) =>
-                    a.displayName.localeCompare(b.displayName, undefined, {
+                    a.displayName?.localeCompare(b.displayName, undefined, {
                         sensitivity: 'base'
                     })
                 )
