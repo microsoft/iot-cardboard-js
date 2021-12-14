@@ -57,4 +57,5 @@ export interface ISceneViewProp {
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;
+    getToken?: () => Promise<string>;
 }
