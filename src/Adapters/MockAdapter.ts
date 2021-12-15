@@ -26,13 +26,17 @@ import {
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
-import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import { SceneViewLabel } from '../Models/Classes/SceneView.types';
 import mockVConfig from '../../.storybook/test_data/vconfig-decFinal.json';
-import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
+import {
+    ScenesConfig,
+    Scene,
+    ViewerConfiguration
+} from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
+import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 
 export default class MockAdapter
     implements
@@ -338,27 +342,32 @@ export default class MockAdapter
         });
     }
 
-    async getVisualADTTwin(twinId: string) {
+    async getSceneData(sceneId: string, _config: ViewerConfiguration) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
             const label1 = new SceneViewLabel();
             label1.color = '#FF0000';
-            label1.meshIds = ['Model_primitive2'];
-            label1.metric = `${twinId} Temperature`;
+            label1.meshIds = [
+                'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model',
+                'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'
+            ];
+            label1.metric = `${sceneId} Temperature`;
             label1.value = 45;
             const label2 = new SceneViewLabel();
             label2.color = '#FFFF00';
-            label2.meshIds = ['Model_primitive1'];
-            label2.metric = `${twinId} Pressure`;
+            label2.meshIds = [
+                'Mesh2 LKHP_40_15_254TC1 Centrifugal_Pumps1 Model'
+            ];
+            label2.metric = `${sceneId} Pressure`;
             label2.value = 43;
             const labels = [label1, label2];
             return labels;
         };
         await this.mockNetwork();
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            return new ADTVisualTwinData(
-                'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
+            return new ADT3DViewerData(
+                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf', //3d file with public access which does not require authentication to read
                 getData()
             );
         });

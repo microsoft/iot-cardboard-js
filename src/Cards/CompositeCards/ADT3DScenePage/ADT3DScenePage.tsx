@@ -24,6 +24,10 @@ import {
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { Scene } from '../../../Models/Classes/3DVConfig';
+import {
+    IADTAdapter,
+    IBlobAdapter
+} from '../../../Models/Constants/Interfaces';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -104,7 +108,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         />
                         <ADT3DGlobeCard
                             theme={theme}
-                            adapter={adapter as any} // TODO: Fix
+                            adapter={adapter as IBlobAdapter}
                             onSceneClick={(scene) => {
                                 handleOnSceneClick(scene);
                             }}
@@ -202,6 +206,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                         <TwinBuildingsBaseComponentPlaceholder />
                         <div className="cb-scene-view-builder">
                             <ADT3DBuilderCard
+                                adapter={adapter as IADTAdapter}
                                 title="3D Builder"
                                 modelUrl={scene.assets[0].url}
                                 onMeshSelected={(selectedMeshes) =>
@@ -220,7 +225,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                             title="3D Viewer"
                             adapter={adapter}
                             pollingInterval={10000}
-                            twinId={scene.id}
+                            sceneId={scene.id}
+                            sceneConfig={null}
                         />
                     </div>
                 </PivotItem>

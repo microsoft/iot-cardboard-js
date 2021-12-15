@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IBlobAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DGlobeCard.scss';
@@ -10,7 +10,7 @@ import { MockAdapter } from '../..';
 import { Scene } from '../../Models/Classes/3DVConfig';
 
 interface ADT3DGlobeCardProps {
-    adapter: IADTAdapter;
+    adapter: IBlobAdapter | MockAdapter;
     title?: string;
     onSceneClick?: (scene: Scene) => void;
 }
@@ -24,9 +24,8 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
     const sceneClickRef = useRef<any>();
 
     sceneClickRef.current = onSceneClick;
-    const mock: MockAdapter = adapter as any; // TODO: Fix
     const config = useAdapter({
-        adapterMethod: () => mock.getScenesConfig(),
+        adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
     });
 

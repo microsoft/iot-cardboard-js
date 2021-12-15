@@ -28,8 +28,7 @@ import {
     ADTPatch,
     IADTTwinComponent,
     KeyValuePairData,
-    DTwinUpdateEvent,
-    IComponentError
+    DTwinUpdateEvent
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -50,15 +49,14 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
-import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import { Parser } from 'expr-eval';
-import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
+import { ViewerConfiguration } from '../Models/Classes/3DVConfig';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
     protected uniqueObjectId: string;
-    protected authService: IAuthService;
+    public authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
     public packetNumber = 0;
@@ -795,93 +793,13 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getVisualADTTwin(twinId: string) {
+    async getSceneData(_sceneId: string, _config: ViewerConfiguration) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-
-        function pushErrors(errors: IComponentError[]) {
-            if (errors) {
-                for (const error of errors) {
-                    adapterMethodSandbox.pushError({
-                        type: error.type,
-                        isCatastrophic: error.isCatastrophic,
-                        rawError: new Error(error.message)
-                    });
-                }
-            }
-        }
-
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            const visualADTTwin = await this.getADTTwin(twinId);
-            pushErrors(visualADTTwin.getErrors());
-
-            const incomingRelationships = await this.getIncomingRelationships(
-                twinId
-            );
-            pushErrors(incomingRelationships.getErrors());
-
-            const sourceTwins = {};
-            const visualStateRules = [];
-
-            if (incomingRelationships.result?.data) {
-                for (const relationship of incomingRelationships.result.data) {
-                    const visualStateRule = await this.getADTTwin(
-                        relationship.sourceId
-                    );
-                    pushErrors(visualStateRule.getErrors());
-
-                    if (
-                        visualStateRule.result?.data?.$metadata
-                            ?.BadgeValueExpression !== undefined
-                    ) {
-                        visualStateRules.push(visualStateRule.result?.data);
-                    }
-                }
-            }
-
-            for (const vsr of visualStateRules) {
-                for (const src in vsr.SourceTwins) {
-                    const sourceTwin = await this.getADTTwin(
-                        vsr.SourceTwins[src]
-                    );
-                    pushErrors(sourceTwin.getErrors());
-                    sourceTwins[src] = sourceTwin.result?.data;
-                }
-            }
-
-            const labelsList: SceneViewLabel[] = [];
-
-            for (const vsr of visualStateRules) {
-                const relationships = await this.getRelationships(vsr.$dtId);
-                pushErrors(relationships.getErrors());
-                if (relationships.result?.data) {
-                    for (const data of relationships.result?.data) {
-                        const relationship = await this.getADTRelationship(
-                            vsr.$dtId,
-                            data.relationshipId
-                        );
-                        pushErrors(relationship.getErrors());
-                        const label = new SceneViewLabel();
-                        label.metric = vsr.BadgeTitle;
-                        label.color = (Parser.evaluate(
-                            vsr.BadgeColorExpression,
-                            sourceTwins
-                        ) as any) as string;
-                        label.value = Parser.evaluate(
-                            vsr.BadgeValueExpression,
-                            sourceTwins
-                        );
-                        label.meshIds = [
-                            relationship.result?.data['MediaMemberProperties']
-                                .Position.id
-                        ];
-                        labelsList.push(label);
-                    }
-                }
-            }
-
-            return new ADTVisualTwinData(
-                visualADTTwin.result?.data.MediaSrc,
-                labelsList
+            // TODO rewrite based on config JSON
+            return new ADT3DViewerData(
+                'https://cardboardresources.blob.core.windows.net/3dv-workspace-1/BasicObjects.gltf',
+                null
             );
         });
     }

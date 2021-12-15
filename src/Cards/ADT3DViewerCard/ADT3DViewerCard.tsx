@@ -8,10 +8,12 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
+import { ViewerConfiguration } from '../../Models/Classes/3DVConfig';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
-    twinId: string;
+    sceneId: string;
+    sceneConfig: ViewerConfiguration;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
@@ -19,7 +21,8 @@ interface ADT3DViewerCardProps {
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
-    twinId,
+    sceneId,
+    sceneConfig,
     title,
     pollingInterval,
     connectionLineColor
@@ -40,31 +43,26 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const visualTwin = useAdapter({
-        adapterMethod: () => adapter.getVisualADTTwin(twinId),
-        refetchDependencies: [twinId],
+    const sceneData = useAdapter({
+        adapterMethod: () => adapter.getSceneData(sceneId, sceneConfig),
+        refetchDependencies: [sceneId, sceneConfig],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
 
     useEffect(() => {
         window.addEventListener('resize', setConnectionLine);
-
         return () => {
             window.removeEventListener('resize', setConnectionLine);
         };
     }, []);
 
-    function visualTwinLoaded() {
-        if (visualTwin.adapterResult.result?.data) {
-            setModelUrl(visualTwin.adapterResult.result.data.modelUrl);
-            setLabels(visualTwin.adapterResult.result.data.labels);
-        }
-    }
-
     useEffect(() => {
-        visualTwinLoaded();
-    }, [visualTwin.adapterResult.result]);
+        if (sceneData?.adapterResult?.result?.data) {
+            setModelUrl(sceneData.adapterResult.result.data.modelUrl);
+            setLabels(sceneData.adapterResult.result.data.labels);
+        }
+    }, [sceneData.adapterResult.result]);
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (labels) {
@@ -157,9 +155,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     return (
         <BaseCard
             isLoading={
-                visualTwin.isLoading && visualTwin.adapterResult.hasNoData()
+                sceneData.isLoading && sceneData.adapterResult.hasNoData()
             }
-            adapterResult={visualTwin.adapterResult}
+            adapterResult={sceneData.adapterResult}
             title={title}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
@@ -171,6 +169,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
                     onCameraMove={() => cameraMoved()}
+                    getToken={
+                        (adapter as any).authService
+                            ? () =>
+                                  (adapter as any).authService.getToken(
+                                      'storage'
+                                  )
+                            : undefined
+                    }
                 />
                 {showPopUp && (
                     <div
