@@ -9,8 +9,6 @@ import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import { ViewerConfiguration } from '../../Models/Classes/3DVConfig';
-import { MsalAuthService } from '../../Models/Services';
-import useAuthParams from '../../../.storybook/useAuthParams';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -51,14 +49,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
-
-    const authenticationParameters = useAuthParams();
-    const authService = authenticationParameters
-        ? new MsalAuthService(authenticationParameters.storage.aadParameters)
-        : null;
-    if (authService) {
-        authService.login();
-    }
 
     useEffect(() => {
         window.addEventListener('resize', setConnectionLine);
@@ -162,9 +152,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         setConnectionLine();
     }
 
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
+    return (
         <BaseCard
             isLoading={
                 sceneData.isLoading && sceneData.adapterResult.hasNoData()
@@ -181,7 +169,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
                     onCameraMove={() => cameraMoved()}
-                    getToken={() => authService.getToken('storage')}
+                    getToken={
+                        (adapter as any).authService
+                            ? () =>
+                                  (adapter as any).authService.getToken(
+                                      'storage'
+                                  )
+                            : undefined
+                    }
                 />
                 {showPopUp && (
                     <div

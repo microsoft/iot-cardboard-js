@@ -4,29 +4,22 @@ import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
-import { MsalAuthService } from '../../Models/Services';
-import useAuthParams from '../../../.storybook/useAuthParams';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
 
 interface ADT3DBuilderCardProps {
+    adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
     onMeshSelected?: (selectedMeshes: string[]) => void;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
+    adapter,
     modelUrl,
     title,
     onMeshSelected
 }) => {
     const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
-
-    const authenticationParameters = useAuthParams();
-    const authService = authenticationParameters
-        ? new MsalAuthService(authenticationParameters.storage.aadParameters)
-        : null;
-    if (authService) {
-        authService.login();
-    }
 
     const meshClick = (_marker: Marker, mesh: any) => {
         let meshes = [...selectedMeshes];
@@ -48,9 +41,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
         onMeshSelected(meshes);
     };
 
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
+    return (
         <BaseCard title={title} isLoading={false} adapterResult={null}>
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
@@ -62,6 +53,14 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     selectedMeshes={selectedMeshes}
                     meshHoverColor="#FCFF80"
                     meshSelectionColor="#00A8F0"
+                    getToken={
+                        (adapter as any).authService
+                            ? () =>
+                                  (adapter as any).authService.getToken(
+                                      'storage'
+                                  )
+                            : undefined
+                    }
                 />
             </div>
         </BaseCard>

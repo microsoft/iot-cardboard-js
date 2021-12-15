@@ -367,7 +367,7 @@ export default class MockAdapter
         await this.mockNetwork();
         return await adapterMethodSandbox.safelyFetchData(async () => {
             return new ADT3DViewerData(
-                'https://cardboardresources.blob.core.windows.net/3dv-workspace-1/BasicObjects.gltf',
+                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf', //3d file with public access which does not require authentication to read
                 getData()
             );
         });

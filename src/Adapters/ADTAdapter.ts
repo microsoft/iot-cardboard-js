@@ -56,7 +56,7 @@ import { ViewerConfiguration } from '../Models/Classes/3DVConfig';
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
     protected uniqueObjectId: string;
-    protected authService: IAuthService;
+    public authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
     public packetNumber = 0;
