@@ -131,6 +131,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
                 Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
                 Tools.UseCustomRequestHeaders = true;
+            } else {
+                delete Tools.CustomRequestHeaders.Authorization;
+                delete Tools.CustomRequestHeaders['x-ms-version'];
+                Tools.UseCustomRequestHeaders = false;
             }
 
             const assets = await loadPromise(
