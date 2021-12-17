@@ -1,12 +1,11 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, Color3, AbstractMesh } from 'babylonjs';
-import { Scene } from './3DVConfig';
+import { Scene, Visual } from './3DVConfig';
 
-export class SceneViewLabel {
-    metric: string;
-    value: number;
+export class SceneVisual {
     meshIds: string[];
-    color: string;
+    visuals: Visual[];
+    twins: any;
 }
 
 export class SelectedMesh {
@@ -52,7 +51,7 @@ export interface ISceneViewProp {
         scene: BABYLON.Scene,
         e: PointerEvent
     ) => void;
-    labels?: SceneViewLabel[];
+    sceneVisuals?: SceneVisual[];
     selectedMeshes?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;

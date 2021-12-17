@@ -181,7 +181,7 @@ export class Behavior {
     layers: string[];
     @JsonProperty()
     @JsonType(Datasource)
-    datasources: Datasource;
+    datasources: Datasource[];
     @JsonProperty()
     @JsonElementType(Visual)
     visuals: Visual[];

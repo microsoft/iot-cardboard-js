@@ -20,6 +20,8 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { Tools } from 'babylonjs';
+import { VisualType } from '../../Models/Classes/3DVConfig';
+import { Parser } from 'expr-eval';
 
 const debug = false;
 async function loadPromise(
@@ -51,7 +53,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMarkerClick,
     onMarkerHover,
     onCameraMove,
-    labels,
+    sceneVisuals,
     showMeshesOnHover,
     selectedMeshes,
     meshSelectionColor,
@@ -390,7 +392,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (
             scene &&
             onMarkerHoverRef.current &&
-            (markers || labels || showMeshesOnHover)
+            (markers || sceneVisuals || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
@@ -632,44 +634,47 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene]);
 
-    // SETUP LOGIC FOR HANDLING GUI LABELS ON THE MODEL
+    // SETUP LOGIC FOR HANDLING GUI SCENE VISUALS ON THE MODEL
     useEffect(() => {
         if (debug) {
             console.log(
-                'color meshes based on labels' +
+                'color meshes based on scene visuals' +
                     (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && labels && !isLoading) {
+        if (scene && sceneVisuals && !isLoading) {
             if (debug) {
                 console.log('coloring meshes');
             }
 
             try {
-                labels.forEach((item) => {
-                    const targetMeshes: BABYLON.AbstractMesh[] = [];
-                    item.meshIds.forEach((id) => {
-                        const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
-                            (mesh) => mesh.id === id
-                        );
-                        if (mesh) {
-                            targetMeshes.push(mesh);
+                sceneVisuals.forEach((sceneVisual) => {
+                    sceneVisual.visuals.forEach((visual) => {
+                        if (visual.type === VisualType.ColorChange) {
+                            sceneVisual.meshIds.forEach((id) => {
+                                const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                                    (mesh) => mesh.id === id
+                                );
+
+                                const color = (Parser.evaluate(
+                                    visual.color.expression,
+                                    sceneVisual.twins
+                                ) as any) as string;
+
+                                if (color) {
+                                    (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
+                                        color
+                                    );
+                                }
+                            });
                         }
                     });
-
-                    if (targetMeshes && item.color) {
-                        targetMeshes.forEach((mesh) => {
-                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                item.color
-                            );
-                        });
-                    }
                 });
             } catch {
                 console.log('unable to color mesh');
             }
         }
-    }, [labels, scene, isLoading]);
+    }, [sceneVisuals, scene, isLoading]);
 
     return (
         <div className="cb-sceneview-container">

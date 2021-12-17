@@ -40,7 +40,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { ScenesConfig, Scene, ViewerConfiguration } from '../Classes/3DVConfig';
+import { ScenesConfig, Scene } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
@@ -340,7 +340,7 @@ export interface ITsiClientChartDataAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: ViewerConfiguration
+        config: ScenesConfig
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
