@@ -3,7 +3,7 @@
     "version": "0.0.0-development",
     "description": "",
     "main": "index.js",
-    "types": "src/index.d.ts",
+    "types": "index.d.ts",
     "module": "index.es.js",
     "dependencies": {
         "@azure/msal-browser": "^2.11.0",
