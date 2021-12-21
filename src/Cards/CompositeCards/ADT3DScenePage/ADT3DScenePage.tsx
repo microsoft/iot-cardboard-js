@@ -163,6 +163,12 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
     adapterAdditionalParameters
 }) => {
     const { t } = useTranslation();
+    const objectArray = scene?.twinToObjectMappings?.map((objects) => {
+        return objects.meshIDs.map((selectedObjects) => {
+            return selectedObjects;
+        });
+    });
+    const objectList = Array.prototype.concat.apply([], objectArray);
 
     const onMeshSelected = (selectedMeshes) => {
         console.log(selectedMeshes);
@@ -203,15 +209,15 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                             adapterAdditionalParameters
                         }
                     >
-                        <TwinBuildingsBaseComponentPlaceholder />
                         <div className="cb-scene-view-builder">
                             <ADT3DBuilderCard
                                 adapter={adapter as IADTAdapter}
                                 title="3D Builder"
                                 modelUrl={scene.assets[0].url}
-                                onMeshSelected={(selectedMeshes) =>
-                                    onMeshSelected(selectedMeshes)
-                                }
+                                onMeshSelected={(selectedMeshes) => {
+                                    onMeshSelected(selectedMeshes);
+                                }}
+                                objectMappingList={objectList}
                             />
                         </div>
                     </BaseCompositeCard>
@@ -234,13 +240,4 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
         </BaseCompositeCard>
     );
 };
-
-const TwinBuildingsBaseComponentPlaceholder: React.FC<any> = (_props) => {
-    return (
-        <div className="cb-scene-view-twin-bindings">
-            Twin bindings component placeholder
-        </div>
-    );
-};
-
 export default React.memo(ADT3DScenePage);

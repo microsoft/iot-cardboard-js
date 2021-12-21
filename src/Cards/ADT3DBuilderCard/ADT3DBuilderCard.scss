@@ -11,3 +11,24 @@
 .cb-adt3dbuilder-mesh-list-title {
     font-weight: bold;
 }
+
+.cb-object-list-hover {
+    cursor: pointer;
+}
+
+.cb-object {
+    padding: 20px;
+}
+
+.cb-object-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.cb-object-list-buttons {
+    margin: 5px;
+}
+
+.cb-scene-view-builder {
+    height: 600px;
+}
