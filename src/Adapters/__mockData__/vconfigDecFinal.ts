@@ -54,7 +54,7 @@ export const mockVConfig = {
                         type: 'Asset3D',
                         name: 'TruckAndBoxes',
                         url:
-                            'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
+                            'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachine.gltf'
                     }
                 ]
             }
