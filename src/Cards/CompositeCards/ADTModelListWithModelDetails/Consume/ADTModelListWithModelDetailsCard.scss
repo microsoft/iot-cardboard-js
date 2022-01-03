@@ -38,8 +38,12 @@
 
         .cb-modelcreate-container {
             height: calc(100% - 46px);
-            overflow: auto;
             padding-top: 12px;
+        }
+
+        .cb-form-container {
+            height: calc(100% - 36px);
+            overflow: unset;
         }
     }
 

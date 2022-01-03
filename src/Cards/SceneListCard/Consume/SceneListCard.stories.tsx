@@ -1,7 +1,7 @@
 import React from 'react';
 import SceneListCard from './SceneListCard';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import mockVConfig from '../../../../.storybook/test_data/vconfig-MattReworkFusionChristian.json';
+import { mockVConfig } from '../../../Adapters/__mockData__/vconfigDecFinal';
 
 export default {
     title: 'SceneListCard/Consume'
