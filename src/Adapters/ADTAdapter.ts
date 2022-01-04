@@ -873,10 +873,11 @@ export default class ADTAdapter implements IADTAdapter {
                                     }
                                 }
 
-                                const sceneVisual = new SceneVisual();
-                                sceneVisual.meshIds = mapping.meshIDs;
-                                sceneVisual.visuals = behavior.visuals;
-                                sceneVisual.twins = twins;
+                                const sceneVisual = new SceneVisual(
+                                    mapping.meshIDs,
+                                    behavior.visuals,
+                                    twins
+                                );
                                 sceneVisuals.push(sceneVisual);
                             }
                         }

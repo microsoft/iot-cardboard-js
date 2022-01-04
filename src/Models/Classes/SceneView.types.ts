@@ -6,6 +6,11 @@ export class SceneVisual {
     meshIds: string[];
     visuals: Visual[];
     twins: any;
+    constructor(meshIds: string[], visuals: Visual[], twins: any) {
+        this.meshIds = meshIds;
+        this.visuals = visuals;
+        this.twins = twins;
+    }
 }
 
 export class SelectedMesh {

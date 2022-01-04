@@ -27,7 +27,7 @@ import {
     TsiClientData
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import mockVConfig from '../../.storybook/test_data/vconfig-decFinal.json';
+import { mockVConfig } from './__mockData__/vconfigDecFinal';
 import {
     ScenesConfig,
     Scene,
@@ -348,18 +348,17 @@ export default class MockAdapter
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
-            const sceneVisual = new SceneVisual();
             const visual = new Visual();
             visual.type = VisualType.ColorChange;
             const color = new Color();
             color.expression =
                 'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"';
             visual.color = color;
-            sceneVisual.visuals = [visual];
-            sceneVisual.meshIds = [
-                'Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'
-            ];
-            sceneVisual.twins = { primaryTwin: { value: 10 } };
+            const sceneVisual = new SceneVisual(
+                ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
+                [visual],
+                { primaryTwin: { value: 10 } }
+            );
             const sceneVisuals = [sceneVisual];
             return sceneVisuals;
         };

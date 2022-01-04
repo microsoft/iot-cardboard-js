@@ -1,4 +1,4 @@
-import { MockAdapter } from '../../..';
+import MockAdapter from '../../../Adapters/MockAdapter';
 import { Scene } from '../../../Models/Classes/3DVConfig';
 import {
     IBlobAdapter,
