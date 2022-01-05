@@ -76,54 +76,57 @@ const JsonPreview = ({
     };
 
     return (
-        <BaseComponent theme={themeToUse}>
-            <Panel
-                isOpen={isOpen}
-                isLightDismiss
-                onDismiss={onDismiss}
-                headerText={modalTitle}
-                closeButtonAriaLabel={t('close')}
-                onRenderFooterContent={onRenderFooterContent}
-                isFooterAtBottom={true}
-                type={PanelType.medium}
-                className={'cb-json-preview-panel-container'}
-                styles={{
-                    scrollableContent: {
-                        overflowY: 'hidden'
-                    },
-                    content: {
-                        height: '100%',
-                        display: 'flex',
-                        paddingLeft: '0px',
-                        paddingRight: '0px'
-                    },
-                    footer: {
-                        borderTop: '1px solid var(--cb-color-bg-canvas-inset)'
-                    }
-                }}
-            >
-                <div className="cb-json-preview-container">
-                    <SyntaxHighlighter
-                        customStyle={{
-                            marginTop: '0px',
-                            marginRight: '16px',
-                            padding: '0px',
-                            overflow: 'unset'
-                        }}
-                        language={'json'}
-                        style={
-                            themeToUse === Theme.Light
-                                ? lightCodeStyle
-                                : darkCodeStyle
+        isOpen && (
+            <BaseComponent theme={themeToUse}>
+                <Panel
+                    isOpen={isOpen}
+                    isLightDismiss
+                    onDismiss={onDismiss}
+                    headerText={modalTitle}
+                    closeButtonAriaLabel={t('close')}
+                    onRenderFooterContent={onRenderFooterContent}
+                    isFooterAtBottom={true}
+                    type={PanelType.medium}
+                    className={'cb-json-preview-panel-container'}
+                    styles={{
+                        scrollableContent: {
+                            overflowY: 'hidden'
+                        },
+                        content: {
+                            height: '100%',
+                            display: 'flex',
+                            paddingLeft: '0px',
+                            paddingRight: '0px'
+                        },
+                        footer: {
+                            borderTop:
+                                '1px solid var(--cb-color-bg-canvas-inset)'
                         }
-                        showLineNumbers={true}
-                        wrapLongLines={isCodeWrapped}
-                    >
-                        {formattedString}
-                    </SyntaxHighlighter>
-                </div>
-            </Panel>
-        </BaseComponent>
+                    }}
+                >
+                    <div className="cb-json-preview-container">
+                        <SyntaxHighlighter
+                            customStyle={{
+                                marginTop: '0px',
+                                marginRight: '16px',
+                                padding: '0px',
+                                overflow: 'unset'
+                            }}
+                            language={'json'}
+                            style={
+                                themeToUse === Theme.Light
+                                    ? lightCodeStyle
+                                    : darkCodeStyle
+                            }
+                            showLineNumbers={true}
+                            wrapLongLines={isCodeWrapped}
+                        >
+                            {formattedString}
+                        </SyntaxHighlighter>
+                    </div>
+                </Panel>
+            </BaseComponent>
+        )
     );
 };
 

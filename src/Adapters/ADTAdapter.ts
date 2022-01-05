@@ -28,7 +28,8 @@ import {
     ADTPatch,
     IADTTwinComponent,
     KeyValuePairData,
-    DTwinUpdateEvent
+    DTwinUpdateEvent,
+    IComponentError
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -51,7 +52,8 @@ import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import { ViewerConfiguration } from '../Models/Classes/3DVConfig';
+import { SceneVisual } from '../Models/Classes/SceneView.types';
+import { DatasourceType, ScenesConfig } from '../Models/Classes/3DVConfig';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -793,14 +795,96 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getSceneData(_sceneId: string, _config: ViewerConfiguration) {
+    async getSceneData(sceneId: string, config: ScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        function pushErrors(errors: IComponentError[]) {
+            if (errors) {
+                for (const error of errors) {
+                    adapterMethodSandbox.pushError({
+                        type: error.type,
+                        isCatastrophic: error.isCatastrophic,
+                        rawError: new Error(error.message)
+                    });
+                }
+            }
+        }
+
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            // TODO rewrite based on config JSON
-            return new ADT3DViewerData(
-                'https://cardboardresources.blob.core.windows.net/3dv-workspace-1/BasicObjects.gltf',
-                null
+            // get scene based on id
+            const scene = config.viewerConfiguration?.scenes?.find(
+                (scene) => scene.id === sceneId
             );
+            let modelUrl = null;
+            const sceneVisuals: SceneVisual[] = [];
+            if (scene) {
+                // get modelUrl
+                modelUrl = scene.assets?.find((asset) => asset.url)?.url;
+
+                // cycle through behaviors for scene
+                for (const sceneBehavior of scene.behaviors) {
+                    // cycle through all behaviors
+                    // check if behavior is relevent for the current scene
+                    for (const behavior of config.viewerConfiguration
+                        ?.behaviors)
+                        if (sceneBehavior === behavior.id) {
+                            const mappingIds: string[] = [];
+                            // cycle through the datasources of behavior
+                            for (const dataSource of behavior.datasources) {
+                                // if its a TwinToObjectMappingDatasource get the mapping id
+                                if (
+                                    dataSource.type ===
+                                    DatasourceType.TwinToObjectMapping
+                                ) {
+                                    dataSource.mappingIDs.forEach(
+                                        (mappingId) => {
+                                            mappingIds.push(mappingId);
+                                        }
+                                    );
+                                }
+
+                                // TODO get FilteredTwinDatasources
+                            }
+
+                            // cycle through mapping ids to get twins for behavior and scene
+                            for (const id of mappingIds) {
+                                const twins = {};
+                                const mapping = scene.twinToObjectMappings.find(
+                                    (mapping) => mapping.id === id
+                                );
+
+                                // get primary twin
+                                const primaryTwin = await this.getADTTwin(
+                                    mapping.primaryTwinID
+                                );
+                                pushErrors(primaryTwin.getErrors());
+                                twins['primaryTwin'] = primaryTwin.result?.data;
+
+                                // check for twin aliases and add to twins object
+                                if (mapping.twinAliases) {
+                                    for (const alias of Object.keys(
+                                        mapping.twinAliases
+                                    )) {
+                                        const twin = await this.getADTTwin(
+                                            mapping.twinAliases[alias]
+                                        );
+                                        pushErrors(twin.getErrors());
+                                        twins[alias] = twin.result?.data;
+                                    }
+                                }
+
+                                const sceneVisual = new SceneVisual(
+                                    mapping.meshIDs,
+                                    behavior.visuals,
+                                    twins
+                                );
+                                sceneVisuals.push(sceneVisual);
+                            }
+                        }
+                }
+            }
+
+            return new ADT3DViewerData(modelUrl, sceneVisuals);
         });
     }
 
