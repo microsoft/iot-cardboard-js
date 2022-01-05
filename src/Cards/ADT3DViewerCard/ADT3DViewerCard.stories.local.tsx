@@ -4,6 +4,9 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DViewerCard from './ADT3DViewerCard';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { TaJson } from 'ta-json';
+import { ScenesConfig } from '../../Models/Classes/3DVConfig';
+import mockVConfig from '../../../.storybook/test_data/vconfig-decFinal.json';
 
 export default {
     title: '3DV/ADT3DViewerCard'
@@ -11,6 +14,11 @@ export default {
 
 export const Engine = () => {
     const authenticationParameters = useAuthParams();
+    const scenesConfig = TaJson.parse<ScenesConfig>(
+        JSON.stringify(mockVConfig),
+        ScenesConfig
+    );
+
     return !authenticationParameters ? (
         <div></div>
     ) : (
@@ -25,9 +33,9 @@ export const Engine = () => {
                         )
                     )
                 }
-                sceneConfig={null}
+                sceneConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId="TankVisual"
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
                 connectionLineColor="#000"
             />
         </div>

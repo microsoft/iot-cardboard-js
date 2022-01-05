@@ -1,15 +1,18 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { SceneViewLabel } from '../SceneView.types';
+import { SceneVisual } from '../SceneView.types';
 
 class ADT3DViewerData implements IAdapterData {
-    data: { modelUrl: string; labels: SceneViewLabel[] };
+    data: { modelUrl: string; sceneVisuals: SceneVisual[] };
 
-    constructor(modelUrl: string, labels: SceneViewLabel[]) {
-        this.data = { modelUrl: modelUrl, labels: labels };
+    constructor(modelUrl: string, sceneVisuals: SceneVisual[]) {
+        this.data = { modelUrl: modelUrl, sceneVisuals: sceneVisuals };
     }
 
     hasNoData() {
-        return this.data?.modelUrl === null || this.data?.labels === undefined;
+        return (
+            this.data?.modelUrl === null ||
+            this.data?.sceneVisuals === undefined
+        );
     }
 }
 

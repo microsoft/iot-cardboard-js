@@ -5,15 +5,15 @@ import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker, SceneViewLabel } from '../../Models/Classes/SceneView.types';
+import { Marker, SceneVisual } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { ViewerConfiguration } from '../../Models/Classes/3DVConfig';
+import { ScenesConfig } from '../../Models/Classes/3DVConfig';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: ViewerConfiguration;
+    sceneConfig: ScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
@@ -28,7 +28,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     connectionLineColor
 }) => {
     const [modelUrl, setModelUrl] = useState('');
-    const [labels, setLabels] = useState<SceneViewLabel[]>([]);
+    const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpTile, setPopUpTitle] = useState('');
     const [popUpContent, setPopUpContent] = useState('');
@@ -60,16 +60,16 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
-            setLabels(sceneData.adapterResult.result.data.labels);
+            setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
         }
     }, [sceneData.adapterResult.result]);
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
-        if (labels) {
-            const label = labels.find((label) =>
-                label.meshIds.find((id) => id === mesh?.id)
+        if (sceneVisuals) {
+            const sceneVisual = sceneVisuals.find((sceneVisual) =>
+                sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            if (label) {
+            if (sceneVisual) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
@@ -80,8 +80,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTitle(label.metric);
-                    setPopUpContent(label.value.toString());
+                    setPopUpTitle('Visuals JSON');
+                    setPopUpContent(JSON.stringify(sceneVisual.visuals));
                     setShowPopUp(true);
 
                     if (resetPopUpPosition) {
@@ -103,11 +103,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     };
 
     const meshHover = (marker: Marker, mesh: any) => {
-        if (mesh && labels) {
-            const label = labels.find((label) =>
-                label.meshIds.find((id) => id === mesh?.id)
+        if (mesh && sceneVisuals) {
+            const sceneVisual = sceneVisuals.find((sceneVisual) =>
+                sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            if (label) {
+            if (sceneVisual) {
                 document.body.style.cursor = 'pointer';
             } else {
                 document.body.style.cursor = '';
@@ -163,7 +163,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    labels={labels}
+                    sceneVisuals={sceneVisuals}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }
