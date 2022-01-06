@@ -57,7 +57,7 @@ export interface ISceneViewProp {
         e: PointerEvent
     ) => void;
     sceneVisuals?: SceneVisual[];
-    selectedMeshes?: string[];
+    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;
