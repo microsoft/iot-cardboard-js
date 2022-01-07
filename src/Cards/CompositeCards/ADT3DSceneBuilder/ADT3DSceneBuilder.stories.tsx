@@ -12,7 +12,7 @@ const cardStyle = {
     width: '100%'
 };
 
-export const MockSceneBuilder = (_args, { globals: { theme, locale } }) => {
+export const Mock3DSceneBuilder = (_args, { globals: { theme, locale } }) => {
     return (
         <div style={cardStyle}>
             <ADT3DSceneBuilder

@@ -13,7 +13,7 @@ const cardStyle = {
     width: '100%'
 };
 
-export const SceneBuilder = (_args, { globals: { theme, locale } }) => {
+export const ADTSceneBuilder = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (

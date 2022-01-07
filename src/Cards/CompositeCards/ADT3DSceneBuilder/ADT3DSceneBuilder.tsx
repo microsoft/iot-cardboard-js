@@ -71,8 +71,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         <ADT3DBuilderCard
                             adapter={adapter as any}
                             modelUrl={
-                                'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
-                            }
+                                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachine.gltf'
+                            } //TODO: update modelUrl
                             onMeshSelected={(selectedMeshes) =>
                                 onMeshSelected(selectedMeshes)
                             }
