@@ -111,7 +111,18 @@ export enum ADT3DScenePageSteps {
     TwinBindingsWithScene
 }
 
-export enum ADT3DSceneBuilderModes {
+export enum ADT3DSceneBuilderMode {
+    Idle,
+    CreateElement,
+    EditElement
+}
+
+export enum ADT3DSceneTwinBindingsMode {
+    Elements = 'elements',
+    Behaviors = 'behaviors'
+}
+
+export enum ADT3DScenePageModes {
     BuildScene = 'adt-3d-scene-builder-mode-build',
     ViewScene = 'adt-3d-scene-builder-mode-view'
 }

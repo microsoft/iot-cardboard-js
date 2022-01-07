@@ -270,6 +270,11 @@
         "buildMode": "Build mode",
         "viewMode": "View mode"
     },
+    "3dSceneBuilder": {
+        "elements": "Elements",
+        "behaviors": "Behaviors",
+        "createElement": "Create element"
+    },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
         "Last Hour": "Last Hour",

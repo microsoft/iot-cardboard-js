@@ -2,7 +2,7 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import { Scene } from '../../../Models/Classes/3DVConfig';
 import {
-    ADT3DSceneBuilderModes,
+    ADT3DScenePageModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
 import {
@@ -16,7 +16,7 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter | MockAdapter;
-    defaultMode?: ADT3DSceneBuilderModes;
+    defaultMode?: ADT3DScenePageModes;
     scene?: Scene;
 }
 

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ADT3DSceneBuilderModes,
+    ADT3DScenePageModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
 import ADT3DViewerCard from '../../ADT3DViewerCard/ADT3DViewerCard';
@@ -153,7 +153,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 };
 
 const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = ({
-    defaultMode = ADT3DSceneBuilderModes.BuildScene,
+    defaultMode = ADT3DScenePageModes.BuildScene,
     scene,
     adapter,
     theme,
@@ -178,7 +178,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
         >
             <Pivot
                 aria-label={
-                    defaultMode === ADT3DSceneBuilderModes.BuildScene
+                    defaultMode === ADT3DScenePageModes.BuildScene
                         ? t('buildMode')
                         : t('viewMode')
                 }
@@ -193,7 +193,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
             >
                 <PivotItem
                     headerText={t('build')}
-                    itemKey={ADT3DSceneBuilderModes.BuildScene}
+                    itemKey={ADT3DScenePageModes.BuildScene}
                 >
                     <BaseCompositeCard
                         theme={theme}
@@ -218,7 +218,7 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                 </PivotItem>
                 <PivotItem
                     headerText={t('view')}
-                    itemKey={ADT3DSceneBuilderModes.ViewScene}
+                    itemKey={ADT3DScenePageModes.ViewScene}
                 >
                     <div className="cb-scene-view-viewer">
                         <ADT3DViewerCard

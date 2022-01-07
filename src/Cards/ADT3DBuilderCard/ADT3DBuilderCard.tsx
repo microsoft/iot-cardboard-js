@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
@@ -11,15 +11,25 @@ interface ADT3DBuilderCardProps {
     modelUrl: string;
     title?: string;
     onMeshSelected?: (selectedMeshes: string[]) => void;
+    showMeshesOnHover?: boolean;
+    preselectedMeshes?: Array<string>;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     adapter,
     modelUrl,
     title,
-    onMeshSelected
+    onMeshSelected,
+    showMeshesOnHover,
+    preselectedMeshes
 }) => {
-    const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
+    const [selectedMeshes, setSelectedMeshes] = useState<string[]>(
+        preselectedMeshes ?? []
+    );
+
+    useEffect(() => {
+        setSelectedMeshes(preselectedMeshes);
+    }, [preselectedMeshes]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
         let meshes = [...selectedMeshes];
@@ -49,7 +59,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     onMarkerClick={(marker, mesh) =>
                         onMeshSelected && meshClick(marker, mesh)
                     }
-                    showMeshesOnHover={true}
+                    showMeshesOnHover={showMeshesOnHover ?? true}
                     selectedMeshes={selectedMeshes}
                     meshHoverColor="#FCFF80"
                     meshSelectionColor="#00A8F0"
