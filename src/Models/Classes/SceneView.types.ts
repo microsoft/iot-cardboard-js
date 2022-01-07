@@ -1,5 +1,5 @@
 import * as BABYLON from 'babylonjs';
-import { Vector3, Color3, AbstractMesh } from 'babylonjs';
+import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import { Scene, Visual } from './3DVConfig';
 
 export class SceneVisual {
@@ -15,7 +15,7 @@ export class SceneVisual {
 
 export class SelectedMesh {
     id: string;
-    color: Color3;
+    material: Material;
 }
 
 export class Marker {
@@ -57,9 +57,10 @@ export interface ISceneViewProp {
         e: PointerEvent
     ) => void;
     sceneVisuals?: SceneVisual[];
-    selectedMeshes?: string[];
+    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;
+    meshSelectionHoverColor?: string;
     getToken?: () => Promise<string>;
 }

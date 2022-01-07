@@ -12,7 +12,7 @@ interface ADT3DBuilderCardProps {
     title?: string;
     onMeshSelected?: (selectedMeshes: string[]) => void;
     showMeshesOnHover?: boolean;
-    preselectedMeshes?: Array<string>;
+    preselectedMeshIds?: Array<string>;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
@@ -21,31 +21,35 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     title,
     onMeshSelected,
     showMeshesOnHover,
-    preselectedMeshes
+    preselectedMeshIds
 }) => {
-    const [selectedMeshes, setSelectedMeshes] = useState<string[]>(
-        preselectedMeshes ?? []
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>(
+        preselectedMeshIds ?? []
     );
 
     useEffect(() => {
-        setSelectedMeshes(preselectedMeshes);
-    }, [preselectedMeshes]);
+        if (preselectedMeshIds) {
+            setselectedMeshIds(preselectedMeshIds);
+        }
+    }, [preselectedMeshIds]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
-        let meshes = [...selectedMeshes];
+        let meshes = [...selectedMeshIds];
         if (mesh) {
-            const selectedMesh = selectedMeshes.find(
+            const selectedMesh = selectedMeshIds.find(
                 (item) => item === mesh.id
             );
             if (selectedMesh) {
-                meshes = selectedMeshes.filter((item) => item !== selectedMesh);
-                setSelectedMeshes(meshes);
+                meshes = selectedMeshIds.filter(
+                    (item) => item !== selectedMesh
+                );
+                setselectedMeshIds(meshes);
             } else {
                 meshes.push(mesh.id);
-                setSelectedMeshes(meshes);
+                setselectedMeshIds(meshes);
             }
         } else {
-            setSelectedMeshes([]);
+            setselectedMeshIds([]);
         }
 
         onMeshSelected(meshes);
@@ -60,7 +64,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                         onMeshSelected && meshClick(marker, mesh)
                     }
                     showMeshesOnHover={showMeshesOnHover ?? true}
-                    selectedMeshes={selectedMeshes}
+                    selectedMeshIds={selectedMeshIds}
                     meshHoverColor="#FCFF80"
                     meshSelectionColor="#00A8F0"
                     getToken={

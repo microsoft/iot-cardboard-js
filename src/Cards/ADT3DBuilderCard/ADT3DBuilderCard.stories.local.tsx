@@ -11,8 +11,8 @@ export default {
 export const Engine = () => {
     const authenticationParameters = useAuthParams();
 
-    const onMeshSelected = (selectedMeshes) => {
-        console.log(selectedMeshes);
+    const onMeshSelected = (selectedMeshIds) => {
+        console.log(selectedMeshIds);
     };
 
     return !authenticationParameters ? (
@@ -30,8 +30,8 @@ export const Engine = () => {
                     )
                 }
                 modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
-                onMeshSelected={(selectedMeshes) =>
-                    onMeshSelected(selectedMeshes)
+                onMeshSelected={(selectedMeshIds) =>
+                    onMeshSelected(selectedMeshIds)
                 }
             />
         </div>

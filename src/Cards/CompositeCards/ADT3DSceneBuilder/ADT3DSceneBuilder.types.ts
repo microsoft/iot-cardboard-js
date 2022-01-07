@@ -15,8 +15,8 @@ export interface IADT3DSceneBuilderCardProps
 export interface I3DSceneBuilderContext {
     builderMode: ADT3DSceneBuilderMode;
     setBuilderMode: (mode: ADT3DSceneBuilderMode) => void;
-    selectedObjects: Array<any>;
-    setSelectedObjects: (objects: any) => void;
+    selectedObjectIds: Array<any>;
+    setSelectedObjectIds: (objects: any) => void;
 }
 
 export interface IADT3DSceneBuilderVIsualStateRulesWizardProps

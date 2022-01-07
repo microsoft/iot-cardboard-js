@@ -37,10 +37,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     adapterAdditionalParameters
 }) => {
     const [builderMode, setBuilderMode] = useState(ADT3DSceneBuilderMode.Idle);
-    const [selectedObjects, setSelectedObjects] = useState([]);
+    const [selectedObjectIds, setSelectedObjectIds] = useState([]);
 
     const onMeshSelected = (selectedMeshes) => {
-        setSelectedObjects(selectedMeshes);
+        setSelectedObjectIds(selectedMeshes);
     };
 
     return (
@@ -48,8 +48,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             value={{
                 builderMode,
                 setBuilderMode,
-                selectedObjects,
-                setSelectedObjects
+                selectedObjectIds,
+                setSelectedObjectIds
             }}
         >
             <div className="cb-scene-builder-card-wrapper">
@@ -76,7 +76,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             onMeshSelected={(selectedMeshes) =>
                                 onMeshSelected(selectedMeshes)
                             }
-                            preselectedMeshes={selectedObjects}
+                            preselectedMeshIds={selectedObjectIds}
                         />
                     </div>
                 </BaseCompositeCard>
@@ -96,8 +96,8 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
     const {
         builderMode,
         setBuilderMode,
-        selectedObjects,
-        setSelectedObjects
+        selectedObjectIds,
+        setSelectedObjectIds
     } = useContext(SceneBuilderContext);
 
     const [elements, setElements] = useState<Array<ADT3DSceneElement>>([]);
@@ -112,7 +112,7 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
         setBuilderMode(ADT3DSceneBuilderMode.CreateElement);
         setElementToEdit(null);
         setIsObjectsExpanded(true);
-        setSelectedObjects([]);
+        setSelectedObjectIds([]);
         setSelectedElement(null);
     };
 
@@ -138,12 +138,12 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
         }
 
         setBuilderMode(ADT3DSceneBuilderMode.Idle);
-        setSelectedObjects([]);
+        setSelectedObjectIds([]);
     };
 
     const handleElementClick = (element: ADT3DSceneElement) => {
         setSelectedElement({ ...element });
-        setSelectedObjects(element.objects);
+        setSelectedObjectIds(element.objects);
         setElementToEdit(element);
         setIsObjectsExpanded(false);
         setBuilderMode(ADT3DSceneBuilderMode.EditElement);
@@ -156,10 +156,10 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
         ) {
             setElementToEdit({
                 ...elementToEdit,
-                objects: selectedObjects
+                objects: selectedObjectIds
             });
         }
-    }, [selectedObjects]);
+    }, [selectedObjectIds]);
 
     const objectMenuProps = (objectName: string): IContextualMenuProps => {
         return {
@@ -174,7 +174,7 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
                             currentObjects.indexOf(objectName),
                             1
                         );
-                        setSelectedObjects(currentObjects);
+                        setSelectedObjectIds(currentObjects);
                     }
                 }
             ],
@@ -249,7 +249,7 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
                                 setBuilderMode(ADT3DSceneBuilderMode.Idle);
                                 setElementToEdit(null);
                                 setIsObjectsExpanded(true);
-                                setSelectedObjects([]);
+                                setSelectedObjectIds([]);
                             }}
                         >
                             <FontIcon
@@ -308,7 +308,7 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
                             {isObjectsExpanded && (
                                 <div className="cb-scene-builder-twin-bindings-element-objects-container">
                                     <ul className="cb-scene-builder-twin-bindings-element-object-list">
-                                        {selectedObjects.map((meshName) => (
+                                        {selectedObjectIds.map((meshName) => (
                                             <li
                                                 key={meshName}
                                                 className="cb-scene-builder-twin-bindings-element-object"
