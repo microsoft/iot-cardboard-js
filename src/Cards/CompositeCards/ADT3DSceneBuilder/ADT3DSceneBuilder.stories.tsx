@@ -1,22 +1,22 @@
 import React from 'react';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import ADT3DScenePage from './ADT3DScenePage';
+import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import { mockVConfig } from '../../../Adapters/__mockData__/vconfigDecFinal';
 
 export default {
-    title: 'CompositeCards/ADT3DScenePage'
+    title: 'CompositeCards/ADT3DSceneBuilder'
 };
 
 const cardStyle = {
-    height: '800px',
+    height: '600px',
     width: '100%'
 };
 
-export const Mock3DScenePageCard = (_args, { globals: { theme, locale } }) => {
+export const MockSceneBuilder = (_args, { globals: { theme, locale } }) => {
     return (
         <div style={cardStyle}>
-            <ADT3DScenePage
-                title={'3D Scene Page'}
+            <ADT3DSceneBuilder
+                title={'3D Scene Builder'}
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter({ mockData: mockVConfig })}
