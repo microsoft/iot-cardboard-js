@@ -137,8 +137,8 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
             setElements(updatedElements);
         }
 
-        setBuilderMode(ADT3DSceneBuilderMode.Idle);
         setSelectedObjectIds([]);
+        setBuilderMode(ADT3DSceneBuilderMode.Idle);
     };
 
     const handleElementClick = (element: ADT3DSceneElement) => {
