@@ -12,14 +12,14 @@ const parseExportListFromIndex = require('./tools/index-parser');
 const inputs = {
     index: 'src/index.ts',
     Adapters: 'src/Adapters/index.ts',
-    // Cards entry points
+    // Cards entry points -- index MUST use [export { default as <name> } from './<path>'] syntax
     ...parseExportListFromIndex(
         './src/Cards/index.ts',
         'src/Cards',
         '.tsx',
         'Cards'
     ),
-    // Component entry points
+    // Component entry points -- index MUST use [export { default as <name> } from './<path>'] syntax
     ...parseExportListFromIndex(
         './src/Components/index.ts',
         'src/Components',
