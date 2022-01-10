@@ -533,9 +533,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
-              let marker: Marker = null;
+                let marker: Marker = null;
 
-              if (
+                if (
                     mesh?.name &&
                     p.pickedMesh.name.startsWith(Scene_Marker) &&
                     markers
