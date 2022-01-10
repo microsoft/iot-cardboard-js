@@ -53,8 +53,6 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     }
                     showMeshesOnHover={true}
                     selectedMeshIds={selectedMeshIds}
-                    meshHoverColor="#FCFF80"
-                    meshSelectionColor="#00A8F0"
                     getToken={
                         (adapter as any).authService
                             ? () =>

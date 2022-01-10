@@ -86,8 +86,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const selMaterial = useRef<any>(null);
     const selHovMaterial = useRef<any>(null);
 
-    const hoverColor = meshHoverColor || '#96D2FE';
-    const selectionColor = meshSelectionColor || '#1EA0F7';
+    const hoverColor = meshHoverColor || '#F3FF14';
+    const selectionColor = meshSelectionColor || '#00A8F0';
     const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
 
     const defaultMarkerHover = (
@@ -533,9 +533,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
-                let marker: Marker = null;
+              let marker: Marker = null;
 
-                if (
+              if (
                     mesh?.name &&
                     p.pickedMesh.name.startsWith(Scene_Marker) &&
                     markers
