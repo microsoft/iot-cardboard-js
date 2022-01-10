@@ -8,6 +8,7 @@ import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
 const parseExportListFromIndex = require('./tools/index-parser');
+const path = require('path');
 
 const inputs = {
     index: 'src/index.ts',
@@ -42,7 +43,9 @@ const commonPlugins = [
     typescript(),
     json(),
     postcss({
-        extract: true,
+        minimize: true,
+        sourceMap: true,
+        extract: path.resolve('dist/cardboard.css'),
         plugins: [
             postcssUrl({
                 url: 'inline'

@@ -109,10 +109,10 @@
         "react-dom": ">=16.8.0"
     },
     "scripts": {
-        "build": "npm run clean && node -max-old-space-size=4096 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run copy-theme-sheet && npm run post-build",
+        "build": "npm run clean && node -max-old-space-size=4096 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run post-build",
         "clean": "shx rm -rf dist && shx rm -rf build_artifacts",
         "post-build": "npm run copy-theme-sheet && npm run copy-package && npm run copy-readme && npm run pack",
-        "copy-theme-sheet": "node-sass src/Resources/Styles/BaseThemeVars.scss dist/themes.css",
+        "copy-theme-sheet": "node-sass src/Resources/Styles/BaseThemeVars.scss dist/themes.css && node ./tools/merge-style-sheets.js",
         "copy-package": "shx cp package.json dist",
         "copy-readme": "shx cp README.md dist/",
         "pack": "shx mkdir ./build_artifacts && cd dist && npm pack && shx mv *.tgz ../build_artifacts",
