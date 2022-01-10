@@ -62,7 +62,8 @@ const config = [
                 dir: 'dist',
                 format: 'esm',
                 sourcemap: true,
-                exports: 'named'
+                exports: 'named',
+                chunkFileNames: 'internal/[name]-[hash].js'
             }
         ],
         plugins: commonPlugins
