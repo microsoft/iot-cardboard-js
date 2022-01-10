@@ -7,15 +7,25 @@ import postcssUrl from 'postcss-url';
 import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
+const parseExportListFromIndex = require('./tools/index-parser');
 
 const inputs = {
     index: 'src/index.ts',
     Adapters: 'src/Adapters/index.ts',
     // Cards entry points
-    Cards: 'src/Cards/index.ts',
+    ...parseExportListFromIndex(
+        './src/Cards/index.ts',
+        'src/Cards',
+        '.tsx',
+        'Cards'
+    ),
     // Component entry points
-    'Components/StandalonePropertyInspector':
-        'src/Components/PropertyInspector/StandalonePropertyInspector.tsx',
+    ...parseExportListFromIndex(
+        './src/Components/index.ts',
+        'src/Components',
+        '.tsx',
+        'Components'
+    ),
     Classes: 'src/Models/Classes/index.ts',
     Constants: 'src/Models/Constants/index.ts',
     Hooks: 'src/Models/Hooks/index.ts',
