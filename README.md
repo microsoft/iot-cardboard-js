@@ -15,10 +15,11 @@ Install our `beta` package from npm with:
 `npm install @microsoft/iot-cardboard-js@beta`
 
 ### Styles
-Import the **iot-cardboard-js** css stylesheet at the top level of your application to get styles and theming for the components:
+Import the **iot-cardboard-js** themes stylesheet at the top level of your application to get theming for cardboard components via CSS custom properties (variables).
+These variables can be edited if you'd like to tweek theme colors.
 
 ```tsx
-import '@microsoft/iot-cardboard-js/cardboard.css';
+import '@microsoft/iot-cardboard-js/themes.css';
 ```
 
 ### Importing components via named exports
