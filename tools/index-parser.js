@@ -1,4 +1,5 @@
 const fs = require('fs');
+const strip = require('strip-comments');
 
 const parseExportListFromIndex = (
     indexPath,
@@ -7,7 +8,7 @@ const parseExportListFromIndex = (
     entryPointFolder
 ) => {
     const indexBuffer = fs.readFileSync(indexPath, 'utf-8');
-    const exportList = indexBuffer.split('\n');
+    const exportList = strip(indexBuffer).split('\n');
 
     const outputExportMap = {};
 

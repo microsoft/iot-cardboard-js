@@ -38,7 +38,7 @@ However, if you only need a few modules from our library, you can instead use th
 
 ### Importing components via direct imports
 
-Adapters, Classes, Constants, Hooks, and Services are grouped together and can be imported as follows.
+Adapters, Classes, Constants, Hooks, and Services each have their own entry point and can be imported as follows.
 
 **Adapters**: 
 ```tsx
