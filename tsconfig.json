@@ -19,7 +19,6 @@
         "node_modules",
         "dist",
         "src/**/*.stories.tsx",
-        "src/**/*.test.tsx",
-        ".storybook"
+        "src/**/*.test.tsx"
     ]
 }

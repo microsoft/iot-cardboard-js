@@ -5,7 +5,10 @@
     "main": "index.js",
     "types": "index.d.ts",
     "module": "index.js",
-    "sideEffects": false,
+    "sideEffects": [
+        "*.scss",
+        "*.css"
+    ],
     "dependencies": {
         "@azure/msal-browser": "^2.11.0",
         "@fluentui/react": "^8.16.0",
