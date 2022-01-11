@@ -8,7 +8,7 @@ export default {
 };
 
 const cardStyle = {
-    height: '800px',
+    height: '600px',
     width: '100%'
 };
 

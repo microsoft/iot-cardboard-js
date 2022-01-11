@@ -14,6 +14,8 @@
     }
 
     .cb-base-composite-card-item:last-child {
+        display: flex;
+        flex-direction: column;
         flex-grow: 1;
     }
 
@@ -23,6 +25,7 @@
 
     .cb-scene-page-action-button {
         margin-top: 20px;
+        width: 100px;
     }
 
     .cb-scene-page-view-button {
@@ -30,18 +33,18 @@
         margin-top: 20px;
     }
 
-    .cb-scene-view-twin-bindings {
-        background-color: var(--cb-color-bg-card);
-        height: 600px;
-        width: 300px;
+    .cb-scene-builder-and-viewer-container {
+        flex-grow: 1;
     }
 
-    .cb-scene-view-builder {
-        height: 600px;
+    .cb-scene-page-scene-builder-wrapper {
+        height: 400px;
+        width: 100%;
     }
+
     .cb-scene-view-viewer {
         animation: 0.8s expand-out ease-in-out;
-        height: 600px;
+        height: 400px;
     }
 
     @keyframes expand-out {

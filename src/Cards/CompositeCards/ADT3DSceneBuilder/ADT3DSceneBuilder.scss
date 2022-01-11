@@ -19,7 +19,7 @@
 
 .cb-scene-builder-twin-bindings {
     height: 100%;
-    padding: 8px;
+    padding: 0 8px;
     width: 360px;
 
     .cb-scene-builder-twin-bindings-pivot {
@@ -27,8 +27,7 @@
     }
 
     .cb-scene-builder-twin-bindings-text {
-        font-size: 13px;
-        font-style: italic;
+        font-size: 12px;
         opacity: 0.6;
         padding: 0 4px;
     }
@@ -39,7 +38,7 @@
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
-        padding: 8px;
+        padding: 12px 8px;
         width: 100%;
     }
 
@@ -52,6 +51,8 @@
     .cb-scene-builder-twin-bindings-create-element-form {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
+        overflow: auto;
     }
 
     .cb-scene-builder-twin-bindings-create-element-inner-form {
@@ -60,6 +61,10 @@
 
     .cb-scene-builder-twin-bindings-element-objects {
         border-top: 1px solid #edebe9;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: auto;
         padding: 12px 0;
     }
 
@@ -67,6 +72,7 @@
         cursor: pointer;
         font-size: 14px;
         font-weight: 600;
+        padding-bottom: 12px;
 
         span {
             padding-left: 4px;
@@ -97,7 +103,7 @@
     .cb-scene-builder-twin-bindings-element-objects-container {
         display: flex;
         flex-wrap: wrap;
-        padding: 4px 0;
+        overflow: auto;
     }
 
     .cb-scene-builder-twin-bindings-element-object-list {
@@ -129,6 +135,10 @@
     .cb-element {
         display: inline-block;
         font-size: 12px;
+    }
+
+    .cb-scene-builder-twin-bindings-create-element-actions {
+        height: 40px;
     }
 
     .cb-chevron {

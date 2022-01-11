@@ -8,7 +8,7 @@ import {
     PrimaryButton,
     TextField
 } from '@fluentui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -19,41 +19,93 @@ import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
-    IADT3DSceneBuilderVIsualStateRulesWizardProps
+    IADT3DSceneBuilderCreateElementFormProps,
+    IADT3DSceneBuilderVisualStateRulesWizardProps
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
-import { ADT3DSceneElement } from '../../../Models/Constants/Types';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
+import useAdapter from '../../../Models/Hooks/useAdapter';
+import {
+    Scene,
+    ScenesConfig,
+    TwinToObjectMapping
+} from '../../../Models/Classes/3DVConfig';
+import {
+    ADT3DSceneBuilderReducer,
+    ADT3DSceneBuilderVisualStateRulesWizardReducer,
+    defaultADT3DSceneBuilderState,
+    defaultADT3DSceneBuilderVisualStateRulesWizardState
+} from './ADT3DSceneBuilder.state';
+import {
+    SET_ADT_SCENE_BUILDER_ELEMENTS,
+    SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
+} from '../../../Models/Constants/ActionTypes';
+import { createGUID } from '../../../Models/Services/Utils';
+import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
 );
 
 const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
+    sceneId,
     adapter,
     theme,
     locale,
     localeStrings,
     adapterAdditionalParameters
 }) => {
-    const [builderMode, setBuilderMode] = useState(ADT3DSceneBuilderMode.Idle);
-    const [selectedObjectIds, setSelectedObjectIds] = useState([]);
+    const [state, dispatch] = useReducer(
+        ADT3DSceneBuilderReducer,
+        defaultADT3DSceneBuilderState
+    );
 
-    const onMeshSelected = (selectedMeshes) => {
-        setSelectedObjectIds(selectedMeshes);
+    const getScenesConfig = useAdapter({
+        adapterMethod: () => adapter.getScenesConfig(),
+        refetchDependencies: [adapter]
+    });
+
+    useEffect(() => {
+        if (!getScenesConfig.adapterResult.hasNoData()) {
+            const config: ScenesConfig = getScenesConfig.adapterResult.getData();
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: config
+            });
+        } else {
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: null
+            });
+        }
+    }, [getScenesConfig?.adapterResult]);
+
+    const setSelectedObjectIds = (selectedMeshIds) => {
+        dispatch({
+            type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+            payload: selectedMeshIds
+        });
     };
 
     return (
         <SceneBuilderContext.Provider
             value={{
-                builderMode,
-                setBuilderMode,
-                selectedObjectIds,
-                setSelectedObjectIds
+                adapter,
+                theme,
+                locale,
+                localeStrings,
+                selectedObjectIds: state.selectedObjectIds,
+                setSelectedObjectIds,
+                config: state.config,
+                sceneId
             }}
         >
             <div className="cb-scene-builder-card-wrapper">
                 <BaseCompositeCard
+                    isLoading={!state.config && getScenesConfig.isLoading}
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
@@ -61,23 +113,26 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 >
                     <div className="cb-scene-builder-twin-bindings">
                         <VisualStateRulesWizard
-                            adapter={adapter}
-                            theme={theme}
-                            locale={locale}
-                            localeStrings={localeStrings}
+                            loadConfig={getScenesConfig.callAdapter}
                         />
                     </div>
                     <div className="cb-scene-builder-canvas">
-                        <ADT3DBuilderCard
-                            adapter={adapter as any}
-                            modelUrl={
-                                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachine.gltf'
-                            } //TODO: update modelUrl
-                            onMeshSelected={(selectedMeshes) =>
-                                onMeshSelected(selectedMeshes)
-                            }
-                            preselectedMeshIds={selectedObjectIds}
-                        />
+                        {state.config && (
+                            <ADT3DBuilderCard
+                                adapter={adapter as IADTAdapter}
+                                modelUrl={
+                                    state.config.viewerConfiguration?.scenes[
+                                        state.config.viewerConfiguration?.scenes.findIndex(
+                                            (s) => s.id === sceneId
+                                        )
+                                    ].assets[0].url
+                                }
+                                onMeshSelected={(selectedMeshes) =>
+                                    setSelectedObjectIds(selectedMeshes)
+                                }
+                                preselectedMeshIds={state.selectedObjectIds}
+                            />
+                        )}
                     </div>
                 </BaseCompositeCard>
             </div>
@@ -85,91 +140,247 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     );
 };
 
-const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardProps> = ({
-    adapter,
-    theme,
-    locale,
-    localeStrings
+const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVisualStateRulesWizardProps> = ({
+    loadConfig
 }) => {
     const { t } = useTranslation();
+    const [state, dispatch] = useReducer(
+        ADT3DSceneBuilderVisualStateRulesWizardReducer,
+        defaultADT3DSceneBuilderVisualStateRulesWizardState
+    );
 
     const {
-        builderMode,
-        setBuilderMode,
-        selectedObjectIds,
+        adapter,
+        theme,
+        locale,
+        localeStrings,
+        config,
+        sceneId,
         setSelectedObjectIds
     } = useContext(SceneBuilderContext);
 
-    const [elements, setElements] = useState<Array<ADT3DSceneElement>>([]);
-    const [_behaviors, _setBehaviors] = useState([]); //TODO: implement logic for this
-    const [elementToEdit, setElementToEdit] = useState<ADT3DSceneElement>(null);
-    const [selectedElement, setSelectedElement] = useState<ADT3DSceneElement>(
-        null
-    );
-    const [isObjectsExpanded, setIsObjectsExpanded] = useState<boolean>(true);
-
-    const handleCreateElementClick = () => {
-        setBuilderMode(ADT3DSceneBuilderMode.CreateElement);
-        setElementToEdit(null);
-        setIsObjectsExpanded(true);
-        setSelectedObjectIds([]);
-        setSelectedElement(null);
-    };
-
-    const handleSaveClick = () => {
-        if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
-            const newElement: ADT3DSceneElement = {
-                name: elementToEdit.name,
-                linkedTwinId: elementToEdit.linkedTwinId,
-                objects: elementToEdit.objects
+    const updateTwinToObjectMappings = useAdapter({
+        adapterMethod: (params: {
+            config: ScenesConfig;
+            sceneId: string;
+            elements: Array<TwinToObjectMapping>;
+        }) => {
+            const sceneToUpdate: Scene = {
+                ...params.config.viewerConfiguration.scenes[
+                    params.config.viewerConfiguration.scenes.findIndex(
+                        (s) => s.id === params.sceneId
+                    )
+                ]
             };
-            setElements(elements.concat(newElement));
-        } else {
-            const updatedElement: ADT3DSceneElement = {
-                name: elementToEdit.name,
-                linkedTwinId: elementToEdit.linkedTwinId,
-                objects: elementToEdit.objects
-            };
-            const updatedElements = [...elements];
-            updatedElements[
-                elements.findIndex((e) => e.name === selectedElement.name)
-            ] = updatedElement;
-            setElements(updatedElements);
-        }
-
-        setSelectedObjectIds([]);
-        setBuilderMode(ADT3DSceneBuilderMode.Idle);
-    };
-
-    const handleElementClick = (element: ADT3DSceneElement) => {
-        setSelectedElement({ ...element });
-        setSelectedObjectIds(element.objects);
-        setElementToEdit(element);
-        setIsObjectsExpanded(false);
-        setBuilderMode(ADT3DSceneBuilderMode.EditElement);
-    };
+            sceneToUpdate.twinToObjectMappings = params.elements;
+            return adapter.editScene(
+                params.config,
+                params.sceneId,
+                sceneToUpdate
+            );
+        },
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
     useEffect(() => {
-        if (
-            builderMode === ADT3DSceneBuilderMode.CreateElement ||
-            builderMode === ADT3DSceneBuilderMode.EditElement
-        ) {
-            setElementToEdit({
-                ...elementToEdit,
-                objects: selectedObjectIds
+        if (config) {
+            const mappings =
+                config.viewerConfiguration?.scenes?.find(
+                    (s) => s.id === sceneId
+                ).twinToObjectMappings || [];
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: mappings
+            });
+        } else {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: []
             });
         }
-    }, [selectedObjectIds]);
+    }, [config]);
+
+    useEffect(() => {
+        if (updateTwinToObjectMappings.adapterResult.result) {
+            loadConfig();
+        }
+    }, [updateTwinToObjectMappings?.adapterResult]);
+
+    const handleCreateElementClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+            payload: null
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateElement
+        });
+        setSelectedObjectIds([]);
+    };
+
+    const handleElementBackClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.Idle
+        });
+        setSelectedObjectIds([]);
+    };
+
+    const handleSaveClick = (editedElement: TwinToObjectMapping) => {
+        const newElements = [...state.elements];
+        if (state.builderMode === ADT3DSceneBuilderMode.CreateElement) {
+            let newId = createGUID(false);
+            const existingIds = state.elements.map((e) => e.id);
+            while (existingIds.includes(newId)) {
+                newId = createGUID(false);
+            }
+            newElements.push({ id: newId, ...editedElement });
+        } else {
+            newElements[
+                state.elements.findIndex(
+                    (e) => e.id === state.selectedElement.id
+                )
+            ] = editedElement;
+        }
+
+        updateTwinToObjectMappings.callAdapter({
+            config: config,
+            sceneId: sceneId,
+            elements: newElements
+        });
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+            payload: newElements
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.Idle
+        });
+        setSelectedObjectIds([]);
+    };
+
+    const handleElementClick = (element: TwinToObjectMapping) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+            payload: { ...element }
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.EditElement
+        });
+        setSelectedObjectIds(element.meshIDs);
+    };
+
+    return (
+        <BaseComponent
+            theme={theme}
+            locale={locale}
+            localeStrings={localeStrings}
+        >
+            {state.builderMode === ADT3DSceneBuilderMode.Idle ? (
+                <Pivot
+                    aria-label={t('buildMode')}
+                    defaultSelectedKey={ADT3DSceneTwinBindingsMode.Elements}
+                    className="cb-scene-builder-twin-bindings-pivot"
+                >
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.elements')}
+                        itemKey={ADT3DSceneTwinBindingsMode.Elements}
+                    >
+                        <ElementList
+                            elements={state.elements}
+                            handleCreateElementClick={handleCreateElementClick}
+                            handleElementClick={handleElementClick}
+                        />
+                    </PivotItem>
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.behaviors')}
+                        itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                    >
+                        <div>
+                            <p className="cb-scene-builder-twin-bindings-text">
+                                {t('3dSceneBuilder.noBehaviorsText')}
+                            </p>
+                        </div>
+                    </PivotItem>
+                </Pivot>
+            ) : (
+                <CreateElementForm
+                    builderMode={state.builderMode}
+                    element={state.selectedElement}
+                    handleElementBackClick={handleElementBackClick}
+                    handleSaveClick={handleSaveClick}
+                />
+            )}
+        </BaseComponent>
+    );
+};
+
+const ElementList: React.FC<any> = ({
+    elements,
+    handleCreateElementClick,
+    handleElementClick
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <div>
+            <ActionButton
+                iconProps={{ iconName: 'Add' }}
+                onClick={handleCreateElementClick}
+            >
+                {t('3dSceneBuilder.createElement')}
+            </ActionButton>
+            {elements.length === 0 ? (
+                <p className="cb-scene-builder-twin-bindings-text">
+                    {t('3dSceneBuilder.noElementsText')}
+                </p>
+            ) : (
+                elements.map((e: TwinToObjectMapping) => (
+                    <div
+                        className="cb-scene-builder-twin-bindings-element"
+                        key={e.displayName}
+                        onClick={() => handleElementClick(e)}
+                    >
+                        <FontIcon iconName={'Shapes'} className="cb-element" />
+                        <span className="cb-scene-builder-element-name">
+                            {e.displayName}
+                        </span>
+                    </div>
+                ))
+            )}
+        </div>
+    );
+};
+
+const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
+    builderMode,
+    element,
+    handleElementBackClick,
+    handleSaveClick
+}) => {
+    const { t } = useTranslation();
+    const [isObjectsExpanded, setIsObjectsExpanded] = useState(
+        element ? false : true
+    );
+    const [elementToEdit, setElementToEdit] = useState<TwinToObjectMapping>(
+        element ?? new TwinToObjectMapping('', '', '', [])
+    );
+    const { selectedObjectIds, setSelectedObjectIds } = useContext(
+        SceneBuilderContext
+    );
 
     const objectMenuProps = (objectName: string): IContextualMenuProps => {
         return {
             items: [
                 {
                     key: 'remove',
-                    text: 'Remove',
+                    text: t('remove'),
                     iconProps: { iconName: 'Delete' },
                     onClick: () => {
-                        const currentObjects = [...elementToEdit.objects];
+                        const currentObjects = [...elementToEdit.meshIDs];
                         currentObjects.splice(
                             currentObjects.indexOf(objectName),
                             1
@@ -182,186 +393,134 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVIsualStateRulesWizardP
         };
     };
 
-    return (
-        <BaseComponent
-            isLoading={false}
-            theme={theme}
-            locale={locale}
-            localeStrings={localeStrings}
-        >
-            {builderMode === ADT3DSceneBuilderMode.Idle ? (
-                <Pivot
-                    aria-label={t('buildMode')}
-                    defaultSelectedKey={ADT3DSceneTwinBindingsMode.Elements}
-                    className="cb-scene-builder-twin-bindings-pivot"
-                >
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.elements')}
-                        itemKey={ADT3DSceneTwinBindingsMode.Elements}
-                    >
-                        <ActionButton
-                            iconProps={{ iconName: 'Add' }}
-                            onClick={handleCreateElementClick}
-                        >
-                            {t('3dSceneBuilder.createElement')}
-                        </ActionButton>
-                        {elements.length === 0 ? (
-                            <p className="cb-scene-builder-twin-bindings-text">
-                                There is no elements.
-                            </p>
-                        ) : (
-                            elements.map((e: ADT3DSceneElement) => (
-                                <div
-                                    className="cb-scene-builder-twin-bindings-element"
-                                    key={e.name}
-                                    onClick={() => handleElementClick(e)}
-                                >
-                                    <FontIcon
-                                        iconName={'Shapes'}
-                                        className="cb-element"
-                                    />
-                                    <span className="cb-scene-builder-element-name">
-                                        {e.name}
-                                    </span>
-                                </div>
-                            ))
-                        )}
-                    </PivotItem>
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.behaviors')}
-                        itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
-                    >
-                        <div>
-                            <p className="cb-scene-builder-twin-bindings-text">
-                                There is no behaviors.
-                            </p>
-                        </div>
-                    </PivotItem>
-                </Pivot>
-            ) : (
-                <div className="cb-scene-builder-twin-bindings-create-element-wrapper">
-                    <div className="cb-scene-builder-twin-bindings-create-element-form">
-                        <div
-                            className="cb-scene-builder-twin-bindings-create-element-header"
-                            tabIndex={0}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setBuilderMode(ADT3DSceneBuilderMode.Idle);
-                                setElementToEdit(null);
-                                setIsObjectsExpanded(true);
-                                setSelectedObjectIds([]);
-                            }}
-                        >
-                            <FontIcon
-                                iconName={'ChevronRight'}
-                                className="cb-chevron cb-breadcrumb"
-                            />
-                            <span>
-                                {builderMode ===
-                                ADT3DSceneBuilderMode.EditElement
-                                    ? selectedElement.name
-                                    : 'New element'}
-                            </span>
-                        </div>
+    useEffect(() => {
+        setElementToEdit({
+            ...elementToEdit,
+            meshIDs: selectedObjectIds
+        });
+    }, [selectedObjectIds]);
 
-                        <div className="cb-scene-builder-twin-bindings-create-element-inner-form">
-                            <TextField
-                                label="Name"
-                                value={elementToEdit?.name}
-                                onChange={(e) =>
-                                    setElementToEdit({
-                                        ...elementToEdit,
-                                        name: e.currentTarget.value
-                                    })
-                                }
-                            />
-                            <TextField
-                                label="Twin link"
-                                value={elementToEdit?.linkedTwinId}
-                                onChange={(e) =>
-                                    setElementToEdit({
-                                        ...elementToEdit,
-                                        linkedTwinId: e.currentTarget.value
-                                    })
-                                }
-                            />
-                        </div>
-                        <div className="cb-scene-builder-twin-bindings-element-objects">
-                            <div
-                                className="cb-scene-builder-twin-bindings-element-objects-header"
-                                tabIndex={0}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setIsObjectsExpanded(!isObjectsExpanded);
-                                }}
-                            >
-                                <FontIcon
-                                    iconName={'ChevronRight'}
-                                    className={`cb-chevron ${
-                                        isObjectsExpanded
-                                            ? 'cb-expanded'
-                                            : 'cb-collapsed'
-                                    }`}
-                                />
-                                <span>Objects</span>
-                            </div>
-                            {isObjectsExpanded && (
-                                <div className="cb-scene-builder-twin-bindings-element-objects-container">
-                                    <ul className="cb-scene-builder-twin-bindings-element-object-list">
-                                        {selectedObjectIds.map((meshName) => (
-                                            <li
-                                                key={meshName}
-                                                className="cb-scene-builder-twin-bindings-element-object"
-                                            >
-                                                <div className="cb-mesh-name-wrapper">
-                                                    <FontIcon
-                                                        iconName={'CubeShape'}
-                                                    />
-                                                    <span className="cb-mesh-name">
-                                                        {meshName}
-                                                    </span>
-                                                </div>
-                                                <IconButton
-                                                    menuProps={objectMenuProps(
-                                                        meshName
-                                                    )}
-                                                    iconProps={{
-                                                        iconName: 'MoreVertical'
-                                                    }}
-                                                    title="Remove"
-                                                    ariaLabel="Remove"
-                                                    onRenderMenuIcon={() =>
-                                                        null
-                                                    }
-                                                />
-                                            </li>
-                                        ))}
-                                    </ul>
+    return (
+        <div className="cb-scene-builder-twin-bindings-create-element-wrapper">
+            <div className="cb-scene-builder-twin-bindings-create-element-form">
+                <div
+                    className="cb-scene-builder-twin-bindings-create-element-header"
+                    tabIndex={0}
+                    onClick={handleElementBackClick}
+                >
+                    <FontIcon
+                        iconName={'ChevronRight'}
+                        className="cb-chevron cb-breadcrumb"
+                    />
+                    <span>
+                        {builderMode === ADT3DSceneBuilderMode.EditElement
+                            ? element.displayName
+                            : t('3dSceneBuilder.newElement')}
+                    </span>
+                </div>
+
+                <div className="cb-scene-builder-twin-bindings-create-element-inner-form">
+                    <TextField
+                        label={t('name')}
+                        value={elementToEdit?.displayName}
+                        required
+                        onChange={(e) => {
+                            setElementToEdit({
+                                ...elementToEdit,
+                                displayName: e.currentTarget.value
+                            });
+                        }}
+                    />
+                    <TextField
+                        label={t('3dSceneBuilder.twinLink')}
+                        value={elementToEdit?.primaryTwinID}
+                        required
+                        description={t('3dSceneBuilder.twinLinkInputInfo')}
+                        onChange={(e) => {
+                            setElementToEdit({
+                                ...elementToEdit,
+                                primaryTwinID: e.currentTarget.value
+                            });
+                        }}
+                    />
+                </div>
+                <div className="cb-scene-builder-twin-bindings-element-objects">
+                    <div
+                        className="cb-scene-builder-twin-bindings-element-objects-header"
+                        tabIndex={0}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsObjectsExpanded(!isObjectsExpanded);
+                        }}
+                    >
+                        <FontIcon
+                            iconName={'ChevronRight'}
+                            className={`cb-chevron ${
+                                isObjectsExpanded
+                                    ? 'cb-expanded'
+                                    : 'cb-collapsed'
+                            }`}
+                        />
+                        <span>{t('3dSceneBuilder.objects')}</span>
+                    </div>
+                    {isObjectsExpanded && (
+                        <div className="cb-scene-builder-twin-bindings-element-objects-container">
+                            {elementToEdit.meshIDs.length === 0 ? (
+                                <div className="cb-scene-builder-twin-bindings-text">
+                                    {t('3dSceneBuilder.noObjectAddedText')}
                                 </div>
+                            ) : (
+                                <ul className="cb-scene-builder-twin-bindings-element-object-list">
+                                    {elementToEdit.meshIDs.map((meshName) => (
+                                        <li
+                                            key={meshName}
+                                            className="cb-scene-builder-twin-bindings-element-object"
+                                        >
+                                            <div className="cb-mesh-name-wrapper">
+                                                <FontIcon
+                                                    iconName={'CubeShape'}
+                                                />
+                                                <span className="cb-mesh-name">
+                                                    {meshName}
+                                                </span>
+                                            </div>
+                                            <IconButton
+                                                menuProps={objectMenuProps(
+                                                    meshName
+                                                )}
+                                                iconProps={{
+                                                    iconName: 'MoreVertical'
+                                                }}
+                                                title={t('remove')}
+                                                ariaLabel={t('remove')}
+                                                onRenderMenuIcon={() => null}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
                             )}
                         </div>
-                    </div>
-                    <div className="cb-scene-builder-twin-bindings-create-element-actions">
-                        <PrimaryButton
-                            onClick={handleSaveClick}
-                            text={
-                                builderMode ===
-                                ADT3DSceneBuilderMode.CreateElement
-                                    ? 'Create element'
-                                    : 'Update element'
-                            }
-                            disabled={
-                                !(
-                                    elementToEdit?.name &&
-                                    elementToEdit?.linkedTwinId &&
-                                    elementToEdit?.objects?.length > 0
-                                )
-                            }
-                        />
-                    </div>
+                    )}
                 </div>
-            )}
-        </BaseComponent>
+            </div>
+            <div className="cb-scene-builder-twin-bindings-create-element-actions">
+                <PrimaryButton
+                    onClick={() => handleSaveClick(elementToEdit)}
+                    text={
+                        builderMode === ADT3DSceneBuilderMode.CreateElement
+                            ? t('create')
+                            : t('update')
+                    }
+                    disabled={
+                        !(
+                            elementToEdit?.displayName &&
+                            elementToEdit?.primaryTwinID &&
+                            elementToEdit?.meshIDs?.length > 0
+                        )
+                    }
+                />
+            </div>
+        </div>
     );
 };
 

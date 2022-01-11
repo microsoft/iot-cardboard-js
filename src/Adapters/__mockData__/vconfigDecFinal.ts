@@ -13,13 +13,19 @@ export const mockVConfig = {
                         id: '5ba433d52b8445979fabc818fd40ae3d',
                         displayName: 'leftWheels',
                         primaryTwinID: 'Truck05',
-                        meshIDs: ['wheel1Mesh', 'wheel2Mesh']
+                        meshIDs: [
+                            'wheel1Mesh_primitive0',
+                            'wheel2Mesh_primitive0'
+                        ]
                     },
                     {
                         id: '2aa6955f3c73418a9be0f7b19c019b75',
                         displayName: 'rightWheels',
                         primaryTwinID: 'Truck05',
-                        meshIDs: ['wheel3Mesh', 'wheel4Mesh']
+                        meshIDs: [
+                            'wheel3Mesh_primitive0',
+                            'wheel4Mesh_primitive0'
+                        ]
                     },
                     {
                         id: '4cb0990d646a4bbea3e1102676e200fe',

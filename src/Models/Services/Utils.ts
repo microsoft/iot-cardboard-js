@@ -10,13 +10,15 @@ import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { Vector3 } from 'babylonjs';
 import { CharacterWidths } from '../Constants/Constants';
 
-export const createGUID = () => {
+export const createGUID = (isWithDashes = true) => {
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
     };
-    return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+    return isWithDashes
+        ? `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`
+        : `${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}`;
 };
 
 export const getFileType = (fileName: string, defaultType = '') => {

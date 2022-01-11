@@ -41,7 +41,7 @@ export const AuthenticationParameters = {
     },
     storage: {
         accountHostUrl: 'AZURE_STORAGE_ACCOUNT_HOST_URL',
-        blobPath: 'AZURE_STORAGE_BLOB_PATH',
+        blobPath: 'AZURE_STORAGE_BLOB_PATH_TO_3D_CONFIG_FILE',
         aadParameters: {
             authority: 'AUTHORITY_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',

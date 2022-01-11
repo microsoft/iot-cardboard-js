@@ -20,6 +20,7 @@ export const Mock3DSceneBuilder = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={new MockAdapter({ mockData: mockVConfig })}
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             />
         </div>
     );

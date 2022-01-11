@@ -13,7 +13,6 @@ import {
 } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
 import { DefaultButton, Pivot, PivotItem } from '@fluentui/react';
-import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
 import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
@@ -24,10 +23,8 @@ import {
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { Scene } from '../../../Models/Classes/3DVConfig';
-import {
-    IADTAdapter,
-    IBlobAdapter
-} from '../../../Models/Constants/Interfaces';
+import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
+import ADT3DSceneBuilder from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -118,7 +115,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 {state.currentStep ===
                     ADT3DScenePageSteps.TwinBindingsWithScene && (
                     <>
-                        <div className="cb-scene-builder-container">
+                        <div className="cb-scene-builder-and-viewer-container">
                             <ADT3DSceneBuilderCompositeComponent
                                 scene={state.selectedScene}
                                 adapter={adapter}
@@ -164,10 +161,6 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
 }) => {
     const { t } = useTranslation();
 
-    const onMeshSelected = (selectedMeshIds) => {
-        console.log(selectedMeshIds);
-    };
-
     return (
         <BaseCompositeCard
             title={title}
@@ -195,26 +188,14 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                     headerText={t('build')}
                     itemKey={ADT3DScenePageModes.BuildScene}
                 >
-                    <BaseCompositeCard
-                        theme={theme}
-                        locale={locale}
-                        localeStrings={localeStrings}
-                        adapterAdditionalParameters={
-                            adapterAdditionalParameters
-                        }
-                    >
-                        <TwinBuildingsBaseComponentPlaceholder />
-                        <div className="cb-scene-view-builder">
-                            <ADT3DBuilderCard
-                                adapter={adapter as IADTAdapter}
-                                title="3D Builder"
-                                modelUrl={scene.assets[0].url}
-                                onMeshSelected={(selectedMeshIds) =>
-                                    onMeshSelected(selectedMeshIds)
-                                }
-                            />
-                        </div>
-                    </BaseCompositeCard>
+                    <div className="cb-scene-page-scene-builder-wrapper">
+                        <ADT3DSceneBuilder
+                            theme={theme}
+                            locale={locale}
+                            adapter={adapter}
+                            sceneId={scene.id}
+                        />
+                    </div>
                 </PivotItem>
                 <PivotItem
                     headerText={t('view')}
@@ -232,14 +213,6 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                 </PivotItem>
             </Pivot>
         </BaseCompositeCard>
-    );
-};
-
-const TwinBuildingsBaseComponentPlaceholder: React.FC<any> = (_props) => {
-    return (
-        <div className="cb-scene-view-twin-bindings">
-            Twin bindings component placeholder
-        </div>
     );
 };
 

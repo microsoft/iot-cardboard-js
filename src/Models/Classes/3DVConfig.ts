@@ -23,6 +23,23 @@ export class TwinToObjectMapping {
     @JsonProperty()
     @JsonType(Object)
     twinAliases: any;
+
+    // Note this parameterized constructor
+    constructor(
+        id: string,
+        displayName: string,
+        primaryTwinID: string,
+        meshIDs: string[],
+        twinAliases?: Record<string, unknown>
+    ) {
+        this.id = id;
+        this.displayName = displayName;
+        this.primaryTwinID = primaryTwinID;
+        this.meshIDs = meshIDs;
+        if (twinAliases) {
+            this.twinAliases = twinAliases;
+        }
+    }
 }
 
 @JsonObject()

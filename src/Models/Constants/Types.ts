@@ -143,9 +143,3 @@ export type AdapterTypes =
     | IKeyValuePairAdapter
     | ITsiClientChartDataAdapter
     | IADTAdapter;
-
-export type ADT3DSceneElement = {
-    name: string;
-    linkedTwinId: string;
-    objects: Array<string>;
-};

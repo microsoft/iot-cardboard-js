@@ -13,7 +13,7 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADTSceneBuilder = (_args, { globals: { theme, locale } }) => {
+export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
@@ -34,6 +34,7 @@ export const ADTSceneBuilder = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             />
         </div>
     );

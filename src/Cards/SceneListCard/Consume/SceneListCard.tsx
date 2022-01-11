@@ -38,7 +38,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         refetchDependencies: [adapter]
     });
 
-    // TODO: implement other necessary methods for the adapter
     const addScene = useAdapter({
         adapterMethod: (params: { config: ScenesConfig; scene: Scene }) =>
             adapter.addScene(params.config, params.scene),
@@ -46,7 +45,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    // TODO: implement other necessary methods for the adapter
     const editScene = useAdapter({
         adapterMethod: (params: {
             config: ScenesConfig;
@@ -57,7 +55,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    // TODO: implement other necessary methods for the adapter
     const deleteScene = useAdapter({
         adapterMethod: (params: { config: ScenesConfig; sceneId: string }) =>
             adapter.deleteScene(params.config, params.sceneId),

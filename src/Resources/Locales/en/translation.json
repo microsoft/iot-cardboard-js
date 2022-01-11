@@ -273,7 +273,14 @@
     "3dSceneBuilder": {
         "elements": "Elements",
         "behaviors": "Behaviors",
-        "createElement": "Create element"
+        "createElement": "Create element",
+        "noElementsText": "No elements created yet",
+        "noBehaviorsText": "No behaviors created yet",
+        "newElement": "New element",
+        "twinLink": "Twin link",
+        "twinLinkInputInfo": "Enter twin id ($dtId) that you want to link this element",
+        "noObjectAddedText": "No objects added yet, pelase select meshes in 3D viewer",
+        "objects": "Objects"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

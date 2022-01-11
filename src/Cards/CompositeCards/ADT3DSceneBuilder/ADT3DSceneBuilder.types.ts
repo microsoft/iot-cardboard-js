@@ -1,29 +1,59 @@
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { ADT3DSceneBuilderMode } from '../../../Models/Constants/Enums';
 import {
-    ICardBaseProps,
-    IConsumeCompositeCardProps
-} from '../../../Models/Constants/Interfaces';
-import { ADT3DSceneElement } from '../../../Models/Constants/Types';
+    Behavior,
+    ScenesConfig,
+    TwinToObjectMapping
+} from '../../../Models/Classes/3DVConfig';
+import {
+    ADT3DSceneBuilderMode,
+    Locale,
+    Theme
+} from '../../../Models/Constants/Enums';
+import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
+    sceneId: string;
 }
 
 export interface I3DSceneBuilderContext {
-    builderMode: ADT3DSceneBuilderMode;
-    setBuilderMode: (mode: ADT3DSceneBuilderMode) => void;
-    selectedObjectIds: Array<any>;
-    setSelectedObjectIds: (objects: any) => void;
-}
-
-export interface IADT3DSceneBuilderVIsualStateRulesWizardProps
-    extends ICardBaseProps {
     adapter: ADTandBlobAdapter | MockAdapter;
+    theme?: Theme;
+    locale?: Locale;
+    localeStrings?: Record<string, any>;
+    config: ScenesConfig;
+    sceneId: string;
+    selectedObjectIds: Array<string>;
+    setSelectedObjectIds: (objects: Array<string>) => void;
 }
 
-export interface ADT3DSceneBuilderVisualStateRulesState {
-    elements: Array<ADT3DSceneElement>;
+export interface IADT3DSceneBuilderVisualStateRulesWizardProps {
+    loadConfig: () => void;
+}
+
+export interface IADT3DSceneBuilderElementListProps {
+    elements: Array<TwinToObjectMapping>;
+    handleCreateElementClick: () => void;
+    handleElementClick: (element: TwinToObjectMapping) => void;
+}
+
+export interface IADT3DSceneBuilderCreateElementFormProps {
+    builderMode: ADT3DSceneBuilderMode;
+    element: TwinToObjectMapping;
+    handleSaveClick: (editedElement: TwinToObjectMapping) => void;
+    handleElementBackClick: () => void;
+}
+
+export interface ADT3DSceneBuilderState {
+    config: ScenesConfig;
+    selectedObjectIds: Array<string>;
+}
+
+export interface ADT3DSceneBuilderVisualStateRulesWizardState {
+    builderMode: ADT3DSceneBuilderMode;
+    elements: Array<TwinToObjectMapping>;
+    behaviors: Array<Behavior>;
+    selectedElement: TwinToObjectMapping;
 }
