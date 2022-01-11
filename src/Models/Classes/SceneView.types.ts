@@ -13,7 +13,7 @@ export class SceneVisual {
     }
 }
 
-export class SelectedMesh {
+export interface SelectedMesh {
     id: string;
     material: Material;
 }
@@ -34,6 +34,11 @@ export type SceneViewCallbackHandler = (
     scene: BABYLON.Scene,
     e: PointerEvent
 ) => void;
+
+export interface ColoredMeshItem {
+    meshId: string;
+    color: string;
+}
 
 export interface ISceneViewProp {
     modelUrl: string;
@@ -56,11 +61,11 @@ export interface ISceneViewProp {
         scene: BABYLON.Scene,
         e: PointerEvent
     ) => void;
-    sceneVisuals?: SceneVisual[];
     selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;
     meshSelectionHoverColor?: string;
     getToken?: () => Promise<string>;
+    coloredMeshItems?: ColoredMeshItem[];
 }

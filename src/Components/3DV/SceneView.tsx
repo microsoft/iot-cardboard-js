@@ -20,8 +20,6 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { Tools } from 'babylonjs';
-import { VisualType } from '../../Models/Classes/3DVConfig';
-import { Parser } from 'expr-eval';
 
 const debug = false;
 
@@ -54,13 +52,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMarkerClick,
     onMarkerHover,
     onCameraMove,
-    sceneVisuals,
     showMeshesOnHover,
     selectedMeshIds,
     meshSelectionColor,
     meshHoverColor,
     meshSelectionHoverColor,
-    getToken
+    getToken,
+    coloredMeshItems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -413,7 +411,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (
             scene &&
             onMarkerHoverRef.current &&
-            (markers || sceneVisuals || showMeshesOnHover)
+            (markers || coloredMeshItems || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
@@ -452,17 +450,22 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current = null;
                         } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
-                            const selectedMesh = new SelectedMesh();
-                            selectedMesh.id = mesh.id;
+                            let selectedMesh: SelectedMesh;
                             const selMesh = selectedMeshesRef.current.find(
                                 (m) => m.id === mesh.id
                             );
                             // If it is selected, get its original color, not its current color
                             if (selMesh) {
-                                selectedMesh.material = selMesh.material;
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: selMesh.material
+                                };
                                 mesh.material = selHovMaterial.current;
                             } else {
-                                selectedMesh.material = mesh.material;
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: mesh.material
+                                };
                                 mesh.material = hovMaterial.current;
                             }
 
@@ -585,12 +588,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             (m) => m.id === selectedMeshId
                         )
                     ) {
-                        const m = new SelectedMesh();
-                        m.id = mesh.id;
+                        let m: SelectedMesh;
                         if (selectedMeshId !== highlightedMeshRef.current?.id) {
-                            m.material = mesh.material;
+                            m = { id: mesh.id, material: mesh.material };
                         } else {
-                            m.material = highlightedMeshRef.current?.material;
+                            m = {
+                                id: mesh.id,
+                                material: highlightedMeshRef.current?.material
+                            };
                         }
                         selectedMeshesRef.current.push(m);
                         mesh.material = selMaterial.current;
@@ -654,47 +659,41 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene]);
 
-    // SETUP LOGIC FOR HANDLING GUI SCENE VISUALS ON THE MODEL
+    // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
         if (debug) {
             console.log(
-                'color meshes based on scene visuals' +
+                'color meshes based on coloredmeshitems prop' +
                     (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && sceneVisuals && !isLoading) {
+        if (scene && coloredMeshItems && !isLoading) {
             if (debug) {
                 console.log('coloring meshes');
             }
 
             try {
-                sceneVisuals.forEach((sceneVisual) => {
-                    sceneVisual.visuals.forEach((visual) => {
-                        if (visual.type === VisualType.ColorChange) {
-                            sceneVisual.meshIds.forEach((id) => {
-                                const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
-                                    (mesh) => mesh.id === id
-                                );
+                for (const coloredMesh of coloredMeshItems) {
+                    const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                        (mesh) => mesh.id === coloredMesh.meshId
+                    );
 
-                                const color = (Parser.evaluate(
-                                    visual.color.expression,
-                                    sceneVisual.twins
-                                ) as any) as string;
-
-                                if (color) {
-                                    (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                        color
-                                    );
-                                }
-                            });
-                        }
-                    });
-                });
+                    if (mesh) {
+                        const material = new BABYLON.StandardMaterial(
+                            'coloredMeshMaterial',
+                            sceneRef.current
+                        );
+                        material.diffuseColor = BABYLON.Color3.FromHexString(
+                            coloredMesh.color
+                        );
+                        mesh.material = material;
+                    }
+                }
             } catch {
                 console.log('unable to color mesh');
             }
         }
-    }, [sceneVisuals, scene, isLoading]);
+    }, [coloredMeshItems]);
 
     return (
         <div className="cb-sceneview-container">
