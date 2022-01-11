@@ -12,7 +12,7 @@ import {
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
 } from '../../../Models/Constants/ActionTypes';
-import { ADT3DSceneBuilderMode } from '../../..';
+import { ADT3DSceneBuilderMode } from '../../../Models/Constants/Enums';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
