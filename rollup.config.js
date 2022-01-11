@@ -10,6 +10,7 @@ import dts from 'rollup-plugin-dts';
 const parseExportListFromIndex = require('./tools/index-parser');
 const path = require('path');
 
+// Build map of library entry points -- this allows for splitting library into chunks & tree shaking
 const inputs = {
     index: 'src/index.ts',
     Adapters: 'src/Adapters/index.ts',
@@ -55,6 +56,7 @@ const commonPlugins = [
 ];
 
 const config = [
+    // Create esm output chunks for built library
     {
         input: inputs,
         output: [
@@ -68,10 +70,17 @@ const config = [
         ],
         plugins: commonPlugins
     },
+    // Rollup .d.ts typing files associated to each chunk
     {
         input: inputs,
-        output: [{ dir: 'dist', format: 'es', exports: 'named' }],
-        // external: [/\.scss$/], // ignore .scss file
+        output: [
+            {
+                dir: 'dist',
+                format: 'es',
+                exports: 'named',
+                chunkFileNames: 'internal/[name]-[hash].d.ts'
+            }
+        ],
         plugins: [...commonPlugins, dts()]
     }
 ];
