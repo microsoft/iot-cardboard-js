@@ -83,6 +83,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const hovMaterial = useRef<any>(null);
     const selMaterial = useRef<any>(null);
     const selHovMaterial = useRef<any>(null);
+    const coloredMaterials = useRef<BABYLON.StandardMaterial[]>([]);
 
     const hoverColor = meshHoverColor || '#F3FF14';
     const selectionColor = meshSelectionColor || '#00A8F0';
@@ -687,12 +688,22 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             coloredMesh.color
                         );
                         mesh.material = material;
+                        coloredMaterials.current.push(material);
                     }
                 }
             } catch {
                 console.log('unable to color mesh');
             }
         }
+
+        return () => {
+            for(const material of coloredMaterials.current) {
+                sceneRef.current?.removeMaterial(material);
+                material.dispose(true, true);
+            }
+
+            coloredMaterials.current = [];
+        };
     }, [coloredMeshItems]);
 
     return (
