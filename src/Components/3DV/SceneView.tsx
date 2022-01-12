@@ -697,7 +697,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         return () => {
-            for(const material of coloredMaterials.current) {
+            for (const material of coloredMaterials.current) {
                 sceneRef.current?.removeMaterial(material);
                 material.dispose(true, true);
             }
