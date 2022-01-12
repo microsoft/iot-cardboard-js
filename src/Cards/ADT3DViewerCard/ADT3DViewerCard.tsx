@@ -14,6 +14,7 @@ import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import { ScenesConfig, VisualType } from '../../Models/Classes/3DVConfig';
 import { Parser } from 'expr-eval';
+import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -40,8 +41,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpTile, setPopUpTitle] = useState('');
-    const [popUpContent, setPopUpContent] = useState('');
+    const [popUpTitle, setPopUpTitle] = useState('');
+    const [popUpConfig, setPopUpConfig] = useState<any>('');
+    const [popUpTwins, setPopUpTwins] = useState<any>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const lineId = useGuid();
     const popUpId = useGuid();
@@ -105,12 +107,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            if (
-                sceneVisual &&
-                sceneVisual.visuals.find(
-                    (visual) => visual.type === VisualType.OnClickPopover
-                )
-            ) {
+            const popOver = sceneVisual?.visuals?.find(
+                (visual) => visual.type === VisualType.OnClickPopover
+            );
+
+            if (sceneVisual && popOver) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
@@ -121,8 +122,9 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTitle('Visuals JSON');
-                    setPopUpContent(JSON.stringify(sceneVisual.visuals));
+                    setPopUpTitle('Visuals');
+                    setPopUpTwins(sceneVisual.twins);
+                    setPopUpConfig(popOver);
                     setShowPopUp(true);
 
                     if (resetPopUpPosition) {
@@ -258,20 +260,13 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                             bounds="parent"
                             onDrag={(e, data) => setPopUpPosition(e, data)}
                         >
-                            <div id={popUpId} className="cb-adt-3dviewer-popup">
-                                <div className="cb-adt-3dviewer-popup-title">
-                                    {popUpTile}
-                                </div>
-                                <div>{popUpContent}</div>
-                                <div>
-                                    <button
-                                        className="cb-adt-3dviewer-close-btn"
-                                        onClick={() => setShowPopUp(false)}
-                                    >
-                                        Close
-                                    </button>
-                                </div>
-                            </div>
+                            <PopupWidget
+                                id={popUpId}
+                                title={popUpTitle}
+                                config={popUpConfig}
+                                onClose={() => setShowPopUp(false)}
+                                twins={popUpTwins}
+                            />
                         </Draggable>
                     </div>
                 )}
