@@ -136,7 +136,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 const putConfigResult = await this.putScenesConfig(
                     updatedConfig
                 );
-                if (putConfigResult.getData()) {
+                if (putConfigResult.result.data) {
                     return new ADTSceneData(scene);
                 } else {
                     return new ADTSceneData(null);

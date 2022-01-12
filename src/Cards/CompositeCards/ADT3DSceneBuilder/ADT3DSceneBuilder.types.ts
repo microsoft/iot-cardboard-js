@@ -24,13 +24,10 @@ export interface I3DSceneBuilderContext {
     locale?: Locale;
     localeStrings?: Record<string, any>;
     config: ScenesConfig;
+    getConfig: () => void;
     sceneId: string;
     selectedObjectIds: Array<string>;
     setSelectedObjectIds: (objects: Array<string>) => void;
-}
-
-export interface IADT3DSceneBuilderVisualStateRulesWizardProps {
-    loadConfig: () => void;
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -39,11 +36,11 @@ export interface IADT3DSceneBuilderElementListProps {
     handleElementClick: (element: TwinToObjectMapping) => void;
 }
 
-export interface IADT3DSceneBuilderCreateElementFormProps {
+export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    element: TwinToObjectMapping;
-    handleSaveClick: (editedElement: TwinToObjectMapping) => void;
-    handleElementBackClick: () => void;
+    selectedElement: TwinToObjectMapping;
+    onElementSave: (elements: Array<TwinToObjectMapping>) => void;
+    onElementBackClick: () => void;
 }
 
 export interface ADT3DSceneBuilderState {
@@ -51,7 +48,7 @@ export interface ADT3DSceneBuilderState {
     selectedObjectIds: Array<string>;
 }
 
-export interface ADT3DSceneBuilderVisualStateRulesWizardState {
+export interface ADT3DSceneBuilderLeftPanelState {
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<TwinToObjectMapping>;
     behaviors: Array<Behavior>;

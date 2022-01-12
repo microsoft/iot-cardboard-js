@@ -2,7 +2,7 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
     ADT3DSceneBuilderState,
-    ADT3DSceneBuilderVisualStateRulesWizardState
+    ADT3DSceneBuilderLeftPanelState
 } from './ADT3DSceneBuilder.types';
 import {
     SET_ADT_SCENE_BUILDER_BEHAVIORS,
@@ -19,7 +19,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedObjectIds: []
 };
 
-export const defaultADT3DSceneBuilderVisualStateRulesWizardState: ADT3DSceneBuilderVisualStateRulesWizardState = {
+export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelState = {
     builderMode: ADT3DSceneBuilderMode.Idle,
     elements: [],
     behaviors: [],
@@ -44,8 +44,8 @@ export const ADT3DSceneBuilderReducer = produce(
     defaultADT3DSceneBuilderState
 );
 
-export const ADT3DSceneBuilderVisualStateRulesWizardReducer = (
-    state = defaultADT3DSceneBuilderVisualStateRulesWizardState,
+export const ADT3DSceneBuilderLeftPanelReducer = (
+    state = defaultADT3DSceneBuilderLeftPanelState,
     action
 ) =>
     produce(state, (draft) => {

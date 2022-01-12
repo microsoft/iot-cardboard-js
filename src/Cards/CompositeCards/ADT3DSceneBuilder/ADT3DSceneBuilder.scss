@@ -84,7 +84,10 @@
 
     .cb-scene-builder-element-list {
         flex-grow: 1;
-        padding: 16px 0;
+        margin-bottom: 16px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 16px 16px 0 0;
     }
 
     .cb-scene-builder-left-panel-element {
@@ -109,7 +112,9 @@
     }
 
     .cb-scene-builder-create-element-button {
+        height: 32px;
         max-width: 200px;
+        min-height: 32px;
         width: fit-content;
     }
 
@@ -151,6 +156,8 @@
     }
 
     .cb-scene-builder-left-panel-create-element-actions {
+        align-items: end;
+        display: flex;
         height: 36px;
     }
 
@@ -186,8 +193,10 @@
     height: 100%;
     width: 100%;
 
-    div:last-child {
+    > div:last-child {
         flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
 
         > div:first-child {
             height: 100%;
