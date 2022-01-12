@@ -1,8 +1,6 @@
 import {
-    ActionButton,
     FontIcon,
     IconButton,
-    IContextualMenuProps,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -111,8 +109,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     localeStrings={localeStrings}
                     adapterAdditionalParameters={adapterAdditionalParameters}
                 >
-                    <div className="cb-scene-builder-twin-bindings">
-                        <VisualStateRulesWizard
+                    <div className="cb-scene-builder-left-panel">
+                        <BuilderLeftPanel
                             loadConfig={getScenesConfig.callAdapter}
                         />
                     </div>
@@ -140,7 +138,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     );
 };
 
-const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVisualStateRulesWizardProps> = ({
+const BuilderLeftPanel: React.FC<IADT3DSceneBuilderVisualStateRulesWizardProps> = ({
     loadConfig
 }) => {
     const { t } = useTranslation();
@@ -283,13 +281,13 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVisualStateRulesWizardP
                 <Pivot
                     aria-label={t('buildMode')}
                     defaultSelectedKey={ADT3DSceneTwinBindingsMode.Elements}
-                    className="cb-scene-builder-twin-bindings-pivot"
+                    className="cb-scene-builder-left-panel-pivot"
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}
                         itemKey={ADT3DSceneTwinBindingsMode.Elements}
                     >
-                        <ElementList
+                        <Elements
                             elements={state.elements}
                             handleCreateElementClick={handleCreateElementClick}
                             handleElementClick={handleElementClick}
@@ -299,11 +297,7 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVisualStateRulesWizardP
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
-                        <div>
-                            <p className="cb-scene-builder-twin-bindings-text">
-                                {t('3dSceneBuilder.noBehaviorsText')}
-                            </p>
-                        </div>
+                        <Behaviors />
                     </PivotItem>
                 </Pivot>
             ) : (
@@ -318,7 +312,19 @@ const VisualStateRulesWizard: React.FC<IADT3DSceneBuilderVisualStateRulesWizardP
     );
 };
 
-const ElementList: React.FC<any> = ({
+const Behaviors: React.FC<any> = () => {
+    const { t } = useTranslation();
+
+    return (
+        <div>
+            <p className="cb-scene-builder-left-panel-text">
+                {t('3dSceneBuilder.noBehaviorsText')}
+            </p>
+        </div>
+    );
+};
+
+const Elements: React.FC<any> = ({
     elements,
     handleCreateElementClick,
     handleElementClick
@@ -326,31 +332,35 @@ const ElementList: React.FC<any> = ({
     const { t } = useTranslation();
 
     return (
-        <div>
-            <ActionButton
-                iconProps={{ iconName: 'Add' }}
+        <div className="cb-scene-builder-elements">
+            <div className="cb-scene-builder-element-list">
+                {elements.length === 0 ? (
+                    <p className="cb-scene-builder-left-panel-text">
+                        {t('3dSceneBuilder.noElementsText')}
+                    </p>
+                ) : (
+                    elements.map((e: TwinToObjectMapping) => (
+                        <div
+                            className="cb-scene-builder-left-panel-element"
+                            key={e.displayName}
+                            onClick={() => handleElementClick(e)}
+                        >
+                            <FontIcon
+                                iconName={'Shapes'}
+                                className="cb-element"
+                            />
+                            <span className="cb-scene-builder-element-name">
+                                {e.displayName}
+                            </span>
+                        </div>
+                    ))
+                )}
+            </div>
+            <PrimaryButton
+                className="cb-scene-builder-create-element-button"
                 onClick={handleCreateElementClick}
-            >
-                {t('3dSceneBuilder.createElement')}
-            </ActionButton>
-            {elements.length === 0 ? (
-                <p className="cb-scene-builder-twin-bindings-text">
-                    {t('3dSceneBuilder.noElementsText')}
-                </p>
-            ) : (
-                elements.map((e: TwinToObjectMapping) => (
-                    <div
-                        className="cb-scene-builder-twin-bindings-element"
-                        key={e.displayName}
-                        onClick={() => handleElementClick(e)}
-                    >
-                        <FontIcon iconName={'Shapes'} className="cb-element" />
-                        <span className="cb-scene-builder-element-name">
-                            {e.displayName}
-                        </span>
-                    </div>
-                ))
-            )}
+                text={t('3dSceneBuilder.createElement')}
+            />
         </div>
     );
 };
@@ -372,27 +382,6 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
         SceneBuilderContext
     );
 
-    const objectMenuProps = (objectName: string): IContextualMenuProps => {
-        return {
-            items: [
-                {
-                    key: 'remove',
-                    text: t('remove'),
-                    iconProps: { iconName: 'Delete' },
-                    onClick: () => {
-                        const currentObjects = [...elementToEdit.meshIDs];
-                        currentObjects.splice(
-                            currentObjects.indexOf(objectName),
-                            1
-                        );
-                        setSelectedObjectIds(currentObjects);
-                    }
-                }
-            ],
-            styles: { root: { minWidth: 'unset' } }
-        };
-    };
-
     useEffect(() => {
         setElementToEdit({
             ...elementToEdit,
@@ -401,10 +390,10 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
     }, [selectedObjectIds]);
 
     return (
-        <div className="cb-scene-builder-twin-bindings-create-element-wrapper">
-            <div className="cb-scene-builder-twin-bindings-create-element-form">
+        <div className="cb-scene-builder-left-panel-create-element-wrapper">
+            <div className="cb-scene-builder-left-panel-create-element-form">
                 <div
-                    className="cb-scene-builder-twin-bindings-create-element-header"
+                    className="cb-scene-builder-left-panel-create-element-header"
                     tabIndex={0}
                     onClick={handleElementBackClick}
                 >
@@ -419,7 +408,7 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
                     </span>
                 </div>
 
-                <div className="cb-scene-builder-twin-bindings-create-element-inner-form">
+                <div className="cb-scene-builder-left-panel-create-element-inner-form">
                     <TextField
                         label={t('name')}
                         value={elementToEdit?.displayName}
@@ -444,9 +433,9 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
                         }}
                     />
                 </div>
-                <div className="cb-scene-builder-twin-bindings-element-objects">
+                <div className="cb-scene-builder-left-panel-element-objects">
                     <div
-                        className="cb-scene-builder-twin-bindings-element-objects-header"
+                        className="cb-scene-builder-left-panel-element-objects-header"
                         tabIndex={0}
                         onClick={(e) => {
                             e.stopPropagation();
@@ -464,17 +453,17 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
                         <span>{t('3dSceneBuilder.objects')}</span>
                     </div>
                     {isObjectsExpanded && (
-                        <div className="cb-scene-builder-twin-bindings-element-objects-container">
+                        <div className="cb-scene-builder-left-panel-element-objects-container">
                             {elementToEdit.meshIDs.length === 0 ? (
-                                <div className="cb-scene-builder-twin-bindings-text">
+                                <div className="cb-scene-builder-left-panel-text">
                                     {t('3dSceneBuilder.noObjectAddedText')}
                                 </div>
                             ) : (
-                                <ul className="cb-scene-builder-twin-bindings-element-object-list">
+                                <ul className="cb-scene-builder-left-panel-element-object-list">
                                     {elementToEdit.meshIDs.map((meshName) => (
                                         <li
                                             key={meshName}
-                                            className="cb-scene-builder-twin-bindings-element-object"
+                                            className="cb-scene-builder-left-panel-element-object"
                                         >
                                             <div className="cb-mesh-name-wrapper">
                                                 <FontIcon
@@ -485,15 +474,26 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
                                                 </span>
                                             </div>
                                             <IconButton
-                                                menuProps={objectMenuProps(
-                                                    meshName
-                                                )}
+                                                className="cb-remove-object-button"
                                                 iconProps={{
-                                                    iconName: 'MoreVertical'
+                                                    iconName: 'Delete'
                                                 }}
                                                 title={t('remove')}
                                                 ariaLabel={t('remove')}
-                                                onRenderMenuIcon={() => null}
+                                                onClick={() => {
+                                                    const currentObjects = [
+                                                        ...elementToEdit.meshIDs
+                                                    ];
+                                                    currentObjects.splice(
+                                                        currentObjects.indexOf(
+                                                            meshName
+                                                        ),
+                                                        1
+                                                    );
+                                                    setSelectedObjectIds(
+                                                        currentObjects
+                                                    );
+                                                }}
                                             />
                                         </li>
                                     ))}
@@ -503,7 +503,7 @@ const CreateElementForm: React.FC<IADT3DSceneBuilderCreateElementFormProps> = ({
                     )}
                 </div>
             </div>
-            <div className="cb-scene-builder-twin-bindings-create-element-actions">
+            <div className="cb-scene-builder-left-panel-create-element-actions">
                 <PrimaryButton
                     onClick={() => handleSaveClick(elementToEdit)}
                     text={

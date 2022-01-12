@@ -17,49 +17,45 @@
     }
 }
 
-.cb-scene-builder-twin-bindings {
+.cb-scene-builder-left-panel {
     height: 100%;
     padding: 0 8px;
     width: 360px;
 
-    .cb-scene-builder-twin-bindings-pivot {
-        width: 100%;
-    }
-
-    .cb-scene-builder-twin-bindings-text {
+    .cb-scene-builder-left-panel-text {
         font-size: 12px;
         opacity: 0.6;
         padding: 0 4px;
     }
 
-    .cb-scene-builder-twin-bindings-create-element-wrapper {
+    .cb-scene-builder-left-panel-create-element-wrapper {
         animation: 0.4s slide-in ease-in-out;
         display: flex;
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
-        padding: 12px 8px;
+        padding: 8px 8px 0;
         width: 100%;
     }
 
-    .cb-scene-builder-twin-bindings-create-element-header {
+    .cb-scene-builder-left-panel-create-element-header {
         cursor: pointer;
         font-size: 16px;
         font-weight: 400;
     }
 
-    .cb-scene-builder-twin-bindings-create-element-form {
+    .cb-scene-builder-left-panel-create-element-form {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         overflow: auto;
     }
 
-    .cb-scene-builder-twin-bindings-create-element-inner-form {
+    .cb-scene-builder-left-panel-create-element-inner-form {
         padding: 16px 0;
     }
 
-    .cb-scene-builder-twin-bindings-element-objects {
+    .cb-scene-builder-left-panel-element-objects {
         border-top: 1px solid #edebe9;
         display: flex;
         flex-direction: column;
@@ -68,7 +64,7 @@
         padding: 12px 0;
     }
 
-    .cb-scene-builder-twin-bindings-element-objects-header {
+    .cb-scene-builder-left-panel-element-objects-header {
         cursor: pointer;
         font-size: 14px;
         font-weight: 600;
@@ -79,13 +75,25 @@
         }
     }
 
-    .cb-scene-builder-twin-bindings-element {
+    .cb-scene-builder-elements {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+    }
+
+    .cb-scene-builder-element-list {
+        flex-grow: 1;
+        padding: 16px 0;
+    }
+
+    .cb-scene-builder-left-panel-element {
         align-items: center;
         display: flex;
         height: 28px;
         line-height: 28px;
         margin-left: -8px;
-        padding-left: 20px;
+        padding-left: 16px;
         width: calc(100% + 16px);
 
         .cb-scene-builder-element-name {
@@ -94,25 +102,30 @@
         }
     }
 
-    .cb-scene-builder-twin-bindings-element:hover {
+    .cb-scene-builder-left-panel-element:hover {
         background: var(--cb-color-card-contrast);
         cursor: pointer;
         filter: unset;
     }
 
-    .cb-scene-builder-twin-bindings-element-objects-container {
+    .cb-scene-builder-create-element-button {
+        max-width: 200px;
+        width: fit-content;
+    }
+
+    .cb-scene-builder-left-panel-element-objects-container {
         display: flex;
         flex-wrap: wrap;
         overflow: auto;
     }
 
-    .cb-scene-builder-twin-bindings-element-object-list {
+    .cb-scene-builder-left-panel-element-object-list {
         list-style: none;
         margin: 0;
         padding-left: 16px;
         width: 100%;
 
-        .cb-scene-builder-twin-bindings-element-object {
+        .cb-scene-builder-left-panel-element-object {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -128,7 +141,7 @@
         }
     }
 
-    .cb-scene-builder-twin-bindings-element-object {
+    .cb-scene-builder-left-panel-element-object {
         margin: 8px 4px 8px 0;
     }
 
@@ -137,8 +150,8 @@
         font-size: 12px;
     }
 
-    .cb-scene-builder-twin-bindings-create-element-actions {
-        height: 40px;
+    .cb-scene-builder-left-panel-create-element-actions {
+        height: 36px;
     }
 
     .cb-chevron {
@@ -157,6 +170,28 @@
     .cb-breadcrumb {
         padding-left: 4px;
         transform: rotate(180deg);
+    }
+
+    .cb-remove-object-button {
+        color: var(--cb-color-inactive);
+        &:hover {
+            color: var(--cb-color-text-danger) !important;
+        }
+    }
+}
+
+.cb-scene-builder-left-panel-pivot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    div:last-child {
+        flex-grow: 1;
+
+        > div:first-child {
+            height: 100%;
+        }
     }
 }
 

@@ -23,7 +23,7 @@ import {
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 import { Asset, ScenesConfig, Scene } from '../../../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
-import { Utils } from '../../../Models/Services';
+import { createGUID } from '../../../Models/Services/Utils';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -321,9 +321,14 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         });
                     }}
                     onAddScene={(newScene) => {
+                        let newId = createGUID(false);
+                        const existingIds = sceneList.map((s) => s.id);
+                        while (existingIds.includes(newId)) {
+                            newId = createGUID(false);
+                        }
                         addScene.callAdapter({
                             config: config,
-                            scene: newScene
+                            scene: { id: newId, ...newScene }
                         });
                     }}
                 ></SceneListDialog>
@@ -362,7 +367,10 @@ const SceneListDialog = ({
     };
 
     const isDialogOpenStyles = {
-        main: { maxWidth: 450, minHeight: 165 }
+        main: {
+            minWidth: '540px !important',
+            minHeight: '350px'
+        }
     };
 
     const isDialogOpenProps = React.useMemo(
@@ -393,6 +401,7 @@ const SceneListDialog = ({
             modalProps={isDialogOpenProps}
         >
             <TextField
+                className="cb-scene-list-form-dialog-text-field"
                 label={t('scenes.sceneName')}
                 title={newSceneName}
                 value={sceneToEdit ? scene?.displayName : newSceneName}
@@ -410,6 +419,7 @@ const SceneListDialog = ({
                 }}
             />
             <TextField
+                className="cb-scene-list-form-dialog-text-field"
                 multiline
                 rows={3}
                 label={t('scenes.blobUrl')}
@@ -450,7 +460,6 @@ const SceneListDialog = ({
                         } else {
                             const newScene = TaJson.parse<Scene>(
                                 JSON.stringify({
-                                    id: Utils.createGUID(),
                                     displayName: newSceneName,
                                     type: 'Scene',
                                     assets: [
@@ -466,7 +475,7 @@ const SceneListDialog = ({
                             onAddScene(newScene);
                         }
                     }}
-                    text={sceneToEdit ? t('update') : t('connect')}
+                    text={sceneToEdit ? t('update') : t('create')}
                 />
             </DialogFooter>
         </Dialog>
