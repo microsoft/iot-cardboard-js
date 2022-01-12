@@ -7,7 +7,6 @@ import {
     ADTModel_InBIM_RelationshipName
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
-import { Vector3 } from 'babylonjs';
 import { CharacterWidths } from '../Constants/Constants';
 
 export const createGUID = () => {
@@ -156,19 +155,6 @@ export const applyMixins = (derivedCtor: any, constructors: any[]) => {
         });
     });
 };
-
-export function convertLatLonToVector3(
-    latitude: number,
-    longitude: number,
-    earthRadius = 50
-): Vector3 {
-    const latitude_rad = (latitude * Math.PI) / 180;
-    const longitude_rad = (longitude * Math.PI) / 180;
-    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
-    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
-    const y = earthRadius * Math.sin(latitude_rad);
-    return new Vector3(x, y, z);
-}
 
 export function measureText(str: string, fontSize: number) {
     const avg = 0.5279276315789471;

@@ -4,10 +4,7 @@ import * as GUI from 'babylonjs-gui';
 import { ProgressIndicator } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
-import {
-    convertLatLonToVector3,
-    createGUID
-} from '../../Models/Services/Utils';
+import { createGUID } from '../../Models/Services/Utils';
 import {
     ISceneViewProp,
     Marker,
@@ -42,6 +39,19 @@ async function loadPromise(
             (s, m, e) => onError(s, m, e)
         );
     });
+}
+
+function convertLatLonToVector3(
+    latitude: number,
+    longitude: number,
+    earthRadius = 50
+): BABYLON.Vector3 {
+    const latitude_rad = (latitude * Math.PI) / 180;
+    const longitude_rad = (longitude * Math.PI) / 180;
+    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
+    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
+    const y = earthRadius * Math.sin(latitude_rad);
+    return new BABYLON.Vector3(x, y, z);
 }
 
 let lastName = '';
