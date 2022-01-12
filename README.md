@@ -14,7 +14,16 @@ Install our `beta` package from npm with:
 
 `npm install @microsoft/iot-cardboard-js@beta`
 
-Import components into your app:
+### Styles
+Import the **iot-cardboard-js** themes stylesheet at the top level of your application to get theming for cardboard components via CSS custom properties (variables).
+These variables can be edited if you'd like to change theme colors.
+
+```tsx
+import '@microsoft/iot-cardboard-js/themes.css';
+```
+
+### Importing components via named exports
+
 ``` tsx
 import {
     StandalonePropertyInspector,
@@ -24,6 +33,51 @@ import {
     //...
 } from 'iot-cardboard-js';
 ```
+
+This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.
+If, however, you only need a few modules from our library, you can instead use the direct import pattern to be more explicit about what code is imported.
+
+### Importing components via direct imports
+
+Adapters, Classes, Constants, Hooks, and Services each have their own entry point and can be imported as follows.
+
+**Adapters**: 
+```tsx
+import { AdtAdapter } from '@microsoft/iot-cardboard-js/Adapters'
+```
+
+**Classes**: 
+```tsx
+import { SearchSpan } from '@microsoft/iot-cardboard-js/Classes'
+```
+
+**Constants**: 
+```tsx
+import { IMockAdapter } from '@microsoft/iot-cardboard-js/Constants'
+```
+
+**Hooks**: 
+```tsx
+import { useGuid } from '@microsoft/iot-cardboard-js/Hooks'
+```
+
+**Services**: 
+```tsx
+import { MsalAuthService, getFileType } from '@microsoft/iot-cardboard-js/Services'
+```
+
+All Cards and Components have their own direct import path.
+
+**Cards**:
+```tsx
+import KeyValuePairCard from '@microsoft/iot-cardboard-js/Cards/KeyValuePairCard'
+```
+
+**Components**:
+```tsx
+import StandalonePropertyInspector from '@microsoft/iot-cardboard-js/Components/StandalonePropertyInspector'
+```
+
 
 ### Examples
 
