@@ -5,10 +5,15 @@ import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker, SceneVisual } from '../../Models/Classes/SceneView.types';
+import {
+    ColoredMeshItem,
+    Marker,
+    SceneVisual
+} from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { ScenesConfig } from '../../Models/Classes/3DVConfig';
+import { ScenesConfig, VisualType } from '../../Models/Classes/3DVConfig';
+import { Parser } from 'expr-eval';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -17,6 +22,7 @@ interface ADT3DViewerCardProps {
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
+    enableMeshSelection?: boolean;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -25,13 +31,18 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     sceneConfig,
     title,
     pollingInterval,
-    connectionLineColor
+    connectionLineColor,
+    enableMeshSelection
 }) => {
     const [modelUrl, setModelUrl] = useState('');
+    const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
+        []
+    );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpTile, setPopUpTitle] = useState('');
     const [popUpContent, setPopUpContent] = useState('');
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const lineId = useGuid();
     const popUpId = useGuid();
     const sceneWrapperId = useGuid();
@@ -61,6 +72,31 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
+            const tempColoredMeshItems = [];
+
+            for (const sceneVisual of sceneData.adapterResult.result.data
+                .sceneVisuals) {
+                for (const visual of sceneVisual.visuals) {
+                    switch (visual.type) {
+                        case VisualType.ColorChange: {
+                            const color = (Parser.evaluate(
+                                visual.color.expression,
+                                sceneVisual.twins
+                            ) as any) as string;
+                            for (const mesh of sceneVisual.meshIds) {
+                                const coloredMesh: ColoredMeshItem = {
+                                    meshId: mesh,
+                                    color: color
+                                };
+                                tempColoredMeshItems.push(coloredMesh);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            setColoredMeshItems(tempColoredMeshItems);
         }
     }, [sceneData.adapterResult.result]);
 
@@ -69,7 +105,12 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            if (sceneVisual) {
+            if (
+                sceneVisual &&
+                sceneVisual.visuals.find(
+                    (visual) => visual.type === VisualType.OnClickPopover
+                )
+            ) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
@@ -100,6 +141,26 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 setShowPopUp(false);
             }
         }
+
+        if (enableMeshSelection) {
+            let meshes = [...selectedMeshIds];
+            if (mesh) {
+                const selectedMesh = selectedMeshIds.find(
+                    (item) => item === mesh.id
+                );
+                if (selectedMesh) {
+                    meshes = selectedMeshIds.filter(
+                        (item) => item !== selectedMesh
+                    );
+                    setselectedMeshIds(meshes);
+                } else {
+                    meshes.push(mesh.id);
+                    setselectedMeshIds(meshes);
+                }
+            } else {
+                setselectedMeshIds([]);
+            }
+        }
     };
 
     const meshHover = (marker: Marker, mesh: any) => {
@@ -107,7 +168,12 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            if (sceneVisual) {
+            if (
+                sceneVisual &&
+                sceneVisual.visuals.find(
+                    (visual) => visual.type === VisualType.OnClickPopover
+                )
+            ) {
                 document.body.style.cursor = 'pointer';
             } else {
                 document.body.style.cursor = '';
@@ -163,7 +229,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    sceneVisuals={sceneVisuals}
+                    selectedMeshIds={selectedMeshIds}
+                    coloredMeshItems={coloredMeshItems}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }

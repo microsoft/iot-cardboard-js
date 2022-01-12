@@ -164,8 +164,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
 }) => {
     const { t } = useTranslation();
 
-    const onMeshSelected = (selectedMeshes) => {
-        console.log(selectedMeshes);
+    const onMeshSelected = (selectedMeshIds) => {
+        console.log(selectedMeshIds);
     };
 
     return (
@@ -209,8 +209,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
                                 adapter={adapter as IADTAdapter}
                                 title="3D Builder"
                                 modelUrl={scene.assets[0].url}
-                                onMeshSelected={(selectedMeshes) =>
-                                    onMeshSelected(selectedMeshes)
+                                onMeshSelected={(selectedMeshIds) =>
+                                    onMeshSelected(selectedMeshIds)
                                 }
                             />
                         </div>

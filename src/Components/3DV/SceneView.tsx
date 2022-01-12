@@ -17,10 +17,9 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { Tools } from 'babylonjs';
-import { VisualType } from '../../Models/Classes/3DVConfig';
-import { Parser } from 'expr-eval';
 
 const debug = false;
+
 async function loadPromise(
     root,
     file,
@@ -63,12 +62,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMarkerClick,
     onMarkerHover,
     onCameraMove,
-    sceneVisuals,
     showMeshesOnHover,
-    selectedMeshes,
+    selectedMeshIds,
     meshSelectionColor,
     meshHoverColor,
-    getToken
+    meshSelectionHoverColor,
+    getToken,
+    coloredMeshItems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -88,11 +88,16 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [tooltipText, setTooltipText] = useState('');
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
-    const hightlightedMeshRef = useRef<SelectedMesh>(null);
+    const highlightedMeshRef = useRef<SelectedMesh>(null);
     const selectedMeshesRef = useRef<SelectedMesh[]>([]);
+    const hovMaterial = useRef<any>(null);
+    const selMaterial = useRef<any>(null);
+    const selHovMaterial = useRef<any>(null);
+    const coloredMaterials = useRef<BABYLON.StandardMaterial[]>([]);
 
-    const hoverColor = meshHoverColor || '#96D2FE';
-    const selectionColor = meshSelectionColor || '#1EA0F7';
+    const hoverColor = meshHoverColor || '#F3FF14';
+    const selectionColor = meshSelectionColor || '#00A8F0';
+    const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
 
     const defaultMarkerHover = (
         marker: Marker,
@@ -246,7 +251,18 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
-
+            hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
+            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                hoverColor
+            );
+            selMaterial.current = new BABYLON.StandardMaterial('selected', sc);
+            selMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                selectionColor
+            );
+            selHovMaterial.current = new BABYLON.StandardMaterial('selhov', sc);
+            selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                selectedHoverColor
+            );
             new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
@@ -406,7 +422,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (
             scene &&
             onMarkerHoverRef.current &&
-            (markers || sceneVisuals || showMeshesOnHover)
+            (markers || coloredMeshItems || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
@@ -423,52 +439,63 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 let marker: Marker = null;
 
                 if (showMeshesOnHover) {
-                    if (mesh) {
+                    if (mesh?.id) {
                         // reset mesh color if hightlighted mesh does not match the picked mesh AND the picked mesh is not currently selected
                         if (
-                            hightlightedMeshRef.current &&
-                            hightlightedMeshRef.current.id !== mesh?.id
+                            highlightedMeshRef.current &&
+                            highlightedMeshRef.current.id !== mesh.id
                         ) {
                             const meshToReset = scene.meshes.find(
-                                (m) => m.id === hightlightedMeshRef.current.id
+                                (m) => m.id === highlightedMeshRef.current.id
                             );
-                            if (
-                                meshToReset &&
-                                !selectedMeshesRef.current.find(
+
+                            if (meshToReset) {
+                                const isSelected = selectedMeshesRef.current.find(
                                     (m) => m.id === meshToReset.id
-                                )
-                            ) {
-                                (meshToReset.material as any).albedoColor =
-                                    hightlightedMeshRef.current.color;
+                                );
+                                meshToReset.material = isSelected
+                                    ? selMaterial.current
+                                    : highlightedMeshRef.current.material;
                             }
-                            hightlightedMeshRef.current = null;
-                        } else if (!hightlightedMeshRef.current) {
+
+                            highlightedMeshRef.current = null;
+                        } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
-                            const selectedMesh = new SelectedMesh();
-                            selectedMesh.id = mesh.id;
-                            const m = selectedMeshesRef.current.find(
+                            let selectedMesh: SelectedMesh;
+                            const selMesh = selectedMeshesRef.current.find(
                                 (m) => m.id === mesh.id
                             );
-                            if (m) {
-                                selectedMesh.color = m.color;
+                            // If it is selected, get its original color, not its current color
+                            if (selMesh) {
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: selMesh.material
+                                };
+                                mesh.material = selHovMaterial.current;
                             } else {
-                                selectedMesh.color = (mesh.material as any).albedoColor;
-                                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                    hoverColor
-                                );
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: mesh.material
+                                };
+                                mesh.material = hovMaterial.current;
                             }
-                            hightlightedMeshRef.current = selectedMesh;
+
+                            highlightedMeshRef.current = selectedMesh;
                         }
-                    } else if (hightlightedMeshRef.current) {
+                    } else if (highlightedMeshRef.current) {
                         // reset the highlighted mesh color if no mesh is picked
                         const lastMesh = scene.meshes.find(
-                            (m) => m.id === hightlightedMeshRef.current.id
+                            (m) => m.id === highlightedMeshRef.current.id
                         );
                         if (lastMesh) {
-                            (lastMesh.material as any).albedoColor =
-                                hightlightedMeshRef.current.color;
+                            const isSelected = selectedMeshesRef.current.find(
+                                (m) => m.id === lastMesh.id
+                            );
+                            lastMesh.material = isSelected
+                                ? selMaterial.current
+                                : highlightedMeshRef.current.material;
                         }
-                        hightlightedMeshRef.current = null;
+                        highlightedMeshRef.current = null;
                     }
                 }
 
@@ -559,30 +586,30 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     }, [scene, markers]);
 
     useEffect(() => {
-        if (selectedMeshes) {
+        if (selectedMeshIds) {
             // color selected meshes
-            for (const selectedMesh of selectedMeshes) {
+            for (const selectedMeshId of selectedMeshIds) {
                 const mesh = sceneRef.current.meshes.find(
-                    (item) => item.id === selectedMesh
+                    (item) => item.id === selectedMeshId
                 );
                 if (mesh) {
                     // only color mesh if it isn't already colored
                     if (
                         !selectedMeshesRef.current.find(
-                            (m) => m.id === selectedMesh
+                            (m) => m.id === selectedMeshId
                         )
                     ) {
-                        const m = new SelectedMesh();
-                        m.id = mesh.id;
-                        if (selectedMesh !== hightlightedMeshRef.current?.id) {
-                            m.color = (mesh.material as any).albedoColor;
+                        let m: SelectedMesh;
+                        if (selectedMeshId !== highlightedMeshRef.current?.id) {
+                            m = { id: mesh.id, material: mesh.material };
                         } else {
-                            m.color = hightlightedMeshRef.current?.color;
+                            m = {
+                                id: mesh.id,
+                                material: highlightedMeshRef.current?.material
+                            };
                         }
                         selectedMeshesRef.current.push(m);
-                        (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                            selectionColor
-                        );
+                        mesh.material = selMaterial.current;
                     }
                 }
             }
@@ -590,7 +617,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             // reset mesh color if not selected
             if (selectedMeshesRef.current) {
                 const meshesToReset = selectedMeshesRef.current.filter(
-                    (m) => !selectedMeshes.includes(m.id)
+                    (m) => !selectedMeshIds.includes(m.id)
                 );
                 for (const meshToReset of meshesToReset) {
                     selectedMeshesRef.current = selectedMeshesRef.current.filter(
@@ -600,21 +627,16 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         (item) => item.id === meshToReset.id
                     );
                     if (mesh) {
-                        if (
-                            meshToReset.id === hightlightedMeshRef.current?.id
-                        ) {
-                            (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                hoverColor
-                            );
+                        if (meshToReset.id === highlightedMeshRef.current?.id) {
+                            mesh.material = hovMaterial.current;
                         } else {
-                            (mesh.material as any).albedoColor =
-                                meshToReset.color;
+                            mesh.material = meshToReset.material;
                         }
                     }
                 }
             }
         }
-    }, [selectedMeshes]);
+    }, [selectedMeshIds]);
 
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
@@ -648,47 +670,51 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene]);
 
-    // SETUP LOGIC FOR HANDLING GUI SCENE VISUALS ON THE MODEL
+    // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
         if (debug) {
             console.log(
-                'color meshes based on scene visuals' +
+                'color meshes based on coloredmeshitems prop' +
                     (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && sceneVisuals && !isLoading) {
+        if (scene && coloredMeshItems && !isLoading) {
             if (debug) {
                 console.log('coloring meshes');
             }
 
             try {
-                sceneVisuals.forEach((sceneVisual) => {
-                    sceneVisual.visuals.forEach((visual) => {
-                        if (visual.type === VisualType.ColorChange) {
-                            sceneVisual.meshIds.forEach((id) => {
-                                const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
-                                    (mesh) => mesh.id === id
-                                );
+                for (const coloredMesh of coloredMeshItems) {
+                    const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                        (mesh) => mesh.id === coloredMesh.meshId
+                    );
 
-                                const color = (Parser.evaluate(
-                                    visual.color.expression,
-                                    sceneVisual.twins
-                                ) as any) as string;
-
-                                if (color) {
-                                    (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                        color
-                                    );
-                                }
-                            });
-                        }
-                    });
-                });
+                    if (mesh) {
+                        const material = new BABYLON.StandardMaterial(
+                            'coloredMeshMaterial',
+                            sceneRef.current
+                        );
+                        material.diffuseColor = BABYLON.Color3.FromHexString(
+                            coloredMesh.color
+                        );
+                        mesh.material = material;
+                        coloredMaterials.current.push(material);
+                    }
+                }
             } catch {
                 console.log('unable to color mesh');
             }
         }
-    }, [sceneVisuals, scene, isLoading]);
+
+        return () => {
+            for (const material of coloredMaterials.current) {
+                sceneRef.current?.removeMaterial(material);
+                material.dispose(true, true);
+            }
+
+            coloredMaterials.current = [];
+        };
+    }, [coloredMeshItems]);
 
     return (
         <div className="cb-sceneview-container">

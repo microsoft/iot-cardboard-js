@@ -10,7 +10,7 @@ interface ADT3DBuilderCardProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshes: string[]) => void;
+    onMeshSelected?: (selectedMeshIds: string[]) => void;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
@@ -19,23 +19,25 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     title,
     onMeshSelected
 }) => {
-    const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
-        let meshes = [...selectedMeshes];
+        let meshes = [...selectedMeshIds];
         if (mesh) {
-            const selectedMesh = selectedMeshes.find(
+            const selectedMesh = selectedMeshIds.find(
                 (item) => item === mesh.id
             );
             if (selectedMesh) {
-                meshes = selectedMeshes.filter((item) => item !== selectedMesh);
-                setSelectedMeshes(meshes);
+                meshes = selectedMeshIds.filter(
+                    (item) => item !== selectedMesh
+                );
+                setselectedMeshIds(meshes);
             } else {
                 meshes.push(mesh.id);
-                setSelectedMeshes(meshes);
+                setselectedMeshIds(meshes);
             }
         } else {
-            setSelectedMeshes([]);
+            setselectedMeshIds([]);
         }
 
         onMeshSelected(meshes);
@@ -50,9 +52,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                         onMeshSelected && meshClick(marker, mesh)
                     }
                     showMeshesOnHover={true}
-                    selectedMeshes={selectedMeshes}
-                    meshHoverColor="#FCFF80"
-                    meshSelectionColor="#00A8F0"
+                    selectedMeshIds={selectedMeshIds}
                     getToken={
                         (adapter as any).authService
                             ? () =>
