@@ -1,3 +1,8 @@
+/* 
+    These Card exports are manually parsed in the build process to generate direct import entry points.
+    To allow regex parsing, the exports must use the following syntax:
+    export { default as <card_name> } from './<path_to_card>';
+*/
 export { default as ADTHierarchyCard } from './ADTHierarchyCard/Consume/ADTHierarchyCard';
 export { default as BaseCard } from './Base/Consume/BaseCard';
 export { default as BimViewerCard } from './BIMViewerCard/Consume/BIMViewerCard';
@@ -17,3 +22,4 @@ export { default as ADTModelListWithModelDetailsCard } from './CompositeCards/AD
 export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCard';
 export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
 export { default as ADT3DViewerCard } from './ADT3DViewerCard/ADT3DViewerCard';
+export { default as ADT3DScenePage } from './CompositeCards/ADT3DScenePage/ADT3DScenePage';

@@ -1,6 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
+import BlobAdapter from '../../Adapters/BlobAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DGlobeCard from './ADT3DGlobeCard';
 
@@ -17,10 +17,11 @@ export const Globe = () => {
             <ADT3DGlobeCard
                 title="Globe"
                 adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
+                    new BlobAdapter(
+                        authenticationParameters.storage.accountHostUrl,
+                        authenticationParameters.storage.blobPath,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.storage.aadParameters
                         )
                     )
                 }

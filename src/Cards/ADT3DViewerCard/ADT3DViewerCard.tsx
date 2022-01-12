@@ -1,39 +1,48 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import * as BABYLON from 'babylonjs';
 import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker } from '../../Models/Classes/SceneView.types';
-import { Scene } from 'babylonjs';
+import {
+    ColoredMeshItem,
+    Marker,
+    SceneVisual
+} from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
+import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
+import { ScenesConfig, VisualType } from '../../Models/Classes/3DVConfig';
+import { Parser } from 'expr-eval';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
-    twinId: string;
+    sceneId: string;
+    sceneConfig: ScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
-    cameraCenter?: BABYLON.Vector3;
-    cameraRadius?: number;
+    enableMeshSelection?: boolean;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
-    twinId,
+    sceneId,
+    sceneConfig,
     title,
     pollingInterval,
     connectionLineColor,
-    cameraCenter,
-    cameraRadius
+    enableMeshSelection
 }) => {
     const [modelUrl, setModelUrl] = useState('');
-    const [labels, setLabels] = useState([]);
+    const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
+        []
+    );
+    const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpTile, setPopUpTitle] = useState('');
     const [popUpContent, setPopUpContent] = useState('');
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const lineId = useGuid();
     const popUpId = useGuid();
     const sceneWrapperId = useGuid();
@@ -42,43 +51,66 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
 
-    const selectedMesh = useRef<BABYLON.AbstractMesh>(null);
-    const sceneRef = useRef<BABYLON.Scene>(null);
+    const selectedMesh = useRef(null);
+    const sceneRef = useRef(null);
 
-    const visualTwin = useAdapter({
-        adapterMethod: () => adapter.getVisualADTTwin(twinId),
-        refetchDependencies: [twinId],
+    const sceneData = useAdapter({
+        adapterMethod: () => adapter.getSceneData(sceneId, sceneConfig),
+        refetchDependencies: [sceneId, sceneConfig],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
 
     useEffect(() => {
         window.addEventListener('resize', setConnectionLine);
-
         return () => {
             window.removeEventListener('resize', setConnectionLine);
         };
     }, []);
 
-    function visualTwinLoaded() {
-        if (visualTwin.adapterResult.result?.data) {
-            setModelUrl(visualTwin.adapterResult.result.data.modelUrl);
-            setLabels(visualTwin.adapterResult.result.data.labels);
-        }
-    }
-
     useEffect(() => {
-        visualTwinLoaded();
-    }, [visualTwin.adapterResult.result]);
+        if (sceneData?.adapterResult?.result?.data) {
+            setModelUrl(sceneData.adapterResult.result.data.modelUrl);
+            setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
+            const tempColoredMeshItems = [];
 
-    const meshClick = (
-        marker: Marker,
-        mesh: BABYLON.AbstractMesh,
-        scene: Scene
-    ) => {
-        if (labels) {
-            const label = labels.find((label) => label.meshId === mesh?.id);
-            if (label) {
+            for (const sceneVisual of sceneData.adapterResult.result.data
+                .sceneVisuals) {
+                for (const visual of sceneVisual.visuals) {
+                    switch (visual.type) {
+                        case VisualType.ColorChange: {
+                            const color = (Parser.evaluate(
+                                visual.color.expression,
+                                sceneVisual.twins
+                            ) as any) as string;
+                            for (const mesh of sceneVisual.meshIds) {
+                                const coloredMesh: ColoredMeshItem = {
+                                    meshId: mesh,
+                                    color: color
+                                };
+                                tempColoredMeshItems.push(coloredMesh);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            setColoredMeshItems(tempColoredMeshItems);
+        }
+    }, [sceneData.adapterResult.result]);
+
+    const meshClick = (marker: Marker, mesh: any, scene: any) => {
+        if (sceneVisuals) {
+            const sceneVisual = sceneVisuals.find((sceneVisual) =>
+                sceneVisual.meshIds.find((id) => id === mesh?.id)
+            );
+            if (
+                sceneVisual &&
+                sceneVisual.visuals.find(
+                    (visual) => visual.type === VisualType.OnClickPopover
+                )
+            ) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
@@ -89,8 +121,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTitle(label.metric);
-                    setPopUpContent(label.value);
+                    setPopUpTitle('Visuals JSON');
+                    setPopUpContent(JSON.stringify(sceneVisual.visuals));
                     setShowPopUp(true);
 
                     if (resetPopUpPosition) {
@@ -109,12 +141,39 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 setShowPopUp(false);
             }
         }
+
+        if (enableMeshSelection) {
+            let meshes = [...selectedMeshIds];
+            if (mesh) {
+                const selectedMesh = selectedMeshIds.find(
+                    (item) => item === mesh.id
+                );
+                if (selectedMesh) {
+                    meshes = selectedMeshIds.filter(
+                        (item) => item !== selectedMesh
+                    );
+                    setselectedMeshIds(meshes);
+                } else {
+                    meshes.push(mesh.id);
+                    setselectedMeshIds(meshes);
+                }
+            } else {
+                setselectedMeshIds([]);
+            }
+        }
     };
 
     const meshHover = (marker: Marker, mesh: any) => {
-        if (mesh) {
-            const label = labels.find((label) => label.meshId === mesh.id);
-            if (label) {
+        if (mesh && sceneVisuals) {
+            const sceneVisual = sceneVisuals.find((sceneVisual) =>
+                sceneVisual.meshIds.find((id) => id === mesh?.id)
+            );
+            if (
+                sceneVisual &&
+                sceneVisual.visuals.find(
+                    (visual) => visual.type === VisualType.OnClickPopover
+                )
+            ) {
                 document.body.style.cursor = 'pointer';
             } else {
                 document.body.style.cursor = '';
@@ -128,9 +187,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     function setConnectionLine() {
         if (selectedMesh.current) {
-            const position = getMeshPosition(
+            const sceneWrapper = document.getElementById(sceneWrapperId);
+            const position = getMeshCenter(
                 selectedMesh.current,
-                sceneRef.current
+                sceneRef.current,
+                sceneWrapper
             );
             const container = document.getElementById(popUpContainerId);
             if (container) {
@@ -151,33 +212,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
         }
     }
 
-    function getMeshPosition(mesh: BABYLON.AbstractMesh, scene: BABYLON.Scene) {
-        const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
-        const worldMatrix = mesh.getWorldMatrix();
-        const transformMatrix = scene.getTransformMatrix();
-        const viewport = scene.activeCamera?.viewport;
-
-        const sceneWrapper = document.getElementById(sceneWrapperId);
-        const coordinates = meshVectors.map((v) => {
-            const proj = BABYLON.Vector3.Project(
-                v,
-                worldMatrix,
-                transformMatrix,
-                viewport
-            );
-            proj.x = proj.x * sceneWrapper.clientWidth;
-            proj.y = proj.y * sceneWrapper.clientHeight;
-            return proj;
-        });
-
-        const maxX = Math.max(...coordinates.map((p) => p.x));
-        const minX = Math.min(...coordinates.map((p) => p.x));
-        const maxY = Math.max(...coordinates.map((p) => p.y));
-        const minY = Math.min(...coordinates.map((p) => p.y));
-
-        return [(maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY];
-    }
-
     function setPopUpPosition(e, data) {
         popUpX.current += data.deltaX;
         popUpY.current += data.deltaY;
@@ -187,22 +221,29 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     return (
         <BaseCard
             isLoading={
-                visualTwin.isLoading && visualTwin.adapterResult.hasNoData()
+                sceneData.isLoading && sceneData.adapterResult.hasNoData()
             }
-            adapterResult={visualTwin.adapterResult}
+            adapterResult={sceneData.adapterResult}
             title={title}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    labels={labels}
-                    cameraRadius={cameraRadius}
-                    cameraCenter={cameraCenter}
+                    selectedMeshIds={selectedMeshIds}
+                    coloredMeshItems={coloredMeshItems}
                     onMarkerClick={(marker, mesh, scene) =>
                         meshClick(marker, mesh, scene)
                     }
                     onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
                     onCameraMove={() => cameraMoved()}
+                    getToken={
+                        (adapter as any).authService
+                            ? () =>
+                                  (adapter as any).authService.getToken(
+                                      'storage'
+                                  )
+                            : undefined
+                    }
                 />
                 {showPopUp && (
                     <div

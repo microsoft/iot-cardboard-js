@@ -1,10 +1,8 @@
 import React from 'react';
 import { BaseCardCreateProps } from './BaseCardCreate.types';
 import './BaseCardCreate.scss';
-import { ThemeProvider } from '../../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
-import I18nProviderWrapper from '../../../Models/Classes/I18NProviderWrapper';
-import i18n from '../../../i18n';
+import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 
 const BaseCard: React.FC<BaseCardCreateProps> = ({
     form,
@@ -16,26 +14,22 @@ const BaseCard: React.FC<BaseCardCreateProps> = ({
 }) => {
     const { t } = useTranslation();
     return (
-        <I18nProviderWrapper
+        <BaseComponent
             locale={locale}
             localeStrings={localeStrings}
-            i18n={i18n}
+            theme={theme}
         >
-            <ThemeProvider theme={theme}>
-                <div className="cb-base-card-create">
-                    <h3 className="cb-base-card-create-title">{title}</h3>
-                    <div className="cb-base-card-create-content">
-                        <div className="cb-form">{form}</div>
-                        <div className="cb-preview">
-                            <div className="cb-preview-title">
-                                {t('preview')}
-                            </div>
-                            <div className="cb-preview-card">{preview}</div>
-                        </div>
+            <div className="cb-base-card-create">
+                <h3 className="cb-base-card-create-title">{title}</h3>
+                <div className="cb-base-card-create-content">
+                    <div className="cb-form">{form}</div>
+                    <div className="cb-preview">
+                        <div className="cb-preview-title">{t('preview')}</div>
+                        <div className="cb-preview-card">{preview}</div>
                     </div>
                 </div>
-            </ThemeProvider>
-        </I18nProviderWrapper>
+            </div>
+        </BaseComponent>
     );
 };
 

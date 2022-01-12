@@ -1,0 +1,56 @@
+@import '../../../Resources/Styles/BaseStyles';
+
+.cb-scene-page-container {
+    height: 100%;
+    min-height: 600px;
+    width: 100%;
+
+    .cb-base-composite-card {
+        background: transparent;
+    }
+
+    .cb-scene-page-scene-list-container {
+        margin: -20px 0 0 -20px;
+    }
+
+    .cb-base-composite-card-item:last-child {
+        flex-grow: 1;
+    }
+
+    .cb-scene-page-scene-list-container {
+        height: 600px;
+    }
+
+    .cb-scene-page-action-button {
+        margin-top: 20px;
+    }
+
+    .cb-scene-page-view-button {
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+
+    .cb-scene-view-twin-bindings {
+        background-color: var(--cb-color-bg-card);
+        height: 600px;
+        width: 300px;
+    }
+
+    .cb-scene-view-builder {
+        height: 600px;
+    }
+    .cb-scene-view-viewer {
+        animation: 0.8s expand-out ease-in-out;
+        height: 600px;
+    }
+
+    @keyframes expand-out {
+        0% {
+            margin-left: 320px;
+            width: calc(100% - 320px);
+        }
+        100% {
+            width: calc(100%);
+        }
+    }
+}

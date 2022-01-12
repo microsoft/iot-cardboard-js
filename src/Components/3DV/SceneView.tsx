@@ -4,24 +4,22 @@ import * as GUI from 'babylonjs-gui';
 import { ProgressIndicator } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
-import {
-    convertLatLonToVector3,
-    measureText,
-    createGUID
-} from '../../Models/Services/Utils';
+import { createGUID } from '../../Models/Services/Utils';
 import {
     ISceneViewProp,
-    SceneViewLabel,
     Marker,
-    SceneViewCallbackHandler
+    SceneViewCallbackHandler,
+    SelectedMesh
 } from '../../Models/Classes/SceneView.types';
 import {
     Scene_Marker,
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
+import { Tools } from 'babylonjs';
 
 const debug = false;
+
 async function loadPromise(
     root,
     file,
@@ -43,30 +41,46 @@ async function loadPromise(
     });
 }
 
+function convertLatLonToVector3(
+    latitude: number,
+    longitude: number,
+    earthRadius = 50
+): BABYLON.Vector3 {
+    const latitude_rad = (latitude * Math.PI) / 180;
+    const longitude_rad = (longitude * Math.PI) / 180;
+    const x = earthRadius * Math.cos(latitude_rad) * Math.cos(longitude_rad);
+    const z = earthRadius * Math.cos(latitude_rad) * Math.sin(longitude_rad);
+    const y = earthRadius * Math.sin(latitude_rad);
+    return new BABYLON.Vector3(x, y, z);
+}
+
 let lastName = '';
 
 export const SceneView: React.FC<ISceneViewProp> = ({
     modelUrl,
-    cameraRadius,
-    cameraCenter,
     markers,
     onMarkerClick,
     onMarkerHover,
     onCameraMove,
-    labels,
-    children
+    showMeshesOnHover,
+    selectedMeshIds,
+    meshSelectionColor,
+    meshHoverColor,
+    meshSelectionHoverColor,
+    getToken,
+    coloredMeshItems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
-    const oldLabelsRef = useRef<SceneViewLabel[]>(undefined);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
     const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
     const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
+    const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
     const engineRef = useRef<BABYLON.Engine>(null);
-    const cameraRef = useRef<BABYLON.Camera>(null);
+    const cameraRef = useRef<BABYLON.ArcRotateCamera>(null);
     const lastMeshRef = useRef<BABYLON.AbstractMesh>(null);
     const lastMarkerRef = useRef<Marker>(null);
     const modelUrlRef = useRef('blank');
@@ -74,6 +88,16 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [tooltipText, setTooltipText] = useState('');
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
+    const highlightedMeshRef = useRef<SelectedMesh>(null);
+    const selectedMeshesRef = useRef<SelectedMesh[]>([]);
+    const hovMaterial = useRef<any>(null);
+    const selMaterial = useRef<any>(null);
+    const selHovMaterial = useRef<any>(null);
+    const coloredMaterials = useRef<BABYLON.StandardMaterial[]>([]);
+
+    const hoverColor = meshHoverColor || '#F3FF14';
+    const selectionColor = meshSelectionColor || '#00A8F0';
+    const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
 
     const defaultMarkerHover = (
         marker: Marker,
@@ -109,8 +133,25 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             console.log('**************init');
         }
 
-        async function load(root: string, file: string, sc: BABYLON.Scene) {
+        //TODO: load this private blob by getting token and using proxy for blob service REST API
+        async function load(
+            getToken: () => Promise<string>,
+            root: string,
+            file: string,
+            sc: BABYLON.Scene
+        ) {
             let success = true;
+            if (getToken) {
+                const token = await getToken();
+                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
+                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
+                Tools.UseCustomRequestHeaders = true;
+            } else {
+                delete Tools.CustomRequestHeaders.Authorization;
+                delete Tools.CustomRequestHeaders['x-ms-version'];
+                Tools.UseCustomRequestHeaders = false;
+            }
+
             const assets = await loadPromise(
                 root,
                 file,
@@ -125,8 +166,71 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
+                createCamera();
+                advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
+                    'UI'
+                );
                 setIsLoading(false);
             }
+        }
+
+        function createCamera() {
+            for (const mesh of sceneRef.current.meshes) {
+                mesh.computeWorldMatrix(true);
+            }
+
+            if (sceneRef.current.meshes) {
+                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
+                someMeshFromTheArrayOfMeshes.setBoundingInfo(
+                    totalBoundingInfo(sceneRef.current.meshes)
+                );
+                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+
+                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.extendSize;
+                const es_scaled = es.scale(3);
+                const width = es_scaled.x;
+                const height = es_scaled.y;
+                const depth = es_scaled.z;
+
+                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.centerWorld;
+
+                const canvas = document.getElementById(
+                    canvasId
+                ) as HTMLCanvasElement;
+
+                const camera = new BABYLON.ArcRotateCamera(
+                    'camera',
+                    0,
+                    Math.PI / 2.5,
+                    Math.max(width, height, depth),
+                    center,
+                    sceneRef.current
+                );
+
+                camera.attachControl(canvas, false);
+                cameraRef.current = camera;
+            }
+        }
+
+        function totalBoundingInfo(meshes) {
+            let boundingInfo = meshes[0].getBoundingInfo();
+            let min = boundingInfo.boundingBox.minimumWorld;
+            let max = boundingInfo.boundingBox.maximumWorld;
+
+            for (const mesh of meshes) {
+                boundingInfo = mesh.getBoundingInfo();
+                min = BABYLON.Vector3.Minimize(
+                    min,
+                    boundingInfo.boundingBox.minimumWorld
+                );
+                max = BABYLON.Vector3.Maximize(
+                    max,
+                    boundingInfo.boundingBox.maximumWorld
+                );
+            }
+            return new BABYLON.BoundingInfo(min, max);
         }
 
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
@@ -147,19 +251,18 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(255, 255, 255, 0);
-            const center = cameraCenter || new BABYLON.Vector3(0, 0, 0);
-            const camera = new BABYLON.ArcRotateCamera(
-                'camera',
-                0,
-                Math.PI / 2.5,
-                cameraRadius,
-                center,
-                sc,
-                true
+            hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
+            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                hoverColor
             );
-            cameraRef.current = camera;
-            camera.attachControl(canvas, false);
-
+            selMaterial.current = new BABYLON.StandardMaterial('selected', sc);
+            selMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                selectionColor
+            );
+            selHovMaterial.current = new BABYLON.StandardMaterial('selhov', sc);
+            selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                selectedHoverColor
+            );
             new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
@@ -189,17 +292,19 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 const n = url.lastIndexOf('/') + 1;
-                load(url.substring(0, n), url.substring(n), sc);
+                load(getToken, url.substring(0, n), url.substring(n), sc);
             }
 
             // Register a render loop to repeatedly render the scene
             engine.runRenderLoop(() => {
-                sc.render();
+                if (cameraRef.current) {
+                    sc.render();
+                }
             });
         }
 
         return sceneRef.current;
-    }, [cameraCenter, cameraRadius, canvasId, modelUrl]);
+    }, [canvasId, modelUrl]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
@@ -225,11 +330,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 engineRef.current.resize();
             };
 
-            oldLabelsRef.current = null;
             sceneRef.current = null;
+            cameraRef.current = null;
             window.removeEventListener('resize', resize);
         };
-    }, []);
+    }, [modelUrl]);
 
     useEffect(() => {
         if (engineRef.current) {
@@ -260,8 +365,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                const c = marker.color;
-                sphereMaterial.diffuseColor = new BABYLON.Color3(c.r, c.g, c.b);
+                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
+                    marker.color.r,
+                    marker.color.g,
+                    marker.color.b
+                );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
                     16,
@@ -281,7 +389,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
-                sphereMaterial.diffuseColor = new BABYLON.Color3(c.r, c.g, c.b);
+                sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
+                    marker.color.r,
+                    marker.color.g,
+                    marker.color.b
+                );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
@@ -301,7 +413,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 sphere.dispose(true, true);
             }
         };
-    }, [markers]);
+    }, [markers, modelUrl]);
 
     // SETUP LOGIC FOR onMarkerHover
     useEffect(() => {
@@ -311,7 +423,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         if (
             scene &&
             onMarkerHoverRef.current &&
-            (markers || children || labels)
+            (markers || coloredMeshItems || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
                 p = scene.pick(
@@ -326,6 +438,67 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
                 let marker: Marker = null;
+
+                if (showMeshesOnHover) {
+                    if (mesh?.id) {
+                        // reset mesh color if hightlighted mesh does not match the picked mesh AND the picked mesh is not currently selected
+                        if (
+                            highlightedMeshRef.current &&
+                            highlightedMeshRef.current.id !== mesh.id
+                        ) {
+                            const meshToReset = scene.meshes.find(
+                                (m) => m.id === highlightedMeshRef.current.id
+                            );
+
+                            if (meshToReset) {
+                                const isSelected = selectedMeshesRef.current.find(
+                                    (m) => m.id === meshToReset.id
+                                );
+                                meshToReset.material = isSelected
+                                    ? selMaterial.current
+                                    : highlightedMeshRef.current.material;
+                            }
+
+                            highlightedMeshRef.current = null;
+                        } else if (!highlightedMeshRef.current) {
+                            // highlight the mesh
+                            let selectedMesh: SelectedMesh;
+                            const selMesh = selectedMeshesRef.current.find(
+                                (m) => m.id === mesh.id
+                            );
+                            // If it is selected, get its original color, not its current color
+                            if (selMesh) {
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: selMesh.material
+                                };
+                                mesh.material = selHovMaterial.current;
+                            } else {
+                                selectedMesh = {
+                                    id: mesh.id,
+                                    material: mesh.material
+                                };
+                                mesh.material = hovMaterial.current;
+                            }
+
+                            highlightedMeshRef.current = selectedMesh;
+                        }
+                    } else if (highlightedMeshRef.current) {
+                        // reset the highlighted mesh color if no mesh is picked
+                        const lastMesh = scene.meshes.find(
+                            (m) => m.id === highlightedMeshRef.current.id
+                        );
+                        if (lastMesh) {
+                            const isSelected = selectedMeshesRef.current.find(
+                                (m) => m.id === lastMesh.id
+                            );
+                            lastMesh.material = isSelected
+                                ? selMaterial.current
+                                : highlightedMeshRef.current.material;
+                        }
+                        highlightedMeshRef.current = null;
+                    }
+                }
 
                 if (
                     mesh?.name &&
@@ -360,7 +533,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers, children]);
+    }, [scene, markers]);
 
     // SETUP LOGIC FOR onMarkerClick
     useEffect(() => {
@@ -414,10 +587,63 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     }, [scene, markers]);
 
     useEffect(() => {
+        if (selectedMeshIds) {
+            // color selected meshes
+            for (const selectedMeshId of selectedMeshIds) {
+                const mesh = sceneRef.current.meshes.find(
+                    (item) => item.id === selectedMeshId
+                );
+                if (mesh) {
+                    // only color mesh if it isn't already colored
+                    if (
+                        !selectedMeshesRef.current.find(
+                            (m) => m.id === selectedMeshId
+                        )
+                    ) {
+                        let m: SelectedMesh;
+                        if (selectedMeshId !== highlightedMeshRef.current?.id) {
+                            m = { id: mesh.id, material: mesh.material };
+                        } else {
+                            m = {
+                                id: mesh.id,
+                                material: highlightedMeshRef.current?.material
+                            };
+                        }
+                        selectedMeshesRef.current.push(m);
+                        mesh.material = selMaterial.current;
+                    }
+                }
+            }
+
+            // reset mesh color if not selected
+            if (selectedMeshesRef.current) {
+                const meshesToReset = selectedMeshesRef.current.filter(
+                    (m) => !selectedMeshIds.includes(m.id)
+                );
+                for (const meshToReset of meshesToReset) {
+                    selectedMeshesRef.current = selectedMeshesRef.current.filter(
+                        (m) => m !== meshToReset
+                    );
+                    const mesh = sceneRef.current.meshes.find(
+                        (item) => item.id === meshToReset.id
+                    );
+                    if (mesh) {
+                        if (meshToReset.id === highlightedMeshRef.current?.id) {
+                            mesh.material = hovMaterial.current;
+                        } else {
+                            mesh.material = meshToReset.material;
+                        }
+                    }
+                }
+            }
+        }
+    }, [selectedMeshIds]);
+
+    useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
+                'pointerMove effect' + (scene ? ' with scene' : ' no scene')
             );
         }
         if (scene && onCameraMoveRef.current) {
@@ -445,90 +671,51 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene]);
 
-    // SETUP LOGIC FOR HANDLING GUI LABELS ON THE MODEL
+    // SETUP LOGIC FOR HANDLING COLORING MESHES
     useEffect(() => {
-        function labelsChanged() {
-            if (labels && oldLabelsRef.current) {
-                return (
-                    JSON.stringify(labels) !==
-                    JSON.stringify(oldLabelsRef.current)
-                );
-            }
-
-            return true;
-        }
-
         if (debug) {
             console.log(
-                'labels effect' + (scene ? ' with scene' : ' no scene')
+                'color meshes based on coloredmeshitems prop' +
+                    (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && labelsChanged() && labels && !isLoading) {
+        if (scene && coloredMeshItems && !isLoading) {
             if (debug) {
-                console.log('labels updating');
+                console.log('coloring meshes');
             }
-            let advancedTexture: any = null;
-            const rects: GUI.Rectangle[] = [];
+
             try {
-                advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
-                );
-                labels.forEach((item) => {
-                    const targetMesh = scene?.meshes?.find(
-                        (mesh) => mesh.id === item.meshId
+                for (const coloredMesh of coloredMeshItems) {
+                    const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                        (mesh) => mesh.id === coloredMesh.meshId
                     );
-                    if (targetMesh) {
-                        if (debug) {
-                            console.log('found label mesh');
-                        }
-                        const text1 = item.metric;
-                        const text2 = item.value.toFixed(5);
-                        const text = `${text1}\n\n${text2}`;
-                        const w = measureText(
-                            text1.length > text2.length ? text1 : text2,
-                            25
-                        );
-                        const rect = new GUI.Rectangle();
-                        rect.width = w + 'px';
-                        rect.height = '100px';
-                        rect.cornerRadius = 10;
-                        rect.color = 'white';
-                        rect.thickness = 1;
-                        rect.background = 'rgba(22, 27, 154, 0.5)';
-                        rects.push(rect);
 
-                        const label = new GUI.TextBlock();
-                        label.color = item.color || 'white';
-                        label.text = text;
-                        // rect.addControl(label);
-                        // advancedTexture.addControl(rect);
-                        // rect.linkWithMesh(targetMesh);
-                        if (item.color) {
-                            (targetMesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                                item.color
-                            );
-                        }
-                        oldLabelsRef.current = labels;
+                    if (mesh) {
+                        const material = new BABYLON.StandardMaterial(
+                            'coloredMeshMaterial',
+                            sceneRef.current
+                        );
+                        material.diffuseColor = BABYLON.Color3.FromHexString(
+                            coloredMesh.color
+                        );
+                        mesh.material = material;
+                        coloredMaterials.current.push(material);
                     }
-                });
+                }
             } catch {
-                console.log('unable to create labels');
+                console.log('unable to color mesh');
+            }
+        }
+
+        return () => {
+            for (const material of coloredMaterials.current) {
+                sceneRef.current?.removeMaterial(material);
+                material.dispose(true, true);
             }
 
-            return () => {
-                if (debug) {
-                    console.log('labels effect cleanup');
-                }
-
-                if (advancedTexture) {
-                    for (const rect of rects) {
-                        advancedTexture.removeControl(rect);
-                    }
-                    oldLabelsRef.current = undefined;
-                }
-            };
-        }
-    }, [labels, scene, isLoading]);
+            coloredMaterials.current = [];
+        };
+    }, [coloredMeshItems]);
 
     return (
         <div className="cb-sceneview-container">

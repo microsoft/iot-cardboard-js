@@ -1,5 +1,5 @@
 import i18n from '../../i18n';
-import { CardErrorType, ICardError } from '../Constants';
+import { ComponentErrorType, IComponentError } from '../Constants';
 
 class CancelledPromiseError extends Error {
     constructor(m = 'Promise cancelled.') {
@@ -11,35 +11,35 @@ class CancelledPromiseError extends Error {
     }
 }
 
-class CardError extends Error {
+class ComponentError extends Error implements IComponentError {
     public type;
     public isCatastrophic;
     public rawError;
     public messageParams: { [key: string]: string };
 
-    private getCardErrorNameFromType = (errorType: CardErrorType) => {
+    private getComponentErrorNameFromType = (errorType: ComponentErrorType) => {
         switch (errorType) {
-            case CardErrorType.TokenRetrievalFailed:
+            case ComponentErrorType.TokenRetrievalFailed:
                 return i18n.t('adapterErrors.tokenFailed');
-            case CardErrorType.DataFetchFailed:
+            case ComponentErrorType.DataFetchFailed:
                 return i18n.t('adapterErrors.dataFetchFailed');
-            case CardErrorType.DataUploadFailed:
+            case ComponentErrorType.DataUploadFailed:
                 return i18n.t('adapterErrors.dataUploadFailed');
-            case CardErrorType.InvalidCardType:
+            case ComponentErrorType.InvalidCardType:
                 return i18n.t('boardErrors.invalidCardType');
-            case CardErrorType.ErrorBoundary:
+            case ComponentErrorType.ErrorBoundary:
                 return i18n.t('errors.errorBoundary');
             default:
                 return i18n.t('errors.unkownError');
         }
     };
 
-    private getCardErrorMessageFromType = (
-        errorType: CardErrorType,
+    private getComponentErrorMessageFromType = (
+        errorType: ComponentErrorType,
         messageParams: { [key: string]: string }
     ) => {
         switch (errorType) {
-            case CardErrorType.InvalidCardType:
+            case ComponentErrorType.InvalidCardType:
                 return i18n.t(
                     'boardErrors.invalidCardTypeMessage',
                     messageParams
@@ -52,23 +52,23 @@ class CardError extends Error {
     constructor({
         name,
         message,
-        type = CardErrorType.UnknownError,
+        type = ComponentErrorType.UnknownError,
         isCatastrophic = false,
         rawError = null,
         messageParams = {}
-    }: ICardError) {
+    }: IComponentError) {
         super(message);
-        this.name = name ? name : this.getCardErrorNameFromType(type);
+        this.name = name ? name : this.getComponentErrorNameFromType(type);
         this.message = message
             ? message
-            : this.getCardErrorMessageFromType(type, messageParams);
+            : this.getComponentErrorMessageFromType(type, messageParams);
         this.type = type;
         this.isCatastrophic = isCatastrophic;
         this.rawError = rawError;
         this.messageParams = messageParams;
 
-        Object.setPrototypeOf(this, CardError.prototype);
+        Object.setPrototypeOf(this, ComponentError.prototype);
     }
 }
 
-export { CancelledPromiseError, CardError };
+export { CancelledPromiseError, ComponentError };

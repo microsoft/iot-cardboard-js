@@ -14,7 +14,7 @@ export enum Locale {
     DE = 'de'
 }
 
-export enum CardErrorType {
+export enum ComponentErrorType {
     TokenRetrievalFailed = 'TokenRetrievalFailed',
     DataFetchFailed = 'DataFetchFailed',
     DataUploadFailed = 'DataUploadFailed',
@@ -103,4 +103,15 @@ export enum ModelAuthoringSteps {
     SelectType,
     Review,
     Publish
+}
+
+export enum ADT3DScenePageSteps {
+    Globe,
+    SceneTwinList,
+    TwinBindingsWithScene
+}
+
+export enum ADT3DSceneBuilderModes {
+    BuildScene = 'adt-3d-scene-builder-mode-build',
+    ViewScene = 'adt-3d-scene-builder-mode-view'
 }

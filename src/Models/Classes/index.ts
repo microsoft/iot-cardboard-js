@@ -18,5 +18,5 @@ export { default as I18nProviderWrapper } from './I18NProviderWrapper';
 export { SearchSpan } from './SearchSpan';
 export { default as BoardInfo } from './BoardInfo';
 export { default as CardInfo } from './CardInfo';
-export { CardError, CancelledPromiseError } from './Errors';
+export { ComponentError, CancelledPromiseError } from './Errors';
 export { default as AssetSimulation } from './Simulations/AssetSimulation';

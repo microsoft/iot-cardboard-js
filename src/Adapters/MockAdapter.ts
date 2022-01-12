@@ -6,7 +6,7 @@ import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { CardError } from '../Models/Classes/Errors';
+import { ComponentError } from '../Models/Classes/Errors';
 import { ADTRelationshipsData } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
@@ -15,27 +15,43 @@ import {
     IKeyValuePairAdapter,
     IMockAdapter,
     ITsiClientChartDataAdapter
+} from '../Models/Constants/Interfaces';
+import {
+    IBlobAdapter,
+    IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
-import { IGetKeyValuePairsAdditionalParameters } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
     ADTRelationship,
     KeyValuePairData,
     TsiClientData
 } from '../Models/Constants/Types';
-import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
-import { SceneViewLabel } from '../Models/Classes/SceneView.types';
+import { SceneVisual } from '../Models/Classes/SceneView.types';
+import { mockVConfig } from './__mockData__/vconfigDecFinal';
+import {
+    ScenesConfig,
+    Scene,
+    Visual,
+    VisualType,
+    Color
+} from '../Models/Classes/3DVConfig';
+import { TaJson } from 'ta-json';
+import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
+import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
+import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
         IADT3DViewerAdapter,
         ITsiClientChartDataAdapter,
+        IBlobAdapter,
         Partial<IADTAdapter> {
     private mockData = null;
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
+    private scenesConfig;
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -63,7 +79,7 @@ export default class MockAdapter
 
         // throw error if mock error type passed into adapter
         if (this.mockError) {
-            throw new CardError({
+            throw new ComponentError({
                 isCatastrophic: true,
                 type: this.mockError,
                 rawError: new Error('Mock error message')
@@ -210,6 +226,100 @@ export default class MockAdapter
         }
     }
 
+    async getScenesConfig() {
+        try {
+            let scenesConfig = this.scenesConfig;
+            if (!scenesConfig) {
+                scenesConfig = TaJson.parse<ScenesConfig>(
+                    JSON.stringify(mockVConfig),
+                    ScenesConfig
+                );
+            }
+            await this.mockNetwork();
+
+            return new AdapterResult<ADTScenesConfigData>({
+                result: new ADTScenesConfigData(scenesConfig),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTScenesConfigData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async addScene(config: ScenesConfig, scene: Scene) {
+        try {
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes.push(scene);
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(scene),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
+        try {
+            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
+                (s) => s.id === sceneId
+            );
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes[sceneIndex] = scene;
+            this.scenesConfig = TaJson.parse<ScenesConfig>(
+                JSON.stringify(updatedConfig),
+                ScenesConfig
+            );
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(scene),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async deleteScene(config: ScenesConfig, sceneId: string) {
+        try {
+            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
+                (s) => s.id === sceneId
+            );
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.scenes.splice(sceneIndex, 1);
+
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTSceneData(
+                    config.viewerConfiguration.scenes[sceneIndex]
+                ),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getTsiclientChartDataShape(
         _id: string,
         searchSpan: SearchSpan,
@@ -234,27 +344,28 @@ export default class MockAdapter
         });
     }
 
-    async getVisualADTTwin(twinId: string) {
+    async getSceneData(_sceneId: string, _config: ScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
-            const label1 = new SceneViewLabel();
-            label1.color = '#FF0000';
-            label1.meshId = 'Model_primitive1';
-            label1.metric = `${twinId} Temperature`;
-            label1.value = 45;
-            const label2 = new SceneViewLabel();
-            label2.color = '#FFFF00';
-            label2.meshId = 'Model_primitive2';
-            label2.metric = `${twinId} Pressure`;
-            label2.value = 43;
-            const labels = [label1, label2];
-            return labels;
+            const visual = new Visual();
+            visual.type = VisualType.ColorChange;
+            const color = new Color();
+            color.expression =
+                'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"';
+            visual.color = color;
+            const sceneVisual = new SceneVisual(
+                ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
+                [visual],
+                { primaryTwin: { value: 10 } }
+            );
+            const sceneVisuals = [sceneVisual];
+            return sceneVisuals;
         };
         await this.mockNetwork();
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            return new ADTVisualTwinData(
-                'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/factory/4992245be3164456a07d1b237c24f016.gltf',
+            return new ADT3DViewerData(
+                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf', //3d file with public access which does not require authentication to read
                 getData()
             );
         });

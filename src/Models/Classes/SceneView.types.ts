@@ -1,15 +1,21 @@
-import { Vector3, Color3, AbstractMesh, Scene } from 'babylonjs';
+import * as BABYLON from 'babylonjs';
+import { AbstractMesh, Material } from 'babylonjs';
+import { Scene, Visual } from './3DVConfig';
 
-export class SceneViewLabel {
-    metric: string;
-    value: number;
-    meshId: string;
-    color: string;
+export class SceneVisual {
+    meshIds: string[];
+    visuals: Visual[];
+    twins: any;
+    constructor(meshIds: string[], visuals: Visual[], twins: any) {
+        this.meshIds = meshIds;
+        this.visuals = visuals;
+        this.twins = twins;
+    }
 }
 
-export class SelectedMesh {
+export interface SelectedMesh {
     id: string;
-    color: Color3;
+    material: Material;
 }
 
 export class Marker {
@@ -18,28 +24,32 @@ export class Marker {
     longitude?: number;
     color: { r: number; g: number; b: number; a?: number };
     isNav?: boolean;
-}
-
-export class ChildTwin {
-    name: string;
-    position: string;
+    scene?: Scene;
 }
 
 export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
-    scene: Scene,
+    scene: BABYLON.Scene,
     e: PointerEvent
 ) => void;
 
+export interface ColoredMeshItem {
+    meshId: string;
+    color: string;
+}
+
 export interface ISceneViewProp {
     modelUrl: string;
-    cameraRadius: number;
-    cameraCenter?: Vector3;
     markers?: Marker[];
     onMarkerClick?: SceneViewCallbackHandler;
     onMarkerHover?: SceneViewCallbackHandler;
     onCameraMove?: SceneViewCallbackHandler;
-    labels?: SceneViewLabel[];
-    children?: ChildTwin[];
+    selectedMeshIds?: string[];
+    showMeshesOnHover?: boolean;
+    meshSelectionColor?: string;
+    meshHoverColor?: string;
+    meshSelectionHoverColor?: string;
+    getToken?: () => Promise<string>;
+    coloredMeshItems?: ColoredMeshItem[];
 }

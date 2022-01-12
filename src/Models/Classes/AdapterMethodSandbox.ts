@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    ICardError,
-    CardErrorType,
+    IComponentError,
+    ComponentErrorType,
     AxiosParams,
     IAdapterData,
     IAuthService,
     ICancellablePromise
 } from '../Constants';
 import AdapterResult from './AdapterResult';
-import { CardError } from './Errors';
+import { ComponentError } from './Errors';
 
 /** Utility class which creates sandbox environment for adapter data fetching.
  *
@@ -19,8 +19,8 @@ import { CardError } from './Errors';
  * • Catches, classifies, and aggregates errors
  */
 class AdapterMethodSandbox {
-    private errors: ICardError[];
-    private catasrophicError: ICardError;
+    private errors: IComponentError[];
+    private catasrophicError: IComponentError;
     private authService: IAuthService;
 
     constructor(authservice?: IAuthService) {
@@ -30,11 +30,11 @@ class AdapterMethodSandbox {
     }
 
     /**
-     *  Pushes new CardError onto errors list.  If error is marked as catastrophic,
+     *  Pushes new ComponentError onto errors list.  If error is marked as catastrophic,
      *  execution will halt with catastrophic error attached to result
      */
-    pushError({ rawError, message, type, isCatastrophic }: ICardError) {
-        const error = new CardError({
+    pushError({ rawError, message, type, isCatastrophic }: IComponentError) {
+        const error = new ComponentError({
             message,
             type,
             isCatastrophic,
@@ -53,7 +53,9 @@ class AdapterMethodSandbox {
      * Fetch token wrapped in try / catch block.  If token fetch fails, will attach
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
-    private async safelyFetchToken(tokenFor?: 'azureManagement' | 'adx') {
+    private async safelyFetchToken(
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+    ) {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
             return null;
@@ -68,7 +70,7 @@ class AdapterMethodSandbox {
         } catch (err) {
             this.pushError({
                 isCatastrophic: true,
-                type: CardErrorType.TokenRetrievalFailed,
+                type: ComponentErrorType.TokenRetrievalFailed,
                 rawError: err
             });
         }
@@ -87,7 +89,7 @@ class AdapterMethodSandbox {
      *  */
     async safelyFetchData<T extends IAdapterData>(
         fetchDataWithToken: (token?: string) => Promise<T>,
-        tokenFor?: 'azureManagement' | 'adx'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
     ) {
         try {
             // Fetch token
@@ -104,17 +106,17 @@ class AdapterMethodSandbox {
             });
         } catch (err) {
             // Uncaught errors are bubbled up and caught here.
-            if (!(err instanceof CardError)) {
+            if (!(err instanceof ComponentError)) {
                 // Unknown error, construct new catastrophicError error
-                this.catasrophicError = new CardError({
+                this.catasrophicError = new ComponentError({
                     isCatastrophic: true,
                     rawError: err,
-                    type: CardErrorType.UnknownError
+                    type: ComponentErrorType.UnknownError
                 });
 
                 this.errors.push(this.catasrophicError);
             } else if (!this.catasrophicError) {
-                // Uncaught CardError thrown explicitly (not pushed to sandbox).  Attach to catastrophicError.
+                // Uncaught ComponentError thrown explicitly (not pushed to sandbox).  Attach to catastrophicError.
                 this.catasrophicError = err;
             }
             // Attach errorInfo, nullify result, and return AdapterResult.
@@ -151,13 +153,13 @@ class AdapterMethodSandbox {
             } catch (err) {
                 if (axios.isCancel(err)) {
                     this.pushError({
-                        type: CardErrorType.DataFetchFailed,
+                        type: ComponentErrorType.DataFetchFailed,
                         isCatastrophic: false,
                         rawError: err
                     });
                 } else {
                     this.pushError({
-                        type: CardErrorType.DataFetchFailed,
+                        type: ComponentErrorType.DataFetchFailed,
                         isCatastrophic: true,
                         rawError: err
                     });

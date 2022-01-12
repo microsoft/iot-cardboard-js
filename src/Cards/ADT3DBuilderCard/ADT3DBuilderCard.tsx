@@ -1,56 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { Scene, Vector3 } from 'babylonjs';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker, SelectedMesh } from '../../Models/Classes/SceneView.types';
+import { Marker } from '../../Models/Classes/SceneView.types';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
 
 interface ADT3DBuilderCardProps {
+    adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshes: SelectedMesh[]) => void;
+    onMeshSelected?: (selectedMeshIds: string[]) => void;
 }
 
-let selectedMeshes: SelectedMesh[] = [];
-
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
+    adapter,
     modelUrl,
     title,
     onMeshSelected
 }) => {
-    const meshClick = (_marker: Marker, mesh: any, scene: Scene) => {
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
+
+    const meshClick = (_marker: Marker, mesh: any) => {
+        let meshes = [...selectedMeshIds];
         if (mesh) {
-            const selectedMesh = selectedMeshes.find(
-                (item) => item.id === mesh.id
+            const selectedMesh = selectedMeshIds.find(
+                (item) => item === mesh.id
             );
             if (selectedMesh) {
-                (mesh.material as any).albedoColor = selectedMesh.color;
-                selectedMeshes = selectedMeshes.filter(
+                meshes = selectedMeshIds.filter(
                     (item) => item !== selectedMesh
                 );
+                setselectedMeshIds(meshes);
             } else {
-                const meshColor: SelectedMesh = new SelectedMesh();
-                meshColor.id = mesh.id;
-                meshColor.color = (mesh.material as any).albedoColor;
-                selectedMeshes.push(meshColor);
-                (mesh.material as any).albedoColor = BABYLON.Color3.FromHexString(
-                    '#1EA0F7'
-                );
+                meshes.push(mesh.id);
+                setselectedMeshIds(meshes);
             }
         } else {
-            for (const meshColor of selectedMeshes) {
-                const matchedMesh = scene.meshes.find(
-                    (m) => m.id === meshColor.id
-                );
-                if (matchedMesh) {
-                    (matchedMesh.material as any).albedoColor = meshColor.color;
-                }
-            }
-            selectedMeshes = [];
+            setselectedMeshIds([]);
         }
 
-        onMeshSelected(selectedMeshes);
+        onMeshSelected(meshes);
     };
 
     return (
@@ -58,10 +48,18 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    cameraRadius={800}
-                    cameraCenter={new Vector3(0, 100, 0)}
-                    onMarkerClick={(marker, mesh, scene) =>
-                        meshClick(marker, mesh, scene)
+                    onMarkerClick={(marker, mesh) =>
+                        onMeshSelected && meshClick(marker, mesh)
+                    }
+                    showMeshesOnHover={true}
+                    selectedMeshIds={selectedMeshIds}
+                    getToken={
+                        (adapter as any).authService
+                            ? () =>
+                                  (adapter as any).authService.getToken(
+                                      'storage'
+                                  )
+                            : undefined
                     }
                 />
             </div>

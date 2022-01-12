@@ -21,7 +21,7 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
-    CardErrorType,
+    ComponentErrorType,
     DTwin,
     DTwinRelationship,
     DTModel,
@@ -29,7 +29,7 @@ import {
     IADTTwinComponent,
     KeyValuePairData,
     DTwinUpdateEvent,
-    ICardError
+    IComponentError
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -50,15 +50,15 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
-import { SceneViewLabel } from '../Models/Classes/SceneView.types';
-import { Parser } from 'expr-eval';
-import ADTVisualTwinData from '../Models/Classes/AdapterDataClasses/ADTVisualTwinData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
+import { SceneVisual } from '../Models/Classes/SceneView.types';
+import { DatasourceType, ScenesConfig } from '../Models/Classes/3DVConfig';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
     protected uniqueObjectId: string;
-    protected authService: IAuthService;
+    public authService: IAuthService;
     public adtHostUrl: string;
     protected adtProxyServerPath: string;
     public packetNumber = 0;
@@ -69,7 +69,7 @@ export default class ADTAdapter implements IADTAdapter {
         authService: IAuthService,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/api/proxy'
+        adtProxyServerPath = '/proxy/adt'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adtProxyServerPath = adtProxyServerPath;
@@ -182,6 +182,24 @@ export default class ADTAdapter implements IADTAdapter {
             {
                 method: 'delete',
                 url: `${this.adtProxyServerPath}/models/${modelId}`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                }
+            }
+        );
+    }
+
+    deleteADTTwin(twinId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTTwinData,
+            {
+                method: 'delete',
+                url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
                 headers: {
                     'x-adt-host': this.adtHostUrl
                 },
@@ -328,7 +346,7 @@ export default class ADTAdapter implements IADTAdapter {
                     return { data: models };
                 } else {
                     adapterMethodSandbox.pushError({
-                        type: CardErrorType.DataUploadFailed,
+                        type: ComponentErrorType.DataUploadFailed,
                         isCatastrophic: true,
                         rawError: err
                     });
@@ -361,7 +379,7 @@ export default class ADTAdapter implements IADTAdapter {
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
-                            type: CardErrorType.DataUploadFailed,
+                            type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
                             rawError: err
                         });
@@ -414,7 +432,7 @@ export default class ADTAdapter implements IADTAdapter {
                         }
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
-                            type: CardErrorType.DataUploadFailed,
+                            type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
                             rawError: err
                         });
@@ -777,10 +795,10 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getVisualADTTwin(twinId: string) {
+    async getSceneData(sceneId: string, config: ScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
-        function pushErrors(errors: ICardError[]) {
+        function pushErrors(errors: IComponentError[]) {
             if (errors) {
                 for (const error of errors) {
                     adapterMethodSandbox.pushError({
@@ -793,78 +811,80 @@ export default class ADTAdapter implements IADTAdapter {
         }
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
-            const visualADTTwin = await this.getADTTwin(twinId);
-            pushErrors(visualADTTwin.getErrors());
-
-            const incomingRelationships = await this.getIncomingRelationships(
-                twinId
+            // get scene based on id
+            const scene = config.viewerConfiguration?.scenes?.find(
+                (scene) => scene.id === sceneId
             );
-            pushErrors(incomingRelationships.getErrors());
+            let modelUrl = null;
+            const sceneVisuals: SceneVisual[] = [];
+            if (scene) {
+                // get modelUrl
+                modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
-            const sourceTwins = {};
-            const visualStateRules = [];
+                // cycle through behaviors for scene
+                for (const sceneBehavior of scene.behaviors) {
+                    // cycle through all behaviors
+                    // check if behavior is relevent for the current scene
+                    for (const behavior of config.viewerConfiguration
+                        ?.behaviors)
+                        if (sceneBehavior === behavior.id) {
+                            const mappingIds: string[] = [];
+                            // cycle through the datasources of behavior
+                            for (const dataSource of behavior.datasources) {
+                                // if its a TwinToObjectMappingDatasource get the mapping id
+                                if (
+                                    dataSource.type ===
+                                    DatasourceType.TwinToObjectMapping
+                                ) {
+                                    dataSource.mappingIDs.forEach(
+                                        (mappingId) => {
+                                            mappingIds.push(mappingId);
+                                        }
+                                    );
+                                }
 
-            if (incomingRelationships.result?.data) {
-                for (const relationship of incomingRelationships.result.data) {
-                    const visualStateRule = await this.getADTTwin(
-                        relationship.sourceId
-                    );
-                    pushErrors(visualStateRule.getErrors());
+                                // TODO get FilteredTwinDatasources
+                            }
 
-                    if (
-                        visualStateRule.result?.data?.$metadata
-                            ?.BadgeValueExpression !== undefined
-                    ) {
-                        visualStateRules.push(visualStateRule.result?.data);
-                    }
+                            // cycle through mapping ids to get twins for behavior and scene
+                            for (const id of mappingIds) {
+                                const twins = {};
+                                const mapping = scene.twinToObjectMappings.find(
+                                    (mapping) => mapping.id === id
+                                );
+
+                                // get primary twin
+                                const primaryTwin = await this.getADTTwin(
+                                    mapping.primaryTwinID
+                                );
+                                pushErrors(primaryTwin.getErrors());
+                                twins['primaryTwin'] = primaryTwin.result?.data;
+
+                                // check for twin aliases and add to twins object
+                                if (mapping.twinAliases) {
+                                    for (const alias of Object.keys(
+                                        mapping.twinAliases
+                                    )) {
+                                        const twin = await this.getADTTwin(
+                                            mapping.twinAliases[alias]
+                                        );
+                                        pushErrors(twin.getErrors());
+                                        twins[alias] = twin.result?.data;
+                                    }
+                                }
+
+                                const sceneVisual = new SceneVisual(
+                                    mapping.meshIDs,
+                                    behavior.visuals,
+                                    twins
+                                );
+                                sceneVisuals.push(sceneVisual);
+                            }
+                        }
                 }
             }
 
-            for (const vsr of visualStateRules) {
-                for (const src in vsr.SourceTwins) {
-                    const sourceTwin = await this.getADTTwin(
-                        vsr.SourceTwins[src]
-                    );
-                    pushErrors(sourceTwin.getErrors());
-                    sourceTwins[src] = sourceTwin.result?.data;
-                }
-            }
-
-            const labelsList: SceneViewLabel[] = [];
-
-            for (const vsr of visualStateRules) {
-                const relationships = await this.getRelationships(vsr.$dtId);
-                pushErrors(relationships.getErrors());
-                if (relationships.result?.data) {
-                    for (const data of relationships.result?.data) {
-                        const relationship = await this.getADTRelationship(
-                            vsr.$dtId,
-                            data.relationshipId
-                        );
-                        pushErrors(relationship.getErrors());
-                        const label = new SceneViewLabel();
-                        label.metric = vsr.BadgeTitle;
-                        label.color = (Parser.evaluate(
-                            vsr.BadgeColorExpression,
-                            sourceTwins
-                        ) as any) as string;
-                        label.value = Parser.evaluate(
-                            vsr.BadgeValueExpression,
-                            sourceTwins
-                        );
-                        label.meshId =
-                            relationship.result?.data[
-                                'MediaMemberProperties'
-                            ].Position.id;
-                        labelsList.push(label);
-                    }
-                }
-            }
-
-            return new ADTVisualTwinData(
-                visualADTTwin.result?.data.MediaSrc,
-                labelsList
-            );
+            return new ADT3DViewerData(modelUrl, sceneVisuals);
         });
     }
 

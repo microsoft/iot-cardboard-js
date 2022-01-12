@@ -122,6 +122,11 @@ export type AdapterMethodParamsForSearchADTTwins = {
     continuationToken?: string;
 };
 
+export type AdapterMethodParamsForGetScenes = {
+    Id: string;
+    continuationToken?: string;
+};
+
 export type ADTRelationshipsApiData = {
     value: IADTRelationship[];
     nextLink: string;

@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "declaration": true,
+        "declaration": false,
         "declarationDir": "dist",
+        "experimentalDecorators": true,
         "outDir": "dist",
         "module": "esnext",
         "target": "es5",

@@ -6,9 +6,9 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import BaseCard from '../../Cards/Base/Consume/BaseCard';
-import { CardError } from '../Classes/Errors';
-import { CardErrorType, Theme } from '../Constants/Enums';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import { ComponentError } from '../Classes/Errors';
+import { ComponentErrorType, Theme } from '../Constants/Enums';
 
 interface IErrorBoundaryContext {
     error: Error;
@@ -131,21 +131,18 @@ class ErrorBoundary extends React.Component<
     render() {
         if (!this.props.isHandled && this.state.hasError) {
             return (
-                <BaseCard
+                <BaseComponent
                     theme={this.props.theme}
-                    title={this.props.cardTitle}
-                    isLoading={false}
-                    adapterResult={null}
-                    cardError={
-                        new CardError({
+                    componentError={
+                        new ComponentError({
                             isCatastrophic: true,
-                            type: CardErrorType.ErrorBoundary,
+                            type: ComponentErrorType.ErrorBoundary,
                             name: this.state.error.name,
                             message: this.state.error.message,
                             rawError: new Error(this.state.error.stack)
                         })
                     }
-                />
+                ></BaseComponent>
             );
         }
         return this.props.children;

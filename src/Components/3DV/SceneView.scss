@@ -47,3 +47,19 @@
     pointer-events: none !important;
     position: absolute;
 }
+
+.cb-sceneview-canvas {
+    height: 100%;
+    opacity: 0;
+    width: 100%;
+}
+
+.cb-o1 {
+    opacity: 1;
+    transition: 2s;
+}
+
+@font-face {
+    font-family: 'iconFont';
+    src: local('segmdl2'), url('./segmdl2.ttf');
+}
