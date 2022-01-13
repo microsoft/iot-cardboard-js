@@ -45,7 +45,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpTitle, setPopUpTitle] = useState('');
     const [popUpConfig, setPopUpConfig] = useState<Visual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
@@ -126,7 +125,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTitle(popOver.title);
                     setPopUpTwins(sceneVisual.twins);
                     setPopUpConfig(popOver);
                     setShowPopUp(true);
@@ -266,7 +264,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                         >
                             <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <PopupWidget
-                                    title={popUpTitle}
                                     config={popUpConfig}
                                     onClose={() => setShowPopUp(false)}
                                     twins={popUpTwins}

@@ -4,18 +4,12 @@ import { DTwin } from '../../../Models/Constants/Interfaces';
 import { PanelWidget } from '../PanelWidget/PanelWidget';
 
 interface IProp {
-    title: string;
     config: Visual;
     twins: Record<string, DTwin>;
     onClose?: () => void;
 }
 
-export const PopupWidget: React.FC<IProp> = ({
-    title,
-    config,
-    onClose,
-    twins
-}) => {
+export const PopupWidget: React.FC<IProp> = ({ config, onClose, twins }) => {
     const doClose = () => {
         if (onClose) {
             onClose();
@@ -24,7 +18,11 @@ export const PopupWidget: React.FC<IProp> = ({
 
     return (
         <div>
-            <div className="cb-adt-3dviewer-popup-title">{title}</div>
+            {config.title && (
+                <div className="cb-adt-3dviewer-popup-title">
+                    {config.title}
+                </div>
+            )}
             <PanelWidget config={config} twins={twins} />
             <button
                 className="cb-adt-3dviewer-close-btn"
