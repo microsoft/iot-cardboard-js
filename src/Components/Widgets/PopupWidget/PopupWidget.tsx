@@ -2,7 +2,6 @@ import React from 'react';
 import { PanelWidget } from '../PanelWidget/PanelWidget';
 
 interface IProp {
-    id: string;
     title: string;
     config: any;
     twins: any;
@@ -10,7 +9,6 @@ interface IProp {
 }
 
 export const PopupWidget: React.FC<IProp> = ({
-    id,
     title,
     config,
     onClose,
@@ -23,7 +21,7 @@ export const PopupWidget: React.FC<IProp> = ({
     };
 
     return (
-        <div id={id} className="cb-adt-3dviewer-popup">
+        <div>
             <div className="cb-adt-3dviewer-popup-title">{title}</div>
             <PanelWidget config={config} twins={twins} />
             <button

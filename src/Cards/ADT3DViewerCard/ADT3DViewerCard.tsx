@@ -260,13 +260,14 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                             bounds="parent"
                             onDrag={(e, data) => setPopUpPosition(e, data)}
                         >
-                            <PopupWidget
-                                id={popUpId}
-                                title={popUpTitle}
-                                config={popUpConfig}
-                                onClose={() => setShowPopUp(false)}
-                                twins={popUpTwins}
-                            />
+                            <div id={popUpId} className="cb-adt-3dviewer-popup">
+                                <PopupWidget
+                                    title={popUpTitle}
+                                    config={popUpConfig}
+                                    onClose={() => setShowPopUp(false)}
+                                    twins={popUpTwins}
+                                />
+                            </div>
                         </Draggable>
                     </div>
                 )}

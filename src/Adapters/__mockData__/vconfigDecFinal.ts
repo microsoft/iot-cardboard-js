@@ -12,22 +12,28 @@ export const mockVConfig = {
                     {
                         id: '5ba433d52b8445979fabc818fd40ae3d',
                         displayName: 'leftWheels',
-                        primaryTwinID: 'Truck05',
-                        meshIDs: ['wheel1Mesh', 'wheel2Mesh']
+                        primaryTwinID: 'SaltMachine_C1',
+                        meshIDs: [
+                            'wheel1Mesh_primitive0',
+                            'wheel2Mesh_primitive0'
+                        ]
                     },
                     {
                         id: '2aa6955f3c73418a9be0f7b19c019b75',
                         displayName: 'rightWheels',
-                        primaryTwinID: 'Truck05',
-                        meshIDs: ['wheel3Mesh', 'wheel4Mesh']
+                        primaryTwinID: 'PasteurizationMachine_A03',
+                        meshIDs: [
+                            'wheel3Mesh_primitive0',
+                            'wheel4Mesh_primitive0'
+                        ]
                     },
                     {
                         id: '4cb0990d646a4bbea3e1102676e200fe',
                         displayName: 'tank',
-                        primaryTwinID: 'Tank08',
+                        primaryTwinID: 'SaltMachine_C1',
                         meshIDs: ['tankMesh'],
                         twinAliases: {
-                            temperatureTag: 'Tag09DF'
+                            temperatureTag: 'PasteurizationMachine_A03'
                         }
                     },
                     {
@@ -54,7 +60,7 @@ export const mockVConfig = {
                         type: 'Asset3D',
                         name: 'TruckAndBoxes',
                         url:
-                            'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachine.gltf'
+                            'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
                     }
                 ]
             }
@@ -79,7 +85,7 @@ export const mockVConfig = {
                         color: {
                             type: 'BindingExpression',
                             expression:
-                                "primaryTwin.avgTirePressure < 28 ? 'red' : 'green'"
+                                "primaryTwin.InFlow < 260 ? '#FF0000' : '#00FF00'"
                         },
                         elementIDs: {
                             type: 'MeshIDArray',
@@ -93,7 +99,7 @@ export const mockVConfig = {
                                 type: 'Gauge',
                                 controlConfiguration: {
                                     valueBreakPoints: [0, 50, 100],
-                                    expression: 'primaryTwin.avgTirePressure',
+                                    expression: 'primaryTwin.InFlow',
                                     label: 'Average Tire Pressure'
                                 }
                             },
@@ -101,7 +107,7 @@ export const mockVConfig = {
                                 type: 'Link',
                                 controlConfiguration: {
                                     expression:
-                                        'https://mypowerbi.biz/${primaryTwin.displayName}'
+                                        'https://mypowerbi.biz/${primaryTwin.$dtId}'
                                 }
                             }
                         ],
@@ -129,7 +135,7 @@ export const mockVConfig = {
                         color: {
                             type: 'BindingExpression',
                             expression:
-                                "twinAliases.temperatureTag.value > 100 ? 'red' : 'green'"
+                                "temperatureTag.OutFlow > 100 ? '#FF0000' : '#00FF00'"
                         },
                         elementIDs: {
                             type: 'MeshIDArray',
