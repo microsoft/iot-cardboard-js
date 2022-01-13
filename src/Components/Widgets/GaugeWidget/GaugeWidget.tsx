@@ -1,5 +1,6 @@
 import React from 'react';
 import { Parser } from 'expr-eval';
+import './GaugeWidget.scss'
 import {
     RadialBarChart,
     RadialBar,
@@ -79,14 +80,7 @@ export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
                     ></RadialBar>
                 </RadialBarChart>
             </ResponsiveContainer>
-            <div
-                style={{
-                    position: 'absolute',
-                    textAlign: 'center',
-                    width: '100%',
-                    top: '50%'
-                }}
-            >
+            <div className='cb-gauge-widget-text'>
                 <div>
                     {value} {units}
                 </div>
