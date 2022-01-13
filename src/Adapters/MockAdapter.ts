@@ -357,7 +357,7 @@ export default class MockAdapter
             const sceneVisual = new SceneVisual(
                 ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
                 [visual],
-                { primaryTwin: { value: 10 } }
+                { primaryTwin: { value: 10 } as any }   // TODO: Probably a bug
             );
             const sceneVisuals = [sceneVisual];
             return sceneVisuals;

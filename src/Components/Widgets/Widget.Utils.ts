@@ -1,6 +1,7 @@
 import { Parser } from 'expr-eval';
+import { DTwin } from '../../Models/Constants/Interfaces';
 
-export function performSubstitutions(expression: string, twins: any) {
+export function performSubstitutions(expression: string, twins: Record<string, DTwin>) {
     while (expression) {
         const n = expression.indexOf('${');
         if (n < 0) {

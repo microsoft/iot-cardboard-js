@@ -1,10 +1,12 @@
 import React from 'react';
+import { Visual } from '../../../Models/Classes/3DVConfig';
+import { DTwin } from '../../../Models/Constants/Interfaces';
 import { PanelWidget } from '../PanelWidget/PanelWidget';
 
 interface IProp {
     title: string;
-    config: any;
-    twins: any;
+    config: Visual;
+    twins: Record<string, DTwin>;
     onClose?: () => void;
 }
 

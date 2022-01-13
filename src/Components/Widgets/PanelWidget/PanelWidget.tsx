@@ -1,14 +1,16 @@
 import React from 'react';
+import { Visual, Widget } from '../../../Models/Classes/3DVConfig';
+import { DTwin } from '../../../Models/Constants/Interfaces';
 import { GaugeWidget } from '../GaugeWidget/GaugeWidget';
 import { LinkWidget } from '../LinkWidget/LinkWidget';
 import './PanelWidget.scss';
 
 interface IProp {
-    config: any;
-    twins: any;
+    config: Visual;
+    twins: Record<string, DTwin>;
 }
 
-function makeWidget(index: any, widget: any, twins: any) {
+function makeWidget(index: number, widget: Widget, twins: Record<string, DTwin>) {
     switch (widget.type) {
         case 'Link':
             return (

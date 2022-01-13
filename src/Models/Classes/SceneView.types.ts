@@ -1,12 +1,13 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
+import { DTwin } from '../../Models/Constants/Interfaces';
 import { Scene, Visual } from './3DVConfig';
 
 export class SceneVisual {
     meshIds: string[];
     visuals: Visual[];
-    twins: any;
-    constructor(meshIds: string[], visuals: Visual[], twins: any) {
+    twins: Record<string, DTwin>;
+    constructor(meshIds: string[], visuals: Visual[], twins: Record<string, DTwin>) {
         this.meshIds = meshIds;
         this.visuals = visuals;
         this.twins = twins;
