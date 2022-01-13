@@ -113,7 +113,7 @@
         "react-dom": ">=16.8.0"
     },
     "scripts": {
-        "build": "npm run clean && node -max-old-space-size=4096 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run post-build",
+        "build": "npm run clean && node -max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c rollup.config.js && npm run post-build",
         "clean": "shx rm -rf dist && shx rm -rf build_artifacts",
         "post-build": "npm run copy-theme-sheet && npm run copy-package && npm run copy-readme && npm run pack",
         "copy-theme-sheet": "node-sass src/Resources/Styles/BaseThemeVars.scss dist/themes.css",
@@ -125,7 +125,7 @@
         "storybook:noSSL": "start-storybook -p 3001",
         "storybook:export": "build-storybook",
         "test": "jest",
-        "test:ci": "node --max_old_space_size=4096 node_modules/.bin/jest --config jest.config.js --maxWorkers=2",
+        "test:ci": "node --max_old_space_size=8192 node_modules/.bin/jest --config jest.config.js --maxWorkers=2",
         "test:watch": "jest --watch",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",
         "prettier:check": "prettier --check src/**/*.{js,ts,tsx,scss}",
