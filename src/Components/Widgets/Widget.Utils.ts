@@ -12,8 +12,7 @@ export function performSubstitutions(expression: string, twins: any) {
             break;
         }
 
-        let sub = expression.substring(n + 2, m);
-        sub = sub.replace('.displayName', '.$dtId'); // TODO: Hack
+        const sub = expression.substring(n + 2, m);
         const target = (Parser.evaluate(sub, twins) as any) as string;
         expression =
             expression.substring(0, n) + target + expression.substring(m + 1);
