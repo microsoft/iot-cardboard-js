@@ -17,8 +17,8 @@ export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
     const expression = config.expression;
     const label = config.label;
     const width = config.width || 150;
-  const height = config.height || 150;
-  const units = config.units || '';
+    const height = config.height || 150;
+    const units = config.units || '';
     let value = 0;
     try {
         value = Parser.evaluate(expression, twins);
@@ -87,7 +87,9 @@ export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
                     top: '50%'
                 }}
             >
-          <div>{value} {units}</div>
+                <div>
+                    {value} {units}
+                </div>
                 <div>{label}</div>
             </div>
         </div>

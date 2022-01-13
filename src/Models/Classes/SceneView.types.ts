@@ -7,7 +7,11 @@ export class SceneVisual {
     meshIds: string[];
     visuals: Visual[];
     twins: Record<string, DTwin>;
-    constructor(meshIds: string[], visuals: Visual[], twins: Record<string, DTwin>) {
+    constructor(
+        meshIds: string[],
+        visuals: Visual[],
+        twins: Record<string, DTwin>
+    ) {
         this.meshIds = meshIds;
         this.visuals = visuals;
         this.twins = twins;

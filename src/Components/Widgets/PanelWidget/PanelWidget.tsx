@@ -10,7 +10,11 @@ interface IProp {
     twins: Record<string, DTwin>;
 }
 
-function makeWidget(index: number, widget: Widget, twins: Record<string, DTwin>) {
+function makeWidget(
+    index: number,
+    widget: Widget,
+    twins: Record<string, DTwin>
+) {
     switch (widget.type) {
         case 'Link':
             return (

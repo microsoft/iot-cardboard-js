@@ -12,7 +12,11 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { ScenesConfig, Visual, VisualType } from '../../Models/Classes/3DVConfig';
+import {
+    ScenesConfig,
+    Visual,
+    VisualType
+} from '../../Models/Classes/3DVConfig';
 import { Parser } from 'expr-eval';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 
