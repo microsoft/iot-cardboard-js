@@ -195,11 +195,11 @@
 
     > div:last-child {
         flex-grow: 1;
-        overflow-x: hidden;
-        overflow-y: auto;
+        display: flex;
+        overflow: auto;
 
         > div:first-child {
-            height: 100%;
+            flex-grow: 1;
         }
     }
 }
