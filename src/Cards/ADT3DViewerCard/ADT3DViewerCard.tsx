@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
+import { DTwin, IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
@@ -12,7 +12,11 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { ScenesConfig, VisualType } from '../../Models/Classes/3DVConfig';
+import {
+    ScenesConfig,
+    Visual,
+    VisualType
+} from '../../Models/Classes/3DVConfig';
 import { Parser } from 'expr-eval';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 
@@ -41,9 +45,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpTitle, setPopUpTitle] = useState('');
-    const [popUpConfig, setPopUpConfig] = useState<any>('');
-    const [popUpTwins, setPopUpTwins] = useState<any>(null);
+    const [popUpConfig, setPopUpConfig] = useState<Visual>(null);
+    const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const lineId = useGuid();
     const popUpId = useGuid();
@@ -122,7 +125,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTitle('Visuals');
                     setPopUpTwins(sceneVisual.twins);
                     setPopUpConfig(popOver);
                     setShowPopUp(true);
@@ -262,7 +264,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                         >
                             <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <PopupWidget
-                                    title={popUpTitle}
                                     config={popUpConfig}
                                     onClose={() => setShowPopUp(false)}
                                     twins={popUpTwins}

@@ -60,7 +60,7 @@ export const mockVConfig = {
                         type: 'Asset3D',
                         name: 'TruckAndBoxes',
                         url:
-                            'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
+                            'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachineReduced.gltf'
                     }
                 ]
             }
@@ -94,13 +94,46 @@ export const mockVConfig = {
                     },
                     {
                         type: 'OnClickPopover',
+                        title: 'Average Tire Pressure',
                         widgets: [
                             {
                                 type: 'Gauge',
                                 controlConfiguration: {
-                                    valueBreakPoints: [0, 50, 100],
+                                    valueBreakPoints: [100, 200, 500],
+                                    units: 'PSI',
+                                    colors: ['#FDCD4D', '#00D700', '#ff0000'],
+                                    expression: 'primaryTwin.OutFlow',
+                                    label: 'Front Left'
+                                }
+                            },
+                            {
+                                type: 'Gauge',
+                                controlConfiguration: {
+                                    valueBreakPoints: [100, 200, 500],
+                                    units: 'PSI',
+                                    colors: ['#FDCD4D', '#00D700', '#ff0000'],
                                     expression: 'primaryTwin.InFlow',
-                                    label: 'Average Tire Pressure'
+                                    label: 'Front Right'
+                                }
+                            },
+                            {
+                                type: 'Gauge',
+                                controlConfiguration: {
+                                    valueBreakPoints: [100, 200, 500],
+                                    units: 'PSI',
+                                    colors: ['#FDCD4D', '#00D700', '#ff0000'],
+                                    expression: 'primaryTwin.Temperature',
+                                    label: 'Rear Left'
+                                }
+                            },
+                            {
+                                type: 'Gauge',
+                                controlConfiguration: {
+                                    valueBreakPoints: [100, 200, 500],
+                                    units: 'PSI',
+                                    colors: ['#FDCD4D', '#00D700', '#ff0000'],
+                                    expression: 'primaryTwin.InFlow',
+                                    label: 'Rear Right'
                                 }
                             },
                             {
