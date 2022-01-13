@@ -9,7 +9,12 @@ import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
 import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
-    IADT3DSceneBuilderCardProps
+    IADT3DSceneBuilderCardProps,
+    SET_ADT_SCENE_BUILDER_ELEMENTS,
+    SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
@@ -24,13 +29,6 @@ import {
     defaultADT3DSceneBuilderState,
     defaultADT3DSceneBuilderLeftPanelState
 } from './ADT3DSceneBuilder.state';
-import {
-    SET_ADT_SCENE_BUILDER_ELEMENTS,
-    SET_ADT_SCENE_BUILDER_MODE,
-    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-    SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
-} from '../../../Models/Constants/ActionTypes';
 import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 import SceneElementForm from './Components/ElementForm';
 import SceneBehaviors from './Components/Behaviors';
@@ -145,7 +143,7 @@ const BuilderLeftPanel: React.FC = () => {
         localeStrings
     } = useContext(SceneBuilderContext);
 
-    // BEGINNING of scene element related callbacks
+    // START of scene element related callbacks
     const onCreateElementClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
@@ -189,7 +187,7 @@ const BuilderLeftPanel: React.FC = () => {
         });
         setSelectedObjectIds([]);
     };
-    // ENDING of scene element related callbacks
+    // END of scene element related callbacks
 
     useEffect(() => {
         if (config) {

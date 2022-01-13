@@ -12,6 +12,18 @@ import {
 } from '../../../Models/Constants/Enums';
 import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
+// START of Actions
+export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
+export const SET_ADT_SCENE_BUILDER_ELEMENTS = 'SET_ADT_SCENE_BUILDER_ELEMENTS';
+export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
+    'SET_ADT_SCENE_BUILDER_BEHAVIORS';
+export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
+    'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
+export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
+    'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
+export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
+// END of Actions
+
 export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
