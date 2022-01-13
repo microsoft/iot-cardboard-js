@@ -50,7 +50,7 @@
         "@semantic-release/changelog": "^5.0.1",
         "@semantic-release/commit-analyzer": "^8.0.1",
         "@storybook/addon-console": "^1.2.2",
-        "@storybook/addon-essentials": "^6.1.16",
+        "@storybook/addon-essentials": "^6.4.12",
         "@storybook/react": "^6.4.12",
         "@testing-library/jest-dom": "^5.11.8",
         "@testing-library/react": "^11.2.2",
