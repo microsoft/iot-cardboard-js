@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
@@ -10,16 +10,28 @@ interface ADT3DBuilderCardProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshIds: string[]) => void;
+    onMeshSelected?: (selectedMeshes: string[]) => void;
+    showMeshesOnHover?: boolean;
+    preselectedMeshIds?: Array<string>;
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     adapter,
     modelUrl,
     title,
-    onMeshSelected
+    onMeshSelected,
+    showMeshesOnHover,
+    preselectedMeshIds
 }) => {
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
+    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>(
+        preselectedMeshIds ?? []
+    );
+
+    useEffect(() => {
+        if (preselectedMeshIds) {
+            setselectedMeshIds(preselectedMeshIds);
+        }
+    }, [preselectedMeshIds]);
 
     const meshClick = (_marker: Marker, mesh: any) => {
         let meshes = [...selectedMeshIds];
@@ -51,7 +63,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     onMarkerClick={(marker, mesh) =>
                         onMeshSelected && meshClick(marker, mesh)
                     }
-                    showMeshesOnHover={true}
+                    showMeshesOnHover={showMeshesOnHover ?? true}
                     selectedMeshIds={selectedMeshIds}
                     getToken={
                         (adapter as any).authService

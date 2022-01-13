@@ -27,7 +27,7 @@ import {
     TsiClientData
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import { mockVConfig } from './__mockData__/vconfigDecFinal';
+import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import {
     ScenesConfig,
     Scene,

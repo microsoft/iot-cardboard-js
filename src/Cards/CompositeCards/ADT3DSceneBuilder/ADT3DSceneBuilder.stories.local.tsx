@@ -2,10 +2,10 @@ import React from 'react';
 import useAuthParams from '../../../../.storybook/useAuthParams';
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MsalAuthService from '../../../Models/Services/MsalAuthService';
-import ADT3DScenePage from './ADT3DScenePage';
+import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 
 export default {
-    title: 'CompositeCards/ADT3DScenePage'
+    title: 'CompositeCards/ADT3DSceneBuilder'
 };
 
 const cardStyle = {
@@ -13,15 +13,15 @@ const cardStyle = {
     width: '100%'
 };
 
-export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
+export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADT3DScenePage
-                title={'3D Scene Page'}
+            <ADT3DSceneBuilder
+                title={'3D Scene Builder'}
                 theme={theme}
                 locale={locale}
                 adapter={
@@ -34,6 +34,7 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             />
         </div>
     );

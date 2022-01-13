@@ -122,9 +122,9 @@
         "sceneName": "Scene name",
         "sceneLatitude": "Latitude",
         "sceneLongitude": "Longitude",
-        "blobUrl": "Blob URL",
-        "addDialogTitle": "Link your 3D file",
-        "addDialogSubText": "Add the URL of your 3D file in blob storage",
+        "blobUrl": "3D file blob URL",
+        "addDialogTitle": "Create new scene",
+        "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
         "editDialogTitle": "Edit your 3D file",
         "editDialogSubText": "Edit the URL of your 3D file in blob storage"
     },
@@ -269,6 +269,18 @@
     "3dScenePage": {
         "buildMode": "Build mode",
         "viewMode": "View mode"
+    },
+    "3dSceneBuilder": {
+        "elements": "Elements",
+        "behaviors": "Behaviors",
+        "createElement": "Create element",
+        "noElementsText": "No elements created yet",
+        "noBehaviorsText": "No behaviors created yet",
+        "newElement": "New element",
+        "twinLink": "Twin link",
+        "twinLinkInputInfo": "Enter twin id ($dtId) that you want to link this element",
+        "noObjectAddedText": "No objects added yet, pelase select meshes in 3D viewer",
+        "objects": "Objects"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
