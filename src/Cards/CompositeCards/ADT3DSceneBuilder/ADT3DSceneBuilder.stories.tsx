@@ -1,7 +1,7 @@
 import React from 'react';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import { mockVConfig } from '../../../Adapters/__mockData__/vconfigDecFinal';
+import mockVConfig from '../../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
     title: 'CompositeCards/ADT3DSceneBuilder'
