@@ -1,7 +1,11 @@
 .cb-panel-widget-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
     position: relative;
     width: 100%;
+}
+
+.cb-panel-widget-fdrow {
+    flex-direction: row;
 }

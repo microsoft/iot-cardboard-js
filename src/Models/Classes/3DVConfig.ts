@@ -121,6 +121,12 @@ export class ControlConfiguration {
     expression: string;
     @JsonProperty()
     @JsonType(String)
+    title: string;
+    @JsonProperty()
+    @JsonType(Boolean)
+    isHorizontal: boolean;
+    @JsonProperty()
+    @JsonType(String)
     label: string;
     @JsonProperty()
     @JsonType(Number)
@@ -131,6 +137,9 @@ export class ControlConfiguration {
     @JsonProperty()
     @JsonType(String)
     units: string;
+    @JsonProperty()
+    @JsonElementType(Object) // Can't use Widget as its not defined yet
+    widgets: Widget[];
 }
 
 export class Widget {
@@ -169,6 +178,9 @@ export class Visual {
     @JsonProperty()
     @JsonType(String)
     title: string;
+    @JsonProperty()
+    @JsonType(Boolean)
+    isHorizontal: boolean;
     @JsonProperty()
     @JsonType(ElementIDs)
     elementIDs: ElementIDs;
