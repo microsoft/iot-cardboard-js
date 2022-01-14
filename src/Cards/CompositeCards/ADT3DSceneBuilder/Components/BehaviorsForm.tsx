@@ -37,6 +37,7 @@ const defaultBehavior: IBehavior = {
                 expression: 'meshIDs'
             },
             label: null,
+            isHorizontal: false,
             title: '',
             widgets: []
         }

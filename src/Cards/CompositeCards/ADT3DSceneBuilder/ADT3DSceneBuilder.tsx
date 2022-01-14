@@ -24,8 +24,8 @@ import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import {
     IBehavior,
-    ScenesConfig,
-    TwinToObjectMapping
+    IScenesConfig,
+    ITwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderReducer,
@@ -78,7 +78,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     useEffect(() => {
         if (!getScenesConfig.adapterResult.hasNoData()) {
-            const config: ScenesConfig = getScenesConfig.adapterResult.getData();
+            const config: IScenesConfig = getScenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
@@ -196,7 +196,7 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds([]);
     };
 
-    const onElementClick = (element: TwinToObjectMapping) => {
+    const onElementClick = (element: ITwinToObjectMapping) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: element
@@ -208,7 +208,7 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds(element.meshIDs);
     };
 
-    const onElementEnter = (element: TwinToObjectMapping) => {
+    const onElementEnter = (element: ITwinToObjectMapping) => {
         const coloredMeshes: ColoredMeshItem[] = [];
         for (const id of element.meshIDs) {
             const coloredMesh: ColoredMeshItem = {
@@ -234,7 +234,7 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds([]);
     };
 
-    const onElementSave = (newElements: Array<TwinToObjectMapping>) => {
+    const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements

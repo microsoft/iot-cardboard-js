@@ -1,15 +1,15 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import { DTwin } from '../../Models/Constants/Interfaces';
-import { Scene, Visual } from './3DVConfig';
+import { IScene, IVisual } from './3DVConfig';
 
 export class SceneVisual {
     meshIds: string[];
-    visuals: Visual[];
+    visuals: IVisual[];
     twins: Record<string, DTwin>;
     constructor(
         meshIds: string[],
-        visuals: Visual[],
+        visuals: IVisual[],
         twins: Record<string, DTwin>
     ) {
         this.meshIds = meshIds;
@@ -30,7 +30,7 @@ export class Marker {
     longitude?: number;
     color: { r: number; g: number; b: number };
     isNav?: boolean;
-    scene?: Scene;
+    scene?: IScene;
 }
 
 export type SceneViewCallbackHandler = (

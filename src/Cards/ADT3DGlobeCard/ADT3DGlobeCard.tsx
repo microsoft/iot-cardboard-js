@@ -7,12 +7,12 @@ import './ADT3DGlobeCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { MockAdapter } from '../..';
-import { Scene } from '../../Models/Classes/3DVConfig';
+import { IScene } from '../../Models/Classes/3DVConfig';
 
 interface ADT3DGlobeCardProps {
     adapter: IBlobAdapter | MockAdapter;
     title?: string;
-    onSceneClick?: (scene: Scene) => void;
+    onSceneClick?: (scene: IScene) => void;
 }
 
 const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({

@@ -3,8 +3,7 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import {
     IBehavior,
     ITwinToObjectMapping,
-    ScenesConfig,
-    TwinToObjectMapping
+    IScenesConfig
 } from '../../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
@@ -42,7 +41,7 @@ export interface I3DSceneBuilderContext {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    config: ScenesConfig;
+    config: IScenesConfig;
     getConfig: () => void;
     sceneId: string;
     selectedObjectIds: Array<string>;
@@ -52,15 +51,15 @@ export interface I3DSceneBuilderContext {
 }
 
 export interface IADT3DSceneBuilderElementListProps {
-    elements: Array<TwinToObjectMapping>;
+    elements: Array<ITwinToObjectMapping>;
     handleCreateElementClick: () => void;
-    handleElementClick: (element: TwinToObjectMapping) => void;
+    handleElementClick: (element: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedElement: TwinToObjectMapping;
-    onElementSave: (elements: Array<TwinToObjectMapping>) => void;
+    selectedElement: ITwinToObjectMapping;
+    onElementSave: (elements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
 }
 
@@ -84,7 +83,7 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
 }
 
 export interface ADT3DSceneBuilderState {
-    config: ScenesConfig;
+    config: IScenesConfig;
     selectedObjectIds: Array<string>;
     coloredMeshItems: ColoredMeshItem[];
 }
@@ -92,8 +91,8 @@ export interface ADT3DSceneBuilderState {
 export interface ADT3DSceneBuilderLeftPanelState {
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
-    elements: Array<TwinToObjectMapping>;
+    elements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
-    selectedElement: TwinToObjectMapping;
+    selectedElement: ITwinToObjectMapping;
     selectedBehavior: IBehavior;
 }

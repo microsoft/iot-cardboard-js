@@ -8,14 +8,13 @@ import {
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../ADT3DSceneBuilder.types';
 import {
-    Scene,
-    TwinToObjectMapping
+    IScene,
+    ITwinToObjectMapping
 } from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { TaJson } from 'ta-json';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -27,17 +26,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const [isObjectsExpanded, setIsObjectsExpanded] = useState(
         selectedElement ? false : true
     );
-    const [elementToEdit, setElementToEdit] = useState<TwinToObjectMapping>(
-        selectedElement ??
-            TaJson.parse<TwinToObjectMapping>(
-                JSON.stringify({
-                    id: '',
-                    displayName: '',
-                    primaryTwinID: '',
-                    meshIDs: []
-                }),
-                TwinToObjectMapping
-            )
+    const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
+        selectedElement ?? {
+            id: '',
+            displayName: '',
+            primaryTwinID: '',
+            meshIDs: []
+        }
     );
     const {
         adapter,
@@ -49,8 +44,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
-        adapterMethod: (params: { elements: Array<TwinToObjectMapping> }) => {
-            const sceneToUpdate: Scene = {
+        adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
+            const sceneToUpdate: IScene = {
                 ...config.viewerConfiguration.scenes[
                     config.viewerConfiguration.scenes.findIndex(
                         (s) => s.id === sceneId

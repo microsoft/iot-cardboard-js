@@ -29,14 +29,12 @@ import {
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import {
-    ScenesConfig,
-    Scene,
-    Visual,
+    IScenesConfig,
+    IScene,
+    IVisual,
     VisualType,
-    Color,
     IBehavior
 } from '../Models/Classes/3DVConfig';
-import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
@@ -59,11 +57,8 @@ export default class MockAdapter
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
         this.scenesConfig =
-            mockAdapterArgs?.mockData ||
-            TaJson.parse<ScenesConfig>(
-                JSON.stringify(mockVConfig),
-                ScenesConfig
-            );
+            mockAdapterArgs?.mockData || (mockVConfig as IScenesConfig);
+
         this.mockError = mockAdapterArgs?.mockError;
         this.networkTimeoutMillis =
             typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
@@ -249,7 +244,7 @@ export default class MockAdapter
         }
     }
 
-    async addScene(config: ScenesConfig, scene: Scene) {
+    async addScene(config: IScenesConfig, scene: IScene) {
         try {
             const updatedConfig = { ...config };
             updatedConfig.viewerConfiguration.scenes.push(scene);
@@ -269,7 +264,7 @@ export default class MockAdapter
         }
     }
 
-    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
+    async editScene(config: IScenesConfig, sceneId: string, scene: IScene) {
         try {
             const updatedConfig = { ...config };
             const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
@@ -292,7 +287,7 @@ export default class MockAdapter
         }
     }
 
-    async deleteScene(config: ScenesConfig, sceneId: string) {
+    async deleteScene(config: IScenesConfig, sceneId: string) {
         try {
             const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
                 (s) => s.id === sceneId
@@ -318,7 +313,7 @@ export default class MockAdapter
     }
 
     async addBehavior(
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string,
         behavior: IBehavior
     ) {
@@ -345,7 +340,7 @@ export default class MockAdapter
     }
 
     async editBehavior(
-        config: ScenesConfig,
+        config: IScenesConfig,
         behavior: IBehavior,
         originalBehaviorId: string
     ) {
@@ -395,16 +390,19 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(_sceneId: string, _config: ScenesConfig) {
+    async getSceneData(_sceneId: string, _config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
-            const visual = new Visual();
-            visual.type = VisualType.ColorChange;
-            const color = new Color();
-            color.expression =
-                'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"';
-            visual.color = color;
+            const visual: IVisual = {
+                type: VisualType.ColorChange,
+                color: {
+                    type: 'BindingExpression',
+                    expression:
+                        'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"'
+                }
+            };
+
             const sceneVisual = new SceneVisual(
                 ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
                 [visual],

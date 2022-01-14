@@ -40,7 +40,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { ScenesConfig, Scene, IBehavior } from '../Classes/3DVConfig';
+import { IScenesConfig, IScene, IBehavior } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
@@ -341,7 +341,7 @@ export interface ITsiClientChartDataAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: ScenesConfig
+        config: IScenesConfig
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
@@ -397,25 +397,25 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
 export interface IBlobAdapter {
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
     addScene: (
-        config: ScenesConfig,
-        scene: Scene
+        config: IScenesConfig,
+        scene: IScene
     ) => AdapterReturnType<ADTSceneData>;
     editScene: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string,
-        scene: Scene
+        scene: IScene
     ) => AdapterReturnType<ADTSceneData>;
     deleteScene: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string
     ) => AdapterReturnType<ADTSceneData>;
     addBehavior: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string,
         behavior: IBehavior
     ) => AdapterReturnType<ViewConfigBehaviorData>;
     editBehavior: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         behavior: IBehavior,
         originalBehaviorId: string
     ) => AdapterReturnType<ViewConfigBehaviorData>;
