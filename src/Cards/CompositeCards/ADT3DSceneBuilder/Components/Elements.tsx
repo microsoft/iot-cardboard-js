@@ -11,7 +11,7 @@ const SceneElements: React.FC<any> = ({
     const { t } = useTranslation();
 
     return (
-        <div className="cb-scene-builder-elements">
+        <div className="cb-scene-builder-pivot-contents">
             <div className="cb-scene-builder-element-list">
                 {elements.length === 0 ? (
                     <p className="cb-scene-builder-left-panel-text">

@@ -103,10 +103,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     }, [updateTwinToObjectMappings?.adapterResult]);
 
     return (
-        <div className="cb-scene-builder-left-panel-create-element-wrapper">
-            <div className="cb-scene-builder-left-panel-create-element-form">
+        <div className="cb-scene-builder-left-panel-create-wrapper">
+            <div className="cb-scene-builder-left-panel-create-form">
                 <div
-                    className="cb-scene-builder-left-panel-create-element-header"
+                    className="cb-scene-builder-left-panel-create-form-header"
                     tabIndex={0}
                     onClick={onElementBackClick}
                 >

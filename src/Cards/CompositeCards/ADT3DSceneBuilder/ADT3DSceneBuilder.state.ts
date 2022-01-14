@@ -10,7 +10,10 @@ import {
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_BEHAVIORS
 } from './ADT3DSceneBuilder.types';
-import { ADT3DSceneBuilderMode } from '../../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    ADT3DSceneTwinBindingsMode
+} from '../../../Models/Constants/Enums';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
@@ -18,10 +21,12 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
 };
 
 export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelState = {
-    builderMode: ADT3DSceneBuilderMode.Idle,
+    selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
+    builderMode: ADT3DSceneBuilderMode.ElementsIdle,
     elements: [],
     behaviors: [],
-    selectedElement: null
+    selectedElement: null,
+    selectedBehavior: null
 };
 
 export const ADT3DSceneBuilderReducer = produce(
@@ -61,8 +66,15 @@ export const ADT3DSceneBuilderLeftPanelReducer = (
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;
-                if (payload === ADT3DSceneBuilderMode.Idle) {
+                if (payload === ADT3DSceneBuilderMode.ElementsIdle) {
                     draft.selectedElement = null;
+                    draft.selectedPivotTab =
+                        ADT3DSceneTwinBindingsMode.Elements;
+                }
+                if (payload === ADT3DSceneBuilderMode.BehaviorIdle) {
+                    draft.selectedBehavior = null;
+                    draft.selectedPivotTab =
+                        ADT3DSceneTwinBindingsMode.Behaviors;
                 }
                 break;
             default:

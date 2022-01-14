@@ -33,6 +33,7 @@ import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 import SceneElementForm from './Components/ElementForm';
 import SceneBehaviors from './Components/Behaviors';
 import SceneElements from './Components/Elements';
+import SceneBehaviorsForm from './Components/BehaviorsForm';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -168,10 +169,12 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds(element.meshIDs);
     };
 
-    const onElementBackClick = () => {
+    const onBackClick = (
+        idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
+    ) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.Idle
+            payload: idleMode
         });
         setSelectedObjectIds([]);
     };
@@ -183,11 +186,21 @@ const BuilderLeftPanel: React.FC = () => {
         });
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.Idle
+            payload: ADT3DSceneBuilderMode.ElementsIdle
         });
         setSelectedObjectIds([]);
     };
     // END of scene element related callbacks
+
+    // START of behavior related callbacks
+    const onCreateBehaviorClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateBehavior
+        });
+        setSelectedObjectIds([]);
+    };
+    // END of behavior related callbacks
 
     useEffect(() => {
         if (config) {
@@ -213,10 +226,30 @@ const BuilderLeftPanel: React.FC = () => {
             locale={locale}
             localeStrings={localeStrings}
         >
-            {state.builderMode === ADT3DSceneBuilderMode.Idle && (
+            {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+                state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
                     aria-label={t('buildMode')}
-                    defaultSelectedKey={ADT3DSceneTwinBindingsMode.Elements}
+                    selectedKey={state.selectedPivotTab}
+                    onLinkClick={(item) => {
+                        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+                        switch (item.props.itemKey) {
+                            case ADT3DSceneTwinBindingsMode.Elements:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.ElementsIdle;
+                                break;
+                            case ADT3DSceneTwinBindingsMode.Behaviors:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.BehaviorIdle;
+                                break;
+                            default:
+                                break;
+                        }
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: activePivot
+                        });
+                    }}
                     className="cb-scene-builder-left-panel-pivot"
                 >
                     <PivotItem
@@ -233,7 +266,9 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
-                        <SceneBehaviors />
+                        <SceneBehaviors
+                            onCreateBehaviorClick={onCreateBehaviorClick}
+                        />
                     </PivotItem>
                 </Pivot>
             )}
@@ -242,8 +277,19 @@ const BuilderLeftPanel: React.FC = () => {
                 <SceneElementForm
                     builderMode={state.builderMode}
                     selectedElement={state.selectedElement}
-                    onElementBackClick={onElementBackClick}
+                    onElementBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                    }
                     onElementSave={onElementSave}
+                />
+            )}
+            {state.builderMode === ADT3DSceneBuilderMode.CreateBehavior && (
+                <SceneBehaviorsForm
+                    builderMode={state.builderMode}
+                    onBehaviorBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
+                    }
+                    selectedBehavior={state.selectedBehavior}
                 />
             )}
         </BaseComponent>

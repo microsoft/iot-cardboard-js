@@ -7,6 +7,7 @@ import {
 } from '../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
+    ADT3DSceneTwinBindingsMode,
     Locale,
     Theme
 } from '../../../Models/Constants/Enums';
@@ -55,14 +56,22 @@ export interface IADT3DSceneBuilderElementFormProps {
     onElementBackClick: () => void;
 }
 
+export interface IADT3DSceneBuilderBehaviorFormProps {
+    builderMode: ADT3DSceneBuilderMode;
+    selectedBehavior: Behavior;
+    onBehaviorBackClick: () => void;
+}
+
 export interface ADT3DSceneBuilderState {
     config: ScenesConfig;
     selectedObjectIds: Array<string>;
 }
 
 export interface ADT3DSceneBuilderLeftPanelState {
+    selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<TwinToObjectMapping>;
     behaviors: Array<Behavior>;
     selectedElement: TwinToObjectMapping;
+    selectedBehavior: Behavior;
 }

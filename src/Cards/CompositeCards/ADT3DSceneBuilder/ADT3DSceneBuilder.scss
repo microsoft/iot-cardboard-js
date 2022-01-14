@@ -28,7 +28,7 @@
         padding: 0 4px;
     }
 
-    .cb-scene-builder-left-panel-create-element-wrapper {
+    .cb-scene-builder-left-panel-create-wrapper {
         animation: 0.4s slide-in ease-in-out;
         display: flex;
         flex-direction: column;
@@ -38,13 +38,13 @@
         width: 100%;
     }
 
-    .cb-scene-builder-left-panel-create-element-header {
+    .cb-scene-builder-left-panel-create-form-header {
         cursor: pointer;
         font-size: 16px;
         font-weight: 400;
     }
 
-    .cb-scene-builder-left-panel-create-element-form {
+    .cb-scene-builder-left-panel-create-form {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -75,14 +75,15 @@
         }
     }
 
-    .cb-scene-builder-elements {
+    .cb-scene-builder-pivot-contents {
         display: flex;
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
     }
 
-    .cb-scene-builder-element-list {
+    .cb-scene-builder-element-list,
+    .cb-scene-builder-behavior-list {
         flex-grow: 1;
         margin-bottom: 16px;
         overflow-x: hidden;
