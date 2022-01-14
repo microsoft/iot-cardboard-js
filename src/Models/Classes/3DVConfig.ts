@@ -7,7 +7,14 @@ import {
     JsonType
 } from 'ta-json';
 
-export class TwinToObjectMapping {
+export interface ITwinToObjectMapping {
+    id: string;
+    displayName: string;
+    primaryTwinID: string;
+    meshIDs: string[];
+    twinAliases: any;
+}
+export class TwinToObjectMapping implements ITwinToObjectMapping {
     @JsonProperty()
     @JsonType(String)
     id: string;
@@ -25,8 +32,14 @@ export class TwinToObjectMapping {
     twinAliases: any;
 }
 
+export interface IAsset {
+    type: string;
+    name: string;
+    url: string;
+}
+
 @JsonObject()
-export class Asset {
+export class Asset implements IAsset {
     @JsonProperty()
     @JsonType(String)
     type: string;
@@ -36,6 +49,17 @@ export class Asset {
     @JsonProperty()
     @JsonType(String)
     url: string;
+}
+
+export interface IScene {
+    type: string;
+    id: string;
+    displayName: string;
+    latitude: number;
+    longitude: number;
+    assets: IAsset[];
+    twinToObjectMappings: ITwinToObjectMapping[];
+    behaviors: string[];
 }
 
 @JsonObject()
@@ -71,9 +95,17 @@ export enum DatasourceType {
     FilteredTwin = 'FilteredTwinDatasource'
 }
 
+export interface IDatasource {
+    type: DatasourceType;
+    mappingIDs: string[];
+    twinFilterQuery: string;
+    messageFilter: string;
+    twinFilterSelector: string;
+}
+
 @JsonObject()
 @JsonDiscriminatorProperty('type')
-export class Datasource {
+export class Datasource implements IDatasource {
     @JsonProperty()
     @JsonType(String)
     type: DatasourceType;
@@ -91,7 +123,11 @@ export class Datasource {
     twinFilterSelector: string;
 }
 
-export class Color {
+export interface IColor {
+    type: string;
+    expression: string;
+}
+export class Color implements IColor {
     @JsonProperty()
     @JsonType(String)
     type: string;
@@ -100,7 +136,11 @@ export class Color {
     expression: string;
 }
 
-export class ElementIDs {
+export interface IElementIDs {
+    type: string;
+    expression: string;
+}
+export class ElementIDs implements IElementIDs {
     @JsonProperty()
     @JsonType(String)
     type: string;
@@ -109,7 +149,17 @@ export class ElementIDs {
     expression: string;
 }
 
-export class ControlConfiguration {
+export interface IControlConfiguration {
+    valueBreakPoints: number[];
+    colors: string[];
+    expression: string;
+    label: string;
+    width: number;
+    height: number;
+    units: string;
+}
+
+export class ControlConfiguration implements IControlConfiguration {
     @JsonProperty()
     @JsonElementType(Number)
     valueBreakPoints: number[];
@@ -133,7 +183,12 @@ export class ControlConfiguration {
     units: string;
 }
 
-export class Widget {
+export interface IWidget {
+    type: string;
+    controlConfiguration: IControlConfiguration;
+}
+
+export class Widget implements IWidget {
     @JsonProperty()
     @JsonType(String)
     type: string;
@@ -142,8 +197,13 @@ export class Widget {
     controlConfiguration: ControlConfiguration;
 }
 
+export interface ILabel {
+    type: string;
+    visibleWhen: string;
+    expression: string;
+}
 @JsonObject()
-export class Label {
+export class Label implements ILabel {
     @JsonProperty()
     @JsonType(String)
     type: string;
@@ -160,9 +220,18 @@ export enum VisualType {
     OnClickPopover = 'OnClickPopover',
     Label = 'Label'
 }
+
+export interface IVisual {
+    type: VisualType;
+    title: string;
+    elementIDs: IElementIDs;
+    color: IColor;
+    widgets: IWidget[];
+    label: ILabel;
+}
 @JsonObject()
 @JsonDiscriminatorProperty('type')
-export class Visual {
+export class Visual implements IVisual {
     @JsonProperty()
     @JsonType(String)
     type: VisualType;
@@ -183,8 +252,39 @@ export class Visual {
     label: Label;
 }
 
+export interface IBehavior {
+    id: string;
+    type: string;
+    layers: string[];
+    datasources: IDatasource[];
+    visuals: IVisual[];
+    twinAliases: string[];
+}
 @JsonObject()
-export class Behavior {
+export class Behavior implements IBehavior {
+    constructor({
+        id,
+        type,
+        layers,
+        datasources,
+        visuals,
+        twinAliases
+    }: {
+        id: string;
+        type: string;
+        layers: string[];
+        datasources: Datasource[];
+        visuals: Visual[];
+        twinAliases: string[];
+    }) {
+        this.id = id;
+        this.type = type;
+        this.layers = layers;
+        this.datasources = datasources;
+        this.visuals = visuals;
+        this.twinAliases = twinAliases;
+    }
+
     @JsonProperty()
     @JsonType(String)
     id: string;
@@ -205,8 +305,12 @@ export class Behavior {
     twinAliases: string[];
 }
 
+export interface IViewerConfiguration {
+    scenes: IScene[];
+    behaviors: IBehavior[];
+}
 @JsonObject()
-export class ViewerConfiguration {
+export class ViewerConfiguration implements IViewerConfiguration {
     @JsonProperty()
     @JsonElementType(Scene)
     scenes: Scene[];
@@ -215,8 +319,12 @@ export class ViewerConfiguration {
     behaviors: Behavior[];
 }
 
+export interface IScenesConfig {
+    type: string;
+    viewerConfiguration: IViewerConfiguration;
+}
 @JsonObject()
-export class ScenesConfig {
+export class ScenesConfig implements IScenesConfig {
     @JsonProperty()
     @JsonType(String)
     type: string;
