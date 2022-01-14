@@ -10,6 +10,7 @@ import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
@@ -33,6 +34,7 @@ import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 import SceneElementForm from './Components/ElementForm';
 import SceneBehaviors from './Components/Behaviors';
 import SceneElements from './Components/Elements';
+import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -55,6 +57,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         dispatch({
             type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
             payload: selectedMeshIds
+        });
+    };
+
+    const setColoredMeshItems = (coloredMeshItems) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+            payload: coloredMeshItems
         });
     };
 
@@ -86,6 +95,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 locale,
                 localeStrings,
                 selectedObjectIds: state.selectedObjectIds,
+                coloredMeshItems: state.coloredMeshItems,
+                setColoredMeshItems,
                 setSelectedObjectIds,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
@@ -106,7 +117,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     <div className="cb-scene-builder-canvas">
                         {state.config && (
                             <ADT3DBuilderCard
-                                adapter={adapter as IADTAdapter}
+                                adapter={adapter as IADTAdapter} 
                                 modelUrl={
                                     state.config.viewerConfiguration?.scenes[
                                         state.config.viewerConfiguration?.scenes.findIndex(
@@ -117,6 +128,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                 onMeshSelected={(selectedMeshes) =>
                                     setSelectedObjectIds(selectedMeshes)
                                 }
+                                coloredMeshItems={state.coloredMeshItems}
                                 preselectedMeshIds={state.selectedObjectIds}
                             />
                         )}
@@ -138,6 +150,7 @@ const BuilderLeftPanel: React.FC = () => {
         config,
         sceneId,
         setSelectedObjectIds,
+        setColoredMeshItems,
         theme,
         locale,
         localeStrings
@@ -166,6 +179,19 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditElement
         });
         setSelectedObjectIds(element.meshIDs);
+    };
+
+    const onElementEnter = (element: TwinToObjectMapping) => {
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const id of element.meshIDs) {
+            const coloredMesh: ColoredMeshItem = {meshId: id, color: '#00A8F0'};
+            coloredMeshes.push(coloredMesh);
+        }
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const onElementLeave = () => {
+        setColoredMeshItems([]);
     };
 
     const onElementBackClick = () => {
@@ -227,6 +253,8 @@ const BuilderLeftPanel: React.FC = () => {
                             elements={state.elements}
                             onCreateElementClick={onCreateElementClick}
                             onElementClick={onElementClick}
+                            onElementEnter={onElementEnter}
+                            onElementLeave={onElementLeave}
                         />
                     </PivotItem>
                     <PivotItem

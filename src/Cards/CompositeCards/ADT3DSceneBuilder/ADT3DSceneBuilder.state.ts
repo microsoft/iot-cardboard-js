@@ -8,13 +8,15 @@ import {
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_MODE,
-    SET_ADT_SCENE_BUILDER_BEHAVIORS
+    SET_ADT_SCENE_BUILDER_BEHAVIORS,
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS
 } from './ADT3DSceneBuilder.types';
 import { ADT3DSceneBuilderMode } from '../../../Models/Constants/Enums';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
-    selectedObjectIds: []
+    selectedObjectIds: [],
+    coloredMeshItems: []
 };
 
 export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelState = {
@@ -34,6 +36,9 @@ export const ADT3DSceneBuilderReducer = produce(
                 break;
             case SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS:
                 draft.selectedObjectIds = payload;
+                break;
+            case SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS:
+                draft.coloredMeshItems = payload;
                 break;
             default:
                 break;
