@@ -36,7 +36,7 @@ const SceneElements: React.FC<any> = ({
                 )}
             </div>
             <PrimaryButton
-                className="cb-scene-builder-create-element-button"
+                className="cb-scene-builder-create-button"
                 onClick={onCreateElementClick}
                 text={t('3dSceneBuilder.createElement')}
             />

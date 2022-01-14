@@ -8,7 +8,8 @@ import {
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_MODE,
-    SET_ADT_SCENE_BUILDER_BEHAVIORS
+    SET_ADT_SCENE_BUILDER_BEHAVIORS,
+    SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -63,6 +64,9 @@ export const ADT3DSceneBuilderLeftPanelReducer = (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
                 draft.selectedElement = payload;
+                break;
+            case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
+                draft.selectedBehavior = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

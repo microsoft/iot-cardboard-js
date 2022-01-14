@@ -51,7 +51,7 @@
         overflow: auto;
     }
 
-    .cb-scene-builder-left-panel-create-element-inner-form {
+    .cb-scene-builder-left-panel-create-form-contents {
         padding: 16px 0;
     }
 
@@ -91,7 +91,8 @@
         padding: 16px 16px 0 0;
     }
 
-    .cb-scene-builder-left-panel-element {
+    .cb-scene-builder-left-panel-element,
+    .cb-scene-builder-left-panel-behavior {
         align-items: center;
         display: flex;
         height: 28px;
@@ -100,19 +101,21 @@
         padding-left: 16px;
         width: calc(100% + 16px);
 
-        .cb-scene-builder-element-name {
+        .cb-scene-builder-element-name,
+        .cb-scene-builder-behavior-name {
             font-size: 14px;
             padding-left: 8px;
         }
     }
 
-    .cb-scene-builder-left-panel-element:hover {
+    .cb-scene-builder-left-panel-element:hover,
+    .cb-scene-builder-left-panel-behavior:hover {
         background: var(--cb-color-card-contrast);
         cursor: pointer;
         filter: unset;
     }
 
-    .cb-scene-builder-create-element-button {
+    .cb-scene-builder-create-button {
         height: 32px;
         max-width: 200px;
         min-height: 32px;
@@ -151,12 +154,13 @@
         margin: 8px 4px 8px 0;
     }
 
-    .cb-element {
+    .cb-element,
+    .cb-behavior-icon {
         display: inline-block;
         font-size: 12px;
     }
 
-    .cb-scene-builder-left-panel-create-element-actions {
+    .cb-scene-builder-left-panel-create-form-actions {
         align-items: end;
         display: flex;
         height: 36px;

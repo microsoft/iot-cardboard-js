@@ -2,10 +2,11 @@ import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
-import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
+import { ScenesConfig, Scene, IBehavior } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
+import ViewConfigBehaviorData from '../Models/Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -172,6 +173,74 @@ export default class BlobAdapter implements IBlobAdapter {
                     );
                 } else {
                     return new ADTSceneData(null);
+                }
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async addBehavior(
+        config: ScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                const updatedConfig = { ...config };
+                updatedConfig.viewerConfiguration.behaviors.push(behavior);
+                updatedConfig.viewerConfiguration.scenes
+                    .find((scene) => scene.id === sceneId)
+                    ?.behaviors?.push(behavior.id);
+
+                const putConfigResult = await this.putScenesConfig(
+                    updatedConfig
+                );
+                if (putConfigResult.getData()) {
+                    return new ViewConfigBehaviorData(behavior);
+                } else {
+                    return new ViewConfigBehaviorData(null);
+                }
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async editBehavior(config: ScenesConfig, behavior: IBehavior) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                const updatedConfig = { ...config };
+                let behaviorToUpdate = updatedConfig.viewerConfiguration.behaviors.find(
+                    (b) => b.id === behavior.id
+                );
+
+                if (behaviorToUpdate) {
+                    behaviorToUpdate = behavior;
+                }
+                const putConfigResult = await this.putScenesConfig(
+                    updatedConfig
+                );
+                if (putConfigResult.getData()) {
+                    return new ViewConfigBehaviorData(behavior);
+                } else {
+                    return new ViewConfigBehaviorData(null);
                 }
             } catch (err) {
                 adapterMethodSandbox.pushError({

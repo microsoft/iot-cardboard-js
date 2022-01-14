@@ -172,8 +172,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
             <Pivot
                 aria-label={
                     defaultMode === ADT3DScenePageModes.BuildScene
-                        ? t('buildMode')
-                        : t('viewMode')
+                        ? t('3dScenePage.buildMode')
+                        : t('3dScenePage.viewMode')
                 }
                 defaultSelectedKey={defaultMode}
                 styles={{

@@ -1,7 +1,8 @@
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import {
-    Behavior,
+    IBehavior,
+    ITwinToObjectMapping,
     ScenesConfig,
     TwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
@@ -20,6 +21,8 @@ export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
     'SET_ADT_SCENE_BUILDER_BEHAVIORS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
+export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
+    'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
@@ -58,8 +61,10 @@ export interface IADT3DSceneBuilderElementFormProps {
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedBehavior: Behavior;
+    selectedBehavior: IBehavior;
+    elements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
+    onBehaviorSave: (behavior: IBehavior) => void;
 }
 
 export interface ADT3DSceneBuilderState {
@@ -71,7 +76,7 @@ export interface ADT3DSceneBuilderLeftPanelState {
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<TwinToObjectMapping>;
-    behaviors: Array<Behavior>;
+    behaviors: Array<IBehavior>;
     selectedElement: TwinToObjectMapping;
-    selectedBehavior: Behavior;
+    selectedBehavior: IBehavior;
 }

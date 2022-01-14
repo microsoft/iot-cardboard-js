@@ -40,10 +40,11 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { ScenesConfig, Scene } from '../Classes/3DVConfig';
+import { ScenesConfig, Scene, IBehavior } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
+import ViewConfigBehaviorData from '../Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export interface IAction {
     type: string;
@@ -408,6 +409,15 @@ export interface IBlobAdapter {
         config: ScenesConfig,
         sceneId: string
     ) => AdapterReturnType<ADTSceneData>;
+    addBehavior: (
+        config: ScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ) => AdapterReturnType<ViewConfigBehaviorData>;
+    editBehavior: (
+        config: ScenesConfig,
+        behavior: IBehavior
+    ) => AdapterReturnType<ViewConfigBehaviorData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

@@ -121,7 +121,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     </span>
                 </div>
 
-                <div className="cb-scene-builder-left-panel-create-element-inner-form">
+                <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TextField
                         label={t('name')}
                         value={elementToEdit?.displayName}
@@ -216,7 +216,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     )}
                 </div>
             </div>
-            <div className="cb-scene-builder-left-panel-create-element-actions">
+            <div className="cb-scene-builder-left-panel-create-form-actions">
                 <PrimaryButton
                     onClick={handleSaveElement}
                     text={

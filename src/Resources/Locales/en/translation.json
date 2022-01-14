@@ -282,7 +282,11 @@
         "twinLink": "Twin link",
         "twinLinkInputInfo": "Enter twin id ($dtId) that you want to link this element",
         "noObjectAddedText": "No objects added yet, pelase select meshes in 3D viewer",
-        "objects": "Objects"
+        "objects": "Objects",
+        "behaviorElementsDropdownLabel": "Target element",
+        "behaviorElementsDropdownPlaceholder": "Select an element",
+        "behaviorTriggerLabel": "Trigger",
+        "behaviorTriggerPlaceholder": "Enter expression"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

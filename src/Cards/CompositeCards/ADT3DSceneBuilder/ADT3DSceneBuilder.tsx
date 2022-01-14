@@ -20,6 +20,7 @@ import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import {
+    IBehavior,
     ScenesConfig,
     TwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
@@ -137,12 +138,22 @@ const BuilderLeftPanel: React.FC = () => {
 
     const {
         config,
+        getConfig,
         sceneId,
         setSelectedObjectIds,
         theme,
         locale,
-        localeStrings
+        localeStrings,
+        adapter
     } = useContext(SceneBuilderContext);
+
+    const addBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.addBehavior(config, sceneId, params.behavior),
+
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
     // START of scene element related callbacks
     const onCreateElementClick = () => {
@@ -200,6 +211,13 @@ const BuilderLeftPanel: React.FC = () => {
         });
         setSelectedObjectIds([]);
     };
+
+    const onBehaviorSave = async (behavior: IBehavior) => {
+        await addBehaviorAdapterData.callAdapter({
+            behavior
+        });
+        getConfig();
+    };
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -220,6 +238,8 @@ const BuilderLeftPanel: React.FC = () => {
         }
     }, [config]);
 
+    const behaviors = config?.viewerConfiguration?.behaviors || [];
+
     return (
         <BaseComponent
             theme={theme}
@@ -229,7 +249,7 @@ const BuilderLeftPanel: React.FC = () => {
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
-                    aria-label={t('buildMode')}
+                    aria-label={t('3dScenePage.buildMode')}
                     selectedKey={state.selectedPivotTab}
                     onLinkClick={(item) => {
                         let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
@@ -267,6 +287,10 @@ const BuilderLeftPanel: React.FC = () => {
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
                         <SceneBehaviors
+                            behaviors={behaviors}
+                            onBehaviorClick={(behavior) =>
+                                console.log(behavior)
+                            }
                             onCreateBehaviorClick={onCreateBehaviorClick}
                         />
                     </PivotItem>
@@ -285,11 +309,13 @@ const BuilderLeftPanel: React.FC = () => {
             )}
             {state.builderMode === ADT3DSceneBuilderMode.CreateBehavior && (
                 <SceneBehaviorsForm
+                    elements={state.elements}
                     builderMode={state.builderMode}
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
                     selectedBehavior={state.selectedBehavior}
+                    onBehaviorSave={onBehaviorSave}
                 />
             )}
         </BaseComponent>
