@@ -6,7 +6,7 @@ import ADT3DViewerCard from './ADT3DViewerCard';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { TaJson } from 'ta-json';
 import { ScenesConfig } from '../../Models/Classes/3DVConfig';
-import { mockVConfig } from '../../Adapters/__mockData__/vconfigDecFinal';
+import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
     title: '3DV/ADT3DViewerCard'
