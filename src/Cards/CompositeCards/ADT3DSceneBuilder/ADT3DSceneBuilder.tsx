@@ -117,7 +117,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     <div className="cb-scene-builder-canvas">
                         {state.config && (
                             <ADT3DBuilderCard
-                                adapter={adapter as IADTAdapter} 
+                                adapter={adapter as IADTAdapter}
                                 modelUrl={
                                     state.config.viewerConfiguration?.scenes[
                                         state.config.viewerConfiguration?.scenes.findIndex(
@@ -184,7 +184,10 @@ const BuilderLeftPanel: React.FC = () => {
     const onElementEnter = (element: TwinToObjectMapping) => {
         const coloredMeshes: ColoredMeshItem[] = [];
         for (const id of element.meshIDs) {
-            const coloredMesh: ColoredMeshItem = {meshId: id, color: '#00A8F0'};
+            const coloredMesh: ColoredMeshItem = {
+                meshId: id,
+                color: '#00A8F0'
+            };
             coloredMeshes.push(coloredMesh);
         }
         setColoredMeshItems(coloredMeshes);
