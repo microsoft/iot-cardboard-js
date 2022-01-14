@@ -44,7 +44,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 let config;
                 if (scenesBlob.data) {
-                    config = scenesBlob.data as IScenesConfig;
+                    config = JSON.parse(scenesBlob.data) as IScenesConfig;
                 }
 
                 return new ADTScenesConfigData(config);
