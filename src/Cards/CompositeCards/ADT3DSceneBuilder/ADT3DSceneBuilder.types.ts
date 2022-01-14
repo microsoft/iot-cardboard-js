@@ -6,6 +6,7 @@ import {
     ScenesConfig,
     TwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
+import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -25,6 +26,8 @@ export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
     'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
+export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
+    'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 // END of Actions
 
@@ -43,7 +46,9 @@ export interface I3DSceneBuilderContext {
     getConfig: () => void;
     sceneId: string;
     selectedObjectIds: Array<string>;
+    coloredMeshItems: ColoredMeshItem[];
     setSelectedObjectIds: (objects: Array<string>) => void;
+    setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -81,6 +86,7 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
 export interface ADT3DSceneBuilderState {
     config: ScenesConfig;
     selectedObjectIds: Array<string>;
+    coloredMeshItems: ColoredMeshItem[];
 }
 
 export interface ADT3DSceneBuilderLeftPanelState {

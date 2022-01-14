@@ -3,7 +3,7 @@ import { SceneView } from '../../Components/3DV/SceneView';
 import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { Marker } from '../../Models/Classes/SceneView.types';
+import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 
 interface ADT3DBuilderCardProps {
@@ -13,6 +13,7 @@ interface ADT3DBuilderCardProps {
     onMeshSelected?: (selectedMeshes: string[]) => void;
     showMeshesOnHover?: boolean;
     preselectedMeshIds?: Array<string>;
+    coloredMeshItems?: ColoredMeshItem[];
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
@@ -21,7 +22,8 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     title,
     onMeshSelected,
     showMeshesOnHover,
-    preselectedMeshIds
+    preselectedMeshIds,
+    coloredMeshItems
 }) => {
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>(
         preselectedMeshIds ?? []
@@ -63,6 +65,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     onMarkerClick={(marker, mesh) =>
                         onMeshSelected && meshClick(marker, mesh)
                     }
+                    coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
                     selectedMeshIds={selectedMeshIds}
                     getToken={

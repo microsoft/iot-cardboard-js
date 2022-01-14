@@ -18,11 +18,6 @@ export const PopupWidget: React.FC<IProp> = ({ config, onClose, twins }) => {
 
     return (
         <div>
-            {config.title && (
-                <div className="cb-adt-3dviewer-popup-title">
-                    {config.title}
-                </div>
-            )}
             <PanelWidget config={config} twins={twins} />
             <button
                 className="cb-adt-3dviewer-close-btn"

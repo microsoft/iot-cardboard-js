@@ -1,12 +1,16 @@
 import React from 'react';
-import { Visual, Widget } from '../../../Models/Classes/3DVConfig';
+import {
+    ControlConfiguration,
+    Visual,
+    Widget
+} from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import { GaugeWidget } from '../GaugeWidget/GaugeWidget';
 import { LinkWidget } from '../LinkWidget/LinkWidget';
 import './PanelWidget.scss';
 
 interface IProp {
-    config: Visual;
+    config: Visual | ControlConfiguration;
     twins: Record<string, DTwin>;
 }
 
@@ -19,6 +23,14 @@ function makeWidget(
         case 'Link':
             return (
                 <LinkWidget
+                    key={index}
+                    config={widget.controlConfiguration}
+                    twins={twins}
+                />
+            );
+        case 'Panel':
+            return (
+                <PanelWidget
                     key={index}
                     config={widget.controlConfiguration}
                     twins={twins}
@@ -40,10 +52,21 @@ function makeWidget(
 export const PanelWidget: React.FC<IProp> = ({ config, twins }) => {
     if (config?.widgets?.length) {
         return (
-            <div className="cb-panel-widget-container">
-                {config.widgets.map((widget, index) =>
-                    makeWidget(index, widget, twins)
+            <div>
+                {config.title && (
+                    <div className="cb-adt-3dviewer-popup-title">
+                        {config.title}
+                    </div>
                 )}
+                <div
+                    className={`cb-panel-widget-container ${
+                        config.isHorizontal ? 'cb-panel-widget-fdrow' : ''
+                    }`}
+                >
+                    {config.widgets.map((widget, index) =>
+                        makeWidget(index, widget, twins)
+                    )}
+                </div>
             </div>
         );
     }
