@@ -79,7 +79,6 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     useEffect(() => {
         if (!getScenesConfig.adapterResult.hasNoData()) {
             const config: IScenesConfig = getScenesConfig.adapterResult.getData();
-            console.log(config);
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
@@ -268,11 +267,10 @@ const BuilderLeftPanel: React.FC = () => {
             });
         }
         if (mode === ADT3DSceneBuilderMode.EditBehavior) {
-            const res = await editBehaviorAdapterData.callAdapter({
+            await editBehaviorAdapterData.callAdapter({
                 behavior,
                 originalBehaviorId
             });
-            console.log(res);
         }
         getConfig();
     };
