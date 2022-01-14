@@ -1,7 +1,7 @@
 import { Dropdown } from '@fluentui/react/lib/components/Dropdown/Dropdown';
 import { FontIcon } from '@fluentui/react/lib/components/Icon/FontIcon';
 import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
@@ -9,7 +9,10 @@ import {
     VisualType
 } from '../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { IADT3DSceneBuilderBehaviorFormProps } from '../ADT3DSceneBuilder.types';
+import {
+    BehaviorSaveMode,
+    IADT3DSceneBuilderBehaviorFormProps
+} from '../ADT3DSceneBuilder.types';
 import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 
@@ -50,6 +53,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehavior ?? defaultBehavior
     );
 
+    const [originalBehaviorId, setOriginalBehaviorId] = useState(
+        selectedBehavior?.id
+    );
+
+    useEffect(() => {
+        if (selectedBehavior) {
+            setBehaviorToEdit(selectedBehavior);
+            setOriginalBehaviorId(selectedBehavior.id);
+        }
+    }, [selectedBehavior]);
+
     let colorAlertTriggerExpression = '';
     const colorChangeVisual = behaviorToEdit.visuals.find(
         (visual) => visual.type === VisualType.ColorChange
@@ -78,7 +92,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 </div>
                 <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TextField
-                        label={t('id')}
+                        label={t('3dSceneBuilder.behaviorId')}
                         value={behaviorToEdit.id}
                         required
                         onChange={(_e, newValue) => {
@@ -151,7 +165,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <div className="cb-scene-builder-left-panel-create-form-actions">
                 <PrimaryButton
                     onClick={() => {
-                        onBehaviorSave(behaviorToEdit);
+                        onBehaviorSave(
+                            behaviorToEdit,
+                            builderMode as BehaviorSaveMode,
+                            originalBehaviorId
+                        );
                         onBehaviorBackClick();
                     }}
                     text={

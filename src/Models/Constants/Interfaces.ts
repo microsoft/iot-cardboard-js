@@ -416,7 +416,8 @@ export interface IBlobAdapter {
     ) => AdapterReturnType<ViewConfigBehaviorData>;
     editBehavior: (
         config: ScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        originalBehaviorId: string
     ) => AdapterReturnType<ViewConfigBehaviorData>;
 }
 

@@ -286,7 +286,8 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger",
-        "behaviorTriggerPlaceholder": "Enter expression"
+        "behaviorTriggerPlaceholder": "Enter expression",
+        "behaviorId": "Behavior Id"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

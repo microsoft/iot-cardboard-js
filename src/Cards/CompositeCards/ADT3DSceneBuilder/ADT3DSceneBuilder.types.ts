@@ -59,12 +59,22 @@ export interface IADT3DSceneBuilderElementFormProps {
     onElementBackClick: () => void;
 }
 
+export type BehaviorSaveMode =
+    | ADT3DSceneBuilderMode.EditBehavior
+    | ADT3DSceneBuilderMode.CreateBehavior;
+
+export type OnBehaviorSave = (
+    behavior: IBehavior,
+    mode: BehaviorSaveMode,
+    originalBehaviorId?: string
+) => void;
+
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedBehavior: IBehavior;
     elements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
-    onBehaviorSave: (behavior: IBehavior) => void;
+    onBehaviorSave: OnBehaviorSave;
 }
 
 export interface ADT3DSceneBuilderState {

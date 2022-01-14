@@ -10,8 +10,10 @@ import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
+    OnBehaviorSave,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
@@ -150,7 +152,20 @@ const BuilderLeftPanel: React.FC = () => {
     const addBehaviorAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
             adapter.addBehavior(config, sceneId, params.behavior),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
+    const editBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behavior: IBehavior;
+            originalBehaviorId: string;
+        }) =>
+            adapter.editBehavior(
+                config,
+                params.behavior,
+                params.originalBehaviorId
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -212,11 +227,35 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds([]);
     };
 
-    const onBehaviorSave = async (behavior: IBehavior) => {
-        await addBehaviorAdapterData.callAdapter({
-            behavior
-        });
+    const onBehaviorSave: OnBehaviorSave = async (
+        behavior,
+        mode,
+        originalBehaviorId
+    ) => {
+        if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
+            await addBehaviorAdapterData.callAdapter({
+                behavior
+            });
+        }
+        if (mode === ADT3DSceneBuilderMode.EditBehavior) {
+            const res = await editBehaviorAdapterData.callAdapter({
+                behavior,
+                originalBehaviorId
+            });
+            console.log(res);
+        }
         getConfig();
+    };
+
+    const onBehaviorClick = (behavior: IBehavior) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+            payload: behavior
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.EditBehavior
+        });
     };
     // END of behavior related callbacks
 
@@ -288,9 +327,7 @@ const BuilderLeftPanel: React.FC = () => {
                     >
                         <SceneBehaviors
                             behaviors={behaviors}
-                            onBehaviorClick={(behavior) =>
-                                console.log(behavior)
-                            }
+                            onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
                         />
                     </PivotItem>
@@ -307,7 +344,8 @@ const BuilderLeftPanel: React.FC = () => {
                     onElementSave={onElementSave}
                 />
             )}
-            {state.builderMode === ADT3DSceneBuilderMode.CreateBehavior && (
+            {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+                state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
                 <SceneBehaviorsForm
                     elements={state.elements}
                     builderMode={state.builderMode}

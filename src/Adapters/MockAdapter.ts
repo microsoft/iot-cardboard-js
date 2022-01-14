@@ -344,16 +344,17 @@ export default class MockAdapter
         }
     }
 
-    async editBehavior(config: ScenesConfig, behavior: IBehavior) {
+    async editBehavior(
+        config: ScenesConfig,
+        behavior: IBehavior,
+        originalBehaviorId: string
+    ) {
         try {
             const updatedConfig = { ...config };
-            let behaviorToUpdate = updatedConfig.viewerConfiguration.behaviors.find(
-                (b) => b.id === behavior.id
+            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                (b) => b.id === originalBehaviorId
             );
-
-            if (behaviorToUpdate) {
-                behaviorToUpdate = behavior;
-            }
+            updatedConfig.viewerConfiguration.behaviors[behaviorIdx] = behavior;
 
             await this.mockNetwork();
             this.scenesConfig = updatedConfig;

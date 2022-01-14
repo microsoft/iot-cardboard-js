@@ -219,7 +219,11 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async editBehavior(config: ScenesConfig, behavior: IBehavior) {
+    async editBehavior(
+        config: ScenesConfig,
+        behavior: IBehavior,
+        originalBehaviorId: string
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -227,13 +231,13 @@ export default class BlobAdapter implements IBlobAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (_token) => {
             try {
                 const updatedConfig = { ...config };
-                let behaviorToUpdate = updatedConfig.viewerConfiguration.behaviors.find(
-                    (b) => b.id === behavior.id
+                const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                    (b) => b.id === originalBehaviorId
                 );
+                updatedConfig.viewerConfiguration.behaviors[
+                    behaviorIdx
+                ] = behavior;
 
-                if (behaviorToUpdate) {
-                    behaviorToUpdate = behavior;
-                }
                 const putConfigResult = await this.putScenesConfig(
                     updatedConfig
                 );
