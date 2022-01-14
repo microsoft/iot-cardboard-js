@@ -4,8 +4,10 @@ import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+    Behavior,
     DatasourceType,
     IBehavior,
+    ITwinToObjectMapping,
     VisualType
 } from '../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
@@ -15,6 +17,8 @@ import {
 } from '../ADT3DSceneBuilder.types';
 import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
+import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
+import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
 
 const defaultBehavior: IBehavior = {
     id: '',
@@ -40,6 +44,13 @@ const defaultBehavior: IBehavior = {
     twinAliases: []
 };
 
+enum BehaviorPivot {
+    elements = 'elements',
+    twins = 'twins',
+    alerts = 'alerts',
+    widgets = 'widgets'
+}
+
 const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     elements,
     builderMode,
@@ -53,6 +64,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehavior ?? defaultBehavior
     );
 
+    const [
+        selectedBehaviorPivotKey,
+        setSelectedBehaviorPivotKey
+    ] = useState<BehaviorPivot>(BehaviorPivot.elements);
+
     const [originalBehaviorId, setOriginalBehaviorId] = useState(
         selectedBehavior?.id
     );
@@ -63,14 +79,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             setOriginalBehaviorId(selectedBehavior.id);
         }
     }, [selectedBehavior]);
-
-    let colorAlertTriggerExpression = '';
-    const colorChangeVisual = behaviorToEdit.visuals.find(
-        (visual) => visual.type === VisualType.ColorChange
-    );
-    if (colorChangeVisual) {
-        colorAlertTriggerExpression = colorChangeVisual.color.expression;
-    }
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
@@ -104,62 +112,41 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         }}
                     />
 
-                    <Dropdown
-                        label={t(
-                            '3dSceneBuilder.behaviorElementsDropdownLabel'
-                        )}
-                        selectedKey={
-                            behaviorToEdit?.datasources?.[0]?.mappingIDs?.[0] ??
-                            undefined
+                    {/* Pivot here */}
+                    <Pivot
+                        selectedKey={selectedBehaviorPivotKey}
+                        onLinkClick={(item) =>
+                            setSelectedBehaviorPivotKey(
+                                item.props.itemKey as BehaviorPivot
+                            )
                         }
-                        onChange={(_ev, option) => {
-                            setBehaviorToEdit(
-                                produce((draft) => {
-                                    // v1 datasources set to single TwinToObjectMappingDatasource
-                                    draft.datasources = [
-                                        {
-                                            type:
-                                                DatasourceType.TwinToObjectMapping,
-                                            mappingIDs: [option.id], // v1 mappingIDs set to single element
-                                            messageFilter: '',
-                                            twinFilterQuery: '',
-                                            twinFilterSelector: ''
-                                        }
-                                    ];
-                                })
-                            );
-                        }}
-                        placeholder={t(
-                            '3dSceneBuilder.behaviorElementsDropdownPlaceholder'
-                        )}
-                        options={elements.map((el) => ({
-                            key: el.id,
-                            text: el.displayName,
-                            id: el.id,
-                            data: el
-                        }))}
-                    />
-                    <TextField
-                        label={t('3dSceneBuilder.behaviorTriggerLabel')}
-                        multiline={colorAlertTriggerExpression.length > 50}
-                        onChange={(_e, newValue) => {
-                            setBehaviorToEdit(
-                                produce((draft) => {
-                                    // Assuming only 1 color change visual per behavior
-                                    const colorChangeVisual = draft.visuals.find(
-                                        (visual) =>
-                                            visual.type ===
-                                            VisualType.ColorChange
-                                    );
-                                    colorChangeVisual.color.expression = newValue;
-                                })
-                            );
-                        }}
-                        value={colorAlertTriggerExpression}
-                        placeholder={t(
-                            '3dSceneBuilder.behaviorTriggerPlaceholder'
-                        )}
-                    />
+                    >
+                        <PivotItem
+                            headerText={t('3dSceneBuilder.elements')}
+                            itemKey={BehaviorPivot.elements}
+                        >
+                            <BehaviorFormElementsTab
+                                behaviorToEdit={behaviorToEdit}
+                                elements={elements}
+                                setBehaviorToEdit={setBehaviorToEdit}
+                            />
+                        </PivotItem>
+                        <PivotItem
+                            headerText={t('3dSceneBuilder.alerts')}
+                            itemKey={BehaviorPivot.alerts}
+                        >
+                            <BehaviorFormAlertsTab
+                                behaviorToEdit={behaviorToEdit}
+                                setBehaviorToEdit={setBehaviorToEdit}
+                            />
+                        </PivotItem>
+                        <PivotItem
+                            headerText={t('3dSceneBuilder.widgets')}
+                            itemKey={BehaviorPivot.widgets}
+                        >
+                            <BehaviorFormWidgetsTab />
+                        </PivotItem>
+                    </Pivot>
                 </div>
             </div>
             <div className="cb-scene-builder-left-panel-create-form-actions">
@@ -182,6 +169,86 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             </div>
         </div>
     );
+};
+
+const BehaviorFormElementsTab: React.FC<{
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+    elements: Array<ITwinToObjectMapping>;
+}> = ({ behaviorToEdit, setBehaviorToEdit, elements }) => {
+    const { t } = useTranslation();
+    return (
+        <Dropdown
+            label={t('3dSceneBuilder.behaviorElementsDropdownLabel')}
+            selectedKey={
+                behaviorToEdit?.datasources?.[0]?.mappingIDs?.[0] ?? undefined
+            }
+            onChange={(_ev, option) => {
+                setBehaviorToEdit(
+                    produce((draft) => {
+                        // v1 datasources set to single TwinToObjectMappingDatasource
+                        draft.datasources = [
+                            {
+                                type: DatasourceType.TwinToObjectMapping,
+                                mappingIDs: [option.id], // v1 mappingIDs set to single element
+                                messageFilter: '',
+                                twinFilterQuery: '',
+                                twinFilterSelector: ''
+                            }
+                        ];
+                    })
+                );
+            }}
+            placeholder={t(
+                '3dSceneBuilder.behaviorElementsDropdownPlaceholder'
+            )}
+            options={elements.map((el) => ({
+                key: el.id,
+                text: el.displayName,
+                id: el.id,
+                data: el
+            }))}
+        />
+    );
+};
+
+const BehaviorFormAlertsTab: React.FC<{
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+}> = ({ behaviorToEdit, setBehaviorToEdit }) => {
+    const { t } = useTranslation();
+
+    let colorAlertTriggerExpression = '';
+    const colorChangeVisual = behaviorToEdit.visuals.find(
+        (visual) => visual.type === VisualType.ColorChange
+    );
+    if (colorChangeVisual) {
+        colorAlertTriggerExpression = colorChangeVisual.color.expression;
+    }
+
+    return (
+        <TextField
+            label={t('3dSceneBuilder.behaviorTriggerLabel')}
+            multiline={colorAlertTriggerExpression.length > 50}
+            onChange={(_e, newValue) => {
+                setBehaviorToEdit(
+                    produce((draft) => {
+                        // Assuming only 1 color change visual per behavior
+                        const colorChangeVisual = draft.visuals.find(
+                            (visual) => visual.type === VisualType.ColorChange
+                        );
+                        colorChangeVisual.color.expression = newValue;
+                    })
+                );
+            }}
+            value={colorAlertTriggerExpression}
+            placeholder={t('3dSceneBuilder.behaviorTriggerPlaceholder')}
+        />
+    );
+};
+
+const BehaviorFormWidgetsTab: React.FC<any> = () => {
+    return <div>Widgets</div>;
 };
 
 export default SceneBehaviorsForm;
