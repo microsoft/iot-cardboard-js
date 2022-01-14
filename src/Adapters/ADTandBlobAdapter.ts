@@ -6,16 +6,16 @@ import BlobAdapter from './BlobAdapter';
 export default class ADTandBlobAdapter {
     constructor(
         adtHostUrl: string,
-        storateAccountHostUrl: string,
-        blobPath: string,
+        blobContainerUrl: string,
         authService: IAuthService,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = authService;
-        this.storateAccountHostUrl = storateAccountHostUrl;
-        this.blobPath = blobPath;
+        const containerURL = new URL(blobContainerUrl);
+        this.storateAccountHostUrl = containerURL.hostname;
+        this.blobContainerPath = containerURL.pathname;
 
         this.adtProxyServerPath = adtProxyServerPath;
         this.blobProxyServerPath = blobProxyServerPath;

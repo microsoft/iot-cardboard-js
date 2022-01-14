@@ -24,8 +24,7 @@ export const ScenesCard = (_arg, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={
                     new BlobAdapter(
-                        authenticationParameters.storage.accountHostUrl,
-                        authenticationParameters.storage.blobPath,
+                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.storage.aadParameters
                         )

@@ -1,35 +1,32 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    ADT3DScenePageModes,
-    ADT3DScenePageSteps
-} from '../../../Models/Constants/Enums';
-import ADT3DViewerCard from '../../ADT3DViewerCard/ADT3DViewerCard';
+import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
 import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
-import {
-    IADT3DSceneBuilderProps,
-    IADT3DScenePageProps
-} from './ADT3DScenePage.types';
+import { IADT3DScenePageProps } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
-import { DefaultButton, Pivot, PivotItem } from '@fluentui/react';
+import { Breadcrumb } from '@fluentui/react';
 import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
 } from './ADT3DScenePage.state';
 import {
+    SET_ADT_SCENE_CONFIG,
+    SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
+    SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
-import { Scene } from '../../../Models/Classes/3DVConfig';
+import { Scene, ScenesConfig } from '../../../Models/Classes/3DVConfig';
 import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
-import ADT3DSceneBuilder from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
+import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
+import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
+import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
     theme,
-    title,
     locale,
     localeStrings,
     adapterAdditionalParameters
@@ -40,6 +37,26 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
+    const scenesConfig = useAdapter({
+        adapterMethod: () => adapter.getScenesConfig(),
+        refetchDependencies: [
+            adapter,
+            state.selectedBlobContainerURL,
+            state.selectedScene
+        ]
+    });
+
+    const handleOnHomeClick = () => {
+        dispatch({
+            type: SET_SELECTED_SCENE,
+            payload: null
+        });
+        dispatch({
+            type: SET_CURRENT_STEP,
+            payload: ADT3DScenePageSteps.SceneLobby
+        });
+    };
+
     const handleOnSceneClick = (scene: Scene) => {
         dispatch({
             type: SET_SELECTED_SCENE,
@@ -47,61 +64,115 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
         dispatch({
             type: SET_CURRENT_STEP,
-            payload: ADT3DScenePageSteps.TwinBindingsWithScene
+            payload: ADT3DScenePageSteps.SceneBuilder
         });
     };
+
+    const handleBlobContainerPathChange = (
+        selectedBlobURL: string,
+        options: Array<string>
+    ) => {
+        dispatch({
+            type: SET_BLOB_CONTAINER_URLS,
+            payload: options
+        });
+        dispatch({
+            type: SET_SELECTED_BLOB_CONTAINER_URL,
+            payload: selectedBlobURL
+        });
+        adapter.setBlobContainerPath(selectedBlobURL);
+    };
+
+    // initially set the blobContainerPath to the one passed in adapter
+    useEffect(() => {
+        dispatch({
+            type: SET_SELECTED_BLOB_CONTAINER_URL,
+            payload: adapter.getBlobContainerURL()
+        });
+    }, []);
+
+    useEffect(() => {
+        if (!scenesConfig.adapterResult.hasNoData()) {
+            const config: ScenesConfig = scenesConfig.adapterResult.getData();
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: config
+            });
+        } else {
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: null
+            });
+        }
+    }, [scenesConfig?.adapterResult]);
 
     return (
         <div className="cb-scene-page-container">
             <BaseCompositeCard
-                title={title}
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
                 adapterAdditionalParameters={adapterAdditionalParameters}
             >
-                {state.currentStep === ADT3DScenePageSteps.SceneTwinList && (
+                {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                     <div className="cb-scene-page-scene-list-container">
-                        <DefaultButton
-                            onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.Globe
-                                });
-                            }}
-                            text={t('globe')}
-                            className="cb-scene-page-view-button"
-                        />
-                        <SceneListCard
-                            title={'Twins with visual ontology'}
-                            theme={theme}
-                            locale={locale}
-                            adapter={adapter}
-                            onSceneClick={(scene) => {
-                                handleOnSceneClick(scene);
-                            }}
-                        />
+                        <div className="cb-scene-page-scene-environment-picker">
+                            <ADTSceneConfigBlobContainerPicker
+                                existingOptions={state.blobContainerURLs}
+                                selectedContainerUrl={
+                                    state.selectedBlobContainerURL
+                                }
+                                onSelect={handleBlobContainerPathChange}
+                            />
+                        </div>
+                        {state.selectedBlobContainerURL && (
+                            <SceneListCard
+                                key={state.selectedBlobContainerURL}
+                                title={'All scenes'}
+                                theme={theme}
+                                locale={locale}
+                                adapter={adapter}
+                                onSceneClick={(scene) => {
+                                    handleOnSceneClick(scene);
+                                }}
+                                additionalActions={[
+                                    {
+                                        iconProps: { iconName: 'Globe' },
+                                        onClick: () => {
+                                            dispatch({
+                                                type: SET_SELECTED_SCENE,
+                                                payload: null
+                                            });
+                                            dispatch({
+                                                type: SET_CURRENT_STEP,
+                                                payload:
+                                                    ADT3DScenePageSteps.Globe
+                                            });
+                                        },
+                                        text: t('globe')
+                                    }
+                                ]}
+                            />
+                        )}
                     </div>
                 )}
                 {state.currentStep === ADT3DScenePageSteps.Globe && (
-                    <div className="cb-scene-page-scene-list-container">
-                        <DefaultButton
-                            onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.SceneTwinList
-                                });
-                            }}
-                            text={t('list')}
-                            className="cb-scene-page-view-button"
+                    <div className="cb-scene-page-scene-globe-container">
+                        <Breadcrumb
+                            items={[
+                                {
+                                    text: t('3dScenePage.home'),
+                                    key: 'Home',
+                                    onClick: handleOnHomeClick
+                                },
+                                {
+                                    text: t('3dScenePage.globe'),
+                                    key: 'Scene'
+                                }
+                            ]}
+                            maxDisplayedItems={10}
+                            ariaLabel="Breadcrumb with items rendered as buttons"
+                            overflowAriaLabel="More links"
                         />
                         <ADT3DGlobeCard
                             theme={theme}
@@ -112,14 +183,30 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         />
                     </div>
                 )}
-                {state.currentStep ===
-                    ADT3DScenePageSteps.TwinBindingsWithScene && (
+                {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
                     <>
+                        <Breadcrumb
+                            className="cb-scene-page-scene-builder-breadcrumb"
+                            items={[
+                                {
+                                    text: t('3dScenePage.home'),
+                                    key: 'Home',
+                                    onClick: handleOnHomeClick
+                                },
+                                {
+                                    text: state.selectedScene.displayName,
+                                    key: 'Scene'
+                                }
+                            ]}
+                            maxDisplayedItems={10}
+                            ariaLabel="Breadcrumb with items rendered as buttons"
+                            overflowAriaLabel="More links"
+                        />
                         <div className="cb-scene-builder-and-viewer-container">
-                            <ADT3DSceneBuilderCompositeComponent
+                            <ADT3DSceneBuilderContainer
+                                scenesConfig={state.scenesConfig}
                                 scene={state.selectedScene}
                                 adapter={adapter}
-                                title={state.selectedScene.displayName}
                                 theme={theme}
                                 locale={locale}
                                 localeStrings={localeStrings}
@@ -128,91 +215,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 }
                             />
                         </div>
-                        <DefaultButton
-                            onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.SceneTwinList
-                                });
-                            }}
-                            text={t('back')}
-                            className="cb-scene-page-action-button"
-                        />
                     </>
                 )}
             </BaseCompositeCard>
         </div>
-    );
-};
-
-const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = ({
-    defaultMode = ADT3DScenePageModes.BuildScene,
-    scene,
-    adapter,
-    theme,
-    title,
-    locale,
-    localeStrings,
-    adapterAdditionalParameters
-}) => {
-    const { t } = useTranslation();
-
-    return (
-        <BaseCompositeCard
-            title={title}
-            theme={theme}
-            locale={locale}
-            localeStrings={localeStrings}
-            adapterAdditionalParameters={adapterAdditionalParameters}
-        >
-            <Pivot
-                aria-label={
-                    defaultMode === ADT3DScenePageModes.BuildScene
-                        ? t('buildMode')
-                        : t('viewMode')
-                }
-                defaultSelectedKey={defaultMode}
-                styles={{
-                    root: {
-                        display: 'flex',
-                        justifyContent: 'end',
-                        marginBottom: '4px'
-                    }
-                }}
-            >
-                <PivotItem
-                    headerText={t('build')}
-                    itemKey={ADT3DScenePageModes.BuildScene}
-                >
-                    <div className="cb-scene-page-scene-builder-wrapper">
-                        <ADT3DSceneBuilder
-                            theme={theme}
-                            locale={locale}
-                            adapter={adapter}
-                            sceneId={scene.id}
-                        />
-                    </div>
-                </PivotItem>
-                <PivotItem
-                    headerText={t('view')}
-                    itemKey={ADT3DScenePageModes.ViewScene}
-                >
-                    <div className="cb-scene-view-viewer">
-                        <ADT3DViewerCard
-                            title="3D Viewer"
-                            adapter={adapter}
-                            pollingInterval={10000}
-                            sceneId={scene.id}
-                            sceneConfig={null}
-                        />
-                    </div>
-                </PivotItem>
-            </Pivot>
-        </BaseCompositeCard>
     );
 };
 

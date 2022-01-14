@@ -370,4 +370,12 @@ export default class MockAdapter
             );
         });
     }
+
+    getBlobContainerURL = () => {
+        return 'https://storageAccountName.blob.core.windows.net/containerName';
+    };
+
+    setBlobContainerPath = (configBlobPath: string) => {
+        console.log('Setting blob path to: ' + configBlobPath);
+    };
 }

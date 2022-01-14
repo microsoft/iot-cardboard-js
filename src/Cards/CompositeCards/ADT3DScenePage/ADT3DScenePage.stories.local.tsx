@@ -21,14 +21,12 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
     ) : (
         <div style={cardStyle}>
             <ADT3DScenePage
-                title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
                 adapter={
                     new ADTandBlobAdapter(
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.accountHostUrl,
-                        authenticationParameters.storage.blobPath,
+                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         )

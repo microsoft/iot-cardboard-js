@@ -18,8 +18,7 @@ export const Globe = () => {
                 title="Globe"
                 adapter={
                     new BlobAdapter(
-                        authenticationParameters.storage.accountHostUrl,
-                        authenticationParameters.storage.blobPath,
+                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.storage.aadParameters
                         )

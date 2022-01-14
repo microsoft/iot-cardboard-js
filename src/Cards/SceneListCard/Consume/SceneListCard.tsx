@@ -18,7 +18,8 @@ import {
     DialogType,
     TextField,
     IDetailsListProps,
-    DetailsRow
+    DetailsRow,
+    IButtonProps
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
 import { Asset, ScenesConfig, Scene } from '../../../Models/Classes/3DVConfig';
@@ -31,7 +32,8 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     theme,
     locale,
     localeStrings,
-    onSceneClick
+    onSceneClick,
+    additionalActions
 }) => {
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
@@ -203,6 +205,15 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             >
                                 {t('addNew')}
                             </ActionButton>
+                            {additionalActions.map((a: IButtonProps, idx) => (
+                                <ActionButton
+                                    key={idx}
+                                    iconProps={a.iconProps}
+                                    onClick={a.onClick}
+                                >
+                                    {a.text}
+                                </ActionButton>
+                            ))}
                         </div>
 
                         <div className="cb-scenes-list">
@@ -212,7 +223,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 columns={[
                                     {
                                         key: 'scene-name',
-                                        name: t('scenes.sceneName'),
+                                        name: t('name'),
                                         minWidth: 100,
                                         isResizable: true,
                                         onRender: (item: Scene) => (
@@ -222,7 +233,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     {
                                         key: 'scene-urls',
                                         name: t('scenes.blobUrl'),
-                                        minWidth: 300,
+                                        minWidth: 400,
                                         isResizable: true,
                                         onRender: (item: Scene) => (
                                             <ul className="cb-scene-list-blob-urls">
@@ -306,33 +317,33 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                         />
                     </div>
                 )}
-                <SceneListDialog
-                    isOpen={isSceneDialogOpen}
-                    onClose={() => {
-                        setIsSceneDialogOpen(false);
-                        setSelectedScene(null);
-                    }}
-                    sceneToEdit={selectedScene}
-                    onEditScene={(updatedScene) => {
-                        editScene.callAdapter({
-                            config: config,
-                            sceneId: updatedScene.id,
-                            scene: updatedScene
-                        });
-                    }}
-                    onAddScene={(newScene) => {
-                        let newId = createGUID(false);
-                        const existingIds = sceneList.map((s) => s.id);
-                        while (existingIds.includes(newId)) {
-                            newId = createGUID(false);
-                        }
-                        addScene.callAdapter({
-                            config: config,
-                            scene: { id: newId, ...newScene }
-                        });
-                    }}
-                ></SceneListDialog>
             </BaseCompositeCard>
+            <SceneListDialog
+                isOpen={isSceneDialogOpen}
+                onClose={() => {
+                    setIsSceneDialogOpen(false);
+                    setSelectedScene(null);
+                }}
+                sceneToEdit={selectedScene}
+                onEditScene={(updatedScene) => {
+                    editScene.callAdapter({
+                        config: config,
+                        sceneId: updatedScene.id,
+                        scene: updatedScene
+                    });
+                }}
+                onAddScene={(newScene) => {
+                    let newId = createGUID(false);
+                    const existingIds = sceneList.map((s) => s.id);
+                    while (existingIds.includes(newId)) {
+                        newId = createGUID(false);
+                    }
+                    addScene.callAdapter({
+                        config: config,
+                        scene: { id: newId, ...newScene }
+                    });
+                }}
+            ></SceneListDialog>
         </div>
     );
 };
@@ -375,7 +386,7 @@ const SceneListDialog = ({
 
     const isDialogOpenProps = React.useMemo(
         () => ({
-            isBlocking: false,
+            isBlocking: true,
             styles: isDialogOpenStyles,
             className: 'cb-scene-list-dialog-wrapper'
         }),
@@ -402,7 +413,7 @@ const SceneListDialog = ({
         >
             <TextField
                 className="cb-scene-list-form-dialog-text-field"
-                label={t('scenes.sceneName')}
+                label={t('name')}
                 title={newSceneName}
                 value={sceneToEdit ? scene?.displayName : newSceneName}
                 onChange={(e) => {

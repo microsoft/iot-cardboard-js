@@ -6,25 +6,39 @@ import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
 import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
+import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
-    protected blobPath: string;
+    protected blobContainerPath: string;
     protected blobAuthService: IAuthService;
     protected blobProxyServerPath: string;
 
     constructor(
-        storateAccountHostUrl: string,
-        blobPath: string,
+        blobContainerUrl: string,
         authService: IAuthService,
         blobProxyServerPath = '/proxy/blob'
     ) {
-        this.storateAccountHostUrl = storateAccountHostUrl;
-        this.blobPath = blobPath;
+        const containerURL = new URL(blobContainerUrl);
+        this.storateAccountHostUrl = containerURL.hostname;
+        this.blobContainerPath = containerURL.pathname;
         this.blobAuthService = authService;
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
     }
+
+    getBlobContainerURL() {
+        return `https://${this.storateAccountHostUrl}${this.blobContainerPath}`;
+    }
+
+    setBlobContainerPath(blobContainerURL: string) {
+        if (blobContainerURL) {
+            const url = new URL(blobContainerURL);
+            if (url.hostname.endsWith('blob.core.windows.net'))
+                this.blobContainerPath = new URL(blobContainerURL).pathname;
+        }
+    }
+
     async getScenesConfig() {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
@@ -34,7 +48,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const scenesBlob = await axios({
                     method: 'GET',
-                    url: `${this.blobProxyServerPath}/${this.blobPath}`,
+                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                     headers: {
                         authorization: 'Bearer ' + token,
                         'x-ms-version': '2017-11-09',
@@ -68,7 +82,7 @@ export default class BlobAdapter implements IBlobAdapter {
             try {
                 const putBlob = await axios({
                     method: 'PUT',
-                    url: `${this.blobProxyServerPath}/${this.blobPath}`,
+                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
                     headers: {
                         authorization: 'Bearer ' + token,
                         'Content-Type': 'application/json',

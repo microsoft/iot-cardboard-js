@@ -821,66 +821,69 @@ export default class ADTAdapter implements IADTAdapter {
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
-                // cycle through behaviors for scene
-                for (const sceneBehavior of scene.behaviors) {
-                    // cycle through all behaviors
-                    // check if behavior is relevent for the current scene
-                    for (const behavior of config.viewerConfiguration
-                        ?.behaviors)
-                        if (sceneBehavior === behavior.id) {
-                            const mappingIds: string[] = [];
-                            // cycle through the datasources of behavior
-                            for (const dataSource of behavior.datasources) {
-                                // if its a TwinToObjectMappingDatasource get the mapping id
-                                if (
-                                    dataSource.type ===
-                                    DatasourceType.TwinToObjectMapping
-                                ) {
-                                    dataSource.mappingIDs.forEach(
-                                        (mappingId) => {
-                                            mappingIds.push(mappingId);
-                                        }
-                                    );
-                                }
-
-                                // TODO get FilteredTwinDatasources
-                            }
-
-                            // cycle through mapping ids to get twins for behavior and scene
-                            for (const id of mappingIds) {
-                                const twins = {};
-                                const mapping = scene.twinToObjectMappings.find(
-                                    (mapping) => mapping.id === id
-                                );
-
-                                // get primary twin
-                                const primaryTwin = await this.getADTTwin(
-                                    mapping.primaryTwinID
-                                );
-                                pushErrors(primaryTwin.getErrors());
-                                twins['primaryTwin'] = primaryTwin.result?.data;
-
-                                // check for twin aliases and add to twins object
-                                if (mapping.twinAliases) {
-                                    for (const alias of Object.keys(
-                                        mapping.twinAliases
-                                    )) {
-                                        const twin = await this.getADTTwin(
-                                            mapping.twinAliases[alias]
+                if (scene.behaviors) {
+                    // cycle through behaviors for scene
+                    for (const sceneBehavior of scene.behaviors) {
+                        // cycle through all behaviors
+                        // check if behavior is relevent for the current scene
+                        for (const behavior of config.viewerConfiguration
+                            ?.behaviors)
+                            if (sceneBehavior === behavior.id) {
+                                const mappingIds: string[] = [];
+                                // cycle through the datasources of behavior
+                                for (const dataSource of behavior.datasources) {
+                                    // if its a TwinToObjectMappingDatasource get the mapping id
+                                    if (
+                                        dataSource.type ===
+                                        DatasourceType.TwinToObjectMapping
+                                    ) {
+                                        dataSource.mappingIDs.forEach(
+                                            (mappingId) => {
+                                                mappingIds.push(mappingId);
+                                            }
                                         );
-                                        pushErrors(twin.getErrors());
-                                        twins[alias] = twin.result?.data;
                                     }
+
+                                    // TODO get FilteredTwinDatasources
                                 }
 
-                                const sceneVisual = new SceneVisual(
-                                    mapping.meshIDs,
-                                    behavior.visuals,
-                                    twins
-                                );
-                                sceneVisuals.push(sceneVisual);
+                                // cycle through mapping ids to get twins for behavior and scene
+                                for (const id of mappingIds) {
+                                    const twins = {};
+                                    const mapping = scene.twinToObjectMappings.find(
+                                        (mapping) => mapping.id === id
+                                    );
+
+                                    // get primary twin
+                                    const primaryTwin = await this.getADTTwin(
+                                        mapping.primaryTwinID
+                                    );
+                                    pushErrors(primaryTwin.getErrors());
+                                    twins['primaryTwin'] =
+                                        primaryTwin.result?.data;
+
+                                    // check for twin aliases and add to twins object
+                                    if (mapping.twinAliases) {
+                                        for (const alias of Object.keys(
+                                            mapping.twinAliases
+                                        )) {
+                                            const twin = await this.getADTTwin(
+                                                mapping.twinAliases[alias]
+                                            );
+                                            pushErrors(twin.getErrors());
+                                            twins[alias] = twin.result?.data;
+                                        }
+                                    }
+
+                                    const sceneVisual = new SceneVisual(
+                                        mapping.meshIDs,
+                                        behavior.visuals,
+                                        twins
+                                    );
+                                    sceneVisuals.push(sceneVisual);
+                                }
                             }
-                        }
+                    }
                 }
             }
 
