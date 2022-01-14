@@ -74,12 +74,32 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehavior?.id
     );
 
+    const colorSelectedElements = (
+        elementsToColor: Array<ITwinToObjectMapping>
+    ) => {
+        const meshIds = [].concat(...elementsToColor.map((etc) => etc.meshIDs));
+        setSelectedObjectIds(meshIds);
+    };
+
     useEffect(() => {
-        if (selectedBehavior) {
-            setBehaviorToEdit(selectedBehavior);
-            setOriginalBehaviorId(selectedBehavior.id);
+        // Color selected meshes
+        const selectedElements = [];
+
+        behaviorToEdit.datasources
+            .filter((ds) => ds.type === DatasourceType.TwinToObjectMapping)
+            .forEach((ds) => {
+                ds.mappingIDs.forEach((mappingId) => {
+                    const element = elements.find((el) => el.id === mappingId);
+                    element && selectedElements.push(element);
+                });
+            });
+
+        if (selectedElements?.length > 0) {
+            colorSelectedElements(selectedElements);
         }
-    }, [selectedBehavior]);
+        // Save original Id
+        setOriginalBehaviorId(selectedBehavior.id);
+    }, []);
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
@@ -116,7 +136,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         }}
                     />
 
-                    {/* Pivot here */}
                     <Pivot
                         selectedKey={selectedBehaviorPivotKey}
                         onLinkClick={(item) =>
@@ -136,7 +155,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 behaviorToEdit={behaviorToEdit}
                                 elements={elements}
                                 setBehaviorToEdit={setBehaviorToEdit}
-                                setSelectedObjectIds={setSelectedObjectIds}
+                                colorSelectedElements={colorSelectedElements}
                             />
                         </PivotItem>
                         <PivotItem
@@ -184,28 +203,16 @@ const BehaviorFormElementsTab: React.FC<{
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     elements: Array<ITwinToObjectMapping>;
-    setSelectedObjectIds: (objectIds: Array<string>) => any;
+    colorSelectedElements: (
+        elementsToColor: Array<ITwinToObjectMapping>
+    ) => any;
 }> = ({
     behaviorToEdit,
     setBehaviorToEdit,
     elements,
-    setSelectedObjectIds
+    colorSelectedElements
 }) => {
     const { t } = useTranslation();
-
-    const colorSelectedElementById = (elementId) => {
-        // Color selected element mesh in scene -- v1 only single element
-        const meshIds = elements.find((el) => el.id === elementId)?.meshIDs;
-        setSelectedObjectIds(meshIds);
-    };
-
-    useEffect(() => {
-        const selectedElementId =
-            behaviorToEdit?.datasources?.[0]?.mappingIDs?.[0] ?? undefined;
-        if (selectedElementId) {
-            colorSelectedElementById(selectedElementId);
-        }
-    }, []);
 
     return (
         <Dropdown
@@ -230,7 +237,10 @@ const BehaviorFormElementsTab: React.FC<{
                 );
 
                 // Color selected element mesh in scene
-                colorSelectedElementById(option.id);
+                const selectedElement = elements.find(
+                    (el) => el.id === option.id
+                );
+                selectedElement && colorSelectedElements([selectedElement]);
             }}
             placeholder={t(
                 '3dSceneBuilder.behaviorElementsDropdownPlaceholder'

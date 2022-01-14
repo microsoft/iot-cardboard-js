@@ -352,7 +352,8 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
-                    selectedBehavior={state.selectedBehavior}
+                    // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
+                    selectedBehavior={{ ...state.selectedBehavior }}
                     onBehaviorSave={onBehaviorSave}
                     setSelectedObjectIds={setSelectedObjectIds}
                 />
