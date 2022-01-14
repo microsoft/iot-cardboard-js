@@ -59,7 +59,7 @@ export default class MockAdapter
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
         this.scenesConfig =
-            mockAdapterArgs.mockData ||
+            mockAdapterArgs?.mockData ||
             TaJson.parse<ScenesConfig>(
                 JSON.stringify(mockVConfig),
                 ScenesConfig
