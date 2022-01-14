@@ -12,11 +12,7 @@ export const LinkWidget: React.FC<IProp> = ({ config, twins }) => {
     let expression = config.expression;
     expression = performSubstitutions(expression, twins);
     return (
-        <a
-            href={expression}
-            target="_blank"
-            style={{ position: 'absolute', bottom: '-20px' }}
-        >
+        <a href={expression} target="_blank">
             {expression}
         </a>
     );

@@ -23,3 +23,4 @@ export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCa
 export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
 export { default as ADT3DViewerCard } from './ADT3DViewerCard/ADT3DViewerCard';
 export { default as ADT3DScenePage } from './CompositeCards/ADT3DScenePage/ADT3DScenePage';
+export { default as ADT3DGlobeCard } from './ADT3DGlobeCard/ADT3DGlobeCard';

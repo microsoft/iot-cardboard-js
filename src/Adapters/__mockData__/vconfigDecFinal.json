@@ -95,43 +95,61 @@
                         "title": "Average Tire Pressure",
                         "widgets": [
                             {
-                                "type": "Gauge",
+                                "type": "Panel",
                                 "controlConfiguration": {
-                                    "valueBreakPoints": [100, 200, 500],
-                                    "units": "PSI",
-                                    "colors": ["#FDCD4D", "#00D700", "#ff0000"],
-                                    "expression": "primaryTwin.OutFlow",
-                                    "label": "Front Left"
+                                    "title": "Front",
+                                    "isHorizontal": true,
+                                    "widgets": [
+                                        {
+                                            "type": "Gauge",
+                                            "controlConfiguration": {
+                                                "valueBreakPoints": [100, 200, 500],
+                                                "units": "PSI",
+                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "expression": "primaryTwin.OutFlow",
+                                                "label": "Left"
+                                            }
+                                        },
+                                        {
+                                            "type": "Gauge",
+                                            "controlConfiguration": {
+                                                "valueBreakPoints": [100, 200, 500],
+                                                "units": "PSI",
+                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "expression": "primaryTwin.InFlow",
+                                                "label": "Right"
+                                            }
+                                        }
+                                   ]
                                 }
                             },
                             {
-                                "type": "Gauge",
+                                "type": "Panel",
                                 "controlConfiguration": {
-                                    "valueBreakPoints": [100, 200, 500],
-                                    "units": "PSI",
-                                    "colors": ["#FDCD4D", "#00D700", "#ff0000"],
-                                    "expression": "primaryTwin.InFlow",
-                                    "label": "Front Right"
-                                }
-                            },
-                            {
-                                "type": "Gauge",
-                                "controlConfiguration": {
-                                    "valueBreakPoints": [100, 200, 500],
-                                    "units": "PSI",
-                                    "colors": ["#FDCD4D", "#00D700", "#ff0000"],
-                                    "expression": "primaryTwin.Temperature",
-                                    "label": "Rear Left"
-                                }
-                            },
-                            {
-                                "type": "Gauge",
-                                "controlConfiguration": {
-                                    "valueBreakPoints": [100, 200, 500],
-                                    "units": "PSI",
-                                    "colors": ["#FDCD4D", "#00D700", "#ff0000"],
-                                    "expression": "primaryTwin.InFlow",
-                                    "label": "Rear Right"
+                                    "title": "Rear",
+                                    "isHorizontal": true,
+                                    "widgets": [
+                                        {
+                                            "type": "Gauge",
+                                            "controlConfiguration": {
+                                                "valueBreakPoints": [100, 200, 500],
+                                                "units": "PSI",
+                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "expression": "primaryTwin.Temperature",
+                                                "label": "Left"
+                                            }
+                                        },
+                                        {
+                                            "type": "Gauge",
+                                            "controlConfiguration": {
+                                                "valueBreakPoints": [100, 200, 500],
+                                                "units": "PSI",
+                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "expression": "primaryTwin.InFlow",
+                                                "label": "Right"
+                                            }
+                                        }
+                                   ]
                                 }
                             },
                             {
