@@ -354,6 +354,7 @@ const BuilderLeftPanel: React.FC = () => {
                     }
                     selectedBehavior={state.selectedBehavior}
                     onBehaviorSave={onBehaviorSave}
+                    setSelectedObjectIds={setSelectedObjectIds}
                 />
             )}
         </BaseComponent>

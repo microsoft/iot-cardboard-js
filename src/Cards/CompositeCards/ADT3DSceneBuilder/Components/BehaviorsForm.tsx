@@ -4,7 +4,6 @@ import { TextField } from '@fluentui/react/lib/components/TextField/TextField';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    Behavior,
     DatasourceType,
     IBehavior,
     ITwinToObjectMapping,
@@ -19,6 +18,7 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
+import { ColorPicker } from '@fluentui/react/lib/components/ColorPicker/ColorPicker';
 
 const defaultBehavior: IBehavior = {
     id: '',
@@ -56,7 +56,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     builderMode,
     selectedBehavior,
     onBehaviorBackClick,
-    onBehaviorSave
+    onBehaviorSave,
+    setSelectedObjectIds
 }) => {
     const { t } = useTranslation();
 
@@ -86,7 +87,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 <div
                     className="cb-scene-builder-left-panel-create-form-header"
                     tabIndex={0}
-                    onClick={onBehaviorBackClick}
+                    onClick={() => {
+                        onBehaviorBackClick();
+                        setSelectedObjectIds([]);
+                    }}
                 >
                     <FontIcon
                         iconName={'ChevronRight'}
@@ -120,6 +124,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 item.props.itemKey as BehaviorPivot
                             )
                         }
+                        styles={{
+                            root: { marginLeft: -8, marginBottom: 8 }
+                        }}
                     >
                         <PivotItem
                             headerText={t('3dSceneBuilder.elements')}
@@ -129,6 +136,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 behaviorToEdit={behaviorToEdit}
                                 elements={elements}
                                 setBehaviorToEdit={setBehaviorToEdit}
+                                setSelectedObjectIds={setSelectedObjectIds}
                             />
                         </PivotItem>
                         <PivotItem
@@ -158,6 +166,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             originalBehaviorId
                         );
                         onBehaviorBackClick();
+                        setSelectedObjectIds([]);
                     }}
                     text={
                         builderMode === ADT3DSceneBuilderMode.CreateBehavior
@@ -175,8 +184,29 @@ const BehaviorFormElementsTab: React.FC<{
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     elements: Array<ITwinToObjectMapping>;
-}> = ({ behaviorToEdit, setBehaviorToEdit, elements }) => {
+    setSelectedObjectIds: (objectIds: Array<string>) => any;
+}> = ({
+    behaviorToEdit,
+    setBehaviorToEdit,
+    elements,
+    setSelectedObjectIds
+}) => {
     const { t } = useTranslation();
+
+    const colorSelectedElementById = (elementId) => {
+        // Color selected element mesh in scene -- v1 only single element
+        const meshIds = elements.find((el) => el.id === elementId)?.meshIDs;
+        setSelectedObjectIds(meshIds);
+    };
+
+    useEffect(() => {
+        const selectedElementId =
+            behaviorToEdit?.datasources?.[0]?.mappingIDs?.[0] ?? undefined;
+        if (selectedElementId) {
+            colorSelectedElementById(selectedElementId);
+        }
+    }, []);
+
     return (
         <Dropdown
             label={t('3dSceneBuilder.behaviorElementsDropdownLabel')}
@@ -198,6 +228,9 @@ const BehaviorFormElementsTab: React.FC<{
                         ];
                     })
                 );
+
+                // Color selected element mesh in scene
+                colorSelectedElementById(option.id);
             }}
             placeholder={t(
                 '3dSceneBuilder.behaviorElementsDropdownPlaceholder'
@@ -226,24 +259,34 @@ const BehaviorFormAlertsTab: React.FC<{
         colorAlertTriggerExpression = colorChangeVisual.color.expression;
     }
 
+    const [color, setColor] = useState('#FF0000');
+
     return (
-        <TextField
-            label={t('3dSceneBuilder.behaviorTriggerLabel')}
-            multiline={colorAlertTriggerExpression.length > 50}
-            onChange={(_e, newValue) => {
-                setBehaviorToEdit(
-                    produce((draft) => {
-                        // Assuming only 1 color change visual per behavior
-                        const colorChangeVisual = draft.visuals.find(
-                            (visual) => visual.type === VisualType.ColorChange
-                        );
-                        colorChangeVisual.color.expression = newValue;
-                    })
-                );
-            }}
-            value={colorAlertTriggerExpression}
-            placeholder={t('3dSceneBuilder.behaviorTriggerPlaceholder')}
-        />
+        <>
+            <TextField
+                label={t('3dSceneBuilder.behaviorTriggerLabel')}
+                multiline={colorAlertTriggerExpression.length > 50}
+                onChange={(_e, newValue) => {
+                    setBehaviorToEdit(
+                        produce((draft) => {
+                            // Assuming only 1 color change visual per behavior
+                            const colorChangeVisual = draft.visuals.find(
+                                (visual) =>
+                                    visual.type === VisualType.ColorChange
+                            );
+                            colorChangeVisual.color.expression = newValue;
+                        })
+                    );
+                }}
+                value={colorAlertTriggerExpression}
+                placeholder={t('3dSceneBuilder.behaviorTriggerPlaceholder')}
+            />
+            <ColorPicker
+                alphaType={'none'}
+                color={color}
+                onChange={(_ev, color) => setColor(color.hex)}
+            />
+        </>
     );
 };
 
