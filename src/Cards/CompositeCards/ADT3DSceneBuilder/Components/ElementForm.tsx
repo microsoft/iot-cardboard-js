@@ -75,7 +75,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             while (existingIds?.includes(newId)) {
                 newId = createGUID(false);
             }
-            newElements.push({ id: newId, ...elementToEdit });
+            const newElement = { ...elementToEdit, id: newId };
+            newElements.push(newElement);
         } else {
             newElements[
                 existingElements.findIndex((e) => e.id === selectedElement.id)
