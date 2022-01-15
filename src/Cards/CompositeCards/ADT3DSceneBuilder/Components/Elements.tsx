@@ -6,7 +6,9 @@ import { TwinToObjectMapping } from '../../../../Models/Classes/3DVConfig';
 const SceneElements: React.FC<any> = ({
     elements,
     onCreateElementClick,
-    onElementClick
+    onElementClick,
+    onElementEnter,
+    onElementLeave
 }) => {
     const { t } = useTranslation();
 
@@ -23,6 +25,8 @@ const SceneElements: React.FC<any> = ({
                             className="cb-scene-builder-left-panel-element"
                             key={element.displayName}
                             onClick={() => onElementClick(element)}
+                            onMouseEnter={() => onElementEnter(element)}
+                            onMouseLeave={onElementLeave}
                         >
                             <FontIcon
                                 iconName={'Shapes'}

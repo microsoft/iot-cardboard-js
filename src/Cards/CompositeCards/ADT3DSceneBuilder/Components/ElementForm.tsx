@@ -15,6 +15,7 @@ import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
+import { TaJson } from 'ta-json';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -27,7 +28,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         selectedElement ? false : true
     );
     const [elementToEdit, setElementToEdit] = useState<TwinToObjectMapping>(
-        selectedElement ?? new TwinToObjectMapping('', '', '', [])
+        selectedElement ??
+            TaJson.parse<TwinToObjectMapping>(
+                JSON.stringify({
+                    id: '',
+                    displayName: '',
+                    primaryTwinID: '',
+                    meshIDs: []
+                }),
+                TwinToObjectMapping
+            )
     );
     const {
         adapter,

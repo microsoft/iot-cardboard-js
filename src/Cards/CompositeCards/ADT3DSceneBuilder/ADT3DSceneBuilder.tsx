@@ -9,7 +9,13 @@ import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
 import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
-    IADT3DSceneBuilderCardProps
+    IADT3DSceneBuilderCardProps,
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+    SET_ADT_SCENE_BUILDER_ELEMENTS,
+    SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
@@ -24,17 +30,11 @@ import {
     defaultADT3DSceneBuilderState,
     defaultADT3DSceneBuilderLeftPanelState
 } from './ADT3DSceneBuilder.state';
-import {
-    SET_ADT_SCENE_BUILDER_ELEMENTS,
-    SET_ADT_SCENE_BUILDER_MODE,
-    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-    SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
-} from '../../../Models/Constants/ActionTypes';
 import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 import SceneElementForm from './Components/ElementForm';
 import SceneBehaviors from './Components/Behaviors';
 import SceneElements from './Components/Elements';
+import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -57,6 +57,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         dispatch({
             type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
             payload: selectedMeshIds
+        });
+    };
+
+    const setColoredMeshItems = (coloredMeshItems) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+            payload: coloredMeshItems
         });
     };
 
@@ -88,6 +95,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 locale,
                 localeStrings,
                 selectedObjectIds: state.selectedObjectIds,
+                coloredMeshItems: state.coloredMeshItems,
+                setColoredMeshItems,
                 setSelectedObjectIds,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
@@ -119,6 +128,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                 onMeshSelected={(selectedMeshes) =>
                                     setSelectedObjectIds(selectedMeshes)
                                 }
+                                coloredMeshItems={state.coloredMeshItems}
                                 preselectedMeshIds={state.selectedObjectIds}
                             />
                         )}
@@ -140,12 +150,13 @@ const BuilderLeftPanel: React.FC = () => {
         config,
         sceneId,
         setSelectedObjectIds,
+        setColoredMeshItems,
         theme,
         locale,
         localeStrings
     } = useContext(SceneBuilderContext);
 
-    // BEGINNING of scene element related callbacks
+    // START of scene element related callbacks
     const onCreateElementClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
@@ -170,6 +181,22 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds(element.meshIDs);
     };
 
+    const onElementEnter = (element: TwinToObjectMapping) => {
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const id of element.meshIDs) {
+            const coloredMesh: ColoredMeshItem = {
+                meshId: id,
+                color: '#00A8F0'
+            };
+            coloredMeshes.push(coloredMesh);
+        }
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const onElementLeave = () => {
+        setColoredMeshItems([]);
+    };
+
     const onElementBackClick = () => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
@@ -189,7 +216,7 @@ const BuilderLeftPanel: React.FC = () => {
         });
         setSelectedObjectIds([]);
     };
-    // ENDING of scene element related callbacks
+    // END of scene element related callbacks
 
     useEffect(() => {
         if (config) {
@@ -229,6 +256,8 @@ const BuilderLeftPanel: React.FC = () => {
                             elements={state.elements}
                             onCreateElementClick={onCreateElementClick}
                             onElementClick={onElementClick}
+                            onElementEnter={onElementEnter}
+                            onElementLeave={onElementLeave}
                         />
                     </PivotItem>
                     <PivotItem

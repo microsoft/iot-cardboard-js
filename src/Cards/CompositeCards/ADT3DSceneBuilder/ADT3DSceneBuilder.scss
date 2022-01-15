@@ -194,12 +194,12 @@
     width: 100%;
 
     > div:last-child {
+        display: flex;
         flex-grow: 1;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: auto;
 
         > div:first-child {
-            height: 100%;
+            flex-grow: 1;
         }
     }
 }

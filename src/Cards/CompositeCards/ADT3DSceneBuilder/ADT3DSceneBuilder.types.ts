@@ -5,12 +5,27 @@ import {
     ScenesConfig,
     TwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
+import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     Locale,
     Theme
 } from '../../../Models/Constants/Enums';
 import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
+
+// START of Actions
+export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
+export const SET_ADT_SCENE_BUILDER_ELEMENTS = 'SET_ADT_SCENE_BUILDER_ELEMENTS';
+export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
+    'SET_ADT_SCENE_BUILDER_BEHAVIORS';
+export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
+    'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
+export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
+    'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
+export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
+    'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
+export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
+// END of Actions
 
 export interface IADT3DSceneBuilderCardProps
     extends IConsumeCompositeCardProps {
@@ -27,7 +42,9 @@ export interface I3DSceneBuilderContext {
     getConfig: () => void;
     sceneId: string;
     selectedObjectIds: Array<string>;
+    coloredMeshItems: ColoredMeshItem[];
     setSelectedObjectIds: (objects: Array<string>) => void;
+    setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -46,6 +63,7 @@ export interface IADT3DSceneBuilderElementFormProps {
 export interface ADT3DSceneBuilderState {
     config: ScenesConfig;
     selectedObjectIds: Array<string>;
+    coloredMeshItems: ColoredMeshItem[];
 }
 
 export interface ADT3DSceneBuilderLeftPanelState {
