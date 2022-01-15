@@ -205,7 +205,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             >
                                 {t('addNew')}
                             </ActionButton>
-                            {additionalActions.map((a: IButtonProps, idx) => (
+                            {additionalActions?.map((a: IButtonProps, idx) => (
                                 <ActionButton
                                     key={idx}
                                     iconProps={a.iconProps}
