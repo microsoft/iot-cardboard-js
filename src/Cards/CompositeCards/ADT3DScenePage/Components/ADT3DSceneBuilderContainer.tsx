@@ -36,6 +36,9 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                 defaultSelectedKey={defaultMode}
                 styles={{
                     root: {
+                        position: 'absolute',
+                        zIndex: '3',
+                        right: '0',
                         display: 'flex',
                         justifyContent: 'end',
                         marginBottom: '4px'

@@ -47,12 +47,17 @@
 
     .cb-scene-page-scene-builder-breadcrumb {
         border-bottom: 1px solid #e6e6e6;
-        margin-bottom: 4px;
+        margin-bottom: 0;
     }
 
     .cb-scene-view-viewer {
         animation: 0.8s expand-out ease-in-out;
         height: 100%;
+        margin-top: -1px;
+    }
+
+    .cb-scene-builder-canvas {
+        margin-top: -1px;
     }
 
     @keyframes expand-out {
