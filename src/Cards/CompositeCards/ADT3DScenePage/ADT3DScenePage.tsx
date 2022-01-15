@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
@@ -13,14 +13,6 @@ import {
 } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
 import { DefaultButton, Pivot, PivotItem } from '@fluentui/react';
-import {
-    ADT3DScenePageReducer,
-    defaultADT3DScenePageState
-} from './ADT3DScenePage.state';
-import {
-    SET_CURRENT_STEP,
-    SET_SELECTED_SCENE
-} from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { IScene } from '../../../Models/Classes/3DVConfig';
 import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
@@ -34,21 +26,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     localeStrings,
     adapterAdditionalParameters
 }) => {
-    const [state, dispatch] = useReducer(
-        ADT3DScenePageReducer,
-        defaultADT3DScenePageState
-    );
+    const selectedSceneRef = useRef(null);
+    const [step, setStep] = useState<ADT3DScenePageSteps>(ADT3DScenePageSteps.SceneTwinList);
     const { t } = useTranslation();
 
     const handleOnSceneClick = (scene: IScene) => {
-        dispatch({
-            type: SET_SELECTED_SCENE,
-            payload: scene
-        });
-        dispatch({
-            type: SET_CURRENT_STEP,
-            payload: ADT3DScenePageSteps.TwinBindingsWithScene
-        });
+        selectedSceneRef.current = scene;
+        setStep(ADT3DScenePageSteps.TwinBindingsWithScene);
     };
 
     return (
@@ -60,18 +44,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 localeStrings={localeStrings}
                 adapterAdditionalParameters={adapterAdditionalParameters}
             >
-                {state.currentStep === ADT3DScenePageSteps.SceneTwinList && (
+                {step === ADT3DScenePageSteps.SceneTwinList && (
                     <div className="cb-scene-page-scene-list-container">
                         <DefaultButton
                             onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.Globe
-                                });
+                                selectedSceneRef.current = null;
+                                setStep(ADT3DScenePageSteps.Globe);
                             }}
                             text={t('globe')}
                             className="cb-scene-page-view-button"
@@ -87,18 +65,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         />
                     </div>
                 )}
-                {state.currentStep === ADT3DScenePageSteps.Globe && (
+                {step === ADT3DScenePageSteps.Globe && (
                     <div className="cb-scene-page-scene-list-container">
                         <DefaultButton
                             onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.SceneTwinList
-                                });
+                                selectedSceneRef.current = null;
+                                setStep(ADT3DScenePageSteps.SceneTwinList);
                             }}
                             text={t('list')}
                             className="cb-scene-page-view-button"
@@ -112,14 +84,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         />
                     </div>
                 )}
-                {state.currentStep ===
+                {step ===
                     ADT3DScenePageSteps.TwinBindingsWithScene && (
                     <>
                         <div className="cb-scene-builder-and-viewer-container">
                             <ADT3DSceneBuilderCompositeComponent
-                                scene={state.selectedScene}
+                                scene={selectedSceneRef.current}
                                 adapter={adapter}
-                                title={state.selectedScene.displayName}
+                                title={selectedSceneRef.current.displayName}
                                 theme={theme}
                                 locale={locale}
                                 localeStrings={localeStrings}
@@ -130,14 +102,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </div>
                         <DefaultButton
                             onClick={() => {
-                                dispatch({
-                                    type: SET_SELECTED_SCENE,
-                                    payload: null
-                                });
-                                dispatch({
-                                    type: SET_CURRENT_STEP,
-                                    payload: ADT3DScenePageSteps.SceneTwinList
-                                });
+                                selectedSceneRef.current = null;
+                                setStep(ADT3DScenePageSteps.SceneTwinList);
                             }}
                             text={t('back')}
                             className="cb-scene-page-action-button"
