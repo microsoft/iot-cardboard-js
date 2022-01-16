@@ -63,7 +63,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const { t } = useTranslation();
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
-        selectedBehavior ?? defaultBehavior
+        Object.keys(selectedBehavior as any).length === 0
+            ? defaultBehavior
+            : selectedBehavior
     );
 
     const [

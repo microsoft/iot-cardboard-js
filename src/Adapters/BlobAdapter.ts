@@ -44,7 +44,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 let config;
                 if (scenesBlob.data) {
-                    config = JSON.parse(scenesBlob.data) as IScenesConfig;
+                    config = scenesBlob.data as IScenesConfig;
                 }
 
                 return new ADTScenesConfigData(config);
@@ -74,7 +74,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         'x-blob-host': this.storateAccountHostUrl,
                         'x-ms-blob-type': 'BlockBlob'
                     },
-                    data: JSON.stringify(config)
+                    data: config
                 });
                 let result;
                 if (putBlob.status === 201) {
