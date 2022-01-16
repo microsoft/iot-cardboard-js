@@ -4,8 +4,7 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DViewerCard from './ADT3DViewerCard';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { TaJson } from 'ta-json';
-import { ScenesConfig } from '../../Models/Classes/3DVConfig';
+import { IScenesConfig } from '../../Models/Classes/3DVConfig';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
@@ -14,10 +13,7 @@ export default {
 
 export const Engine = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = TaJson.parse<ScenesConfig>(
-        JSON.stringify(mockVConfig),
-        ScenesConfig
-    );
+    const scenesConfig = mockVConfig as IScenesConfig;
 
     return !authenticationParameters ? (
         <div></div>
@@ -44,10 +40,7 @@ export const Engine = () => {
 
 export const EngineWithMeshSelection = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = TaJson.parse<ScenesConfig>(
-        JSON.stringify(mockVConfig),
-        ScenesConfig
-    );
+    const scenesConfig = mockVConfig as IScenesConfig;
 
     return !authenticationParameters ? (
         <div></div>

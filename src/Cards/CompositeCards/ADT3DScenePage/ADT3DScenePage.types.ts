@@ -1,6 +1,6 @@
 import MockAdapter from '../../../Adapters/MockAdapter';
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
-import { Scene } from '../../../Models/Classes/3DVConfig';
+import { IScene } from '../../../Models/Classes/3DVConfig';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
@@ -14,10 +14,10 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
     defaultMode?: ADT3DScenePageModes;
-    scene?: Scene;
+    scene?: IScene;
 }
 
 export interface ADT3DScenePageState {
-    selectedScene: Scene;
+    selectedScene: IScene;
     currentStep: ADT3DScenePageSteps;
 }

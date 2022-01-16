@@ -13,8 +13,8 @@ import {
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import {
-    ScenesConfig,
-    Visual,
+    IScenesConfig,
+    IVisual,
     VisualType
 } from '../../Models/Classes/3DVConfig';
 import { Parser } from 'expr-eval';
@@ -23,7 +23,7 @@ import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: ScenesConfig;
+    sceneConfig: IScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
@@ -45,7 +45,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpConfig, setPopUpConfig] = useState<Visual>(null);
+    const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const lineId = useGuid();

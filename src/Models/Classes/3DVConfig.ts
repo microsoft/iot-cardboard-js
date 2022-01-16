@@ -1,68 +1,24 @@
-import {
-    JsonDiscriminatorProperty,
-    JsonDiscriminatorValue,
-    JsonElementType,
-    JsonObject,
-    JsonProperty,
-    JsonType
-} from 'ta-json';
-
-export class TwinToObjectMapping {
-    @JsonProperty()
-    @JsonType(String)
+export interface ITwinToObjectMapping {
     id: string;
-    @JsonProperty()
-    @JsonType(String)
     displayName: string;
-    @JsonProperty()
-    @JsonType(String)
     primaryTwinID: string;
-    @JsonProperty()
-    @JsonElementType(String)
     meshIDs: string[];
-    @JsonProperty()
-    @JsonType(Object)
-    twinAliases: any;
+    twinAliases?: any;
 }
 
-@JsonObject()
-export class Asset {
-    @JsonProperty()
-    @JsonType(String)
+export interface IAsset {
     type: string;
-    @JsonProperty()
-    @JsonType(String)
     name: string;
-    @JsonProperty()
-    @JsonType(String)
     url: string;
 }
-
-@JsonObject()
-export class Scene {
-    @JsonProperty()
-    @JsonType(String)
+export interface IScene {
     type: string;
-    @JsonProperty()
-    @JsonType(String)
     id: string;
-    @JsonProperty()
-    @JsonType(String)
     displayName: string;
-    @JsonProperty()
-    @JsonType(Number)
     latitude: number;
-    @JsonProperty()
-    @JsonType(Number)
     longitude: number;
-    @JsonProperty()
-    @JsonElementType(Asset)
-    assets: Asset[];
-    @JsonProperty()
-    @JsonElementType(TwinToObjectMapping)
-    twinToObjectMappings: TwinToObjectMapping[];
-    @JsonProperty()
-    @JsonElementType(String)
+    assets: IAsset[];
+    twinToObjectMappings: ITwinToObjectMapping[];
     behaviors: string[];
 }
 
@@ -71,96 +27,44 @@ export enum DatasourceType {
     FilteredTwin = 'FilteredTwinDatasource'
 }
 
-@JsonObject()
-@JsonDiscriminatorProperty('type')
-export class Datasource {
-    @JsonProperty()
-    @JsonType(String)
+export interface IDatasource {
     type: DatasourceType;
-    @JsonProperty()
-    @JsonElementType(String)
-    mappingIDs: string[];
-    @JsonProperty()
-    @JsonType(String)
-    twinFilterQuery: string;
-    @JsonProperty()
-    @JsonType(String)
-    messageFilter: string;
-    @JsonProperty()
-    @JsonType(String)
-    twinFilterSelector: string;
+    mappingIDs?: string[];
+    twinFilterQuery?: string;
+    messageFilter?: string;
+    twinFilterSelector?: string;
 }
 
-export class Color {
-    @JsonProperty()
-    @JsonType(String)
+export interface IColor {
     type: string;
-    @JsonProperty()
-    @JsonType(String)
     expression: string;
 }
 
-export class ElementIDs {
-    @JsonProperty()
-    @JsonType(String)
+export interface IElementIDs {
     type: string;
-    @JsonProperty()
-    @JsonType(String)
     expression: string;
 }
 
-export class ControlConfiguration {
-    @JsonProperty()
-    @JsonElementType(Number)
+export interface IControlConfiguration {
     valueBreakPoints: number[];
-    @JsonProperty()
-    @JsonElementType(String)
     colors: string[];
-    @JsonProperty()
-    @JsonType(String)
     expression: string;
-    @JsonProperty()
-    @JsonType(String)
     title: string;
-    @JsonProperty()
-    @JsonType(Boolean)
     isHorizontal: boolean;
-    @JsonProperty()
-    @JsonType(String)
     label: string;
-    @JsonProperty()
-    @JsonType(Number)
     width: number;
-    @JsonProperty()
-    @JsonType(Number)
     height: number;
-    @JsonProperty()
-    @JsonType(String)
     units: string;
-    @JsonProperty()
-    @JsonElementType(Object) // Can't use Widget as its not defined yet
-    widgets: Widget[];
+    widgets: IWidget[];
 }
 
-export class Widget {
-    @JsonProperty()
-    @JsonType(String)
+export interface IWidget {
     type: string;
-    @JsonProperty()
-    @JsonType(ControlConfiguration)
-    controlConfiguration: ControlConfiguration;
+    controlConfiguration: IControlConfiguration;
 }
-
-@JsonObject()
-export class Label {
-    @JsonProperty()
-    @JsonType(String)
+export interface ILabel {
     type: string;
-    @JsonProperty()
-    @JsonType(String)
     visibleWhen: string;
-    @JsonProperty()
-    @JsonType(String)
     expression: string;
 }
 
@@ -169,139 +73,32 @@ export enum VisualType {
     OnClickPopover = 'OnClickPopover',
     Label = 'Label'
 }
-@JsonObject()
-@JsonDiscriminatorProperty('type')
-export class Visual {
-    @JsonProperty()
-    @JsonType(String)
+
+export interface IVisual {
     type: VisualType;
-    @JsonProperty()
-    @JsonType(String)
-    title: string;
-    @JsonProperty()
-    @JsonType(Boolean)
-    isHorizontal: boolean;
-    @JsonProperty()
-    @JsonType(ElementIDs)
-    elementIDs: ElementIDs;
-    @JsonProperty()
-    @JsonType(Color)
-    color: Color;
-    @JsonProperty()
-    @JsonElementType(Widget)
-    widgets: Widget[];
-    @JsonProperty()
-    @JsonType(Label)
-    label: Label;
+    title?: string;
+    isHorizontal?: boolean;
+    elementIDs?: IElementIDs;
+    color?: IColor;
+    widgets?: IWidget[];
+    label?: ILabel;
 }
 
-@JsonObject()
-export class Behavior {
-    @JsonProperty()
-    @JsonType(String)
+export interface IBehavior {
     id: string;
-    @JsonProperty()
-    @JsonType(String)
     type: string;
-    @JsonProperty()
-    @JsonElementType(String)
     layers: string[];
-    @JsonProperty()
-    @JsonType(Datasource)
-    datasources: Datasource[];
-    @JsonProperty()
-    @JsonElementType(Visual)
-    visuals: Visual[];
-    @JsonProperty()
-    @JsonType(String)
-    twinAliases: string[];
+    datasources: IDatasource[];
+    visuals: IVisual[];
+    twinAliases?: string[];
 }
 
-@JsonObject()
-export class ViewerConfiguration {
-    @JsonProperty()
-    @JsonElementType(Scene)
-    scenes: Scene[];
-    @JsonProperty()
-    @JsonElementType(Behavior)
-    behaviors: Behavior[];
+export interface IViewerConfiguration {
+    scenes: IScene[];
+    behaviors: IBehavior[];
 }
 
-@JsonObject()
-export class ScenesConfig {
-    @JsonProperty()
-    @JsonType(String)
+export interface IScenesConfig {
     type: string;
-    @JsonProperty()
-    @JsonType(ViewerConfiguration)
-    viewerConfiguration: ViewerConfiguration;
-}
-
-// Discriminators using enums were not working based on the example, keeping these classes around in case we can solve it
-// In the meantime properties of the subclasses are just applied to the base class, and consumers can make switch statements based
-// on "type"
-JsonObject();
-JsonDiscriminatorValue(DatasourceType.TwinToObjectMapping);
-export class TwinToObjectMappingDatasource extends Datasource {
-    constructor() {
-        super();
-        this.type = DatasourceType.TwinToObjectMapping;
-    }
-    @JsonProperty()
-    @JsonElementType(String)
-    mappingIDs: string[];
-}
-
-JsonObject();
-JsonDiscriminatorValue(DatasourceType.FilteredTwin);
-export class FilteredTwinDatasource extends Datasource {
-    constructor() {
-        super();
-        this.type = DatasourceType.FilteredTwin;
-    }
-    @JsonProperty()
-    @JsonType(String)
-    twinFilterQuery: string;
-    @JsonProperty()
-    @JsonType(String)
-    messageFilter: string;
-    @JsonProperty()
-    @JsonType(String)
-    twinFilterSelector: string;
-}
-
-JsonObject();
-JsonDiscriminatorValue(VisualType.ColorChange);
-export class ColorChangeVisual extends Visual {
-    constructor() {
-        super();
-        this.type = VisualType.ColorChange;
-    }
-    @JsonProperty()
-    @JsonType(Color)
-    color: Color;
-}
-
-JsonObject();
-JsonDiscriminatorValue(VisualType.OnClickPopover);
-export class OnClickPopoverVisual extends Visual {
-    constructor() {
-        super();
-        this.type = VisualType.OnClickPopover;
-    }
-    @JsonProperty()
-    @JsonElementType(Widget)
-    widgets: Widget[];
-}
-
-JsonObject();
-JsonDiscriminatorValue(VisualType.Label);
-export class LabelVisual extends Visual {
-    constructor() {
-        super();
-        this.type = VisualType.Label;
-    }
-    @JsonProperty()
-    @JsonType(Label)
-    label: Label;
+    viewerConfiguration: IViewerConfiguration;
 }

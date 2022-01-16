@@ -1,13 +1,14 @@
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import {
-    Behavior,
-    ScenesConfig,
-    TwinToObjectMapping
+    IBehavior,
+    ITwinToObjectMapping,
+    IScenesConfig
 } from '../../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
+    ADT3DSceneTwinBindingsMode,
     Locale,
     Theme
 } from '../../../Models/Constants/Enums';
@@ -20,6 +21,8 @@ export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
     'SET_ADT_SCENE_BUILDER_BEHAVIORS';
 export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
+export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
+    'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
@@ -38,7 +41,7 @@ export interface I3DSceneBuilderContext {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    config: ScenesConfig;
+    config: IScenesConfig;
     getConfig: () => void;
     sceneId: string;
     selectedObjectIds: Array<string>;
@@ -48,27 +51,48 @@ export interface I3DSceneBuilderContext {
 }
 
 export interface IADT3DSceneBuilderElementListProps {
-    elements: Array<TwinToObjectMapping>;
+    elements: Array<ITwinToObjectMapping>;
     handleCreateElementClick: () => void;
-    handleElementClick: (element: TwinToObjectMapping) => void;
+    handleElementClick: (element: ITwinToObjectMapping) => void;
 }
 
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedElement: TwinToObjectMapping;
-    onElementSave: (elements: Array<TwinToObjectMapping>) => void;
+    selectedElement: ITwinToObjectMapping;
+    onElementSave: (elements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
 }
 
+export type BehaviorSaveMode =
+    | ADT3DSceneBuilderMode.EditBehavior
+    | ADT3DSceneBuilderMode.CreateBehavior;
+
+export type OnBehaviorSave = (
+    behavior: IBehavior,
+    mode: BehaviorSaveMode,
+    originalBehaviorId?: string
+) => void;
+
+export interface IADT3DSceneBuilderBehaviorFormProps {
+    builderMode: ADT3DSceneBuilderMode;
+    selectedBehavior: IBehavior;
+    elements: Array<ITwinToObjectMapping>;
+    onBehaviorBackClick: () => void;
+    onBehaviorSave: OnBehaviorSave;
+    setSelectedObjectIds: (objectIds: Array<string>) => any;
+}
+
 export interface ADT3DSceneBuilderState {
-    config: ScenesConfig;
+    config: IScenesConfig;
     selectedObjectIds: Array<string>;
     coloredMeshItems: ColoredMeshItem[];
 }
 
 export interface ADT3DSceneBuilderLeftPanelState {
+    selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
-    elements: Array<TwinToObjectMapping>;
-    behaviors: Array<Behavior>;
-    selectedElement: TwinToObjectMapping;
+    elements: Array<ITwinToObjectMapping>;
+    behaviors: Array<IBehavior>;
+    selectedElement: ITwinToObjectMapping;
+    selectedBehavior: IBehavior;
 }

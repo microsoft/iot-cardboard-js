@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontIcon, PrimaryButton } from '@fluentui/react';
-import { TwinToObjectMapping } from '../../../../Models/Classes/3DVConfig';
+import { ITwinToObjectMapping } from '../../../../Models/Classes/3DVConfig';
 
 const SceneElements: React.FC<any> = ({
     elements,
@@ -13,14 +13,14 @@ const SceneElements: React.FC<any> = ({
     const { t } = useTranslation();
 
     return (
-        <div className="cb-scene-builder-elements">
+        <div className="cb-scene-builder-pivot-contents">
             <div className="cb-scene-builder-element-list">
                 {elements.length === 0 ? (
                     <p className="cb-scene-builder-left-panel-text">
                         {t('3dSceneBuilder.noElementsText')}
                     </p>
                 ) : (
-                    elements.map((element: TwinToObjectMapping) => (
+                    elements.map((element: ITwinToObjectMapping) => (
                         <div
                             className="cb-scene-builder-left-panel-element"
                             key={element.displayName}
@@ -40,7 +40,7 @@ const SceneElements: React.FC<any> = ({
                 )}
             </div>
             <PrimaryButton
-                className="cb-scene-builder-create-element-button"
+                className="cb-scene-builder-create-button"
                 onClick={onCreateElementClick}
                 text={t('3dSceneBuilder.createElement')}
             />

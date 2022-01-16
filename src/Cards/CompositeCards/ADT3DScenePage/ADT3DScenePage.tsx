@@ -22,7 +22,7 @@ import {
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
-import { Scene } from '../../../Models/Classes/3DVConfig';
+import { IScene } from '../../../Models/Classes/3DVConfig';
 import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
 import ADT3DSceneBuilder from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
 
@@ -40,7 +40,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
-    const handleOnSceneClick = (scene: Scene) => {
+    const handleOnSceneClick = (scene: IScene) => {
         dispatch({
             type: SET_SELECTED_SCENE,
             payload: scene
@@ -172,8 +172,8 @@ const ADT3DSceneBuilderCompositeComponent: React.FC<IADT3DSceneBuilderProps> = (
             <Pivot
                 aria-label={
                     defaultMode === ADT3DScenePageModes.BuildScene
-                        ? t('buildMode')
-                        : t('viewMode')
+                        ? t('3dScenePage.buildMode')
+                        : t('3dScenePage.viewMode')
                 }
                 defaultSelectedKey={defaultMode}
                 styles={{

@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-    ControlConfiguration,
-    Visual,
-    Widget
+    IControlConfiguration,
+    IVisual,
+    IWidget
 } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import { GaugeWidget } from '../GaugeWidget/GaugeWidget';
@@ -10,13 +10,13 @@ import { LinkWidget } from '../LinkWidget/LinkWidget';
 import './PanelWidget.scss';
 
 interface IProp {
-    config: Visual | ControlConfiguration;
+    config: IVisual | IControlConfiguration;
     twins: Record<string, DTwin>;
 }
 
 function makeWidget(
     index: number,
-    widget: Widget,
+    widget: IWidget,
     twins: Record<string, DTwin>
 ) {
     switch (widget.type) {
