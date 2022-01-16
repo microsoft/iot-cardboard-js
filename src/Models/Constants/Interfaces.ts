@@ -40,10 +40,11 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { ScenesConfig, Scene } from '../Classes/3DVConfig';
+import { IScenesConfig, IScene, IBehavior } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
+import ViewConfigBehaviorData from '../Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export interface IAction {
     type: string;
@@ -340,7 +341,7 @@ export interface ITsiClientChartDataAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: ScenesConfig
+        config: IScenesConfig
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
@@ -398,18 +399,28 @@ export interface IBlobAdapter {
     setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
     addScene: (
-        config: ScenesConfig,
-        scene: Scene
+        config: IScenesConfig,
+        scene: IScene
     ) => AdapterReturnType<ADTSceneData>;
     editScene: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string,
-        scene: Scene
+        scene: IScene
     ) => AdapterReturnType<ADTSceneData>;
     deleteScene: (
-        config: ScenesConfig,
+        config: IScenesConfig,
         sceneId: string
     ) => AdapterReturnType<ADTSceneData>;
+    addBehavior: (
+        config: IScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ) => AdapterReturnType<ViewConfigBehaviorData>;
+    editBehavior: (
+        config: IScenesConfig,
+        behavior: IBehavior,
+        originalBehaviorId: string
+    ) => AdapterReturnType<ViewConfigBehaviorData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

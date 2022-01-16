@@ -7,10 +7,10 @@ import {
     ResponsiveContainer,
     PolarAngleAxis
 } from 'recharts';
-import { ControlConfiguration } from '../../../Models/Classes/3DVConfig';
+import { IControlConfiguration } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 interface IProp {
-    config: ControlConfiguration;
+    config: IControlConfiguration;
     twins: Record<string, DTwin>;
 }
 

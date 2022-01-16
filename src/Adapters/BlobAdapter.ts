@@ -2,11 +2,11 @@ import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
-import { ScenesConfig, Scene } from '../Models/Classes/3DVConfig';
-import { TaJson } from 'ta-json';
+import { IScenesConfig, IBehavior, IScene } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
+import ViewConfigBehaviorData from '../Models/Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -57,10 +57,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
                 let config;
                 if (scenesBlob.data) {
-                    config = TaJson.parse<ScenesConfig>(
-                        JSON.stringify(scenesBlob.data),
-                        ScenesConfig
-                    );
+                    config = scenesBlob.data as IScenesConfig;
                 }
 
                 return new ADTScenesConfigData(config);
@@ -74,7 +71,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async putScenesConfig(config: ScenesConfig) {
+    async putScenesConfig(config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -90,7 +87,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         'x-blob-host': this.storateAccountHostUrl,
                         'x-ms-blob-type': 'BlockBlob'
                     },
-                    data: TaJson.serialize(config)
+                    data: config
                 });
                 let result;
                 if (putBlob.status === 201) {
@@ -108,7 +105,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async addScene(config: ScenesConfig, scene: Scene) {
+    async addScene(config: IScenesConfig, scene: IScene) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -135,7 +132,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
+    async editScene(config: IScenesConfig, sceneId: string, scene: IScene) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -165,7 +162,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async deleteScene(config: ScenesConfig, sceneId: string) {
+    async deleteScene(config: IScenesConfig, sceneId: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
@@ -186,6 +183,78 @@ export default class BlobAdapter implements IBlobAdapter {
                     );
                 } else {
                     return new ADTSceneData(null);
+                }
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async addBehavior(
+        config: IScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                const updatedConfig = { ...config };
+                updatedConfig.viewerConfiguration.behaviors.push(behavior);
+                updatedConfig.viewerConfiguration.scenes
+                    .find((scene) => scene.id === sceneId)
+                    ?.behaviors?.push(behavior.id);
+
+                const putConfigResult = await this.putScenesConfig(
+                    updatedConfig
+                );
+                if (putConfigResult.getData()) {
+                    return new ViewConfigBehaviorData(behavior);
+                } else {
+                    return new ViewConfigBehaviorData(null);
+                }
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async editBehavior(
+        config: IScenesConfig,
+        behavior: IBehavior,
+        originalBehaviorId: string
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                const updatedConfig = { ...config };
+                const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                    (b) => b.id === originalBehaviorId
+                );
+                updatedConfig.viewerConfiguration.behaviors[
+                    behaviorIdx
+                ] = behavior;
+
+                const putConfigResult = await this.putScenesConfig(
+                    updatedConfig
+                );
+                if (putConfigResult.getData()) {
+                    return new ViewConfigBehaviorData(behavior);
+                } else {
+                    return new ViewConfigBehaviorData(null);
                 }
             } catch (err) {
                 adapterMethodSandbox.pushError({

@@ -1,6 +1,6 @@
 import { IButtonProps } from '@fluentui/react';
 import MockAdapter from '../../../Adapters/MockAdapter';
-import { Scene } from '../../../Models/Classes/3DVConfig';
+import { IScene } from '../../../Models/Classes/3DVConfig';
 import {
     IBlobAdapter,
     IStandaloneConsumeCardProps
@@ -8,6 +8,6 @@ import {
 
 export interface SceneListCardProps extends IStandaloneConsumeCardProps {
     adapter: IBlobAdapter | MockAdapter;
-    onSceneClick?: (scene: Scene) => void;
     additionalActions?: Array<IButtonProps>;
+    onSceneClick?: (scene: IScene) => void;
 }

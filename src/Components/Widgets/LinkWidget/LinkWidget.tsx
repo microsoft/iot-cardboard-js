@@ -1,10 +1,10 @@
 import React from 'react';
-import { ControlConfiguration } from '../../../Models/Classes/3DVConfig';
+import { IControlConfiguration } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import { performSubstitutions } from '../Widget.Utils';
 
 interface IProp {
-    config: ControlConfiguration;
+    config: IControlConfiguration;
     twins: Record<string, DTwin>;
 }
 

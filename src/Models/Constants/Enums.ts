@@ -112,9 +112,12 @@ export enum ADT3DScenePageSteps {
 }
 
 export enum ADT3DSceneBuilderMode {
-    Idle,
+    ElementsIdle,
+    BehaviorIdle,
     CreateElement,
-    EditElement
+    EditElement,
+    CreateBehavior,
+    EditBehavior
 }
 
 export enum ADT3DSceneTwinBindingsMode {

@@ -53,7 +53,7 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import { DatasourceType, ScenesConfig } from '../Models/Classes/3DVConfig';
+import { DatasourceType, IScenesConfig } from '../Models/Classes/3DVConfig';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -795,7 +795,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getSceneData(sceneId: string, config: ScenesConfig) {
+    async getSceneData(sceneId: string, config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         function pushErrors(errors: IComponentError[]) {

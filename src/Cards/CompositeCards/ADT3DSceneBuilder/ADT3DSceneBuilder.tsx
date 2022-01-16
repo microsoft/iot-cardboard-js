@@ -10,9 +10,11 @@ import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
+    OnBehaviorSave,
     SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
@@ -21,8 +23,9 @@ import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import {
-    ScenesConfig,
-    TwinToObjectMapping
+    IBehavior,
+    IScenesConfig,
+    ITwinToObjectMapping
 } from '../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderReducer,
@@ -34,6 +37,7 @@ import { IADTAdapter } from '../../../Models/Constants/Interfaces';
 import SceneElementForm from './Components/ElementForm';
 import SceneBehaviors from './Components/Behaviors';
 import SceneElements from './Components/Elements';
+import SceneBehaviorsForm from './Components/BehaviorsForm';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
@@ -74,7 +78,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     useEffect(() => {
         if (!getScenesConfig.adapterResult.hasNoData()) {
-            const config: ScenesConfig = getScenesConfig.adapterResult.getData();
+            const config: IScenesConfig = getScenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
@@ -148,13 +152,36 @@ const BuilderLeftPanel: React.FC = () => {
 
     const {
         config,
+        getConfig,
         sceneId,
         setSelectedObjectIds,
         setColoredMeshItems,
         theme,
         locale,
-        localeStrings
+        localeStrings,
+        adapter
     } = useContext(SceneBuilderContext);
+
+    const addBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.addBehavior(config, sceneId, params.behavior),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const editBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behavior: IBehavior;
+            originalBehaviorId: string;
+        }) =>
+            adapter.editBehavior(
+                config,
+                params.behavior,
+                params.originalBehaviorId
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
     // START of scene element related callbacks
     const onCreateElementClick = () => {
@@ -169,7 +196,7 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedObjectIds([]);
     };
 
-    const onElementClick = (element: TwinToObjectMapping) => {
+    const onElementClick = (element: ITwinToObjectMapping) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
             payload: element
@@ -182,7 +209,7 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementEnter = (element: TwinToObjectMapping) => {
+    const onElementEnter = (element: ITwinToObjectMapping) => {
         const coloredMeshes: ColoredMeshItem[] = [];
         for (const id of element.meshIDs) {
             const coloredMesh: ColoredMeshItem = {
@@ -198,26 +225,68 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementBackClick = () => {
+    const onBackClick = (
+        idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
+    ) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.Idle
+            payload: idleMode
         });
         setSelectedObjectIds([]);
     };
 
-    const onElementSave = (newElements: Array<TwinToObjectMapping>) => {
+    const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
         });
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.Idle
+            payload: ADT3DSceneBuilderMode.ElementsIdle
         });
         setSelectedObjectIds([]);
     };
     // END of scene element related callbacks
+
+    // START of behavior related callbacks
+    const onCreateBehaviorClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateBehavior
+        });
+        setSelectedObjectIds([]);
+    };
+
+    const onBehaviorSave: OnBehaviorSave = async (
+        behavior,
+        mode,
+        originalBehaviorId
+    ) => {
+        if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
+            await addBehaviorAdapterData.callAdapter({
+                behavior
+            });
+        }
+        if (mode === ADT3DSceneBuilderMode.EditBehavior) {
+            await editBehaviorAdapterData.callAdapter({
+                behavior,
+                originalBehaviorId
+            });
+        }
+        getConfig();
+    };
+
+    const onBehaviorClick = (behavior: IBehavior) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+            payload: behavior
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.EditBehavior
+        });
+    };
+    // END of behavior related callbacks
 
     useEffect(() => {
         if (config) {
@@ -237,16 +306,38 @@ const BuilderLeftPanel: React.FC = () => {
         }
     }, [config]);
 
+    const behaviors = config?.viewerConfiguration?.behaviors || [];
+
     return (
         <BaseComponent
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
         >
-            {state.builderMode === ADT3DSceneBuilderMode.Idle && (
+            {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+                state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
-                    aria-label={t('buildMode')}
-                    defaultSelectedKey={ADT3DSceneTwinBindingsMode.Elements}
+                    aria-label={t('3dScenePage.buildMode')}
+                    selectedKey={state.selectedPivotTab}
+                    onLinkClick={(item) => {
+                        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+                        switch (item.props.itemKey) {
+                            case ADT3DSceneTwinBindingsMode.Elements:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.ElementsIdle;
+                                break;
+                            case ADT3DSceneTwinBindingsMode.Behaviors:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.BehaviorIdle;
+                                break;
+                            default:
+                                break;
+                        }
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: activePivot
+                        });
+                    }}
                     className="cb-scene-builder-left-panel-pivot"
                 >
                     <PivotItem
@@ -265,7 +356,11 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
-                        <SceneBehaviors />
+                        <SceneBehaviors
+                            behaviors={behaviors}
+                            onBehaviorClick={onBehaviorClick}
+                            onCreateBehaviorClick={onCreateBehaviorClick}
+                        />
                     </PivotItem>
                 </Pivot>
             )}
@@ -274,8 +369,24 @@ const BuilderLeftPanel: React.FC = () => {
                 <SceneElementForm
                     builderMode={state.builderMode}
                     selectedElement={state.selectedElement}
-                    onElementBackClick={onElementBackClick}
+                    onElementBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                    }
                     onElementSave={onElementSave}
+                />
+            )}
+            {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+                state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
+                <SceneBehaviorsForm
+                    elements={state.elements}
+                    builderMode={state.builderMode}
+                    onBehaviorBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
+                    }
+                    // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
+                    selectedBehavior={{ ...state.selectedBehavior }}
+                    onBehaviorSave={onBehaviorSave}
+                    setSelectedObjectIds={setSelectedObjectIds}
                 />
             )}
         </BaseComponent>

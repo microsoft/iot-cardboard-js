@@ -18,7 +18,7 @@ import {
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
-import { Scene, ScenesConfig } from '../../../Models/Classes/3DVConfig';
+import { IScene, IScenesConfig } from '../../../Models/Classes/3DVConfig';
 import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
@@ -57,7 +57,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
     };
 
-    const handleOnSceneClick = (scene: Scene) => {
+    const handleOnSceneClick = (scene: IScene) => {
         dispatch({
             type: SET_SELECTED_SCENE,
             payload: scene
@@ -93,7 +93,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: ScenesConfig = scenesConfig.adapterResult.getData();
+            const config: IScenesConfig = scenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config

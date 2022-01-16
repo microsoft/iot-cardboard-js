@@ -22,8 +22,11 @@ import {
     IButtonProps
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../../Models/Context/ErrorBoundary';
-import { Asset, ScenesConfig, Scene } from '../../../Models/Classes/3DVConfig';
-import { TaJson } from 'ta-json';
+import {
+    IAsset,
+    IScenesConfig,
+    IScene
+} from '../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../Models/Services/Utils';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
@@ -41,7 +44,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
     });
 
     const addScene = useAdapter({
-        adapterMethod: (params: { config: ScenesConfig; scene: Scene }) =>
+        adapterMethod: (params: { config: IScenesConfig; scene: IScene }) =>
             adapter.addScene(params.config, params.scene),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -49,24 +52,24 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     const editScene = useAdapter({
         adapterMethod: (params: {
-            config: ScenesConfig;
+            config: IScenesConfig;
             sceneId: string;
-            scene: Scene;
+            scene: IScene;
         }) => adapter.editScene(params.config, params.sceneId, params.scene),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
     const deleteScene = useAdapter({
-        adapterMethod: (params: { config: ScenesConfig; sceneId: string }) =>
+        adapterMethod: (params: { config: IScenesConfig; sceneId: string }) =>
             adapter.deleteScene(params.config, params.sceneId),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
-    const [config, setConfig] = useState<ScenesConfig>(null);
-    const [sceneList, setSceneList] = useState<Array<Scene>>([]);
-    const [selectedScene, setSelectedScene] = useState<Scene>(undefined);
+    const [config, setConfig] = useState<IScenesConfig>(null);
+    const [sceneList, setSceneList] = useState<Array<IScene>>([]);
+    const [selectedScene, setSelectedScene] = useState<IScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
@@ -74,13 +77,14 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: ScenesConfig = scenesConfig.adapterResult.getData();
+            const config: IScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
             setSceneList(
-                config.viewerConfiguration?.scenes?.sort((a: Scene, b: Scene) =>
-                    a.displayName?.localeCompare(b.displayName, undefined, {
-                        sensitivity: 'base'
-                    })
+                config.viewerConfiguration?.scenes?.sort(
+                    (a: IScene, b: IScene) =>
+                        a.displayName?.localeCompare(b.displayName, undefined, {
+                            sensitivity: 'base'
+                        })
                 )
             );
         } else {
@@ -226,7 +230,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         name: t('name'),
                                         minWidth: 100,
                                         isResizable: true,
-                                        onRender: (item: Scene) => (
+                                        onRender: (item: IScene) => (
                                             <span>{item.displayName}</span>
                                         )
                                     },
@@ -235,10 +239,10 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         name: t('scenes.blobUrl'),
                                         minWidth: 400,
                                         isResizable: true,
-                                        onRender: (item: Scene) => (
+                                        onRender: (item: IScene) => (
                                             <ul className="cb-scene-list-blob-urls">
                                                 {item.assets.map(
-                                                    (a: Asset, idx) => {
+                                                    (a: IAsset, idx) => {
                                                         return (
                                                             <li
                                                                 key={`blob-url-${idx}`}
@@ -255,13 +259,14 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                         key: 'scene-latitude',
                                         name: t('scenes.sceneLatitude'),
                                         minWidth: 100,
-                                        onRender: (item: Scene) => item.latitude
+                                        onRender: (item: IScene) =>
+                                            item.latitude
                                     },
                                     {
                                         key: 'scene-longitude',
                                         name: t('scenes.sceneLongitude'),
                                         minWidth: 100,
-                                        onRender: (item: Scene) =>
+                                        onRender: (item: IScene) =>
                                             item.longitude
                                     },
                                     {
@@ -357,7 +362,7 @@ const SceneListDialog = ({
 }: {
     isOpen: any;
     onClose: any;
-    sceneToEdit: Scene;
+    sceneToEdit: IScene;
     onAddScene: any;
     onEditScene: any;
 }) => {
@@ -418,7 +423,7 @@ const SceneListDialog = ({
                 value={sceneToEdit ? scene?.displayName : newSceneName}
                 onChange={(e) => {
                     if (sceneToEdit) {
-                        const selectedSceneCopy: Scene = Object.assign(
+                        const selectedSceneCopy: IScene = Object.assign(
                             {},
                             sceneToEdit
                         );
@@ -437,7 +442,7 @@ const SceneListDialog = ({
                 title={newSceneBlobUrl}
                 value={
                     sceneToEdit
-                        ? scene?.assets.map((a: Asset) => a.url).join('\n')
+                        ? scene?.assets.map((a: IAsset) => a.url).join('\n')
                         : newSceneBlobUrl
                 }
                 onChange={(e) => {
@@ -463,26 +468,19 @@ const SceneListDialog = ({
                     className="cb-scene-list-dialog-buttons"
                     onClick={() => {
                         if (sceneToEdit) {
-                            const updatedScene = TaJson.parse<Scene>(
-                                JSON.stringify(scene),
-                                Scene
-                            );
-                            onEditScene(updatedScene);
+                            onEditScene(scene);
                         } else {
-                            const newScene = TaJson.parse<Scene>(
-                                JSON.stringify({
-                                    displayName: newSceneName,
-                                    type: 'Scene',
-                                    assets: [
-                                        {
-                                            type: 'Asset3D',
-                                            name: 'Asset',
-                                            url: newSceneBlobUrl
-                                        }
-                                    ]
-                                }),
-                                Scene
-                            );
+                            const newScene = {
+                                displayName: newSceneName,
+                                type: 'Scene',
+                                assets: [
+                                    {
+                                        type: 'Asset3D',
+                                        name: 'Asset',
+                                        url: newSceneBlobUrl
+                                    }
+                                ]
+                            };
                             onAddScene(newScene);
                         }
                     }}

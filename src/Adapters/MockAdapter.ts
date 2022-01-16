@@ -29,16 +29,16 @@ import {
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import {
-    ScenesConfig,
-    Scene,
-    Visual,
+    IScenesConfig,
+    IScene,
+    IVisual,
     VisualType,
-    Color
+    IBehavior
 } from '../Models/Classes/3DVConfig';
-import { TaJson } from 'ta-json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
+import ViewConfigBehaviorData from '../Models/Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export default class MockAdapter
     implements
@@ -56,6 +56,9 @@ export default class MockAdapter
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
+        this.scenesConfig =
+            mockAdapterArgs?.mockData || (mockVConfig as IScenesConfig);
+
         this.mockError = mockAdapterArgs?.mockError;
         this.networkTimeoutMillis =
             typeof mockAdapterArgs?.networkTimeoutMillis === 'number'
@@ -228,17 +231,9 @@ export default class MockAdapter
 
     async getScenesConfig() {
         try {
-            let scenesConfig = this.scenesConfig;
-            if (!scenesConfig) {
-                scenesConfig = TaJson.parse<ScenesConfig>(
-                    JSON.stringify(mockVConfig),
-                    ScenesConfig
-                );
-            }
             await this.mockNetwork();
-
             return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(scenesConfig),
+                result: new ADTScenesConfigData(this.scenesConfig),
                 errorInfo: null
             });
         } catch (err) {
@@ -249,15 +244,13 @@ export default class MockAdapter
         }
     }
 
-    async addScene(config: ScenesConfig, scene: Scene) {
+    async addScene(config: IScenesConfig, scene: IScene) {
         try {
             const updatedConfig = { ...config };
             updatedConfig.viewerConfiguration.scenes.push(scene);
-            this.scenesConfig = TaJson.parse<ScenesConfig>(
-                JSON.stringify(updatedConfig),
-                ScenesConfig
-            );
+
             await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
 
             return new AdapterResult({
                 result: new ADTSceneData(scene),
@@ -271,18 +264,16 @@ export default class MockAdapter
         }
     }
 
-    async editScene(config: ScenesConfig, sceneId: string, scene: Scene) {
+    async editScene(config: IScenesConfig, sceneId: string, scene: IScene) {
         try {
+            const updatedConfig = { ...config };
             const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
                 (s) => s.id === sceneId
             );
-            const updatedConfig = { ...config };
             updatedConfig.viewerConfiguration.scenes[sceneIndex] = scene;
-            this.scenesConfig = TaJson.parse<ScenesConfig>(
-                JSON.stringify(updatedConfig),
-                ScenesConfig
-            );
+
             await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
 
             return new AdapterResult({
                 result: new ADTSceneData(scene),
@@ -296,7 +287,7 @@ export default class MockAdapter
         }
     }
 
-    async deleteScene(config: ScenesConfig, sceneId: string) {
+    async deleteScene(config: IScenesConfig, sceneId: string) {
         try {
             const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
                 (s) => s.id === sceneId
@@ -305,6 +296,7 @@ export default class MockAdapter
             updatedConfig.viewerConfiguration.scenes.splice(sceneIndex, 1);
 
             await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
 
             return new AdapterResult({
                 result: new ADTSceneData(
@@ -314,6 +306,60 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<ADTSceneData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async addBehavior(
+        config: IScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ) {
+        try {
+            const updatedConfig = { ...config };
+            updatedConfig.viewerConfiguration.behaviors.push(behavior);
+            updatedConfig.viewerConfiguration.scenes
+                .find((scene) => scene.id === sceneId)
+                ?.behaviors?.push(behavior.id);
+
+            await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
+
+            return new AdapterResult({
+                result: new ViewConfigBehaviorData(behavior),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ViewConfigBehaviorData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async editBehavior(
+        config: IScenesConfig,
+        behavior: IBehavior,
+        originalBehaviorId: string
+    ) {
+        try {
+            const updatedConfig = { ...config };
+            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                (b) => b.id === originalBehaviorId
+            );
+            updatedConfig.viewerConfiguration.behaviors[behaviorIdx] = behavior;
+
+            await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
+
+            return new AdapterResult({
+                result: new ViewConfigBehaviorData(behavior),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ViewConfigBehaviorData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
@@ -344,16 +390,19 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(_sceneId: string, _config: ScenesConfig) {
+    async getSceneData(_sceneId: string, _config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         const getData = () => {
-            const visual = new Visual();
-            visual.type = VisualType.ColorChange;
-            const color = new Color();
-            color.expression =
-                'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"';
-            visual.color = color;
+            const visual: IVisual = {
+                type: VisualType.ColorChange,
+                color: {
+                    type: 'BindingExpression',
+                    expression:
+                        'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"'
+                }
+            };
+
             const sceneVisual = new SceneVisual(
                 ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
                 [visual],

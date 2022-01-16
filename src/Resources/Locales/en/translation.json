@@ -274,15 +274,24 @@
     },
     "3dSceneBuilder": {
         "elements": "Elements",
+        "alerts": "Alerts",
+        "widgets": "Widgets",
         "behaviors": "Behaviors",
         "createElement": "Create element",
+        "createBehavior": "Create behavior",
         "noElementsText": "No elements created yet",
         "noBehaviorsText": "No behaviors created yet",
         "newElement": "New element",
+        "newBehavior": "New behavior",
         "twinLink": "Twin link",
         "twinLinkInputInfo": "Enter twin id ($dtId) that you want to link this element",
         "noObjectAddedText": "No objects added yet, pelase select meshes in 3D viewer",
-        "objects": "Objects"
+        "objects": "Objects",
+        "behaviorElementsDropdownLabel": "Target element",
+        "behaviorElementsDropdownPlaceholder": "Select an element",
+        "behaviorTriggerLabel": "Trigger expression",
+        "behaviorTriggerPlaceholder": "Enter expression",
+        "behaviorId": "Behavior Id"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
