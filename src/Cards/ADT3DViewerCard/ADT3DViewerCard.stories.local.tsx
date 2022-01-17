@@ -67,14 +67,16 @@ export const EngineWithMeshSelection = () => {
 };
 
 export const Mock = () => {
+    const scenesConfig = mockVConfig as IScenesConfig;
+
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewerCard
                 title="3D Viewer (Mock Data)"
                 adapter={new MockAdapter()}
-                sceneConfig={null}
+                sceneConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={'Scene ID'}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 connectionLineColor="#000"
             />
         </div>

@@ -31,9 +31,8 @@ import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import {
     IScenesConfig,
     IScene,
-    IVisual,
-    VisualType,
-    IBehavior
+    IBehavior,
+    DatasourceType
 } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
@@ -390,32 +389,81 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(_sceneId: string, _config: IScenesConfig) {
+    async getSceneData(sceneId: string, config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
-        const getData = () => {
-            const visual: IVisual = {
-                type: VisualType.ColorChange,
-                color: {
-                    type: 'BindingExpression',
-                    expression:
-                        'primaryTwin.value < 100 ? "#FF0000" : "#00FF00"'
-                }
-            };
+        // get scene based on id
+        const scene = config.viewerConfiguration?.scenes?.find(
+            (scene) => scene.id === sceneId
+        );
+        let modelUrl = null;
+        const sceneVisuals: SceneVisual[] = [];
+        if (scene) {
+            // get modelUrl
+            modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
-            const sceneVisual = new SceneVisual(
-                ['Mesh3 LKHP_40_15_254TC2 Centrifugal_Pumps2 Model'],
-                [visual],
-                { primaryTwin: { value: 10 } as any } // TODO: Probably a bug
-            );
-            const sceneVisuals = [sceneVisual];
-            return sceneVisuals;
-        };
+            if (scene.behaviors) {
+                // cycle through behaviors for scene
+                for (const sceneBehavior of scene.behaviors) {
+                    // cycle through all behaviors
+                    // check if behavior is relevent for the current scene
+                    for (const behavior of config.viewerConfiguration
+                        ?.behaviors)
+                        if (sceneBehavior === behavior.id) {
+                            const mappingIds: string[] = [];
+                            // cycle through the datasources of behavior
+                            for (const dataSource of behavior.datasources) {
+                                // if its a TwinToObjectMappingDatasource get the mapping id
+                                if (
+                                    dataSource.type ===
+                                    DatasourceType.TwinToObjectMapping
+                                ) {
+                                    dataSource.mappingIDs.forEach(
+                                        (mappingId) => {
+                                            mappingIds.push(mappingId);
+                                        }
+                                    );
+                                }
+
+                                // TODO get FilteredTwinDatasources
+                            }
+
+                            // cycle through mapping ids to get twins for behavior and scene
+                            for (const id of mappingIds) {
+                                const twins = {};
+                                const mapping = scene.twinToObjectMappings.find(
+                                    (mapping) => mapping.id === id
+                                );
+
+                                // get primary twin
+                                twins['primaryTwin'] = {$dtId: 'machineID', InFlow: 300, OutFlow: 250, Temperature: 50, displayName: 'My Machine'};
+
+                                // check for twin aliases and add to twins object
+                                if (mapping.twinAliases) {
+                                    for (const alias of Object.keys(
+                                        mapping.twinAliases
+                                    )) {
+                                            twins[alias] = {$dtId: 'machineID', InFlow: 300, OutFlow: 250, Temperature: 50, displayName: 'My Machine'};
+                                    }
+                                }
+
+                                const sceneVisual = new SceneVisual(
+                                    mapping.meshIDs,
+                                    behavior.visuals,
+                                    twins
+                                );
+                                sceneVisuals.push(sceneVisual);
+                            }
+                        }
+                }
+            }
+        }
+
         await this.mockNetwork();
         return await adapterMethodSandbox.safelyFetchData(async () => {
             return new ADT3DViewerData(
-                'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf', //3d file with public access which does not require authentication to read
-                getData()
+                modelUrl, //3d file with public access which does not require authentication to read
+                sceneVisuals
             );
         });
     }
