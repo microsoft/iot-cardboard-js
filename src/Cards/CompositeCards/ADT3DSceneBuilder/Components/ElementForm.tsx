@@ -15,6 +15,7 @@ import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
+import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -40,7 +41,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         sceneId,
         getConfig,
         selectedObjectIds,
-        setSelectedObjectIds
+        setSelectedObjectIds,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -97,6 +99,19 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             getConfig();
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
+
+    const updateColoredMeshItems = (meshName?: string) => {
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const meshId of elementToEdit.meshIDs) {
+            if (meshName && meshId === meshName) {
+                coloredMeshes.push({ meshId: meshId, color: '#00EDD9' });
+            } else {
+                coloredMeshes.push({ meshId: meshId, color: '#00A8F0' });
+            }
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
@@ -173,6 +188,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         <li
                                             key={meshName}
                                             className="cb-scene-builder-left-panel-element-object"
+                                            onMouseEnter={() =>
+                                                updateColoredMeshItems(meshName)
+                                            }
+                                            onMouseLeave={() =>
+                                                updateColoredMeshItems()
+                                            }
                                         >
                                             <div className="cb-mesh-name-wrapper">
                                                 <FontIcon
