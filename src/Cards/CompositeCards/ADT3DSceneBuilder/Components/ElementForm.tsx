@@ -63,14 +63,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         const existingElements = config.viewerConfiguration?.scenes?.find(
             (s) => s.id === sceneId
         ).twinToObjectMappings;
-        const newElements = [...existingElements];
+        const newElements = existingElements ? [...existingElements] : [];
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             let newId = createGUID(false);
-            const existingIds = existingElements.map((e) => e.id);
-            while (existingIds.includes(newId)) {
+            const existingIds = existingElements?.map((e) => e.id);
+            while (existingIds?.includes(newId)) {
                 newId = createGUID(false);
             }
-            newElements.push({ id: newId, ...elementToEdit });
+            const newElement = { ...elementToEdit, id: newId };
+            newElements.push(newElement);
         } else {
             newElements[
                 existingElements.findIndex((e) => e.id === selectedElement.id)

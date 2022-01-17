@@ -206,6 +206,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditElement
         });
         setSelectedObjectIds(element.meshIDs);
+        setColoredMeshItems([]);
     };
 
     const onElementEnter = (element: ITwinToObjectMapping) => {

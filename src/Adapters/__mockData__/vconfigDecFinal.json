@@ -103,9 +103,17 @@
                                         {
                                             "type": "Gauge",
                                             "controlConfiguration": {
-                                                "valueBreakPoints": [100, 200, 500],
+                                                "valueBreakPoints": [
+                                                    100,
+                                                    200,
+                                                    500
+                                                ],
                                                 "units": "PSI",
-                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "colors": [
+                                                    "#FDCD4D",
+                                                    "#00D700",
+                                                    "#ff0000"
+                                                ],
                                                 "expression": "primaryTwin.OutFlow",
                                                 "label": "Left"
                                             }
@@ -113,14 +121,22 @@
                                         {
                                             "type": "Gauge",
                                             "controlConfiguration": {
-                                                "valueBreakPoints": [100, 200, 500],
+                                                "valueBreakPoints": [
+                                                    100,
+                                                    200,
+                                                    500
+                                                ],
                                                 "units": "PSI",
-                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "colors": [
+                                                    "#FDCD4D",
+                                                    "#00D700",
+                                                    "#ff0000"
+                                                ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"
                                             }
                                         }
-                                   ]
+                                    ]
                                 }
                             },
                             {
@@ -132,9 +148,17 @@
                                         {
                                             "type": "Gauge",
                                             "controlConfiguration": {
-                                                "valueBreakPoints": [100, 200, 500],
+                                                "valueBreakPoints": [
+                                                    100,
+                                                    200,
+                                                    500
+                                                ],
                                                 "units": "PSI",
-                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "colors": [
+                                                    "#FDCD4D",
+                                                    "#00D700",
+                                                    "#ff0000"
+                                                ],
                                                 "expression": "primaryTwin.Temperature",
                                                 "label": "Left"
                                             }
@@ -142,14 +166,22 @@
                                         {
                                             "type": "Gauge",
                                             "controlConfiguration": {
-                                                "valueBreakPoints": [100, 200, 500],
+                                                "valueBreakPoints": [
+                                                    100,
+                                                    200,
+                                                    500
+                                                ],
                                                 "units": "PSI",
-                                                "colors": ["#FDCD4D", "#00D700", "#ff0000"],
+                                                "colors": [
+                                                    "#FDCD4D",
+                                                    "#00D700",
+                                                    "#ff0000"
+                                                ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"
                                             }
                                         }
-                                   ]
+                                    ]
                                 }
                             },
                             {

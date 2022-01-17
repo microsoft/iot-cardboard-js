@@ -10,11 +10,14 @@
         padding: 20px 0 40px;
     }
     .cb-base-composite-card-title {
-        padding-left: 20px;
-        padding-right: 20px;
+        font-size: 18px;
+        font-weight: 400;
+        padding-left: 8px;
     }
     .cb-base-composite-card-item {
-        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
         padding-right: 20px;
     }
     .cb-scene-list-empty {
@@ -36,6 +39,14 @@
         list-style-type: none;
         margin: 0;
         padding: 0;
+    }
+
+    .cb-scene-list-action-buttons {
+        border-bottom: 1px solid #edebe9;
+    }
+
+    .cb-scenes-list {
+        overflow: auto;
     }
 }
 

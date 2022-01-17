@@ -395,6 +395,8 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
 }
 
 export interface IBlobAdapter {
+    getBlobContainerURL: () => string;
+    setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
     addScene: (
         config: IScenesConfig,

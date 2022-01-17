@@ -27,8 +27,7 @@ export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
                 adapter={
                     new ADTandBlobAdapter(
                         authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.accountHostUrl,
-                        authenticationParameters.storage.blobPath,
+                        authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         )
