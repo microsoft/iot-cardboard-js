@@ -9,10 +9,10 @@
     font-size: 24px;
     left: 50%;
     position: absolute;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     top: 50%;
     transform: translate(-50%, 0%);
     width: 300px;
-    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 
 .cb-sceneview-errormessage {
@@ -20,9 +20,9 @@
     font-size: 24px;
     left: 50%;
     position: absolute;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     top: 50%;
     transform: translate(-50%, 0%);
-    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 
 .cb-sceneview-canvas {
