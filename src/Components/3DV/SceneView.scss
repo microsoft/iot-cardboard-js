@@ -12,6 +12,7 @@
     top: 50%;
     transform: translate(-50%, 0%);
     width: 300px;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 
 .cb-sceneview-errormessage {
@@ -21,6 +22,7 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, 0%);
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
 
 .cb-sceneview-canvas {
