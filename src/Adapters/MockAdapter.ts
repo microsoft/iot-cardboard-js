@@ -436,14 +436,26 @@ export default class MockAdapter
                                 );
 
                                 // get primary twin
-                                twins['primaryTwin'] = {$dtId: 'machineID', InFlow: 300, OutFlow: 250, Temperature: 50, displayName: 'My Machine'};
+                                twins['primaryTwin'] = {
+                                    $dtId: 'machineID',
+                                    InFlow: 300,
+                                    OutFlow: 250,
+                                    Temperature: 50,
+                                    displayName: 'My Machine'
+                                };
 
                                 // check for twin aliases and add to twins object
                                 if (mapping.twinAliases) {
                                     for (const alias of Object.keys(
                                         mapping.twinAliases
                                     )) {
-                                            twins[alias] = {$dtId: 'machineID', InFlow: 300, OutFlow: 250, Temperature: 50, displayName: 'My Machine'};
+                                        twins[alias] = {
+                                            $dtId: 'machineID',
+                                            InFlow: 300,
+                                            OutFlow: 250,
+                                            Temperature: 50,
+                                            displayName: 'My Machine'
+                                        };
                                     }
                                 }
 
