@@ -8,6 +8,7 @@ import {
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
+import { Parser } from 'expr-eval';
 
 export const createGUID = (isWithDashes = true) => {
     const s4 = () => {
@@ -166,4 +167,15 @@ export function measureText(str: string, fontSize: number) {
             0
         ) * fontSize
     );
+}
+
+export function parseExpression(expression: string, twins: any) {
+    let result: any = '';
+    try {
+        result = Parser.evaluate(expression, twins) as any;
+    } catch {
+        console.log(`Unable to parse expression: ${expression}`);
+    }
+
+    return result;
 }

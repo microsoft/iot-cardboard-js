@@ -1,5 +1,5 @@
-import { Parser } from 'expr-eval';
 import { DTwin } from '../../Models/Constants/Interfaces';
+import { parseExpression } from '../../Models/Services/Utils';
 
 export function performSubstitutions(
     expression: string,
@@ -17,7 +17,7 @@ export function performSubstitutions(
         }
 
         const sub = expression.substring(n + 2, m);
-        const target = (Parser.evaluate(sub, twins) as any) as string;
+        const target = parseExpression(sub, twins);
         expression =
             expression.substring(0, n) + target + expression.substring(m + 1);
     }
