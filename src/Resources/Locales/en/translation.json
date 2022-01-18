@@ -283,6 +283,7 @@
         "noBehaviorsText": "No behaviors created yet",
         "newElement": "New element",
         "newBehavior": "New behavior",
+        "editBehavior": "Edit behavior",
         "twinLink": "Twin link",
         "twinLinkInputInfo": "Enter twin id ($dtId) that you want to link this element",
         "noObjectAddedText": "No objects added yet, pelase select meshes in 3D viewer",
@@ -291,7 +292,16 @@
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
         "behaviorTriggerPlaceholder": "Enter expression",
-        "behaviorId": "Behavior Id"
+        "behaviorId": "Behavior Id",
+        "widgetLibrary": "Widget library",
+        "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
+        "allWidgets": "All widgets",
+        "myWidgets": "My widgets",
+        "searchWidgets": "Search widgets",
+        "addWidget": "Add widget",
+        "editWidget": "Edit widget",
+        "removeWidget": "Remove widget",
+        "noWidgets": "No widgets found"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

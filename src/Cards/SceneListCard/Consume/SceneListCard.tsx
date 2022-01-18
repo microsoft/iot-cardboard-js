@@ -79,14 +79,22 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: IScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
-            setSceneList(
-                config.viewerConfiguration?.scenes?.sort(
-                    (a: IScene, b: IScene) =>
-                        a.displayName?.localeCompare(b.displayName, undefined, {
-                            sensitivity: 'base'
-                        })
-                )
-            );
+            setSceneList(() => {
+                try {
+                    return config.viewerConfiguration?.scenes?.sort(
+                        (a: IScene, b: IScene) =>
+                            a.displayName?.localeCompare(
+                                b.displayName,
+                                undefined,
+                                {
+                                    sensitivity: 'base'
+                                }
+                            )
+                    );
+                } catch {
+                    return config.viewerConfiguration?.scenes;
+                }
+            });
         } else {
             setSceneList([]);
         }
