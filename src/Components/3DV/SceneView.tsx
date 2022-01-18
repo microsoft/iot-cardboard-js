@@ -171,6 +171,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 setIsLoading(false);
+                engineRef.current.resize();
             }
         }
 
