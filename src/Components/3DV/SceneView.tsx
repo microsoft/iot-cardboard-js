@@ -267,7 +267,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             new BABYLON.HemisphericLight(
                 'light',
-                new BABYLON.Vector3(0, 1, 0),
+                new BABYLON.Vector3(1, 1, 0),
                 sc
             );
 
