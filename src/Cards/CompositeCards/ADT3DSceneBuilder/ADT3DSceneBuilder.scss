@@ -257,7 +257,21 @@
 }
 
 .cb-widget-dialog-icon {
+    color: var(--cb-color-bg-canvas);
+    font-size: 30px;
     margin: 10px;
+}
+
+.cb-widget-panel-list-icon {
+    margin-top: 2px;
+}
+
+.cb-widget-dialog-icon-background {
+    background-color: var(--cb-color-theme-primary);
+    border-radius: 5px;
+    height: 50px;
+    margin: 8px 10px 6px 6px;
+    width: 50px;
 }
 
 .cb-widget-dialog-modal {

@@ -301,7 +301,14 @@
         "addWidget": "Add widget",
         "editWidget": "Edit widget",
         "removeWidget": "Remove widget",
-        "noWidgets": "No widgets found"
+        "noWidgets": "No widgets found",
+        "noWidgetsConfigured": "No widgets configured"
+    },
+    "widgets": {
+        "trendDescription": "Show historical data in context of your 3D scene",
+        "gaugeDescription": "Represent numerical datapoints with visual context",
+        "linkDescription": "Reference external content by linking a URL",
+        "panelDescription": "A layout panel"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",
