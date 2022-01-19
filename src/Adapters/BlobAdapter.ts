@@ -38,8 +38,10 @@ export default class BlobAdapter implements IBlobAdapter {
     setBlobContainerPath(blobContainerURL: string) {
         if (blobContainerURL) {
             const url = new URL(blobContainerURL);
-            if (url.hostname.endsWith('blob.core.windows.net'))
-                this.blobContainerPath = new URL(blobContainerURL).pathname;
+            if (url.hostname.endsWith('blob.core.windows.net')) {
+                this.storateAccountHostUrl = url.hostname;
+                this.blobContainerPath = url.pathname;
+            }
         }
     }
 

@@ -28,7 +28,12 @@ export const ADTSceneConfigBlobContainerPicker: React.FunctionComponent<{
 
     useEffect(() => {
         setOptions(
-            (existingOptions ?? []).map((o) => ({
+            (existingOptions.length > 0
+                ? existingOptions
+                : selectedContainerUrl
+                ? [selectedContainerUrl]
+                : []
+            ).map((o) => ({
                 key: `${o}`,
                 text: o
             }))
