@@ -74,7 +74,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     selectedBehavior,
     onBehaviorBackClick,
     onBehaviorSave,
-    setSelectedObjectIds
+    setSelectedMeshIds
 }) => {
     const { t } = useTranslation();
 
@@ -97,7 +97,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         elementsToColor: Array<ITwinToObjectMapping>
     ) => {
         const meshIds = [].concat(...elementsToColor.map((etc) => etc.meshIDs));
-        setSelectedObjectIds(meshIds);
+        setSelectedMeshIds(meshIds);
     };
 
     useEffect(() => {
@@ -128,7 +128,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     tabIndex={0}
                     onClick={() => {
                         onBehaviorBackClick();
-                        setSelectedObjectIds([]);
+                        setSelectedMeshIds([]);
                     }}
                 >
                     <FontIcon
@@ -207,7 +207,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             originalBehaviorId
                         );
                         onBehaviorBackClick();
-                        setSelectedObjectIds([]);
+                        setSelectedMeshIds([]);
                     }}
                     text={
                         builderMode === ADT3DSceneBuilderMode.CreateBehavior

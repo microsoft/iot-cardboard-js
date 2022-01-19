@@ -704,7 +704,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems]);
+    }, [coloredMeshItems, isLoading]);
 
     return (
         <div className="cb-sceneview-container">

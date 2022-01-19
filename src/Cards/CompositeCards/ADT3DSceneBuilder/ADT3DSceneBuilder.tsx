@@ -57,7 +57,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         defaultADT3DSceneBuilderState
     );
 
-    const setSelectedObjectIds = (selectedMeshIds) => {
+    const setSelectedMeshIds = (selectedMeshIds) => {
         dispatch({
             type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
             payload: selectedMeshIds
@@ -98,10 +98,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 theme,
                 locale,
                 localeStrings,
-                selectedObjectIds: state.selectedObjectIds,
+                selectedMeshIds: state.selectedMeshIds,
                 coloredMeshItems: state.coloredMeshItems,
                 setColoredMeshItems,
-                setSelectedObjectIds,
+                setSelectedMeshIds,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
                 sceneId
@@ -130,10 +130,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     ].assets[0].url
                                 }
                                 onMeshSelected={(selectedMeshes) =>
-                                    setSelectedObjectIds(selectedMeshes)
+                                    setSelectedMeshIds(selectedMeshes)
                                 }
                                 coloredMeshItems={state.coloredMeshItems}
-                                preselectedMeshIds={state.selectedObjectIds}
+                                preselectedMeshIds={state.selectedMeshIds}
                             />
                         )}
                     </div>
@@ -154,7 +154,7 @@ const BuilderLeftPanel: React.FC = () => {
         config,
         getConfig,
         sceneId,
-        setSelectedObjectIds,
+        setSelectedMeshIds,
         setColoredMeshItems,
         theme,
         locale,
@@ -193,7 +193,15 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateElement
         });
-        setSelectedObjectIds([]);
+        setSelectedMeshIds([]);
+    };
+
+    const onRemoveElement = (newElements: Array<ITwinToObjectMapping>) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+            payload: newElements
+        });
+        setSelectedMeshIds([]);
     };
 
     const onElementClick = (element: ITwinToObjectMapping) => {
@@ -205,7 +213,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditElement
         });
-        setSelectedObjectIds(element.meshIDs);
+        setSelectedMeshIds(element.meshIDs);
         setColoredMeshItems([]);
     };
 
@@ -232,7 +240,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: idleMode
         });
-        setSelectedObjectIds([]);
+        setSelectedMeshIds([]);
     };
 
     const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
@@ -244,7 +252,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.ElementsIdle
         });
-        setSelectedObjectIds([]);
+        setSelectedMeshIds([]);
     };
     // END of scene element related callbacks
 
@@ -254,7 +262,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
-        setSelectedObjectIds([]);
+        setSelectedMeshIds([]);
     };
 
     const onBehaviorSave: OnBehaviorSave = async (
@@ -347,6 +355,7 @@ const BuilderLeftPanel: React.FC = () => {
                         <SceneElements
                             elements={state.elements}
                             onCreateElementClick={onCreateElementClick}
+                            onRemoveElement={onRemoveElement}
                             onElementClick={onElementClick}
                             onElementEnter={onElementEnter}
                             onElementLeave={onElementLeave}
@@ -386,7 +395,7 @@ const BuilderLeftPanel: React.FC = () => {
                     // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
                     selectedBehavior={{ ...state.selectedBehavior }}
                     onBehaviorSave={onBehaviorSave}
-                    setSelectedObjectIds={setSelectedObjectIds}
+                    setSelectedMeshIds={setSelectedMeshIds}
                 />
             )}
         </BaseComponent>

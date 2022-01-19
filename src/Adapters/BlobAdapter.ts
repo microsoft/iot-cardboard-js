@@ -19,23 +19,29 @@ export default class BlobAdapter implements IBlobAdapter {
         authService: IAuthService,
         blobProxyServerPath = '/proxy/blob'
     ) {
-        const containerURL = new URL(blobContainerUrl);
-        this.storateAccountHostUrl = containerURL.hostname;
-        this.blobContainerPath = containerURL.pathname;
+        if (blobContainerUrl) {
+            const containerURL = new URL(blobContainerUrl);
+            this.storateAccountHostUrl = containerURL.hostname;
+            this.blobContainerPath = containerURL.pathname;
+        }
         this.blobAuthService = authService;
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
     }
 
     getBlobContainerURL() {
-        return `https://${this.storateAccountHostUrl}${this.blobContainerPath}`;
+        return this.storateAccountHostUrl && this.blobContainerPath
+            ? `https://${this.storateAccountHostUrl}${this.blobContainerPath}`
+            : '';
     }
 
     setBlobContainerPath(blobContainerURL: string) {
         if (blobContainerURL) {
             const url = new URL(blobContainerURL);
-            if (url.hostname.endsWith('blob.core.windows.net'))
-                this.blobContainerPath = new URL(blobContainerURL).pathname;
+            if (url.hostname.endsWith('blob.core.windows.net')) {
+                this.storateAccountHostUrl = url.hostname;
+                this.blobContainerPath = url.pathname;
+            }
         }
     }
 
@@ -46,18 +52,20 @@ export default class BlobAdapter implements IBlobAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             try {
-                const scenesBlob = await axios({
-                    method: 'GET',
-                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
-                    headers: {
-                        authorization: 'Bearer ' + token,
-                        'x-ms-version': '2017-11-09',
-                        'x-blob-host': this.storateAccountHostUrl
-                    }
-                });
                 let config;
-                if (scenesBlob.data) {
-                    config = scenesBlob.data as IScenesConfig;
+                if (this.storateAccountHostUrl && this.blobContainerPath) {
+                    const scenesBlob = await axios({
+                        method: 'GET',
+                        url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        headers: {
+                            authorization: 'Bearer ' + token,
+                            'x-ms-version': '2017-11-09',
+                            'x-blob-host': this.storateAccountHostUrl
+                        }
+                    });
+                    if (scenesBlob.data) {
+                        config = scenesBlob.data as IScenesConfig;
+                    }
                 }
 
                 return new ADTScenesConfigData(config);

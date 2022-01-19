@@ -19,7 +19,7 @@ import {
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
-    selectedObjectIds: [],
+    selectedMeshIds: [],
     coloredMeshItems: []
 };
 
@@ -41,7 +41,7 @@ export const ADT3DSceneBuilderReducer = produce(
                 draft.config = payload;
                 break;
             case SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS:
-                draft.selectedObjectIds = payload;
+                draft.selectedMeshIds = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS:
                 draft.coloredMeshItems = payload;

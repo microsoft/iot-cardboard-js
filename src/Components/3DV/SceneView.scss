@@ -26,8 +26,12 @@
 }
 
 .cb-sceneview-canvas {
+    background: #fff;
+    height: 100%;
+    opacity: 0;
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    width: 100%;
 }
 
 .cb-sceneview-tooltip {
@@ -38,12 +42,6 @@
     padding: 5px;
     pointer-events: none !important;
     position: absolute;
-}
-
-.cb-sceneview-canvas {
-    height: 100%;
-    opacity: 0;
-    width: 100%;
 }
 
 .cb-o1 {

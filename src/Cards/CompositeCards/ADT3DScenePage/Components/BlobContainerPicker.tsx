@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import {
     ComboBox,
     IComboBox,
@@ -15,55 +15,33 @@ const comboBoxStyles: Partial<IComboBoxStyles> = {
 export const ADTSceneConfigBlobContainerPicker: React.FunctionComponent<{
     existingOptions?: Array<string>;
     selectedContainerUrl?: string;
-    onSelect: (selectedBlobPath: string, paths: Array<string>) => void;
-}> = ({ selectedContainerUrl, onSelect, existingOptions }) => {
+    onContainerUrlSelect: (
+        selectedBlobContainerPath: string,
+        blobContainerPaths: Array<string>
+    ) => void;
+}> = ({ selectedContainerUrl, onContainerUrlSelect, existingOptions }) => {
     const { t } = useTranslation();
-    const newKey = useRef(1);
-    const [options, setOptions] = React.useState<Array<IComboBoxOption>>(
-        (existingOptions ?? []).map((o) => ({
-            key: `${newKey.current++}`,
-            text: o
-        }))
-    );
+    const [options, setOptions] = React.useState<Array<IComboBoxOption>>([]);
     const [selectedKey, setSelectedKey] = React.useState<
         string | number | undefined
-    >(
-        selectedContainerUrl
-            ? options.findIndex((o) => o.text === selectedContainerUrl)
-            : ''
-    );
+    >('');
 
     useEffect(() => {
-        if (existingOptions.length > 0) {
-            newKey.current = 1;
-            setOptions(
-                (existingOptions ?? []).map((o) => ({
-                    key: `${newKey.current++}`,
-                    text: o
-                }))
-            );
-        }
-    }, [existingOptions]);
-
-    useEffect(() => {
+        setOptions(
+            (existingOptions.length > 0
+                ? existingOptions
+                : selectedContainerUrl
+                ? [selectedContainerUrl]
+                : []
+            ).map((o) => ({
+                key: `${o}`,
+                text: o
+            }))
+        );
         if (selectedContainerUrl) {
-            const isSelectedIncluded = options.findIndex(
-                (o) => o.text === selectedContainerUrl
-            );
-            if (isSelectedIncluded === -1) {
-                const key = `${newKey.current++}`;
-                setOptions((prevOptions) => [
-                    ...prevOptions,
-                    { key: `${key}`, text: selectedContainerUrl }
-                ]);
-                setSelectedKey(key);
-            } else {
-                setSelectedKey(
-                    options.find((o) => o.text === selectedContainerUrl).key
-                );
-            }
+            setSelectedKey(selectedContainerUrl);
         }
-    }, [selectedContainerUrl]);
+    }, [existingOptions, selectedContainerUrl]);
 
     const onChange = React.useCallback(
         (
@@ -72,22 +50,23 @@ export const ADTSceneConfigBlobContainerPicker: React.FunctionComponent<{
             _index?: number,
             value?: string
         ): void => {
-            let key = option?.key as string;
             if (!option && value) {
-                key = `${newKey.current++}`;
                 setOptions((prevOptions) => [
                     ...prevOptions,
-                    { key: key, text: value }
+                    { key: value, text: value }
                 ]);
-                onSelect(value, options.map((o) => o.text).concat([value]));
+                onContainerUrlSelect(
+                    value,
+                    options.map((o) => o.text).concat([value])
+                );
             } else {
-                onSelect(
+                onContainerUrlSelect(
                     option.text,
                     options.map((o) => o.text)
                 );
             }
 
-            setSelectedKey(key);
+            setSelectedKey(value);
         },
         [options]
     );

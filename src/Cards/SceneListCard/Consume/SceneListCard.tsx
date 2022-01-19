@@ -487,7 +487,8 @@ const SceneListDialog = ({
                                         name: 'Asset',
                                         url: newSceneBlobUrl
                                     }
-                                ]
+                                ],
+                                behaviors: []
                             };
                             onAddScene(newScene);
                         }

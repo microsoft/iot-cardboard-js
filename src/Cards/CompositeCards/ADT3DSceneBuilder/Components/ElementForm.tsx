@@ -40,8 +40,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        selectedObjectIds,
-        setSelectedObjectIds,
+        selectedMeshIds,
+        setSelectedMeshIds,
         setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
@@ -90,9 +90,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     useEffect(() => {
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedObjectIds
+            meshIDs: selectedMeshIds
         });
-    }, [selectedObjectIds]);
+    }, [selectedMeshIds]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -145,10 +145,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         }}
                     />
                     <TextField
-                        label={t('3dSceneBuilder.twinLink')}
+                        label={t('3dSceneBuilder.linkedTwin')}
                         value={elementToEdit?.primaryTwinID}
                         required
-                        description={t('3dSceneBuilder.twinLinkInputInfo')}
+                        description={t('3dSceneBuilder.linkedTwinInputInfo')}
                         onChange={(e) => {
                             setElementToEdit({
                                 ...elementToEdit,
@@ -174,13 +174,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     : 'cb-collapsed'
                             }`}
                         />
-                        <span>{t('3dSceneBuilder.objects')}</span>
+                        <span>
+                            {t('3dSceneBuilder.meshes')} (
+                            {elementToEdit.meshIDs.length})
+                        </span>
                     </div>
                     {isObjectsExpanded && (
                         <div className="cb-scene-builder-left-panel-element-objects-container">
                             {elementToEdit.meshIDs.length === 0 ? (
                                 <div className="cb-scene-builder-left-panel-text">
-                                    {t('3dSceneBuilder.noObjectAddedText')}
+                                    {t('3dSceneBuilder.noMeshAddedText')}
                                 </div>
                             ) : (
                                 <ul className="cb-scene-builder-left-panel-element-object-list">
@@ -220,7 +223,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                                         ),
                                                         1
                                                     );
-                                                    setSelectedObjectIds(
+                                                    setSelectedMeshIds(
                                                         currentObjects
                                                     );
                                                 }}
@@ -238,8 +241,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     onClick={handleSaveElement}
                     text={
                         builderMode === ADT3DSceneBuilderMode.CreateElement
-                            ? t('create')
-                            : t('update')
+                            ? t('3dSceneBuilder.createElement')
+                            : t('3dSceneBuilder.updateElement')
                     }
                     disabled={
                         !(
