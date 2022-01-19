@@ -26,6 +26,7 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
+    existingBlobContainerUrls,
     onBlobContainerUrlChange,
     theme,
     locale,
@@ -83,7 +84,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
         adapter.setBlobContainerPath(selectedBlobURL);
         if (onBlobContainerUrlChange) {
-            onBlobContainerUrlChange(selectedBlobURL);
+            onBlobContainerUrlChange(selectedBlobURL, options);
         }
     };
 
@@ -93,6 +94,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             type: SET_SELECTED_BLOB_CONTAINER_URL,
             payload: adapter.getBlobContainerURL()
         });
+        if (existingBlobContainerUrls) {
+            dispatch({
+                type: SET_BLOB_CONTAINER_URLS,
+                payload: existingBlobContainerUrls
+            });
+        }
     }, []);
 
     useEffect(() => {
@@ -126,7 +133,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 selectedContainerUrl={
                                     state.selectedBlobContainerURL
                                 }
-                                onSelect={handleBlobContainerPathChange}
+                                onContainerUrlSelect={
+                                    handleBlobContainerPathChange
+                                }
                             />
                         </div>
                         {state.selectedBlobContainerURL && (

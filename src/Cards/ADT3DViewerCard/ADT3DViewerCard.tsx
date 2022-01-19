@@ -81,21 +81,23 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
             for (const sceneVisual of sceneData.adapterResult.result.data
                 .sceneVisuals) {
-                for (const visual of sceneVisual.visuals) {
-                    switch (visual.type) {
-                        case VisualType.ColorChange: {
-                            const color = parseExpression(
-                                visual.color.expression,
-                                sceneVisual.twins
-                            );
-                            for (const mesh of sceneVisual.meshIds) {
-                                const coloredMesh: ColoredMeshItem = {
-                                    meshId: mesh,
-                                    color: color
-                                };
-                                tempColoredMeshItems.push(coloredMesh);
+                if (sceneVisual.visuals) {
+                    for (const visual of sceneVisual.visuals) {
+                        switch (visual.type) {
+                            case VisualType.ColorChange: {
+                                const color = parseExpression(
+                                    visual.color.expression,
+                                    sceneVisual.twins
+                                );
+                                for (const mesh of sceneVisual.meshIds) {
+                                    const coloredMesh: ColoredMeshItem = {
+                                        meshId: mesh,
+                                        color: color
+                                    };
+                                    tempColoredMeshItems.push(coloredMesh);
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }
