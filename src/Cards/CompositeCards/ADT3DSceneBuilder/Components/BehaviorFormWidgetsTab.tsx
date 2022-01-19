@@ -9,7 +9,7 @@ import {
 } from '@fluentui/react';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
-import { availableWidgets } from '../../../..';
+import { availableWidgets, WidgetFormMode } from '../../../..';
 import {
     IBehavior,
     VisualType,
@@ -26,6 +26,10 @@ const BehaviorFormWidgetsTab: React.FC<{
     );
     const [widgets, setWidgets] = useState<IWidget[]>(popOver?.widgets);
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
+    const [widgetFormMode, setWidgetFormMode] = useState<{
+        mode: WidgetFormMode;
+        data: any; // TODO strongly type widget library options
+    }>({ mode: WidgetFormMode.Closed, data: null });
     const { t } = useTranslation();
 
     function getMenuProps(index: number): IContextualMenuProps {
@@ -64,19 +68,20 @@ const BehaviorFormWidgetsTab: React.FC<{
     }
 
     function onWidgetAdd(data: any) {
-        const wids = widgets ? [...widgets] : [];
-        wids.push(data);
-        setBehaviorToEdit(
-            produce((draft) => {
-                const popOver = draft?.visuals?.find(
-                    (visual) => visual.type === VisualType.OnClickPopover
-                );
-                if (popOver) {
-                    popOver.widgets = wids; // TODO: Add popOver if not there
-                    setWidgets(wids);
-                }
-            })
-        );
+        setWidgetFormMode({ data, mode: WidgetFormMode.Create });
+        // const wids = widgets ? [...widgets] : [];
+        // wids.push(data);
+        // setBehaviorToEdit(
+        //     produce((draft) => {
+        //         const popOver = draft?.visuals?.find(
+        //             (visual) => visual.type === VisualType.OnClickPopover
+        //         );
+        //         if (popOver) {
+        //             popOver.widgets = wids; // TODO: Add popOver if not there
+        //             setWidgets(wids);
+        //         }
+        //     })
+        // );
     }
 
     return (

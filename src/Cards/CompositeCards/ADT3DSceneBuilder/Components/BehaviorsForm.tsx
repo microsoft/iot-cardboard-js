@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
     IBehavior,
-    ITwinToObjectMapping,
-    IWidget,
-    VisualType
+    ITwinToObjectMapping
 } from '../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import {
@@ -16,53 +14,11 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { ColorPicker } from '@fluentui/react/lib/components/ColorPicker/ColorPicker';
-import {
-    ActionButton,
-    DefaultButton,
-    Dialog,
-    DialogFooter,
-    DialogType,
-    Dropdown,
-    FontIcon,
-    IconButton,
-    IContextualMenuItem,
-    IContextualMenuProps,
-    IDialogContentProps,
-    IModalProps,
-    Label,
-    List,
-    SearchBox,
-    TextField
-} from '@fluentui/react';
+import { FontIcon, TextField } from '@fluentui/react';
 import BehaviorFormElementsTab from './BehaviorFormElementsTab';
 import BehaviorFormAlertsTab from './BehaviorFormAlertsTab';
 import BehaviorFormWidgetsTab from './BehaviorFormWidgetsTab';
-
-const defaultBehavior: IBehavior = {
-    id: '',
-    type: 'Behavior',
-    layers: ['PhysicalProperties'],
-    datasources: [],
-    visuals: [
-        {
-            type: VisualType.ColorChange,
-            color: {
-                type: 'BindingExpression',
-                expression: ''
-            },
-            elementIDs: {
-                type: 'MeshIDArray',
-                expression: 'meshIDs'
-            },
-            label: null,
-            isHorizontal: false,
-            title: '',
-            widgets: []
-        }
-    ],
-    twinAliases: []
-};
+import { defaultBehavior } from '../../../../Models/Constants/Constants';
 
 enum BehaviorPivot {
     elements = 'elements',
@@ -95,6 +51,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const [originalBehaviorId, setOriginalBehaviorId] = useState(
         selectedBehavior?.id
     );
+
+    const behaviorContext = createContext(null); // TODO add behavior state to context
 
     const colorSelectedElements = (
         elementsToColor: Array<ITwinToObjectMapping>

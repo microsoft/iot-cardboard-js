@@ -129,3 +129,9 @@ export enum ADT3DScenePageModes {
     BuildScene = 'adt-3d-scene-builder-mode-build',
     ViewScene = 'adt-3d-scene-builder-mode-view'
 }
+
+export enum WidgetFormMode {
+    Closed,
+    Create,
+    Edit
+}
