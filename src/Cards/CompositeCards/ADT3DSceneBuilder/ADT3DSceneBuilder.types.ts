@@ -44,9 +44,9 @@ export interface I3DSceneBuilderContext {
     config: IScenesConfig;
     getConfig: () => void;
     sceneId: string;
-    selectedObjectIds: Array<string>;
+    selectedMeshIds: Array<string>;
     coloredMeshItems: ColoredMeshItem[];
-    setSelectedObjectIds: (objects: Array<string>) => void;
+    setSelectedMeshIds: (objects: Array<string>) => void;
     setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
 }
 
@@ -79,12 +79,12 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     elements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
-    setSelectedObjectIds: (objectIds: Array<string>) => any;
+    setSelectedMeshIds: (objectIds: Array<string>) => any;
 }
 
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
-    selectedObjectIds: Array<string>;
+    selectedMeshIds: Array<string>;
     coloredMeshItems: ColoredMeshItem[];
 }
 

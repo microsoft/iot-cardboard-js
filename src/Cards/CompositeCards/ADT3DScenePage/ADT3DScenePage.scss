@@ -34,6 +34,7 @@
 
     .cb-scene-builder-and-viewer-container {
         flex-grow: 1;
+        overflow: auto;
     }
 
     .cb-scene-list-card-wrapper {
@@ -77,7 +78,7 @@
     height: 100%;
 
     > div:last-child {
-        flex-grow: 1;
+        height: 100%;
 
         > div:first-child {
             height: 100%;
