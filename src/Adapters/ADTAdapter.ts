@@ -803,7 +803,7 @@ export default class ADTAdapter implements IADTAdapter {
                 for (const error of errors) {
                     adapterMethodSandbox.pushError({
                         type: error.type,
-                        isCatastrophic: error.isCatastrophic,
+                        isCatastrophic: false, // TODO: for now set it to false to prevent partial getTwin failures causing the base card content render, revert it with error.isCatastrophic when proper error handling is implemented for partial failures
                         rawError: new Error(error.message)
                     });
                 }
@@ -858,7 +858,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     const primaryTwin = await this.getADTTwin(
                                         mapping.primaryTwinID
                                     );
-                                    pushErrors(primaryTwin.getErrors());
+                                    pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewerCard base card fail all together because of these pushed errors
                                     twins['primaryTwin'] =
                                         primaryTwin.result?.data;
 
@@ -870,7 +870,7 @@ export default class ADTAdapter implements IADTAdapter {
                                             const twin = await this.getADTTwin(
                                                 mapping.twinAliases[alias]
                                             );
-                                            pushErrors(twin.getErrors());
+                                            pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewerCard base card fail all together because of these pushed errors
                                             twins[alias] = twin.result?.data;
                                         }
                                     }
