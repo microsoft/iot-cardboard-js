@@ -17,8 +17,8 @@ import {
     IVisual,
     VisualType
 } from '../../Models/Classes/3DVConfig';
-import { Parser } from 'expr-eval';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
+import { parseExpression } from '../../Models/Services/Utils';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -84,10 +84,10 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                 for (const visual of sceneVisual.visuals) {
                     switch (visual.type) {
                         case VisualType.ColorChange: {
-                            const color = (Parser.evaluate(
+                            const color = parseExpression(
                                 visual.color.expression,
                                 sceneVisual.twins
-                            ) as any) as string;
+                            );
                             for (const mesh of sceneVisual.meshIds) {
                                 const coloredMesh: ColoredMeshItem = {
                                     meshId: mesh,
