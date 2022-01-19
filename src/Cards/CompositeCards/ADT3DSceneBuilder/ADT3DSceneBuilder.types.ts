@@ -10,7 +10,8 @@ import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
     Locale,
-    Theme
+    Theme,
+    WidgetFormMode
 } from '../../../Models/Constants/Enums';
 import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
@@ -48,6 +49,18 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: ColoredMeshItem[];
     setSelectedMeshIds: (objects: Array<string>) => void;
     setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
+}
+
+export type WidgetFormInfo = null | {
+    data: any; // TODO strongly type widget library options
+    mode: WidgetFormMode;
+};
+
+export interface IBehaviorFormContext {
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+    widgetFormInfo: WidgetFormInfo;
+    setWidgetFormInfo: React.Dispatch<React.SetStateAction<WidgetFormInfo>>;
 }
 
 export interface IADT3DSceneBuilderElementListProps {

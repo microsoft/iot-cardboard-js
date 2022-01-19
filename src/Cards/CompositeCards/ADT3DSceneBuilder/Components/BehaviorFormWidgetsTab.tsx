@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     IContextualMenuProps,
     IContextualMenuItem,
@@ -10,26 +10,20 @@ import {
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { availableWidgets, WidgetFormMode } from '../../../..';
-import {
-    IBehavior,
-    VisualType,
-    IWidget
-} from '../../../../Models/Classes/3DVConfig';
+import { VisualType, IWidget } from '../../../../Models/Classes/3DVConfig';
 import WidgetLibraryDialog from './WidgetLibraryDialogue';
+import { BehaviorFormContext } from './BehaviorsForm';
 
-const BehaviorFormWidgetsTab: React.FC<{
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-}> = ({ behaviorToEdit, setBehaviorToEdit }) => {
+const BehaviorFormWidgetsTab: React.FC = () => {
+    const { behaviorToEdit, setBehaviorToEdit, setWidgetFormInfo } = useContext(
+        BehaviorFormContext
+    );
+
     const popOver = behaviorToEdit?.visuals?.find(
         (visual) => visual.type === VisualType.OnClickPopover
     );
     const [widgets, setWidgets] = useState<IWidget[]>(popOver?.widgets);
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
-    const [widgetFormMode, setWidgetFormMode] = useState<{
-        mode: WidgetFormMode;
-        data: any; // TODO strongly type widget library options
-    }>({ mode: WidgetFormMode.Closed, data: null });
     const { t } = useTranslation();
 
     function getMenuProps(index: number): IContextualMenuProps {
@@ -68,7 +62,7 @@ const BehaviorFormWidgetsTab: React.FC<{
     }
 
     function onWidgetAdd(data: any) {
-        setWidgetFormMode({ data, mode: WidgetFormMode.Create });
+        setWidgetFormInfo({ data, mode: WidgetFormMode.Create });
         // const wids = widgets ? [...widgets] : [];
         // wids.push(data);
         // setBehaviorToEdit(

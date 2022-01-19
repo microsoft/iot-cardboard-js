@@ -1,14 +1,15 @@
 import { ColorPicker, TextField } from '@fluentui/react';
 import produce from 'immer';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IBehavior, VisualType } from '../../../../Models/Classes/3DVConfig';
+import { VisualType } from '../../../../Models/Classes/3DVConfig';
+import { BehaviorFormContext } from './BehaviorsForm';
 
-const BehaviorFormAlertsTab: React.FC<{
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-}> = ({ behaviorToEdit, setBehaviorToEdit }) => {
+const BehaviorFormAlertsTab: React.FC = () => {
     const { t } = useTranslation();
+    const { behaviorToEdit, setBehaviorToEdit } = useContext(
+        BehaviorFormContext
+    );
 
     let colorAlertTriggerExpression = '';
     const colorChangeVisual = behaviorToEdit.visuals.find(

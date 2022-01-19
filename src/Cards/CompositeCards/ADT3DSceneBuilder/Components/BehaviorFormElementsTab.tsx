@@ -1,27 +1,23 @@
 import { Dropdown } from '@fluentui/react';
 import produce from 'immer';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    IBehavior,
     ITwinToObjectMapping,
     DatasourceType
 } from '../../../../Models/Classes/3DVConfig';
+import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormElementsTab: React.FC<{
-    behaviorToEdit: IBehavior;
-    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     elements: Array<ITwinToObjectMapping>;
     colorSelectedElements: (
         elementsToColor: Array<ITwinToObjectMapping>
     ) => any;
-}> = ({
-    behaviorToEdit,
-    setBehaviorToEdit,
-    elements,
-    colorSelectedElements
-}) => {
+}> = ({ elements, colorSelectedElements }) => {
     const { t } = useTranslation();
+    const { behaviorToEdit, setBehaviorToEdit } = useContext(
+        BehaviorFormContext
+    );
 
     return (
         <Dropdown

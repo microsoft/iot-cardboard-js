@@ -131,7 +131,6 @@ export enum ADT3DScenePageModes {
 }
 
 export enum WidgetFormMode {
-    Closed,
     Create,
     Edit
 }
