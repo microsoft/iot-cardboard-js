@@ -265,4 +265,53 @@ export default class BlobAdapter implements IBlobAdapter {
             }
         }, 'storage');
     }
+
+    async deleteBehavior(config: IScenesConfig, behavior: IBehavior) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (_token) => {
+            try {
+                const updatedConfig = { ...config };
+
+                // Splice behavior out of behavior list
+                const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                    (b) => b.id === behavior.id
+                );
+
+                if (behaviorIdx !== -1) {
+                    updatedConfig.viewerConfiguration.behaviors.splice(
+                        behaviorIdx,
+                        1
+                    );
+                }
+
+                // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
+                updatedConfig.viewerConfiguration.scenes.forEach((scene) => {
+                    const matchingBehaviorIdIdx = scene.behaviors.indexOf(
+                        behavior.id
+                    );
+                    if (matchingBehaviorIdIdx !== -1) {
+                        scene.behaviors.splice(matchingBehaviorIdIdx, 1);
+                    }
+                });
+
+                const putConfigResult = await this.putScenesConfig(
+                    updatedConfig
+                );
+                if (putConfigResult.getData()) {
+                    return new ViewConfigBehaviorData(behavior);
+                } else {
+                    return new ViewConfigBehaviorData(null);
+                }
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
 }
