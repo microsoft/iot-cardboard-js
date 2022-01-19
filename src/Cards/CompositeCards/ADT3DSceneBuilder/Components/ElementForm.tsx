@@ -183,7 +183,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         <div className="cb-scene-builder-left-panel-element-objects-container">
                             {elementToEdit.meshIDs.length === 0 ? (
                                 <div className="cb-scene-builder-left-panel-text">
-                                    {t('3dSceneBuilder.noObjectAddedText')}
+                                    {t('3dSceneBuilder.noMeshAddedText')}
                                 </div>
                             ) : (
                                 <ul className="cb-scene-builder-left-panel-element-object-list">

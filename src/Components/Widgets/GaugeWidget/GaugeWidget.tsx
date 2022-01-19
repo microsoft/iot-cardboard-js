@@ -1,5 +1,4 @@
 import React from 'react';
-import { Parser } from 'expr-eval';
 import './GaugeWidget.scss';
 import {
     RadialBarChart,
@@ -9,6 +8,7 @@ import {
 } from 'recharts';
 import { IControlConfiguration } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
+import { parseExpression } from '../../../Models/Services/Utils';
 interface IProp {
     config: IControlConfiguration;
     twins: Record<string, DTwin>;
@@ -22,7 +22,7 @@ export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
     const units = config.units || '';
     let value = 0;
     try {
-        value = Parser.evaluate(expression, twins);
+        value = parseExpression(expression, twins);
         if (!value) {
             value = 0;
         }

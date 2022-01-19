@@ -171,6 +171,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 setIsLoading(false);
+                engineRef.current.resize();
             }
         }
 
@@ -259,28 +260,15 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             selMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 selectionColor
             );
+
             selHovMaterial.current = new BABYLON.StandardMaterial('selhov', sc);
             selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 selectedHoverColor
             );
+
             new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
-                sc
-            );
-            new BABYLON.DirectionalLight(
-                'light',
-                new BABYLON.Vector3(0, -100, 0),
-                sc
-            );
-            new BABYLON.DirectionalLight(
-                'light',
-                new BABYLON.Vector3(0, -200, 0),
-                sc
-            );
-            new BABYLON.DirectionalLight(
-                'light',
-                new BABYLON.Vector3(0, -300, 0),
                 sc
             );
 
@@ -685,20 +673,22 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             try {
                 for (const coloredMesh of coloredMeshItems) {
-                    const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
-                        (mesh) => mesh.id === coloredMesh.meshId
-                    );
+                    if (coloredMesh.meshId && coloredMesh.color) {
+                        const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
+                            (mesh) => mesh.id === coloredMesh.meshId
+                        );
 
-                    if (mesh) {
-                        const material = new BABYLON.StandardMaterial(
-                            'coloredMeshMaterial',
-                            sceneRef.current
-                        );
-                        material.diffuseColor = BABYLON.Color3.FromHexString(
-                            coloredMesh.color
-                        );
-                        mesh.material = material;
-                        coloredMaterials.current.push(material);
+                        if (mesh) {
+                            const material = new BABYLON.StandardMaterial(
+                                'coloredMeshMaterial',
+                                sceneRef.current
+                            );
+                            material.diffuseColor = BABYLON.Color3.FromHexString(
+                                coloredMesh.color
+                            );
+                            mesh.material = material;
+                            coloredMaterials.current.push(material);
+                        }
                     }
                 }
             } catch {
