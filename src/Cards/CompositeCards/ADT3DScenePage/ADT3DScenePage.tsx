@@ -26,6 +26,7 @@ import useAdapter from '../../../Models/Hooks/useAdapter';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
+    onBlobContainerUrlChange,
     theme,
     locale,
     localeStrings,
@@ -81,6 +82,9 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             payload: selectedBlobURL
         });
         adapter.setBlobContainerPath(selectedBlobURL);
+        if (onBlobContainerUrlChange) {
+            onBlobContainerUrlChange(selectedBlobURL);
+        }
     };
 
     // initially set the blobContainerPath to the one passed in adapter

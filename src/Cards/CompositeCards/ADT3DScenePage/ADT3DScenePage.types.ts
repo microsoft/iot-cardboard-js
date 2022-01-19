@@ -9,6 +9,7 @@ import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
+    onBlobContainerUrlChange?: (blobContainerUrl: string) => void;
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {

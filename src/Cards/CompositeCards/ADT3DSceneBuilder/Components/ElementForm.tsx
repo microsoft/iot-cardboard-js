@@ -174,7 +174,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     : 'cb-collapsed'
                             }`}
                         />
-                        <span>{t('3dSceneBuilder.meshes')}</span>
+                        <span>
+                            {t('3dSceneBuilder.meshes')} (
+                            {elementToEdit.meshIDs.length})
+                        </span>
                     </div>
                     {isObjectsExpanded && (
                         <div className="cb-scene-builder-left-panel-element-objects-container">

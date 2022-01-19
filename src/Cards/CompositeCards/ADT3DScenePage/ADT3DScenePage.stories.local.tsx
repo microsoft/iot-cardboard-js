@@ -32,6 +32,9 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
+                onBlobContainerUrlChange={(containerUrl) => {
+                    console.log(containerUrl);
+                }}
             />
         </div>
     );
