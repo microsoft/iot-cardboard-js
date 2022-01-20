@@ -179,10 +179,6 @@ export class Asset {
                     name: 'feeds',
                     target: 'SaltMachine'
                 });
-                this.relationships.push({
-                    name: 'adjacentTo',
-                    target: 'PasteurizationMachine'
-                });
 
                 this.twins.push({
                     name: 'PasteurizationMachine_A01',
@@ -191,11 +187,6 @@ export class Asset {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
                             targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'adjacentTo',
-                            target: 'PasteurizationMachine_A02',
-                            targetModel: 'PasteurizationMachine'
                         }
                     ]
                 });
@@ -206,16 +197,6 @@ export class Asset {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
                             targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'adjacentTo',
-                            target: 'PasteurizationMachine_A01',
-                            targetModel: 'PasteurizationMachine'
-                        },
-                        {
-                            name: 'adjacentTo',
-                            target: 'PasteurizationMachine_A03',
-                            targetModel: 'PasteurizationMachine'
                         }
                     ]
                 });
@@ -224,13 +205,18 @@ export class Asset {
                     assetRelationships: [
                         {
                             name: 'feeds',
-                            target: 'SaltMachine_C0',
+                            target: 'SaltMachine_C1',
                             targetModel: 'SaltMachine'
-                        },
+                        }
+                    ]
+                });
+                this.twins.push({
+                    name: 'PasteurizationMachine_A04',
+                    assetRelationships: [
                         {
-                            name: 'adjacentTo',
-                            target: 'PasteurizationMachine_A02',
-                            targetModel: 'PasteurizationMachine'
+                            name: 'feeds',
+                            target: 'SaltMachine_C2',
+                            targetModel: 'SaltMachine'
                         }
                     ]
                 });
@@ -273,6 +259,22 @@ export class Asset {
                 this.relationships.push({ name: 'maintains' });
 
                 this.twins.push({
+                    name: 'Xenia',
+                    assetRelationships: [
+                        {
+                            name: 'maintains',
+                            target: 'SaltMachine_C0',
+                            targetModel: 'SaltMachine'
+                        },
+                        {
+                            name: 'maintains',
+                            target: 'SaltMachine_C1',
+                            targetModel: 'SaltMachine'
+                        }
+                    ]
+                });
+
+                this.twins.push({
                     name: 'Amy',
                     assetRelationships: [
                         {
@@ -282,6 +284,7 @@ export class Asset {
                         }
                     ]
                 });
+
                 this.twins.push({
                     name: 'John',
                     assetRelationships: [
@@ -297,27 +300,13 @@ export class Asset {
                         }
                     ]
                 });
+
                 this.twins.push({
                     name: 'Phillip',
                     assetRelationships: [
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C2',
-                            targetModel: 'SaltMachine'
-                        }
-                    ]
-                });
-                this.twins.push({
-                    name: 'Xenia',
-                    assetRelationships: [
-                        {
-                            name: 'maintains',
-                            target: 'SaltMachine_C0',
-                            targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'maintains',
-                            target: 'SaltMachine_C1',
                             targetModel: 'SaltMachine'
                         }
                     ]
