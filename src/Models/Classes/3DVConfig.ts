@@ -1,3 +1,5 @@
+import { WidgetType } from '../Constants/Enums';
+
 export interface ITwinToObjectMapping {
     id: string;
     displayName: string;
@@ -46,16 +48,16 @@ export interface IElementIDs {
 }
 
 export interface IControlConfiguration {
-    valueBreakPoints: number[];
-    colors: string[];
-    expression: string;
-    title: string;
-    isHorizontal: boolean;
-    label: string;
-    width: number;
-    height: number;
-    units: string;
-    widgets: IWidget[];
+    valueBreakPoints?: number[];
+    colors?: string[];
+    expression?: string;
+    title?: string;
+    isHorizontal?: boolean;
+    label?: string;
+    width?: number;
+    height?: number;
+    units?: string;
+    widgets?: IWidget[];
 }
 
 export interface IWidget {
@@ -102,3 +104,61 @@ export interface IScenesConfig {
     type: string;
     viewerConfiguration: IViewerConfiguration;
 }
+
+export interface IWidgetLibraryItem {
+    title: string;
+    description: string;
+    iconName: string;
+    disabled?: boolean;
+    data: {
+        type: WidgetType;
+        controlConfiguration: IControlConfiguration;
+    };
+}
+
+// Default objects
+export const defaultBehavior: IBehavior = {
+    id: '',
+    type: 'Behavior',
+    layers: ['PhysicalProperties'],
+    datasources: [],
+    visuals: [
+        {
+            type: VisualType.ColorChange,
+            color: {
+                type: 'BindingExpression',
+                expression: ''
+            },
+            elementIDs: {
+                type: 'MeshIDArray',
+                expression: 'meshIDs'
+            },
+            label: null,
+            isHorizontal: false,
+            title: '',
+            widgets: []
+        }
+    ],
+    twinAliases: []
+};
+
+export const defaultOnClickPopover: IVisual = {
+    type: VisualType.OnClickPopover,
+    title: '',
+    widgets: [],
+    elementIDs: {
+        type: 'MeshIDArray',
+        expression: 'meshIDs'
+    }
+};
+
+export const defaultGaugeWidget: IWidget = {
+    type: 'Gauge',
+    controlConfiguration: {
+        valueBreakPoints: [],
+        units: '',
+        colors: [],
+        expression: '',
+        label: ''
+    }
+};

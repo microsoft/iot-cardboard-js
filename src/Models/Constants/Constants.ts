@@ -1,4 +1,6 @@
-import { IBehavior, VisualType } from '../Classes/3DVConfig';
+import { IWidgetLibraryItem } from '../Classes/3DVConfig';
+import { WidgetType } from './Enums';
+import i18n from '../../i18n';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -58,47 +60,24 @@ export const CharacterWidths = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 export const ADT3DSceneConfigFileNameInBlobStore = 'vconfigDecFinal'; //TODO: update this as appropriate
 
-export const defaultBehavior: IBehavior = {
-    id: '',
-    type: 'Behavior',
-    layers: ['PhysicalProperties'],
-    datasources: [],
-    visuals: [
-        {
-            type: VisualType.ColorChange,
-            color: {
-                type: 'BindingExpression',
-                expression: ''
-            },
-            elementIDs: {
-                type: 'MeshIDArray',
-                expression: 'meshIDs'
-            },
-            label: null,
-            isHorizontal: false,
-            title: '',
-            widgets: []
-        }
-    ],
-    twinAliases: []
-};
-
-export const availableWidgets = [
+export const availableWidgets: Array<IWidgetLibraryItem> = [
     {
-        type: 'Trend',
-        description: 'widgets.trendDescription',
+        title: i18n.t('widgets.trend.title'),
+        description: i18n.t('widgets.trend.description'),
         iconName: 'HistoricalWeather',
+        disabled: true,
         data: {
-            type: 'Trend',
+            type: WidgetType.Trend,
+
             controlConfiguration: {}
         }
     },
     {
-        type: 'Gauge',
-        description: 'widgets.gaugeDescription',
+        title: i18n.t('widgets.gauge.title'),
+        description: i18n.t('widgets.gauge.description'),
         iconName: 'SpeedHigh',
         data: {
-            type: 'Gauge',
+            type: WidgetType.Gauge,
             controlConfiguration: {
                 valueBreakPoints: [100, 200, 500],
                 units: 'PSI',
@@ -109,22 +88,23 @@ export const availableWidgets = [
         }
     },
     {
-        type: 'Link',
-        description: 'widgets.linkDescription',
+        title: i18n.t('widgets.link.title'),
+        description: i18n.t('widgets.link.description'),
         iconName: 'Link',
         data: {
-            type: 'Link',
+            type: WidgetType.Link,
             controlConfiguration: {
                 expression: 'https://mypowerbi.biz/${primaryTwin.$dtId}'
             }
         }
     },
     {
-        type: 'Panel',
-        description: 'widgets.panelDescription',
+        title: i18n.t('widgets.panel.title'),
+        description: i18n.t('widgets.panel.description'),
         iconName: 'ViewAll2',
+        disabled: true,
         data: {
-            type: 'Panel',
+            type: WidgetType.Panel,
             controlConfiguration: {}
         }
     }

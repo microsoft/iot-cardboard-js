@@ -306,10 +306,20 @@
         "noWidgetsConfigured": "No widgets configured"
     },
     "widgets": {
-        "trendDescription": "Show historical data in context of your 3D scene",
-        "gaugeDescription": "Represent numerical datapoints with visual context",
-        "linkDescription": "Reference external content by linking a URL",
-        "panelDescription": "A layout panel"
+        "trend": {
+            "title": "Trend widget",
+            "description": "Show historical data in context of your 3D scene"
+        },
+        "gauge": {
+            "title": "Gauge widget",
+            "description": "Represent numerical datapoints with visual context"
+        },
+        "link": {
+            "title": "Link widget",
+            "description": "Reference external content by linking a URL"
+        },
+        "panel": { "title": "Panel widget", "description": "A layout panel" },
+        "notSupported": "This widget type is not currently supported"
     },
     "sdkStrings": {
         "Last 30 mins": "Last 30 mins",

@@ -10,7 +10,11 @@ import {
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import { availableWidgets, WidgetFormMode } from '../../../..';
-import { VisualType, IWidget } from '../../../../Models/Classes/3DVConfig';
+import {
+    VisualType,
+    IWidget,
+    IWidgetLibraryItem
+} from '../../../../Models/Classes/3DVConfig';
 import WidgetLibraryDialog from './WidgetLibraryDialogue';
 import { BehaviorFormContext } from './BehaviorsForm';
 
@@ -61,8 +65,8 @@ const BehaviorFormWidgetsTab: React.FC = () => {
         }
     }
 
-    function onWidgetAdd(data: any) {
-        setWidgetFormInfo({ data, mode: WidgetFormMode.Create });
+    function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
+        setWidgetFormInfo({ widget: libraryItem, mode: WidgetFormMode.Create });
         // const wids = widgets ? [...widgets] : [];
         // wids.push(data);
         // setBehaviorToEdit(
@@ -92,7 +96,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                             className="cb-widget-panel-list-icon"
                             iconName={
                                 availableWidgets.find(
-                                    (w) => w.type === widget.type
+                                    (w) => w.data.type === widget.type
                                 )?.iconName
                             }
                         />
@@ -123,7 +127,9 @@ const BehaviorFormWidgetsTab: React.FC = () => {
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}
-                    onAddWidget={(data) => onWidgetAdd(data)}
+                    onAddWidget={(libraryItem: IWidgetLibraryItem) =>
+                        onWidgetAdd(libraryItem)
+                    }
                 />
             )}
         </div>

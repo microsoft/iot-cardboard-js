@@ -3,7 +3,8 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import {
     IBehavior,
     ITwinToObjectMapping,
-    IScenesConfig
+    IScenesConfig,
+    IWidgetLibraryItem
 } from '../../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
@@ -52,7 +53,7 @@ export interface I3DSceneBuilderContext {
 }
 
 export type WidgetFormInfo = null | {
-    data: any; // TODO strongly type widget library options
+    widget: IWidgetLibraryItem;
     mode: WidgetFormMode;
 };
 

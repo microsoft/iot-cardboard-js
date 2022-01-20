@@ -16,14 +16,17 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { availableWidgets } from '../../../../Models/Constants/Constants';
+import { IWidgetLibraryItem } from '../../../../Models/Classes/3DVConfig';
+
+const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 
 const WidgetLibraryDialog: React.FC<{
     setIsLibraryDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    onAddWidget: (config: any) => void;
+    onAddWidget: (libraryItem: IWidgetLibraryItem) => void;
 }> = ({ setIsLibraryDialogOpen: setIsLibraryDialogOpen, onAddWidget }) => {
     const [selectedWidget, setSelectedWidget] = useState<number>(null);
     const [filteredAvailableWidgets, setFilteredAvailableWidgets] = useState(
-        availableWidgets
+        enabledWidgets
     );
     const { t } = useTranslation();
 
@@ -68,7 +71,7 @@ const WidgetLibraryDialog: React.FC<{
                                     onClick={() => {
                                         setSelectedWidget(index);
                                         setFilteredAvailableWidgets([
-                                            ...availableWidgets
+                                            ...enabledWidgets
                                         ]);
                                     }}
                                 >
@@ -80,9 +83,9 @@ const WidgetLibraryDialog: React.FC<{
                                             />
                                         </div>
                                         <div>
-                                            <Label>{widget.type}</Label>
+                                            <Label>{widget.data.type}</Label>
                                             <Label className="cb-widget-panel-item-label">
-                                                {t(widget.description)}
+                                                {widget.description}
                                             </Label>
                                         </div>
                                     </div>
@@ -100,10 +103,10 @@ const WidgetLibraryDialog: React.FC<{
             </Pivot>
             <DialogFooter>
                 <PrimaryButton
-                    disabled={!selectedWidget}
+                    disabled={selectedWidget === null}
                     onClick={() => {
                         setIsLibraryDialogOpen(false);
-                        onAddWidget(availableWidgets[selectedWidget].data);
+                        onAddWidget(enabledWidgets[selectedWidget]);
                     }}
                     text={t('3dSceneBuilder.addWidget')}
                 />

@@ -1,6 +1,6 @@
-import { ColorPicker, TextField } from '@fluentui/react';
+import { TextField } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VisualType } from '../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from './BehaviorsForm';
@@ -18,8 +18,6 @@ const BehaviorFormAlertsTab: React.FC = () => {
     if (colorChangeVisual) {
         colorAlertTriggerExpression = colorChangeVisual.color.expression;
     }
-
-    const [color, setColor] = useState('#FF0000');
 
     return (
         <>
@@ -40,11 +38,6 @@ const BehaviorFormAlertsTab: React.FC = () => {
                 }}
                 value={colorAlertTriggerExpression}
                 placeholder={t('3dSceneBuilder.behaviorTriggerPlaceholder')}
-            />
-            <ColorPicker
-                alphaType={'none'}
-                color={color}
-                onChange={(_ev, color) => setColor(color.hex)}
             />
         </>
     );

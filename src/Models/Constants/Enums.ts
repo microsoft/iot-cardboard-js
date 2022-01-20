@@ -134,3 +134,10 @@ export enum WidgetFormMode {
     Create,
     Edit
 }
+
+export enum WidgetType {
+    Gauge = 'Gauge',
+    Link = 'Link',
+    Trend = 'Trend',
+    Panel = 'Panel'
+}

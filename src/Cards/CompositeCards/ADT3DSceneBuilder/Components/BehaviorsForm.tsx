@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
+    defaultBehavior,
     IBehavior,
     ITwinToObjectMapping
 } from '../../../../Models/Classes/3DVConfig';
-import {
-    ADT3DSceneBuilderMode,
-    WidgetFormMode
-} from '../../../../Models/Constants/Enums';
+import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
@@ -24,7 +22,6 @@ import BehaviorFormElementsTab from './BehaviorFormElementsTab';
 import BehaviorFormAlertsTab from './BehaviorFormAlertsTab';
 import BehaviorFormWidgetsTab from './BehaviorFormWidgetsTab';
 import WidgetForm from './WidgetForm';
-import { defaultBehavior } from '../../../../Models/Constants/Constants';
 import SceneBuilderFormBreadcrumb from './SceneBuilderFormBreadcrumb';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
