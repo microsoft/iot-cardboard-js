@@ -8,14 +8,14 @@ import {
 } from '@fluentui/react';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
-import { BehaviorFormContext } from './BehaviorsForm';
-import { availableWidgets, WidgetFormMode } from '../../../../..';
+import { availableWidgets, WidgetFormMode } from '../../../../../..';
 import {
     VisualType,
     IWidgetLibraryItem,
     defaultOnClickPopover
-} from '../../../../../Models/Classes/3DVConfig';
-import WidgetLibraryDialog from './Widgets/WidgetLibraryDialog';
+} from '../../../../../../Models/Classes/3DVConfig';
+import { BehaviorFormContext } from '../BehaviorsForm';
+import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
     const { setBehaviorToEdit, setWidgetFormInfo, behaviorToEdit } = useContext(

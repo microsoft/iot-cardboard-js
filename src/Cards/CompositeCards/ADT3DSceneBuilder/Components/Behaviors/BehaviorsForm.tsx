@@ -21,11 +21,11 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
 import { IBreadcrumbItem, TextField, DefaultButton } from '@fluentui/react';
-import BehaviorFormElementsTab from './BehaviorFormElementsTab';
-import BehaviorFormAlertsTab from './BehaviorFormAlertsTab';
-import BehaviorFormWidgetsTab from './BehaviorFormWidgetsTab';
+import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
+import BehaviorFormElementsTab from './BehaviorFormTabs/BehaviorFormElementsTab';
+import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
