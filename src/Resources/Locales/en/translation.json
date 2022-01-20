@@ -306,7 +306,9 @@
         "noWidgets": "No widgets found",
         "noWidgetsConfigured": "No widgets configured",
         "unitOfMeasure": "Unit of measure",
-        "expression": "Expression"
+        "expression": "Expression",
+        "warningBreakPointToggleLabel": "Enable color break point",
+        "warningBreakPointLabel": "Warning color break point"
     },
     "widgets": {
         "trend": {
