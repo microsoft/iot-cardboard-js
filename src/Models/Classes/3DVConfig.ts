@@ -167,3 +167,10 @@ export const defaultGaugeWidget: IWidget = {
         label: ''
     }
 };
+
+export const defaultLinkWidget: IWidget = {
+    type: WidgetType.Link,
+    controlConfiguration: {
+        expression: ''
+    }
+};

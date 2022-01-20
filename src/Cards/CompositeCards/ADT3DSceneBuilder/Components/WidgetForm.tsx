@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     defaultGaugeWidget,
+    defaultLinkWidget,
     IWidget,
     VisualType,
     WidgetType
@@ -12,6 +13,7 @@ import {
 import { WidgetFormMode } from '../../../../Models/Constants';
 import { BehaviorFormContext } from './BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
+import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
@@ -24,6 +26,8 @@ const WidgetForm: React.FC<any> = () => {
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
                 return defaultGaugeWidget;
+            case WidgetType.Link:
+                return defaultLinkWidget;
             default:
                 return null;
         }
@@ -44,10 +48,17 @@ const WidgetForm: React.FC<any> = () => {
                         setFormData={setFormData}
                     />
                 );
+            case WidgetType.Link:
+                return (
+                    <LinkWidgetBuilder
+                        formData={formData}
+                        setFormData={setFormData}
+                    />
+                );
             default:
                 return (
                     <div className="cb-widget-not-supported">
-                        {t('widgets.notSupported')}
+                        {t('widgets.notSupported') + ' :('}
                     </div>
                 );
         }
