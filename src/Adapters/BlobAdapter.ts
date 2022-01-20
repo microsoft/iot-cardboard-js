@@ -249,12 +249,29 @@ export default class BlobAdapter implements IBlobAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (_token) => {
             try {
                 const updatedConfig = { ...config };
+
+                // Update modified behavior
                 const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
                     (b) => b.id === originalBehaviorId
                 );
                 updatedConfig.viewerConfiguration.behaviors[
                     behaviorIdx
                 ] = behavior;
+
+                // If behavior ID changed, update matching scene behavior Ids with updated Id
+                if (behavior.id !== originalBehaviorId) {
+                    updatedConfig.viewerConfiguration.scenes.forEach(
+                        (scene) => {
+                            const behaviorIdIdxInSceneBehaviors = scene?.behaviors?.indexOf(
+                                originalBehaviorId
+                            );
+                            if (behaviorIdIdxInSceneBehaviors !== -1) {
+                                scene.behaviors[behaviorIdIdxInSceneBehaviors] =
+                                    behavior.id;
+                            }
+                        }
+                    );
+                }
 
                 const putConfigResult = await this.putScenesConfig(
                     updatedConfig
