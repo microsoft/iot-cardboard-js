@@ -28,6 +28,7 @@ interface ADT3DViewerCardProps {
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
+    refetchConfig?: () => any;
 }
 
 const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
@@ -37,7 +38,8 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     title,
     pollingInterval,
     connectionLineColor,
-    enableMeshSelection
+    enableMeshSelection,
+    refetchConfig
 }) => {
     const [modelUrl, setModelUrl] = useState('');
     const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
@@ -68,6 +70,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
 
     useEffect(() => {
         window.addEventListener('resize', setConnectionLine);
+        refetchConfig && refetchConfig();
         return () => {
             window.removeEventListener('resize', setConnectionLine);
         };
