@@ -290,6 +290,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 layoutMode={DetailsListLayoutMode.justified}
                                 onRenderRow={renderListRow}
                                 onRenderItemColumn={renderItemColumn}
+                                styles={{
+                                    root: {
+                                        overflowY: 'auto',
+                                        overflowX: 'hidden'
+                                    }
+                                }}
                             />
                         </div>
 
