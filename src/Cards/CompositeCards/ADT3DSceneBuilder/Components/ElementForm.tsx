@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+    DefaultButton,
     FontIcon,
     IconButton,
     PrimaryButton,
@@ -16,6 +17,7 @@ import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
+import SceneBuilderFormBreadcrumb from './SceneBuilderFormBreadcrumb';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -115,23 +117,23 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
+            <SceneBuilderFormBreadcrumb
+                items={[
+                    {
+                        text: t('3dSceneBuilder.elements'),
+                        key: 'elements',
+                        onClick: () => onElementBackClick()
+                    },
+                    {
+                        text:
+                            builderMode === ADT3DSceneBuilderMode.EditElement
+                                ? selectedElement.displayName
+                                : t('3dSceneBuilder.newElement'),
+                        key: 'elementForm'
+                    }
+                ]}
+            />
             <div className="cb-scene-builder-left-panel-create-form">
-                <div
-                    className="cb-scene-builder-left-panel-create-form-header"
-                    tabIndex={0}
-                    onClick={onElementBackClick}
-                >
-                    <FontIcon
-                        iconName={'ChevronRight'}
-                        className="cb-chevron cb-breadcrumb"
-                    />
-                    <span>
-                        {builderMode === ADT3DSceneBuilderMode.EditElement
-                            ? selectedElement.displayName
-                            : t('3dSceneBuilder.newElement')}
-                    </span>
-                </div>
-
                 <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TextField
                         label={t('name')}
@@ -251,6 +253,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             elementToEdit?.meshIDs?.length > 0
                         )
                     }
+                />
+                <DefaultButton
+                    text={t('cancel')}
+                    styles={{ root: { marginLeft: 8 } }}
+                    onClick={() => {
+                        onElementBackClick();
+                    }}
                 />
             </div>
         </div>

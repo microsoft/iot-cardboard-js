@@ -19,12 +19,13 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { FontIcon, TextField } from '@fluentui/react';
+import { IBreadcrumbItem, TextField, DefaultButton } from '@fluentui/react';
 import BehaviorFormElementsTab from './BehaviorFormElementsTab';
 import BehaviorFormAlertsTab from './BehaviorFormAlertsTab';
 import BehaviorFormWidgetsTab from './BehaviorFormWidgetsTab';
 import WidgetForm from './WidgetForm';
 import { defaultBehavior } from '../../../../Models/Constants/Constants';
+import SceneBuilderFormBreadcrumb from './SceneBuilderFormBreadcrumb';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -91,15 +92,40 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setOriginalBehaviorId(selectedBehavior.id);
     }, []);
 
-    const getBehaviorFormHeaderText = () => {
+    const getBehaviorFormBreadcrumbItems = () => {
+        let breadcrumbItems: IBreadcrumbItem[] = [
+            {
+                text: t('3dSceneBuilder.behaviors'),
+                key: 'behaviorRoot',
+                onClick: () => {
+                    onBehaviorBackClick();
+                    setSelectedMeshIds([]);
+                }
+            }
+        ];
         if (widgetFormInfo) {
-            return widgetFormInfo.mode === WidgetFormMode.Create
-                ? t('3dSceneBuilder.addWidget')
-                : t('3dSceneBuilder.editWidget');
+            breadcrumbItems = [
+                ...breadcrumbItems,
+                {
+                    text: t('3dSceneBuilder.createBehavior'),
+                    key: 'behaviorAdd',
+                    onClick: () => setWidgetFormInfo(null)
+                },
+                {
+                    text: t('3dSceneBuilder.addWidget'),
+                    key: 'widgetAdd'
+                }
+            ];
+        } else {
+            breadcrumbItems = [
+                ...breadcrumbItems,
+                {
+                    text: t('3dSceneBuilder.createBehavior'),
+                    key: 'behaviorAdd'
+                }
+            ];
         }
-        return builderMode !== ADT3DSceneBuilderMode.CreateBehavior
-            ? t('3dSceneBuilder.editBehavior')
-            : t('3dSceneBuilder.newBehavior');
+        return breadcrumbItems;
     };
 
     return (
@@ -112,20 +138,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             }}
         >
             <div className="cb-scene-builder-left-panel-create-wrapper">
-                <div
-                    className="cb-scene-builder-left-panel-create-form-header"
-                    tabIndex={0}
-                    onClick={() => {
-                        onBehaviorBackClick();
-                        setSelectedMeshIds([]);
-                    }}
-                >
-                    <FontIcon
-                        iconName={'ChevronRight'}
-                        className="cb-chevron cb-breadcrumb"
-                    />
-                    <span>{getBehaviorFormHeaderText()}</span>
-                </div>
+                <SceneBuilderFormBreadcrumb
+                    items={getBehaviorFormBreadcrumbItems()}
+                />
                 {widgetFormInfo ? (
                     <WidgetForm />
                 ) : (
@@ -208,6 +223,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         : t('update')
                                 }
                                 disabled={!behaviorToEdit?.id}
+                            />
+                            <DefaultButton
+                                text={t('cancel')}
+                                styles={{ root: { marginLeft: 8 } }}
+                                onClick={() => {
+                                    onBehaviorBackClick();
+                                    setSelectedMeshIds([]);
+                                }}
                             />
                         </div>
                     </>
