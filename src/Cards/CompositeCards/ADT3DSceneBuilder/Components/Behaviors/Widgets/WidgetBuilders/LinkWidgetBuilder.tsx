@@ -2,7 +2,7 @@ import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IWidgetBuilderFormDataProps } from '../../ADT3DSceneBuilder.types';
+import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
 
 const LinkWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
     formData,

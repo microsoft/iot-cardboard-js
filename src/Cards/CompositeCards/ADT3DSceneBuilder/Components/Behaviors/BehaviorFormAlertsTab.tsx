@@ -2,7 +2,7 @@ import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { VisualType } from '../../../../Models/Classes/3DVConfig';
+import { VisualType } from '../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormAlertsTab: React.FC = () => {

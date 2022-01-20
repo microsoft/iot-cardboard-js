@@ -34,11 +34,11 @@ import {
     defaultADT3DSceneBuilderLeftPanelState
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../../Models/Constants/Interfaces';
-import SceneElementForm from './Components/ElementForm';
-import SceneBehaviors from './Components/Behaviors';
-import SceneElements from './Components/Elements';
-import SceneBehaviorsForm from './Components/BehaviorsForm';
+import SceneElementForm from './Components/Elements/ElementForm';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
+import SceneBehaviors from './Components/Behaviors/Behaviors';
+import SceneBehaviorsForm from './Components/Behaviors/BehaviorsForm';
+import SceneElements from './Components/Elements/Elements';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null

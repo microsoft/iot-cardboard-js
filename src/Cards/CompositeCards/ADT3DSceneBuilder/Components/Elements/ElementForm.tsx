@@ -7,17 +7,17 @@ import {
     PrimaryButton,
     TextField
 } from '@fluentui/react';
-import { IADT3DSceneBuilderElementFormProps } from '../ADT3DSceneBuilder.types';
+import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
     IScene,
     ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
-import { SceneBuilderContext } from '../ADT3DSceneBuilder';
-import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { createGUID } from '../../../../Models/Services/Utils';
-import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
-import SceneBuilderFormBreadcrumb from './SceneBuilderFormBreadcrumb';
+} from '../../../../../Models/Classes/3DVConfig';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants/Enums';
+import { createGUID } from '../../../../../Models/Services/Utils';
+import useAdapter from '../../../../../Models/Hooks/useAdapter';
+import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
+import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,

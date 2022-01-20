@@ -5,17 +5,17 @@ import {
     defaultBehavior,
     IBehavior,
     ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
+} from '../../../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
     WidgetFormMode
-} from '../../../../Models/Constants/Enums';
+} from '../../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
     IBehaviorFormContext,
     WidgetFormInfo
-} from '../ADT3DSceneBuilder.types';
+} from '../../ADT3DSceneBuilder.types';
 import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
@@ -24,8 +24,8 @@ import { IBreadcrumbItem, TextField, DefaultButton } from '@fluentui/react';
 import BehaviorFormElementsTab from './BehaviorFormElementsTab';
 import BehaviorFormAlertsTab from './BehaviorFormAlertsTab';
 import BehaviorFormWidgetsTab from './BehaviorFormWidgetsTab';
-import WidgetForm from './WidgetForm';
-import SceneBuilderFormBreadcrumb from './SceneBuilderFormBreadcrumb';
+import WidgetForm from './Widgets/WidgetForm';
+import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null

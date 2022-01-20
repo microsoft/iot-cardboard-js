@@ -2,16 +2,15 @@ import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { WidgetFormMode } from '../../../../../..';
 import {
+    WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
     IWidget,
-    VisualType,
-    WidgetType
-} from '../../../../Models/Classes/3DVConfig';
-
-import { WidgetFormMode } from '../../../../Models/Constants';
-import { BehaviorFormContext } from './BehaviorsForm';
+    VisualType
+} from '../../../../../../Models/Classes/3DVConfig';
+import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 

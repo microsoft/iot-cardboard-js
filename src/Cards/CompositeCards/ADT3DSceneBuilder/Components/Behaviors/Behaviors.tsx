@@ -2,7 +2,7 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import { FontIcon } from '@fluentui/react/lib/components/Icon/FontIcon';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IBehavior } from '../../../../Models/Classes/3DVConfig';
+import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 
 interface Props {
     behaviors: Array<IBehavior>;

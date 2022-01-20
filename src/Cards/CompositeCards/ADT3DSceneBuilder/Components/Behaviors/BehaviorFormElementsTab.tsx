@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
     ITwinToObjectMapping,
     DatasourceType
-} from '../../../../Models/Classes/3DVConfig';
+} from '../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormElementsTab: React.FC<{
