@@ -19,7 +19,9 @@ export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
 export const SET_ADT_SCENE_BUILDER_ELEMENTS = 'SET_ADT_SCENE_BUILDER_ELEMENTS';
 export const SET_ADT_SCENE_BUILDER_BEHAVIORS =
     'SET_ADT_SCENE_BUILDER_BEHAVIORS';
-export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
+export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS =
+    'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS';
+    export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
     'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
@@ -94,5 +96,6 @@ export interface ADT3DSceneBuilderLeftPanelState {
     elements: Array<ITwinToObjectMapping>;
     behaviors: Array<IBehavior>;
     selectedElement: ITwinToObjectMapping;
+    selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
 }
