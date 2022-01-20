@@ -14,7 +14,7 @@ import {
     IWidgetLibraryItem,
     defaultOnClickPopover
 } from '../../../../Models/Classes/3DVConfig';
-import WidgetLibraryDialog from './WidgetLibraryDialogue';
+import WidgetLibraryDialog from './WidgetLibraryDialog';
 import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
