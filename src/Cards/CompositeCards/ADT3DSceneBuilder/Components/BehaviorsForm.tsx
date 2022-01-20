@@ -4,11 +4,12 @@ import {
     DatasourceType,
     defaultBehavior,
     IBehavior,
-    ITwinToObjectMapping,
-    IWidget,
-    VisualType
+    ITwinToObjectMapping
 } from '../../../../Models/Classes/3DVConfig';
-import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    WidgetFormMode
+} from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
@@ -54,11 +55,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
-    const [draftWidgets, setDraftWidgets] = useState<IWidget[]>(
-        behaviorToEdit?.visuals?.find(
-            (visual) => visual.type === VisualType.OnClickPopover
-        )?.widgets || []
-    );
 
     const [
         selectedBehaviorPivotKey,
@@ -116,8 +112,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     onClick: () => setWidgetFormInfo(null)
                 },
                 {
-                    text: t('3dSceneBuilder.addWidget'),
-                    key: 'widgetAdd'
+                    text:
+                        widgetFormInfo.mode === WidgetFormMode.Create
+                            ? t('3dSceneBuilder.addWidget')
+                            : t('3dSceneBuilder.editWidget'),
+                    key: 'widgetAddEdit'
                 }
             ];
         } else {
@@ -138,9 +137,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 behaviorToEdit,
                 setBehaviorToEdit,
                 widgetFormInfo,
-                setWidgetFormInfo,
-                draftWidgets,
-                setDraftWidgets
+                setWidgetFormInfo
             }}
         >
             <div className="cb-scene-builder-left-panel-create-wrapper">

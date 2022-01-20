@@ -1,5 +1,3 @@
-import { WidgetType } from '../Constants/Enums';
-
 export interface ITwinToObjectMapping {
     id: string;
     displayName: string;
@@ -61,7 +59,7 @@ export interface IControlConfiguration {
 }
 
 export interface IWidget {
-    type: string;
+    type: WidgetType;
     controlConfiguration: IControlConfiguration;
 }
 export interface ILabel {
@@ -74,6 +72,13 @@ export enum VisualType {
     ColorChange = 'ColorChange',
     OnClickPopover = 'OnClickPopover',
     Label = 'Label'
+}
+
+export enum WidgetType {
+    Gauge = 'Gauge',
+    Link = 'Link',
+    Trend = 'Trend',
+    Panel = 'Panel'
 }
 
 export interface IVisual {
@@ -153,7 +158,7 @@ export const defaultOnClickPopover: IVisual = {
 };
 
 export const defaultGaugeWidget: IWidget = {
-    type: 'Gauge',
+    type: WidgetType.Gauge,
     controlConfiguration: {
         valueBreakPoints: [],
         units: '',

@@ -1,5 +1,8 @@
-import { IWidgetLibraryItem } from '../Classes/3DVConfig';
-import { WidgetType } from './Enums';
+import {
+    defaultGaugeWidget,
+    IWidgetLibraryItem,
+    WidgetType
+} from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -75,16 +78,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         title: i18n.t('widgets.gauge.title'),
         description: i18n.t('widgets.gauge.description'),
         iconName: 'SpeedHigh',
-        data: {
-            type: WidgetType.Gauge,
-            controlConfiguration: {
-                valueBreakPoints: [100, 200, 500],
-                units: 'PSI',
-                colors: ['#FDCD4D', '#00D700', '#ff0000'],
-                expression: 'primaryTwin.OutFlow',
-                label: 'Left'
-            }
-        }
+        data: defaultGaugeWidget
     },
     {
         title: i18n.t('widgets.link.title'),

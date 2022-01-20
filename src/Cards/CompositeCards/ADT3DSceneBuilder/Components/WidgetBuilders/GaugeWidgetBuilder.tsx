@@ -17,10 +17,9 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                 value={formData.controlConfiguration.label}
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce(
-                            (draft) =>
-                                (draft.controlConfiguration.label = newVal)
-                        )
+                        produce((draft) => {
+                            draft.controlConfiguration.label = newVal;
+                        })
                     )
                 }
             />
@@ -29,10 +28,9 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                 value={formData.controlConfiguration.units}
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce(
-                            (draft) =>
-                                (draft.controlConfiguration.units = newVal)
-                        )
+                        produce((draft) => {
+                            draft.controlConfiguration.units = newVal;
+                        })
                     )
                 }
             />
@@ -41,10 +39,9 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                 value={formData.controlConfiguration.expression}
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce(
-                            (draft) =>
-                                (draft.controlConfiguration.expression = newVal)
-                        )
+                        produce((draft) => {
+                            draft.controlConfiguration.expression = newVal;
+                        })
                     )
                 }
             />

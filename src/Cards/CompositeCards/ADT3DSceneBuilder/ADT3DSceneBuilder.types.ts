@@ -56,6 +56,7 @@ export interface I3DSceneBuilderContext {
 export type WidgetFormInfo = null | {
     widget: IWidgetLibraryItem;
     mode: WidgetFormMode;
+    widgetIdx?: number;
 };
 
 export interface IBehaviorFormContext {
@@ -63,8 +64,6 @@ export interface IBehaviorFormContext {
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: React.Dispatch<React.SetStateAction<WidgetFormInfo>>;
-    setDraftWidgets: React.Dispatch<React.SetStateAction<IWidget[]>>;
-    draftWidgets: IWidget[];
 }
 
 export interface IADT3DSceneBuilderElementListProps {

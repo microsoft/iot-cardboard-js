@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import {
     IContextualMenuProps,
-    IContextualMenuItem,
     Label,
     ActionButton,
     FontIcon,
@@ -12,18 +11,16 @@ import { useTranslation } from 'react-i18next';
 import { availableWidgets, WidgetFormMode } from '../../../..';
 import {
     VisualType,
-    IWidgetLibraryItem
+    IWidgetLibraryItem,
+    defaultOnClickPopover
 } from '../../../../Models/Classes/3DVConfig';
 import WidgetLibraryDialog from './WidgetLibraryDialogue';
 import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
-    const {
-        setBehaviorToEdit,
-        setWidgetFormInfo,
-        draftWidgets,
-        setDraftWidgets
-    } = useContext(BehaviorFormContext);
+    const { setBehaviorToEdit, setWidgetFormInfo, behaviorToEdit } = useContext(
+        BehaviorFormContext
+    );
 
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const { t } = useTranslation();
@@ -35,60 +32,95 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                     key: 'edit',
                     text: t('3dSceneBuilder.editWidget'),
                     iconProps: { iconName: 'Edit' },
-                    onClick: (ev, item) => onMenuClick(index, item)
+                    onClick: () => onEditWidgetStart(index)
                 },
                 {
                     key: 'remove',
                     text: t('3dSceneBuilder.removeWidget'),
                     iconProps: { iconName: 'Delete' },
-                    onClick: (ev, item) => onMenuClick(index, item)
+                    onClick: () => onRemoveWidget(index)
                 }
             ]
         };
     }
 
-    function onMenuClick(index: number, item: IContextualMenuItem) {
-        if (item.key === 'remove') {
-            const wids = [...draftWidgets];
-            wids.splice(index, 1);
+    const widgets = useMemo(() => {
+        return (
+            behaviorToEdit?.visuals?.find(
+                (visual) => visual.type === VisualType.OnClickPopover
+            )?.widgets || []
+        );
+    }, [behaviorToEdit]);
+
+    const onEditWidgetStart = (index: number) => {
+        const widget = widgets[index];
+
+        const matchingWidgetLibraryItem = availableWidgets.find(
+            (aW) => aW.data.type === widget.type
+        );
+
+        const { iconName, title, description } = matchingWidgetLibraryItem;
+
+        if (widget && matchingWidgetLibraryItem) {
+            setWidgetFormInfo({
+                widget: {
+                    iconName,
+                    title,
+                    description,
+                    data: widget
+                },
+                mode: WidgetFormMode.Edit,
+                widgetIdx: index
+            });
+        }
+    };
+
+    const onRemoveWidget = (index: number) => {
+        const wids = [...widgets];
+        wids.splice(index, 1);
+        setBehaviorToEdit(
+            produce((draft) => {
+                const popOver = draft?.visuals?.find(
+                    (visual) => visual.type === VisualType.OnClickPopover
+                );
+                popOver.widgets = wids;
+
+                if (wids.length === 0 && popOver) {
+                    // If removing all widgets, remove popover container
+                    const popOverIdx = draft.visuals.findIndex(
+                        (v) => v.type === VisualType.OnClickPopover
+                    );
+                    draft.visuals.splice(popOverIdx, 1);
+                }
+            })
+        );
+    };
+
+    function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
+        setWidgetFormInfo({ widget: libraryItem, mode: WidgetFormMode.Create });
+
+        // Add popover visual if not already present
+        const popOver = behaviorToEdit.visuals?.find(
+            (v) => v.type === VisualType.OnClickPopover
+        );
+        if (!popOver) {
             setBehaviorToEdit(
                 produce((draft) => {
-                    const popOver = draft?.visuals?.find(
-                        (visual) => visual.type === VisualType.OnClickPopover
-                    );
-                    popOver.widgets = wids;
-                    setDraftWidgets(wids);
+                    draft.visuals.push(defaultOnClickPopover);
                 })
             );
         }
     }
 
-    function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
-        setWidgetFormInfo({ widget: libraryItem, mode: WidgetFormMode.Create });
-        // const wids = widgets ? [...widgets] : [];
-        // wids.push(data);
-        // setBehaviorToEdit(
-        //     produce((draft) => {
-        //         const popOver = draft?.visuals?.find(
-        //             (visual) => visual.type === VisualType.OnClickPopover
-        //         );
-        //         if (popOver) {
-        //             popOver.widgets = wids; // TODO: Add popOver if not there
-        //             setWidgets(wids);
-        //         }
-        //     })
-        // );
-    }
-
     return (
         <div className="cb-widget-panel-container">
-            {!draftWidgets?.length && (
+            {!widgets?.length && (
                 <Label className="cb-widget-panel-label">
                     {t('3dSceneBuilder.noWidgetsConfigured')}
                 </Label>
             )}
-            {draftWidgets?.length > 0 &&
-                draftWidgets.map((widget, index) => (
+            {widgets?.length > 0 &&
+                widgets.map((widget, index) => (
                     <div key={index} className="cb-widget-panel-list-container">
                         <FontIcon
                             className="cb-widget-panel-list-icon"
