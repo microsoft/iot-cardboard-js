@@ -183,14 +183,6 @@ export class Asset {
                     name: 'adjacentTo',
                     target: 'PasteurizationMachine'
                 });
-                this.relationships.push({
-                    name: 'isMaintainedBy',
-                    target: 'MaintenancePersonnel'
-                });
-                this.relationships.push({
-                    name: 'isLocatedIn',
-                    target: 'Factory'
-                });
 
                 this.twins.push({
                     name: 'PasteurizationMachine_A01',
@@ -199,16 +191,6 @@ export class Asset {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
                             targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'John',
-                            targetModel: 'MaintenancePersonnel'
                         },
                         {
                             name: 'adjacentTo',
@@ -224,16 +206,6 @@ export class Asset {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
                             targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'OsloFactory',
-                            targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'John',
-                            targetModel: 'MaintenancePersonnel'
                         },
                         {
                             name: 'adjacentTo',
@@ -254,16 +226,6 @@ export class Asset {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
                             targetModel: 'SaltMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'Xenia',
-                            targetModel: 'MaintenancePersonnel'
                         },
                         {
                             name: 'adjacentTo',
@@ -295,101 +257,24 @@ export class Asset {
                         { Units: 'Gallons' }
                     )
                 );
-                this.relationships.push({
-                    name: 'isFedBy',
-                    target: 'PasteurizationMachine'
-                });
-                this.relationships.push({
-                    name: 'isMaintainedBy',
-                    target: 'MaintenancePersonnel'
-                });
-                this.relationships.push({
-                    name: 'isLocatedIn',
-                    target: 'Factory'
-                });
 
                 this.twins.push({
-                    name: 'SaltMachine_C0',
-                    assetRelationships: [
-                        {
-                            name: 'isFedBy',
-                            target: 'PasteurizationMachine_A01',
-                            targetModel: 'PasteurizationMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'Xenia',
-                            targetModel: 'MaintenancePersonnel'
-                        }
-                    ]
+                    name: 'SaltMachine_C0'
                 });
                 this.twins.push({
-                    name: 'SaltMachine_C1',
-                    assetRelationships: [
-                        {
-                            name: 'isFedBy',
-                            target: 'PasteurizationMachine_A01',
-                            targetModel: 'PasteurizationMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'Xenia',
-                            targetModel: 'MaintenancePersonnel'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'Amy',
-                            targetModel: 'MaintenancePersonnel'
-                        }
-                    ]
+                    name: 'SaltMachine_C1'
                 });
                 this.twins.push({
-                    name: 'SaltMachine_C2',
-                    assetRelationships: [
-                        {
-                            name: 'isFedBy',
-                            target: 'PasteurizationMachine_A03',
-                            targetModel: 'PasteurizationMachine'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'StockholmFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
-                            name: 'isMaintainedBy',
-                            target: 'Phillip',
-                            targetModel: 'MaintenancePersonnel'
-                        }
-                    ]
+                    name: 'SaltMachine_C2'
                 });
 
                 break;
             case 'MaintenancePersonnel':
                 this.relationships.push({ name: 'maintains' });
-                this.relationships.push({
-                    name: 'isEmployedAt',
-                    target: 'Factory'
-                });
 
                 this.twins.push({
                     name: 'Amy',
                     assetRelationships: [
-                        {
-                            name: 'isEmployedAt',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C1',
@@ -400,11 +285,6 @@ export class Asset {
                 this.twins.push({
                     name: 'John',
                     assetRelationships: [
-                        {
-                            name: 'isEmployedAt',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
                         {
                             name: 'maintains',
                             target: 'PasteurizationMachine_A01',
@@ -421,11 +301,6 @@ export class Asset {
                     name: 'Phillip',
                     assetRelationships: [
                         {
-                            name: 'isEmployedAt',
-                            target: 'StockholmFactory',
-                            targetModel: 'Factory'
-                        },
-                        {
                             name: 'maintains',
                             target: 'SaltMachine_C2',
                             targetModel: 'SaltMachine'
@@ -435,11 +310,6 @@ export class Asset {
                 this.twins.push({
                     name: 'Xenia',
                     assetRelationships: [
-                        {
-                            name: 'isEmployedAt',
-                            target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        },
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C0',
@@ -459,10 +329,6 @@ export class Asset {
                 this.relationships.push({
                     name: 'employs',
                     target: 'MaintenancePersonnel'
-                });
-                this.relationships.push({
-                    name: 'isLocatedIn',
-                    target: 'Country'
                 });
 
                 this.twins.push({
@@ -507,11 +373,6 @@ export class Asset {
                             name: 'employs',
                             target: 'Xenia',
                             targetModel: 'MaintenancePersonnel'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'Norway',
-                            targetModel: 'Country'
                         }
                     ]
                 });
@@ -528,11 +389,6 @@ export class Asset {
                             name: 'employs',
                             target: 'Phillip',
                             targetModel: 'MaintenancePersonnel'
-                        },
-                        {
-                            name: 'isLocatedIn',
-                            target: 'Sweden',
-                            targetModel: 'Country'
                         }
                     ]
                 });

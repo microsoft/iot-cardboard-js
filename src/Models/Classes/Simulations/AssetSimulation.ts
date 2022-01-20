@@ -35,9 +35,6 @@ export default class AssetSimulation implements IAdtPusherSimulation {
         this.seedTimeMillis = seedTimeMillis;
         this.intervalMillis = intervalMillis;
         this.isADTModelImagesIncluded = true;
-        this.assets.push(new Asset('Car', this));
-        this.assets.push(new Asset('Windmill', this));
-        this.assets.push(new Asset('HVACSystem', this));
         this.assets.push(new Asset('PasteurizationMachine', this));
         this.assets.push(new Asset('SaltMachine', this));
         this.assets.push(new Asset('MaintenancePersonnel', this));
@@ -45,8 +42,6 @@ export default class AssetSimulation implements IAdtPusherSimulation {
         this.assets.push(new Asset('Country', this));
 
         this.typeIds = {
-            Car: '6fbe23a0-c676-44e2-b018-192d1b8cb0a6',
-            Windmill: '28f203d6-c9b4-4ccd-90b0-9b7d9989684e',
             PasteurizationMachine: 'a259fb24-3359-4252-9bc8-c3c8583edc67',
             HVACSystem: '04bb3d5b-2b3e-4d45-933e-fb0087be3685'
         };
