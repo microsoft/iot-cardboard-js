@@ -45,13 +45,13 @@
     .cb-scene-builder-left-panel-create-form {
         display: flex;
         flex-direction: column;
-        overflow: auto;
         flex-grow: 1;
+        overflow: auto;
         padding-right: 4px;
     }
 
     .cb-scene-builder-left-panel-create-form-contents {
-        padding: 8 0 16px 0;
+        padding: 8 0 16px;
     }
 
     .cb-scene-builder-left-panel-element-objects {
@@ -320,8 +320,8 @@
 }
 
 .cb-widget-builder-header {
-    display: flex;
     align-items: center;
+    display: flex;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -330,8 +330,8 @@
     }
 }
 .cb-widget-builder-subheader {
-    font-size: 12px;
     color: var(--cb-color-inactive);
+    font-size: 12px;
 }
 
 @keyframes slide-in {
