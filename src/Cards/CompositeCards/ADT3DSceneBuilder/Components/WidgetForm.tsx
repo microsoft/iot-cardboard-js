@@ -124,8 +124,8 @@ const WidgetForm: React.FC<any> = () => {
                     onClick={onSaveWidgetForm}
                     text={
                         widgetFormInfo.mode === WidgetFormMode.Create
-                            ? t('create')
-                            : t('update')
+                            ? t('3dSceneBuilder.createWidget')
+                            : t('3dSceneBuilder.updateWidget')
                     }
                     disabled={false}
                 />

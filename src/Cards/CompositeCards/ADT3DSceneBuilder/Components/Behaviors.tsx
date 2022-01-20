@@ -45,7 +45,7 @@ const SceneBehaviors: React.FC<Props> = ({
             <PrimaryButton
                 className="cb-scene-builder-create-button"
                 onClick={() => onCreateBehaviorClick()}
-                text={t('3dSceneBuilder.createBehavior')}
+                text={t('3dSceneBuilder.newBehavior')}
             />
         </div>
     );

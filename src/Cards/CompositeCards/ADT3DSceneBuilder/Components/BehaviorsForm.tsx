@@ -107,14 +107,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             breadcrumbItems = [
                 ...breadcrumbItems,
                 {
-                    text: t('3dSceneBuilder.createBehavior'),
+                    text:
+                        builderMode === ADT3DSceneBuilderMode.CreateBehavior
+                            ? t('3dSceneBuilder.newBehavior')
+                            : t('3dSceneBuilder.editBehavior'),
                     key: 'behaviorAdd',
                     onClick: () => setWidgetFormInfo(null)
                 },
                 {
                     text:
                         widgetFormInfo.mode === WidgetFormMode.Create
-                            ? t('3dSceneBuilder.addWidget')
+                            ? t('3dSceneBuilder.newWidget')
                             : t('3dSceneBuilder.editWidget'),
                     key: 'widgetAddEdit'
                 }
@@ -123,7 +126,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             breadcrumbItems = [
                 ...breadcrumbItems,
                 {
-                    text: t('3dSceneBuilder.createBehavior'),
+                    text:
+                        builderMode === ADT3DSceneBuilderMode.CreateBehavior
+                            ? t('3dSceneBuilder.newBehavior')
+                            : t('3dSceneBuilder.editBehavior'),
                     key: 'behaviorAdd'
                 }
             ];
@@ -222,8 +228,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 text={
                                     builderMode ===
                                     ADT3DSceneBuilderMode.CreateBehavior
-                                        ? t('create')
-                                        : t('update')
+                                        ? t('3dSceneBuilder.createBehavior')
+                                        : t('3dSceneBuilder.updateBehavior')
                                 }
                                 disabled={!behaviorToEdit?.id}
                             />
