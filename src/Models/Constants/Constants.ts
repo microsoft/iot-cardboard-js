@@ -68,7 +68,6 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         disabled: true,
         data: {
             type: WidgetType.Trend,
-
             controlConfiguration: {}
         }
     },

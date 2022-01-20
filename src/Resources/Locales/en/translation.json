@@ -1,6 +1,7 @@
 {
     "preview": "Preview",
     "loading": "Loading...",
+    "label": "Label",
     "noData": "No data",
     "error": "Error fetching data",
     "unsupportedFileType": "Unsupported file type",
@@ -303,7 +304,9 @@
         "editWidget": "Edit widget",
         "removeWidget": "Remove widget",
         "noWidgets": "No widgets found",
-        "noWidgetsConfigured": "No widgets configured"
+        "noWidgetsConfigured": "No widgets configured",
+        "unitOfMeasure": "Unit of measure",
+        "expression": "Expression"
     },
     "widgets": {
         "trend": {

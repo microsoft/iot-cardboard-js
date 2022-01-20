@@ -4,7 +4,8 @@ import {
     IBehavior,
     ITwinToObjectMapping,
     IScenesConfig,
-    IWidgetLibraryItem
+    IWidgetLibraryItem,
+    IWidget
 } from '../../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
@@ -62,6 +63,8 @@ export interface IBehaviorFormContext {
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: React.Dispatch<React.SetStateAction<WidgetFormInfo>>;
+    setDraftWidgets: React.Dispatch<React.SetStateAction<IWidget[]>>;
+    draftWidgets: IWidget[];
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -109,4 +112,9 @@ export interface ADT3DSceneBuilderLeftPanelState {
     behaviors: Array<IBehavior>;
     selectedElement: ITwinToObjectMapping;
     selectedBehavior: IBehavior;
+}
+
+export interface IWidgetBuilderFormDataProps {
+    formData: IWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
 }

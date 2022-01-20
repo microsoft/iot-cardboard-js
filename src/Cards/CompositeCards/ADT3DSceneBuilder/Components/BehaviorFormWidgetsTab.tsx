@@ -12,21 +12,19 @@ import { useTranslation } from 'react-i18next';
 import { availableWidgets, WidgetFormMode } from '../../../..';
 import {
     VisualType,
-    IWidget,
     IWidgetLibraryItem
 } from '../../../../Models/Classes/3DVConfig';
 import WidgetLibraryDialog from './WidgetLibraryDialogue';
 import { BehaviorFormContext } from './BehaviorsForm';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
-    const { behaviorToEdit, setBehaviorToEdit, setWidgetFormInfo } = useContext(
-        BehaviorFormContext
-    );
+    const {
+        setBehaviorToEdit,
+        setWidgetFormInfo,
+        draftWidgets,
+        setDraftWidgets
+    } = useContext(BehaviorFormContext);
 
-    const popOver = behaviorToEdit?.visuals?.find(
-        (visual) => visual.type === VisualType.OnClickPopover
-    );
-    const [widgets, setWidgets] = useState<IWidget[]>(popOver?.widgets);
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const { t } = useTranslation();
 
@@ -51,7 +49,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
 
     function onMenuClick(index: number, item: IContextualMenuItem) {
         if (item.key === 'remove') {
-            const wids = [...widgets];
+            const wids = [...draftWidgets];
             wids.splice(index, 1);
             setBehaviorToEdit(
                 produce((draft) => {
@@ -59,7 +57,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                         (visual) => visual.type === VisualType.OnClickPopover
                     );
                     popOver.widgets = wids;
-                    setWidgets(wids);
+                    setDraftWidgets(wids);
                 })
             );
         }
@@ -84,13 +82,13 @@ const BehaviorFormWidgetsTab: React.FC = () => {
 
     return (
         <div className="cb-widget-panel-container">
-            {!widgets?.length && (
+            {!draftWidgets?.length && (
                 <Label className="cb-widget-panel-label">
                     {t('3dSceneBuilder.noWidgetsConfigured')}
                 </Label>
             )}
-            {widgets?.length > 0 &&
-                widgets.map((widget, index) => (
+            {draftWidgets?.length > 0 &&
+                draftWidgets.map((widget, index) => (
                     <div key={index} className="cb-widget-panel-list-container">
                         <FontIcon
                             className="cb-widget-panel-list-icon"

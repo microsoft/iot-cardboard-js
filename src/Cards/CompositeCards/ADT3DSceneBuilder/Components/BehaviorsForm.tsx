@@ -4,7 +4,9 @@ import {
     DatasourceType,
     defaultBehavior,
     IBehavior,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
+    IWidget,
+    VisualType
 } from '../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import {
@@ -52,6 +54,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
+    const [draftWidgets, setDraftWidgets] = useState<IWidget[]>(
+        behaviorToEdit?.visuals?.find(
+            (visual) => visual.type === VisualType.OnClickPopover
+        )?.widgets || []
+    );
 
     const [
         selectedBehaviorPivotKey,
@@ -131,7 +138,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 behaviorToEdit,
                 setBehaviorToEdit,
                 widgetFormInfo,
-                setWidgetFormInfo
+                setWidgetFormInfo,
+                draftWidgets,
+                setDraftWidgets
             }}
         >
             <div className="cb-scene-builder-left-panel-create-wrapper">

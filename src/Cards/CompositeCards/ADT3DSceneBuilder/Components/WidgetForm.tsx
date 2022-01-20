@@ -1,18 +1,42 @@
-import { Icon, PrimaryButton } from '@fluentui/react';
-import React, { useContext } from 'react';
+import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+    defaultGaugeWidget,
+    IWidget
+} from '../../../../Models/Classes/3DVConfig';
+
 import { WidgetFormMode, WidgetType } from '../../../../Models/Constants';
 import { BehaviorFormContext } from './BehaviorsForm';
+import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
-    const { widgetFormInfo } = useContext(BehaviorFormContext);
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        BehaviorFormContext
+    );
     const { t } = useTranslation();
+
+    const getDefaultFormData = () => {
+        switch (widgetFormInfo.widget.data.type) {
+            case WidgetType.Gauge:
+                return defaultGaugeWidget;
+            default:
+                return null;
+        }
+    };
+
+    const [formData, setFormData] = useState<IWidget>(getDefaultFormData());
 
     const getWidgetBuilder = () => {
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
-                return <GaugeWidgetBuilder />;
+                return (
+                    <GaugeWidgetBuilder
+                        formData={formData}
+                        setFormData={setFormData}
+                    />
+                );
             default:
                 return (
                     <div className="cb-widget-not-supported">
@@ -48,15 +72,17 @@ const WidgetForm: React.FC<any> = () => {
                     }
                     disabled={false}
                 />
+                <DefaultButton
+                    text={t('cancel')}
+                    styles={{ root: { marginLeft: 8 } }}
+                    onClick={() => {
+                        setWidgetFormInfo(null);
+                        setFormData(null);
+                    }}
+                />
             </div>
         </>
     );
-};
-
-const GaugeWidgetBuilder: React.FC = () => {
-    const { t } = useTranslation();
-    const { widgetFormInfo } = useContext(BehaviorFormContext);
-    return <div></div>;
 };
 
 export default WidgetForm;
