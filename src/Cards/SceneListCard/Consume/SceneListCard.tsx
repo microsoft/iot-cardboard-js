@@ -80,8 +80,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             const config: IScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
             setSceneList(() => {
+                let scenes;
                 try {
-                    return config.viewerConfiguration?.scenes?.sort(
+                    scenes = config?.viewerConfiguration?.scenes?.sort(
                         (a: IScene, b: IScene) =>
                             a.displayName?.localeCompare(
                                 b.displayName,
@@ -92,8 +93,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             )
                     );
                 } catch {
-                    return config.viewerConfiguration?.scenes;
+                    scenes = config?.viewerConfiguration?.scenes;
                 }
+                return scenes ?? [];
             });
         } else {
             setSceneList([]);
