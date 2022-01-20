@@ -15,8 +15,8 @@ import {
     SearchBox
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { availableWidgets } from '../../../../../..';
 import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
+import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 
