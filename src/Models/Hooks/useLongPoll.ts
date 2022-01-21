@@ -16,6 +16,7 @@ const useLongPoll = ({
 }: UseLongPollParams) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
+    const mountedRef = useRef(true);
 
     // Remember the latest callback
     useEffect(() => {
@@ -28,14 +29,18 @@ const useLongPoll = ({
 
         async function tick() {
             await savedCallback.current();
-            setPulse(true);
-            timeoutId = setTimeout(() => setPulse(false), pulseTimeoutMillis);
+            mountedRef.current && setPulse(true);
+            timeoutId = setTimeout(
+                () => mountedRef.current && setPulse(false),
+                pulseTimeoutMillis
+            );
         }
 
         if (pollingIntervalMillis !== null) {
             tick();
             intervalId = setInterval(tick, pollingIntervalMillis);
             return () => {
+                mountedRef.current = false;
                 clearInterval(intervalId);
                 clearTimeout(timeoutId);
             };

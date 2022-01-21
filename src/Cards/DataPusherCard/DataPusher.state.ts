@@ -8,12 +8,10 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     quickStreamFrequency: 1000,
     isLiveDataSimulated: true,
     liveStreamFrequency: 1,
-    includeImagesForModel: true,
     isSimulationRunning: false,
     isDataBackFilled: false,
     isEnvironmentReady: false,
     disablePastEvents: false,
-    isOtherOptionsVisible: true,
     models: [],
     twins: [],
     relationships: [],
@@ -50,9 +48,6 @@ export const dataPusherReducer = produce(
                 return;
             case dataPusherActionType.SET_LIVE_STREAM_FREQUENCY:
                 draft.liveStreamFrequency = payload;
-                return;
-            case dataPusherActionType.SET_INCLUDE_IMAGES_FOR_MODEL:
-                draft.includeImagesForModel = payload;
                 return;
             case dataPusherActionType.SET_IS_SIMULATION_RUNNING:
                 draft.isSimulationRunning = payload;

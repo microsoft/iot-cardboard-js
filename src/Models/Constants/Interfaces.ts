@@ -45,6 +45,7 @@ import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigDa
 import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import ViewConfigBehaviorData from '../Classes/AdapterDataClasses/ViewConfigBehaviorData';
+import { AssetDevice } from '../Classes/Simulations/Asset';
 
 export interface IAction {
     type: string;
@@ -498,6 +499,16 @@ export interface AssetRelationship {
 export interface AssetTwin {
     name: string;
     assetRelationships?: Array<AssetRelationship>;
+    devices: Array<AssetDevice>;
+}
+
+export interface IAssetDevice {
+    id: string;
+    deviceName: string;
+    seedValue: number;
+    minValue: number;
+    maxValue: number;
+    properties: any;
 }
 
 export interface DTModelContent {
