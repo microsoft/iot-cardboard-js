@@ -15,7 +15,6 @@ export interface IDataPusherProps extends ICardBaseProps {
     ) => IAdtPusherSimulation;
     initialInstanceUrl?: string;
     disablePastEvents?: boolean;
-    isOtherOptionsVisible?: boolean;
 }
 
 export interface IQuickFillDataFormProps {
@@ -30,11 +29,9 @@ export interface IDataPusherState {
     isLiveDataSimulated: boolean;
     isDataBackFilled: boolean;
     liveStreamFrequency: number;
-    includeImagesForModel: boolean;
     isSimulationRunning: boolean;
     isEnvironmentReady: boolean;
     disablePastEvents: boolean;
-    isOtherOptionsVisible: boolean;
     models: readonly DTModel[];
     twins: readonly DTwin[];
     relationships: readonly DTwinRelationship[];
@@ -61,7 +58,6 @@ export enum dataPusherActionType {
     SET_QUICK_STREAM_FREQUENCY,
     SET_IS_LIVE_DATA_SIMULATED,
     SET_LIVE_STREAM_FREQUENCY,
-    SET_INCLUDE_IMAGES_FOR_MODEL,
     SET_IS_SIMULATION_RUNNING,
     SET_IS_DATA_BACK_FILLED,
     SET_IS_ENVIRONMENT_READY,

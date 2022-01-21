@@ -1,13 +1,10 @@
 import {
-    ADTModel_ImgSrc_PropertyName,
-    ADTModel_ImgPropertyPositions_PropertyName,
     DTModelContent,
     DTModel,
     DTwin,
     DTwinRelationship,
     IAdtPusherSimulation,
-    ADTModel_ViewData_PropertyName,
-    BoardInfoPropertyName
+    ADTModel_ViewData_PropertyName
 } from '../../Constants';
 import {
     AssetRelationship,
@@ -16,7 +13,6 @@ import {
     DTwinUpdateEvent
 } from '../../Constants/Interfaces';
 import { downloadText } from '../../Services/Utils';
-import ADTModelImages from './ADTModelImageProperties';
 import { Asset } from './Asset';
 
 const modelTwinsRelationshipsData = {
@@ -28,13 +24,11 @@ export default class AssetSimulation implements IAdtPusherSimulation {
     private typeIds: any;
     public seedTimeMillis: number;
     private intervalMillis: number;
-    private isADTModelImagesIncluded: boolean;
 
     constructor(seedTimeMillis: number, intervalMillis: number) {
         this.assets = [];
         this.seedTimeMillis = seedTimeMillis;
         this.intervalMillis = intervalMillis;
-        this.isADTModelImagesIncluded = true;
         this.assets.push(new Asset('PasteurizationMachine', this));
         this.assets.push(new Asset('SaltMachine', this));
         this.assets.push(new Asset('MaintenancePersonnel', this));
@@ -72,8 +66,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
         return events;
     }
 
-    generateDTModels(isImagesIncluded = true, download = false) {
-        this.isADTModelImagesIncluded = isImagesIncluded;
+    generateDTModels(download = false) {
         const dtdlModels = this.assets.map((asset) => {
             const propertyContents: Array<DTModelContent> = asset.devices.map(
                 (device) => ({
@@ -82,29 +75,6 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                     schema: 'double'
                 })
             );
-            if (isImagesIncluded) {
-                propertyContents.push({
-                    '@type': 'Property',
-                    name: ADTModel_ViewData_PropertyName,
-                    schema: {
-                        '@type': 'Object',
-                        fields: [
-                            {
-                                name: BoardInfoPropertyName,
-                                schema: 'string'
-                            },
-                            {
-                                name: ADTModel_ImgSrc_PropertyName,
-                                schema: 'string'
-                            },
-                            {
-                                name: ADTModel_ImgPropertyPositions_PropertyName,
-                                schema: 'string'
-                            }
-                        ]
-                    }
-                });
-            }
             const relationshipContents: Array<any> = asset.relationships.map(
                 (assetRelationship: AssetRelationship) => {
                     const relationship: any = {
@@ -142,8 +112,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
         return dtdlModels;
     }
 
-    generateDTwins(isImagesIncluded = true, download = false) {
-        this.isADTModelImagesIncluded = isImagesIncluded;
+    generateDTwins(download = false) {
         const twins: Array<DTwin> = [];
         this.assets.forEach((asset: Asset) => {
             asset.twins.forEach((assetTwin: AssetTwin) => {
@@ -151,27 +120,11 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                     $dtId: assetTwin.name,
                     $metadata: {
                         $model: `dtmi:assetGen:${asset.name};${modelTwinsRelationshipsData.versionNumber}`
-                    },
-                    [ADTModel_ViewData_PropertyName]: {}
+                    }
                 };
                 asset.devices.forEach((device) => {
                     twin[`${device.deviceName}`] = device.minValue;
                 });
-                if (this.isADTModelImagesIncluded) {
-                    const modelId = this.generateModelId(asset.name);
-                    twin[ADTModel_ViewData_PropertyName][
-                        ADTModel_ImgSrc_PropertyName
-                    ] = ADTModelImages[modelId][ADTModel_ImgSrc_PropertyName];
-
-                    twin[ADTModel_ViewData_PropertyName][
-                        ADTModel_ImgPropertyPositions_PropertyName
-                    ] = JSON.stringify(
-                        ADTModelImages[modelId][
-                            ADTModel_ImgPropertyPositions_PropertyName
-                        ]
-                    );
-                }
-
                 twins.push(twin);
             });
         });

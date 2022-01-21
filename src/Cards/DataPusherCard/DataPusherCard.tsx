@@ -50,15 +50,13 @@ const DataPusherCard = ({
     adapter,
     Simulation,
     initialInstanceUrl = '<your_adt_instance_url>.digitaltwins.azure.net',
-    disablePastEvents = false,
-    isOtherOptionsVisible = true
+    disablePastEvents = false
 }: IDataPusherProps) => {
     const { t } = useTranslation();
     const [state, dispatch] = useReducer(dataPusherReducer, {
         ...defaultAdtDataPusherState,
         instanceUrl: initialInstanceUrl,
-        disablePastEvents,
-        isOtherOptionsVisible
+        disablePastEvents
     });
 
     const intervalRef = useRef(null);
@@ -127,13 +125,11 @@ const DataPusherCard = ({
         const assetSimulation = new AssetSimulation(0, 0);
         dispatch({
             type: dataPusherActionType.SET_MODELS,
-            payload: assetSimulation.generateDTModels(
-                state.includeImagesForModel
-            )
+            payload: assetSimulation.generateDTModels()
         });
         dispatch({
             type: dataPusherActionType.SET_TWINS,
-            payload: assetSimulation.generateDTwins(state.includeImagesForModel)
+            payload: assetSimulation.generateDTwins()
         });
         dispatch({
             type: dataPusherActionType.SET_RELATIONSHIPS,
@@ -242,17 +238,6 @@ const DataPusherCard = ({
                             {t('dataPusher.liveStreamLabel')}
                         </Separator>
                         <LiveStreamDataForm />
-                        {state.isOtherOptionsVisible && (
-                            <>
-                                <Separator
-                                    alignContent="start"
-                                    styles={separatorStyles}
-                                >
-                                    {t('dataPusher.otherOptionsLabel')}
-                                </Separator>
-                                <OtherOptionsForm />
-                            </>
-                        )}
                         <Separator
                             alignContent="start"
                             styles={separatorStyles}
@@ -538,38 +523,6 @@ const LiveStreamDataForm = () => {
                     </FormFieldDescription>
                 </div>
             </ExpandableSlideInContent>
-        </div>
-    );
-};
-
-const OtherOptionsForm = () => {
-    const { t } = useTranslation();
-    const { state, dispatch } = useDataPusherContext();
-
-    return (
-        <div className="cb-other-options-form-container">
-            <Toggle
-                label="Include images for model"
-                checked={state.includeImagesForModel}
-                onText="On"
-                offText="Off"
-                onChange={(_e, checked) =>
-                    dispatch({
-                        type: dataPusherActionType.SET_INCLUDE_IMAGES_FOR_MODEL,
-                        payload: checked
-                    })
-                }
-                styles={{ root: { marginBottom: 0 } }}
-            />
-            {state.includeImagesForModel ? (
-                <FormFieldDescription>
-                    {t('dataPusher.includeImagesDescriptionOn')}
-                </FormFieldDescription>
-            ) : (
-                <FormFieldDescription>
-                    {t('dataPusher.includeImagesDescriptionOff')}
-                </FormFieldDescription>
-            )}
         </div>
     );
 };

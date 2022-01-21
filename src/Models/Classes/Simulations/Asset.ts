@@ -281,6 +281,11 @@ export class Asset {
                             name: 'maintains',
                             target: 'SaltMachine_C1',
                             targetModel: 'SaltMachine'
+                        },
+                        {
+                            name: 'maintains',
+                            target: 'PasteurizationMachine_A01',
+                            targetModel: 'PasteurizationMachine'
                         }
                     ]
                 });
@@ -290,12 +295,12 @@ export class Asset {
                     assetRelationships: [
                         {
                             name: 'maintains',
-                            target: 'PasteurizationMachine_A01',
+                            target: 'PasteurizationMachine_A02',
                             targetModel: 'PasteurizationMachine'
                         },
                         {
                             name: 'maintains',
-                            target: 'PasteurizationMachine_A02',
+                            target: 'PasteurizationMachine_A03',
                             targetModel: 'PasteurizationMachine'
                         }
                     ]
@@ -308,6 +313,11 @@ export class Asset {
                             name: 'maintains',
                             target: 'SaltMachine_C2',
                             targetModel: 'SaltMachine'
+                        },
+                        {
+                            name: 'maintains',
+                            target: 'PasteurizationMachine_A04',
+                            targetModel: 'PasteurizationMachine'
                         }
                     ]
                 });
@@ -373,6 +383,11 @@ export class Asset {
                             name: 'contains',
                             target: 'SaltMachine_C2',
                             targetModel: 'SaltMachine'
+                        },
+                        {
+                            name: 'contains',
+                            target: 'PasteurizationMachine_A04',
+                            targetModel: 'PasteurizationMachine'
                         },
                         {
                             name: 'employs',
