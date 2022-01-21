@@ -3,14 +3,17 @@ import MockAdapter from '../../../Adapters/MockAdapter';
 import {
     IBehavior,
     ITwinToObjectMapping,
-    IScenesConfig
+    IScenesConfig,
+    IWidgetLibraryItem,
+    IWidget
 } from '../../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
     Locale,
-    Theme
+    Theme,
+    WidgetFormMode
 } from '../../../Models/Constants/Enums';
 import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
@@ -50,6 +53,19 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: ColoredMeshItem[];
     setSelectedMeshIds: (objects: Array<string>) => void;
     setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
+}
+
+export type WidgetFormInfo = null | {
+    widget: IWidgetLibraryItem;
+    mode: WidgetFormMode;
+    widgetIdx?: number;
+};
+
+export interface IBehaviorFormContext {
+    behaviorToEdit: IBehavior;
+    setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+    widgetFormInfo: WidgetFormInfo;
+    setWidgetFormInfo: React.Dispatch<React.SetStateAction<WidgetFormInfo>>;
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -98,4 +114,9 @@ export interface ADT3DSceneBuilderLeftPanelState {
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
+}
+
+export interface IWidgetBuilderFormDataProps {
+    formData: IWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
 }

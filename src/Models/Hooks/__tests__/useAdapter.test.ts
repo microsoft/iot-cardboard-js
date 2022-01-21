@@ -9,8 +9,8 @@ import { MockAdapter } from '../../../Adapters';
 import { AdapterResult, KeyValuePairAdapterData } from '../../Classes';
 import { IUseAdapter } from '../../Constants';
 
-const networkTimeoutMillis = 100;
-const pulseMillis = 50;
+const networkTimeoutMillis = 0;
+const pollingInterval = 0;
 
 let adapterInfo;
 let renderedHook: RenderHookResult<any, IUseAdapter<KeyValuePairAdapterData>>;
@@ -38,7 +38,8 @@ describe('Basic useAdapter tests', () => {
                             adapterInfo.id,
                             adapterInfo.properties
                         ),
-                    refetchDependencies: adapterInfo.properties
+                    refetchDependencies: adapterInfo.properties,
+                    isAdapterCalledOnMount: true
                 })
             );
         });
@@ -67,7 +68,9 @@ describe('Basic useAdapter tests', () => {
     });
 
     test('rendered component with useAdapter hook can safely unmount during adapter data fetch', async () => {
-        renderedHook.unmount();
+        act(() => {
+            renderedHook.unmount();
+        });
     });
 
     test('manual adapter data refetch', async () => {
@@ -114,9 +117,10 @@ describe('Long polling useAdapter tests', () => {
                             adapterInfo.properties
                         ),
                     refetchDependencies: adapterInfo.properties,
+                    isAdapterCalledOnMount: true,
                     isLongPolling: true,
-                    pollingIntervalMillis: networkTimeoutMillis * 2,
-                    pulseTimeoutMillis: pulseMillis
+                    pollingIntervalMillis: pollingInterval,
+                    pulseTimeoutMillis: pollingInterval
                 })
             );
         });
@@ -148,16 +152,9 @@ describe('Long polling useAdapter tests', () => {
         const dataFetched =
             renderedHook.result.current.adapterResult.result.data;
 
-        // Wait for first long poll.  State should indicate loading
-        await renderedHook.waitForValueToChange(
-            () => renderedHook.result.current.isLoading
-        );
-
-        expect(renderedHook.result.current.isLoading).toBe(true);
-
         // Wait for first long poll completion.  Data should be updated.
         await renderedHook.waitForValueToChange(
-            () => renderedHook.result.current.isLoading
+            () => renderedHook.result.current.adapterResult.result.data
         );
 
         expect(dataFetched).not.toEqual(
@@ -178,14 +175,16 @@ describe('Dependency change testing', () => {
         const id = 'test1';
         let properties = ['temp', 'speed', 'pressure'];
 
-        // Call hook with initial id and properties
-        renderedHook = renderHook(() =>
-            useAdapter<KeyValuePairAdapterData>({
-                adapterMethod: () =>
-                    adapterInfo.adapter.getKeyValuePairs(id, properties),
-                refetchDependencies: properties
-            })
-        );
+        act(() => {
+            // Call hook with initial id and properties
+            renderedHook = renderHook(() =>
+                useAdapter<KeyValuePairAdapterData>({
+                    adapterMethod: () =>
+                        adapterInfo.adapter.getKeyValuePairs(id, properties),
+                    refetchDependencies: properties
+                })
+            );
+        });
 
         await renderedHook.waitForValueToChange(
             () => renderedHook.result.current.isLoading
@@ -196,8 +195,10 @@ describe('Dependency change testing', () => {
 
         // Change properties
         properties = ['altitude', 'acceleration', 'direction'];
-        renderedHook.rerender();
 
+        act(() => {
+            renderedHook.rerender();
+        });
         // Test for refetch and new data
         expect(renderedHook.result.current.isLoading).toBe(true);
 

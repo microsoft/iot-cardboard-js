@@ -226,6 +226,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 adapterAdditionalParameters={
                                     adapterAdditionalParameters
                                 }
+                                refetchConfig={() => scenesConfig.callAdapter()}
                             />
                         </div>
                     </>

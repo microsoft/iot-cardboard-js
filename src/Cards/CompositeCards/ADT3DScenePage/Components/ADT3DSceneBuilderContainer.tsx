@@ -15,7 +15,8 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     theme,
     locale,
     localeStrings,
-    adapterAdditionalParameters
+    adapterAdditionalParameters,
+    refetchConfig
 }) => {
     const { t } = useTranslation();
 
@@ -68,6 +69,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                             pollingInterval={10000}
                             sceneId={scene.id}
                             sceneConfig={scenesConfig}
+                            refetchConfig={refetchConfig}
                         />
                     </div>
                 </PivotItem>
