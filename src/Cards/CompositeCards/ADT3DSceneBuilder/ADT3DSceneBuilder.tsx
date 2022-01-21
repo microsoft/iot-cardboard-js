@@ -219,17 +219,30 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const updateSelectedElements = (updatedElement: ITwinToObjectMapping, isSelected) => {
-        let selectedElements = state.selectedElements ? [...state.selectedElements] : [];
+    const updateSelectedElements = (
+        updatedElement: ITwinToObjectMapping,
+        isSelected
+    ) => {
+        let selectedElements = state.selectedElements
+            ? [...state.selectedElements]
+            : [];
 
         // add element if selected and not in list
-        if (isSelected && !selectedElements.find((element) => element === updatedElement)) {
+        if (
+            isSelected &&
+            !selectedElements.find((element) => element === updatedElement)
+        ) {
             selectedElements.push(updatedElement);
         }
 
         // remove element if not selected and in list
-        if (!isSelected && selectedElements.find((element) => element === updatedElement)) {
-            selectedElements = selectedElements.filter((element) => element !== updatedElement)
+        if (
+            !isSelected &&
+            selectedElements.find((element) => element === updatedElement)
+        ) {
+            selectedElements = selectedElements.filter(
+                (element) => element !== updatedElement
+            );
         }
 
         dispatch({
@@ -249,30 +262,31 @@ const BuilderLeftPanel: React.FC = () => {
         }
 
         setColoredMeshItems(coloredMeshes);
-    }
+    };
 
     const clearSelectedElements = () => {
-         dispatch({
+        dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
             payload: null
         });
 
         setColoredMeshItems([]);
-    }
+    };
 
     const onElementEnter = (element: ITwinToObjectMapping) => {
         const meshItems = [...coloredMeshItems];
-        if ((state.selectedElements && !state.selectedElements.find((item) => item === element)) || !state.selectedElements) {
-            console.log(meshItems)
+        if (
+            (state.selectedElements &&
+                !state.selectedElements.find((item) => item === element)) ||
+            !state.selectedElements
+        ) {
             for (const id of element.meshIDs) {
-                if (!meshItems.find((mesh) => mesh.meshId !== id)) {
-                const coloredMesh: ColoredMeshItem = {
-                    meshId: id,
-                    color: '#00A8F0'
-                };
-                console.log(coloredMesh)
-
-                meshItems.push(coloredMesh);
+                if (!meshItems.find((mesh) => mesh.meshId === id)) {
+                    const coloredMesh: ColoredMeshItem = {
+                        meshId: id,
+                        color: '#00A8F0'
+                    };
+                    meshItems.push(coloredMesh);
                 }
             }
         }
@@ -281,15 +295,14 @@ const BuilderLeftPanel: React.FC = () => {
 
     const onElementLeave = (element: ITwinToObjectMapping) => {
         if (state.selectedElements && state.selectedElements.length > 0) {
-                let meshItems = [...coloredMeshItems];
-                console.log(meshItems)
-                if (!state.selectedElements.find((item) => item === element)) {
-                    for (const id of element.meshIDs) {
-                        meshItems = coloredMeshItems.filter((item) => item.meshId !== id);
-                    }
-                    
-                    setColoredMeshItems(meshItems);
+            let meshItems = [...coloredMeshItems];
+            if (!state.selectedElements.find((item) => item === element)) {
+                for (const id of element.meshIDs) {
+                    meshItems = meshItems.filter((item) => item.meshId !== id);
                 }
+
+                setColoredMeshItems(meshItems);
+            }
         } else {
             setColoredMeshItems([]);
         }
