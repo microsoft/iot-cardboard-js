@@ -57,7 +57,7 @@ const WidgetLibraryDialog: React.FC<{
             />
             <Pivot>
                 <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
-                    <div>
+                    <div className="cb-widget-library-dialog-list-container">
                         <List
                             items={filteredAvailableWidgets}
                             onRenderCell={(widget, index) => (
