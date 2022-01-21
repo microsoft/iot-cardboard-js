@@ -12,9 +12,9 @@ import {
 import {
     IScene,
     ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
-import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { SceneBuilderContext } from '../ADT3DSceneBuilder';
+} from '../../../../../Models/Classes/3DVConfig';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import useAdapter from '../../../../../Models/Hooks/useAdapter';
 
 const SceneElements: React.FC<any> = ({
     elements,

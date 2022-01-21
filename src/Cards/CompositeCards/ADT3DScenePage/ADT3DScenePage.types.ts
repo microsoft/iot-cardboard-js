@@ -21,6 +21,7 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     defaultMode?: ADT3DScenePageModes;
     scene: IScene;
     scenesConfig: IScenesConfig;
+    refetchConfig?: () => any;
 }
 
 export interface ADT3DScenePageState {
