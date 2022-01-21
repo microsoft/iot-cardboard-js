@@ -55,7 +55,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
             asset.twins.forEach(function (twin: AssetTwin) {
                 const updateTwin: DTwinUpdateEvent = {
                     dtId: twin.name,
-                    patchJSON: asset.devices.map(function (d) {
+                    patchJSON: twin.devices.map(function (d) {
                         return d.tick() as ADTPatch;
                     })
                 };
