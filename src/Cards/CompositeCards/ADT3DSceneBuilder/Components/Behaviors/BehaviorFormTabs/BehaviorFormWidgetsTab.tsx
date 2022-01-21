@@ -8,7 +8,6 @@ import {
 } from '@fluentui/react';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
-import { availableWidgets, WidgetFormMode } from '../../../../../..';
 import {
     VisualType,
     IWidgetLibraryItem,
@@ -16,6 +15,8 @@ import {
 } from '../../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
+import { availableWidgets } from '../../../../../../Models/Constants/Constants';
+import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
     const { setBehaviorToEdit, setWidgetFormInfo, behaviorToEdit } = useContext(
