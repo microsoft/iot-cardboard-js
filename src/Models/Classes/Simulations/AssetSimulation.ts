@@ -3,8 +3,7 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
-    IAdtPusherSimulation,
-    ADTModel_ViewData_PropertyName
+    IAdtPusherSimulation
 } from '../../Constants';
 import {
     AssetRelationship,
