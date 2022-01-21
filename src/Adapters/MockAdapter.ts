@@ -365,6 +365,47 @@ export default class MockAdapter
         }
     }
 
+    async deleteBehavior(config: IScenesConfig, behavior: IBehavior) {
+        try {
+            // TODO refactor duplicatated scene configuration modification logic into utililty class
+            const updatedConfig = { ...config };
+            // Splice behavior out of behavior list
+            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                (b) => b.id === behavior.id
+            );
+
+            if (behaviorIdx !== -1) {
+                updatedConfig.viewerConfiguration.behaviors.splice(
+                    behaviorIdx,
+                    1
+                );
+            }
+
+            // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
+            updatedConfig.viewerConfiguration.scenes.forEach((scene) => {
+                const matchingBehaviorIdIdx = scene.behaviors.indexOf(
+                    behavior.id
+                );
+                if (matchingBehaviorIdIdx !== -1) {
+                    scene.behaviors.splice(matchingBehaviorIdIdx, 1);
+                }
+            });
+
+            await this.mockNetwork();
+            this.scenesConfig = updatedConfig;
+
+            return new AdapterResult({
+                result: new ViewConfigBehaviorData(behavior),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ViewConfigBehaviorData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getTsiclientChartDataShape(
         _id: string,
         searchSpan: SearchSpan,
