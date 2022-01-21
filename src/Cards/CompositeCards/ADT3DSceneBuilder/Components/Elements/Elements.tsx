@@ -11,12 +11,12 @@ import {
     PrimaryButton,
     SearchBox
 } from '@fluentui/react';
-import { useAdapter } from '../../../../..';
 import {
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import useAdapter from '../../../../../Models/Hooks/useAdapter';
 
 const SceneElements: React.FC<any> = ({
     elements,
