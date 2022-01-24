@@ -80,7 +80,7 @@ module.exports = function (app) {
         })
     );
 
-    const proxy = createProxyMiddleware({
+    const blobProxy = createProxyMiddleware({
         changeOrigin: true,
         headers: {
             connection: 'keep-alive'
@@ -162,6 +162,6 @@ module.exports = function (app) {
     });
 
     app.use('/proxy/blob', (req, res, next) =>
-        proxy.call(proxy, req, res, next)
+        blobProxy.call(blobProxy, req, res, next)
     );
 };
