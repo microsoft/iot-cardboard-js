@@ -7,6 +7,7 @@ import {
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_BEHAVIORS,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
@@ -29,6 +30,7 @@ export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelS
     elements: [],
     behaviors: [],
     selectedElement: null,
+    selectedElements: null,
     selectedBehavior: null
 };
 
@@ -69,6 +71,9 @@ export const ADT3DSceneBuilderLeftPanelReducer = (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT:
                 draft.selectedElement = payload;
+                break;
+            case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS:
+                draft.selectedElements = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;

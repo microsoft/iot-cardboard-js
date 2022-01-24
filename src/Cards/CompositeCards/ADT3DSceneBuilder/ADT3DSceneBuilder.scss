@@ -81,6 +81,32 @@
         justify-content: space-between;
     }
 
+    .cb-scene-builder-element-search-header {
+        display: flex;
+        margin-left: 7px;
+        margin-top: 15px;
+    }
+
+    .cb-scene-builder-element-search-box {
+        flex: 1;
+        margin-right: 5px;
+    }
+
+    .cb-scene-builder-element-spacer {
+        background-color: #edebe9;
+        height: 1px;
+        margin-bottom: -10px;
+        margin-top: 15px;
+    }
+
+    .cb-scene-builder-element-checkbox {
+        margin-right: 5px;
+    }
+
+    .cb-scene-builder-cancel-button {
+        margin-left: 10px;
+    }
+
     .cb-scene-builder-element-list,
     .cb-scene-builder-behavior-list {
         flex-grow: 1;

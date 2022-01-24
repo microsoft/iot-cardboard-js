@@ -16,6 +16,7 @@ import {
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
 } from './ADT3DSceneBuilder.types';
@@ -156,6 +157,7 @@ const BuilderLeftPanel: React.FC = () => {
         sceneId,
         setSelectedMeshIds,
         setColoredMeshItems,
+        coloredMeshItems,
         theme,
         locale,
         localeStrings,
@@ -217,20 +219,93 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementEnter = (element: ITwinToObjectMapping) => {
-        const coloredMeshes: ColoredMeshItem[] = [];
-        for (const id of element.meshIDs) {
-            const coloredMesh: ColoredMeshItem = {
-                meshId: id,
-                color: '#00A8F0'
-            };
-            coloredMeshes.push(coloredMesh);
+    const updateSelectedElements = (
+        updatedElement: ITwinToObjectMapping,
+        isSelected
+    ) => {
+        let selectedElements = state.selectedElements
+            ? [...state.selectedElements]
+            : [];
+
+        // add element if selected and not in list
+        if (
+            isSelected &&
+            !selectedElements.find((element) => element === updatedElement)
+        ) {
+            selectedElements.push(updatedElement);
         }
+
+        // remove element if not selected and in list
+        if (
+            !isSelected &&
+            selectedElements.find((element) => element === updatedElement)
+        ) {
+            selectedElements = selectedElements.filter(
+                (element) => element !== updatedElement
+            );
+        }
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: selectedElements
+        });
+
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const element of selectedElements) {
+            for (const id of element.meshIDs) {
+                const coloredMesh: ColoredMeshItem = {
+                    meshId: id,
+                    color: '#00A8F0'
+                };
+                coloredMeshes.push(coloredMesh);
+            }
+        }
+
         setColoredMeshItems(coloredMeshes);
     };
 
-    const onElementLeave = () => {
+    const clearSelectedElements = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: null
+        });
+
         setColoredMeshItems([]);
+    };
+
+    const onElementEnter = (element: ITwinToObjectMapping) => {
+        const meshItems = [...coloredMeshItems];
+        if (
+            (state.selectedElements &&
+                !state.selectedElements.find((item) => item === element)) ||
+            !state.selectedElements
+        ) {
+            for (const id of element.meshIDs) {
+                if (!meshItems.find((mesh) => mesh.meshId === id)) {
+                    const coloredMesh: ColoredMeshItem = {
+                        meshId: id,
+                        color: '#00A8F0'
+                    };
+                    meshItems.push(coloredMesh);
+                }
+            }
+        }
+        setColoredMeshItems(meshItems);
+    };
+
+    const onElementLeave = (element: ITwinToObjectMapping) => {
+        if (state.selectedElements && state.selectedElements.length > 0) {
+            let meshItems = [...coloredMeshItems];
+            if (!state.selectedElements.find((item) => item === element)) {
+                for (const id of element.meshIDs) {
+                    meshItems = meshItems.filter((item) => item.meshId !== id);
+                }
+
+                setColoredMeshItems(meshItems);
+            }
+        } else {
+            setColoredMeshItems([]);
+        }
     };
 
     const onBackClick = (
@@ -354,11 +429,15 @@ const BuilderLeftPanel: React.FC = () => {
                     >
                         <SceneElements
                             elements={state.elements}
+                            selectedElements={state.selectedElements}
                             onCreateElementClick={onCreateElementClick}
                             onRemoveElement={onRemoveElement}
                             onElementClick={onElementClick}
                             onElementEnter={onElementEnter}
                             onElementLeave={onElementLeave}
+                            updateSelectedElements={updateSelectedElements}
+                            clearSelectedElements={clearSelectedElements}
+                            onCreateBehaviorClick={onCreateBehaviorClick}
                         />
                     </PivotItem>
                     <PivotItem

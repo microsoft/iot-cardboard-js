@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+    Checkbox,
     DefaultButton,
     Dialog,
     DialogFooter,
     DialogType,
     FontIcon,
     IconButton,
-    PrimaryButton
+    PrimaryButton,
+    SearchBox
 } from '@fluentui/react';
 import {
     IScene,
@@ -18,9 +20,13 @@ import useAdapter from '../../../../../Models/Hooks/useAdapter';
 
 const SceneElements: React.FC<any> = ({
     elements,
+    selectedElements,
     onCreateElementClick,
     onRemoveElement,
     onElementClick,
+    updateSelectedElements,
+    clearSelectedElements,
+    onCreateBehaviorClick,
     onElementEnter,
     onElementLeave
 }) => {
@@ -33,6 +39,8 @@ const SceneElements: React.FC<any> = ({
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
     const { adapter, config, sceneId } = useContext(SceneBuilderContext);
+
+    const [toggleElementSelection, setToggleElementSelection] = useState(false);
 
     const confirmDeletionDialogProps = {
         type: DialogType.normal,
@@ -92,6 +100,31 @@ const SceneElements: React.FC<any> = ({
 
     return (
         <div className="cb-scene-builder-pivot-contents">
+            <div className="cb-scene-builder-element-search-header">
+                <div className="cb-scene-builder-element-search-box">
+                    <SearchBox
+                        placeholder={t('3dSceneBuilder.searchElements')}
+                    />
+                </div>
+                <IconButton
+                    iconProps={{ iconName: 'MultiSelect' }}
+                    title={t('3dSceneBuilder.toggleCheckboxes')}
+                    styles={{
+                        iconChecked: { color: '#ffffff' },
+                        iconHovered: { color: '#ffffff' },
+                        rootChecked: { background: '#0078d4' },
+                        rootHovered: { background: '#0078d4' },
+                        rootCheckedHovered: { background: '#0078d4' }
+                    }}
+                    ariaLabel={t('3dSceneBuilder.toggleCheckboxes')}
+                    onClick={() => {
+                        setToggleElementSelection(!toggleElementSelection);
+                        clearSelectedElements();
+                    }}
+                    checked={toggleElementSelection}
+                />
+            </div>
+            <div className="cb-scene-builder-element-spacer" />
             <div className="cb-scene-builder-element-list">
                 {elements.length === 0 ? (
                     <p className="cb-scene-builder-left-panel-text">
@@ -106,11 +139,26 @@ const SceneElements: React.FC<any> = ({
                                     : ''
                             }`}
                             key={element.displayName}
-                            onClick={() => onElementClick(element)}
-                            onMouseEnter={() => onElementEnter(element)}
-                            onMouseLeave={onElementLeave}
+                            onClick={() => {
+                                if (!toggleElementSelection) {
+                                    onElementClick(element);
+                                }
+                            }}
+                            onMouseOver={() => onElementEnter(element)}
+                            onMouseLeave={() => onElementLeave(element)}
                         >
                             <div className="cb-element-name-wrapper">
+                                {toggleElementSelection && (
+                                    <Checkbox
+                                        className="cb-scene-builder-element-checkbox"
+                                        onChange={(e, checked) => {
+                                            updateSelectedElements(
+                                                element,
+                                                checked
+                                            );
+                                        }}
+                                    />
+                                )}
                                 <FontIcon
                                     iconName={'Shapes'}
                                     className="cb-element"
@@ -136,11 +184,34 @@ const SceneElements: React.FC<any> = ({
                     ))
                 )}
             </div>
-            <PrimaryButton
-                className="cb-scene-builder-create-button"
-                onClick={onCreateElementClick}
-                text={t('3dSceneBuilder.newElement')}
-            />
+            {toggleElementSelection ? (
+                <div>
+                    <PrimaryButton
+                        className="cb-scene-builder-create-button"
+                        text={t('3dSceneBuilder.createBehavior')}
+                        onClick={onCreateBehaviorClick}
+                        disabled={
+                            selectedElements && selectedElements.length > 0
+                                ? false
+                                : true
+                        }
+                    />
+                    <DefaultButton
+                        text={t('3dSceneBuilder.cancel')}
+                        onClick={() => {
+                            setToggleElementSelection(false);
+                            clearSelectedElements();
+                        }}
+                        className="cb-scene-builder-cancel-button"
+                    />
+                </div>
+            ) : (
+                <PrimaryButton
+                    className="cb-scene-builder-create-button"
+                    onClick={onCreateElementClick}
+                    text={t('3dSceneBuilder.newElement')}
+                />
+            )}
             <Dialog
                 hidden={!isConfirmDeleteDialogOpen}
                 onDismiss={() => {
