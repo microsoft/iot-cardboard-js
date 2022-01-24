@@ -97,7 +97,9 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     elements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
-    setSelectedMeshIds: (objectIds: Array<string>) => any;
+    setSelectedBehavior: (behavior: IBehavior) => void;
+    onManageElements: () => void;
+    setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }
 
 export interface ADT3DSceneBuilderState {

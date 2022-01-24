@@ -117,7 +117,8 @@ export enum ADT3DSceneBuilderMode {
     CreateElement,
     EditElement,
     CreateBehavior,
-    EditBehavior
+    EditBehavior,
+    TargetElements
 }
 
 export enum ADT3DSceneTwinBindingsMode {

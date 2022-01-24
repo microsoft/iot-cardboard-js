@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
     defaultBehavior,
-    IBehavior,
-    ITwinToObjectMapping
+    IBehavior
 } from '../../../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
@@ -44,7 +43,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     selectedBehavior,
     onBehaviorBackClick,
     onBehaviorSave,
-    setSelectedMeshIds
+    onManageElements,
+    setSelectedBehavior,
+    setSelectedElements
 }) => {
     const { t } = useTranslation();
 
@@ -61,16 +62,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
-    const [originalBehaviorId, setOriginalBehaviorId] = useState(
-        selectedBehavior?.id
-    );
-
-    const colorSelectedElements = (
-        elementsToColor: Array<ITwinToObjectMapping>
-    ) => {
-        const meshIds = [].concat(...elementsToColor.map((etc) => etc.meshIDs));
-        setSelectedMeshIds(meshIds);
-    };
+    const [originalSelectedBehavior, setOriginalSelectedBehavior] = useState(null);
 
     useEffect(() => {
         // Color selected meshes
@@ -86,10 +78,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             });
 
         if (selectedElements?.length > 0) {
-            colorSelectedElements(selectedElements);
+            setSelectedElements(selectedElements);
         }
-        // Save original Id
-        setOriginalBehaviorId(selectedBehavior.id);
+
+        // Save original behavior
+        setOriginalSelectedBehavior({...selectedBehavior})
     }, []);
 
     const getBehaviorFormBreadcrumbItems = () => {
@@ -99,7 +92,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 key: 'behaviorRoot',
                 onClick: () => {
                     onBehaviorBackClick();
-                    setSelectedMeshIds([]);
+                    setSelectedElements([]);
                 }
             }
         ];
@@ -194,9 +187,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     >
                                         <BehaviorFormElementsTab
                                             elements={elements}
-                                            colorSelectedElements={
-                                                colorSelectedElements
-                                            }
+                                            onManageElements={onManageElements}
                                         />
                                     </PivotItem>
                                     <PivotItem
@@ -220,10 +211,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     onBehaviorSave(
                                         behaviorToEdit,
                                         builderMode as BehaviorSaveMode,
-                                        originalBehaviorId
+                                        originalSelectedBehavior.id
                                     );
                                     onBehaviorBackClick();
-                                    setSelectedMeshIds([]);
+                                    setSelectedElements([]);
                                 }}
                                 text={
                                     builderMode ===
@@ -238,7 +229,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 styles={{ root: { marginLeft: 8 } }}
                                 onClick={() => {
                                     onBehaviorBackClick();
-                                    setSelectedMeshIds([]);
+                                    setSelectedElements([]);
+                                    setSelectedBehavior(originalSelectedBehavior);
                                 }}
                             />
                         </div>

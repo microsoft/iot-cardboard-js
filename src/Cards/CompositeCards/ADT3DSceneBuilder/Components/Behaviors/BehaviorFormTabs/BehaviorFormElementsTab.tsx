@@ -1,62 +1,45 @@
-import { Dropdown } from '@fluentui/react';
-import produce from 'immer';
+import { PrimaryButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ITwinToObjectMapping,
-    DatasourceType
+    ITwinToObjectMapping
 } from '../../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from '../BehaviorsForm';
 
 const BehaviorFormElementsTab: React.FC<{
     elements: Array<ITwinToObjectMapping>;
-    colorSelectedElements: (
-        elementsToColor: Array<ITwinToObjectMapping>
-    ) => any;
-}> = ({ elements, colorSelectedElements }) => {
+    onManageElements: () => void;
+}> = ({ elements, onManageElements }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
+    const { behaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
-    return (
-        <Dropdown
-            label={t('3dSceneBuilder.behaviorElementsDropdownLabel')}
-            selectedKey={
-                behaviorToEdit?.datasources?.[0]?.mappingIDs?.[0] ?? undefined
-            }
-            onChange={(_ev, option) => {
-                setBehaviorToEdit(
-                    produce((draft) => {
-                        // v1 datasources set to single TwinToObjectMappingDatasource
-                        draft.datasources = [
-                            {
-                                type: DatasourceType.TwinToObjectMapping,
-                                mappingIDs: [option.id], // v1 mappingIDs set to single element
-                                messageFilter: '',
-                                twinFilterQuery: '',
-                                twinFilterSelector: ''
-                            }
-                        ];
-                    })
-                );
+    const selectedElements: ITwinToObjectMapping[] = [];
 
-                // Color selected element mesh in scene
-                const selectedElement = elements.find(
-                    (el) => el.id === option.id
-                );
-                selectedElement && colorSelectedElements([selectedElement]);
-            }}
-            placeholder={t(
-                '3dSceneBuilder.behaviorElementsDropdownPlaceholder'
-            )}
-            options={elements.map((el) => ({
-                key: el.id,
-                text: el.displayName,
-                id: el.id,
-                data: el
-            }))}
-        />
+    behaviorToEdit?.datasources?.[0]?.mappingIDs?.forEach((id) => {
+        const selectedElement = elements.find((element) => element?.id === id);
+        selectedElements.push(selectedElement);
+    })
+
+    return (
+        <div>
+            <div>
+                {
+                selectedElements.map((element) => (
+                    <div key={element.id} className='cb-scene-builder-behavior-elements'>
+                        {element.displayName}
+                    </div>
+                ))
+                }
+                <PrimaryButton
+                    onClick={onManageElements}
+                    text={t('3dSceneBuilder.manageTargetElements')}
+                />
+            </div>
+
+        </div>
+        
     );
 };
 
