@@ -41,11 +41,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     elements,
     builderMode,
     selectedBehavior,
+    originalSelectedBehavior,
     onBehaviorBackClick,
     onBehaviorSave,
     onManageElements,
-    setSelectedBehavior,
-    setSelectedElements
+    setSelectedElements,
+    resetBehavior
 }) => {
     const { t } = useTranslation();
 
@@ -61,9 +62,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
-
-    const [originalSelectedBehavior, setOriginalSelectedBehavior] = useState(null);
-
     useEffect(() => {
         // Color selected meshes
         const selectedElements = [];
@@ -80,9 +78,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
+        console.log('orig', originalSelectedBehavior)
+        console.log(selectedBehavior)
 
-        // Save original behavior
-        setOriginalSelectedBehavior({...selectedBehavior})
     }, []);
 
     const getBehaviorFormBreadcrumbItems = () => {
@@ -230,7 +228,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 onClick={() => {
                                     onBehaviorBackClick();
                                     setSelectedElements([]);
-                                    setSelectedBehavior(originalSelectedBehavior);
+                                    resetBehavior(originalSelectedBehavior.id);
                                 }}
                             />
                         </div>

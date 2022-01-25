@@ -1,5 +1,5 @@
 import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -14,6 +14,7 @@ import {
     SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
@@ -186,6 +187,9 @@ const BuilderLeftPanel: React.FC = () => {
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
+
+    const behaviorEdited = useRef(false);
+    const behaviors = useRef([]);
 
     // START of scene element related callbacks
     const onCreateElementClick = () => {
@@ -388,6 +392,11 @@ const BuilderLeftPanel: React.FC = () => {
         });
 
         dispatch({
+            type: SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
+            payload: JSON.parse(JSON.stringify(behavior))
+        });
+
+        dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
@@ -414,6 +423,7 @@ const BuilderLeftPanel: React.FC = () => {
     };
 
     const onElementsInBehaviorUpdated = () => {
+        behaviorEdited.current = true;
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
@@ -425,18 +435,23 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
             payload: behavior
         });
+        if (!behaviorEdited.current) {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
+                payload: JSON.parse(JSON.stringify(behavior))
+            });
+        }
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
     };
 
-    const setSelectedBehavior = (behavior: IBehavior) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-            payload: behavior
-        });
-    };
+    const resetBehavior = (id: string) => {
+        const index = behaviors.current?.indexOf(behaviors.current?.find((b) => b.id === id));
+        behaviors.current[index] = state.originalSelectedBehavior;
+        behaviorEdited.current = false;
+    }
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -455,9 +470,8 @@ const BuilderLeftPanel: React.FC = () => {
                 payload: []
             });
         }
+        behaviors.current = config?.viewerConfiguration?.behaviors || [];
     }, [config]);
-
-    const behaviors = config?.viewerConfiguration?.behaviors || [];
 
     return (
         <BaseComponent
@@ -513,7 +527,7 @@ const BuilderLeftPanel: React.FC = () => {
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
                         <SceneBehaviors
-                            behaviors={behaviors}
+                            behaviors={behaviors.current}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
                         />
@@ -542,9 +556,10 @@ const BuilderLeftPanel: React.FC = () => {
                     // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
                     selectedBehavior={{ ...state.selectedBehavior }}
                     onBehaviorSave={onBehaviorSave}
-                    setSelectedBehavior={setSelectedBehavior}
+                    originalSelectedBehavior={state.originalSelectedBehavior}
                     onManageElements={onManageElements}
                     setSelectedElements={setSelectedElements}
+                    resetBehavior={resetBehavior}
                 />
             )}
             {state.builderMode === ADT3DSceneBuilderMode.TargetElements && (

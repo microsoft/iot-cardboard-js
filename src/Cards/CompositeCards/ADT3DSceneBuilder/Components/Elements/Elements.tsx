@@ -99,7 +99,7 @@ const SceneElements: React.FC<any> = ({
         selectedElements.forEach(element => {
             selectedBehavior.datasources[0].mappingIDs.push(element.id) 
         });
-        onElementsInBehaviorUpdated(selectedBehavior, selectedBehavior.Id);
+        onElementsInBehaviorUpdated(selectedBehavior, selectedElements);
     }
 
     useEffect(() => {

@@ -28,6 +28,8 @@ export const SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT =
     'SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT';
 export const SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR =
     'SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR';
+    export const SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR =
+    'SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR';
 export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
     'SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS';
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
@@ -94,11 +96,12 @@ export type OnBehaviorSave = (
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedBehavior: IBehavior;
+    originalSelectedBehavior: IBehavior;
     elements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
-    setSelectedBehavior: (behavior: IBehavior) => void;
     onManageElements: () => void;
+    resetBehavior: (id: string) => void;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
 }
 
@@ -116,6 +119,7 @@ export interface ADT3DSceneBuilderLeftPanelState {
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
+    originalSelectedBehavior: IBehavior;
 }
 
 export interface IWidgetBuilderFormDataProps {
