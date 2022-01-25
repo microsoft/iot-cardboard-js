@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
@@ -19,7 +19,7 @@ import {
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { IScene, IScenesConfig } from '../../../Models/Classes/3DVConfig';
-import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
+import { IBlobAdapter, IComponentError } from '../../../Models/Constants/Interfaces';
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
 import useAdapter from '../../../Models/Hooks/useAdapter';
@@ -39,6 +39,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
+    const [errors, setErrors] = useState<Array<IComponentError>>([]);
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -115,6 +116,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 payload: null
             });
         }
+        if(scenesConfig?.adapterResult.getErrors()){
+            console.log (scenesConfig?.adapterResult.getErrors());
+            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+             setErrors (errors);
+             console.log(errors[0].message);
+          }else{ 
+            setErrors([]); 
+          }
     }, [scenesConfig?.adapterResult]);
 
     return (
@@ -125,6 +134,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 localeStrings={localeStrings}
                 adapterAdditionalParameters={adapterAdditionalParameters}
             >
+                {errors.length > 0 ? (
+                    alert(errors[0].message)
+                ) : (console.log('nothing'))
+                }
                 {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                     <div className="cb-scene-page-scene-list-container">
                         <div className="cb-scene-page-scene-environment-picker">

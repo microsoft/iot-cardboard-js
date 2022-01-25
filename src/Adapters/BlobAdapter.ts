@@ -67,14 +67,23 @@ export default class BlobAdapter implements IBlobAdapter {
                         config = scenesBlob.data as IScenesConfig;
                     }
                 }
-
+                
                 return new ADTScenesConfigData(config);
             } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+                if (err?.response?.status === 404) {
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.NonExistantBlob,
+                            isCatastrophic: false,
+                            rawError: err,
+                            message: err.response.statusText
+                        });
+                } else {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.DataFetchFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                 }
             }
         }, 'storage');
     }
