@@ -408,6 +408,7 @@ const BuilderLeftPanel: React.FC = () => {
         mode,
         originalBehaviorId
     ) => {
+        behaviorEdited.current = false;
         if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
             await addBehaviorAdapterData.callAdapter({
                 behavior
