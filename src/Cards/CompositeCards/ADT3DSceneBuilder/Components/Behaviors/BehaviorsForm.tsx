@@ -78,9 +78,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
-        console.log('orig', originalSelectedBehavior)
-        console.log(selectedBehavior)
-
+        console.log('orig', originalSelectedBehavior);
+        console.log(selectedBehavior);
     }, []);
 
     const getBehaviorFormBreadcrumbItems = () => {

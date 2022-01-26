@@ -43,7 +43,9 @@ const SceneElements: React.FC<any> = ({
     ] = useState<ITwinToObjectMapping>(undefined);
     const { adapter, config, sceneId } = useContext(SceneBuilderContext);
 
-    const [toggleElementSelection, setToggleElementSelection] = useState(isEditBehavior);
+    const [toggleElementSelection, setToggleElementSelection] = useState(
+        isEditBehavior
+    );
 
     const confirmDeletionDialogProps = {
         type: DialogType.normal,
@@ -96,11 +98,11 @@ const SceneElements: React.FC<any> = ({
 
     const updateElementsInBehavior = () => {
         selectedBehavior.datasources[0].mappingIDs = [];
-        selectedElements.forEach(element => {
-            selectedBehavior.datasources[0].mappingIDs.push(element.id) 
+        selectedElements.forEach((element) => {
+            selectedBehavior.datasources[0].mappingIDs.push(element.id);
         });
         onElementsInBehaviorUpdated(selectedBehavior, selectedElements);
-    }
+    };
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -111,21 +113,18 @@ const SceneElements: React.FC<any> = ({
 
     return (
         <div className="cb-scene-builder-pivot-contents">
-            {
-                (isEditBehavior) &&
-                    <div className='cb-scene-builder-elements-title'>
-                        {t('3dSceneBuilder.selectBehaviorElements')}
-                    </div>
-            }
+            {isEditBehavior && (
+                <div className="cb-scene-builder-elements-title">
+                    {t('3dSceneBuilder.selectBehaviorElements')}
+                </div>
+            )}
             <div className="cb-scene-builder-element-search-header">
                 <div className="cb-scene-builder-element-search-box">
                     <SearchBox
                         placeholder={t('3dSceneBuilder.searchElements')}
                     />
                 </div>
-                {
-                    (!isEditBehavior)
-                    &&
+                {!isEditBehavior && (
                     <IconButton
                         iconProps={{ iconName: 'MultiSelect' }}
                         title={t('3dSceneBuilder.toggleCheckboxes')}
@@ -143,7 +142,7 @@ const SceneElements: React.FC<any> = ({
                         }}
                         checked={toggleElementSelection}
                     />
-                }
+                )}
             </div>
             <div className="cb-scene-builder-element-spacer" />
             <div className="cb-scene-builder-element-list">
@@ -178,7 +177,9 @@ const SceneElements: React.FC<any> = ({
                                                 checked
                                             );
                                         }}
-                                        defaultChecked={selectedElements?.find((item) => item === element)}
+                                        defaultChecked={selectedElements?.find(
+                                            (item) => item === element
+                                        )}
                                     />
                                 )}
                                 <FontIcon
@@ -189,9 +190,7 @@ const SceneElements: React.FC<any> = ({
                                     {element.displayName}
                                 </span>
                             </div>
-                            {
-                                (!toggleElementSelection)
-                                &&
+                            {!toggleElementSelection && (
                                 <IconButton
                                     className="cb-remove-object-button"
                                     iconProps={{
@@ -204,34 +203,37 @@ const SceneElements: React.FC<any> = ({
                                         setElementToDelete(element);
                                         setIsConfirmDeleteDialogOpen(true);
                                     }}
-                            />
-                            }
+                                />
+                            )}
                         </div>
                     ))
                 )}
             </div>
-            {
-                isEditBehavior ? 
-                    <PrimaryButton
-                        className="cb-scene-builder-done-button"
-                        text={t('3dSceneBuilder.Done')}
-                        onClick={() => updateElementsInBehavior()}
-                        disabled={selectedElements && selectedElements.length > 0
+            {isEditBehavior ? (
+                <PrimaryButton
+                    className="cb-scene-builder-done-button"
+                    text={t('3dSceneBuilder.Done')}
+                    onClick={() => updateElementsInBehavior()}
+                    disabled={
+                        selectedElements && selectedElements.length > 0
                             ? false
-                            : true}
-                    />
-                :
+                            : true
+                    }
+                />
+            ) : (
                 <div>
-                    {toggleElementSelection ? 
+                    {toggleElementSelection ? (
                         <div>
                             <PrimaryButton
                                 className="cb-scene-builder-create-button"
                                 text={t('3dSceneBuilder.createBehavior')}
                                 onClick={onCreateBehaviorClick}
                                 disabled={
-                                    selectedElements && selectedElements.length > 0
+                                    selectedElements &&
+                                    selectedElements.length > 0
                                         ? false
-                                        : true}
+                                        : true
+                                }
                             />
                             <DefaultButton
                                 text={t('3dSceneBuilder.cancel')}
@@ -241,16 +243,16 @@ const SceneElements: React.FC<any> = ({
                                 }}
                                 className="cb-scene-builder-cancel-button"
                             />
-                        </div>               
-                    :
+                        </div>
+                    ) : (
                         <PrimaryButton
                             className="cb-scene-builder-create-button"
                             onClick={onCreateElementClick}
                             text={t('3dSceneBuilder.newElement')}
                         />
-                    }
+                    )}
                 </div>
-            }
+            )}
             <Dialog
                 hidden={!isConfirmDeleteDialogOpen}
                 onDismiss={() => {

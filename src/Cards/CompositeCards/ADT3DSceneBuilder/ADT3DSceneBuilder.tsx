@@ -378,9 +378,12 @@ const BuilderLeftPanel: React.FC = () => {
         const mappingIds = [];
         state.selectedElements.forEach((element) => {
             mappingIds.push(element.id);
-        })
+        });
         behavior.id = t('3dSceneBuilder.newBehaviorId');
-        behavior.datasources[0] = {type: DatasourceType.TwinToObjectMapping, mappingIDs: mappingIds};
+        behavior.datasources[0] = {
+            type: DatasourceType.TwinToObjectMapping,
+            mappingIDs: mappingIds
+        };
 
         await addBehaviorAdapterData.callAdapter({
             behavior
@@ -429,7 +432,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
-    }
+    };
 
     const onBehaviorClick = (behavior: IBehavior) => {
         dispatch({
@@ -449,10 +452,12 @@ const BuilderLeftPanel: React.FC = () => {
     };
 
     const resetBehavior = (id: string) => {
-        const index = behaviors.current?.indexOf(behaviors.current?.find((b) => b.id === id));
+        const index = behaviors.current?.indexOf(
+            behaviors.current?.find((b) => b.id === id)
+        );
         behaviors.current[index] = state.originalSelectedBehavior;
         behaviorEdited.current = false;
-    }
+    };
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -564,19 +569,19 @@ const BuilderLeftPanel: React.FC = () => {
                 />
             )}
             {state.builderMode === ADT3DSceneBuilderMode.TargetElements && (
-                    <SceneElements
-                        elements={state.elements}
-                        selectedBehavior={{ ...state.selectedBehavior }}
-                        selectedElements={state.selectedElements}
-                        onCreateElementClick={onCreateElementClick}
-                        onRemoveElement={onRemoveElement}
-                        onElementClick={onElementClick}
-                        onElementEnter={onElementEnter}
-                        onElementLeave={onElementLeave}
-                        updateSelectedElements={updateSelectedElements}
-                        clearSelectedElements={clearSelectedElements}
-                        isEditBehavior={true}
-                        onElementsInBehaviorUpdated={onElementsInBehaviorUpdated}
+                <SceneElements
+                    elements={state.elements}
+                    selectedBehavior={{ ...state.selectedBehavior }}
+                    selectedElements={state.selectedElements}
+                    onCreateElementClick={onCreateElementClick}
+                    onRemoveElement={onRemoveElement}
+                    onElementClick={onElementClick}
+                    onElementEnter={onElementEnter}
+                    onElementLeave={onElementLeave}
+                    updateSelectedElements={updateSelectedElements}
+                    clearSelectedElements={clearSelectedElements}
+                    isEditBehavior={true}
+                    onElementsInBehaviorUpdated={onElementsInBehaviorUpdated}
                 />
             )}
         </BaseComponent>
