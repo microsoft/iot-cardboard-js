@@ -17,8 +17,9 @@ import {
 } from '../../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
+import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 
-const SceneElements: React.FC<any> = ({
+const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
     selectedElements,
     onCreateElementClick,
