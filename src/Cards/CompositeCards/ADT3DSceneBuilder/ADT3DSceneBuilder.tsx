@@ -479,18 +479,22 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.elements')}
                         itemKey={ADT3DSceneTwinBindingsMode.Elements}
                     >
-                        <SceneElements
-                            elements={state.elements}
-                            selectedElements={state.selectedElements}
-                            onCreateElementClick={onCreateElementClick}
-                            onRemoveElement={onRemoveElement}
-                            onElementClick={onElementClick}
-                            onElementEnter={onElementEnter}
-                            onElementLeave={onElementLeave}
-                            updateSelectedElements={updateSelectedElements}
-                            clearSelectedElements={clearSelectedElements}
-                            onCreateBehaviorClick={onCreateBehaviorWithElements}
-                        />
+                        <div className="cb-scene-builder-pivot-contents-elements">
+                            <SceneElements
+                                elements={state.elements}
+                                selectedElements={state.selectedElements}
+                                onCreateElementClick={onCreateElementClick}
+                                onRemoveElement={onRemoveElement}
+                                onElementClick={onElementClick}
+                                onElementEnter={onElementEnter}
+                                onElementLeave={onElementLeave}
+                                updateSelectedElements={updateSelectedElements}
+                                clearSelectedElements={clearSelectedElements}
+                                onCreateBehaviorClick={
+                                    onCreateBehaviorWithElements
+                                }
+                            />
+                        </div>
                     </PivotItem>
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
