@@ -186,7 +186,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         }}
                                         defaultChecked={selectedElements?.find(
                                             (item) => item.id === element.id
-                                        )}
+                                        ) ? true : false}
                                     />
                                 )}
                                 <FontIcon
