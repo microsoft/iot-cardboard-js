@@ -157,6 +157,10 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     <p className="cb-scene-builder-left-panel-text">
                         {t('3dSceneBuilder.noElementsText')}
                     </p>
+                ) : filteredElements.length === 0 ? (
+                    <p className="cb-scene-builder-left-panel-text">
+                        {t('3dSceneBuilder.noResults')}
+                    </p>
                 ) : (
                     filteredElements.map((element: ITwinToObjectMapping) => (
                         <div

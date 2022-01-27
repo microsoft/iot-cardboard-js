@@ -287,6 +287,7 @@
         "updateBehavior": "Update behavior",
         "createBehavior": "Create behavior",
         "noElementsText": "No elements created yet",
+        "noResults": "No results",
         "noBehaviorsText": "No behaviors created yet",
         "newElement": "New element",
         "newBehavior": "New behavior",
