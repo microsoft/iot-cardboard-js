@@ -110,7 +110,10 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
 export interface IADT3DSceneBuilderElementsProps {
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;
-    updateSelectedElements: (updatedElement: ITwinToObjectMapping, isSelected: boolean) => void;
+    updateSelectedElements: (
+        updatedElement: ITwinToObjectMapping,
+        isSelected: boolean
+    ) => void;
     onElementEnter: (element: ITwinToObjectMapping) => void;
     onElementLeave: (element: ITwinToObjectMapping) => void;
     clearSelectedElements?: () => void;
