@@ -21,7 +21,7 @@ const BehaviorFormElementsTab: React.FC<{
     return (
         <div>
             <div>
-                {selectedElements.map((element) => (
+                {selectedElements?.map((element) => (
                     <div
                         key={element.id}
                         className="cb-scene-builder-behavior-elements"

@@ -1,5 +1,5 @@
 import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useReducer, useRef } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -14,7 +14,6 @@ import {
     SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
     SET_ADT_SCENE_BUILDER_ELEMENTS,
     SET_ADT_SCENE_BUILDER_MODE,
-    SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
@@ -188,9 +187,6 @@ const BuilderLeftPanel: React.FC = () => {
         isAdapterCalledOnMount: false
     });
 
-    const behaviorEdited = useRef(false);
-    const behaviors = useRef([]);
-
     // START of scene element related callbacks
     const onCreateElementClick = () => {
         dispatch({
@@ -210,13 +206,6 @@ const BuilderLeftPanel: React.FC = () => {
             payload: newElements
         });
         setSelectedMeshIds([]);
-    };
-
-    const onManageElements = () => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.TargetElements
-        });
     };
 
     const onElementClick = (element: ITwinToObjectMapping) => {
@@ -243,7 +232,9 @@ const BuilderLeftPanel: React.FC = () => {
         // add element if selected and not in list
         if (
             isSelected &&
-            !selectedElements.find((element) => element === updatedElement)
+            !selectedElements.find(
+                (element) => element.id === updatedElement.id
+            )
         ) {
             selectedElements.push(updatedElement);
         }
@@ -251,10 +242,10 @@ const BuilderLeftPanel: React.FC = () => {
         // remove element if not selected and in list
         if (
             !isSelected &&
-            selectedElements.find((element) => element === updatedElement)
+            selectedElements.find((element) => element.id === updatedElement.id)
         ) {
             selectedElements = selectedElements.filter(
-                (element) => element !== updatedElement
+                (element) => element.id !== updatedElement.id
             );
         }
 
@@ -310,7 +301,9 @@ const BuilderLeftPanel: React.FC = () => {
         const meshItems = [...coloredMeshItems];
         if (
             (state.selectedElements &&
-                !state.selectedElements.find((item) => item === element)) ||
+                !state.selectedElements.find(
+                    (item) => item.id === element.id
+                )) ||
             !state.selectedElements
         ) {
             for (const id of element.meshIDs) {
@@ -329,7 +322,9 @@ const BuilderLeftPanel: React.FC = () => {
     const onElementLeave = (element: ITwinToObjectMapping) => {
         if (state.selectedElements && state.selectedElements.length > 0) {
             let meshItems = [...coloredMeshItems];
-            if (!state.selectedElements.find((item) => item === element)) {
+            if (
+                !state.selectedElements.find((item) => item.id === element.id)
+            ) {
                 for (const id of element.meshIDs) {
                     meshItems = meshItems.filter((item) => item.meshId !== id);
                 }
@@ -379,15 +374,11 @@ const BuilderLeftPanel: React.FC = () => {
         state.selectedElements.forEach((element) => {
             mappingIds.push(element.id);
         });
-        behavior.id = t('3dSceneBuilder.newBehaviorId');
+
         behavior.datasources[0] = {
             type: DatasourceType.TwinToObjectMapping,
             mappingIDs: mappingIds
         };
-
-        await addBehaviorAdapterData.callAdapter({
-            behavior
-        });
 
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
@@ -395,13 +386,8 @@ const BuilderLeftPanel: React.FC = () => {
         });
 
         dispatch({
-            type: SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
-            payload: JSON.parse(JSON.stringify(behavior))
-        });
-
-        dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditBehavior
+            payload: ADT3DSceneBuilderMode.CreateBehavior
         });
         setSelectedMeshIds([]);
     };
@@ -411,7 +397,6 @@ const BuilderLeftPanel: React.FC = () => {
         mode,
         originalBehaviorId
     ) => {
-        behaviorEdited.current = false;
         if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
             await addBehaviorAdapterData.callAdapter({
                 behavior
@@ -426,37 +411,15 @@ const BuilderLeftPanel: React.FC = () => {
         getConfig();
     };
 
-    const onElementsInBehaviorUpdated = () => {
-        behaviorEdited.current = true;
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_MODE,
-            payload: ADT3DSceneBuilderMode.EditBehavior
-        });
-    };
-
     const onBehaviorClick = (behavior: IBehavior) => {
         dispatch({
             type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
             payload: behavior
         });
-        if (!behaviorEdited.current) {
-            dispatch({
-                type: SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR,
-                payload: JSON.parse(JSON.stringify(behavior))
-            });
-        }
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
-    };
-
-    const resetBehavior = (id: string) => {
-        const index = behaviors.current?.indexOf(
-            behaviors.current?.find((b) => b.id === id)
-        );
-        behaviors.current[index] = state.originalSelectedBehavior;
-        behaviorEdited.current = false;
     };
     // END of behavior related callbacks
 
@@ -476,8 +439,9 @@ const BuilderLeftPanel: React.FC = () => {
                 payload: []
             });
         }
-        behaviors.current = config?.viewerConfiguration?.behaviors || [];
     }, [config]);
+
+    const behaviors = config?.viewerConfiguration?.behaviors || [];
 
     return (
         <BaseComponent
@@ -533,7 +497,7 @@ const BuilderLeftPanel: React.FC = () => {
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
                         <SceneBehaviors
-                            behaviors={behaviors.current}
+                            behaviors={behaviors}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
                         />
@@ -562,26 +526,11 @@ const BuilderLeftPanel: React.FC = () => {
                     // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
                     selectedBehavior={{ ...state.selectedBehavior }}
                     onBehaviorSave={onBehaviorSave}
-                    originalSelectedBehavior={state.originalSelectedBehavior}
-                    onManageElements={onManageElements}
-                    setSelectedElements={setSelectedElements}
-                    resetBehavior={resetBehavior}
-                />
-            )}
-            {state.builderMode === ADT3DSceneBuilderMode.TargetElements && (
-                <SceneElements
-                    elements={state.elements}
-                    selectedBehavior={{ ...state.selectedBehavior }}
                     selectedElements={state.selectedElements}
-                    onCreateElementClick={onCreateElementClick}
-                    onRemoveElement={onRemoveElement}
-                    onElementClick={onElementClick}
+                    setSelectedElements={setSelectedElements}
                     onElementEnter={onElementEnter}
                     onElementLeave={onElementLeave}
                     updateSelectedElements={updateSelectedElements}
-                    clearSelectedElements={clearSelectedElements}
-                    isEditBehavior={true}
-                    onElementsInBehaviorUpdated={onElementsInBehaviorUpdated}
                 />
             )}
         </BaseComponent>

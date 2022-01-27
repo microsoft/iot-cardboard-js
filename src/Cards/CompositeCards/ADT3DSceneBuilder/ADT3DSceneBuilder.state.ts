@@ -11,8 +11,7 @@ import {
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_BEHAVIORS,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
-    SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -33,7 +32,6 @@ export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelS
     selectedElement: null,
     selectedElements: null,
     selectedBehavior: null,
-    originalSelectedBehavior: null
 };
 
 export const ADT3DSceneBuilderReducer = produce(
@@ -79,9 +77,6 @@ export const ADT3DSceneBuilderLeftPanelReducer = (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
-                break;
-            case SET_ADT_SCENE_BUILDER_ORIGINAL_SELECTED_BEHAVIOR:
-                draft.originalSelectedBehavior = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

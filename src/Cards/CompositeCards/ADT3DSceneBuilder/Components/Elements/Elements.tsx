@@ -29,9 +29,7 @@ const SceneElements: React.FC<any> = ({
     onCreateBehaviorClick,
     onElementEnter,
     onElementLeave,
-    isEditBehavior,
-    selectedBehavior,
-    onElementsInBehaviorUpdated
+    isEditBehavior
 }) => {
     const { t } = useTranslation();
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
@@ -46,6 +44,10 @@ const SceneElements: React.FC<any> = ({
     const [toggleElementSelection, setToggleElementSelection] = useState(
         isEditBehavior
     );
+
+    const [filteredElements, setFilteredElements] = useState<
+        ITwinToObjectMapping[]
+    >([]);
 
     const confirmDeletionDialogProps = {
         type: DialogType.normal,
@@ -96,14 +98,6 @@ const SceneElements: React.FC<any> = ({
         onRemoveElement(newElements);
     };
 
-    const updateElementsInBehavior = () => {
-        selectedBehavior.datasources[0].mappingIDs = [];
-        selectedElements.forEach((element) => {
-            selectedBehavior.datasources[0].mappingIDs.push(element.id);
-        });
-        onElementsInBehaviorUpdated(selectedBehavior, selectedElements);
-    };
-
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             setElementToDelete(null);
@@ -111,8 +105,19 @@ const SceneElements: React.FC<any> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    useEffect(() => {
+        setFilteredElements(JSON.parse(JSON.stringify(elements)));
+    }, [elements]);
+
+    const searchElements = (searchTerm: string) => {
+        const filtered = elements.filter((element) =>
+            element.displayName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredElements(filtered);
+    };
+
     return (
-        <div className="cb-scene-builder-pivot-contents">
+        <div className="cb-scene-builder-pivot-contents-elements">
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
                     {t('3dSceneBuilder.selectBehaviorElements')}
@@ -122,6 +127,7 @@ const SceneElements: React.FC<any> = ({
                 <div className="cb-scene-builder-element-search-box">
                     <SearchBox
                         placeholder={t('3dSceneBuilder.searchElements')}
+                        onChange={(event, value) => searchElements(value)}
                     />
                 </div>
                 {!isEditBehavior && (
@@ -151,7 +157,7 @@ const SceneElements: React.FC<any> = ({
                         {t('3dSceneBuilder.noElementsText')}
                     </p>
                 ) : (
-                    elements.map((element: ITwinToObjectMapping) => (
+                    filteredElements.map((element: ITwinToObjectMapping) => (
                         <div
                             className={`cb-scene-builder-left-panel-element ${
                                 elementToDelete?.id === element.id
@@ -178,7 +184,7 @@ const SceneElements: React.FC<any> = ({
                                             );
                                         }}
                                         defaultChecked={selectedElements?.find(
-                                            (item) => item === element
+                                            (item) => item.id === element.id
                                         )}
                                     />
                                 )}
@@ -209,18 +215,7 @@ const SceneElements: React.FC<any> = ({
                     ))
                 )}
             </div>
-            {isEditBehavior ? (
-                <PrimaryButton
-                    className="cb-scene-builder-done-button"
-                    text={t('3dSceneBuilder.Done')}
-                    onClick={() => updateElementsInBehavior()}
-                    disabled={
-                        selectedElements && selectedElements.length > 0
-                            ? false
-                            : true
-                    }
-                />
-            ) : (
+            {!isEditBehavior &&
                 <div>
                     {toggleElementSelection ? (
                         <div>
@@ -252,7 +247,7 @@ const SceneElements: React.FC<any> = ({
                         />
                     )}
                 </div>
-            )}
+            }
             <Dialog
                 hidden={!isConfirmDeleteDialogOpen}
                 onDismiss={() => {
