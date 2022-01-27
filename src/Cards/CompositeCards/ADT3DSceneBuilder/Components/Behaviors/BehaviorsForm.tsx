@@ -53,10 +53,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const { t } = useTranslation();
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
-        Object.keys(selectedBehavior as any).length === 0
-            ? defaultBehavior
-            : selectedBehavior
+        !selectedBehavior ? defaultBehavior : selectedBehavior
     );
+
+    console.log(behaviorToEdit);
 
     const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
     const [manageElements, setManageElements] = useState(false);
@@ -88,7 +88,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         }
 
         // Save original Id
-        setOriginalBehaviorId(selectedBehavior.id);
+        setOriginalBehaviorId(selectedBehavior?.id);
     }, []);
 
     const getBehaviorFormBreadcrumbItems = () => {
@@ -148,7 +148,18 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
         setBehaviorToEdit(
             produce((draft) => {
-                draft.datasources[0].mappingIDs = mappingIds;
+                if (
+                    draft.datasources &&
+                    draft.datasources[0] &&
+                    draft.datasources[0].mappingIDs
+                ) {
+                    draft.datasources[0].mappingIDs = mappingIds;
+                } else {
+                    draft.datasources[0] = {
+                        type: DatasourceType.TwinToObjectMapping,
+                        mappingIDs: mappingIds
+                    };
+                }
             })
         );
         setManageElements(false);
