@@ -215,7 +215,7 @@ const SceneElements: React.FC<any> = ({
                     ))
                 )}
             </div>
-            {!isEditBehavior &&
+            {!isEditBehavior && (
                 <div>
                     {toggleElementSelection ? (
                         <div>
@@ -247,7 +247,7 @@ const SceneElements: React.FC<any> = ({
                         />
                     )}
                 </div>
-            }
+            )}
             <Dialog
                 hidden={!isConfirmDeleteDialogOpen}
                 onDismiss={() => {

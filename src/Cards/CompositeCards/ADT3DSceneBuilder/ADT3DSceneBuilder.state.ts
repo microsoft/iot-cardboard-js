@@ -31,7 +31,7 @@ export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelS
     behaviors: [],
     selectedElement: null,
     selectedElements: null,
-    selectedBehavior: null,
+    selectedBehavior: null
 };
 
 export const ADT3DSceneBuilderReducer = produce(
