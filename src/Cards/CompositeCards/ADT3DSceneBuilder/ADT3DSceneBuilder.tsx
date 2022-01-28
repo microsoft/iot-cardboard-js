@@ -24,6 +24,8 @@ import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import {
+    DatasourceType,
+    defaultBehavior,
     IBehavior,
     IScenesConfig,
     ITwinToObjectMapping
@@ -230,7 +232,9 @@ const BuilderLeftPanel: React.FC = () => {
         // add element if selected and not in list
         if (
             isSelected &&
-            !selectedElements.find((element) => element === updatedElement)
+            !selectedElements.find(
+                (element) => element.id === updatedElement.id
+            )
         ) {
             selectedElements.push(updatedElement);
         }
@@ -238,10 +242,10 @@ const BuilderLeftPanel: React.FC = () => {
         // remove element if not selected and in list
         if (
             !isSelected &&
-            selectedElements.find((element) => element === updatedElement)
+            selectedElements.find((element) => element.id === updatedElement.id)
         ) {
             selectedElements = selectedElements.filter(
-                (element) => element !== updatedElement
+                (element) => element.id !== updatedElement.id
             );
         }
 
@@ -252,6 +256,26 @@ const BuilderLeftPanel: React.FC = () => {
 
         const coloredMeshes: ColoredMeshItem[] = [];
         for (const element of selectedElements) {
+            for (const id of element.meshIDs) {
+                const coloredMesh: ColoredMeshItem = {
+                    meshId: id,
+                    color: '#00A8F0'
+                };
+                coloredMeshes.push(coloredMesh);
+            }
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const setSelectedElements = (elements: Array<ITwinToObjectMapping>) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: elements
+        });
+
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const element of elements) {
             for (const id of element.meshIDs) {
                 const coloredMesh: ColoredMeshItem = {
                     meshId: id,
@@ -277,7 +301,9 @@ const BuilderLeftPanel: React.FC = () => {
         const meshItems = [...coloredMeshItems];
         if (
             (state.selectedElements &&
-                !state.selectedElements.find((item) => item === element)) ||
+                !state.selectedElements.find(
+                    (item) => item.id === element.id
+                )) ||
             !state.selectedElements
         ) {
             for (const id of element.meshIDs) {
@@ -296,7 +322,9 @@ const BuilderLeftPanel: React.FC = () => {
     const onElementLeave = (element: ITwinToObjectMapping) => {
         if (state.selectedElements && state.selectedElements.length > 0) {
             let meshItems = [...coloredMeshItems];
-            if (!state.selectedElements.find((item) => item === element)) {
+            if (
+                !state.selectedElements.find((item) => item.id === element.id)
+            ) {
                 for (const id of element.meshIDs) {
                     meshItems = meshItems.filter((item) => item.meshId !== id);
                 }
@@ -333,6 +361,30 @@ const BuilderLeftPanel: React.FC = () => {
 
     // START of behavior related callbacks
     const onCreateBehaviorClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateBehavior
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onCreateBehaviorWithElements = async () => {
+        const behavior = defaultBehavior;
+        const mappingIds = [];
+        state.selectedElements.forEach((element) => {
+            mappingIds.push(element.id);
+        });
+
+        behavior.datasources[0] = {
+            type: DatasourceType.TwinToObjectMapping,
+            mappingIDs: mappingIds
+        };
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+            payload: behavior
+        });
+
         dispatch({
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateBehavior
@@ -427,18 +479,22 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.elements')}
                         itemKey={ADT3DSceneTwinBindingsMode.Elements}
                     >
-                        <SceneElements
-                            elements={state.elements}
-                            selectedElements={state.selectedElements}
-                            onCreateElementClick={onCreateElementClick}
-                            onRemoveElement={onRemoveElement}
-                            onElementClick={onElementClick}
-                            onElementEnter={onElementEnter}
-                            onElementLeave={onElementLeave}
-                            updateSelectedElements={updateSelectedElements}
-                            clearSelectedElements={clearSelectedElements}
-                            onCreateBehaviorClick={onCreateBehaviorClick}
-                        />
+                        <div className="cb-scene-builder-pivot-contents-elements">
+                            <SceneElements
+                                elements={state.elements}
+                                selectedElements={state.selectedElements}
+                                onCreateElementClick={onCreateElementClick}
+                                onRemoveElement={onRemoveElement}
+                                onElementClick={onElementClick}
+                                onElementEnter={onElementEnter}
+                                onElementLeave={onElementLeave}
+                                updateSelectedElements={updateSelectedElements}
+                                clearSelectedElements={clearSelectedElements}
+                                onCreateBehaviorClick={
+                                    onCreateBehaviorWithElements
+                                }
+                            />
+                        </div>
                     </PivotItem>
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
@@ -471,10 +527,13 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
                     }
-                    // pass in selectedBehavior as standard Object to allow React state usage and deep state updates
-                    selectedBehavior={{ ...state.selectedBehavior }}
+                    selectedBehavior={state.selectedBehavior}
                     onBehaviorSave={onBehaviorSave}
-                    setSelectedMeshIds={setSelectedMeshIds}
+                    selectedElements={state.selectedElements}
+                    setSelectedElements={setSelectedElements}
+                    onElementEnter={onElementEnter}
+                    onElementLeave={onElementLeave}
+                    updateSelectedElements={updateSelectedElements}
                 />
             )}
         </BaseComponent>

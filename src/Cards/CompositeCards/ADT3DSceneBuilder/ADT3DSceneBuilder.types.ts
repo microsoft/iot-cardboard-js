@@ -95,9 +95,33 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedBehavior: IBehavior;
     elements: Array<ITwinToObjectMapping>;
+    selectedElements: Array<ITwinToObjectMapping>;
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
-    setSelectedMeshIds: (objectIds: Array<string>) => any;
+    setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
+    onElementEnter: (element: ITwinToObjectMapping) => void;
+    onElementLeave: (element: ITwinToObjectMapping) => void;
+    updateSelectedElements: (
+        element: ITwinToObjectMapping,
+        isSelected: boolean
+    ) => void;
+}
+
+export interface IADT3DSceneBuilderElementsProps {
+    elements: Array<ITwinToObjectMapping>;
+    selectedElements: Array<ITwinToObjectMapping>;
+    updateSelectedElements: (
+        updatedElement: ITwinToObjectMapping,
+        isSelected: boolean
+    ) => void;
+    onElementEnter: (element: ITwinToObjectMapping) => void;
+    onElementLeave: (element: ITwinToObjectMapping) => void;
+    clearSelectedElements?: () => void;
+    onCreateBehaviorClick?: () => void;
+    onCreateElementClick?: () => void;
+    onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
+    onElementClick?: (element: ITwinToObjectMapping) => void;
+    isEditBehavior?: boolean;
 }
 
 export interface ADT3DSceneBuilderState {
