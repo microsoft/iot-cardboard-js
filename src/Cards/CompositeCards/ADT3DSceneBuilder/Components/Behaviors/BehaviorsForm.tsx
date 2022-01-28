@@ -56,8 +56,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         !selectedBehavior ? defaultBehavior : selectedBehavior
     );
 
-    console.log(behaviorToEdit);
-
     const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
     const [manageElements, setManageElements] = useState(false);
 
