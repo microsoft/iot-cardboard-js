@@ -1,9 +1,10 @@
 import { IconButton, IContextualMenuProps, Label } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { FontIcon } from '@fluentui/react/lib/components/Icon/FontIcon';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
+import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -23,6 +24,9 @@ const SceneBehaviors: React.FC<Props> = ({
 }) => {
     const { t } = useTranslation();
 
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const behaviorIdToDelete = useRef(null);
+
     const getBehaviorListItemMenuProps: (
         behaviorId: string
     ) => IContextualMenuProps = (behaviorId) => ({
@@ -37,7 +41,10 @@ const SceneBehaviors: React.FC<Props> = ({
                 key: 'remove',
                 text: t('3dSceneBuilder.removeBehaviorFromScene'),
                 iconProps: { iconName: 'Delete' },
-                onClick: () => onRemoveBehaviorFromScene(behaviorId)
+                onClick: () => {
+                    behaviorIdToDelete.current = behaviorId;
+                    setIsConfirmDeleteOpen(true);
+                }
             }
         ]
     });
@@ -84,6 +91,17 @@ const SceneBehaviors: React.FC<Props> = ({
                 className="cb-scene-builder-create-button"
                 onClick={() => onCreateBehaviorClick()}
                 text={t('3dSceneBuilder.newBehavior')}
+            />
+            <ConfirmDeleteDialog
+                isOpen={isConfirmDeleteOpen}
+                setIsOpen={setIsConfirmDeleteOpen}
+                onConfirmDeletion={() => {
+                    onRemoveBehaviorFromScene(behaviorIdToDelete.current);
+                    behaviorIdToDelete.current = null;
+                }}
+                onCancel={() => {
+                    behaviorIdToDelete.current = null;
+                }}
             />
         </div>
     );

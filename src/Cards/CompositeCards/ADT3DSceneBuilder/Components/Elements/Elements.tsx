@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
-    Dialog,
-    DialogFooter,
     DialogType,
     FontIcon,
     IconButton,
@@ -18,6 +16,7 @@ import {
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
+import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -257,29 +256,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     )}
                 </div>
             )}
-            <Dialog
-                hidden={!isConfirmDeleteDialogOpen}
-                onDismiss={() => {
+            <ConfirmDeleteDialog
+                isOpen={isConfirmDeleteDialogOpen}
+                onCancel={() => {
                     setElementToDelete(null);
                     setIsConfirmDeleteDialogOpen(false);
                 }}
-                dialogContentProps={confirmDeletionDialogProps}
-                modalProps={confirmDeletionModalProps}
-            >
-                <DialogFooter>
-                    <DefaultButton
-                        onClick={() => {
-                            setElementToDelete(null);
-                            setIsConfirmDeleteDialogOpen(false);
-                        }}
-                        text={t('cancel')}
-                    />
-                    <PrimaryButton
-                        onClick={handleDeleteElement}
-                        text={t('delete')}
-                    />
-                </DialogFooter>
-            </Dialog>
+                onConfirmDeletion={handleDeleteElement}
+                setIsOpen={setIsConfirmDeleteDialogOpen}
+            />
         </div>
     );
 };
