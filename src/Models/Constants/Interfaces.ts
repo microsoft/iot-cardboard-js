@@ -422,6 +422,12 @@ export interface IBlobAdapter {
         behavior: IBehavior,
         originalBehaviorId: string
     ) => AdapterReturnType<ViewConfigBehaviorData>;
+    deleteBehavior(
+        config: IScenesConfig,
+        sceneId: string,
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    );
 }
 
 export interface IBaseStandardModelSearchAdapter {

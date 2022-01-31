@@ -1,3 +1,4 @@
+import { IconButton, IContextualMenuProps, Label } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { FontIcon } from '@fluentui/react/lib/components/Icon/FontIcon';
 import React from 'react';
@@ -8,14 +9,38 @@ interface Props {
     behaviors: Array<IBehavior>;
     onCreateBehaviorClick: () => any;
     onBehaviorClick: (behavior: IBehavior) => any;
+    onRemoveBehaviorFromScene: (
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    ) => any;
 }
 
 const SceneBehaviors: React.FC<Props> = ({
     onCreateBehaviorClick,
     onBehaviorClick,
+    onRemoveBehaviorFromScene,
     behaviors
 }) => {
     const { t } = useTranslation();
+
+    const getBehaviorListItemMenuProps: (
+        behaviorId: string
+    ) => IContextualMenuProps = (behaviorId) => ({
+        items: [
+            {
+                key: 'manageLayers',
+                text: t('3dSceneBuilder.manageSceneLayer'),
+                iconProps: { iconName: 'MapLayers' },
+                disabled: true
+            },
+            {
+                key: 'remove',
+                text: t('3dSceneBuilder.removeBehaviorFromScene'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => onRemoveBehaviorFromScene(behaviorId)
+            }
+        ]
+    });
 
     return (
         <div className="cb-scene-builder-pivot-contents">
@@ -35,9 +60,22 @@ const SceneBehaviors: React.FC<Props> = ({
                                 iconName={'Shapes'}
                                 className="cb-behavior-icon"
                             />
-                            <span className="cb-scene-builder-behavior-name">
+                            <Label className="cb-scene-builder-behavior-name">
                                 {behavior.id}
-                            </span>
+                            </Label>
+                            <IconButton
+                                menuIconProps={{
+                                    iconName: 'MoreVertical',
+                                    style: {
+                                        fontWeight: 'bold',
+                                        fontSize: 18,
+                                        color: 'black'
+                                    }
+                                }}
+                                menuProps={getBehaviorListItemMenuProps(
+                                    behavior.id
+                                )}
+                            ></IconButton>
                         </div>
                     ))
                 )}

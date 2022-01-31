@@ -365,31 +365,58 @@ export default class MockAdapter
         }
     }
 
-    async deleteBehavior(config: IScenesConfig, behavior: IBehavior) {
+    async deleteBehavior(
+        config: IScenesConfig,
+        sceneId: string,
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    ) {
         try {
-            // TODO refactor duplicatated scene configuration modification logic into utililty class
             const updatedConfig = { ...config };
-            // Splice behavior out of behavior list
-            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
-                (b) => b.id === behavior.id
+
+            const behavior = config.viewerConfiguration.behaviors.find(
+                (b) => b.id === behaviorId
             );
 
-            if (behaviorIdx !== -1) {
-                updatedConfig.viewerConfiguration.behaviors.splice(
-                    behaviorIdx,
+            // Remove behavior from active scene
+            const activeScene = updatedConfig.viewerConfiguration.scenes.find(
+                (scene) => scene.id === sceneId
+            );
+
+            const matchingBehaviorIdxInActiveScene = activeScene.behaviors.indexOf(
+                behaviorId
+            );
+
+            if (matchingBehaviorIdxInActiveScene !== -1) {
+                activeScene.behaviors.splice(
+                    matchingBehaviorIdxInActiveScene,
                     1
                 );
             }
 
-            // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
-            updatedConfig.viewerConfiguration.scenes.forEach((scene) => {
-                const matchingBehaviorIdIdx = scene.behaviors.indexOf(
-                    behavior.id
+            if (removeFromAllScenes) {
+                // Splice behavior out of behavior list
+                const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
+                    (b) => b.id === behaviorId
                 );
-                if (matchingBehaviorIdIdx !== -1) {
-                    scene.behaviors.splice(matchingBehaviorIdIdx, 1);
+
+                if (behaviorIdx !== -1) {
+                    updatedConfig.viewerConfiguration.behaviors.splice(
+                        behaviorIdx,
+                        1
+                    );
                 }
-            });
+
+                // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
+                updatedConfig.viewerConfiguration.scenes.forEach((scene) => {
+                    const matchingBehaviorIdIdx = scene.behaviors.indexOf(
+                        behaviorId
+                    );
+                    if (matchingBehaviorIdIdx !== -1) {
+                        scene.behaviors.splice(matchingBehaviorIdIdx, 1);
+                    }
+                });
+            }
 
             await this.mockNetwork();
             this.scenesConfig = updatedConfig;

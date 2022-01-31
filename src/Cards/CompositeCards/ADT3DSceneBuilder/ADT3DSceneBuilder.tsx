@@ -1,5 +1,5 @@
 import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useMemo, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -183,6 +183,22 @@ const BuilderLeftPanel: React.FC = () => {
                 params.behavior,
                 params.originalBehaviorId
             ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const deleteBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behaviorId: string;
+            removeFromAllScenes?: boolean;
+        }) => {
+            return adapter.deleteBehavior(
+                config,
+                sceneId,
+                params.behaviorId,
+                params.removeFromAllScenes
+            );
+        },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -421,6 +437,17 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
     };
+
+    const onRemoveBehaviorFromScene = async (
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    ) => {
+        await deleteBehaviorAdapterData.callAdapter({
+            behaviorId,
+            removeFromAllScenes
+        });
+        getConfig();
+    };
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -441,7 +468,24 @@ const BuilderLeftPanel: React.FC = () => {
         }
     }, [config]);
 
-    const behaviors = config?.viewerConfiguration?.behaviors || [];
+    // Get behaviors in active scene
+    const behaviorsInScene = useMemo(() => {
+        const activeScene = config?.viewerConfiguration?.scenes?.find(
+            (s) => s.id === sceneId
+        );
+
+        if (activeScene) {
+            return activeScene.behaviors
+                .map((behaviorId) =>
+                    config.viewerConfiguration?.behaviors?.find(
+                        (b) => b.id === behaviorId
+                    )
+                )
+                .filter((b) => b);
+        }
+
+        return [];
+    }, [config, sceneId]);
 
     return (
         <BaseComponent
@@ -501,9 +545,12 @@ const BuilderLeftPanel: React.FC = () => {
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
                         <SceneBehaviors
-                            behaviors={behaviors}
+                            behaviors={behaviorsInScene}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
+                            onRemoveBehaviorFromScene={
+                                onRemoveBehaviorFromScene
+                            }
                         />
                     </PivotItem>
                 </Pivot>

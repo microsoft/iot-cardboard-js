@@ -127,6 +127,7 @@
     .cb-scene-builder-left-panel-element,
     .cb-scene-builder-left-panel-behavior {
         align-items: center;
+        cursor: pointer;
         display: flex;
         height: 32px;
         line-height: 32px;
@@ -136,15 +137,21 @@
 
         .cb-scene-builder-element-name,
         .cb-scene-builder-behavior-name {
+            cursor: pointer;
+            font-weight: normal;
             font-size: 14px;
             padding-left: 8px;
         }
     }
 
+    .cb-scene-builder-behavior-name {
+        flex-grow: 1;
+    }
+
     .cb-selected-element,
     .cb-scene-builder-left-panel-element:hover,
     .cb-scene-builder-left-panel-behavior:hover {
-        background: var(--cb-color-card-contrast);
+        background: var(--cb-color-icon-hover-bg);
         cursor: pointer;
         filter: unset;
     }
