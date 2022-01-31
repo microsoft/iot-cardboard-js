@@ -1,6 +1,10 @@
-import { IconButton, IContextualMenuProps, Label } from '@fluentui/react';
+import {
+    FontIcon,
+    IconButton,
+    IContextualMenuProps,
+    Label
+} from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import { FontIcon } from '@fluentui/react/lib/components/Icon/FontIcon';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';

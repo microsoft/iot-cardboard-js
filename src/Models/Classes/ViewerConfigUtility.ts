@@ -80,7 +80,9 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
-    /** Delete behavior.  Options for deletion from current scebe, or ALL scenes. */
+    /** Delete behavior.
+     * Options for deletion from current scebe, or ALL scenes.
+     * TODO: clean up datasources when removing behavior from scene reference only*/
     static deleteBehavior(
         config: IScenesConfig,
         sceneId: string,
