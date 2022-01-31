@@ -106,6 +106,33 @@
         margin-top: 15px;
     }
 
+    .cb-scene-builder-element-behaviors-spacer {
+        background-color: #edebe9;
+        height: 1px;
+        margin-bottom: 10px;
+    }
+
+    .cb-scene-builder-element-behavior-item {
+        margin-top: 10px;
+        align-items: center;
+        display: flex;
+    }
+
+    .cb-scene-builder-element-behavior-item-icon{
+        font-size: 16px;
+        display: inline-block;
+    }
+
+    .cb-scene-builder-element-behavior-item-name {
+        padding-left: 8px;
+        font-size: 14px;
+        flex: 1;
+    }
+
+    .cb-scene-builder-element-behaviors-title {
+        font-weight: 500;
+    }
+
     .cb-scene-builder-element-checkbox {
         margin-left: -8px;
         margin-right: 5px;

@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+    Callout,
     DefaultButton,
+    DirectionalHint,
     FontIcon,
     IconButton,
+    mergeStyleSets,
     PrimaryButton,
     TextField
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
+    IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
@@ -18,17 +22,45 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
+import produce from 'immer';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
     selectedElement,
+    behaviors,
     onElementSave,
-    onElementBackClick
+    onElementBackClick,
+    onBehaviorSave
 }) => {
     const { t } = useTranslation();
     const [isObjectsExpanded, setIsObjectsExpanded] = useState(
         selectedElement ? false : true
     );
+
+    const styles = mergeStyleSets({
+        callout: {
+          paddingLeft: '10px',
+          paddingRight: '10px',
+          paddingTop: '5px',
+          paddingBottom: '5px',
+        },
+        menuitem: {
+            alignItems: 'center',
+            display: 'flex',
+            marginTop: '10px',
+            marginBottom: '10px',
+            cursor: 'pointer'
+        },
+        menutext: {
+            marginLeft: '8px'
+        },
+        menuicon: {
+            display: 'inline-block'
+        }
+    })
+
+    const [isCalloutVisible, setIsCalloutVisible] = useState(false);
+
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         selectedElement ?? {
             id: '',
@@ -37,6 +69,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             meshIDs: []
         }
     );
+
+    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
+    const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>([]);
+    const [behaviorsOnElement, setBehaviorsOnElement] = useState<Array<IBehavior>>([]);
+    
     const {
         adapter,
         config,
@@ -63,7 +100,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleSaveElement = () => {
+    const handleSaveElement = async () => {
         const existingElements = config.viewerConfiguration?.scenes?.find(
             (s) => s.id === sceneId
         ).twinToObjectMappings;
@@ -86,6 +123,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             elements: newElements
         });
 
+        for (const behavior of behaviorsToEdit) {
+            await onBehaviorSave(behavior, ADT3DSceneBuilderMode.EditBehavior, behavior.id); 
+         }
+
         onElementSave(newElements);
     };
 
@@ -95,6 +136,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             meshIDs: selectedMeshIds
         });
     }, [selectedMeshIds]);
+
+    useEffect(() => {
+        const eb = behaviors.filter((behavior) => behavior.datasources?.[0]?.mappingIDs?.find((id) => id === elementToEdit?.id))
+        setBehaviorsOnElement(eb);
+    }, [behaviors]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -114,6 +160,40 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
         setColoredMeshItems(coloredMeshes);
     };
+
+    const onBehaviorClick = (behavior: IBehavior) => {
+        setBehaviorToEdit(behavior)
+        setIsCalloutVisible(true);
+    }
+
+    const removeBehavior = () => {
+        const behaviorIndex = behaviorsOnElement.indexOf(behaviorToEdit);
+        setBehaviorsOnElement(
+            produce((draft) => {
+                draft.splice(behaviorIndex, 1)      
+            })
+        );
+
+        const mappingIdIndex = behaviorToEdit?.datasources?.[0]?.mappingIDs.indexOf(elementToEdit.id);
+
+        setBehaviorToEdit(
+            produce((draft) => {
+                draft.datasources[0].mappingIDs?.splice(mappingIdIndex, 1);
+            })
+        )
+
+        // behaviorToEdit is not yet updated until the next render so using a deep copy to add to the list
+        const behavior = JSON.parse(JSON.stringify(behaviorToEdit));
+        behavior.datasources[0].mappingIDs?.splice(mappingIdIndex, 1);
+
+        setBehaviorsToEdit(
+            produce((draft) => {
+                draft.push(behavior);
+            })
+        )
+
+        setIsCalloutVisible(false);
+    }
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
@@ -236,6 +316,31 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             )}
                         </div>
                     )}
+                    <div className='cb-scene-builder-element-behaviors-spacer'/>
+                    <div className='cb-scene-builder-element-behaviors-title'>
+                        {t('3dSceneBuilder.behaviors')}
+                    </div>
+                    {behaviorsOnElement.map((behavior) => {
+                        return (
+                            <div id={behavior.id} key={behavior.id} className='cb-scene-builder-element-behavior-item'>
+                                <FontIcon iconName={'Warning'} className='cb-scene-builder-element-behavior-item-icon' />
+                                <div className='cb-scene-builder-element-behavior-item-name'>{behavior.id}</div>
+                                <IconButton id={behavior.id} iconProps={{iconName: 'MoreVertical'}} title={t('more')} ariaLabel={t('more')} onClick={() => onBehaviorClick(behavior)}/>
+                            </div>
+                        )
+                    })}
+                    {isCalloutVisible &&
+                        <Callout target={`#${behaviorToEdit?.id}`} isBeakVisible={false} directionalHint={DirectionalHint.rightCenter} className={styles.callout} onDismiss={() => setIsCalloutVisible(false)} >
+                            <div className={styles.menuitem}>
+                                <FontIcon iconName={'Edit'} className={styles.menuicon} />
+                                <span className={styles.menutext}>{t('3dSceneBuilder.modifyBehavior')}</span>
+                            </div>
+                            <div className={styles.menuitem} onClick={() => removeBehavior()}>
+                                <FontIcon iconName={'Blocked2'} className={styles.menuicon} />
+                                <span className={styles.menutext}>{t('3dSceneBuilder.removeBehavior')}</span>
+                            </div>
+                        </Callout>
+                    }
                 </div>
             </div>
             <div className="cb-scene-builder-left-panel-create-form-actions">
