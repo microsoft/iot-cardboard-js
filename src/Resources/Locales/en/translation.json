@@ -290,6 +290,8 @@
         "createBehavior": "Create behavior",
         "noElementsText": "No elements created yet",
         "noResults": "No results",
+        "onElements": "On Elements",
+        "notOnElements": "Not on Elements",
         "noBehaviorsText": "No behaviors have been added to this scene",
         "newElement": "New element",
         "newBehavior": "New behavior",

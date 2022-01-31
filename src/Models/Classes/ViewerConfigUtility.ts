@@ -1,10 +1,6 @@
-import { IScenesConfig, IBehavior, IScene } from './3DVConfig';
+import { IScenesConfig, IBehavior, IScene, DatasourceType } from './3DVConfig';
 
-/** Static utilty methods for operations on the ViewerConfiguration file.
- *  Methods use the following format:
- *
- *  static methodName(config: IScenesConfig, ...other_params) => IScenesConfig
- */
+/** Static utilty methods for operations on the ViewerConfiguration file. */
 abstract class ViewerConfigUtility {
     /** Add new scene to config file */
     static addScene(config: IScenesConfig, scene: IScene) {
@@ -128,6 +124,51 @@ abstract class ViewerConfigUtility {
             });
         }
         return updatedConfig;
+    }
+
+    static getBehaviorsSegmentedByPresenceOnSceneElements(
+        config: IScenesConfig,
+        sceneId: string,
+        behaviors: Array<IBehavior>
+    ): [Array<IBehavior>, Array<IBehavior>] {
+        // Build up dictionary of all active element IDs on current scene
+        const scene = config.viewerConfiguration.scenes?.find(
+            (s) => s.id === sceneId
+        );
+        const elementIdMap = {};
+
+        scene?.twinToObjectMappings?.forEach((ttom) => {
+            if (!(ttom.id in elementIdMap)) elementIdMap[ttom.id] = true;
+        });
+
+        const behaviorsAttachedToElements = [];
+        const behaviorsNotOnElements = [];
+
+        behaviors.forEach((behavior) => {
+            const behaviorMappingIds = behavior?.datasources?.find(
+                (ds) => ds.type === DatasourceType.TwinToObjectMapping
+            );
+            if (
+                behaviorMappingIds?.mappingIDs?.some(
+                    (mId) => mId in elementIdMap
+                )
+            ) {
+                behaviorsAttachedToElements.push(behavior);
+            } else {
+                behaviorsNotOnElements.push(behavior);
+            }
+        });
+
+        // Sanity check to ensure all behaviors have been segmented
+        if (
+            behaviorsAttachedToElements.length +
+                behaviorsNotOnElements.length ===
+            behaviors.length
+        ) {
+            return [behaviorsAttachedToElements, behaviorsNotOnElements];
+        } else {
+            return [[], behaviors];
+        }
     }
 }
 

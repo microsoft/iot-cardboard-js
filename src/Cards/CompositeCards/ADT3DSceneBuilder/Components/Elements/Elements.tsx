@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
-    DialogType,
     FontIcon,
     IconButton,
     PrimaryButton,
