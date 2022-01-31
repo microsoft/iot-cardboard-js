@@ -18,6 +18,7 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -57,7 +58,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 ]
             };
             sceneToUpdate.twinToObjectMappings = params.elements;
-            return adapter.editScene(config, sceneId, sceneToUpdate);
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
+            );
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false

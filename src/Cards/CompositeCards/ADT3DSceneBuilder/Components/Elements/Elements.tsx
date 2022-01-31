@@ -17,6 +17,7 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -49,27 +50,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         ITwinToObjectMapping[]
     >([]);
 
-    const confirmDeletionDialogProps = {
-        type: DialogType.normal,
-        title: t('confirmDeletion'),
-        closeButtonAriaLabel: t('close'),
-        subText: t('confirmDeletionDesc')
-    };
-    const confirmDeletionDialogStyles = {
-        main: {
-            maxWidth: 450,
-            minHeight: 165
-        }
-    };
-    const confirmDeletionModalProps = React.useMemo(
-        () => ({
-            isBlocking: false,
-            styles: confirmDeletionDialogStyles,
-            className: 'cb-scene-builder-element-list-dialog-wrapper'
-        }),
-        []
-    );
-
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
@@ -80,7 +60,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 ]
             };
             sceneToUpdate.twinToObjectMappings = params.elements;
-            return adapter.editScene(config, sceneId, sceneToUpdate);
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
+            );
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false

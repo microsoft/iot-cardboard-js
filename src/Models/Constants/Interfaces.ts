@@ -399,35 +399,9 @@ export interface IBlobAdapter {
     getBlobContainerURL: () => string;
     setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
-    addScene: (
-        config: IScenesConfig,
-        scene: IScene
-    ) => AdapterReturnType<ADTSceneData>;
-    editScene: (
-        config: IScenesConfig,
-        sceneId: string,
-        scene: IScene
-    ) => AdapterReturnType<ADTSceneData>;
-    deleteScene: (
-        config: IScenesConfig,
-        sceneId: string
-    ) => AdapterReturnType<ADTSceneData>;
-    addBehavior: (
-        config: IScenesConfig,
-        sceneId: string,
-        behavior: IBehavior
-    ) => AdapterReturnType<ViewConfigBehaviorData>;
-    editBehavior: (
-        config: IScenesConfig,
-        behavior: IBehavior,
-        originalBehaviorId: string
-    ) => AdapterReturnType<ViewConfigBehaviorData>;
-    deleteBehavior(
-        config: IScenesConfig,
-        sceneId: string,
-        behaviorId: string,
-        removeFromAllScenes?: boolean
-    );
+    putScenesConfig: (
+        config: IScenesConfig
+    ) => AdapterReturnType<ADTScenesConfigData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

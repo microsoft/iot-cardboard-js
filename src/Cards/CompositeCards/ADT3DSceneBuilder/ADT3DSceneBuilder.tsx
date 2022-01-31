@@ -42,6 +42,7 @@ import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import SceneBehaviors from './Components/Behaviors/Behaviors';
 import SceneBehaviorsForm from './Components/Behaviors/BehaviorsForm';
 import SceneElements from './Components/Elements/Elements';
+import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -168,7 +169,13 @@ const BuilderLeftPanel: React.FC = () => {
 
     const addBehaviorAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
-            adapter.addBehavior(config, sceneId, params.behavior),
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehavior(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -178,10 +185,12 @@ const BuilderLeftPanel: React.FC = () => {
             behavior: IBehavior;
             originalBehaviorId: string;
         }) =>
-            adapter.editBehavior(
-                config,
-                params.behavior,
-                params.originalBehaviorId
+            adapter.putScenesConfig(
+                ViewerConfigUtility.editBehavior(
+                    config,
+                    params.behavior,
+                    params.originalBehaviorId
+                )
             ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -192,11 +201,13 @@ const BuilderLeftPanel: React.FC = () => {
             behaviorId: string;
             removeFromAllScenes?: boolean;
         }) => {
-            return adapter.deleteBehavior(
-                config,
-                sceneId,
-                params.behaviorId,
-                params.removeFromAllScenes
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.deleteBehavior(
+                    config,
+                    sceneId,
+                    params.behaviorId,
+                    params.removeFromAllScenes
+                )
             );
         },
         refetchDependencies: [adapter],
