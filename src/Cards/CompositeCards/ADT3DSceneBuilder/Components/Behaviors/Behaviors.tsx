@@ -28,9 +28,15 @@ const SceneBehaviors: React.FC<Props> = ({
     const behaviorIdToDelete = useRef(null);
 
     const getBehaviorListItemMenuProps: (
-        behaviorId: string
-    ) => IContextualMenuProps = (behaviorId) => ({
+        behavior: IBehavior
+    ) => IContextualMenuProps = (behavior) => ({
         items: [
+            {
+                key: 'edit',
+                text: t('3dSceneBuilder.editBehavior'),
+                iconProps: { iconName: 'Edit' },
+                onClick: () => onBehaviorClick(behavior)
+            },
             {
                 key: 'manageLayers',
                 text: t('3dSceneBuilder.manageSceneLayer'),
@@ -42,7 +48,7 @@ const SceneBehaviors: React.FC<Props> = ({
                 text: t('3dSceneBuilder.removeBehaviorFromScene'),
                 iconProps: { iconName: 'Delete' },
                 onClick: () => {
-                    behaviorIdToDelete.current = behaviorId;
+                    behaviorIdToDelete.current = behavior.id;
                     setIsConfirmDeleteOpen(true);
                 }
             }
@@ -80,7 +86,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                     }
                                 }}
                                 menuProps={getBehaviorListItemMenuProps(
-                                    behavior.id
+                                    behavior
                                 )}
                             ></IconButton>
                         </div>
