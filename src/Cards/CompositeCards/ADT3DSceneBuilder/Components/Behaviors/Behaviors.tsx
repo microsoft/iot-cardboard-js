@@ -81,12 +81,14 @@ const SceneBehaviors: React.FC<Props> = ({
                     <div>
                         {behaviorsInSceneSectionVisible && (
                             <div>
-                                <Text
-                                    variant="medium"
-                                    className="cb-behavior-list-section-label"
-                                >
-                                    {t('3dSceneBuilder.behaviorsInScene')}
-                                </Text>
+                                <div className="cb-behavior-list-section-label-top-container">
+                                    <Text
+                                        variant="medium"
+                                        className="cb-behavior-list-section-label"
+                                    >
+                                        {t('3dSceneBuilder.behaviorsInScene')}
+                                    </Text>
+                                </div>
                                 {behaviorsInScene.map((behavior) => (
                                     <BehaviorList
                                         key={behavior.id}
@@ -226,6 +228,7 @@ const BehaviorList: React.FC<{
     onAddBehaviorToScene
 }) => {
     const { t } = useTranslation();
+    const { config, sceneId } = useContext(SceneBuilderContext);
     const behaviorNotOnSceneEllipsisRef = useRef(null);
 
     const getBehaviorListItemMenuProps: (
@@ -286,6 +289,12 @@ const BehaviorList: React.FC<{
         }
     };
 
+    const behaviorMetaData = ViewerConfigUtility.getBehaviorMetaData(
+        config,
+        sceneId,
+        behavior
+    );
+
     return (
         <div
             className="cb-scene-builder-left-panel-behavior"
@@ -299,9 +308,18 @@ const BehaviorList: React.FC<{
             }}
         >
             <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
-            <Label className="cb-scene-builder-behavior-name">
-                {behavior.id}
-            </Label>
+            <div className="cb-scene-builder-behavior-list-item">
+                <span className="cb-scene-builder-behavior-name">
+                    {behavior.id}
+                </span>
+                <span className="cb-scene-builder-behavior-list-item-meta">
+                    {t('3dSceneBuilder.behaviorMetaText', {
+                        numElementsInActiveScene:
+                            behaviorMetaData.numElementsInActiveScene,
+                        numSceneRefs: behaviorMetaData.numSceneRefs
+                    })}
+                </span>
+            </div>
             <IconButton
                 componentRef={behaviorNotOnSceneEllipsisRef}
                 menuIconProps={{

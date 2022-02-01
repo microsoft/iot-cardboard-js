@@ -164,6 +164,50 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    static getBehaviorElementIds(behavior: IBehavior) {
+        return (
+            behavior.datasources.find(
+                (ds) => ds.type === DatasourceType.TwinToObjectMapping
+            )?.mappingIDs || []
+        );
+    }
+
+    /** Returns information about the number of element and scene references on a behavior  */
+    static getBehaviorMetaData(
+        config: IScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ): { numElementsInActiveScene: number; numSceneRefs: number } {
+        const dictionaryOfElementsIdsInScene = ViewerConfigUtility.getDictionaryOfElementsIdsInScene(
+            config,
+            sceneId
+        );
+
+        let numElementsInActiveScene = 0;
+
+        const behaviorElementIds = ViewerConfigUtility.getBehaviorElementIds(
+            behavior
+        );
+        behaviorElementIds.forEach((elementId) => {
+            if (elementId in dictionaryOfElementsIdsInScene) {
+                numElementsInActiveScene++;
+            }
+        });
+
+        let numSceneRefs = 0;
+
+        config.viewerConfiguration.scenes.forEach((s) => {
+            if (s.behaviors.includes(behavior.id)) {
+                numSceneRefs++;
+            }
+        });
+
+        return {
+            numElementsInActiveScene,
+            numSceneRefs
+        };
+    }
+
     static getDictionaryOfElementsIdsInScene(
         config: IScenesConfig,
         sceneId: string

@@ -63,11 +63,19 @@
         padding: 12px 0;
     }
 
+    .cb-scene-builder-behavior-list-item {
+        padding-left: 8px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
     .cb-scene-builder-left-panel-collapse-chevron-header {
         cursor: pointer;
         font-size: 14px;
         font-weight: 600;
-        padding-bottom: 12px;
+        padding-bottom: 4px;
 
         span {
             padding-left: 4px;
@@ -125,8 +133,7 @@
         padding: 16px 16px 0 0;
     }
 
-    .cb-scene-builder-left-panel-element,
-    .cb-scene-builder-left-panel-behavior {
+    .cb-scene-builder-left-panel-element {
         align-items: center;
         cursor: pointer;
         display: flex;
@@ -136,8 +143,7 @@
         padding-left: 16px;
         width: calc(100% + 16px);
 
-        .cb-scene-builder-element-name,
-        .cb-scene-builder-behavior-name {
+        .cb-scene-builder-element-name {
             cursor: pointer;
             font-size: 14px;
             font-weight: normal;
@@ -145,8 +151,29 @@
         }
     }
 
+    .cb-scene-builder-left-panel-behavior {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        height: 40px;
+        margin-left: -8px;
+        padding-left: 16px;
+        width: calc(100% + 16px);
+    }
+
     .cb-scene-builder-behavior-name {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: normal;
         flex-grow: 1;
+    }
+
+    .cb-scene-builder-behavior-list-item-meta {
+        color: var(--cb-color-inactive);
+        font-size: 11px;
     }
 
     .cb-selected-element,
@@ -204,10 +231,16 @@
         }
     }
 
-    .cb-element,
-    .cb-behavior-icon {
+    .cb-element {
         display: inline-block;
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .cb-behavior-icon {
+        height: 100%;
+        display: flex;
+        font-size: 14px;
+        align-items: center;
     }
 
     .cb-scene-builder-left-panel-create-form-actions {
@@ -399,6 +432,10 @@
 
 .cb-behavior-list-section-label {
     font-weight: 600;
+}
+
+.cb-behavior-list-section-label-top-container {
+    margin-bottom: 4px;
 }
 
 @keyframes slide-in {
