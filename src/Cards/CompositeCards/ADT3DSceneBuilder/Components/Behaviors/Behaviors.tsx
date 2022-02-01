@@ -1,9 +1,7 @@
 import {
     FontIcon,
-    IButton,
     IconButton,
     IContextualMenuProps,
-    IRefObject,
     Label,
     Separator,
     Text
