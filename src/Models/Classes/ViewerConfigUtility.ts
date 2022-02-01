@@ -3,14 +3,18 @@ import { IScenesConfig, IBehavior, IScene, DatasourceType } from './3DVConfig';
 /** Static utilty methods for operations on the ViewerConfiguration file. */
 abstract class ViewerConfigUtility {
     /** Add new scene to config file */
-    static addScene(config: IScenesConfig, scene: IScene) {
+    static addScene(config: IScenesConfig, scene: IScene): IScenesConfig {
         const updatedConfig = { ...config };
         updatedConfig.viewerConfiguration.scenes.push(scene);
         return updatedConfig;
     }
 
     /** Update scene with matching ID */
-    static editScene(config: IScenesConfig, sceneId: string, scene: IScene) {
+    static editScene(
+        config: IScenesConfig,
+        sceneId: string,
+        scene: IScene
+    ): IScenesConfig {
         const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
             (s) => s.id === sceneId
         );
@@ -21,7 +25,7 @@ abstract class ViewerConfigUtility {
     }
 
     /** Delete scene with matching ID */
-    static deleteScene(config: IScenesConfig, sceneId: string) {
+    static deleteScene(config: IScenesConfig, sceneId: string): IScenesConfig {
         const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
             (s) => s.id === sceneId
         );
@@ -35,7 +39,7 @@ abstract class ViewerConfigUtility {
         config: IScenesConfig,
         sceneId: string,
         behavior: IBehavior
-    ) {
+    ): IScenesConfig {
         const updatedConfig = { ...config };
         updatedConfig.viewerConfiguration.behaviors.push(behavior);
         updatedConfig.viewerConfiguration.scenes
@@ -51,7 +55,7 @@ abstract class ViewerConfigUtility {
         config: IScenesConfig,
         behavior: IBehavior,
         originalBehaviorId: string
-    ) {
+    ): IScenesConfig {
         const updatedConfig = { ...config };
 
         // Update modified behavior
@@ -76,15 +80,28 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    /** Adds existing behavior to the target scene */
+    static addBehaviorToScene(
+        config: IScenesConfig,
+        sceneId: string,
+        behavior: IBehavior
+    ): IScenesConfig {
+        const updatedConfig = { ...config };
+        updatedConfig.viewerConfiguration.scenes
+            .find((scene) => scene.id === sceneId)
+            ?.behaviors?.push(behavior.id);
+        return updatedConfig;
+    }
+
     /** Delete behavior.
      * Options for deletion from current scebe, or ALL scenes.
-     * TODO: clean up datasources when removing behavior from scene reference only*/
+     */
     static deleteBehavior(
         config: IScenesConfig,
         sceneId: string,
         behaviorId: string,
         removeFromAllScenes?: boolean
-    ) {
+    ): IScenesConfig {
         const updatedConfig = { ...config };
 
         // Remove behavior from active scene
@@ -98,6 +115,27 @@ abstract class ViewerConfigUtility {
 
         if (matchingBehaviorIdxInActiveScene !== -1) {
             activeScene.behaviors.splice(matchingBehaviorIdxInActiveScene, 1);
+        }
+
+        // Clean up behavior datasources when removing behavior from scene reference only
+        const elementIdsInActiveScene = ViewerConfigUtility.getDictionaryOfElementsIdsInScene(
+            config,
+            sceneId
+        );
+
+        const behavior = config.viewerConfiguration.behaviors.find(
+            (b) => b.id === behaviorId
+        );
+
+        if (behavior) {
+            const twinToObjectMapping = behavior.datasources.find(
+                (ds) => ds.type === DatasourceType.TwinToObjectMapping
+            );
+            if (twinToObjectMapping) {
+                twinToObjectMapping.mappingIDs = twinToObjectMapping.mappingIDs.filter(
+                    (id) => !(id in elementIdsInActiveScene)
+                );
+            }
         }
 
         if (removeFromAllScenes) {
@@ -126,11 +164,10 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
-    static getBehaviorsSegmentedByPresenceOnSceneElements(
+    static getDictionaryOfElementsIdsInScene(
         config: IScenesConfig,
-        sceneId: string,
-        behaviors: Array<IBehavior>
-    ): [Array<IBehavior>, Array<IBehavior>] {
+        sceneId: string
+    ): Record<string, any> {
         // Build up dictionary of all active element IDs on current scene
         const scene = config.viewerConfiguration.scenes?.find(
             (s) => s.id === sceneId
@@ -138,34 +175,46 @@ abstract class ViewerConfigUtility {
         const elementIdMap = {};
 
         scene?.twinToObjectMappings?.forEach((ttom) => {
-            if (!(ttom.id in elementIdMap)) elementIdMap[ttom.id] = true;
+            if (!(ttom.id in elementIdMap)) elementIdMap[ttom.id] = ttom;
         });
 
-        const behaviorsAttachedToElements = [];
-        const behaviorsNotOnElements = [];
+        return elementIdMap;
+    }
+
+    static getBehaviorsSegmentedByPresenceInScene(
+        config: IScenesConfig,
+        sceneId: string,
+        behaviors: Array<IBehavior>
+    ): [
+        behaviorsInScene: Array<IBehavior>,
+        behaviorsNotInScene: Array<IBehavior>
+    ] {
+        const behaviorsInScene = [];
+        const behaviorsNotInScene = [];
+
+        const scene = config.viewerConfiguration.scenes.find(
+            (s) => s.id === sceneId
+        );
+
+        const behaviorIdsInActiveScene = scene?.behaviors;
 
         behaviors.forEach((behavior) => {
-            const behaviorMappingIds = behavior?.datasources?.find(
-                (ds) => ds.type === DatasourceType.TwinToObjectMapping
-            );
             if (
-                behaviorMappingIds?.mappingIDs?.some(
-                    (mId) => mId in elementIdMap
-                )
+                behaviorIdsInActiveScene &&
+                behaviorIdsInActiveScene.includes(behavior.id)
             ) {
-                behaviorsAttachedToElements.push(behavior);
+                behaviorsInScene.push(behavior);
             } else {
-                behaviorsNotOnElements.push(behavior);
+                behaviorsNotInScene.push(behavior);
             }
         });
 
         // Sanity check to ensure all behaviors have been segmented
         if (
-            behaviorsAttachedToElements.length +
-                behaviorsNotOnElements.length ===
+            behaviorsInScene.length + behaviorsNotInScene.length ===
             behaviors.length
         ) {
-            return [behaviorsAttachedToElements, behaviorsNotOnElements];
+            return [behaviorsInScene, behaviorsNotInScene];
         } else {
             return [[], behaviors];
         }

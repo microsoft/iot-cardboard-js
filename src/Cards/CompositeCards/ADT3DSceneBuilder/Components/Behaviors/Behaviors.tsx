@@ -11,6 +11,7 @@ import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { BehaviorListSegment } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 
@@ -22,30 +23,40 @@ interface Props {
         behaviorId: string,
         removeFromAllScenes?: boolean
     ) => any;
+    onAddBehaviorToScene: (behavior: IBehavior) => any;
 }
 
 const SceneBehaviors: React.FC<Props> = ({
     onCreateBehaviorClick,
     onBehaviorClick,
     onRemoveBehaviorFromScene,
-    behaviors
+    behaviors,
+    onAddBehaviorToScene
 }) => {
     const { t } = useTranslation();
     const { config, sceneId } = useContext(SceneBuilderContext);
 
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
-    const behaviorIdToDelete = useRef(null);
+    const behaviorToDeleteRef = useRef<{
+        id: string;
+        removeFromAllScenes?: boolean;
+    }>(null);
 
     if (!config) return null;
 
     const [
-        behaviorsOnElements,
-        behaviorsNotOnElements
-    ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceOnSceneElements(
+        behaviorsInScene,
+        behaviorsNotInScene
+    ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
         config,
         sceneId,
         behaviors
     );
+
+    const behaviorsInSceneSectionVisible =
+        behaviorsInScene && behaviorsInScene.length > 0;
+    const behaviorsNotInSceneSectionVisible =
+        behaviorsNotInScene && behaviorsNotInScene.length > 0;
 
     return (
         <div className="cb-scene-builder-pivot-contents">
@@ -56,54 +67,77 @@ const SceneBehaviors: React.FC<Props> = ({
                     </p>
                 ) : (
                     <div>
-                        <div>
-                            <Text
-                                variant="medium"
-                                className="cb-behavior-list-section-label"
-                            >
-                                {t('3dSceneBuilder.onElements')}
-                            </Text>
-                            {behaviorsOnElements.map((behavior) => (
-                                <BehaviorList
-                                    key={behavior.id}
-                                    behavior={behavior}
-                                    behaviorIdToDelete={behaviorIdToDelete}
-                                    onBehaviorClick={onBehaviorClick}
-                                    setIsConfirmDeleteOpen={
-                                        setIsConfirmDeleteOpen
-                                    }
+                        {behaviorsInSceneSectionVisible && (
+                            <div>
+                                <Text
+                                    variant="medium"
+                                    className="cb-behavior-list-section-label"
+                                >
+                                    {t('3dSceneBuilder.behaviorsInScene')}
+                                </Text>
+                                {behaviorsInScene.map((behavior) => (
+                                    <BehaviorList
+                                        key={behavior.id}
+                                        behavior={behavior}
+                                        behaviorToDeleteRef={
+                                            behaviorToDeleteRef
+                                        }
+                                        onBehaviorClick={onBehaviorClick}
+                                        setIsConfirmDeleteOpen={
+                                            setIsConfirmDeleteOpen
+                                        }
+                                        segmentMode={
+                                            BehaviorListSegment.InThisScene
+                                        }
+                                        onAddBehaviorToScene={
+                                            onAddBehaviorToScene
+                                        }
+                                    />
+                                ))}
+                            </div>
+                        )}
+                        {behaviorsInSceneSectionVisible &&
+                            behaviorsNotInSceneSectionVisible && (
+                                <Separator
+                                    styles={{
+                                        root: {
+                                            '&:before': {
+                                                backgroundColor:
+                                                    'var(--cb-color-bg-canvas-inset)'
+                                            }
+                                        }
+                                    }}
                                 />
-                            ))}
-                        </div>
-                        <Separator
-                            styles={{
-                                root: {
-                                    '&:before': {
-                                        backgroundColor:
-                                            'var(--cb-color-bg-canvas-inset)'
-                                    }
-                                }
-                            }}
-                        />
-                        <div>
-                            <Text
-                                variant="medium"
-                                className="cb-behavior-list-section-label"
-                            >
-                                {t('3dSceneBuilder.notOnElements')}
-                            </Text>
-                            {behaviorsNotOnElements.map((behavior) => (
-                                <BehaviorList
-                                    key={behavior.id}
-                                    behavior={behavior}
-                                    behaviorIdToDelete={behaviorIdToDelete}
-                                    onBehaviorClick={onBehaviorClick}
-                                    setIsConfirmDeleteOpen={
-                                        setIsConfirmDeleteOpen
-                                    }
-                                />
-                            ))}
-                        </div>
+                            )}
+                        {behaviorsNotInSceneSectionVisible && (
+                            <div>
+                                <Text
+                                    variant="medium"
+                                    className="cb-behavior-list-section-label"
+                                >
+                                    {t('3dSceneBuilder.behaviorsNotInScene')}
+                                </Text>
+                                {behaviorsNotInScene.map((behavior) => (
+                                    <BehaviorList
+                                        key={behavior.id}
+                                        behavior={behavior}
+                                        behaviorToDeleteRef={
+                                            behaviorToDeleteRef
+                                        }
+                                        onBehaviorClick={onBehaviorClick}
+                                        setIsConfirmDeleteOpen={
+                                            setIsConfirmDeleteOpen
+                                        }
+                                        segmentMode={
+                                            BehaviorListSegment.NotInThisScene
+                                        }
+                                        onAddBehaviorToScene={
+                                            onAddBehaviorToScene
+                                        }
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -116,12 +150,24 @@ const SceneBehaviors: React.FC<Props> = ({
                 isOpen={isConfirmDeleteOpen}
                 setIsOpen={setIsConfirmDeleteOpen}
                 onConfirmDeletion={() => {
-                    onRemoveBehaviorFromScene(behaviorIdToDelete.current);
-                    behaviorIdToDelete.current = null;
+                    onRemoveBehaviorFromScene(
+                        behaviorToDeleteRef.current.id,
+                        behaviorToDeleteRef.current.removeFromAllScenes
+                    );
+                    behaviorToDeleteRef.current = null;
                 }}
                 onCancel={() => {
-                    behaviorIdToDelete.current = null;
+                    behaviorToDeleteRef.current = null;
                 }}
+                message={
+                    behaviorToDeleteRef.current
+                        ? behaviorToDeleteRef.current.removeFromAllScenes
+                            ? t(
+                                  '3dSceneBuilder.confirmRemoveBehaviorFromAllScenes'
+                              )
+                            : t('3dSceneBuilder.confirmRemoveBehaviorFromScene')
+                        : null
+                }
             />
         </div>
     );
@@ -130,43 +176,77 @@ const SceneBehaviors: React.FC<Props> = ({
 const BehaviorList: React.FC<{
     behavior: IBehavior;
     onBehaviorClick: (behavior: IBehavior) => any;
-    behaviorIdToDelete: React.MutableRefObject<any>;
+    behaviorToDeleteRef: React.MutableRefObject<any>;
     setIsConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    segmentMode: BehaviorListSegment;
+    onAddBehaviorToScene: (behavior: IBehavior) => any;
 }> = ({
     behavior,
     onBehaviorClick,
-    behaviorIdToDelete,
-    setIsConfirmDeleteOpen
+    behaviorToDeleteRef,
+    setIsConfirmDeleteOpen,
+    segmentMode,
+    onAddBehaviorToScene
 }) => {
     const { t } = useTranslation();
 
     const getBehaviorListItemMenuProps: (
         behavior: IBehavior
-    ) => IContextualMenuProps = (behavior) => ({
-        items: [
-            {
-                key: 'edit',
-                text: t('3dSceneBuilder.editBehavior'),
-                iconProps: { iconName: 'Edit' },
-                onClick: () => onBehaviorClick(behavior)
-            },
-            {
-                key: 'manageLayers',
-                text: t('3dSceneBuilder.manageSceneLayer'),
-                iconProps: { iconName: 'MapLayers' },
-                disabled: true
-            },
-            {
-                key: 'remove',
-                text: t('3dSceneBuilder.removeBehaviorFromScene'),
-                iconProps: { iconName: 'Delete' },
-                onClick: () => {
-                    behaviorIdToDelete.current = behavior.id;
-                    setIsConfirmDeleteOpen(true);
-                }
-            }
-        ]
-    });
+    ) => IContextualMenuProps = (behavior) => {
+        if (segmentMode === BehaviorListSegment.InThisScene) {
+            return {
+                items: [
+                    {
+                        key: 'edit',
+                        text: t('3dSceneBuilder.editBehavior'),
+                        iconProps: { iconName: 'Edit' },
+                        onClick: () => onBehaviorClick(behavior)
+                    },
+                    {
+                        key: 'manageLayers',
+                        text: t('3dSceneBuilder.manageSceneLayer'),
+                        iconProps: { iconName: 'MapLayers' },
+                        disabled: true
+                    },
+                    {
+                        key: 'removeFromThisScene',
+                        text: t('3dSceneBuilder.removeBehaviorFromScene'),
+                        iconProps: { iconName: 'Delete' },
+                        onClick: () => {
+                            behaviorToDeleteRef.current = {
+                                id: behavior.id,
+                                removeFromAllScenes: false
+                            };
+                            setIsConfirmDeleteOpen(true);
+                        }
+                    }
+                ]
+            };
+        } else {
+            return {
+                items: [
+                    {
+                        key: 'addToScene',
+                        text: t('3dSceneBuilder.addBehaviorToScene'),
+                        iconProps: { iconName: 'Add' },
+                        onClick: () => onAddBehaviorToScene(behavior)
+                    },
+                    {
+                        key: 'removeFromAllScenes',
+                        text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
+                        iconProps: { iconName: 'Delete' },
+                        onClick: () => {
+                            behaviorToDeleteRef.current = {
+                                id: behavior.id,
+                                removeFromAllScenes: true
+                            };
+                            setIsConfirmDeleteOpen(true);
+                        }
+                    }
+                ]
+            };
+        }
+    };
 
     return (
         <div

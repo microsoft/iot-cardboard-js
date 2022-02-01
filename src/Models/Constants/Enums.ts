@@ -135,3 +135,8 @@ export enum WidgetFormMode {
     Create,
     Edit
 }
+
+export enum BehaviorListSegment {
+    InThisScene,
+    NotInThisScene
+}

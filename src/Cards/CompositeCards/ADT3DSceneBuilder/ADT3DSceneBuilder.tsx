@@ -180,6 +180,19 @@ const BuilderLeftPanel: React.FC = () => {
         isAdapterCalledOnMount: false
     });
 
+    const addBehaviorToSceneAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehaviorToScene(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
     const editBehaviorAdapterData = useAdapter({
         adapterMethod: (params: {
             behavior: IBehavior;
@@ -459,6 +472,14 @@ const BuilderLeftPanel: React.FC = () => {
         });
         getConfig();
     };
+
+    const onAddBehaviorToScene = async (behavior: IBehavior) => {
+        await addBehaviorToSceneAdapterData.callAdapter({
+            behavior
+        });
+        getConfig();
+    };
+
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -480,23 +501,10 @@ const BuilderLeftPanel: React.FC = () => {
     }, [config]);
 
     // Get behaviors in active scene
-    const behaviorsInScene = useMemo(() => {
-        const activeScene = config?.viewerConfiguration?.scenes?.find(
-            (s) => s.id === sceneId
-        );
-
-        if (activeScene) {
-            return activeScene.behaviors
-                .map((behaviorId) =>
-                    config.viewerConfiguration?.behaviors?.find(
-                        (b) => b.id === behaviorId
-                    )
-                )
-                .filter((b) => b);
-        }
-
-        return [];
-    }, [config, sceneId]);
+    const behaviors = useMemo(
+        () => config?.viewerConfiguration?.behaviors || [],
+        [config, sceneId]
+    );
 
     return (
         <BaseComponent
@@ -556,12 +564,13 @@ const BuilderLeftPanel: React.FC = () => {
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                     >
                         <SceneBehaviors
-                            behaviors={behaviorsInScene}
+                            behaviors={behaviors}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
                             onRemoveBehaviorFromScene={
                                 onRemoveBehaviorFromScene
                             }
+                            onAddBehaviorToScene={onAddBehaviorToScene}
                         />
                     </PivotItem>
                 </Pivot>
