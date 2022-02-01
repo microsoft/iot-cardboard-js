@@ -64,11 +64,11 @@
     }
 
     .cb-scene-builder-behavior-list-item {
-        padding-left: 8px;
         cursor: pointer;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        padding-left: 8px;
     }
 
     .cb-scene-builder-left-panel-collapse-chevron-header {
@@ -162,13 +162,13 @@
     }
 
     .cb-scene-builder-behavior-name {
-        display: flex;
         align-items: center;
-        height: 20px;
         cursor: pointer;
+        display: flex;
+        flex-grow: 1;
         font-size: 14px;
         font-weight: normal;
-        flex-grow: 1;
+        height: 20px;
     }
 
     .cb-scene-builder-behavior-list-item-meta {
@@ -237,10 +237,10 @@
     }
 
     .cb-behavior-icon {
-        height: 100%;
+        align-items: center;
         display: flex;
         font-size: 14px;
-        align-items: center;
+        height: 100%;
     }
 
     .cb-scene-builder-left-panel-create-form-actions {
