@@ -40,11 +40,9 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { IScenesConfig, IScene, IBehavior } from '../Classes/3DVConfig';
+import { IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
-import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
-import ViewConfigBehaviorData from '../Classes/AdapterDataClasses/ViewConfigBehaviorData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 
 export interface IAction {
