@@ -1,7 +1,9 @@
 import {
     FontIcon,
+    IButton,
     IconButton,
     IContextualMenuProps,
+    IRefObject,
     Label,
     Separator,
     Text
@@ -226,6 +228,7 @@ const BehaviorList: React.FC<{
     onAddBehaviorToScene
 }) => {
     const { t } = useTranslation();
+    const behaviorNotOnSceneEllipsisRef = useRef(null);
 
     const getBehaviorListItemMenuProps: (
         behavior: IBehavior
@@ -292,6 +295,8 @@ const BehaviorList: React.FC<{
             onClick={() => {
                 if (segmentMode === BehaviorListSegment.InThisScene) {
                     onBehaviorClick(behavior);
+                } else {
+                    behaviorNotOnSceneEllipsisRef?.current?.openMenu?.();
                 }
             }}
         >
@@ -300,6 +305,7 @@ const BehaviorList: React.FC<{
                 {behavior.id}
             </Label>
             <IconButton
+                componentRef={behaviorNotOnSceneEllipsisRef}
                 menuIconProps={{
                     iconName: 'MoreVertical',
                     style: {
