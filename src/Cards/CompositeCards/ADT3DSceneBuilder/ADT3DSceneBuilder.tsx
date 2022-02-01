@@ -120,7 +120,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     adapterAdditionalParameters={adapterAdditionalParameters}
                 >
                     <div className="cb-scene-builder-left-panel">
-                        <BuilderLeftPanel />
+                        {state.config && <BuilderLeftPanel />}
                     </div>
                     <div className="cb-scene-builder-canvas">
                         {state.config && (

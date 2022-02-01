@@ -7,7 +7,7 @@ import {
     Text
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -37,12 +37,13 @@ const SceneBehaviors: React.FC<Props> = ({
     const { config, sceneId } = useContext(SceneBuilderContext);
 
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [isBehaviorLibraryExpanded, setIsBehaviorLibraryExpanded] = useState(
+        false
+    );
     const behaviorToDeleteRef = useRef<{
         id: string;
         removeFromAllScenes?: boolean;
     }>(null);
-
-    if (!config) return null;
 
     const [
         behaviorsInScene,
@@ -52,6 +53,17 @@ const SceneBehaviors: React.FC<Props> = ({
         sceneId,
         behaviors
     );
+
+    // Expand behavior library if no behaviors in active scene
+    useEffect(() => {
+        if (
+            behaviorsInScene.length === 0 &&
+            behaviorsNotInScene.length > 0 &&
+            !isBehaviorLibraryExpanded
+        ) {
+            setIsBehaviorLibraryExpanded(true);
+        }
+    }, [behaviorsInScene]);
 
     const behaviorsInSceneSectionVisible =
         behaviorsInScene && behaviorsInScene.length > 0;
@@ -111,31 +123,56 @@ const SceneBehaviors: React.FC<Props> = ({
                             )}
                         {behaviorsNotInSceneSectionVisible && (
                             <div>
-                                <Text
-                                    variant="medium"
-                                    className="cb-behavior-list-section-label"
+                                <div
+                                    className="cb-scene-builder-left-panel-collapse-chevron-header"
+                                    tabIndex={0}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsBehaviorLibraryExpanded(
+                                            (prev) => !prev
+                                        );
+                                    }}
                                 >
-                                    {t('3dSceneBuilder.behaviorsNotInScene')}
-                                </Text>
-                                {behaviorsNotInScene.map((behavior) => (
-                                    <BehaviorList
-                                        key={behavior.id}
-                                        behavior={behavior}
-                                        behaviorToDeleteRef={
-                                            behaviorToDeleteRef
-                                        }
-                                        onBehaviorClick={onBehaviorClick}
-                                        setIsConfirmDeleteOpen={
-                                            setIsConfirmDeleteOpen
-                                        }
-                                        segmentMode={
-                                            BehaviorListSegment.NotInThisScene
-                                        }
-                                        onAddBehaviorToScene={
-                                            onAddBehaviorToScene
-                                        }
+                                    <FontIcon
+                                        iconName={'ChevronRight'}
+                                        className={`cb-chevron ${
+                                            isBehaviorLibraryExpanded
+                                                ? 'cb-expanded'
+                                                : 'cb-collapsed'
+                                        }`}
                                     />
-                                ))}
+                                    <Text
+                                        variant="medium"
+                                        className="cb-behavior-list-section-label"
+                                    >
+                                        <span>
+                                            {t(
+                                                '3dSceneBuilder.behaviorsNotInScene'
+                                            )}{' '}
+                                            ({behaviorsNotInScene.length})
+                                        </span>
+                                    </Text>
+                                </div>
+                                {isBehaviorLibraryExpanded &&
+                                    behaviorsNotInScene.map((behavior) => (
+                                        <BehaviorList
+                                            key={behavior.id}
+                                            behavior={behavior}
+                                            behaviorToDeleteRef={
+                                                behaviorToDeleteRef
+                                            }
+                                            onBehaviorClick={onBehaviorClick}
+                                            setIsConfirmDeleteOpen={
+                                                setIsConfirmDeleteOpen
+                                            }
+                                            segmentMode={
+                                                BehaviorListSegment.NotInThisScene
+                                            }
+                                            onAddBehaviorToScene={
+                                                onAddBehaviorToScene
+                                            }
+                                        />
+                                    ))}
                             </div>
                         )}
                     </div>
@@ -252,7 +289,11 @@ const BehaviorList: React.FC<{
         <div
             className="cb-scene-builder-left-panel-behavior"
             key={behavior.id}
-            onClick={() => onBehaviorClick(behavior)}
+            onClick={() => {
+                if (segmentMode === BehaviorListSegment.InThisScene) {
+                    onBehaviorClick(behavior);
+                }
+            }}
         >
             <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
             <Label className="cb-scene-builder-behavior-name">

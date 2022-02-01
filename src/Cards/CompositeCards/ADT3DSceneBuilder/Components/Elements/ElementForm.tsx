@@ -164,7 +164,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 </div>
                 <div className="cb-scene-builder-left-panel-element-objects">
                     <div
-                        className="cb-scene-builder-left-panel-element-objects-header"
+                        className="cb-scene-builder-left-panel-collapse-chevron-header"
                         tabIndex={0}
                         onClick={(e) => {
                             e.stopPropagation();
