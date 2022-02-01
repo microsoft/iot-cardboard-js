@@ -130,7 +130,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                         state.config.viewerConfiguration?.scenes.findIndex(
                                             (s) => s.id === sceneId
                                         )
-                                    ].assets[0].url
+                                    ]?.assets[0].url
                                 }
                                 onMeshSelected={(selectedMeshes) =>
                                     setSelectedMeshIds(selectedMeshes)
@@ -428,7 +428,7 @@ const BuilderLeftPanel: React.FC = () => {
             const mappings =
                 config.viewerConfiguration?.scenes?.find(
                     (s) => s.id === sceneId
-                ).twinToObjectMappings || [];
+                )?.twinToObjectMappings || [];
             dispatch({
                 type: SET_ADT_SCENE_BUILDER_ELEMENTS,
                 payload: mappings

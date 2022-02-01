@@ -90,6 +90,12 @@
         padding-top: 15px;
     }
 
+    .cb-scene-builder-elements-wrapper {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     .cb-scene-builder-element-search-header {
         display: flex;
     }

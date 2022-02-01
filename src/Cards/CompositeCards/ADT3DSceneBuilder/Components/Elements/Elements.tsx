@@ -118,7 +118,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     return (
-        <div>
+        <div className="cb-scene-builder-elements-wrapper">
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
                     {t('3dSceneBuilder.selectBehaviorElements')}
