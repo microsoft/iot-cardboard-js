@@ -292,6 +292,7 @@
         "createBehavior": "Create behavior",
         "modifyBehavior": "Modify Behavior",
         "removeBehavior": "Remove Behavior from this Element",
+        "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
         "noResults": "No results",
         "behaviorsInScene": "In this scene",

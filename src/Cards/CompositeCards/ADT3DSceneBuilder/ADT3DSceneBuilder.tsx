@@ -586,6 +586,7 @@ const BuilderLeftPanel: React.FC = () => {
                     }
                     onElementSave={onElementSave}
                     onBehaviorSave={onBehaviorSave}
+                    onBehaviorClick={onBehaviorClick}
                 />
             )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||

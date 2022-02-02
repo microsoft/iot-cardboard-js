@@ -116,27 +116,34 @@
         margin-top: 15px;
     }
 
+    .cb-scene-builder-element-behaviors-text {
+        font-size: 12px;
+        margin-top: 5px;
+        opacity: 0.6;
+    }
+
     .cb-scene-builder-element-behaviors-spacer {
         background-color: #edebe9;
         height: 1px;
         margin-bottom: 10px;
+        margin-top: 10px;
     }
 
     .cb-scene-builder-element-behavior-item {
-        margin-top: 10px;
         align-items: center;
         display: flex;
+        margin-top: 10px;
     }
 
-    .cb-scene-builder-element-behavior-item-icon{
-        font-size: 16px;
+    .cb-scene-builder-element-behavior-item-icon {
         display: inline-block;
+        font-size: 16px;
     }
 
     .cb-scene-builder-element-behavior-item-name {
-        padding-left: 8px;
-        font-size: 14px;
         flex: 1;
+        font-size: 14px;
+        padding-left: 8px;
     }
 
     .cb-scene-builder-element-behaviors-title {

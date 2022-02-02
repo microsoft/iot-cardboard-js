@@ -1,4 +1,10 @@
-import { IScenesConfig, IBehavior, IScene, DatasourceType } from './3DVConfig';
+import {
+    IScenesConfig,
+    IBehavior,
+    IScene,
+    DatasourceType,
+    ITwinToObjectMapping
+} from './3DVConfig';
 
 /** Static utilty methods for operations on the ViewerConfiguration file. */
 abstract class ViewerConfigUtility {
@@ -262,6 +268,19 @@ abstract class ViewerConfigUtility {
         } else {
             return [[], behaviors];
         }
+    }
+
+    static getBehaviorsOnElement(
+        element: ITwinToObjectMapping,
+        behaviors: Array<IBehavior>
+    ) {
+        return (
+            behaviors.filter((behavior) =>
+                behavior.datasources?.[0]?.mappingIDs?.find(
+                    (id) => id === element?.id
+                )
+            ) || []
+        );
     }
 }
 
