@@ -2,7 +2,6 @@ import {
     FontIcon,
     IconButton,
     IContextualMenuProps,
-    Label,
     Separator,
     Text
 } from '@fluentui/react';
