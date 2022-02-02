@@ -3,9 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
-    Dialog,
-    DialogFooter,
-    DialogType,
     FontIcon,
     IconButton,
     PrimaryButton,
@@ -18,6 +15,8 @@ import {
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
+import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -50,27 +49,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         ITwinToObjectMapping[]
     >([]);
 
-    const confirmDeletionDialogProps = {
-        type: DialogType.normal,
-        title: t('confirmDeletion'),
-        closeButtonAriaLabel: t('close'),
-        subText: t('confirmDeletionDesc')
-    };
-    const confirmDeletionDialogStyles = {
-        main: {
-            maxWidth: 450,
-            minHeight: 165
-        }
-    };
-    const confirmDeletionModalProps = React.useMemo(
-        () => ({
-            isBlocking: false,
-            styles: confirmDeletionDialogStyles,
-            className: 'cb-scene-builder-element-list-dialog-wrapper'
-        }),
-        []
-    );
-
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
@@ -81,7 +59,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 ]
             };
             sceneToUpdate.twinToObjectMappings = params.elements;
-            return adapter.editScene(config, sceneId, sceneToUpdate);
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
+            );
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -257,29 +237,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     )}
                 </div>
             )}
-            <Dialog
-                hidden={!isConfirmDeleteDialogOpen}
-                onDismiss={() => {
+            <ConfirmDeleteDialog
+                isOpen={isConfirmDeleteDialogOpen}
+                onCancel={() => {
                     setElementToDelete(null);
                     setIsConfirmDeleteDialogOpen(false);
                 }}
-                dialogContentProps={confirmDeletionDialogProps}
-                modalProps={confirmDeletionModalProps}
-            >
-                <DialogFooter>
-                    <DefaultButton
-                        onClick={() => {
-                            setElementToDelete(null);
-                            setIsConfirmDeleteDialogOpen(false);
-                        }}
-                        text={t('cancel')}
-                    />
-                    <PrimaryButton
-                        onClick={handleDeleteElement}
-                        text={t('delete')}
-                    />
-                </DialogFooter>
-            </Dialog>
+                onConfirmDeletion={handleDeleteElement}
+                setIsOpen={setIsConfirmDeleteDialogOpen}
+            />
         </div>
     );
 };

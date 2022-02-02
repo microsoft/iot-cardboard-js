@@ -1,5 +1,5 @@
 import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useMemo, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -42,6 +42,7 @@ import { ColoredMeshItem } from '../../../Models/Classes/SceneView.types';
 import SceneBehaviors from './Components/Behaviors/Behaviors';
 import SceneBehaviorsForm from './Components/Behaviors/BehaviorsForm';
 import SceneElements from './Components/Elements/Elements';
+import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -119,7 +120,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     adapterAdditionalParameters={adapterAdditionalParameters}
                 >
                     <div className="cb-scene-builder-left-panel">
-                        <BuilderLeftPanel />
+                        {state.config && <BuilderLeftPanel />}
                     </div>
                     <div className="cb-scene-builder-canvas">
                         {state.config && (
@@ -168,7 +169,26 @@ const BuilderLeftPanel: React.FC = () => {
 
     const addBehaviorAdapterData = useAdapter({
         adapterMethod: (params: { behavior: IBehavior }) =>
-            adapter.addBehavior(config, sceneId, params.behavior),
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehavior(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const addBehaviorToSceneAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehaviorToScene(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -178,11 +198,31 @@ const BuilderLeftPanel: React.FC = () => {
             behavior: IBehavior;
             originalBehaviorId: string;
         }) =>
-            adapter.editBehavior(
-                config,
-                params.behavior,
-                params.originalBehaviorId
+            adapter.putScenesConfig(
+                ViewerConfigUtility.editBehavior(
+                    config,
+                    params.behavior,
+                    params.originalBehaviorId
+                )
             ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const deleteBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behaviorId: string;
+            removeFromAllScenes?: boolean;
+        }) => {
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.deleteBehavior(
+                    config,
+                    sceneId,
+                    params.behaviorId,
+                    params.removeFromAllScenes
+                )
+            );
+        },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -421,6 +461,25 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditBehavior
         });
     };
+
+    const onRemoveBehaviorFromScene = async (
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    ) => {
+        await deleteBehaviorAdapterData.callAdapter({
+            behaviorId,
+            removeFromAllScenes
+        });
+        getConfig();
+    };
+
+    const onAddBehaviorToScene = async (behavior: IBehavior) => {
+        await addBehaviorToSceneAdapterData.callAdapter({
+            behavior
+        });
+        getConfig();
+    };
+
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -441,7 +500,11 @@ const BuilderLeftPanel: React.FC = () => {
         }
     }, [config]);
 
-    const behaviors = config?.viewerConfiguration?.behaviors || [];
+    // Get behaviors in active scene
+    const behaviors = useMemo(
+        () => config?.viewerConfiguration?.behaviors || [],
+        [config, sceneId]
+    );
 
     return (
         <BaseComponent
@@ -504,6 +567,10 @@ const BuilderLeftPanel: React.FC = () => {
                             behaviors={behaviors}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorClick={onCreateBehaviorClick}
+                            onRemoveBehaviorFromScene={
+                                onRemoveBehaviorFromScene
+                            }
+                            onAddBehaviorToScene={onAddBehaviorToScene}
                         />
                     </PivotItem>
                 </Pivot>
