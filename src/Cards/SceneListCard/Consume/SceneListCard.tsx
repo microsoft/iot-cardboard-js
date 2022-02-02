@@ -28,6 +28,7 @@ import {
     IScene
 } from '../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../Models/Services/Utils';
+import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -45,7 +46,9 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
 
     const addScene = useAdapter({
         adapterMethod: (params: { config: IScenesConfig; scene: IScene }) =>
-            adapter.addScene(params.config, params.scene),
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addScene(params.config, params.scene)
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
@@ -55,14 +58,23 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             config: IScenesConfig;
             sceneId: string;
             scene: IScene;
-        }) => adapter.editScene(params.config, params.sceneId, params.scene),
+        }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.editScene(
+                    params.config,
+                    params.sceneId,
+                    params.scene
+                )
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
     const deleteScene = useAdapter({
         adapterMethod: (params: { config: IScenesConfig; sceneId: string }) =>
-            adapter.deleteScene(params.config, params.sceneId),
+            adapter.putScenesConfig(
+                ViewerConfigUtility.deleteScene(params.config, params.sceneId)
+            ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
