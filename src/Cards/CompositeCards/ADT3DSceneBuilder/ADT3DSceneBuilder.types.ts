@@ -147,3 +147,21 @@ export interface IWidgetBuilderFormDataProps {
     formData: IWidget;
     setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
 }
+
+export enum BehaviorActionType {
+    SET_BEHAVIORS_ON_ELEMENT = 'SET_BEHAVIORS_ON_ELEMENT',
+    SET_BEHAVIOR_TO_EDIT = 'SET_BEHAVIOR_TO_EDIT',
+    REMOVE_BEHAVIOR = 'REMOVE_BEHAVIOR'
+}
+
+export interface BehaviorAction {
+    type: BehaviorActionType;
+    behaviors?: Array<IBehavior>;
+    behavior?: IBehavior;
+}
+
+export interface BehaviorState {
+    behaviorToEdit: IBehavior;
+    behaviorsOnElement: Array<IBehavior>;
+    behaviorsToEdit: Array<IBehavior>;
+}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -7,7 +7,12 @@ import {
     PrimaryButton,
     TextField
 } from '@fluentui/react';
-import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
+import {
+    BehaviorAction,
+    BehaviorActionType,
+    BehaviorState,
+    IADT3DSceneBuilderElementFormProps
+} from '../../ADT3DSceneBuilder.types';
 import {
     IBehavior,
     IScene,
@@ -45,13 +50,34 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     );
 
-    const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
-        []
+    const [behaviorState, dispatch] = useReducer(
+        produce((draft: BehaviorState, action: BehaviorAction) => {
+            switch (action.type) {
+                case BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT:
+                    draft.behaviorsOnElement = action.behaviors;
+                    break;
+                case BehaviorActionType.SET_BEHAVIOR_TO_EDIT:
+                    draft.behaviorToEdit = action.behavior;
+                    break;
+                case BehaviorActionType.REMOVE_BEHAVIOR:
+                    draft.behaviorsOnElement = draft.behaviorsOnElement.filter(
+                        (behavior) => behavior.id !== draft.behaviorToEdit.id
+                    );
+                    draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
+                        (mappingId) => mappingId !== elementToEdit.id
+                    );
+                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
+                    break;
+                default:
+                    break;
+            }
+        }),
+        {
+            behaviorToEdit: null,
+            behaviorsOnElement: [],
+            behaviorsToEdit: []
+        }
     );
-    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
-    const [behaviorsOnElement, setBehaviorsOnElement] = useState<
-        Array<IBehavior>
-    >([]);
 
     const {
         adapter,
@@ -104,7 +130,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             elements: newElements
         });
 
-        for (const behavior of behaviorsToEdit) {
+        for (const behavior of behaviorState.behaviorsToEdit) {
             await onBehaviorSave(
                 behavior,
                 ADT3DSceneBuilderMode.EditBehavior,
@@ -123,9 +149,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     }, [selectedMeshIds]);
 
     useEffect(() => {
-        setBehaviorsOnElement(
-            ViewerConfigUtility.getBehaviorsOnElement(elementToEdit, behaviors)
-        );
+        dispatch({
+            type: BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT,
+            behaviors: ViewerConfigUtility.getBehaviorsOnElement(
+                elementToEdit,
+                behaviors
+            )
+        });
     }, [behaviors]);
 
     useEffect(() => {
@@ -145,35 +175,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
 
         setColoredMeshItems(coloredMeshes);
-    };
-
-    const removeBehavior = () => {
-        const behaviorIndex = behaviorsOnElement.indexOf(behaviorToEdit);
-        setBehaviorsOnElement(
-            produce((draft) => {
-                draft.splice(behaviorIndex, 1);
-            })
-        );
-
-        const mappingIdIndex = behaviorToEdit?.datasources?.[0]?.mappingIDs.indexOf(
-            elementToEdit.id
-        );
-
-        setBehaviorToEdit(
-            produce((draft) => {
-                draft.datasources[0].mappingIDs?.splice(mappingIdIndex, 1);
-            })
-        );
-
-        // behaviorToEdit is not yet updated until the next render so using a deep copy to add to the list
-        const behavior = JSON.parse(JSON.stringify(behaviorToEdit));
-        behavior.datasources[0].mappingIDs?.splice(mappingIdIndex, 1);
-
-        setBehaviorsToEdit(
-            produce((draft) => {
-                draft.push(behavior);
-            })
-        );
     };
 
     return (
@@ -301,12 +302,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <div className="cb-scene-builder-element-behaviors-title">
                         {t('3dSceneBuilder.behaviors')}
                     </div>
-                    {behaviorsOnElement?.length === 0 && (
+                    {behaviorState.behaviorsOnElement?.length === 0 && (
                         <div className="cb-scene-builder-element-behaviors-text">
                             {t('3dSceneBuilder.noBehaviorsOnElement')}
                         </div>
                     )}
-                    {behaviorsOnElement.map((behavior) => {
+                    {behaviorState.behaviorsOnElement.map((behavior) => {
                         return (
                             <div
                                 id={behavior.id}
@@ -331,9 +332,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             color: 'black'
                                         }
                                     }}
-                                    onMenuClick={() =>
-                                        setBehaviorToEdit(behavior)
-                                    }
+                                    onMenuClick={() => {
+                                        dispatch({
+                                            type:
+                                                BehaviorActionType.SET_BEHAVIOR_TO_EDIT,
+                                            behavior: behavior
+                                        });
+                                    }}
                                     menuProps={{
                                         items: [
                                             {
@@ -353,7 +358,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                                 iconProps: {
                                                     iconName: 'blocked2'
                                                 },
-                                                onClick: () => removeBehavior()
+                                                onClick: () =>
+                                                    dispatch({
+                                                        type:
+                                                            BehaviorActionType.REMOVE_BEHAVIOR
+                                                    })
                                             }
                                         ]
                                     }}
