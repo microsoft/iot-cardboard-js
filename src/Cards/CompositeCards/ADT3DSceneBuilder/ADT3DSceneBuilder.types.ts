@@ -77,8 +77,11 @@ export interface IADT3DSceneBuilderElementListProps {
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
     selectedElement: ITwinToObjectMapping;
+    behaviors: Array<IBehavior>;
     onElementSave: (elements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
+    onBehaviorSave: OnBehaviorSave;
+    onBehaviorClick: (behavior: IBehavior) => void;
 }
 
 export type BehaviorSaveMode =
@@ -143,4 +146,22 @@ export interface ADT3DSceneBuilderLeftPanelState {
 export interface IWidgetBuilderFormDataProps {
     formData: IWidget;
     setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
+}
+
+export enum BehaviorActionType {
+    SET_BEHAVIORS_ON_ELEMENT = 'SET_BEHAVIORS_ON_ELEMENT',
+    SET_BEHAVIOR_TO_EDIT = 'SET_BEHAVIOR_TO_EDIT',
+    REMOVE_BEHAVIOR = 'REMOVE_BEHAVIOR'
+}
+
+export interface BehaviorAction {
+    type: BehaviorActionType;
+    behaviors?: Array<IBehavior>;
+    behavior?: IBehavior;
+}
+
+export interface BehaviorState {
+    behaviorToEdit: IBehavior;
+    behaviorsOnElement: Array<IBehavior>;
+    behaviorsToEdit: Array<IBehavior>;
 }

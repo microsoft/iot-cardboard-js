@@ -579,11 +579,14 @@ const BuilderLeftPanel: React.FC = () => {
                 state.builderMode === ADT3DSceneBuilderMode.EditElement) && (
                 <SceneElementForm
                     builderMode={state.builderMode}
+                    behaviors={behaviors}
                     selectedElement={state.selectedElement}
                     onElementBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }
                     onElementSave={onElementSave}
+                    onBehaviorSave={onBehaviorSave}
+                    onBehaviorClick={onBehaviorClick}
                 />
             )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
