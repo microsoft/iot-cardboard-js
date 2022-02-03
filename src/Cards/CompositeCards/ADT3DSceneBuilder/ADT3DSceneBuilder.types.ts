@@ -151,17 +151,24 @@ export interface IWidgetBuilderFormDataProps {
 export enum BehaviorActionType {
     SET_BEHAVIORS_ON_ELEMENT = 'SET_BEHAVIORS_ON_ELEMENT',
     SET_BEHAVIOR_TO_EDIT = 'SET_BEHAVIOR_TO_EDIT',
-    REMOVE_BEHAVIOR = 'REMOVE_BEHAVIOR'
+    SET_AVAILABLE_BEHAVIORS = 'SET_AVAILABLE_BEHAVIORS',
+    SET_FILTERED_AVAILABLE_BEHAVIORS = 'SET_FILTERED_AVAILABLE_BEHAVIORS',
+    SEARCH_AVAILABLE_BEHAVIORS = 'SEARCH_AVAILABLE_BEHAVIORS',
+    REMOVE_BEHAVIOR = 'REMOVE_BEHAVIOR',
+    ADD_BEHAVIOR = 'ADD_BEHAVIOR'
 }
 
 export interface BehaviorAction {
     type: BehaviorActionType;
     behaviors?: Array<IBehavior>;
     behavior?: IBehavior;
+    value?: string;
 }
 
 export interface BehaviorState {
     behaviorToEdit: IBehavior;
     behaviorsOnElement: Array<IBehavior>;
     behaviorsToEdit: Array<IBehavior>;
+    availableBehaviors: Array<IBehavior>;
+    filteredAvailableBehaviors: Array<IBehavior>;
 }
