@@ -124,6 +124,11 @@ export interface IADT3DSceneBuilderElementsProps {
     isEditBehavior?: boolean;
 }
 
+export interface IADT3DSceneBuilderTwinSearchProps {
+    selectedTwinId: string;
+    onTwinIdSelect: (selectedTwinId: string) => void;
+}
+
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
     selectedMeshIds: Array<string>;

@@ -1,21 +1,12 @@
-import React, {
-    createRef,
-    useContext,
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
     FontIcon,
     IconButton,
-    Label,
     PrimaryButton,
-    Text,
     TextField
 } from '@fluentui/react';
-import Select from 'react-select';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
     IScene,
@@ -27,8 +18,7 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
-import { AdapterMethodParamsForSearchADTTwins } from '../../../../../Models/Constants/Types';
-import { Utils } from '../../../../../Models/Services';
+import TwinSearchDropdown from './TwinSearchDropdown';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -48,22 +38,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             meshIDs: []
         }
     );
-    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
-        selectedElement?.primaryTwinID ?? ''
-    );
-    const [twinSuggestions, setTwinSuggestions] = useState(
-        selectedElement?.primaryTwinID
-            ? [
-                  {
-                      value: selectedElement?.primaryTwinID,
-                      label: selectedElement?.primaryTwinID
-                  }
-              ]
-            : []
-    );
-    const [selectedTwinId, setSelectedTwinId] = useState(
-        selectedElement?.primaryTwinID
-    );
     const {
         adapter,
         config,
@@ -73,10 +47,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setSelectedMeshIds,
         setColoredMeshItems
     } = useContext(SceneBuilderContext);
-    const shouldAppendTwinSuggestions = useRef(false);
-    const twinSearchContinuationToken = useRef(null);
-    const lastScrollTopRef = useRef(0);
-    const twinSuggestionListRef = createRef();
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
@@ -91,13 +61,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             return adapter.editScene(config, sceneId, sceneToUpdate);
         },
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
-    });
-
-    const searchTwinAdapterData = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
-            adapter.searchADTTwins(params),
-        refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
@@ -140,49 +103,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setColoredMeshItems(coloredMeshes);
     };
 
-    useEffect(() => {
-        setElementToEdit({
-            ...elementToEdit,
-            meshIDs: selectedMeshIds
-        });
-    }, [selectedMeshIds]);
-
-    useEffect(() => {
-        if (updateTwinToObjectMappings.adapterResult.result) {
-            getConfig();
-        }
-    }, [updateTwinToObjectMappings?.adapterResult]);
-
-    useEffect(() => {
-        if (searchTwinAdapterData.adapterResult?.result?.data) {
-            if (shouldAppendTwinSuggestions.current) {
-                setTwinSuggestions(
-                    twinSuggestions.concat(
-                        searchTwinAdapterData.adapterResult.result.data.value.map(
-                            (t) => ({
-                                value: t.$dtId,
-                                label: t.$dtId
-                            })
-                        )
-                    )
-                );
-            } else {
-                setTwinSuggestions(
-                    searchTwinAdapterData.adapterResult.result.data.value.map(
-                        (t) => ({
-                            value: t.$dtId,
-                            label: t.$dtId
-                        })
-                    )
-                );
-            }
-
-            twinSearchContinuationToken.current =
-                searchTwinAdapterData.adapterResult.result.data.continuationToken;
-        }
-    }, [searchTwinAdapterData.adapterResult]);
-
-    useEffect(() => {
+    const handleSelectTwinId = (selectedTwinId: string) => {
         if (!elementToEdit.displayName) {
             setElementToEdit({
                 ...elementToEdit,
@@ -195,64 +116,20 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 primaryTwinID: selectedTwinId
             });
         }
-    }, [selectedTwinId]);
+    };
 
     useEffect(() => {
-        if (lastScrollTopRef.current && !searchTwinAdapterData.isLoading) {
-            debugger;
-            (twinSuggestionListRef.current as HTMLDivElement).scrollTop =
-                lastScrollTopRef.current;
-            lastScrollTopRef.current = 0;
+        setElementToEdit({
+            ...elementToEdit,
+            meshIDs: selectedMeshIds
+        });
+    }, [selectedMeshIds]);
+
+    useEffect(() => {
+        if (updateTwinToObjectMappings.adapterResult.result) {
+            getConfig();
         }
-    }, [twinSuggestionListRef]);
-
-    const handleOnScroll = (event: Event) => {
-        const divElement = event.currentTarget as HTMLDivElement;
-        if (
-            divElement.scrollHeight - divElement.scrollTop <=
-            divElement.clientHeight + 40
-        ) {
-            if (twinSearchContinuationToken.current) {
-                lastScrollTopRef.current = divElement.scrollTop;
-                shouldAppendTwinSuggestions.current = true;
-                searchTwinAdapterData.callAdapter({
-                    searchTerm: twinIdSearchTerm,
-                    shouldSearchByModel: false,
-                    continuationToken: twinSearchContinuationToken.current
-                } as AdapterMethodParamsForSearchADTTwins);
-            }
-        }
-    };
-
-    const CustomOption = (props) => {
-        return (
-            <div
-                {...props.innerProps}
-                className={`cb-search-autocomplete__option ${
-                    props.isSelected ? 'cb-selected' : ''
-                } ${props.isFocused ? 'cb-focused' : ''}`}
-            >
-                {Utils.getMarkedHtmlBySearch(
-                    props.data.label,
-                    twinIdSearchTerm,
-                    true
-                )}
-            </div>
-        );
-    };
-
-    const CustomMenuList = (props) => {
-        return (
-            <div
-                ref={twinSuggestionListRef}
-                {...props.innerProps}
-                className={'cb-search-autocomplete__menu-list'}
-                onScroll={handleOnScroll}
-            >
-                {props.children}
-            </div>
-        );
-    };
+    }, [updateTwinToObjectMappings?.adapterResult]);
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
@@ -274,64 +151,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             />
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
-                    <div>
-                        <Label className="cb-required-icon">
-                            {t('3dSceneBuilder.linkedTwin')}
-                        </Label>
-                        <Select
-                            isSearchable
-                            isClearable
-                            classNamePrefix="cb-search-autocomplete"
-                            className="cb-search-autocomplete-container"
-                            onInputChange={(inputValue, actionMeta) => {
-                                if (actionMeta.action === 'input-change') {
-                                    setTwinIdSearchTerm(inputValue);
-                                    shouldAppendTwinSuggestions.current = false;
-                                    twinSearchContinuationToken.current = null;
-                                    searchTwinAdapterData.cancelAdapter();
-                                    if (inputValue) {
-                                        searchTwinAdapterData.callAdapter({
-                                            searchTerm: inputValue,
-                                            shouldSearchByModel: false,
-                                            continuationToken:
-                                                twinSearchContinuationToken.current
-                                        } as AdapterMethodParamsForSearchADTTwins);
-                                    } else {
-                                        setSelectedTwinId(undefined);
-                                        setTwinSuggestions([]);
-                                    }
-                                } else if (actionMeta.action === 'menu-close') {
-                                    setTwinIdSearchTerm(selectedTwinId ?? '');
-                                }
-                            }}
-                            defaultValue={twinSuggestions[0] ?? undefined}
-                            options={
-                                searchTwinAdapterData.isLoading
-                                    ? []
-                                    : twinSuggestions
-                            }
-                            inputValue={twinIdSearchTerm}
-                            components={{
-                                Option: CustomOption,
-                                MenuList: CustomMenuList
-                            }}
-                            onChange={(option) => {
-                                if (!option) {
-                                    setTwinSuggestions([]);
-                                }
-                                setTwinIdSearchTerm(option?.value ?? '');
-                                setSelectedTwinId(option?.value ?? undefined);
-                            }}
-                            isLoading={searchTwinAdapterData.isLoading}
-                            placeholder={t('3dSceneBuilder.searchTwinId')}
-                        />
-                        <Text
-                            className="cb-search-autocomplete-desc"
-                            variant={'xSmall'}
-                        >
-                            {t('3dSceneBuilder.linkedTwinInputInfo')}
-                        </Text>
-                    </div>
+                    <TwinSearchDropdown
+                        selectedTwinId={selectedElement?.primaryTwinID}
+                        onTwinIdSelect={handleSelectTwinId}
+                    />
                     <TextField
                         label={t('name')}
                         value={elementToEdit?.displayName}

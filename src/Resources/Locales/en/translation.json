@@ -297,7 +297,7 @@
         "editBehavior": "Edit behavior",
         "searchTwinId": "Search Twin ID...",
         "linkedTwin": "Linked twin",
-        "linkedTwinInputInfo": "Enter twin ID ($dtId) that you want to link this element",
+        "linkedTwinInputInfo": "Enter twin ID ($dtId) that you want to link this element (case sensitive)",
         "noMeshAddedText": "No meshes added yet, pelase select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
