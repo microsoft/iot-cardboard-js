@@ -1,4 +1,5 @@
 import {
+    ADTAdapterTwinsData,
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
@@ -17,6 +18,7 @@ import {
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
 import {
+    AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
@@ -519,6 +521,35 @@ export default class MockAdapter
                 sceneVisuals
             );
         });
+    }
+
+    async searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTAdapterTwinsData({
+                    value: [
+                        {
+                            $dtId: params.searchTerm,
+                            $etag: `${params.searchTerm}Tag`,
+                            $metadata: {
+                                $model: `${params.searchTerm}Model`
+                            },
+                            InFlow: 300,
+                            OutFlow: 250,
+                            Temperature: 50
+                        }
+                    ]
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     getBlobContainerURL = () => {
