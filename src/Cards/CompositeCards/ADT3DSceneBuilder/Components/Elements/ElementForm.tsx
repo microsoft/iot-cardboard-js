@@ -154,11 +154,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     }, [updateTwinToObjectMappings?.adapterResult]);
 
     useEffect(() => {
-        if (!searchTwinAdapterData.adapterResult.hasNoData()) {
+        if (searchTwinAdapterData.adapterResult?.result?.data) {
             if (shouldAppendTwinSuggestions.current) {
                 setTwinSuggestions(
                     twinSuggestions.concat(
-                        searchTwinAdapterData.adapterResult.result?.data?.value.map(
+                        searchTwinAdapterData.adapterResult.result.data.value.map(
                             (t) => ({
                                 value: t.$dtId,
                                 label: t.$dtId
@@ -168,7 +168,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 );
             } else {
                 setTwinSuggestions(
-                    searchTwinAdapterData.adapterResult.result?.data?.value.map(
+                    searchTwinAdapterData.adapterResult.result.data.value.map(
                         (t) => ({
                             value: t.$dtId,
                             label: t.$dtId
@@ -178,9 +178,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             }
 
             twinSearchContinuationToken.current =
-                searchTwinAdapterData.adapterResult.result?.data?.continuationToken;
+                searchTwinAdapterData.adapterResult.result.data.continuationToken;
         }
-    }, [searchTwinAdapterData.adapterResult.getData()]);
+    }, [searchTwinAdapterData.adapterResult]);
 
     useEffect(() => {
         if (!elementToEdit.displayName) {
@@ -286,10 +286,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             onInputChange={(inputValue, actionMeta) => {
                                 if (actionMeta.action === 'input-change') {
                                     setTwinIdSearchTerm(inputValue);
+                                    shouldAppendTwinSuggestions.current = false;
+                                    twinSearchContinuationToken.current = null;
                                     searchTwinAdapterData.cancelAdapter();
                                     if (inputValue) {
-                                        shouldAppendTwinSuggestions.current = false;
-                                        twinSearchContinuationToken.current = null;
                                         searchTwinAdapterData.callAdapter({
                                             searchTerm: inputValue,
                                             shouldSearchByModel: false,
@@ -305,7 +305,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 }
                             }}
                             defaultValue={twinSuggestions[0] ?? undefined}
-                            options={twinSuggestions}
+                            options={
+                                searchTwinAdapterData.isLoading
+                                    ? []
+                                    : twinSuggestions
+                            }
                             inputValue={twinIdSearchTerm}
                             components={{
                                 Option: CustomOption,
