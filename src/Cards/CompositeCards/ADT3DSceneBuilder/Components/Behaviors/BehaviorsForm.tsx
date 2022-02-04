@@ -306,12 +306,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     className="cb-scene-builder-done-button"
                                     text={t('3dSceneBuilder.Done')}
                                     onClick={() => updateElementsInBehavior()}
-                                    disabled={
-                                        selectedElements &&
-                                        selectedElements.length > 0
-                                            ? false
-                                            : true
-                                    }
                                 />
                             )}
                         </div>

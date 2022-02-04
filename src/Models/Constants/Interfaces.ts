@@ -40,11 +40,9 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { IScenesConfig, IScene, IBehavior } from '../Classes/3DVConfig';
+import { IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
-import ADTSceneData from '../Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
-import ViewConfigBehaviorData from '../Classes/AdapterDataClasses/ViewConfigBehaviorData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 
 export interface IAction {
@@ -399,29 +397,9 @@ export interface IBlobAdapter {
     getBlobContainerURL: () => string;
     setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
-    addScene: (
-        config: IScenesConfig,
-        scene: IScene
-    ) => AdapterReturnType<ADTSceneData>;
-    editScene: (
-        config: IScenesConfig,
-        sceneId: string,
-        scene: IScene
-    ) => AdapterReturnType<ADTSceneData>;
-    deleteScene: (
-        config: IScenesConfig,
-        sceneId: string
-    ) => AdapterReturnType<ADTSceneData>;
-    addBehavior: (
-        config: IScenesConfig,
-        sceneId: string,
-        behavior: IBehavior
-    ) => AdapterReturnType<ViewConfigBehaviorData>;
-    editBehavior: (
-        config: IScenesConfig,
-        behavior: IBehavior,
-        originalBehaviorId: string
-    ) => AdapterReturnType<ViewConfigBehaviorData>;
+    putScenesConfig: (
+        config: IScenesConfig
+    ) => AdapterReturnType<ADTScenesConfigData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
