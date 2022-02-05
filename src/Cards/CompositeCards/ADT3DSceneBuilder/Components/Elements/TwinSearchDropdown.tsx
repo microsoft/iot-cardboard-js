@@ -151,8 +151,8 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                     MenuList: CustomMenuList
                 }}
                 onInputChange={(inputValue, actionMeta) => {
+                    setTwinIdSearchTerm(inputValue);
                     if (actionMeta.action === 'input-change') {
-                        setTwinIdSearchTerm(inputValue);
                         shouldAppendTwinSuggestions.current = false;
                         twinSearchContinuationToken.current = null;
                         searchTwinAdapterData.cancelAdapter();
@@ -172,7 +172,6 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                     if (!option) {
                         setTwinSuggestions([]);
                     }
-                    setTwinIdSearchTerm(option?.value ?? '');
                     onTwinIdSelect(option?.value ?? undefined);
                 }}
                 placeholder={t('3dSceneBuilder.searchTwinId')}
