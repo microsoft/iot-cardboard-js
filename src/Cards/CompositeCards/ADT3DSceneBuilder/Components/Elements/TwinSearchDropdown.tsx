@@ -1,10 +1,4 @@
-import React, {
-    createRef,
-    useContext,
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Text } from '@fluentui/react';
 import { IADT3DSceneBuilderTwinSearchProps } from '../../ADT3DSceneBuilder.types';
@@ -38,7 +32,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
     const shouldAppendTwinSuggestions = useRef(false);
     const twinSearchContinuationToken = useRef(null);
     const lastScrollTopRef = useRef(0);
-    const twinSuggestionListRef = createRef<HTMLDivElement>();
+    const twinSuggestionListRef = useRef<HTMLDivElement>();
 
     const searchTwinAdapterData = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
@@ -82,7 +76,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                 lastScrollTopRef.current;
             lastScrollTopRef.current = 0;
         }
-    }, [twinSuggestionListRef]);
+    }, [twinSuggestionListRef.current]);
 
     const handleOnScroll = (event) => {
         const divElement = event.currentTarget as HTMLDivElement;
