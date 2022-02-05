@@ -15,9 +15,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
 }) => {
     const { t } = useTranslation();
     const { adapter } = useContext(SceneBuilderContext);
-    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
-        selectedTwinId ?? ''
-    );
+    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState('');
     const [twinSuggestions, setTwinSuggestions] = useState(
         selectedTwinId
             ? [
