@@ -104,14 +104,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             selectedElements?.sort((a, b) =>
                 a.displayName > b.displayName ? 1 : -1
             );
-            const nonSelectedFilteredElements = filteredElements?.filter(
+
+            const nonSelectedElements = elements?.filter(
                 (element) =>
                     !selectedElements.find(
                         (selectedElement) => selectedElement.id === element.id
                     )
             );
             setFilteredElements(
-                selectedElements.concat(nonSelectedFilteredElements)
+                selectedElements.concat(nonSelectedElements)
             );
         }
     }, [selectedElements]);
