@@ -111,9 +111,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         (selectedElement) => selectedElement.id === element.id
                     )
             );
-            setFilteredElements(
-                selectedElements.concat(nonSelectedElements)
-            );
+            setFilteredElements(selectedElements.concat(nonSelectedElements));
         }
     }, [selectedElements]);
 
