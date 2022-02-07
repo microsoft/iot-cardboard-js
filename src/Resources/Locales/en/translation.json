@@ -307,6 +307,8 @@
         "Done": "Done",
         "editBehavior": "Edit behavior",
         "searchTwinId": "Search Twin ID...",
+        "noTwinsFound": "No twins found (search is case sensitive)",
+        "useNonExistingTwinId": "No exact match, use",
         "addBehaviorToScene": "Add behavior to scene",
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "linkedTwin": "Linked twin",

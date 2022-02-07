@@ -5,7 +5,8 @@ import { IADT3DSceneBuilderTwinSearchProps } from '../../ADT3DSceneBuilder.types
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { AdapterMethodParamsForSearchADTTwins } from '../../../../../Models/Constants/Types';
-import Select, { components, MenuListProps } from 'react-select';
+import { components, MenuListProps } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { Utils } from '../../../../../Models/Services';
 
 const SuggestionListScrollThresholdFactor = 40;
@@ -133,7 +134,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
             <Label className="cb-required-icon">
                 {t('3dSceneBuilder.linkedTwin')}
             </Label>
-            <Select
+            <CreatableSelect
                 classNamePrefix="cb-search-autocomplete"
                 className="cb-search-autocomplete-container"
                 options={searchTwinAdapterData.isLoading ? [] : twinSuggestions}
@@ -167,7 +168,16 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                     onTwinIdSelect(option?.value ?? undefined);
                 }}
                 placeholder={t('3dSceneBuilder.searchTwinId')}
+                noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
                 isLoading={searchTwinAdapterData.isLoading}
+                formatCreateLabel={(inputValue: string) =>
+                    `${t(
+                        '3dSceneBuilder.useNonExistingTwinId'
+                    )} "${inputValue}"`
+                }
+                isValidNewOption={(inputValue, _value, options, _accessors) =>
+                    inputValue && options.length === 0
+                }
                 isSearchable
                 isClearable
             />
