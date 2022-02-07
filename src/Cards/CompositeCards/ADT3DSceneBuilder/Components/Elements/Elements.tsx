@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
-    FontIcon,
     IconButton,
     PrimaryButton,
     SearchBox
@@ -29,7 +28,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     onCreateBehaviorClick,
     onElementEnter,
     onElementLeave,
-    isEditBehavior
+    isEditBehavior,
+    hideSearch
 }) => {
     const { t } = useTranslation();
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
@@ -39,11 +39,16 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
+    const [hoveredElement, setHoveredElement] = useState<ITwinToObjectMapping>(
+        undefined
+    );
     const { adapter, config, sceneId } = useContext(SceneBuilderContext);
 
     const [toggleElementSelection, setToggleElementSelection] = useState(
         isEditBehavior
     );
+
+    const elementsSorted = useRef(false);
 
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
@@ -87,8 +92,29 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     }, [updateTwinToObjectMappings?.adapterResult]);
 
     useEffect(() => {
-        setFilteredElements(JSON.parse(JSON.stringify(elements)));
+        const sortedElements = elements?.sort((a, b) =>
+            a.displayName > b.displayName ? 1 : -1
+        );
+        setFilteredElements(JSON.parse(JSON.stringify(sortedElements)));
     }, [elements]);
+
+    useEffect(() => {
+        if (selectedElements?.length > 0 && !elementsSorted.current) {
+            elementsSorted.current = true;
+            selectedElements?.sort((a, b) =>
+                a.displayName > b.displayName ? 1 : -1
+            );
+            const nonSelectedFilteredElements = filteredElements?.filter(
+                (element) =>
+                    !selectedElements.find(
+                        (selectedElement) => selectedElement.id === element.id
+                    )
+            );
+            setFilteredElements(
+                selectedElements.concat(nonSelectedFilteredElements)
+            );
+        }
+    }, [selectedElements]);
 
     const searchElements = (searchTerm: string) => {
         const filtered = elements.filter((element) =>
@@ -98,40 +124,50 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     return (
-        <div>
+        <>
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
                     {t('3dSceneBuilder.selectBehaviorElements')}
                 </div>
             )}
-            <div className="cb-scene-builder-element-search-header">
-                <div className="cb-scene-builder-element-search-box">
-                    <SearchBox
-                        placeholder={t('3dSceneBuilder.searchElements')}
-                        onChange={(event, value) => searchElements(value)}
-                    />
+            {!hideSearch && (
+                <div>
+                    <div className="cb-scene-builder-element-search-header">
+                        <div className="cb-scene-builder-element-search-box">
+                            <SearchBox
+                                placeholder={t('3dSceneBuilder.searchElements')}
+                                onChange={(event, value) =>
+                                    searchElements(value)
+                                }
+                            />
+                        </div>
+                        {!isEditBehavior && (
+                            <IconButton
+                                iconProps={{ iconName: 'MultiSelect' }}
+                                title={t('3dSceneBuilder.toggleCheckboxes')}
+                                styles={{
+                                    iconChecked: { color: '#ffffff' },
+                                    iconHovered: { color: '#ffffff' },
+                                    rootChecked: { background: '#0078d4' },
+                                    rootHovered: { background: '#0078d4' },
+                                    rootCheckedHovered: {
+                                        background: '#0078d4'
+                                    }
+                                }}
+                                ariaLabel={t('3dSceneBuilder.toggleCheckboxes')}
+                                onClick={() => {
+                                    setToggleElementSelection(
+                                        !toggleElementSelection
+                                    );
+                                    clearSelectedElements();
+                                }}
+                                checked={toggleElementSelection}
+                            />
+                        )}
+                    </div>
+                    <div className="cb-scene-builder-element-spacer" />
                 </div>
-                {!isEditBehavior && (
-                    <IconButton
-                        iconProps={{ iconName: 'MultiSelect' }}
-                        title={t('3dSceneBuilder.toggleCheckboxes')}
-                        styles={{
-                            iconChecked: { color: '#ffffff' },
-                            iconHovered: { color: '#ffffff' },
-                            rootChecked: { background: '#0078d4' },
-                            rootHovered: { background: '#0078d4' },
-                            rootCheckedHovered: { background: '#0078d4' }
-                        }}
-                        ariaLabel={t('3dSceneBuilder.toggleCheckboxes')}
-                        onClick={() => {
-                            setToggleElementSelection(!toggleElementSelection);
-                            clearSelectedElements();
-                        }}
-                        checked={toggleElementSelection}
-                    />
-                )}
-            </div>
-            <div className="cb-scene-builder-element-spacer" />
+            )}
             <div className="cb-scene-builder-element-list">
                 {elements.length === 0 ? (
                     <p className="cb-scene-builder-left-panel-text">
@@ -145,6 +181,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     filteredElements.map((element: ITwinToObjectMapping) => (
                         <div
                             className={`cb-scene-builder-left-panel-element ${
+                                hoveredElement?.id === element.id ||
                                 elementToDelete?.id === element.id
                                     ? 'cb-selected-element'
                                     : ''
@@ -167,6 +204,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                                 element,
                                                 checked
                                             );
+                                            elementsSorted.current = true;
                                         }}
                                         defaultChecked={
                                             selectedElements?.find(
@@ -177,26 +215,53 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         }
                                     />
                                 )}
-                                <FontIcon
-                                    iconName={'Shapes'}
-                                    className="cb-element"
-                                />
                                 <span className="cb-scene-builder-element-name">
                                     {element.displayName}
                                 </span>
                             </div>
                             {!toggleElementSelection && (
                                 <IconButton
-                                    className="cb-remove-object-button"
-                                    iconProps={{
-                                        iconName: 'Delete'
+                                    className={`${
+                                        hoveredElement?.id === element.id
+                                            ? 'cb-scene-builder-element-actions-hovered'
+                                            : 'cb-scene-builder-element-actions'
+                                    }`}
+                                    title={t('more')}
+                                    ariaLabel={t('more')}
+                                    menuIconProps={{
+                                        iconName: 'MoreVertical',
+                                        style: {
+                                            fontWeight: 'bold',
+                                            fontSize: 18,
+                                            color: 'black'
+                                        }
                                     }}
-                                    title={t('remove')}
-                                    ariaLabel={t('remove')}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setElementToDelete(element);
-                                        setIsConfirmDeleteDialogOpen(true);
+                                    onMenuClick={() => {
+                                        setHoveredElement(element);
+                                    }}
+                                    menuProps={{
+                                        onMenuDismissed: () => {
+                                            setHoveredElement(null);
+                                        },
+                                        items: [
+                                            {
+                                                key: 'delete',
+                                                text: t(
+                                                    '3dSceneBuilder.deleteElement'
+                                                ),
+                                                className:
+                                                    'cb-scene-builder-element-actions-delete',
+                                                iconProps: {
+                                                    iconName: 'blocked2'
+                                                },
+                                                onClick: () => {
+                                                    setElementToDelete(element);
+                                                    setIsConfirmDeleteDialogOpen(
+                                                        true
+                                                    );
+                                                }
+                                            }
+                                        ]
                                     }}
                                 />
                             )}
@@ -246,7 +311,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 onConfirmDeletion={handleDeleteElement}
                 setIsOpen={setIsConfirmDeleteDialogOpen}
             />
-        </div>
+        </>
     );
 };
 

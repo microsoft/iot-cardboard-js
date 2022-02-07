@@ -279,6 +279,7 @@
         "alerts": "Alerts",
         "widgets": "Widgets",
         "behaviors": "Behaviors",
+        "deleteElement": "Delete element",
         "createElement": "Create element",
         "updateElement": "Update element",
         "searchElements": "Search elements",
