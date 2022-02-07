@@ -14,7 +14,6 @@ import {
     IADT3DSceneBuilderElementFormProps
 } from '../../ADT3DSceneBuilder.types';
 import {
-    IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';

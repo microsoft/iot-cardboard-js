@@ -141,8 +141,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             sc: BABYLON.Scene
         ) {
             let success = true;
+            let token = '';
             if (getToken) {
-                const token = await getToken();
+                token = await getToken();
+            }
+
+            if (token) {
                 Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
                 Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
                 Tools.UseCustomRequestHeaders = true;
