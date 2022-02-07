@@ -226,6 +226,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TwinSearchDropdown
+                        adapter={adapter}
                         selectedTwinId={selectedElement?.primaryTwinID}
                         onTwinIdSelect={handleSelectTwinId}
                     />

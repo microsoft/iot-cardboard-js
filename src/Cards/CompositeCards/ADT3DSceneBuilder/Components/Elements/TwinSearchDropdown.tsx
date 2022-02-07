@@ -11,11 +11,12 @@ import { Utils } from '../../../../../Models/Services';
 
 const SuggestionListScrollThresholdFactor = 40;
 const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
+    adapter,
+    isLabelHidden = false,
     selectedTwinId,
     onTwinIdSelect
 }) => {
     const { t } = useTranslation();
-    const { adapter } = useContext(SceneBuilderContext);
     const [twinIdSearchTerm, setTwinIdSearchTerm] = useState('');
     const [twinSuggestions, setTwinSuggestions] = useState(
         selectedTwinId
@@ -131,9 +132,11 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
 
     return (
         <div>
-            <Label className="cb-required-icon">
-                {t('3dSceneBuilder.linkedTwin')}
-            </Label>
+            {!isLabelHidden && (
+                <Label className="cb-required-icon">
+                    {t('3dSceneBuilder.linkedTwin')}
+                </Label>
+            )}
             <CreatableSelect
                 classNamePrefix="cb-search-autocomplete"
                 className="cb-search-autocomplete-container"
