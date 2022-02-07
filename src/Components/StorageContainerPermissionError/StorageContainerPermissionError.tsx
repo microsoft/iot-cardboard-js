@@ -1,6 +1,6 @@
 import React from 'react';
 import { IErrorComponentProps } from '../../Models/Constants';
-import './StorageContainerPermissionError';
+import './StorageContainerPermissionError.scss';
 import { MessageBar, MessageBarType } from '@fluentui/react';
 
 const StorageContainerPermissionError: React.FC<IErrorComponentProps> = ({
