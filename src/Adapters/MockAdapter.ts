@@ -28,16 +28,9 @@ import {
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/vconfigDecFinal.json';
-import {
-    IScenesConfig,
-    IScene,
-    IBehavior,
-    DatasourceType
-} from '../Models/Classes/3DVConfig';
+import { IScenesConfig, DatasourceType } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
-import ADTSceneData from '../Models/Classes/AdapterDataClasses/ADTSceneData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import ViewConfigBehaviorData from '../Models/Classes/AdapterDataClasses/ViewConfigBehaviorData';
 
 export default class MockAdapter
     implements
@@ -243,163 +236,16 @@ export default class MockAdapter
         }
     }
 
-    async addScene(config: IScenesConfig, scene: IScene) {
+    async putScenesConfig(config: IScenesConfig) {
         try {
-            const updatedConfig = { ...config };
-            updatedConfig.viewerConfiguration.scenes.push(scene);
-
             await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ADTSceneData(scene),
+            this.scenesConfig = config;
+            return new AdapterResult<ADTScenesConfigData>({
+                result: new ADTScenesConfigData(this.scenesConfig),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ADTSceneData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async editScene(config: IScenesConfig, sceneId: string, scene: IScene) {
-        try {
-            const updatedConfig = { ...config };
-            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
-                (s) => s.id === sceneId
-            );
-            updatedConfig.viewerConfiguration.scenes[sceneIndex] = scene;
-
-            await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ADTSceneData(scene),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ADTSceneData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async deleteScene(config: IScenesConfig, sceneId: string) {
-        try {
-            const sceneIndex: number = config.viewerConfiguration.scenes.findIndex(
-                (s) => s.id === sceneId
-            );
-            const updatedConfig = { ...config };
-            updatedConfig.viewerConfiguration.scenes.splice(sceneIndex, 1);
-
-            await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ADTSceneData(
-                    config.viewerConfiguration.scenes[sceneIndex]
-                ),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ADTSceneData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async addBehavior(
-        config: IScenesConfig,
-        sceneId: string,
-        behavior: IBehavior
-    ) {
-        try {
-            const updatedConfig = { ...config };
-            updatedConfig.viewerConfiguration.behaviors.push(behavior);
-            updatedConfig.viewerConfiguration.scenes
-                .find((scene) => scene.id === sceneId)
-                ?.behaviors?.push(behavior.id);
-
-            await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ViewConfigBehaviorData(behavior),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ViewConfigBehaviorData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async editBehavior(
-        config: IScenesConfig,
-        behavior: IBehavior,
-        originalBehaviorId: string
-    ) {
-        try {
-            const updatedConfig = { ...config };
-            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
-                (b) => b.id === originalBehaviorId
-            );
-            updatedConfig.viewerConfiguration.behaviors[behaviorIdx] = behavior;
-
-            await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ViewConfigBehaviorData(behavior),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ViewConfigBehaviorData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
-    async deleteBehavior(config: IScenesConfig, behavior: IBehavior) {
-        try {
-            // TODO refactor duplicatated scene configuration modification logic into utililty class
-            const updatedConfig = { ...config };
-            // Splice behavior out of behavior list
-            const behaviorIdx = updatedConfig.viewerConfiguration.behaviors.findIndex(
-                (b) => b.id === behavior.id
-            );
-
-            if (behaviorIdx !== -1) {
-                updatedConfig.viewerConfiguration.behaviors.splice(
-                    behaviorIdx,
-                    1
-                );
-            }
-
-            // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
-            updatedConfig.viewerConfiguration.scenes.forEach((scene) => {
-                const matchingBehaviorIdIdx = scene.behaviors.indexOf(
-                    behavior.id
-                );
-                if (matchingBehaviorIdIdx !== -1) {
-                    scene.behaviors.splice(matchingBehaviorIdIdx, 1);
-                }
-            });
-
-            await this.mockNetwork();
-            this.scenesConfig = updatedConfig;
-
-            return new AdapterResult({
-                result: new ViewConfigBehaviorData(behavior),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ViewConfigBehaviorData>({
+            return new AdapterResult<ADTScenesConfigData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

@@ -118,7 +118,8 @@ export enum ADT3DSceneBuilderMode {
     CreateElement,
     EditElement,
     CreateBehavior,
-    EditBehavior
+    EditBehavior,
+    TargetElements
 }
 
 export enum ADT3DSceneTwinBindingsMode {
@@ -134,4 +135,9 @@ export enum ADT3DScenePageModes {
 export enum WidgetFormMode {
     Create,
     Edit
+}
+
+export enum BehaviorListSegment {
+    InThisScene,
+    NotInThisScene
 }

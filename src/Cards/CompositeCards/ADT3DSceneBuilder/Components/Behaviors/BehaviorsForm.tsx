@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
     defaultBehavior,
-    IBehavior,
-    ITwinToObjectMapping
+    IBehavior
 } from '../../../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
@@ -26,6 +25,7 @@ import WidgetForm from './Widgets/WidgetForm';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
 import BehaviorFormElementsTab from './BehaviorFormTabs/BehaviorFormElementsTab';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
+import SceneElements from '../Elements/Elements';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -42,19 +42,22 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     elements,
     builderMode,
     selectedBehavior,
+    selectedElements,
     onBehaviorBackClick,
     onBehaviorSave,
-    setSelectedMeshIds
+    setSelectedElements,
+    onElementEnter,
+    onElementLeave,
+    updateSelectedElements
 }) => {
     const { t } = useTranslation();
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
-        Object.keys(selectedBehavior as any).length === 0
-            ? defaultBehavior
-            : selectedBehavior
+        !selectedBehavior ? defaultBehavior : selectedBehavior
     );
 
     const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
+    const [manageElements, setManageElements] = useState(false);
 
     const [
         selectedBehaviorPivotKey,
@@ -64,13 +67,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const [originalBehaviorId, setOriginalBehaviorId] = useState(
         selectedBehavior?.id
     );
-
-    const colorSelectedElements = (
-        elementsToColor: Array<ITwinToObjectMapping>
-    ) => {
-        const meshIds = [].concat(...elementsToColor.map((etc) => etc.meshIDs));
-        setSelectedMeshIds(meshIds);
-    };
 
     useEffect(() => {
         // Color selected meshes
@@ -86,10 +82,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             });
 
         if (selectedElements?.length > 0) {
-            colorSelectedElements(selectedElements);
+            setSelectedElements(selectedElements);
         }
+
         // Save original Id
-        setOriginalBehaviorId(selectedBehavior.id);
+        setOriginalBehaviorId(selectedBehavior?.id);
     }, []);
 
     const getBehaviorFormBreadcrumbItems = () => {
@@ -99,7 +96,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 key: 'behaviorRoot',
                 onClick: () => {
                     onBehaviorBackClick();
-                    setSelectedMeshIds([]);
+                    setSelectedElements([]);
                 }
             }
         ];
@@ -137,6 +134,35 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         return breadcrumbItems;
     };
 
+    const onManageElements = () => {
+        setManageElements(true);
+    };
+
+    const updateElementsInBehavior = () => {
+        const mappingIds = [];
+        selectedElements.forEach((element) => {
+            mappingIds.push(element.id);
+        });
+
+        setBehaviorToEdit(
+            produce((draft) => {
+                if (
+                    draft.datasources &&
+                    draft.datasources[0] &&
+                    draft.datasources[0].mappingIDs
+                ) {
+                    draft.datasources[0].mappingIDs = mappingIds;
+                } else {
+                    draft.datasources[0] = {
+                        type: DatasourceType.TwinToObjectMapping,
+                        mappingIDs: mappingIds
+                    };
+                }
+            })
+        );
+        setManageElements(false);
+    };
+
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -156,91 +182,132 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     <>
                         <div className="cb-scene-builder-left-panel-create-form">
                             <div className="cb-scene-builder-left-panel-create-form-contents">
-                                <TextField
-                                    label={t('3dSceneBuilder.behaviorId')}
-                                    value={behaviorToEdit.id}
-                                    required
-                                    onChange={(_e, newValue) => {
-                                        setBehaviorToEdit(
-                                            produce((draft) => {
-                                                draft.id = newValue.replace(
-                                                    /\s/g,
-                                                    ''
+                                {!manageElements ? (
+                                    <div>
+                                        <TextField
+                                            label={t(
+                                                '3dSceneBuilder.behaviorId'
+                                            )}
+                                            value={behaviorToEdit.id}
+                                            required
+                                            onChange={(_e, newValue) => {
+                                                setBehaviorToEdit(
+                                                    produce((draft) => {
+                                                        draft.id = newValue.replace(
+                                                            /\s/g,
+                                                            ''
+                                                        );
+                                                    })
                                                 );
-                                            })
-                                        );
-                                    }}
-                                />
-
-                                <Pivot
-                                    selectedKey={selectedBehaviorPivotKey}
-                                    onLinkClick={(item) =>
-                                        setSelectedBehaviorPivotKey(
-                                            item.props.itemKey as BehaviorPivot
-                                        )
-                                    }
-                                    styles={{
-                                        root: {
-                                            marginLeft: -8,
-                                            marginBottom: 8
-                                        }
-                                    }}
-                                >
-                                    <PivotItem
-                                        headerText={t(
-                                            '3dSceneBuilder.elements'
-                                        )}
-                                        itemKey={BehaviorPivot.elements}
-                                    >
-                                        <BehaviorFormElementsTab
-                                            elements={elements}
-                                            colorSelectedElements={
-                                                colorSelectedElements
-                                            }
+                                            }}
                                         />
-                                    </PivotItem>
-                                    <PivotItem
-                                        headerText={t('3dSceneBuilder.alerts')}
-                                        itemKey={BehaviorPivot.alerts}
-                                    >
-                                        <BehaviorFormAlertsTab />
-                                    </PivotItem>
-                                    <PivotItem
-                                        headerText={t('3dSceneBuilder.widgets')}
-                                        itemKey={BehaviorPivot.widgets}
-                                    >
-                                        <BehaviorFormWidgetsTab />
-                                    </PivotItem>
-                                </Pivot>
+
+                                        <Pivot
+                                            selectedKey={
+                                                selectedBehaviorPivotKey
+                                            }
+                                            onLinkClick={(item) =>
+                                                setSelectedBehaviorPivotKey(
+                                                    item.props
+                                                        .itemKey as BehaviorPivot
+                                                )
+                                            }
+                                            styles={{
+                                                root: {
+                                                    marginLeft: -8,
+                                                    marginBottom: 8
+                                                }
+                                            }}
+                                        >
+                                            <PivotItem
+                                                headerText={t(
+                                                    '3dSceneBuilder.elements'
+                                                )}
+                                                itemKey={BehaviorPivot.elements}
+                                            >
+                                                <BehaviorFormElementsTab
+                                                    elements={elements}
+                                                    onManageElements={
+                                                        onManageElements
+                                                    }
+                                                />
+                                            </PivotItem>
+                                            <PivotItem
+                                                headerText={t(
+                                                    '3dSceneBuilder.alerts'
+                                                )}
+                                                itemKey={BehaviorPivot.alerts}
+                                            >
+                                                <BehaviorFormAlertsTab />
+                                            </PivotItem>
+                                            <PivotItem
+                                                headerText={t(
+                                                    '3dSceneBuilder.widgets'
+                                                )}
+                                                itemKey={BehaviorPivot.widgets}
+                                            >
+                                                <BehaviorFormWidgetsTab />
+                                            </PivotItem>
+                                        </Pivot>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <SceneElements
+                                            elements={elements}
+                                            selectedElements={selectedElements}
+                                            onElementEnter={onElementEnter}
+                                            onElementLeave={onElementLeave}
+                                            updateSelectedElements={
+                                                updateSelectedElements
+                                            }
+                                            isEditBehavior={true}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
+
                         <div className="cb-scene-builder-left-panel-create-form-actions">
-                            <PrimaryButton
-                                onClick={() => {
-                                    onBehaviorSave(
-                                        behaviorToEdit,
-                                        builderMode as BehaviorSaveMode,
-                                        originalBehaviorId
-                                    );
-                                    onBehaviorBackClick();
-                                    setSelectedMeshIds([]);
-                                }}
-                                text={
-                                    builderMode ===
-                                    ADT3DSceneBuilderMode.CreateBehavior
-                                        ? t('3dSceneBuilder.createBehavior')
-                                        : t('3dSceneBuilder.updateBehavior')
-                                }
-                                disabled={!behaviorToEdit?.id}
-                            />
-                            <DefaultButton
-                                text={t('cancel')}
-                                styles={{ root: { marginLeft: 8 } }}
-                                onClick={() => {
-                                    onBehaviorBackClick();
-                                    setSelectedMeshIds([]);
-                                }}
-                            />
+                            {!manageElements ? (
+                                <div>
+                                    <PrimaryButton
+                                        onClick={() => {
+                                            onBehaviorSave(
+                                                behaviorToEdit,
+                                                builderMode as BehaviorSaveMode,
+                                                originalBehaviorId
+                                            );
+                                            onBehaviorBackClick();
+                                            setSelectedElements([]);
+                                        }}
+                                        text={
+                                            builderMode ===
+                                            ADT3DSceneBuilderMode.CreateBehavior
+                                                ? t(
+                                                      '3dSceneBuilder.createBehavior'
+                                                  )
+                                                : t(
+                                                      '3dSceneBuilder.updateBehavior'
+                                                  )
+                                        }
+                                        disabled={!behaviorToEdit?.id}
+                                    />
+                                    <DefaultButton
+                                        text={t('cancel')}
+                                        styles={{ root: { marginLeft: 8 } }}
+                                        onClick={() => {
+                                            onBehaviorBackClick();
+                                            setSelectedElements([]);
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <PrimaryButton
+                                    className="cb-scene-builder-done-button"
+                                    text={t('3dSceneBuilder.Done')}
+                                    onClick={() => updateElementsInBehavior()}
+                                />
+                            )}
                         </div>
                     </>
                 )}
