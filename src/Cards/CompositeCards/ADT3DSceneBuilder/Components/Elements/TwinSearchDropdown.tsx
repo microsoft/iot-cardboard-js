@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Text } from '@fluentui/react';
 import { IADT3DSceneBuilderTwinSearchProps } from '../../ADT3DSceneBuilder.types';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
-import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { AdapterMethodParamsForSearchADTTwins } from '../../../../../Models/Constants/Types';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
