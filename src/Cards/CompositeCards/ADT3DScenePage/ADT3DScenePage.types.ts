@@ -5,7 +5,10 @@ import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
-import { IComponentError, IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
+import {
+    IComponentError,
+    IConsumeCompositeCardProps
+} from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;

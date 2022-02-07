@@ -68,30 +68,31 @@ export default class BlobAdapter implements IBlobAdapter {
 
                 return new ADTScenesConfigData(config);
             } catch (err) {
-                switch(err?.response?.status) {
+                switch (err?.response?.status) {
                     case 404:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.NonExistantBlob,
                             isCatastrophic: true,
                             rawError: err,
-                            message:'User Config File Not Found'
+                            message: 'User Config File Not Found'
                         });
-                      break;
+                        break;
                     case 403:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.UnAuthorizedAccess,
                             isCatastrophic: true,
                             rawError: err,
-                            message: 'Your storage blob does not exist or you do not have proper permission to view the storage blob'
+                            message:
+                                'Your storage blob does not exist or you do not have proper permission to view the storage blob'
                         });
-                      break;
+                        break;
                     default:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.DataFetchFailed,
                             isCatastrophic: true,
                             rawError: err
                         });
-                  }
+                }
             }
         }, 'storage');
     }

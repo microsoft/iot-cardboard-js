@@ -32,7 +32,6 @@ import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import { IComponentError } from '../../../Models/Constants/Interfaces';
 import { ComponentErrorType } from '../../../Models/Constants/Enums';
 
-
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
     title,
@@ -119,7 +118,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         if (scenesConfig?.adapterResult.getErrors()) {
             const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
             setErrors(errors);
-           console.log(errors[0].message);
+            console.log(errors[0].message);
         } else {
             setErrors([]);
         }
@@ -238,7 +237,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 onClick={() => {
                                     setIsSceneDialogOpen(true);
                                 }}
-                                disabled = {(errors[0]?.type == ComponentErrorType.UnAuthorizedAccess) ? true : false }
+                                disabled={
+                                    errors[0]?.type ==
+                                    ComponentErrorType.UnAuthorizedAccess
+                                        ? true
+                                        : false
+                                }
                             >
                                 {t('addNew')}
                             </ActionButton>
@@ -357,7 +361,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
-                            disabled = {(errors[0]?.type) ? true : false }
+                            disabled={errors[0]?.type ? true : false}
                             text={t('scenes.addScene')}
                         />
                     </div>
