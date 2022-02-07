@@ -21,7 +21,8 @@ export enum ComponentErrorType {
     InvalidCardType = 'InvalidCardType',
     ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError',
-    NonExistantBlob = 'NonExistantBlob'
+    NonExistantBlob = 'NonExistantBlob',
+    UnAuthorizedAccess = 'UnAuthorizedAccess'
 }
 
 export enum HierarchyNodeType {

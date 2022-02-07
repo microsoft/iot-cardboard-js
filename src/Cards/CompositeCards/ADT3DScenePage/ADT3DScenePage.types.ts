@@ -5,7 +5,7 @@ import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
-import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
+import { IComponentError, IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
@@ -30,6 +30,7 @@ export interface ADT3DScenePageState {
     blobContainerURLs: Array<string>;
     selectedScene: IScene;
     scene?: IScene;
+    errors?: Array<IComponentError>;
 }
 
 export interface ADT3DScenePageState {

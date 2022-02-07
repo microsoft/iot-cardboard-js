@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
@@ -14,6 +14,7 @@ import {
     SET_ADT_SCENE_CONFIG,
     SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
+    SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
@@ -26,6 +27,7 @@ import {
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import StorageContainerPermissionError from '../../../Components/StorageContainerPermissionError/StorageContainerPermissionError';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -42,7 +44,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     );
     const { t } = useTranslation();
 
-    const [errors, setErrors] = useState<Array<IComponentError>>([]);
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -120,12 +121,16 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             });
         }
         if (scenesConfig?.adapterResult.getErrors()) {
-            console.log(scenesConfig?.adapterResult.getErrors());
             const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
-            setErrors(errors);
-            console.log(errors[0].message);
+            dispatch({
+                type: SET_ERRORS,
+                payload: errors
+            });
         } else {
-            setErrors([]);
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
         }
     }, [scenesConfig?.adapterResult]);
 
@@ -137,9 +142,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 localeStrings={localeStrings}
                 adapterAdditionalParameters={adapterAdditionalParameters}
             >
-                {errors.length > 0
-                    ? alert(errors[0].message)
-                    : console.log('nothing')}
                 {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                     <div className="cb-scene-page-scene-list-container">
                         <div className="cb-scene-page-scene-environment-picker">
@@ -153,6 +155,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 }
                             />
                         </div>
+                        {state.errors.length > 0 && (
+                            <StorageContainerPermissionError
+                                errorContent={state.errors[0].message}
+                            />
+                        )}
                         {state.selectedBlobContainerURL && (
                             <SceneListCard
                                 key={state.selectedBlobContainerURL}
