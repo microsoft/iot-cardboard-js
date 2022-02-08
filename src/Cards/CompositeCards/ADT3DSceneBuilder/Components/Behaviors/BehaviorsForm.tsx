@@ -156,6 +156,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         );
     }, [selectedElements]);
 
+    const onBehaviorSaveClick = () => {
+        onBehaviorSave(
+            behaviorToEdit,
+            builderMode as BehaviorSaveMode,
+            originalBehaviorId
+        );
+        onBehaviorBackClick();
+        setSelectedElements([]);
+    };
+
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -257,15 +267,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         <div className="cb-scene-builder-left-panel-create-form-actions">
                             <div>
                                 <PrimaryButton
-                                    onClick={() => {
-                                        onBehaviorSave(
-                                            behaviorToEdit,
-                                            builderMode as BehaviorSaveMode,
-                                            originalBehaviorId
-                                        );
-                                        onBehaviorBackClick();
-                                        setSelectedElements([]);
-                                    }}
+                                    onClick={onBehaviorSaveClick}
                                     text={
                                         builderMode ===
                                         ADT3DSceneBuilderMode.CreateBehavior
