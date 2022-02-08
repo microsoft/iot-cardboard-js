@@ -118,7 +118,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
             value,
             value.substring(0, changedPosition)
         );
-        console.log(search, tokens, activeToken);
+
         let items = aliasNames || ['LinkedTwin'];
         let isTwin = true;
         if (
