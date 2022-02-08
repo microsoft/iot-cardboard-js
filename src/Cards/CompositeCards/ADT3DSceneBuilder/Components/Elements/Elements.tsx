@@ -269,7 +269,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                                 iconProps: {
                                                     iconName: 'edit'
                                                 },
-                                                onClick: () => onElementClick(element)
+                                                onClick: () =>
+                                                    onElementClick(element)
                                             },
                                             {
                                                 key: 'delete',
