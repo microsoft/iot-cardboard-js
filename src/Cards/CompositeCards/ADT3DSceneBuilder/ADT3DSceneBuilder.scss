@@ -97,7 +97,7 @@
         height: 100%;
         justify-content: space-between;
         margin-left: 8px;
-        padding-top: 15px;
+        padding-top: 12px;
     }
 
     .cb-scene-builder-element-search-header {
@@ -106,33 +106,33 @@
 
     .cb-scene-builder-element-search-box {
         flex: 1;
-        margin-right: 5px;
+        margin-right: 4px;
     }
 
     .cb-scene-builder-element-spacer {
         background-color: #edebe9;
         height: 1px;
-        margin-bottom: 5px;
-        margin-top: 15px;
+        margin-bottom: 4px;
+        margin-top: 12px;
     }
 
     .cb-scene-builder-element-behaviors-text {
         font-size: 12px;
-        margin-top: 5px;
+        margin-top: 4px;
         opacity: 0.6;
     }
 
     .cb-scene-builder-element-behaviors-spacer {
         background-color: #edebe9;
         height: 1px;
-        margin-bottom: 10px;
-        margin-top: 10px;
+        margin-bottom: 8px;
+        margin-top: 8px;
     }
 
     .cb-scene-builder-element-behavior-item {
         align-items: center;
         display: flex;
-        margin-top: 10px;
+        margin-top: 8px;
     }
 
     .cb-scene-builder-element-behavior-item-icon {
@@ -151,11 +151,11 @@
     }
 
     .cb-scene-builder-element-checkbox {
-        margin-right: 10px;
+        margin-right: 8px;
     }
 
     .cb-scene-builder-cancel-button {
-        margin-left: 10px;
+        margin-left: 8px;
     }
 
     .cb-scene-builder-element-list,
@@ -172,7 +172,7 @@
         display: flex;
         height: 32px;
         line-height: 32px;
-        width: calc(100% + 10px);
+        width: calc(100% + 8px);
 
         .cb-scene-builder-element-name {
             cursor: pointer;
@@ -181,19 +181,19 @@
         }
 
         .cb-scene-builder-element-actions {
-            margin-right: 10px;
+            margin-right: 8px;
             opacity: 0;
         }
 
         .cb-scene-builder-element-actions-hovered {
-            margin-right: 10px;
+            margin-right: 8px;
             opacity: 1;
         }
     }
 
     .cb-scene-builder-left-panel-element:hover {
         .cb-scene-builder-element-actions {
-            margin-right: 10px;
+            margin-right: 8px;
             opacity: 1;
         }
     }
@@ -466,7 +466,7 @@
 
 .cb-scene-builder-elements-title {
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .cb-scene-builder-done-button {
