@@ -34,7 +34,10 @@ export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelS
     selectedBehavior: null
 };
 
-export const ADT3DSceneBuilderReducer = produce(
+export const ADT3DSceneBuilderReducer: (
+    draft: ADT3DSceneBuilderState,
+    action: IAction
+) => ADT3DSceneBuilderState = produce(
     (draft: ADT3DSceneBuilderState, action: IAction) => {
         const payload = action.payload;
 

@@ -2,7 +2,6 @@ import React, { useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
-import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import { IADT3DScenePageProps } from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
 import { Breadcrumb } from '@fluentui/react';
@@ -23,6 +22,7 @@ import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -119,11 +119,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
     return (
         <div className="cb-scene-page-container">
-            <BaseCompositeCard
+            <BaseComponent
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                adapterAdditionalParameters={adapterAdditionalParameters}
             >
                 {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                     <div className="cb-scene-page-scene-list-container">
@@ -198,7 +197,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 )}
                 {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
                     <>
-                        <Breadcrumb
+                        {/* <Breadcrumb
                             className="cb-scene-page-scene-builder-breadcrumb"
                             items={[
                                 {
@@ -214,7 +213,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             maxDisplayedItems={10}
                             ariaLabel="Breadcrumb with items rendered as buttons"
                             overflowAriaLabel="More links"
-                        />
+                        /> */}
                         <div className="cb-scene-builder-and-viewer-container">
                             <ADT3DSceneBuilderContainer
                                 scenesConfig={state.scenesConfig}
@@ -231,7 +230,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </div>
                     </>
                 )}
-            </BaseCompositeCard>
+            </BaseComponent>
         </div>
     );
 };

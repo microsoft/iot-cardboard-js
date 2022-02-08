@@ -18,7 +18,10 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     currentStep: ADT3DScenePageSteps.SceneLobby
 };
 
-export const ADT3DScenePageReducer = produce(
+export const ADT3DScenePageReducer: (
+    draft: ADT3DScenePageState,
+    action: IAction
+) => ADT3DScenePageState = produce(
     (draft: ADT3DScenePageState, action: IAction) => {
         const payload = action.payload;
 

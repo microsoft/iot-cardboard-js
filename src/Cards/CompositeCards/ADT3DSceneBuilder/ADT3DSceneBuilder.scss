@@ -1,11 +1,13 @@
 @import '../../../Resources/Styles/BaseStyles';
 
 .cb-scene-builder-card-wrapper {
+    display: flex;
     height: 100%;
     width: 100%;
 
     .cb-scene-builder-canvas {
         height: 100%;
+        flex-grow: 1;
     }
 
     .cb-base-composite-card-item {
@@ -18,7 +20,10 @@
 }
 
 .cb-scene-builder-left-panel {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    padding: 0 20px 20px 0;
     width: 360px;
 
     .cb-scene-builder-left-panel-text {
@@ -88,16 +93,6 @@
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
-        padding-left: 8px;
-    }
-
-    .cb-scene-builder-pivot-contents-elements {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-between;
-        margin-left: 8px;
-        padding-top: 15px;
     }
 
     .cb-scene-builder-element-search-header {
@@ -110,10 +105,9 @@
     }
 
     .cb-scene-builder-element-spacer {
-        background-color: #edebe9;
+        background-color: var(--cb-color-divider);
         height: 1px;
-        margin-bottom: -10px;
-        margin-top: 15px;
+        margin-top: 16px;
     }
 
     .cb-scene-builder-element-behaviors-text {
@@ -123,7 +117,7 @@
     }
 
     .cb-scene-builder-element-behaviors-spacer {
-        background-color: #edebe9;
+        background-color: var(--cb-color-divider);
         height: 1px;
         margin-bottom: 10px;
         margin-top: 10px;
@@ -165,7 +159,6 @@
         margin-bottom: 16px;
         overflow-x: hidden;
         overflow-y: auto;
-        padding: 16px 16px 0 0;
     }
 
     .cb-scene-builder-left-panel-element {
@@ -414,7 +407,7 @@
 .cb-scene-builder-left-panel-pivot {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex-grow: 1;
     width: 100%;
 
     > div:last-child {

@@ -33,6 +33,7 @@
     }
 
     .cb-scene-builder-and-viewer-container {
+        height: 100%;
         flex-grow: 1;
         overflow: auto;
     }
@@ -53,10 +54,6 @@
 
     .cb-scene-view-viewer {
         height: 100%;
-        margin-top: -1px;
-    }
-
-    .cb-scene-builder-canvas {
         margin-top: -1px;
     }
 
@@ -83,4 +80,9 @@
             height: 100%;
         }
     }
+}
+
+.cb-left-panel-builder-breadcrumb-container {
+    background-color: red;
+    height: 52px;
 }
