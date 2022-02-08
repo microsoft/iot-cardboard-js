@@ -189,6 +189,18 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             onClick={() => {
                                 if (!toggleElementSelection) {
                                     onElementClick(element);
+                                } else {
+                                    updateSelectedElements(
+                                        element,
+                                        selectedElements?.find(
+                                            (selectedElement) =>
+                                                selectedElement.id ===
+                                                element.id
+                                        )
+                                            ? false
+                                            : true
+                                    );
+                                    elementsSorted.current = true;
                                 }
                             }}
                             onMouseOver={() => onElementEnter(element)}
@@ -198,14 +210,20 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 {toggleElementSelection && (
                                     <Checkbox
                                         className="cb-scene-builder-element-checkbox"
-                                        onChange={(e, checked) => {
+                                        onChange={() => {
                                             updateSelectedElements(
                                                 element,
-                                                checked
+                                                selectedElements?.find(
+                                                    (selectedElement) =>
+                                                        selectedElement.id ===
+                                                        element.id
+                                                )
+                                                    ? true
+                                                    : false
                                             );
                                             elementsSorted.current = true;
                                         }}
-                                        defaultChecked={
+                                        checked={
                                             selectedElements?.find(
                                                 (item) => item.id === element.id
                                             )
