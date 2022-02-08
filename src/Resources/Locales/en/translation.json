@@ -282,6 +282,7 @@
         "deleteElement": "Delete element",
         "createElement": "Create element",
         "updateElement": "Update element",
+        "editElement": "Edit element",
         "searchElements": "Search elements",
         "manageTargetElements": "Manage target elements",
         "selectBehaviorElements": "Select elements for this behavior to target",

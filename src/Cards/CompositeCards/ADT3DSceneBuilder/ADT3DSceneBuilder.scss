@@ -185,6 +185,11 @@
             opacity: 0;
         }
 
+        .cb-scene-builder-element-actions:focus {
+            margin-right: 8px;
+            opacity: 1;
+        }
+
         .cb-scene-builder-element-actions-hovered {
             margin-right: 8px;
             opacity: 1;

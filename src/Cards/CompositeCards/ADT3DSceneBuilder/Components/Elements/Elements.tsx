@@ -262,12 +262,20 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         },
                                         items: [
                                             {
+                                                key: 'Edit',
+                                                text: t(
+                                                    '3dSceneBuilder.editElement'
+                                                ),
+                                                iconProps: {
+                                                    iconName: 'edit'
+                                                },
+                                                onClick: () => onElementClick(element)
+                                            },
+                                            {
                                                 key: 'delete',
                                                 text: t(
                                                     '3dSceneBuilder.deleteElement'
                                                 ),
-                                                className:
-                                                    'cb-scene-builder-element-actions-delete',
                                                 iconProps: {
                                                     iconName: 'blocked2'
                                                 },
