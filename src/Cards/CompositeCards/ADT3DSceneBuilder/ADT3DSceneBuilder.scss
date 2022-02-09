@@ -186,20 +186,21 @@
     }
 
     .cb-scene-builder-left-panel-element {
+        align-items: center;
         cursor: pointer;
         display: flex;
-        padding-bottom: 4px;
-        padding-top: 4px;
-        width: calc(100% + 8px);
+        padding-left: 8px;
 
         .cb-element-icon {
-            align-items: baseline;
-            margin-right: 8px;
-            margin-top: 4px;
+            align-items: center;
+            display: flex;
+            font-size: 16px;
+            height: 100%;
         }
 
         .cb-scene-builder-element-title {
             flex: 1;
+            padding: 6px;
         }
 
         .cb-scene-builder-element-name {
@@ -219,7 +220,6 @@
         }
 
         .cb-scene-builder-element-actions {
-            margin-right: 8px;
             opacity: 0;
 
             &:focus-visible {
@@ -228,7 +228,6 @@
         }
 
         .cb-scene-builder-element-actions-hovered {
-            margin-right: 8px;
             opacity: 1;
         }
     }
@@ -239,7 +238,6 @@
 
     .cb-scene-builder-left-panel-element:hover {
         .cb-scene-builder-element-actions {
-            margin-right: 8px;
             opacity: 1;
         }
     }
@@ -248,9 +246,7 @@
         align-items: center;
         cursor: pointer;
         display: flex;
-        margin-left: -8px;
-        padding-left: 16px;
-        width: calc(100% + 16px);
+        padding-left: 8px;
     }
 
     .cb-scene-builder-behavior-name {
@@ -325,7 +321,7 @@
     .cb-behavior-icon {
         align-items: center;
         display: flex;
-        font-size: 14px;
+        font-size: 16px;
         height: 100%;
     }
 
