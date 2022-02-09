@@ -312,7 +312,7 @@
         "addBehaviorToScene": "Add behavior to scene",
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "linkedTwin": "Linked twin",
-        "linkedTwinInputInfo": "Enter twin ID ($dtId) that you want to link this element (case sensitive)",
+        "linkedTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
         "noMeshAddedText": "No meshes added yet, pelase select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
