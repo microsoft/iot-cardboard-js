@@ -92,3 +92,18 @@
     right: 20px;
     top: 20px;
 }
+
+.cb-left-panel-builder-header {
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.cb-left-panel-builder-subheader-icon {
+    margin-right: 6px;
+}
+
+.cb-left-panel-builder-subheader {
+    align-items: center;
+    display: flex;
+    color: var(--cb-color-text-secondary);
+}
