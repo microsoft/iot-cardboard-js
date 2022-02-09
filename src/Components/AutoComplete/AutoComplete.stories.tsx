@@ -26,7 +26,7 @@ export const SimpleAutoComplete = () => {
 
 function getPropertyNames(alias: string) {
     if (alias.toLowerCase() === 'alias1' || alias.toLowerCase() === 'alias2') {
-        return ['AliasProperty1', 'AliasProperty2', 'AliasProperty3'];
+        return ['AliasProperty1', 'AliasProperty2', 'AliasProperty3', 'AliasProp'];
     } else if (alias.toLowerCase() === 'linkedtwin') {
         return ['Temperature', 'Pressure', 'Humidity'];
     } else {
