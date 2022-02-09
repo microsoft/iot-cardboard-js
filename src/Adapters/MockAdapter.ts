@@ -1,4 +1,5 @@
 import {
+    ADTAdapterTwinsData,
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
@@ -17,6 +18,7 @@ import {
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
 import {
+    AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
     IGetKeyValuePairsAdditionalParameters
 } from '../Models/Constants';
@@ -365,6 +367,76 @@ export default class MockAdapter
                 sceneVisuals
             );
         });
+    }
+
+    async searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
+        const mockTwins = [
+            {
+                $dtId: 'PasteurizationMachine_A01',
+                $etag: 'PasteurizationMachineTag',
+                $metadata: {
+                    $model: 'PasteurizationMachine'
+                },
+                InFlow: 100,
+                OutFlow: 150,
+                Temperature: 50
+            },
+            {
+                $dtId: 'PasteurizationMachine_A02',
+                $etag: 'PasteurizationMachineTag',
+                $metadata: {
+                    $model: 'PasteurizationMachine'
+                },
+                InFlow: 200,
+                OutFlow: 250,
+                Temperature: 150
+            },
+            {
+                $dtId: 'PasteurizationMachine_A03',
+                $etag: 'PasteurizationMachineTag',
+                $metadata: {
+                    $model: 'PasteurizationMachine'
+                },
+                InFlow: 300,
+                OutFlow: 350,
+                Temperature: 250
+            },
+            {
+                $dtId: 'SaltMachine_C1',
+                $etag: 'SaltMachineTag',
+                $metadata: {
+                    $model: 'SaltMachine'
+                },
+                InFlow: 100,
+                OutFlow: 150
+            },
+            {
+                $dtId: 'SaltMachine_C2',
+                $etag: 'SaltMachineTag',
+                $metadata: {
+                    $model: 'SaltMachine'
+                },
+                InFlow: 200,
+                OutFlow: 250
+            }
+        ];
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTAdapterTwinsData({
+                    value: mockTwins.filter((t) =>
+                        t.$dtId.includes(params.searchTerm)
+                    )
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     getBlobContainerURL = () => {
