@@ -124,6 +124,7 @@ export interface IADT3DSceneBuilderElementsProps {
     onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementClick?: (element: ITwinToObjectMapping) => void;
     isEditBehavior?: boolean;
+    hideSearch?: boolean;
 }
 
 export interface ADT3DSceneBuilderState {
