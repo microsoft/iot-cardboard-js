@@ -33,8 +33,8 @@
     }
 
     .cb-scene-builder-and-viewer-container {
-        height: 100%;
         flex-grow: 1;
+        height: 100%;
         overflow: auto;
     }
 
@@ -83,7 +83,7 @@
 }
 
 .cb-left-panel-builder-breadcrumb-container {
-    background-color: red;
+    background-color: #f00;
     height: 52px;
 }
 
@@ -104,6 +104,6 @@
 
 .cb-left-panel-builder-subheader {
     align-items: center;
-    display: flex;
     color: var(--cb-color-text-secondary);
+    display: flex;
 }
