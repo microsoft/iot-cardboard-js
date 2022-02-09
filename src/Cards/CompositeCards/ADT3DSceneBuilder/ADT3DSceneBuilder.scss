@@ -565,6 +565,10 @@
         justify-content: center;
         line-height: 16px;
     }
+
+    .cb-search-autocomplete__indicator {
+        cursor: pointer;
+    }
     /* stylelint-enable selector-class-pattern */
 }
 

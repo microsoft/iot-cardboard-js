@@ -178,7 +178,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     const handleSelectTwinId = (selectedTwinId: string) => {
-        if (!elementToEdit.displayName) {
+        if (elementToEdit.displayName === elementToEdit.primaryTwinID) {
             setElementToEdit({
                 ...elementToEdit,
                 primaryTwinID: selectedTwinId,
