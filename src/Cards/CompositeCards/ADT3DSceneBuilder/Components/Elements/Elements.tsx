@@ -195,7 +195,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 elementToDelete?.id === element.id
                                     ? 'cb-selected-element'
                                     : ''
-                            }`}
+                            }${isEditBehavior && 'cb-element-center'}`}
                             key={element.displayName}
                             onClick={() => {
                                 if (!toggleElementSelection) {
@@ -226,28 +226,32 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                     }
                                 />
                             )}
-                            <div>
-                                <FontIcon
-                                    iconName={'Shapes'}
-                                    className="cb-element-icon"
-                                />
-                            </div>
+                            {!isEditBehavior && (
+                                <div>
+                                    <FontIcon
+                                        iconName={'Shapes'}
+                                        className="cb-element-icon"
+                                    />
+                                </div>
+                            )}
                             <div className="cb-scene-builder-element-title">
                                 <div className="cb-scene-builder-element-name">
                                     {element.displayName}
                                 </div>
-                                <div className="cb-scene-builder-element-item-meta">
-                                    {t('3dSceneBuilder.elementMetaText', {
-                                        numBehaviors: ViewerConfigUtility.getElementMetaData(
-                                            element,
-                                            config
-                                        )?.numBehaviors,
-                                        numMeshes: ViewerConfigUtility.getElementMetaData(
-                                            element,
-                                            config
-                                        )?.numMeshes
-                                    })}
-                                </div>
+                                {!isEditBehavior && (
+                                    <div className="cb-scene-builder-element-item-meta">
+                                        {t('3dSceneBuilder.elementMetaText', {
+                                            numBehaviors: ViewerConfigUtility.getElementMetaData(
+                                                element,
+                                                config
+                                            )?.numBehaviors,
+                                            numMeshes: ViewerConfigUtility.getElementMetaData(
+                                                element,
+                                                config
+                                            )?.numMeshes
+                                        })}
+                                    </div>
+                                )}
                             </div>
                             {!toggleElementSelection && (
                                 <IconButton

@@ -151,6 +151,7 @@
     }
 
     .cb-scene-builder-element-checkbox {
+        margin-bottom: 4px;
         margin-right: 8px;
         margin-top: 4px;
     }
@@ -177,16 +178,22 @@
         .cb-element-icon {
             align-items: baseline;
             margin-top: 4px;
+            margin-right: 8px;
         }
 
         .cb-scene-builder-element-title {
             flex: 1;
-            margin-left: 8px;
         }
 
         .cb-scene-builder-element-name {
             font-size: 14px;
             font-weight: normal;
+        }
+
+        .cb-scene-builder-element-name-simple {
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 4px;
         }
 
         .cb-scene-builder-element-item-meta {
@@ -207,6 +214,10 @@
             margin-right: 8px;
             opacity: 1;
         }
+    }
+
+    .cb-element-center {
+        align-items: center;
     }
 
     .cb-scene-builder-left-panel-element:hover {
