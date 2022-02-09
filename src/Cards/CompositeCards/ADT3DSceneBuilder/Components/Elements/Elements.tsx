@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
+    FontIcon,
     IconButton,
     PrimaryButton,
     SearchBox
@@ -122,6 +123,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setFilteredElements(filtered);
     };
 
+    const updateCheckbox = (element: ITwinToObjectMapping) => {
+        const shouldCheck = selectedElements?.find((selectedElement) => selectedElement.id === element.id) ? false : true;
+        updateSelectedElements(
+            element,
+            shouldCheck
+        );
+        elementsSorted.current = true;
+    }
+
     return (
         <>
             {isEditBehavior && (
@@ -190,39 +200,22 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 if (!toggleElementSelection) {
                                     onElementClick(element);
                                 } else {
-                                    updateSelectedElements(
-                                        element,
-                                        selectedElements?.find(
-                                            (selectedElement) =>
-                                                selectedElement.id ===
-                                                element.id
-                                        )
-                                            ? false
-                                            : true
-                                    );
-                                    elementsSorted.current = true;
+                                    updateCheckbox(element);
                                 }
                             }}
                             onMouseOver={() => onElementEnter(element)}
                             onMouseLeave={() => onElementLeave(element)}
                         >
-                            <div className="cb-element-name-wrapper">
                                 {toggleElementSelection && (
                                     <Checkbox
-                                        className="cb-scene-builder-element-checkbox"
-                                        onChange={() => {
+                                        onChange={(e, checked) => {
                                             updateSelectedElements(
                                                 element,
-                                                selectedElements?.find(
-                                                    (selectedElement) =>
-                                                        selectedElement.id ===
-                                                        element.id
-                                                )
-                                                    ? true
-                                                    : false
+                                                !checked
                                             );
                                             elementsSorted.current = true;
                                         }}
+                                        className="cb-scene-builder-element-checkbox"
                                         checked={
                                             selectedElements?.find(
                                                 (item) => item.id === element.id
@@ -232,10 +225,21 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         }
                                     />
                                 )}
-                                <span className="cb-scene-builder-element-name">
-                                    {element.displayName}
-                                </span>
-                            </div>
+                                <div>
+                                    <FontIcon iconName={'Shapes'} className="cb-element-icon" />
+                                </div>
+                                <div className='cb-scene-builder-element-title'>
+                                    <div className="cb-scene-builder-element-name">
+                                        {element.displayName}
+                                    </div>
+                                    <div className='cb-scene-builder-element-item-meta'>
+                                        {t('3dSceneBuilder.elementMetaText', {
+                                            numBehaviors:
+                                            ViewerConfigUtility.getElementMetaData(element, config)?.numBehaviors,
+                                            numMeshes: ViewerConfigUtility.getElementMetaData(element, config)?.numMeshes
+                                        })}
+                                    </div>
+                                </div>
                             {!toggleElementSelection && (
                                 <IconButton
                                     className={`${
@@ -262,9 +266,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         },
                                         items: [
                                             {
-                                                key: 'Edit',
+                                                key: 'Modify',
                                                 text: t(
-                                                    '3dSceneBuilder.editElement'
+                                                    '3dSceneBuilder.modifyElement'
                                                 ),
                                                 iconProps: {
                                                     iconName: 'edit'
@@ -275,7 +279,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                             {
                                                 key: 'delete',
                                                 text: t(
-                                                    '3dSceneBuilder.deleteElement'
+                                                    '3dSceneBuilder.removeElement'
                                                 ),
                                                 iconProps: {
                                                     iconName: 'blocked2'

@@ -214,6 +214,19 @@ abstract class ViewerConfigUtility {
         };
     }
 
+    /** Returns information about the number of behaviors and meshes on a element  */
+    static getElementMetaData(
+        element: ITwinToObjectMapping,
+        config: IScenesConfig
+    ): { numBehaviors: number; numMeshes: number } {
+        const numMeshes = element.meshIDs?.length;
+        const numBehaviors = this.getBehaviorsOnElement(element, config?.viewerConfiguration?.behaviors)?.length;
+        return {
+            numBehaviors,
+            numMeshes
+        };
+    }
+
     static getDictionaryOfElementsIdsInScene(
         config: IScenesConfig,
         sceneId: string
@@ -275,7 +288,7 @@ abstract class ViewerConfigUtility {
         behaviors: Array<IBehavior>
     ) {
         return (
-            behaviors.filter((behavior) =>
+            behaviors?.filter((behavior) =>
                 behavior.datasources?.[0]?.mappingIDs?.find(
                     (id) => id === element?.id
                 )

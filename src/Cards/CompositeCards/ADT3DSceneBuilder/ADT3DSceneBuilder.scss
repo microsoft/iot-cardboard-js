@@ -151,6 +151,7 @@
     }
 
     .cb-scene-builder-element-checkbox {
+        margin-top: 4px;
         margin-right: 8px;
     }
 
@@ -167,27 +168,39 @@
     }
 
     .cb-scene-builder-left-panel-element {
-        align-items: center;
         cursor: pointer;
         display: flex;
-        height: 32px;
-        line-height: 32px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         width: calc(100% + 8px);
 
+        .cb-element-icon {
+            align-items: baseline;
+            margin-top: 4px;
+        }
+
+        .cb-scene-builder-element-title {
+            margin-left: 8px;
+            flex: 1;
+        }
+
         .cb-scene-builder-element-name {
-            cursor: pointer;
             font-size: 14px;
             font-weight: normal;
+        }
+
+        .cb-scene-builder-element-item-meta {
+            color: var(--cb-color-inactive);
+            font-size: 11px;
         }
 
         .cb-scene-builder-element-actions {
             margin-right: 8px;
             opacity: 0;
-        }
 
-        .cb-scene-builder-element-actions:focus {
-            margin-right: 8px;
-            opacity: 1;
+            &:focus-visible {
+                opacity: 1;
+            }
         }
 
         .cb-scene-builder-element-actions-hovered {
@@ -233,12 +246,6 @@
         background: var(--cb-color-icon-hover-bg);
         cursor: pointer;
         filter: unset;
-    }
-
-    .cb-element-name-wrapper {
-        align-items: center;
-        display: flex;
-        flex-grow: 1;
     }
 
     .cb-scene-builder-create-button {
