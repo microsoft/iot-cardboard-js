@@ -6,7 +6,8 @@ import {
     FontIcon,
     IconButton,
     PrimaryButton,
-    SearchBox
+    SearchBox,
+    Separator
 } from '@fluentui/react';
 import {
     IScene,
@@ -53,9 +54,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
                 ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
-                        (s) => s.id === sceneId
-                    )
+                config.viewerConfiguration.scenes.findIndex(
+                    (s) => s.id === sceneId
+                )
                 ]
             };
             sceneToUpdate.twinToObjectMappings = params.elements;
@@ -98,7 +99,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     return (
-        <div>
+        <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
                     {t('3dSceneBuilder.selectBehaviorElements')}
@@ -107,7 +108,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             <div className="cb-scene-builder-element-search-header">
                 <div className="cb-scene-builder-element-search-box">
                     <SearchBox
-                        placeholder={t('3dSceneBuilder.searchElements')}
+                        placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
                         onChange={(event, value) => searchElements(value)}
                     />
                 </div>
@@ -131,7 +132,16 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     />
                 )}
             </div>
-            <div className="cb-scene-builder-element-spacer" />
+            <Separator
+                styles={{
+                    root: {
+                        '&:before': {
+                            backgroundColor:
+                                'var(--fluent-color-grey-30)'
+                        }
+                    }
+                }}
+            />
             <div className="cb-scene-builder-element-list">
                 {elements.length === 0 ? (
                     <p className="cb-scene-builder-left-panel-text">
@@ -144,11 +154,10 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 ) : (
                     filteredElements.map((element: ITwinToObjectMapping) => (
                         <div
-                            className={`cb-scene-builder-left-panel-element ${
-                                elementToDelete?.id === element.id
-                                    ? 'cb-selected-element'
-                                    : ''
-                            }`}
+                            className={`cb-scene-builder-left-panel-element ${elementToDelete?.id === element.id
+                                ? 'cb-selected-element'
+                                : ''
+                                }`}
                             key={element.displayName}
                             onClick={() => {
                                 if (!toggleElementSelection) {
@@ -214,7 +223,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 onClick={onCreateBehaviorClick}
                                 disabled={
                                     selectedElements &&
-                                    selectedElements.length > 0
+                                        selectedElements.length > 0
                                         ? false
                                         : true
                                 }

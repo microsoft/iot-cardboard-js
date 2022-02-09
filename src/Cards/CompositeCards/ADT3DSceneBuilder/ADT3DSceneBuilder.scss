@@ -88,32 +88,20 @@
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
-        padding-left: 8px;
-    }
-
-    .cb-scene-builder-pivot-contents-elements {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-between;
-        margin-left: 8px;
-        padding-top: 15px;
+        padding: 16px 16px 0 8px;
     }
 
     .cb-scene-builder-element-search-header {
         display: flex;
     }
 
+    .cb-scene-builder-behavior-search-box,
     .cb-scene-builder-element-search-box {
         flex: 1;
-        margin-right: 5px;
     }
 
-    .cb-scene-builder-element-spacer {
-        background-color: #edebe9;
-        height: 1px;
-        margin-bottom: -10px;
-        margin-top: 15px;
+    .cb-scene-builder-element-search-box {
+        margin-right: 5px;
     }
 
     .cb-scene-builder-element-behaviors-text {
@@ -165,7 +153,6 @@
         margin-bottom: 16px;
         overflow-x: hidden;
         overflow-y: auto;
-        padding: 16px 16px 0 0;
     }
 
     .cb-scene-builder-left-panel-element {
@@ -208,6 +195,13 @@
     .cb-scene-builder-behavior-list-item-meta {
         color: var(--cb-color-inactive);
         font-size: 11px;
+    }
+
+    .cb-scene-builder-behavior-spacer {
+        background-color: var(--fluent-color-grey-30);
+        height: 1px;
+        margin-top: 16px;
+        margin-bottom: 8px;
     }
 
     .cb-selected-element,
@@ -303,6 +297,7 @@
 
     .cb-remove-object-button {
         color: var(--cb-color-inactive);
+
         &:hover {
             color: var(--cb-color-text-danger) !important;
         }
@@ -353,6 +348,7 @@
     margin: 10px;
     padding: 4px;
     width: 272px;
+
     &:hover {
         background: var(--cb-color-card-contrast);
         cursor: pointer;
@@ -417,12 +413,12 @@
     height: 100%;
     width: 100%;
 
-    > div:last-child {
+    >div:last-child {
         display: flex;
         flex-grow: 1;
         overflow: auto;
 
-        > div:first-child {
+        >div:first-child {
             flex-grow: 1;
         }
     }
@@ -438,10 +434,12 @@
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
+
     i {
         margin-right: 8px;
     }
 }
+
 .cb-widget-builder-subheader {
     color: var(--cb-color-inactive);
     font-size: 12px;
@@ -477,6 +475,7 @@
         opacity: 0;
         transform: translateX(50%);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0);

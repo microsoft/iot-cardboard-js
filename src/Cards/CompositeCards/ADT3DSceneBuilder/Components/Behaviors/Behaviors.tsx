@@ -2,11 +2,12 @@ import {
     FontIcon,
     IconButton,
     IContextualMenuProps,
+    SearchBox,
     Separator,
     Text
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -36,6 +37,12 @@ const SceneBehaviors: React.FC<Props> = ({
     const { config, sceneId } = useContext(SceneBuilderContext);
 
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [filteredItemsInScene, setFilteredItemsInScene] = useState<
+        IBehavior[]
+    >([]);
+    const [filteredItemsNotInScene, setFilteredItemsNotInScene] = useState<
+        IBehavior[]
+    >([]);
     const [isBehaviorLibraryExpanded, setIsBehaviorLibraryExpanded] = useState(
         false
     );
@@ -47,27 +54,50 @@ const SceneBehaviors: React.FC<Props> = ({
     const [
         behaviorsInScene,
         behaviorsNotInScene
-    ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+    ] = useMemo(() => ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
         config,
         sceneId,
         behaviors
-    );
+    ), [config,
+        sceneId,
+        behaviors]);
+
+    // add everything to the list on the first pass
+    useEffect(() => {
+        setFilteredItemsInScene(JSON.parse(JSON.stringify(behaviorsInScene)));
+    }, [behaviorsInScene]);
+    useEffect(() => {
+        setFilteredItemsNotInScene(JSON.parse(JSON.stringify(behaviorsNotInScene)));
+    }, [behaviorsNotInScene]);
 
     // Expand behavior library if no behaviors in active scene
     useEffect(() => {
         if (
-            behaviorsInScene.length === 0 &&
+            filteredItemsInScene.length === 0 &&
             behaviorsNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    }, [behaviorsInScene]);
+    }, [filteredItemsInScene]);
 
-    const behaviorsInSceneSectionVisible =
-        behaviorsInScene && behaviorsInScene.length > 0;
-    const behaviorsNotInSceneSectionVisible =
-        behaviorsNotInScene && behaviorsNotInScene.length > 0;
+    const searchItems = (searchTerm: string) => {
+        const filteredInScene = behaviorsInScene.filter((behavior) =>
+            behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredItemsInScene(filteredInScene);
+        const filteredNotInScene = behaviorsNotInScene.filter((behavior) =>
+            behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredItemsNotInScene(filteredNotInScene);
+        // if we find an item in the library, expand the library to show it
+        if (filteredNotInScene.length > 0 && !isBehaviorLibraryExpanded) {
+            setIsBehaviorLibraryExpanded(true);
+        }
+    };
+
+    const itemsInSceneVisible = filteredItemsInScene?.length > 0;
+    const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
 
     return (
         <div className="cb-scene-builder-pivot-contents">
@@ -78,17 +108,39 @@ const SceneBehaviors: React.FC<Props> = ({
                     </p>
                 ) : (
                     <div>
-                        {behaviorsInSceneSectionVisible && (
+                        <div className="cb-scene-builder-behavior-search-box">
+                            <SearchBox
+                                placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
+                                onChange={(event, value) => searchItems(value)}
+                            />
+                        </div>
+                        <Separator
+                            styles={{
+                                root: {
+                                    '&:before': {
+                                        backgroundColor:
+                                            'var(--fluent-color-grey-30)'
+                                    }
+                                }
+                            }}
+                        />
+                        {!itemsInSceneVisible && !itemsNotInSceneVisible ? (
+                            <p className="cb-scene-builder-left-panel-text">
+                                {t('3dSceneBuilder.noResults')}
+                            </p>
+                        ) : <></>}
+                        {/* List of behaviors in the scene */}
+                        {itemsInSceneVisible && (
                             <div>
                                 <div className="cb-behavior-list-section-label-top-container">
                                     <Text
                                         variant="medium"
                                         className="cb-behavior-list-section-label"
                                     >
-                                        {t('3dSceneBuilder.behaviorsInScene')}
+                                        {t('3dSceneBuilder.behaviorsInSceneTitle')}
                                     </Text>
                                 </div>
-                                {behaviorsInScene.map((behavior) => (
+                                {filteredItemsInScene.map((behavior) => (
                                     <BehaviorList
                                         key={behavior.id}
                                         behavior={behavior}
@@ -109,21 +161,24 @@ const SceneBehaviors: React.FC<Props> = ({
                                 ))}
                             </div>
                         )}
-                        {behaviorsInSceneSectionVisible &&
-                            behaviorsNotInSceneSectionVisible && (
+                        {/* Separator between lists */}
+                        {itemsInSceneVisible &&
+                            itemsNotInSceneVisible && (
                                 <Separator
                                     styles={{
                                         root: {
                                             '&:before': {
                                                 backgroundColor:
-                                                    'var(--cb-color-bg-canvas-inset)'
+                                                    'var(--fluent-color-grey-30)'
                                             }
                                         }
                                     }}
                                 />
                             )}
-                        {behaviorsNotInSceneSectionVisible && (
+                        {/* Items not in the scene */}
+                        {itemsNotInSceneVisible && (
                             <div>
+                                {/* TODO: convert to button for keyboard acessibility */}
                                 <div
                                     className="cb-scene-builder-left-panel-collapse-chevron-header"
                                     tabIndex={0}
@@ -136,11 +191,10 @@ const SceneBehaviors: React.FC<Props> = ({
                                 >
                                     <FontIcon
                                         iconName={'ChevronRight'}
-                                        className={`cb-chevron ${
-                                            isBehaviorLibraryExpanded
-                                                ? 'cb-expanded'
-                                                : 'cb-collapsed'
-                                        }`}
+                                        className={`cb-chevron ${isBehaviorLibraryExpanded
+                                            ? 'cb-expanded'
+                                            : 'cb-collapsed'
+                                            }`}
                                     />
                                     <Text
                                         variant="medium"
@@ -148,14 +202,14 @@ const SceneBehaviors: React.FC<Props> = ({
                                     >
                                         <span>
                                             {t(
-                                                '3dSceneBuilder.behaviorsNotInScene'
+                                                '3dSceneBuilder.behaviorsNotInSceneTitle'
                                             )}{' '}
-                                            ({behaviorsNotInScene.length})
+                                            ({filteredItemsNotInScene.length})
                                         </span>
                                     </Text>
                                 </div>
                                 {isBehaviorLibraryExpanded &&
-                                    behaviorsNotInScene.map((behavior) => (
+                                    filteredItemsNotInScene.map((behavior) => (
                                         <BehaviorList
                                             key={behavior.id}
                                             behavior={behavior}
@@ -201,8 +255,8 @@ const SceneBehaviors: React.FC<Props> = ({
                     behaviorToDeleteRef.current
                         ? behaviorToDeleteRef.current.removeFromAllScenes
                             ? t(
-                                  '3dSceneBuilder.confirmRemoveBehaviorFromAllScenes'
-                              )
+                                '3dSceneBuilder.confirmRemoveBehaviorFromAllScenes'
+                            )
                             : t('3dSceneBuilder.confirmRemoveBehaviorFromScene')
                         : null
                 }
@@ -226,113 +280,113 @@ const BehaviorList: React.FC<{
     segmentMode,
     onAddBehaviorToScene
 }) => {
-    const { t } = useTranslation();
-    const { config, sceneId } = useContext(SceneBuilderContext);
-    const behaviorNotOnSceneEllipsisRef = useRef(null);
+        const { t } = useTranslation();
+        const { config, sceneId } = useContext(SceneBuilderContext);
+        const behaviorNotOnSceneEllipsisRef = useRef(null);
 
-    const getBehaviorListItemMenuProps: (
-        behavior: IBehavior
-    ) => IContextualMenuProps = (behavior) => {
-        if (segmentMode === BehaviorListSegment.InThisScene) {
-            return {
-                items: [
-                    {
-                        key: 'edit',
-                        text: t('3dSceneBuilder.editBehavior'),
-                        iconProps: { iconName: 'Edit' },
-                        onClick: () => onBehaviorClick(behavior)
-                    },
-                    {
-                        key: 'manageLayers',
-                        text: t('3dSceneBuilder.manageSceneLayer'),
-                        iconProps: { iconName: 'MapLayers' },
-                        disabled: true
-                    },
-                    {
-                        key: 'removeFromThisScene',
-                        text: t('3dSceneBuilder.removeBehaviorFromScene'),
-                        iconProps: { iconName: 'Delete' },
-                        onClick: () => {
-                            behaviorToDeleteRef.current = {
-                                id: behavior.id,
-                                removeFromAllScenes: false
-                            };
-                            setIsConfirmDeleteOpen(true);
+        const getBehaviorListItemMenuProps: (
+            behavior: IBehavior
+        ) => IContextualMenuProps = (behavior) => {
+            if (segmentMode === BehaviorListSegment.InThisScene) {
+                return {
+                    items: [
+                        {
+                            key: 'edit',
+                            text: t('3dSceneBuilder.editBehavior'),
+                            iconProps: { iconName: 'Edit' },
+                            onClick: () => onBehaviorClick(behavior)
+                        },
+                        {
+                            key: 'manageLayers',
+                            text: t('3dSceneBuilder.manageSceneLayer'),
+                            iconProps: { iconName: 'MapLayers' },
+                            disabled: true
+                        },
+                        {
+                            key: 'removeFromThisScene',
+                            text: t('3dSceneBuilder.removeBehaviorFromScene'),
+                            iconProps: { iconName: 'Delete' },
+                            onClick: () => {
+                                behaviorToDeleteRef.current = {
+                                    id: behavior.id,
+                                    removeFromAllScenes: false
+                                };
+                                setIsConfirmDeleteOpen(true);
+                            }
                         }
-                    }
-                ]
-            };
-        } else {
-            return {
-                items: [
-                    {
-                        key: 'addToScene',
-                        text: t('3dSceneBuilder.addBehaviorToScene'),
-                        iconProps: { iconName: 'Add' },
-                        onClick: () => onAddBehaviorToScene(behavior)
-                    },
-                    {
-                        key: 'removeFromAllScenes',
-                        text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
-                        iconProps: { iconName: 'Delete' },
-                        onClick: () => {
-                            behaviorToDeleteRef.current = {
-                                id: behavior.id,
-                                removeFromAllScenes: true
-                            };
-                            setIsConfirmDeleteOpen(true);
+                    ]
+                };
+            } else {
+                return {
+                    items: [
+                        {
+                            key: 'addToScene',
+                            text: t('3dSceneBuilder.addBehaviorToScene'),
+                            iconProps: { iconName: 'Add' },
+                            onClick: () => onAddBehaviorToScene(behavior)
+                        },
+                        {
+                            key: 'removeFromAllScenes',
+                            text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
+                            iconProps: { iconName: 'Delete' },
+                            onClick: () => {
+                                behaviorToDeleteRef.current = {
+                                    id: behavior.id,
+                                    removeFromAllScenes: true
+                                };
+                                setIsConfirmDeleteOpen(true);
+                            }
                         }
-                    }
-                ]
-            };
-        }
-    };
+                    ]
+                };
+            }
+        };
 
-    const behaviorMetaData = ViewerConfigUtility.getBehaviorMetaData(
-        config,
-        sceneId,
-        behavior
-    );
+        const behaviorMetaData = ViewerConfigUtility.getBehaviorMetaData(
+            config,
+            sceneId,
+            behavior
+        );
 
-    return (
-        <div
-            className="cb-scene-builder-left-panel-behavior"
-            key={behavior.id}
-            onClick={() => {
-                if (segmentMode === BehaviorListSegment.InThisScene) {
-                    onBehaviorClick(behavior);
-                } else {
-                    behaviorNotOnSceneEllipsisRef?.current?.openMenu?.();
-                }
-            }}
-        >
-            <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
-            <div className="cb-scene-builder-behavior-list-item">
-                <span className="cb-scene-builder-behavior-name">
-                    {behavior.id}
-                </span>
-                <span className="cb-scene-builder-behavior-list-item-meta">
-                    {t('3dSceneBuilder.behaviorMetaText', {
-                        numElementsInActiveScene:
-                            behaviorMetaData.numElementsInActiveScene,
-                        numSceneRefs: behaviorMetaData.numSceneRefs
-                    })}
-                </span>
-            </div>
-            <IconButton
-                componentRef={behaviorNotOnSceneEllipsisRef}
-                menuIconProps={{
-                    iconName: 'MoreVertical',
-                    style: {
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        color: 'black'
+        return (
+            <div
+                className="cb-scene-builder-left-panel-behavior"
+                key={behavior.id}
+                onClick={() => {
+                    if (segmentMode === BehaviorListSegment.InThisScene) {
+                        onBehaviorClick(behavior);
+                    } else {
+                        behaviorNotOnSceneEllipsisRef?.current?.openMenu?.();
                     }
                 }}
-                menuProps={getBehaviorListItemMenuProps(behavior)}
-            ></IconButton>
-        </div>
-    );
-};
+            >
+                <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
+                <div className="cb-scene-builder-behavior-list-item">
+                    <span className="cb-scene-builder-behavior-name">
+                        {behavior.id}
+                    </span>
+                    <span className="cb-scene-builder-behavior-list-item-meta">
+                        {t('3dSceneBuilder.behaviorMetaText', {
+                            numElementsInActiveScene:
+                                behaviorMetaData.numElementsInActiveScene,
+                            numSceneRefs: behaviorMetaData.numSceneRefs
+                        })}
+                    </span>
+                </div>
+                <IconButton
+                    componentRef={behaviorNotOnSceneEllipsisRef}
+                    menuIconProps={{
+                        iconName: 'MoreVertical',
+                        style: {
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                            color: 'black'
+                        }
+                    }}
+                    menuProps={getBehaviorListItemMenuProps(behavior)}
+                ></IconButton>
+            </div>
+        );
+    };
 
 export default SceneBehaviors;

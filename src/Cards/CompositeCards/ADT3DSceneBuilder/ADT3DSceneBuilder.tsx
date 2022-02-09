@@ -514,35 +514,34 @@ const BuilderLeftPanel: React.FC = () => {
         >
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
-                <Pivot
-                    aria-label={t('3dScenePage.buildMode')}
-                    selectedKey={state.selectedPivotTab}
-                    onLinkClick={(item) => {
-                        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
-                        switch (item.props.itemKey) {
-                            case ADT3DSceneTwinBindingsMode.Elements:
-                                activePivot =
-                                    ADT3DSceneBuilderMode.ElementsIdle;
-                                break;
-                            case ADT3DSceneTwinBindingsMode.Behaviors:
-                                activePivot =
-                                    ADT3DSceneBuilderMode.BehaviorIdle;
-                                break;
-                            default:
-                                break;
-                        }
-                        dispatch({
-                            type: SET_ADT_SCENE_BUILDER_MODE,
-                            payload: activePivot
-                        });
-                    }}
-                    className="cb-scene-builder-left-panel-pivot"
-                >
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.elements')}
-                        itemKey={ADT3DSceneTwinBindingsMode.Elements}
+                    <Pivot
+                        aria-label={t('3dScenePage.buildMode')}
+                        selectedKey={state.selectedPivotTab}
+                        onLinkClick={(item) => {
+                            let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+                            switch (item.props.itemKey) {
+                                case ADT3DSceneTwinBindingsMode.Elements:
+                                    activePivot =
+                                        ADT3DSceneBuilderMode.ElementsIdle;
+                                    break;
+                                case ADT3DSceneTwinBindingsMode.Behaviors:
+                                    activePivot =
+                                        ADT3DSceneBuilderMode.BehaviorIdle;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_MODE,
+                                payload: activePivot
+                            });
+                        }}
+                        className="cb-scene-builder-left-panel-pivot"
                     >
-                        <div className="cb-scene-builder-pivot-contents-elements">
+                        <PivotItem
+                            headerText={t('3dSceneBuilder.elements')}
+                            itemKey={ADT3DSceneTwinBindingsMode.Elements}
+                        >
                             <SceneElements
                                 elements={state.elements}
                                 selectedElements={state.selectedElements}
@@ -557,55 +556,54 @@ const BuilderLeftPanel: React.FC = () => {
                                     onCreateBehaviorWithElements
                                 }
                             />
-                        </div>
-                    </PivotItem>
-                    <PivotItem
-                        headerText={t('3dSceneBuilder.behaviors')}
-                        itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
-                    >
-                        <SceneBehaviors
-                            behaviors={behaviors}
-                            onBehaviorClick={onBehaviorClick}
-                            onCreateBehaviorClick={onCreateBehaviorClick}
-                            onRemoveBehaviorFromScene={
-                                onRemoveBehaviorFromScene
-                            }
-                            onAddBehaviorToScene={onAddBehaviorToScene}
-                        />
-                    </PivotItem>
-                </Pivot>
-            )}
+                        </PivotItem>
+                        <PivotItem
+                            headerText={t('3dSceneBuilder.behaviors')}
+                            itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                        >
+                            <SceneBehaviors
+                                behaviors={behaviors}
+                                onBehaviorClick={onBehaviorClick}
+                                onCreateBehaviorClick={onCreateBehaviorClick}
+                                onRemoveBehaviorFromScene={
+                                    onRemoveBehaviorFromScene
+                                }
+                                onAddBehaviorToScene={onAddBehaviorToScene}
+                            />
+                        </PivotItem>
+                    </Pivot>
+                )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
                 state.builderMode === ADT3DSceneBuilderMode.EditElement) && (
-                <SceneElementForm
-                    builderMode={state.builderMode}
-                    behaviors={behaviors}
-                    selectedElement={state.selectedElement}
-                    onElementBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
-                    }
-                    onElementSave={onElementSave}
-                    onBehaviorSave={onBehaviorSave}
-                    onBehaviorClick={onBehaviorClick}
-                />
-            )}
+                    <SceneElementForm
+                        builderMode={state.builderMode}
+                        behaviors={behaviors}
+                        selectedElement={state.selectedElement}
+                        onElementBackClick={() =>
+                            onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                        }
+                        onElementSave={onElementSave}
+                        onBehaviorSave={onBehaviorSave}
+                        onBehaviorClick={onBehaviorClick}
+                    />
+                )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
                 state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
-                <SceneBehaviorsForm
-                    elements={state.elements}
-                    builderMode={state.builderMode}
-                    onBehaviorBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
-                    }
-                    selectedBehavior={state.selectedBehavior}
-                    onBehaviorSave={onBehaviorSave}
-                    selectedElements={state.selectedElements}
-                    setSelectedElements={setSelectedElements}
-                    onElementEnter={onElementEnter}
-                    onElementLeave={onElementLeave}
-                    updateSelectedElements={updateSelectedElements}
-                />
-            )}
+                    <SceneBehaviorsForm
+                        elements={state.elements}
+                        builderMode={state.builderMode}
+                        onBehaviorBackClick={() =>
+                            onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
+                        }
+                        selectedBehavior={state.selectedBehavior}
+                        onBehaviorSave={onBehaviorSave}
+                        selectedElements={state.selectedElements}
+                        setSelectedElements={setSelectedElements}
+                        onElementEnter={onElementEnter}
+                        onElementLeave={onElementLeave}
+                        updateSelectedElements={updateSelectedElements}
+                    />
+                )}
         </BaseComponent>
     );
 };
