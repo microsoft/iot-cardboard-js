@@ -16,7 +16,9 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
     onTwinIdSelect
 }) => {
     const { t } = useTranslation();
-    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState('');
+    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
+        selectedTwinId ?? ''
+    );
     const [twinSuggestions, setTwinSuggestions] = useState(
         selectedTwinId
             ? [
@@ -26,6 +28,15 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                   }
               ]
             : []
+    );
+
+    const [selectedOption, setSelectedOption] = useState(
+        selectedTwinId
+            ? {
+                  value: selectedTwinId,
+                  label: selectedTwinId
+              }
+            : null
     );
 
     const shouldAppendTwinSuggestions = useRef(false);
@@ -96,7 +107,9 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
     };
 
     const CustomOption = (props) => {
-        return (
+        return props.data.__isNew__ ? (
+            <components.Option {...props}></components.Option>
+        ) : (
             <components.Option {...props}>
                 {Utils.getMarkedHtmlBySearch(
                     props.data.label,
@@ -141,13 +154,16 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                 className="cb-search-autocomplete-container"
                 options={searchTwinAdapterData.isLoading ? [] : twinSuggestions}
                 defaultValue={twinSuggestions[0] ?? undefined}
+                defaultInputValue={selectedTwinId ?? ''}
+                value={selectedOption}
+                inputValue={twinIdSearchTerm}
                 components={{
                     Option: CustomOption,
                     MenuList: CustomMenuList
                 }}
                 onInputChange={(inputValue, actionMeta) => {
-                    setTwinIdSearchTerm(inputValue);
                     if (actionMeta.action === 'input-change') {
+                        setTwinIdSearchTerm(inputValue);
                         shouldAppendTwinSuggestions.current = false;
                         twinSearchContinuationToken.current = null;
                         searchTwinAdapterData.cancelAdapter();
@@ -159,15 +175,38 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                                     twinSearchContinuationToken.current
                             } as AdapterMethodParamsForSearchADTTwins);
                         } else {
+                            if (actionMeta.prevInputValue) {
+                                setSelectedOption(null);
+                            }
                             setTwinSuggestions([]);
                         }
+                    } else if (actionMeta.action === 'menu-close') {
+                        setTwinSuggestions(
+                            selectedOption ? [selectedOption] : []
+                        );
+                        setTwinIdSearchTerm(selectedOption?.value ?? '');
                     }
                 }}
                 onChange={(option: any) => {
                     if (!option) {
                         setTwinSuggestions([]);
+                    } else {
+                        setTwinSuggestions([option]);
                     }
+                    setTwinIdSearchTerm(option?.value ?? '');
+                    setSelectedOption(option);
                     onTwinIdSelect(option?.value ?? undefined);
+                }}
+                onMenuOpen={() => {
+                    if (twinSuggestions.length === 0) {
+                        shouldAppendTwinSuggestions.current = false;
+                        twinSearchContinuationToken.current = null;
+                        searchTwinAdapterData.callAdapter({
+                            searchTerm: twinIdSearchTerm,
+                            shouldSearchByModel: false,
+                            continuationToken: null
+                        } as AdapterMethodParamsForSearchADTTwins);
+                    }
                 }}
                 placeholder={t('3dSceneBuilder.searchTwinId')}
                 noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
@@ -176,9 +215,6 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                     `${t(
                         '3dSceneBuilder.useNonExistingTwinId'
                     )} "${inputValue}"`
-                }
-                isValidNewOption={(inputValue, _value, options, _accessors) =>
-                    inputValue && options.length === 0
                 }
                 isSearchable
                 isClearable
