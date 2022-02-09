@@ -30,6 +30,7 @@ export interface ADT3DScenePageState {
     blobContainerURLs: Array<string>;
     selectedScene: IScene;
     scene?: IScene;
+    scenePageMode: ADT3DScenePageModes;
 }
 
 export interface ADT3DScenePageState {

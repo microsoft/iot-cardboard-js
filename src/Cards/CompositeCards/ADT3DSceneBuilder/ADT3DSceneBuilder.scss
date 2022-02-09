@@ -20,6 +20,7 @@
 }
 
 .cb-scene-builder-left-panel {
+    background-color: var(--cb-color-bg-canvas);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -75,6 +76,12 @@
         flex-grow: 1;
         padding: 6px;
         padding-left: 8px;
+    }
+
+    .cb-scene-builder-behavior-list-item-ellipsis {
+        i {
+            color: var(--cb-color-text-primary) !important;
+        }
     }
 
     .cb-scene-builder-left-panel-collapse-chevron-header {

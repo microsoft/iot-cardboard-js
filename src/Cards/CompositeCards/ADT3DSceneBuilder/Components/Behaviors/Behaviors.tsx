@@ -6,7 +6,7 @@ import {
     Text
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -44,13 +44,14 @@ const SceneBehaviors: React.FC<Props> = ({
         removeFromAllScenes?: boolean;
     }>(null);
 
-    const [
-        behaviorsInScene,
-        behaviorsNotInScene
-    ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
-        config,
-        sceneId,
-        behaviors
+    const [behaviorsInScene, behaviorsNotInScene] = useMemo(
+        () =>
+            ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+                config,
+                sceneId,
+                behaviors
+            ),
+        [config, sceneId, behaviors]
     );
 
     // Expand behavior library if no behaviors in active scene
@@ -116,7 +117,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                         root: {
                                             '&:before': {
                                                 backgroundColor:
-                                                    'var(--cb-color-bg-canvas-inset)'
+                                                    'var(--cb-color-divider)'
                                             }
                                         }
                                     }}
@@ -330,6 +331,7 @@ const BehaviorList: React.FC<{
                     }
                 }}
                 menuProps={getBehaviorListItemMenuProps(behavior)}
+                className="cb-scene-builder-behavior-list-item-ellipsis"
             ></IconButton>
         </div>
     );
