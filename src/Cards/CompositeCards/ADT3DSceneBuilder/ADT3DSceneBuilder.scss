@@ -510,6 +510,27 @@
     margin-bottom: 4px;
 }
 
+.cb-left-panel-builder-breadcrumb-container {
+    height: 36px;
+    width: 100%;
+}
+
+.cb-left-panel-builder-breadcrumb-home-icon-container {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    float: left;
+    height: 32px;
+    margin-right: 4px;
+    width: 32px;
+    &:hover {
+        background: var(--cb-color-icon-hover-bg);
+    }
+}
+.cb-left-panel-builder-breadcrumb-home-icon {
+    font-size: 16px;
+}
+
 @keyframes slide-in {
     0% {
         opacity: 0;

@@ -17,7 +17,9 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
     SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_WIDGET_FORM_INFO,
+    WidgetFormInfo
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
@@ -74,6 +76,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
+    const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
+        dispatch({
+            type: SET_WIDGET_FORM_INFO,
+            payload: widgetFormInfo
+        });
+    };
+
     const getScenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
@@ -107,7 +116,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 setSelectedMeshIds,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
-                sceneId
+                sceneId,
+                widgetFormInfo: state.widgetFormInfo,
+                setWidgetFormInfo
             }}
         >
             <BaseComponent
@@ -508,7 +519,7 @@ const BuilderLeftPanel: React.FC = () => {
             localeStrings={localeStrings}
             containerClassName="cb-scene-builder-left-panel"
         >
-            <LeftPanelBuilderBreadcrumb />
+            <LeftPanelBuilderBreadcrumb builderMode={state.builderMode} />
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot

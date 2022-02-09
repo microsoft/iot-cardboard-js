@@ -5,7 +5,10 @@ import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
-import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
+import {
+    IAction,
+    IConsumeCompositeCardProps
+} from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
@@ -36,4 +39,10 @@ export interface ADT3DScenePageState {
 export interface ADT3DScenePageState {
     selectedScene: IScene;
     currentStep: ADT3DScenePageSteps;
+}
+
+export interface IADT3DScenePageContext {
+    state: ADT3DScenePageState;
+    dispatch: React.Dispatch<IAction>;
+    handleOnHomeClick: () => void;
 }

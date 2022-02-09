@@ -10,15 +10,18 @@ import {
     VisualType
 } from '../../../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../../../Models/Constants/Enums';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
-    const { widgetFormInfo, setWidgetFormInfo, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
     );
+
+    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
     const { t } = useTranslation();
 
     const getDefaultFormData = () => {

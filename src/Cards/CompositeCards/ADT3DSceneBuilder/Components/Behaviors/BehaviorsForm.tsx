@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
@@ -9,8 +9,7 @@ import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
-    IBehaviorFormContext,
-    WidgetFormInfo
+    IBehaviorFormContext
 } from '../../ADT3DSceneBuilder.types';
 import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
@@ -22,6 +21,7 @@ import WidgetForm from './Widgets/WidgetForm';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
 import LeftPanelBuilderHeader from '../../../ADT3DScenePage/Components/LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
+import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -48,11 +48,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 }) => {
     const { t } = useTranslation();
 
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
+    );
+
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior ? defaultBehavior : selectedBehavior
     );
-
-    const [widgetFormInfo, setWidgetFormInfo] = useState<WidgetFormInfo>(null);
 
     const [
         selectedBehaviorPivotKey,
@@ -198,9 +200,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         <BehaviorFormContext.Provider
             value={{
                 behaviorToEdit,
-                setBehaviorToEdit,
-                widgetFormInfo,
-                setWidgetFormInfo
+                setBehaviorToEdit
             }}
         >
             <div className="cb-scene-builder-left-panel-create-wrapper">

@@ -17,9 +17,12 @@ import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 import { ADT3DSceneBuilderMode } from '../../../../../../Models/Constants/Enums';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
-    const { setBehaviorToEdit, setWidgetFormInfo, behaviorToEdit } = useContext(
+    const { setWidgetFormInfo } = useContext(SceneBuilderContext);
+
+    const { setBehaviorToEdit, behaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
