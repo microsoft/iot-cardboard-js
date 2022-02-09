@@ -167,18 +167,15 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
                         shouldAppendTwinSuggestions.current = false;
                         twinSearchContinuationToken.current = null;
                         searchTwinAdapterData.cancelAdapter();
-                        if (inputValue) {
-                            searchTwinAdapterData.callAdapter({
-                                searchTerm: inputValue,
-                                shouldSearchByModel: false,
-                                continuationToken:
-                                    twinSearchContinuationToken.current
-                            } as AdapterMethodParamsForSearchADTTwins);
-                        } else {
-                            if (actionMeta.prevInputValue) {
-                                setSelectedOption(null);
-                            }
-                            setTwinSuggestions([]);
+                        searchTwinAdapterData.callAdapter({
+                            searchTerm: inputValue,
+                            shouldSearchByModel: false,
+                            continuationToken:
+                                twinSearchContinuationToken.current
+                        } as AdapterMethodParamsForSearchADTTwins);
+
+                        if (!inputValue && actionMeta.prevInputValue) {
+                            setSelectedOption(null);
                         }
                     } else if (actionMeta.action === 'menu-close') {
                         setTwinSuggestions(
