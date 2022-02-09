@@ -23,9 +23,9 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
-import TwinSearchDropdown from './TwinSearchDropdown';
 import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -230,6 +230,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TwinSearchDropdown
                         adapter={adapter}
+                        label={t('3dSceneBuilder.linkedTwin')}
                         selectedTwinId={selectedElement?.primaryTwinID}
                         onTwinIdSelect={handleSelectTwinId}
                     />

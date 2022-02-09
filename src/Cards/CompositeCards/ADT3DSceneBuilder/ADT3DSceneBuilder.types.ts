@@ -1,4 +1,3 @@
-import { ADTAdapter } from '../../..';
 import ADTandBlobAdapter from '../../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import {
@@ -126,13 +125,6 @@ export interface IADT3DSceneBuilderElementsProps {
     onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementClick?: (element: ITwinToObjectMapping) => void;
     isEditBehavior?: boolean;
-}
-
-export interface IADT3DSceneBuilderTwinSearchProps {
-    adapter: ADTAdapter | MockAdapter;
-    isLabelHidden?: boolean;
-    selectedTwinId?: string;
-    onTwinIdSelect?: (selectedTwinId: string) => void;
 }
 
 export interface ADT3DSceneBuilderState {

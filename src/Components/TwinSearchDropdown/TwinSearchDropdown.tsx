@@ -1,16 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Text } from '@fluentui/react';
-import { IADT3DSceneBuilderTwinSearchProps } from '../../ADT3DSceneBuilder.types';
-import useAdapter from '../../../../../Models/Hooks/useAdapter';
-import { AdapterMethodParamsForSearchADTTwins } from '../../../../../Models/Constants/Types';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { Utils } from '../../../../../Models/Services';
+import useAdapter from '../../Models/Hooks/useAdapter';
+import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
+import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
+import './TwinSearchDropdown.scss';
+import { ADTAdapter, MockAdapter } from '../../Adapters';
+
+interface IADTTwinSearchProps {
+    adapter: ADTAdapter | MockAdapter;
+    label?: string;
+    isLabelHidden?: boolean;
+    selectedTwinId?: string;
+    onTwinIdSelect?: (selectedTwinId: string) => void;
+}
 
 const SuggestionListScrollThresholdFactor = 40;
-const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
+const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     adapter,
+    label,
     isLabelHidden = false,
     selectedTwinId,
     onTwinIdSelect
@@ -111,7 +121,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
             <components.Option {...props}></components.Option>
         ) : (
             <components.Option {...props}>
-                {Utils.getMarkedHtmlBySearch(
+                {getMarkedHtmlBySearch(
                     props.data.label,
                     twinIdSearchTerm,
                     true
@@ -146,7 +156,7 @@ const TwinSearchDropdown: React.FC<IADT3DSceneBuilderTwinSearchProps> = ({
         <div>
             {!isLabelHidden && (
                 <Label className="cb-required-icon">
-                    {t('3dSceneBuilder.linkedTwin')}
+                    {label ?? t('board.twinID')}
                 </Label>
             )}
             <CreatableSelect
