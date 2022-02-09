@@ -209,7 +209,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
 
     if (textField) {
         gapRef.current =
-            (caretRef.current?.get(textField.selectionEnd)?.left || 0) + 5;
+            (caretRef.current?.get(textField.selectionEnd)?.left || 10) + 5;
         topRef.current =
             (caretRef.current?.get(textField.selectionEnd)?.top || 0) + 15;
     }

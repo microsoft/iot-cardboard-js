@@ -10,7 +10,7 @@ interface IIntellisenseProps {
     onChange?: (value: string) => void;
 }
 
-const separators = '+*(^/-).><= \n';
+const separators = '+*&|(^/-).><= \n';
 
 function tokenize(str: string): string[] {
     let s = str;
