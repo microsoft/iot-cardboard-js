@@ -1,7 +1,5 @@
 import React from 'react';
-import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
-import MsalAuthService from '../../Models/Services/MsalAuthService';
+import MockAdapter from '../../Adapters/MockAdapter';
 import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
@@ -9,26 +7,15 @@ export default {
 };
 
 export const MockTwinSearchDropdown = () => {
-    const authenticationParameters = useAuthParams();
-
     const handleSelectTwinId = (twinId) => {
         console.log('Selected: ' + twinId);
     };
 
-    return !authenticationParameters ? (
-        <div></div>
-    ) : (
+    return (
         <div style={{ width: '400px' }}>
             <TwinSearchDropdown
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
-                label="Twin ID"
+                adapter={new MockAdapter()}
+                isLabelHidden={true}
                 onTwinIdSelect={handleSelectTwinId}
             />
         </div>
