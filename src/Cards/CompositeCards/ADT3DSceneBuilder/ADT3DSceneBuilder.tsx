@@ -6,7 +6,6 @@ import {
     ADT3DSceneTwinBindingsMode
 } from '../../../Models/Constants/Enums';
 import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
-import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
@@ -128,7 +127,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     state.config.viewerConfiguration?.scenes.findIndex(
                                         (s) => s.id === sceneId
                                     )
-                                ].assets[0].url
+                                ]?.assets[0].url
                             }
                             onMeshSelected={(selectedMeshes) =>
                                 setSelectedMeshIds(selectedMeshes)
@@ -483,7 +482,7 @@ const BuilderLeftPanel: React.FC = () => {
             const mappings =
                 config.viewerConfiguration?.scenes?.find(
                     (s) => s.id === sceneId
-                ).twinToObjectMappings || [];
+                )?.twinToObjectMappings || [];
             dispatch({
                 type: SET_ADT_SCENE_BUILDER_ELEMENTS,
                 payload: mappings

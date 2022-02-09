@@ -351,7 +351,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                               searchState.callAdapter({
                                   searchTerm: searchTerm,
                                   continuationToken: searchContinuationToken
-                              });
+                              } as AdapterMethodParamsForSearchADTTwins);
                           }
                       } as IHierarchyNode
                   }
@@ -510,7 +510,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 searchTerm: searchTerm,
                 continuationToken:
                     searchState.adapterResult?.result?.data?.continuationToken
-            });
+            } as AdapterMethodParamsForSearchADTTwins);
         } else {
             exitSearchMode();
         }
