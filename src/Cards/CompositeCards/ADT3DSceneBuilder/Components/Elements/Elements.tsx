@@ -195,7 +195,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 elementToDelete?.id === element.id
                                     ? 'cb-selected-element'
                                     : ''
-                            }${isEditBehavior && 'cb-element-center'}`}
+                            }${isEditBehavior ? 'cb-element-center' : ''}`}
                             key={element.displayName}
                             onClick={() => {
                                 if (!toggleElementSelection) {
