@@ -124,13 +124,14 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     const updateCheckbox = (element: ITwinToObjectMapping) => {
-        const shouldCheck = selectedElements?.find((selectedElement) => selectedElement.id === element.id) ? false : true;
-        updateSelectedElements(
-            element,
-            shouldCheck
-        );
+        const shouldCheck = selectedElements?.find(
+            (selectedElement) => selectedElement.id === element.id
+        )
+            ? false
+            : true;
+        updateSelectedElements(element, shouldCheck);
         elementsSorted.current = true;
-    }
+    };
 
     return (
         <>
@@ -206,40 +207,48 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             onMouseOver={() => onElementEnter(element)}
                             onMouseLeave={() => onElementLeave(element)}
                         >
-                                {toggleElementSelection && (
-                                    <Checkbox
-                                        onChange={(e, checked) => {
-                                            updateSelectedElements(
-                                                element,
-                                                !checked
-                                            );
-                                            elementsSorted.current = true;
-                                        }}
-                                        className="cb-scene-builder-element-checkbox"
-                                        checked={
-                                            selectedElements?.find(
-                                                (item) => item.id === element.id
-                                            )
-                                                ? true
-                                                : false
-                                        }
-                                    />
-                                )}
-                                <div>
-                                    <FontIcon iconName={'Shapes'} className="cb-element-icon" />
+                            {toggleElementSelection && (
+                                <Checkbox
+                                    onChange={(e, checked) => {
+                                        updateSelectedElements(
+                                            element,
+                                            !checked
+                                        );
+                                        elementsSorted.current = true;
+                                    }}
+                                    className="cb-scene-builder-element-checkbox"
+                                    checked={
+                                        selectedElements?.find(
+                                            (item) => item.id === element.id
+                                        )
+                                            ? true
+                                            : false
+                                    }
+                                />
+                            )}
+                            <div>
+                                <FontIcon
+                                    iconName={'Shapes'}
+                                    className="cb-element-icon"
+                                />
+                            </div>
+                            <div className="cb-scene-builder-element-title">
+                                <div className="cb-scene-builder-element-name">
+                                    {element.displayName}
                                 </div>
-                                <div className='cb-scene-builder-element-title'>
-                                    <div className="cb-scene-builder-element-name">
-                                        {element.displayName}
-                                    </div>
-                                    <div className='cb-scene-builder-element-item-meta'>
-                                        {t('3dSceneBuilder.elementMetaText', {
-                                            numBehaviors:
-                                            ViewerConfigUtility.getElementMetaData(element, config)?.numBehaviors,
-                                            numMeshes: ViewerConfigUtility.getElementMetaData(element, config)?.numMeshes
-                                        })}
-                                    </div>
+                                <div className="cb-scene-builder-element-item-meta">
+                                    {t('3dSceneBuilder.elementMetaText', {
+                                        numBehaviors: ViewerConfigUtility.getElementMetaData(
+                                            element,
+                                            config
+                                        )?.numBehaviors,
+                                        numMeshes: ViewerConfigUtility.getElementMetaData(
+                                            element,
+                                            config
+                                        )?.numMeshes
+                                    })}
                                 </div>
+                            </div>
                             {!toggleElementSelection && (
                                 <IconButton
                                     className={`${
