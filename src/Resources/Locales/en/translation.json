@@ -340,7 +340,8 @@
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}"
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}",
+        "aliasedTwins": "Aliased twins"
     },
     "widgets": {
         "trend": {
