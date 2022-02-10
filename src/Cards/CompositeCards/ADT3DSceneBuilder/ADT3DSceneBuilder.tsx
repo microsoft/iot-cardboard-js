@@ -512,6 +512,15 @@ const BuilderLeftPanel: React.FC = () => {
             locale={locale}
             localeStrings={localeStrings}
         >
+            <button
+                role="button"
+                data-testid="3dScene.panelPivot.behaviorsTab"
+                onClick={() => {
+                    alert('clicked');
+                }}
+            >
+                My Button here
+            </button>
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
@@ -558,6 +567,7 @@ const BuilderLeftPanel: React.FC = () => {
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                        data-testid="3dScene.panelPivot.behaviorsTab"
                     >
                         <SceneBehaviors
                             behaviors={behaviors}
