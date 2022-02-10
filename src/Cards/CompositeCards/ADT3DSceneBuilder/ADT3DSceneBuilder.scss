@@ -124,8 +124,8 @@
 
     .cb-scene-builder-spacer {
         background-color: var(--cb-color-natural-light);
-        margin: 8px 0;
         height: 1px;
+        margin: 8px 0;
     }
 
     .cb-scene-builder-element-behavior-item {
@@ -308,8 +308,8 @@
     }
 
     .cb-scene-builder-left-panel-create-form-actions {
-        border-top: 1px solid var(--cb-color-natural-light);
         align-items: end;
+        border-top: 1px solid var(--cb-color-natural-light);
         display: flex;
         height: 56px;
     }
