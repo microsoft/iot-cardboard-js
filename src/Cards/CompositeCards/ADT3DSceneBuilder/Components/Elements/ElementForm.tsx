@@ -288,7 +288,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 })}
             </div>
         ),
-        [behaviorState.behaviorsOnElement, onBehaviorClick, dispatch]
+        [behaviorState.behaviorsOnElement]
     );
 
     const ElementAliasedTwins = useCallback(
@@ -354,7 +354,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 </div>
             </div>
         ),
-        []
+        [elementToEdit.meshIDs]
     );
 
     return (
