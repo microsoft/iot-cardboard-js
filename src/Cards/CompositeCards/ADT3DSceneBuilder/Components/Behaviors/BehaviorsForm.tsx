@@ -86,52 +86,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setOriginalBehaviorId(selectedBehavior?.id);
     }, []);
 
-    const getBehaviorFormBreadcrumbItems = () => {
-        let breadcrumbItems: IBreadcrumbItem[] = [
-            {
-                text: t('3dSceneBuilder.behaviors'),
-                key: 'behaviorRoot',
-                onClick: () => {
-                    onBehaviorBackClick();
-                    setSelectedElements([]);
-                }
-            }
-        ];
-        if (widgetFormInfo) {
-            breadcrumbItems = [
-                ...breadcrumbItems,
-                {
-                    text:
-                        builderMode === ADT3DSceneBuilderMode.CreateBehavior
-                            ? t('3dSceneBuilder.newBehavior')
-                            : t('3dSceneBuilder.editBehavior'),
-                    key: 'behaviorAdd',
-                    onClick: () => setWidgetFormInfo(null)
-                },
-                {
-                    text:
-                        widgetFormInfo.mode ===
-                        ADT3DSceneBuilderMode.CreateWidget
-                            ? t('3dSceneBuilder.newWidget')
-                            : t('3dSceneBuilder.editWidget'),
-                    key: 'widgetAddEdit'
-                }
-            ];
-        } else {
-            breadcrumbItems = [
-                ...breadcrumbItems,
-                {
-                    text:
-                        builderMode === ADT3DSceneBuilderMode.CreateBehavior
-                            ? t('3dSceneBuilder.newBehavior')
-                            : t('3dSceneBuilder.editBehavior'),
-                    key: 'behaviorAdd'
-                }
-            ];
-        }
-        return breadcrumbItems;
-    };
-
     useEffect(() => {
         const mappingIds = [];
         selectedElements?.forEach((element) => {
@@ -209,9 +163,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     subHeaderText={subHeaderText}
                     iconName={iconName}
                 />
-                {/* <SceneBuilderFormBreadcrumb
-                    items={getBehaviorFormBreadcrumbItems()}
-                /> */}
                 {widgetFormInfo ? (
                     <WidgetForm />
                 ) : (

@@ -519,7 +519,16 @@ const BuilderLeftPanel: React.FC = () => {
             localeStrings={localeStrings}
             containerClassName="cb-scene-builder-left-panel"
         >
-            <LeftPanelBuilderBreadcrumb builderMode={state.builderMode} />
+            <LeftPanelBuilderBreadcrumb
+                builderMode={state.builderMode}
+                onBehaviorsRootClick={() => {
+                    onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
+                    setSelectedElements([]);
+                }}
+                onElementsRootClick={() =>
+                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                }
+            />
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot

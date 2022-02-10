@@ -12,14 +12,21 @@ import { ADT3DScenePageContext } from '../../ADT3DScenePage/ADT3DScenePage';
 
 interface Props {
     builderMode: ADT3DSceneBuilderMode;
+    onBehaviorsRootClick: () => void;
+    onElementsRootClick: () => void;
 }
 
-const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({ builderMode }) => {
+const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
+    builderMode,
+    onBehaviorsRootClick,
+    onElementsRootClick
+}) => {
     const { t } = useTranslation();
 
     const { handleOnHomeClick } = useContext(ADT3DScenePageContext);
-
-    const { sceneId, config } = useContext(SceneBuilderContext);
+    const { sceneId, config, widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
+    );
 
     const items: Array<IBreadcrumbItem> = useMemo(() => {
         const sceneName =
@@ -38,8 +45,49 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({ builderMode }) => {
             }
         ];
 
-        return rootItems;
-    }, [builderMode]);
+        const behaviorsRoot: IBreadcrumbItem = {
+            text: t('3dSceneBuilder.behaviors'),
+            key: 'behaviorRoot',
+            onClick: () => onBehaviorsRootClick()
+        };
+
+        const elementsRoot: IBreadcrumbItem = {
+            text: t('3dSceneBuilder.elements'),
+            key: 'elementsRoot',
+            onClick: () => onElementsRootClick()
+        };
+
+        const widgetsRoot: IBreadcrumbItem = {
+            text: t('3dSceneBuilder.widgets'),
+            key: 'widgetsRoot',
+            onClick: () => setWidgetFormInfo(null)
+        };
+
+        let activePanelBreadcrumb: Array<IBreadcrumbItem> = [];
+
+        if (widgetFormInfo) {
+            activePanelBreadcrumb = [behaviorsRoot, widgetsRoot];
+        } else {
+            switch (builderMode) {
+                case ADT3DSceneBuilderMode.CreateBehavior:
+                    activePanelBreadcrumb = [behaviorsRoot];
+                    break;
+                case ADT3DSceneBuilderMode.EditBehavior:
+                    activePanelBreadcrumb = [behaviorsRoot];
+                    break;
+                case ADT3DSceneBuilderMode.CreateElement:
+                    activePanelBreadcrumb = [elementsRoot];
+                    break;
+                case ADT3DSceneBuilderMode.EditElement:
+                    activePanelBreadcrumb = [elementsRoot];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return [...rootItems, ...activePanelBreadcrumb];
+    }, [builderMode, widgetFormInfo, sceneId, config]);
 
     const onRenderItem: IRenderFunction<IBreadcrumbItem> = (
         props: IBreadcrumbItem,

@@ -221,23 +221,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     )}
                     {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
                         <>
-                            {/* <Breadcrumb
-                            className="cb-scene-page-scene-builder-breadcrumb"
-                            items={[
-                                {
-                                    text: t('3dScenePage.home'),
-                                    key: 'Home',
-                                    onClick: handleOnHomeClick
-                                },
-                                {
-                                    text: state.selectedScene.displayName,
-                                    key: 'Scene'
-                                }
-                            ]}
-                            maxDisplayedItems={10}
-                            ariaLabel="Breadcrumb with items rendered as buttons"
-                            overflowAriaLabel="More links"
-                        /> */}
                             <div className="cb-scene-builder-and-viewer-container">
                                 <ADT3DSceneBuilderContainer
                                     mode={state.scenePageMode}
