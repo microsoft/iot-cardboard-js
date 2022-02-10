@@ -414,8 +414,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 </Pivot>
             </div>
 
-            <div className="cb-scene-builder-spacer" />
-
             <div className="cb-scene-builder-left-panel-create-form-actions">
                 <PrimaryButton
                     onClick={handleSaveElement}
