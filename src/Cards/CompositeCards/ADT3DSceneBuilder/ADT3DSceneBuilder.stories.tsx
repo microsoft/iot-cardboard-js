@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { userEvent, within, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../../Adapters/__mockData__/vconfigDecFinal.json';
