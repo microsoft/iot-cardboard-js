@@ -276,9 +276,12 @@
     },
     "3dSceneBuilder": {
         "elements": "Elements",
+        "element": "Element",
         "alerts": "Alerts",
         "widgets": "Widgets",
+        "widget": "Widget",
         "behaviors": "Behaviors",
+        "behavior": "Behavior",
         "removeElement": "Remove element from scene",
         "createElement": "Create element",
         "updateElement": "Update element",

@@ -46,29 +46,50 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             },
             {
                 text: sceneName,
-                key: 'Scene'
+                key: 'Scene',
+                ...(builderMode !== ADT3DSceneBuilderMode.BehaviorIdle &&
+                    builderMode !== ADT3DSceneBuilderMode.ElementsIdle && {
+                        onClick: () => {
+                            if (
+                                builderMode ===
+                                    ADT3DSceneBuilderMode.CreateElement ||
+                                builderMode ===
+                                    ADT3DSceneBuilderMode.EditElement
+                            ) {
+                                onElementsRootClick();
+                            } else {
+                                onBehaviorsRootClick();
+                                setWidgetFormInfo(null);
+                            }
+                        }
+                    })
             }
         ];
 
         const behaviorsRoot: IBreadcrumbItem = {
-            text: t('3dSceneBuilder.behaviors'),
+            text: t('3dSceneBuilder.behavior'),
             key: 'behaviorRoot',
-            onClick: () => {
-                onBehaviorsRootClick();
-                setWidgetFormInfo(null);
-            }
+            ...((widgetFormInfo ||
+                (builderMode !== ADT3DSceneBuilderMode.CreateBehavior &&
+                    builderMode !== ADT3DSceneBuilderMode.EditBehavior)) && {
+                onClick: () => {
+                    setWidgetFormInfo(null);
+                }
+            })
         };
 
         const elementsRoot: IBreadcrumbItem = {
-            text: t('3dSceneBuilder.elements'),
+            text: t('3dSceneBuilder.element'),
             key: 'elementsRoot',
-            onClick: () => onElementsRootClick()
+            ...(builderMode !== ADT3DSceneBuilderMode.CreateElement &&
+                builderMode !== ADT3DSceneBuilderMode.EditElement && {
+                    onClick: () => onElementsRootClick()
+                })
         };
 
         const widgetsRoot: IBreadcrumbItem = {
-            text: t('3dSceneBuilder.widgets'),
-            key: 'widgetsRoot',
-            onClick: () => setWidgetFormInfo(null)
+            text: t('3dSceneBuilder.widget'),
+            key: 'widgetsRoot'
         };
 
         let activePanelBreadcrumb: Array<IBreadcrumbItem> = [];
