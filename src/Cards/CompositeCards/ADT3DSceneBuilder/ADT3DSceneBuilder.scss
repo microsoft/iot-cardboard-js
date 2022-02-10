@@ -533,6 +533,21 @@
     font-size: 18px;
 }
 
+.cb-left-panel-builder-breadcrumb {
+    left: 0;
+    position: relative;
+    transform: scale(1);
+    transform-origin: left;
+    transition: transform 0.15s ease;
+    &.cb-left-panel-builder-breadcrumb-scene-root {
+        transform: scale(1.1);
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ms-TooltipHost {
+            font-size: 18px;
+        }
+    }
+}
+
 @keyframes slide-in {
     0% {
         opacity: 0;

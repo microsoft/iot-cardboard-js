@@ -2,6 +2,7 @@ import {
     Breadcrumb,
     FontIcon,
     IBreadcrumbItem,
+    IBreadcrumbStyles,
     IRenderFunction
 } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
@@ -28,6 +29,10 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         SceneBuilderContext
     );
 
+    const isAtSceneRoot =
+        builderMode === ADT3DSceneBuilderMode.BehaviorIdle ||
+        builderMode === ADT3DSceneBuilderMode.ElementsIdle;
+
     const items: Array<IBreadcrumbItem> = useMemo(() => {
         const sceneName =
             config.viewerConfiguration.scenes.find((s) => s.id === sceneId)
@@ -47,22 +52,20 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             {
                 text: sceneName,
                 key: 'Scene',
-                ...(builderMode !== ADT3DSceneBuilderMode.BehaviorIdle &&
-                    builderMode !== ADT3DSceneBuilderMode.ElementsIdle && {
-                        onClick: () => {
-                            if (
-                                builderMode ===
-                                    ADT3DSceneBuilderMode.CreateElement ||
-                                builderMode ===
-                                    ADT3DSceneBuilderMode.EditElement
-                            ) {
-                                onElementsRootClick();
-                            } else {
-                                onBehaviorsRootClick();
-                                setWidgetFormInfo(null);
-                            }
+                ...(!isAtSceneRoot && {
+                    onClick: () => {
+                        if (
+                            builderMode ===
+                                ADT3DSceneBuilderMode.CreateElement ||
+                            builderMode === ADT3DSceneBuilderMode.EditElement
+                        ) {
+                            onElementsRootClick();
+                        } else {
+                            onBehaviorsRootClick();
+                            setWidgetFormInfo(null);
                         }
-                    })
+                    }
+                })
             }
         ];
 
@@ -137,17 +140,24 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         } else return defaultRender(props);
     };
 
+    const styles: Partial<IBreadcrumbStyles> = {
+        root: { marginTop: 0 },
+        item: { fontSize: 14 },
+        listItem: { fontSize: 14 },
+        itemLink: { fontSize: 14 }
+    };
+
     return (
         <div className="cb-left-panel-builder-breadcrumb-container">
             <Breadcrumb
+                className={`cb-left-panel-builder-breadcrumb ${
+                    isAtSceneRoot
+                        ? 'cb-left-panel-builder-breadcrumb-scene-root'
+                        : ''
+                }`}
                 items={items}
                 overflowIndex={1}
-                styles={{
-                    root: { marginTop: 0 },
-                    item: { fontSize: 14 },
-                    listItem: { fontSize: 14 },
-                    itemLink: { fontSize: 14 }
-                }}
+                styles={styles}
                 onRenderItem={onRenderItem}
             />
         </div>
