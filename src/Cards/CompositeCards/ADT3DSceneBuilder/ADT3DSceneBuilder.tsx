@@ -411,7 +411,10 @@ const BuilderLeftPanel: React.FC = () => {
     const onCreateBehaviorWithElements = () => {
         const behavior = defaultBehavior;
         const mappingIds = [];
-        const elementsToAssign = state.selectedElements?.length > 0 ? state.selectedElements : [state.selectedElement]; 
+        const elementsToAssign =
+            state.selectedElements?.length > 0
+                ? state.selectedElements
+                : [state.selectedElement];
         elementsToAssign.forEach((element) => {
             mappingIds.push(element.id);
         });

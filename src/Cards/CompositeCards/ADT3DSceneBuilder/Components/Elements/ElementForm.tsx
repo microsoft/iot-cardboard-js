@@ -43,12 +43,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     onBehaviorClick,
     onCreateBehaviorWithElements
 }) => {
-
     const styles = mergeStyleSets({
         callout: {
-          padding: '15px',
-          width: '300px',
-          background: '#ffffff'
+            padding: '15px',
+            width: '300px',
+            background: '#ffffff'
         },
         title: {
             marginBottom: '15px',
@@ -57,7 +56,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         resultText: {
             fontSize: '12px',
             marginTop: '5px',
-            opacity: '0.6',
+            opacity: '0.6'
         },
         item: {
             alignItems: 'center',
@@ -71,9 +70,9 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         name: {
             flex: '1',
             fontSize: '14px',
-            paddingLeft: '8px',
+            paddingLeft: '8px'
         }
-    })
+    });
 
     const { t } = useTranslation();
     const [isObjectsExpanded, setIsObjectsExpanded] = useState(
@@ -98,14 +97,22 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     draft.behaviorsOnElement = action.behaviors;
                     break;
                 case BehaviorActionType.SET_AVAILABLE_BEHAVIORS:
-                    draft.availableBehaviors = JSON.parse(JSON.stringify(action.behaviors));
+                    draft.availableBehaviors = JSON.parse(
+                        JSON.stringify(action.behaviors)
+                    );
                     break;
                 case BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS:
-                    draft.filteredAvailableBehaviors = JSON.parse(JSON.stringify(action.behaviors));
+                    draft.filteredAvailableBehaviors = JSON.parse(
+                        JSON.stringify(action.behaviors)
+                    );
                     break;
                 case BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS:
-                    draft.filteredAvailableBehaviors = draft.availableBehaviors.filter((behavior) =>
-                    behavior.id.toLowerCase().includes(action.value.toLowerCase()));
+                    draft.filteredAvailableBehaviors = draft.availableBehaviors.filter(
+                        (behavior) =>
+                            behavior.id
+                                .toLowerCase()
+                                .includes(action.value.toLowerCase())
+                    );
                     break;
                 case BehaviorActionType.SET_BEHAVIOR_TO_EDIT:
                     draft.behaviorToEdit = action.behavior;
@@ -117,8 +124,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
                         (mappingId) => mappingId !== elementToEdit.id
                     );
-                    draft.availableBehaviors.push(draft.behaviorToEdit)
-                    draft.filteredAvailableBehaviors.push(draft.behaviorToEdit)
+                    draft.availableBehaviors.push(draft.behaviorToEdit);
+                    draft.filteredAvailableBehaviors.push(draft.behaviorToEdit);
                     draft.behaviorsToEdit.push(draft.behaviorToEdit);
                     break;
                 case BehaviorActionType.ADD_BEHAVIOR:
@@ -126,10 +133,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     if (
                         draft.behaviorToEdit.datasources &&
                         draft.behaviorToEdit.datasources[0] &&
-                        draft.behaviorToEdit.datasources[0].mappingIDs && 
-                        !draft.behaviorToEdit.datasources[0].mappingIDs.includes(elementToEdit.id)
+                        draft.behaviorToEdit.datasources[0].mappingIDs &&
+                        !draft.behaviorToEdit.datasources[0].mappingIDs.includes(
+                            elementToEdit.id
+                        )
                     ) {
-                        draft.behaviorToEdit.datasources[0].mappingIDs.push(elementToEdit.id);
+                        draft.behaviorToEdit.datasources[0].mappingIDs.push(
+                            elementToEdit.id
+                        );
                     } else {
                         draft.behaviorToEdit.datasources[0] = {
                             type: DatasourceType.TwinToObjectMapping,
@@ -138,8 +149,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     }
                     draft.behaviorsOnElement.push(draft.behaviorToEdit);
                     draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                    draft.availableBehaviors = draft.availableBehaviors.filter((behavior) => behavior.id !== draft.behaviorToEdit.id);
-                    draft.filteredAvailableBehaviors = draft.filteredAvailableBehaviors.filter((behavior) => behavior.id !== draft.behaviorToEdit.id);
+                    draft.availableBehaviors = draft.availableBehaviors.filter(
+                        (behavior) => behavior.id !== draft.behaviorToEdit.id
+                    );
+                    draft.filteredAvailableBehaviors = draft.filteredAvailableBehaviors.filter(
+                        (behavior) => behavior.id !== draft.behaviorToEdit.id
+                    );
                     break;
                 default:
                     break;
@@ -489,78 +504,107 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         );
                     })}
                     <div>
-                        <ActionButton id='addBehavior' className='cb-scene-builder-left-panel-add-behavior' 
-                            style={{color: '#0b75c8'}} onClick={() => setShowAddBehavior(true)}>
-                                {t('3dSceneBuilder.addBehaviorButton')}
+                        <ActionButton
+                            id="addBehavior"
+                            className="cb-scene-builder-left-panel-add-behavior"
+                            style={{ color: '#0b75c8' }}
+                            onClick={() => setShowAddBehavior(true)}
+                        >
+                            {t('3dSceneBuilder.addBehaviorButton')}
                         </ActionButton>
                     </div>
-                    {showAddBehavior && 
-                        <Callout className={styles.callout} target='#addBehavior' 
-                            isBeakVisible={false} directionalHint={DirectionalHint.bottomLeftEdge} 
+                    {showAddBehavior && (
+                        <Callout
+                            className={styles.callout}
+                            target="#addBehavior"
+                            isBeakVisible={false}
+                            directionalHint={DirectionalHint.bottomLeftEdge}
                             onDismiss={() => {
-                                setShowAddBehavior(false); 
+                                setShowAddBehavior(false);
                                 dispatch({
-                                    type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
+                                    type:
+                                        BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
                                     behaviors: behaviorState.availableBehaviors
-                                })}}>
+                                });
+                            }}
+                        >
                             <div>
                                 <div className={styles.title}>
                                     {t('3dSceneBuilder.addBehavior')}
                                 </div>
                                 <div>
                                     <SearchBox
-                                        placeholder={t('3dSceneBuilder.searchBehaviors')}
-                                        onChange={(event, value) => dispatch({
-                                            type: BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
-                                            value: value
-                                        })}
+                                        placeholder={t(
+                                            '3dSceneBuilder.searchBehaviors'
+                                        )}
+                                        onChange={(event, value) =>
+                                            dispatch({
+                                                type:
+                                                    BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
+                                                value: value
+                                            })
+                                        }
                                     />
                                 </div>
                                 <div>
-                                    {behaviorState.filteredAvailableBehaviors?.length === 0 && (
+                                    {behaviorState.filteredAvailableBehaviors
+                                        ?.length === 0 && (
                                         <div className={styles.resultText}>
-                                            {t('3dSceneBuilder.noAvailableBehaviors')}
+                                            {t(
+                                                '3dSceneBuilder.noAvailableBehaviors'
+                                            )}
                                         </div>
                                     )}
-                                    {behaviorState.filteredAvailableBehaviors.map((behavior) => {
-                                        return (
-                                            <div key={behavior.id} className={styles.item}>
-                                                <FontIcon
-                                                iconName={'Warning'}
-                                                className={styles.icon}
-                                                />
-                                                <div className={styles.name}>
-                                                    {behavior.id}
+                                    {behaviorState.filteredAvailableBehaviors.map(
+                                        (behavior) => {
+                                            return (
+                                                <div
+                                                    key={behavior.id}
+                                                    className={styles.item}
+                                                >
+                                                    <FontIcon
+                                                        iconName={'Warning'}
+                                                        className={styles.icon}
+                                                    />
+                                                    <div
+                                                        className={styles.name}
+                                                    >
+                                                        {behavior.id}
+                                                    </div>
+                                                    <IconButton
+                                                        iconProps={{
+                                                            iconName: 'Add',
+                                                            style: {
+                                                                fontSize: 18,
+                                                                color: 'black'
+                                                            }
+                                                        }}
+                                                        onClick={() =>
+                                                            dispatch({
+                                                                type:
+                                                                    BehaviorActionType.ADD_BEHAVIOR,
+                                                                behavior: behavior
+                                                            })
+                                                        }
+                                                    />
                                                 </div>
-                                                <IconButton iconProps={{ 
-                                                    iconName: 'Add',
-                                                    style: {
-                                                        fontSize: 18,
-                                                        color: 'black'
-                                                    } 
-                                                    }} 
-                                                    onClick={() => 
-                                                        dispatch({
-                                                        type:
-                                                            BehaviorActionType.ADD_BEHAVIOR,
-                                                            behavior: behavior
-                                                    })}/>
-                                            </div>
-                                        )}
+                                            );
+                                        }
                                     )}
                                 </div>
-                                <PrimaryButton 
+                                <PrimaryButton
                                     styles={{
                                         root: {
                                             marginTop: '16px'
                                         }
                                     }}
-                                    onClick={onCreateBehaviorWithElements}>
-                                        {t('3dSceneBuilder.createBehavior')}                                        
+                                    onClick={onCreateBehaviorWithElements}
+                                >
+                                    {t('3dSceneBuilder.createBehavior')}
                                 </PrimaryButton>
                             </div>
                         </Callout>
-                    }
+                    )}
                 </div>
             </div>
             <div className="cb-scene-builder-left-panel-create-form-actions">
