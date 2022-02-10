@@ -512,15 +512,6 @@ const BuilderLeftPanel: React.FC = () => {
             locale={locale}
             localeStrings={localeStrings}
         >
-            <button
-                role="button"
-                data-testid="3dScene.panelPivot.behaviorsTab"
-                onClick={() => {
-                    alert('clicked');
-                }}
-            >
-                My Button here
-            </button>
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
