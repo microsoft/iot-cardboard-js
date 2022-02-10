@@ -402,14 +402,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     aria-label={t('3dScenePage.buildMode')}
                     className="cb-scene-builder-left-panel-pivot"
                 >
+                    <PivotItem headerText={t('3dSceneBuilder.meshes')}>
+                        <ElementMeshes />
+                    </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
                         <ElementBehaviors />
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
                         <ElementAliasedTwins />
-                    </PivotItem>
-                    <PivotItem headerText={t('3dSceneBuilder.meshes')}>
-                        <ElementMeshes />
                     </PivotItem>
                 </Pivot>
             </div>
