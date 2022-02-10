@@ -19,7 +19,7 @@ import { IBreadcrumbItem, TextField, DefaultButton } from '@fluentui/react';
 import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
-import LeftPanelBuilderHeader from '../../../ADT3DScenePage/Components/LeftPanelBuilderHeader';
+import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 

@@ -7,8 +7,8 @@ import {
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DSceneBuilderMode } from '../../../..';
-import { SceneBuilderContext } from '../../ADT3DSceneBuilder/ADT3DSceneBuilder';
-import { ADT3DScenePageContext } from '../ADT3DScenePage';
+import { SceneBuilderContext } from '../ADT3DSceneBuilder';
+import { ADT3DScenePageContext } from '../../ADT3DScenePage/ADT3DScenePage';
 
 interface Props {
     builderMode: ADT3DSceneBuilderMode;

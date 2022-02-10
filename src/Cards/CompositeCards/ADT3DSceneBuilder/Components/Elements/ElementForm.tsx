@@ -24,7 +24,7 @@ import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import LeftPanelBuilderHeader from '../../../ADT3DScenePage/Components/LeftPanelBuilderHeader';
+import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({

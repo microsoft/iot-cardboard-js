@@ -44,7 +44,7 @@ import SceneBehaviors from './Components/Behaviors/Behaviors';
 import SceneBehaviorsForm from './Components/Behaviors/BehaviorsForm';
 import SceneElements from './Components/Elements/Elements';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
-import LeftPanelBuilderBreadcrumb from '../ADT3DScenePage/Components/LeftPanelBuilderBreadcrumb';
+import LeftPanelBuilderBreadcrumb from './Components/LeftPanelBuilderBreadcrumb';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
