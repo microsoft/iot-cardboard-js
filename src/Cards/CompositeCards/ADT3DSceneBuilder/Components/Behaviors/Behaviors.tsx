@@ -312,13 +312,17 @@ const BehaviorList: React.FC<{
                         key: 'edit',
                         text: t('3dSceneBuilder.editBehavior'),
                         iconProps: { iconName: 'Edit' },
-                        onClick: () => onBehaviorClick(behavior)
+                        onClick: () => onBehaviorClick(behavior),
+                        id: `editOverflow-${behavior.id}`,
+                        'data-testid': `editOverflow-${behavior.id}`
                     },
                     {
                         key: 'manageLayers',
                         text: t('3dSceneBuilder.manageSceneLayer'),
                         iconProps: { iconName: 'MapLayers' },
-                        disabled: true
+                        disabled: true,
+                        id: `manageLayersOverflow-${behavior.id}`,
+                        'data-testid': `manageLayersOverflow-${behavior.id}`
                     },
                     {
                         key: 'removeFromThisScene',
@@ -330,7 +334,9 @@ const BehaviorList: React.FC<{
                                 removeFromAllScenes: false
                             };
                             setIsConfirmDeleteOpen(true);
-                        }
+                        },
+                        id: `removeFromSceneOverflow-${behavior.id}`,
+                        'data-testid': `removeFromSceneOverflow-${behavior.id}`
                     }
                 ]
             };
@@ -339,12 +345,16 @@ const BehaviorList: React.FC<{
                 items: [
                     {
                         key: 'addToScene',
+                        id: `addToScene-${behavior.id}`,
+                        'data-testid': `addToScene-${behavior.id}`,
                         text: t('3dSceneBuilder.addBehaviorToScene'),
                         iconProps: { iconName: 'Add' },
                         onClick: () => onAddBehaviorToScene(behavior)
                     },
                     {
                         key: 'removeFromAllScenes',
+                        id: `removeFromAllOverflow-${behavior.id}`,
+                        'data-testid': `removeFromAllOverflow-${behavior.id}`,
                         text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
                         iconProps: { iconName: 'Delete' },
                         onClick: () => {
@@ -403,6 +413,8 @@ const BehaviorList: React.FC<{
                         color: 'black'
                     }
                 }}
+                title={t('more')}
+                ariaLabel={t('more')}
                 menuProps={getBehaviorListItemMenuProps(behavior)}
             ></IconButton>
         </div>
