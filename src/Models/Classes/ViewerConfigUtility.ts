@@ -307,8 +307,8 @@ abstract class ViewerConfigUtility {
                 behaviors.filter((behavior) =>
                     behavior.datasources.length === 0 || 
                     !behavior.datasources?.[0]?.mappingIDs || 
-                    behavior.datasources?.[0]?.mappingIDs?.find(
-                        (id) => id !== element?.id
+                    !behavior.datasources?.[0]?.mappingIDs?.includes(
+                        element?.id
                     )
                 ) || []
             );

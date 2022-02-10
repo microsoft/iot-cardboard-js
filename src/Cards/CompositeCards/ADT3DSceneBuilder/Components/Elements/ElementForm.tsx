@@ -40,7 +40,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     onElementSave,
     onElementBackClick,
     onBehaviorSave,
-    onBehaviorClick
+    onBehaviorClick,
+    onCreateBehaviorWithElements
 }) => {
 
     const styles = mergeStyleSets({
@@ -97,10 +98,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     draft.behaviorsOnElement = action.behaviors;
                     break;
                 case BehaviorActionType.SET_AVAILABLE_BEHAVIORS:
-                    draft.availableBehaviors = action.behaviors;
+                    draft.availableBehaviors = JSON.parse(JSON.stringify(action.behaviors));
                     break;
                 case BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS:
-                    draft.filteredAvailableBehaviors = action.behaviors;
+                    draft.filteredAvailableBehaviors = JSON.parse(JSON.stringify(action.behaviors));
                     break;
                 case BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS:
                     draft.filteredAvailableBehaviors = draft.availableBehaviors.filter((behavior) =>
@@ -116,6 +117,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
                         (mappingId) => mappingId !== elementToEdit.id
                     );
+                    draft.availableBehaviors.push(draft.behaviorToEdit)
+                    draft.filteredAvailableBehaviors.push(draft.behaviorToEdit)
                     draft.behaviorsToEdit.push(draft.behaviorToEdit);
                     break;
                 case BehaviorActionType.ADD_BEHAVIOR:
@@ -123,7 +126,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     if (
                         draft.behaviorToEdit.datasources &&
                         draft.behaviorToEdit.datasources[0] &&
-                        draft.behaviorToEdit.datasources[0].mappingIDs
+                        draft.behaviorToEdit.datasources[0].mappingIDs && 
+                        !draft.behaviorToEdit.datasources[0].mappingIDs.includes(elementToEdit.id)
                     ) {
                         draft.behaviorToEdit.datasources[0].mappingIDs.push(elementToEdit.id);
                     } else {
@@ -134,9 +138,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     }
                     draft.behaviorsOnElement.push(draft.behaviorToEdit);
                     draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                    draft.filteredAvailableBehaviors = draft.availableBehaviors.filter(
-                        (behavior) => behavior.id !== draft.behaviorToEdit.id
-                    );
+                    draft.availableBehaviors = draft.availableBehaviors.filter((behavior) => behavior.id !== draft.behaviorToEdit.id);
+                    draft.filteredAvailableBehaviors = draft.filteredAvailableBehaviors.filter((behavior) => behavior.id !== draft.behaviorToEdit.id);
                     break;
                 default:
                     break;
@@ -471,7 +474,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                                     '3dSceneBuilder.removeBehavior'
                                                 ),
                                                 iconProps: {
-                                                    iconName: 'blocked2'
+                                                    iconName: 'Delete'
                                                 },
                                                 onClick: () =>
                                                     dispatch({
@@ -494,7 +497,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     {showAddBehavior && 
                         <Callout className={styles.callout} target='#addBehavior' 
                             isBeakVisible={false} directionalHint={DirectionalHint.bottomLeftEdge} 
-                            onDismiss={() => setShowAddBehavior(false)}>
+                            onDismiss={() => {
+                                setShowAddBehavior(false); 
+                                dispatch({
+                                    type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
+                                    behaviors: behaviorState.availableBehaviors
+                                })}}>
                             <div>
                                 <div className={styles.title}>
                                     {t('3dSceneBuilder.addBehavior')}
@@ -541,6 +549,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         )}
                                     )}
                                 </div>
+                                <PrimaryButton 
+                                    styles={{
+                                        root: {
+                                            marginTop: '16px'
+                                        }
+                                    }}
+                                    onClick={onCreateBehaviorWithElements}>
+                                        {t('3dSceneBuilder.createBehavior')}                                        
+                                </PrimaryButton>
                             </div>
                         </Callout>
                     }

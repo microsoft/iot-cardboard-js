@@ -82,6 +82,7 @@ export interface IADT3DSceneBuilderElementFormProps {
     onElementBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
     onBehaviorClick: (behavior: IBehavior) => void;
+    onCreateBehaviorWithElements: () => void;
 }
 
 export type BehaviorSaveMode =

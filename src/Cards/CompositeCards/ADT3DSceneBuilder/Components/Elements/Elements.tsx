@@ -295,7 +295,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                                     '3dSceneBuilder.removeElement'
                                                 ),
                                                 iconProps: {
-                                                    iconName: 'blocked2'
+                                                    iconName: 'Delete'
                                                 },
                                                 onClick: () => {
                                                     setElementToDelete(element);
