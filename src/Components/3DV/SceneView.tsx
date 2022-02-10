@@ -255,7 +255,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             engineRef.current = engine;
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
-            sc.clearColor = new BABYLON.Color3(0.98, 0.98, 0.98);
+            sc.clearColor = new BABYLON.Color4(0.98, 0.98, 0.98, 1);
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 hoverColor
