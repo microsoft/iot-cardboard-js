@@ -58,9 +58,13 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
     return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 };
 
-export const getMarkedHtmlBySearch = (str, searchTerm) => {
+export const getMarkedHtmlBySearch = (
+    str,
+    searchTerm,
+    isCaseSensitive = false
+) => {
     try {
-        const regexp = new RegExp(searchTerm, 'gi');
+        const regexp = new RegExp(searchTerm, isCaseSensitive ? 'g' : 'gi');
         const matches = str.match(regexp);
         return str
             .split(regexp)

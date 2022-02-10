@@ -91,6 +91,12 @@
         padding: 16px 16px 0 8px;
     }
 
+    .cb-scene-builder-elements-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
     .cb-scene-builder-element-search-header {
         display: flex;
     }
@@ -98,29 +104,26 @@
     .cb-scene-builder-behavior-search-box,
     .cb-scene-builder-element-search-box {
         flex: 1;
-    }
-
-    .cb-scene-builder-element-search-box {
-        margin-right: 5px;
+        margin-right: 4px;
     }
 
     .cb-scene-builder-element-behaviors-text {
         font-size: 12px;
-        margin-top: 5px;
+        margin-top: 4px;
         opacity: 0.6;
     }
 
     .cb-scene-builder-element-behaviors-spacer {
         background-color: #edebe9;
         height: 1px;
-        margin-bottom: 10px;
-        margin-top: 10px;
+        margin-bottom: 8px;
+        margin-top: 8px;
     }
 
     .cb-scene-builder-element-behavior-item {
         align-items: center;
         display: flex;
-        margin-top: 10px;
+        margin-top: 8px;
     }
 
     .cb-scene-builder-element-behavior-item-icon {
@@ -139,12 +142,13 @@
     }
 
     .cb-scene-builder-element-checkbox {
-        margin-left: -8px;
-        margin-right: 5px;
+        margin-bottom: 4px;
+        margin-right: 8px;
+        margin-top: 4px;
     }
 
     .cb-scene-builder-cancel-button {
-        margin-left: 10px;
+        margin-left: 8px;
     }
 
     .cb-scene-builder-element-list,
@@ -156,20 +160,61 @@
     }
 
     .cb-scene-builder-left-panel-element {
-        align-items: center;
         cursor: pointer;
         display: flex;
-        height: 32px;
-        line-height: 32px;
-        margin-left: -8px;
-        padding-left: 16px;
-        width: calc(100% + 16px);
+        padding-bottom: 4px;
+        padding-top: 4px;
+        width: calc(100% + 8px);
+
+        .cb-element-icon {
+            align-items: baseline;
+            margin-right: 8px;
+            margin-top: 4px;
+        }
+
+        .cb-scene-builder-element-title {
+            flex: 1;
+        }
 
         .cb-scene-builder-element-name {
-            cursor: pointer;
             font-size: 14px;
             font-weight: normal;
-            padding-left: 8px;
+        }
+
+        .cb-scene-builder-element-name-simple {
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 4px;
+        }
+
+        .cb-scene-builder-element-item-meta {
+            color: var(--cb-color-inactive);
+            font-size: 11px;
+        }
+
+        .cb-scene-builder-element-actions {
+            margin-right: 8px;
+            opacity: 0;
+
+            &:focus-visible {
+                opacity: 1;
+            }
+        }
+
+        .cb-scene-builder-element-actions-hovered {
+            margin-right: 8px;
+            opacity: 1;
+        }
+    }
+
+    .cb-element-center {
+        align-items: center;
+    }
+
+    .cb-scene-builder-left-panel-element:hover {
+        .cb-scene-builder-element-actions {
+            margin-right: 8px;
+            opacity: 1;
         }
     }
 
@@ -210,12 +255,6 @@
         background: var(--cb-color-icon-hover-bg);
         cursor: pointer;
         filter: unset;
-    }
-
-    .cb-element-name-wrapper {
-        align-items: center;
-        display: flex;
-        flex-grow: 1;
     }
 
     .cb-scene-builder-create-button {
@@ -452,7 +491,7 @@
 
 .cb-scene-builder-elements-title {
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .cb-scene-builder-done-button {

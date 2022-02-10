@@ -91,7 +91,7 @@ const SceneBehaviors: React.FC<Props> = ({
         );
         setFilteredItemsNotInScene(filteredNotInScene);
         // if we find an item in the library, expand the library to show it
-        if (filteredNotInScene.length > 0 && !isBehaviorLibraryExpanded) {
+        if (searchTerm && filteredNotInScene.length > 0 && !isBehaviorLibraryExpanded) {
             setIsBehaviorLibraryExpanded(true);
         }
     };
