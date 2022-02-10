@@ -223,23 +223,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 }
                 iconName={'Shapes'}
             />
-            {/* <SceneBuilderFormBreadcrumb
-                items={[
-                    {
-                        text: t('3dSceneBuilder.elements'),
-                        key: 'elements',
-                        onClick: () => onElementBackClick()
-                    },
-                    {
-                        text:
-                            builderMode === ADT3DSceneBuilderMode.EditElement
-                                ? selectedElement.displayName
-                                : t('3dSceneBuilder.newElement'),
-                        key: 'elementForm'
-                    }
-                ]}
-            /> */}
-
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
                     <TwinSearchDropdown
