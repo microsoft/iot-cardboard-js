@@ -245,8 +245,8 @@
     .cb-scene-builder-behavior-spacer {
         background-color: var(--fluent-color-grey-30);
         height: 1px;
-        margin-top: 16px;
         margin-bottom: 8px;
+        margin-top: 16px;
     }
 
     .cb-selected-element,
@@ -452,12 +452,12 @@
     height: 100%;
     width: 100%;
 
-    >div:last-child {
+    > div:last-child {
         display: flex;
         flex-grow: 1;
         overflow: auto;
 
-        >div:first-child {
+        > div:first-child {
             flex-grow: 1;
         }
     }

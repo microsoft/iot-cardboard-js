@@ -60,9 +60,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
                 ...config.viewerConfiguration.scenes[
-                config.viewerConfiguration.scenes.findIndex(
-                    (s) => s.id === sceneId
-                )
+                    config.viewerConfiguration.scenes.findIndex(
+                        (s) => s.id === sceneId
+                    )
                 ]
             };
             sceneToUpdate.twinToObjectMappings = params.elements;
@@ -146,7 +146,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     <div className="cb-scene-builder-element-search-header">
                         <div className="cb-scene-builder-element-search-box">
                             <SearchBox
-                                placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
+                                placeholder={t(
+                                    '3dSceneBuilder.searchElementsPlaceholder'
+                                )}
                                 onChange={(event, value) =>
                                     searchElements(value)
                                 }
@@ -200,11 +202,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 ) : (
                     filteredElements.map((element: ITwinToObjectMapping) => (
                         <div
-                            className={`cb-scene-builder-left-panel-element ${hoveredElement?.id === element.id ||
+                            className={`cb-scene-builder-left-panel-element ${
+                                hoveredElement?.id === element.id ||
                                 elementToDelete?.id === element.id
-                                ? 'cb-selected-element'
-                                : ''
-                                }${isEditBehavior ? 'cb-element-center' : ''}`}
+                                    ? 'cb-selected-element'
+                                    : ''
+                            }${isEditBehavior ? 'cb-element-center' : ''}`}
                             key={element.displayName}
                             onClick={() => {
                                 if (!toggleElementSelection) {
@@ -264,10 +267,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             </div>
                             {!toggleElementSelection && (
                                 <IconButton
-                                    className={`${hoveredElement?.id === element.id
-                                        ? 'cb-scene-builder-element-actions-hovered'
-                                        : 'cb-scene-builder-element-actions'
-                                        }`}
+                                    className={`${
+                                        hoveredElement?.id === element.id
+                                            ? 'cb-scene-builder-element-actions-hovered'
+                                            : 'cb-scene-builder-element-actions'
+                                    }`}
                                     title={t('more')}
                                     ariaLabel={t('more')}
                                     menuIconProps={{
@@ -330,7 +334,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 onClick={onCreateBehaviorClick}
                                 disabled={
                                     selectedElements &&
-                                        selectedElements.length > 0
+                                    selectedElements.length > 0
                                         ? false
                                         : true
                                 }
