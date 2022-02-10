@@ -15,7 +15,7 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { IBreadcrumbItem, TextField, DefaultButton } from '@fluentui/react';
+import { TextField, DefaultButton } from '@fluentui/react';
 import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
@@ -48,9 +48,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
-    );
+    const { widgetFormInfo } = useContext(SceneBuilderContext);
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior ? defaultBehavior : selectedBehavior

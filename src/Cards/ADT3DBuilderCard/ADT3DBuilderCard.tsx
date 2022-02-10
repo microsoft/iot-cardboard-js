@@ -19,7 +19,6 @@ interface ADT3DBuilderCardProps {
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     adapter,
     modelUrl,
-    title,
     onMeshSelected,
     showMeshesOnHover,
     preselectedMeshIds,
