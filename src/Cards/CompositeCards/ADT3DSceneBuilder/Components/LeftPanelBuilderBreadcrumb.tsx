@@ -23,7 +23,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { handleOnHomeClick } = useContext(ADT3DScenePageContext);
+    const scenePageContext = useContext(ADT3DScenePageContext);
     const { sceneId, config, widgetFormInfo, setWidgetFormInfo } = useContext(
         SceneBuilderContext
     );
@@ -37,7 +37,12 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             {
                 text: t('3dScenePage.home'),
                 key: 'Home',
-                onClick: handleOnHomeClick
+                ...(scenePageContext && {
+                    onClick: () => {
+                        scenePageContext.handleOnHomeClick();
+                        setWidgetFormInfo(null);
+                    }
+                })
             },
             {
                 text: sceneName,
@@ -48,7 +53,10 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         const behaviorsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.behaviors'),
             key: 'behaviorRoot',
-            onClick: () => onBehaviorsRootClick()
+            onClick: () => {
+                onBehaviorsRootClick();
+                setWidgetFormInfo(null);
+            }
         };
 
         const elementsRoot: IBreadcrumbItem = {
