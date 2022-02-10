@@ -31,6 +31,7 @@ import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
 import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -266,6 +267,37 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setColoredMeshItems(coloredMeshes);
     };
 
+    const handleSelectTwinId = (selectedTwinId: string) => {
+        if (
+            !elementToEdit.displayName ||
+            elementToEdit.displayName === elementToEdit.primaryTwinID
+        ) {
+            setElementToEdit({
+                ...elementToEdit,
+                primaryTwinID: selectedTwinId,
+                displayName: selectedTwinId
+            });
+        } else {
+            setElementToEdit({
+                ...elementToEdit,
+                primaryTwinID: selectedTwinId
+            });
+        }
+    };
+
+    useEffect(() => {
+        setElementToEdit({
+            ...elementToEdit,
+            meshIDs: selectedMeshIds
+        });
+    }, [selectedMeshIds]);
+
+    useEffect(() => {
+        if (updateTwinToObjectMappings.adapterResult.result) {
+            getConfig();
+        }
+    }, [updateTwinToObjectMappings?.adapterResult]);
+
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <SceneBuilderFormBreadcrumb
@@ -286,6 +318,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             />
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
+                    <TwinSearchDropdown
+                        adapter={adapter}
+                        label={t('3dSceneBuilder.linkedTwin')}
+                        selectedTwinId={selectedElement?.primaryTwinID}
+                        onTwinIdSelect={handleSelectTwinId}
+                    />
                     <TextField
                         label={t('name')}
                         value={elementToEdit?.displayName}
@@ -294,18 +332,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             setElementToEdit({
                                 ...elementToEdit,
                                 displayName: e.currentTarget.value
-                            });
-                        }}
-                    />
-                    <TextField
-                        label={t('3dSceneBuilder.linkedTwin')}
-                        value={elementToEdit?.primaryTwinID}
-                        required
-                        description={t('3dSceneBuilder.linkedTwinInputInfo')}
-                        onChange={(e) => {
-                            setElementToEdit({
-                                ...elementToEdit,
-                                primaryTwinID: e.currentTarget.value
                             });
                         }}
                     />

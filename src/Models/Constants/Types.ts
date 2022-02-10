@@ -77,7 +77,7 @@ export type ADTModelsApiData = {
 
 export type ADTTwinsApiData = {
     value: IADTTwin[];
-    continuationToken: string;
+    continuationToken?: string;
 };
 
 export type CancellablePromise<T> = {
@@ -119,6 +119,7 @@ export type AdapterMethodParamsForGetADTTwinsByModelId = {
 
 export type AdapterMethodParamsForSearchADTTwins = {
     searchTerm: string;
+    shouldSearchByModel: boolean;
     continuationToken?: string;
 };
 

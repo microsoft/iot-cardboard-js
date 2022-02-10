@@ -1,7 +1,7 @@
-import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { VisualType } from '../../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from '../BehaviorsForm';
 
@@ -21,10 +21,17 @@ const BehaviorFormAlertsTab: React.FC = () => {
 
     return (
         <>
-            <TextField
-                label={t('3dSceneBuilder.behaviorTriggerLabel')}
-                multiline={colorAlertTriggerExpression.length > 50}
-                onChange={(_e, newValue) => {
+            <Intellisense
+                autoCompleteProps={{
+                    textFieldProps: {
+                        label: t('3dSceneBuilder.behaviorTriggerLabel'),
+                        multiline: colorAlertTriggerExpression.length > 50,
+                        placeholder: t(
+                            '3dSceneBuilder.behaviorTriggerPlaceholder'
+                        )
+                    }
+                }}
+                onChange={(newValue) => {
                     setBehaviorToEdit(
                         produce((draft) => {
                             // Assuming only 1 color change visual per behavior
@@ -36,8 +43,9 @@ const BehaviorFormAlertsTab: React.FC = () => {
                         })
                     );
                 }}
-                value={colorAlertTriggerExpression}
-                placeholder={t('3dSceneBuilder.behaviorTriggerPlaceholder')}
+                defaultValue={colorAlertTriggerExpression}
+                aliasNames={['LinkedTwin']}
+                propertyNames={['$dtId', 'InFlow', 'OutFlow']}
             />
         </>
     );
