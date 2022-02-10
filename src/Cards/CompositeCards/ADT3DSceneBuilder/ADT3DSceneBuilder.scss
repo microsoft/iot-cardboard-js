@@ -7,7 +7,6 @@
 
     .cb-scene-builder-canvas {
         flex-grow: 1;
-        height: 100%;
     }
 
     .cb-base-composite-card-item {
@@ -126,24 +125,16 @@
         margin-right: 4px;
     }
 
-    .cb-scene-builder-element-spacer {
-        background-color: var(--cb-color-divider);
-        height: 1px;
-        margin-bottom: 4px;
-        margin-top: 12px;
-    }
-
     .cb-scene-builder-element-behaviors-text {
         font-size: 12px;
         margin-top: 4px;
         opacity: 0.6;
     }
 
-    .cb-scene-builder-element-behaviors-spacer {
+    .cb-scene-builder-spacer {
         background-color: var(--cb-color-divider);
         height: 1px;
-        margin-bottom: 8px;
-        margin-top: 8px;
+        margin: 8px 0;
     }
 
     .cb-scene-builder-element-behavior-item {

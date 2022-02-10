@@ -24,7 +24,7 @@ const LeftPanelBuilderHeader: React.FC<Props> = ({
                     {subHeaderText}
                 </span>
             </div>
-            <div className="cb-scene-builder-element-behaviors-spacer" />
+            <div className="cb-scene-builder-spacer" />
         </div>
     );
 };

@@ -320,7 +320,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             )}
                         </div>
                     )}
-                    <div className="cb-scene-builder-element-behaviors-spacer" />
+                    <div className="cb-scene-builder-spacer" />
                     <div className="cb-scene-builder-element-behaviors-title">
                         {t('3dSceneBuilder.behaviors')}
                     </div>
