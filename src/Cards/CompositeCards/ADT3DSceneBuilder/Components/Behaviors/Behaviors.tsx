@@ -9,6 +9,7 @@ import {
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Utils } from '../../../../..';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorListSegment } from '../../../../../Models/Constants/Enums';
@@ -37,6 +38,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const { config, sceneId } = useContext(SceneBuilderContext);
 
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [searchText, setSearchText] = useState('');
     const [filteredItemsInScene, setFilteredItemsInScene] = useState<
         IBehavior[]
     >([]);
@@ -82,24 +84,25 @@ const SceneBehaviors: React.FC<Props> = ({
         }
     }, [filteredItemsInScene]);
 
-    const searchItems = (searchTerm: string) => {
+    // apply filtering
+    useEffect(() => {
         const filteredInScene = behaviorsInScene.filter((behavior) =>
-            behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+            behavior.id.toLowerCase().includes(searchText.toLowerCase())
         );
         setFilteredItemsInScene(filteredInScene);
         const filteredNotInScene = behaviorsNotInScene.filter((behavior) =>
-            behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+            behavior.id.toLowerCase().includes(searchText.toLowerCase())
         );
         setFilteredItemsNotInScene(filteredNotInScene);
         // if we find an item in the library, expand the library to show it
         if (
-            searchTerm &&
+            searchText &&
             filteredNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    };
+    }, [searchText]);
 
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
@@ -118,7 +121,8 @@ const SceneBehaviors: React.FC<Props> = ({
                                 placeholder={t(
                                     '3dSceneBuilder.searchBehaviorsPlaceholder'
                                 )}
-                                onChange={(event, value) => searchItems(value)}
+                                onChange={(_e, value) => setSearchText(value)}
+                                value={searchText}
                             />
                         </div>
                         <Separator
@@ -158,6 +162,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                         behaviorToDeleteRef={
                                             behaviorToDeleteRef
                                         }
+                                        searchText={searchText}
                                         onBehaviorClick={onBehaviorClick}
                                         setIsConfirmDeleteOpen={
                                             setIsConfirmDeleteOpen
@@ -283,13 +288,15 @@ const BehaviorList: React.FC<{
     setIsConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
     segmentMode: BehaviorListSegment;
     onAddBehaviorToScene: (behavior: IBehavior) => any;
+    searchText?: string;
 }> = ({
     behavior,
     onBehaviorClick,
     behaviorToDeleteRef,
     setIsConfirmDeleteOpen,
     segmentMode,
-    onAddBehaviorToScene
+    onAddBehaviorToScene,
+    searchText
 }) => {
     const { t } = useTranslation();
     const { config, sceneId } = useContext(SceneBuilderContext);
@@ -374,7 +381,9 @@ const BehaviorList: React.FC<{
             <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
             <div className="cb-scene-builder-behavior-list-item">
                 <span className="cb-scene-builder-behavior-name">
-                    {behavior.id}
+                    {searchText?.length
+                        ? Utils.getMarkedHtmlBySearch(behavior.id, searchText)
+                        : behavior.id}
                 </span>
                 <span className="cb-scene-builder-behavior-list-item-meta">
                     {t('3dSceneBuilder.behaviorMetaText', {

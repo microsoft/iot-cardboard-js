@@ -18,6 +18,7 @@ import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { Utils } from '../../../../../Models/Services';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -37,6 +38,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
     );
+    const [searchText, setSearchText] = useState('');
     const [
         elementToDelete,
         setElementToDelete
@@ -117,12 +119,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [selectedElements]);
 
-    const searchElements = (searchTerm: string) => {
+    // apply filtering
+    useEffect(() => {
         const filtered = elements.filter((element) =>
-            element.displayName.toLowerCase().includes(searchTerm.toLowerCase())
+            element.displayName.toLowerCase().includes(searchText.toLowerCase())
         );
         setFilteredElements(filtered);
-    };
+    }, [searchText]);
 
     const updateCheckbox = (element: ITwinToObjectMapping) => {
         const shouldCheck = selectedElements?.find(
@@ -149,9 +152,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                 placeholder={t(
                                     '3dSceneBuilder.searchElementsPlaceholder'
                                 )}
-                                onChange={(event, value) =>
-                                    searchElements(value)
-                                }
+                                onChange={(_e, value) => setSearchText(value)}
+                                value={searchText}
                             />
                         </div>
                         {!isEditBehavior && (
@@ -248,7 +250,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             )}
                             <div className="cb-scene-builder-element-title">
                                 <div className="cb-scene-builder-element-name">
-                                    {element.displayName}
+                                    {searchText
+                                        ? Utils.getMarkedHtmlBySearch(
+                                              element.displayName,
+                                              searchText
+                                          )
+                                        : element.displayName}
                                 </div>
                                 {!isEditBehavior && (
                                     <div className="cb-scene-builder-element-item-meta">
