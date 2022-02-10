@@ -116,13 +116,6 @@
         margin-right: 4px;
     }
 
-    .cb-scene-builder-element-spacer {
-        background-color: #edebe9;
-        height: 1px;
-        margin-bottom: 4px;
-        margin-top: 12px;
-    }
-
     .cb-scene-builder-element-behaviors-text {
         font-size: 12px;
         margin-top: 4px;
@@ -131,8 +124,8 @@
 
     .cb-scene-builder-spacer {
         background-color: var(--cb-color-natural-light);
-        min-height: 1px;
         margin: 8px 0;
+        min-height: 1px;
     }
 
     .cb-scene-builder-element-behavior-item {

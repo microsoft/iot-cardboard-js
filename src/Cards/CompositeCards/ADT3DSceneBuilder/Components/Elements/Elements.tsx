@@ -175,7 +175,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             />
                         )}
                     </div>
-                    <div className="cb-scene-builder-element-spacer" />
+                    <div className="cb-scene-builder-spacer" />
                 </div>
             )}
             <div className="cb-scene-builder-element-list">
