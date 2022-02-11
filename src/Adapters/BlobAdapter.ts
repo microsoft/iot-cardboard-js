@@ -11,7 +11,7 @@ export default class BlobAdapter implements IBlobAdapter {
     protected blobContainerPath: string;
     protected blobAuthService: IAuthService;
     protected blobProxyServerPath: string;
-
+    
     constructor(
         blobContainerUrl: string,
         authService: IAuthService,
@@ -26,7 +26,7 @@ export default class BlobAdapter implements IBlobAdapter {
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
     }
-
+    
     getBlobContainerURL() {
         return this.storateAccountHostUrl && this.blobContainerPath
             ? `https://${this.storateAccountHostUrl}${this.blobContainerPath}`
@@ -63,7 +63,7 @@ export default class BlobAdapter implements IBlobAdapter {
                     });
                     if (scenesBlob.data) {
                         config = scenesBlob.data as IScenesConfig;
-                    }
+                }
                 }
 
                 return new ADTScenesConfigData(config);
@@ -71,19 +71,16 @@ export default class BlobAdapter implements IBlobAdapter {
                 switch (err?.response?.status) {
                     case 404:
                         adapterMethodSandbox.pushError({
-                            type: ComponentErrorType.NonExistantBlob,
+                            type: ComponentErrorType.NonExistentBlob,
                             isCatastrophic: true,
                             rawError: err,
-                            message: 'User Config File Not Found'
-                        });
+                            });
                         break;
                     case 403:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.UnAuthorizedAccess,
                             isCatastrophic: true,
                             rawError: err,
-                            message:
-                                'Your storage blob does not exist or you do not have proper permission to view the storage blob'
                         });
                         break;
                     default:

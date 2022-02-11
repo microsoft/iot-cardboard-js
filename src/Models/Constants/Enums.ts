@@ -21,7 +21,7 @@ export enum ComponentErrorType {
     InvalidCardType = 'InvalidCardType',
     ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError',
-    NonExistantBlob = 'NonExistantBlob',
+    NonExistentBlob = 'NonExistentBlob',
     UnAuthorizedAccess = 'UnAuthorizedAccess'
 }
 
