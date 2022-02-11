@@ -102,7 +102,7 @@ const SceneBehaviors: React.FC<Props> = ({
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    }, [searchText]);
+    }, [searchText, behaviorsInScene, behaviorsNotInScene]);
 
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
@@ -232,6 +232,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                             behaviorToDeleteRef={
                                                 behaviorToDeleteRef
                                             }
+                                            searchText={searchText}
                                             onBehaviorClick={onBehaviorClick}
                                             setIsConfirmDeleteOpen={
                                                 setIsConfirmDeleteOpen
