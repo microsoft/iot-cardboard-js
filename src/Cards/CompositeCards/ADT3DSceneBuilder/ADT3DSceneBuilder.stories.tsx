@@ -1,10 +1,16 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { userEvent, screen, within } from '@storybook/testing-library';
+import { userEvent, within, findByTestId } from '@storybook/testing-library';
 import MockAdapter from '../../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../../Adapters/__mockData__/vconfigDecFinal.json';
-import { sleep, waitForFirstRender } from '../../../Utilities';
+import {
+    clickOverFlowMenuItem,
+    findDialogMenuItem,
+    findOverflowMenuItem,
+    sleep,
+    waitForFirstRender
+} from '../../../Utilities';
 
 export default {
     title: 'CompositeCards/ADT3DSceneBuilder'
@@ -115,41 +121,107 @@ BehaviorsMoreMenuShow.play = async ({ canvasElement }) => {
     await sleep(1);
 };
 
-export const BehaviorsEdit = Template.bind({});
-BehaviorsEdit.play = async ({ canvasElement }) => {
+export const BehaviorsEditElementsTab = Template.bind({});
+BehaviorsEditElementsTab.play = async ({ canvasElement }) => {
     await BehaviorsMoreMenuShow.play({ canvasElement });
-    const moreMenus = await screen.findByTestId('editOverflow-wheelsTooLow');
+    const moreMenus = await findOverflowMenuItem('editOverflow-wheelsTooLow');
     // not using storybook helper to work around issue where pointer events are not allowed
     moreMenus.click();
     await sleep(1);
     // click one of the items in the list
     const canvas = within(canvasElement);
-    const listItem = canvas.getByText('box1');
+    const listItem = await canvas.findByText('box1');
     await userEvent.click(listItem);
+};
+
+export const BehaviorsEditAlertsTab = Template.bind({});
+BehaviorsEditAlertsTab.play = async ({ canvasElement }) => {
+    await BehaviorsEditElementsTab.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks the first one
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[1]);
+};
+
+export const BehaviorsEditWidgetsTab = Template.bind({});
+BehaviorsEditWidgetsTab.play = async ({ canvasElement }) => {
+    await BehaviorsEditElementsTab.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks the first one
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
+};
+
+export const BehaviorsEditWidgetsTabMore = Template.bind({});
+BehaviorsEditWidgetsTabMore.play = async ({
+    canvasElement,
+    listItemIndex = 0
+}) => {
+    await BehaviorsEditWidgetsTab.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks the first one
+    const moreButton = await canvas.findByTestId(
+        `widgetFormMoreMenu-${listItemIndex}`
+    );
+    await userEvent.click(moreButton);
+};
+
+export const BehaviorsEditWidgetsTabMoreEditPanel = Template.bind({});
+BehaviorsEditWidgetsTabMoreEditPanel.play = async ({ canvasElement }) => {
+    await BehaviorsEditWidgetsTabMore.play({ canvasElement });
+    // click the edit button in the overflow
+    const editButton = await findOverflowMenuItem('editWidgetOverflow');
+    await clickOverFlowMenuItem(editButton);
+};
+
+export const BehaviorsEditWidgetsTabMoreEditLink = Template.bind({});
+BehaviorsEditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
+    await BehaviorsEditWidgetsTabMore.play({ canvasElement, listItemIndex: 2 });
+    // click the edit button in the overflow
+    const editButton = await findOverflowMenuItem('editWidgetOverflow');
+    await clickOverFlowMenuItem(editButton);
+};
+
+export const BehaviorsEditWidgetsTabMoreRemove = Template.bind({});
+BehaviorsEditWidgetsTabMoreRemove.play = async ({ canvasElement }) => {
+    await BehaviorsEditWidgetsTabMore.play({ canvasElement });
+    // Click the remove button in the overflow
+    const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
+    await clickOverFlowMenuItem(removeButton);
+};
+
+export const BehaviorsEditWidgetsTabAddDialogShow = Template.bind({});
+BehaviorsEditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
+    await BehaviorsEditWidgetsTab.play({ canvasElement });
+    // Click the remove button in the overflow
+    const canvas = within(canvasElement);
+    const addButton = await canvas.findByTestId('widgetForm-addWidget');
+    await userEvent.click(addButton);
 };
 
 export const BehaviorsRemoveDialogShow = Template.bind({});
 BehaviorsRemoveDialogShow.play = async ({ canvasElement }) => {
     await BehaviorsMoreMenuShow.play({ canvasElement });
-    const moreMenus = await screen.findByTestId(
+    const moreMenus = await findOverflowMenuItem(
         'removeFromSceneOverflow-wheelsTooLow'
     );
-    // not using storybook helper to work around issue where pointer events are not allowed
-    moreMenus.click();
-    await sleep(1);
+    await clickOverFlowMenuItem(moreMenus);
 };
 
 export const BehaviorsRemoveDialogConfirmed = Template.bind({});
 BehaviorsRemoveDialogConfirmed.play = async ({ canvasElement }) => {
     await BehaviorsRemoveDialogShow.play({ canvasElement });
-    const button = await screen.findByTestId('deleteDialog-confirm');
+    const button = await findDialogMenuItem('deleteDialog-confirm');
     await userEvent.click(button);
 };
 
 export const BehaviorsRemoveDialogCancel = Template.bind({});
 BehaviorsRemoveDialogCancel.play = async ({ canvasElement }) => {
     await BehaviorsRemoveDialogShow.play({ canvasElement });
-    const button = await screen.findByTestId('deleteDialog-cancel');
+    const button = await findDialogMenuItem('deleteDialog-cancel');
     await userEvent.click(button);
 };
 
