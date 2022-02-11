@@ -176,16 +176,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             />
                         )}
                     </div>
-                    <Separator
-                        styles={{
-                            root: {
-                                '&:before': {
-                                    backgroundColor:
-                                        'var(--cb-color-natural-light)'
-                                }
-                            }
-                        }}
-                    />
+                    <Separator />
                 </div>
             )}
             <div className="cb-scene-builder-element-list">

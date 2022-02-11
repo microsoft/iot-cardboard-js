@@ -397,15 +397,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     />
                 </div>
 
-                <Separator
-                    styles={{
-                        root: {
-                            '&:before': {
-                                backgroundColor: 'var(--cb-color-natural-light)'
-                            }
-                        }
-                    }}
-                />
+                <Separator />
 
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
