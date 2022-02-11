@@ -12,7 +12,8 @@ import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
     Locale,
-    Theme
+    Theme,
+    WidgetFormMode
 } from '../../../Models/Constants/Enums';
 import { IConsumeCompositeCardProps } from '../../../Models/Constants/Interfaces';
 
@@ -59,7 +60,7 @@ export interface I3DSceneBuilderContext {
 
 export type WidgetFormInfo = null | {
     widget: IWidgetLibraryItem;
-    mode: ADT3DSceneBuilderMode;
+    mode: WidgetFormMode;
     widgetIdx?: number;
 };
 

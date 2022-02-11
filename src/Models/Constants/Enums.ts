@@ -118,7 +118,10 @@ export enum ADT3DSceneBuilderMode {
     EditElement,
     CreateBehavior,
     EditBehavior,
-    TargetElements,
+    TargetElements
+}
+
+export enum WidgetFormMode {
     CreateWidget,
     EditWidget
 }

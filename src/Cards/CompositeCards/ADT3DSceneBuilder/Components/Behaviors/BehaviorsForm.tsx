@@ -19,7 +19,9 @@ import { TextField, DefaultButton, Separator } from '@fluentui/react';
 import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
-import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
+import LeftPanelBuilderHeader, {
+    getLeftPanelBuilderHeaderParams
+} from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 
@@ -118,35 +120,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedElements([]);
     };
 
-    const { headerText, subHeaderText, iconName } = useMemo(() => {
-        let headerText = '',
-            subHeaderText = '',
-            iconName = 'Ringer';
-
-        if (widgetFormInfo) {
-            if (widgetFormInfo.mode === ADT3DSceneBuilderMode.CreateWidget) {
-                headerText = t('3dSceneBuilder.newWidget');
-            } else {
-                headerText = t('3dSceneBuilder.editWidget');
-            }
-            iconName = widgetFormInfo.widget.iconName;
-            subHeaderText = widgetFormInfo.widget.title;
-        } else {
-            if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
-                headerText = t('3dSceneBuilder.newBehavior');
-            } else if (builderMode === ADT3DSceneBuilderMode.EditBehavior) {
-                headerText = t('3dSceneBuilder.modifyBehavior');
-            }
-            subHeaderText = t('3dSceneBuilder.behaviorTypes.alertBehavior');
-            iconName = 'Ringer';
-        }
-
-        return {
-            headerText,
-            subHeaderText,
-            iconName
-        };
-    }, [widgetFormInfo, builderMode]);
+    const { headerText, subHeaderText, iconName } = useMemo(
+        () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
+        [widgetFormInfo, builderMode]
+    );
 
     return (
         <BehaviorFormContext.Provider

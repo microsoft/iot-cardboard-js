@@ -9,7 +9,7 @@ import {
     IWidget,
     VisualType
 } from '../../../../../../Models/Classes/3DVConfig';
-import { ADT3DSceneBuilderMode } from '../../../../../../Models/Constants/Enums';
+import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
@@ -36,7 +36,7 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const [formData, setFormData] = useState<IWidget>(
-        widgetFormInfo.mode === ADT3DSceneBuilderMode.CreateWidget
+        widgetFormInfo.mode === WidgetFormMode.CreateWidget
             ? getDefaultFormData()
             : widgetFormInfo.widget.data
     );
@@ -67,7 +67,7 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const onSaveWidgetForm = () => {
-        if (widgetFormInfo.mode === ADT3DSceneBuilderMode.CreateWidget) {
+        if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
@@ -83,7 +83,7 @@ const WidgetForm: React.FC<any> = () => {
                 })
             );
         }
-        if (widgetFormInfo.mode === ADT3DSceneBuilderMode.EditWidget) {
+        if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
@@ -121,8 +121,7 @@ const WidgetForm: React.FC<any> = () => {
                 <PrimaryButton
                     onClick={onSaveWidgetForm}
                     text={
-                        widgetFormInfo.mode ===
-                        ADT3DSceneBuilderMode.CreateWidget
+                        widgetFormInfo.mode === WidgetFormMode.CreateWidget
                             ? t('3dSceneBuilder.createWidget')
                             : t('3dSceneBuilder.updateWidget')
                     }

@@ -148,6 +148,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     locale={locale}
                     localeStrings={localeStrings}
                 >
+                    <FloatingScenePageModeToggle
+                        scene={state.selectedScene}
+                        handleScenePageModeChange={handleScenePageModeChange}
+                        selectedMode={state.scenePageMode}
+                    />
                     {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                         <div className="cb-scene-page-scene-list-container">
                             <div className="cb-scene-page-scene-environment-picker">
@@ -240,11 +245,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             </div>
                         </>
                     )}
-                    <FloatingScenePageModeToggle
-                        scene={state.selectedScene}
-                        handleScenePageModeChange={handleScenePageModeChange}
-                        selectedMode={state.scenePageMode}
-                    />
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>

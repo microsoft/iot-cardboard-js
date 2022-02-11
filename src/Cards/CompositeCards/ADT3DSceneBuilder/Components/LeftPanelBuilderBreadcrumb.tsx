@@ -102,14 +102,10 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         } else {
             switch (builderMode) {
                 case ADT3DSceneBuilderMode.CreateBehavior:
-                    activePanelBreadcrumb = [behaviorsRoot];
-                    break;
                 case ADT3DSceneBuilderMode.EditBehavior:
                     activePanelBreadcrumb = [behaviorsRoot];
                     break;
                 case ADT3DSceneBuilderMode.CreateElement:
-                    activePanelBreadcrumb = [elementsRoot];
-                    break;
                 case ADT3DSceneBuilderMode.EditElement:
                     activePanelBreadcrumb = [elementsRoot];
                     break;
@@ -127,7 +123,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     ) => {
         if (props.key === 'Home') {
             return (
-                <div
+                <button
                     className="cb-left-panel-builder-breadcrumb-home-icon-container"
                     onClick={props.onClick}
                 >
@@ -135,7 +131,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                         iconName={'Home'}
                         className="cb-left-panel-builder-breadcrumb-home-icon"
                     />
-                </div>
+                </button>
             );
         } else return defaultRender(props);
     };

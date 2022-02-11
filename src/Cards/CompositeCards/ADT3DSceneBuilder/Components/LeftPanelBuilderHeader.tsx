@@ -1,11 +1,47 @@
-import { FontIcon } from '@fluentui/react';
+import { FontIcon, Separator } from '@fluentui/react';
 import React from 'react';
+import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../../..';
+import i18n from '../../../../i18n';
+import { WidgetFormInfo } from '../ADT3DSceneBuilder.types';
 
 interface Props {
     headerText: string;
     subHeaderText: string;
     iconName: string;
 }
+
+export const getLeftPanelBuilderHeaderParams = (
+    widgetFormInfo: WidgetFormInfo,
+    builderMode: ADT3DSceneBuilderMode
+) => {
+    let headerText = '',
+        subHeaderText = '',
+        iconName = 'Ringer';
+
+    if (widgetFormInfo) {
+        if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
+            headerText = i18n.t('3dSceneBuilder.newWidget');
+        } else {
+            headerText = i18n.t('3dSceneBuilder.editWidget');
+        }
+        iconName = widgetFormInfo.widget.iconName;
+        subHeaderText = widgetFormInfo.widget.title;
+    } else {
+        if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
+            headerText = i18n.t('3dSceneBuilder.newBehavior');
+        } else if (builderMode === ADT3DSceneBuilderMode.EditBehavior) {
+            headerText = i18n.t('3dSceneBuilder.modifyBehavior');
+        }
+        subHeaderText = i18n.t('3dSceneBuilder.behaviorTypes.alertBehavior');
+        iconName = 'Ringer';
+    }
+
+    return {
+        headerText,
+        subHeaderText,
+        iconName
+    };
+};
 
 const LeftPanelBuilderHeader: React.FC<Props> = ({
     headerText,
@@ -24,7 +60,7 @@ const LeftPanelBuilderHeader: React.FC<Props> = ({
                     {subHeaderText}
                 </span>
             </div>
-            <div className="cb-scene-builder-spacer" />
+            <Separator />
         </div>
     );
 };

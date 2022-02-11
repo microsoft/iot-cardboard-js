@@ -9,7 +9,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+             - uses: actions/setup-node@v2
+              with:
+                  node-version: '16'
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -24,7 +26,7 @@ jobs:
                       ${{ runner.os }}-
 
             - name: Install dependencies
-              run: npm install
+              run: npm ci
 
             # todo - lint only file deltas, not entire codebase (speeds up workflow)
             - name: Check code formatting and quality
@@ -33,7 +35,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '16'
 
             - name: Cache node modules
               uses: actions/cache@v2
@@ -49,7 +53,7 @@ jobs:
                       ${{ runner.os }}-
 
             - name: Install dependencies
-              run: npm install
+              run: npm ci
 
             - name: Verify rollup build succeeds
               run: npm run build
@@ -60,7 +64,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '16'
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -75,7 +81,7 @@ jobs:
                       ${{ runner.os }}-
 
             - name: Install dependencies
-              run: npm install
+              run: npm ci
 
             - name: Verify all unit tests pass
               run: npm run test:ci

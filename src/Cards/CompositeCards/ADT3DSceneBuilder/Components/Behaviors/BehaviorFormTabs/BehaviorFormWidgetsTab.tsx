@@ -16,7 +16,7 @@ import {
 import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
-import { ADT3DSceneBuilderMode } from '../../../../../../Models/Constants/Enums';
+import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
@@ -75,7 +75,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                     description,
                     data: widget
                 },
-                mode: ADT3DSceneBuilderMode.EditWidget,
+                mode: WidgetFormMode.EditWidget,
                 widgetIdx: index
             });
         }
@@ -105,7 +105,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
     function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
         setWidgetFormInfo({
             widget: libraryItem,
-            mode: ADT3DSceneBuilderMode.CreateWidget
+            mode: WidgetFormMode.CreateWidget
         });
 
         // Add popover visual if not already present
