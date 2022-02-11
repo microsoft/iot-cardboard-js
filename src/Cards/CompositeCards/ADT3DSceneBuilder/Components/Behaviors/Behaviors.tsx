@@ -110,18 +110,7 @@ const SceneBehaviors: React.FC<Props> = ({
                             </div>
                         )}
                         {behaviorsInSceneSectionVisible &&
-                            behaviorsNotInSceneSectionVisible && (
-                                <Separator
-                                    styles={{
-                                        root: {
-                                            '&:before': {
-                                                backgroundColor:
-                                                    'var(--cb-color-bg-canvas-inset)'
-                                            }
-                                        }
-                                    }}
-                                />
-                            )}
+                            behaviorsNotInSceneSectionVisible && <Separator />}
                         {behaviorsNotInSceneSectionVisible && (
                             <div>
                                 <div

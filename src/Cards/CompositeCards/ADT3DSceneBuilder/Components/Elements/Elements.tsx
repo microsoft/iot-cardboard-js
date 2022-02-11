@@ -6,7 +6,8 @@ import {
     FontIcon,
     IconButton,
     PrimaryButton,
-    SearchBox
+    SearchBox,
+    Separator
 } from '@fluentui/react';
 import {
     IScene,
@@ -175,7 +176,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             />
                         )}
                     </div>
-                    <div className="cb-scene-builder-element-spacer" />
+                    <Separator />
                 </div>
             )}
             <div className="cb-scene-builder-element-list">
