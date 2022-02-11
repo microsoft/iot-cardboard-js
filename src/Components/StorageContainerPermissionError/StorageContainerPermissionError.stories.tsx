@@ -5,7 +5,7 @@ import { ComponentErrorType } from '../../Models/Constants';
 
 export default {
     title: 'Components/StorageContainerPermissionError'
-}
+};
 
 export const UnauthorizedAccessError = () => {
     //debugger;
@@ -13,13 +13,10 @@ export const UnauthorizedAccessError = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-            <StorageContainerPermissionError
-                errorTitle='BlobStorageError'
-                error={
-                    ComponentErrorType.UnAuthorizedAccess
-                }
-            />
-       
+        <StorageContainerPermissionError
+            errorTitle="BlobStorageError"
+            error={ComponentErrorType.UnAuthorizedAccess}
+        />
     );
 };
 
@@ -31,11 +28,9 @@ export const NonExistentBlob = () => {
     ) : (
         <div>
             <StorageContainerPermissionError
-                errorTitle='BlobStorageError'
-                error={
-                    ComponentErrorType.NonExistentBlob
-                }
+                errorTitle="BlobStorageError"
+                error={ComponentErrorType.NonExistentBlob}
             />
-       </div>
+        </div>
     );
 };

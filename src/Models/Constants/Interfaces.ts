@@ -83,7 +83,7 @@ export interface IErrorComponentProps {
     errorTitle?: string;
     error?: ComponentErrorType;
     imageSrc?: string;
-    adapter?: any
+    adapter?: any;
 }
 
 export interface IOverlayProps {

@@ -5,13 +5,12 @@ import { MessageBar, MessageBarType } from '@fluentui/react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { useTranslation } from 'react-i18next';
 
-const StorageContainerPermissionError: React.FC<IErrorComponentProps> = ({error}) => {
+const StorageContainerPermissionError: React.FC<IErrorComponentProps> = ({
+    error
+}) => {
     const { t } = useTranslation();
     return (
-        <BaseComponent
-            containerClassName='cb-message-bar-container'
-        >
-
+        <BaseComponent containerClassName="cb-message-bar-container">
             <MessageBar
                 messageBarType={MessageBarType.warning}
                 isMultiline={false}
