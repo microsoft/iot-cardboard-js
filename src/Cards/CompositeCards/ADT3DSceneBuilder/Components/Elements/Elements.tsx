@@ -6,7 +6,8 @@ import {
     FontIcon,
     IconButton,
     PrimaryButton,
-    SearchBox
+    SearchBox,
+    Separator
 } from '@fluentui/react';
 import {
     IScene,
@@ -175,7 +176,16 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             />
                         )}
                     </div>
-                    <div className="cb-scene-builder-spacer" />
+                    <Separator
+                        styles={{
+                            root: {
+                                '&:before': {
+                                    backgroundColor:
+                                        'var(--cb-color-natural-light)'
+                                }
+                            }
+                        }}
+                    />
                 </div>
             )}
             <div className="cb-scene-builder-element-list">

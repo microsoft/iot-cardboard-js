@@ -13,6 +13,7 @@ import {
     Pivot,
     PivotItem,
     PrimaryButton,
+    Separator,
     TextField
 } from '@fluentui/react';
 import {
@@ -396,7 +397,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     />
                 </div>
 
-                <div className="cb-scene-builder-spacer" />
+                <Separator
+                    styles={{
+                        root: {
+                            '&:before': {
+                                backgroundColor: 'var(--cb-color-natural-light)'
+                            }
+                        }
+                    }}
+                />
 
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}

@@ -51,7 +51,7 @@
     }
 
     .cb-scene-builder-left-panel-create-form-contents {
-        padding: 8px 0 16px;
+        padding: 8px 0 4px;
     }
 
     .cb-scene-builder-left-panel-element-objects,
@@ -120,12 +120,6 @@
         font-size: 12px;
         margin-top: 4px;
         opacity: 0.6;
-    }
-
-    .cb-scene-builder-spacer {
-        background-color: var(--cb-color-natural-light);
-        height: 1px;
-        margin: 8px 0;
     }
 
     .cb-scene-builder-element-behavior-item {
