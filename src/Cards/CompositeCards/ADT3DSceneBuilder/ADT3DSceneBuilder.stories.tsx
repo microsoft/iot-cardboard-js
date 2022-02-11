@@ -83,8 +83,8 @@ ElementsMoreMenuShow.play = async ({ canvasElement }) => {
 
     // click a list item
     const canvas = within(canvasElement);
-    const moreMenus = canvas.findAllByTitle('More');
-    await userEvent.click(moreMenus[0]);
+    const moreMenu = await canvas.findByTestId('moreMenu-0');
+    await userEvent.click(moreMenu);
 };
 
 //#endregion
@@ -116,8 +116,8 @@ BehaviorsMoreMenuShow.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // type in the search box
-    const moreMenus = await canvas.findAllByTitle('More');
-    await userEvent.click(moreMenus[0]);
+    const moreMenu = await canvas.findByTestId('moreMenu-inScene-0');
+    await userEvent.click(moreMenu);
     await sleep(1);
 };
 
@@ -163,9 +163,7 @@ BehaviorsEditWidgetsTabMore.play = async ({
     // click one of the items in the list
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
-    const moreButton = await canvas.findByTestId(
-        `widgetFormMoreMenu-${listItemIndex}`
-    );
+    const moreButton = await canvas.findByTestId(`moreMenu-${listItemIndex}`);
     await userEvent.click(moreButton);
 };
 

@@ -193,133 +193,141 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         {t('3dSceneBuilder.noResults')}
                     </p>
                 ) : (
-                    filteredElements.map((element: ITwinToObjectMapping) => (
-                        <div
-                            className={`cb-scene-builder-left-panel-element ${
-                                hoveredElement?.id === element.id ||
-                                elementToDelete?.id === element.id
-                                    ? 'cb-selected-element'
-                                    : ''
-                            }${isEditBehavior ? 'cb-element-center' : ''}`}
-                            key={element.displayName}
-                            onClick={() => {
-                                if (!toggleElementSelection) {
-                                    onElementClick(element);
-                                } else {
-                                    updateCheckbox(element);
-                                }
-                            }}
-                            onMouseOver={() => onElementEnter(element)}
-                            onMouseLeave={() => onElementLeave(element)}
-                        >
-                            {toggleElementSelection && (
-                                <Checkbox
-                                    onChange={(e, checked) => {
-                                        updateSelectedElements(
-                                            element,
-                                            !checked
-                                        );
-                                        elementsSorted.current = true;
-                                    }}
-                                    className="cb-scene-builder-element-checkbox"
-                                    checked={
-                                        selectedElements?.find(
-                                            (item) => item.id === element.id
-                                        )
-                                            ? true
-                                            : false
+                    filteredElements.map(
+                        (element: ITwinToObjectMapping, index) => (
+                            <div
+                                className={`cb-scene-builder-left-panel-element ${
+                                    hoveredElement?.id === element.id ||
+                                    elementToDelete?.id === element.id
+                                        ? 'cb-selected-element'
+                                        : ''
+                                }${isEditBehavior ? 'cb-element-center' : ''}`}
+                                key={element.displayName}
+                                onClick={() => {
+                                    if (!toggleElementSelection) {
+                                        onElementClick(element);
+                                    } else {
+                                        updateCheckbox(element);
                                     }
-                                />
-                            )}
-                            {!isEditBehavior && (
-                                <div>
-                                    <FontIcon
-                                        iconName={'Shapes'}
-                                        className="cb-element-icon"
+                                }}
+                                onMouseOver={() => onElementEnter(element)}
+                                onMouseLeave={() => onElementLeave(element)}
+                            >
+                                {toggleElementSelection && (
+                                    <Checkbox
+                                        onChange={(e, checked) => {
+                                            updateSelectedElements(
+                                                element,
+                                                !checked
+                                            );
+                                            elementsSorted.current = true;
+                                        }}
+                                        className="cb-scene-builder-element-checkbox"
+                                        checked={
+                                            selectedElements?.find(
+                                                (item) => item.id === element.id
+                                            )
+                                                ? true
+                                                : false
+                                        }
                                     />
-                                </div>
-                            )}
-                            <div className="cb-scene-builder-element-title">
-                                <div className="cb-scene-builder-element-name">
-                                    {searchText
-                                        ? Utils.getMarkedHtmlBySearch(
-                                              element.displayName,
-                                              searchText
-                                          )
-                                        : element.displayName}
-                                </div>
+                                )}
                                 {!isEditBehavior && (
-                                    <div className="cb-scene-builder-element-item-meta">
-                                        {t('3dSceneBuilder.elementMetaText', {
-                                            numBehaviors: ViewerConfigUtility.getElementMetaData(
-                                                element,
-                                                config
-                                            )?.numBehaviors,
-                                            numMeshes: ViewerConfigUtility.getElementMetaData(
-                                                element,
-                                                config
-                                            )?.numMeshes
-                                        })}
+                                    <div>
+                                        <FontIcon
+                                            iconName={'Shapes'}
+                                            className="cb-element-icon"
+                                        />
                                     </div>
                                 )}
-                            </div>
-                            {!toggleElementSelection && (
-                                <IconButton
-                                    className={`${
-                                        hoveredElement?.id === element.id
-                                            ? 'cb-scene-builder-element-actions-hovered'
-                                            : 'cb-scene-builder-element-actions'
-                                    }`}
-                                    title={t('more')}
-                                    ariaLabel={t('more')}
-                                    menuIconProps={{
-                                        iconName: 'MoreVertical',
-                                        style: {
-                                            fontWeight: 'bold',
-                                            fontSize: 18,
-                                            color: 'black'
-                                        }
-                                    }}
-                                    onMenuClick={() => {
-                                        setHoveredElement(element);
-                                    }}
-                                    menuProps={{
-                                        onMenuDismissed: () => {
-                                            setHoveredElement(null);
-                                        },
-                                        items: [
-                                            {
-                                                key: 'Modify',
-                                                text: t(
-                                                    '3dSceneBuilder.modifyElement'
-                                                ),
-                                                iconProps: {
-                                                    iconName: 'edit'
-                                                },
-                                                onClick: () =>
-                                                    onElementClick(element)
-                                            },
-                                            {
-                                                key: 'delete',
-                                                text: t(
-                                                    '3dSceneBuilder.removeElement'
-                                                ),
-                                                iconProps: {
-                                                    iconName: 'blocked2'
-                                                },
-                                                onClick: () => {
-                                                    setElementToDelete(element);
-                                                    setIsConfirmDeleteDialogOpen(
-                                                        true
-                                                    );
+                                <div className="cb-scene-builder-element-title">
+                                    <div className="cb-scene-builder-element-name">
+                                        {searchText
+                                            ? Utils.getMarkedHtmlBySearch(
+                                                  element.displayName,
+                                                  searchText
+                                              )
+                                            : element.displayName}
+                                    </div>
+                                    {!isEditBehavior && (
+                                        <div className="cb-scene-builder-element-item-meta">
+                                            {t(
+                                                '3dSceneBuilder.elementMetaText',
+                                                {
+                                                    numBehaviors: ViewerConfigUtility.getElementMetaData(
+                                                        element,
+                                                        config
+                                                    )?.numBehaviors,
+                                                    numMeshes: ViewerConfigUtility.getElementMetaData(
+                                                        element,
+                                                        config
+                                                    )?.numMeshes
                                                 }
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                {!toggleElementSelection && (
+                                    <IconButton
+                                        className={`${
+                                            hoveredElement?.id === element.id
+                                                ? 'cb-scene-builder-element-actions-hovered'
+                                                : 'cb-scene-builder-element-actions'
+                                        }`}
+                                        title={t('more')}
+                                        ariaLabel={t('more')}
+                                        data-testid={`moreMenu-${index}`}
+                                        menuIconProps={{
+                                            iconName: 'MoreVertical',
+                                            style: {
+                                                fontWeight: 'bold',
+                                                fontSize: 18,
+                                                color: 'black'
                                             }
-                                        ]
-                                    }}
-                                />
-                            )}
-                        </div>
-                    ))
+                                        }}
+                                        onMenuClick={() => {
+                                            setHoveredElement(element);
+                                        }}
+                                        menuProps={{
+                                            onMenuDismissed: () => {
+                                                setHoveredElement(null);
+                                            },
+                                            items: [
+                                                {
+                                                    key: 'Modify',
+                                                    text: t(
+                                                        '3dSceneBuilder.modifyElement'
+                                                    ),
+                                                    iconProps: {
+                                                        iconName: 'edit'
+                                                    },
+                                                    onClick: () =>
+                                                        onElementClick(element)
+                                                },
+                                                {
+                                                    key: 'delete',
+                                                    text: t(
+                                                        '3dSceneBuilder.removeElement'
+                                                    ),
+                                                    iconProps: {
+                                                        iconName: 'blocked2'
+                                                    },
+                                                    onClick: () => {
+                                                        setElementToDelete(
+                                                            element
+                                                        );
+                                                        setIsConfirmDeleteDialogOpen(
+                                                            true
+                                                        );
+                                                    }
+                                                }
+                                            ]
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        )
+                    )
                 )}
             </div>
             {!isEditBehavior && (

@@ -161,9 +161,10 @@ const SceneBehaviors: React.FC<Props> = ({
                                         )}
                                     </Text>
                                 </div>
-                                {filteredItemsInScene.map((behavior) => (
+                                {filteredItemsInScene.map((behavior, index) => (
                                     <BehaviorList
                                         key={behavior.id}
+                                        index={index}
                                         behavior={behavior}
                                         behaviorToDeleteRef={
                                             behaviorToDeleteRef
@@ -222,26 +223,31 @@ const SceneBehaviors: React.FC<Props> = ({
                                     </Text>
                                 </div>
                                 {isBehaviorLibraryExpanded &&
-                                    filteredItemsNotInScene.map((behavior) => (
-                                        <BehaviorList
-                                            key={behavior.id}
-                                            behavior={behavior}
-                                            behaviorToDeleteRef={
-                                                behaviorToDeleteRef
-                                            }
-                                            searchText={searchText}
-                                            onBehaviorClick={onBehaviorClick}
-                                            setIsConfirmDeleteOpen={
-                                                setIsConfirmDeleteOpen
-                                            }
-                                            segmentMode={
-                                                BehaviorListSegment.NotInThisScene
-                                            }
-                                            onAddBehaviorToScene={
-                                                onAddBehaviorToScene
-                                            }
-                                        />
-                                    ))}
+                                    filteredItemsNotInScene.map(
+                                        (behavior, index) => (
+                                            <BehaviorList
+                                                key={behavior.id}
+                                                index={index}
+                                                behavior={behavior}
+                                                behaviorToDeleteRef={
+                                                    behaviorToDeleteRef
+                                                }
+                                                searchText={searchText}
+                                                onBehaviorClick={
+                                                    onBehaviorClick
+                                                }
+                                                setIsConfirmDeleteOpen={
+                                                    setIsConfirmDeleteOpen
+                                                }
+                                                segmentMode={
+                                                    BehaviorListSegment.NotInThisScene
+                                                }
+                                                onAddBehaviorToScene={
+                                                    onAddBehaviorToScene
+                                                }
+                                            />
+                                        )
+                                    )}
                             </div>
                         )}
                     </div>
@@ -286,6 +292,7 @@ const BehaviorList: React.FC<{
     setIsConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
     segmentMode: BehaviorListSegment;
     onAddBehaviorToScene: (behavior: IBehavior) => any;
+    index: number;
     searchText?: string;
 }> = ({
     behavior,
@@ -294,6 +301,7 @@ const BehaviorList: React.FC<{
     setIsConfirmDeleteOpen,
     segmentMode,
     onAddBehaviorToScene,
+    index,
     searchText
 }) => {
     const { t } = useTranslation();
@@ -411,6 +419,11 @@ const BehaviorList: React.FC<{
                         color: 'black'
                     }
                 }}
+                data-testid={`moreMenu-${
+                    segmentMode === BehaviorListSegment.InThisScene
+                        ? 'inScene'
+                        : 'notInScene'
+                }-${index}`}
                 title={t('more')}
                 ariaLabel={t('more')}
                 menuProps={getBehaviorListItemMenuProps(behavior)}

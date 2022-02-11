@@ -146,7 +146,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                                     color: 'black'
                                 }
                             }}
-                            data-testId={`widgetFormMoreMenu-${index}`}
+                            data-testId={`moreMenu-${index}`}
                             menuProps={getMenuProps(index)}
                         />
                     </div>
