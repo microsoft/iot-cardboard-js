@@ -367,7 +367,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         : t('3dSceneBuilder.modifyElement')
                 }
                 subHeaderText={
-                    elementToEdit.displayName === ''
+                    !elementToEdit.displayName
                         ? t('3dSceneBuilder.addElementDetails')
                         : elementToEdit.displayName
                 }
