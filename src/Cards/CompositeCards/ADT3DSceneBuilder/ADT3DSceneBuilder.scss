@@ -77,12 +77,6 @@
         padding-left: 8px;
     }
 
-    .cb-scene-builder-behavior-list-item-ellipsis {
-        i {
-            color: var(--cb-color-text-primary) !important;
-        }
-    }
-
     .cb-scene-builder-left-panel-collapse-chevron-header {
         cursor: pointer;
         font-size: 14px;
@@ -528,6 +522,13 @@
     &.cb-left-panel-builder-breadcrumb-scene-root {
         transform: scale(1.2);
     }
+}
+
+.cb-scene-builder-footer-container {
+    align-items: end;
+    border-top: 1px solid var(--cb-color-natural-light);
+    display: flex;
+    height: 56px;
 }
 
 @keyframes slide-in {

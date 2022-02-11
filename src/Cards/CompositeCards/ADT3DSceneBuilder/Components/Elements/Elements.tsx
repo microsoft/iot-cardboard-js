@@ -331,7 +331,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 )}
             </div>
             {!isEditBehavior && (
-                <div>
+                <div className="cb-scene-builder-footer-container">
                     {toggleElementSelection ? (
                         <div>
                             <PrimaryButton

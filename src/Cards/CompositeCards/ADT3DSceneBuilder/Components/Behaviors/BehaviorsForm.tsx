@@ -15,7 +15,7 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { TextField, DefaultButton } from '@fluentui/react';
+import { TextField, DefaultButton, Separator } from '@fluentui/react';
 import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
@@ -183,6 +183,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             );
                                         }}
                                     />
+
+                                    <Separator />
 
                                     <Pivot
                                         selectedKey={selectedBehaviorPivotKey}
