@@ -77,12 +77,12 @@ const SceneBehaviors: React.FC<Props> = ({
     useEffect(() => {
         if (
             filteredItemsInScene.length === 0 &&
-            behaviorsNotInScene.length > 0 &&
+            filteredItemsNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
             setIsBehaviorLibraryExpanded(true);
         }
-    }, [filteredItemsInScene]);
+    }, [filteredItemsInScene, filteredItemsNotInScene]);
 
     // apply filtering
     useEffect(() => {
@@ -100,6 +100,12 @@ const SceneBehaviors: React.FC<Props> = ({
             filteredNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
+            console.log(
+                'Expanding library',
+                searchText,
+                filteredNotInScene.length,
+                isBehaviorLibraryExpanded
+            );
             setIsBehaviorLibraryExpanded(true);
         }
     }, [searchText, behaviorsInScene, behaviorsNotInScene]);
