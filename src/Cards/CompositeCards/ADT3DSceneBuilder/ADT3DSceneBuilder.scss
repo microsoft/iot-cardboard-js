@@ -51,11 +51,12 @@
     }
 
     .cb-scene-builder-left-panel-create-form-contents {
-        padding: 8px 0 16px;
+        padding: 8px 0 4px;
     }
 
-    .cb-scene-builder-left-panel-element-objects {
-        border-top: 1px solid #edebe9;
+    .cb-scene-builder-left-panel-element-objects,
+    .cb-scene-builder-left-panel-element-behaviors,
+    .cb-scene-builder-left-panel-element-aliased-twins {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -113,13 +114,6 @@
         opacity: 0.6;
     }
 
-    .cb-scene-builder-element-behaviors-spacer {
-        background-color: #edebe9;
-        height: 1px;
-        margin-bottom: 8px;
-        margin-top: 8px;
-    }
-
     .cb-scene-builder-element-behavior-item {
         align-items: center;
         display: flex;
@@ -135,10 +129,6 @@
         flex: 1;
         font-size: 14px;
         padding-left: 8px;
-    }
-
-    .cb-scene-builder-element-behaviors-title {
-        font-weight: 500;
     }
 
     .cb-scene-builder-element-checkbox {
@@ -312,8 +302,9 @@
 
     .cb-scene-builder-left-panel-create-form-actions {
         align-items: end;
+        border-top: 1px solid var(--cb-color-natural-light);
         display: flex;
-        height: 36px;
+        height: 56px;
     }
 
     .cb-chevron {

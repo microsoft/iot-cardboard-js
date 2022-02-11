@@ -185,16 +185,7 @@ const SceneBehaviors: React.FC<Props> = ({
                         )}
                         {/* Separator between lists */}
                         {itemsInSceneVisible && itemsNotInSceneVisible && (
-                            <Separator
-                                styles={{
-                                    root: {
-                                        '&:before': {
-                                            backgroundColor:
-                                                'var(--fluent-color-grey-30)'
-                                        }
-                                    }
-                                }}
-                            />
+                            <Separator />
                         )}
                         {/* Items not in the scene */}
                         {itemsNotInSceneVisible && (
