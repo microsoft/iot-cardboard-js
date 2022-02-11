@@ -542,26 +542,23 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.elements')}
                         itemKey={ADT3DSceneTwinBindingsMode.Elements}
                     >
-                        <div className="cb-scene-builder-pivot-contents-elements">
-                            <SceneElements
-                                elements={state.elements}
-                                selectedElements={state.selectedElements}
-                                onCreateElementClick={onCreateElementClick}
-                                onRemoveElement={onRemoveElement}
-                                onElementClick={onElementClick}
-                                onElementEnter={onElementEnter}
-                                onElementLeave={onElementLeave}
-                                updateSelectedElements={updateSelectedElements}
-                                clearSelectedElements={clearSelectedElements}
-                                onCreateBehaviorClick={
-                                    onCreateBehaviorWithElements
-                                }
-                            />
-                        </div>
+                        <SceneElements
+                            elements={state.elements}
+                            selectedElements={state.selectedElements}
+                            onCreateElementClick={onCreateElementClick}
+                            onRemoveElement={onRemoveElement}
+                            onElementClick={onElementClick}
+                            onElementEnter={onElementEnter}
+                            onElementLeave={onElementLeave}
+                            updateSelectedElements={updateSelectedElements}
+                            clearSelectedElements={clearSelectedElements}
+                            onCreateBehaviorClick={onCreateBehaviorWithElements}
+                        />
                     </PivotItem>
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                        data-testid="3dScene.panelPivot.behaviorsTab"
                     >
                         <SceneBehaviors
                             behaviors={behaviors}

@@ -18,6 +18,7 @@ import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { Utils } from '../../../../../Models/Services';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -37,6 +38,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
     );
+    const [searchText, setSearchText] = useState('');
     const [
         elementToDelete,
         setElementToDelete
@@ -117,12 +119,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [selectedElements]);
 
-    const searchElements = (searchTerm: string) => {
+    // apply filtering
+    useEffect(() => {
         const filtered = elements.filter((element) =>
-            element.displayName.toLowerCase().includes(searchTerm.toLowerCase())
+            element.displayName.toLowerCase().includes(searchText.toLowerCase())
         );
         setFilteredElements(filtered);
-    };
+    }, [searchText]);
 
     const updateCheckbox = (element: ITwinToObjectMapping) => {
         const shouldCheck = selectedElements?.find(
@@ -135,7 +138,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     return (
-        <>
+        <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
                 <div className="cb-scene-builder-elements-title">
                     {t('3dSceneBuilder.selectBehaviorElements')}
@@ -146,10 +149,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     <div className="cb-scene-builder-element-search-header">
                         <div className="cb-scene-builder-element-search-box">
                             <SearchBox
-                                placeholder={t('3dSceneBuilder.searchElements')}
-                                onChange={(event, value) =>
-                                    searchElements(value)
-                                }
+                                placeholder={t(
+                                    '3dSceneBuilder.searchElementsPlaceholder'
+                                )}
+                                onChange={(_e, value) => setSearchText(value)}
+                                value={searchText}
                             />
                         </div>
                         {!isEditBehavior && (
@@ -189,128 +193,141 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         {t('3dSceneBuilder.noResults')}
                     </p>
                 ) : (
-                    filteredElements.map((element: ITwinToObjectMapping) => (
-                        <div
-                            className={`cb-scene-builder-left-panel-element ${
-                                hoveredElement?.id === element.id ||
-                                elementToDelete?.id === element.id
-                                    ? 'cb-selected-element'
-                                    : ''
-                            }${isEditBehavior ? 'cb-element-center' : ''}`}
-                            key={element.displayName}
-                            onClick={() => {
-                                if (!toggleElementSelection) {
-                                    onElementClick(element);
-                                } else {
-                                    updateCheckbox(element);
-                                }
-                            }}
-                            onMouseOver={() => onElementEnter(element)}
-                            onMouseLeave={() => onElementLeave(element)}
-                        >
-                            {toggleElementSelection && (
-                                <Checkbox
-                                    onChange={(e, checked) => {
-                                        updateSelectedElements(
-                                            element,
-                                            !checked
-                                        );
-                                        elementsSorted.current = true;
-                                    }}
-                                    className="cb-scene-builder-element-checkbox"
-                                    checked={
-                                        selectedElements?.find(
-                                            (item) => item.id === element.id
-                                        )
-                                            ? true
-                                            : false
+                    filteredElements.map(
+                        (element: ITwinToObjectMapping, index) => (
+                            <div
+                                className={`cb-scene-builder-left-panel-element ${
+                                    hoveredElement?.id === element.id ||
+                                    elementToDelete?.id === element.id
+                                        ? 'cb-selected-element'
+                                        : ''
+                                }${isEditBehavior ? 'cb-element-center' : ''}`}
+                                key={element.displayName}
+                                onClick={() => {
+                                    if (!toggleElementSelection) {
+                                        onElementClick(element);
+                                    } else {
+                                        updateCheckbox(element);
                                     }
-                                />
-                            )}
-                            {!isEditBehavior && (
-                                <div>
-                                    <FontIcon
-                                        iconName={'Shapes'}
-                                        className="cb-element-icon"
+                                }}
+                                onMouseOver={() => onElementEnter(element)}
+                                onMouseLeave={() => onElementLeave(element)}
+                            >
+                                {toggleElementSelection && (
+                                    <Checkbox
+                                        onChange={(e, checked) => {
+                                            updateSelectedElements(
+                                                element,
+                                                !checked
+                                            );
+                                            elementsSorted.current = true;
+                                        }}
+                                        className="cb-scene-builder-element-checkbox"
+                                        checked={
+                                            selectedElements?.find(
+                                                (item) => item.id === element.id
+                                            )
+                                                ? true
+                                                : false
+                                        }
                                     />
-                                </div>
-                            )}
-                            <div className="cb-scene-builder-element-title">
-                                <div className="cb-scene-builder-element-name">
-                                    {element.displayName}
-                                </div>
+                                )}
                                 {!isEditBehavior && (
-                                    <div className="cb-scene-builder-element-item-meta">
-                                        {t('3dSceneBuilder.elementMetaText', {
-                                            numBehaviors: ViewerConfigUtility.getElementMetaData(
-                                                element,
-                                                config
-                                            )?.numBehaviors,
-                                            numMeshes: ViewerConfigUtility.getElementMetaData(
-                                                element,
-                                                config
-                                            )?.numMeshes
-                                        })}
+                                    <div>
+                                        <FontIcon
+                                            iconName={'Shapes'}
+                                            className="cb-element-icon"
+                                        />
                                     </div>
                                 )}
-                            </div>
-                            {!toggleElementSelection && (
-                                <IconButton
-                                    className={`${
-                                        hoveredElement?.id === element.id
-                                            ? 'cb-scene-builder-element-actions-hovered'
-                                            : 'cb-scene-builder-element-actions'
-                                    }`}
-                                    title={t('more')}
-                                    ariaLabel={t('more')}
-                                    menuIconProps={{
-                                        iconName: 'MoreVertical',
-                                        style: {
-                                            fontWeight: 'bold',
-                                            fontSize: 18,
-                                            color: 'black'
-                                        }
-                                    }}
-                                    onMenuClick={() => {
-                                        setHoveredElement(element);
-                                    }}
-                                    menuProps={{
-                                        onMenuDismissed: () => {
-                                            setHoveredElement(null);
-                                        },
-                                        items: [
-                                            {
-                                                key: 'Modify',
-                                                text: t(
-                                                    '3dSceneBuilder.modifyElement'
-                                                ),
-                                                iconProps: {
-                                                    iconName: 'edit'
-                                                },
-                                                onClick: () =>
-                                                    onElementClick(element)
-                                            },
-                                            {
-                                                key: 'delete',
-                                                text: t(
-                                                    '3dSceneBuilder.removeElement'
-                                                ),
-                                                iconProps: {
-                                                    iconName: 'blocked2'
-                                                },
-                                                onClick: () => {
-                                                    setElementToDelete(element);
-                                                    setIsConfirmDeleteDialogOpen(
-                                                        true
-                                                    );
+                                <div className="cb-scene-builder-element-title">
+                                    <div className="cb-scene-builder-element-name">
+                                        {searchText
+                                            ? Utils.getMarkedHtmlBySearch(
+                                                  element.displayName,
+                                                  searchText
+                                              )
+                                            : element.displayName}
+                                    </div>
+                                    {!isEditBehavior && (
+                                        <div className="cb-scene-builder-element-item-meta">
+                                            {t(
+                                                '3dSceneBuilder.elementMetaText',
+                                                {
+                                                    numBehaviors: ViewerConfigUtility.getElementMetaData(
+                                                        element,
+                                                        config
+                                                    )?.numBehaviors,
+                                                    numMeshes: ViewerConfigUtility.getElementMetaData(
+                                                        element,
+                                                        config
+                                                    )?.numMeshes
                                                 }
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                {!toggleElementSelection && (
+                                    <IconButton
+                                        className={`${
+                                            hoveredElement?.id === element.id
+                                                ? 'cb-scene-builder-element-actions-hovered'
+                                                : 'cb-scene-builder-element-actions'
+                                        }`}
+                                        title={t('more')}
+                                        ariaLabel={t('more')}
+                                        data-testid={`moreMenu-${index}`}
+                                        menuIconProps={{
+                                            iconName: 'MoreVertical',
+                                            style: {
+                                                fontWeight: 'bold',
+                                                fontSize: 18,
+                                                color: 'black'
                                             }
-                                        ]
-                                    }}
-                                />
-                            )}
-                        </div>
-                    ))
+                                        }}
+                                        onMenuClick={() => {
+                                            setHoveredElement(element);
+                                        }}
+                                        menuProps={{
+                                            onMenuDismissed: () => {
+                                                setHoveredElement(null);
+                                            },
+                                            items: [
+                                                {
+                                                    key: 'Modify',
+                                                    text: t(
+                                                        '3dSceneBuilder.modifyElement'
+                                                    ),
+                                                    iconProps: {
+                                                        iconName: 'edit'
+                                                    },
+                                                    onClick: () =>
+                                                        onElementClick(element)
+                                                },
+                                                {
+                                                    key: 'delete',
+                                                    text: t(
+                                                        '3dSceneBuilder.removeElement'
+                                                    ),
+                                                    iconProps: {
+                                                        iconName: 'blocked2'
+                                                    },
+                                                    onClick: () => {
+                                                        setElementToDelete(
+                                                            element
+                                                        );
+                                                        setIsConfirmDeleteDialogOpen(
+                                                            true
+                                                        );
+                                                    }
+                                                }
+                                            ]
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        )
+                    )
                 )}
             </div>
             {!isEditBehavior && (
@@ -355,7 +372,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 onConfirmDeletion={handleDeleteElement}
                 setIsOpen={setIsConfirmDeleteDialogOpen}
             />
-        </>
+        </div>
     );
 };
 
