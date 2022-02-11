@@ -285,8 +285,9 @@
         "removeElement": "Remove element from scene",
         "createElement": "Create element",
         "updateElement": "Update element",
+        "searchElementsPlaceholder": "Search elements",
+        "searchBehaviorsPlaceholder": "Search behaviors",
         "modifyElement": "Modify element",
-        "searchElements": "Search elements",
         "manageTargetElements": "Manage target elements",
         "selectBehaviorElements": "Select elements for this behavior to target",
         "toggleCheckboxes": "Toggle Checkboxes",
@@ -301,8 +302,8 @@
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
         "noResults": "No results",
-        "behaviorsInScene": "In this scene",
-        "behaviorsNotInScene": "In other scenes",
+        "behaviorsInSceneTitle": "In this scene",
+        "behaviorsNotInSceneTitle": "In other scenes",
         "noBehaviorsText": "No behaviors found",
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
         "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes.  You can't undo this action.",
@@ -349,7 +350,8 @@
         "behaviorTypes": {
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
-        }
+        },
+        "aliasedTwins": "Aliased twins"
     },
     "widgets": {
         "trend": {

@@ -34,12 +34,14 @@ const BehaviorFormWidgetsTab: React.FC = () => {
             items: [
                 {
                     key: 'edit',
+                    'data-testid': 'editWidgetOverflow',
                     text: t('3dSceneBuilder.editWidget'),
                     iconProps: { iconName: 'Edit' },
                     onClick: () => onEditWidgetStart(index)
                 },
                 {
                     key: 'remove',
+                    'data-testid': 'removeWidgetOverflow',
                     text: t('3dSceneBuilder.removeWidget'),
                     iconProps: { iconName: 'Delete' },
                     onClick: () => onRemoveWidget(index)
@@ -150,6 +152,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                                     color: 'black'
                                 }
                             }}
+                            data-testId={`moreMenu-${index}`}
                             menuProps={getMenuProps(index)}
                         />
                     </div>
@@ -157,6 +160,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
             <ActionButton
                 className="cb-widget-panel-action-button"
                 text={t('3dSceneBuilder.addWidget')}
+                data-testid={'widgetForm-addWidget'}
                 onClick={() => {
                     setIsLibraryDialogOpen(true);
                 }}

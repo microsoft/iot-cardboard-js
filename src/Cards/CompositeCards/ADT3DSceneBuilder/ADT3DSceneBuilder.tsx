@@ -576,6 +576,7 @@ const BuilderLeftPanel: React.FC = () => {
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                        data-testid="3dScene.panelPivot.behaviorsTab"
                     >
                         <SceneBehaviors
                             behaviors={behaviors}

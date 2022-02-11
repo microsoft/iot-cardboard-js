@@ -55,11 +55,12 @@
     }
 
     .cb-scene-builder-left-panel-create-form-contents {
-        padding: 8px 0 16px;
+        padding: 8px 0 4px;
     }
 
-    .cb-scene-builder-left-panel-element-objects {
-        border-top: 1px solid #edebe9;
+    .cb-scene-builder-left-panel-element-objects,
+    .cb-scene-builder-left-panel-element-behaviors,
+    .cb-scene-builder-left-panel-element-aliased-twins {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -119,6 +120,7 @@
         display: flex;
     }
 
+    .cb-scene-builder-behavior-search-box,
     .cb-scene-builder-element-search-box {
         flex: 1;
         margin-left: 8px;
@@ -129,12 +131,6 @@
         font-size: 12px;
         margin-top: 4px;
         opacity: 0.6;
-    }
-
-    .cb-scene-builder-spacer {
-        background-color: var(--cb-color-divider);
-        height: 1px;
-        margin: 8px 0;
     }
 
     .cb-scene-builder-element-behavior-item {
@@ -152,10 +148,6 @@
         flex: 1;
         font-size: 14px;
         padding-left: 8px;
-    }
-
-    .cb-scene-builder-element-behaviors-title {
-        font-weight: 500;
     }
 
     .cb-scene-builder-element-checkbox {
@@ -318,8 +310,9 @@
 
     .cb-scene-builder-left-panel-create-form-actions {
         align-items: end;
+        border-top: 1px solid var(--cb-color-natural-light);
         display: flex;
-        height: 36px;
+        height: 56px;
     }
 
     .cb-chevron {
@@ -342,6 +335,7 @@
 
     .cb-remove-object-button {
         color: var(--cb-color-inactive);
+
         &:hover {
             color: var(--cb-color-text-danger) !important;
         }
@@ -392,6 +386,7 @@
     margin: 10px;
     padding: 4px;
     width: 272px;
+
     &:hover {
         background: var(--cb-color-card-contrast);
         cursor: pointer;
@@ -540,6 +535,7 @@
         opacity: 0;
         transform: translateX(50%);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0);

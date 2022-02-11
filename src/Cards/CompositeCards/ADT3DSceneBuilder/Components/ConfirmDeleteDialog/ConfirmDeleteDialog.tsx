@@ -67,6 +67,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
                         onCancel();
                     }}
                     text={t('cancel')}
+                    data-testid={'deleteDialog-cancel'}
                 />
                 <PrimaryButton
                     onClick={() => {
@@ -74,6 +75,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
                         setIsOpen(false);
                     }}
                     text={t('delete')}
+                    data-testid={'deleteDialog-confirm'}
                 />
             </DialogFooter>
         </Dialog>
