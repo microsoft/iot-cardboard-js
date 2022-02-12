@@ -37,6 +37,7 @@
     "download": "Download",
     "url": "Url",
     "create": "Create",
+    "save": "Save",
     "add": "Add",
     "addNew": "Add new",
     "remove": "Remove",
@@ -66,6 +67,7 @@
     "ADTInstancesInfo": "List of ADT instances for which the user has Azure Digital Twins Data Owner or Azure Digital Twins Data Reader permission",
     "loadingInstances": "Loading instances...",
     "selectInstance": "Select an instance",
+    "enterInstanceUrl": "Enter an instance URL",
     "selectOption": "Select an option",
     "globe": "Globe",
     "list": "List",
@@ -538,5 +540,12 @@
             "timePickerTitle": "Time picker",
             "plainTextInput": "Plain text input"
         }
+    },
+    "environmentPicker": {
+        "environment": "Environment",
+        "containerUrl": "Container URL",
+        "editEnvironment": "Edit environment",
+        "description": "Connect your environment and storage container URL to create your scene",
+        "selectContainerUrl": "Select storage container URL"
     }
 }

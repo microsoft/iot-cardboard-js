@@ -1,0 +1,55 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-environment-picker {
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+    width: 100%;
+}
+
+.cb-environment-picker-environment {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.cb-environment-picker-environment-title {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 36px;
+    padding-right: 8px;
+}
+
+.cb-environment-picker-edit-button {
+    i {
+        color: var(--cb-color-text-primary);
+        font-size: 24px;
+        height: auto;
+    }
+}
+
+.cb-environment-picker-dialog-form {
+    padding: 0 0 24px;
+}
+
+.cb-environment-picker-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    padding-top: 8px;
+}
+
+.cb-environment-picker-container-title {
+    color: var(--cb-color-input-border);
+    font-size: 14px;
+    line-height: 20px;
+    padding-left: 8px;
+}
+
+.cb-environment-picker-container-icon {
+    i {
+        color: var(--cb-color-text-primary);
+        font-size: 12px;
+        height: auto;
+    }
+}

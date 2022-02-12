@@ -33,6 +33,7 @@ import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import { IScenesConfig, DatasourceType } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class MockAdapter
     implements
@@ -433,6 +434,25 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getADTInstances() {
+        const mockEnvironments = [
+            { hostName: '', resourceId: '', location: '' }
+        ];
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTInstancesData(mockEnvironments),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTInstancesData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
