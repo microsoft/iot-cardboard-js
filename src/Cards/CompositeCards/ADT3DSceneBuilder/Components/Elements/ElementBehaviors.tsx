@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ActionButton,
@@ -10,20 +10,13 @@ import {
     mergeStyleSets,
     PrimaryButton
 } from '@fluentui/react';
-import {
-    BehaviorAction,
-    BehaviorActionType,
-    BehaviorState
-} from '../../ADT3DSceneBuilder.types';
-import { DatasourceType } from '../../../../../Models/Classes/3DVConfig';
-import produce from 'immer';
-import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { BehaviorActionType } from '../../ADT3DSceneBuilder.types';
 
 const ElementBehaviors: React.FC<any> = ({
     behaviorState,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    dispatch
+    behaviorStateDispatch
 }) => {
     const styles = mergeStyleSets({
         callout: {
@@ -94,7 +87,7 @@ const ElementBehaviors: React.FC<any> = ({
                                     }
                                 }}
                                 onMenuClick={() => {
-                                    dispatch({
+                                    behaviorStateDispatch({
                                         type:
                                             BehaviorActionType.SET_BEHAVIOR_TO_EDIT,
                                         behavior: behavior
@@ -120,7 +113,7 @@ const ElementBehaviors: React.FC<any> = ({
                                                 iconName: 'Delete'
                                             },
                                             onClick: () =>
-                                                dispatch({
+                                                behaviorStateDispatch({
                                                     type:
                                                         BehaviorActionType.REMOVE_BEHAVIOR
                                                 })
@@ -150,7 +143,7 @@ const ElementBehaviors: React.FC<any> = ({
                     directionalHint={DirectionalHint.bottomLeftEdge}
                     onDismiss={() => {
                         setShowAddBehavior(false);
-                        dispatch({
+                        behaviorStateDispatch({
                             type:
                                 BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
                             behaviors: behaviorState.availableBehaviors
@@ -167,7 +160,7 @@ const ElementBehaviors: React.FC<any> = ({
                                     '3dSceneBuilder.searchBehaviors'
                                 )}
                                 onChange={(event, value) =>
-                                    dispatch({
+                                    behaviorStateDispatch({
                                         type:
                                             BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
                                         value: value
@@ -205,7 +198,7 @@ const ElementBehaviors: React.FC<any> = ({
                                                     }
                                                 }}
                                                 onClick={() =>
-                                                    dispatch({
+                                                    behaviorStateDispatch({
                                                         type:
                                                             BehaviorActionType.ADD_BEHAVIOR,
                                                         behavior: behavior

@@ -3,7 +3,6 @@ import React, {
     useContext,
     useEffect,
     useReducer,
-    useRef,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,10 +16,14 @@ import {
     Separator,
     TextField
 } from '@fluentui/react';
-import { BehaviorAction, BehaviorActionType, BehaviorState, IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
+import {
+    BehaviorAction,
+    BehaviorActionType,
+    BehaviorState,
+    IADT3DSceneBuilderElementFormProps
+} from '../../ADT3DSceneBuilder.types';
 import {
     DatasourceType,
-    IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
@@ -65,7 +68,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
-    const [behaviorState, dispatch] = useReducer(
+    const [behaviorState, behaviorStateDispatch] = useReducer(
         produce((draft: BehaviorState, action: BehaviorAction) => {
             switch (action.type) {
                 case BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT:
@@ -145,7 +148,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     );
 
     useEffect(() => {
-        dispatch({
+        behaviorStateDispatch({
             type: BehaviorActionType.SET_AVAILABLE_BEHAVIORS,
             behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
                 elementToEdit,
@@ -153,7 +156,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             )
         });
 
-        dispatch({
+        behaviorStateDispatch({
             type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
             behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
                 elementToEdit,
@@ -163,7 +166,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     }, []);
 
     useEffect(() => {
-        dispatch({
+        behaviorStateDispatch({
             type: BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT,
             behaviors: ViewerConfigUtility.getBehaviorsOnElement(
                 elementToEdit,
@@ -396,10 +399,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
                         <ElementBehaviors
                             behaviorState={behaviorState}
-                            dispatch={dispatch}
-                            behaviorsEdited={(behaviors) =>
-                                (editedBehaviors.current = behaviors)
-                            }
+                            behaviorStateDispatch={behaviorStateDispatch}
+                            onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorWithElements={
                                 onCreateBehaviorWithElements
                             }
