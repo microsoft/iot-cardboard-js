@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "stylelint.vscode-stylelint",
+    "esbenp.prettier-vscode", // Prettier
+    "dbaeumer.vscode-eslint", // ESLint
+    "ue.alphabetical-sorter", // Alphabetical Sorter
+    // git
+    "donjayamanne.githistory", // Git History
+    "eamodio.gitlens", // Git Lens
+    // .md
+    "shd101wyy.markdown-preview-enhanced", // Markdown preview Enhanced
+    // Import Intellisense
+    "christian-kohler.npm-intellisense", // NPM Module Import Intellisense
+  ]
+}

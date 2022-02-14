@@ -1,25 +1,26 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ActionButton,
-    Callout,
     DefaultButton,
-    DirectionalHint,
     FontIcon,
     IconButton,
-    mergeStyleSets,
+    Pivot,
+    PivotItem,
     PrimaryButton,
-    SearchBox,
+    Separator,
     TextField
 } from '@fluentui/react';
-import {
-    BehaviorAction,
-    BehaviorActionType,
-    BehaviorState,
-    IADT3DSceneBuilderElementFormProps
-} from '../../ADT3DSceneBuilder.types';
+import { BehaviorAction, BehaviorActionType, BehaviorState, IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
     DatasourceType,
+    IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
@@ -29,9 +30,10 @@ import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
-import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
+import ElementBehaviors from './ElementBehaviors';
+import produce from 'immer';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -43,44 +45,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     onBehaviorClick,
     onCreateBehaviorWithElements
 }) => {
-    const styles = mergeStyleSets({
-        callout: {
-            padding: '15px',
-            width: '300px',
-            background: '#ffffff'
-        },
-        title: {
-            marginBottom: '15px',
-            fontWeight: '500'
-        },
-        resultText: {
-            fontSize: '12px',
-            marginTop: '5px',
-            opacity: '0.6'
-        },
-        item: {
-            alignItems: 'center',
-            display: 'flex',
-            marginTop: '15px'
-        },
-        icon: {
-            display: 'inline-block',
-            fontSize: '16px'
-        },
-        name: {
-            flex: '1',
-            fontSize: '14px',
-            paddingLeft: '8px'
-        }
-    });
-
     const { t } = useTranslation();
-    const [isObjectsExpanded, setIsObjectsExpanded] = useState(
-        selectedElement ? false : true
-    );
-
-    const [showAddBehavior, setShowAddBehavior] = useState(false);
-
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         selectedElement ?? {
             id: '',
@@ -89,6 +54,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             meshIDs: []
         }
     );
+
+    const {
+        adapter,
+        config,
+        sceneId,
+        getConfig,
+        selectedMeshIds,
+        setSelectedMeshIds,
+        setColoredMeshItems
+    } = useContext(SceneBuilderContext);
 
     const [behaviorState, dispatch] = useReducer(
         produce((draft: BehaviorState, action: BehaviorAction) => {
@@ -169,15 +144,33 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     );
 
-    const {
-        adapter,
-        config,
-        sceneId,
-        getConfig,
-        selectedMeshIds,
-        setSelectedMeshIds,
-        setColoredMeshItems
-    } = useContext(SceneBuilderContext);
+    useEffect(() => {
+        dispatch({
+            type: BehaviorActionType.SET_AVAILABLE_BEHAVIORS,
+            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
+                elementToEdit,
+                behaviors
+            )
+        });
+
+        dispatch({
+            type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
+            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
+                elementToEdit,
+                behaviors
+            )
+        });
+    }, []);
+
+    useEffect(() => {
+        dispatch({
+            type: BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT,
+            behaviors: ViewerConfigUtility.getBehaviorsOnElement(
+                elementToEdit,
+                behaviors
+            )
+        });
+    }, [behaviors]);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
@@ -239,34 +232,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     }, [selectedMeshIds]);
 
     useEffect(() => {
-        dispatch({
-            type: BehaviorActionType.SET_AVAILABLE_BEHAVIORS,
-            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-
-        dispatch({
-            type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
-            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-    }, []);
-
-    useEffect(() => {
-        dispatch({
-            type: BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT,
-            behaviors: ViewerConfigUtility.getBehaviorsOnElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-    }, [behaviors]);
-
-    useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             getConfig();
         }
@@ -316,6 +281,72 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    const ElementAliasedTwins = useCallback(
+        () => (
+            <div className="cb-scene-builder-left-panel-element-aliased-twins">
+                <span>Not implemented yet</span>
+            </div>
+        ),
+        []
+    );
+
+    const ElementMeshes = useCallback(
+        () => (
+            <div className="cb-scene-builder-left-panel-element-objects">
+                <div className="cb-scene-builder-left-panel-element-objects-container">
+                    {elementToEdit.meshIDs.length === 0 ? (
+                        <div className="cb-scene-builder-left-panel-text">
+                            {t('3dSceneBuilder.noMeshAddedText')}
+                        </div>
+                    ) : (
+                        <ul className="cb-scene-builder-left-panel-element-object-list">
+                            {elementToEdit.meshIDs.map((meshName) => (
+                                <li
+                                    key={meshName}
+                                    className="cb-scene-builder-left-panel-element-object"
+                                    onMouseEnter={() =>
+                                        updateColoredMeshItems(meshName)
+                                    }
+                                    onMouseLeave={() =>
+                                        updateColoredMeshItems()
+                                    }
+                                >
+                                    <div className="cb-mesh-name-wrapper">
+                                        <FontIcon iconName={'CubeShape'} />
+                                        <span className="cb-mesh-name">
+                                            {meshName}
+                                        </span>
+                                    </div>
+                                    <IconButton
+                                        className="cb-remove-object-button"
+                                        iconProps={{
+                                            iconName: 'Delete'
+                                        }}
+                                        title={t('remove')}
+                                        ariaLabel={t('remove')}
+                                        onClick={() => {
+                                            const currentObjects = [
+                                                ...elementToEdit.meshIDs
+                                            ];
+                                            currentObjects.splice(
+                                                currentObjects.indexOf(
+                                                    meshName
+                                                ),
+                                                1
+                                            );
+                                            setSelectedMeshIds(currentObjects);
+                                        }}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </div>
+        ),
+        [elementToEdit.meshIDs]
+    );
+
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <SceneBuilderFormBreadcrumb
@@ -354,258 +385,30 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         }}
                     />
                 </div>
-                <div className="cb-scene-builder-left-panel-element-objects">
-                    <div
-                        className="cb-scene-builder-left-panel-collapse-chevron-header"
-                        tabIndex={0}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsObjectsExpanded(!isObjectsExpanded);
-                        }}
-                    >
-                        <FontIcon
-                            iconName={'ChevronRight'}
-                            className={`cb-chevron ${
-                                isObjectsExpanded
-                                    ? 'cb-expanded'
-                                    : 'cb-collapsed'
-                            }`}
+                <Separator />
+                <Pivot
+                    aria-label={t('3dScenePage.buildMode')}
+                    className="cb-scene-builder-left-panel-pivot"
+                >
+                    <PivotItem headerText={t('3dSceneBuilder.meshes')}>
+                        <ElementMeshes />
+                    </PivotItem>
+                    <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
+                        <ElementBehaviors
+                            behaviorState={behaviorState}
+                            dispatch={dispatch}
+                            behaviorsEdited={(behaviors) =>
+                                (editedBehaviors.current = behaviors)
+                            }
+                            onCreateBehaviorWithElements={
+                                onCreateBehaviorWithElements
+                            }
                         />
-                        <span>
-                            {t('3dSceneBuilder.meshes')} (
-                            {elementToEdit.meshIDs.length})
-                        </span>
-                    </div>
-                    {isObjectsExpanded && (
-                        <div className="cb-scene-builder-left-panel-element-objects-container">
-                            {elementToEdit.meshIDs.length === 0 ? (
-                                <div className="cb-scene-builder-left-panel-text">
-                                    {t('3dSceneBuilder.noMeshAddedText')}
-                                </div>
-                            ) : (
-                                <ul className="cb-scene-builder-left-panel-element-object-list">
-                                    {elementToEdit.meshIDs.map((meshName) => (
-                                        <li
-                                            key={meshName}
-                                            className="cb-scene-builder-left-panel-element-object"
-                                            onMouseEnter={() =>
-                                                updateColoredMeshItems(meshName)
-                                            }
-                                            onMouseLeave={() =>
-                                                updateColoredMeshItems()
-                                            }
-                                        >
-                                            <div className="cb-mesh-name-wrapper">
-                                                <FontIcon
-                                                    iconName={'CubeShape'}
-                                                />
-                                                <span className="cb-mesh-name">
-                                                    {meshName}
-                                                </span>
-                                            </div>
-                                            <IconButton
-                                                className="cb-remove-object-button"
-                                                iconProps={{
-                                                    iconName: 'Delete'
-                                                }}
-                                                title={t('remove')}
-                                                ariaLabel={t('remove')}
-                                                onClick={() => {
-                                                    const currentObjects = [
-                                                        ...elementToEdit.meshIDs
-                                                    ];
-                                                    currentObjects.splice(
-                                                        currentObjects.indexOf(
-                                                            meshName
-                                                        ),
-                                                        1
-                                                    );
-                                                    setSelectedMeshIds(
-                                                        currentObjects
-                                                    );
-                                                }}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
-                    )}
-                    <div className="cb-scene-builder-element-behaviors-spacer" />
-                    <div className="cb-scene-builder-element-behaviors-title">
-                        {t('3dSceneBuilder.behaviors')}
-                    </div>
-                    {behaviorState.behaviorsOnElement?.length === 0 && (
-                        <div className="cb-scene-builder-element-behaviors-text">
-                            {t('3dSceneBuilder.noBehaviorsOnElement')}
-                        </div>
-                    )}
-                    {behaviorState.behaviorsOnElement.map((behavior) => {
-                        return (
-                            <div
-                                id={behavior.id}
-                                key={behavior.id}
-                                className="cb-scene-builder-element-behavior-item"
-                            >
-                                <FontIcon
-                                    iconName={'Warning'}
-                                    className="cb-scene-builder-element-behavior-item-icon"
-                                />
-                                <div className="cb-scene-builder-element-behavior-item-name">
-                                    {behavior.id}
-                                </div>
-                                <IconButton
-                                    title={t('more')}
-                                    ariaLabel={t('more')}
-                                    menuIconProps={{
-                                        iconName: 'MoreVertical',
-                                        style: {
-                                            fontWeight: 'bold',
-                                            fontSize: 18,
-                                            color: 'black'
-                                        }
-                                    }}
-                                    onMenuClick={() => {
-                                        dispatch({
-                                            type:
-                                                BehaviorActionType.SET_BEHAVIOR_TO_EDIT,
-                                            behavior: behavior
-                                        });
-                                    }}
-                                    menuProps={{
-                                        items: [
-                                            {
-                                                key: 'modify',
-                                                text: t(
-                                                    '3dSceneBuilder.modifyBehavior'
-                                                ),
-                                                iconProps: { iconName: 'Edit' },
-                                                onClick: () =>
-                                                    onBehaviorClick(behavior)
-                                            },
-                                            {
-                                                key: 'remove',
-                                                text: t(
-                                                    '3dSceneBuilder.removeBehavior'
-                                                ),
-                                                iconProps: {
-                                                    iconName: 'Delete'
-                                                },
-                                                onClick: () =>
-                                                    dispatch({
-                                                        type:
-                                                            BehaviorActionType.REMOVE_BEHAVIOR
-                                                    })
-                                            }
-                                        ]
-                                    }}
-                                ></IconButton>
-                            </div>
-                        );
-                    })}
-                    <div>
-                        <ActionButton
-                            id="addBehavior"
-                            className="cb-scene-builder-left-panel-add-behavior"
-                            style={{ color: '#0b75c8' }}
-                            onClick={() => setShowAddBehavior(true)}
-                        >
-                            {t('3dSceneBuilder.addBehaviorButton')}
-                        </ActionButton>
-                    </div>
-                    {showAddBehavior && (
-                        <Callout
-                            className={styles.callout}
-                            target="#addBehavior"
-                            isBeakVisible={false}
-                            directionalHint={DirectionalHint.bottomLeftEdge}
-                            onDismiss={() => {
-                                setShowAddBehavior(false);
-                                dispatch({
-                                    type:
-                                        BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
-                                    behaviors: behaviorState.availableBehaviors
-                                });
-                            }}
-                        >
-                            <div>
-                                <div className={styles.title}>
-                                    {t('3dSceneBuilder.addBehavior')}
-                                </div>
-                                <div>
-                                    <SearchBox
-                                        placeholder={t(
-                                            '3dSceneBuilder.searchBehaviors'
-                                        )}
-                                        onChange={(event, value) =>
-                                            dispatch({
-                                                type:
-                                                    BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
-                                                value: value
-                                            })
-                                        }
-                                    />
-                                </div>
-                                <div>
-                                    {behaviorState.filteredAvailableBehaviors
-                                        ?.length === 0 && (
-                                        <div className={styles.resultText}>
-                                            {t(
-                                                '3dSceneBuilder.noAvailableBehaviors'
-                                            )}
-                                        </div>
-                                    )}
-                                    {behaviorState.filteredAvailableBehaviors.map(
-                                        (behavior) => {
-                                            return (
-                                                <div
-                                                    key={behavior.id}
-                                                    className={styles.item}
-                                                >
-                                                    <FontIcon
-                                                        iconName={'Warning'}
-                                                        className={styles.icon}
-                                                    />
-                                                    <div
-                                                        className={styles.name}
-                                                    >
-                                                        {behavior.id}
-                                                    </div>
-                                                    <IconButton
-                                                        iconProps={{
-                                                            iconName: 'Add',
-                                                            style: {
-                                                                fontSize: 18,
-                                                                color: 'black'
-                                                            }
-                                                        }}
-                                                        onClick={() =>
-                                                            dispatch({
-                                                                type:
-                                                                    BehaviorActionType.ADD_BEHAVIOR,
-                                                                behavior: behavior
-                                                            })
-                                                        }
-                                                    />
-                                                </div>
-                                            );
-                                        }
-                                    )}
-                                </div>
-                                <PrimaryButton
-                                    styles={{
-                                        root: {
-                                            marginTop: '16px'
-                                        }
-                                    }}
-                                    onClick={onCreateBehaviorWithElements}
-                                >
-                                    {t('3dSceneBuilder.createBehavior')}
-                                </PrimaryButton>
-                            </div>
-                        </Callout>
-                    )}
-                </div>
+                    </PivotItem>
+                    <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
+                        <ElementAliasedTwins />
+                    </PivotItem>
+                </Pivot>
             </div>
             <div className="cb-scene-builder-left-panel-create-form-actions">
                 <PrimaryButton
