@@ -81,7 +81,7 @@ export interface IConsumeCardProps extends ICardBaseProps {
 
 export interface IErrorComponentProps {
     errorTitle?: string;
-    error?: ComponentErrorType;
+    errorType?: ComponentErrorType;
     imageSrc?: string;
     adapter?: any;
 }

@@ -238,7 +238,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                     setIsSceneDialogOpen(true);
                                 }}
                                 disabled={
-                                    errors[0]?.type ==
+                                    errors[0]?.type ===
                                     ComponentErrorType.UnAuthorizedAccess
                                         ? true
                                         : false

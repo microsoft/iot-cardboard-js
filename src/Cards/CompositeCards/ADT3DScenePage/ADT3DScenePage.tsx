@@ -157,7 +157,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </div>
                         {state.errors.length > 0 && (
                             <StorageContainerPermissionError
-                                error={state.errors[0].type}
+                                errorType={state.errors[0].type}
                             />
                         )}
                         {state.selectedBlobContainerURL && (

@@ -12,7 +12,7 @@
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
-    "UnAuthorizedAccess": "User Config File Not Found",
+    "UnauthorizedAccess": "User Config File Not Found",
     "NonExistentBlob": "Your blob container does not exist or you do not have proper permission to view the blob container",
     "DataFetchFailed": "Data Fetch Failded",
     "more": "More",

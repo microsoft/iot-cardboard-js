@@ -78,7 +78,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         break;
                     case 403:
                         adapterMethodSandbox.pushError({
-                            type: ComponentErrorType.UnAuthorizedAccess,
+                            type: ComponentErrorType.UnauthorizedAccess,
                             isCatastrophic: true,
                             rawError: err
                         });

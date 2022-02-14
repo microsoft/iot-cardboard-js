@@ -6,7 +6,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { useTranslation } from 'react-i18next';
 
 const StorageContainerPermissionError: React.FC<IErrorComponentProps> = ({
-    error
+    errorType
 }) => {
     const { t } = useTranslation();
     return (
@@ -15,10 +15,10 @@ const StorageContainerPermissionError: React.FC<IErrorComponentProps> = ({
                 messageBarType={MessageBarType.warning}
                 isMultiline={false}
                 onDismiss={null}
-                dismissButtonAriaLabel={'Close'}
+                dismissButtonAriaLabel={t('close')}
                 className="cb-scene-page-warning-message"
             >
-                {t(error)}
+                {t(errorType)}
             </MessageBar>
         </BaseComponent>
     );

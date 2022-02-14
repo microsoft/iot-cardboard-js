@@ -8,20 +8,18 @@ export default {
 };
 
 export const UnauthorizedAccessError = () => {
-    //debugger;
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <StorageContainerPermissionError
             errorTitle="BlobStorageError"
-            error={ComponentErrorType.UnAuthorizedAccess}
+            errorType={ComponentErrorType.UnauthorizedAccess}
         />
     );
 };
 
 export const NonExistentBlob = () => {
-    //debugger;
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -29,7 +27,7 @@ export const NonExistentBlob = () => {
         <div>
             <StorageContainerPermissionError
                 errorTitle="BlobStorageError"
-                error={ComponentErrorType.NonExistentBlob}
+                errorType={ComponentErrorType.NonExistentBlob}
             />
         </div>
     );
