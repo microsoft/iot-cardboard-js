@@ -6,7 +6,6 @@ import {
     ADT3DSceneTwinBindingsMode
 } from '../../../Models/Constants/Enums';
 import ADT3DBuilderCard from '../../ADT3DBuilderCard/ADT3DBuilderCard';
-import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
@@ -18,7 +17,9 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
     SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_WIDGET_FORM_INFO,
+    WidgetFormInfo
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
@@ -43,6 +44,7 @@ import SceneBehaviors from './Components/Behaviors/Behaviors';
 import SceneBehaviorsForm from './Components/Behaviors/BehaviorsForm';
 import SceneElements from './Components/Elements/Elements';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
+import LeftPanelBuilderBreadcrumb from './Components/LeftPanelBuilderBreadcrumb';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -53,8 +55,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     adapter,
     theme,
     locale,
-    localeStrings,
-    adapterAdditionalParameters
+    localeStrings
 }) => {
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
@@ -72,6 +73,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         dispatch({
             type: SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
             payload: coloredMeshItems
+        });
+    };
+
+    const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
+        dispatch({
+            type: SET_WIDGET_FORM_INFO,
+            payload: widgetFormInfo
         });
     };
 
@@ -108,41 +116,39 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 setSelectedMeshIds,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
-                sceneId
+                sceneId,
+                widgetFormInfo: state.widgetFormInfo,
+                setWidgetFormInfo
             }}
         >
-            <div className="cb-scene-builder-card-wrapper">
-                <BaseCompositeCard
-                    isLoading={!state.config && getScenesConfig.isLoading}
-                    theme={theme}
-                    locale={locale}
-                    localeStrings={localeStrings}
-                    adapterAdditionalParameters={adapterAdditionalParameters}
-                >
-                    <div className="cb-scene-builder-left-panel">
-                        {state.config && <BuilderLeftPanel />}
-                    </div>
-                    <div className="cb-scene-builder-canvas">
-                        {state.config && (
-                            <ADT3DBuilderCard
-                                adapter={adapter as IADTAdapter}
-                                modelUrl={
-                                    state.config.viewerConfiguration?.scenes[
-                                        state.config.viewerConfiguration?.scenes.findIndex(
-                                            (s) => s.id === sceneId
-                                        )
-                                    ]?.assets[0].url
-                                }
-                                onMeshSelected={(selectedMeshes) =>
-                                    setSelectedMeshIds(selectedMeshes)
-                                }
-                                coloredMeshItems={state.coloredMeshItems}
-                                preselectedMeshIds={state.selectedMeshIds}
-                            />
-                        )}
-                    </div>
-                </BaseCompositeCard>
-            </div>
+            <BaseComponent
+                isLoading={!state.config && getScenesConfig.isLoading}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                containerClassName="cb-scene-builder-card-wrapper"
+            >
+                {state.config && <BuilderLeftPanel />}
+                <div className="cb-scene-builder-canvas">
+                    {state.config && (
+                        <ADT3DBuilderCard
+                            adapter={adapter as IADTAdapter}
+                            modelUrl={
+                                state.config.viewerConfiguration?.scenes[
+                                    state.config.viewerConfiguration?.scenes.findIndex(
+                                        (s) => s.id === sceneId
+                                    )
+                                ]?.assets[0].url
+                            }
+                            onMeshSelected={(selectedMeshes) =>
+                                setSelectedMeshIds(selectedMeshes)
+                            }
+                            coloredMeshItems={state.coloredMeshItems}
+                            preselectedMeshIds={state.selectedMeshIds}
+                        />
+                    )}
+                </div>
+            </BaseComponent>
         </SceneBuilderContext.Provider>
     );
 };
@@ -511,7 +517,18 @@ const BuilderLeftPanel: React.FC = () => {
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
+            containerClassName="cb-scene-builder-left-panel"
         >
+            <LeftPanelBuilderBreadcrumb
+                builderMode={state.builderMode}
+                onBehaviorsRootClick={() => {
+                    onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
+                    setSelectedElements([]);
+                }}
+                onElementsRootClick={() =>
+                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                }
+            />
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
                 <Pivot
@@ -537,6 +554,7 @@ const BuilderLeftPanel: React.FC = () => {
                         });
                     }}
                     className="cb-scene-builder-left-panel-pivot"
+                    styles={{ root: { marginBottom: 16 } }}
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}

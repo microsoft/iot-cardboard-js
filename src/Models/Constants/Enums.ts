@@ -121,6 +121,11 @@ export enum ADT3DSceneBuilderMode {
     TargetElements
 }
 
+export enum WidgetFormMode {
+    CreateWidget,
+    EditWidget
+}
+
 export enum ADT3DSceneTwinBindingsMode {
     Elements = 'elements',
     Behaviors = 'behaviors'
@@ -129,11 +134,6 @@ export enum ADT3DSceneTwinBindingsMode {
 export enum ADT3DScenePageModes {
     BuildScene = 'adt-3d-scene-builder-mode-build',
     ViewScene = 'adt-3d-scene-builder-mode-view'
-}
-
-export enum WidgetFormMode {
-    Create,
-    Edit
 }
 
 export enum BehaviorListSegment {

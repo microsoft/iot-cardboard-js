@@ -253,11 +253,13 @@ const SceneBehaviors: React.FC<Props> = ({
                     </div>
                 )}
             </div>
-            <PrimaryButton
-                className="cb-scene-builder-create-button"
-                onClick={() => onCreateBehaviorClick()}
-                text={t('3dSceneBuilder.newBehavior')}
-            />
+            <div className="cb-scene-builder-footer-container">
+                <PrimaryButton
+                    className="cb-scene-builder-create-button"
+                    onClick={() => onCreateBehaviorClick()}
+                    text={t('3dSceneBuilder.newBehavior')}
+                />
+            </div>
             <ConfirmDeleteDialog
                 isOpen={isConfirmDeleteOpen}
                 setIsOpen={setIsConfirmDeleteOpen}
@@ -416,7 +418,7 @@ const BehaviorList: React.FC<{
                     style: {
                         fontWeight: 'bold',
                         fontSize: 18,
-                        color: 'black'
+                        color: 'var(--cb-color-text-primary)'
                     }
                 }}
                 data-testid={`moreMenu-${

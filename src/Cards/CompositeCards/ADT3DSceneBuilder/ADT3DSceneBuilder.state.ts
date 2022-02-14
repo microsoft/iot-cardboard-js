@@ -11,7 +11,8 @@ import {
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_BEHAVIORS,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+    SET_WIDGET_FORM_INFO
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -21,7 +22,8 @@ import {
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     selectedMeshIds: [],
-    coloredMeshItems: []
+    coloredMeshItems: [],
+    widgetFormInfo: null
 };
 
 export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelState = {
@@ -34,7 +36,10 @@ export const defaultADT3DSceneBuilderLeftPanelState: ADT3DSceneBuilderLeftPanelS
     selectedBehavior: null
 };
 
-export const ADT3DSceneBuilderReducer = produce(
+export const ADT3DSceneBuilderReducer: (
+    draft: ADT3DSceneBuilderState,
+    action: IAction
+) => ADT3DSceneBuilderState = produce(
     (draft: ADT3DSceneBuilderState, action: IAction) => {
         const payload = action.payload;
 
@@ -47,6 +52,9 @@ export const ADT3DSceneBuilderReducer = produce(
                 break;
             case SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS:
                 draft.coloredMeshItems = payload;
+                break;
+            case SET_WIDGET_FORM_INFO:
+                draft.widgetFormInfo = payload;
                 break;
             default:
                 break;

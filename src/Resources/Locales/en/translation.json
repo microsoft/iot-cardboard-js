@@ -276,9 +276,12 @@
     },
     "3dSceneBuilder": {
         "elements": "Elements",
+        "element": "Element",
         "alerts": "Alerts",
         "widgets": "Widgets",
+        "widget": "Widget",
         "behaviors": "Behaviors",
+        "behavior": "Behavior",
         "removeElement": "Remove element from scene",
         "createElement": "Create element",
         "updateElement": "Update element",
@@ -294,7 +297,8 @@
         "manageSceneLayer": "Manage scene layer",
         "createBehavior": "Create behavior",
         "modifyBehavior": "Modify Behavior",
-        "removeBehavior": "Remove behavior from this element",
+        "addElementDetails": "Add element details",
+        "removeBehavior": "Remove Behavior from this Element",
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
         "noResults": "No results",
@@ -336,12 +340,17 @@
         "editWidget": "Edit widget",
         "removeWidget": "Remove widget",
         "noWidgets": "No widgets found",
+        "modifyWidget": "Modify widget",
         "noWidgetsConfigured": "No widgets configured",
         "unitOfMeasure": "Unit of measure",
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
         "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}",
+        "behaviorTypes": {
+            "alertBehavior": "Alert behavior",
+            "statusBehavior": "Status behavior"
+        },
         "aliasedTwins": "Aliased twins"
     },
     "widgets": {

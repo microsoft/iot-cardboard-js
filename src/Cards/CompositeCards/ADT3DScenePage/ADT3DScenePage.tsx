@@ -1,9 +1,14 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
+import {
+    ADT3DScenePageModes,
+    ADT3DScenePageSteps
+} from '../../../Models/Constants/Enums';
 import SceneListCard from '../../SceneListCard/Consume/SceneListCard';
-import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
-import { IADT3DScenePageProps } from './ADT3DScenePage.types';
+import {
+    IADT3DScenePageContext,
+    IADT3DScenePageProps
+} from './ADT3DScenePage.types';
 import './ADT3DScenePage.scss';
 import { Breadcrumb } from '@fluentui/react';
 import {
@@ -12,6 +17,7 @@ import {
 } from './ADT3DScenePage.state';
 import {
     SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_PAGE_MODE,
     SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
     SET_SELECTED_BLOB_CONTAINER_URL,
@@ -23,6 +29,12 @@ import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
+import FloatingScenePageModeToggle from './Components/FloatingScenePageModeToggle';
+
+export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
+    null
+);
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
@@ -88,6 +100,15 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         }
     };
 
+    const handleScenePageModeChange = (
+        newScenePageMode: ADT3DScenePageModes
+    ) => {
+        dispatch({
+            type: SET_ADT_SCENE_PAGE_MODE,
+            payload: newScenePageMode
+        });
+    };
+
     // initially set the blobContainerPath to the one passed in adapter
     useEffect(() => {
         dispatch({
@@ -118,121 +139,115 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     }, [scenesConfig?.adapterResult]);
 
     return (
-        <div className="cb-scene-page-container">
-            <BaseCompositeCard
-                theme={theme}
-                locale={locale}
-                localeStrings={localeStrings}
-                adapterAdditionalParameters={adapterAdditionalParameters}
-            >
-                {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
-                    <div className="cb-scene-page-scene-list-container">
-                        <div className="cb-scene-page-scene-environment-picker">
-                            <ADTSceneConfigBlobContainerPicker
-                                existingOptions={state.blobContainerURLs}
-                                selectedContainerUrl={
-                                    state.selectedBlobContainerURL
-                                }
-                                onContainerUrlSelect={
-                                    handleBlobContainerPathChange
-                                }
-                            />
+        <ADT3DScenePageContext.Provider
+            value={{ state, dispatch, handleOnHomeClick }}
+        >
+            <div className="cb-scene-page-container">
+                <BaseComponent
+                    theme={theme}
+                    locale={locale}
+                    localeStrings={localeStrings}
+                >
+                    <FloatingScenePageModeToggle
+                        scene={state.selectedScene}
+                        handleScenePageModeChange={handleScenePageModeChange}
+                        selectedMode={state.scenePageMode}
+                    />
+                    {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
+                        <div className="cb-scene-page-scene-list-container">
+                            <div className="cb-scene-page-scene-environment-picker">
+                                <ADTSceneConfigBlobContainerPicker
+                                    existingOptions={state.blobContainerURLs}
+                                    selectedContainerUrl={
+                                        state.selectedBlobContainerURL
+                                    }
+                                    onContainerUrlSelect={
+                                        handleBlobContainerPathChange
+                                    }
+                                />
+                            </div>
+                            {state.selectedBlobContainerURL && (
+                                <SceneListCard
+                                    key={state.selectedBlobContainerURL}
+                                    title={'All scenes'}
+                                    theme={theme}
+                                    locale={locale}
+                                    adapter={adapter}
+                                    onSceneClick={(scene) => {
+                                        handleOnSceneClick(scene);
+                                    }}
+                                    additionalActions={[
+                                        {
+                                            iconProps: { iconName: 'Globe' },
+                                            onClick: () => {
+                                                dispatch({
+                                                    type: SET_SELECTED_SCENE,
+                                                    payload: null
+                                                });
+                                                dispatch({
+                                                    type: SET_CURRENT_STEP,
+                                                    payload:
+                                                        ADT3DScenePageSteps.Globe
+                                                });
+                                            },
+                                            text: t('globe')
+                                        }
+                                    ]}
+                                />
+                            )}
                         </div>
-                        {state.selectedBlobContainerURL && (
-                            <SceneListCard
-                                key={state.selectedBlobContainerURL}
-                                title={'All scenes'}
+                    )}
+                    {state.currentStep === ADT3DScenePageSteps.Globe && (
+                        <div className="cb-scene-page-scene-globe-container">
+                            <Breadcrumb
+                                items={[
+                                    {
+                                        text: t('3dScenePage.home'),
+                                        key: 'Home',
+                                        onClick: handleOnHomeClick
+                                    },
+                                    {
+                                        text: t('3dScenePage.globe'),
+                                        key: 'Scene'
+                                    }
+                                ]}
+                                maxDisplayedItems={10}
+                                ariaLabel="Breadcrumb with items rendered as buttons"
+                                overflowAriaLabel="More links"
+                            />
+                            <ADT3DGlobeCard
                                 theme={theme}
-                                locale={locale}
-                                adapter={adapter}
+                                adapter={adapter as IBlobAdapter}
                                 onSceneClick={(scene) => {
                                     handleOnSceneClick(scene);
                                 }}
-                                additionalActions={[
-                                    {
-                                        iconProps: { iconName: 'Globe' },
-                                        onClick: () => {
-                                            dispatch({
-                                                type: SET_SELECTED_SCENE,
-                                                payload: null
-                                            });
-                                            dispatch({
-                                                type: SET_CURRENT_STEP,
-                                                payload:
-                                                    ADT3DScenePageSteps.Globe
-                                            });
-                                        },
-                                        text: t('globe')
-                                    }
-                                ]}
-                            />
-                        )}
-                    </div>
-                )}
-                {state.currentStep === ADT3DScenePageSteps.Globe && (
-                    <div className="cb-scene-page-scene-globe-container">
-                        <Breadcrumb
-                            items={[
-                                {
-                                    text: t('3dScenePage.home'),
-                                    key: 'Home',
-                                    onClick: handleOnHomeClick
-                                },
-                                {
-                                    text: t('3dScenePage.globe'),
-                                    key: 'Scene'
-                                }
-                            ]}
-                            maxDisplayedItems={10}
-                            ariaLabel="Breadcrumb with items rendered as buttons"
-                            overflowAriaLabel="More links"
-                        />
-                        <ADT3DGlobeCard
-                            theme={theme}
-                            adapter={adapter as IBlobAdapter}
-                            onSceneClick={(scene) => {
-                                handleOnSceneClick(scene);
-                            }}
-                        />
-                    </div>
-                )}
-                {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
-                    <>
-                        <Breadcrumb
-                            className="cb-scene-page-scene-builder-breadcrumb"
-                            items={[
-                                {
-                                    text: t('3dScenePage.home'),
-                                    key: 'Home',
-                                    onClick: handleOnHomeClick
-                                },
-                                {
-                                    text: state.selectedScene.displayName,
-                                    key: 'Scene'
-                                }
-                            ]}
-                            maxDisplayedItems={10}
-                            ariaLabel="Breadcrumb with items rendered as buttons"
-                            overflowAriaLabel="More links"
-                        />
-                        <div className="cb-scene-builder-and-viewer-container">
-                            <ADT3DSceneBuilderContainer
-                                scenesConfig={state.scenesConfig}
-                                scene={state.selectedScene}
-                                adapter={adapter}
-                                theme={theme}
-                                locale={locale}
-                                localeStrings={localeStrings}
-                                adapterAdditionalParameters={
-                                    adapterAdditionalParameters
-                                }
-                                refetchConfig={() => scenesConfig.callAdapter()}
                             />
                         </div>
-                    </>
-                )}
-            </BaseCompositeCard>
-        </div>
+                    )}
+                    {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
+                        <>
+                            <div className="cb-scene-builder-and-viewer-container">
+                                <ADT3DSceneBuilderContainer
+                                    mode={state.scenePageMode}
+                                    scenesConfig={state.scenesConfig}
+                                    scene={state.selectedScene}
+                                    adapter={adapter}
+                                    theme={theme}
+                                    locale={locale}
+                                    localeStrings={localeStrings}
+                                    adapterAdditionalParameters={
+                                        adapterAdditionalParameters
+                                    }
+                                    refetchConfig={() =>
+                                        scenesConfig.callAdapter()
+                                    }
+                                />
+                            </div>
+                        </>
+                    )}
+                </BaseComponent>
+            </div>
+        </ADT3DScenePageContext.Provider>
     );
 };
 

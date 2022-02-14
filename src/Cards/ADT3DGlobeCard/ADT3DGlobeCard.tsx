@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import { IBlobAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
-import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DGlobeCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { MockAdapter } from '../..';
 import { IScene } from '../../Models/Classes/3DVConfig';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 interface ADT3DGlobeCardProps {
     adapter: IBlobAdapter | MockAdapter;
@@ -17,7 +17,6 @@ interface ADT3DGlobeCardProps {
 
 const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
     adapter,
-    title,
     onSceneClick
 }) => {
     const [markers, setMarkers] = useState<Marker[]>([]);
@@ -56,10 +55,9 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
     };
 
     return (
-        <BaseCard
+        <BaseComponent
             isLoading={config.isLoading && config.adapterResult.hasNoData()}
-            adapterResult={config.adapterResult}
-            title={title}
+            adapterResults={[config.adapterResult]}
         >
             <div className="cb-adt-3dglobe-wrapper">
                 <SceneView
@@ -68,7 +66,7 @@ const ADT3DGlobeCard: React.FC<ADT3DGlobeCardProps> = ({
                     onMarkerClick={(marker) => onMarkerClick(marker)}
                 />
             </div>
-        </BaseCard>
+        </BaseComponent>
     );
 };
 

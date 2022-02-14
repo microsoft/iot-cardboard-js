@@ -1,4 +1,4 @@
-import { DefaultButton, Icon, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, PrimaryButton } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,15 +10,18 @@ import {
     VisualType
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
-    const { widgetFormInfo, setWidgetFormInfo, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+    const { widgetFormInfo, setWidgetFormInfo } = useContext(
+        SceneBuilderContext
     );
+
+    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
     const { t } = useTranslation();
 
     const getDefaultFormData = () => {
@@ -33,7 +36,7 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const [formData, setFormData] = useState<IWidget>(
-        widgetFormInfo.mode === WidgetFormMode.Create
+        widgetFormInfo.mode === WidgetFormMode.CreateWidget
             ? getDefaultFormData()
             : widgetFormInfo.widget.data
     );
@@ -64,7 +67,7 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const onSaveWidgetForm = () => {
-        if (widgetFormInfo.mode === WidgetFormMode.Create) {
+        if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
@@ -80,7 +83,7 @@ const WidgetForm: React.FC<any> = () => {
                 })
             );
         }
-        if (widgetFormInfo.mode === WidgetFormMode.Edit) {
+        if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
@@ -106,12 +109,8 @@ const WidgetForm: React.FC<any> = () => {
         <>
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
-                    <div className="cb-widget-builder-header-container">
-                        <div className="cb-widget-builder-header">
-                            <Icon iconName={widgetFormInfo.widget.iconName} />
-                            <span>{widgetFormInfo.widget.title}</span>
-                        </div>
-                        <div className="cb-widget-builder-subheader">
+                    <div className="cb-widget-builder-description-container">
+                        <div className="cb-widget-builder-description">
                             {widgetFormInfo.widget.description}
                         </div>
                     </div>
@@ -122,7 +121,7 @@ const WidgetForm: React.FC<any> = () => {
                 <PrimaryButton
                     onClick={onSaveWidgetForm}
                     text={
-                        widgetFormInfo.mode === WidgetFormMode.Create
+                        widgetFormInfo.mode === WidgetFormMode.CreateWidget
                             ? t('3dSceneBuilder.createWidget')
                             : t('3dSceneBuilder.updateWidget')
                     }
