@@ -290,7 +290,7 @@
         "modifyElement": "Modify element",
         "manageTargetElements": "Manage target elements",
         "selectBehaviorElements": "Select elements for this behavior to target",
-        "toggleCheckboxes": "Toggle Checkboxes",
+        "multiSelectElements": "Multi-select elements",
         "updateBehavior": "Update behavior",
         "removeBehaviorFromScene": "Remove behavior from scene",
         "removeBehaviorFromAllScenes": "Remove behavior from all scenes",
