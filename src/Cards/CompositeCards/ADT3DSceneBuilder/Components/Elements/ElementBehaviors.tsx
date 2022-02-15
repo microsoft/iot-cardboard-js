@@ -14,6 +14,7 @@ import {
     BehaviorActionType,
     IADT3DSceneBuilderElementBehaviorProps
 } from '../../ADT3DSceneBuilder.types';
+import { Utils } from '../../../../../Models/Services';
 
 const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviorState,
@@ -53,7 +54,7 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     });
 
     const { t } = useTranslation();
-
+    const [searchText, setSearchText] = useState('');
     const [showAddBehavior, setShowAddBehavior] = useState(false);
 
     return (
@@ -162,13 +163,14 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                                 placeholder={t(
                                     '3dSceneBuilder.searchBehaviors'
                                 )}
-                                onChange={(event, value) =>
+                                onChange={(event, value) => {
+                                    setSearchText(value);
                                     behaviorStateDispatch({
                                         type:
                                             BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
                                         value: value
-                                    })
-                                }
+                                    });
+                                }}
                             />
                         </div>
                         <div>
@@ -190,7 +192,12 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                                                 className={styles.icon}
                                             />
                                             <div className={styles.name}>
-                                                {behavior.id}
+                                                {searchText
+                                                    ? Utils.getMarkedHtmlBySearch(
+                                                          behavior.id,
+                                                          searchText
+                                                      )
+                                                    : behavior.id}
                                             </div>
                                             <IconButton
                                                 iconProps={{
