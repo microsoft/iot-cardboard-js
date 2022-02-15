@@ -25,7 +25,14 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                isLocalStorageEnabled={false}
+                isLocalStorageEnabled={true}
+                localStorageKey="adtEnvironments"
+                selectedItemLocalStorageKey="selectedAdtEnvironment"
+                storage={{
+                    isLocalStorageEnabled: true,
+                    localStorageKey: 'storageContainers',
+                    selectedItemLocalStorageKey: 'selectedStorageContainer'
+                }}
             />
         </div>
     );

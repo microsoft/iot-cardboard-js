@@ -5,11 +5,13 @@ import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 type WithLocalStorage = {
     isLocalStorageEnabled: true;
     localStorageKey: string;
+    selectedItemLocalStorageKey: string;
 };
 
 type WithoutLocalStorage = {
     isLocalStorageEnabled: false;
     localStorageKey?: never;
+    selectedItemLocalStorageKey?: never;
 };
 
 type StorageContainer = {

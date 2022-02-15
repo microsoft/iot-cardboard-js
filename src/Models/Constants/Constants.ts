@@ -102,3 +102,10 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         }
     }
 ];
+
+export const ValidAdtHostSuffixes = [
+    'digitaltwins.azure.net',
+    'azuredigitaltwins-ppe.net',
+    'azuredigitaltwins-test.net'
+];
+export const ValidContainerHostSuffixes = ['blob.core.windows.net'];

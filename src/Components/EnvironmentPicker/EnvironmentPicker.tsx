@@ -11,43 +11,31 @@ import {
     PrimaryButton
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { EnvironmentPickerProps } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
+import {
+    ValidAdtHostSuffixes,
+    ValidContainerHostSuffixes
+} from '../../Models/Constants/Constants';
 
 const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     shouldPullFromSubscription = false,
     isLocalStorageEnabled = false,
-    storage = {
-        isLocalStorageEnabled: false
-    },
     ...props
 }) => {
     const { t } = useTranslation();
-    const [environments, setEnvironments] = useState<Array<IComboBoxOption>>(
-        []
-    );
-    const [selectedEnvironmentUrl, setSelectedEnvironmentUrl] = useState(
-        props.environmentUrl ?? 'No environment added'
-    );
-    const [containerUrls, setContainerUrls] = useState<Array<IComboBoxOption>>(
-        []
-    );
-    const [selectedContainerUrl, setSelectedContainerUrl] = useState(
-        storage?.containerUrl ?? 'No container added'
-    );
-
-    const [environmentUrlToEdit, setEnvironmentUrlToEdit] = useState(
-        props.environmentUrl ?? ''
-    );
-    const [containerUrlToEdit, setContainerUrlToEdit] = useState(
-        storage?.containerUrl ?? ''
-    );
-
+    const [environments, setEnvironments] = useState<Array<string>>([]);
+    const [selectedEnvironmentUrl, setSelectedEnvironmentUrl] = useState('');
+    const [containers, setContainers] = useState<Array<string>>([]);
+    const [selectedContainerUrl, setSelectedContainerUrl] = useState('');
+    const [environmentUrlToEdit, setEnvironmentUrlToEdit] = useState('');
+    const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+
     const dialogContentProps = {
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
@@ -66,6 +54,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         styles: dialogStyles
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
+        container: { paddingBottom: 16 },
         root: { width: '100%' },
         optionsContainerWrapper: { minWidth: 592 }
     };
@@ -76,22 +65,184 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         isAdapterCalledOnMount: shouldPullFromSubscription
     });
 
+    // set initial values based on props and local storage
+    useEffect(() => {
+        if (isLocalStorageEnabled) {
+            const environmentUrlsInLocalStorage = localStorage.getItem(
+                props.localStorageKey
+            );
+            if (environmentUrlsInLocalStorage) {
+                setEnvironments(JSON.parse(environmentUrlsInLocalStorage));
+            }
+
+            const selectedEnvironmentUrlInLocalStorage = localStorage.getItem(
+                props.selectedItemLocalStorageKey
+            );
+            if (props.environmentUrl) {
+                setSelectedEnvironmentUrl(props.environmentUrl);
+            } else if (selectedEnvironmentUrlInLocalStorage) {
+                setSelectedEnvironmentUrl(selectedEnvironmentUrlInLocalStorage);
+            } else {
+                setSelectedEnvironmentUrl('');
+            }
+        } else {
+            setSelectedEnvironmentUrl(props.environmentUrl ?? '');
+        }
+
+        if (props.storage?.isLocalStorageEnabled) {
+            const containerUrlsInLocalStorage = localStorage.getItem(
+                props.storage.localStorageKey
+            );
+            if (containerUrlsInLocalStorage) {
+                setContainers(JSON.parse(containerUrlsInLocalStorage));
+            }
+
+            const selectedContainerUrlInLocalStorage = localStorage.getItem(
+                props.storage.selectedItemLocalStorageKey
+            );
+            if (props.storage.containerUrl) {
+                setSelectedContainerUrl(props.storage.containerUrl);
+            } else if (selectedContainerUrlInLocalStorage) {
+                setSelectedContainerUrl(selectedContainerUrlInLocalStorage);
+            } else {
+                setSelectedContainerUrl('');
+            }
+        } else {
+            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
+        }
+    }, []);
+
+    useEffect(() => {
+        setEnvironmentUrlToEdit(selectedEnvironmentUrl);
+    }, [selectedEnvironmentUrl]);
+
+    useEffect(() => {
+        setContainerUrlToEdit(selectedContainerUrl);
+    }, [selectedContainerUrl]);
+
     useEffect(() => {
         if (!environmentsState.adapterResult.hasNoData()) {
             setEnvironments(
                 environmentsState.adapterResult.result?.data.map(
-                    (i) =>
-                        ({
-                            key: i.hostName,
-                            text: i.hostName
-                        } as IComboBoxOption)
+                    (i) => i.hostName
                 )
             );
         }
     }, [environmentsState.adapterResult.result]);
 
-    useEffect(() => {
-        // set initial values of environment and container based on props
+    const environmentOptions: Array<IComboBoxOption> = useMemo(
+        () =>
+            environments.map(
+                (e) =>
+                    ({
+                        key: e,
+                        text: e
+                    } as IComboBoxOption)
+            ),
+        [environments]
+    );
+
+    const containerOptions: Array<IComboBoxOption> = useMemo(
+        () =>
+            containers.map(
+                (c) =>
+                    ({
+                        key: c,
+                        text: c
+                    } as IComboBoxOption)
+            ),
+        [containers]
+    );
+
+    const handleOnEnvironmentUrlChange = useCallback(
+        (option, value) => {
+            const newVal = value || option.text;
+            setEnvironmentUrlToEdit(newVal);
+            if (environments.findIndex((e) => e === newVal) === -1) {
+                setEnvironments(environments.concat(newVal));
+            }
+        },
+        [environments]
+    );
+
+    const handleOnContainerUrlChange = useCallback(
+        (option, value) => {
+            const newVal = value || option.text;
+            setContainerUrlToEdit(newVal);
+            if (containers.findIndex((e) => e === newVal) === -1) {
+                setContainers(containers.concat(newVal));
+            }
+        },
+        [containers]
+    );
+
+    const handleOnSave = useCallback(() => {
+        setSelectedEnvironmentUrl(environmentUrlToEdit);
+        setSelectedContainerUrl(containerUrlToEdit);
+
+        if (props.onEnvironmentUrlChange) {
+            props.onEnvironmentUrlChange(environmentUrlToEdit);
+        }
+        if (props.storage?.onContainerUrlChange) {
+            props.storage?.onContainerUrlChange(containerUrlToEdit);
+        }
+
+        if (isLocalStorageEnabled) {
+            localStorage.setItem(
+                props.localStorageKey,
+                JSON.stringify(environments)
+            );
+            localStorage.setItem(
+                props.selectedItemLocalStorageKey,
+                environmentUrlToEdit
+            );
+        }
+        if (props.storage?.isLocalStorageEnabled) {
+            localStorage.setItem(
+                props.storage.localStorageKey,
+                JSON.stringify(containers)
+            );
+            localStorage.setItem(
+                props.storage.selectedItemLocalStorageKey,
+                containerUrlToEdit
+            );
+        }
+        toggleIsDialogHidden();
+    }, [environmentUrlToEdit, containerUrlToEdit]);
+
+    const handleOnDismiss = useCallback(() => {
+        toggleIsDialogHidden();
+        setTimeout(() => {
+            // wait for dialog dismiss fade-out animation to reset the values
+            setEnvironmentUrlToEdit(selectedEnvironmentUrl);
+            setContainerUrlToEdit(selectedContainerUrl);
+        }, 500);
+    }, [environmentUrlToEdit, containerUrlToEdit]);
+
+    const displayNameForEnvironment = useCallback((envUrl: string) => {
+        if (envUrl) {
+            ValidAdtHostSuffixes.map((s) => {
+                if (envUrl.endsWith(s)) {
+                    envUrl.replace(s, '');
+                }
+            });
+            return envUrl;
+        } else {
+            return t('environmentPicker.noEnvironment');
+        }
+    }, []);
+
+    const displayNameForContainer = useCallback((containerUrl: string) => {
+        if (containerUrl) {
+            ValidContainerHostSuffixes.map((s) => {
+                if (containerUrl.endsWith(s)) {
+                    containerUrl.replace(s, '');
+                }
+            });
+            return containerUrl;
+        } else {
+            return t('environmentPicker.noContainer');
+        }
     }, []);
 
     return (
@@ -103,7 +254,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         >
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {selectedEnvironmentUrl}
+                    {displayNameForEnvironment(selectedEnvironmentUrl)}
                 </span>
                 <IconButton
                     iconProps={{ iconName: 'Edit' }}
@@ -113,18 +264,18 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                     className={'cb-environment-picker-edit-button'}
                 />
             </div>
-            {storage && (
+            {props.storage && (
                 <div className="cb-environment-picker-container">
                     <FontIcon iconName={'Database'} />
                     <span className="cb-environment-picker-container-title">
-                        {selectedContainerUrl}
+                        {displayNameForContainer(selectedContainerUrl)}
                     </span>
                 </div>
             )}
 
             <Dialog
                 hidden={isDialogHidden}
-                onDismiss={toggleIsDialogHidden}
+                onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
             >
@@ -133,81 +284,56 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         placeholder={
                             environmentsState.isLoading
                                 ? t('loadingInstances')
-                                : t('enterInstanceUrl')
+                                : t('environmentPicker.enterEnvironmentUrl')
                         }
-                        label={t('environmentPicker.environment')}
+                        label={t('environmentPicker.environmentUrl')}
                         allowFreeform={true}
                         autoComplete={'on'}
-                        options={environments}
+                        options={environmentOptions}
                         styles={comboBoxStyles}
                         disabled={environmentsState.isLoading}
                         defaultSelectedKey={selectedEnvironmentUrl}
                         text={environmentUrlToEdit}
-                        onChange={(_e, option, _idx, value) => {
-                            const newVal = value || option.text;
-                            setEnvironmentUrlToEdit(newVal);
-                            if (
-                                environments.findIndex(
-                                    (e) => e.key === newVal
-                                ) === -1
-                            ) {
-                                setEnvironments(
-                                    environments.concat({
-                                        key: newVal,
-                                        text: newVal
-                                    })
-                                );
-                            }
-                        }}
+                        onChange={(_e, option, _idx, value) =>
+                            handleOnEnvironmentUrlChange(option, value)
+                        }
+                        errorMessage={
+                            !ValidAdtHostSuffixes.some((suffix) =>
+                                environmentUrlToEdit.endsWith(suffix)
+                            )
+                                ? t(
+                                      'environmentPicker.errors.invalidEnvironmentUrl'
+                                  )
+                                : undefined
+                        }
                     />
                     <ComboBox
-                        placeholder={t('environmentPicker.selectContainerUrl')}
+                        placeholder={t('environmentPicker.enterContainerUrl')}
                         label={t('environmentPicker.containerUrl')}
                         allowFreeform={true}
                         autoComplete={'on'}
-                        options={containerUrls}
+                        options={containerOptions}
                         styles={comboBoxStyles}
                         defaultSelectedKey={selectedContainerUrl}
                         text={containerUrlToEdit}
-                        onChange={(_e, option, _idx, value) => {
-                            const newVal = value || option.text;
-                            setContainerUrlToEdit(newVal);
-                            if (
-                                containerUrls.findIndex(
-                                    (e) => e.key === newVal
-                                ) === -1
-                            ) {
-                                setContainerUrls(
-                                    containerUrls.concat({
-                                        key: newVal,
-                                        text: newVal
-                                    })
-                                );
-                            }
-                        }}
+                        onChange={(_e, option, _idx, value) =>
+                            handleOnContainerUrlChange(option, value)
+                        }
+                        errorMessage={
+                            !ValidContainerHostSuffixes.some((suffix) =>
+                                containerUrlToEdit.endsWith(suffix)
+                            )
+                                ? t(
+                                      'environmentPicker.errors.invalidContainerUrl'
+                                  )
+                                : undefined
+                        }
                     />
                 </div>
                 <DialogFooter>
-                    <PrimaryButton
-                        onClick={() => {
-                            setSelectedEnvironmentUrl(environmentUrlToEdit);
-                            setSelectedContainerUrl(containerUrlToEdit);
-                            if (props.onEnvironmentUrlChange) {
-                                props.onEnvironmentUrlChange(
-                                    environmentUrlToEdit
-                                );
-                            }
-                            if (storage.onContainerUrlChange) {
-                                storage.onContainerUrlChange(
-                                    containerUrlToEdit
-                                );
-                            }
-                            toggleIsDialogHidden();
-                        }}
-                        text={t('save')}
-                    />
+                    <PrimaryButton onClick={handleOnSave} text={t('save')} />
                     <DefaultButton
-                        onClick={toggleIsDialogHidden}
+                        onClick={handleOnDismiss}
                         text={t('cancel')}
                     />
                 </DialogFooter>
