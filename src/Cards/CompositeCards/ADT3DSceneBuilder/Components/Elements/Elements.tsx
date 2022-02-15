@@ -159,7 +159,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         {!isEditBehavior && (
                             <IconButton
                                 iconProps={{ iconName: 'MultiSelect' }}
-                                title={t('3dSceneBuilder.toggleCheckboxes')}
+                                title={t('3dSceneBuilder.multiSelectElements')}
                                 styles={{
                                     iconChecked: { color: '#ffffff' },
                                     iconHovered: { color: '#ffffff' },
