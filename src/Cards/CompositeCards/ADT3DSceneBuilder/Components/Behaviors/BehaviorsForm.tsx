@@ -235,7 +235,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             ? t('3dSceneBuilder.createBehavior')
                                             : t('3dSceneBuilder.updateBehavior')
                                     }
-                                    disabled={!behaviorToEdit?.id}
+                                    disabled={
+                                        !behaviorToEdit?.id ||
+                                        behaviorToEdit.datasources?.[0]
+                                            ?.mappingIDs?.length === 0
+                                    }
                                 />
                                 <DefaultButton
                                     text={t('cancel')}

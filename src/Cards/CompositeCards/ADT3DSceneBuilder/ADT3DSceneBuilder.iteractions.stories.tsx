@@ -66,7 +66,7 @@ ElementsMultiSelect.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // toggle multi select
-    const toggle = canvas.getByTitle('Toggle Checkboxes');
+    const toggle = canvas.getByTitle('Multi-select elements');
     await userEvent.click(toggle);
 
     // click a list item
