@@ -118,7 +118,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         if (scenesConfig?.adapterResult.getErrors()) {
             const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
             setErrors(errors);
-            console.log(errors[0].message);
         } else {
             setErrors([]);
         }
@@ -239,7 +238,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 }}
                                 disabled={
                                     errors[0]?.type ===
-                                    ComponentErrorType.UnAuthorizedAccess
+                                    ComponentErrorType.UnauthorizedAccess
                                         ? true
                                         : false
                                 }
