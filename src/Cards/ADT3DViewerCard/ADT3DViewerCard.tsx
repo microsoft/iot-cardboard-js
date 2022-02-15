@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
 import { DTwin, IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
-import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
@@ -19,6 +18,7 @@ import {
 } from '../../Models/Classes/3DVConfig';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 interface ADT3DViewerCardProps {
     adapter: IADT3DViewerAdapter;
@@ -35,7 +35,6 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     adapter,
     sceneId,
     sceneConfig,
-    title,
     pollingInterval,
     connectionLineColor,
     enableMeshSelection,
@@ -228,12 +227,11 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
     }
 
     return (
-        <BaseCard
+        <BaseComponent
             isLoading={
                 sceneData.isLoading && sceneData.adapterResult.hasNoData()
             }
-            adapterResult={sceneData.adapterResult}
-            title={title}
+            adapterResults={[sceneData.adapterResult]}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <SceneView
@@ -278,7 +276,7 @@ const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
                     </div>
                 )}
             </div>
-        </BaseCard>
+        </BaseComponent>
     );
 };
 

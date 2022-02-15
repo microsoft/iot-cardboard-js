@@ -17,9 +17,12 @@ import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 
 const BehaviorFormWidgetsTab: React.FC = () => {
-    const { setBehaviorToEdit, setWidgetFormInfo, behaviorToEdit } = useContext(
+    const { setWidgetFormInfo } = useContext(SceneBuilderContext);
+
+    const { setBehaviorToEdit, behaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
@@ -31,12 +34,14 @@ const BehaviorFormWidgetsTab: React.FC = () => {
             items: [
                 {
                     key: 'edit',
+                    'data-testid': 'editWidgetOverflow',
                     text: t('3dSceneBuilder.editWidget'),
                     iconProps: { iconName: 'Edit' },
                     onClick: () => onEditWidgetStart(index)
                 },
                 {
                     key: 'remove',
+                    'data-testid': 'removeWidgetOverflow',
                     text: t('3dSceneBuilder.removeWidget'),
                     iconProps: { iconName: 'Delete' },
                     onClick: () => onRemoveWidget(index)
@@ -70,7 +75,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                     description,
                     data: widget
                 },
-                mode: WidgetFormMode.Edit,
+                mode: WidgetFormMode.EditWidget,
                 widgetIdx: index
             });
         }
@@ -98,7 +103,10 @@ const BehaviorFormWidgetsTab: React.FC = () => {
     };
 
     function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
-        setWidgetFormInfo({ widget: libraryItem, mode: WidgetFormMode.Create });
+        setWidgetFormInfo({
+            widget: libraryItem,
+            mode: WidgetFormMode.CreateWidget
+        });
 
         // Add popover visual if not already present
         const popOver = behaviorToEdit.visuals?.find(
@@ -144,6 +152,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                                     color: 'black'
                                 }
                             }}
+                            data-testId={`moreMenu-${index}`}
                             menuProps={getMenuProps(index)}
                         />
                     </div>
@@ -151,6 +160,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
             <ActionButton
                 className="cb-widget-panel-action-button"
                 text={t('3dSceneBuilder.addWidget')}
+                data-testid={'widgetForm-addWidget'}
                 onClick={() => {
                     setIsLibraryDialogOpen(true);
                 }}

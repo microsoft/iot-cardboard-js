@@ -1,6 +1,7 @@
 import { ITheme } from '@fluentui/react';
 import { Theme } from '../../Models/Constants/Enums';
 import { getDropdownStyles } from './Dropdown.styles';
+import { getPivotStyles } from './Pivot.styles';
 import { getPrimaryButtonStyles } from './PrimaryButton.styles';
 import { getSpinButtonStyles } from './SpinButton.styles';
 import { getTextFieldStyles } from './TextField.styles';
@@ -29,5 +30,8 @@ export const getCustomComponentStyles = (
     },
     SpinButton: {
         styles: getSpinButtonStyles(themeSetting, theme)
+    },
+    Pivot: {
+        styles: getPivotStyles(themeSetting, theme)
     }
 });

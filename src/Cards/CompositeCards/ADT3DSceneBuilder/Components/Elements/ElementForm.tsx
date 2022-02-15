@@ -31,9 +31,9 @@ import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
-import SceneBuilderFormBreadcrumb from '../SceneBuilderFormBreadcrumb';
 import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
@@ -360,21 +360,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
-            <SceneBuilderFormBreadcrumb
-                items={[
-                    {
-                        text: t('3dSceneBuilder.elements'),
-                        key: 'elements',
-                        onClick: () => onElementBackClick()
-                    },
-                    {
-                        text:
-                            builderMode === ADT3DSceneBuilderMode.EditElement
-                                ? selectedElement.displayName
-                                : t('3dSceneBuilder.newElement'),
-                        key: 'elementForm'
-                    }
-                ]}
+            <LeftPanelBuilderHeader
+                headerText={
+                    builderMode === ADT3DSceneBuilderMode.CreateElement
+                        ? t('3dSceneBuilder.newElement')
+                        : t('3dSceneBuilder.modifyElement')
+                }
+                subHeaderText={
+                    !elementToEdit.displayName
+                        ? t('3dSceneBuilder.addElementDetails')
+                        : elementToEdit.displayName
+                }
+                iconName={'Shapes'}
             />
             <div className="cb-scene-builder-left-panel-create-form">
                 <div className="cb-scene-builder-left-panel-create-form-contents">
