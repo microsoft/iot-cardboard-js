@@ -10,9 +10,12 @@ import {
     mergeStyleSets,
     PrimaryButton
 } from '@fluentui/react';
-import { BehaviorActionType } from '../../ADT3DSceneBuilder.types';
+import {
+    BehaviorActionType,
+    IADT3DSceneBuilderElementBehaviorProps
+} from '../../ADT3DSceneBuilder.types';
 
-const ElementBehaviors: React.FC<any> = ({
+const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviorState,
     onBehaviorClick,
     onCreateBehaviorWithElements,

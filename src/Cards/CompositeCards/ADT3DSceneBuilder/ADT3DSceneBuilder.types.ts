@@ -86,6 +86,13 @@ export interface IADT3DSceneBuilderElementFormProps {
     onCreateBehaviorWithElements: () => void;
 }
 
+export interface IADT3DSceneBuilderElementBehaviorProps {
+    behaviorState: BehaviorState;
+    onBehaviorClick: (behavior: IBehavior) => void;
+    onCreateBehaviorWithElements: () => void;
+    behaviorStateDispatch: (action: BehaviorAction) => void;
+}
+
 export type BehaviorSaveMode =
     | ADT3DSceneBuilderMode.EditBehavior
     | ADT3DSceneBuilderMode.CreateBehavior;
