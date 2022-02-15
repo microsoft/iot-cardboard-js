@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { SceneView } from '../../Components/3DV/SceneView';
-import BaseCard from '../Base/Consume/BaseCard';
 import './ADT3DBuilderCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 interface ADT3DBuilderCardProps {
     adapter: IADTAdapter; // for now
@@ -19,7 +19,6 @@ interface ADT3DBuilderCardProps {
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     adapter,
     modelUrl,
-    title,
     onMeshSelected,
     showMeshesOnHover,
     preselectedMeshIds,
@@ -58,7 +57,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     };
 
     return (
-        <BaseCard title={title} isLoading={false} adapterResult={null}>
+        <BaseComponent>
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
@@ -78,7 +77,7 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
                     }
                 />
             </div>
-        </BaseCard>
+        </BaseComponent>
     );
 };
 

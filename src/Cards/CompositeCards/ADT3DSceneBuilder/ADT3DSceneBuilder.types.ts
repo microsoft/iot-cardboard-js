@@ -33,6 +33,7 @@ export const SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS =
 export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
+export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -53,6 +54,8 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: ColoredMeshItem[];
     setSelectedMeshIds: (objects: Array<string>) => void;
     setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
+    widgetFormInfo: WidgetFormInfo;
+    setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
 }
 
 export type WidgetFormInfo = null | {
@@ -64,8 +67,6 @@ export type WidgetFormInfo = null | {
 export interface IBehaviorFormContext {
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
-    widgetFormInfo: WidgetFormInfo;
-    setWidgetFormInfo: React.Dispatch<React.SetStateAction<WidgetFormInfo>>;
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -125,12 +126,14 @@ export interface IADT3DSceneBuilderElementsProps {
     onRemoveElement?: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementClick?: (element: ITwinToObjectMapping) => void;
     isEditBehavior?: boolean;
+    hideSearch?: boolean;
 }
 
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
     selectedMeshIds: Array<string>;
     coloredMeshItems: ColoredMeshItem[];
+    widgetFormInfo: WidgetFormInfo;
 }
 
 export interface ADT3DSceneBuilderLeftPanelState {

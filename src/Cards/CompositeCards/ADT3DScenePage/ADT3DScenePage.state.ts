@@ -2,6 +2,7 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
     SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_PAGE_MODE,
     SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
     SET_SELECTED_BLOB_CONTAINER_URL,
@@ -9,7 +10,10 @@ import {
     SET_ERRORS
 } from '../../../Models/Constants/ActionTypes';
 import { ADT3DScenePageState } from './ADT3DScenePage.types';
-import { ADT3DScenePageSteps } from '../../../Models/Constants/Enums';
+import {
+    ADT3DScenePageModes,
+    ADT3DScenePageSteps
+} from '../../../Models/Constants/Enums';
 
 export const defaultADT3DScenePageState: ADT3DScenePageState = {
     scenesConfig: null,
@@ -17,10 +21,14 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     blobContainerURLs: [],
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneLobby,
-    errors: []
+    errors: [],
+    scenePageMode: ADT3DScenePageModes.BuildScene
 };
 
-export const ADT3DScenePageReducer = produce(
+export const ADT3DScenePageReducer: (
+    draft: ADT3DScenePageState,
+    action: IAction
+) => ADT3DScenePageState = produce(
     (draft: ADT3DScenePageState, action: IAction) => {
         const payload = action.payload;
 
@@ -42,6 +50,9 @@ export const ADT3DScenePageReducer = produce(
                 break;
             case SET_ERRORS:
                 draft.errors = payload;
+                break;
+            case SET_ADT_SCENE_PAGE_MODE:
+                draft.scenePageMode = payload;
                 break;
             default:
                 break;

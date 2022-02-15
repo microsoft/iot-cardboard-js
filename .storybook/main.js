@@ -7,7 +7,7 @@ module.exports = {
             ? ['../src/**/*.stories.tsx']
             : ['../src/**/*.stories.tsx', '../src/**/*.stories.local.tsx'],
     // Add any Storybook addons you want here: https://storybook.js.org/addons/
-    addons: ['@storybook/addon-essentials'],
+    addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
     webpackFinal: async (config) => {
         config.module.rules.push({
             test: /\.scss$/,

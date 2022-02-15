@@ -8,14 +8,23 @@
     --cb-color-text-warning: #d58e00;
     --cb-color-success: #32a852;
     --cb-color-card-contrast: #f2f2f2;
-    --cb-color-input-border: #ccc;
+    --cb-color-input-border: #605e5c;
     --cb-color-card-border: #ddd;
     --cb-color-text-primary: #000;
+    --cb-color-text-secondary: #605e5c;
     --cb-color-theme-primary: #0078d4;
     --cb-color-bg-card: #f9f9f9;
     --cb-color-icon-hover-bg: #f3f2f1;
-    --cb-color-natural-light: #dadada;
+    --cb-color-natural-light: #edebe9;
     --cb-color-input-edited-bg: #f3f2f1;
+    --fluent-color-text-10: #323130;
+    --fluent-color-text-20: #666;
+    --fluent-color-text-30: #a6a6a6;
+    --fluent-color-white: #fff;
+    --fluent-color-grey-10: #faf9f8;
+    --fluent-color-grey-20: #f3f2f1;
+    --fluent-color-grey-30: #edebe9;
+    --fluent-color-grey-40: #e1dfdd;
 }
 
 [cardboard-data-theme='dark'] {
@@ -27,14 +36,23 @@
     --cb-color-text-warning: #b17600;
     --cb-color-success: #32a852;
     --cb-color-card-contrast: #232323;
-    --cb-color-input-border: #777;
+    --cb-color-input-border: #d0d0d0;
     --cb-color-card-border: #4949499e;
     --cb-color-text-primary: #fff;
+    --cb-color-text-secondary: #605e5c;
     --cb-color-theme-primary: #058bf2;
     --cb-color-bg-card: #2c2c2c;
     --cb-color-icon-hover-bg: #0d0f0e;
-    --cb-color-natural-light: #5c5656;
+    --cb-color-natural-light: #0c0e0d;
     --cb-color-input-edited-bg: #242424;
+    --fluent-color-text-10: #fff;
+    --fluent-color-text-20: #f2f2f2;
+    --fluent-color-text-30: #a6a6a6;
+    --fluent-color-white: #fff;
+    --fluent-color-grey-10: #0d0e0f;
+    --fluent-color-grey-20: #292d30;
+    --fluent-color-grey-30: #31373e;
+    --fluent-color-grey-40: #434343;
 }
 
 [cardboard-data-theme='explorer'] {
@@ -47,9 +65,18 @@
     --cb-color-input-border: #777;
     --cb-color-card-border: #434343;
     --cb-color-text-primary: #fff;
+    --cb-color-text-secondary: #605e5c;
     --cb-color-theme-primary: #60aaff;
     --cb-color-bg-card: #2c2c2c;
     --cb-color-icon-hover-bg: #0d0f0e;
     --cb-color-natural-light: #2d2d2d;
     --cb-color-input-edited-bg: #2d2d2d;
+    --fluent-color-text-10: #fff;
+    --fluent-color-text-20: #f2f2f2;
+    --fluent-color-text-30: #a6a6a6;
+    --fluent-color-white: #fff;
+    --fluent-color-grey-10: #0d0e0f;
+    --fluent-color-grey-20: #292d30;
+    --fluent-color-grey-30: #31373e;
+    --fluent-color-grey-40: #434343;
 }

@@ -1,0 +1,19 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "eslint.options": {
+    "reportUnusedDisableDirectives": "error"
+  },
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "graphql"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}
