@@ -1,8 +1,9 @@
 import produce from 'immer';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { VisualType } from '../../../../../../Models/Classes/3DVConfig';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 
 const BehaviorFormAlertsTab: React.FC = () => {
@@ -10,13 +11,26 @@ const BehaviorFormAlertsTab: React.FC = () => {
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
+    const [propertyNames, setPropertyNames] = useState<string[]>(null);
 
-    let colorAlertTriggerExpression = '';
     const colorChangeVisual = behaviorToEdit.visuals.find(
         (visual) => visual.type === VisualType.ColorChange
     );
-    if (colorChangeVisual) {
-        colorAlertTriggerExpression = colorChangeVisual.color.expression;
+
+    const colorAlertTriggerExpression =
+        colorChangeVisual?.color?.expression || '';
+    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
+
+    if (!propertyNames) {
+        adapter
+            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .then((properties) => {
+                setPropertyNames(properties);
+            });
+    }
+
+    function getPropertyNames(twin: string) {
+        return twin === 'primaryTwin' ? propertyNames : [];
     }
 
     return (
@@ -25,7 +39,7 @@ const BehaviorFormAlertsTab: React.FC = () => {
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t('3dSceneBuilder.behaviorTriggerLabel'),
-                        multiline: colorAlertTriggerExpression.length > 50,
+                        multiline: colorAlertTriggerExpression.length > 40,
                         placeholder: t(
                             '3dSceneBuilder.behaviorTriggerPlaceholder'
                         )
@@ -44,8 +58,8 @@ const BehaviorFormAlertsTab: React.FC = () => {
                     );
                 }}
                 defaultValue={colorAlertTriggerExpression}
-                aliasNames={['LinkedTwin']}
-                propertyNames={['$dtId', 'InFlow', 'OutFlow']}
+                aliasNames={['primaryTwin']}
+                getPropertyNames={getPropertyNames}
             />
         </>
     );

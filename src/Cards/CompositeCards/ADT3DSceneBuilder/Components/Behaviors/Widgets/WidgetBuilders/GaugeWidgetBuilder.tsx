@@ -1,14 +1,31 @@
 import { Position, SpinButton, TextField, Toggle } from '@fluentui/react';
 import produce from 'immer';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Intellisense } from '../../../../../../../Components/AutoComplete/Intellisense';
+import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
 
 const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
     formData,
-    setFormData
+    setFormData,
+    behaviorToEdit
 }) => {
     const { t } = useTranslation();
+    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
+
+    if (!propertyNames) {
+        adapter
+            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .then((properties) => {
+                setPropertyNames(properties);
+            });
+    }
+
+    function getPropertyNames(twin: string) {
+        return twin === 'primaryTwin' ? propertyNames : [];
+    }
 
     const warningBreakPointEnabled =
         typeof formData.controlConfiguration.valueBreakPoints?.[0] === 'number';
@@ -37,16 +54,24 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                     )
                 }
             />
-            <TextField
-                label={t('3dSceneBuilder.expression')}
-                value={formData.controlConfiguration.expression}
-                onChange={(_ev, newVal) =>
+            <Intellisense
+                autoCompleteProps={{
+                    textFieldProps: {
+                        label: t('3dSceneBuilder.expression'),
+                        multiline:
+                            formData.controlConfiguration.expression.length > 40
+                    }
+                }}
+                defaultValue={formData.controlConfiguration.expression}
+                onChange={(newVal) => {
                     setFormData(
                         produce((draft) => {
                             draft.controlConfiguration.expression = newVal;
                         })
-                    )
-                }
+                    );
+                }}
+                aliasNames={['primaryTwin']}
+                getPropertyNames={getPropertyNames}
             />
             <Toggle
                 label={t('3dSceneBuilder.warningBreakPointToggleLabel')}
