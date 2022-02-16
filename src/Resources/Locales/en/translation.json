@@ -326,7 +326,7 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
-        "behaviorTriggerPlaceholder": "Enter expression",
+        "expressionPlaceholder": "Enter expression (eg primaryTwin.InFlow > 3)",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",

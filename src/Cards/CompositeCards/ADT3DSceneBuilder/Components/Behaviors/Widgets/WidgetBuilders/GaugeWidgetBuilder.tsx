@@ -2,6 +2,7 @@ import { Position, SpinButton, TextField, Toggle } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { primaryTwinName } from '../../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../../../Components/AutoComplete/Intellisense';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
@@ -23,8 +24,8 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
             });
     }
 
-    function getPropertyNames(twin: string) {
-        return twin === 'primaryTwin' ? propertyNames : [];
+    function getPropertyNames(twinId: string) {
+        return twinId === primaryTwinName ? propertyNames : [];
     }
 
     const warningBreakPointEnabled =
@@ -58,6 +59,7 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t('3dSceneBuilder.expression'),
+                        placeholder: t('3dSceneBuilder.expressionPlaceholder'),
                         multiline:
                             formData.controlConfiguration.expression.length > 40
                     }
@@ -70,7 +72,7 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                         })
                     );
                 }}
-                aliasNames={['primaryTwin']}
+                aliasNames={[primaryTwinName]}
                 getPropertyNames={getPropertyNames}
             />
             <Toggle

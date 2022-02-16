@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { VisualType } from '../../../../../../Models/Classes/3DVConfig';
+import { primaryTwinName } from '../../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 
@@ -29,8 +30,8 @@ const BehaviorFormAlertsTab: React.FC = () => {
             });
     }
 
-    function getPropertyNames(twin: string) {
-        return twin === 'primaryTwin' ? propertyNames : [];
+    function getPropertyNames(twinId: string) {
+        return twinId === primaryTwinName ? propertyNames : [];
     }
 
     return (
@@ -40,9 +41,7 @@ const BehaviorFormAlertsTab: React.FC = () => {
                     textFieldProps: {
                         label: t('3dSceneBuilder.behaviorTriggerLabel'),
                         multiline: colorAlertTriggerExpression.length > 40,
-                        placeholder: t(
-                            '3dSceneBuilder.behaviorTriggerPlaceholder'
-                        )
+                        placeholder: t('3dSceneBuilder.expressionPlaceholder')
                     }
                 }}
                 onChange={(newValue) => {
@@ -58,7 +57,7 @@ const BehaviorFormAlertsTab: React.FC = () => {
                     );
                 }}
                 defaultValue={colorAlertTriggerExpression}
-                aliasNames={['primaryTwin']}
+                aliasNames={[primaryTwinName]}
                 getPropertyNames={getPropertyNames}
             />
         </>

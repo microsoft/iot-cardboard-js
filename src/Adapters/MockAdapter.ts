@@ -20,7 +20,8 @@ import {
 import {
     AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
-    IGetKeyValuePairsAdditionalParameters
+    IGetKeyValuePairsAdditionalParameters,
+    primaryTwinName
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -329,7 +330,7 @@ export default class MockAdapter
                                 );
 
                                 // get primary twin
-                                twins['primaryTwin'] = {
+                                twins[primaryTwinName] = {
                                     $dtId: 'machineID',
                                     InFlow: 300,
                                     OutFlow: 250,
