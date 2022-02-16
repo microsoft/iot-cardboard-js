@@ -14,7 +14,7 @@ class AdapterResult<T extends IAdapterData> {
         if (this.result && 'hasNoData' in this.result) {
             return this.result.hasNoData();
         } else {
-            return this.result === null || this.result?.data === null;
+            return this.result == null || this.result?.data == null;
         }
     }
 

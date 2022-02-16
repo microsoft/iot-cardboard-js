@@ -80,8 +80,9 @@ export interface IConsumeCardProps extends ICardBaseProps {
 }
 
 export interface IErrorComponentProps {
-    errorTitle: string;
     errorContent?: string;
+    errorTitle?: string;
+    errorType?: ComponentErrorType;
 }
 
 export interface IOverlayProps {
