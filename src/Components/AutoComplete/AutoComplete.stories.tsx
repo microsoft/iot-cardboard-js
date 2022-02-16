@@ -47,7 +47,7 @@ export const OneLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={['LinkedTwin', 'Alias1', 'Alias2']}
+                aliasNames={[primaryTwinName, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
             />
         </div>
@@ -58,7 +58,7 @@ export const MultiLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={['LinkedTwin', 'Alias1', 'Alias2']}
+                aliasNames={[primaryTwinName, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
                 autoCompleteProps={{
                     textFieldProps: { multiline: true, rows: 30 }
