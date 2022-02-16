@@ -4,7 +4,6 @@ import {
     Callout,
     DirectionalHint,
     FontIcon,
-    IconButton,
     SearchBox,
     mergeStyleSets,
     PrimaryButton
@@ -31,7 +30,8 @@ const styles = mergeStyleSets({
     item: {
         alignItems: 'center',
         display: 'flex',
-        marginTop: '15px'
+        marginTop: '15px',
+        cursor: 'pointer'
     },
     icon: {
         display: 'inline-block',
@@ -101,7 +101,17 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     )}
                     {filteredAvailableBehaviors.map((behavior) => {
                         return (
-                            <div key={behavior.id} className={styles.item}>
+                            <div
+                                key={behavior.id}
+                                className={styles.item}
+                                onClick={() => addBehaviorToElement(behavior)}
+                                onKeyPress={(e) => {
+                                    if (e.key === ' ') {
+                                        addBehaviorToElement(behavior);
+                                    }
+                                }}
+                                tabIndex={0}
+                            >
                                 <FontIcon
                                     iconName={'Ringer'}
                                     className={styles.icon}
@@ -114,18 +124,9 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                                           )
                                         : behavior.id}
                                 </div>
-                                <IconButton
-                                    iconProps={{
-                                        iconName: 'Add',
-                                        style: {
-                                            fontSize: 18,
-                                            color:
-                                                'var(--cb-color-text-primary)'
-                                        }
-                                    }}
-                                    onClick={() =>
-                                        addBehaviorToElement(behavior)
-                                    }
+                                <FontIcon
+                                    iconName="Add"
+                                    className={styles.icon}
                                 />
                             </div>
                         );
