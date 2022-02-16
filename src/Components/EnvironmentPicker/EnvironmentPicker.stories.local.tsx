@@ -22,17 +22,20 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
                 }
                 isLocalStorageEnabled={true}
-                localStorageKey="adtEnvironments"
-                selectedItemLocalStorageKey="selectedAdtEnvironment"
+                localStorageKey="adtEnvironmentUrls"
+                selectedItemLocalStorageKey="selectedAdtEnvironmentUrl"
                 storage={{
                     isLocalStorageEnabled: true,
-                    localStorageKey: 'storageContainers',
-                    selectedItemLocalStorageKey: 'selectedStorageContainer'
+                    localStorageKey: 'storageContainerUrls',
+                    selectedItemLocalStorageKey: 'selectedStorageContainerUrl'
                 }}
+                shouldPullFromSubscription={true}
             />
         </div>
     );

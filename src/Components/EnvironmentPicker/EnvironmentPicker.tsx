@@ -7,6 +7,7 @@ import {
     FontIcon,
     IComboBoxOption,
     IComboBoxStyles,
+    Icon,
     IconButton,
     PrimaryButton
 } from '@fluentui/react';
@@ -40,13 +41,17 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
-        subText: t('environmentPicker.description')
+        subText: isLocalStorageEnabled
+            ? t('environmentPicker.description') +
+              ' ' +
+              t('environmentPicker.descriptionForLocalStorage')
+            : t('environmentPicker.description')
     };
     const dialogStyles = {
         main: {
             width: '640px !important',
             maxWidth: 'unset !important',
-            minHeight: 350
+            minHeight: 'fit-content'
         }
     };
     const modalProps = {
@@ -56,7 +61,12 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     const comboBoxStyles: Partial<IComboBoxStyles> = {
         container: { paddingBottom: 16 },
         root: { width: '100%' },
-        optionsContainerWrapper: { minWidth: 592 }
+        optionsContainerWrapper: { minWidth: 592 },
+        optionsContainer: {
+            selectors: {
+                span: { width: '100%' }
+            }
+        }
     };
 
     const environmentsState = useAdapter({
@@ -124,7 +134,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         if (!environmentsState.adapterResult.hasNoData()) {
             setEnvironments(
                 environmentsState.adapterResult.result?.data.map(
-                    (i) => i.hostName
+                    (i) => 'https://' + i.hostName
                 )
             );
         }
@@ -154,11 +164,83 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         [containers]
     );
 
+    const isValidUrl = useCallback(
+        (urlStr: string, type: 'environment' | 'container') =>
+            type === 'environment'
+                ? urlStr &&
+                  urlStr.startsWith('https://') &&
+                  ValidAdtHostSuffixes.some((suffix) => urlStr.endsWith(suffix))
+                : urlStr &&
+                  urlStr.startsWith('https://') &&
+                  ValidContainerHostSuffixes.some((suffix) =>
+                      new URL(urlStr).hostname.endsWith(suffix)
+                  ),
+        []
+    );
+
+    const environmentInputError = useMemo(
+        () =>
+            environmentUrlToEdit &&
+            !environmentsState.isLoading &&
+            !isValidUrl(environmentUrlToEdit, 'environment')
+                ? t('environmentPicker.errors.invalidEnvironmentUrl')
+                : undefined,
+        [environmentUrlToEdit, environmentsState]
+    );
+
+    const containerInputError = useMemo(
+        () =>
+            containerUrlToEdit && !isValidUrl(containerUrlToEdit, 'container')
+                ? t('environmentPicker.errors.invalidContainerUrl')
+                : undefined,
+        [containerUrlToEdit]
+    );
+
+    const onRenderOption = (
+        option: IComboBoxOption,
+        type: 'environment' | 'container'
+    ) => {
+        return (
+            <div className={'cb-environment-picker-dropdown-option'}>
+                <span>{option.text}</span>
+                <Icon
+                    iconName="Delete"
+                    aria-hidden="true"
+                    title={'Remove'}
+                    style={{ paddingLeft: 20 }}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        if (type === 'environment') {
+                            const restOfOptions = environments.filter(
+                                (o: string) => o !== option.text
+                            );
+                            setEnvironments(restOfOptions);
+                            if (option.text === environmentUrlToEdit) {
+                                setEnvironmentUrlToEdit('');
+                            }
+                        } else {
+                            const restOfOptions = containers.filter(
+                                (o: string) => o !== option.text
+                            );
+                            setContainers(restOfOptions);
+                            if (option.text === containerUrlToEdit) {
+                                setContainerUrlToEdit('');
+                            }
+                        }
+                    }}
+                />
+            </div>
+        );
+    };
+
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            const newVal = value || option.text;
+            const newVal = value ?? option?.text;
             setEnvironmentUrlToEdit(newVal);
-            if (environments.findIndex((e) => e === newVal) === -1) {
+            if (
+                isValidUrl(newVal, 'environment') &&
+                environments.findIndex((e) => e === newVal) === -1
+            ) {
                 setEnvironments(environments.concat(newVal));
             }
         },
@@ -167,9 +249,12 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
-            const newVal = value || option.text;
+            const newVal = value ?? option?.text;
             setContainerUrlToEdit(newVal);
-            if (containers.findIndex((e) => e === newVal) === -1) {
+            if (
+                isValidUrl(newVal, 'container') &&
+                containers.findIndex((e) => e === newVal) === -1
+            ) {
                 setContainers(containers.concat(newVal));
             }
         },
@@ -221,12 +306,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const displayNameForEnvironment = useCallback((envUrl: string) => {
         if (envUrl) {
-            ValidAdtHostSuffixes.map((s) => {
-                if (envUrl.endsWith(s)) {
-                    envUrl.replace(s, '');
-                }
-            });
-            return envUrl;
+            return new URL(envUrl).hostname.split('.')[0]; // TODO: decide how to split&show name
         } else {
             return t('environmentPicker.noEnvironment');
         }
@@ -234,12 +314,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const displayNameForContainer = useCallback((containerUrl: string) => {
         if (containerUrl) {
-            ValidContainerHostSuffixes.map((s) => {
-                if (containerUrl.endsWith(s)) {
-                    containerUrl.replace(s, '');
-                }
-            });
-            return containerUrl;
+            return new URL(containerUrl).pathname; // TODO: decide how to split&show name
         } else {
             return t('environmentPicker.noContainer');
         }
@@ -292,46 +367,76 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         options={environmentOptions}
                         styles={comboBoxStyles}
                         disabled={environmentsState.isLoading}
-                        defaultSelectedKey={selectedEnvironmentUrl}
-                        text={environmentUrlToEdit}
+                        defaultSelectedKey={
+                            environmentsState.isLoading
+                                ? undefined
+                                : selectedEnvironmentUrl
+                        }
+                        text={
+                            environmentsState.isLoading
+                                ? ''
+                                : environmentUrlToEdit
+                        }
                         onChange={(_e, option, _idx, value) =>
                             handleOnEnvironmentUrlChange(option, value)
                         }
-                        errorMessage={
-                            !ValidAdtHostSuffixes.some((suffix) =>
-                                environmentUrlToEdit.endsWith(suffix)
-                            )
-                                ? t(
-                                      'environmentPicker.errors.invalidEnvironmentUrl'
-                                  )
-                                : undefined
+                        errorMessage={environmentInputError}
+                        onRenderOption={(option) =>
+                            onRenderOption(option, 'environment')
+                        }
+                        required
+                        selectedKey={
+                            environmentsState.isLoading
+                                ? undefined
+                                : environmentUrlToEdit
                         }
                     />
-                    <ComboBox
-                        placeholder={t('environmentPicker.enterContainerUrl')}
-                        label={t('environmentPicker.containerUrl')}
-                        allowFreeform={true}
-                        autoComplete={'on'}
-                        options={containerOptions}
-                        styles={comboBoxStyles}
-                        defaultSelectedKey={selectedContainerUrl}
-                        text={containerUrlToEdit}
-                        onChange={(_e, option, _idx, value) =>
-                            handleOnContainerUrlChange(option, value)
-                        }
-                        errorMessage={
-                            !ValidContainerHostSuffixes.some((suffix) =>
-                                containerUrlToEdit.endsWith(suffix)
-                            )
-                                ? t(
-                                      'environmentPicker.errors.invalidContainerUrl'
-                                  )
-                                : undefined
-                        }
-                    />
+                    {props.storage && (
+                        <ComboBox
+                            placeholder={t(
+                                'environmentPicker.enterContainerUrl'
+                            )}
+                            label={t('environmentPicker.containerUrl')}
+                            allowFreeform={true}
+                            autoComplete={'on'}
+                            options={containerOptions}
+                            styles={comboBoxStyles}
+                            defaultSelectedKey={selectedContainerUrl}
+                            text={containerUrlToEdit}
+                            onChange={(_e, option, _idx, value) =>
+                                handleOnContainerUrlChange(option, value)
+                            }
+                            errorMessage={containerInputError}
+                            onRenderOption={(option) =>
+                                onRenderOption(option, 'container')
+                            }
+                            selectedKey={containerUrlToEdit}
+                            required
+                        />
+                    )}
                 </div>
                 <DialogFooter>
-                    <PrimaryButton onClick={handleOnSave} text={t('save')} />
+                    <PrimaryButton
+                        onClick={handleOnSave}
+                        text={t('save')}
+                        disabled={
+                            props.storage
+                                ? !(
+                                      isValidUrl(
+                                          environmentUrlToEdit,
+                                          'environment'
+                                      ) &&
+                                      isValidUrl(
+                                          containerUrlToEdit,
+                                          'container'
+                                      )
+                                  )
+                                : !isValidUrl(
+                                      environmentUrlToEdit,
+                                      'environment'
+                                  )
+                        }
+                    />
                     <DefaultButton
                         onClick={handleOnDismiss}
                         text={t('cancel')}

@@ -557,13 +557,14 @@
         "enterEnvironmentUrl": "Enter ADT instance URL",
         "enterContainerUrl": "Enter Azure Storage Container URL",
         "editEnvironment": "Edit environment",
-        "description": "Connect your environment and storage container URL to create your scene",
+        "description": "Connect your environment and storage container URL to list your scenes.",
+        "descriptionForLocalStorage": "Configuration data is saved in local storage.",
         "selectContainerUrl": "Select storage container URL",
         "noEnvironment": "No environment added",
         "noContainer": "No container added",
         "errors": {
-            "invalidEnvironmentUrl": "Selected value is not a valid ADT instance URL",
-            "invalidContainerUrl": "Selected value is not a valid Azure Storage Container URL"
+            "invalidEnvironmentUrl": "Not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+            "invalidContainerUrl": "Not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
     }
 }
