@@ -102,3 +102,5 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         }
     }
 ];
+
+export const primaryTwinName = 'primaryTwin';

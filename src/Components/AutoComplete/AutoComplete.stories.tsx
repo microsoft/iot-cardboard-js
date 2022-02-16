@@ -1,4 +1,5 @@
 import React from 'react';
+import { primaryTwinName } from '../../Models/Constants';
 import { AutoComplete } from './AutoComplete';
 import { Intellisense } from './Intellisense';
 
@@ -24,15 +25,18 @@ export const SimpleAutoComplete = () => {
     );
 };
 
-function getPropertyNames(alias: string) {
-    if (alias.toLowerCase() === 'alias1' || alias.toLowerCase() === 'alias2') {
+function getPropertyNames(aliasId: string) {
+    if (
+        aliasId.toLowerCase() === 'alias1' ||
+        aliasId.toLowerCase() === 'alias2'
+    ) {
         return [
             'AliasProperty1',
             'AliasProperty2',
             'AliasProperty3',
             'AliasProp'
         ];
-    } else if (alias.toLowerCase() === 'linkedtwin') {
+    } else if (aliasId === primaryTwinName) {
         return ['Temperature', 'Pressure', 'Humidity'];
     } else {
         return [];
@@ -43,7 +47,7 @@ export const OneLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={['LinkedTwin', 'Alias1', 'Alias2']}
+                aliasNames={[primaryTwinName, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
             />
         </div>
@@ -54,7 +58,7 @@ export const MultiLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={['LinkedTwin', 'Alias1', 'Alias2']}
+                aliasNames={[primaryTwinName, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
                 autoCompleteProps={{
                     textFieldProps: { multiline: true, rows: 30 }

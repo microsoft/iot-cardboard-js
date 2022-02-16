@@ -21,7 +21,9 @@ const WidgetForm: React.FC<any> = () => {
         SceneBuilderContext
     );
 
-    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
+    const { behaviorToEdit, setBehaviorToEdit } = useContext(
+        BehaviorFormContext
+    );
     const { t } = useTranslation();
 
     const getDefaultFormData = () => {
@@ -48,6 +50,7 @@ const WidgetForm: React.FC<any> = () => {
                     <GaugeWidgetBuilder
                         formData={formData}
                         setFormData={setFormData}
+                        behaviorToEdit={behaviorToEdit}
                     />
                 );
             case WidgetType.Link:

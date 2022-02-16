@@ -40,7 +40,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { IScenesConfig } from '../Classes/3DVConfig';
+import { IBehavior, IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
@@ -392,6 +392,16 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         tenantId?: string,
         uniqueObjectId?: string
     ) => AdapterReturnType<ADTInstancesData>;
+    getTwinsForBehavior(
+        sceneId: string,
+        config: IScenesConfig,
+        behavior: IBehavior
+    ): Promise<Record<string, any>>;
+    getCommonTwinPropertiesForBehavior(
+        sceneId: string,
+        config: IScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]>;
 }
 
 export interface IBlobAdapter {
