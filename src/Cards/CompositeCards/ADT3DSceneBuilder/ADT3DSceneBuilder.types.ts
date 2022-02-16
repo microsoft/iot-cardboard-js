@@ -167,6 +167,7 @@ export interface ADT3DSceneBuilderLeftPanelState {
 export interface IWidgetBuilderFormDataProps {
     formData: IWidget;
     setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
+    behaviorToEdit?: IBehavior;
 }
 export interface BehaviorState {
     behaviorToEdit: IBehavior;

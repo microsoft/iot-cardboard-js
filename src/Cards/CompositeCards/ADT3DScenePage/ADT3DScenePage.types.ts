@@ -6,6 +6,7 @@ import {
     ADT3DScenePageSteps
 } from '../../../Models/Constants/Enums';
 import {
+    IComponentError,
     IAction,
     IConsumeCompositeCardProps
 } from '../../../Models/Constants/Interfaces';
@@ -33,6 +34,7 @@ export interface ADT3DScenePageState {
     blobContainerURLs: Array<string>;
     selectedScene: IScene;
     scene?: IScene;
+    errors?: Array<IComponentError>;
     scenePageMode: ADT3DScenePageModes;
 }
 

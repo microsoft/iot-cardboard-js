@@ -68,11 +68,28 @@ export default class BlobAdapter implements IBlobAdapter {
 
                 return new ADTScenesConfigData(config);
             } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+                switch (err?.response?.status) {
+                    case 404:
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.NonExistentBlob,
+                            isCatastrophic: true,
+                            rawError: err
+                        });
+                        break;
+                    case 403:
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.UnauthorizedAccess,
+                            isCatastrophic: true,
+                            rawError: err
+                        });
+                        break;
+                    default:
+                        adapterMethodSandbox.pushError({
+                            type: ComponentErrorType.DataFetchFailed,
+                            isCatastrophic: true,
+                            rawError: err
+                        });
+                }
             }
         }, 'storage');
     }

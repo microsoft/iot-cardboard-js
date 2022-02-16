@@ -29,6 +29,8 @@ import {
 } from '../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../Models/Services/Utils';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
+import { IComponentError } from '../../../Models/Constants/Interfaces';
+import { ComponentErrorType } from '../../../Models/Constants/Enums';
 
 const SceneListCard: React.FC<SceneListCardProps> = ({
     adapter,
@@ -79,6 +81,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
         isAdapterCalledOnMount: false
     });
 
+    const [errors, setErrors] = useState<Array<IComponentError>>([]);
     const [config, setConfig] = useState<IScenesConfig>(null);
     const [sceneList, setSceneList] = useState<Array<IScene>>([]);
     const [selectedScene, setSelectedScene] = useState<IScene>(undefined);
@@ -111,6 +114,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
             });
         } else {
             setSceneList([]);
+        }
+        if (scenesConfig?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+            setErrors(errors);
+        } else {
+            setErrors([]);
         }
     }, [scenesConfig?.adapterResult]);
 
@@ -217,7 +226,6 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                 title={title}
                 locale={locale}
                 localeStrings={localeStrings}
-                adapterResults={[scenesConfig.adapterResult]}
                 isLoading={scenesConfig.isLoading}
             >
                 {sceneList.length > 0 ? (
@@ -228,6 +236,12 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                                 onClick={() => {
                                     setIsSceneDialogOpen(true);
                                 }}
+                                disabled={
+                                    errors[0]?.type ===
+                                    ComponentErrorType.UnauthorizedAccess
+                                        ? true
+                                        : false
+                                }
                             >
                                 {t('addNew')}
                             </ActionButton>
@@ -346,6 +360,7 @@ const SceneListCard: React.FC<SceneListCardProps> = ({
                             onClick={() => {
                                 setIsSceneDialogOpen(true);
                             }}
+                            disabled={errors[0]?.type ? true : false}
                             text={t('scenes.addScene')}
                         />
                     </div>

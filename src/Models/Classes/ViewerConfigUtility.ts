@@ -314,6 +314,21 @@ abstract class ViewerConfigUtility {
             ) || []
         );
     }
+
+    static getMappingIdsForBehavior(behavior: IBehavior) {
+        const mappingIds: string[] = [];
+        // cycle through the datasources of behavior
+        for (const dataSource of behavior.datasources) {
+            // if its a TwinToObjectMappingDatasource get the mapping id
+            if (dataSource.type === DatasourceType.TwinToObjectMapping) {
+                dataSource.mappingIDs.forEach((mappingId) => {
+                    mappingIds.push(mappingId);
+                });
+            }
+        }
+
+        return mappingIds;
+    }
 }
 
 export default ViewerConfigUtility;

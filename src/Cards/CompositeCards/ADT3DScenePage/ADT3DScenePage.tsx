@@ -20,15 +20,20 @@ import {
     SET_ADT_SCENE_PAGE_MODE,
     SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
+    SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE
 } from '../../../Models/Constants/ActionTypes';
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { IScene, IScenesConfig } from '../../../Models/Classes/3DVConfig';
-import { IBlobAdapter } from '../../../Models/Constants/Interfaces';
+import {
+    IBlobAdapter,
+    IComponentError
+} from '../../../Models/Constants/Interfaces';
 import { ADTSceneConfigBlobContainerPicker } from './Components/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Components/ADT3DSceneBuilderContainer';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import StorageContainerPermissionError from '../../../Components/StorageContainerPermissionError/StorageContainerPermissionError';
 import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Components/FloatingScenePageModeToggle';
 
@@ -136,6 +141,18 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                 payload: null
             });
         }
+        if (scenesConfig?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
+            dispatch({
+                type: SET_ERRORS,
+                payload: errors
+            });
+        } else {
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            });
+        }
     }, [scenesConfig?.adapterResult]);
 
     return (
@@ -166,6 +183,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     }
                                 />
                             </div>
+                            {state.errors.length > 0 && (
+                                <StorageContainerPermissionError
+                                    errorType={state.errors[0].type}
+                                />
+                            )}
                             {state.selectedBlobContainerURL && (
                                 <SceneListCard
                                     key={state.selectedBlobContainerURL}
