@@ -15,7 +15,14 @@ export const MockEnvironmentPicker = (
             theme={theme}
             locale={locale}
             adapter={new MockAdapter()}
-            isLocalStorageEnabled={false}
+            isLocalStorageEnabled={true}
+            localStorageKey="adtEnvironmentUrls"
+            selectedItemLocalStorageKey="selectedAdtEnvironmentUrl"
+            storage={{
+                isLocalStorageEnabled: true,
+                localStorageKey: 'storageContainerUrls',
+                selectedItemLocalStorageKey: 'selectedStorageContainerUrl'
+            }}
         />
     </div>
 );

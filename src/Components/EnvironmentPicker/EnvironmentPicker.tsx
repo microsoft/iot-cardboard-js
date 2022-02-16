@@ -132,9 +132,12 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     useEffect(() => {
         if (!environmentsState.adapterResult.hasNoData()) {
+            const environmentUrls = environmentsState.adapterResult.result?.data.map(
+                (i) => 'https://' + i.hostName
+            );
             setEnvironments(
-                environmentsState.adapterResult.result?.data.map(
-                    (i) => 'https://' + i.hostName
+                environmentUrls.filter((envUrl) =>
+                    isValidUrlStr(envUrl, 'environment')
                 )
             );
         }
@@ -143,9 +146,9 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
             environments.map(
-                (e) =>
+                (e, idx) =>
                     ({
-                        key: e,
+                        key: `adt-environment-${idx}`,
                         text: e
                     } as IComboBoxOption)
             ),
@@ -164,7 +167,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         [containers]
     );
 
-    const isValidUrl = useCallback(
+    const isValidUrlStr = useCallback(
         (urlStr: string, type: 'environment' | 'container') =>
             type === 'environment'
                 ? urlStr &&
@@ -182,7 +185,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
         () =>
             environmentUrlToEdit &&
             !environmentsState.isLoading &&
-            !isValidUrl(environmentUrlToEdit, 'environment')
+            !isValidUrlStr(environmentUrlToEdit, 'environment')
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
         [environmentUrlToEdit, environmentsState]
@@ -190,7 +193,8 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const containerInputError = useMemo(
         () =>
-            containerUrlToEdit && !isValidUrl(containerUrlToEdit, 'container')
+            containerUrlToEdit &&
+            !isValidUrlStr(containerUrlToEdit, 'container')
                 ? t('environmentPicker.errors.invalidContainerUrl')
                 : undefined,
         [containerUrlToEdit]
@@ -235,10 +239,17 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            const newVal = value ?? option?.text;
+            let newVal = value ?? option?.text;
+            if (
+                // let user enter hostname and gracefully append https protocol
+                !newVal.startsWith('https://') &&
+                ValidAdtHostSuffixes.some((suffix) => newVal.endsWith(suffix))
+            ) {
+                newVal = 'https://' + newVal;
+            }
             setEnvironmentUrlToEdit(newVal);
             if (
-                isValidUrl(newVal, 'environment') &&
+                isValidUrlStr(newVal, 'environment') &&
                 environments.findIndex((e) => e === newVal) === -1
             ) {
                 setEnvironments(environments.concat(newVal));
@@ -249,10 +260,19 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
-            const newVal = value ?? option?.text;
+            let newVal = value ?? option?.text;
+            if (
+                // let user enter hostname and gracefully append https protocol
+                !newVal.startsWith('https://') &&
+                ValidContainerHostSuffixes.some((suffix) =>
+                    new URL(newVal).hostname.endsWith(suffix)
+                )
+            ) {
+                newVal = 'https://' + newVal;
+            }
             setContainerUrlToEdit(newVal);
             if (
-                isValidUrl(newVal, 'container') &&
+                isValidUrlStr(newVal, 'container') &&
                 containers.findIndex((e) => e === newVal) === -1
             ) {
                 setContainers(containers.concat(newVal));
@@ -301,12 +321,23 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
             // wait for dialog dismiss fade-out animation to reset the values
             setEnvironmentUrlToEdit(selectedEnvironmentUrl);
             setContainerUrlToEdit(selectedContainerUrl);
+            if (
+                environments.findIndex((e) => e === selectedEnvironmentUrl) ===
+                -1
+            ) {
+                setEnvironments(environments.concat(selectedEnvironmentUrl));
+            }
+            if (
+                containers.findIndex((e) => e === selectedContainerUrl) === -1
+            ) {
+                setContainers(containers.concat(selectedContainerUrl));
+            }
         }, 500);
     }, [environmentUrlToEdit, containerUrlToEdit]);
 
     const displayNameForEnvironment = useCallback((envUrl: string) => {
         if (envUrl) {
-            return new URL(envUrl).hostname.split('.')[0]; // TODO: decide how to split&show name
+            return new URL(envUrl).hostname.split('.')[0]; // i.e. ADTInstanceResourceName
         } else {
             return t('environmentPicker.noEnvironment');
         }
@@ -314,7 +345,8 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const displayNameForContainer = useCallback((containerUrl: string) => {
         if (containerUrl) {
-            return new URL(containerUrl).pathname; // TODO: decide how to split&show name
+            const urlObj = new URL(containerUrl);
+            return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
         } else {
             return t('environmentPicker.noContainer');
         }
@@ -367,11 +399,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         options={environmentOptions}
                         styles={comboBoxStyles}
                         disabled={environmentsState.isLoading}
-                        defaultSelectedKey={
-                            environmentsState.isLoading
-                                ? undefined
-                                : selectedEnvironmentUrl
-                        }
+                        required
                         text={
                             environmentsState.isLoading
                                 ? ''
@@ -384,7 +412,6 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         onRenderOption={(option) =>
                             onRenderOption(option, 'environment')
                         }
-                        required
                         selectedKey={
                             environmentsState.isLoading
                                 ? undefined
@@ -401,7 +428,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                             autoComplete={'on'}
                             options={containerOptions}
                             styles={comboBoxStyles}
-                            defaultSelectedKey={selectedContainerUrl}
+                            required
                             text={containerUrlToEdit}
                             onChange={(_e, option, _idx, value) =>
                                 handleOnContainerUrlChange(option, value)
@@ -411,7 +438,6 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                                 onRenderOption(option, 'container')
                             }
                             selectedKey={containerUrlToEdit}
-                            required
                         />
                     )}
                 </div>
@@ -422,16 +448,16 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         disabled={
                             props.storage
                                 ? !(
-                                      isValidUrl(
+                                      isValidUrlStr(
                                           environmentUrlToEdit,
                                           'environment'
                                       ) &&
-                                      isValidUrl(
+                                      isValidUrlStr(
                                           containerUrlToEdit,
                                           'container'
                                       )
                                   )
-                                : !isValidUrl(
+                                : !isValidUrlStr(
                                       environmentUrlToEdit,
                                       'environment'
                                   )
