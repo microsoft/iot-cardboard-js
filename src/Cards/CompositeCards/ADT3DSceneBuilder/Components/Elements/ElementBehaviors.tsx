@@ -54,12 +54,14 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     const removeBehavior = () => {
         setBehaviorState(
             produce((draft) => {
-                draft.behaviorsOnElement = draft.behaviorsOnElement.filter(
-                    (behavior) => behavior.id !== draft.behaviorToEdit.id
+                draft.behaviorsOnElement = ViewerConfigUtility.removeBehaviorFromList(
+                    draft.behaviorsOnElement,
+                    draft.behaviorToEdit
                 );
 
-                draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
-                    (mappingId) => mappingId !== elementToEdit.id
+                draft.behaviorToEdit = ViewerConfigUtility.removeElementFromBehavior(
+                    elementToEdit,
+                    draft.behaviorToEdit
                 );
 
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
@@ -71,26 +73,15 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     const addBehaviorToElement = (behavior: IBehavior) => {
         setBehaviorState(
             produce((draft) => {
-                draft.behaviorToEdit = behavior;
-                if (
-                    draft.behaviorToEdit?.datasources?.[0]?.mappingIDs &&
-                    !draft.behaviorToEdit.datasources[0].mappingIDs.includes(
-                        elementToEdit.id
-                    )
-                ) {
-                    draft.behaviorToEdit.datasources[0].mappingIDs.push(
-                        elementToEdit.id
-                    );
-                } else {
-                    draft.behaviorToEdit.datasources[0] = {
-                        type: DatasourceType.TwinToObjectMapping,
-                        mappingIDs: [elementToEdit.id]
-                    };
-                }
+                draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
+                    elementToEdit,
+                    behavior
+                );
                 draft.behaviorsOnElement.push(draft.behaviorToEdit);
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                draft.availableBehaviors = draft.availableBehaviors.filter(
-                    (behavior) => behavior.id !== draft.behaviorToEdit.id
+                draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
+                    draft.availableBehaviors,
+                    draft.behaviorToEdit
                 );
             })
         );
