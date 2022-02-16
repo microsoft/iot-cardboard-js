@@ -8,10 +8,7 @@ import {
 import AddBehaviorCallout from './AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import {
-    DatasourceType,
-    IBehavior
-} from '../../../../../Models/Classes/3DVConfig';
+import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 
 const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviors,
