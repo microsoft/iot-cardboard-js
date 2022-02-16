@@ -183,6 +183,11 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     }
                                 />
                             </div>
+                            {state.errors.length > 0 && (
+                                <StorageContainerPermissionError
+                                    errorType={state.errors[0].type}
+                                />
+                            )}
                             {state.selectedBlobContainerURL && (
                                 <SceneListCard
                                     key={state.selectedBlobContainerURL}
@@ -213,11 +218,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 />
                             )}
                         </div>
-                    )}
-                    {state.errors.length > 0 && (
-                        <StorageContainerPermissionError
-                            errorType={state.errors[0].type}
-                        />
                     )}
                     {state.currentStep === ADT3DScenePageSteps.Globe && (
                         <div className="cb-scene-page-scene-globe-container">
