@@ -33,12 +33,12 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
                     elementToEdit,
-                    behaviors
+                    JSON.parse(JSON.stringify(behaviors))
                 );
 
                 draft.availableBehaviors = ViewerConfigUtility.getAvailableBehaviorsForElement(
                     elementToEdit,
-                    behaviors
+                    JSON.parse(JSON.stringify(behaviors))
                 );
             })
         );
