@@ -16,14 +16,9 @@ import {
     Separator,
     TextField
 } from '@fluentui/react';
+import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
-    BehaviorAction,
-    BehaviorActionType,
-    BehaviorState,
-    IADT3DSceneBuilderElementFormProps
-} from '../../ADT3DSceneBuilder.types';
-import {
-    DatasourceType,
+    IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
@@ -32,7 +27,6 @@ import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../../Models/Services/Utils';
 import useAdapter from '../../../../../Models/Hooks/useAdapter';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
-import produce from 'immer';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
@@ -58,6 +52,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     );
 
+    const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
+        []
+    );
+
     const {
         adapter,
         config,
@@ -67,113 +65,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setSelectedMeshIds,
         setColoredMeshItems
     } = useContext(SceneBuilderContext);
-
-    const [behaviorState, behaviorStateDispatch] = useReducer(
-        produce((draft: BehaviorState, action: BehaviorAction) => {
-            switch (action.type) {
-                case BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT:
-                    draft.behaviorsOnElement = action.behaviors;
-                    break;
-                case BehaviorActionType.SET_AVAILABLE_BEHAVIORS:
-                    draft.availableBehaviors = JSON.parse(
-                        JSON.stringify(action.behaviors)
-                    );
-                    break;
-                case BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS:
-                    draft.filteredAvailableBehaviors = JSON.parse(
-                        JSON.stringify(action.behaviors)
-                    );
-                    break;
-                case BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS:
-                    draft.filteredAvailableBehaviors = draft.availableBehaviors.filter(
-                        (behavior) =>
-                            behavior.id
-                                .toLowerCase()
-                                .includes(action.value.toLowerCase())
-                    );
-                    break;
-                case BehaviorActionType.SET_BEHAVIOR_TO_EDIT:
-                    draft.behaviorToEdit = action.behavior;
-                    break;
-                case BehaviorActionType.REMOVE_BEHAVIOR:
-                    draft.behaviorsOnElement = draft.behaviorsOnElement.filter(
-                        (behavior) => behavior.id !== draft.behaviorToEdit.id
-                    );
-                    draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
-                        (mappingId) => mappingId !== elementToEdit.id
-                    );
-                    draft.availableBehaviors.push(draft.behaviorToEdit);
-                    draft.filteredAvailableBehaviors.push(draft.behaviorToEdit);
-                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                    break;
-                case BehaviorActionType.ADD_BEHAVIOR:
-                    draft.behaviorToEdit = action.behavior;
-                    if (
-                        draft.behaviorToEdit.datasources &&
-                        draft.behaviorToEdit.datasources[0] &&
-                        draft.behaviorToEdit.datasources[0].mappingIDs &&
-                        !draft.behaviorToEdit.datasources[0].mappingIDs.includes(
-                            elementToEdit.id
-                        )
-                    ) {
-                        draft.behaviorToEdit.datasources[0].mappingIDs.push(
-                            elementToEdit.id
-                        );
-                    } else {
-                        draft.behaviorToEdit.datasources[0] = {
-                            type: DatasourceType.TwinToObjectMapping,
-                            mappingIDs: [elementToEdit.id]
-                        };
-                    }
-                    draft.behaviorsOnElement.push(draft.behaviorToEdit);
-                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                    draft.availableBehaviors = draft.availableBehaviors.filter(
-                        (behavior) => behavior.id !== draft.behaviorToEdit.id
-                    );
-                    draft.filteredAvailableBehaviors = draft.filteredAvailableBehaviors.filter(
-                        (behavior) => behavior.id !== draft.behaviorToEdit.id
-                    );
-                    break;
-                default:
-                    break;
-            }
-        }),
-        {
-            behaviorToEdit: null,
-            behaviorsOnElement: [],
-            behaviorsToEdit: [],
-            availableBehaviors: [],
-            filteredAvailableBehaviors: []
-        }
-    );
-
-    useEffect(() => {
-        behaviorStateDispatch({
-            type: BehaviorActionType.SET_AVAILABLE_BEHAVIORS,
-            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-
-        behaviorStateDispatch({
-            type: BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
-            behaviors: ViewerConfigUtility.getAvailableBehaviorsForElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-    }, []);
-
-    useEffect(() => {
-        behaviorStateDispatch({
-            type: BehaviorActionType.SET_BEHAVIORS_ON_ELEMENT,
-            behaviors: ViewerConfigUtility.getBehaviorsOnElement(
-                elementToEdit,
-                behaviors
-            )
-        });
-    }, [behaviors]);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
@@ -216,7 +107,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             elements: newElements
         });
 
-        for (const behavior of behaviorState.behaviorsToEdit) {
+        for (const behavior of behaviorsToEdit) {
             await onBehaviorSave(
                 behavior,
                 ADT3DSceneBuilderMode.EditBehavior,
@@ -395,8 +286,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
                         <ElementBehaviors
-                            behaviorState={behaviorState}
-                            behaviorStateDispatch={behaviorStateDispatch}
+                            elementToEdit={elementToEdit}
+                            behaviors={behaviors}
+                            updateBehaviorsToEdit={(behaviors) => {
+                                setBehaviorsToEdit(behaviors);
+                            }}
                             onBehaviorClick={onBehaviorClick}
                             onCreateBehaviorWithElements={
                                 onCreateBehaviorWithElements

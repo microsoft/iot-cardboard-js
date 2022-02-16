@@ -87,10 +87,20 @@ export interface IADT3DSceneBuilderElementFormProps {
 }
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
-    behaviorState: BehaviorState;
+    behaviors: Array<IBehavior>;
+    elementToEdit: ITwinToObjectMapping;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
-    behaviorStateDispatch: (action: BehaviorAction) => void;
+    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
+}
+
+export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
+    availableBehaviors: Array<IBehavior>;
+    target: string;
+    id: string;
+    addBehaviorToElement: (behavior: IBehavior) => void;
+    onCreateBehaviorWithElements: () => void;
+    hideCallout: () => void;
 }
 
 export type BehaviorSaveMode =
@@ -158,28 +168,9 @@ export interface IWidgetBuilderFormDataProps {
     formData: IWidget;
     setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
 }
-
-export enum BehaviorActionType {
-    SET_BEHAVIORS_ON_ELEMENT = 'SET_BEHAVIORS_ON_ELEMENT',
-    SET_BEHAVIOR_TO_EDIT = 'SET_BEHAVIOR_TO_EDIT',
-    SET_AVAILABLE_BEHAVIORS = 'SET_AVAILABLE_BEHAVIORS',
-    SET_FILTERED_AVAILABLE_BEHAVIORS = 'SET_FILTERED_AVAILABLE_BEHAVIORS',
-    SEARCH_AVAILABLE_BEHAVIORS = 'SEARCH_AVAILABLE_BEHAVIORS',
-    REMOVE_BEHAVIOR = 'REMOVE_BEHAVIOR',
-    ADD_BEHAVIOR = 'ADD_BEHAVIOR'
-}
-
-export interface BehaviorAction {
-    type: BehaviorActionType;
-    behaviors?: Array<IBehavior>;
-    behavior?: IBehavior;
-    value?: string;
-}
-
 export interface BehaviorState {
     behaviorToEdit: IBehavior;
     behaviorsOnElement: Array<IBehavior>;
     behaviorsToEdit: Array<IBehavior>;
     availableBehaviors: Array<IBehavior>;
-    filteredAvailableBehaviors: Array<IBehavior>;
 }

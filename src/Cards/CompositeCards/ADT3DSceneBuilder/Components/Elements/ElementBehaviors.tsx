@@ -1,61 +1,108 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ActionButton, FontIcon, IconButton } from '@fluentui/react';
 import {
-    ActionButton,
-    Callout,
-    DirectionalHint,
-    FontIcon,
-    IconButton,
-    SearchBox,
-    mergeStyleSets,
-    PrimaryButton
-} from '@fluentui/react';
-import {
-    BehaviorActionType,
+    BehaviorState,
     IADT3DSceneBuilderElementBehaviorProps
 } from '../../ADT3DSceneBuilder.types';
-import { Utils } from '../../../../../Models/Services';
+import AddBehaviorCallout from './AddBehaviorCallout';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import produce from 'immer';
+import {
+    DatasourceType,
+    IBehavior
+} from '../../../../../Models/Classes/3DVConfig';
 
 const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
-    behaviorState,
+    behaviors,
+    elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    behaviorStateDispatch
+    updateBehaviorsToEdit
 }) => {
-    const styles = mergeStyleSets({
-        callout: {
-            padding: '15px',
-            width: '300px',
-            background: '#ffffff'
-        },
-        title: {
-            marginBottom: '15px',
-            fontWeight: '500'
-        },
-        resultText: {
-            fontSize: '12px',
-            marginTop: '5px',
-            opacity: '0.6'
-        },
-        item: {
-            alignItems: 'center',
-            display: 'flex',
-            marginTop: '15px'
-        },
-        icon: {
-            display: 'inline-block',
-            fontSize: '16px'
-        },
-        name: {
-            flex: '1',
-            fontSize: '14px',
-            paddingLeft: '8px'
-        }
+    const { t } = useTranslation();
+    const calloutTarget = 'calloutTarget';
+    const calloutId = 'calloutId';
+    const [showAddBehavior, setShowAddBehavior] = useState(false);
+    const [behaviorState, setBehaviorState] = useState<BehaviorState>({
+        behaviorToEdit: null,
+        behaviorsToEdit: [],
+        behaviorsOnElement: [],
+        availableBehaviors: []
     });
 
-    const { t } = useTranslation();
-    const [searchText, setSearchText] = useState('');
-    const [showAddBehavior, setShowAddBehavior] = useState(false);
+    useEffect(() => {
+        setBehaviorState(
+            produce((draft) => {
+                draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
+                    elementToEdit,
+                    behaviors
+                );
+
+                draft.availableBehaviors = ViewerConfigUtility.getAvailableBehaviorsForElement(
+                    elementToEdit,
+                    behaviors
+                );
+            })
+        );
+    }, [behaviors]);
+
+    useEffect(() => {
+        updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
+    }, [behaviorState.behaviorsToEdit]);
+
+    const removeBehavior = () => {
+        setBehaviorState(
+            produce((draft) => {
+                draft.behaviorsOnElement = draft.behaviorsOnElement.filter(
+                    (behavior) => behavior.id !== draft.behaviorToEdit.id
+                );
+
+                draft.behaviorToEdit.datasources[0].mappingIDs = draft.behaviorToEdit.datasources[0].mappingIDs.filter(
+                    (mappingId) => mappingId !== elementToEdit.id
+                );
+
+                draft.behaviorsToEdit.push(draft.behaviorToEdit);
+                draft.availableBehaviors.push(draft.behaviorToEdit);
+            })
+        );
+    };
+
+    const addBehaviorToElement = (behavior: IBehavior) => {
+        setBehaviorState(
+            produce((draft) => {
+                draft.behaviorToEdit = behavior;
+                if (
+                    draft.behaviorToEdit?.datasources?.[0]?.mappingIDs &&
+                    !draft.behaviorToEdit.datasources[0].mappingIDs.includes(
+                        elementToEdit.id
+                    )
+                ) {
+                    draft.behaviorToEdit.datasources[0].mappingIDs.push(
+                        elementToEdit.id
+                    );
+                } else {
+                    draft.behaviorToEdit.datasources[0] = {
+                        type: DatasourceType.TwinToObjectMapping,
+                        mappingIDs: [elementToEdit.id]
+                    };
+                }
+                draft.behaviorsOnElement.push(draft.behaviorToEdit);
+                draft.behaviorsToEdit.push(draft.behaviorToEdit);
+                draft.availableBehaviors = draft.availableBehaviors.filter(
+                    (behavior) => behavior.id !== draft.behaviorToEdit.id
+                );
+            })
+        );
+    };
+
+    const showCallout = () => {
+        setShowAddBehavior(true);
+        // use setTimeout to allow the callout to render
+        setTimeout(function () {
+            document.getElementById(calloutId)?.focus();
+        }, 10);
+    };
 
     return (
         <div>
@@ -87,16 +134,16 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                                     style: {
                                         fontWeight: 'bold',
                                         fontSize: 18,
-                                        color: 'black'
+                                        color: 'var(--cb-color-text-primary)'
                                     }
                                 }}
-                                onMenuClick={() => {
-                                    behaviorStateDispatch({
-                                        type:
-                                            BehaviorActionType.SET_BEHAVIOR_TO_EDIT,
-                                        behavior: behavior
-                                    });
-                                }}
+                                onMenuClick={() =>
+                                    setBehaviorState(
+                                        produce((draft) => {
+                                            draft.behaviorToEdit = behavior;
+                                        })
+                                    )
+                                }
                                 menuProps={{
                                     items: [
                                         {
@@ -116,11 +163,7 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                                             iconProps: {
                                                 iconName: 'Delete'
                                             },
-                                            onClick: () =>
-                                                behaviorStateDispatch({
-                                                    type:
-                                                        BehaviorActionType.REMOVE_BEHAVIOR
-                                                })
+                                            onClick: () => removeBehavior()
                                         }
                                     ]
                                 }}
@@ -130,108 +173,24 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 })}
                 <div>
                     <ActionButton
-                        id="addBehavior"
+                        id={calloutTarget}
                         className="cb-scene-builder-left-panel-add-behavior"
-                        style={{ color: '#0b75c8' }}
-                        onClick={() => setShowAddBehavior(true)}
+                        style={{ color: 'var(--cb-color-theme-primary' }}
+                        onClick={() => showCallout()}
                     >
                         {t('3dSceneBuilder.addBehaviorButton')}
                     </ActionButton>
                 </div>
             </div>
             {showAddBehavior && (
-                <Callout
-                    className={styles.callout}
-                    target="#addBehavior"
-                    isBeakVisible={false}
-                    directionalHint={DirectionalHint.bottomLeftEdge}
-                    onDismiss={() => {
-                        setShowAddBehavior(false);
-                        behaviorStateDispatch({
-                            type:
-                                BehaviorActionType.SET_FILTERED_AVAILABLE_BEHAVIORS,
-                            behaviors: behaviorState.availableBehaviors
-                        });
-                    }}
-                >
-                    <div>
-                        <div className={styles.title}>
-                            {t('3dSceneBuilder.addBehavior')}
-                        </div>
-                        <div>
-                            <SearchBox
-                                placeholder={t(
-                                    '3dSceneBuilder.searchBehaviors'
-                                )}
-                                onChange={(event, value) => {
-                                    setSearchText(value);
-                                    behaviorStateDispatch({
-                                        type:
-                                            BehaviorActionType.SEARCH_AVAILABLE_BEHAVIORS,
-                                        value: value
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div>
-                            {behaviorState.filteredAvailableBehaviors
-                                ?.length === 0 && (
-                                <div className={styles.resultText}>
-                                    {t('3dSceneBuilder.noAvailableBehaviors')}
-                                </div>
-                            )}
-                            {behaviorState.filteredAvailableBehaviors.map(
-                                (behavior) => {
-                                    return (
-                                        <div
-                                            key={behavior.id}
-                                            className={styles.item}
-                                        >
-                                            <FontIcon
-                                                iconName={'Warning'}
-                                                className={styles.icon}
-                                            />
-                                            <div className={styles.name}>
-                                                {searchText
-                                                    ? Utils.getMarkedHtmlBySearch(
-                                                          behavior.id,
-                                                          searchText
-                                                      )
-                                                    : behavior.id}
-                                            </div>
-                                            <IconButton
-                                                iconProps={{
-                                                    iconName: 'Add',
-                                                    style: {
-                                                        fontSize: 18,
-                                                        color: 'black'
-                                                    }
-                                                }}
-                                                onClick={() =>
-                                                    behaviorStateDispatch({
-                                                        type:
-                                                            BehaviorActionType.ADD_BEHAVIOR,
-                                                        behavior: behavior
-                                                    })
-                                                }
-                                            />
-                                        </div>
-                                    );
-                                }
-                            )}
-                        </div>
-                        <PrimaryButton
-                            styles={{
-                                root: {
-                                    marginTop: '16px'
-                                }
-                            }}
-                            onClick={onCreateBehaviorWithElements}
-                        >
-                            {t('3dSceneBuilder.createBehavior')}
-                        </PrimaryButton>
-                    </div>
-                </Callout>
+                <AddBehaviorCallout
+                    id={calloutId}
+                    target={calloutTarget}
+                    availableBehaviors={behaviorState.availableBehaviors}
+                    hideCallout={() => setShowAddBehavior(false)}
+                    addBehaviorToElement={addBehaviorToElement}
+                    onCreateBehaviorWithElements={onCreateBehaviorWithElements}
+                />
             )}
         </div>
     );
