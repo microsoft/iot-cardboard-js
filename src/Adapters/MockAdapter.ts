@@ -20,7 +20,8 @@ import {
 import {
     AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
-    IGetKeyValuePairsAdditionalParameters
+    IGetKeyValuePairsAdditionalParameters,
+    primaryTwinName
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -30,7 +31,11 @@ import {
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/vconfigDecFinal.json';
-import { IScenesConfig, DatasourceType } from '../Models/Classes/3DVConfig';
+import {
+    IScenesConfig,
+    DatasourceType,
+    IBehavior
+} from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
@@ -326,7 +331,7 @@ export default class MockAdapter
                                 );
 
                                 // get primary twin
-                                twins['primaryTwin'] = {
+                                twins[primaryTwinName] = {
                                     $dtId: 'machineID',
                                     InFlow: 300,
                                     OutFlow: 250,
@@ -466,4 +471,20 @@ export default class MockAdapter
     setBlobContainerPath = (configBlobPath: string) => {
         console.log('Setting blob path to: ' + configBlobPath);
     };
+
+    async getTwinsForBehavior(
+        _sceneId: string,
+        _config: IScenesConfig,
+        _behavior: IBehavior
+    ): Promise<Record<string, any>> {
+        return null;
+    }
+
+    async getCommonTwinPropertiesForBehavior(
+        _sceneId: string,
+        _config: IScenesConfig,
+        _behavior: IBehavior
+    ): Promise<string[]> {
+        return ['$dtId', 'InFlow', 'OutFlow'];
+    }
 }

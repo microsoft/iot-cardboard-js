@@ -20,7 +20,9 @@ export enum ComponentErrorType {
     DataUploadFailed = 'DataUploadFailed',
     InvalidCardType = 'InvalidCardType',
     ErrorBoundary = 'ErrorBoundary',
-    UnknownError = 'UnknownError'
+    UnknownError = 'UnknownError',
+    NonExistentBlob = 'NonExistentBlob',
+    UnauthorizedAccess = 'UnauthorizedAccess'
 }
 
 export enum HierarchyNodeType {
