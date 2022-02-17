@@ -1,7 +1,10 @@
 import {
+    FocusZone,
+    FocusZoneDirection,
     FontIcon,
     IconButton,
     IContextualMenuProps,
+    List,
     SearchBox,
     Separator,
     Text
@@ -10,6 +13,7 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Utils } from '../../../../..';
+import { CardboardListItemRenderer } from '../../../../../Components/CardboardListItem/CardboardListItemRenderer';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorListSegment } from '../../../../../Models/Constants/Enums';
@@ -161,7 +165,48 @@ const SceneBehaviors: React.FC<Props> = ({
                                         )}
                                     </Text>
                                 </div>
-                                {filteredItemsInScene.map((behavior, index) => (
+                                <FocusZone
+                                    direction={FocusZoneDirection.vertical}
+                                >
+                                    <List
+                                        items={filteredItemsInScene}
+                                        onRenderCell={(item, index) => (
+                                            <CardboardListItemRenderer
+                                                ariaLabel="my label"
+                                                onClick={() =>
+                                                    alert(
+                                                        `clicked item ${item.id}`
+                                                    )
+                                                }
+                                                textPrimary={item.id}
+                                                textSecondary={'Some text'}
+                                                textToHighlight={searchText}
+                                                index={index}
+                                                isSelected={index % 2 === 0}
+                                                iconStartName={'Shapes'}
+                                                iconEndName={'Link'}
+                                                overflowMenuItems={[
+                                                    {
+                                                        key: 'addToScene',
+                                                        id: `addToScene-${item.id}`,
+                                                        'data-testid': `addToScene-${item.id}`,
+                                                        text: t(
+                                                            '3dSceneBuilder.addBehaviorToScene'
+                                                        ),
+                                                        iconProps: {
+                                                            iconName: 'Add'
+                                                        },
+                                                        onClick: () =>
+                                                            alert(
+                                                                `add ${item.id}`
+                                                            )
+                                                    }
+                                                ]}
+                                            />
+                                        )}
+                                    />
+                                </FocusZone>
+                                {/* {filteredItemsInScene.map((behavior, index) => (
                                     <BehaviorList
                                         key={behavior.id}
                                         index={index}
@@ -181,7 +226,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                             onAddBehaviorToScene
                                         }
                                     />
-                                ))}
+                                ))} */}
                             </div>
                         )}
                         {/* Separator between lists */}
