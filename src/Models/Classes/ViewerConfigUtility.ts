@@ -218,16 +218,12 @@ abstract class ViewerConfigUtility {
     static getElementMetaData(
         element: ITwinToObjectMapping,
         config: IScenesConfig
-    ): { numBehaviors: number; numMeshes: number } {
-        const numMeshes = element.meshIDs?.length;
+    ) {
         const numBehaviors = this.getBehaviorsOnElement(
             element,
             config?.viewerConfiguration?.behaviors
         )?.length;
-        return {
-            numBehaviors,
-            numMeshes
-        };
+        return numBehaviors;
     }
 
     static getDictionaryOfElementsIdsInScene(
