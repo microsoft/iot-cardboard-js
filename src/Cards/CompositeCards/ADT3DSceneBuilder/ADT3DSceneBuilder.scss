@@ -35,7 +35,7 @@
     .cb-scene-builder-left-panel-create-wrapper {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100% - 40px);
         justify-content: space-between;
         width: 100%;
     }
@@ -59,13 +59,20 @@
     }
 
     .cb-scene-builder-left-panel-element-objects,
-    .cb-scene-builder-left-panel-element-behaviors,
     .cb-scene-builder-left-panel-element-aliased-twins {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         overflow: auto;
         padding: 12px 0;
+    }
+
+    .cb-scene-builder-left-panel-element-behaviors {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: auto;
+        padding: 8px;
     }
 
     .cb-scene-builder-behavior-list-item {
@@ -130,7 +137,8 @@
     .cb-scene-builder-element-behavior-item {
         align-items: center;
         display: flex;
-        margin-top: 8px;
+        margin-bottom: 4px;
+        margin-top: 4px;
     }
 
     .cb-scene-builder-element-behavior-item-icon {
@@ -141,7 +149,7 @@
     .cb-scene-builder-element-behavior-item-name {
         flex: 1;
         font-size: 14px;
-        padding-left: 8px;
+        padding-left: 6px;
     }
 
     .cb-scene-builder-element-checkbox {

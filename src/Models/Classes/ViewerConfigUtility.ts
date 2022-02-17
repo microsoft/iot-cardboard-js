@@ -295,6 +295,60 @@ abstract class ViewerConfigUtility {
         );
     }
 
+    static getAvailableBehaviorsForElement(
+        element: ITwinToObjectMapping,
+        behaviors: Array<IBehavior>
+    ) {
+        return (
+            behaviors.filter(
+                (behavior) =>
+                    behavior.datasources.length === 0 ||
+                    !behavior.datasources?.[0]?.mappingIDs ||
+                    !behavior.datasources?.[0]?.mappingIDs?.includes(
+                        element?.id
+                    )
+            ) || []
+        );
+    }
+
+    static removeBehaviorFromList(
+        behaviors: Array<IBehavior>,
+        behaviorToRemove: IBehavior
+    ) {
+        return behaviors.filter(
+            (behavior) => behavior.id !== behaviorToRemove.id
+        );
+    }
+
+    static removeElementFromBehavior(
+        element: ITwinToObjectMapping,
+        behavior: IBehavior
+    ) {
+        behavior.datasources[0].mappingIDs = behavior.datasources[0].mappingIDs.filter(
+            (mappingId) => mappingId !== element.id
+        );
+        return behavior;
+    }
+
+    static addElementToBehavior(
+        element: ITwinToObjectMapping,
+        behavior: IBehavior
+    ) {
+        if (
+            behavior?.datasources?.[0]?.mappingIDs &&
+            !behavior.datasources[0].mappingIDs.includes(element.id)
+        ) {
+            behavior.datasources[0].mappingIDs.push(element.id);
+        } else {
+            behavior.datasources[0] = {
+                type: DatasourceType.TwinToObjectMapping,
+                mappingIDs: [element.id]
+            };
+        }
+
+        return behavior;
+    }
+
     static getMappingIdsForBehavior(behavior: IBehavior) {
         const mappingIds: string[] = [];
         // cycle through the datasources of behavior
