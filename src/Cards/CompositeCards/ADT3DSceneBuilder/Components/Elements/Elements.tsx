@@ -257,11 +257,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                                     numBehaviors: ViewerConfigUtility.getElementMetaData(
                                                         element,
                                                         config
-                                                    )?.numBehaviors,
-                                                    numMeshes: ViewerConfigUtility.getElementMetaData(
-                                                        element,
-                                                        config
-                                                    )?.numMeshes
+                                                    )
                                                 }
                                             )}
                                         </div>
