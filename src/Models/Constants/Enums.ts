@@ -142,3 +142,9 @@ export enum BehaviorListSegment {
     InThisScene,
     NotInThisScene
 }
+
+export enum ADT3DAddInEventTypes {
+    SceneLoaded = 'SceneLoaded',
+    MarkerHover = 'MarkerHover',
+    MarkerClick = 'MarkerClick'
+}
