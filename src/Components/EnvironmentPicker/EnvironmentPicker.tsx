@@ -168,16 +168,30 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     );
 
     const isValidUrlStr = useCallback(
-        (urlStr: string, type: 'environment' | 'container') =>
-            type === 'environment'
-                ? urlStr &&
-                  urlStr.startsWith('https://') &&
-                  ValidAdtHostSuffixes.some((suffix) => urlStr.endsWith(suffix))
-                : urlStr &&
-                  urlStr.startsWith('https://') &&
-                  ValidContainerHostSuffixes.some((suffix) =>
-                      new URL(urlStr).hostname.endsWith(suffix)
-                  ),
+        (urlStr: string, type: 'environment' | 'container') => {
+            if (type === 'environment') {
+                return (
+                    urlStr &&
+                    urlStr.startsWith('https://') &&
+                    ValidAdtHostSuffixes.some((suffix) =>
+                        urlStr.endsWith(suffix)
+                    )
+                );
+            } else {
+                try {
+                    return (
+                        urlStr &&
+                        urlStr.startsWith('https://') &&
+                        ValidContainerHostSuffixes.some((suffix) =>
+                            new URL(urlStr).hostname.endsWith(suffix)
+                        ) &&
+                        new URL(urlStr).pathname !== '/'
+                    );
+                } catch (error) {
+                    return false;
+                }
+            }
+        },
         []
     );
 
@@ -261,14 +275,21 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
             let newVal = value ?? option?.text;
-            if (
+            if (!newVal.startsWith('https://')) {
                 // let user enter hostname and gracefully append https protocol
-                !newVal.startsWith('https://') &&
-                ValidContainerHostSuffixes.some((suffix) =>
-                    new URL(newVal).hostname.endsWith(suffix)
-                )
-            ) {
-                newVal = 'https://' + newVal;
+                try {
+                    const urlObj = new URL('https://' + newVal);
+                    if (
+                        ValidContainerHostSuffixes.some((suffix) =>
+                            urlObj.hostname.endsWith(suffix)
+                        ) &&
+                        urlObj.pathname !== '/'
+                    ) {
+                        newVal = 'https://' + newVal;
+                    }
+                } catch (error) {
+                    console.log('Not a valid URL string!');
+                }
             }
             setContainerUrlToEdit(newVal);
             if (

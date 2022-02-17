@@ -275,7 +275,7 @@
     "3dScenePage": {
         "buildMode": "Build mode",
         "viewMode": "View mode",
-        "enterBlobUrl": "Enter your Azure Storage container blob URL",
+        "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe"
     },
@@ -558,7 +558,7 @@
         "environmentUrl": "Environment URL",
         "containerUrl": "Container URL",
         "enterEnvironmentUrl": "Enter ADT instance URL",
-        "enterContainerUrl": "Enter Azure Storage Container URL",
+        "enterContainerUrl": "Enter Azure storage container URL",
         "editEnvironment": "Edit environment",
         "description": "Connect your environment and storage container URL to list your scenes.",
         "descriptionForLocalStorage": "Configuration data is saved in local storage.",
