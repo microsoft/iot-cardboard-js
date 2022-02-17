@@ -90,11 +90,6 @@ export const AddIn = () => {
     const [twinIds, setTwinIds] = useState<string[]>([]);
 
     const processEvent = (data: ADT3DAddInEventData) => {
-        if (data.eventType === 'MarkerHover' && !data.mesh) {
-            setData(null);
-            return false;
-        }
-
         const sceneVisuals = data.sceneVisuals;
         const mesh = data.mesh;
         const sceneVisual = sceneVisuals?.find((sceneVisual) =>
@@ -117,9 +112,16 @@ export const AddIn = () => {
     const onSceneLoaded = (data: ADT3DAddInEventData) => {
         return processEvent(data);
     };
+
     const onMarkerHover = (data: ADT3DAddInEventData) => {
+        if (!data.mesh) {
+            setData(null);
+            return false;
+        }
+
         return processEvent(data);
     };
+
     const onMarkerClick = (data: ADT3DAddInEventData) => {
         return processEvent(data);
     };
