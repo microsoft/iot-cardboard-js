@@ -6,7 +6,7 @@ import {
     TextField
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './AutoComplete.scss';
 import CaretCoordinates from './CaretCoordinates';
 
@@ -65,11 +65,9 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
 
     const textField = document.getElementById(textFieldId) as HTMLInputElement;
 
-    useEffect(() => {
-        if (!caretRef.current && textField) {
-            caretRef.current = new CaretCoordinates(textField);
-        }
-    });
+    if (textField) {
+        caretRef.current = new CaretCoordinates(textField);
+    }
 
     const itemSelected = async (index: number) => {
         if (index >= 0 && index < filteredItems.length) {

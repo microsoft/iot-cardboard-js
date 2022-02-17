@@ -6,7 +6,7 @@ interface IIntellisenseProps {
     aliasNames?: string[];
     propertyNames?: string[];
     defaultValue?: string;
-    getPropertyNames?: (alias: string) => string[];
+    getPropertyNames?: (twinId: string) => string[];
     onChange?: (value: string) => void;
 }
 
@@ -128,13 +128,13 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
             items = propertyNames || ['Temperature', 'Pressure', 'Humidity'];
             isTwin = false;
             if (getPropertyNames) {
-                let alias = '';
+                let twinId = '';
                 if (search === '.') {
-                    alias = tokens[activeToken - 1];
+                    twinId = tokens[activeToken - 1];
                 } else if (activeToken > 1 && tokens[activeToken - 1] === '.') {
-                    alias = tokens[activeToken - 2];
+                    twinId = tokens[activeToken - 2];
                 }
-                items = getPropertyNames(alias);
+                items = getPropertyNames(twinId);
             }
         }
 

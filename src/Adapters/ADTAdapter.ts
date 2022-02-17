@@ -53,7 +53,8 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import { DatasourceType, IScenesConfig } from '../Models/Classes/3DVConfig';
+import { IBehavior, IScenesConfig } from '../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -834,23 +835,10 @@ export default class ADTAdapter implements IADTAdapter {
                         for (const behavior of config.viewerConfiguration
                             ?.behaviors)
                             if (sceneBehavior === behavior.id) {
-                                const mappingIds: string[] = [];
-                                // cycle through the datasources of behavior
-                                for (const dataSource of behavior.datasources) {
-                                    // if its a TwinToObjectMappingDatasource get the mapping id
-                                    if (
-                                        dataSource.type ===
-                                        DatasourceType.TwinToObjectMapping
-                                    ) {
-                                        dataSource.mappingIDs.forEach(
-                                            (mappingId) => {
-                                                mappingIds.push(mappingId);
-                                            }
-                                        );
-                                    }
-
-                                    // TODO get FilteredTwinDatasources
-                                }
+                                const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
+                                    behavior
+                                );
+                                // TODO get FilteredTwinDatasources
 
                                 // cycle through mapping ids to get twins for behavior and scene
                                 for (const id of mappingIds) {
@@ -894,6 +882,94 @@ export default class ADTAdapter implements IADTAdapter {
 
             return new ADT3DViewerData(modelUrl, sceneVisuals);
         });
+    }
+
+    async getTwinsForBehavior(
+        sceneId: string,
+        config: IScenesConfig,
+        behavior: IBehavior
+    ): Promise<Record<string, any>> {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        function pushErrors(errors: IComponentError[]) {
+            if (errors) {
+                for (const error of errors) {
+                    adapterMethodSandbox.pushError({
+                        type: error.type,
+                        isCatastrophic: false, // TODO: for now set it to false to prevent partial getTwin failures causing the base card content render, revert it with error.isCatastrophic when proper error handling is implemented for partial failures
+                        rawError: new Error(error.message)
+                    });
+                }
+            }
+        }
+
+        // get scene based on id
+        const scene = config.viewerConfiguration?.scenes?.find(
+            (scene) => scene.id === sceneId
+        );
+        const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
+            behavior
+        );
+
+        // TODO get FilteredTwinDatasources
+
+        // cycle through mapping ids to get twins for behavior and scene
+        const twins = {};
+        for (const id of mappingIds) {
+            const mapping = scene.twinToObjectMappings.find(
+                (mapping) => mapping.id === id
+            );
+
+            // get primary twin
+            const primaryTwin = await this.getADTTwin(mapping.primaryTwinID);
+            pushErrors(primaryTwin.getErrors());
+            twins['primaryTwin.' + mapping.primaryTwinID] =
+                primaryTwin.result?.data;
+
+            // check for twin aliases and add to twins object
+            // NOT IN SCOPE YET
+            // if (mapping.twinAliases) {
+            //     for (const alias of Object.keys(mapping.twinAliases)) {
+            //         const twin = await this.getADTTwin(
+            //             mapping.twinAliases[alias]
+            //         );
+            //         pushErrors(twin.getErrors());
+            //         twins[alias] = twin.result?.data;
+            //         console.log(alias);
+            //     }
+            // }
+        }
+        return twins;
+    }
+
+    async getCommonTwinPropertiesForBehavior(
+        sceneId: string,
+        config: IScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]> {
+        const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        let properties: string[] = null;
+        for (const alias in twins) {
+            const twin = twins[alias];
+            const twinProps: string[] = ['$dtId'];
+            for (const prop in twin) {
+                if (prop.substring(0, 1) !== '$') {
+                    twinProps.push(prop);
+                }
+            }
+
+            if (!properties) {
+                properties = twinProps;
+            } else {
+                // Condense to lowest common denominator
+                for (const p of [...properties]) {
+                    if (!twinProps.includes(p)) {
+                        properties.splice(properties.indexOf(p), 1);
+                    }
+                }
+            }
+        }
+
+        return properties;
     }
 
     async getADTInstances(tenantId?: string, uniqueObjectId?: string) {

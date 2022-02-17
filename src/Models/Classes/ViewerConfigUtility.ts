@@ -218,16 +218,12 @@ abstract class ViewerConfigUtility {
     static getElementMetaData(
         element: ITwinToObjectMapping,
         config: IScenesConfig
-    ): { numBehaviors: number; numMeshes: number } {
-        const numMeshes = element.meshIDs?.length;
+    ) {
         const numBehaviors = this.getBehaviorsOnElement(
             element,
             config?.viewerConfiguration?.behaviors
         )?.length;
-        return {
-            numBehaviors,
-            numMeshes
-        };
+        return numBehaviors;
     }
 
     static getDictionaryOfElementsIdsInScene(
@@ -297,6 +293,21 @@ abstract class ViewerConfigUtility {
                 )
             ) || []
         );
+    }
+
+    static getMappingIdsForBehavior(behavior: IBehavior) {
+        const mappingIds: string[] = [];
+        // cycle through the datasources of behavior
+        for (const dataSource of behavior.datasources) {
+            // if its a TwinToObjectMappingDatasource get the mapping id
+            if (dataSource.type === DatasourceType.TwinToObjectMapping) {
+                dataSource.mappingIDs.forEach((mappingId) => {
+                    mappingIds.push(mappingId);
+                });
+            }
+        }
+
+        return mappingIds;
     }
 }
 
