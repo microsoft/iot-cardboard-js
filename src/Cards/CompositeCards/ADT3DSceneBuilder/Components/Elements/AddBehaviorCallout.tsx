@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    Callout,
     DirectionalHint,
     FontIcon,
     SearchBox,
     mergeStyleSets,
-    PrimaryButton
+    PrimaryButton,
+    ActionButton,
+    FocusTrapCallout
 } from '@fluentui/react';
 import { Utils } from '../../../../../Models/Services';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
@@ -19,8 +20,7 @@ const styles = mergeStyleSets({
         background: '#ffffff'
     },
     title: {
-        marginBottom: '15px',
-        fontWeight: '500'
+        marginTop: '0px'
     },
     resultText: {
         fontSize: '12px',
@@ -31,7 +31,8 @@ const styles = mergeStyleSets({
         alignItems: 'center',
         display: 'flex',
         marginTop: '15px',
-        cursor: 'pointer'
+        width: '100%',
+        height: 'auto'
     },
     icon: {
         display: 'inline-block',
@@ -40,15 +41,16 @@ const styles = mergeStyleSets({
     name: {
         flex: '1',
         fontSize: '14px',
-        paddingLeft: '8px'
+        paddingLeft: '8px',
+        textAlign: 'start'
     }
 });
 
 const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
     availableBehaviors,
-    target,
-    id,
-    addBehaviorToElement,
+    calloutTarget,
+    calloutId,
+    onAddBehavior,
     onCreateBehaviorWithElements,
     hideCallout
 }) => {
@@ -72,20 +74,20 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     };
 
     return (
-        <Callout
+        <FocusTrapCallout
             className={styles.callout}
-            target={`#${target}`}
+            target={`#${calloutTarget}`}
             isBeakVisible={false}
             directionalHint={DirectionalHint.bottomLeftEdge}
-            onDismiss={() => hideCallout()}
+            onDismiss={hideCallout}
         >
             <div>
-                <div className={styles.title}>
+                <h4 className={styles.title}>
                     {t('3dSceneBuilder.addBehavior')}
-                </div>
+                </h4>
                 <div>
                     <SearchBox
-                        id={id}
+                        id={calloutId}
                         placeholder={t('3dSceneBuilder.searchBehaviors')}
                         onChange={(event, value) => {
                             setSearchText(value);
@@ -101,16 +103,19 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     )}
                     {filteredAvailableBehaviors.map((behavior) => {
                         return (
-                            <div
+                            <ActionButton
                                 key={behavior.id}
                                 className={styles.item}
-                                onClick={() => addBehaviorToElement(behavior)}
-                                onKeyPress={(e) => {
-                                    if (e.key === ' ') {
-                                        addBehaviorToElement(behavior);
+                                onClick={() => onAddBehavior(behavior)}
+                                tabIndex={0}
+                                styles={{
+                                    flexContainer: {
+                                        width: '100%'
                                     }
                                 }}
-                                tabIndex={0}
+                                style={{
+                                    color: 'var(--cb-color-text-primary)'
+                                }}
                             >
                                 <FontIcon
                                     iconName={'Ringer'}
@@ -128,7 +133,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                                     iconName="Add"
                                     className={styles.icon}
                                 />
-                            </div>
+                            </ActionButton>
                         );
                     })}
                 </div>
@@ -143,7 +148,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     {t('3dSceneBuilder.createBehavior')}
                 </PrimaryButton>
             </div>
-        </Callout>
+        </FocusTrapCallout>
     );
 };
 

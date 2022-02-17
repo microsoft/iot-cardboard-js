@@ -35,7 +35,7 @@
     .cb-scene-builder-left-panel-create-wrapper {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100% - 40px);
         justify-content: space-between;
         width: 100%;
     }
@@ -160,10 +160,6 @@
 
     .cb-scene-builder-cancel-button {
         margin-left: 8px;
-    }
-
-    .cb-scene-builder-left-panel-add-behavior {
-        margin-left: -6px;
     }
 
     .cb-scene-builder-element-list,

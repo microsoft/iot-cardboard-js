@@ -151,7 +151,7 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                                             iconProps: {
                                                 iconName: 'Delete'
                                             },
-                                            onClick: () => removeBehavior()
+                                            onClick: removeBehavior
                                         }
                                     ]
                                 }}
@@ -164,7 +164,16 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                         id={calloutTarget}
                         className="cb-scene-builder-left-panel-add-behavior"
                         style={{ color: 'var(--cb-color-theme-primary' }}
-                        onClick={() => showCallout()}
+                        styles={{
+                            root: {
+                                textAlign: 'start',
+                                padding: '0px'
+                            },
+                            label: {
+                                margin: '0px'
+                            }
+                        }}
+                        onClick={showCallout}
                     >
                         {t('3dSceneBuilder.addBehaviorButton')}
                     </ActionButton>
@@ -172,11 +181,11 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             </div>
             {showAddBehavior && (
                 <AddBehaviorCallout
-                    id={calloutId}
-                    target={calloutTarget}
+                    calloutId={calloutId}
+                    calloutTarget={calloutTarget}
                     availableBehaviors={behaviorState.availableBehaviors}
                     hideCallout={() => setShowAddBehavior(false)}
-                    addBehaviorToElement={addBehaviorToElement}
+                    onAddBehavior={addBehaviorToElement}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
             )}

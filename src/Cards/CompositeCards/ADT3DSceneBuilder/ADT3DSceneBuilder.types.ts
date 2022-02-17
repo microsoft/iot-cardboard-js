@@ -96,9 +96,9 @@ export interface IADT3DSceneBuilderElementBehaviorProps {
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     availableBehaviors: Array<IBehavior>;
-    target: string;
-    id: string;
-    addBehaviorToElement: (behavior: IBehavior) => void;
+    calloutTarget: string;
+    calloutId: string;
+    onAddBehavior: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
     hideCallout: () => void;
 }
