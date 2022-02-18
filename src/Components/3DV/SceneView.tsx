@@ -90,6 +90,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const tooltipTop = useRef(0);
     const highlightedMeshRef = useRef<SelectedMesh>(null);
     const selectedMeshesRef = useRef<SelectedMesh[]>([]);
+    const coloredMeshesRef = useRef<SelectedMesh[]>([]);
     const hovMaterial = useRef<any>(null);
     const selMaterial = useRef<any>(null);
     const selHovMaterial = useRef<any>(null);
@@ -690,6 +691,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             material.diffuseColor = BABYLON.Color3.FromHexString(
                                 coloredMesh.color
                             );
+                            coloredMeshesRef.current.push({
+                                id: mesh.id,
+                                material: mesh.material
+                            });
                             mesh.material = material;
                             coloredMaterials.current.push(material);
                         }
@@ -701,11 +706,20 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         return () => {
+            for (const coloredMesh of coloredMeshesRef.current) {
+                const mesh = sceneRef.current.meshes.find(
+                    (item) => item.id === coloredMesh.id
+                );
+
+                mesh.material = coloredMesh.material;
+            }
+
             for (const material of coloredMaterials.current) {
                 sceneRef.current?.removeMaterial(material);
                 material.dispose(true, true);
             }
 
+            coloredMeshesRef.current = [];
             coloredMaterials.current = [];
         };
     }, [coloredMeshItems, isLoading]);

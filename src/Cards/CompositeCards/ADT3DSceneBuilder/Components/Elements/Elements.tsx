@@ -169,7 +169,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                         background: '#0078d4'
                                     }
                                 }}
-                                ariaLabel={t('3dSceneBuilder.toggleCheckboxes')}
+                                ariaLabel={t(
+                                    '3dSceneBuilder.multiSelectElements'
+                                )}
                                 onClick={() => {
                                     setToggleElementSelection(
                                         !toggleElementSelection
