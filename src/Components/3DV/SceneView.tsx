@@ -67,6 +67,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshSelectionColor,
     meshHoverColor,
     meshSelectionHoverColor,
+    onSceneLoaded,
     getToken,
     coloredMeshItems
 }) => {
@@ -176,6 +177,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
                 setIsLoading(false);
                 engineRef.current.resize();
+                if (onSceneLoaded) {
+                    onSceneLoaded(sc);
+                }
             }
         }
 

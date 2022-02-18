@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SceneView } from '../3DV/SceneView';
 import { DTwin, IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
@@ -18,7 +17,11 @@ import {
 } from '../../Models/Classes/3DVConfig';
 import { PopupWidget } from '../Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
-import BaseComponent from '../BaseComponent/BaseComponent';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import {
+    IADT3DAddInProps,
+    SceneViewWrapper
+} from '../../Components/3DV/SceneViewWrapper';
 
 interface ADT3DViewerProps {
     adapter: IADT3DViewerAdapter;
@@ -28,6 +31,7 @@ interface ADT3DViewerProps {
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
+    addInProps?: IADT3DAddInProps;
     refetchConfig?: () => any;
 }
 
@@ -38,6 +42,7 @@ const ADT3DViewer: React.FC<ADT3DViewerProps> = ({
     pollingInterval,
     connectionLineColor,
     enableMeshSelection,
+    addInProps,
     refetchConfig
 }) => {
     const [modelUrl, setModelUrl] = useState('');
@@ -234,23 +239,28 @@ const ADT3DViewer: React.FC<ADT3DViewerProps> = ({
             adapterResults={[sceneData.adapterResult]}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                <SceneView
-                    modelUrl={modelUrl}
-                    selectedMeshIds={selectedMeshIds}
-                    coloredMeshItems={coloredMeshItems}
-                    onMarkerClick={(marker, mesh, scene) =>
-                        meshClick(marker, mesh, scene)
-                    }
-                    onMarkerHover={(marker, mesh) => meshHover(marker, mesh)}
-                    onCameraMove={() => cameraMoved()}
-                    getToken={
-                        (adapter as any).authService
+                <SceneViewWrapper
+                    adapter={adapter}
+                    config={sceneConfig}
+                    sceneId={sceneId}
+                    sceneVisuals={sceneVisuals}
+                    addInProps={addInProps}
+                    sceneViewProps={{
+                        modelUrl: modelUrl,
+                        selectedMeshIds: selectedMeshIds,
+                        coloredMeshItems: coloredMeshItems,
+                        onMarkerClick: (marker, mesh, scene) =>
+                            meshClick(marker, mesh, scene),
+                        onMarkerHover: (marker, mesh) =>
+                            meshHover(marker, mesh),
+                        onCameraMove: () => cameraMoved(),
+                        getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
                                       'storage'
                                   )
                             : undefined
-                    }
+                    }}
                 />
                 {showPopUp && (
                     <div
