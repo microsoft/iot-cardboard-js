@@ -45,27 +45,20 @@ export interface ColoredMeshItem {
     color: string;
 }
 
+export type SceneViewEventHandler = (
+    marker: Marker,
+    mesh: AbstractMesh,
+    scene: BABYLON.Scene,
+    e: PointerEvent
+) => void;
+
 export interface ISceneViewProp {
     modelUrl: string;
     markers?: Marker[];
-    onMarkerClick?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: BABYLON.Scene,
-        e: PointerEvent
-    ) => void;
-    onMarkerHover?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: BABYLON.Scene,
-        e: PointerEvent
-    ) => void;
-    onCameraMove?: (
-        marker: Marker,
-        mesh: AbstractMesh,
-        scene: BABYLON.Scene,
-        e: PointerEvent
-    ) => void;
+    onSceneLoaded?: (scene: BABYLON.Scene) => void;
+    onMarkerClick?: SceneViewEventHandler;
+    onMarkerHover?: SceneViewEventHandler;
+    onCameraMove?: SceneViewEventHandler;
     selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
