@@ -2,10 +2,11 @@ import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import ADTModelListWithModelDetailsCard from './ADTModelAuthoringPage';
+import ADTModelAuthoringPage from './ADTModelAuthoringPage';
 
 export default {
-    title: 'CompositeCards/ADTModelListWithModelDetailsCard/Consume'
+    title: 'Pages/ADT3DScenePage',
+    component: ADTModelAuthoringPage
 };
 
 const cardStyle = {
@@ -23,7 +24,7 @@ export const ADTModelListWithModelDetails = (
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTModelListWithModelDetailsCard
+            <ADTModelAuthoringPage
                 theme={theme}
                 locale={locale}
                 adapter={

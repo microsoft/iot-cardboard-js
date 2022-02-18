@@ -5,7 +5,8 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTModelListCard from './ADTModelListCard';
 
 export default {
-    title: 'ADTModelListCard/Consume'
+    title: 'Cards/ADTModelListCard',
+    component: ADTModelListCard
 };
 
 const modelListCardStyle = {

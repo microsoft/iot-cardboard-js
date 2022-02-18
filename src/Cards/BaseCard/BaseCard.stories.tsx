@@ -6,7 +6,8 @@ import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseCard from './BaseCard';
 
 export default {
-    title: 'BaseCard/Consume'
+    title: 'Cards/BaseCard',
+    component: BaseCard
 };
 
 export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (

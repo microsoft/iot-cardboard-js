@@ -5,7 +5,8 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import BlobAdapter from '../../Adapters/BlobAdapter';
 
 export default {
-    title: 'SceneList/Consume'
+    title: 'Components/SceneList',
+    component: SceneList
 };
 
 const SceneListStyle = {

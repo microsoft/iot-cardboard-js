@@ -5,7 +5,8 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 
 export default {
-    title: '3DV/ADT3DBuilder'
+    title: '3DV/ADT3DBuilder',
+    component: 'ADT3DBuilder'
 };
 
 export const Engine = () => {

@@ -10,7 +10,7 @@ import {
 } from '../../Models/Classes';
 
 export default {
-    title: 'Linechart/Consume',
+    title: 'Cards/LinechartCard',
     parameters: {
         docs: {
             source: {

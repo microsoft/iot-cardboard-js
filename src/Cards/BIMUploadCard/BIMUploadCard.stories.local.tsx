@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import BIMUploadCard from './BIMUploadCard';
 
 export default {
-    title: 'CompositeCards/BIMUploadCard'
+    title: 'Cards/BimUploadCard',
+    component: BIMUploadCard
 };
 
 const cardStyle = {

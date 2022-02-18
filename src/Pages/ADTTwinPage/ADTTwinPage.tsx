@@ -6,7 +6,7 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ADTHierarchyWithBoardProps } from './ADTTwinPage.types';
+import { ADTTwinPageProps } from './ADTTwinPage.types';
 import {
     IHierarchyNode,
     IADTTwin,
@@ -19,7 +19,7 @@ import useAdapter from '../../Models/Hooks/useAdapter';
 import { BaseCompositeCard, ADTHierarchyCard } from '../..';
 import Board from '../../Components/Board/Board';
 
-const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
+const ADTTwinPage: React.FC<ADTTwinPageProps> = ({
     title,
     adapter,
     theme,
@@ -166,4 +166,4 @@ const ADTHierarchyWithBoard: React.FC<ADTHierarchyWithBoardProps> = ({
     );
 };
 
-export default React.memo(ADTHierarchyWithBoard);
+export default React.memo(ADTTwinPage);

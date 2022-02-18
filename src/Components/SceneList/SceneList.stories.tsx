@@ -4,7 +4,7 @@ import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import SceneList from './SceneList';
 
 export default {
-    title: 'SceneList/Consume'
+    title: 'Components/SceneList'
 };
 
 const SceneListStyle = {

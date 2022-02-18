@@ -7,7 +7,8 @@ import { parseViewProperties } from '../../../Models/Services/Utils';
 import ADTHierarchyWithLKVProcessGraphicsCard from './ADTHierarchyWithLKVProcessGraphicsCard';
 
 export default {
-    title: 'CompositeCards/ADTHierarchyWithLKVProcessGraphicsCard/Consume'
+    title: 'Cards/CompositeCards/AdtHierarchyWithLkvProcessGraphicsCard',
+    component: ADTHierarchyWithLKVProcessGraphicsCard
 };
 
 const cardStyle = {

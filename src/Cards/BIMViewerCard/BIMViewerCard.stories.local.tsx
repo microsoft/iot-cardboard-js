@@ -5,7 +5,8 @@ import { ADTAdapter } from '../../Adapters';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
-    title: 'BIMViewerCard/Consume'
+    title: 'Cards/BimViewerCard',
+    component: BIMViewerCard
 };
 
 const wrapperStyle = {

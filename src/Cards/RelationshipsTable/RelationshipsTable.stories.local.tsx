@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import RelationshipsTable from './RelationshipsTable';
 
 export default {
-    title: 'RelationshipsTable/Consume'
+    title: 'Cards/RelationshipsTable',
+    component: RelationshipsTable
 };
 
 const relationshipsOnClick = (twin, model, errors) =>

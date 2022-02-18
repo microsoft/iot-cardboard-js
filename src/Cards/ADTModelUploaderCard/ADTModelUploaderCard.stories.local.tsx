@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADTModelUploaderCard from './ADTModelUploaderCard';
 
 export default {
-    title: 'ADTModelUploaderCard/UploadJson'
+    title: 'Cards/ADTModelUploaderCard',
+    component: ADTModelUploaderCard
 };
 
 export const ADTModelsUploader = (_args, { globals: { theme, locale } }) => {

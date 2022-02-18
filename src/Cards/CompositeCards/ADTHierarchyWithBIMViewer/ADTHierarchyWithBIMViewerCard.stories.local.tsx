@@ -6,7 +6,8 @@ import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTHierarchyWithBIMViewerCard from './ADTHierarchyWithBIMViewerCard';
 
 export default {
-    title: 'CompositeCards/ADTHierarchyWithBIMViewerCard/Consume'
+    title: 'Cards/CompositeCards/AdtHierarchyWithBimViewerCard',
+    component: ADTHierarchyWithBIMViewerCard
 };
 
 const cardStyle = {

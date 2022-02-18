@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { IADTModel, IHierarchyNode } from '../../Models/Constants/Interfaces';
-import { ADTModelListWithModelDetailsCardProps } from './ADTModelAuthoringPage.types';
+import { ADTModelAuthoringPageProps } from './ADTModelAuthoringPage.types';
 import ModelCreate from '../../Components/ModelCreate/ModelCreate';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import {
@@ -20,9 +20,9 @@ import { downloadText } from '../../Models/Services/Utils';
 import { FormMode } from '../../Models/Constants/Enums';
 import './ADTModelAuthoringPage.scss';
 import { BaseCompositeCard, ADTModelListCard } from '../..';
-import ADTModelAuthoringCard from './Internal/ADTModelAuthoring/ADTModelAuthoringCard';
+import ADTModelAuthoringCard from '../../Cards/CompositeCards/ADTModelAuthoring/ADTModelAuthoringCard';
 
-const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCardProps> = ({
+const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
     adapter,
     theme,
     locale,
@@ -256,4 +256,4 @@ const ADTModelListWithModelDetailsCard: React.FC<ADTModelListWithModelDetailsCar
     );
 };
 
-export default React.memo(ADTModelListWithModelDetailsCard);
+export default React.memo(ADTModelAuthoringPage);

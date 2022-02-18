@@ -3,10 +3,11 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTandADXAdapter from '../../Adapters/ADTandADXAdapter';
 import { SearchSpan } from '../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import ADTHierarchyWithBoard from './ADTTwinPage';
+import ADTTwinPage from './ADTTwinPage';
 
 export default {
-    title: 'CompositeCards/ADTHierarchyWithBoard/Consume'
+    title: 'Pages/ADTTwinPage',
+    component: ADTTwinPage
 };
 
 const cardStyle = {
@@ -21,7 +22,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTHierarchyWithBoard
+            <ADTTwinPage
                 title={'Twins'}
                 theme={theme}
                 locale={locale}
@@ -54,7 +55,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTHierarchyWithBoard
+            <ADTTwinPage
                 title={'Twins with reverse lookup'}
                 theme={theme}
                 locale={locale}

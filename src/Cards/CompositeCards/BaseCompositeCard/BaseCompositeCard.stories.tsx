@@ -8,7 +8,8 @@ import {
 import BaseCard from '../../BaseCard/BaseCard';
 
 export default {
-    title: 'CompositeCards/BaseCompositeCard/Consume'
+    title: 'Cards/CompositeCards/BaseCompositeCard',
+    component: BaseCompositeCard
 };
 
 export const EmptyCompositeCard = (_args, { globals: { theme, locale } }) => {

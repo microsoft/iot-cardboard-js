@@ -5,7 +5,8 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
-    title: 'CompositeCards/ADT3DSceneBuilder'
+    title: 'Components/ADT3DSceneBuilder',
+    component: ADT3DSceneBuilder
 };
 
 const cardStyle = {

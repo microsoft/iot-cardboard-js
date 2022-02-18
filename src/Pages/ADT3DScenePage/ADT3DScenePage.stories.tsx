@@ -4,7 +4,8 @@ import ADT3DScenePage from './ADT3DScenePage';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
-    title: 'CompositeCards/ADT3DScenePage'
+    title: 'Pages/ADT3DScenePage',
+    component: ADT3DScenePage
 };
 
 const cardStyle = {

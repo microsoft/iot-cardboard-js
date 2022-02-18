@@ -15,7 +15,7 @@ const boardStyle = {
 };
 
 export default {
-    title: 'Board/Consume',
+    title: 'Components/Board',
     component: Board // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 

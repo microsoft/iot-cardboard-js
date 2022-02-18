@@ -2,7 +2,7 @@ import {
     IADTAdapter,
     IADTModel,
     IConsumeCompositeCardProps
-} from '../../../../Models/Constants/Interfaces';
+} from '../../../Models/Constants/Interfaces';
 
 export interface ADTModelAuthoringCardProps extends IConsumeCompositeCardProps {
     adapter: IADTAdapter;

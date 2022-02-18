@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADTHierarchyCard from './ADTHierarchyCard';
 
 export default {
-    title: 'ADTHierarchyCard/Consume'
+    title: 'Cards/ADTHierarchyCard',
+    component: ADTHierarchyCard
 };
 
 const hierarchyCardStyle = {

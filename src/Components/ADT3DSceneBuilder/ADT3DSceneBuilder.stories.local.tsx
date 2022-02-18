@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 
 export default {
-    title: 'CompositeCards/ADT3DSceneBuilder'
+    title: 'Components/ADT3DSceneBuilder',
+    component: ADT3DSceneBuilder
 };
 
 const cardStyle = {

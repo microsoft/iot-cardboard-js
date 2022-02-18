@@ -6,7 +6,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import LKVProcessGraphicCard from './LKVProcessGraphicCard';
 
 export default {
-    title: 'LKVProcessGraphicCard/Consume'
+    title: 'Cards/LkvProcessGraphicCard',
+    component: LKVProcessGraphicCard
 };
 
 const iotCentral = {

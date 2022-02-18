@@ -7,7 +7,8 @@ import KeyValuePairAdapterData from '../../Models/Classes/AdapterDataClasses/Key
 import { AdapterMethodSandbox } from '../../Models/Classes';
 
 export default {
-    title: 'LKVProcessGraphicCard/Consume',
+    title: 'Cards/LkvProcessGraphicCard',
+    component: LKVProcessGraphicCard,
     parameters: {
         docs: {
             source: {

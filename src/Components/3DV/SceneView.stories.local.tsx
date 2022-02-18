@@ -4,7 +4,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import { SceneView } from './SceneView';
 
 export default {
-    title: 'Components/SceneView'
+    title: 'Components/SceneView',
+    component: 'SceneView'
 };
 
 export const BasicObjectWithAuth = () => {

@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
-    title: 'KeyValuePairCard/Consume'
+    title: 'Cards/KeyValuePairCard',
+    component: KeyValuePairCard
 };
 
 const digitalTwins = {

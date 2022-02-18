@@ -1,12 +1,12 @@
 import React from 'react';
-import useAuthParams from '../../../../../.storybook/useAuthParams';
-import ADTAdapter from '../../../../Adapters/ADTAdapter';
-import { IADTModel } from '../../../../Models/Constants/Interfaces';
-import MsalAuthService from '../../../../Models/Services/MsalAuthService';
+import useAuthParams from '../../../../.storybook/useAuthParams';
+import ADTAdapter from '../../../Adapters/ADTAdapter';
+import { IADTModel } from '../../../Models/Constants/Interfaces';
+import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTModelAuthoringCard from './ADTModelAuthoringCard';
 
 export default {
-    title: 'CompositeCards/ADTModelAuthoringCard'
+    title: 'Cards/CompositeCards/ADTModelAuthoringCard'
 };
 
 const cardStyle = {

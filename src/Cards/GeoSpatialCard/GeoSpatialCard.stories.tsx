@@ -7,7 +7,8 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
-    title: 'GeoSpatialCard/Consume',
+    title: 'Cards/GeoSpatialCard',
+    component: 'GeoSpacialCard',
     parameters: {
         docs: {
             source: {

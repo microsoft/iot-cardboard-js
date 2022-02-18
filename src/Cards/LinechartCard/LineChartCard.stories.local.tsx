@@ -7,7 +7,7 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADXAdapter from '../../Adapters/ADXAdapter';
 
 export default {
-    title: 'Linechart/Consume',
+    title: 'Cards/LinechartCard',
     component: LinechartCard
 };
 

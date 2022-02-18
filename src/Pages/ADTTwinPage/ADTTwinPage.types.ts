@@ -5,7 +5,7 @@ import {
     IConsumeCompositeCardProps
 } from '../../Models/Constants/Interfaces';
 
-export interface ADTHierarchyWithBoardProps extends IConsumeCompositeCardProps {
+export interface ADTTwinPageProps extends IConsumeCompositeCardProps {
     adapter: ADTandADXAdapter;
     lookupTwinId?: string;
     onTwinClick?: (twin: IADTTwin) => void;

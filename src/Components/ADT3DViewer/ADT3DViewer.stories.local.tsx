@@ -12,7 +12,8 @@ import {
 } from '../../Components/3DV/SceneViewWrapper';
 
 export default {
-    title: '3DV/ADT3DViewer'
+    title: '3DV/ADT3DViewer',
+    component: ADT3DViewer
 };
 
 export const Engine = () => {

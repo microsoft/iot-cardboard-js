@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import BaseCompositeCard from '../../../../Cards/CompositeCards/BaseCompositeCard/BaseCompositeCard';
+import BaseCompositeCard from '../BaseCompositeCard/BaseCompositeCard';
 import { useTranslation } from 'react-i18next';
 import './ADTModelAuthoringCard.scss';
 import { ADTModelAuthoringCardProps } from './ADTModelAuthoringCard.types';
-import StepperWizard from '../../../../Components/StepperWizard/StepperWizard';
+import StepperWizard from '../../../Components/StepperWizard/StepperWizard';
 import {
     DTModel,
     IADTModel,
     IStepperWizardStep
-} from '../../../../Models/Constants/Interfaces';
-import ADTModelUploaderCard from '../../../../Cards/ADTModelUploaderCard/ADTModelUploaderCard';
+} from '../../../Models/Constants/Interfaces';
+import ADTModelUploaderCard from '../../ADTModelUploaderCard/ADTModelUploaderCard';
 import {
     ActivityItem,
     DefaultButton,
@@ -28,12 +28,12 @@ import {
     ModelAuthoringModes,
     ModelAuthoringSteps,
     UploadPhase
-} from '../../../../Models/Constants/Enums';
-import ModelCreate from '../../../../Components/ModelCreate/ModelCreate';
-import ModelSearch from '../../../../Components/ModelSearch/ModelSearch';
-import CdnModelSearchAdapter from '../../../../Adapters/CdnModelSearchAdapter';
-import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { DTDLModel } from '../../../../Models/Classes/DTDL';
+} from '../../../Models/Constants/Enums';
+import ModelCreate from '../../../Components/ModelCreate/ModelCreate';
+import ModelSearch from '../../../Components/ModelSearch/ModelSearch';
+import CdnModelSearchAdapter from '../../../Adapters/CdnModelSearchAdapter';
+import useAdapter from '../../../Models/Hooks/useAdapter';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
 
 const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     adapter,

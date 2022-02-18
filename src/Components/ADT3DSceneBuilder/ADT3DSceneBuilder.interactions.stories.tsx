@@ -13,7 +13,7 @@ import {
 } from '../../Models/Services/StoryUtilities';
 
 export default {
-    title: 'CompositeCards/ADT3DSceneBuilder/Interactions'
+    title: 'Components/ADT3DSceneBuilder/Interactions'
 };
 
 const cardStyle = {

@@ -3,7 +3,8 @@ import { MockAdapter } from '../../Adapters';
 import RelationshipsTable from './RelationshipsTable';
 
 export default {
-    title: 'RelationshipsTable/Consume'
+    title: 'Cards/RelationshipsTable',
+    component: RelationshipsTable
 };
 
 const relationshipsOnClick = (twin, model, errors) =>

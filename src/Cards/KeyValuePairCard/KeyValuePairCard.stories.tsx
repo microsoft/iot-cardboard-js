@@ -9,7 +9,8 @@ import { useStableGuidRng } from '../../Models/Context/StableGuidRngProvider';
 import { ComponentErrorType } from '../../Models/Constants';
 
 export default {
-    title: 'KeyValuePairCard/Consume',
+    title: 'Cards/KeyValuePairCard',
+    component: KeyValuePairCard,
     parameters: {
         docs: {
             source: {

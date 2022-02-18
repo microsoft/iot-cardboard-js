@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import InfoTableCard from './InfoTableCard';
 
 export default {
-    title: 'InfoTableCard/Consume',
+    title: 'Cards/InfoTableCard',
     component: InfoTableCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
