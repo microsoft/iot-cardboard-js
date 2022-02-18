@@ -1059,6 +1059,7 @@ export default class ADTAdapter implements IADTAdapter {
                                 )
                             ) {
                                 digitalTwinsInstanceDictionary.push({
+                                    name: instance.name,
                                     hostName: instance.properties.hostName,
                                     resourceId: instance.id,
                                     location: instance.location

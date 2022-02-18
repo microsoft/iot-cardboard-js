@@ -13,7 +13,7 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: 300, height: 400 }}>
+        <div style={{ width: 332 }}>
             <EnvironmentPicker
                 theme={theme}
                 locale={locale}

@@ -447,7 +447,13 @@ export default class MockAdapter
 
     async getADTInstances() {
         const mockEnvironments = [
-            { hostName: '', resourceId: '', location: '' }
+            {
+                name: 'mockADTInstanceResourceName',
+                hostName:
+                    'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net',
+                resourceId: '12345',
+                location: 'wcus'
+            }
         ];
         try {
             await this.mockNetwork();

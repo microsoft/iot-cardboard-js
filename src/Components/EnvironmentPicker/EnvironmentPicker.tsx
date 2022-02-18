@@ -136,8 +136,13 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                 (i) => 'https://' + i.hostName
             );
             setEnvironments(
-                environmentUrls.filter((envUrl) =>
-                    isValidUrlStr(envUrl, 'environment')
+                //merge localstorage envs and envs from subscription in case both are enabled
+                environments.concat(
+                    environmentUrls.filter(
+                        (envUrl) =>
+                            isValidUrlStr(envUrl, 'environment') &&
+                            !environments.includes(envUrl)
+                    )
                 )
             );
         }
@@ -467,7 +472,8 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            props.storage
+                            environmentsState.isLoading ||
+                            (props.storage
                                 ? !(
                                       isValidUrlStr(
                                           environmentUrlToEdit,
@@ -481,7 +487,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
                                 : !isValidUrlStr(
                                       environmentUrlToEdit,
                                       'environment'
-                                  )
+                                  ))
                         }
                     />
                     <DefaultButton

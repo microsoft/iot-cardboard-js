@@ -6,11 +6,11 @@ export default {
     title: 'Components/EnvironmentPicker'
 };
 
-export const MockEnvironmentPicker = (
+export const MockEnvironmentPickerWithLocalStorage = (
     _args,
     { globals: { theme, locale } }
 ) => (
-    <div style={{ width: 300, height: 400 }}>
+    <div style={{ width: 332 }}>
         <EnvironmentPicker
             theme={theme}
             locale={locale}
@@ -22,6 +22,41 @@ export const MockEnvironmentPicker = (
                 isLocalStorageEnabled: true,
                 localStorageKey: 'storageContainerUrls',
                 selectedItemLocalStorageKey: 'selectedStorageContainerUrl'
+            }}
+        />
+    </div>
+);
+
+export const MockEnvironmentPickerWithoutLocalStorage = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={{ width: 332 }}>
+        <EnvironmentPicker
+            theme={theme}
+            locale={locale}
+            adapter={new MockAdapter()}
+            isLocalStorageEnabled={false}
+            storage={{
+                isLocalStorageEnabled: false
+            }}
+        />
+    </div>
+);
+
+export const MockEnvironmentPickerWithEnvironmentsFromSubscription = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <div style={{ width: 332 }}>
+        <EnvironmentPicker
+            theme={theme}
+            locale={locale}
+            adapter={new MockAdapter()}
+            shouldPullFromSubscription
+            isLocalStorageEnabled={false}
+            storage={{
+                isLocalStorageEnabled: false
             }}
         />
     </div>

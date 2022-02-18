@@ -3,8 +3,6 @@
 .cb-environment-picker {
     display: flex;
     flex-direction: column;
-    min-width: 360px;
-    width: 100%;
 }
 
 .cb-environment-picker-environment {
@@ -18,7 +16,7 @@
     font-weight: 600;
     line-height: 36px;
     overflow: hidden;
-    padding-right: 4px;
+    padding-right: 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
