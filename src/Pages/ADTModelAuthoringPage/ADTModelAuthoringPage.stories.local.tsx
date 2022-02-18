@@ -5,7 +5,7 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADTModelAuthoringPage from './ADTModelAuthoringPage';
 
 export default {
-    title: 'Pages/ADT3DScenePage',
+    title: 'Pages/ADTModelAuthoringPage',
     component: ADTModelAuthoringPage
 };
 
