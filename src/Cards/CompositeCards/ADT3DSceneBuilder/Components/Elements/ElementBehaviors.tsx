@@ -19,7 +19,6 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 }) => {
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
-    const calloutId = 'calloutId';
     const [showAddBehavior, setShowAddBehavior] = useState(false);
     const [behaviorState, setBehaviorState] = useState<BehaviorState>({
         behaviorToEdit: null,
