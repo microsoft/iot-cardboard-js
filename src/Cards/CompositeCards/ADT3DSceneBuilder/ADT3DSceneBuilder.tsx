@@ -414,10 +414,14 @@ const BuilderLeftPanel: React.FC = () => {
         setSelectedMeshIds([]);
     };
 
-    const onCreateBehaviorWithElements = async () => {
+    const onCreateBehaviorWithElements = () => {
         const behavior = defaultBehavior;
         const mappingIds = [];
-        state.selectedElements.forEach((element) => {
+        const elementsToAssign =
+            state.selectedElements?.length > 0
+                ? state.selectedElements
+                : [state.selectedElement];
+        elementsToAssign.forEach((element) => {
             mappingIds.push(element.id);
         });
 
@@ -602,6 +606,7 @@ const BuilderLeftPanel: React.FC = () => {
                     onElementSave={onElementSave}
                     onBehaviorSave={onBehaviorSave}
                     onBehaviorClick={onBehaviorClick}
+                    onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
             )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
