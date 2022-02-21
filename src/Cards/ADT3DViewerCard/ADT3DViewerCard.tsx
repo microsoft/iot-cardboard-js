@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DTwin, IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
+import { DTwin, IADT3DViewerCardProps } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -11,7 +11,6 @@ import {
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import {
-    IScenesConfig,
     IVisual,
     VisualType
 } from '../../Models/Classes/3DVConfig';
@@ -19,23 +18,10 @@ import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import {
-    IADT3DAddInProps,
     SceneViewWrapper
 } from '../../Components/3DV/SceneViewWrapper';
 
-interface ADT3DViewerCardProps {
-    adapter: IADT3DViewerAdapter;
-    sceneId: string;
-    sceneConfig: IScenesConfig;
-    pollingInterval: number;
-    title?: string;
-    connectionLineColor?: string;
-    enableMeshSelection?: boolean;
-    addInProps?: IADT3DAddInProps;
-    refetchConfig?: () => any;
-}
-
-const ADT3DViewerCard: React.FC<ADT3DViewerCardProps> = ({
+const ADT3DViewerCard: React.FC<IADT3DViewerCardProps> = ({
     adapter,
     sceneId,
     sceneConfig,

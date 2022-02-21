@@ -2,7 +2,6 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useReducer,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
