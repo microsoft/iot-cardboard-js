@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DTwin, IADT3DViewerCardProps } from '../../Models/Constants/Interfaces';
+import {
+    DTwin,
+    IADT3DViewerCardProps
+} from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewerCard.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -10,16 +13,11 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import {
-    IVisual,
-    VisualType
-} from '../../Models/Classes/3DVConfig';
+import { IVisual, VisualType } from '../../Models/Classes/3DVConfig';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import {
-    SceneViewWrapper
-} from '../../Components/3DV/SceneViewWrapper';
+import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 
 const ADT3DViewerCard: React.FC<IADT3DViewerCardProps> = ({
     adapter,

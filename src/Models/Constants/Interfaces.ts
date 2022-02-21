@@ -46,7 +46,11 @@ import { IBehavior, IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
-import { ISceneViewProp, Marker, SceneVisual } from '../Classes/SceneView.types';
+import {
+    ISceneViewProp,
+    Marker,
+    SceneVisual
+} from '../Classes/SceneView.types';
 
 export interface IAction {
     type: string;

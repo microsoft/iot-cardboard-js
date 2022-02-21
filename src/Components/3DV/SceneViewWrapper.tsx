@@ -6,12 +6,13 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 import React from 'react';
 import * as BABYLON from 'babylonjs';
-import {
-    Marker
-} from '../../Models/Classes/SceneView.types';
+import { Marker } from '../../Models/Classes/SceneView.types';
 import { SceneView } from './SceneView';
 import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
-import { ADT3DAddInEventData, ISceneViewWrapperProps } from '../../Models/Constants/Interfaces';
+import {
+    ADT3DAddInEventData,
+    ISceneViewWrapperProps
+} from '../../Models/Constants/Interfaces';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
