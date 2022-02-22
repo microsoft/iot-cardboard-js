@@ -223,6 +223,7 @@ const checkboxStyles: ICheckboxStyles = {
 };
 const buttonStyles: IButtonStyles = {
     root: {
+        border: 0,
         alignItems: 'start', // top align everything
         padding: '8px 12px 8px 20px',
         width: '100%',
