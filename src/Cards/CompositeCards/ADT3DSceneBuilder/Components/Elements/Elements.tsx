@@ -96,10 +96,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     }, [updateTwinToObjectMappings?.adapterResult]);
 
     useEffect(() => {
-        const sortedElements = elements?.sort((a, b) =>
-            a.displayName > b.displayName ? 1 : -1
-        );
-        setFilteredElements(JSON.parse(JSON.stringify(sortedElements)));
+        if (elements) {
+            const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
+                JSON.stringify(elements)
+            );
+            const sortedElements = elementsCopy.sort((a, b) =>
+                a.displayName > b.displayName ? 1 : -1
+            );
+            setFilteredElements(sortedElements);
+        }
     }, [elements]);
 
     useEffect(() => {
