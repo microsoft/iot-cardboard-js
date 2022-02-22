@@ -55,7 +55,7 @@ export default class MockAdapter
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
-        'https://storageAccountName.blob.core.windows.net/containerName';
+        'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
