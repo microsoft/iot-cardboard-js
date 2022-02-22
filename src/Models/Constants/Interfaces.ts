@@ -1,3 +1,4 @@
+import * as BABYLON from 'babylonjs';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -25,7 +26,8 @@ import {
     Theme,
     HierarchyNodeType,
     modelActionType,
-    FileUploadStatus
+    FileUploadStatus,
+    ADT3DAddInEventTypes
 } from './Enums';
 import {
     AdapterReturnType,
@@ -44,6 +46,11 @@ import { IBehavior, IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
+import {
+    ISceneViewProp,
+    Marker,
+    SceneVisual
+} from '../Classes/SceneView.types';
 
 export interface IAction {
     type: string;
@@ -594,4 +601,42 @@ export interface IADTInstancesProps {
     hasLabel?: boolean;
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
+}
+export class ADT3DAddInEventData {
+    eventType: ADT3DAddInEventTypes;
+    config: IScenesConfig;
+    sceneId: string;
+    adapter: IADT3DViewerAdapter;
+    sceneVisuals?: SceneVisual[];
+    marker: Marker;
+    mesh: BABYLON.AbstractMesh;
+    scene: BABYLON.Scene;
+    pointerEvent: PointerEvent;
+}
+
+export interface IADT3DAddInProps {
+    onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
+    onMarkerClick?: (data: ADT3DAddInEventData) => boolean;
+    onMarkerHover?: (data: ADT3DAddInEventData) => boolean;
+}
+
+export interface ISceneViewWrapperProps {
+    config: IScenesConfig;
+    sceneId: string;
+    adapter: IADT3DViewerAdapter;
+    sceneViewProps: ISceneViewProp;
+    sceneVisuals?: SceneVisual[];
+    addInProps?: IADT3DAddInProps;
+}
+
+export interface IADT3DViewerCardProps {
+    adapter: IADT3DViewerAdapter;
+    sceneId: string;
+    sceneConfig: IScenesConfig;
+    pollingInterval: number;
+    title?: string;
+    connectionLineColor?: string;
+    enableMeshSelection?: boolean;
+    addInProps?: IADT3DAddInProps;
+    refetchConfig?: () => any;
 }
