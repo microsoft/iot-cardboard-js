@@ -33,27 +33,27 @@ interface IFakeListItem {
 const defaultListItems: IFakeListItem[] = [
     {
         itemId: 'item 1',
-        itemDescription: 'something for item 1',
+        itemDescription: 'description for item 1',
         isChecked: false
     },
     {
         itemId: 'item 2',
-        itemDescription: 'something for item 1',
+        itemDescription: 'description for item 1',
         isChecked: true
     },
     {
         itemId: 'item 3',
-        itemDescription: 'something for item 3',
+        itemDescription: 'description for item 3',
         isChecked: undefined
     },
     {
         itemId: 'item 4',
-        itemDescription: 'something for item 4',
+        itemDescription: 'description for item 4',
         isChecked: true
     },
     {
         itemId: 'item 5',
-        itemDescription: 'something for item 5',
+        itemDescription: 'description for item 5',
         isChecked: false
     }
 ];
@@ -86,7 +86,7 @@ const defaultGetListItemPropsHandler = (
         iconEndName: index % 4 == 0 ? 'Link' : undefined,
         overflowMenuItems: index % 2 ? getDefaultMenuItems(item) : [],
         textPrimary: item.itemId + ' some extra text for overflow',
-        textSecondary: `Description for ${index}`
+        textSecondary: item.itemDescription
     };
 };
 
@@ -117,6 +117,23 @@ const Template: TemplateStory = (_args, { globals: { theme, locale } }) => {
 
 export const BasicList = Template.bind({}) as TemplateStory;
 BasicList.args = {};
+
+export const WithAllElements = Template.bind({}) as TemplateStory;
+WithAllElements.args = {
+    getListItemProps: (item, index) => ({
+        ariaLabel: '',
+        textPrimary: (item as IFakeListItem).itemId,
+        textSecondary: (item as IFakeListItem).itemDescription,
+        iconStartName: 'Link',
+        iconEndName: 'Shapes',
+        overflowMenuItems: [
+            {
+                key: 'key1'
+            }
+        ],
+        isChecked: index % 2 === 0
+    })
+};
 
 export const WithMenu = Template.bind({}) as TemplateStory;
 WithMenu.args = {
@@ -210,6 +227,29 @@ WithCheckboxAndSecondary.args = {
         textPrimary: `List item ${index}`,
         textSecondary: `description for ${index}`,
         isChecked: index % 2 === 0
+    })
+};
+
+export const WithLongText = Template.bind({}) as TemplateStory;
+WithLongText.args = {
+    items: [
+        {
+            isChecked: undefined,
+            itemId: 'really long text for all the items',
+            itemDescription:
+                'description can sometimes be really really long and we need it to overflow'
+        }
+    ],
+    getListItemProps: (item, _index) => ({
+        ariaLabel: '',
+        textPrimary: (item as IFakeListItem).itemId,
+        textSecondary: (item as IFakeListItem).itemDescription,
+        overflowMenuItems: [
+            {
+                key: 'key1'
+            }
+        ],
+        isChecked: (item as IFakeListItem).isChecked
     })
 };
 
