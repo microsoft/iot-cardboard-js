@@ -19,7 +19,6 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 }) => {
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
-    const calloutId = 'calloutId';
     const [showAddBehavior, setShowAddBehavior] = useState(false);
     const [behaviorState, setBehaviorState] = useState<BehaviorState>({
         behaviorToEdit: null,
@@ -86,10 +85,6 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 
     const showCallout = () => {
         setShowAddBehavior(true);
-        // use setTimeout to allow the callout to render
-        setTimeout(function () {
-            document.getElementById(calloutId)?.focus();
-        }, 10);
     };
 
     return (
@@ -181,7 +176,6 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             </div>
             {showAddBehavior && (
                 <AddBehaviorCallout
-                    calloutId={calloutId}
                     calloutTarget={calloutTarget}
                     availableBehaviors={behaviorState.availableBehaviors}
                     hideCallout={() => setShowAddBehavior(false)}

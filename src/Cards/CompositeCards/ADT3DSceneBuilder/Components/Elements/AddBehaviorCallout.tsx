@@ -49,7 +49,6 @@ const styles = mergeStyleSets({
 const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
     availableBehaviors,
     calloutTarget,
-    calloutId,
     onAddBehavior,
     onCreateBehaviorWithElements,
     hideCallout
@@ -75,6 +74,9 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
 
     return (
         <FocusTrapCallout
+            focusTrapProps={{
+                isClickableOutsideFocusTrap: true
+            }}
             className={styles.callout}
             target={`#${calloutTarget}`}
             isBeakVisible={false}
@@ -87,7 +89,6 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                 </h4>
                 <div>
                     <SearchBox
-                        id={calloutId}
                         placeholder={t('3dSceneBuilder.searchBehaviors')}
                         onChange={(event, value) => {
                             setSearchText(value);
