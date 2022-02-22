@@ -21,10 +21,8 @@ const cardStyle = {
     width: '100%'
 };
 
-const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
-    _args,
-    { globals: { theme, locale } }
-) => (
+type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
+const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
     <div style={cardStyle}>
         <ADT3DSceneBuilder
             title={'3D Scene Builder'}

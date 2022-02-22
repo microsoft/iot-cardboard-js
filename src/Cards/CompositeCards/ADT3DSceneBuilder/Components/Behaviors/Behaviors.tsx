@@ -1,10 +1,7 @@
 import {
-    FocusZone,
-    FocusZoneDirection,
     FontIcon,
     IconButton,
     IContextualMenuProps,
-    List,
     SearchBox,
     Separator,
     Text
@@ -13,7 +10,11 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Utils } from '../../../../..';
-import { CardboardListItemRenderer } from '../../../../../Components/CardboardListItem/CardboardListItemRenderer';
+import {
+    CardboardList,
+    ICardboardListProps
+} from '../../../../../Components/CardboardListItem/CardboardList';
+import { ICardboardListItemProps } from '../../../../../Components/CardboardListItem/CardboardListItem';
 import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { BehaviorListSegment } from '../../../../../Models/Constants/Enums';
@@ -117,6 +118,39 @@ const SceneBehaviors: React.FC<Props> = ({
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
 
+    const getOverflowMenuItems = (item) => {
+        return [
+            {
+                key: 'addToScene',
+                id: `addToScene-${item.id}`,
+                'data-testid': `addToScene-${item.id}`,
+                text: t('3dSceneBuilder.addBehaviorToScene'),
+                iconProps: {
+                    iconName: 'Add'
+                },
+                onClick: () => alert(`add ${item.id}`)
+            }
+        ];
+    };
+    const getListItemProps = (item, index): ICardboardListItemProps => {
+        return {
+            ariaLabel: '',
+            isChecked: index % 2 == 0,
+            iconStartName: index % 3 == 0 ? 'Shapes' : undefined,
+            iconEndName: index % 4 == 0 ? 'Link' : undefined,
+            overflowMenuItems: index % 2 ? getOverflowMenuItems(item) : [],
+            textPrimary: item.id + ' some extra text for overflow',
+            textSecondary: 'Some text'
+        };
+    };
+    const listProps: ICardboardListProps<IBehavior> = {
+        items: filteredItemsInScene,
+        getListItemProps: getListItemProps,
+        key: 'behaviors-list',
+        onClick: (item) => alert(`clicked item ${item.id}`),
+        textToHighlight: searchText
+    };
+
     return (
         <div className="cb-scene-builder-pivot-contents">
             <div className="cb-scene-builder-behavior-list">
@@ -165,47 +199,17 @@ const SceneBehaviors: React.FC<Props> = ({
                                         )}
                                     </Text>
                                 </div>
-                                <FocusZone
+                                <CardboardList<IBehavior> {...listProps} />
+                                {/* <FocusZone
                                     direction={FocusZoneDirection.vertical}
                                 >
                                     <List
                                         items={filteredItemsInScene}
                                         onRenderCell={(item, index) => (
-                                            <CardboardListItemRenderer
-                                                ariaLabel="my label"
-                                                onClick={() =>
-                                                    alert(
-                                                        `clicked item ${item.id}`
-                                                    )
-                                                }
-                                                textPrimary={item.id}
-                                                textSecondary={'Some text'}
-                                                textToHighlight={searchText}
-                                                index={index}
-                                                isSelected={index % 2 === 0}
-                                                iconStartName={'Shapes'}
-                                                iconEndName={'Link'}
-                                                overflowMenuItems={[
-                                                    {
-                                                        key: 'addToScene',
-                                                        id: `addToScene-${item.id}`,
-                                                        'data-testid': `addToScene-${item.id}`,
-                                                        text: t(
-                                                            '3dSceneBuilder.addBehaviorToScene'
-                                                        ),
-                                                        iconProps: {
-                                                            iconName: 'Add'
-                                                        },
-                                                        onClick: () =>
-                                                            alert(
-                                                                `add ${item.id}`
-                                                            )
-                                                    }
-                                                ]}
-                                            />
+                                            <CardboardListItem />
                                         )}
                                     />
-                                </FocusZone>
+                                </FocusZone> */}
                                 {/* {filteredItemsInScene.map((behavior, index) => (
                                     <BehaviorList
                                         key={behavior.id}
