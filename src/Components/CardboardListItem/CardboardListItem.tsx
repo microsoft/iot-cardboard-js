@@ -12,11 +12,10 @@ import {
     IContextualMenuProps,
     IRefObject,
     memoizeFunction,
-    mergeStyleSets,
-    Stack
+    mergeStyleSets
 } from '@fluentui/react';
-import React, { useCallback, useRef } from 'react';
-import { Utils } from '../..';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { StyleConstants, Utils } from '../..';
 
 type IIconNames = string | 'Shapes';
 export interface ICardboardListItemPropsInternal
@@ -145,6 +144,23 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     menuProps,
     menuRef
 }) => {
+    // override the menu icon color
+    const menuItems: IContextualMenuItem[] = useMemo(
+        () =>
+            menuProps.items.map((x) => ({
+                ...x,
+                iconProps: {
+                    ...x?.iconProps,
+                    styles: {
+                        ...x.iconProps?.styles,
+                        root: {
+                            color: StyleConstants.icons.color
+                        }
+                    }
+                }
+            })),
+        [menuProps.items]
+    );
     return (
         <>
             <IconButton
@@ -153,15 +169,15 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     iconName: 'MoreVertical',
                     style: {
                         fontWeight: 'bold',
-                        fontSize: 18,
-                        color: 'var(--cb-color-text-primary)'
+                        fontSize: StyleConstants.icons.size16,
+                        color: StyleConstants.icons.color
                     }
                 }}
                 data-testid={`cardboard-list-item-${key}-${index}-moreMenu`}
                 data-is-focusable="false"
                 title={'More'} // t('more')
                 ariaLabel={'More menu'} // t('more')
-                menuProps={menuProps}
+                menuProps={{ ...menuProps, items: menuItems }}
                 open={true}
             ></IconButton>
         </>
@@ -188,6 +204,7 @@ const getStyles = memoizeFunction(() => {
         },
         primaryText: {
             color: palette.neutralDark,
+            fontSize: FontSizes.size14,
             ...ellipseStyles
         },
         secondaryText: {
@@ -195,8 +212,8 @@ const getStyles = memoizeFunction(() => {
             fontSize: FontSizes.size10,
             ...ellipseStyles
         },
-        icon: { marginRight: '8px', fontSize: '20px' },
-        endIcon: { marginLeft: '4px' }
+        icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
+        endIcon: { marginLeft: '8px' }
     });
 });
 const checkboxStyles: ICheckboxStyles = {

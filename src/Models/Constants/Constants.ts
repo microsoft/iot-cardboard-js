@@ -4,6 +4,7 @@ import {
     WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -104,3 +105,11 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 
 export const primaryTwinName = 'primaryTwin';
+
+export const StyleConstants = {
+    icons: {
+        color: 'var(--cb-color-text-primary)',
+        size20: FontSizes.size20,
+        size16: FontSizes.size16
+    }
+};
