@@ -52,6 +52,10 @@ export default class MockAdapter
     private networkTimeoutMillis;
     private isDataStatic;
     private scenesConfig;
+    private mockEnvironmentHostName =
+        'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
+    private mockContainerUrl =
+        'https://storageAccountName.blob.core.windows.net/containerName';
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -471,12 +475,20 @@ export default class MockAdapter
     }
 
     getBlobContainerURL = () => {
-        return 'https://storageAccountName.blob.core.windows.net/containerName';
+        return this.mockContainerUrl;
     };
 
     setBlobContainerPath = (configBlobPath: string) => {
-        console.log('Setting blob path to: ' + configBlobPath);
+        this.mockContainerUrl = configBlobPath;
     };
+
+    getAdtHostUrl() {
+        return this.mockEnvironmentHostName;
+    }
+
+    setAdtHostUrl(hostName: string) {
+        this.mockEnvironmentHostName = hostName;
+    }
 
     async getTwinsForBehavior(
         _sceneId: string,

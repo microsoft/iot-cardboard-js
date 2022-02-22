@@ -13,11 +13,14 @@ import {
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
-    existingBlobContainerUrls?: Array<string>;
-    onBlobContainerUrlChange?: (
-        selectedBlobContainerUrl: string,
-        blobContainerUrls: Array<string>
-    ) => void;
+    environmentPickerOptions?: {
+        isLocalStorageEnabledForEnvironment?: boolean;
+        isLocalStorageEnabledForContainer?: boolean;
+        environmentsLocalStorageKey?: string;
+        containersLocalStorageKey?: string;
+        selectedEnvironmentLocalStorageKey?: string;
+        selectedContainerLocalStorageKey?: string;
+    };
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
@@ -31,7 +34,6 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
 export interface ADT3DScenePageState {
     scenesConfig: IScenesConfig;
     selectedBlobContainerURL: string;
-    blobContainerURLs: Array<string>;
     selectedScene: IScene;
     scene?: IScene;
     errors?: Array<IComponentError>;

@@ -16,7 +16,7 @@ type WithoutLocalStorage = {
 
 type StorageContainer = {
     containerUrl?: string;
-    onContainerUrlChange?: (newContainerUrl: string) => void;
+    onContainerUrlChange?: (containerUrl: string) => void;
 } & (WithLocalStorage | WithoutLocalStorage);
 
 export type EnvironmentPickerProps = BaseComponentProps & {

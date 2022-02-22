@@ -12,22 +12,29 @@ import {
     PrimaryButton
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { EnvironmentPickerProps } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
 import {
+    ContainersLocalStorageKey,
+    EnvironmentsLocalStorageKey,
+    SelectedContainerLocalStorageKey,
+    SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants/Constants';
 
-const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
-    shouldPullFromSubscription = false,
-    isLocalStorageEnabled = false,
-    ...props
-}) => {
+const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
     const [environments, setEnvironments] = useState<Array<string>>([]);
     const [selectedEnvironmentUrl, setSelectedEnvironmentUrl] = useState('');
@@ -36,12 +43,13 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     const [environmentUrlToEdit, setEnvironmentUrlToEdit] = useState('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+    const dialogResettingValuesTimeoutRef = useRef(null);
 
     const dialogContentProps = {
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
-        subText: isLocalStorageEnabled
+        subText: props.isLocalStorageEnabled
             ? t('environmentPicker.description') +
               ' ' +
               t('environmentPicker.descriptionForLocalStorage')
@@ -72,43 +80,50 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     const environmentsState = useAdapter({
         adapterMethod: () => props.adapter.getADTInstances(),
         refetchDependencies: [props.adapter],
-        isAdapterCalledOnMount: shouldPullFromSubscription
+        isAdapterCalledOnMount: props.shouldPullFromSubscription
     });
 
     // set initial values based on props and local storage
     useEffect(() => {
-        if (isLocalStorageEnabled) {
-            const environmentUrlsInLocalStorage = localStorage.getItem(
-                props.localStorageKey
-            );
-            if (environmentUrlsInLocalStorage) {
-                setEnvironments(JSON.parse(environmentUrlsInLocalStorage));
-            }
+        if (props.isLocalStorageEnabled) {
+            const environmentUrls =
+                JSON.parse(
+                    localStorage.getItem(
+                        props.localStorageKey ?? EnvironmentsLocalStorageKey
+                    )
+                ) ?? [];
 
-            const selectedEnvironmentUrlInLocalStorage = localStorage.getItem(
-                props.selectedItemLocalStorageKey
-            );
-            if (props.environmentUrl) {
-                setSelectedEnvironmentUrl(props.environmentUrl);
-            } else if (selectedEnvironmentUrlInLocalStorage) {
-                setSelectedEnvironmentUrl(selectedEnvironmentUrlInLocalStorage);
-            } else {
-                setSelectedEnvironmentUrl('');
+            const selectedEnvironmentUrl =
+                localStorage.getItem(
+                    props.selectedItemLocalStorageKey ??
+                        SelectedEnvironmentLocalStorageKey
+                ) ??
+                (props.environmentUrl || '');
+
+            if (
+                selectedEnvironmentUrl !== '' &&
+                !environmentUrls.includes(selectedEnvironmentUrl)
+            ) {
+                environmentUrls.push(selectedEnvironmentUrl);
             }
+            setSelectedEnvironmentUrl(selectedEnvironmentUrl);
+            setEnvironments(environmentUrls);
         } else {
             setSelectedEnvironmentUrl(props.environmentUrl ?? '');
+            setEnvironments(props.environmentUrl ? [props.environmentUrl] : []);
         }
 
         if (props.storage?.isLocalStorageEnabled) {
             const containerUrlsInLocalStorage = localStorage.getItem(
-                props.storage.localStorageKey
+                props.storage.localStorageKey ?? ContainersLocalStorageKey
             );
             if (containerUrlsInLocalStorage) {
                 setContainers(JSON.parse(containerUrlsInLocalStorage));
             }
 
             const selectedContainerUrlInLocalStorage = localStorage.getItem(
-                props.storage.selectedItemLocalStorageKey
+                props.storage.selectedItemLocalStorageKey ??
+                    SelectedContainerLocalStorageKey
             );
             if (props.storage.containerUrl) {
                 setSelectedContainerUrl(props.storage.containerUrl);
@@ -119,7 +134,11 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
             }
         } else {
             setSelectedContainerUrl(props.storage?.containerUrl ?? '');
+            setContainers(
+                props.storage?.containerUrl ? [props.storage.containerUrl] : []
+            );
         }
+        return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
     }, []);
 
     useEffect(() => {
@@ -318,23 +337,25 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
             props.storage?.onContainerUrlChange(containerUrlToEdit);
         }
 
-        if (isLocalStorageEnabled) {
+        if (props.isLocalStorageEnabled) {
             localStorage.setItem(
-                props.localStorageKey,
+                props.localStorageKey ?? EnvironmentsLocalStorageKey,
                 JSON.stringify(environments)
             );
             localStorage.setItem(
-                props.selectedItemLocalStorageKey,
+                props.selectedItemLocalStorageKey ??
+                    SelectedEnvironmentLocalStorageKey,
                 environmentUrlToEdit
             );
         }
         if (props.storage?.isLocalStorageEnabled) {
             localStorage.setItem(
-                props.storage.localStorageKey,
+                props.storage.localStorageKey ?? ContainersLocalStorageKey,
                 JSON.stringify(containers)
             );
             localStorage.setItem(
-                props.storage.selectedItemLocalStorageKey,
+                props.storage.selectedItemLocalStorageKey ??
+                    SelectedContainerLocalStorageKey,
                 containerUrlToEdit
             );
         }
@@ -343,7 +364,7 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
 
     const handleOnDismiss = useCallback(() => {
         toggleIsDialogHidden();
-        setTimeout(() => {
+        dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
             setEnvironmentUrlToEdit(selectedEnvironmentUrl);
             setContainerUrlToEdit(selectedContainerUrl);
@@ -500,4 +521,4 @@ const EnvironmentPicker: React.FC<EnvironmentPickerProps> = ({
     );
 };
 
-export default React.memo(EnvironmentPicker);
+export default memo(EnvironmentPicker);

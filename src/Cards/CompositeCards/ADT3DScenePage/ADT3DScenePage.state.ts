@@ -3,7 +3,6 @@ import produce from 'immer';
 import {
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_PAGE_MODE,
-    SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE,
@@ -18,7 +17,6 @@ import {
 export const defaultADT3DScenePageState: ADT3DScenePageState = {
     scenesConfig: null,
     selectedBlobContainerURL: null,
-    blobContainerURLs: [],
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneLobby,
     errors: [],
@@ -33,9 +31,6 @@ export const ADT3DScenePageReducer: (
         const payload = action.payload;
 
         switch (action.type) {
-            case SET_BLOB_CONTAINER_URLS:
-                draft.blobContainerURLs = payload;
-                break;
             case SET_SELECTED_BLOB_CONTAINER_URL:
                 draft.selectedBlobContainerURL = payload;
                 break;

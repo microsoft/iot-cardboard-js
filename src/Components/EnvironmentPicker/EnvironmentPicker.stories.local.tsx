@@ -5,7 +5,8 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
-    title: 'Components/EnvironmentPicker'
+    title: 'Components/EnvironmentPicker',
+    component: EnvironmentPicker
 };
 
 export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
@@ -13,7 +14,7 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: 332 }}>
+        <div style={{ width: 336 }}>
             <EnvironmentPicker
                 theme={theme}
                 locale={locale}
@@ -28,12 +29,20 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                     )
                 }
                 isLocalStorageEnabled={true}
-                localStorageKey="adtEnvironmentUrls"
-                selectedItemLocalStorageKey="selectedAdtEnvironmentUrl"
+                localStorageKey={
+                    process.env.STORYBOOK_MOCK_ENVIRONMENTS_LOCAL_STORAGE_KEY
+                }
+                selectedItemLocalStorageKey={
+                    process.env
+                        .STORYBOOK_MOCK_SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY
+                }
                 storage={{
                     isLocalStorageEnabled: true,
-                    localStorageKey: 'storageContainerUrls',
-                    selectedItemLocalStorageKey: 'selectedStorageContainerUrl'
+                    localStorageKey:
+                        process.env.STORYBOOK_MOCK_CONTAINERS_LOCAL_STORAGE_KEY,
+                    selectedItemLocalStorageKey:
+                        process.env
+                            .STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY
                 }}
                 shouldPullFromSubscription={true}
             />
