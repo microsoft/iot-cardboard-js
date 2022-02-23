@@ -22,7 +22,9 @@ export interface ICardboardListProps<T> {
     onClick: (item: T) => void;
     /** text to highlight on the primary text. mainly used for indicating search matches */
     textToHighlight?: string;
+    /** optional prop to set any specific list props needed for special cases */
     listProps?: IListProps;
+    /** optional prop to set any specific focus zone props needed for special cases */
     focusZoneProps?: IFocusZoneProps;
 }
 
