@@ -1,4 +1,10 @@
-import { FocusZone, FocusZoneDirection, List } from '@fluentui/react';
+import {
+    FocusZone,
+    FocusZoneDirection,
+    IFocusZoneProps,
+    IListProps,
+    List
+} from '@fluentui/react';
 import React, { ReactNode } from 'react';
 import {
     CardboardListItem,
@@ -16,19 +22,27 @@ export interface ICardboardListProps<T> {
     onClick: (item: T) => void;
     /** text to highlight on the primary text. mainly used for indicating search matches */
     textToHighlight?: string;
+    listProps?: IListProps;
+    focusZoneProps?: IFocusZoneProps;
 }
 
 export const CardboardList = <T extends unknown>({
-    items,
+    focusZoneProps,
     getListItemProps,
+    items,
     key,
+    listProps,
     onClick,
     textToHighlight
 }: ICardboardListProps<T> & { children?: ReactNode }) => {
     return (
         <>
-            <FocusZone direction={FocusZoneDirection.vertical}>
+            <FocusZone
+                {...focusZoneProps}
+                direction={FocusZoneDirection.vertical}
+            >
                 <List
+                    {...listProps}
                     items={items}
                     onRenderCell={(item, index) => (
                         <CardboardListItem

@@ -174,7 +174,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     }
                 }}
                 data-testid={`cardboard-list-item-${key}-${index}-moreMenu`}
-                data-is-focusable="false"
+                data-is-focusable={false}
                 title={'More'} // t('more')
                 ariaLabel={'More menu'} // t('more')
                 menuProps={{ ...menuProps, items: menuItems }}
@@ -185,7 +185,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
 };
 
 const preventFocus = {
-    'data-is-focusable': 'false'
+    'data-is-focusable': false
 } as React.ButtonHTMLAttributes<HTMLElement | HTMLButtonElement>;
 const { palette } = getTheme();
 const getStyles = memoizeFunction(() => {
