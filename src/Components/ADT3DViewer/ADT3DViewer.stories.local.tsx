@@ -137,7 +137,7 @@ export const AddIn = () => {
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-            <ADT3DViewerCard
+            <ADT3DViewer
                 title="3D Viewer"
                 adapter={
                     new ADTAdapter(

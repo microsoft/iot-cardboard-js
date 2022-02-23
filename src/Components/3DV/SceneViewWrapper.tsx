@@ -6,42 +6,13 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 import React from 'react';
 import * as BABYLON from 'babylonjs';
-import { IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
-import { IScenesConfig } from '../../Models/Classes/3DVConfig';
-import {
-    ISceneViewProp,
-    Marker,
-    SceneVisual
-} from '../../Models/Classes/SceneView.types';
+import { Marker } from '../../Models/Classes/SceneView.types';
 import { SceneView } from './SceneView';
 import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
-
-export class ADT3DAddInEventData {
-    eventType: ADT3DAddInEventTypes;
-    config: IScenesConfig;
-    sceneId: string;
-    adapter: IADT3DViewerAdapter;
-    sceneVisuals?: SceneVisual[];
-    marker: Marker;
-    mesh: BABYLON.AbstractMesh;
-    scene: BABYLON.Scene;
-    pointerEvent: PointerEvent;
-}
-
-export interface IADT3DAddInProps {
-    onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerClick?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerHover?: (data: ADT3DAddInEventData) => boolean;
-}
-
-export interface ISceneViewWrapperProps {
-    config: IScenesConfig;
-    sceneId: string;
-    adapter: IADT3DViewerAdapter;
-    sceneViewProps: ISceneViewProp;
-    sceneVisuals?: SceneVisual[];
-    addInProps?: IADT3DAddInProps;
-}
+import {
+    ADT3DAddInEventData,
+    ISceneViewWrapperProps
+} from '../../Models/Constants/Interfaces';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,

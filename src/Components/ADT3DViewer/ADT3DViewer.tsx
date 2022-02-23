@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DTwin, IADT3DViewerAdapter } from '../../Models/Constants/Interfaces';
+import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -9,33 +9,14 @@ import {
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
-import { getMeshCenter } from '../3DV/SceneView.Utils';
-import {
-    IScenesConfig,
-    IVisual,
-    VisualType
-} from '../../Models/Classes/3DVConfig';
-import { PopupWidget } from '../Widgets/PopupWidget/PopupWidget';
+import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
+import { IVisual, VisualType } from '../../Models/Classes/3DVConfig';
+import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import {
-    IADT3DAddInProps,
-    SceneViewWrapper
-} from '../../Components/3DV/SceneViewWrapper';
+import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 
-interface ADT3DViewerProps {
-    adapter: IADT3DViewerAdapter;
-    sceneId: string;
-    sceneConfig: IScenesConfig;
-    pollingInterval: number;
-    title?: string;
-    connectionLineColor?: string;
-    enableMeshSelection?: boolean;
-    addInProps?: IADT3DAddInProps;
-    refetchConfig?: () => any;
-}
-
-const ADT3DViewer: React.FC<ADT3DViewerProps> = ({
+const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
     sceneId,
     sceneConfig,
