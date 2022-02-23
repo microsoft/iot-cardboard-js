@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useRef } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
@@ -53,7 +53,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
     const { t } = useTranslation();
-    const selectedEnvironmentUrlRef = useRef(adapter.getAdtHostUrl());
 
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
@@ -86,13 +85,36 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
     };
 
-    const handleBlobContainerPathChange = (selectedBlobURL: string) => {
+    const handleContainerUrlChange = (
+        containerUrl: string,
+        containerUrls: Array<string>
+    ) => {
         dispatch({
             type: SET_SELECTED_BLOB_CONTAINER_URL,
-            payload: selectedBlobURL
+            payload: containerUrl
         });
-        adapter.setBlobContainerPath(selectedBlobURL);
+        adapter.setBlobContainerPath(containerUrl);
+        if (environmentPickerOptions?.storage?.onContainerChange) {
+            environmentPickerOptions.storage.onContainerChange(
+                containerUrl,
+                containerUrls
+            );
+        }
     };
+
+    const handleEnvironmentUrlChange = (
+        envUrl: string,
+        envUrls: Array<string>
+    ) => {
+        adapter.setAdtHostUrl(envUrl.replace('https://', ''));
+        if (environmentPickerOptions?.environment?.onEnvironmentChange) {
+            environmentPickerOptions.environment.onEnvironmentChange(
+                envUrl,
+                envUrls
+            );
+        }
+    };
+
     const handleScenePageModeChange = (
         newScenePageMode: ADT3DScenePageModes
     ) => {
@@ -162,30 +184,33 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     environmentUrl={
                                         'https://' + adapter.getAdtHostUrl()
                                     }
-                                    onEnvironmentUrlChange={(
-                                        envUrl: string
-                                    ) => {
-                                        selectedEnvironmentUrlRef.current = envUrl;
-                                        adapter.setAdtHostUrl(
-                                            envUrl.replace('https://', '')
-                                        );
-                                    }}
-                                    {...(environmentPickerOptions?.isLocalStorageEnabledForEnvironment && {
+                                    onEnvironmentUrlChange={
+                                        handleEnvironmentUrlChange
+                                    }
+                                    {...(environmentPickerOptions?.environment
+                                        ?.isLocalStorageEnabled && {
                                         isLocalStorageEnabled: true,
                                         localStorageKey:
-                                            environmentPickerOptions?.environmentsLocalStorageKey,
+                                            environmentPickerOptions
+                                                ?.environment?.localStorageKey,
                                         selectedItemLocalStorageKey:
-                                            environmentPickerOptions?.selectedEnvironmentLocalStorageKey
+                                            environmentPickerOptions
+                                                ?.environment
+                                                ?.selectedItemLocalStorageKey
                                     })}
                                     storage={{
                                         containerUrl: adapter.getBlobContainerURL(),
-                                        onContainerUrlChange: handleBlobContainerPathChange,
-                                        ...(environmentPickerOptions?.isLocalStorageEnabledForContainer && {
+                                        onContainerUrlChange: handleContainerUrlChange,
+                                        ...(environmentPickerOptions?.storage
+                                            ?.isLocalStorageEnabled && {
                                             isLocalStorageEnabled: true,
                                             localStorageKey:
-                                                environmentPickerOptions?.containersLocalStorageKey,
+                                                environmentPickerOptions
+                                                    ?.storage?.localStorageKey,
                                             selectedItemLocalStorageKey:
-                                                environmentPickerOptions?.selectedContainerLocalStorageKey
+                                                environmentPickerOptions
+                                                    ?.storage
+                                                    ?.selectedItemLocalStorageKey
                                         })
                                     }}
                                 />

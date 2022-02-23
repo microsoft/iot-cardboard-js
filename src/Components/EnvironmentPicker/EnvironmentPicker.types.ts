@@ -16,13 +16,19 @@ type WithoutLocalStorage = {
 
 type StorageContainer = {
     containerUrl?: string;
-    onContainerUrlChange?: (containerUrl: string) => void;
+    onContainerUrlChange?: (
+        containerUrl: string,
+        containerUrls: Array<string>
+    ) => void;
 } & (WithLocalStorage | WithoutLocalStorage);
 
 export type EnvironmentPickerProps = BaseComponentProps & {
     adapter: IADTAdapter | MockAdapter;
     shouldPullFromSubscription?: boolean;
     environmentUrl?: string;
-    onEnvironmentUrlChange?: (newEnvironmentUrl: string) => void;
+    onEnvironmentUrlChange?: (
+        environmentUrl: string,
+        environmentUrls: Array<string>
+    ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);

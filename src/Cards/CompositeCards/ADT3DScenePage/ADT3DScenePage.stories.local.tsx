@@ -15,6 +15,14 @@ const cardStyle = {
 
 export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
+    const onEnvironmentChange = (envUrl, envUrls) => {
+        console.log(envUrl);
+        console.log(envUrls);
+    };
+    const onContainerChange = (containerUrl, containerUrls) => {
+        console.log(containerUrl);
+        console.log(containerUrls);
+    };
 
     return !authenticationParameters ? (
         <div></div>
@@ -33,8 +41,11 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                     )
                 }
                 environmentPickerOptions={{
-                    isLocalStorageEnabledForEnvironment: true,
-                    isLocalStorageEnabledForContainer: true
+                    environment: {
+                        isLocalStorageEnabled: true,
+                        onEnvironmentChange
+                    },
+                    storage: { isLocalStorageEnabled: true, onContainerChange }
                 }}
             />
         </div>

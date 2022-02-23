@@ -14,12 +14,24 @@ import {
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
     environmentPickerOptions?: {
-        isLocalStorageEnabledForEnvironment?: boolean;
-        isLocalStorageEnabledForContainer?: boolean;
-        environmentsLocalStorageKey?: string;
-        containersLocalStorageKey?: string;
-        selectedEnvironmentLocalStorageKey?: string;
-        selectedContainerLocalStorageKey?: string;
+        environment?: {
+            isLocalStorageEnabled?: boolean;
+            localStorageKey?: string;
+            selectedItemLocalStorageKey?: string;
+            onEnvironmentChange?: (
+                environmentUrl: string,
+                environmentUrls: Array<string>
+            ) => void;
+        };
+        storage?: {
+            isLocalStorageEnabled?: boolean;
+            localStorageKey?: string;
+            selectedItemLocalStorageKey?: string;
+            onContainerChange?: (
+                containerUrl: string,
+                containerUrls: Array<string>
+            ) => void;
+        };
     };
 }
 

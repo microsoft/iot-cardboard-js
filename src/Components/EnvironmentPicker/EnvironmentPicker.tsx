@@ -331,10 +331,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         setSelectedContainerUrl(containerUrlToEdit);
 
         if (props.onEnvironmentUrlChange) {
-            props.onEnvironmentUrlChange(environmentUrlToEdit);
+            props.onEnvironmentUrlChange(environmentUrlToEdit, environments);
         }
         if (props.storage?.onContainerUrlChange) {
-            props.storage?.onContainerUrlChange(containerUrlToEdit);
+            props.storage?.onContainerUrlChange(containerUrlToEdit, containers);
         }
 
         if (props.isLocalStorageEnabled) {
@@ -360,7 +360,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         toggleIsDialogHidden();
-    }, [environmentUrlToEdit, containerUrlToEdit]);
+    }, [environmentUrlToEdit, containerUrlToEdit, environments, containers]);
 
     const handleOnDismiss = useCallback(() => {
         toggleIsDialogHidden();
