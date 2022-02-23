@@ -128,7 +128,8 @@ WithAllElements.args = {
         iconEndName: 'Shapes',
         overflowMenuItems: [
             {
-                key: 'key1'
+                key: 'key1',
+                text: 'key 1'
             }
         ],
         isChecked: index % 2 === 0
