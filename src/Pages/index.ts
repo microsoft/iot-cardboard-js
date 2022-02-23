@@ -5,4 +5,4 @@
 */
 export { default as ADT3DScenePage } from './ADT3DScenePage/ADT3DScenePage';
 export { default as ADTModelAuthoringPage } from './ADTModelAuthoringPage/ADTModelAuthoringPage';
-export { default as ADTTwinPage } from './ADTTwinPage/ADTTwinPage';
+export { default as ADTTwinsPage } from './ADTTwinsPage/ADTTwinsPage';

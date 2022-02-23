@@ -3,11 +3,11 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTandADXAdapter from '../../Adapters/ADTandADXAdapter';
 import { SearchSpan } from '../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import ADTTwinPage from './ADTTwinPage';
+import ADTTwinsPage from './ADTTwinsPage';
 
 export default {
-    title: 'Pages/ADTTwinPage',
-    component: ADTTwinPage
+    title: 'Pages/ADTTwinsPage',
+    component: ADTTwinsPage
 };
 
 const cardStyle = {
@@ -22,7 +22,7 @@ export const ADT = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTTwinPage
+            <ADTTwinsPage
                 title={'Twins'}
                 theme={theme}
                 locale={locale}
@@ -55,7 +55,7 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
         <div></div>
     ) : (
         <div style={cardStyle}>
-            <ADTTwinPage
+            <ADTTwinsPage
                 title={'Twins with reverse lookup'}
                 theme={theme}
                 locale={locale}
