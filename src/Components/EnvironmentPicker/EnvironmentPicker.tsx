@@ -131,11 +131,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         }
 
         if (props.storage?.isLocalStorageEnabled) {
-            const containerUrlsInLocalStorage = JSON.parse(
-                localStorage.getItem(
-                    props.storage.localStorageKey ?? ContainersLocalStorageKey
-                )
-            );
+            const containerUrlsInLocalStorage =
+                JSON.parse(
+                    localStorage.getItem(
+                        props.storage.localStorageKey ??
+                            ContainersLocalStorageKey
+                    )
+                ) ?? [];
 
             // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
             const selectedContainerUrl =
