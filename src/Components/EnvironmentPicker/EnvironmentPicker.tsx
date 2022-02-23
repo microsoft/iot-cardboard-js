@@ -103,9 +103,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 )
             );
             const environments: Array<string> = environmentsInLocalStorage
-                ? environmentsInLocalStorage.map(
-                      (e: ADTEnvironmentInLocalStorage) => e.config.appAdtUrl
-                  )
+                ? environmentsInLocalStorage
+                      .filter((e) => e.config?.appAdtUrl)
+                      .map(
+                          (e: ADTEnvironmentInLocalStorage) =>
+                              e.config.appAdtUrl
+                      )
                 : [];
 
             const selectedEnvironmentUrl =
