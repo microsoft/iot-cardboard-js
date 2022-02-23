@@ -49,31 +49,57 @@ Proposed props for the new components
 
 ```ts
 interface CardboardListProps {
-  ariaLabel: string; // screen reader name of the list
-  items: CardboardListItemProps[]; // list items
-  onClick: () => void; // triggered when list item is clicked
-  textToHighlight?: string; // text being searched for, will highlight on the items in the list
+    /** unique identifier for this list of items. */
+    key: string;
+    /** optional prop to set any specific focus zone props needed for special cases */
+    focusZoneProps?: IFocusZoneProps;
+    /** callback fired for each item in the list to generate the internal properties for the list items */
+    getListItemProps: (item: T, index: number) => ICardboardListItemProps;
+    /** Collection of items to include in the list */
+    items: T[];
+    /** optional prop to set any specific list props needed for special cases */
+    listProps?: IListProps;
+    /** triggered when list item is clicked */
+    onClick: (item: T) => void;
+    /** text to highlight on the primary text. mainly used for indicating search matches */
+    textToHighlight?: string;
 }
 ```
 
 ```ts
 interface CardboardListItemProps {
-  iconEndName?: string; // icon to render on the right side of the list item
-  iconStartName?: string; // icon to render at the left side of the list item
-  isChecked?: boolean; // if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox
-  key: string; // unique name for the list to generate item keys
-  overflowMenuItems?: IContextualMenuItem[]; // items to put in the overflow menu. If empty, menu will not show
-  textPrimary: string; // primary text to show
-  textSecondary?: string; // secondary text to show below the main text
+    /** screen reader text to use for the list item */
+    ariaLabel: string;
+    /** icon to render on the right side of the list item */
+    iconEndName?: IIconNames;
+    /** icon to render at the left side of the list item */
+    iconStartName?: IIconNames;
+    /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
+    isChecked?: boolean;
+    /** List items to show in the overflow set */
+    overflowMenuItems?: IContextualMenuItem[];
+    /** primary text to show */
+    textPrimary: string;
+    /** secondary text to show below the main text */
+    textSecondary?: string;
 }
 ```
 
 ```ts
 interface CardboardListItemInternalProps extends CardboardListItemProps {
-  ariaLabel: string; // screen reader text to use for the list item
-  index: number; // index of the list item in the list. Used for unique keys
+    /** unique identifier for this list of items. Will be joined with index */
+    key: string;
+    /** index of the item in the list */
+    index: number;
+    /** triggered when list item is clicked */
+    onClick: () => void;
+    /** text to highlight on the primary text. mainly used for indicating search matches */
+    textToHighlight?: string;
 }
 ```
+
+We have the list because it's wrapped in a focus zone that takes care of the keyboard navigation on the list and we don't want to have to repeat that every time we need a list.
+The callback `getListItemProps` will get called for every item in the list and is how the consumer can control the rendering of the list by building out the list item values like display text and checkbox state etc.
 
 ___
 
