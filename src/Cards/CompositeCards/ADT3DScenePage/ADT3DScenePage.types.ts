@@ -8,7 +8,8 @@ import {
 import {
     IComponentError,
     IAction,
-    IConsumeCompositeCardProps
+    IConsumeCompositeCardProps,
+    IADTInstance
 } from '../../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
@@ -19,8 +20,8 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
             onEnvironmentChange?: (
-                environmentUrl: string,
-                environmentUrls: Array<string>
+                environment: string | IADTInstance,
+                environments: Array<string | IADTInstance>
             ) => void;
         };
         storage?: {

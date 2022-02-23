@@ -26,6 +26,7 @@ import {
 import ADT3DGlobeCard from '../../ADT3DGlobeCard/ADT3DGlobeCard';
 import { IScene, IScenesConfig } from '../../../Models/Classes/3DVConfig';
 import {
+    IADTInstance,
     IBlobAdapter,
     IComponentError
 } from '../../../Models/Constants/Interfaces';
@@ -103,15 +104,14 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     };
 
     const handleEnvironmentUrlChange = (
-        envUrl: string,
-        envUrls: Array<string>
+        env: string | IADTInstance,
+        envs: Array<string | IADTInstance>
     ) => {
-        adapter.setAdtHostUrl(envUrl.replace('https://', ''));
+        adapter.setAdtHostUrl(
+            typeof env === 'string' ? env.replace('https://', '') : env.hostName
+        );
         if (environmentPickerOptions?.environment?.onEnvironmentChange) {
-            environmentPickerOptions.environment.onEnvironmentChange(
-                envUrl,
-                envUrls
-            );
+            environmentPickerOptions.environment.onEnvironmentChange(env, envs);
         }
     };
 

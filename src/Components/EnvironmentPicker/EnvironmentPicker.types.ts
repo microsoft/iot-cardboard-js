@@ -1,5 +1,5 @@
 import { MockAdapter } from '../..';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { IADTAdapter, IADTInstance } from '../../Models/Constants/Interfaces';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 type WithLocalStorage = {
@@ -27,8 +27,19 @@ export type EnvironmentPickerProps = BaseComponentProps & {
     shouldPullFromSubscription?: boolean;
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
-        environmentUrl: string,
-        environmentUrls: Array<string>
+        environment: string | IADTInstance,
+        environments: Array<string | IADTInstance>
     ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);
+
+export type ADTEnvironmentInLocalStorage = {
+    name: string;
+    config: {
+        appAdtUrl: string;
+    };
+};
+
+export type ADTSelectedEnvironmentInLocalStorage = {
+    appAdtUrl: string;
+};

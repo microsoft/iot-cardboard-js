@@ -23,7 +23,11 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { EnvironmentPickerProps } from './EnvironmentPicker.types';
+import {
+    ADTEnvironmentInLocalStorage,
+    ADTSelectedEnvironmentInLocalStorage,
+    EnvironmentPickerProps
+} from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
 import {
     ContainersLocalStorageKey,
@@ -33,14 +37,21 @@ import {
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants/Constants';
+import { IADTInstance } from '../../Models/Constants/Interfaces';
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
-    const [environments, setEnvironments] = useState<Array<string>>([]);
-    const [selectedEnvironmentUrl, setSelectedEnvironmentUrl] = useState('');
+    const [environments, setEnvironments] = useState<
+        Array<string | IADTInstance>
+    >([]);
+    const [selectedEnvironment, setSelectedEnvironment] = useState<
+        string | IADTInstance
+    >('');
     const [containers, setContainers] = useState<Array<string>>([]);
     const [selectedContainerUrl, setSelectedContainerUrl] = useState('');
-    const [environmentUrlToEdit, setEnvironmentUrlToEdit] = useState('');
+    const [environmentToEdit, setEnvironmentToEdit] = useState<
+        string | IADTInstance
+    >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
     const dialogResettingValuesTimeoutRef = useRef(null);
@@ -86,52 +97,62 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     // set initial values based on props and local storage
     useEffect(() => {
         if (props.isLocalStorageEnabled) {
-            const environmentUrls =
-                JSON.parse(
-                    localStorage.getItem(
-                        props.localStorageKey ?? EnvironmentsLocalStorageKey
-                    )
-                ) ?? [];
+            const environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage> = JSON.parse(
+                localStorage.getItem(
+                    props.localStorageKey ?? EnvironmentsLocalStorageKey
+                )
+            );
+            const environments: Array<string> = environmentsInLocalStorage
+                ? environmentsInLocalStorage.map(
+                      (e: ADTEnvironmentInLocalStorage) => e.config.appAdtUrl
+                  )
+                : [];
 
             const selectedEnvironmentUrl =
-                localStorage.getItem(
-                    props.selectedItemLocalStorageKey ??
-                        SelectedEnvironmentLocalStorageKey
-                ) ??
+                (JSON.parse(
+                    localStorage.getItem(
+                        props.selectedItemLocalStorageKey ??
+                            SelectedEnvironmentLocalStorageKey
+                    )
+                ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
                 (props.environmentUrl || '');
 
             if (
                 selectedEnvironmentUrl !== '' &&
-                !environmentUrls.includes(selectedEnvironmentUrl)
+                !environments.includes(selectedEnvironmentUrl)
             ) {
-                environmentUrls.push(selectedEnvironmentUrl);
+                environments.push(selectedEnvironmentUrl);
             }
-            setSelectedEnvironmentUrl(selectedEnvironmentUrl);
-            setEnvironments(environmentUrls);
+            setSelectedEnvironment(selectedEnvironmentUrl);
+            setEnvironments(environments);
         } else {
-            setSelectedEnvironmentUrl(props.environmentUrl ?? '');
+            setSelectedEnvironment(props.environmentUrl ?? '');
             setEnvironments(props.environmentUrl ? [props.environmentUrl] : []);
         }
 
         if (props.storage?.isLocalStorageEnabled) {
-            const containerUrlsInLocalStorage = localStorage.getItem(
-                props.storage.localStorageKey ?? ContainersLocalStorageKey
+            const containerUrlsInLocalStorage = JSON.parse(
+                localStorage.getItem(
+                    props.storage.localStorageKey ?? ContainersLocalStorageKey
+                )
             );
-            if (containerUrlsInLocalStorage) {
-                setContainers(JSON.parse(containerUrlsInLocalStorage));
-            }
 
-            const selectedContainerUrlInLocalStorage = localStorage.getItem(
-                props.storage.selectedItemLocalStorageKey ??
-                    SelectedContainerLocalStorageKey
-            );
-            if (props.storage.containerUrl) {
-                setSelectedContainerUrl(props.storage.containerUrl);
-            } else if (selectedContainerUrlInLocalStorage) {
-                setSelectedContainerUrl(selectedContainerUrlInLocalStorage);
-            } else {
-                setSelectedContainerUrl('');
+            // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
+            const selectedContainerUrl =
+                props.storage.containerUrl ??
+                (localStorage.getItem(
+                    props.storage.selectedItemLocalStorageKey ??
+                        SelectedContainerLocalStorageKey
+                ) ||
+                    '');
+            if (
+                selectedContainerUrl !== '' &&
+                !containerUrlsInLocalStorage.includes(selectedContainerUrl)
+            ) {
+                containerUrlsInLocalStorage.push(selectedContainerUrl);
             }
+            setSelectedContainerUrl(selectedContainerUrl);
+            setContainers(containerUrlsInLocalStorage);
         } else {
             setSelectedContainerUrl(props.storage?.containerUrl ?? '');
             setContainers(
@@ -142,8 +163,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     }, []);
 
     useEffect(() => {
-        setEnvironmentUrlToEdit(selectedEnvironmentUrl);
-    }, [selectedEnvironmentUrl]);
+        setEnvironmentToEdit(selectedEnvironment);
+    }, [selectedEnvironment]);
 
     useEffect(() => {
         setContainerUrlToEdit(selectedContainerUrl);
@@ -151,16 +172,22 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     useEffect(() => {
         if (!environmentsState.adapterResult.hasNoData()) {
-            const environmentUrls = environmentsState.adapterResult.result?.data.map(
-                (i) => 'https://' + i.hostName
-            );
+            const subscriptionEnvironments: Array<IADTInstance> =
+                environmentsState.adapterResult.result?.data;
             setEnvironments(
-                //merge localstorage envs and envs from subscription in case both are enabled
+                //merge localstorage environments and environments from subscription in case both are enabled
                 environments.concat(
-                    environmentUrls.filter(
-                        (envUrl) =>
-                            isValidUrlStr(envUrl, 'environment') &&
-                            !environments.includes(envUrl)
+                    subscriptionEnvironments.filter(
+                        (env) =>
+                            isValidUrlStr(
+                                'https://' + env.hostName,
+                                'environment'
+                            ) &&
+                            environments.findIndex((e: string | IADTInstance) =>
+                                typeof e === 'string'
+                                    ? e === 'https://' + env.hostName
+                                    : e.hostName === env.hostName
+                            ) === -1
                     )
                 )
             );
@@ -169,12 +196,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
-            environments.map(
-                (e, idx) =>
-                    ({
-                        key: `adt-environment-${idx}`,
-                        text: e
-                    } as IComboBoxOption)
+            environments.map((e: string | IADTInstance, idx) =>
+                typeof e === 'string'
+                    ? ({
+                          key: `adt-environment-${idx}`,
+                          text: e
+                      } as IComboBoxOption)
+                    : ({
+                          key: `adt-environment-${idx}`,
+                          text: 'https://' + e.hostName,
+                          data: e
+                      } as IComboBoxOption)
             ),
         [environments]
     );
@@ -221,12 +253,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentInputError = useMemo(
         () =>
-            environmentUrlToEdit &&
+            environmentToEdit &&
             !environmentsState.isLoading &&
-            !isValidUrlStr(environmentUrlToEdit, 'environment')
+            !isValidUrlStr(
+                typeof environmentToEdit === 'string'
+                    ? environmentToEdit
+                    : 'https://' + environmentToEdit.hostName,
+                'environment'
+            )
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
-        [environmentUrlToEdit, environmentsState]
+        [environmentToEdit, environmentsState]
     );
 
     const containerInputError = useMemo(
@@ -254,11 +291,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         event.stopPropagation();
                         if (type === 'environment') {
                             const restOfOptions = environments.filter(
-                                (o: string) => o !== option.text
+                                (e: string | IADTInstance) =>
+                                    typeof e === 'string'
+                                        ? e !== option.text
+                                        : 'https://' + e.hostName !==
+                                          option.text
                             );
                             setEnvironments(restOfOptions);
-                            if (option.text === environmentUrlToEdit) {
-                                setEnvironmentUrlToEdit('');
+                            if (
+                                option.text ===
+                                (typeof environmentToEdit === 'string'
+                                    ? environmentToEdit
+                                    : 'https://' + environmentToEdit.hostName)
+                            ) {
+                                setEnvironmentToEdit('');
                             }
                         } else {
                             const restOfOptions = containers.filter(
@@ -277,20 +323,30 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            let newVal = value ?? option?.text;
-            if (
-                // let user enter hostname and gracefully append https protocol
-                !newVal.startsWith('https://') &&
-                ValidAdtHostSuffixes.some((suffix) => newVal.endsWith(suffix))
-            ) {
-                newVal = 'https://' + newVal;
-            }
-            setEnvironmentUrlToEdit(newVal);
-            if (
-                isValidUrlStr(newVal, 'environment') &&
-                environments.findIndex((e) => e === newVal) === -1
-            ) {
-                setEnvironments(environments.concat(newVal));
+            if (value) {
+                let newVal = value;
+                if (
+                    // let user enter hostname and gracefully append https protocol
+                    !newVal.startsWith('https://') &&
+                    ValidAdtHostSuffixes.some((suffix) =>
+                        newVal.endsWith(suffix)
+                    )
+                ) {
+                    newVal = 'https://' + newVal;
+                }
+                setEnvironmentToEdit(newVal);
+                if (
+                    isValidUrlStr(newVal, 'environment') &&
+                    environments.findIndex((e: string | IADTInstance) =>
+                        typeof e === 'string'
+                            ? e === newVal
+                            : 'https://' + e.hostName === newVal
+                    ) === -1
+                ) {
+                    setEnvironments(environments.concat(newVal));
+                }
+            } else {
+                setEnvironmentToEdit(option.data ?? option.text);
             }
         },
         [environments]
@@ -327,11 +383,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     );
 
     const handleOnSave = useCallback(() => {
-        setSelectedEnvironmentUrl(environmentUrlToEdit);
+        setSelectedEnvironment(environmentToEdit);
         setSelectedContainerUrl(containerUrlToEdit);
 
         if (props.onEnvironmentUrlChange) {
-            props.onEnvironmentUrlChange(environmentUrlToEdit, environments);
+            props.onEnvironmentUrlChange(environmentToEdit, environments);
         }
         if (props.storage?.onContainerUrlChange) {
             props.storage?.onContainerUrlChange(containerUrlToEdit, containers);
@@ -340,12 +396,27 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         if (props.isLocalStorageEnabled) {
             localStorage.setItem(
                 props.localStorageKey ?? EnvironmentsLocalStorageKey,
-                JSON.stringify(environments)
+                JSON.stringify(
+                    environments.map((e: string | IADTInstance) => ({
+                        config: {
+                            appAdtUrl:
+                                typeof e === 'string'
+                                    ? e
+                                    : 'https://' + e.hostName
+                        },
+                        name: typeof e === 'string' ? e : e.name
+                    }))
+                )
             );
             localStorage.setItem(
                 props.selectedItemLocalStorageKey ??
                     SelectedEnvironmentLocalStorageKey,
-                environmentUrlToEdit
+                JSON.stringify({
+                    appAdtUrl:
+                        typeof environmentToEdit === 'string'
+                            ? environmentToEdit
+                            : 'https://' + environmentToEdit.hostName
+                })
             );
         }
         if (props.storage?.isLocalStorageEnabled) {
@@ -360,19 +431,23 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         toggleIsDialogHidden();
-    }, [environmentUrlToEdit, containerUrlToEdit, environments, containers]);
+    }, [environmentToEdit, containerUrlToEdit, environments, containers]);
 
     const handleOnDismiss = useCallback(() => {
         toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
-            setEnvironmentUrlToEdit(selectedEnvironmentUrl);
+            const selectedEnvironmentIndex = environments.findIndex(
+                (e: string | IADTInstance) =>
+                    (typeof e === 'string' ? e : 'https://' + e.hostName) ===
+                    (typeof selectedEnvironment === 'string'
+                        ? selectedEnvironment
+                        : 'https://' + selectedEnvironment.hostName)
+            );
+            setEnvironmentToEdit(selectedEnvironment);
             setContainerUrlToEdit(selectedContainerUrl);
-            if (
-                environments.findIndex((e) => e === selectedEnvironmentUrl) ===
-                -1
-            ) {
-                setEnvironments(environments.concat(selectedEnvironmentUrl));
+            if (selectedEnvironmentIndex === -1) {
+                setEnvironments(environments.concat(selectedEnvironment));
             }
             if (
                 containers.findIndex((e) => e === selectedContainerUrl) === -1
@@ -380,15 +455,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(selectedContainerUrl));
             }
         }, 500);
-    }, [environmentUrlToEdit, containerUrlToEdit]);
+    }, [environmentToEdit, containerUrlToEdit]);
 
-    const displayNameForEnvironment = useCallback((envUrl: string) => {
-        if (envUrl) {
-            return new URL(envUrl).hostname.split('.')[0]; // i.e. ADTInstanceResourceName
-        } else {
-            return t('environmentPicker.noEnvironment');
-        }
-    }, []);
+    const displayNameForEnvironment = useCallback(
+        (env: string | IADTInstance) => {
+            if (env) {
+                return typeof env === 'string'
+                    ? new URL(env).hostname.split('.')[0]
+                    : env.name;
+            } else {
+                return t('environmentPicker.noEnvironment');
+            }
+        },
+        []
+    );
 
     const displayNameForContainer = useCallback((containerUrl: string) => {
         if (containerUrl) {
@@ -408,7 +488,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         >
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {displayNameForEnvironment(selectedEnvironmentUrl)}
+                    {displayNameForEnvironment(selectedEnvironment)}
                 </span>
                 <IconButton
                     iconProps={{ iconName: 'Edit' }}
@@ -450,7 +530,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         text={
                             environmentsState.isLoading
                                 ? ''
-                                : environmentUrlToEdit
+                                : typeof environmentToEdit === 'string'
+                                ? environmentToEdit
+                                : 'https://' + environmentToEdit.hostName
                         }
                         onChange={(_e, option, _idx, value) =>
                             handleOnEnvironmentUrlChange(option, value)
@@ -462,7 +544,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         selectedKey={
                             environmentsState.isLoading
                                 ? undefined
-                                : environmentUrlToEdit
+                                : typeof environmentToEdit === 'string'
+                                ? environmentToEdit
+                                : 'https://' + environmentToEdit.hostName
                         }
                     />
                     {props.storage && (
@@ -497,7 +581,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             (props.storage
                                 ? !(
                                       isValidUrlStr(
-                                          environmentUrlToEdit,
+                                          typeof environmentToEdit === 'string'
+                                              ? environmentToEdit
+                                              : 'https://' +
+                                                    environmentToEdit.hostName,
                                           'environment'
                                       ) &&
                                       isValidUrlStr(
@@ -506,7 +593,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                       )
                                   )
                                 : !isValidUrlStr(
-                                      environmentUrlToEdit,
+                                      typeof environmentToEdit === 'string'
+                                          ? environmentToEdit
+                                          : 'https://' +
+                                                environmentToEdit.hostName,
                                       'environment'
                                   ))
                         }
