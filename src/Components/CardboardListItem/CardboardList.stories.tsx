@@ -129,7 +129,10 @@ WithAllElements.args = {
         overflowMenuItems: [
             {
                 key: 'key1',
-                text: 'key 1'
+                text: 'key 1',
+                iconProps: {
+                    iconName: 'Shapes'
+                }
             }
         ],
         isChecked: index % 2 === 0
@@ -251,6 +254,31 @@ WithLongText.args = {
             }
         ],
         isChecked: (item as IFakeListItem).isChecked
+    })
+};
+
+export const WithHighlightedText = Template.bind({}) as TemplateStory;
+WithHighlightedText.args = {
+    items: [
+        {
+            itemId: 'rock 1'
+        } as IFakeListItem,
+        {
+            itemId: 'stream 1'
+        } as IFakeListItem,
+        {
+            itemId: 'stream 2'
+        } as IFakeListItem,
+        {
+            itemId: 'rock 2'
+        } as IFakeListItem
+    ],
+    textToHighlight: 'rock',
+    getListItemProps: (item, _index) => ({
+        ariaLabel: '',
+        textPrimary: (item as IFakeListItem).itemId,
+        textSecondary: (item as IFakeListItem).itemDescription,
+        iconStartName: 'Shapes'
     })
 };
 
