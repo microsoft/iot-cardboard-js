@@ -113,8 +113,6 @@ const Template: TemplateStory = (_args, { globals: { theme, locale } }) => {
     );
 };
 
-//#region List items
-
 export const BasicList = Template.bind({}) as TemplateStory;
 BasicList.args = {};
 
@@ -281,19 +279,3 @@ WithHighlightedText.args = {
         iconStartName: 'Shapes'
     })
 };
-
-// export const BasicList = Template.bind({}) as ListStory;
-// BasicList.args = {};
-
-// export const ElementsSearch = Template.bind({});
-// ElementsSearch.play = async ({ canvasElement }) => {
-//     // switch to the behaviors tab
-//     await ElementsTab.play({ canvasElement });
-
-//     const canvas = within(canvasElement);
-//     // type in the search box
-//     const searchBox = canvas.getByPlaceholderText('Search elements');
-//     await userEvent.type(searchBox, 'box');
-// };
-
-//#endregion

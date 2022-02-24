@@ -2,20 +2,20 @@ import {
     Checkbox,
     DefaultButton,
     FontIcon,
-    FontSizes,
-    getTheme,
     IButton,
-    IButtonStyles,
-    ICheckboxStyles,
     IconButton,
     IContextualMenuItem,
     IContextualMenuProps,
     IRefObject,
-    memoizeFunction,
-    mergeStyleSets
+    useTheme
 } from '@fluentui/react';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { StyleConstants, Utils } from '../..';
+import {
+    getStyles,
+    getButtonStyles,
+    checkboxStyles
+} from './CardboardListItem.styles';
 
 type IIconNames = string | 'Shapes';
 export interface ICardboardListItemPropsInternal
@@ -67,7 +67,9 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
     const onMenuClick = useCallback(() => {
         menuRef?.current?.openMenu?.();
     }, [menuRef]);
-    const styles = getStyles();
+    const theme = useTheme();
+    const customStyles = getStyles(theme);
+    const buttonStyles = getButtonStyles(theme);
     return (
         <>
             <DefaultButton
@@ -90,11 +92,14 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                 {showStartIcon && (
                     <FontIcon
                         iconName={iconStartName}
-                        className={styles.icon}
+                        className={customStyles.icon}
                     />
                 )}
-                <div className={styles.textContainer}>
-                    <div className={styles.primaryText} title={textPrimary}>
+                <div className={customStyles.textContainer}>
+                    <div
+                        className={customStyles.primaryText}
+                        title={textPrimary}
+                    >
                         {textToHighlight
                             ? Utils.getMarkedHtmlBySearch(
                                   textPrimary,
@@ -104,7 +109,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                     </div>
                     {showSecondaryText && (
                         <div
-                            className={styles.secondaryText}
+                            className={customStyles.secondaryText}
                             title={textSecondary}
                         >
                             {textSecondary}
@@ -114,7 +119,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                 {showEndIcon && (
                     <FontIcon
                         iconName={iconEndName}
-                        className={`${styles.icon} ${styles.endIcon}`}
+                        className={`${customStyles.icon} ${customStyles.endIcon}`}
                     />
                 )}
                 {showOverflow && (
@@ -144,6 +149,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     menuProps,
     menuRef
 }) => {
+    const theme = useTheme();
     // override the menu icon color
     const menuItems: IContextualMenuItem[] = useMemo(
         () =>
@@ -154,7 +160,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     styles: {
                         ...x.iconProps?.styles,
                         root: {
-                            color: StyleConstants.icons.color
+                            color: theme.palette.black
                         }
                     }
                 }
@@ -170,7 +176,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     style: {
                         fontWeight: 'bold',
                         fontSize: StyleConstants.icons.size16,
-                        color: StyleConstants.icons.color
+                        color: theme.palette.black
                     }
                 }}
                 data-testid={`cardboard-list-item-${key}-${index}-moreMenu`}
@@ -187,49 +193,3 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
 const preventFocus = {
     'data-is-focusable': false
 } as React.ButtonHTMLAttributes<HTMLElement | HTMLButtonElement>;
-const { palette } = getTheme();
-const getStyles = memoizeFunction(() => {
-    const ellipseStyles = {
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
-    };
-    return mergeStyleSets({
-        textContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-            overflow: 'hidden',
-            textAlign: 'start'
-        },
-        primaryText: {
-            color: palette.neutralDark,
-            fontSize: FontSizes.size14,
-            ...ellipseStyles
-        },
-        secondaryText: {
-            color: palette.neutralPrimary,
-            fontSize: FontSizes.size10,
-            ...ellipseStyles
-        },
-        icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
-        endIcon: { marginLeft: '8px' }
-    });
-});
-const checkboxStyles: ICheckboxStyles = {
-    checkbox: {
-        marginRight: '8px'
-    }
-};
-const buttonStyles: IButtonStyles = {
-    root: {
-        border: 0,
-        alignItems: 'start', // top align everything
-        padding: '8px 12px 8px 20px',
-        width: '100%',
-        height: 'auto'
-    },
-    flexContainer: {
-        justifyContent: 'start'
-    }
-};

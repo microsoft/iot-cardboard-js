@@ -107,8 +107,10 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 export const primaryTwinName = 'primaryTwin';
 
 export const StyleConstants = {
+    listItems: {
+        hoverBackgroundColor: 'var(--fluent-color-grey-20)'
+    },
     icons: {
-        color: 'var(--cb-color-text-primary)',
         size20: FontSizes.size20,
         size16: FontSizes.size16
     }
