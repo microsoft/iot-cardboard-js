@@ -10,14 +10,13 @@ import {
     useTheme
 } from '@fluentui/react';
 import React, { useCallback, useMemo, useRef } from 'react';
-import { StyleConstants, Utils } from '../..';
+import { CardboardIconNames, StyleConstants, Utils } from '../..';
 import {
     getStyles,
     getButtonStyles,
     checkboxStyles
 } from './CardboardListItem.styles';
 
-type IIconNames = string | 'Shapes';
 export interface ICardboardListItemPropsInternal
     extends ICardboardListItemProps {
     /** unique identifier for this list of items. Will be joined with index */
@@ -29,6 +28,7 @@ export interface ICardboardListItemPropsInternal
     /** text to highlight on the primary text. mainly used for indicating search matches */
     textToHighlight?: string;
 }
+type IIconNames = string | CardboardIconNames;
 export interface ICardboardListItemProps {
     /** screen reader text to use for the list item */
     ariaLabel: string;
