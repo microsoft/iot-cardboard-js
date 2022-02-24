@@ -575,7 +575,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         }
                         onRenderLabel={(p) => (
                             <div className="cb-environment-picker-environment-url-label">
-                                <span>{p.props.label}</span>
+                                <span className="cb-environment-picker-environment-url-label-text">
+                                    {p.props.label}
+                                </span>
                                 {environmentsState.isLoading && (
                                     <Spinner
                                         size={SpinnerSize.xSmall}
