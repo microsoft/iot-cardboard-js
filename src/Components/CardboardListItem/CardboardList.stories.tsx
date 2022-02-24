@@ -13,7 +13,7 @@ import { CardboardList, ICardboardListProps } from './CardboardList';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ICardboardListItemProps } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
-import { waitForFirstRender } from '../../Utilities';
+import { waitForFirstRender } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 
 export default {
