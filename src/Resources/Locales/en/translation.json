@@ -572,8 +572,8 @@
         "noContainer": "No container added",
         "removeFromList": "Remove from list",
         "errors": {
-            "invalidEnvironmentUrl": "Not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-            "invalidContainerUrl": "Not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
+            "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+            "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
     }
 }
