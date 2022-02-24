@@ -561,8 +561,8 @@
     "environmentPicker": {
         "environmentUrl": "Environment URL",
         "containerUrl": "Container URL",
-        "enterEnvironmentUrl": "Enter ADT instance URL (e.g. https://example.api.wus2.digitaltwins.azure.net)",
-        "enterContainerUrl": "Enter Azure storage container URL (e.g. https://example.blob.core.windows.net/example)",
+        "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+        "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
         "editEnvironment": "Edit environment",
         "descriptionForEnvironment": "Connect your environment to list your assets.",
         "descriptionForEnvAndCont": "Connect your environment and storage container URL to list your scenes.",
