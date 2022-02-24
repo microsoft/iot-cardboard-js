@@ -80,7 +80,7 @@
         font-weight: 600;
 
         &::after {
-            color: rgb(164, 38, 44);
+            color: var(--cb-color-text-error);
             content: ' *';
             padding-right: 12px;
         }
