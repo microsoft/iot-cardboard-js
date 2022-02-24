@@ -69,17 +69,20 @@
 }
 
 .cb-environment-picker-environment-url-label {
-    padding: 5px 0;
-    font-weight: 600;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     overflow: hidden;
+    padding: 5px 0;
     width: 100%;
 
-    .cb-environment-picker-environment-url-label-text::after {
-        content: ' *';
-        color: rgb(164, 38, 44);
-        padding-right: 12px;
+    .cb-environment-picker-environment-url-label-text {
+        font-weight: 600;
+
+        &::after {
+            color: rgb(164, 38, 44);
+            content: ' *';
+            padding-right: 12px;
+        }
     }
 }
