@@ -16,6 +16,14 @@ const cardStyle = {
 
 export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
+    const onEnvironmentChange = (envUrl, envUrls) => {
+        console.log(envUrl);
+        console.log(envUrls);
+    };
+    const onContainerChange = (containerUrl, containerUrls) => {
+        console.log(containerUrl);
+        console.log(containerUrls);
+    };
 
     return !authenticationParameters ? (
         <div></div>
@@ -30,11 +38,18 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
                 }
-                onBlobContainerUrlChange={(containerUrl) => {
-                    console.log(containerUrl);
+                environmentPickerOptions={{
+                    environment: {
+                        shouldPullFromSubscription: true,
+                        isLocalStorageEnabled: true,
+                        onEnvironmentChange
+                    },
+                    storage: { isLocalStorageEnabled: true, onContainerChange }
                 }}
             />
         </div>
