@@ -162,11 +162,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick }}
         >
-            <div className="cb-scene-page-container">
+            <div className="cb-scene-page-wrapper">
                 <BaseComponent
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
+                    containerClassName={"cb-scene-page-container"}
                 >
                     <FloatingScenePageModeToggle
                         scene={state.selectedScene}

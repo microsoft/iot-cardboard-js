@@ -1,12 +1,19 @@
 @import '../../Resources/Styles/BaseStyles';
 
-.cb-scene-page-container {
+.cb-scene-page-wrapper {
     height: 100%;
-    min-height: 600px;
+    min-height: 200px;
     width: 100%;
+    overflow: hidden;
 
     .cb-base-composite-card {
         background: transparent;
+    }
+
+    .cb-scene-page-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     .cb-scene-page-scene-environment-picker {
@@ -16,7 +23,8 @@
     .cb-scene-page-scene-list-container {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        flex-grow: 1;
+        overflow: auto;
     }
 
     .cb-scene-page-scene-globe-container {
@@ -44,6 +52,8 @@
 
     .cb-scene-list-card-wrapper {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .cb-scene-page-scene-builder-wrapper {
