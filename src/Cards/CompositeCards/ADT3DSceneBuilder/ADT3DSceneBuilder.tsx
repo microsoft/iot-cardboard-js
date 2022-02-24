@@ -1,5 +1,18 @@
-import { Pivot, PivotItem } from '@fluentui/react';
-import React, { useContext, useEffect, useMemo, useReducer } from 'react';
+import {
+    ActionButton,
+    DirectionalHint,
+    FocusTrapCallout,
+    mergeStyleSets,
+    Pivot,
+    PivotItem
+} from '@fluentui/react';
+import React, {
+    useContext,
+    useEffect,
+    useMemo,
+    useReducer,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DSceneBuilderMode,
@@ -46,6 +59,15 @@ import SceneElements from './Components/Elements/Elements';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderBreadcrumb from './Components/LeftPanelBuilderBreadcrumb';
 
+const styles = mergeStyleSets({
+    callout: {
+        padding: '15px',
+        width: '300px',
+        height: '300px',
+        background: '#ffffff'
+    }
+});
+
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
 );
@@ -61,6 +83,18 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
+
+    const [elements, setElements] = useState<ITwinToObjectMapping[]>([]);
+    const [clickedMesh, setClickedMesh] = useState(null);
+    const [assignedElements, setAssignedElements] = useState<
+        ITwinToObjectMapping[]
+    >([]);
+
+    const [calloutProps, setCalloutProps] = useState<{
+        isVisible: boolean;
+        x: number;
+        y: number;
+    }>({ isVisible: false, x: 0, y: 0 });
 
     const setSelectedMeshIds = (selectedMeshIds) => {
         dispatch({
@@ -103,6 +137,46 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [getScenesConfig?.adapterResult]);
 
+    useEffect(() => {
+        if (state.config) {
+            setElements(
+                state.config.viewerConfiguration?.scenes?.find(
+                    (s) => s.id === sceneId
+                )?.twinToObjectMappings || []
+            );
+        }
+    }, [state.config]);
+
+    const onMeshClicked = (mesh, e) => {
+        let meshes = [...state.selectedMeshIds];
+        if (mesh) {
+            const selectedMesh = state.selectedMeshIds.find(
+                (item) => item === mesh.id
+            );
+            if (selectedMesh) {
+                meshes = state.selectedMeshIds.filter(
+                    (item) => item !== selectedMesh
+                );
+                setSelectedMeshIds(meshes);
+            } else {
+                meshes.push(mesh.id);
+                setSelectedMeshIds(meshes);
+            }
+
+            setAssignedElements(
+                elements.filter((element) => element.meshIDs.includes(mesh.id))
+            );
+            setClickedMesh(mesh);
+            setCalloutProps({
+                isVisible: true,
+                x: e.event.clientX,
+                y: e.event.clientY
+            });
+        } else {
+            setSelectedMeshIds([]);
+        }
+    };
+
     return (
         <SceneBuilderContext.Provider
             value={{
@@ -140,12 +214,49 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     )
                                 ]?.assets[0].url
                             }
-                            onMeshSelected={(selectedMeshes) =>
-                                setSelectedMeshIds(selectedMeshes)
-                            }
+                            onMeshClicked={(mesh, e) => onMeshClicked(mesh, e)}
                             coloredMeshItems={state.coloredMeshItems}
-                            preselectedMeshIds={state.selectedMeshIds}
+                            selectedMeshIds={state.selectedMeshIds}
                         />
+                    )}
+                    {calloutProps.isVisible && (
+                        <div>
+                            <div
+                                id="target"
+                                style={{
+                                    left: calloutProps.x,
+                                    top: calloutProps.y,
+                                    position: 'absolute',
+                                    width: '1px',
+                                    height: '1px'
+                                }}
+                            />
+                            <FocusTrapCallout
+                                focusTrapProps={{
+                                    isClickableOutsideFocusTrap: true
+                                }}
+                                directionalHint={
+                                    DirectionalHint.bottomRightEdge
+                                }
+                                target="#target"
+                                isBeakVisible={false}
+                                className={styles.callout}
+                                onDismiss={() =>
+                                    setCalloutProps({
+                                        isVisible: false,
+                                        x: 0,
+                                        y: 0
+                                    })
+                                }
+                            >
+                                <div>
+                                    <ActionButton>Create Element</ActionButton>
+                                    {assignedElements.map((element) => {
+                                        return <div>{element.displayName}</div>;
+                                    })}
+                                </div>
+                            </FocusTrapCallout>
+                        </div>
                     )}
                 </div>
             </BaseComponent>

@@ -10,50 +10,22 @@ interface ADT3DBuilderCardProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshes: string[]) => void;
+    onMeshClicked?: (selectedMeshes: string[], e: any) => void;
     showMeshesOnHover?: boolean;
-    preselectedMeshIds?: Array<string>;
+    selectedMeshIds?: Array<string>;
     coloredMeshItems?: ColoredMeshItem[];
 }
 
 const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
     adapter,
     modelUrl,
-    onMeshSelected,
+    onMeshClicked,
     showMeshesOnHover,
-    preselectedMeshIds,
+    selectedMeshIds,
     coloredMeshItems
 }) => {
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>(
-        preselectedMeshIds ?? []
-    );
-
-    useEffect(() => {
-        if (preselectedMeshIds) {
-            setselectedMeshIds(preselectedMeshIds);
-        }
-    }, [preselectedMeshIds]);
-
-    const meshClick = (_marker: Marker, mesh: any) => {
-        let meshes = [...selectedMeshIds];
-        if (mesh) {
-            const selectedMesh = selectedMeshIds.find(
-                (item) => item === mesh.id
-            );
-            if (selectedMesh) {
-                meshes = selectedMeshIds.filter(
-                    (item) => item !== selectedMesh
-                );
-                setselectedMeshIds(meshes);
-            } else {
-                meshes.push(mesh.id);
-                setselectedMeshIds(meshes);
-            }
-        } else {
-            setselectedMeshIds([]);
-        }
-
-        onMeshSelected(meshes);
+    const meshClick = (_marker: Marker, mesh: any, _scene: any, e: any) => {
+        onMeshClicked(mesh, e);
     };
 
     return (
@@ -61,8 +33,8 @@ const ADT3DBuilderCard: React.FC<ADT3DBuilderCardProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh) =>
-                        onMeshSelected && meshClick(marker, mesh)
+                    onMarkerClick={(marker, mesh, scene, e) =>
+                        onMeshClicked && meshClick(marker, mesh, scene, e)
                     }
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
