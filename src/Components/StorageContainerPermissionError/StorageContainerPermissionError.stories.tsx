@@ -4,7 +4,8 @@ import StorageContainerPermissionError from './StorageContainerPermissionError';
 import { ComponentErrorType } from '../../Models/Constants';
 
 export default {
-    title: 'Components/StorageContainerPermissionError'
+    title: 'Components/StorageContainerPermissionError',
+    component: StorageContainerPermissionError
 };
 
 export const UnauthorizedAccessError = () => {

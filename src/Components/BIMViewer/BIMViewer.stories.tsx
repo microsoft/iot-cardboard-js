@@ -2,7 +2,8 @@ import React from 'react';
 import BIMViewer from './BIMViewer';
 
 export default {
-    title: 'Components/BIMViewer'
+    title: 'Components/BIMViewer',
+    component: BIMViewer
 };
 
 export const BasicBIMViewer = () => (

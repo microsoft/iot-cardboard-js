@@ -3,7 +3,8 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
-    title: 'Components/TwinSearchDropdown'
+    title: 'Components/TwinSearchDropdown',
+    component: TwinSearchDropdown
 };
 
 export const MockTwinSearchDropdown = () => {

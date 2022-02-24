@@ -1,0 +1,744 @@
+import {
+    ActionButton,
+    DirectionalHint,
+    FocusTrapCallout,
+    mergeStyleSets,
+    Pivot,
+    PivotItem
+} from '@fluentui/react';
+import React, {
+    useContext,
+    useEffect,
+    useMemo,
+    useReducer,
+    useState
+} from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+    ADT3DSceneBuilderMode,
+    ADT3DSceneTwinBindingsMode
+} from '../../Models/Constants/Enums';
+import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
+import {
+    I3DSceneBuilderContext,
+    IADT3DSceneBuilderCardProps,
+    OnBehaviorSave,
+    SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+    SET_ADT_SCENE_BUILDER_ELEMENTS,
+    SET_ADT_SCENE_BUILDER_MODE,
+    SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+    SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+    SET_ADT_SCENE_CONFIG,
+    SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_WIDGET_FORM_INFO,
+    WidgetFormInfo
+} from './ADT3DSceneBuilder.types';
+import './ADT3DSceneBuilder.scss';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import useAdapter from '../../Models/Hooks/useAdapter';
+import {
+    DatasourceType,
+    defaultBehavior,
+    IBehavior,
+    IScenesConfig,
+    ITwinToObjectMapping
+} from '../../Models/Classes/3DVConfig';
+import {
+    ADT3DSceneBuilderReducer,
+    ADT3DSceneBuilderLeftPanelReducer,
+    defaultADT3DSceneBuilderState,
+    defaultADT3DSceneBuilderLeftPanelState
+} from './ADT3DSceneBuilder.state';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import SceneBehaviors from './Internal/Behaviors/Behaviors';
+import SceneBehaviorsForm from './Internal/Behaviors/BehaviorsForm';
+import SceneElementForm from './Internal/Elements/ElementForm';
+import SceneElements from './Internal/Elements/Elements';
+import LeftPanelBuilderBreadcrumb from './Internal/LeftPanelBuilderBreadcrumb';
+
+const styles = mergeStyleSets({
+    callout: {
+        padding: '15px',
+        width: '300px',
+        height: '300px',
+        background: '#ffffff'
+    }
+});
+
+export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
+    null
+);
+
+const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
+    sceneId,
+    adapter,
+    theme,
+    locale,
+    localeStrings
+}) => {
+    const [state, dispatch] = useReducer(
+        ADT3DSceneBuilderReducer,
+        defaultADT3DSceneBuilderState
+    );
+
+    const [elements, setElements] = useState<ITwinToObjectMapping[]>([]);
+    const [clickedMesh, setClickedMesh] = useState(null);
+    const [assignedElements, setAssignedElements] = useState<
+        ITwinToObjectMapping[]
+    >([]);
+
+    const [calloutProps, setCalloutProps] = useState<{
+        isVisible: boolean;
+        x: number;
+        y: number;
+    }>({ isVisible: false, x: 0, y: 0 });
+
+    const setSelectedMeshIds = (selectedMeshIds) => {
+        dispatch({
+            type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+            payload: selectedMeshIds
+        });
+    };
+
+    const setColoredMeshItems = (coloredMeshItems) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS,
+            payload: coloredMeshItems
+        });
+    };
+
+    const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
+        dispatch({
+            type: SET_WIDGET_FORM_INFO,
+            payload: widgetFormInfo
+        });
+    };
+
+    const getScenesConfig = useAdapter({
+        adapterMethod: () => adapter.getScenesConfig(),
+        refetchDependencies: [adapter]
+    });
+
+    useEffect(() => {
+        if (!getScenesConfig.adapterResult.hasNoData()) {
+            const config: IScenesConfig = getScenesConfig.adapterResult.getData();
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: config
+            });
+        } else {
+            dispatch({
+                type: SET_ADT_SCENE_CONFIG,
+                payload: null
+            });
+        }
+    }, [getScenesConfig?.adapterResult]);
+
+    useEffect(() => {
+        if (state.config) {
+            setElements(
+                state.config.viewerConfiguration?.scenes?.find(
+                    (s) => s.id === sceneId
+                )?.twinToObjectMappings || []
+            );
+        }
+    }, [state.config]);
+
+    const onMeshClicked = (mesh, e) => {
+        let meshes = [...state.selectedMeshIds];
+        if (mesh) {
+            const selectedMesh = state.selectedMeshIds.find(
+                (item) => item === mesh.id
+            );
+            if (selectedMesh) {
+                meshes = state.selectedMeshIds.filter(
+                    (item) => item !== selectedMesh
+                );
+                setSelectedMeshIds(meshes);
+            } else {
+                meshes.push(mesh.id);
+                setSelectedMeshIds(meshes);
+            }
+
+            setAssignedElements(
+                elements.filter((element) => element.meshIDs.includes(mesh.id))
+            );
+            setClickedMesh(mesh);
+            setCalloutProps({
+                isVisible: true,
+                x: e.event.clientX,
+                y: e.event.clientY
+            });
+        } else {
+            setSelectedMeshIds([]);
+        }
+    };
+
+    return (
+        <SceneBuilderContext.Provider
+            value={{
+                adapter,
+                theme,
+                locale,
+                localeStrings,
+                selectedMeshIds: state.selectedMeshIds,
+                coloredMeshItems: state.coloredMeshItems,
+                setColoredMeshItems,
+                setSelectedMeshIds,
+                config: state.config,
+                getConfig: getScenesConfig.callAdapter,
+                sceneId,
+                widgetFormInfo: state.widgetFormInfo,
+                setWidgetFormInfo
+            }}
+        >
+            <BaseComponent
+                isLoading={!state.config && getScenesConfig.isLoading}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                containerClassName="cb-scene-builder-card-wrapper"
+            >
+                {state.config && <BuilderLeftPanel />}
+                <div className="cb-scene-builder-canvas">
+                    {state.config && (
+                        <ADT3DBuilder
+                            adapter={adapter as IADTAdapter}
+                            modelUrl={
+                                state.config.viewerConfiguration?.scenes[
+                                    state.config.viewerConfiguration?.scenes.findIndex(
+                                        (s) => s.id === sceneId
+                                    )
+                                ]?.assets[0].url
+                            }
+                            onMeshClicked={(mesh, e) => onMeshClicked(mesh, e)}
+                            coloredMeshItems={state.coloredMeshItems}
+                            selectedMeshIds={state.selectedMeshIds}
+                        />
+                    )}
+                    {calloutProps.isVisible && (
+                        <div>
+                            <div
+                                id="target"
+                                style={{
+                                    left: calloutProps.x,
+                                    top: calloutProps.y,
+                                    position: 'absolute',
+                                    width: '1px',
+                                    height: '1px'
+                                }}
+                            />
+                            <FocusTrapCallout
+                                focusTrapProps={{
+                                    isClickableOutsideFocusTrap: true
+                                }}
+                                directionalHint={
+                                    DirectionalHint.bottomRightEdge
+                                }
+                                target="#target"
+                                isBeakVisible={false}
+                                className={styles.callout}
+                                onDismiss={() =>
+                                    setCalloutProps({
+                                        isVisible: false,
+                                        x: 0,
+                                        y: 0
+                                    })
+                                }
+                            >
+                                <div>
+                                    <ActionButton>Create Element</ActionButton>
+                                    {assignedElements.map((element) => {
+                                        return <div>{element.displayName}</div>;
+                                    })}
+                                </div>
+                            </FocusTrapCallout>
+                        </div>
+                    )}
+                </div>
+            </BaseComponent>
+        </SceneBuilderContext.Provider>
+    );
+};
+
+const BuilderLeftPanel: React.FC = () => {
+    const { t } = useTranslation();
+    const [state, dispatch] = useReducer(
+        ADT3DSceneBuilderLeftPanelReducer,
+        defaultADT3DSceneBuilderLeftPanelState
+    );
+
+    const {
+        config,
+        getConfig,
+        sceneId,
+        setSelectedMeshIds,
+        setColoredMeshItems,
+        coloredMeshItems,
+        theme,
+        locale,
+        localeStrings,
+        adapter
+    } = useContext(SceneBuilderContext);
+
+    const addBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehavior(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const addBehaviorToSceneAdapterData = useAdapter({
+        adapterMethod: (params: { behavior: IBehavior }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.addBehaviorToScene(
+                    config,
+                    sceneId,
+                    params.behavior
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const editBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behavior: IBehavior;
+            originalBehaviorId: string;
+        }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.editBehavior(
+                    config,
+                    params.behavior,
+                    params.originalBehaviorId
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    const deleteBehaviorAdapterData = useAdapter({
+        adapterMethod: (params: {
+            behaviorId: string;
+            removeFromAllScenes?: boolean;
+        }) => {
+            return adapter.putScenesConfig(
+                ViewerConfigUtility.deleteBehavior(
+                    config,
+                    sceneId,
+                    params.behaviorId,
+                    params.removeFromAllScenes
+                )
+            );
+        },
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
+    // START of scene element related callbacks
+    const onCreateElementClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+            payload: null
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateElement
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onRemoveElement = (newElements: Array<ITwinToObjectMapping>) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+            payload: newElements
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onElementClick = (element: ITwinToObjectMapping) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+            payload: element
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.EditElement
+        });
+        setSelectedMeshIds(element.meshIDs);
+        setColoredMeshItems([]);
+    };
+
+    const updateSelectedElements = (
+        updatedElement: ITwinToObjectMapping,
+        isSelected
+    ) => {
+        let selectedElements = state.selectedElements
+            ? [...state.selectedElements]
+            : [];
+
+        // add element if selected and not in list
+        if (
+            isSelected &&
+            !selectedElements.find(
+                (element) => element.id === updatedElement.id
+            )
+        ) {
+            selectedElements.push(updatedElement);
+        }
+
+        // remove element if not selected and in list
+        if (
+            !isSelected &&
+            selectedElements.find((element) => element.id === updatedElement.id)
+        ) {
+            selectedElements = selectedElements.filter(
+                (element) => element.id !== updatedElement.id
+            );
+        }
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: selectedElements
+        });
+
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const element of selectedElements) {
+            for (const id of element.meshIDs) {
+                const coloredMesh: ColoredMeshItem = {
+                    meshId: id,
+                    color: '#00A8F0'
+                };
+                coloredMeshes.push(coloredMesh);
+            }
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const setSelectedElements = (elements: Array<ITwinToObjectMapping>) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: elements
+        });
+
+        const coloredMeshes: ColoredMeshItem[] = [];
+        for (const element of elements) {
+            for (const id of element.meshIDs) {
+                const coloredMesh: ColoredMeshItem = {
+                    meshId: id,
+                    color: '#00A8F0'
+                };
+                coloredMeshes.push(coloredMesh);
+            }
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const clearSelectedElements = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+            payload: null
+        });
+
+        setColoredMeshItems([]);
+    };
+
+    const onElementEnter = (element: ITwinToObjectMapping) => {
+        const meshItems = [...coloredMeshItems];
+        if (
+            (state.selectedElements &&
+                !state.selectedElements.find(
+                    (item) => item.id === element.id
+                )) ||
+            !state.selectedElements
+        ) {
+            for (const id of element.meshIDs) {
+                if (!meshItems.find((mesh) => mesh.meshId === id)) {
+                    const coloredMesh: ColoredMeshItem = {
+                        meshId: id,
+                        color: '#00A8F0'
+                    };
+                    meshItems.push(coloredMesh);
+                }
+            }
+        }
+        setColoredMeshItems(meshItems);
+    };
+
+    const onElementLeave = (element: ITwinToObjectMapping) => {
+        if (state.selectedElements && state.selectedElements.length > 0) {
+            let meshItems = [...coloredMeshItems];
+            if (
+                !state.selectedElements.find((item) => item.id === element.id)
+            ) {
+                for (const id of element.meshIDs) {
+                    meshItems = meshItems.filter((item) => item.meshId !== id);
+                }
+
+                setColoredMeshItems(meshItems);
+            }
+        } else {
+            setColoredMeshItems([]);
+        }
+    };
+
+    const onBackClick = (
+        idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
+    ) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: idleMode
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+            payload: newElements
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.ElementsIdle
+        });
+        setSelectedMeshIds([]);
+    };
+    // END of scene element related callbacks
+
+    // START of behavior related callbacks
+    const onCreateBehaviorClick = () => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateBehavior
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onCreateBehaviorWithElements = () => {
+        const behavior = defaultBehavior;
+        const mappingIds = [];
+        const elementsToAssign =
+            state.selectedElements?.length > 0
+                ? state.selectedElements
+                : [state.selectedElement];
+        elementsToAssign.forEach((element) => {
+            mappingIds.push(element.id);
+        });
+
+        behavior.datasources[0] = {
+            type: DatasourceType.TwinToObjectMapping,
+            mappingIDs: mappingIds
+        };
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+            payload: behavior
+        });
+
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.CreateBehavior
+        });
+        setSelectedMeshIds([]);
+    };
+
+    const onBehaviorSave: OnBehaviorSave = async (
+        behavior,
+        mode,
+        originalBehaviorId
+    ) => {
+        if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
+            await addBehaviorAdapterData.callAdapter({
+                behavior
+            });
+        }
+        if (mode === ADT3DSceneBuilderMode.EditBehavior) {
+            await editBehaviorAdapterData.callAdapter({
+                behavior,
+                originalBehaviorId
+            });
+        }
+        getConfig();
+    };
+
+    const onBehaviorClick = (behavior: IBehavior) => {
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+            payload: behavior
+        });
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: ADT3DSceneBuilderMode.EditBehavior
+        });
+    };
+
+    const onRemoveBehaviorFromScene = async (
+        behaviorId: string,
+        removeFromAllScenes?: boolean
+    ) => {
+        await deleteBehaviorAdapterData.callAdapter({
+            behaviorId,
+            removeFromAllScenes
+        });
+        getConfig();
+    };
+
+    const onAddBehaviorToScene = async (behavior: IBehavior) => {
+        await addBehaviorToSceneAdapterData.callAdapter({
+            behavior
+        });
+        getConfig();
+    };
+
+    // END of behavior related callbacks
+
+    useEffect(() => {
+        if (config) {
+            const mappings =
+                config.viewerConfiguration?.scenes?.find(
+                    (s) => s.id === sceneId
+                )?.twinToObjectMappings || [];
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: mappings
+            });
+        } else {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: []
+            });
+        }
+    }, [config]);
+
+    // Get behaviors in active scene
+    const behaviors = useMemo(
+        () => config?.viewerConfiguration?.behaviors || [],
+        [config, sceneId]
+    );
+
+    return (
+        <BaseComponent
+            theme={theme}
+            locale={locale}
+            localeStrings={localeStrings}
+            containerClassName="cb-scene-builder-left-panel"
+        >
+            <LeftPanelBuilderBreadcrumb
+                builderMode={state.builderMode}
+                onBehaviorsRootClick={() => {
+                    onBackClick(ADT3DSceneBuilderMode.BehaviorIdle);
+                    setSelectedElements([]);
+                }}
+                onElementsRootClick={() =>
+                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                }
+            />
+            {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+                state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
+                <Pivot
+                    aria-label={t('3dScenePage.buildMode')}
+                    selectedKey={state.selectedPivotTab}
+                    onLinkClick={(item) => {
+                        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+                        switch (item.props.itemKey) {
+                            case ADT3DSceneTwinBindingsMode.Elements:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.ElementsIdle;
+                                break;
+                            case ADT3DSceneTwinBindingsMode.Behaviors:
+                                activePivot =
+                                    ADT3DSceneBuilderMode.BehaviorIdle;
+                                break;
+                            default:
+                                break;
+                        }
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: activePivot
+                        });
+                    }}
+                    className="cb-scene-builder-left-panel-pivot"
+                    styles={{ root: { marginBottom: 16 } }}
+                >
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.elements')}
+                        itemKey={ADT3DSceneTwinBindingsMode.Elements}
+                    >
+                        <SceneElements
+                            elements={state.elements}
+                            selectedElements={state.selectedElements}
+                            onCreateElementClick={onCreateElementClick}
+                            onRemoveElement={onRemoveElement}
+                            onElementClick={onElementClick}
+                            onElementEnter={onElementEnter}
+                            onElementLeave={onElementLeave}
+                            updateSelectedElements={updateSelectedElements}
+                            clearSelectedElements={clearSelectedElements}
+                            onCreateBehaviorClick={onCreateBehaviorWithElements}
+                        />
+                    </PivotItem>
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.behaviors')}
+                        itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
+                        data-testid="3dScene.panelPivot.behaviorsTab"
+                    >
+                        <SceneBehaviors
+                            behaviors={behaviors}
+                            onBehaviorClick={onBehaviorClick}
+                            onCreateBehaviorClick={onCreateBehaviorClick}
+                            onRemoveBehaviorFromScene={
+                                onRemoveBehaviorFromScene
+                            }
+                            onAddBehaviorToScene={onAddBehaviorToScene}
+                        />
+                    </PivotItem>
+                </Pivot>
+            )}
+            {(state.builderMode === ADT3DSceneBuilderMode.CreateElement ||
+                state.builderMode === ADT3DSceneBuilderMode.EditElement) && (
+                <SceneElementForm
+                    builderMode={state.builderMode}
+                    behaviors={behaviors}
+                    selectedElement={state.selectedElement}
+                    onElementBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
+                    }
+                    onElementSave={onElementSave}
+                    onBehaviorSave={onBehaviorSave}
+                    onBehaviorClick={onBehaviorClick}
+                    onCreateBehaviorWithElements={onCreateBehaviorWithElements}
+                />
+            )}
+            {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
+                state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
+                <SceneBehaviorsForm
+                    elements={state.elements}
+                    builderMode={state.builderMode}
+                    onBehaviorBackClick={() =>
+                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
+                    }
+                    selectedBehavior={state.selectedBehavior}
+                    onBehaviorSave={onBehaviorSave}
+                    selectedElements={state.selectedElements}
+                    setSelectedElements={setSelectedElements}
+                    onElementEnter={onElementEnter}
+                    onElementLeave={onElementLeave}
+                    updateSelectedElements={updateSelectedElements}
+                />
+            )}
+        </BaseComponent>
+    );
+};
+
+export default React.memo(ADT3DSceneBuilder);
