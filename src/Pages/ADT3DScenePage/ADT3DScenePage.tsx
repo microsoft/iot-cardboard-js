@@ -167,7 +167,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
-                    containerClassName={"cb-scene-page-container"}
+                    containerClassName={'cb-scene-page-container'}
                 >
                     <FloatingScenePageModeToggle
                         scene={state.selectedScene}
