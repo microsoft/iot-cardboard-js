@@ -61,10 +61,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
         subText: props.isLocalStorageEnabled
-            ? t('environmentPicker.description') +
+            ? (props.storage
+                  ? t('environmentPicker.descriptionForEnvAndCont')
+                  : t('environmentPicker.descriptionForEnvironment')) +
               ' ' +
               t('environmentPicker.descriptionForLocalStorage')
-            : t('environmentPicker.description')
+            : props.storage
+            ? t('environmentPicker.descriptionForEnvAndCont')
+            : t('environmentPicker.descriptionForEnvironment')
     };
     const dialogStyles = {
         main: {
