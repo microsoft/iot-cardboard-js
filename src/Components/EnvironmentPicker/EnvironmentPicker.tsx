@@ -153,12 +153,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         if (props.storage?.isLocalStorageEnabled) {
             let containerUrlsInLocalStorage: Array<string> = [];
             try {
-                containerUrlsInLocalStorage = JSON.parse(
-                    localStorage.getItem(
-                        props.storage.localStorageKey ??
-                            ContainersLocalStorageKey
-                    )
-                );
+                containerUrlsInLocalStorage =
+                    JSON.parse(
+                        localStorage.getItem(
+                            props.storage.localStorageKey ??
+                                ContainersLocalStorageKey
+                        )
+                    ) ?? [];
             } catch (error) {
                 containerUrlsInLocalStorage = [];
             }
