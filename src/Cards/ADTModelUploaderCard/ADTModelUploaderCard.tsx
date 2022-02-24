@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import './ADTModelUploaderCard.scss';
 import { useTranslation } from 'react-i18next';
-import BaseCard from '../Base/Consume/BaseCard';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ADTModelUploaderCardProps } from './ADTModelUploaderCard.types';
 import JsonUploader from '../../Components/JsonUploader/JsonUploader';
@@ -18,6 +17,7 @@ import { DTModel } from '../../Models/Constants/Interfaces';
 import { ADTModelsData } from '../../Models/Classes/AdapterDataClasses/ADTUploadData';
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import { UploadPhase } from '../../Models/Constants';
+import { BaseCard } from '..';
 
 function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
     const {

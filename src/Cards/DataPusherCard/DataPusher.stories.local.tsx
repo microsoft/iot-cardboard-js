@@ -6,7 +6,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import DataPusherCard from './DataPusherCard';
 
 export default {
-    title: 'Data pusher/Data Pusher'
+    title: 'Cards/DataPusherCard',
+    component: DataPusherCard
 };
 
 const wrapperStyle = {

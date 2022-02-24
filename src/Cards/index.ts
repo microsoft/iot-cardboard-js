@@ -3,24 +3,18 @@
     To allow regex parsing, the exports must use the following syntax:
     export { default as <card_name> } from './<path_to_card>';
 */
-export { default as ADTHierarchyCard } from './ADTHierarchyCard/Consume/ADTHierarchyCard';
-export { default as BaseCard } from './Base/Consume/BaseCard';
-export { default as BimViewerCard } from './BIMViewerCard/Consume/BIMViewerCard';
-export { default as ADTHierarchyWithBIMViewer } from './CompositeCards/ADTHierarchyWithBIMViewer/Consume/ADTHierarchyWithBIMViewerCard';
-export { default as ADTHierarchyWithBoard } from './CompositeCards/ADTHierarchyWithBoard/Consume/ADTHierarchyWithBoard';
-export { default as ADTHierarchyWithLKVProcessGraphicsCard } from './CompositeCards/ADTHierarchyWithLKVProcessGraphics/Consume/ADTHierarchyWithLKVProcessGraphicsCard';
-export { default as BaseCompositeCard } from './CompositeCards/BaseCompositeCard/Consume/BaseCompositeCard';
-export { default as InfoTableCard } from './InfoTableCard/Consume/InfoTableCard';
-export { default as KeyValuePairCard } from './KeyValuePairCard/Consume/KeyValuePairCard';
-export { default as LineChartCard } from './Linechart/Consume/LinechartCard';
-export { default as LineChartCardCreate } from './Linechart/Create/LinechartCardCreate';
-export { default as LKVProcessGraphicCard } from './LKVProcessGraphicCard/Consume/LKVProcessGraphicCard';
-export { default as RelationshipsTable } from './RelationshipsTable/Consume/RelationshipsTable';
+export { default as ADTHierarchyCard } from './ADTHierarchyCard/ADTHierarchyCard';
+export { default as BaseCard } from './BaseCard/BaseCard';
+export { default as BimViewerCard } from './BIMViewerCard/BIMViewerCard';
+export { default as ADTHierarchyWithBIMViewer } from './CompositeCards/ADTHierarchyWithBIMViewer/ADTHierarchyWithBIMViewerCard';
+export { default as ADTHierarchyWithLKVProcessGraphicsCard } from './CompositeCards/ADTHierarchyWithLKVProcessGraphics/ADTHierarchyWithLKVProcessGraphicsCard';
+export { default as BaseCompositeCard } from './CompositeCards/BaseCompositeCard/BaseCompositeCard';
+export { default as InfoTableCard } from './InfoTableCard/InfoTableCard';
+export { default as KeyValuePairCard } from './KeyValuePairCard/KeyValuePairCard';
+export { default as LineChartCard } from './LinechartCard/LinechartCard';
+export { default as LKVProcessGraphicCard } from './LKVProcessGraphicCard/LKVProcessGraphicCard';
+export { default as RelationshipsTable } from './RelationshipsTable/RelationshipsTable';
 export { default as DataPusherCard } from './DataPusherCard/DataPusherCard';
-export { default as ADTModelListCard } from './ADTModelListCard/Consume/ADTModelListCard';
-export { default as ADTModelListWithModelDetailsCard } from './CompositeCards/ADTModelListWithModelDetails/Consume/ADTModelListWithModelDetailsCard';
-export { default as BIMUploadCard } from './CompositeCards/BIMUpload/BIMUploadCard';
+export { default as ADTModelListCard } from './ADTModelListCard/ADTModelListCard';
+export { default as BIMUploadCard } from './BIMUploadCard/BIMUploadCard';
 export { default as ADTModelUploaderCard } from './ADTModelUploaderCard/ADTModelUploaderCard';
-export { default as ADT3DViewerCard } from './ADT3DViewerCard/ADT3DViewerCard';
-export { default as ADT3DScenePage } from './CompositeCards/ADT3DScenePage/ADT3DScenePage';
-export { default as ADT3DGlobeCard } from './ADT3DGlobeCard/ADT3DGlobeCard';

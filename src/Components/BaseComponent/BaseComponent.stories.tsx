@@ -4,7 +4,8 @@ import { ComponentError } from '../../Models/Classes/Errors';
 import BaseComponent from './BaseComponent';
 
 export default {
-    title: 'Components/Base Component'
+    title: 'Components/BaseComponent',
+    component: BaseComponent
 };
 
 export const NoData = (
