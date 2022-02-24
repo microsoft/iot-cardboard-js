@@ -7,7 +7,6 @@ import {
     IWidgetLibraryItem,
     IWidget
 } from '../../Models/Classes/3DVConfig';
-import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -51,11 +50,11 @@ export interface I3DSceneBuilderContext {
     getConfig: () => void;
     sceneId: string;
     selectedMeshIds: Array<string>;
-    coloredMeshItems: ColoredMeshItem[];
     setSelectedMeshIds: (objects: Array<string>) => void;
-    setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
+    dispatch: any;
+    state: ADT3DSceneBuilderState;
 }
 
 export type WidgetFormInfo = null | {
@@ -149,11 +148,7 @@ export interface IADT3DSceneBuilderElementsProps {
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
     selectedMeshIds: Array<string>;
-    coloredMeshItems: ColoredMeshItem[];
     widgetFormInfo: WidgetFormInfo;
-}
-
-export interface ADT3DSceneBuilderLeftPanelState {
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<ITwinToObjectMapping>;

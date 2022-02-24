@@ -20,7 +20,6 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
@@ -56,8 +55,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         sceneId,
         getConfig,
         selectedMeshIds,
-        setSelectedMeshIds,
-        setColoredMeshItems
+        setSelectedMeshIds
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -125,19 +123,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
-    const updateColoredMeshItems = (meshName?: string) => {
-        const coloredMeshes: ColoredMeshItem[] = [];
-        for (const meshId of elementToEdit.meshIDs) {
-            if (meshName && meshId === meshName) {
-                coloredMeshes.push({ meshId: meshId, color: '#00EDD9' });
-            } else {
-                coloredMeshes.push({ meshId: meshId, color: '#00A8F0' });
-            }
-        }
-
-        setColoredMeshItems(coloredMeshes);
-    };
-
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
@@ -188,21 +173,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         </div>
                     ) : (
                         <ul className="cb-scene-builder-left-panel-element-object-list">
-                            {elementToEdit.meshIDs.map((meshName) => (
+                            {elementToEdit.meshIDs.map((meshId) => (
                                 <li
-                                    key={meshName}
+                                    key={meshId}
                                     className="cb-scene-builder-left-panel-element-object"
-                                    onMouseEnter={() =>
-                                        updateColoredMeshItems(meshName)
-                                    }
-                                    onMouseLeave={() =>
-                                        updateColoredMeshItems()
-                                    }
                                 >
                                     <div className="cb-mesh-name-wrapper">
                                         <FontIcon iconName={'CubeShape'} />
                                         <span className="cb-mesh-name">
-                                            {meshName}
+                                            {meshId}
                                         </span>
                                     </div>
                                     <IconButton
@@ -217,9 +196,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                                 ...elementToEdit.meshIDs
                                             ];
                                             currentObjects.splice(
-                                                currentObjects.indexOf(
-                                                    meshName
-                                                ),
+                                                currentObjects.indexOf(meshId),
                                                 1
                                             );
                                             setSelectedMeshIds(currentObjects);
