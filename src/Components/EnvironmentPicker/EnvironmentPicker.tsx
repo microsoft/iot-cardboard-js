@@ -103,11 +103,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     // set initial values based on props and local storage
     useEffect(() => {
         if (props.isLocalStorageEnabled) {
-            const environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage> = JSON.parse(
-                localStorage.getItem(
-                    props.localStorageKey ?? EnvironmentsLocalStorageKey
-                )
-            );
+            let environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage> = null;
+            try {
+                environmentsInLocalStorage = JSON.parse(
+                    localStorage.getItem(
+                        props.localStorageKey ?? EnvironmentsLocalStorageKey
+                    )
+                );
+            } catch (error) {
+                environmentsInLocalStorage = null;
+            }
+
             const environments: Array<string> = environmentsInLocalStorage
                 ? environmentsInLocalStorage
                       .filter((e) => e.config?.appAdtUrl)
@@ -117,14 +123,19 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                       )
                 : [];
 
-            const selectedEnvironmentUrl =
-                (JSON.parse(
-                    localStorage.getItem(
-                        props.selectedItemLocalStorageKey ??
-                            SelectedEnvironmentLocalStorageKey
-                    )
-                ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
-                (props.environmentUrl || '');
+            let selectedEnvironmentUrl = '';
+            try {
+                selectedEnvironmentUrl =
+                    (JSON.parse(
+                        localStorage.getItem(
+                            props.selectedItemLocalStorageKey ??
+                                SelectedEnvironmentLocalStorageKey
+                        )
+                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
+                    (props.environmentUrl || '');
+            } catch (error) {
+                selectedEnvironmentUrl = '';
+            }
 
             if (
                 selectedEnvironmentUrl !== '' &&
@@ -140,13 +151,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         }
 
         if (props.storage?.isLocalStorageEnabled) {
-            const containerUrlsInLocalStorage =
-                JSON.parse(
+            let containerUrlsInLocalStorage: Array<string> = [];
+            try {
+                containerUrlsInLocalStorage = JSON.parse(
                     localStorage.getItem(
                         props.storage.localStorageKey ??
                             ContainersLocalStorageKey
                     )
-                ) ?? [];
+                );
+            } catch (error) {
+                containerUrlsInLocalStorage = [];
+            }
 
             // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
             const selectedContainerUrl =
