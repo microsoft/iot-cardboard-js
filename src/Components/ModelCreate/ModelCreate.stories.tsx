@@ -3,6 +3,7 @@ import ModelCreate from './ModelCreate';
 
 export default {
     title: 'Components/ModelCreate',
+    component: ModelCreate,
     parameters: {
         backgrounds: {
             default: 'gray',

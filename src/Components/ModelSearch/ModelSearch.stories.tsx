@@ -4,7 +4,8 @@ import CdnModelSearchAdapter from '../../Adapters/CdnModelSearchAdapter';
 import ModelSearch from './ModelSearch';
 
 export default {
-    title: 'Components/ModelSearch'
+    title: 'Components/ModelSearch',
+    component: ModelSearch
 };
 
 export const GithubModelSearch = () => (

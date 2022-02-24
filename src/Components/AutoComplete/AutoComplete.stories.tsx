@@ -4,7 +4,8 @@ import { AutoComplete } from './AutoComplete';
 import { Intellisense } from './Intellisense';
 
 export default {
-    title: 'AutoComplete/Consume'
+    title: 'Components/AutoComplete',
+    AutoComplete
 };
 
 export const SimpleAutoComplete = () => {

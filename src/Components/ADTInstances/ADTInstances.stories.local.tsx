@@ -5,7 +5,8 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
-    title: 'Components/ADTInstances'
+    title: 'Components/ADTInstances',
+    ADTInstances
 };
 
 export const Instances = (_args, { globals: { theme, locale } }) => {
