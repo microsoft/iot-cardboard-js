@@ -3,7 +3,8 @@ import { IStepperWizardStep } from '../../Models/Constants/Interfaces';
 import StepperWizard from './StepperWizard';
 
 export default {
-    title: 'Components/StepperWizard'
+    title: 'Components/StepperWizard',
+    component: StepperWizard
 };
 
 export const VerticalStepperWizard = (args) => {

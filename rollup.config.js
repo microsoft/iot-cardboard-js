@@ -27,6 +27,13 @@ const inputs = {
         '.tsx',
         'Components'
     ),
+    // Page entry points -- index MUST use [export { default as <name> } from './<path>'] syntax
+    ...parseExportListFromIndex(
+        './src/Pages/index.ts',
+        'src/Pages',
+        '.tsx',
+        'Pages'
+    ),
     Classes: 'src/Models/Classes/index.ts',
     Constants: 'src/Models/Constants/index.ts',
     Hooks: 'src/Models/Hooks/index.ts',

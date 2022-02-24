@@ -5,7 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
-    title: 'Components/TwinSearchDropdown'
+    title: 'Components/TwinSearchDropdown',
+    component: TwinSearchDropdown
 };
 
 export const ADTTwinSearchDropdown = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import BaseCompositeCard from '../BaseCompositeCard/Consume/BaseCompositeCard';
+import BaseCompositeCard from '../BaseCompositeCard/BaseCompositeCard';
 import { useTranslation } from 'react-i18next';
 import './ADTModelAuthoringCard.scss';
 import { ADTModelAuthoringCardProps } from './ADTModelAuthoringCard.types';

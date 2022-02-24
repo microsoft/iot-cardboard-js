@@ -6,7 +6,7 @@ import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTModelAuthoringCard from './ADTModelAuthoringCard';
 
 export default {
-    title: 'CompositeCards/ADTModelAuthoringCard'
+    title: 'Cards/CompositeCards/ADTModelAuthoringCard'
 };
 
 const cardStyle = {
