@@ -38,11 +38,14 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
-                        )
+                        ),
+                        authenticationParameters.adt.aadParameters.tenantId,
+                        authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
                 }
                 environmentPickerOptions={{
                     environment: {
+                        shouldPullFromSubscription: true,
                         isLocalStorageEnabled: true,
                         onEnvironmentChange
                     },

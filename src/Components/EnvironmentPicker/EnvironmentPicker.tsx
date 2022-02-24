@@ -9,7 +9,9 @@ import {
     IComboBoxStyles,
     Icon,
     IconButton,
-    PrimaryButton
+    PrimaryButton,
+    Spinner,
+    SpinnerSize
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import React, {
@@ -267,7 +269,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const environmentInputError = useMemo(
         () =>
             environmentToEdit &&
-            !environmentsState.isLoading &&
             !isValidUrlStr(
                 typeof environmentToEdit === 'string'
                     ? environmentToEdit
@@ -295,41 +296,47 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         return (
             <div className={'cb-environment-picker-dropdown-option'}>
                 <span>{option.text}</span>
-                <Icon
-                    iconName="Delete"
-                    aria-hidden="true"
-                    title={'Remove'}
-                    style={{ paddingLeft: 20 }}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        if (type === 'environment') {
-                            const restOfOptions = environments.filter(
-                                (e: string | IADTInstance) =>
-                                    typeof e === 'string'
-                                        ? e !== option.text
-                                        : 'https://' + e.hostName !==
-                                          option.text
-                            );
-                            setEnvironments(restOfOptions);
-                            if (
-                                option.text ===
-                                (typeof environmentToEdit === 'string'
-                                    ? environmentToEdit
-                                    : 'https://' + environmentToEdit.hostName)
-                            ) {
-                                setEnvironmentToEdit('');
-                            }
-                        } else {
-                            const restOfOptions = containers.filter(
-                                (o: string) => o !== option.text
-                            );
-                            setContainers(restOfOptions);
-                            if (option.text === containerUrlToEdit) {
-                                setContainerUrlToEdit('');
-                            }
-                        }
-                    }}
-                />
+                {!environmentsState.isLoading &&
+                    environmentsState.adapterResult?.result?.data?.findIndex(
+                        (e) => e.hostName === new URL(option.text).hostname
+                    ) === -1 && (
+                        <Icon
+                            iconName="Delete"
+                            aria-hidden="true"
+                            title={t('environmentPicker.removeFromList')}
+                            style={{ paddingLeft: 20 }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                if (type === 'environment') {
+                                    const restOfOptions = environments.filter(
+                                        (e: string | IADTInstance) =>
+                                            typeof e === 'string'
+                                                ? e !== option.text
+                                                : 'https://' + e.hostName !==
+                                                  option.text
+                                    );
+                                    setEnvironments(restOfOptions);
+                                    if (
+                                        option.text ===
+                                        (typeof environmentToEdit === 'string'
+                                            ? environmentToEdit
+                                            : 'https://' +
+                                              environmentToEdit.hostName)
+                                    ) {
+                                        setEnvironmentToEdit('');
+                                    }
+                                } else {
+                                    const restOfOptions = containers.filter(
+                                        (o: string) => o !== option.text
+                                    );
+                                    setContainers(restOfOptions);
+                                    if (option.text === containerUrlToEdit) {
+                                        setContainerUrlToEdit('');
+                                    }
+                                }
+                            }}
+                        />
+                    )}
             </div>
         );
     };
@@ -531,22 +538,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             >
                 <div className="cb-environment-picker-dialog-form">
                     <ComboBox
-                        placeholder={
-                            environmentsState.isLoading
-                                ? t('loadingInstances')
-                                : t('environmentPicker.enterEnvironmentUrl')
-                        }
+                        placeholder={t('environmentPicker.enterEnvironmentUrl')}
                         label={t('environmentPicker.environmentUrl')}
                         allowFreeform={true}
                         autoComplete={'on'}
                         options={environmentOptions}
                         styles={comboBoxStyles}
-                        disabled={environmentsState.isLoading}
                         required
                         text={
-                            environmentsState.isLoading
-                                ? ''
-                                : typeof environmentToEdit === 'string'
+                            typeof environmentToEdit === 'string'
                                 ? environmentToEdit
                                 : 'https://' + environmentToEdit.hostName
                         }
@@ -557,10 +557,21 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         onRenderOption={(option) =>
                             onRenderOption(option, 'environment')
                         }
+                        onRenderLabel={(p) => (
+                            <div className="cb-environment-picker-environment-url-label">
+                                <span>{p.props.label}</span>
+                                {environmentsState.isLoading && (
+                                    <Spinner
+                                        size={SpinnerSize.xSmall}
+                                        label={t('loadingInstances')}
+                                        ariaLive="assertive"
+                                        labelPosition="right"
+                                    />
+                                )}
+                            </div>
+                        )}
                         selectedKey={
-                            environmentsState.isLoading
-                                ? undefined
-                                : typeof environmentToEdit === 'string'
+                            typeof environmentToEdit === 'string'
                                 ? environmentToEdit
                                 : 'https://' + environmentToEdit.hostName
                         }
@@ -593,8 +604,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            environmentsState.isLoading ||
-                            (props.storage
+                            props.storage
                                 ? !(
                                       isValidUrlStr(
                                           typeof environmentToEdit === 'string'
@@ -614,7 +624,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                           : 'https://' +
                                                 environmentToEdit.hostName,
                                       'environment'
-                                  ))
+                                  )
                         }
                     />
                     <DefaultButton

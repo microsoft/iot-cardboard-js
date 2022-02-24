@@ -67,3 +67,11 @@
         white-space: nowrap;
     }
 }
+
+.cb-environment-picker-environment-url-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+    width: 100%;
+}
