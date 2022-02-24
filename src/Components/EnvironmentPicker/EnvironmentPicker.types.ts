@@ -24,7 +24,7 @@ type StorageContainer = {
 
 export type EnvironmentPickerProps = BaseComponentProps & {
     adapter: IADTAdapter | MockAdapter;
-    shouldPullFromSubscription?: boolean;
+    shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
         environment: string | IADTInstance,

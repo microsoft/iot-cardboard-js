@@ -181,6 +181,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     locale={locale}
                                     localeStrings={localeStrings}
                                     adapter={adapter as ADTAdapter}
+                                    shouldPullFromSubscription={
+                                        environmentPickerOptions?.environment
+                                            ?.shouldPullFromSubscription
+                                    }
                                     {...(adapter.getAdtHostUrl() && {
                                         environmentUrl:
                                             'https://' + adapter.getAdtHostUrl()

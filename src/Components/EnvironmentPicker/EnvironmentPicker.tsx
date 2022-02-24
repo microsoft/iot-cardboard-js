@@ -90,7 +90,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentsState = useAdapter({
         adapterMethod: () => props.adapter.getADTInstances(),
-        refetchDependencies: [props.adapter],
+        refetchDependencies: [],
         isAdapterCalledOnMount: props.shouldPullFromSubscription
     });
 
@@ -231,13 +231,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const isValidUrlStr = useCallback(
         (urlStr: string, type: 'environment' | 'container') => {
             if (type === 'environment') {
-                return (
-                    urlStr &&
-                    urlStr.startsWith('https://') &&
-                    ValidAdtHostSuffixes.some((suffix) =>
-                        urlStr.endsWith(suffix)
-                    )
-                );
+                try {
+                    return (
+                        urlStr &&
+                        urlStr.startsWith('https://') &&
+                        ValidAdtHostSuffixes.some((suffix) =>
+                            new URL(urlStr).hostname.endsWith(suffix)
+                        )
+                    );
+                } catch (error) {
+                    return false;
+                }
             } else {
                 try {
                     return (
@@ -333,8 +337,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 if (
                     // let user enter hostname and gracefully append https protocol
                     !newVal.startsWith('https://') &&
-                    ValidAdtHostSuffixes.some((suffix) =>
-                        newVal.endsWith(suffix)
+                    ValidAdtHostSuffixes.some(
+                        (suffix) =>
+                            newVal.endsWith(suffix) ||
+                            newVal.endsWith(suffix + '/')
                     )
                 ) {
                     newVal = 'https://' + newVal;
@@ -344,8 +350,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     isValidUrlStr(newVal, 'environment') &&
                     environments.findIndex((e: string | IADTInstance) =>
                         typeof e === 'string'
-                            ? e === newVal
-                            : 'https://' + e.hostName === newVal
+                            ? new URL(e).hostname === new URL(newVal).hostname
+                            : 'https://' + e.hostName ===
+                              new URL(newVal).hostname
                     ) === -1
                 ) {
                     setEnvironments(environments.concat(newVal));
