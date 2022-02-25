@@ -7,3 +7,6 @@ export { default as StandalonePropertyInspector } from './PropertyInspector/Stan
 export { default as PropertyInspector } from './PropertyInspector/PropertyInspector';
 export { default as ADTInstances } from './ADTInstances/ADTInstances';
 export { default as EnvironmentPicker } from './EnvironmentPicker/EnvironmentPicker';
+export { default as ADT3DGlobe } from './ADT3DGlobe/ADT3DGlobe';
+export { default as ADT3DViewer } from './ADT3DViewer/ADT3DViewer';
+export { default as ADT3DBuilder } from './ADT3DBuilder/ADT3DBuilder';
