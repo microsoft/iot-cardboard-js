@@ -74,6 +74,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
         <>
             <DefaultButton
                 key={`cardboard-list-item-${key}-${index}`}
+                data-testid={`cardboard-list-item-${key}-${index}`}
                 styles={buttonStyles}
                 onClick={onClick}
                 onKeyPress={(event) => {

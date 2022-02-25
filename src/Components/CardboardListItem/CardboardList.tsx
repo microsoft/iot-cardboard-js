@@ -46,6 +46,7 @@ export const CardboardList = <T extends unknown>({
                 <List
                     {...listProps}
                     items={items}
+                    data-testid={`cardboard-list-${key}`}
                     onRenderCell={(item, index) => (
                         <CardboardListItem
                             {...getListItemProps(item, index)}

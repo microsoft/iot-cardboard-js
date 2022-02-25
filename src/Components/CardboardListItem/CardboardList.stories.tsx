@@ -14,7 +14,8 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { ICardboardListItemProps } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
 import { waitForFirstRender } from '../../Models/Services/StoryUtilities';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { Theme } from '../..';
 
 export default {
     title: 'Components/Lists'
@@ -91,14 +92,14 @@ const defaultGetListItemPropsHandler = (
 };
 
 type TemplateStory = ComponentStory<typeof CardboardList>;
-const Template: TemplateStory = (_args, { globals: { theme, locale } }) => {
+const Template: TemplateStory = (args, context) => {
     return (
         <div style={cardStyle}>
             <BaseComponent
                 isLoading={false}
-                theme={theme}
-                locale={locale}
-                localeStrings={locale}
+                theme={context.parameters.theme || context.globals.theme}
+                locale={context.globals.locale}
+                localeStrings={context.globals.locale}
             >
                 <CardboardList<IFakeListItem>
                     getListItemProps={defaultGetListItemPropsHandler}
@@ -106,7 +107,7 @@ const Template: TemplateStory = (_args, { globals: { theme, locale } }) => {
                     key="testList"
                     onClick={defaultOnClickHandler}
                     textToHighlight={''}
-                    {...(_args as ICardboardListProps<IFakeListItem>)}
+                    {...(args as ICardboardListProps<IFakeListItem>)}
                 />
             </BaseComponent>
         </div>
@@ -153,35 +154,6 @@ WithMenu.args = {
         textPrimary: `List item ${index}`
     })
 };
-export const WithMenuOpened = Template.bind({}) as TemplateStory;
-WithMenuOpened.args = WithMenu.args;
-WithMenuOpened.play = async ({ canvasElement }) => {
-    await waitForFirstRender();
-    const canvas = within(canvasElement);
-    // Finds the menu and clicks it
-    const menuItem = canvas.getByTestId(
-        'cardboard-list-item-undefined-0-moreMenu'
-    );
-    await userEvent.click(menuItem);
-};
-
-export const WithStartIcon = Template.bind({}) as TemplateStory;
-WithStartIcon.args = {
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        iconStartName: 'Shapes',
-        textPrimary: `List item ${index}`
-    })
-};
-
-export const WithEndIcon = Template.bind({}) as TemplateStory;
-WithEndIcon.args = {
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        iconEndName: 'Add',
-        textPrimary: `List item ${index}`
-    })
-};
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
 WithStartAndEndIcon.args = {
@@ -200,58 +172,6 @@ WithStartIconAndMenu.args = {
         iconStartName: 'Link',
         textPrimary: `List item ${index}`,
         overflowMenuItems: getDefaultMenuItems(item)
-    })
-};
-
-export const WithSecondaryText = Template.bind({}) as TemplateStory;
-WithSecondaryText.args = {
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        iconStartName: 'Link',
-        textPrimary: `List item ${index}`,
-        textSecondary: `Description of item ${index}`
-    })
-};
-
-export const WithCheckbox = Template.bind({}) as TemplateStory;
-WithCheckbox.args = {
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        textPrimary: `List item ${index}`,
-        isChecked: index % 2 === 0
-    })
-};
-
-export const WithCheckboxAndSecondary = Template.bind({}) as TemplateStory;
-WithCheckboxAndSecondary.args = {
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        textPrimary: `List item ${index}`,
-        textSecondary: `description for ${index}`,
-        isChecked: index % 2 === 0
-    })
-};
-
-export const WithLongText = Template.bind({}) as TemplateStory;
-WithLongText.args = {
-    items: [
-        {
-            isChecked: undefined,
-            itemId: 'really long text for all the items',
-            itemDescription:
-                'description can sometimes be really really long and we need it to overflow'
-        }
-    ],
-    getListItemProps: (item, _index) => ({
-        ariaLabel: '',
-        textPrimary: (item as IFakeListItem).itemId,
-        textSecondary: (item as IFakeListItem).itemDescription,
-        overflowMenuItems: [
-            {
-                key: 'key1'
-            }
-        ],
-        isChecked: (item as IFakeListItem).isChecked
     })
 };
 
