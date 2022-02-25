@@ -1,44 +1,28 @@
 import React from 'react';
-import { ComponentStory, ReactFramework, StoryContext } from '@storybook/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
+import { ComponentStory } from '@storybook/react';
 import {
     CardboardListItem,
     ICardboardListItemPropsInternal
 } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
-import { waitForFirstRender } from '../../Models/Services/StoryUtilities';
+import {
+    getDefaultStoryDecorator,
+    waitForFirstRender
+} from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
-
-type IStoryContext = StoryContext<
-    ReactFramework,
-    ICardboardListItemPropsInternal & {
-        children?: React.ReactNode;
-    }
->;
-export default {
-    title: 'Components/Lists/Items',
-    component: CardboardListItem,
-    decorators: [
-        (Story, context: IStoryContext) => (
-            <div style={cardStyle}>
-                <BaseComponent
-                    isLoading={false}
-                    theme={context.parameters.theme || context.globals.theme}
-                    locale={context.globals.locale}
-                    localeStrings={context.globals.locale}
-                >
-                    <Story />
-                </BaseComponent>
-            </div>
-        )
-    ]
-};
 
 const cardStyle = {
     width: '300px',
     background: 'grey',
     padding: '15px'
+};
+export default {
+    title: 'Components/Lists/Items',
+    component: CardboardListItem,
+    decorators: [
+        getDefaultStoryDecorator<ICardboardListItemPropsInternal>(cardStyle)
+    ]
 };
 
 const defaultProps: ICardboardListItemPropsInternal = {

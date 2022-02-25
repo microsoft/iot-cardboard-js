@@ -1,17 +1,20 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { CardboardList, ICardboardListProps } from './CardboardList';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { ICardboardListItemProps } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
-
-export default {
-    title: 'Components/Lists'
-};
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
 const cardStyle = {
     height: '600px',
     width: '300px'
+};
+export default {
+    title: 'Components/Lists',
+    component: CardboardList,
+    decorators: [
+        getDefaultStoryDecorator<ICardboardListProps<IFakeListItem>>(cardStyle)
+    ]
 };
 
 interface IFakeListItem {
@@ -79,34 +82,29 @@ const defaultGetListItemPropsHandler = (
     };
 };
 
-type TemplateStory = ComponentStory<typeof CardboardList>;
-const Template: TemplateStory = (args, context) => {
-    return (
-        <div style={cardStyle}>
-            <BaseComponent
-                isLoading={false}
-                theme={context.parameters.theme || context.globals.theme}
-                locale={context.globals.locale}
-                localeStrings={context.globals.locale}
-            >
-                <CardboardList<IFakeListItem>
-                    getListItemProps={defaultGetListItemPropsHandler}
-                    items={defaultListItems}
-                    key="testList"
-                    onClick={defaultOnClickHandler}
-                    textToHighlight={''}
-                    {...(args as ICardboardListProps<IFakeListItem>)}
-                />
-            </BaseComponent>
-        </div>
-    );
+const defaultProps: ICardboardListProps<unknown> = {
+    getListItemProps: defaultGetListItemPropsHandler as (
+        item: unknown,
+        index: number
+    ) => ICardboardListItemProps,
+    items: defaultListItems,
+    key: 'testList',
+    onClick: defaultOnClickHandler
 };
 
+type TemplateStory = ComponentStory<typeof CardboardList>;
+const Template: TemplateStory = (args) => (
+    <CardboardList<IFakeListItem>
+        {...(args as ICardboardListProps<IFakeListItem>)}
+    />
+);
+
 export const BasicList = Template.bind({}) as TemplateStory;
-BasicList.args = {};
+BasicList.args = defaultProps;
 
 export const WithAllElements = Template.bind({}) as TemplateStory;
 WithAllElements.args = {
+    ...defaultProps,
     getListItemProps: (item, index) => ({
         ariaLabel: '',
         textPrimary: (item as IFakeListItem).itemId,
@@ -128,6 +126,7 @@ WithAllElements.args = {
 
 export const WithMenu = Template.bind({}) as TemplateStory;
 WithMenu.args = {
+    ...defaultProps,
     getListItemProps: (item, index) => ({
         ariaLabel: '',
         overflowMenuItems: [
@@ -145,6 +144,7 @@ WithMenu.args = {
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
 WithStartAndEndIcon.args = {
+    ...defaultProps,
     getListItemProps: (item, index) => ({
         ariaLabel: '',
         iconStartName: 'Link',
@@ -155,6 +155,7 @@ WithStartAndEndIcon.args = {
 
 export const WithStartIconAndMenu = Template.bind({}) as TemplateStory;
 WithStartIconAndMenu.args = {
+    ...defaultProps,
     getListItemProps: (item, index) => ({
         ariaLabel: '',
         iconStartName: 'Link',
@@ -165,6 +166,7 @@ WithStartIconAndMenu.args = {
 
 export const WithHighlightedText = Template.bind({}) as TemplateStory;
 WithHighlightedText.args = {
+    ...defaultProps,
     items: [
         {
             itemId: 'rock 1'
