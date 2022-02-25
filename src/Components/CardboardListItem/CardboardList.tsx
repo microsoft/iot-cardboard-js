@@ -13,7 +13,7 @@ import {
 
 export interface ICardboardListProps<T> {
     /** unique identifier for this list of items. Will be joined with index */
-    key: string;
+    listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */
     focusZoneProps?: IFocusZoneProps;
     /** callback fired for each item in the list to generate the internal properties for the list items */
@@ -32,7 +32,7 @@ export const CardboardList = <T extends unknown>({
     focusZoneProps,
     getListItemProps,
     items,
-    key,
+    listKey,
     listProps,
     onClick,
     textToHighlight
@@ -46,11 +46,11 @@ export const CardboardList = <T extends unknown>({
                 <List
                     {...listProps}
                     items={items}
-                    data-testid={`cardboard-list-${key}`}
+                    data-testid={`cardboard-list-${listKey}`}
                     onRenderCell={(item, index) => (
                         <CardboardListItem
                             {...getListItemProps(item, index)}
-                            key={key}
+                            listKey={listKey}
                             index={index}
                             onClick={() => onClick(item)}
                             textToHighlight={textToHighlight}

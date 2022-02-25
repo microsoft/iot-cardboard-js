@@ -26,7 +26,7 @@ export default {
 };
 
 const defaultProps: ICardboardListItemPropsInternal = {
-    key: 'listItemKey',
+    listKey: 'listItemKey',
     index: 0,
     onClick: () => alert('clicked'),
     ariaLabel: 'list item 1',
@@ -81,7 +81,7 @@ WithMenuOpened.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId(
-        'cardboard-list-item-undefined-0-moreMenu'
+        'cardboard-list-item-listItemKey-0-moreMenu'
     );
     await userEvent.click(menuItem);
 };

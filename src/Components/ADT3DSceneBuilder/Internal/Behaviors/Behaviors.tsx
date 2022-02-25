@@ -146,7 +146,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const listProps: ICardboardListProps<IBehavior> = {
         items: filteredItemsInScene,
         getListItemProps: getListItemProps,
-        key: 'behaviors-list',
+        listKey: 'behaviors-list',
         onClick: (item) => alert(`clicked item ${item.id}`),
         textToHighlight: searchText
     };

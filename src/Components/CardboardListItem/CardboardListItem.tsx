@@ -20,7 +20,7 @@ import {
 export interface ICardboardListItemPropsInternal
     extends ICardboardListItemProps {
     /** unique identifier for this list of items. Will be joined with index */
-    key: string;
+    listKey: string;
     /** index of the item in the list */
     index: number;
     /** triggered when list item is clicked */
@@ -51,7 +51,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
     iconStartName,
     index,
     isChecked,
-    key,
+    listKey,
     overflowMenuItems,
     textPrimary,
     textSecondary,
@@ -73,8 +73,8 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
     return (
         <>
             <DefaultButton
-                key={`cardboard-list-item-${key}-${index}`}
-                data-testid={`cardboard-list-item-${key}-${index}`}
+                key={`cardboard-list-item-${listKey}-${index}`}
+                data-testid={`cardboard-list-item-${listKey}-${index}`}
                 styles={buttonStyles}
                 onClick={onClick}
                 onKeyPress={(event) => {
@@ -127,7 +127,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                 {showOverflow && (
                     <OverflowMenu
                         index={index}
-                        key={key}
+                        menuKey={listKey}
                         menuRef={menuRef}
                         menuProps={{
                             items: overflowMenuItems
@@ -141,13 +141,13 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
 
 interface IOverflowMenuProps {
     index: number;
-    key: string;
+    menuKey: string;
     menuProps: IContextualMenuProps;
     menuRef: IRefObject<IButton>;
 }
 const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     index,
-    key,
+    menuKey,
     menuProps,
     menuRef
 }) => {
@@ -181,7 +181,7 @@ const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                         color: theme.palette.black
                     }
                 }}
-                data-testid={`cardboard-list-item-${key}-${index}-moreMenu`}
+                data-testid={`cardboard-list-item-${menuKey}-${index}-moreMenu`}
                 data-is-focusable={false}
                 title={'More'} // t('more')
                 ariaLabel={'More menu'} // t('more')

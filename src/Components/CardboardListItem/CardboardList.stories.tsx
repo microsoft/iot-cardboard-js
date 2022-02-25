@@ -88,7 +88,7 @@ const defaultProps: ICardboardListProps<unknown> = {
         index: number
     ) => ICardboardListItemProps,
     items: defaultListItems,
-    key: 'testList',
+    listKey: 'testList',
     onClick: defaultOnClickHandler
 };
 
