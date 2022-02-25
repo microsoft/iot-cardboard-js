@@ -1,6 +1,5 @@
+// all properties are required unless explicitly specified as optional
 {
-    // all properties are required unless explicitly specified as optional
-
     "type": "3DScenesConfiguration", // describes the type of this file
     "version": "1.0", // semantically versioned, this is 1.0
 
