@@ -69,7 +69,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
     }, [menuRef]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles(theme);
+    const buttonStyles = getButtonStyles();
     return (
         <>
             <DefaultButton
@@ -88,6 +88,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                         checked={isChecked}
                         inputProps={preventFocus}
                         styles={checkboxStyles}
+                        onChange={() => undefined}
                     />
                 )}
                 {showStartIcon && (

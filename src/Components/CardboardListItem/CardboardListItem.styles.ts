@@ -42,7 +42,7 @@ export const checkboxStyles: ICheckboxStyles = {
     }
 };
 export const getButtonStyles = memoizeFunction(
-    (theme: Theme): IButtonStyles => {
+    (): IButtonStyles => {
         return {
             root: {
                 border: 0,
