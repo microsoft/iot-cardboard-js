@@ -3,9 +3,9 @@
 
     "type": "3DScenesConfiguration", // describes the type of this file
     "version": "1.0", // semantically versioned, this is 1.0
-    "configuration": {
-        // actual configuration is captured in configuration
 
+    // actual configuration is captured in configuration
+    "configuration": {
         /* the scenes property is an array of scene objects
            conceptually a scene is a single view that can be rendered from 3D assets */
         "scenes": [
@@ -38,10 +38,10 @@
                         "displayName": "tank",
                         "linkedTwinID": "SaltMachine_C1",
                         "objectIDs": ["tankMesh"],
-                        // in some situations, elements will need to reference more than just the LinkedTwin
-                        // aliases are used for other relevant twins, and they can be referenced in behavior expressions
-                        // twinAliases is an optional field
-                        // in practice any aliases required by behaviors should be present on elements that are used in those behaviors
+                        /* in some situations, elements will need to reference more than just the LinkedTwin
+                           aliases are used for other relevant twins, and they can be referenced in behavior expressions
+                           twinAliases is an optional field
+                           in practice any aliases required by behaviors should be present on elements that are used in those behaviors */
                         "twinAliases": {
                             "temperatureTag": "Tag_F2DB"
                         },
@@ -55,15 +55,15 @@
                         "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
                     }
                 ],
-                // scenes reference the behaviors that are used in them to support faster resolution of elements from behaviors
-                // this means that we dont need to loop over ever element in every behavior to determine what is being used in this scene at runtime
+                /* scenes reference the behaviors that are used in them to support faster resolution of elements from behaviors
+                   this means that we dont need to loop over ever element in every behavior to determine what is being used in this scene at runtime */
                 "behaviorIDs": [
                     "bf1ec41d7886438d880c140fb1bb570a",
                     "8b99ab46fabd45fab3adbaf88245a6b5"
                 ],
-                // assets are 3D files used to create the scene
-                // in the web viewer, we will use a single file for now that is an entire scene
-                // in other viewers, there may be multiple assets that are positioned in space using attributes on extensionProperties
+                /* assets are 3D files used to create the scene
+                   in the web viewer, we will use a single file for now that is an entire scene
+                   in other viewers, there may be multiple assets that are positioned in space using attributes on extensionProperties */
                 "assets": [
                     {
                         "type": "3DAsset",
@@ -168,14 +168,14 @@
                                 }
                             },
                             {
-                                /* This is a link widget that uses a string template to create a parametrized link */
+                                // This is a link widget that uses a string template to create a parametrized link
                                 "type": "Link",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "valueExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                             }
                         ],
 
-                        /* widgetGroups are used for grouping widgets, they are referenced by ID in widgets, they will have a secondary title as well */
+                        // widgetGroups are used for grouping widgets, they are referenced by ID in widgets, they will have a secondary title as well
                         "widgetGroups": [
                             {
                                 "id": "8bf489e804884596afe8abb7e803d5c5",
@@ -216,11 +216,11 @@
                 ],
                 "visuals": [
                     {
-                        /* a StatusColoring visual is used for mapping an expression result to a color */
+                        // a StatusColoring visual is used for mapping an expression result to a color
                         "type": "StatusColoring",
 
-                        // right now this is numeric, but you can imagine that we could support categorical values by using
-                        // something like "values: ['Good']" instead of min/max
+                        /* right now this is numeric, but you can imagine that we could support categorical values by using
+                           something like "values: ['Good']" instead of min/max */
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "statusValueBuckets": [
                             {
@@ -241,7 +241,7 @@
                         }
                     },
                     {
-                        /* an Alert visual is used for showing specific iconography when a boolean expression is true */
+                        // an Alert visual is used for showing specific iconography when a boolean expression is true
                         "type": "Alert",
                         "triggerExpression": "temperatureTag.value > 100",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
