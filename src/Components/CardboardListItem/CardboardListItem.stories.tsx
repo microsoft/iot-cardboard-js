@@ -79,38 +79,10 @@ WithAllElements.args = {
     isChecked: false
 };
 
-export const WithAllElementsLightHover = Template.bind({}) as TemplateStory;
-WithAllElementsLightHover.args = WithAllElements.args;
-WithAllElementsLightHover.parameters = {
-    theme: Theme.Light,
-    pseudo: { hover: true }
-};
-
-export const WithAllElementsLightFocus = Template.bind({}) as TemplateStory;
-WithAllElementsLightFocus.args = WithAllElements.args;
-WithAllElementsLightFocus.parameters = {
-    theme: Theme.Light,
-    pseudo: { focus: true }
-};
-
 export const WithAllElementsDark = Template.bind({}) as TemplateStory;
 WithAllElementsDark.args = WithAllElements.args;
 WithAllElementsDark.parameters = {
     theme: Theme.Dark
-};
-
-export const WithAllElementsDarkHover = Template.bind({}) as TemplateStory;
-WithAllElementsDarkHover.args = WithAllElementsDark.args;
-WithAllElementsDarkHover.parameters = {
-    theme: Theme.Dark,
-    pseudo: { hover: true }
-};
-
-export const WithAllElementsDarkFocus = Template.bind({}) as TemplateStory;
-WithAllElementsDarkFocus.args = WithAllElementsDark.args;
-WithAllElementsDarkFocus.parameters = {
-    theme: Theme.Dark,
-    pseudo: { focus: true }
 };
 
 export const WithMenu = Template.bind({}) as TemplateStory;
