@@ -1,0 +1,228 @@
+{
+    "type": "3DScenesConfiguration",
+    "version": "1.0",
+    "configuration": {
+        "scenes": [
+            {
+                "type": "Scene",
+                "id": "58e02362287440d9a5bf3f8d6d6bfcf9",
+                "displayName": "TruckAndBoxes1",
+                "elements": [
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "5ba433d52b8445979fabc818fd40ae3d",
+                        "displayName": "leftWheels",
+                        "linkedTwinID": "SaltMachine_C1",
+                        "objectIDs": [
+                            "wheel1Mesh_primitive0",
+                            "wheel2Mesh_primitive0"
+                        ],
+                        "extensionProperties": {}
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "4cb0990d646a4bbea3e1102676e200fe",
+                        "displayName": "tank",
+                        "linkedTwinID": "SaltMachine_C1",
+                        "objectIDs": [
+                            "tankMesh"
+                        ],
+                        "twinAliases": {
+                            "temperatureTag": "Tag_F2DB"
+                        },
+                        "extensionProperties": {}
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "0c785dde26664341b1f391a4e1b35180",
+                        "displayName": "box1",
+                        "linkedTwinID": "BoxA",
+                        "objectIDs": [
+                            "boxLid1Mesh",
+                            "boxBody1Mesh"
+                        ]
+                    }
+                ],
+                "behaviorIDs": [
+                    "bf1ec41d7886438d880c140fb1bb570a",
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
+                        "extensionProperties": {}
+                    }
+                ]
+            }
+        ],
+        "behaviors": [
+            {
+                "type": "Behavior",
+                "id": "bf1ec41d7886438d880c140fb1bb570a",
+                "displayName": "wheelsTooLow",
+                "datasources": [
+                    {
+                        "type": "ElementDatasource",
+                        "elementIDs": [
+                            "5ba433d52b8445979fabc818fd40ae3d",
+                            "2aa6955f3c73418a9be0f7b19c019b75"
+                        ],
+                        "extensionProperties": {}
+                    }
+                ],
+                "visuals": [
+                    {
+                        "type": "Popover",
+                        "title": "Average Tire Pressure",
+                        "widgets": [
+                            {
+                                "type": "Gauge",
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "valueExpression": "LinkedTwin.OutFlow",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Left",
+                                    "min": 0,
+                                    "max": 500
+                                },
+                                "extensionProperties": {}
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "valueExpression": "LinkedTwin.InFlow",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Right",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "valueExpression": "LinkedTwin.Temperature",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Left",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "valueExpression": "LinkedTwin.OutFlow",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Right",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                "type": "Link",
+                                "groupID": "29dd688a00554d46be0eead725c668b4",
+                                "widgetConfiguration": {
+                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                }
+                            }
+                        ],
+                        "widgetGroups": [
+                            {
+                                "id": "8bf489e804884596afe8abb7e803d5c5",
+                                "title": "Front",
+                                "orientation": "Horizontal"
+                            },
+                            {
+                                "id": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "title": "Rear",
+                                "orientation": "Horizontal"
+                            },
+                            {
+                                "id": "29dd688a00554d46be0eead725c668b4",
+                                "orientation": "Horizontal"
+                            }
+                        ],
+                        "objectIDs": {
+                            "type": "FromElement",
+                            "expression": "objectIDs",
+                            "extensionProperties": {}
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "8b99ab46fabd45fab3adbaf88245a6b5",
+                "displayName": "tankTooHot",
+                "type": "Behavior",
+                "twinAliases": [
+                    "temperatureTag"
+                ],
+                "datasources": [
+                    {
+                        "type": "ElementDatasource",
+                        "elementIDs": [
+                            "4cb0990d646a4bbea3e1102676e200fe"
+                        ]
+                    }
+                ],
+                "visuals": [
+                    {
+                        "type": "StatusColoring",
+                        "statusValueExpression": "temperatureTag.OutFlow",
+                        "statusValueRanges": [
+                            {
+                                "color": "#FF0000",
+                                "min": 100,
+                                "max": "Infinity"
+                            },
+                            {
+                                "color": "#00FF00",
+                                "min": "-Infinity",
+                                "max": 100
+                            }
+                        ],
+                        "objectIDs": {
+                            "type": "FromElement",
+                            "expression": "objectIDs",
+                            "extensionProperties": {}
+                        }
+                    },
+                    {
+                        "type": "Alert",
+                        "triggerExpression": "temperatureTag.value > 100",
+                        "labelExpression": "${LinkedTwin.displayName} is too hot!",
+                        "iconName": "heart",
+                        "color": "#00FF00",
+                        "objectIDs": {
+                            "type": "FromElement",
+                            "expression": "objectIDs"
+                        }
+                    }
+                ]
+            }
+        ],
+        "layers": [
+            {
+                "type": "SceneLayer",
+                "id": "3511cc0c61394d0e857cde735ddb4e81",
+                "displayName": "TireStuff",
+                "behaviorIDs": [
+                    "bf1ec41d7886438d880c140fb1bb570a"
+                ],
+                "extensionProperties": {}
+            },
+            {
+                "type": "SceneLayer",
+                "id": "a2912b78335c4e75a58ba72d987fefac",
+                "displayName": "HotStuff",
+                "behaviorIDs": [
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
+                "extensionProperties": {}
+            }
+        ]
+    }
+}
