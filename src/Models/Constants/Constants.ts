@@ -105,6 +105,17 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 
 export const primaryTwinName = 'primaryTwin';
+export const ValidAdtHostSuffixes = [
+    'digitaltwins.azure.net',
+    'azuredigitaltwins-ppe.net',
+    'azuredigitaltwins-test.net'
+];
+export const ValidContainerHostSuffixes = ['blob.core.windows.net'];
+
+export const EnvironmentsLocalStorageKey = 'cb-environments';
+export const ContainersLocalStorageKey = 'cb-containers';
+export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
+export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
 export const StyleConstants = {
     listItems: {

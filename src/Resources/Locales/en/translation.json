@@ -40,6 +40,7 @@
     "download": "Download",
     "url": "Url",
     "create": "Create",
+    "save": "Save",
     "add": "Add",
     "addNew": "Add new",
     "remove": "Remove",
@@ -69,6 +70,7 @@
     "ADTInstancesInfo": "List of ADT instances for which the user has Azure Digital Twins Data Owner or Azure Digital Twins Data Reader permission",
     "loadingInstances": "Loading instances...",
     "selectInstance": "Select an instance",
+    "enterInstanceUrl": "Enter an instance URL",
     "selectOption": "Select an option",
     "globe": "Globe",
     "list": "List",
@@ -273,7 +275,7 @@
     "3dScenePage": {
         "buildMode": "Build mode",
         "viewMode": "View mode",
-        "enterBlobUrl": "Enter your Azure Storage container blob URL",
+        "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe"
     },
@@ -554,6 +556,24 @@
             "dateTimePickerTitle": "Datetime picker",
             "timePickerTitle": "Time picker",
             "plainTextInput": "Plain text input"
+        }
+    },
+    "environmentPicker": {
+        "environmentUrl": "Environment URL",
+        "containerUrl": "Container URL",
+        "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+        "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
+        "editEnvironment": "Edit environment",
+        "descriptionForEnvironment": "Connect your environment to list your assets.",
+        "descriptionForEnvAndCont": "Connect your environment and storage container URL to list your scenes.",
+        "descriptionForLocalStorage": "Configuration data is saved in local storage.",
+        "selectContainerUrl": "Select storage container URL",
+        "noEnvironment": "No environment added",
+        "noContainer": "No container added",
+        "removeFromList": "Remove from list",
+        "errors": {
+            "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+            "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
     }
 }

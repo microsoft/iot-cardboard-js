@@ -18,7 +18,6 @@ import {
 import {
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_PAGE_MODE,
-    SET_BLOB_CONTAINER_URLS,
     SET_CURRENT_STEP,
     SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
@@ -27,15 +26,17 @@ import {
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { IScene, IScenesConfig } from '../../Models/Classes/3DVConfig';
 import {
+    IADTInstance,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
-import { ADTSceneConfigBlobContainerPicker } from './Internal/BlobContainerPicker';
 import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContainer';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import StorageContainerPermissionError from '../../Components/StorageContainerPermissionError/StorageContainerPermissionError';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
+import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
+import ADTAdapter from '../../Adapters/ADTAdapter';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -43,12 +44,10 @@ export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
 
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
     adapter,
-    existingBlobContainerUrls,
-    onBlobContainerUrlChange,
     theme,
     locale,
     localeStrings,
-    adapterAdditionalParameters
+    environmentPickerOptions
 }) => {
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
@@ -87,21 +86,32 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
     };
 
-    const handleBlobContainerPathChange = (
-        selectedBlobURL: string,
-        options: Array<string>
+    const handleContainerUrlChange = (
+        containerUrl: string,
+        containerUrls: Array<string>
     ) => {
         dispatch({
-            type: SET_BLOB_CONTAINER_URLS,
-            payload: options
-        });
-        dispatch({
             type: SET_SELECTED_BLOB_CONTAINER_URL,
-            payload: selectedBlobURL
+            payload: containerUrl
         });
-        adapter.setBlobContainerPath(selectedBlobURL);
-        if (onBlobContainerUrlChange) {
-            onBlobContainerUrlChange(selectedBlobURL, options);
+        adapter.setBlobContainerPath(containerUrl);
+        if (environmentPickerOptions?.storage?.onContainerChange) {
+            environmentPickerOptions.storage.onContainerChange(
+                containerUrl,
+                containerUrls
+            );
+        }
+    };
+
+    const handleEnvironmentUrlChange = (
+        env: string | IADTInstance,
+        envs: Array<string | IADTInstance>
+    ) => {
+        adapter.setAdtHostUrl(
+            typeof env === 'string' ? env.replace('https://', '') : env.hostName
+        );
+        if (environmentPickerOptions?.environment?.onEnvironmentChange) {
+            environmentPickerOptions.environment.onEnvironmentChange(env, envs);
         }
     };
 
@@ -113,20 +123,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             payload: newScenePageMode
         });
     };
-
-    // initially set the blobContainerPath to the one passed in adapter
-    useEffect(() => {
-        dispatch({
-            type: SET_SELECTED_BLOB_CONTAINER_URL,
-            payload: adapter.getBlobContainerURL()
-        });
-        if (existingBlobContainerUrls) {
-            dispatch({
-                type: SET_BLOB_CONTAINER_URLS,
-                payload: existingBlobContainerUrls
-            });
-        }
-    }, []);
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
@@ -155,15 +151,23 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         }
     }, [scenesConfig?.adapterResult]);
 
+    useEffect(() => {
+        dispatch({
+            type: SET_SELECTED_BLOB_CONTAINER_URL,
+            payload: adapter.getBlobContainerURL()
+        });
+    }, []);
+
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick }}
         >
-            <div className="cb-scene-page-container">
+            <div className="cb-scene-page-wrapper">
                 <BaseComponent
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
+                    containerClassName={'cb-scene-page-container'}
                 >
                     <FloatingScenePageModeToggle
                         scene={state.selectedScene}
@@ -171,53 +175,93 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         selectedMode={state.scenePageMode}
                     />
                     {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
-                        <div className="cb-scene-page-scene-list-container">
+                        <>
                             <div className="cb-scene-page-scene-environment-picker">
-                                <ADTSceneConfigBlobContainerPicker
-                                    existingOptions={state.blobContainerURLs}
-                                    selectedContainerUrl={
-                                        state.selectedBlobContainerURL
-                                    }
-                                    onContainerUrlSelect={
-                                        handleBlobContainerPathChange
-                                    }
-                                />
-                            </div>
-                            {state.errors.length > 0 && (
-                                <StorageContainerPermissionError
-                                    errorType={state.errors[0].type}
-                                />
-                            )}
-                            {state.selectedBlobContainerURL && (
-                                <SceneList
-                                    key={state.selectedBlobContainerURL}
-                                    title={'All scenes'}
+                                <EnvironmentPicker
                                     theme={theme}
                                     locale={locale}
-                                    adapter={adapter}
-                                    onSceneClick={(scene) => {
-                                        handleOnSceneClick(scene);
+                                    localeStrings={localeStrings}
+                                    adapter={adapter as ADTAdapter}
+                                    shouldPullFromSubscription={
+                                        environmentPickerOptions?.environment
+                                            ?.shouldPullFromSubscription
+                                    }
+                                    {...(adapter.getAdtHostUrl() && {
+                                        environmentUrl:
+                                            'https://' + adapter.getAdtHostUrl()
+                                    })}
+                                    onEnvironmentUrlChange={
+                                        handleEnvironmentUrlChange
+                                    }
+                                    {...(environmentPickerOptions?.environment
+                                        ?.isLocalStorageEnabled && {
+                                        isLocalStorageEnabled: true,
+                                        localStorageKey:
+                                            environmentPickerOptions
+                                                ?.environment?.localStorageKey,
+                                        selectedItemLocalStorageKey:
+                                            environmentPickerOptions
+                                                ?.environment
+                                                ?.selectedItemLocalStorageKey
+                                    })}
+                                    storage={{
+                                        ...(adapter.getBlobContainerURL() && {
+                                            containerUrl: adapter.getBlobContainerURL()
+                                        }),
+                                        onContainerUrlChange: handleContainerUrlChange,
+                                        ...(environmentPickerOptions?.storage
+                                            ?.isLocalStorageEnabled && {
+                                            isLocalStorageEnabled: true,
+                                            localStorageKey:
+                                                environmentPickerOptions
+                                                    ?.storage?.localStorageKey,
+                                            selectedItemLocalStorageKey:
+                                                environmentPickerOptions
+                                                    ?.storage
+                                                    ?.selectedItemLocalStorageKey
+                                        })
                                     }}
-                                    additionalActions={[
-                                        {
-                                            iconProps: { iconName: 'Globe' },
-                                            onClick: () => {
-                                                dispatch({
-                                                    type: SET_SELECTED_SCENE,
-                                                    payload: null
-                                                });
-                                                dispatch({
-                                                    type: SET_CURRENT_STEP,
-                                                    payload:
-                                                        ADT3DScenePageSteps.Globe
-                                                });
-                                            },
-                                            text: t('globe')
-                                        }
-                                    ]}
                                 />
-                            )}
-                        </div>
+                            </div>
+                            <div className="cb-scene-page-scene-list-container">
+                                {state.errors.length > 0 && (
+                                    <StorageContainerPermissionError
+                                        errorType={state.errors[0].type}
+                                    />
+                                )}
+                                {state.selectedBlobContainerURL && (
+                                    <SceneList
+                                        key={state.selectedBlobContainerURL}
+                                        title={'All scenes'}
+                                        theme={theme}
+                                        locale={locale}
+                                        adapter={adapter}
+                                        onSceneClick={(scene) => {
+                                            handleOnSceneClick(scene);
+                                        }}
+                                        additionalActions={[
+                                            {
+                                                iconProps: {
+                                                    iconName: 'Globe'
+                                                },
+                                                onClick: () => {
+                                                    dispatch({
+                                                        type: SET_SELECTED_SCENE,
+                                                        payload: null
+                                                    });
+                                                    dispatch({
+                                                        type: SET_CURRENT_STEP,
+                                                        payload:
+                                                            ADT3DScenePageSteps.Globe
+                                                    });
+                                                },
+                                                text: t('globe')
+                                            }
+                                        ]}
+                                    />
+                                )}
+                            </div>
+                        </>
                     )}
                     {state.currentStep === ADT3DScenePageSteps.Globe && (
                         <div className="cb-scene-page-scene-globe-container">
@@ -257,9 +301,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     theme={theme}
                                     locale={locale}
                                     localeStrings={localeStrings}
-                                    adapterAdditionalParameters={
-                                        adapterAdditionalParameters
-                                    }
                                     refetchConfig={() =>
                                         scenesConfig.callAdapter()
                                     }
