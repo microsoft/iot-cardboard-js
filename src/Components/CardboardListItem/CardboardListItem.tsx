@@ -9,7 +9,7 @@ import {
     IRefObject,
     useTheme
 } from '@fluentui/react';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { ReactNode, useCallback, useMemo, useRef } from 'react';
 import { CardboardIconNames, StyleConstants, Utils } from '../..';
 import {
     getStyles,
@@ -17,19 +17,18 @@ import {
     checkboxStyles
 } from './CardboardListItem.styles';
 
-export interface ICardboardListItemPropsInternal
-    extends ICardboardListItemProps {
+export interface ICardboardListItemPropsInternal<T>
+    extends ICardboardListItemProps<T> {
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** index of the item in the list */
     index: number;
-    /** triggered when list item is clicked */
-    onClick: () => void;
+    item: T;
     /** text to highlight on the primary text. mainly used for indicating search matches */
     textToHighlight?: string;
 }
 type IIconNames = string | CardboardIconNames;
-export interface ICardboardListItemProps {
+export interface ICardboardListItemProps<T> {
     /** screen reader text to use for the list item */
     ariaLabel: string;
     /** icon to render on the right side of the list item */
@@ -38,6 +37,10 @@ export interface ICardboardListItemProps {
     iconStartName?: IIconNames;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
+    /** triggered when list item is clicked */
+    onClick: (item: T) => void | undefined;
+    /** open the context menu instead of calling the onClick handler */
+    openMenuOnClick?: boolean;
     /** List items to show in the overflow set */
     overflowMenuItems?: IContextualMenuItem[];
     /** primary text to show */
@@ -46,27 +49,29 @@ export interface ICardboardListItemProps {
     textSecondary?: string;
 }
 
-export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
+export const CardboardListItem = <T extends unknown>({
     iconEndName,
     iconStartName,
     index,
+    item,
     isChecked,
     listKey,
+    openMenuOnClick,
     overflowMenuItems,
     textPrimary,
     textSecondary,
     textToHighlight,
     onClick
-}) => {
+}: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
     const showStartIcon = !!iconStartName;
     const showEndIcon = !!iconEndName;
     const showOverflow = !!overflowMenuItems?.length;
-    const menuRef = useRef(null);
+    const overflowRef = useRef(null);
     const onMenuClick = useCallback(() => {
-        menuRef?.current?.openMenu?.();
-    }, [menuRef]);
+        overflowRef?.current?.openMenu?.();
+    }, [overflowRef]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
     const buttonStyles = getButtonStyles();
@@ -76,7 +81,13 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                 key={`cardboard-list-item-${listKey}-${index}`}
                 data-testid={`cardboard-list-item-${listKey}-${index}`}
                 styles={buttonStyles}
-                onClick={onClick}
+                onClick={() => {
+                    if (openMenuOnClick) {
+                        onMenuClick();
+                    } else if (onClick) {
+                        onClick(item);
+                    }
+                }}
                 onKeyPress={(event) => {
                     if (event.code === 'Space') {
                         onMenuClick();
@@ -128,7 +139,7 @@ export const CardboardListItem: React.FC<ICardboardListItemPropsInternal> = ({
                     <OverflowMenu
                         index={index}
                         menuKey={listKey}
-                        menuRef={menuRef}
+                        menuRef={overflowRef}
                         menuProps={{
                             items: overflowMenuItems
                         }}

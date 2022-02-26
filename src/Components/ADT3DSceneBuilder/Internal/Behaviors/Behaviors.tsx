@@ -1,22 +1,10 @@
-import {
-    FontIcon,
-    IconButton,
-    IContextualMenuProps,
-    SearchBox,
-    Separator,
-    Text
-} from '@fluentui/react';
+import { FontIcon, SearchBox, Separator, Text } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Utils } from '../../../..';
 import { IBehavior } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { BehaviorListSegment } from '../../../../Models/Constants/Enums';
-import {
-    ICardboardListProps,
-    CardboardList
-} from '../../../CardboardListItem/CardboardList';
+import { CardboardList } from '../../../CardboardListItem/CardboardList';
 import { ICardboardListItemProps } from '../../../CardboardListItem/CardboardListItem';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
@@ -118,37 +106,88 @@ const SceneBehaviors: React.FC<Props> = ({
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
 
-    const getOverflowMenuItems = (item) => {
+    const getOverflowMenuItemsInScene = (behavior: IBehavior) => {
         return [
             {
-                key: 'addToScene',
-                id: `addToScene-${item.id}`,
-                'data-testid': `addToScene-${item.id}`,
-                text: t('3dSceneBuilder.addBehaviorToScene'),
-                iconProps: {
-                    iconName: 'Add'
+                key: 'edit',
+                text: t('3dSceneBuilder.editBehavior'),
+                iconProps: { iconName: 'Edit' },
+                onClick: () => onBehaviorClick(behavior),
+                id: `editOverflow-${behavior.id}`,
+                'data-testid': `editOverflow-${behavior.id}`
+            },
+            {
+                key: 'manageLayers',
+                text: t('3dSceneBuilder.manageSceneLayer'),
+                iconProps: { iconName: 'MapLayers' },
+                disabled: true,
+                id: `manageLayersOverflow-${behavior.id}`,
+                'data-testid': `manageLayersOverflow-${behavior.id}`
+            },
+            {
+                key: 'removeFromThisScene',
+                text: t('3dSceneBuilder.removeBehaviorFromScene'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => {
+                    behaviorToDeleteRef.current = {
+                        id: behavior.id,
+                        removeFromAllScenes: false
+                    };
+                    setIsConfirmDeleteOpen(true);
                 },
-                onClick: () => alert(`add ${item.id}`)
+                id: `removeFromSceneOverflow-${behavior.id}`,
+                'data-testid': `removeFromSceneOverflow-${behavior.id}`
             }
         ];
     };
-    const getListItemProps = (item, index): ICardboardListItemProps => {
+    const getOverflowMenuItemsNotInScene = (behavior: IBehavior) => {
+        return [
+            {
+                key: 'addToScene',
+                id: `addToScene-${behavior.id}`,
+                'data-testid': `addToScene-${behavior.id}`,
+                text: t('3dSceneBuilder.addBehaviorToScene'),
+                iconProps: { iconName: 'Add' },
+                onClick: () => onAddBehaviorToScene(behavior)
+            },
+            {
+                key: 'removeFromAllScenes',
+                id: `removeFromAllOverflow-${behavior.id}`,
+                'data-testid': `removeFromAllOverflow-${behavior.id}`,
+                text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => {
+                    behaviorToDeleteRef.current = {
+                        id: behavior.id,
+                        removeFromAllScenes: true
+                    };
+                    setIsConfirmDeleteOpen(true);
+                }
+            }
+        ];
+    };
+    const getListItemPropsInScene = (
+        item
+    ): ICardboardListItemProps<IBehavior> => {
         return {
             ariaLabel: '',
-            isChecked: index % 2 == 0,
-            iconStartName: index % 3 == 0 ? 'Shapes' : undefined,
-            iconEndName: index % 4 == 0 ? 'Link' : undefined,
-            overflowMenuItems: index % 2 ? getOverflowMenuItems(item) : [],
-            textPrimary: item.id + ' some extra text for overflow',
-            textSecondary: 'Some text'
+            iconStartName: 'Shapes',
+            onClick: onBehaviorClick,
+            overflowMenuItems: getOverflowMenuItemsInScene(item),
+            textPrimary: item.id
         };
     };
-    const listProps: ICardboardListProps<IBehavior> = {
-        items: filteredItemsInScene,
-        getListItemProps: getListItemProps,
-        listKey: 'behaviors-list',
-        onClick: (item) => alert(`clicked item ${item.id}`),
-        textToHighlight: searchText
+    const getListItemPropsNotInScene = (
+        item
+    ): ICardboardListItemProps<IBehavior> => {
+        return {
+            ariaLabel: '',
+            iconStartName: 'Shapes',
+            onClick: () => undefined,
+            openMenuOnClick: true,
+            overflowMenuItems: getOverflowMenuItemsNotInScene(item),
+            textPrimary: item.id
+        };
     };
 
     return (
@@ -199,38 +238,12 @@ const SceneBehaviors: React.FC<Props> = ({
                                         )}
                                     </Text>
                                 </div>
-                                <CardboardList<IBehavior> {...listProps} />
-                                {/* <FocusZone
-                                    direction={FocusZoneDirection.vertical}
-                                >
-                                    <List
-                                        items={filteredItemsInScene}
-                                        onRenderCell={(item, index) => (
-                                            <CardboardListItem />
-                                        )}
-                                    />
-                                </FocusZone> */}
-                                {/* {filteredItemsInScene.map((behavior, index) => (
-                                    <BehaviorList
-                                        key={behavior.id}
-                                        index={index}
-                                        behavior={behavior}
-                                        behaviorToDeleteRef={
-                                            behaviorToDeleteRef
-                                        }
-                                        searchText={searchText}
-                                        onBehaviorClick={onBehaviorClick}
-                                        setIsConfirmDeleteOpen={
-                                            setIsConfirmDeleteOpen
-                                        }
-                                        segmentMode={
-                                            BehaviorListSegment.InThisScene
-                                        }
-                                        onAddBehaviorToScene={
-                                            onAddBehaviorToScene
-                                        }
-                                    />
-                                ))} */}
+                                <CardboardList<IBehavior>
+                                    items={filteredItemsInScene}
+                                    getListItemProps={getListItemPropsInScene}
+                                    listKey={'behaviors-in-scene'}
+                                    textToHighlight={searchText}
+                                />
                             </div>
                         )}
                         {/* Separator between lists */}
@@ -271,32 +284,17 @@ const SceneBehaviors: React.FC<Props> = ({
                                         </span>
                                     </Text>
                                 </div>
-                                {isBehaviorLibraryExpanded &&
-                                    filteredItemsNotInScene.map(
-                                        (behavior, index) => (
-                                            <BehaviorList
-                                                key={behavior.id}
-                                                index={index}
-                                                behavior={behavior}
-                                                behaviorToDeleteRef={
-                                                    behaviorToDeleteRef
-                                                }
-                                                searchText={searchText}
-                                                onBehaviorClick={
-                                                    onBehaviorClick
-                                                }
-                                                setIsConfirmDeleteOpen={
-                                                    setIsConfirmDeleteOpen
-                                                }
-                                                segmentMode={
-                                                    BehaviorListSegment.NotInThisScene
-                                                }
-                                                onAddBehaviorToScene={
-                                                    onAddBehaviorToScene
-                                                }
-                                            />
-                                        )
-                                    )}
+
+                                {isBehaviorLibraryExpanded && (
+                                    <CardboardList<IBehavior>
+                                        items={filteredItemsNotInScene}
+                                        getListItemProps={
+                                            getListItemPropsNotInScene
+                                        }
+                                        listKey={'behaviors-not-in-scene'}
+                                        textToHighlight={searchText}
+                                    />
+                                )}
                             </div>
                         )}
                     </div>
@@ -332,153 +330,6 @@ const SceneBehaviors: React.FC<Props> = ({
                         : null
                 }
             />
-        </div>
-    );
-};
-
-const BehaviorList: React.FC<{
-    behavior: IBehavior;
-    onBehaviorClick: (behavior: IBehavior) => any;
-    behaviorToDeleteRef: React.MutableRefObject<any>;
-    setIsConfirmDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    segmentMode: BehaviorListSegment;
-    onAddBehaviorToScene: (behavior: IBehavior) => any;
-    index: number;
-    searchText?: string;
-}> = ({
-    behavior,
-    onBehaviorClick,
-    behaviorToDeleteRef,
-    setIsConfirmDeleteOpen,
-    segmentMode,
-    onAddBehaviorToScene,
-    index,
-    searchText
-}) => {
-    const { t } = useTranslation();
-    const { config, sceneId } = useContext(SceneBuilderContext);
-    const behaviorNotOnSceneEllipsisRef = useRef(null);
-
-    const getBehaviorListItemMenuProps: (
-        behavior: IBehavior
-    ) => IContextualMenuProps = (behavior) => {
-        if (segmentMode === BehaviorListSegment.InThisScene) {
-            return {
-                items: [
-                    {
-                        key: 'edit',
-                        text: t('3dSceneBuilder.editBehavior'),
-                        iconProps: { iconName: 'Edit' },
-                        onClick: () => onBehaviorClick(behavior),
-                        id: `editOverflow-${behavior.id}`,
-                        'data-testid': `editOverflow-${behavior.id}`
-                    },
-                    {
-                        key: 'manageLayers',
-                        text: t('3dSceneBuilder.manageSceneLayer'),
-                        iconProps: { iconName: 'MapLayers' },
-                        disabled: true,
-                        id: `manageLayersOverflow-${behavior.id}`,
-                        'data-testid': `manageLayersOverflow-${behavior.id}`
-                    },
-                    {
-                        key: 'removeFromThisScene',
-                        text: t('3dSceneBuilder.removeBehaviorFromScene'),
-                        iconProps: { iconName: 'Delete' },
-                        onClick: () => {
-                            behaviorToDeleteRef.current = {
-                                id: behavior.id,
-                                removeFromAllScenes: false
-                            };
-                            setIsConfirmDeleteOpen(true);
-                        },
-                        id: `removeFromSceneOverflow-${behavior.id}`,
-                        'data-testid': `removeFromSceneOverflow-${behavior.id}`
-                    }
-                ]
-            };
-        } else {
-            return {
-                items: [
-                    {
-                        key: 'addToScene',
-                        id: `addToScene-${behavior.id}`,
-                        'data-testid': `addToScene-${behavior.id}`,
-                        text: t('3dSceneBuilder.addBehaviorToScene'),
-                        iconProps: { iconName: 'Add' },
-                        onClick: () => onAddBehaviorToScene(behavior)
-                    },
-                    {
-                        key: 'removeFromAllScenes',
-                        id: `removeFromAllOverflow-${behavior.id}`,
-                        'data-testid': `removeFromAllOverflow-${behavior.id}`,
-                        text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
-                        iconProps: { iconName: 'Delete' },
-                        onClick: () => {
-                            behaviorToDeleteRef.current = {
-                                id: behavior.id,
-                                removeFromAllScenes: true
-                            };
-                            setIsConfirmDeleteOpen(true);
-                        }
-                    }
-                ]
-            };
-        }
-    };
-
-    const behaviorMetaData = ViewerConfigUtility.getBehaviorMetaData(
-        config,
-        sceneId,
-        behavior
-    );
-
-    return (
-        <div
-            className="cb-scene-builder-left-panel-behavior"
-            key={behavior.id}
-            onClick={() => {
-                if (segmentMode === BehaviorListSegment.InThisScene) {
-                    onBehaviorClick(behavior);
-                } else {
-                    behaviorNotOnSceneEllipsisRef?.current?.openMenu?.();
-                }
-            }}
-        >
-            <FontIcon iconName={'Shapes'} className="cb-behavior-icon" />
-            <div className="cb-scene-builder-behavior-list-item">
-                <span className="cb-scene-builder-behavior-name">
-                    {searchText?.length
-                        ? Utils.getMarkedHtmlBySearch(behavior.id, searchText)
-                        : behavior.id}
-                </span>
-                <span className="cb-scene-builder-behavior-list-item-meta">
-                    {t('3dSceneBuilder.behaviorMetaText', {
-                        numElementsInActiveScene:
-                            behaviorMetaData.numElementsInActiveScene,
-                        numSceneRefs: behaviorMetaData.numSceneRefs
-                    })}
-                </span>
-            </div>
-            <IconButton
-                componentRef={behaviorNotOnSceneEllipsisRef}
-                menuIconProps={{
-                    iconName: 'MoreVertical',
-                    style: {
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        color: 'var(--cb-color-text-primary)'
-                    }
-                }}
-                data-testid={`moreMenu-${
-                    segmentMode === BehaviorListSegment.InThisScene
-                        ? 'inScene'
-                        : 'notInScene'
-                }-${index}`}
-                title={t('more')}
-                ariaLabel={t('more')}
-                menuProps={getBehaviorListItemMenuProps(behavior)}
-            ></IconButton>
         </div>
     );
 };
