@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardListItem/CardboardList';
-import { ICardboardListItemProps } from '../../../CardboardListItem/CardboardListItem';
+import { CardboardListItemProps } from '../../../CardboardListItem/CardboardListItem';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 
@@ -168,7 +168,7 @@ const SceneBehaviors: React.FC<Props> = ({
     };
     const getListItemPropsInScene = (
         item
-    ): ICardboardListItemProps<IBehavior> => {
+    ): CardboardListItemProps<IBehavior> => {
         return {
             ariaLabel: '',
             iconStartName: 'Shapes',
@@ -177,13 +177,13 @@ const SceneBehaviors: React.FC<Props> = ({
             textPrimary: item.id
         };
     };
+
     const getListItemPropsNotInScene = (
         item
-    ): ICardboardListItemProps<IBehavior> => {
+    ): CardboardListItemProps<IBehavior> => {
         return {
             ariaLabel: '',
             iconStartName: 'Shapes',
-            onClick: () => undefined,
             openMenuOnClick: true,
             overflowMenuItems: getOverflowMenuItemsNotInScene(item),
             textPrimary: item.id

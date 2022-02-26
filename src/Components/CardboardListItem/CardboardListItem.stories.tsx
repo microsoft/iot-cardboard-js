@@ -21,15 +21,22 @@ export default {
     title: 'Components/Lists/Items',
     component: CardboardListItem,
     decorators: [
-        getDefaultStoryDecorator<ICardboardListItemPropsInternal>(cardStyle)
+        getDefaultStoryDecorator<ICardboardListItemPropsInternal<FakeListItem>>(
+            cardStyle
+        )
     ]
 };
 
-const defaultProps: ICardboardListItemPropsInternal = {
-    listKey: 'listItemKey',
-    index: 0,
-    onClick: () => alert('clicked'),
+type FakeListItem = {
+    id: string;
+};
+
+const defaultProps: ICardboardListItemPropsInternal<unknown> = {
     ariaLabel: 'list item 1',
+    index: 0,
+    item: { id: 'someid' },
+    listKey: 'listItemKey',
+    onClick: (item) => alert(`clicked item ${(item as FakeListItem).id}`),
     textPrimary: 'primary text'
 };
 

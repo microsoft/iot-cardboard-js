@@ -6,10 +6,7 @@ import {
     List
 } from '@fluentui/react';
 import React, { ReactNode } from 'react';
-import {
-    CardboardListItem,
-    ICardboardListItemProps
-} from './CardboardListItem';
+import { CardboardListItem, CardboardListItemProps } from './CardboardListItem';
 
 export interface ICardboardListProps<T> {
     /** unique identifier for this list of items. Will be joined with index */
@@ -17,7 +14,7 @@ export interface ICardboardListProps<T> {
     /** optional prop to set any specific focus zone props needed for special cases */
     focusZoneProps?: IFocusZoneProps;
     /** callback fired for each item in the list to generate the internal properties for the list items */
-    getListItemProps: (item: T, index: number) => ICardboardListItemProps<T>;
+    getListItemProps: (item: T, index: number) => CardboardListItemProps<T>;
     /** Collection of items to include in the list */
     items: T[];
     /** optional prop to set any specific list props needed for special cases */

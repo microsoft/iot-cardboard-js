@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { CardboardList, ICardboardListProps } from './CardboardList';
-import { ICardboardListItemProps } from './CardboardListItem';
+import { CardboardListItemProps } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
@@ -70,7 +70,7 @@ const defaultOnClickHandler = (item) => {
 const defaultGetListItemPropsHandler = (
     item: IFakeListItem,
     index: number
-): ICardboardListItemProps => {
+): CardboardListItemProps => {
     return {
         ariaLabel: '',
         isChecked: item.isChecked,
@@ -86,7 +86,7 @@ const defaultProps: ICardboardListProps<unknown> = {
     getListItemProps: defaultGetListItemPropsHandler as (
         item: unknown,
         index: number
-    ) => ICardboardListItemProps,
+    ) => CardboardListItemProps,
     items: defaultListItems,
     listKey: 'testList',
     onClick: defaultOnClickHandler
