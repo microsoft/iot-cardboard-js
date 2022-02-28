@@ -469,7 +469,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                     id: mesh.id,
                                     material: selMesh.material
                                 };
-                                mesh.material = selHovMaterial.current;
+                                if (revertToHoverColor) {
+                                    mesh.material = selHovMaterial.current;
+                                }
                             } else {
                                 selectedMesh = {
                                     id: mesh.id,
@@ -477,7 +479,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                 };
                                 mesh.material = hovMaterial.current;
                             }
-
                             highlightedMeshRef.current = selectedMesh;
                         }
                     } else if (highlightedMeshRef.current) {
@@ -530,7 +531,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers]);
+    }, [scene, markers, revertToHoverColor]);
 
     // SETUP LOGIC FOR onMarkerClick
     useEffect(() => {
