@@ -6,3 +6,5 @@ dist
 coverage
 # don't lint stylesheets
 **/*.scss
+# don't lint SVG
+**/*.svg
