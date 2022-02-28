@@ -8,16 +8,33 @@ import {
 import {
     IComponentError,
     IAction,
-    IConsumeCompositeCardProps
+    IConsumeCompositeCardProps,
+    IADTInstance
 } from '../../Models/Constants/Interfaces';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
-    existingBlobContainerUrls?: Array<string>;
-    onBlobContainerUrlChange?: (
-        selectedBlobContainerUrl: string,
-        blobContainerUrls: Array<string>
-    ) => void;
+    environmentPickerOptions?: {
+        environment?: {
+            shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
+            isLocalStorageEnabled?: boolean;
+            localStorageKey?: string;
+            selectedItemLocalStorageKey?: string;
+            onEnvironmentChange?: (
+                environment: string | IADTInstance,
+                environments: Array<string | IADTInstance>
+            ) => void;
+        };
+        storage?: {
+            isLocalStorageEnabled?: boolean;
+            localStorageKey?: string;
+            selectedItemLocalStorageKey?: string;
+            onContainerChange?: (
+                containerUrl: string,
+                containerUrls: Array<string>
+            ) => void;
+        };
+    };
 }
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
@@ -31,7 +48,6 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
 export interface ADT3DScenePageState {
     scenesConfig: IScenesConfig;
     selectedBlobContainerURL: string;
-    blobContainerURLs: Array<string>;
     selectedScene: IScene;
     scene?: IScene;
     errors?: Array<IComponentError>;

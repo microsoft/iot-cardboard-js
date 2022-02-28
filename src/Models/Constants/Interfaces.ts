@@ -213,6 +213,7 @@ export interface IHierarchyNode {
 }
 
 export interface IADTInstance {
+    name: string;
     hostName: string;
     resourceId: string;
     location: string;

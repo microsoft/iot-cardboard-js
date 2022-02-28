@@ -7,7 +7,7 @@
 
 ### Checklist ✔️
 - [ ] Linked associated issue (if present)
-- [ ] Added to Cardboard kanban project
 - [ ] Added relevant labels
-- [ ] Requested reviews
+- [ ] Requested developer reviews
+- [ ] Request UI review from design / PM
 - [ ] Verify all code checks are passing

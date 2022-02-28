@@ -8,11 +8,16 @@ export default class ADTandBlobAdapter {
         adtHostUrl: string,
         blobContainerUrl: string,
         authService: IAuthService,
+        tenantId?: string,
+        uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
         blobProxyServerPath = '/proxy/blob'
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = authService;
+        this.tenantId = tenantId;
+        this.uniqueObjectId = uniqueObjectId;
+
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
             this.storateAccountHostUrl = containerURL.hostname;
