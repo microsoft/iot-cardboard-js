@@ -14,6 +14,7 @@ interface ADT3DBuilderProps {
     showMeshesOnHover?: boolean;
     selectedMeshIds?: Array<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    revertToHoverColor?: boolean;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
@@ -22,7 +23,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     onMeshClicked,
     showMeshesOnHover,
     selectedMeshIds,
-    coloredMeshItems
+    coloredMeshItems,
+    revertToHoverColor
 }) => {
     const meshClick = (_marker: Marker, mesh: any, _scene: any, e: any) => {
         onMeshClicked(mesh, e);
@@ -38,6 +40,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                     }
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
+                    revertToHoverColor={revertToHoverColor}
                     selectedMeshIds={selectedMeshIds}
                     getToken={
                         (adapter as any).authService

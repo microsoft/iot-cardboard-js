@@ -10,6 +10,7 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_REVERT_TO_HOVER_COLOR,
     SET_WIDGET_FORM_INFO,
     WidgetFormInfo
 } from './ADT3DSceneBuilder.types';
@@ -91,6 +92,20 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             }
         ];
     }, []);
+
+    useEffect(() => {
+        if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
+            dispatch({
+                type: SET_REVERT_TO_HOVER_COLOR,
+                payload: false
+            });
+        } else {
+            dispatch({
+                type: SET_REVERT_TO_HOVER_COLOR,
+                payload: true
+            });
+        }
+    }, [state.builderMode]);
 
     const setSelectedMeshIds = (selectedMeshIds) => {
         dispatch({
@@ -174,6 +189,12 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         }
                     }
 
+                    if (!state.selectedMeshIds.includes(mesh.id)) {
+                        meshIds.push(mesh.id);
+                        setSelectedMeshIds(meshIds);
+                        previouslySelectedMeshIds.current = meshIds;
+                    }
+
                     if (e.event.button === 2) {
                         setContextualMenuProps({
                             isVisible: true,
@@ -181,12 +202,6 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             y: e.event.clientY,
                             items: contextualMenuItems.current
                         });
-                    }
-
-                    if (!state.selectedMeshIds.includes(mesh.id)) {
-                        meshIds.push(mesh.id);
-                        setSelectedMeshIds(meshIds);
-                        previouslySelectedMeshIds.current = meshIds;
                     }
 
                     break;
@@ -248,6 +263,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             }
                             onMeshClicked={(mesh, e) => onMeshClicked(mesh, e)}
                             selectedMeshIds={state.selectedMeshIds}
+                            revertToHoverColor={state.revertToHoverColor}
                         />
                     )}
                     {contextualMenuProps.isVisible && (

@@ -10,7 +10,8 @@ import {
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_BEHAVIORS,
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-    SET_WIDGET_FORM_INFO
+    SET_WIDGET_FORM_INFO,
+    SET_REVERT_TO_HOVER_COLOR
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -27,7 +28,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     behaviors: [],
     selectedElement: null,
     selectedElements: null,
-    selectedBehavior: null
+    selectedBehavior: null,
+    revertToHoverColor: false
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -61,6 +63,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
+                break;
+            case SET_REVERT_TO_HOVER_COLOR:
+                draft.revertToHoverColor = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

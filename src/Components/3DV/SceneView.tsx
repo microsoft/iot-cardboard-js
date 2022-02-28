@@ -69,7 +69,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshSelectionHoverColor,
     onSceneLoaded,
     getToken,
-    coloredMeshItems
+    coloredMeshItems,
+    revertToHoverColor
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -624,7 +625,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         (item) => item.id === meshToReset.id
                     );
                     if (mesh) {
-                        if (meshToReset.id === highlightedMeshRef.current?.id) {
+                        if (
+                            meshToReset.id === highlightedMeshRef.current?.id &&
+                            revertToHoverColor
+                        ) {
                             mesh.material = hovMaterial.current;
                         } else {
                             mesh.material = meshToReset.material;

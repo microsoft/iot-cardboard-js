@@ -35,6 +35,7 @@ export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
+export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -165,6 +166,7 @@ export interface ADT3DSceneBuilderState {
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
+    revertToHoverColor: boolean;
 }
 
 export interface IWidgetBuilderFormDataProps {
