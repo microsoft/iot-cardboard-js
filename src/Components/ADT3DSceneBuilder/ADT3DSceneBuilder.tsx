@@ -178,21 +178,26 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             };
 
                             if (e.event.button === 2) {
-                                if (!state.selectedMeshIds.includes(mesh.id)) {
-                                    meshIds.push(mesh.id);
-                                }
                                 addContextualMenuItems(item);
                             } else {
                                 if (state.selectedMeshIds.includes(mesh.id)) {
-                                    meshIds = meshIds.filter(
-                                        (id) => id !== mesh.id
-                                    );
                                     removeContextualMenuItems(item);
                                 } else {
                                     addContextualMenuItems(item);
-                                    meshIds.push(mesh.id);
                                 }
                             }
+                        }
+                    }
+
+                    if (e.event.button === 2) {
+                        if (!state.selectedMeshIds.includes(mesh.id)) {
+                            meshIds.push(mesh.id);
+                        }
+                    } else {
+                        if (state.selectedMeshIds.includes(mesh.id)) {
+                            meshIds = meshIds.filter((id) => id !== mesh.id);
+                        } else {
+                            meshIds.push(mesh.id);
                         }
                     }
 
