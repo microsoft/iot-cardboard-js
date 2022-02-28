@@ -25,11 +25,7 @@ module.exports = {
         config.module.rules.push({
             test: /\.svg$/i,
             include: [AppSourceDir],
-            use: [
-                {
-                    loader: 'react-svg-loader'
-                }
-            ]
+            use: ['@svgr/webpack', 'file-loader']
         });
 
         config.module.rules.push({
