@@ -73,7 +73,7 @@ MenuOpened.play = async ({ canvasElement }) => {
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId('context-menu-myList-0-moreMenu');
     await userEvent.click(menuItem);
-    await sleep(1);
+    await sleep(1000);
 };
 
 export const MenuOpenedDark = Template.bind({}) as TemplateStory;
