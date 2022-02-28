@@ -1,17 +1,23 @@
 import React from 'react';
-import TestImg from '../../Resources/Static/test.svg';
-import { ReactComponent as AccessRestricted } from '../../Resources/Static/accessRestricted.svg';
+import { ReactComponent as AccessRestrictedComponent } from '../../Resources/Static/accessRestricted.svg';
+import Error from '../../Resources/Static/error.svg';
+import { Image } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const SvgTest = () => {
+    const { t } = useTranslation();
+
     return (
         <div
             className="cb-svg-test-wrapper"
             style={{ display: 'flex', flexDirection: 'column' }}
         >
-            <h3>Test SVG icon via img tag src</h3>
-            <img src={TestImg} style={{ width: 50, height: 50 }} />
-            <h3>Test SVG illustration via React component syntax</h3>
-            <AccessRestricted />
+            <h3>{t('svgTests.fluentUI')}</h3>
+            <Image src={Error} height={100} />
+            <h3>{t('svgTests.imgTag')}</h3>
+            <img src={Error} style={{ height: 100, width: 100 }} />
+            <h3>{t('svgTests.reactComponent')}</h3>
+            <AccessRestrictedComponent />
         </div>
     );
 };
