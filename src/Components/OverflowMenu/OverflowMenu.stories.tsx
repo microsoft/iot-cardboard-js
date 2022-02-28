@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import {
     getDefaultStoryDecorator,
+    sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
@@ -72,6 +73,7 @@ MenuOpened.play = async ({ canvasElement }) => {
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId('context-menu-myList-0-moreMenu');
     await userEvent.click(menuItem);
+    await sleep(1);
 };
 
 export const MenuOpenedDark = Template.bind({}) as TemplateStory;
