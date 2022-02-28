@@ -112,7 +112,9 @@ BehaviorsMoreMenuShow.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // type in the search box
-    const moreMenu = await canvas.findByTestId('moreMenu-inScene-0');
+    const moreMenu = await canvas.findByTestId(
+        'cardboard-list-item-behaviors-in-scene-0-moreMenu'
+    );
     await userEvent.click(moreMenu);
     await sleep(1);
 };
