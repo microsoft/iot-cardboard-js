@@ -2,15 +2,12 @@ import {
     Checkbox,
     DefaultButton,
     FontIcon,
-    IButton,
-    IconButton,
     IContextualMenuItem,
-    IContextualMenuProps,
-    IRefObject,
     useTheme
 } from '@fluentui/react';
-import React, { ReactNode, useCallback, useMemo, useRef } from 'react';
-import { CardboardIconNames, StyleConstants, Utils } from '../..';
+import React, { ReactNode, useCallback, useRef } from 'react';
+import { CardboardIconNames, Utils } from '../..';
+import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import {
     getStyles,
     getButtonStyles,
@@ -159,59 +156,6 @@ export const CardboardListItem = <T extends unknown>({
                     />
                 )}
             </DefaultButton>
-        </>
-    );
-};
-
-interface IOverflowMenuProps {
-    index: number;
-    menuKey: string;
-    menuProps: IContextualMenuProps;
-    menuRef: IRefObject<IButton>;
-}
-const OverflowMenu: React.FC<IOverflowMenuProps> = ({
-    index,
-    menuKey,
-    menuProps,
-    menuRef
-}) => {
-    const theme = useTheme();
-    // override the menu icon color
-    const menuItems: IContextualMenuItem[] = useMemo(
-        () =>
-            menuProps.items.map((x) => ({
-                ...x,
-                iconProps: {
-                    ...x?.iconProps,
-                    styles: {
-                        ...x.iconProps?.styles,
-                        root: {
-                            color: theme.palette.black
-                        }
-                    }
-                }
-            })),
-        [menuProps.items]
-    );
-    return (
-        <>
-            <IconButton
-                componentRef={menuRef}
-                menuIconProps={{
-                    iconName: 'MoreVertical',
-                    style: {
-                        fontWeight: 'bold',
-                        fontSize: StyleConstants.icons.size16,
-                        color: theme.palette.black
-                    }
-                }}
-                data-testid={`cardboard-list-item-${menuKey}-${index}-moreMenu`}
-                data-is-focusable={false}
-                title={'More'} // t('more')
-                ariaLabel={'More menu'} // t('more')
-                menuProps={{ ...menuProps, items: menuItems }}
-                open={true}
-            ></IconButton>
         </>
     );
 };

@@ -70,12 +70,13 @@ const defaultOnClickHandler = (item) => {
 const defaultGetListItemPropsHandler = (
     item: IFakeListItem,
     index: number
-): CardboardListItemProps => {
+): CardboardListItemProps<IFakeListItem> => {
     return {
         ariaLabel: '',
         isChecked: item.isChecked,
         iconStartName: index % 3 == 0 ? 'Shapes' : undefined,
         iconEndName: index % 4 == 0 ? 'Link' : undefined,
+        onClick: defaultOnClickHandler,
         overflowMenuItems: index % 2 ? getDefaultMenuItems(item) : [],
         textPrimary: item.itemId + ' some extra text for overflow',
         textSecondary: item.itemDescription
@@ -86,10 +87,9 @@ const defaultProps: ICardboardListProps<unknown> = {
     getListItemProps: defaultGetListItemPropsHandler as (
         item: unknown,
         index: number
-    ) => CardboardListItemProps,
+    ) => CardboardListItemProps<unknown>,
     items: defaultListItems,
-    listKey: 'testList',
-    onClick: defaultOnClickHandler
+    listKey: 'testList'
 };
 
 type TemplateStory = ComponentStory<typeof CardboardList>;
@@ -111,6 +111,7 @@ WithAllElements.args = {
         textSecondary: (item as IFakeListItem).itemDescription,
         iconStartName: 'Link',
         iconEndName: 'Shapes',
+        onClick: defaultOnClickHandler,
         overflowMenuItems: [
             {
                 key: 'key1',
@@ -129,6 +130,7 @@ WithMenu.args = {
     ...defaultProps,
     getListItemProps: (item, index) => ({
         ariaLabel: '',
+        onClick: defaultOnClickHandler,
         overflowMenuItems: [
             {
                 key: 'item 1',
@@ -149,6 +151,7 @@ WithStartAndEndIcon.args = {
         ariaLabel: '',
         iconStartName: 'Link',
         iconEndName: 'Shapes',
+        onClick: defaultOnClickHandler,
         textPrimary: `List item ${index}`
     })
 };
@@ -160,6 +163,7 @@ WithStartIconAndMenu.args = {
         ariaLabel: '',
         iconStartName: 'Link',
         textPrimary: `List item ${index}`,
+        onClick: defaultOnClickHandler,
         overflowMenuItems: getDefaultMenuItems(item)
     })
 };
@@ -184,8 +188,9 @@ WithHighlightedText.args = {
     textToHighlight: 'rock',
     getListItemProps: (item, _index) => ({
         ariaLabel: '',
+        iconStartName: 'Shapes',
+        onClick: defaultOnClickHandler,
         textPrimary: (item as IFakeListItem).itemId,
-        textSecondary: (item as IFakeListItem).itemDescription,
-        iconStartName: 'Shapes'
+        textSecondary: (item as IFakeListItem).itemDescription
     })
 };

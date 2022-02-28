@@ -87,9 +87,7 @@ WithMenuOpened.play = async ({ canvasElement }) => {
     await waitForFirstRender();
     const canvas = within(canvasElement);
     // Finds the menu and clicks it
-    const menuItem = canvas.getByTestId(
-        'cardboard-list-item-listItemKey-0-moreMenu'
-    );
+    const menuItem = canvas.getByTestId('context-menu-listItemKey-0-moreMenu');
     await userEvent.click(menuItem);
 };
 
