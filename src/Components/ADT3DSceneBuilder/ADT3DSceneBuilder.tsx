@@ -1,10 +1,11 @@
-import { ContextualMenu, IContextualMenuItem } from '@fluentui/react';
-import React, { useEffect, useReducer, useState } from 'react';
+import { ContextualMenu, ContextualMenuItemType } from '@fluentui/react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { ADT3DSceneBuilderMode } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
     I3DSceneBuilderContext,
     IADT3DSceneBuilderCardProps,
+    IContextMenuProps,
     SET_ADT_SCENE_BUILDER_MODE,
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
@@ -22,6 +23,7 @@ import {
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
+import { useTranslation } from 'react-i18next';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -34,17 +36,61 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     locale,
     localeStrings
 }) => {
+    const { t } = useTranslation();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
 
-    const [contextualMenuProps, setContextualMenuProps] = useState<{
-        isVisible: boolean;
-        x: number;
-        y: number;
-        items: IContextualMenuItem[];
-    }>({ isVisible: false, x: 0, y: 0, items: [] });
+    const previouslySelectedMeshIds = useRef([]);
+    const contextualMenuItems = useRef([]);
+
+    const [
+        contextualMenuProps,
+        setContextualMenuProps
+    ] = useState<IContextMenuProps>({
+        isVisible: false,
+        x: 0,
+        y: 0,
+        items: contextualMenuItems.current
+    });
+
+    useEffect(() => {
+        contextualMenuItems.current = [
+            {
+                key: t('3dSceneBuilder.actions'),
+                itemType: ContextualMenuItemType.Section,
+                sectionProps: {
+                    topDivider: false,
+                    bottomDivider: false,
+                    title: t('3dSceneBuilder.actions'),
+                    items: [
+                        {
+                            key: t('3dSceneBuilder.createNewElementKey'),
+                            text: t('3dSceneBuilder.createNewElement'),
+                            onClick: () => {
+                                contextualMenuItems.current[1].sectionProps.items = [];
+                                dispatch({
+                                    type: SET_ADT_SCENE_BUILDER_MODE,
+                                    payload: ADT3DSceneBuilderMode.CreateElement
+                                });
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                key: t('3dSceneBuilder.elements'),
+                itemType: ContextualMenuItemType.Section,
+                sectionProps: {
+                    topDivider: false,
+                    bottomDivider: false,
+                    title: t('3dSceneBuilder.elements'),
+                    items: []
+                }
+            }
+        ];
+    }, []);
 
     const setSelectedMeshIds = (selectedMeshIds) => {
         dispatch({
@@ -80,24 +126,12 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [getScenesConfig?.adapterResult]);
 
-    const onMeshClicked = (mesh, e) => {
-        let meshes = [...state.selectedMeshIds];
-        const contextMenuItems = [];
+    const onMeshClicked = (mesh, e: any) => {
+        let meshIds = [...state.selectedMeshIds];
         if (mesh) {
             const selectedMesh = state.selectedMeshIds.find(
                 (item) => item === mesh.id
             );
-
-            contextMenuItems.push({
-                key: 'createElement',
-                text: 'Create Element',
-                onClick: () => {
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_MODE,
-                        payload: ADT3DSceneBuilderMode.CreateElement
-                    });
-                }
-            });
 
             switch (state.builderMode) {
                 case ADT3DSceneBuilderMode.ElementsIdle:
@@ -107,6 +141,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                 key: element.id,
                                 text: element.displayName,
                                 onClick: () => {
+                                    contextualMenuItems.current[1].sectionProps.items = [];
                                     dispatch({
                                         type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
                                         payload: element
@@ -121,36 +156,55 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     setSelectedMeshIds(element.meshIDs);
                                 },
                                 onMouseOut: () => {
-                                    setSelectedMeshIds([mesh.id]);
+                                    setSelectedMeshIds(
+                                        previouslySelectedMeshIds.current
+                                    );
                                 }
                             };
-                            contextMenuItems.push(item);
+
+                            if (
+                                !contextualMenuItems.current[1].sectionProps.items.find(
+                                    (ci) => ci.key === item.key
+                                )
+                            ) {
+                                contextualMenuItems.current[1].sectionProps.items.push(
+                                    item
+                                );
+                            }
                         }
                     }
 
-                    setContextualMenuProps({
-                        isVisible: true,
-                        x: e.event.clientX,
-                        y: e.event.clientY,
-                        items: contextMenuItems
-                    });
-                    setSelectedMeshIds([mesh.id]);
+                    if (e.event.button === 2) {
+                        setContextualMenuProps({
+                            isVisible: true,
+                            x: e.event.clientX,
+                            y: e.event.clientY,
+                            items: contextualMenuItems.current
+                        });
+                    }
+
+                    if (!state.selectedMeshIds.includes(mesh.id)) {
+                        meshIds.push(mesh.id);
+                        setSelectedMeshIds(meshIds);
+                        previouslySelectedMeshIds.current = meshIds;
+                    }
+
                     break;
 
                 case ADT3DSceneBuilderMode.EditElement:
                 case ADT3DSceneBuilderMode.CreateElement:
                     if (selectedMesh) {
-                        meshes = state.selectedMeshIds.filter(
+                        meshIds = state.selectedMeshIds.filter(
                             (item) => item !== selectedMesh
                         );
-                        setSelectedMeshIds(meshes);
                     } else {
-                        meshes.push(mesh.id);
-                        setSelectedMeshIds(meshes);
+                        meshIds.push(mesh.id);
                     }
+                    setSelectedMeshIds(meshIds);
                     break;
             }
         } else {
+            contextualMenuItems.current[1].sectionProps.items = [];
             setSelectedMeshIds([]);
         }
     };
@@ -199,7 +253,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     {contextualMenuProps.isVisible && (
                         <div>
                             <div
-                                id="target"
+                                id="cb-3d-builder-contextual-menu"
                                 style={{
                                     left: contextualMenuProps.x,
                                     top: contextualMenuProps.y,
@@ -211,7 +265,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             <ContextualMenu
                                 items={contextualMenuProps.items}
                                 hidden={!contextualMenuProps.isVisible}
-                                target="#target"
+                                target="#cb-3d-builder-contextual-menu"
                                 onDismiss={() =>
                                     setContextualMenuProps({
                                         isVisible: false,

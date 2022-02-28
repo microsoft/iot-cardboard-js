@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SceneView } from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -10,7 +10,7 @@ interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshClicked?: (selectedMeshes: string[], e: any) => void;
+    onMeshClicked?: (clickedMesh: any, e: any) => void;
     showMeshesOnHover?: boolean;
     selectedMeshIds?: Array<string>;
     coloredMeshItems?: ColoredMeshItem[];

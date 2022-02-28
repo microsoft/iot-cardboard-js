@@ -1,3 +1,5 @@
+import { IContextualMenuItem } from '@fluentui/react';
+import React from 'react';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import {
@@ -53,7 +55,7 @@ export interface I3DSceneBuilderContext {
     setSelectedMeshIds: (objects: Array<string>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
-    dispatch: any;
+    dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
 }
 
@@ -66,6 +68,13 @@ export type WidgetFormInfo = null | {
 export interface IBehaviorFormContext {
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+}
+
+export interface IContextMenuProps {
+    isVisible: boolean;
+    x: number;
+    y: number;
+    items: IContextualMenuItem[];
 }
 
 export interface IADT3DSceneBuilderElementListProps {
