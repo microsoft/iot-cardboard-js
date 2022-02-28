@@ -75,15 +75,6 @@
         padding: 8px;
     }
 
-    .cb-scene-builder-behavior-list-item {
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        padding: 6px;
-        padding-left: 8px;
-    }
-
     .cb-scene-builder-left-panel-collapse-chevron-header {
         cursor: pointer;
         font-size: 14px;
@@ -227,31 +218,8 @@
         }
     }
 
-    .cb-scene-builder-left-panel-behavior {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        padding-left: 8px;
-    }
-
-    .cb-scene-builder-behavior-name {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        flex-grow: 1;
-        font-size: 14px;
-        font-weight: normal;
-        height: 20px;
-    }
-
-    .cb-scene-builder-behavior-list-item-meta {
-        color: var(--cb-color-inactive);
-        font-size: 11px;
-    }
-
     .cb-selected-element,
-    .cb-scene-builder-left-panel-element:hover,
-    .cb-scene-builder-left-panel-behavior:hover {
+    .cb-scene-builder-left-panel-element:hover {
         background: var(--cb-color-icon-hover-bg);
         cursor: pointer;
         filter: unset;
