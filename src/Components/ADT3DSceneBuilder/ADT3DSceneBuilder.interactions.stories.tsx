@@ -13,7 +13,11 @@ import {
 } from '../../Models/Services/StoryUtilities';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/Interactions'
+    title: 'Components/ADT3DSceneBuilder/Interactions',
+    parameters: {
+        // delay for the menus showing up
+        chromatic: { delay: 1000 }
+    }
 };
 
 const cardStyle = {

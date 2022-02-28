@@ -24,7 +24,11 @@ export default {
         getDefaultStoryDecorator<ICardboardListItemPropsInternal<FakeListItem>>(
             cardStyle
         )
-    ]
+    ],
+    parameters: {
+        // delay for the menus showing up
+        chromatic: { delay: 1000 }
+    }
 };
 
 type FakeListItem = {

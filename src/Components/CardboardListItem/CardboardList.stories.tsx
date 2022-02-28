@@ -14,7 +14,11 @@ export default {
     component: CardboardList,
     decorators: [
         getDefaultStoryDecorator<ICardboardListProps<IFakeListItem>>(cardStyle)
-    ]
+    ],
+    parameters: {
+        // delay for the menus showing up
+        chromatic: { delay: 1000 }
+    }
 };
 
 interface IFakeListItem {
