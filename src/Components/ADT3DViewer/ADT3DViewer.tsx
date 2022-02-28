@@ -24,6 +24,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     connectionLineColor,
     enableMeshSelection,
     addInProps,
+    isWireframe,
     refetchConfig
 }) => {
     const [modelUrl, setModelUrl] = useState('');
@@ -230,6 +231,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         modelUrl: modelUrl,
                         selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
+                        isWireframe: isWireframe,
                         onMarkerClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMarkerHover: (marker, mesh) =>

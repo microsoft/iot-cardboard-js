@@ -69,7 +69,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshSelectionHoverColor,
     onSceneLoaded,
     getToken,
-    coloredMeshItems
+    coloredMeshItems,
+    isWireframe
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -177,6 +178,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 setIsLoading(false);
+                if (isWireframe === true) {
+                    for (const mesh of sc.meshes) {
+                        if (mesh?.material) {
+                            mesh.material.wireframe = true;
+                        }
+                    }
+                }
+
                 engineRef.current.resize();
                 if (onSceneLoaded) {
                     onSceneLoaded(sc);
@@ -274,6 +283,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 selectedHoverColor
             );
+
+            if (isWireframe === true) {
+                hovMaterial.current.wireframe = true;
+                selMaterial.current.wireframe = true;
+                selHovMaterial.current.wireframe = true;
+            }
 
             new BABYLON.HemisphericLight(
                 'light',
@@ -695,6 +710,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             material.diffuseColor = BABYLON.Color3.FromHexString(
                                 coloredMesh.color
                             );
+
+                            if (isWireframe === true) {
+                                material.wireframe = true;
+                            }
+
                             coloredMeshesRef.current.push({
                                 id: mesh.id,
                                 material: mesh.material

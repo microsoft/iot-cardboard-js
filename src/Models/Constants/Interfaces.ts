@@ -638,5 +638,6 @@ export interface IADT3DViewerProps {
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
+    isWireframe?: boolean;
     refetchConfig?: () => any;
 }

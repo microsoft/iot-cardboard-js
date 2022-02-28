@@ -66,4 +66,5 @@ export interface ISceneViewProp {
     meshSelectionHoverColor?: string;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    isWireframe?: boolean;
 }
