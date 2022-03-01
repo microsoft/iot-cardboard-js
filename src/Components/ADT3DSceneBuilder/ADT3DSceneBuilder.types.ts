@@ -166,7 +166,7 @@ export interface ADT3DSceneBuilderState {
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
-    revertToHoverColor: boolean;
+    showHoverOnSelected: boolean;
 }
 
 export interface IWidgetBuilderFormDataProps {

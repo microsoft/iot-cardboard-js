@@ -29,7 +29,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedElement: null,
     selectedElements: null,
     selectedBehavior: null,
-    revertToHoverColor: false
+    showHoverOnSelected: false
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -65,7 +65,7 @@ export const ADT3DSceneBuilderReducer: (
                 draft.selectedBehavior = payload;
                 break;
             case SET_REVERT_TO_HOVER_COLOR:
-                draft.revertToHoverColor = payload;
+                draft.showHoverOnSelected = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;

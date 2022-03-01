@@ -63,12 +63,18 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 itemType: ContextualMenuItemType.Section,
                 sectionProps: {
                     topDivider: false,
-                    bottomDivider: false,
-                    title: t('3dSceneBuilder.actions'),
+                    bottomDivider: true,
                     items: [
                         {
                             key: t('3dSceneBuilder.createNewElementKey'),
                             text: t('3dSceneBuilder.createNewElement'),
+                            iconProps: {
+                                iconName: 'Add',
+                                style: {
+                                    fontSize: '14px',
+                                    color: 'var(--cb-color-text-primary)'
+                                }
+                            },
                             onClick: () => {
                                 contextualMenuItems.current[1].sectionProps.items = [];
                                 dispatch({
@@ -86,7 +92,6 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 sectionProps: {
                     topDivider: false,
                     bottomDivider: false,
-                    title: t('3dSceneBuilder.elements'),
                     items: []
                 }
             }
@@ -155,6 +160,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             const item = {
                                 key: element.id,
                                 text: element.displayName,
+                                iconProps: {
+                                    iconName: 'Edit',
+                                    style: {
+                                        fontSize: '14px',
+                                        color: 'var(--cb-color-text-primary)'
+                                    }
+                                },
                                 onClick: () => {
                                     contextualMenuItems.current[1].sectionProps.items = [];
                                     dispatch({
@@ -229,7 +241,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             }
         } else {
             contextualMenuItems.current[1].sectionProps.items = [];
-            setSelectedMeshIds([]);
+            if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
+                setSelectedMeshIds([]);
+            }
         }
     };
 
@@ -294,7 +308,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             }
                             onMeshClicked={(mesh, e) => onMeshClicked(mesh, e)}
                             selectedMeshIds={state.selectedMeshIds}
-                            revertToHoverColor={state.revertToHoverColor}
+                            showHoverOnSelected={state.showHoverOnSelected}
                         />
                     )}
                     {contextualMenuProps.isVisible && (

@@ -66,5 +66,5 @@ export interface ISceneViewProp {
     meshSelectionHoverColor?: string;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
-    revertToHoverColor?: boolean;
+    showHoverOnSelected?: boolean;
 }

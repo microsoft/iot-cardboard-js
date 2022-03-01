@@ -70,7 +70,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onSceneLoaded,
     getToken,
     coloredMeshItems,
-    revertToHoverColor
+    showHoverOnSelected
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -469,7 +469,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                     id: mesh.id,
                                     material: selMesh.material
                                 };
-                                if (revertToHoverColor) {
+                                if (showHoverOnSelected) {
                                     mesh.material = selHovMaterial.current;
                                 }
                             } else {
@@ -531,7 +531,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers, revertToHoverColor]);
+    }, [scene, markers, showHoverOnSelected]);
 
     // SETUP LOGIC FOR onMarkerClick
     useEffect(() => {
@@ -628,7 +628,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     if (mesh) {
                         if (
                             meshToReset.id === highlightedMeshRef.current?.id &&
-                            revertToHoverColor
+                            showHoverOnSelected
                         ) {
                             mesh.material = hovMaterial.current;
                         } else {

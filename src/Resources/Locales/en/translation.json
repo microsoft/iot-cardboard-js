@@ -281,7 +281,6 @@
     },
     "3dSceneBuilder": {
         "elements": "Elements",
-        "actions": "Actions",
         "element": "Element",
         "alerts": "Alerts",
         "widgets": "Widgets",
