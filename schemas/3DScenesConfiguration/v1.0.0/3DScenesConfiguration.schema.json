@@ -1,0 +1,404 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "title": "3D scenes configuration - JSON schema",
+    "description": "A vocabulary to annotate and validate the JSON representation of 3D scene configuration data",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "configuration": {
+            "type": "object",
+            "description": "3D scene configuration data",
+            "properties": {
+                "scenes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "A scene is a single view that can be rendered from 3D assets",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "displayName": {
+                                "type": "string"
+                            },
+                            "elements": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "description": "An elements maps twins to objects in the scene",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "displayName": {
+                                            "type": "string"
+                                        },
+                                        "linkedTwinId": {
+                                            "type": "string",
+                                            "description": "The twin referenced by this element"
+                                        },
+                                        "objectIDs": {
+                                            "type": "array",
+                                            "description": "Array of of object IDs in the scene",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "An object ID represents 3D meshes in the scene",
+                                                "uniqueItems": true
+                                            }
+                                        },
+                                        "twinAliases": {
+                                            "type": "object",
+                                            "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "extensionProperties": {
+                                            "$ref": "#/$defs/extensionProperties"
+                                        }
+                                    },
+                                    "required": [
+                                        "type",
+                                        "id",
+                                        "displayName",
+                                        "linkedTwinId",
+                                        "objectIds"
+                                    ]
+                                }
+                            },
+                            "behaviorIDs": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "A reference to a behavior present in this scene",
+                                    "uniqueItems": true
+                                }
+                            },
+                            "assets": {
+                                "type": "array",
+                                "items": {
+                                    "description": "A 3D asset used to create the scene",
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "extensionProperties": {
+                                            "$ref": "#/$defs/extensionProperties"
+                                        }
+                                    },
+                                    "required": ["type", "url"]
+                                }
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "id",
+                            "displayName",
+                            "elements",
+                            "behaviorIDs",
+                            "assets"
+                        ]
+                    }
+                },
+                "behaviors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "A behavior applies visual or interactive representations of twin state to objects in the scene",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "displayName": {
+                                "type": "string"
+                            },
+                            "twinAliases": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "Twin aliases present on this behavior",
+                                    "uniqueItems": true
+                                }
+                            },
+                            "datasources": {
+                                "type": "array",
+                                "description": "Data sources return an array of objects.  Each object is expected to have the same schema.  These objects can then be mapped over in visuals.",
+                                "items": {
+                                    "anyof": [
+                                        {
+                                            "type": "object",
+                                            "description": "ElementDataSources get their object from the elements defined in a scene",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "ElementDatasource"
+                                                },
+                                                "elementIDs": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "An element ID contained in this data source",
+                                                        "uniqueItems": true
+                                                    }
+                                                },
+                                                "extensionProperties": {
+                                                    "$ref": "#/$defs/extensionProperties"
+                                                }
+                                            },
+                                            "required": ["type", "elementIDs"]
+                                        }
+                                    ]
+                                }
+                            },
+                            "visuals": {
+                                "type": "array",
+                                "description": "Visuals take a datasource, and modify objects in the scene based on expressions.  They allow you to color objects based on their state, float badges under alert conditions and configure popovers that trigger with user interaction",
+                                "items": {
+                                    "anyof": [
+                                        {
+                                            "type": "object",
+                                            "description": "A popover displays information about a datasource when you click on any of the associated objectIDs",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "Popover"
+                                                },
+                                                "title": {
+                                                    "type": "string"
+                                                },
+                                                "widgets": {
+                                                    "type": "array",
+                                                    "description": "Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.",
+                                                    "items": {
+                                                        "anyof": [
+                                                            {
+                                                                "type": "object",
+                                                                "description": "A gauge widget",
+                                                                "properties": {
+                                                                    "type": {
+                                                                        "const": "Gauge"
+                                                                    },
+                                                                    "groupID": {
+                                                                        "$ref": "#/$defs/groupID"
+                                                                    },
+                                                                    "valueExpression": {
+                                                                        "$ref": "#/$defs/valueExpression"
+                                                                    },
+                                                                    "widgetConfiguration": {
+                                                                        "type": "object",
+                                                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this gauge",
+                                                                        "properties": {
+                                                                            "units": {
+                                                                                "type": "string"
+                                                                            },
+                                                                            "label": {
+                                                                                "type": "string"
+                                                                            },
+                                                                            "min": {
+                                                                                "type": "number"
+                                                                            },
+                                                                            "max": {
+                                                                                "type": "number"
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "extensionProperties": {
+                                                                        "$ref": "#/$defs/extensionProperties"
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "object",
+                                                                "description": "A link widget which uses a string template to create a parametrized link",
+                                                                "properties": {
+                                                                    "type": {
+                                                                        "const": "Link"
+                                                                    },
+                                                                    "groupID": {
+                                                                        "$ref": "#/$defs/groupID"
+                                                                    },
+                                                                    "valueExpression": {
+                                                                        "$ref": "#/$defs/valueExpression"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "widgetGroups": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "description": "Defines a widget group, referenced by ID in widgets",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string"
+                                                            },
+                                                            "title": {
+                                                                "type": "string"
+                                                            },
+                                                            "orientation": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": ["id"]
+                                                    }
+                                                },
+                                                "objectIDs": {
+                                                    "$ref": "#/$defs/objectIDs"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "object",
+                                            "description": "a StatusColoring visual is used for mapping an expression result to a color",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "StatusColoring"
+                                                },
+                                                "statusValueExpression": {
+                                                    "type": "string",
+                                                    "description": "Expression which evaluates to numeric value"
+                                                },
+                                                "statusValueBuckets": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "description": "Numeric range to trigger coloring",
+                                                        "properties": {
+                                                            "color": {
+                                                                "type": "string"
+                                                            },
+                                                            "min": {
+                                                                "type": "number"
+                                                            },
+                                                            "max": {
+                                                                "type": "number"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "color",
+                                                            "min",
+                                                            "max"
+                                                        ]
+                                                    }
+                                                },
+                                                "objectIDs": {
+                                                    "$ref": "#/$defs/objectIDs"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "object",
+                                            "description": "Alert visual are used to show specific iconography when a boolean expression is true",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "Alert"
+                                                },
+                                                "triggerExpression": {
+                                                    "type": "string",
+                                                    "description": "Expression which evaluates to a boolean value"
+                                                },
+                                                "labelExpression": {
+                                                    "type": "string",
+                                                    "description": "Expression which evalues to a string value"
+                                                },
+                                                "iconName": {
+                                                    "type": "string"
+                                                },
+                                                "color": {
+                                                    "type": "string"
+                                                },
+                                                "objectIDs": {
+                                                    "$ref": "#/$defs/objectIDs"
+                                                }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "triggerExpression",
+                                                "labelExpression",
+                                                "iconName",
+                                                "color"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "displayName",
+                            "datasources",
+                            "visuals"
+                        ]
+                    }
+                },
+                "layers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "Layers are used to group behavior visibility",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "displayName": {
+                                "type": "string"
+                            },
+                            "behaviorIDs": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "extensionProperties": {
+                                "$ref": "#/$defs/extensionProperties"
+                            }
+                        },
+                        "required": ["id", "displayName", "behaviorIDs"]
+                    }
+                }
+            },
+            "required": ["scenes", "behaviors", "layers"]
+        }
+    },
+    "required": ["$schema", "type", "version"],
+    "$defs": {
+        "extensionProperties": {
+            "type": "object",
+            "description": "Optional bag of non-schematized extension properties"
+        },
+        "groupID": {
+            "type": "string",
+            "description": "Widget group to which a widget belongs"
+        },
+        "valueExpression": {
+            "type": "string",
+            "description": "Expression which evaluates to a numeric value"
+        },
+        "objectIDs": {
+            "type": "object",
+            "description": "objectIDs specify the objects in the scene that a visual pertains to",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "expression": {
+                    "type": "string"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/extensionProperties"
+                }
+            },
+            "required": ["type", "expression"]
+        }
+    }
+}
