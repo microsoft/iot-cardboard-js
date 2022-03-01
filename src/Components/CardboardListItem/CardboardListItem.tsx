@@ -5,7 +5,7 @@ import {
     IContextualMenuItem,
     useTheme
 } from '@fluentui/react';
-import React, { ReactNode, useCallback, useRef } from 'react';
+import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { CardboardIconNames, Utils } from '../..';
 import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import {
@@ -73,15 +73,22 @@ export const CardboardListItem = <T extends unknown>({
     textToHighlight,
     onClick
 }: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
     const showStartIcon = !!iconStartName;
     const showEndIcon = !!iconEndName;
     const showOverflow = !!overflowMenuItems?.length;
     const overflowRef = useRef(null);
+    // callback for when the menu opens and closes
+    const onMenuStateChange = useCallback((state) => {
+        setIsMenuOpen(state);
+    }, []);
     const onMenuClick = useCallback(() => {
         overflowRef?.current?.openMenu?.();
-    }, [overflowRef]);
+        // set state for css
+        onMenuStateChange(true);
+    }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
     const buttonStyles = getButtonStyles();
@@ -148,11 +155,16 @@ export const CardboardListItem = <T extends unknown>({
                 {showOverflow && (
                     <OverflowMenu
                         index={index}
+                        // force the menu icon to show up when the menu is open since it's no longer hovered/focused
+                        className={`cb-more-menu ${
+                            isMenuOpen ? 'cb-more-menu-visible' : ''
+                        }`}
                         menuKey={listKey}
                         menuRef={overflowRef}
                         menuProps={{
                             items: overflowMenuItems
                         }}
+                        onMenuStateChange={onMenuStateChange}
                     />
                 )}
             </DefaultButton>

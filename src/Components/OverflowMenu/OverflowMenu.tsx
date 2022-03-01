@@ -10,12 +10,15 @@ import {
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleConstants } from '../../Models/Constants';
+import { getStyles } from '../CardboardListItem/CardboardListItem.styles';
 
 export interface IOverflowMenuProps {
     /** Button screen reader label */
     ariaLabel?: string;
     /** override any default props for the icon button */
     buttonProps?: IButtonProps;
+    /** class name for the root */
+    className?: string;
     /** index of the item in the list */
     index: number;
     /** unique identifier for the menu in a list of elements */
@@ -24,16 +27,20 @@ export interface IOverflowMenuProps {
     menuProps: IContextualMenuProps;
     /** reference to the menu button */
     menuRef?: IRefObject<IButton>;
+    /** callback triggered when menu is opened or dismissed */
+    onMenuStateChange?: (state: boolean) => void;
     /** Hover text and text label for screen readers when hovered/focused */
     title?: string;
 }
 export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     ariaLabel,
     buttonProps,
+    className,
     index,
     menuKey,
     menuProps,
-    menuRef
+    menuRef,
+    onMenuStateChange
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -58,7 +65,11 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
         <>
             <IconButton
                 {...buttonProps}
+                ariaLabel={ariaLabel || t('more')}
+                className={`${getStyles(theme).menuIcon} ${className}`}
                 componentRef={menuRef}
+                data-is-focusable={false}
+                data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
                 menuIconProps={{
                     iconName: 'MoreVertical',
                     style: {
@@ -67,11 +78,13 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                         color: theme.palette.black
                     }
                 }}
-                data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
-                data-is-focusable={false}
+                menuProps={{
+                    ...menuProps,
+                    items: menuItems,
+                    onMenuDismissed: () => onMenuStateChange(false),
+                    onMenuOpened: () => onMenuStateChange(true)
+                }}
                 title={t('more')}
-                ariaLabel={ariaLabel || t('more')}
-                menuProps={{ ...menuProps, items: menuItems }}
             ></IconButton>
         </>
     );
