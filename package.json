@@ -28,7 +28,7 @@
         "pretty-bytes": "^5.6.0",
         "react-draggable": "^4.4.4",
         "react-dropzone": "^11.3.4",
-        "react-i18next": "^11.8.5",
+        "react-i18next": "^11.15.5",
         "react-select": "^5.2.2",
         "react-syntax-highlighter": "^15.4.3",
         "react-transition-group": "^4.4.2",
