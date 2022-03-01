@@ -329,7 +329,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
     // Update rendering style
     useEffect(() => {
-        console.log(meshBaseColor, meshFresnelColor);
         const materials = new Array(3);
         if (sceneRef.current?.meshes?.length) {
             if (
@@ -360,7 +359,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (meshBaseColor && meshFresnelColor) {
-                console.log('shader');
                 // Temporary Easter Egg - transparent causes random
                 if (
                     isTransparent(meshBaseColor) &&

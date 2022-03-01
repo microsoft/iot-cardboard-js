@@ -237,7 +237,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         let baseColor = { r: 0, g: 0, b: 0, a: 0 };
         let fresnelColor = { r: 0, g: 0, b: 0, a: 0 };
         let isWireframe = false;
-        console.log('here');
         switch (selectedItem.key) {
             case 'default':
                 baseColor = null;
@@ -280,7 +279,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         setSelectedItem(item);
     };
 
-    console.log(renderState?.baseColor);
     return (
         <BaseComponent
             isLoading={
@@ -302,7 +300,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         isWireframe: renderState?.isWireframe,
                         meshBaseColor: renderState?.baseColor,
                         meshFresnelColor: renderState?.fresnelColor,
-                        showMeshesOnHover: true,
                         onMarkerClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMarkerHover: (marker, mesh) =>
