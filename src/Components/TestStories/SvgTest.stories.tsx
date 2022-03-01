@@ -18,7 +18,12 @@ const SvgTest = () => {
             style={{ display: 'flex', flexDirection: 'column' }}
         >
             <h3>{t('svgTests.fluentUI')}</h3>
-            <Image src={Error} height={100} />
+            <Image
+                shouldStartVisible={true}
+                loading={'eager'}
+                src={Error}
+                height={100}
+            />
             <h3>{t('svgTests.imgTag')}</h3>
             <img src={Error} style={{ height: 100, width: 100 }} />
             <h3>{t('svgTests.reactComponent')}</h3>
