@@ -6,8 +6,9 @@ export default {
     component: SvgTest,
     parameters: {
         // Sets a delay for the component's stories
-        chromatic: { delay: 500 }
+        chromatic: { delay: 2000 }
     }
 };
 
-export const TestLoadingSvg = () => <SvgTest />;
+const Template = (args) => <SvgTest {...args} />;
+export const TestLoadingSvg = () => Template.bind({});
