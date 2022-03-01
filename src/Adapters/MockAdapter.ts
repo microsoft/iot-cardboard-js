@@ -38,6 +38,7 @@ import {
 } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class MockAdapter
     implements
@@ -51,6 +52,10 @@ export default class MockAdapter
     private networkTimeoutMillis;
     private isDataStatic;
     private scenesConfig;
+    private mockEnvironmentHostName =
+        'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
+    private mockContainerUrl =
+        'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
     private seededRng = seedRandom('cardboard seed');
 
     constructor(mockAdapterArgs?: IMockAdapter) {
@@ -444,13 +449,46 @@ export default class MockAdapter
         }
     }
 
+    async getADTInstances() {
+        const mockEnvironments = [
+            {
+                name: 'mockADTInstanceResourceName',
+                hostName:
+                    'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net',
+                resourceId: '12345',
+                location: 'wcus'
+            }
+        ];
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTInstancesData(mockEnvironments),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTInstancesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     getBlobContainerURL = () => {
-        return 'https://storageAccountName.blob.core.windows.net/containerName';
+        return this.mockContainerUrl;
     };
 
     setBlobContainerPath = (configBlobPath: string) => {
-        console.log('Setting blob path to: ' + configBlobPath);
+        this.mockContainerUrl = configBlobPath;
     };
+
+    getAdtHostUrl() {
+        return this.mockEnvironmentHostName;
+    }
+
+    setAdtHostUrl(hostName: string) {
+        this.mockEnvironmentHostName = hostName;
+    }
 
     async getTwinsForBehavior(
         _sceneId: string,

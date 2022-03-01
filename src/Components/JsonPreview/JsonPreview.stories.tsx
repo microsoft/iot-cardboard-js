@@ -5,7 +5,8 @@ import json from '../../../.storybook/test_data/mockModel.json';
 import { useTranslation } from 'react-i18next';
 
 export default {
-    title: 'Components/JsonPreview'
+    title: 'Components/JsonPreview',
+    component: JsonPreviewView
 };
 
 export const JsonPreview = (_args, { globals: { theme } }) => {

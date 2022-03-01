@@ -3,7 +3,8 @@ import { SceneView } from './SceneView';
 import { Marker } from '../../Models/Classes/SceneView.types';
 
 export default {
-    title: 'Components/SceneView'
+    title: 'Components/SceneView',
+    component: 'SceneView'
 };
 
 export const Globe = () => {

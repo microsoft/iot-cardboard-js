@@ -67,6 +67,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshSelectionColor,
     meshHoverColor,
     meshSelectionHoverColor,
+    onSceneLoaded,
     getToken,
     coloredMeshItems
 }) => {
@@ -90,6 +91,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const tooltipTop = useRef(0);
     const highlightedMeshRef = useRef<SelectedMesh>(null);
     const selectedMeshesRef = useRef<SelectedMesh[]>([]);
+    const coloredMeshesRef = useRef<SelectedMesh[]>([]);
     const hovMaterial = useRef<any>(null);
     const selMaterial = useRef<any>(null);
     const selHovMaterial = useRef<any>(null);
@@ -176,6 +178,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
                 setIsLoading(false);
                 engineRef.current.resize();
+                if (onSceneLoaded) {
+                    onSceneLoaded(sc);
+                }
             }
         }
 
@@ -255,7 +260,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             engineRef.current = engine;
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
-            sc.clearColor = new BABYLON.Color4(0.98, 0.98, 0.98, 1);
+            sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 hoverColor
@@ -690,6 +695,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             material.diffuseColor = BABYLON.Color3.FromHexString(
                                 coloredMesh.color
                             );
+                            coloredMeshesRef.current.push({
+                                id: mesh.id,
+                                material: mesh.material
+                            });
                             mesh.material = material;
                             coloredMaterials.current.push(material);
                         }
@@ -701,11 +710,20 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         return () => {
+            for (const coloredMesh of coloredMeshesRef.current) {
+                const mesh = sceneRef.current.meshes.find(
+                    (item) => item.id === coloredMesh.id
+                );
+
+                mesh.material = coloredMesh.material;
+            }
+
             for (const material of coloredMaterials.current) {
                 sceneRef.current?.removeMaterial(material);
                 material.dispose(true, true);
             }
 
+            coloredMeshesRef.current = [];
             coloredMaterials.current = [];
         };
     }, [coloredMeshItems, isLoading]);

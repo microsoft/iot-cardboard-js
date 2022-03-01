@@ -79,12 +79,6 @@ function CaretCoordinates(element) {
     this.spanText = document.createTextNode('');
     this.span.appendChild(this.spanText);
     this.div.appendChild(this.span);
-
-    function resize() {
-        style.width = this.computed?.width || style.width;
-    }
-
-    window.addEventListener('resize', resize);
 }
 
 CaretCoordinates.prototype.get = function (positionLeft) {

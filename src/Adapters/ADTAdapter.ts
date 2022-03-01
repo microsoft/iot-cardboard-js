@@ -99,6 +99,10 @@ export default class ADTAdapter implements IADTAdapter {
         return this.adtHostUrl;
     }
 
+    setAdtHostUrl(hostName: string) {
+        this.adtHostUrl = hostName;
+    }
+
     getRelationships(id: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -851,7 +855,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     const primaryTwin = await this.getADTTwin(
                                         mapping.primaryTwinID
                                     );
-                                    pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewerCard base card fail all together because of these pushed errors
+                                    pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                     twins['primaryTwin'] =
                                         primaryTwin.result?.data;
 
@@ -863,7 +867,7 @@ export default class ADTAdapter implements IADTAdapter {
                                             const twin = await this.getADTTwin(
                                                 mapping.twinAliases[alias]
                                             );
-                                            pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewerCard base card fail all together because of these pushed errors
+                                            pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                             twins[alias] = twin.result?.data;
                                         }
                                     }
@@ -1059,6 +1063,7 @@ export default class ADTAdapter implements IADTAdapter {
                                 )
                             ) {
                                 digitalTwinsInstanceDictionary.push({
+                                    name: instance.name,
                                     hostName: instance.properties.hostName,
                                     resourceId: instance.id,
                                     location: instance.location

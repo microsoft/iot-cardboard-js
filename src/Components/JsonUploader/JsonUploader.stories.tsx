@@ -2,7 +2,8 @@ import React from 'react';
 import JsonUploader from './JsonUploader';
 
 export default {
-    title: 'Components/JsonUploader'
+    title: 'Components/JsonUploader',
+    component: JsonUploader
 };
 
 export const UploadFiles = (_args) => {

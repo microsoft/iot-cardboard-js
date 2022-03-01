@@ -9,7 +9,8 @@ import StandalonePropertyInspector from './StandalonePropertyInspector';
 import { DtdlInterface } from '../..';
 
 export default {
-    title: 'Components/Property Inspector/Standalone'
+    title: 'Components/Property Inspector/Standalone',
+    component: StandalonePropertyInspector
 };
 
 const propertyInspectorStoryStyles = {

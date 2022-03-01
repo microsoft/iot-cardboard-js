@@ -7,6 +7,8 @@ import postcssUrl from 'postcss-url';
 import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
+import url from '@rollup/plugin-url';
+import svgr from '@svgr/rollup';
 const parseExportListFromIndex = require('./tools/index-parser');
 
 // Build map of library entry points -- this allows for splitting library into chunks & tree shaking
@@ -26,6 +28,13 @@ const inputs = {
         'src/Components',
         '.tsx',
         'Components'
+    ),
+    // Page entry points -- index MUST use [export { default as <name> } from './<path>'] syntax
+    ...parseExportListFromIndex(
+        './src/Pages/index.ts',
+        'src/Pages',
+        '.tsx',
+        'Pages'
     ),
     Classes: 'src/Models/Classes/index.ts',
     Constants: 'src/Models/Constants/index.ts',
@@ -48,7 +57,9 @@ const commonPlugins = [
                 url: 'inline'
             })
         ]
-    })
+    }),
+    url(),
+    svgr()
 ];
 
 const config = [

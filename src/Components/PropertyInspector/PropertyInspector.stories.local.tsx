@@ -6,7 +6,8 @@ import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
 
 export default {
-    title: 'Components/Property Inspector'
+    title: 'Components/Property Inspector',
+    component: PropertyInspector
 };
 
 const propertyInspectorStoryStyles = {

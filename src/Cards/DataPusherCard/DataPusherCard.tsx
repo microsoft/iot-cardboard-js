@@ -9,7 +9,7 @@ import React, {
     useReducer,
     useRef
 } from 'react';
-import BaseCard from '../Base/Consume/BaseCard';
+import BaseCard from '../BaseCard/BaseCard';
 import './DataPusher.scss';
 import {
     dataPusherReducer,

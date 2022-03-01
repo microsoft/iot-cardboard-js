@@ -5,3 +5,4 @@ export * from './Models/Constants';
 export * from './Models/Hooks';
 export * from './Models/Services';
 export * from './Components';
+export * from './Pages';

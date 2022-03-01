@@ -3,7 +3,8 @@ import { UploadPhase } from '../../Models/Constants';
 import { UploadProgress } from './UploadProgress';
 
 export default {
-    title: 'Components/UploadProgress'
+    title: 'Components/UploadProgress',
+    component: UploadProgress
 };
 
 export const MixOfStates = () => (
