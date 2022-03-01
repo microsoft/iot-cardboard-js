@@ -155,7 +155,7 @@ export const CardboardListItem = <T extends unknown>({
                     <OverflowMenu
                         index={index}
                         // force the menu icon to show up when the menu is open since it's no longer hovered/focused
-                        className={`cb-more-menu ${
+                        className={`${getStyles(theme).menuIcon} cb-more-menu ${
                             isMenuOpen ? 'cb-more-menu-visible' : ''
                         }`}
                         menuKey={listKey}

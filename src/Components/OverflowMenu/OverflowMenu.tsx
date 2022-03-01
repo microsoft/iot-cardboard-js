@@ -10,7 +10,6 @@ import {
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleConstants } from '../../Models/Constants';
-import { getStyles } from '../CardboardListItem/CardboardListItem.styles';
 
 export interface IOverflowMenuProps {
     /** Button screen reader label */
@@ -64,7 +63,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                 {...buttonProps}
                 ariaHidden={true}
                 ariaLabel={ariaLabel || t('more')}
-                className={`${getStyles(theme).menuIcon} ${className}`}
+                className={className}
                 componentRef={menuRef}
                 data-is-focusable={false}
                 data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
