@@ -162,9 +162,10 @@ export const CardboardListItem = <T extends unknown>({
                         menuKey={listKey}
                         menuRef={overflowRef}
                         menuProps={{
-                            items: overflowMenuItems
+                            items: overflowMenuItems,
+                            onMenuDismissed: () => onMenuStateChange(false),
+                            onMenuOpened: () => onMenuStateChange(true)
                         }}
-                        onMenuStateChange={onMenuStateChange}
                     />
                 )}
             </DefaultButton>

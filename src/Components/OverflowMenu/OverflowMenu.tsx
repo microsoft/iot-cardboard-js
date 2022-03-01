@@ -27,8 +27,6 @@ export interface IOverflowMenuProps {
     menuProps: IContextualMenuProps;
     /** reference to the menu button */
     menuRef?: IRefObject<IButton>;
-    /** callback triggered when menu is opened or dismissed */
-    onMenuStateChange?: (state: boolean) => void;
     /** Hover text and text label for screen readers when hovered/focused */
     title?: string;
 }
@@ -39,8 +37,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     index,
     menuKey,
     menuProps,
-    menuRef,
-    onMenuStateChange
+    menuRef
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -80,9 +77,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                 }}
                 menuProps={{
                     ...menuProps,
-                    items: menuItems,
-                    onMenuDismissed: () => onMenuStateChange(false),
-                    onMenuOpened: () => onMenuStateChange(true)
+                    items: menuItems
                 }}
                 title={t('more')}
             ></IconButton>
