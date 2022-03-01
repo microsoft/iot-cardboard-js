@@ -1,8 +1,17 @@
 import React from 'react';
+
 import { ReactComponent as AccessRestrictedComponent } from '../../Resources/Static/accessRestricted.svg';
 import Error from '../../Resources/Static/error.svg';
 import { Image } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+
+export default {
+    title: 'Test stories/SvgTest',
+    parameters: {
+        // Sets a delay for the component's stories
+        chromatic: { delay: 2000 }
+    }
+};
 
 const SvgTest = () => {
     const { t } = useTranslation();
@@ -22,4 +31,4 @@ const SvgTest = () => {
     );
 };
 
-export default SvgTest;
+export const TestLoadingSvg = () => <SvgTest />;
