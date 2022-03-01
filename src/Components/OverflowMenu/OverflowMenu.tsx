@@ -62,6 +62,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
         <>
             <IconButton
                 {...buttonProps}
+                ariaHidden={true}
                 ariaLabel={ariaLabel || t('more')}
                 className={`${getStyles(theme).menuIcon} ${className}`}
                 componentRef={menuRef}

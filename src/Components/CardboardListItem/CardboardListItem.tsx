@@ -116,7 +116,6 @@ export const CardboardListItem = <T extends unknown>({
                         checked={isChecked}
                         inputProps={preventFocus}
                         styles={checkboxStyles}
-                        onChange={() => undefined}
                     />
                 )}
                 {showStartIcon && (
