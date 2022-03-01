@@ -6,11 +6,7 @@ import { Image } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
 export default {
-    title: 'Test stories/SvgTest',
-    parameters: {
-        // Sets a delay for the component's stories
-        chromatic: { delay: 2000 }
-    }
+    title: 'Test stories/SvgTest'
 };
 
 const SvgTest = () => {
@@ -32,3 +28,7 @@ const SvgTest = () => {
 };
 
 export const TestLoadingSvg = () => <SvgTest />;
+
+TestLoadingSvg.parameters = {
+    chromatic: { delay: 5000 }
+};
