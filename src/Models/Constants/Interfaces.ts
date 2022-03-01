@@ -639,5 +639,6 @@ export interface IADT3DViewerProps {
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
     isWireframe?: boolean;
+    hideUI?: boolean;
     refetchConfig?: () => any;
 }
