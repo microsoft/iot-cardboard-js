@@ -7,6 +7,8 @@ import postcssUrl from 'postcss-url';
 import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
+import url from '@rollup/plugin-url';
+import svgr from '@svgr/rollup';
 const parseExportListFromIndex = require('./tools/index-parser');
 
 // Build map of library entry points -- this allows for splitting library into chunks & tree shaking
@@ -55,7 +57,9 @@ const commonPlugins = [
                 url: 'inline'
             })
         ]
-    })
+    }),
+    url(),
+    svgr()
 ];
 
 const config = [

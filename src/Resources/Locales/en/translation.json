@@ -575,5 +575,10 @@
             "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
+    },
+    "svgTests": {
+        "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
+        "imgTag": "SVG icon via img tag src",
+        "reactComponent": "SVG illustration via React component syntax"
     }
 }
