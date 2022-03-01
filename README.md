@@ -95,9 +95,11 @@ If you have a question for one of the project maintainers, please post the quest
 - [Request a new feature](https://github.com/microsoft/iot-cardboard-js/issues/new?assignees=&labels=enhancement+%3Abulb%3A&template=feature_request.md&title=) 💡
 
 ## Contributing 🚀
-- To contribute to this project, head over to our [environment setup wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Environment-setup-%F0%9F%9A%80) to get started.
+- To contribute to this project, head over to our [environment setup wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Environment-setup) to get started.
 - To learn about our codebase philosophy, check out the [design patterns wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Design-patterns).
-- For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-integration-and-delivery-%F0%9F%94%8E).
+- To learn about coding guidelines, check out the [coding guidelines wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Coding-guidelines).
+- For an overview of our CI / CD and semantic versioning systems, check out our [continuous integration and delivery wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Continuous-delivery).
+
 
 ## Contributor License Agreement 📃
 
