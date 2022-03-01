@@ -27,7 +27,7 @@ export default {
     ],
     parameters: {
         // delay for the menus showing up
-        chromatic: { delay: 1000 }
+        chromatic: { delay: 5000 }
     }
 };
 
