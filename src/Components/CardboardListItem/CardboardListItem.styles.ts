@@ -32,7 +32,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         },
         secondaryText: {
             color: theme.palette.neutralSecondary,
-            fontSize: FontSizes.size10,
+            fontSize: FontSizes.size12,
             ...ellipseStyles
         }
     });
