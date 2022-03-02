@@ -413,10 +413,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 shaderMaterials.current = materials;
-                if (
-                    isWireframe === true ||
-                    (meshBaseColor && meshFresnelColor)
-                ) {
+                if (!!isWireframe || (meshBaseColor && meshFresnelColor)) {
                     let ct = 0;
                     for (const mesh of sceneRef.current.meshes) {
                         if (++ct >= shaderMaterials.current.length) {
@@ -852,9 +849,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                 coloredMesh.color
                             );
 
-                            if (isWireframe === true) {
-                                material.wireframe = true;
-                            }
+                            material.wireframe = !!isWireframe;
 
                             if (meshBaseColor && meshFresnelColor) {
                                 material.alpha = 0.5;
