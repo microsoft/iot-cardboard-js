@@ -4,6 +4,7 @@ import {
     WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -104,7 +105,6 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 
 export const primaryTwinName = 'primaryTwin';
-
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
@@ -116,3 +116,13 @@ export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+
+export const StyleConstants = {
+    listItems: {
+        hoverBackgroundColor: 'var(--fluent-color-grey-20)'
+    },
+    icons: {
+        size20: FontSizes.size20,
+        size16: FontSizes.size16
+    }
+};

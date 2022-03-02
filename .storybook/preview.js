@@ -14,7 +14,8 @@ export const globalTypes = {
         defaultValue: 'light',
         toolbar: {
             icon: 'circlehollow',
-            items: ['light', 'dark', 'explorer']
+            items: ['light', 'dark', 'explorer'],
+            showName: true,
         }
     },
     locale: {
@@ -26,7 +27,8 @@ export const globalTypes = {
             items: [
                 { value: Locale.EN, right: 'US', title: 'English' },
                 { value: Locale.DE, right: 'DE', title: 'German' }
-            ]
+            ],
+            showName: true,
         }
     }
 };
