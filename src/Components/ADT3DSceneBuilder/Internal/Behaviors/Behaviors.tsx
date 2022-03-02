@@ -177,7 +177,7 @@ const SceneBehaviors: React.FC<Props> = ({
         ];
     };
     const getListItemPropsInScene = (
-        item
+        item: IBehavior
     ): CardboardListItemProps<IBehavior> => {
         const metadata = ViewerConfigUtility.getBehaviorMetaData(
             config,

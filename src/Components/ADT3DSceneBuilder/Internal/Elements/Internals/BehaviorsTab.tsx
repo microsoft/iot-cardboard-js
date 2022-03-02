@@ -134,7 +134,9 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             }
         ];
     };
-    const getListItemProps = (item): CardboardListItemProps<IBehavior> => {
+    const getListItemProps = (
+        item: IBehavior
+    ): CardboardListItemProps<IBehavior> => {
         return {
             ariaLabel: '',
             iconStartName: 'Ringer',

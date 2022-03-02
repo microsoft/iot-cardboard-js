@@ -7,9 +7,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    Checkbox,
     DefaultButton,
-    FontIcon,
     IconButton,
     IContextualMenuItem,
     PrimaryButton,
@@ -25,7 +23,6 @@ import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { Utils } from '../../../../Models/Services';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
 
@@ -188,7 +185,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             }
         ];
     };
-    console.log('Render');
     const getListItemProps = (
         item: ITwinToObjectMapping
     ): CardboardListItemProps<ITwinToObjectMapping> => {

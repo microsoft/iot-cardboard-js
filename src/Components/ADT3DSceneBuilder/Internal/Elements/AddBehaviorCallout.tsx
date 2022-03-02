@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DirectionalHint,
-    FontIcon,
     SearchBox,
     mergeStyleSets,
     PrimaryButton,
-    ActionButton,
     FocusTrapCallout
 } from '@fluentui/react';
-import { Utils } from '../../../../Models/Services';
 import { IBehavior } from '../../../../Models/Classes/3DVConfig';
 import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../ADT3DSceneBuilder.types';
+import { CardboardList, CardboardListItemProps } from '../../../CardboardList';
 
 const styles = mergeStyleSets({
     callout: {
@@ -72,6 +70,18 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
         );
     };
 
+    const getListItemProps = (
+        item: IBehavior
+    ): CardboardListItemProps<IBehavior> => {
+        return {
+            ariaLabel: '',
+            iconStartName: 'Ringer',
+            iconEndName: 'Add',
+            onClick: onAddBehavior,
+            textPrimary: item.id
+        };
+    };
+
     return (
         <FocusTrapCallout
             focusTrapProps={{
@@ -97,12 +107,19 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     />
                 </div>
                 <div>
-                    {filteredAvailableBehaviors?.length === 0 && (
+                    {filteredAvailableBehaviors?.length === 0 ? (
                         <div className={styles.resultText}>
                             {t('3dSceneBuilder.noAvailableBehaviors')}
                         </div>
+                    ) : (
+                        <CardboardList<IBehavior>
+                            items={filteredAvailableBehaviors}
+                            getListItemProps={getListItemProps}
+                            listKey={`behavior-callout-list`}
+                            textToHighlight={searchText}
+                        />
                     )}
-                    {filteredAvailableBehaviors.map((behavior) => {
+                    {/* {filteredAvailableBehaviors.map((behavior) => {
                         return (
                             <ActionButton
                                 key={behavior.id}
@@ -136,7 +153,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                                 />
                             </ActionButton>
                         );
-                    })}
+                    })} */}
                 </div>
                 <PrimaryButton
                     styles={{

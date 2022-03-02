@@ -19,7 +19,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const getListItemProps = (item): CardboardListItemProps<string> => {
+    const getListItemProps = (item: string): CardboardListItemProps<string> => {
         return {
             ariaLabel: '',
             iconStartName: 'CubeShape',
