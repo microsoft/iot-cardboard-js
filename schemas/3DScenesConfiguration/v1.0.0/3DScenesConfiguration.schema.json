@@ -39,7 +39,7 @@
                                         "displayName": {
                                             "type": "string"
                                         },
-                                        "linkedTwinId": {
+                                        "linkedTwinID": {
                                             "type": "string",
                                             "description": "The twin referenced by this element"
                                         },
@@ -67,8 +67,8 @@
                                         "type",
                                         "id",
                                         "displayName",
-                                        "linkedTwinId",
-                                        "objectIds"
+                                        "linkedTwinID",
+                                        "objectIDs"
                                     ]
                                 }
                             },
@@ -101,7 +101,6 @@
                             }
                         },
                         "required": [
-                            "type",
                             "id",
                             "displayName",
                             "elements",
@@ -370,7 +369,7 @@
             "required": ["scenes", "behaviors", "layers"]
         }
     },
-    "required": ["$schema", "type", "version"],
+    "required": ["$schema", "configuration"],
     "$defs": {
         "extensionProperties": {
             "type": "object",
