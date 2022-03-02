@@ -40,8 +40,8 @@ const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const DefaultTab = Template.bind({});
-DefaultTab.play = async ({ canvasElement }) => {
+export const BehaviorsTab = Template.bind({});
+BehaviorsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the second one
     const behaviorsTabButton = await canvas.findAllByRole('tab');
@@ -51,7 +51,7 @@ DefaultTab.play = async ({ canvasElement }) => {
 export const Search = Template.bind({});
 Search.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
-    await DefaultTab.play({ canvasElement });
+    await BehaviorsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
     // type in the search box
@@ -62,7 +62,7 @@ Search.play = async ({ canvasElement }) => {
 export const MoreMenuShow = Template.bind({});
 MoreMenuShow.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
-    await DefaultTab.play({ canvasElement });
+    await BehaviorsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
     // type in the search box

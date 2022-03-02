@@ -39,8 +39,8 @@ const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
     </div>
 );
 
-export const DefaultTab = Template.bind({});
-DefaultTab.play = async ({ canvasElement }) => {
+export const ElementsTab = Template.bind({});
+ElementsTab.play = async ({ canvasElement }) => {
     await waitForFirstRender();
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
@@ -51,7 +51,7 @@ DefaultTab.play = async ({ canvasElement }) => {
 export const Search = Template.bind({});
 Search.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
-    await DefaultTab.play({ canvasElement });
+    await ElementsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
     // type in the search box
@@ -62,7 +62,7 @@ Search.play = async ({ canvasElement }) => {
 export const MultiSelect = Template.bind({});
 MultiSelect.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
-    await DefaultTab.play({ canvasElement });
+    await ElementsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
     // toggle multi select
@@ -77,7 +77,7 @@ MultiSelect.play = async ({ canvasElement }) => {
 export const MoreMenuShow = Template.bind({});
 MoreMenuShow.play = async ({ canvasElement }) => {
     // switch to the elements tab
-    await DefaultTab.play({ canvasElement });
+    await ElementsTab.play({ canvasElement });
 
     // click a list item
     const canvas = within(canvasElement);
@@ -88,7 +88,7 @@ MoreMenuShow.play = async ({ canvasElement }) => {
 export const EditItem = Template.bind({});
 EditItem.play = async ({ canvasElement }) => {
     // switch to the elements tab
-    await DefaultTab.play({ canvasElement });
+    await ElementsTab.play({ canvasElement });
 
     // click a list item
     const canvas = within(canvasElement);
