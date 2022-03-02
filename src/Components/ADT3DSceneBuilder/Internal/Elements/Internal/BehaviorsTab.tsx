@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    ActionButton,
-    FontIcon,
-    IconButton,
-    IContextualMenuItem
-} from '@fluentui/react';
+import { ActionButton, IContextualMenuItem } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
 import AddBehaviorCallout from '../AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';

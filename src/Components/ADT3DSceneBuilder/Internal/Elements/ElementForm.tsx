@@ -22,9 +22,9 @@ import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
-import MeshTab from './Internals/MeshTab';
-import BehaviorsTab from './Internals/BehaviorsTab';
-import AliasedTwinsTab from './Internals/AliasedTwinsTab';
+import MeshTab from './Internal/MeshTab';
+import BehaviorsTab from './Internal/BehaviorsTab';
+import AliasedTwinsTab from './Internal/AliasedTwinsTab';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,

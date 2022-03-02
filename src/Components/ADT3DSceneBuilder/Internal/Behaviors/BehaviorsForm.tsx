@@ -16,9 +16,9 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
 import { TextField, DefaultButton, Separator } from '@fluentui/react';
-import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
+import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
-import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
+import WidgetsTab from './Internal/WidgetsTab';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParams
 } from '../LeftPanelBuilderHeader';
@@ -210,7 +210,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             )}
                                             itemKey={BehaviorPivot.alerts}
                                         >
-                                            <BehaviorFormAlertsTab />
+                                            <AlertsTab />
                                         </PivotItem>
                                         <PivotItem
                                             headerText={t(
@@ -218,7 +218,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             )}
                                             itemKey={BehaviorPivot.widgets}
                                         >
-                                            <BehaviorFormWidgetsTab />
+                                            <WidgetsTab />
                                         </PivotItem>
                                     </Pivot>
                                 </div>

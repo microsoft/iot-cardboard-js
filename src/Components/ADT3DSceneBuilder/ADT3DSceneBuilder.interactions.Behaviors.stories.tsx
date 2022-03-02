@@ -112,7 +112,9 @@ EditWidgetsTabMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
     // click one of the items in the list
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
-    const moreButton = await canvas.findByTestId(`moreMenu-${listItemIndex}`);
+    const moreButton = await canvas.findByTestId(
+        `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
+    );
     await userEvent.click(moreButton);
 };
 

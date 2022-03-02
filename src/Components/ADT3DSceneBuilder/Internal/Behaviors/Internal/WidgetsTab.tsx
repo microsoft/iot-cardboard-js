@@ -1,25 +1,24 @@
-import React, { useContext, useMemo, useState } from 'react';
-import {
-    IContextualMenuProps,
-    Label,
-    ActionButton,
-    FontIcon,
-    IconButton
-} from '@fluentui/react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { Label, ActionButton, IContextualMenuItem } from '@fluentui/react';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import {
     VisualType,
     IWidgetLibraryItem,
-    defaultOnClickPopover
+    defaultOnClickPopover,
+    IWidget
 } from '../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import {
+    CardboardList,
+    CardboardListItemProps
+} from '../../../../CardboardList';
 
-const BehaviorFormWidgetsTab: React.FC = () => {
+const WidgetsTab: React.FC = () => {
     const { setWidgetFormInfo } = useContext(SceneBuilderContext);
 
     const { setBehaviorToEdit, behaviorToEdit } = useContext(
@@ -28,27 +27,6 @@ const BehaviorFormWidgetsTab: React.FC = () => {
 
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const { t } = useTranslation();
-
-    function getMenuProps(index: number): IContextualMenuProps {
-        return {
-            items: [
-                {
-                    key: 'edit',
-                    'data-testid': 'editWidgetOverflow',
-                    text: t('3dSceneBuilder.editWidget'),
-                    iconProps: { iconName: 'Edit' },
-                    onClick: () => onEditWidgetStart(index)
-                },
-                {
-                    key: 'remove',
-                    'data-testid': 'removeWidgetOverflow',
-                    text: t('3dSceneBuilder.removeWidget'),
-                    iconProps: { iconName: 'Delete' },
-                    onClick: () => onRemoveWidget(index)
-                }
-            ]
-        };
-    }
 
     const widgets = useMemo(() => {
         return (
@@ -121,14 +99,59 @@ const BehaviorFormWidgetsTab: React.FC = () => {
         }
     }
 
+    function getOverflowMenuItems(
+        _item: IWidget,
+        index: number
+    ): IContextualMenuItem[] {
+        return [
+            {
+                key: 'edit',
+                'data-testid': 'editWidgetOverflow',
+                text: t('3dSceneBuilder.editWidget'),
+                iconProps: { iconName: 'Edit' },
+                onClick: () => onEditWidgetStart(index)
+            },
+            {
+                key: 'remove',
+                'data-testid': 'removeWidgetOverflow',
+                text: t('3dSceneBuilder.removeWidget'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => onRemoveWidget(index)
+            }
+        ];
+    }
+    const getIconName = useCallback(
+        (widget: IWidget) =>
+            availableWidgets.find((w) => w.data.type === widget.type)?.iconName,
+        [availableWidgets]
+    );
+    const getListItemProps = (
+        item: IWidget,
+        index: number
+    ): CardboardListItemProps<IWidget> => {
+        return {
+            ariaLabel: '',
+            iconStartName: getIconName(item),
+            openMenuOnClick: true,
+            overflowMenuItems: getOverflowMenuItems(item, index),
+            textPrimary: item.type
+        };
+    };
+
     return (
         <div className="cb-widget-panel-container">
-            {!widgets?.length && (
+            {!widgets?.length ? (
                 <Label className="cb-widget-panel-label">
                     {t('3dSceneBuilder.noWidgetsConfigured')}
                 </Label>
+            ) : (
+                <CardboardList<IWidget>
+                    items={widgets}
+                    getListItemProps={getListItemProps}
+                    listKey={'widgets-in-behavior'}
+                />
             )}
-            {widgets?.length > 0 &&
+            {/* {widgets?.length > 0 &&
                 widgets.map((widget, index) => (
                     <div key={index} className="cb-widget-panel-list-container">
                         <FontIcon
@@ -156,7 +179,7 @@ const BehaviorFormWidgetsTab: React.FC = () => {
                             menuProps={getMenuProps(index)}
                         />
                     </div>
-                ))}
+                ))} */}
             <ActionButton
                 className="cb-widget-panel-action-button"
                 text={t('3dSceneBuilder.addWidget')}
@@ -177,4 +200,4 @@ const BehaviorFormWidgetsTab: React.FC = () => {
     );
 };
 
-export default BehaviorFormWidgetsTab;
+export default WidgetsTab;
