@@ -16,6 +16,8 @@ export interface IOverflowMenuProps {
     ariaLabel?: string;
     /** override any default props for the icon button */
     buttonProps?: IButtonProps;
+    /** class name for the root */
+    className?: string;
     /** index of the item in the list */
     index: number;
     /** unique identifier for the menu in a list of elements */
@@ -30,6 +32,7 @@ export interface IOverflowMenuProps {
 export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     ariaLabel,
     buttonProps,
+    className,
     index,
     menuKey,
     menuProps,
@@ -58,7 +61,12 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
         <>
             <IconButton
                 {...buttonProps}
+                ariaHidden={true}
+                ariaLabel={ariaLabel || t('more')}
+                className={className}
                 componentRef={menuRef}
+                data-is-focusable={false}
+                data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
                 menuIconProps={{
                     iconName: 'MoreVertical',
                     style: {
@@ -67,11 +75,11 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                         color: theme.palette.black
                     }
                 }}
-                data-testid={`context-menu-${menuKey}-${index}-moreMenu`}
-                data-is-focusable={false}
+                menuProps={{
+                    ...menuProps,
+                    items: menuItems
+                }}
                 title={t('more')}
-                ariaLabel={ariaLabel || t('more')}
-                menuProps={{ ...menuProps, items: menuItems }}
             ></IconButton>
         </>
     );

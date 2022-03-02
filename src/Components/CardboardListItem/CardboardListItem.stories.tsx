@@ -7,6 +7,7 @@ import {
 import { IContextualMenuItem } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
+    sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
@@ -89,6 +90,7 @@ WithMenuOpened.play = async ({ canvasElement }) => {
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId('context-menu-listItemKey-0-moreMenu');
     await userEvent.click(menuItem);
+    await sleep(5000);
 };
 
 export const WithStartIcon = Template.bind({}) as TemplateStory;

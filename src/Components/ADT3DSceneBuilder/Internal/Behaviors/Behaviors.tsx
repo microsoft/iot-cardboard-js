@@ -169,24 +169,42 @@ const SceneBehaviors: React.FC<Props> = ({
     const getListItemPropsInScene = (
         item
     ): CardboardListItemProps<IBehavior> => {
+        const metadata = ViewerConfigUtility.getBehaviorMetaData(
+            config,
+            sceneId,
+            item
+        );
         return {
             ariaLabel: '',
-            iconStartName: 'Shapes',
+            iconStartName: 'Ringer',
             onClick: onBehaviorClick,
             overflowMenuItems: getOverflowMenuItemsInScene(item),
-            textPrimary: item.id
+            textPrimary: item.id,
+            textSecondary: t('3dSceneBuilder.behaviorMetaText', {
+                numElementsInActiveScene: metadata.numElementsInActiveScene,
+                numSceneRefs: metadata.numSceneRefs
+            })
         };
     };
 
     const getListItemPropsNotInScene = (
         item
     ): CardboardListItemProps<IBehavior> => {
+        const metadata = ViewerConfigUtility.getBehaviorMetaData(
+            config,
+            sceneId,
+            item
+        );
         return {
             ariaLabel: '',
-            iconStartName: 'Shapes',
+            iconStartName: 'Ringer',
             openMenuOnClick: true,
             overflowMenuItems: getOverflowMenuItemsNotInScene(item),
-            textPrimary: item.id
+            textPrimary: item.id,
+            textSecondary: t('3dSceneBuilder.behaviorMetaText', {
+                numElementsInActiveScene: metadata.numElementsInActiveScene,
+                numSceneRefs: metadata.numSceneRefs
+            })
         };
     };
 

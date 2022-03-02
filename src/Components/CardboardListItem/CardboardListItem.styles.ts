@@ -15,6 +15,9 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         textOverflow: 'ellipsis'
     };
     return mergeStyleSets({
+        endIcon: { marginLeft: '8px' },
+        icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
+        menuIcon: { opacity: 0 },
         textContainer: {
             display: 'flex',
             flexDirection: 'column',
@@ -31,9 +34,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
             color: theme.palette.neutralSecondary,
             fontSize: FontSizes.size10,
             ...ellipseStyles
-        },
-        icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
-        endIcon: { marginLeft: '8px' }
+        }
     });
 });
 export const checkboxStyles: ICheckboxStyles = {
@@ -49,7 +50,10 @@ export const getButtonStyles = memoizeFunction(
                 alignItems: 'start', // top align everything
                 padding: '8px 12px 8px 20px',
                 width: '100%',
-                height: 'auto'
+                height: 'auto',
+                ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
+                    opacity: 1
+                }
             },
             rootFocused: {
                 backgroundColor: StyleConstants.listItems.hoverBackgroundColor
