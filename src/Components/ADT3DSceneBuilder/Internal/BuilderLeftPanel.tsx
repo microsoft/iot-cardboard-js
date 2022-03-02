@@ -421,6 +421,7 @@ const BuilderLeftPanel: React.FC = () => {
                     <PivotItem
                         headerText={t('3dSceneBuilder.elements')}
                         itemKey={ADT3DSceneTwinBindingsMode.Elements}
+                        style={{ width: '100%' }}
                     >
                         <SceneElements
                             elements={state.elements}
@@ -439,6 +440,7 @@ const BuilderLeftPanel: React.FC = () => {
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
                         data-testid="3dScene.panelPivot.behaviorsTab"
+                        style={{ width: '100%' }}
                     >
                         <SceneBehaviors
                             behaviors={behaviors}
