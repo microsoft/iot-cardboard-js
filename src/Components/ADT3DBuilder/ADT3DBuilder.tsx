@@ -5,12 +5,13 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import { AbstractMesh, Scene } from 'babylonjs';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshClicked?: (clickedMesh: any, e: any) => void;
+    onMeshClicked?: (clickedMesh: AbstractMesh, e: PointerEvent) => void;
     showMeshesOnHover?: boolean;
     selectedMeshIds?: Array<string>;
     coloredMeshItems?: ColoredMeshItem[];
@@ -26,8 +27,15 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     coloredMeshItems,
     showHoverOnSelected
 }) => {
-    const meshClick = (_marker: Marker, mesh: any, _scene: any, e: any) => {
-        onMeshClicked(mesh, e);
+    const meshClick = (
+        _marker: Marker,
+        mesh: AbstractMesh,
+        _scene: Scene,
+        e: PointerEvent
+    ) => {
+        if (onMeshClicked) {
+            onMeshClicked(mesh, e);
+        }
     };
 
     return (
@@ -35,9 +43,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh, scene, e) =>
-                        onMeshClicked && meshClick(marker, mesh, scene, e)
-                    }
+                    onMarkerClick={meshClick}
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
                     showHoverOnSelected={showHoverOnSelected}

@@ -1,5 +1,11 @@
 import { ContextualMenu, ContextualMenuItemType } from '@fluentui/react';
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useReducer,
+    useRef,
+    useState
+} from 'react';
 import { ADT3DSceneBuilderMode } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
@@ -25,6 +31,7 @@ import {
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
+import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -146,105 +153,113 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [getScenesConfig?.adapterResult]);
 
-    const onMeshClicked = (mesh, e: any) => {
-        let meshIds = [...state.selectedMeshIds];
-        if (mesh) {
-            const selectedMesh = state.selectedMeshIds.find(
-                (item) => item === mesh.id
-            );
+    const onMeshClicked = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            if (mesh) {
+                switch (state.builderMode) {
+                    case ADT3DSceneBuilderMode.ElementsIdle:
+                        meshClickOnElementsIdle(mesh, e);
+                        break;
 
-            switch (state.builderMode) {
-                case ADT3DSceneBuilderMode.ElementsIdle:
-                    for (const element of state.elements) {
-                        if (element.meshIDs.includes(mesh.id)) {
-                            const item = {
-                                key: element.id,
-                                text: element.displayName,
-                                iconProps: {
-                                    iconName: 'Edit',
-                                    style: {
-                                        fontSize: '14px',
-                                        color: 'var(--cb-color-text-primary)'
-                                    }
-                                },
-                                onClick: () => {
-                                    contextualMenuItems.current[1].sectionProps.items = [];
-                                    dispatch({
-                                        type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-                                        payload: element
-                                    });
-                                    dispatch({
-                                        type: SET_ADT_SCENE_BUILDER_MODE,
-                                        payload:
-                                            ADT3DSceneBuilderMode.EditElement
-                                    });
-                                },
-                                onMouseOver: () => {
-                                    setSelectedMeshIds(element.meshIDs);
-                                },
-                                onMouseOut: () => {
-                                    setSelectedMeshIds(
-                                        previouslySelectedMeshIds.current
-                                    );
-                                }
-                            };
-
-                            if (e.event.button === 2) {
-                                addContextualMenuItems(item);
-                            } else {
-                                if (state.selectedMeshIds.includes(mesh.id)) {
-                                    removeContextualMenuItems(item);
-                                } else {
-                                    addContextualMenuItems(item);
-                                }
-                            }
-                        }
-                    }
-
-                    if (e.event.button === 2) {
-                        if (!state.selectedMeshIds.includes(mesh.id)) {
-                            meshIds.push(mesh.id);
-                        }
-                    } else {
-                        if (state.selectedMeshIds.includes(mesh.id)) {
-                            meshIds = meshIds.filter((id) => id !== mesh.id);
-                        } else {
-                            meshIds.push(mesh.id);
-                        }
-                    }
-
-                    setSelectedMeshIds(meshIds);
-                    previouslySelectedMeshIds.current = meshIds;
-
-                    if (e.event.button === 2) {
-                        setContextualMenuProps({
-                            isVisible: true,
-                            x: e.event.clientX,
-                            y: e.event.clientY,
-                            items: contextualMenuItems.current
-                        });
-                    }
-
-                    break;
-
-                case ADT3DSceneBuilderMode.EditElement:
-                case ADT3DSceneBuilderMode.CreateElement:
-                    if (selectedMesh) {
-                        meshIds = state.selectedMeshIds.filter(
-                            (item) => item !== selectedMesh
-                        );
-                    } else {
-                        meshIds.push(mesh.id);
-                    }
-                    setSelectedMeshIds(meshIds);
-                    break;
+                    case ADT3DSceneBuilderMode.EditElement:
+                    case ADT3DSceneBuilderMode.CreateElement:
+                        meshClickOnEditElement(mesh);
+                        break;
+                }
+            } else {
+                contextualMenuItems.current[1].sectionProps.items = [];
+                if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
+                    setSelectedMeshIds([]);
+                }
             }
-        } else {
-            contextualMenuItems.current[1].sectionProps.items = [];
-            if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
-                setSelectedMeshIds([]);
+        },
+        [state]
+    );
+
+    const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
+        let meshIds = [...state.selectedMeshIds];
+        for (const element of state.elements) {
+            if (element.meshIDs.includes(mesh.id)) {
+                const item = {
+                    key: element.id,
+                    text: element.displayName,
+                    iconProps: {
+                        iconName: 'Edit',
+                        style: {
+                            fontSize: '14px',
+                            color: 'var(--cb-color-text-primary)'
+                        }
+                    },
+                    onClick: () => {
+                        contextualMenuItems.current[1].sectionProps.items = [];
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                            payload: element
+                        });
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: ADT3DSceneBuilderMode.EditElement
+                        });
+                    },
+                    onFocus: () => {
+                        setSelectedMeshIds(element.meshIDs);
+                    },
+                    onBlur: () => {
+                        setSelectedMeshIds(previouslySelectedMeshIds.current);
+                    }
+                };
+
+                if (e.button === 2) {
+                    addContextualMenuItems(item);
+                } else {
+                    if (state.selectedMeshIds.includes(mesh.id)) {
+                        removeContextualMenuItems(item);
+                    } else {
+                        addContextualMenuItems(item);
+                    }
+                }
             }
         }
+
+        if (e.button === 2) {
+            if (!state.selectedMeshIds.includes(mesh.id)) {
+                meshIds.push(mesh.id);
+            }
+        } else {
+            if (state.selectedMeshIds.includes(mesh.id)) {
+                meshIds = meshIds.filter((id) => id !== mesh.id);
+            } else {
+                meshIds.push(mesh.id);
+            }
+        }
+
+        setSelectedMeshIds(meshIds);
+        previouslySelectedMeshIds.current = meshIds;
+
+        if (e.button === 2) {
+            setContextualMenuProps({
+                isVisible: true,
+                x: e.clientX,
+                y: e.clientY,
+                items: contextualMenuItems.current
+            });
+        }
+    };
+
+    const meshClickOnEditElement = (mesh) => {
+        const selectedMesh = state.selectedMeshIds.find(
+            (item) => item === mesh.id
+        );
+        let meshIds = [...state.selectedMeshIds];
+
+        if (selectedMesh) {
+            meshIds = state.selectedMeshIds.filter(
+                (item) => item !== selectedMesh
+            );
+        } else {
+            meshIds.push(mesh.id);
+        }
+        setSelectedMeshIds(meshIds);
     };
 
     const addContextualMenuItems = (item) => {
@@ -306,7 +321,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     )
                                 ]?.assets[0].url
                             }
-                            onMeshClicked={(mesh, e) => onMeshClicked(mesh, e)}
+                            onMeshClicked={onMeshClicked}
                             selectedMeshIds={state.selectedMeshIds}
                             showHoverOnSelected={state.showHoverOnSelected}
                         />

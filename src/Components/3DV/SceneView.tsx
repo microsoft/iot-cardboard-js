@@ -562,7 +562,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 if (onMarkerClickRef.current) {
-                    onMarkerClickRef.current(marker, mesh, scene, e);
+                    onMarkerClickRef.current(marker, mesh, scene, e.event);
                 }
             };
 

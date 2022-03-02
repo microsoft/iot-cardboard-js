@@ -31,7 +31,7 @@ export const Engine = () => {
                     )
                 }
                 modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
-                onMeshClicked={(clickedMesh) => onMeshClicked(clickedMesh)}
+                onMeshClicked={onMeshClicked}
             />
         </div>
     );

@@ -348,6 +348,24 @@ const BuilderLeftPanel: React.FC = () => {
         getConfig();
     };
 
+    const setPivotItem = (item) => {
+        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+        switch (item.props.itemKey) {
+            case ADT3DSceneTwinBindingsMode.Elements:
+                activePivot = ADT3DSceneBuilderMode.ElementsIdle;
+                break;
+            case ADT3DSceneTwinBindingsMode.Behaviors:
+                activePivot = ADT3DSceneBuilderMode.BehaviorIdle;
+                break;
+            default:
+                break;
+        }
+        dispatch({
+            type: SET_ADT_SCENE_BUILDER_MODE,
+            payload: activePivot
+        });
+    };
+
     // END of behavior related callbacks
 
     useEffect(() => {
@@ -396,25 +414,7 @@ const BuilderLeftPanel: React.FC = () => {
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
                     selectedKey={state.selectedPivotTab}
-                    onLinkClick={(item) => {
-                        let activePivot = ADT3DSceneBuilderMode.ElementsIdle;
-                        switch (item.props.itemKey) {
-                            case ADT3DSceneTwinBindingsMode.Elements:
-                                activePivot =
-                                    ADT3DSceneBuilderMode.ElementsIdle;
-                                break;
-                            case ADT3DSceneTwinBindingsMode.Behaviors:
-                                activePivot =
-                                    ADT3DSceneBuilderMode.BehaviorIdle;
-                                break;
-                            default:
-                                break;
-                        }
-                        dispatch({
-                            type: SET_ADT_SCENE_BUILDER_MODE,
-                            payload: activePivot
-                        });
-                    }}
+                    onLinkClick={setPivotItem}
                     className="cb-scene-builder-left-panel-pivot"
                     styles={{ root: { marginBottom: 16 } }}
                 >
