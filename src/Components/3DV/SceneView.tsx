@@ -327,6 +327,18 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
     }
 
+    const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
+        let ignore = false;
+        if (coloredMeshItems) {
+            ignore = !!coloredMeshItems.find((mi) => mi.meshId === mesh.id);
+        }
+
+        if (!ignore && selectedMeshIds) {
+            ignore = !!selectedMeshIds.find((id) => id === mesh.id);
+        }
+        return ignore;
+    };
+
     // Update rendering style
     useEffect(() => {
         const materials = new Array(3);
@@ -336,17 +348,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 !meshesAreOriginal.current
             ) {
                 for (const mesh of sceneRef.current.meshes) {
-                    let ignore = false;
-                    if (coloredMeshItems) {
-                        ignore = !!coloredMeshItems.find(
-                            (mi) => mi.meshId === mesh.id
-                        );
-                    }
-
-                    if (!ignore && selectedMeshIds) {
-                        ignore = !!selectedMeshIds.find((id) => id === mesh.id);
-                    }
-
+                    const ignore = shouldIgnore(mesh);
                     if (!ignore) {
                         const material = originalMaterials.current[mesh.id];
                         if (material) {
@@ -355,6 +357,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
+                hovMaterial.current.alpha = 1;
+                selMaterial.current.alpha = 1;
+                selHovMaterial.current.alpha = 1;
+                hovMaterial.current.wireframe = !!isWireframe;
+                selMaterial.current.wireframe = !!isWireframe;
+                selHovMaterial.current.wireframe = !!isWireframe;
                 meshesAreOriginal.current = true;
             }
 
@@ -415,19 +423,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             ct = 0;
                         }
                         if (mesh?.material) {
-                            let ignore = false;
-                            if (coloredMeshItems) {
-                                ignore = !!coloredMeshItems.find(
-                                    (mi) => mi.meshId === mesh.id
-                                );
-                            }
-
-                            if (!ignore && selectedMeshIds) {
-                                ignore = !!selectedMeshIds.find(
-                                    (id) => id === mesh.id
-                                );
-                            }
-
+                            const ignore = shouldIgnore(mesh);
                             if (meshBaseColor && meshFresnelColor && !ignore) {
                                 mesh.material = shaderMaterials.current[ct];
                                 mesh.material.wireframe = isWireframe || false;
@@ -453,11 +449,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
     }, [meshBaseColor, meshFresnelColor]);
 
+    // Handle isWireframe changes
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
-                    mesh.material.wireframe = isWireframe || false;
+                    mesh.material.wireframe = !!isWireframe;
                 }
             }
 
@@ -497,14 +494,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [modelUrl]);
 
+    // Reload model if url changes
     useEffect(() => {
-        if (engineRef.current) {
-            const resize = () => {
-                engineRef.current.resize();
-            };
-            window.addEventListener('resize', resize);
-        }
-
         if (debug) {
             console.log(
                 'init effect' + (scene ? ' with scene ' : ' no scene ')
@@ -517,8 +508,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
     }, [scene, modelUrl, init]);
 
+    // Add the marker spheres
     useEffect(() => {
-        // Add the marker spheres
         const spheres: BABYLON.Mesh[] = [];
         if (markers && sceneRef.current) {
             for (const marker of markers) {
@@ -746,9 +737,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene, markers]);
 
+    // Color selected meshes
     useEffect(() => {
         if (selectedMeshIds) {
-            // color selected meshes
             for (const selectedMeshId of selectedMeshIds) {
                 const mesh = sceneRef.current.meshes.find(
                     (item) => item.id === selectedMeshId
@@ -799,6 +790,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         }
     }, [selectedMeshIds]);
 
+    // Camera move handler
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
