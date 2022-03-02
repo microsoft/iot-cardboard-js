@@ -192,3 +192,15 @@ EditBehaviorsTabRemoveBehavior.play = async ({ canvasElement }) => {
     const listItem = await findOverflowMenuItemByTestId('removeOverflow');
     await clickOverFlowMenuItem(listItem);
 };
+
+export const EditAliasedTwinsTab = Template.bind({});
+EditAliasedTwinsTab.play = async ({ canvasElement }) => {
+    // switch to the elements tab & edit
+    await EditItem.play({ canvasElement });
+
+    // click a list item
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks one
+    const tabs = await canvas.findAllByRole('tab');
+    await userEvent.click(tabs[2]);
+};
