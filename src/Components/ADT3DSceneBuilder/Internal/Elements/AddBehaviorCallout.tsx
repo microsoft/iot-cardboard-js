@@ -65,7 +65,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     const searchBehaviors = (searchTerm: string) => {
         setFilteredAvailableBehaviors(
             availableBehaviors.filter((behavior) =>
-                behavior.id.toLowerCase().includes(searchTerm)
+                behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
             )
         );
     };
@@ -99,6 +99,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                 </h4>
                 <div>
                     <SearchBox
+                        data-testid={'behavior-callout-search'}
                         placeholder={t('3dSceneBuilder.searchBehaviors')}
                         onChange={(event, value) => {
                             setSearchText(value);

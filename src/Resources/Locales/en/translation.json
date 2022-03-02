@@ -360,7 +360,8 @@
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
-        "aliasedTwins": "Aliased twins"
+        "aliasedTwins": "Aliased twins",
+        "notImplemented": "Not implemented"
     },
     "widgets": {
         "trend": {

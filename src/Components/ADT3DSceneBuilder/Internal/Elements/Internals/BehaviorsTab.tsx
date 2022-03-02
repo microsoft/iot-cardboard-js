@@ -113,20 +113,22 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     const getOverflowMenuItems = (item: IBehavior): IContextualMenuItem[] => {
         return [
             {
+                'data-testid': 'modifyOverflow',
                 key: 'modify',
-                text: t('3dSceneBuilder.modifyBehavior'),
                 iconProps: { iconName: 'Edit' },
+                text: t('3dSceneBuilder.modifyBehavior'),
                 onClick: () => {
                     setBehaviorToEdit(item);
                     onBehaviorClick(item);
                 }
             },
             {
+                'data-testid': 'removeOverflow',
                 key: 'remove',
-                text: t('3dSceneBuilder.removeBehavior'),
                 iconProps: {
                     iconName: 'Delete'
                 },
+                text: t('3dSceneBuilder.removeBehavior'),
                 onClick: () => {
                     setBehaviorToEdit(item);
                     removeBehavior();
@@ -223,6 +225,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     <ActionButton
                         id={calloutTarget}
                         className="cb-scene-builder-left-panel-add-behavior"
+                        data-testid={'element-add-behavior'}
                         style={{ color: 'var(--cb-color-theme-primary' }}
                         styles={{
                             root: {

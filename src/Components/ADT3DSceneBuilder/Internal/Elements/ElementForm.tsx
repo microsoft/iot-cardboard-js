@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -24,6 +24,7 @@ import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 import MeshTab from './Internals/MeshTab';
 import BehaviorsTab from './Internals/BehaviorsTab';
+import AliasedTwinsTab from './Internals/AliasedTwinsTab';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -168,15 +169,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
-    const ElementAliasedTwins = useCallback(
-        () => (
-            <div className="cb-scene-builder-left-panel-element-aliased-twins">
-                <span>Not implemented yet</span>
-            </div>
-        ),
-        []
-    );
-
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <LeftPanelBuilderHeader
@@ -238,7 +230,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         />
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
-                        <ElementAliasedTwins />
+                        <AliasedTwinsTab elementToEdit={elementToEdit} />
                     </PivotItem>
                 </Pivot>
             </div>

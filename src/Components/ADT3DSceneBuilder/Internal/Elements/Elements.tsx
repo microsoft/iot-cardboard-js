@@ -268,7 +268,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         items={filteredElements}
                         getListItemProps={getListItemProps}
                         // need to do this hack to force rendering when state changes
-                        listKey={`elements-in-scene-${isSelectionEnabled}`}
+                        listKey={`elements-in-scene`}
                         textToHighlight={searchText}
                     />
                     // filteredElements.map(
