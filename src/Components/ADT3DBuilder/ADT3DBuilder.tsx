@@ -1,59 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SceneView } from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import { AbstractMesh, Scene } from 'babylonjs';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
     modelUrl: string;
     title?: string;
-    onMeshSelected?: (selectedMeshes: string[]) => void;
+    onMeshClicked?: (clickedMesh: AbstractMesh, e: PointerEvent) => void;
     showMeshesOnHover?: boolean;
-    preselectedMeshIds?: Array<string>;
+    selectedMeshIds?: Array<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    showHoverOnSelected?: boolean;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     adapter,
     modelUrl,
-    onMeshSelected,
+    onMeshClicked,
     showMeshesOnHover,
-    preselectedMeshIds,
-    coloredMeshItems
+    selectedMeshIds,
+    coloredMeshItems,
+    showHoverOnSelected
 }) => {
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>(
-        preselectedMeshIds ?? []
-    );
-
-    useEffect(() => {
-        if (preselectedMeshIds) {
-            setselectedMeshIds(preselectedMeshIds);
+    const meshClick = (
+        _marker: Marker,
+        mesh: AbstractMesh,
+        _scene: Scene,
+        e: PointerEvent
+    ) => {
+        if (onMeshClicked) {
+            onMeshClicked(mesh, e);
         }
-    }, [preselectedMeshIds]);
-
-    const meshClick = (_marker: Marker, mesh: any) => {
-        let meshes = [...selectedMeshIds];
-        if (mesh) {
-            const selectedMesh = selectedMeshIds.find(
-                (item) => item === mesh.id
-            );
-            if (selectedMesh) {
-                meshes = selectedMeshIds.filter(
-                    (item) => item !== selectedMesh
-                );
-                setselectedMeshIds(meshes);
-            } else {
-                meshes.push(mesh.id);
-                setselectedMeshIds(meshes);
-            }
-        } else {
-            setselectedMeshIds([]);
-        }
-
-        onMeshSelected(meshes);
     };
 
     return (
@@ -61,11 +43,10 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh) =>
-                        onMeshSelected && meshClick(marker, mesh)
-                    }
+                    onMarkerClick={meshClick}
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
+                    showHoverOnSelected={showHoverOnSelected}
                     selectedMeshIds={selectedMeshIds}
                     getToken={
                         (adapter as any).authService
