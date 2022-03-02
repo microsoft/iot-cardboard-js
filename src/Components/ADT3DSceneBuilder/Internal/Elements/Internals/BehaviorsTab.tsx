@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActionButton, FontIcon, IconButton } from '@fluentui/react';
 import {
-    BehaviorState,
-    IADT3DSceneBuilderElementBehaviorProps
-} from '../../ADT3DSceneBuilder.types';
-import AddBehaviorCallout from './AddBehaviorCallout';
-import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+    ActionButton,
+    FontIcon,
+    IconButton,
+    IContextualMenuItem
+} from '@fluentui/react';
+import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
+import AddBehaviorCallout from '../AddBehaviorCallout';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import { IBehavior } from '../../../../Models/Classes/3DVConfig';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../../../Models/Classes/3DVConfig';
+import {
+    CardboardList,
+    CardboardListItemProps
+} from '../../../../CardboardList';
 
-const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
+export interface IADT3DSceneBuilderElementBehaviorProps {
+    behaviors: Array<IBehavior>;
+    elementToEdit: ITwinToObjectMapping;
+    onBehaviorClick: (behavior: IBehavior) => void;
+    onCreateBehaviorWithElements: () => void;
+    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
+}
+const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviors,
     elementToEdit,
     onBehaviorClick,
@@ -87,15 +103,62 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         setShowAddBehavior(true);
     };
 
+    const setBehaviorToEdit = (item: IBehavior) => {
+        setBehaviorState(
+            produce((draft) => {
+                draft.behaviorToEdit = item;
+            })
+        );
+    };
+    const getOverflowMenuItems = (item: IBehavior): IContextualMenuItem[] => {
+        return [
+            {
+                key: 'modify',
+                text: t('3dSceneBuilder.modifyBehavior'),
+                iconProps: { iconName: 'Edit' },
+                onClick: () => {
+                    setBehaviorToEdit(item);
+                    onBehaviorClick(item);
+                }
+            },
+            {
+                key: 'remove',
+                text: t('3dSceneBuilder.removeBehavior'),
+                iconProps: {
+                    iconName: 'Delete'
+                },
+                onClick: () => {
+                    setBehaviorToEdit(item);
+                    removeBehavior();
+                }
+            }
+        ];
+    };
+    const getListItemProps = (item): CardboardListItemProps<IBehavior> => {
+        return {
+            ariaLabel: '',
+            iconStartName: 'Ringer',
+            openMenuOnClick: true,
+            overflowMenuItems: getOverflowMenuItems(item),
+            textPrimary: item.id
+            // title: t('delete')
+        };
+    };
+
     return (
-        <div>
+        <>
             <div className="cb-scene-builder-left-panel-element-behaviors">
                 {behaviorState.behaviorsOnElement?.length === 0 && (
                     <div className="cb-scene-builder-element-behaviors-text">
                         {t('3dSceneBuilder.noBehaviorsOnElement')}
                     </div>
                 )}
-                {behaviorState.behaviorsOnElement.map((behavior) => {
+                <CardboardList<IBehavior>
+                    items={behaviorState.behaviorsOnElement}
+                    getListItemProps={getListItemProps}
+                    listKey={`behavior-list`}
+                />
+                {/* {behaviorState.behaviorsOnElement.map((behavior) => {
                     return (
                         <div
                             id={behavior.id}
@@ -153,7 +216,7 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                             ></IconButton>
                         </div>
                     );
-                })}
+                })} */}
                 <div>
                     <ActionButton
                         id={calloutTarget}
@@ -183,8 +246,8 @@ const ElementBehaviors: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
             )}
-        </div>
+        </>
     );
 };
 
-export default ElementBehaviors;
+export default BehaviorsTab;

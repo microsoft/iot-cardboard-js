@@ -1,11 +1,17 @@
-import { FontIcon, SearchBox, Separator, Text } from '@fluentui/react';
+import {
+    FontIcon,
+    IContextualMenuItem,
+    SearchBox,
+    Separator,
+    Text
+} from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IBehavior } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { CardboardList } from '../../../CardboardListItem/CardboardList';
-import { CardboardListItemProps } from '../../../CardboardListItem/CardboardListItem';
+import { CardboardList } from '../../../CardboardList/CardboardList';
+import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 
@@ -106,7 +112,9 @@ const SceneBehaviors: React.FC<Props> = ({
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
 
-    const getOverflowMenuItemsInScene = (behavior: IBehavior) => {
+    const getOverflowMenuItemsInScene = (
+        behavior: IBehavior
+    ): IContextualMenuItem[] => {
         return [
             {
                 key: 'edit',
@@ -140,7 +148,9 @@ const SceneBehaviors: React.FC<Props> = ({
             }
         ];
     };
-    const getOverflowMenuItemsNotInScene = (behavior: IBehavior) => {
+    const getOverflowMenuItemsNotInScene = (
+        behavior: IBehavior
+    ): IContextualMenuItem[] => {
         return [
             {
                 key: 'addToScene',

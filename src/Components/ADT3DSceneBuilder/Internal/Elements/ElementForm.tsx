@@ -2,8 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
-    FontIcon,
-    IconButton,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -24,7 +22,8 @@ import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
-import ElementBehaviors from './ElementBehaviors';
+import MeshTab from './Internals/MeshTab';
+import BehaviorsTab from './Internals/BehaviorsTab';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -178,63 +177,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         []
     );
 
-    const ElementMeshes = useCallback(
-        () => (
-            <div className="cb-scene-builder-left-panel-element-objects">
-                <div className="cb-scene-builder-left-panel-element-objects-container">
-                    {elementToEdit.meshIDs.length === 0 ? (
-                        <div className="cb-scene-builder-left-panel-text">
-                            {t('3dSceneBuilder.noMeshAddedText')}
-                        </div>
-                    ) : (
-                        <ul className="cb-scene-builder-left-panel-element-object-list">
-                            {elementToEdit.meshIDs.map((meshName) => (
-                                <li
-                                    key={meshName}
-                                    className="cb-scene-builder-left-panel-element-object"
-                                    onMouseEnter={() =>
-                                        updateColoredMeshItems(meshName)
-                                    }
-                                    onMouseLeave={() =>
-                                        updateColoredMeshItems()
-                                    }
-                                >
-                                    <div className="cb-mesh-name-wrapper">
-                                        <FontIcon iconName={'CubeShape'} />
-                                        <span className="cb-mesh-name">
-                                            {meshName}
-                                        </span>
-                                    </div>
-                                    <IconButton
-                                        className="cb-remove-object-button"
-                                        iconProps={{
-                                            iconName: 'Delete'
-                                        }}
-                                        title={t('remove')}
-                                        ariaLabel={t('remove')}
-                                        onClick={() => {
-                                            const currentObjects = [
-                                                ...elementToEdit.meshIDs
-                                            ];
-                                            currentObjects.splice(
-                                                currentObjects.indexOf(
-                                                    meshName
-                                                ),
-                                                1
-                                            );
-                                            setSelectedMeshIds(currentObjects);
-                                        }}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            </div>
-        ),
-        [elementToEdit.meshIDs]
-    );
-
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <LeftPanelBuilderHeader
@@ -276,10 +218,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     className="cb-scene-builder-left-panel-pivot"
                 >
                     <PivotItem headerText={t('3dSceneBuilder.meshes')}>
-                        <ElementMeshes />
+                        <MeshTab
+                            elementToEdit={elementToEdit}
+                            updateColoredMeshItems={updateColoredMeshItems}
+                            setSelectedMeshIds={setSelectedMeshIds}
+                        />
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
-                        <ElementBehaviors
+                        <BehaviorsTab
                             elementToEdit={elementToEdit}
                             behaviors={behaviors}
                             updateBehaviorsToEdit={(behaviors) => {

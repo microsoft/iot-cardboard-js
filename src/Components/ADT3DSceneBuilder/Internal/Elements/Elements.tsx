@@ -1,10 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     Checkbox,
     DefaultButton,
     FontIcon,
     IconButton,
+    IContextualMenuItem,
     PrimaryButton,
     SearchBox,
     Separator
@@ -19,6 +26,8 @@ import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { Utils } from '../../../../Models/Services';
+import { CardboardList } from '../../../CardboardList/CardboardList';
+import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -48,8 +57,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     );
     const { adapter, config, sceneId } = useContext(SceneBuilderContext);
 
-    const [toggleElementSelection, setToggleElementSelection] = useState(
-        isEditBehavior
+    const [isSelectionEnabled, setIsSelectionEnabled] = useState(
+        isEditBehavior || false
     );
 
     const elementsSorted = useRef(false);
@@ -133,13 +142,70 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     }, [searchText]);
 
     const updateCheckbox = (element: ITwinToObjectMapping) => {
-        const shouldCheck = selectedElements?.find(
-            (selectedElement) => selectedElement.id === element.id
-        )
-            ? false
-            : true;
+        const shouldCheck = !selectedElements?.find((x) => x.id === element.id);
         updateSelectedElements(element, shouldCheck);
         elementsSorted.current = true;
+    };
+
+    const onListItemClick = useCallback(
+        (element: ITwinToObjectMapping) => {
+            console.log(
+                'clicked item and selection state is ',
+                isSelectionEnabled
+            );
+            if (!isSelectionEnabled) {
+                onElementClick(element);
+            } else {
+                updateCheckbox(element);
+            }
+        },
+        [isSelectionEnabled]
+    );
+    const getOverflowMenuItems = (
+        element: ITwinToObjectMapping
+    ): IContextualMenuItem[] => {
+        return [
+            {
+                key: 'modify',
+                'data-testid': 'modify-element',
+                iconProps: {
+                    iconName: 'Edit'
+                },
+                text: t('3dSceneBuilder.modifyElement'),
+                onClick: () => onElementClick(element)
+            },
+            {
+                key: 'delete',
+                'data-testid': 'delete-element',
+                iconProps: {
+                    iconName: 'blocked2'
+                },
+                text: t('3dSceneBuilder.removeElement'),
+                onClick: () => {
+                    setElementToDelete(element);
+                    setIsConfirmDeleteDialogOpen(true);
+                }
+            }
+        ];
+    };
+    console.log('Render');
+    const getListItemProps = (
+        item: ITwinToObjectMapping
+    ): CardboardListItemProps<ITwinToObjectMapping> => {
+        const metadata = ViewerConfigUtility.getElementMetaData(item, config);
+        return {
+            ariaLabel: '',
+            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            onClick: onListItemClick,
+            overflowMenuItems: getOverflowMenuItems(item),
+            textPrimary: item.displayName,
+            textSecondary: t('3dSceneBuilder.elementMetaText', {
+                numBehaviors: metadata
+            }),
+            isChecked: isSelectionEnabled
+                ? !!selectedElements?.find((x) => x.id === item.id)
+                : undefined
+        };
     };
 
     return (
@@ -178,12 +244,14 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                     '3dSceneBuilder.multiSelectElements'
                                 )}
                                 onClick={() => {
-                                    setToggleElementSelection(
-                                        !toggleElementSelection
+                                    console.log(
+                                        'changing toggle state',
+                                        isSelectionEnabled
                                     );
                                     clearSelectedElements();
+                                    setIsSelectionEnabled(!isSelectionEnabled);
                                 }}
-                                checked={toggleElementSelection}
+                                checked={isSelectionEnabled}
                             />
                         )}
                     </div>
@@ -200,142 +268,120 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         {t('3dSceneBuilder.noResults')}
                     </p>
                 ) : (
-                    filteredElements.map(
-                        (element: ITwinToObjectMapping, index) => (
-                            <div
-                                className={`cb-scene-builder-left-panel-element ${
-                                    hoveredElement?.id === element.id ||
-                                    elementToDelete?.id === element.id
-                                        ? 'cb-selected-element'
-                                        : ''
-                                }${isEditBehavior ? 'cb-element-center' : ''}`}
-                                key={element.displayName}
-                                onClick={() => {
-                                    if (!toggleElementSelection) {
-                                        onElementClick(element);
-                                    } else {
-                                        updateCheckbox(element);
-                                    }
-                                }}
-                                onMouseOver={() => onElementEnter(element)}
-                                onMouseLeave={() => onElementLeave(element)}
-                            >
-                                {toggleElementSelection && (
-                                    <Checkbox
-                                        onChange={(e, checked) => {
-                                            updateSelectedElements(
-                                                element,
-                                                !checked
-                                            );
-                                            elementsSorted.current = true;
-                                        }}
-                                        className="cb-scene-builder-element-checkbox"
-                                        checked={
-                                            selectedElements?.find(
-                                                (item) => item.id === element.id
-                                            )
-                                                ? true
-                                                : false
-                                        }
-                                    />
-                                )}
-                                {!isEditBehavior && (
-                                    <div>
-                                        <FontIcon
-                                            iconName={'Shapes'}
-                                            className="cb-element-icon"
-                                        />
-                                    </div>
-                                )}
-                                <div className="cb-scene-builder-element-title">
-                                    <div className="cb-scene-builder-element-name">
-                                        {searchText
-                                            ? Utils.getMarkedHtmlBySearch(
-                                                  element.displayName,
-                                                  searchText
-                                              )
-                                            : element.displayName}
-                                    </div>
-                                    {!isEditBehavior && (
-                                        <div className="cb-scene-builder-element-item-meta">
-                                            {t(
-                                                '3dSceneBuilder.elementMetaText',
-                                                {
-                                                    numBehaviors: ViewerConfigUtility.getElementMetaData(
-                                                        element,
-                                                        config
-                                                    )
-                                                }
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                {!toggleElementSelection && (
-                                    <IconButton
-                                        className={`${
-                                            hoveredElement?.id === element.id
-                                                ? 'cb-scene-builder-element-actions-hovered'
-                                                : 'cb-scene-builder-element-actions'
-                                        }`}
-                                        title={t('more')}
-                                        ariaLabel={t('more')}
-                                        data-testid={`moreMenu-${index}`}
-                                        menuIconProps={{
-                                            iconName: 'MoreVertical',
-                                            style: {
-                                                fontWeight: 'bold',
-                                                fontSize: 18,
-                                                color: 'black'
-                                            }
-                                        }}
-                                        onMenuClick={() => {
-                                            setHoveredElement(element);
-                                        }}
-                                        menuProps={{
-                                            onMenuDismissed: () => {
-                                                setHoveredElement(null);
-                                            },
-                                            items: [
-                                                {
-                                                    key: 'Modify',
-                                                    text: t(
-                                                        '3dSceneBuilder.modifyElement'
-                                                    ),
-                                                    iconProps: {
-                                                        iconName: 'edit'
-                                                    },
-                                                    onClick: () =>
-                                                        onElementClick(element)
-                                                },
-                                                {
-                                                    key: 'delete',
-                                                    text: t(
-                                                        '3dSceneBuilder.removeElement'
-                                                    ),
-                                                    iconProps: {
-                                                        iconName: 'blocked2'
-                                                    },
-                                                    onClick: () => {
-                                                        setElementToDelete(
-                                                            element
-                                                        );
-                                                        setIsConfirmDeleteDialogOpen(
-                                                            true
-                                                        );
-                                                    }
-                                                }
-                                            ]
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        )
-                    )
+                    <CardboardList<ITwinToObjectMapping>
+                        items={filteredElements}
+                        getListItemProps={getListItemProps}
+                        // need to do this hack to force rendering when state changes
+                        listKey={`elements-in-scene-${isSelectionEnabled}`}
+                        textToHighlight={searchText}
+                    />
+                    // filteredElements.map(
+                    //     (element: ITwinToObjectMapping, index) => (
+                    //         <div
+                    //             className={`cb-scene-builder-left-panel-element ${
+                    //                 hoveredElement?.id === element.id ||
+                    //                 elementToDelete?.id === element.id
+                    //                     ? 'cb-selected-element'
+                    //                     : ''
+                    //             }${isEditBehavior ? 'cb-element-center' : ''}`}
+                    //             key={element.displayName}
+                    //             onClick={() => {
+                    //                 if (!toggleElementSelection) {
+                    //                     onElementClick(element);
+                    //                 } else {
+                    //                     updateCheckbox(element);
+                    //                 }
+                    //             }}
+                    //             onMouseOver={() => onElementEnter(element)}
+                    //             onMouseLeave={() => onElementLeave(element)}
+                    //         >
+                    //             {toggleElementSelection && (
+                    //                 <Checkbox
+                    //                     onChange={(e, checked) => {
+                    //                         updateSelectedElements(
+                    //                             element,
+                    //                             !checked
+                    //                         );
+                    //                         elementsSorted.current = true;
+                    //                     }}
+                    //                     className="cb-scene-builder-element-checkbox"
+                    //                     checked={
+                    //                         selectedElements?.find(
+                    //                             (item) => item.id === element.id
+                    //                         )
+                    //                             ? true
+                    //                             : false
+                    //                     }
+                    //                 />
+                    //             )}
+                    //             {!isEditBehavior && (
+                    //                 <div>
+                    //                     <FontIcon
+                    //                         iconName={'Shapes'}
+                    //                         className="cb-element-icon"
+                    //                     />
+                    //                 </div>
+                    //             )}
+                    //             <div className="cb-scene-builder-element-title">
+                    //                 <div className="cb-scene-builder-element-name">
+                    //                     {searchText
+                    //                         ? Utils.getMarkedHtmlBySearch(
+                    //                               element.displayName,
+                    //                               searchText
+                    //                           )
+                    //                         : element.displayName}
+                    //                 </div>
+                    //                 {!isEditBehavior && (
+                    //                     <div className="cb-scene-builder-element-item-meta">
+                    //                         {t(
+                    //                             '3dSceneBuilder.elementMetaText',
+                    //                             {
+                    //                                 numBehaviors: ViewerConfigUtility.getElementMetaData(
+                    //                                     element,
+                    //                                     config
+                    //                                 )
+                    //                             }
+                    //                         )}
+                    //                     </div>
+                    //                 )}
+                    //             </div>
+                    //             {!toggleElementSelection && (
+                    //                 <IconButton
+                    //                     className={`${
+                    //                         hoveredElement?.id === element.id
+                    //                             ? 'cb-scene-builder-element-actions-hovered'
+                    //                             : 'cb-scene-builder-element-actions'
+                    //                     }`}
+                    //                     title={t('more')}
+                    //                     ariaLabel={t('more')}
+                    //                     data-testid={`moreMenu-${index}`}
+                    //                     menuIconProps={{
+                    //                         iconName: 'MoreVertical',
+                    //                         style: {
+                    //                             fontWeight: 'bold',
+                    //                             fontSize: 18,
+                    //                             color: 'black'
+                    //                         }
+                    //                     }}
+                    //                     onMenuClick={() => {
+                    //                         setHoveredElement(element);
+                    //                     }}
+                    //                     menuProps={{
+                    //                         onMenuDismissed: () => {
+                    //                             setHoveredElement(null);
+                    //                         },
+                    //                         items:
+                    //                     }}
+                    //                 />
+                    //             )}
+                    //         </div>
+                    //     )
+                    // )
                 )}
             </div>
             {!isEditBehavior && (
                 <div className="cb-scene-builder-footer-container">
-                    {toggleElementSelection ? (
+                    {isSelectionEnabled ? (
                         <div>
                             <PrimaryButton
                                 className="cb-scene-builder-create-button"
@@ -351,7 +397,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             <DefaultButton
                                 text={t('3dSceneBuilder.cancel')}
                                 onClick={() => {
-                                    setToggleElementSelection(false);
+                                    setIsSelectionEnabled(false);
                                     clearSelectedElements();
                                 }}
                                 className="cb-scene-builder-cancel-button"

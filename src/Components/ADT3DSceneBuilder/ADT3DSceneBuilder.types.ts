@@ -86,14 +86,6 @@ export interface IADT3DSceneBuilderElementFormProps {
     onCreateBehaviorWithElements: () => void;
 }
 
-export interface IADT3DSceneBuilderElementBehaviorProps {
-    behaviors: Array<IBehavior>;
-    elementToEdit: ITwinToObjectMapping;
-    onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
-    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
-}
-
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     availableBehaviors: Array<IBehavior>;
     calloutTarget: string;
