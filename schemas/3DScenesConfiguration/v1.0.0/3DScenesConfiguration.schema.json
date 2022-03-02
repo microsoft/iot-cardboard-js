@@ -27,50 +27,58 @@
                             "elements": {
                                 "type": "array",
                                 "items": {
-                                    "type": "object",
-                                    "description": "An elements maps twins to objects in the scene",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string"
-                                        },
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "displayName": {
-                                            "type": "string"
-                                        },
-                                        "linkedTwinID": {
-                                            "type": "string",
-                                            "description": "The twin referenced by this element"
-                                        },
-                                        "objectIDs": {
-                                            "type": "array",
-                                            "description": "Array of of object IDs in the scene",
-                                            "items": {
-                                                "type": "string",
-                                                "description": "An object ID represents 3D meshes in the scene",
-                                                "uniqueItems": true
-                                            }
-                                        },
-                                        "twinAliases": {
+                                    "anyOf": [
+                                        {
                                             "type": "object",
-                                            "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
-                                            "additionalProperties": {
-                                                "type": "string"
+                                            "description": "An elements maps twins to objects in the scene",
+                                            "properties": {
+                                                "type": {
+                                                    "const": "TwinToObjectMapping"
+                                                },
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "displayName": {
+                                                    "type": "string"
+                                                },
+                                                "linkedTwinID": {
+                                                    "type": "string",
+                                                    "description": "The twin referenced by this element"
+                                                },
+                                                "objectIDs": {
+                                                    "type": "array",
+                                                    "description": "Array of of object IDs in the scene",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "description": "An object ID represents 3D meshes in the scene",
+                                                        "uniqueItems": true
+                                                    }
+                                                },
+                                                "twinAliases": {
+                                                    "type": "object",
+                                                    "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
+                                                    "additionalProperties": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "extensionProperties": {
+                                                    "$ref": "#/$defs/extensionProperties"
+                                                }
                                             }
                                         },
-                                        "extensionProperties": {
-                                            "$ref": "#/$defs/extensionProperties"
+                                        {
+                                            "type": "object",
+                                            "description": "Free form element type"
                                         }
-                                    },
-                                    "required": [
-                                        "type",
-                                        "id",
-                                        "displayName",
-                                        "linkedTwinID",
-                                        "objectIDs"
                                     ]
-                                }
+                                },
+                                "required": [
+                                    "type",
+                                    "id",
+                                    "displayName",
+                                    "linkedTwinID",
+                                    "objectIDs"
+                                ]
                             },
                             "behaviorIDs": {
                                 "type": "array",
@@ -133,13 +141,13 @@
                                 "type": "array",
                                 "description": "Data sources return an array of objects.  Each object is expected to have the same schema.  These objects can then be mapped over in visuals.",
                                 "items": {
-                                    "anyof": [
+                                    "anyOf": [
                                         {
                                             "type": "object",
                                             "description": "ElementDataSources get their object from the elements defined in a scene",
                                             "properties": {
                                                 "type": {
-                                                    "const": "ElementDatasource"
+                                                    "const": "ElementTwinToObjectMappingDataSource"
                                                 },
                                                 "elementIDs": {
                                                     "type": "array",
@@ -154,6 +162,10 @@
                                                 }
                                             },
                                             "required": ["type", "elementIDs"]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "description": "Free form datasource type"
                                         }
                                     ]
                                 }
@@ -162,7 +174,7 @@
                                 "type": "array",
                                 "description": "Visuals take a datasource, and modify objects in the scene based on expressions.  They allow you to color objects based on their state, float badges under alert conditions and configure popovers that trigger with user interaction",
                                 "items": {
-                                    "anyof": [
+                                    "anyOf": [
                                         {
                                             "type": "object",
                                             "description": "A popover displays information about a datasource when you click on any of the associated objectIDs",
@@ -177,7 +189,7 @@
                                                     "type": "array",
                                                     "description": "Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.",
                                                     "items": {
-                                                        "anyof": [
+                                                        "anyOf": [
                                                             {
                                                                 "type": "object",
                                                                 "description": "A gauge widget",
@@ -202,17 +214,22 @@
                                                                                 "type": "string"
                                                                             },
                                                                             "min": {
-                                                                                "type": "number"
+                                                                                "$ref": "#/$defs/numericOrInfinityType"
                                                                             },
                                                                             "max": {
-                                                                                "type": "number"
+                                                                                "$ref": "#/$defs/numericOrInfinityType"
                                                                             }
                                                                         }
                                                                     },
                                                                     "extensionProperties": {
                                                                         "$ref": "#/$defs/extensionProperties"
                                                                     }
-                                                                }
+                                                                },
+                                                                "required": [
+                                                                    "type",
+                                                                    "valueExpression",
+                                                                    "widgetConfiguration"
+                                                                ]
                                                             },
                                                             {
                                                                 "type": "object",
@@ -224,10 +241,21 @@
                                                                     "groupID": {
                                                                         "$ref": "#/$defs/groupID"
                                                                     },
-                                                                    "valueExpression": {
-                                                                        "$ref": "#/$defs/valueExpression"
+                                                                    "widgetConfiguration": {
+                                                                        "type": "object",
+                                                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
+                                                                        "properties": {
+                                                                            "linkExpression": {
+                                                                                "type": "string",
+                                                                                "description": "Template string which evalues to http link"
+                                                                            }
+                                                                        }
                                                                     }
-                                                                }
+                                                                },
+                                                                "required": [
+                                                                    "type",
+                                                                    "widgetConfiguration"
+                                                                ]
                                                             }
                                                         ]
                                                     }
@@ -254,7 +282,14 @@
                                                 "objectIDs": {
                                                     "$ref": "#/$defs/objectIDs"
                                                 }
-                                            }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "title",
+                                                "widgets",
+                                                "widgetGroups",
+                                                "objectIDs"
+                                            ]
                                         },
                                         {
                                             "type": "object",
@@ -267,7 +302,7 @@
                                                     "type": "string",
                                                     "description": "Expression which evaluates to numeric value"
                                                 },
-                                                "statusValueBuckets": {
+                                                "statusValueRanges": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "object",
@@ -277,10 +312,10 @@
                                                                 "type": "string"
                                                             },
                                                             "min": {
-                                                                "type": "number"
+                                                                "$ref": "#/$defs/numericOrInfinityType"
                                                             },
                                                             "max": {
-                                                                "type": "number"
+                                                                "$ref": "#/$defs/numericOrInfinityType"
                                                             }
                                                         },
                                                         "required": [
@@ -293,7 +328,13 @@
                                                 "objectIDs": {
                                                     "$ref": "#/$defs/objectIDs"
                                                 }
-                                            }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "statusValueExpression",
+                                                "statusValueRanges",
+                                                "objectIDs"
+                                            ]
                                         },
                                         {
                                             "type": "object",
@@ -325,7 +366,8 @@
                                                 "triggerExpression",
                                                 "labelExpression",
                                                 "iconName",
-                                                "color"
+                                                "color",
+                                                "objectIDs"
                                             ]
                                         }
                                     ]
@@ -387,9 +429,6 @@
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
             "properties": {
-                "type": {
-                    "type": "string"
-                },
                 "expression": {
                     "type": "string"
                 },
@@ -397,7 +436,14 @@
                     "$ref": "#/$defs/extensionProperties"
                 }
             },
-            "required": ["type", "expression"]
+            "required": ["expression"]
+        },
+        "numericOrInfinityType": {
+            "anyOf": [
+                { "type": "number" },
+                { "const": "Infinity" },
+                { "const": "-Infinity" }
+            ]
         }
     }
 }

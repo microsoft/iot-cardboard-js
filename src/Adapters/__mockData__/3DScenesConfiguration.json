@@ -55,7 +55,7 @@
                 "displayName": "wheelsTooLow",
                 "datasources": [
                     {
-                        "type": "ElementDataSource",
+                        "type": "ElementTwinToObjectMappingDataSource",
                         "elementIDs": [
                             "5ba433d52b8445979fabc818fd40ae3d",
                             "2aa6955f3c73418a9be0f7b19c019b75"
@@ -138,7 +138,6 @@
                             }
                         ],
                         "objectIDs": {
-                            "type": "FromElement",
                             "expression": "objectIDs",
                             "extensionProperties": {}
                         }
@@ -151,7 +150,7 @@
                 "twinAliases": ["temperatureTag"],
                 "datasources": [
                     {
-                        "type": "ElementDataSource",
+                        "type": "ElementTwinToObjectMappingDataSource",
                         "elementIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
                     }
                 ],
@@ -172,7 +171,6 @@
                             }
                         ],
                         "objectIDs": {
-                            "type": "FromElement",
                             "expression": "objectIDs",
                             "extensionProperties": {}
                         }
@@ -184,7 +182,6 @@
                         "iconName": "heart",
                         "color": "#00FF00",
                         "objectIDs": {
-                            "type": "FromElement",
                             "expression": "objectIDs"
                         }
                     }
