@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActionButton, IContextualMenuItem } from '@fluentui/react';
+import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
 import AddBehaviorCallout from '../AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -13,6 +13,7 @@ import {
     CardboardList,
     CardboardListItemProps
 } from '../../../../CardboardList';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
@@ -144,11 +145,12 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         };
     };
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
             <div className="cb-scene-builder-left-panel-element-behaviors">
                 {behaviorState.behaviorsOnElement?.length === 0 && (
-                    <div className="cb-scene-builder-element-behaviors-text">
+                    <div className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsOnElement')}
                     </div>
                 )}
@@ -157,65 +159,6 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     getListItemProps={getListItemProps}
                     listKey={`behavior-list`}
                 />
-                {/* {behaviorState.behaviorsOnElement.map((behavior) => {
-                    return (
-                        <div
-                            id={behavior.id}
-                            key={behavior.id}
-                            className="cb-scene-builder-element-behavior-item"
-                        >
-                            <FontIcon
-                                iconName={'Ringer'}
-                                className="cb-scene-builder-element-behavior-item-icon"
-                            />
-                            <div className="cb-scene-builder-element-behavior-item-name">
-                                {behavior.id}
-                            </div>
-                            <IconButton
-                                title={t('more')}
-                                ariaLabel={t('more')}
-                                menuIconProps={{
-                                    iconName: 'MoreVertical',
-                                    style: {
-                                        fontWeight: 'bold',
-                                        fontSize: 18,
-                                        color: 'var(--cb-color-text-primary)'
-                                    }
-                                }}
-                                onMenuClick={() =>
-                                    setBehaviorState(
-                                        produce((draft) => {
-                                            draft.behaviorToEdit = behavior;
-                                        })
-                                    )
-                                }
-                                menuProps={{
-                                    items: [
-                                        {
-                                            key: 'modify',
-                                            text: t(
-                                                '3dSceneBuilder.modifyBehavior'
-                                            ),
-                                            iconProps: { iconName: 'Edit' },
-                                            onClick: () =>
-                                                onBehaviorClick(behavior)
-                                        },
-                                        {
-                                            key: 'remove',
-                                            text: t(
-                                                '3dSceneBuilder.removeBehavior'
-                                            ),
-                                            iconProps: {
-                                                iconName: 'Delete'
-                                            },
-                                            onClick: removeBehavior
-                                        }
-                                    ]
-                                }}
-                            ></IconButton>
-                        </div>
-                    );
-                })} */}
                 <div>
                     <ActionButton
                         id={calloutTarget}

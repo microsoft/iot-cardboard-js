@@ -3,7 +3,8 @@ import {
     IContextualMenuItem,
     SearchBox,
     Separator,
-    Text
+    Text,
+    useTheme
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ import { CardboardList } from '../../../CardboardList/CardboardList';
 import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -212,11 +214,12 @@ const SceneBehaviors: React.FC<Props> = ({
         };
     };
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <div className="cb-scene-builder-behavior-list">
+            <div className={commonPanelStyles.listContainer}>
                 {behaviors.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsText')}
                     </p>
                 ) : (

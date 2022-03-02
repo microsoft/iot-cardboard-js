@@ -14,7 +14,7 @@ const AliasedTwinsTab: React.FC<AliasedTwinsTabProps> = () => {
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
-            <div className={commonPanelStyles.noDataLabel}>
+            <div className={commonPanelStyles.noDataText}>
                 {t('3dSceneBuilder.notImplemented')}
             </div>
         </>

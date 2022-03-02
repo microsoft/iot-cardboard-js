@@ -26,24 +26,12 @@
     padding: 0 20px 20px 0;
     width: 360px;
 
-    .cb-scene-builder-left-panel-text {
-        font-size: 12px;
-        opacity: 0.6;
-        padding: 0 4px;
-    }
-
     .cb-scene-builder-left-panel-create-wrapper {
         display: flex;
         flex-direction: column;
         height: calc(100% - 40px);
         justify-content: space-between;
         width: 100%;
-    }
-
-    .cb-scene-builder-left-panel-create-form-header {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 400;
     }
 
     .cb-scene-builder-left-panel-create-form {
@@ -84,21 +72,6 @@
         justify-content: space-between;
     }
 
-    .cb-scene-builder-pivot-contents-elements {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-between;
-        margin-left: 8px;
-        padding-top: 12px;
-    }
-
-    .cb-scene-builder-elements-wrapper {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
     .cb-scene-builder-element-search-header {
         display: flex;
     }
@@ -110,110 +83,8 @@
         margin-right: 4px;
     }
 
-    .cb-scene-builder-element-behaviors-text {
-        font-size: 12px;
-        margin-top: 4px;
-        opacity: 0.6;
-    }
-
-    .cb-scene-builder-element-behavior-item {
-        align-items: center;
-        display: flex;
-        margin-bottom: 4px;
-        margin-top: 4px;
-    }
-
-    .cb-scene-builder-element-behavior-item-icon {
-        display: inline-block;
-        font-size: 16px;
-    }
-
-    .cb-scene-builder-element-behavior-item-name {
-        flex: 1;
-        font-size: 14px;
-        padding-left: 6px;
-    }
-
-    .cb-scene-builder-element-checkbox {
-        margin-bottom: 4px;
-        margin-right: 8px;
-        margin-top: 4px;
-    }
-
     .cb-scene-builder-cancel-button {
         margin-left: 8px;
-    }
-
-    .cb-scene-builder-element-list,
-    .cb-scene-builder-behavior-list {
-        flex-grow: 1;
-        margin-bottom: 16px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    .cb-scene-builder-left-panel-element {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        padding-left: 8px;
-
-        .cb-element-icon {
-            align-items: center;
-            display: flex;
-            font-size: 16px;
-            height: 100%;
-        }
-
-        .cb-scene-builder-element-title {
-            flex: 1;
-            padding: 6px;
-        }
-
-        .cb-scene-builder-element-name {
-            font-size: 14px;
-            font-weight: normal;
-        }
-
-        .cb-scene-builder-element-name-simple {
-            font-size: 14px;
-            font-weight: normal;
-            margin-top: 4px;
-        }
-
-        .cb-scene-builder-element-item-meta {
-            color: var(--cb-color-inactive);
-            font-size: 11px;
-        }
-
-        .cb-scene-builder-element-actions {
-            opacity: 0;
-
-            &:focus-visible {
-                opacity: 1;
-            }
-        }
-
-        .cb-scene-builder-element-actions-hovered {
-            opacity: 1;
-        }
-    }
-
-    .cb-element-center {
-        align-items: center;
-    }
-
-    .cb-scene-builder-left-panel-element:hover {
-        .cb-scene-builder-element-actions {
-            opacity: 1;
-        }
-    }
-
-    .cb-selected-element,
-    .cb-scene-builder-left-panel-element:hover {
-        background: var(--cb-color-icon-hover-bg);
-        cursor: pointer;
-        filter: unset;
     }
 
     .cb-scene-builder-create-button {
@@ -221,46 +92,6 @@
         max-width: 200px;
         min-height: 32px;
         width: fit-content;
-    }
-
-    .cb-scene-builder-left-panel-element-object-list {
-        list-style: none;
-        margin: 0;
-        padding-left: 16px;
-        width: 100%;
-
-        .cb-scene-builder-left-panel-element-object {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 0 4px 8px 0;
-
-            &:hover {
-                cursor: default;
-            }
-        }
-
-        .cb-mesh-name-wrapper {
-            align-items: center;
-            display: flex;
-        }
-
-        .cb-mesh-name {
-            font-size: 14px;
-            padding-left: 6px;
-        }
-    }
-
-    .cb-element {
-        display: inline-block;
-        font-size: 14px;
-    }
-
-    .cb-behavior-icon {
-        align-items: center;
-        display: flex;
-        font-size: 16px;
-        height: 100%;
     }
 
     .cb-scene-builder-left-panel-create-form-actions {

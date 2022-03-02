@@ -12,7 +12,8 @@ import {
     IContextualMenuItem,
     PrimaryButton,
     SearchBox,
-    Separator
+    Separator,
+    useTheme
 } from '@fluentui/react';
 import {
     IScene,
@@ -25,6 +26,7 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -200,6 +202,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         };
     };
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
@@ -246,13 +249,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     <Separator />
                 </div>
             )}
-            <div className="cb-scene-builder-element-list">
+            <div className={commonPanelStyles.listContainer}>
                 {elements.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noElementsText')}
                     </p>
                 ) : filteredElements.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noResults')}
                     </p>
                 ) : (
@@ -263,108 +266,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         listKey={`elements-in-scene`}
                         textToHighlight={searchText}
                     />
-                    // filteredElements.map(
-                    //     (element: ITwinToObjectMapping, index) => (
-                    //         <div
-                    //             className={`cb-scene-builder-left-panel-element ${
-                    //                 hoveredElement?.id === element.id ||
-                    //                 elementToDelete?.id === element.id
-                    //                     ? 'cb-selected-element'
-                    //                     : ''
-                    //             }${isEditBehavior ? 'cb-element-center' : ''}`}
-                    //             key={element.displayName}
-                    //             onClick={() => {
-                    //                 if (!toggleElementSelection) {
-                    //                     onElementClick(element);
-                    //                 } else {
-                    //                     updateCheckbox(element);
-                    //                 }
-                    //             }}
-                    //             onMouseOver={() => onElementEnter(element)}
-                    //             onMouseLeave={() => onElementLeave(element)}
-                    //         >
-                    //             {toggleElementSelection && (
-                    //                 <Checkbox
-                    //                     onChange={(e, checked) => {
-                    //                         updateSelectedElements(
-                    //                             element,
-                    //                             !checked
-                    //                         );
-                    //                         elementsSorted.current = true;
-                    //                     }}
-                    //                     className="cb-scene-builder-element-checkbox"
-                    //                     checked={
-                    //                         selectedElements?.find(
-                    //                             (item) => item.id === element.id
-                    //                         )
-                    //                             ? true
-                    //                             : false
-                    //                     }
-                    //                 />
-                    //             )}
-                    //             {!isEditBehavior && (
-                    //                 <div>
-                    //                     <FontIcon
-                    //                         iconName={'Shapes'}
-                    //                         className="cb-element-icon"
-                    //                     />
-                    //                 </div>
-                    //             )}
-                    //             <div className="cb-scene-builder-element-title">
-                    //                 <div className="cb-scene-builder-element-name">
-                    //                     {searchText
-                    //                         ? Utils.getMarkedHtmlBySearch(
-                    //                               element.displayName,
-                    //                               searchText
-                    //                           )
-                    //                         : element.displayName}
-                    //                 </div>
-                    //                 {!isEditBehavior && (
-                    //                     <div className="cb-scene-builder-element-item-meta">
-                    //                         {t(
-                    //                             '3dSceneBuilder.elementMetaText',
-                    //                             {
-                    //                                 numBehaviors: ViewerConfigUtility.getElementMetaData(
-                    //                                     element,
-                    //                                     config
-                    //                                 )
-                    //                             }
-                    //                         )}
-                    //                     </div>
-                    //                 )}
-                    //             </div>
-                    //             {!toggleElementSelection && (
-                    //                 <IconButton
-                    //                     className={`${
-                    //                         hoveredElement?.id === element.id
-                    //                             ? 'cb-scene-builder-element-actions-hovered'
-                    //                             : 'cb-scene-builder-element-actions'
-                    //                     }`}
-                    //                     title={t('more')}
-                    //                     ariaLabel={t('more')}
-                    //                     data-testid={`moreMenu-${index}`}
-                    //                     menuIconProps={{
-                    //                         iconName: 'MoreVertical',
-                    //                         style: {
-                    //                             fontWeight: 'bold',
-                    //                             fontSize: 18,
-                    //                             color: 'black'
-                    //                         }
-                    //                     }}
-                    //                     onMenuClick={() => {
-                    //                         setHoveredElement(element);
-                    //                     }}
-                    //                     menuProps={{
-                    //                         onMenuDismissed: () => {
-                    //                             setHoveredElement(null);
-                    //                         },
-                    //                         items:
-                    //                     }}
-                    //                 />
-                    //             )}
-                    //         </div>
-                    //     )
-                    // )
                 )}
             </div>
             {!isEditBehavior && (

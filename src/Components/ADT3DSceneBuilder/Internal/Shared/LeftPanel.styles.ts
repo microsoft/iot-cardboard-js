@@ -8,9 +8,15 @@ import {
 
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
-        noDataLabel: {
+        noDataText: {
             fontSize: FontSizes.size12,
             color: theme.palette.neutralSecondary
+        } as IStyle,
+        listContainer: {
+            flexGrow: 1,
+            marginBottom: '16px',
+            overflowX: 'hidden',
+            overflowY: 'auto'
         } as IStyle
     });
 });

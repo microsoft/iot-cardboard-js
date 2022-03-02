@@ -6,6 +6,8 @@ import {
     CardboardList,
     CardboardListItemProps
 } from '../../../../CardboardList';
+import { useTheme } from '@fluentui/react';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
@@ -37,10 +39,11 @@ const MeshTab: React.FC<MeshTabProps> = ({
             // title: t('delete')
         };
     };
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
             {elementToEdit.meshIDs.length === 0 ? (
-                <div className="cb-scene-builder-left-panel-text">
+                <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.noMeshAddedText')}
                 </div>
             ) : (

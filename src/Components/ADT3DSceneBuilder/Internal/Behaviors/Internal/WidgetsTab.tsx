@@ -153,7 +153,7 @@ const WidgetsTab: React.FC = () => {
     return (
         <>
             {!widgets?.length ? (
-                <div className={commonPanelStyles.noDataLabel}>
+                <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.noWidgetsConfigured')}
                 </div>
             ) : (
