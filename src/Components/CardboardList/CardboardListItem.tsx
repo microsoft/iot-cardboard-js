@@ -73,7 +73,6 @@ export const CardboardListItem = <T extends unknown>({
     textToHighlight,
     onClick
 }: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
-    console.log('render list item ' + index);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
