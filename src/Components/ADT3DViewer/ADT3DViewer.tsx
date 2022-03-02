@@ -15,7 +15,8 @@ import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import { Dropdown, IDropdownOption, IDropdownStyles } from '@fluentui/react';
+import { Dropdown, IDropdownOption } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -28,6 +29,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     hideUI,
     refetchConfig
 }) => {
+    const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
     const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
         []
@@ -37,12 +39,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
-    const [selectedItem, setSelectedItem] = React.useState<IDropdownOption>();
+    const [selectedRenderMode, setSelectedRenderMode] = React.useState(
+        'default'
+    );
     const lineId = useGuid();
     const popUpId = useGuid();
     const sceneWrapperId = useGuid();
     const popUpContainerId = useGuid();
-    const [renderState, setRenderState] = useState<any>();
+    const [renderModeState, setRenderModeState] = useState<any>();
 
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
@@ -216,28 +220,23 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         setConnectionLine();
     }
 
-    const dropdownStyles: Partial<IDropdownStyles> = {
-        dropdown: { width: 250 }
-    };
-
-    const renderOptions = [
-        { key: 'default', text: 'Default rendering' },
-        { key: 'wireframe', text: 'Wireframe' },
-        { key: 'red', text: 'Translucent red' },
-        { key: 'green', text: 'Translucent green' },
-        { key: 'random', text: 'Translucent random' },
-        { key: 'randomWireframe', text: 'Translucent random wireframe' }
+    const renderModes = [
+        { key: 'default', text: t('3dSceneViewer.renderModes.default') },
+        { key: 'wireframe', text: t('3dSceneViewer.renderModes.wireframe') },
+        { key: 'red', text: t('3dSceneViewer.renderModes.red') },
+        { key: 'green', text: t('3dSceneViewer.renderModes.green') },
+        { key: 'random', text: t('3dSceneViewer.renderModes.random') },
+        {
+            key: 'randomWireframe',
+            text: t('3dSceneViewer.renderModes.randomWireframe')
+        }
     ];
-
-    if (!selectedItem) {
-        setSelectedItem(renderOptions[0]);
-    }
 
     useEffect(() => {
         let baseColor = { r: 0, g: 0, b: 0, a: 0 };
         let fresnelColor = { r: 0, g: 0, b: 0, a: 0 };
         let isWireframe = false;
-        switch (selectedItem.key) {
+        switch (selectedRenderMode) {
             case 'default':
                 baseColor = null;
                 fresnelColor = null;
@@ -269,14 +268,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 isWireframe = true;
                 break;
         }
-        setRenderState({ baseColor, fresnelColor, isWireframe });
-    }, [selectedItem]);
+        setRenderModeState({ baseColor, fresnelColor, isWireframe });
+    }, [selectedRenderMode]);
 
-    const onChange = (
+    const onRenderModeChange = (
         _event: React.FormEvent<HTMLDivElement>,
         item: IDropdownOption
     ): void => {
-        setSelectedItem(item);
+        setSelectedRenderMode(item.key as string);
     };
 
     return (
@@ -297,9 +296,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         modelUrl: modelUrl,
                         selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
-                        isWireframe: renderState?.isWireframe,
-                        meshBaseColor: renderState?.baseColor,
-                        meshFresnelColor: renderState?.fresnelColor,
+                        isWireframe: renderModeState?.isWireframe,
+                        meshBaseColor: renderModeState?.baseColor,
+                        meshFresnelColor: renderModeState?.fresnelColor,
                         onMarkerClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMarkerHover: (marker, mesh) =>
@@ -314,14 +313,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     }}
                 />
                 {!hideUI && (
-                    <div className="cb-adt-3dviewer-render-style-dropdown">
+                    <div className="cb-adt-3dviewer-render-mode-dropdown">
                         <Dropdown
-                            selectedKey={
-                                selectedItem ? selectedItem.key : undefined
-                            }
-                            onChange={onChange}
-                            options={renderOptions}
-                            styles={dropdownStyles}
+                            selectedKey={selectedRenderMode}
+                            onChange={onRenderModeChange}
+                            options={renderModes}
+                            styles={{
+                                dropdown: { width: 250 }
+                            }}
                         />
                     </div>
                 )}

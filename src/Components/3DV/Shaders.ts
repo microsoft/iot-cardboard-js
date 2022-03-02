@@ -1,4 +1,4 @@
-export const customVertex = `
+const customVertex = `
 precision highp float;
 
 // Attributes
@@ -39,7 +39,7 @@ void main(void) {
     #endif
 }`;
 
-export const customFragment = `
+const customFragment = `
 precision highp float;
 
 // Lights
@@ -74,16 +74,6 @@ void main(void) {
     gl_FragColor = _blendedColor;
 }
 `;
-
-export function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function getRandomBoolean() {
-    return getRandomInt(0, 1) > 0;
-}
 
 //Compile shader
 export function makeShaderMaterial(

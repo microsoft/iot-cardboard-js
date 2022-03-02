@@ -362,6 +362,16 @@
         },
         "aliasedTwins": "Aliased twins"
     },
+    "3dSceneViewer": {
+        "renderModes": {
+            "default": "Default render mode",
+            "wireframe": "Wireframe",
+            "red": "Translucent red",
+            "green": "Translucent green",
+            "random": "Translucent random",
+            "randomWireframe": "Translucent random wireframe"
+        }
+    },
     "widgets": {
         "trend": {
             "title": "Trend widget",

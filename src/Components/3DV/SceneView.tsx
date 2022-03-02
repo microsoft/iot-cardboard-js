@@ -339,7 +339,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         return ignore;
     };
 
-    // Update rendering style
+    // Update render mode
     useEffect(() => {
         const materials = new Array(3);
         if (sceneRef.current?.meshes?.length) {
