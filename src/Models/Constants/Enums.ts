@@ -22,7 +22,8 @@ export enum ComponentErrorType {
     ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError',
     NonExistentBlob = 'NonExistentBlob',
-    UnauthorizedAccess = 'UnauthorizedAccess'
+    UnauthorizedAccess = 'UnauthorizedAccess',
+    ReaderAccessOnly = 'ReaderAccessOnly'
 }
 
 export enum HierarchyNodeType {

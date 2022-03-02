@@ -1,46 +1,73 @@
 import React from 'react';
 import { ComponentErrorType } from '../../Models/Constants';
 import './StorageContainerPermissionError.scss';
-import { Image, MessageBar, MessageBarType } from '@fluentui/react';
+import {
+    ImageFit,
+    Image,
+    MessageBar,
+    MessageBarType,
+    IImageProps
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { StorageContainerPermissionErrorProps } from './StorageContainerPermissionError.types';
 import Error from '../../Resources/Static/error.svg';
+import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
 const StorageContainerPermissionError: React.FC<StorageContainerPermissionErrorProps> = ({
-    errorType
+    errors,
+    children
 }) => {
     const { t } = useTranslation();
+    const imageProps: IImageProps = {
+        imageFit: ImageFit.centerCover,
+        height: 300
+    };
+
     let componentContent;
-    switch (errorType) {
+    switch (errors?.[0]?.type) {
         case ComponentErrorType.NonExistentBlob:
             componentContent = (
                 <div
                     className="cb-scene-nonexistent-blob-error-wrapper"
                     style={{ display: 'flex', flexDirection: 'column' }}
                 >
-                    <Image shouldStartVisible={true} src={Error} height={100} />
-                    <h2>{'Blob Error'}</h2>
-                    <h4>{'Blob does now exist'}</h4>
+                    <Image
+                        className="cb-scene-nonexistant-blob-error-image"
+                        shouldStartVisible={true}
+                        src={Error}
+                        {...imageProps}
+                    />
+                    <p className="error-title">
+                        {t('NonExistentBlobErrorTitle')}
+                    </p>
+                    <p className="error-message">
+                        {t('NonExistentBlobErrorMessage')}
+                    </p>
                 </div>
             );
             break;
         case ComponentErrorType.UnauthorizedAccess:
             componentContent = (
                 <div
-                    className="cb-scene-nonexistent-blob-error-wrapper"
+                    className="cb-scene-unauthorized-blob-error-wrapper"
                     style={{ display: 'flex', flexDirection: 'column' }}
                 >
-                    <Image shouldStartVisible={true} src={Error} height={100} />
-                    <h2>{'Access Restricted'}</h2>
-                    <h4>
-                        {
-                            'You do not have access to this blob. Request Reader access or try a different blob'
-                        }
-                    </h4>
+                    <Image
+                        className="cb-scene-nonexistant-blob-error-image"
+                        shouldStartVisible={true}
+                        src={AccessRestrictedError}
+                        {...imageProps}
+                    />
+                    <p className="error-title">
+                        {t('UnauthorizedAccessErrorTitle')}
+                    </p>
+                    <p className="error-message">
+                        {t('UnauthorizedAccessErrorMessage')}
+                    </p>
                 </div>
             );
             break;
-        default:
+        case ComponentErrorType.ReaderAccessOnly:
             componentContent = (
                 <MessageBar
                     messageBarType={MessageBarType.warning}
@@ -49,9 +76,12 @@ const StorageContainerPermissionError: React.FC<StorageContainerPermissionErrorP
                     dismissButtonAriaLabel={t('close')}
                     className="cb-scene-page-warning-message"
                 >
-                    {t(errorType)}
+                    {t('ReaderAccessOnlyErrorMessage')}
                 </MessageBar>
             );
+            break;
+        default:
+            componentContent = children;
     }
     return (
         <BaseComponent containerClassName="cb-message-bar-container">

@@ -1,8 +1,6 @@
-import { ComponentErrorType } from '../../Models/Constants';
-import { IErrorComponentProps } from '../../Models/Constants/Interfaces';
+import { IComponentError } from '../../Models/Constants';
 
-export interface StorageContainerPermissionErrorProps
-    extends IErrorComponentProps {
-    errorType: ComponentErrorType;
+export interface StorageContainerPermissionErrorProps {
+    errors: Array<IComponentError>;
     children?: React.ReactNode;
 }

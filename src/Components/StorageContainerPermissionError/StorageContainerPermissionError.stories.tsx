@@ -14,8 +14,12 @@ export const UnauthorizedAccessError = () => {
         <div></div>
     ) : (
         <StorageContainerPermissionError
-            errorTitle="BlobStorageError"
-            errorType={ComponentErrorType.UnauthorizedAccess}
+            errors={[
+                {
+                    type: ComponentErrorType.NonExistentBlob,
+                    isCatastrophic: true
+                }
+            ]}
         />
     );
 };
@@ -27,8 +31,30 @@ export const NonExistentBlob = () => {
     ) : (
         <div>
             <StorageContainerPermissionError
-                errorTitle="BlobStorageError"
-                errorType={ComponentErrorType.NonExistentBlob}
+                errors={[
+                    {
+                        type: ComponentErrorType.UnauthorizedAccess,
+                        isCatastrophic: true
+                    }
+                ]}
+            />
+        </div>
+    );
+};
+
+export const ReaderAccessOnly = () => {
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div>
+            <StorageContainerPermissionError
+                errors={[
+                    {
+                        type: ComponentErrorType.ReaderAccessOnly,
+                        isCatastrophic: true
+                    }
+                ]}
             />
         </div>
     );
