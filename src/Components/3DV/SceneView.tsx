@@ -164,7 +164,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 sc,
                 (e) => onProgress(e),
                 (s, m, e) => {
-                    console.log('Error loading model. Try Ctrl-F5', s, e);
+                    console.error('Error loading model. Try Ctrl-F5', s, e);
                     success = false;
                     setIsLoading(undefined);
                 }
@@ -319,7 +319,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         engineRef.current.dispose();
                     }
                 } catch {
-                    console.log('unable to dispose scene');
+                    console.warn('unable to dispose scene');
                 }
             }
 
@@ -705,7 +705,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
             } catch {
-                console.log('unable to color mesh');
+                console.warn('unable to color mesh');
             }
         }
 

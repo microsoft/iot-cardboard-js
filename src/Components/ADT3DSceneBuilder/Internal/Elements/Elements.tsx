@@ -146,10 +146,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
     const onListItemClick = useCallback(
         (element: ITwinToObjectMapping) => {
-            console.log(
-                'clicked item and selection state is ',
-                isSelectionEnabled
-            );
             if (!isSelectionEnabled) {
                 onElementClick(element);
             } else {
@@ -240,10 +236,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                     '3dSceneBuilder.multiSelectElements'
                                 )}
                                 onClick={() => {
-                                    console.log(
-                                        'changing toggle state',
-                                        isSelectionEnabled
-                                    );
                                     clearSelectedElements();
                                     setIsSelectionEnabled(!isSelectionEnabled);
                                 }}

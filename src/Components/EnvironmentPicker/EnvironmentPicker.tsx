@@ -407,7 +407,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         newVal = 'https://' + newVal;
                     }
                 } catch (error) {
-                    console.log('Not a valid URL string!');
+                    console.error('Not a valid URL string!');
                 }
             }
             setContainerUrlToEdit(newVal);

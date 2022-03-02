@@ -99,12 +99,6 @@ const SceneBehaviors: React.FC<Props> = ({
             filteredNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
-            console.log(
-                'Expanding library',
-                searchText,
-                filteredNotInScene.length,
-                isBehaviorLibraryExpanded
-            );
             setIsBehaviorLibraryExpanded(true);
         }
     }, [searchText, behaviorsInScene, behaviorsNotInScene]);
