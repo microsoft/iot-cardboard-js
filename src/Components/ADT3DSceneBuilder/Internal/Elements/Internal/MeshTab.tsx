@@ -38,8 +38,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
         };
     };
     return (
-        <div className="cb-scene-builder-left-panel-element-objects">
-            {/* <div className="cb-scene-builder-left-panel-element-objects-container"> */}
+        <>
             {elementToEdit.meshIDs.length === 0 ? (
                 <div className="cb-scene-builder-left-panel-text">
                     {t('3dSceneBuilder.noMeshAddedText')}
@@ -50,33 +49,8 @@ const MeshTab: React.FC<MeshTabProps> = ({
                     getListItemProps={getListItemProps}
                     listKey={`mesh-list`}
                 />
-                // <ul className="cb-scene-builder-left-panel-element-object-list">
-                //     {/* {elementToEdit.meshIDs.map((meshName) => (
-                //         <li
-                //             key={meshName}
-                //             className="cb-scene-builder-left-panel-element-object"
-                //         >
-                //             <div className="cb-mesh-name-wrapper">
-                //                 <FontIcon iconName={'CubeShape'} />
-                //                 <span className="cb-mesh-name">
-                //                     {meshName}
-                //                 </span>
-                //             </div>
-                //             <IconButton
-                //                 className="cb-remove-object-button"
-                //                 iconProps={{
-                //                     iconName: 'Delete'
-                //                 }}
-                //                 title={t('remove')}
-                //                 ariaLabel={t('remove')}
-                //                 onClick={() => {}}
-                //             />
-                //         </li>
-                //     ))} */}
-                // </ul>
             )}
-            {/* </div> */}
-        </div>
+        </>
     );
 };
 export default MeshTab;

@@ -1,5 +1,15 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import { Label, ActionButton, IContextualMenuItem } from '@fluentui/react';
+import {
+    Label,
+    ActionButton,
+    IContextualMenuItem,
+    memoizeFunction,
+    Theme,
+    IStyle,
+    mergeStyleSets,
+    FontSizes,
+    useTheme
+} from '@fluentui/react';
 import produce from 'immer';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,6 +27,7 @@ import {
     CardboardList,
     CardboardListItemProps
 } from '../../../../CardboardList';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 const WidgetsTab: React.FC = () => {
     const { setWidgetFormInfo } = useContext(SceneBuilderContext);
@@ -99,10 +110,10 @@ const WidgetsTab: React.FC = () => {
         }
     }
 
-    function getOverflowMenuItems(
+    const getOverflowMenuItems = (
         _item: IWidget,
         index: number
-    ): IContextualMenuItem[] {
+    ): IContextualMenuItem[] => {
         return [
             {
                 key: 'edit',
@@ -119,7 +130,7 @@ const WidgetsTab: React.FC = () => {
                 onClick: () => onRemoveWidget(index)
             }
         ];
-    }
+    };
     const getIconName = useCallback(
         (widget: IWidget) =>
             availableWidgets.find((w) => w.data.type === widget.type)?.iconName,
@@ -138,12 +149,13 @@ const WidgetsTab: React.FC = () => {
         };
     };
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <div className="cb-widget-panel-container">
+        <>
             {!widgets?.length ? (
-                <Label className="cb-widget-panel-label">
+                <div className={commonPanelStyles.noDataLabel}>
                     {t('3dSceneBuilder.noWidgetsConfigured')}
-                </Label>
+                </div>
             ) : (
                 <CardboardList<IWidget>
                     items={widgets}
@@ -151,35 +163,6 @@ const WidgetsTab: React.FC = () => {
                     listKey={'widgets-in-behavior'}
                 />
             )}
-            {/* {widgets?.length > 0 &&
-                widgets.map((widget, index) => (
-                    <div key={index} className="cb-widget-panel-list-container">
-                        <FontIcon
-                            className="cb-widget-panel-list-icon"
-                            iconName={
-                                availableWidgets.find(
-                                    (w) => w.data.type === widget.type
-                                )?.iconName
-                            }
-                        />
-                        <Label className="cb-widget-panel-list-label">
-                            {widget.type}
-                        </Label>
-                        <div className="cb-widget-panel-flex1" />
-                        <IconButton
-                            menuIconProps={{
-                                iconName: 'MoreVertical',
-                                style: {
-                                    fontWeight: 'bold',
-                                    fontSize: 18,
-                                    color: 'black'
-                                }
-                            }}
-                            data-testid={`moreMenu-${index}`}
-                            menuProps={getMenuProps(index)}
-                        />
-                    </div>
-                ))} */}
             <ActionButton
                 className="cb-widget-panel-action-button"
                 text={t('3dSceneBuilder.addWidget')}
@@ -196,7 +179,7 @@ const WidgetsTab: React.FC = () => {
                     }
                 />
             )}
-        </div>
+        </>
     );
 };
 

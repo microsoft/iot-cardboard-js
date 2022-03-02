@@ -13,7 +13,7 @@ import {
 } from '../../Models/Services/StoryUtilities';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/Interactions/Elements',
+    title: 'Components/ADT3DSceneBuilder/Elements',
     parameters: {
         // delay for the menus showing up
         chromatic: { delay: 1000 }

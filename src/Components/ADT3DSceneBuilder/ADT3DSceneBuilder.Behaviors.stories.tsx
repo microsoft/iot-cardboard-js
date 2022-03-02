@@ -14,7 +14,7 @@ import {
 } from '../../Models/Services/StoryUtilities';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/Interactions/Behaviors',
+    title: 'Components/ADT3DSceneBuilder/Behaviors',
     parameters: {
         // delay for the menus showing up
         chromatic: { delay: 1000 }
@@ -73,17 +73,28 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     await sleep(1);
 };
 
+export const MoreMenuEdit = Template.bind({});
+MoreMenuEdit.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await MoreMenuShow.play({ canvasElement });
+
+    const moreMenus = await findOverflowMenuItem('editOverflow-wheelsTooLow');
+    await clickOverFlowMenuItem(moreMenus);
+};
+
 export const EditElementsTab = Template.bind({});
 EditElementsTab.play = async ({ canvasElement }) => {
-    await MoreMenuShow.play({ canvasElement });
-    const moreMenus = await findOverflowMenuItem('editOverflow-wheelsTooLow');
-    // not using storybook helper to work around issue where pointer events are not allowed
-    moreMenus.click();
-    await sleep(1);
-    // click one of the items in the list
+    await BehaviorsTab.play({ canvasElement });
     const canvas = within(canvasElement);
-    const listItem = await canvas.findByText('box1');
+    // click the behavior
+    const listItem = await canvas.findByTestId(
+        'cardboard-list-item-behaviors-in-scene-0'
+    );
     await userEvent.click(listItem);
+
+    // click one of the items in the elements list
+    const elementListItem = await canvas.findByText('box1');
+    await userEvent.click(elementListItem);
 };
 
 export const EditAlertsTab = Template.bind({});
@@ -102,6 +113,23 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     // click one of the items in the list
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
+};
+
+export const EditWidgetsTabEmpty = Template.bind({});
+EditWidgetsTabEmpty.play = async ({ canvasElement }) => {
+    await BehaviorsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    // click the 3rd behavior
+    const listItem = await canvas.findByTestId(
+        'cardboard-list-item-behaviors-in-scene-2'
+    );
+    await userEvent.click(listItem);
+    await sleep(1);
+
+    // switch to widgets tab
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[2]);
 };
