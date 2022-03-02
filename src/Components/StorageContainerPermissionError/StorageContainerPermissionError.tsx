@@ -37,10 +37,10 @@ const StorageContainerPermissionError: React.FC<StorageContainerPermissionErrorP
                         src={Error}
                         {...imageProps}
                     />
-                    <p className="error-title">
+                    <p className="cb-error-title">
                         {t('NonExistentBlobErrorTitle')}
                     </p>
-                    <p className="error-message">
+                    <p className="cb-error-message">
                         {t('NonExistentBlobErrorMessage')}
                     </p>
                 </div>

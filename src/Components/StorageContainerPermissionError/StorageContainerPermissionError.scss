@@ -4,12 +4,12 @@
 .cb-message-bar-container {
     height: fit-content;
 }
-.error-title {
-    text-align: center;
+.cb-error-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.error-message {
     text-align: center;
+}
+.cb-error-message {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
