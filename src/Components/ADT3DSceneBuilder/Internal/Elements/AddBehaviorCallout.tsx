@@ -9,7 +9,117 @@ import {
 } from '@fluentui/react';
 import { IBehavior } from '../../../../Models/Classes/3DVConfig';
 import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../ADT3DSceneBuilder.types';
-import { CardboardList, CardboardListItemProps } from '../../../CardboardList';
+import { CardboardList } from '../../../CardboardList';
+import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+
+const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
+    availableBehaviors,
+    calloutTarget,
+    onAddBehavior,
+    onCreateBehaviorWithElements,
+    hideCallout
+}) => {
+    const { t } = useTranslation();
+    const [searchText, setSearchText] = useState('');
+    const [
+        filteredAvailableBehaviors,
+        setFilteredAvailableBehaviors
+    ] = useState<Array<IBehavior>>([]);
+    const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
+        []
+    );
+
+    useEffect(() => {
+        setFilteredAvailableBehaviors(availableBehaviors);
+    }, [availableBehaviors]);
+
+    const searchBehaviors = (searchTerm: string) => {
+        setFilteredAvailableBehaviors(
+            availableBehaviors.filter((behavior) =>
+                behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    };
+
+    // generate the list of items to show
+    useEffect(() => {
+        const listItems = getListItems(
+            filteredAvailableBehaviors,
+            onAddBehavior
+        );
+        setListItems(listItems);
+    }, [filteredAvailableBehaviors, onAddBehavior]);
+
+    return (
+        <FocusTrapCallout
+            focusTrapProps={{
+                isClickableOutsideFocusTrap: true
+            }}
+            className={styles.callout}
+            target={`#${calloutTarget}`}
+            isBeakVisible={false}
+            directionalHint={DirectionalHint.bottomLeftEdge}
+            onDismiss={hideCallout}
+        >
+            <div>
+                <h4 className={styles.title}>
+                    {t('3dSceneBuilder.addBehavior')}
+                </h4>
+                <div>
+                    <SearchBox
+                        data-testid={'behavior-callout-search'}
+                        placeholder={t('3dSceneBuilder.searchBehaviors')}
+                        onChange={(_event, value) => {
+                            setSearchText(value);
+                            searchBehaviors(value);
+                        }}
+                    />
+                </div>
+                <div className={styles.listRoot}>
+                    {listItems?.length === 0 ? (
+                        <div className={styles.resultText}>
+                            {t('3dSceneBuilder.noAvailableBehaviors')}
+                        </div>
+                    ) : (
+                        <CardboardList<IBehavior>
+                            items={listItems}
+                            listKey={`behavior-callout-list`}
+                            textToHighlight={searchText}
+                        />
+                    )}
+                </div>
+                <PrimaryButton
+                    styles={{
+                        root: {
+                            marginTop: '16px'
+                        }
+                    }}
+                    onClick={onCreateBehaviorWithElements}
+                >
+                    {t('3dSceneBuilder.createBehavior')}
+                </PrimaryButton>
+            </div>
+        </FocusTrapCallout>
+    );
+};
+
+function getListItems(
+    filteredElements: IBehavior[],
+    onAddBehavior: (item: IBehavior) => void
+) {
+    return filteredElements.map((item) => {
+        const viewModel: ICardboardListItem<IBehavior> = {
+            ariaLabel: '',
+            iconStartName: 'Ringer',
+            iconEndName: 'Add',
+            item: item,
+            onClick: onAddBehavior,
+            textPrimary: item.id
+        };
+
+        return viewModel;
+    });
+}
 
 const styles = mergeStyleSets({
     callout: {
@@ -19,6 +129,9 @@ const styles = mergeStyleSets({
     },
     title: {
         marginTop: '0px'
+    },
+    listRoot: {
+        paddingTop: 8
     },
     resultText: {
         fontSize: '12px',
@@ -43,132 +156,5 @@ const styles = mergeStyleSets({
         textAlign: 'start'
     }
 });
-
-const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
-    availableBehaviors,
-    calloutTarget,
-    onAddBehavior,
-    onCreateBehaviorWithElements,
-    hideCallout
-}) => {
-    const { t } = useTranslation();
-    const [searchText, setSearchText] = useState('');
-    const [
-        filteredAvailableBehaviors,
-        setFilteredAvailableBehaviors
-    ] = useState<Array<IBehavior>>([]);
-
-    useEffect(() => {
-        setFilteredAvailableBehaviors(availableBehaviors);
-    }, [availableBehaviors]);
-
-    const searchBehaviors = (searchTerm: string) => {
-        setFilteredAvailableBehaviors(
-            availableBehaviors.filter((behavior) =>
-                behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
-    };
-
-    const getListItemProps = (
-        item: IBehavior
-    ): CardboardListItemProps<IBehavior> => {
-        return {
-            ariaLabel: '',
-            iconStartName: 'Ringer',
-            iconEndName: 'Add',
-            onClick: onAddBehavior,
-            textPrimary: item.id
-        };
-    };
-
-    return (
-        <FocusTrapCallout
-            focusTrapProps={{
-                isClickableOutsideFocusTrap: true
-            }}
-            className={styles.callout}
-            target={`#${calloutTarget}`}
-            isBeakVisible={false}
-            directionalHint={DirectionalHint.bottomLeftEdge}
-            onDismiss={hideCallout}
-        >
-            <div>
-                <h4 className={styles.title}>
-                    {t('3dSceneBuilder.addBehavior')}
-                </h4>
-                <div>
-                    <SearchBox
-                        data-testid={'behavior-callout-search'}
-                        placeholder={t('3dSceneBuilder.searchBehaviors')}
-                        onChange={(event, value) => {
-                            setSearchText(value);
-                            searchBehaviors(value);
-                        }}
-                    />
-                </div>
-                <div>
-                    {filteredAvailableBehaviors?.length === 0 ? (
-                        <div className={styles.resultText}>
-                            {t('3dSceneBuilder.noAvailableBehaviors')}
-                        </div>
-                    ) : (
-                        <CardboardList<IBehavior>
-                            items={filteredAvailableBehaviors}
-                            getListItemProps={getListItemProps}
-                            listKey={`behavior-callout-list`}
-                            textToHighlight={searchText}
-                        />
-                    )}
-                    {/* {filteredAvailableBehaviors.map((behavior) => {
-                        return (
-                            <ActionButton
-                                key={behavior.id}
-                                className={styles.item}
-                                onClick={() => onAddBehavior(behavior)}
-                                tabIndex={0}
-                                styles={{
-                                    flexContainer: {
-                                        width: '100%'
-                                    }
-                                }}
-                                style={{
-                                    color: 'var(--cb-color-text-primary)'
-                                }}
-                            >
-                                <FontIcon
-                                    iconName={'Ringer'}
-                                    className={styles.icon}
-                                />
-                                <div className={styles.name}>
-                                    {searchText
-                                        ? Utils.getMarkedHtmlBySearch(
-                                              behavior.id,
-                                              searchText
-                                          )
-                                        : behavior.id}
-                                </div>
-                                <FontIcon
-                                    iconName="Add"
-                                    className={styles.icon}
-                                />
-                            </ActionButton>
-                        );
-                    })} */}
-                </div>
-                <PrimaryButton
-                    styles={{
-                        root: {
-                            marginTop: '16px'
-                        }
-                    }}
-                    onClick={onCreateBehaviorWithElements}
-                >
-                    {t('3dSceneBuilder.createBehavior')}
-                </PrimaryButton>
-            </div>
-        </FocusTrapCallout>
-    );
-};
 
 export default AddBehaviorCallout;

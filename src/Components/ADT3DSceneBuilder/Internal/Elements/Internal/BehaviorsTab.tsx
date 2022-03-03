@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
@@ -60,7 +60,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
     }, [behaviorState.behaviorsToEdit]);
 
-    const removeBehavior = () => {
+    const removeBehavior = useCallback(() => {
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.removeBehaviorFromList(
@@ -77,9 +77,9 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 draft.availableBehaviors.push(draft.behaviorToEdit);
             })
         );
-    };
+    }, []);
 
-    const addBehaviorToElement = (behavior: IBehavior) => {
+    const addBehaviorToElement = useCallback((behavior: IBehavior) => {
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
@@ -94,19 +94,19 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 );
             })
         );
-    };
+    }, []);
 
-    const showCallout = () => {
-        setShowAddBehavior(true);
-    };
-
-    const setBehaviorToEdit = (item: IBehavior) => {
+    const setBehaviorToEdit = useCallback((item: IBehavior) => {
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorToEdit = item;
             })
         );
-    };
+    }, []);
+
+    const showCallout = useCallback(() => {
+        setShowAddBehavior(true);
+    }, []);
 
     // generate the list of items to show
     useEffect(() => {
