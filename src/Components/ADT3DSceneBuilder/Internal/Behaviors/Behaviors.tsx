@@ -217,7 +217,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <div className={commonPanelStyles.listContainer}>
+            <div className={commonPanelStyles.rootListContainer}>
                 {behaviors.length === 0 ? (
                     <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsText')}

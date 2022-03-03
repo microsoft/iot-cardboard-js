@@ -249,7 +249,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     <Separator />
                 </div>
             )}
-            <div className={commonPanelStyles.listContainer}>
+            <div className={commonPanelStyles.rootListContainer}>
                 {elements.length === 0 ? (
                     <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noElementsText')}

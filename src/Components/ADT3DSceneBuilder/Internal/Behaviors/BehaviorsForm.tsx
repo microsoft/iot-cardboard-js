@@ -24,6 +24,7 @@ import LeftPanelBuilderHeader, {
 } from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -171,12 +172,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                                     .itemKey as BehaviorPivot
                                             )
                                         }
-                                        styles={{
-                                            root: {
-                                                marginLeft: -8,
-                                                marginBottom: 8
-                                            }
-                                        }}
+                                        styles={leftPanelPivotStyles}
                                     >
                                         <PivotItem
                                             headerText={t(

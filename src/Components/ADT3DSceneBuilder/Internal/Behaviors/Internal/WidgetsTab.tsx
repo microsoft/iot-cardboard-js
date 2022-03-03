@@ -152,25 +152,27 @@ const WidgetsTab: React.FC = () => {
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
-            {!widgets?.length ? (
-                <div className={commonPanelStyles.noDataText}>
-                    {t('3dSceneBuilder.noWidgetsConfigured')}
-                </div>
-            ) : (
-                <CardboardList<IWidget>
-                    items={widgets}
-                    getListItemProps={getListItemProps}
-                    listKey={'widgets-in-behavior'}
+            <div className={commonPanelStyles.formTabContents}>
+                {!widgets?.length ? (
+                    <div className={commonPanelStyles.noDataText}>
+                        {t('3dSceneBuilder.noWidgetsConfigured')}
+                    </div>
+                ) : (
+                    <CardboardList<IWidget>
+                        items={widgets}
+                        getListItemProps={getListItemProps}
+                        listKey={'widgets-in-behavior'}
+                    />
+                )}
+                <ActionButton
+                    className="cb-widget-panel-action-button"
+                    text={t('3dSceneBuilder.addWidget')}
+                    data-testid={'widgetForm-addWidget'}
+                    onClick={() => {
+                        setIsLibraryDialogOpen(true);
+                    }}
                 />
-            )}
-            <ActionButton
-                className="cb-widget-panel-action-button"
-                text={t('3dSceneBuilder.addWidget')}
-                data-testid={'widgetForm-addWidget'}
-                onClick={() => {
-                    setIsLibraryDialogOpen(true);
-                }}
-            />
+            </div>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}

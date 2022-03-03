@@ -148,7 +148,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
-            <div className="cb-scene-builder-left-panel-element-behaviors">
+            <div className={commonPanelStyles.formTabContents}>
                 {behaviorState.behaviorsOnElement?.length === 0 && (
                     <div className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsOnElement')}

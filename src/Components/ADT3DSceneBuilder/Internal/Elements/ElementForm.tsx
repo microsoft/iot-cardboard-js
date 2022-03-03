@@ -25,6 +25,7 @@ import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSe
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
+import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -207,7 +208,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 <Separator />
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
-                    className="cb-scene-builder-left-panel-pivot"
+                    styles={leftPanelPivotStyles}
                 >
                     <PivotItem headerText={t('3dSceneBuilder.meshes')}>
                         <MeshTab

@@ -41,7 +41,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
     };
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <>
+        <div className={commonPanelStyles.formTabContents}>
             {elementToEdit.meshIDs.length === 0 ? (
                 <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.noMeshAddedText')}
@@ -53,7 +53,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
                     listKey={`mesh-list`}
                 />
             )}
-        </>
+        </div>
     );
 };
 export default MeshTab;
