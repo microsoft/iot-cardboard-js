@@ -91,7 +91,6 @@ export const EngineWithShaders = () => {
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
                 connectionLineColor="#000"
                 enableMeshSelection={true}
-                isWireframe={true}
             />
         </div>
     );

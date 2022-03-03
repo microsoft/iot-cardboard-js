@@ -147,7 +147,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.1, // @coryboyle Doesn't seem to work
         isWireframe: false,
-        meshSelectionColor: null,
+        meshSelectionColor: '#FF8300',
         meshHoverColor: null,
         meshSelectionHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
