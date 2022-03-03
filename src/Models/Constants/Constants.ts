@@ -5,6 +5,7 @@ import {
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { IADT3DViewerRenderMode } from '../Constants';
+import { ADT3DRenderMode } from './Enums';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -113,14 +114,10 @@ export const ValidAdtHostSuffixes = [
 ];
 export const ValidContainerHostSuffixes = ['blob.core.windows.net'];
 
-export const EnvironmentsLocalStorageKey = 'cb-environments';
-export const ContainersLocalStorageKey = 'cb-containers';
-export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
-export const SelectedContainerLocalStorageKey = 'cb-selected-container';
-
 export const RenderModes: IADT3DViewerRenderMode[] = [
     {
-        key: '3dSceneViewer.renderModes.default',
+        id: ADT3DRenderMode.Default,
+        text: '3dSceneViewer.renderModes.default',
         baseColor: null,
         fresnelColor: null,
         opacity: 1,
@@ -131,7 +128,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: null
     },
     {
-        key: '3dSceneViewer.renderModes.wireframe',
+        id: ADT3DRenderMode.Wireframe,
+        text: '3dSceneViewer.renderModes.wireframe',
         baseColor: null,
         fresnelColor: null,
         opacity: 1,
@@ -142,7 +140,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
-        key: '3dSceneViewer.renderModes.red',
+        id: ADT3DRenderMode.Red,
+        text: '3dSceneViewer.renderModes.red',
         baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
         fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.1, // @coryboyle Doesn't seem to work
@@ -153,7 +152,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
-        key: '3dSceneViewer.renderModes.redWireframe',
+        id: ADT3DRenderMode.RedWireframe,
+        text: '3dSceneViewer.renderModes.redWireframe',
         baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
         fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.5,
@@ -164,7 +164,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
-        key: '3dSceneViewer.renderModes.green',
+        id: ADT3DRenderMode.Green,
+        text: '3dSceneViewer.renderModes.green',
         baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
         fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
@@ -175,7 +176,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
-        key: '3dSceneViewer.renderModes.greenWireframe',
+        id: ADT3DRenderMode.GreenWireframe,
+        text: '3dSceneViewer.renderModes.greenWireframe',
         baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
         fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
@@ -186,3 +188,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         background: 'radial-gradient(#0a0a54, #020024)'
     }
 ];
+
+export const EnvironmentsLocalStorageKey = 'cb-environments';
+export const ContainersLocalStorageKey = 'cb-containers';
+export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
+export const SelectedContainerLocalStorageKey = 'cb-selected-container';

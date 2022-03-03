@@ -225,7 +225,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
 
     const renderModeOptions: IDropdownOption[] = [];
     for (const mode of RenderModes) {
-        renderModeOptions.push({ key: mode.key, text: t(mode.key) });
+        renderModeOptions.push({ key: mode.id, text: t(mode.text) });
     }
 
     if (!selectedRenderMode) {
@@ -233,7 +233,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     }
 
     useEffect(() => {
-        const state = RenderModes.find((m) => m.key === selectedRenderMode);
+        const state = RenderModes.find((m) => m.id === selectedRenderMode);
         setRenderMode(state);
     }, [selectedRenderMode]);
 

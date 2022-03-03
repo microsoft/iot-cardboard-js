@@ -68,13 +68,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshSelectionColor,
     meshHoverColor,
     meshSelectionHoverColor,
-    onSceneLoaded,
-    getToken,
-    coloredMeshItems,
     isWireframe,
     meshBaseColor,
     meshFresnelColor,
-    meshOpacity
+    meshOpacity,
+    onSceneLoaded,
+    getToken,
+    coloredMeshItems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);

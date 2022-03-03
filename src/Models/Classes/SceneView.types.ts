@@ -64,10 +64,10 @@ export interface ISceneViewProp {
     meshSelectionColor?: string;
     meshHoverColor?: string;
     meshSelectionHoverColor?: string;
-    getToken?: () => Promise<string>;
-    coloredMeshItems?: ColoredMeshItem[];
     isWireframe?: boolean;
     meshBaseColor?: { r: number; g: number; b: number; a: number };
     meshFresnelColor?: { r: number; g: number; b: number; a: number };
     meshOpacity?: number;
+    getToken?: () => Promise<string>;
+    coloredMeshItems?: ColoredMeshItem[];
 }

@@ -51,6 +51,7 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import { ADT3DRenderMode } from '.';
 
 export interface IAction {
     type: string;
@@ -643,7 +644,8 @@ export interface IADT3DViewerProps {
 }
 
 export interface IADT3DViewerRenderMode {
-    key: string;
+    id: ADT3DRenderMode;
+    text: string;
     baseColor: { r: number; g: number; b: number; a: number };
     fresnelColor: { r: number; g: number; b: number; a: number };
     opacity: number;
