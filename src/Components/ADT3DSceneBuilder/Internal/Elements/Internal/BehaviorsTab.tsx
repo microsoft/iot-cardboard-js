@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
-import AddBehaviorCallout from '../AddBehaviorCallout';
+import AddBehaviorCallout from './AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 import {

@@ -7,10 +7,10 @@ import {
     PrimaryButton,
     FocusTrapCallout
 } from '@fluentui/react';
-import { IBehavior } from '../../../../Models/Classes/3DVConfig';
-import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../ADT3DSceneBuilder.types';
-import { CardboardList } from '../../../CardboardList';
-import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
+import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../../ADT3DSceneBuilder.types';
+import { CardboardList } from '../../../../CardboardList';
+import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 
 const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
     availableBehaviors,
