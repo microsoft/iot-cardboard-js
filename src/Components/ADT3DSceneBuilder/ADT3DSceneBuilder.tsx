@@ -32,6 +32,8 @@ import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
+import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
+import { createColoredMeshItems } from '../3DV/SceneView.Utils';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -50,7 +52,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         defaultADT3DSceneBuilderState
     );
 
-    const previouslySelectedMeshIds = useRef([]);
+    const previouslyColoredMeshItems = useRef([]);
     const contextualMenuItems = useRef([]);
 
     const [
@@ -119,10 +121,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [state.builderMode]);
 
-    const setSelectedMeshIds = (selectedMeshIds) => {
+    const setColoredMeshItems = (coloredMeshItems: Array<ColoredMeshItem>) => {
         dispatch({
             type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
-            payload: selectedMeshIds
+            payload: coloredMeshItems
         });
     };
 
@@ -169,7 +171,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             } else {
                 contextualMenuItems.current[1].sectionProps.items = [];
                 if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
-                    setSelectedMeshIds([]);
+                    setColoredMeshItems([]);
                 }
             }
         },
@@ -177,7 +179,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     );
 
     const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        let meshIds = [...state.selectedMeshIds];
+        let coloredMeshes = [...state.coloredMeshItems];
         for (const element of state.elements) {
             if (element.meshIDs.includes(mesh.id)) {
                 const item = {
@@ -202,17 +204,23 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         });
                     },
                     onFocus: () => {
-                        setSelectedMeshIds(element.meshIDs);
+                        setColoredMeshItems(
+                            createColoredMeshItems(element.meshIDs, null)
+                        );
                     },
                     onBlur: () => {
-                        setSelectedMeshIds(previouslySelectedMeshIds.current);
+                        setColoredMeshItems(previouslyColoredMeshItems.current);
                     }
                 };
 
                 if (e.button === 2) {
                     addContextualMenuItems(item);
                 } else {
-                    if (state.selectedMeshIds.includes(mesh.id)) {
+                    if (
+                        state.coloredMeshItems.find(
+                            (selectedMesh) => selectedMesh.meshId === mesh.id
+                        )
+                    ) {
                         removeContextualMenuItems(item);
                     } else {
                         addContextualMenuItems(item);
@@ -222,19 +230,29 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
 
         if (e.button === 2) {
-            if (!state.selectedMeshIds.includes(mesh.id)) {
-                meshIds.push(mesh.id);
+            if (
+                !state.coloredMeshItems.find(
+                    (selectedMesh) => selectedMesh.meshId === mesh.id
+                )
+            ) {
+                coloredMeshes.push({ meshId: mesh.id, color: null });
             }
         } else {
-            if (state.selectedMeshIds.includes(mesh.id)) {
-                meshIds = meshIds.filter((id) => id !== mesh.id);
+            if (
+                state.coloredMeshItems.find(
+                    (selectedMesh) => selectedMesh.meshId === mesh.id
+                )
+            ) {
+                coloredMeshes = coloredMeshes.filter(
+                    (id) => id.meshId !== mesh.id
+                );
             } else {
-                meshIds.push(mesh.id);
+                coloredMeshes.push({ meshId: mesh.id, color: null });
             }
         }
 
-        setSelectedMeshIds(meshIds);
-        previouslySelectedMeshIds.current = meshIds;
+        setColoredMeshItems(coloredMeshes);
+        previouslyColoredMeshItems.current = coloredMeshes;
 
         if (e.button === 2) {
             setContextualMenuProps({
@@ -247,19 +265,19 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     };
 
     const meshClickOnEditElement = (mesh) => {
-        const selectedMesh = state.selectedMeshIds.find(
-            (item) => item === mesh.id
+        const selectedMesh = state.coloredMeshItems.find(
+            (item) => item.meshId === mesh.id
         );
-        let meshIds = [...state.selectedMeshIds];
+        let coloredMeshes = [...state.coloredMeshItems];
 
         if (selectedMesh) {
-            meshIds = state.selectedMeshIds.filter(
-                (item) => item !== selectedMesh
+            coloredMeshes = state.coloredMeshItems.filter(
+                (item) => item.meshId !== selectedMesh.meshId
             );
         } else {
-            meshIds.push(mesh.id);
+            coloredMeshes.push({ meshId: mesh.id, color: null });
         }
-        setSelectedMeshIds(meshIds);
+        setColoredMeshItems(coloredMeshes);
     };
 
     const addContextualMenuItems = (item) => {
@@ -291,8 +309,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 theme,
                 locale,
                 localeStrings,
-                selectedMeshIds: state.selectedMeshIds,
-                setSelectedMeshIds,
+                coloredMeshItems: state.coloredMeshItems,
+                setColoredMeshItems,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
                 sceneId,
@@ -322,8 +340,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                 ]?.assets[0].url
                             }
                             onMeshClicked={onMeshClicked}
-                            selectedMeshIds={state.selectedMeshIds}
                             showHoverOnSelected={state.showHoverOnSelected}
+                            coloredMeshItems={state.coloredMeshItems}
                         />
                     )}
                     {contextualMenuProps.isVisible && (

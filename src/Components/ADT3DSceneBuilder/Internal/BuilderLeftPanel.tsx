@@ -29,6 +29,7 @@ import SceneElementForm from '../Internal/Elements/ElementForm';
 import SceneElements from '../Internal/Elements/Elements';
 import LeftPanelBuilderBreadcrumb from '../Internal/LeftPanelBuilderBreadcrumb';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
+import { createColoredMeshItems } from '../../3DV/SceneView.Utils';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -37,7 +38,7 @@ const BuilderLeftPanel: React.FC = () => {
         config,
         getConfig,
         sceneId,
-        setSelectedMeshIds,
+        setColoredMeshItems,
         theme,
         locale,
         localeStrings,
@@ -116,7 +117,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateElement
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onRemoveElement = (newElements: Array<ITwinToObjectMapping>) => {
@@ -124,7 +125,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_ELEMENTS,
             payload: newElements
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onElementClick = (element: ITwinToObjectMapping) => {
@@ -136,7 +137,8 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.EditElement
         });
-        setSelectedMeshIds(element.meshIDs);
+
+        setColoredMeshItems(createColoredMeshItems(element.meshIDs, null));
     };
 
     const updateSelectedElements = (
@@ -178,7 +180,8 @@ const BuilderLeftPanel: React.FC = () => {
                 meshIds.push(id);
             }
         }
-        setSelectedMeshIds(meshIds);
+
+        setColoredMeshItems(createColoredMeshItems(meshIds, null));
     };
 
     const setSelectedElements = (elements: Array<ITwinToObjectMapping>) => {
@@ -193,7 +196,8 @@ const BuilderLeftPanel: React.FC = () => {
                 meshIds.push(id);
             }
         }
-        setSelectedMeshIds(meshIds);
+
+        setColoredMeshItems(createColoredMeshItems(meshIds, null));
     };
 
     const clearSelectedElements = () => {
@@ -202,11 +206,11 @@ const BuilderLeftPanel: React.FC = () => {
             payload: null
         });
 
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onElementEnter = (element: ITwinToObjectMapping) => {
-        const meshIds = [...state.selectedMeshIds];
+        const coloredMeshes = [...state.coloredMeshItems];
         if (
             (state.selectedElements &&
                 !state.selectedElements.find(
@@ -215,28 +219,31 @@ const BuilderLeftPanel: React.FC = () => {
             !state.selectedElements
         ) {
             for (const id of element.meshIDs) {
-                if (!meshIds.find((meshId) => meshId === id)) {
-                    meshIds.push(id);
+                if (!coloredMeshes.find((meshId) => meshId.meshId === id)) {
+                    coloredMeshes.push({ meshId: id, color: null });
                 }
             }
         }
-        setSelectedMeshIds(meshIds);
+
+        setColoredMeshItems(coloredMeshes);
     };
 
     const onElementLeave = (element: ITwinToObjectMapping) => {
         if (state.selectedElements && state.selectedElements.length > 0) {
-            let meshIds = [...state.selectedMeshIds];
+            let coloredMeshes = [...state.coloredMeshItems];
             if (
                 !state.selectedElements.find((item) => item.id === element.id)
             ) {
                 for (const id of element.meshIDs) {
-                    meshIds = meshIds.filter((meshId) => meshId !== id);
+                    coloredMeshes = coloredMeshes.filter(
+                        (meshId) => meshId.meshId !== id
+                    );
                 }
 
-                setSelectedMeshIds(meshIds);
+                setColoredMeshItems(coloredMeshes);
             }
         } else {
-            setSelectedMeshIds([]);
+            setColoredMeshItems([]);
         }
     };
 
@@ -247,7 +254,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: idleMode
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onElementSave = (newElements: Array<ITwinToObjectMapping>) => {
@@ -259,7 +266,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.ElementsIdle
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
     // END of scene element related callbacks
 
@@ -269,7 +276,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onCreateBehaviorWithElements = () => {
@@ -297,7 +304,7 @@ const BuilderLeftPanel: React.FC = () => {
             type: SET_ADT_SCENE_BUILDER_MODE,
             payload: ADT3DSceneBuilderMode.CreateBehavior
         });
-        setSelectedMeshIds([]);
+        setColoredMeshItems([]);
     };
 
     const onBehaviorSave: OnBehaviorSave = async (

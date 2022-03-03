@@ -29,7 +29,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     sceneConfig,
     pollingInterval,
     connectionLineColor,
-    enableMeshSelection,
     addInProps,
     hideUI,
     refetchConfig
@@ -43,7 +42,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const [selectedRenderMode, setSelectedRenderMode] = React.useState('');
     const lineId = useGuid();
     const popUpId = useGuid();
@@ -144,26 +142,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             } else {
                 selectedMesh.current = null;
                 setShowPopUp(false);
-            }
-        }
-
-        if (enableMeshSelection) {
-            let meshes = [...selectedMeshIds];
-            if (mesh) {
-                const selectedMesh = selectedMeshIds.find(
-                    (item) => item === mesh.id
-                );
-                if (selectedMesh) {
-                    meshes = selectedMeshIds.filter(
-                        (item) => item !== selectedMesh
-                    );
-                    setselectedMeshIds(meshes);
-                } else {
-                    meshes.push(mesh.id);
-                    setselectedMeshIds(meshes);
-                }
-            } else {
-                setselectedMeshIds([]);
             }
         }
     };
@@ -268,7 +246,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     addInProps={addInProps}
                     sceneViewProps={{
                         modelUrl: modelUrl,
-                        selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
                         meshSelectionColor: renderMode?.meshSelectionColor,
                         meshHoverColor: renderMode?.meshHoverColor,

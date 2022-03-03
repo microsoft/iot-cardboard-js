@@ -20,7 +20,7 @@ import {
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
-    selectedMeshIds: [],
+    coloredMeshItems: [],
     widgetFormInfo: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
@@ -44,7 +44,7 @@ export const ADT3DSceneBuilderReducer: (
                 draft.config = payload;
                 break;
             case SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS:
-                draft.selectedMeshIds = payload;
+                draft.coloredMeshItems = payload;
                 break;
             case SET_WIDGET_FORM_INFO:
                 draft.widgetFormInfo = payload;

@@ -637,7 +637,6 @@ export interface IADT3DViewerProps {
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
-    enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
     hideUI?: boolean;
     refetchConfig?: () => any;
