@@ -5,7 +5,6 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IScenesConfig } from '../../Models/Classes/3DVConfig';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import {
     ADT3DAddInEventData,
     IADT3DAddInProps

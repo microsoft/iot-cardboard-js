@@ -51,6 +51,7 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import { ErrorObject } from 'ajv';
 
 export interface IAction {
     type: string;
@@ -161,6 +162,9 @@ export interface IComponentError {
 
     /** Values that can be used in string interpolation when constructing the error message */
     messageParams?: { [key: string]: string };
+
+    /** Error data from JSON schema validation*/
+    jsonSchemaErrors?: ErrorObject[];
 }
 
 export interface IMockAdapter {

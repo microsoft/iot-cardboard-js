@@ -5,6 +5,7 @@ import axios from 'axios';
 import { IScenesConfig } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
+import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -66,10 +67,11 @@ export default class BlobAdapter implements IBlobAdapter {
                         }
                     });
                     if (scenesBlob.data) {
-                        config = scenesBlob.data as IScenesConfig;
+                        config = validate3DConfigWithSchema(scenesBlob.data);
+                    } else {
+                        throw new Error('Data not found');
                     }
                 }
-
                 return new ADTScenesConfigData(config);
             } catch (err) {
                 switch (err?.response?.status) {

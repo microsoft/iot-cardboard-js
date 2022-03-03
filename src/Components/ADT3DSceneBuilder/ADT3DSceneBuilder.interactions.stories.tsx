@@ -3,7 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
@@ -28,7 +27,7 @@ const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
             title={'3D Scene Builder'}
             theme={theme}
             locale={locale}
-            adapter={new MockAdapter({ mockData: mockVConfig })}
+            adapter={new MockAdapter()}
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             {..._args}
         />
