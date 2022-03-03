@@ -319,7 +319,6 @@ function getListItems(
         ];
     };
     return filteredElements.map((item) => {
-        const metadata = ViewerConfigUtility.getElementMetaData(item, config);
         const isItemSelected = isSelectionEnabled
             ? !!selectedElements?.find((x) => x.id === item.id)
             : undefined;
@@ -336,9 +335,14 @@ function getListItems(
             onClick: onListItemClick,
             overflowMenuItems: getOverflowMenuItems(item),
             textPrimary: item.displayName,
-            textSecondary: t('3dSceneBuilder.elementMetaText', {
-                numBehaviors: metadata
-            }),
+            textSecondary: isEditBehavior
+                ? undefined
+                : t('3dSceneBuilder.elementMetaText', {
+                      numBehaviors: ViewerConfigUtility.getElementMetaData(
+                          item,
+                          config
+                      )
+                  }),
             isChecked: isItemSelected
         };
 
