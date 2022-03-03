@@ -12,7 +12,7 @@ import {
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { IBehavior, IScenesConfig } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardList/CardboardList';
@@ -121,7 +121,7 @@ const SceneBehaviors: React.FC<Props> = ({
 
     // generate the list of items to show - In Scene
     useEffect(() => {
-        const elementsList = getListItems(
+        const listItems = getListItems(
             config,
             behaviorToDeleteRef,
             filteredItemsInScene,
@@ -132,7 +132,7 @@ const SceneBehaviors: React.FC<Props> = ({
             setIsDeleteDialogOpen,
             t
         );
-        setListItemsInScene(elementsList);
+        setListItemsInScene(listItems);
     }, [
         config,
         behaviorToDeleteRef,
@@ -145,7 +145,7 @@ const SceneBehaviors: React.FC<Props> = ({
     ]);
     // generate the list of items to show - NOT In Scene
     useEffect(() => {
-        const elementsList = getListItems(
+        const listItems = getListItems(
             config,
             behaviorToDeleteRef,
             filteredItemsNotInScene,
@@ -156,7 +156,7 @@ const SceneBehaviors: React.FC<Props> = ({
             setIsDeleteDialogOpen,
             t
         );
-        setListItemsNotInScene(elementsList);
+        setListItemsNotInScene(listItems);
     }, [
         config,
         behaviorToDeleteRef,
@@ -303,7 +303,7 @@ function getListItems(
     onListItemClick: (element: IBehavior) => void,
     sceneId: string,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    t
+    t: TFunction<string>
 ): ICardboardListItem<IBehavior>[] {
     const getMenuItems = (
         type: 'InScene' | 'NotInScene',

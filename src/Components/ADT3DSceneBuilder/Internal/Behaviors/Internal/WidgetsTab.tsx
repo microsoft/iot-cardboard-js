@@ -1,17 +1,7 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
-import {
-    Label,
-    ActionButton,
-    IContextualMenuItem,
-    memoizeFunction,
-    Theme,
-    IStyle,
-    mergeStyleSets,
-    FontSizes,
-    useTheme
-} from '@fluentui/react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
     VisualType,
     IWidgetLibraryItem,
@@ -23,21 +13,20 @@ import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import {
-    CardboardList,
-    CardboardListItemProps
-} from '../../../../CardboardList';
+import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 
 const WidgetsTab: React.FC = () => {
+    const { t } = useTranslation();
     const { setWidgetFormInfo } = useContext(SceneBuilderContext);
-
     const { setBehaviorToEdit, behaviorToEdit } = useContext(
         BehaviorFormContext
     );
-
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
-    const { t } = useTranslation();
+    const [listItems, setListItems] = useState<ICardboardListItem<IWidget>[]>(
+        []
+    );
 
     const widgets = useMemo(() => {
         return (
@@ -110,44 +99,16 @@ const WidgetsTab: React.FC = () => {
         }
     }
 
-    const getOverflowMenuItems = (
-        _item: IWidget,
-        index: number
-    ): IContextualMenuItem[] => {
-        return [
-            {
-                key: 'edit',
-                'data-testid': 'editWidgetOverflow',
-                text: t('3dSceneBuilder.editWidget'),
-                iconProps: { iconName: 'Edit' },
-                onClick: () => onEditWidgetStart(index)
-            },
-            {
-                key: 'remove',
-                'data-testid': 'removeWidgetOverflow',
-                text: t('3dSceneBuilder.removeWidget'),
-                iconProps: { iconName: 'Delete' },
-                onClick: () => onRemoveWidget(index)
-            }
-        ];
-    };
-    const getIconName = useCallback(
-        (widget: IWidget) =>
-            availableWidgets.find((w) => w.data.type === widget.type)?.iconName,
-        [availableWidgets]
-    );
-    const getListItemProps = (
-        item: IWidget,
-        index: number
-    ): CardboardListItemProps<IWidget> => {
-        return {
-            ariaLabel: '',
-            iconStartName: getIconName(item),
-            openMenuOnClick: true,
-            overflowMenuItems: getOverflowMenuItems(item, index),
-            textPrimary: item.type
-        };
-    };
+    // generate the list of items to show
+    useEffect(() => {
+        const listItems = getListItems(
+            widgets,
+            onEditWidgetStart,
+            onRemoveWidget,
+            t
+        );
+        setListItems(listItems);
+    }, [widgets, onEditWidgetStart, onRemoveWidget]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
@@ -159,8 +120,7 @@ const WidgetsTab: React.FC = () => {
                     </div>
                 ) : (
                     <CardboardList<IWidget>
-                        items={widgets}
-                        getListItemProps={getListItemProps}
+                        items={listItems}
                         listKey={'widgets-in-behavior'}
                     />
                 )}
@@ -184,5 +144,47 @@ const WidgetsTab: React.FC = () => {
         </>
     );
 };
+function getListItems(
+    filteredElements: IWidget[],
+    onEditWidgetStart: (index: number) => void,
+    onRemoveWidget: (index: number) => void,
+    t: TFunction<string>
+) {
+    const getMenuItems = (
+        _item: IWidget,
+        index: number
+    ): IContextualMenuItem[] => {
+        return [
+            {
+                key: 'edit',
+                'data-testid': 'editWidgetOverflow',
+                text: t('3dSceneBuilder.editWidget'),
+                iconProps: { iconName: 'Edit' },
+                onClick: () => onEditWidgetStart(index)
+            },
+            {
+                key: 'remove',
+                'data-testid': 'removeWidgetOverflow',
+                text: t('3dSceneBuilder.removeWidget'),
+                iconProps: { iconName: 'Delete' },
+                onClick: () => onRemoveWidget(index)
+            }
+        ];
+    };
+    const getIconName = (widget: IWidget) =>
+        availableWidgets.find((w) => w.data.type === widget.type)?.iconName;
+    return filteredElements.map((item, index) => {
+        const viewModel: ICardboardListItem<IWidget> = {
+            ariaLabel: '',
+            iconStartName: getIconName(item),
+            item: item,
+            openMenuOnClick: true,
+            overflowMenuItems: getMenuItems(item, index),
+            textPrimary: item.type
+        };
+
+        return viewModel;
+    });
+}
 
 export default WidgetsTab;

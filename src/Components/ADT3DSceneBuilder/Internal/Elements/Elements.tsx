@@ -5,7 +5,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
     DefaultButton,
     IContextualMenuItem,
@@ -287,7 +287,7 @@ function getListItems(
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    t
+    t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
         if (isSelectionEnabled) {

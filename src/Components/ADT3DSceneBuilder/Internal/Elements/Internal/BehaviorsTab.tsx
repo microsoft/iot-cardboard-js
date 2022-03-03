@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
 import AddBehaviorCallout from '../AddBehaviorCallout';
@@ -9,11 +9,9 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../../../Models/Classes/3DVConfig';
-import {
-    CardboardList,
-    CardboardListItemProps
-} from '../../../../CardboardList';
+import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
@@ -38,6 +36,9 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         behaviorsOnElement: [],
         availableBehaviors: []
     });
+    const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
+        []
+    );
 
     useEffect(() => {
         setBehaviorState(
@@ -106,44 +107,23 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             })
         );
     };
-    const getOverflowMenuItems = (item: IBehavior): IContextualMenuItem[] => {
-        return [
-            {
-                'data-testid': 'modifyOverflow',
-                key: 'modify',
-                iconProps: { iconName: 'Edit' },
-                text: t('3dSceneBuilder.modifyBehavior'),
-                onClick: () => {
-                    setBehaviorToEdit(item);
-                    onBehaviorClick(item);
-                }
-            },
-            {
-                'data-testid': 'removeOverflow',
-                key: 'remove',
-                iconProps: {
-                    iconName: 'Delete'
-                },
-                text: t('3dSceneBuilder.removeBehavior'),
-                onClick: () => {
-                    setBehaviorToEdit(item);
-                    removeBehavior();
-                }
-            }
-        ];
-    };
-    const getListItemProps = (
-        item: IBehavior
-    ): CardboardListItemProps<IBehavior> => {
-        return {
-            ariaLabel: '',
-            iconStartName: 'Ringer',
-            openMenuOnClick: true,
-            overflowMenuItems: getOverflowMenuItems(item),
-            textPrimary: item.id
-            // title: t('delete')
-        };
-    };
+
+    // generate the list of items to show
+    useEffect(() => {
+        const listItems = getListItems(
+            behaviorState.behaviorsOnElement,
+            setBehaviorToEdit,
+            onBehaviorClick,
+            removeBehavior,
+            t
+        );
+        setListItems(listItems);
+    }, [
+        behaviorState.behaviorsOnElement,
+        setBehaviorToEdit,
+        onBehaviorClick,
+        removeBehavior
+    ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
@@ -154,8 +134,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 </div>
             )}
             <CardboardList<IBehavior>
-                items={behaviorState.behaviorsOnElement}
-                getListItemProps={getListItemProps}
+                items={listItems}
                 listKey={`behavior-list`}
             />
             <div>
@@ -190,5 +169,52 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         </>
     );
 };
+function getListItems(
+    filteredElements: IBehavior[],
+    setBehaviorToEdit: (item: IBehavior) => void,
+    onBehaviorClick: (item: IBehavior) => void,
+    removeBehavior: () => void,
+    t: TFunction<string>
+) {
+    const getMenuItems = (item: IBehavior): IContextualMenuItem[] => {
+        return [
+            {
+                'data-testid': 'modifyOverflow',
+                key: 'modify',
+                iconProps: { iconName: 'Edit' },
+                text: t('3dSceneBuilder.modifyBehavior'),
+                onClick: () => {
+                    setBehaviorToEdit(item);
+                    onBehaviorClick(item);
+                }
+            },
+            {
+                'data-testid': 'removeOverflow',
+                key: 'remove',
+                iconProps: {
+                    iconName: 'Delete'
+                },
+                text: t('3dSceneBuilder.removeBehavior'),
+                onClick: () => {
+                    setBehaviorToEdit(item);
+                    removeBehavior();
+                }
+            }
+        ];
+    };
+    return filteredElements.map((item) => {
+        const viewModel: ICardboardListItem<IBehavior> = {
+            ariaLabel: '',
+            iconStartName: 'Ringer',
+            item: item,
+            openMenuOnClick: true,
+            overflowMenuItems: getMenuItems(item),
+            textPrimary: item.id
+            // title: t('delete')
+        };
+
+        return viewModel;
+    });
+}
 
 export default BehaviorsTab;
