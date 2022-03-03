@@ -22,12 +22,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     sceneVisuals,
     addInProps
 }) => {
-    const {
-        onMarkerHover,
-        onMarkerClick,
-        onSceneLoaded,
-        ...svp
-    } = sceneViewProps;
+    const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
     const data = new ADT3DAddInEventData();
     data.adapter = adapter;
@@ -48,7 +43,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         }
     };
 
-    const markerHover = (
+    const meshHover = (
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
@@ -60,16 +55,16 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         data.scene = scene;
         data.pointerEvent = pointerEvent;
         let noBubble = false;
-        if (addInProps?.onMarkerHover) {
-            noBubble = addInProps.onMarkerHover(data);
+        if (addInProps?.onMeshHover) {
+            noBubble = addInProps.onMeshHover(data);
         }
 
-        if (!noBubble && onMarkerHover) {
-            onMarkerHover(marker, mesh, scene, pointerEvent);
+        if (!noBubble && onMeshHover) {
+            onMeshHover(marker, mesh, scene, pointerEvent);
         }
     };
 
-    const markerClick = (
+    const meshClick = (
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
@@ -81,20 +76,20 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         data.scene = scene;
         data.pointerEvent = pointerEvent;
         let noBubble = false;
-        if (addInProps?.onMarkerClick) {
-            noBubble = addInProps.onMarkerClick(data);
+        if (addInProps?.onMeshClick) {
+            noBubble = addInProps.onMeshClick(data);
         }
 
-        if (!noBubble && onMarkerClick) {
-            onMarkerClick(marker, mesh, scene, pointerEvent);
+        if (!noBubble && onMeshClick) {
+            onMeshClick(marker, mesh, scene, pointerEvent);
         }
     };
 
     return (
         <SceneView
             {...svp}
-            onMarkerHover={markerHover}
-            onMarkerClick={markerClick}
+            onMeshHover={meshHover}
+            onMeshClick={meshClick}
             onSceneLoaded={sceneLoaded}
         />
     );
