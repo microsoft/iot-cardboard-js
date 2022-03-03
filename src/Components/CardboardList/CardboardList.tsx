@@ -12,13 +12,13 @@ export interface ICardboardListProps<T> {
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */
-    focusZoneProps?: IFocusZoneProps;
+    focusZoneProps?: Omit<IFocusZoneProps, 'direction'>;
     /** callback fired for each item in the list to generate the internal properties for the list items */
     getListItemProps: (item: T, index: number) => CardboardListItemProps<T>;
     /** Collection of items to include in the list */
     items: T[];
     /** optional prop to set any specific list props needed for special cases */
-    listProps?: IListProps;
+    listProps?: Omit<IListProps, 'key' | 'items' | 'onRenderCell'>;
     /** text to highlight on the primary text. mainly used for indicating search matches */
     textToHighlight?: string;
 }

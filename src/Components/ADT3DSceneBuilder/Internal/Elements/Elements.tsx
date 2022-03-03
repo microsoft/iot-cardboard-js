@@ -8,11 +8,8 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
-    IconButton,
     IContextualMenuItem,
     PrimaryButton,
-    SearchBox,
-    Separator,
     useTheme
 } from '@fluentui/react';
 import {
@@ -26,10 +23,7 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
-import {
-    getLeftPanelStyles,
-    getSeparatorStyles
-} from '../Shared/LeftPanel.styles';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import SearchHeader from '../Shared/SearchHeader';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
@@ -55,9 +49,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const [hoveredElement, setHoveredElement] = useState<ITwinToObjectMapping>(
-        undefined
-    );
     const { adapter, config, sceneId } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
@@ -198,6 +189,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         const metadata = ViewerConfigUtility.getElementMetaData(item, config);
         return {
             ariaLabel: '',
+            buttonProps: {
+                onMouseOver: () => onElementEnter(item),
+                onMouseLeave: () => onElementLeave(item),
+                onFocus: () => onElementEnter(item),
+                onBlur: () => onElementLeave(item)
+            },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             onClick: onListItemClick,
             overflowMenuItems: getOverflowMenuItems(item),

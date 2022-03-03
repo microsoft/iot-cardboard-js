@@ -1,8 +1,13 @@
 import {
     FontIcon,
+    FontSizes,
+    FontWeights,
     IContextualMenuItem,
+    IStyle,
+    memoizeFunction,
+    mergeStyleSets,
     Separator,
-    Text,
+    Theme,
     useTheme
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
@@ -192,7 +197,6 @@ const SceneBehaviors: React.FC<Props> = ({
             })
         };
     };
-
     const getListItemPropsNotInScene = (
         item
     ): CardboardListItemProps<IBehavior> => {
@@ -216,6 +220,7 @@ const SceneBehaviors: React.FC<Props> = ({
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
+    const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
             <div className={commonPanelStyles.rootListContainer}>
@@ -242,15 +247,8 @@ const SceneBehaviors: React.FC<Props> = ({
                         {/* List of behaviors in the scene */}
                         {itemsInSceneVisible && (
                             <div>
-                                <div className="cb-behavior-list-section-label-top-container">
-                                    <Text
-                                        variant="medium"
-                                        className="cb-behavior-list-section-label"
-                                    >
-                                        {t(
-                                            '3dSceneBuilder.behaviorsInSceneTitle'
-                                        )}
-                                    </Text>
+                                <div className={customStyles.listSectionLabel}>
+                                    {t('3dSceneBuilder.behaviorsInSceneTitle')}
                                 </div>
                                 <CardboardList<IBehavior>
                                     items={filteredItemsInScene}
@@ -286,17 +284,16 @@ const SceneBehaviors: React.FC<Props> = ({
                                                 : 'cb-collapsed'
                                         }`}
                                     />
-                                    <Text
-                                        variant="medium"
-                                        className="cb-behavior-list-section-label"
+                                    <div
+                                        className={
+                                            customStyles.listSectionLabel
+                                        }
                                     >
-                                        <span>
-                                            {t(
-                                                '3dSceneBuilder.behaviorsNotInSceneTitle'
-                                            )}{' '}
-                                            ({filteredItemsNotInScene.length})
-                                        </span>
-                                    </Text>
+                                        {t(
+                                            '3dSceneBuilder.behaviorsNotInSceneTitle'
+                                        )}{' '}
+                                        ({filteredItemsNotInScene.length})
+                                    </div>
                                 </div>
 
                                 {isBehaviorLibraryExpanded && (
@@ -349,22 +346,14 @@ const SceneBehaviors: React.FC<Props> = ({
 };
 
 export default SceneBehaviors;
-// interface SearchHeaderProps {
-//     setSearchText: React.Dispatch<React.SetStateAction<string>>;
-//     searchText: string;
-// }
-// const SearchHeader: React.FC<SearchHeaderProps> = ({
-//     setSearchText,
-//     searchText
-// }) => {
-//     const { t } = useTranslation();
-//     return (
-//         <div className="cb-scene-builder-behavior-search-box">
-//             <SearchBox
-//                 placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
-//                 onChange={(_e, value) => setSearchText(value)}
-//                 value={searchText}
-//             />
-//         </div>
-//     );
-// };
+
+const getStyles = memoizeFunction((_theme: Theme) => {
+    return mergeStyleSets({
+        listSectionLabel: {
+            fontSize: FontSizes.size14,
+            fontWeight: FontWeights.semibold,
+            marginBottom: 4,
+            paddingLeft: 8
+        } as IStyle
+    });
+});

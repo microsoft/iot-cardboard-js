@@ -2,6 +2,8 @@ import {
     Checkbox,
     DefaultButton,
     FontIcon,
+    IButtonProps,
+    IButtonStyles,
     IContextualMenuItem,
     useTheme
 } from '@fluentui/react';
@@ -24,9 +26,16 @@ export type ICardboardListItemPropsInternal<T> = {
     textToHighlight?: string;
 } & CardboardListItemProps<T>;
 type IIconNames = string | CardboardIconNames;
+interface HiddenButtonProps {
+    styles: IButtonStyles;
+    onClick: () => void;
+    onKeyPress: () => void;
+}
 type ICardboardListItemBaseProps = {
     /** screen reader text to use for the list item */
     ariaLabel: string;
+    /** override props for the root button */
+    buttonProps?: Omit<IButtonProps, keyof HiddenButtonProps>;
     /** icon to render on the right side of the list item */
     iconEndName?: IIconNames;
     /** icon to render at the left side of the list item */
@@ -60,6 +69,7 @@ export type CardboardListItemProps<T> = ICardboardListItemBaseProps &
     (WithOnClickMenuUndefined<T> | WithOnClickMenuFalse<T> | WithoutOnClick);
 
 export const CardboardListItem = <T extends unknown>({
+    buttonProps,
     iconEndName,
     iconStartName,
     index,
@@ -95,6 +105,7 @@ export const CardboardListItem = <T extends unknown>({
     return (
         <>
             <DefaultButton
+                {...buttonProps}
                 key={`cardboard-list-item-${listKey}-${index}`}
                 data-testid={`cardboard-list-item-${listKey}-${index}`}
                 styles={buttonStyles}
