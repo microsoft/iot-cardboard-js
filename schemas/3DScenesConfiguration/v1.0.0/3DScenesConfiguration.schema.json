@@ -256,7 +256,7 @@
         },
         "IElementTwinToObjectMappingDataSource": {
             "type": "object",
-            "description": "ElementDataSources get their object from the elements defined in a scene",
+            "description": "These datasources get their objects from the elements defined in a scene",
             "properties": {
                 "type": {
                     "const": "ElementTwinToObjectMappingDataSource"

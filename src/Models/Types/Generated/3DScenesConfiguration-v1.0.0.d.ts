@@ -104,7 +104,7 @@ export interface ICustomProperty {
     };
 }
 /**
- * ElementDataSources get their object from the elements defined in a scene
+ * These datasources get their objects from the elements defined in a scene
  */
 export interface IElementTwinToObjectMappingDataSource {
     type: 'ElementTwinToObjectMappingDataSource';

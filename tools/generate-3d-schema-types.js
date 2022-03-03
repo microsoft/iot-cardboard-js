@@ -4,7 +4,7 @@ const generator = require('json-schema-to-typescript');
 const prettierConfig = require('../.prettierrc.json');
 const path = require('path');
 
-const schemaVersion = 'v1.1.0';
+const schemaVersion = 'v1.0.0';
 
 const schemaPath = path.resolve(
     __dirname,
