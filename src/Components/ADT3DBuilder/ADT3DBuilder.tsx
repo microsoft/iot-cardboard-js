@@ -61,7 +61,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
-                    onMarkerClick={(marker, mesh) =>
+                    onMeshClick={(marker, mesh) =>
                         onMeshSelected && meshClick(marker, mesh)
                     }
                     coloredMeshItems={coloredMeshItems}

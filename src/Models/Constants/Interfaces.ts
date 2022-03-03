@@ -617,8 +617,8 @@ export class ADT3DAddInEventData {
 
 export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerClick?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerHover?: (data: ADT3DAddInEventData) => boolean;
+    onMeshClick?: (data: ADT3DAddInEventData) => boolean;
+    onMeshHover?: (data: ADT3DAddInEventData) => boolean;
 }
 
 export interface ISceneViewWrapperProps {

@@ -56,8 +56,8 @@ export interface ISceneViewProp {
     modelUrl: string;
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
-    onMarkerClick?: SceneViewEventHandler;
-    onMarkerHover?: SceneViewEventHandler;
+    onMeshClick?: SceneViewEventHandler;
+    onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
     selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;

@@ -60,8 +60,8 @@ let lastName = '';
 export const SceneView: React.FC<ISceneViewProp> = ({
     modelUrl,
     markers,
-    onMarkerClick,
-    onMarkerHover,
+    onMeshClick,
+    onMeshHover,
     onCameraMove,
     showMeshesOnHover,
     selectedMeshIds,
@@ -80,8 +80,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [loadProgress, setLoadProgress] = useState(0);
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
-    const onMarkerClickRef = useRef<SceneViewCallbackHandler>(null);
-    const onMarkerHoverRef = useRef<SceneViewCallbackHandler>(null);
+    const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
+    const onMeshHoverRef = useRef<SceneViewCallbackHandler>(null);
     const onCameraMoveRef = useRef<SceneViewCallbackHandler>(null);
     const advancedTextureRef = useRef<GUI.AdvancedDynamicTexture>(undefined);
     const sceneRef = useRef<BABYLON.Scene>(null);
@@ -109,7 +109,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const selectionColor = meshSelectionColor || '#00A8F0';
     const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
 
-    const defaultMarkerHover = (
+    const defaultMeshHover = (
         marker: Marker,
         mesh: any,
         scene: BABYLON.Scene,
@@ -125,9 +125,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
     // These next two lines are important! The handlers change very frequently (every parent render)
     // So copy their values into refs so as not to disturb our state/re-render (we only need the latest value when we want to fire)
-    onMarkerClickRef.current = onMarkerClick;
+    onMeshClickRef.current = onMeshClick;
     onCameraMoveRef.current = onCameraMove;
-    onMarkerHoverRef.current = onMarkerHover || defaultMarkerHover;
+    onMeshHoverRef.current = onMeshHover || defaultMeshHover;
     if (debug && !newInstanceRef.current) {
         console.log('-----------New instance-----------');
         newInstanceRef.current = true;
@@ -524,14 +524,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [markers, modelUrl]);
 
-    // SETUP LOGIC FOR onMarkerHover
+    // SETUP LOGIC FOR onMeshHover
     useEffect(() => {
         if (debug) {
             console.log('hover effect' + (scene ? ' with scene' : ' no scene'));
         }
         if (
             scene &&
-            onMarkerHoverRef.current &&
+            onMeshHoverRef.current &&
             (markers || coloredMeshItems || showMeshesOnHover)
         ) {
             scene.onPointerMove = (e, p) => {
@@ -628,7 +628,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     if (debug) {
                         console.log('pointer move');
                     }
-                    onMarkerHoverRef.current(marker, mesh, scene, e);
+                    onMeshHoverRef.current(marker, mesh, scene, e);
                     lastMarkerRef.current = marker;
                     lastMeshRef.current = mesh;
                 }
@@ -644,7 +644,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene, markers]);
 
-    // SETUP LOGIC FOR onMarkerClick
+    // SETUP LOGIC FOR onMeshClick
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
@@ -652,7 +652,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 'pointerTap effect' + (scene ? ' with scene' : ' no scene')
             );
         }
-        if (scene && onMarkerClickRef.current) {
+        if (scene && onMeshClickRef.current) {
             const pointerTap = (e) => {
                 setTooltipText('');
                 const p = e.pickInfo;
@@ -672,8 +672,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
-                if (onMarkerClickRef.current) {
-                    onMarkerClickRef.current(marker, mesh, scene, e);
+                if (onMeshClickRef.current) {
+                    onMeshClickRef.current(marker, mesh, scene, e);
                 }
             };
 

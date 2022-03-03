@@ -278,10 +278,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         meshBaseColor: renderMode?.baseColor,
                         meshFresnelColor: renderMode?.fresnelColor,
                         meshOpacity: renderMode?.opacity,
-                        onMarkerClick: (marker, mesh, scene) =>
+                        onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
-                        onMarkerHover: (marker, mesh) =>
-                            meshHover(marker, mesh),
+                        onMeshHover: (marker, mesh) => meshHover(marker, mesh),
                         onCameraMove: () => cameraMoved(),
                         getToken: (adapter as any).authService
                             ? () =>

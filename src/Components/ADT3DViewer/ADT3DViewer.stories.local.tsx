@@ -139,7 +139,7 @@ export const AddIn = () => {
         return processEvent(data);
     };
 
-    const onMarkerHover = (data: ADT3DAddInEventData) => {
+    const onMeshHover = (data: ADT3DAddInEventData) => {
         if (!data.mesh) {
             setData(null);
             return false;
@@ -148,14 +148,14 @@ export const AddIn = () => {
         return processEvent(data);
     };
 
-    const onMarkerClick = (data: ADT3DAddInEventData) => {
+    const onMeshClick = (data: ADT3DAddInEventData) => {
         return processEvent(data);
     };
 
     const addInProps: IADT3DAddInProps = {
         onSceneLoaded,
-        onMarkerHover,
-        onMarkerClick
+        onMeshHover,
+        onMeshClick
     };
 
     return !authenticationParameters ? (
