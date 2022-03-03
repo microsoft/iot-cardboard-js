@@ -44,8 +44,8 @@ ElementsTab.play = async ({ canvasElement }) => {
     await waitForFirstRender();
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
-    const behaviorsTabButton = canvas.getAllByRole('tab');
-    await userEvent.click(behaviorsTabButton[0]);
+    const tabButton = canvas.getAllByRole('tab');
+    await userEvent.click(tabButton[0]);
 };
 
 export const Search = Template.bind({});
@@ -81,7 +81,9 @@ MoreMenuShow.play = async ({ canvasElement }) => {
 
     // click a list item
     const canvas = within(canvasElement);
-    const moreMenu = await canvas.findByTestId('moreMenu-0');
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-elements-in-scene-1-moreMenu'
+    );
     await userEvent.click(moreMenu);
 };
 
