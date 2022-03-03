@@ -13,13 +13,13 @@ import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
-import { DScenesConfigurationJSONSchema } from '../Types/Generated/3DScenesConfiguration';
+import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration';
 const ajv = new Ajv();
 
 /** Validates input data with JSON schema */
 export const validate3DConfigWithSchema = (
-    data: DScenesConfigurationJSONSchema
-): DScenesConfigurationJSONSchema => {
+    data: I3DScenesConfig
+): I3DScenesConfig => {
     const validate = ajv.compile(schema); // This is cached if schema doesn't change
     const valid = validate(data);
     if (valid) {

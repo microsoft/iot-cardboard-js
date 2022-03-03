@@ -18,7 +18,7 @@ export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
  */
-export interface DScenesConfigurationJSONSchema {
+export interface I3DScenesConfig {
     $schema: string;
     /**
      * 3D scene configuration data
