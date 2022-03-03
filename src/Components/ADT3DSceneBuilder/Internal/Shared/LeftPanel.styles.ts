@@ -4,7 +4,8 @@ import {
     FontSizes,
     IStyle,
     Theme,
-    IPivotStyles
+    IPivotStyles,
+    ISeparatorStyles
 } from '@fluentui/react';
 
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
@@ -28,6 +29,15 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
         } as IStyle
     });
 });
+export const getSeparatorStyles = memoizeFunction(
+    (theme: Theme): Partial<ISeparatorStyles> => ({
+        root: {
+            '&:before': {
+                backgroundColor: theme.palette.neutralLight
+            }
+        }
+    })
+);
 export const leftPanelPivotStyles: Partial<IPivotStyles> = {
     root: {
         marginLeft: -8,

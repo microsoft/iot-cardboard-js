@@ -26,7 +26,11 @@ import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
-import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import {
+    getLeftPanelStyles,
+    getSeparatorStyles
+} from '../Shared/LeftPanel.styles';
+import SearchHeader from '../Shared/SearchHeader';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -146,6 +150,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementsSorted.current = true;
     };
 
+    const onMultiSelectChanged = () => {
+        clearSelectedElements();
+        setIsSelectionEnabled(!isSelectionEnabled);
+    };
+
     const onListItemClick = useCallback(
         (element: ITwinToObjectMapping) => {
             if (!isSelectionEnabled) {
@@ -202,7 +211,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         };
     };
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
@@ -211,43 +221,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 </div>
             )}
             {!hideSearch && (
-                <div>
-                    <div className="cb-scene-builder-element-search-header">
-                        <div className="cb-scene-builder-element-search-box">
-                            <SearchBox
-                                placeholder={t(
-                                    '3dSceneBuilder.searchElementsPlaceholder'
-                                )}
-                                onChange={(_e, value) => setSearchText(value)}
-                                value={searchText}
-                            />
-                        </div>
-                        {!isEditBehavior && (
-                            <IconButton
-                                iconProps={{ iconName: 'MultiSelect' }}
-                                title={t('3dSceneBuilder.multiSelectElements')}
-                                styles={{
-                                    iconChecked: { color: '#ffffff' },
-                                    iconHovered: { color: '#ffffff' },
-                                    rootChecked: { background: '#0078d4' },
-                                    rootHovered: { background: '#0078d4' },
-                                    rootCheckedHovered: {
-                                        background: '#0078d4'
-                                    }
-                                }}
-                                ariaLabel={t(
-                                    '3dSceneBuilder.multiSelectElements'
-                                )}
-                                onClick={() => {
-                                    clearSelectedElements();
-                                    setIsSelectionEnabled(!isSelectionEnabled);
-                                }}
-                                checked={isSelectionEnabled}
-                            />
-                        )}
-                    </div>
-                    <Separator />
-                </div>
+                <SearchHeader
+                    isSelectionEnabled={isSelectionEnabled}
+                    onMultiSelectClicked={
+                        isEditBehavior && onMultiSelectChanged
+                    }
+                    onSearchTextChange={setSearchText}
+                    placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
+                    searchText={searchText}
+                />
             )}
             <div className={commonPanelStyles.rootListContainer}>
                 {elements.length === 0 ? (

@@ -1,7 +1,6 @@
 import {
     FontIcon,
     IContextualMenuItem,
-    SearchBox,
     Separator,
     Text,
     useTheme
@@ -16,6 +15,7 @@ import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import SearchHeader from '../Shared/SearchHeader';
 
 interface Props {
     behaviors: Array<IBehavior>;
@@ -214,7 +214,8 @@ const SceneBehaviors: React.FC<Props> = ({
         };
     };
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
             <div className={commonPanelStyles.rootListContainer}>
@@ -224,24 +225,12 @@ const SceneBehaviors: React.FC<Props> = ({
                     </p>
                 ) : (
                     <div>
-                        <div className="cb-scene-builder-behavior-search-box">
-                            <SearchBox
-                                placeholder={t(
-                                    '3dSceneBuilder.searchBehaviorsPlaceholder'
-                                )}
-                                onChange={(_e, value) => setSearchText(value)}
-                                value={searchText}
-                            />
-                        </div>
-                        <Separator
-                            styles={{
-                                root: {
-                                    '&:before': {
-                                        backgroundColor:
-                                            'var(--fluent-color-grey-30)'
-                                    }
-                                }
-                            }}
+                        <SearchHeader
+                            onSearchTextChange={setSearchText}
+                            placeholder={t(
+                                '3dSceneBuilder.searchBehaviorsPlaceholder'
+                            )}
+                            searchText={searchText}
                         />
                         {!itemsInSceneVisible && !itemsNotInSceneVisible ? (
                             <p className="cb-scene-builder-left-panel-text">
@@ -360,3 +349,22 @@ const SceneBehaviors: React.FC<Props> = ({
 };
 
 export default SceneBehaviors;
+// interface SearchHeaderProps {
+//     setSearchText: React.Dispatch<React.SetStateAction<string>>;
+//     searchText: string;
+// }
+// const SearchHeader: React.FC<SearchHeaderProps> = ({
+//     setSearchText,
+//     searchText
+// }) => {
+//     const { t } = useTranslation();
+//     return (
+//         <div className="cb-scene-builder-behavior-search-box">
+//             <SearchBox
+//                 placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
+//                 onChange={(_e, value) => setSearchText(value)}
+//                 value={searchText}
+//             />
+//         </div>
+//     );
+// };

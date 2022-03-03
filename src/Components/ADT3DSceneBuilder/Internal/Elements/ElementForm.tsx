@@ -6,7 +6,8 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
-    TextField
+    TextField,
+    useTheme
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import {
@@ -25,7 +26,10 @@ import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSe
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
-import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
+import {
+    getLeftPanelStyles,
+    leftPanelPivotStyles
+} from '../Shared/LeftPanel.styles';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -170,6 +174,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <LeftPanelBuilderHeader
@@ -211,27 +216,33 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     styles={leftPanelPivotStyles}
                 >
                     <PivotItem headerText={t('3dSceneBuilder.meshes')}>
-                        <MeshTab
-                            elementToEdit={elementToEdit}
-                            updateColoredMeshItems={updateColoredMeshItems}
-                            setSelectedMeshIds={setSelectedMeshIds}
-                        />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <MeshTab
+                                elementToEdit={elementToEdit}
+                                updateColoredMeshItems={updateColoredMeshItems}
+                                setSelectedMeshIds={setSelectedMeshIds}
+                            />
+                        </div>
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
-                        <BehaviorsTab
-                            elementToEdit={elementToEdit}
-                            behaviors={behaviors}
-                            updateBehaviorsToEdit={(behaviors) => {
-                                setBehaviorsToEdit(behaviors);
-                            }}
-                            onBehaviorClick={onBehaviorClick}
-                            onCreateBehaviorWithElements={
-                                onCreateBehaviorWithElements
-                            }
-                        />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <BehaviorsTab
+                                elementToEdit={elementToEdit}
+                                behaviors={behaviors}
+                                updateBehaviorsToEdit={(behaviors) => {
+                                    setBehaviorsToEdit(behaviors);
+                                }}
+                                onBehaviorClick={onBehaviorClick}
+                                onCreateBehaviorWithElements={
+                                    onCreateBehaviorWithElements
+                                }
+                            />
+                        </div>
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
-                        <AliasedTwinsTab elementToEdit={elementToEdit} />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <AliasedTwinsTab elementToEdit={elementToEdit} />
+                        </div>
                     </PivotItem>
                 </Pivot>
             </div>
