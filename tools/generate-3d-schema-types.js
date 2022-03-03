@@ -3,9 +3,11 @@ const fs = require('fs');
 const generator = require('json-schema-to-typescript');
 const prettierConfig = require('../.prettierrc.json');
 
+const schemaVersion = 'v1.0.0';
 const schemaPath =
     './schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 const generatedTypesOutputFolder = './src/Models/Types/Generated';
+const generatedTypesFileName = `3DScenesConfiguration-${schemaVersion}.d.ts`;
 
 async function generate() {
     // Verify script is run from root (ie schemas folder exists)
@@ -23,14 +25,15 @@ async function generate() {
         );
         fs.mkdirSync(generatedTypesOutputFolder);
     }
+
     fs.writeFileSync(
-        `${generatedTypesOutputFolder}/3DScenesConfiguration.d.ts`,
+        `${generatedTypesOutputFolder}/${generatedTypesFileName}`,
         await generator.compileFromFile(schemaPath, {
             style: prettierConfig
         })
     );
     console.log(
-        `${generatedTypesOutputFolder}/3DScenesConfiguration.d.ts generated`
+        `${generatedTypesOutputFolder}/${generatedTypesFileName} generated`
             .green
     );
 }
