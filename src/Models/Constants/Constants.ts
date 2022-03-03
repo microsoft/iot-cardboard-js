@@ -1,11 +1,11 @@
+import { IADT3DViewerRenderMode } from '../Constants';
+import { ADT3DRenderMode } from './Enums';
 import {
     defaultGaugeWidget,
     IWidgetLibraryItem,
     WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
-import { IADT3DViewerRenderMode } from '../Constants';
-import { ADT3DRenderMode } from './Enums';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
