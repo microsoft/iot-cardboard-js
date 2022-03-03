@@ -64,21 +64,20 @@
                                                 "extensionProperties": {
                                                     "$ref": "#/$defs/extensionProperties"
                                                 }
-                                            }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "id",
+                                                "displayName",
+                                                "linkedTwinID",
+                                                "objectIDs"
+                                            ]
                                         },
                                         {
-                                            "type": "object",
-                                            "description": "Free form element type"
+                                            "$ref": "#/$defs/customProperty"
                                         }
                                     ]
-                                },
-                                "required": [
-                                    "type",
-                                    "id",
-                                    "displayName",
-                                    "linkedTwinID",
-                                    "objectIDs"
-                                ]
+                                }
                             },
                             "behaviorIDs": {
                                 "type": "array",
@@ -164,8 +163,7 @@
                                             "required": ["type", "elementIDs"]
                                         },
                                         {
-                                            "type": "object",
-                                            "description": "Free form datasource type"
+                                            "$ref": "#/$defs/customProperty"
                                         }
                                     ]
                                 }
@@ -444,6 +442,18 @@
                 { "const": "Infinity" },
                 { "const": "-Infinity" }
             ]
+        },
+        "customProperty": {
+            "type": "object",
+            "description": "Free form property",
+            "additionalProperties": false,
+            "properties": {
+                "customProperties": {
+                    "type": "object",
+                    "description": "Bag for any custom properties"
+                }
+            },
+            "required": ["customProperties"]
         }
     }
 }
