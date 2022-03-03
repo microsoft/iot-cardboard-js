@@ -70,4 +70,5 @@ export interface ISceneViewProp {
     meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    showHoverOnSelected?: boolean;
 }

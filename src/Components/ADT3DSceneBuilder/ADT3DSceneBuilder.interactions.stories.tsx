@@ -21,10 +21,8 @@ const cardStyle = {
     width: '100%'
 };
 
-const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
-    _args,
-    { globals: { theme, locale } }
-) => (
+type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
+const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
     <div style={cardStyle}>
         <ADT3DSceneBuilder
             title={'3D Scene Builder'}
@@ -114,7 +112,9 @@ BehaviorsMoreMenuShow.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // type in the search box
-    const moreMenu = await canvas.findByTestId('moreMenu-inScene-0');
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-behaviors-in-scene-0-moreMenu'
+    );
     await userEvent.click(moreMenu);
     await sleep(1);
 };

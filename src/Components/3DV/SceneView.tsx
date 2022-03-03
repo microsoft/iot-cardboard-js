@@ -74,7 +74,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     meshOpacity,
     onSceneLoaded,
     getToken,
-    coloredMeshItems
+    coloredMeshItems,
+    showHoverOnSelected
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -581,7 +582,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                     id: mesh.id,
                                     material: selMesh.material
                                 };
-                                mesh.material = selHovMaterial.current;
+                                if (showHoverOnSelected) {
+                                    mesh.material = selHovMaterial.current;
+                                }
                             } else {
                                 selectedMesh = {
                                     id: mesh.id,
@@ -589,7 +592,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                                 };
                                 mesh.material = hovMaterial.current;
                             }
-
                             highlightedMeshRef.current = selectedMesh;
                         }
                     } else if (highlightedMeshRef.current) {
@@ -642,7 +644,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers]);
+    }, [scene, markers, showHoverOnSelected]);
 
     // SETUP LOGIC FOR onMeshClick
     useEffect(() => {
@@ -673,7 +675,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 if (onMeshClickRef.current) {
-                    onMeshClickRef.current(marker, mesh, scene, e);
+                    onMeshClickRef.current(marker, mesh, scene, e.event);
                 }
             };
 
@@ -737,7 +739,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         (item) => item.id === meshToReset.id
                     );
                     if (mesh) {
-                        if (meshToReset.id === highlightedMeshRef.current?.id) {
+                        if (
+                            meshToReset.id === highlightedMeshRef.current?.id &&
+                            showHoverOnSelected
+                        ) {
                             mesh.material = hovMaterial.current;
                         } else {
                             mesh.material = meshToReset.material;
