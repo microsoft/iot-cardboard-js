@@ -41,11 +41,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     isEditBehavior,
     hideSearch
 }) => {
-    console.log('render elements');
     const { t } = useTranslation();
-    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
-        false
-    );
+    const [isConfirmDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [
         elementToDelete,
@@ -99,7 +96,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             setElementToDelete(null);
-            setIsConfirmDeleteDialogOpen(false);
+            setIsDeleteDialogOpen(false);
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
@@ -146,7 +143,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setFilteredElements(filtered);
     }, [searchText]);
 
-    const updateCheckbox = useCallback(
+    const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {
             const shouldCheck = !selectedElements?.find(
                 (x) => x.id === element.id
@@ -162,70 +159,35 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setIsSelectionEnabled(!isSelectionEnabled);
     }, [isSelectionEnabled]);
 
-    const onListItemClick = useCallback(
-        (element: ITwinToObjectMapping) => {
-            if (isSelectionEnabled) {
-                updateCheckbox(element);
-            } else {
-                onElementClick(element);
-            }
-        },
-        [isSelectionEnabled, onElementClick, updateCheckbox]
-    );
-    const getOverflowMenuItems = useCallback(
-        (element: ITwinToObjectMapping): IContextualMenuItem[] => {
-            return [
-                {
-                    key: 'modify',
-                    'data-testid': 'modify-element',
-                    iconProps: {
-                        iconName: 'Edit'
-                    },
-                    text: t('3dSceneBuilder.modifyElement'),
-                    onClick: () => onElementClick(element)
-                },
-                {
-                    key: 'delete',
-                    'data-testid': 'delete-element',
-                    iconProps: {
-                        iconName: 'blocked2'
-                    },
-                    text: t('3dSceneBuilder.removeElement'),
-                    onClick: () => {
-                        setElementToDelete(element);
-                        setIsConfirmDeleteDialogOpen(true);
-                    }
-                }
-            ];
-        },
-        [onElementClick, setElementToDelete, setIsConfirmDeleteDialogOpen]
-    );
-
     // generate the list of items to show
     useEffect(() => {
         const elementsList = getListItems(
             config,
             filteredElements,
-            getOverflowMenuItems,
             isEditBehavior,
             isSelectionEnabled,
+            onElementClick,
             onElementEnter,
             onElementLeave,
-            onListItemClick,
+            onUpdateCheckbox,
             selectedElements,
+            setElementToDelete,
+            setIsDeleteDialogOpen,
             t
         );
         setListItems(elementsList);
     }, [
         config,
         filteredElements,
-        getOverflowMenuItems,
         isEditBehavior,
         isSelectionEnabled,
+        onElementClick,
         onElementEnter,
         onElementLeave,
-        onListItemClick,
-        selectedElements
+        onUpdateCheckbox,
+        selectedElements,
+        setElementToDelete,
+        setIsDeleteDialogOpen
     ]);
 
     const theme = useTheme();
@@ -302,10 +264,10 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 isOpen={isConfirmDeleteDialogOpen}
                 onCancel={() => {
                     setElementToDelete(null);
-                    setIsConfirmDeleteDialogOpen(false);
+                    setIsDeleteDialogOpen(false);
                 }}
                 onConfirmDeletion={handleDeleteElement}
-                setIsOpen={setIsConfirmDeleteDialogOpen}
+                setIsOpen={setIsDeleteDialogOpen}
             />
         </div>
     );
@@ -314,17 +276,53 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 function getListItems(
     config: IScenesConfig,
     filteredElements: ITwinToObjectMapping[],
-    getOverflowMenuItems: (
-        element: ITwinToObjectMapping
-    ) => IContextualMenuItem[],
     isEditBehavior: boolean,
     isSelectionEnabled: boolean,
+    onElementClick: (element: ITwinToObjectMapping) => void,
     onElementEnter: (element: ITwinToObjectMapping) => void,
     onElementLeave: (element: ITwinToObjectMapping) => void,
-    onListItemClick: (element: ITwinToObjectMapping) => void,
+    onUpdateCheckbox: (element: ITwinToObjectMapping) => void,
     selectedElements: ITwinToObjectMapping[],
+    setElementToDelete: React.Dispatch<
+        React.SetStateAction<ITwinToObjectMapping>
+    >,
+    setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
     t
 ): ICardboardListItem<ITwinToObjectMapping>[] {
+    const onListItemClick = (element: ITwinToObjectMapping) => {
+        if (isSelectionEnabled) {
+            onUpdateCheckbox(element);
+        } else {
+            onElementClick(element);
+        }
+    };
+    const getOverflowMenuItems = (
+        element: ITwinToObjectMapping
+    ): IContextualMenuItem[] => {
+        return [
+            {
+                key: 'modify',
+                'data-testid': 'modify-element',
+                iconProps: {
+                    iconName: 'Edit'
+                },
+                text: t('3dSceneBuilder.modifyElement'),
+                onClick: () => onElementClick(element)
+            },
+            {
+                key: 'delete',
+                'data-testid': 'delete-element',
+                iconProps: {
+                    iconName: 'blocked2'
+                },
+                text: t('3dSceneBuilder.removeElement'),
+                onClick: () => {
+                    setElementToDelete(element);
+                    setIsDeleteDialogOpen(true);
+                }
+            }
+        ];
+    };
     return filteredElements.map((item) => {
         const metadata = ViewerConfigUtility.getElementMetaData(item, config);
         const isItemSelected = isSelectionEnabled

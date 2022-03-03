@@ -1,5 +1,4 @@
 import {
-    IButtonStyles,
     IButtonProps,
     IContextualMenuItem,
     IFocusZoneProps,
