@@ -42,12 +42,16 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
                         iconProps={{ iconName: 'MultiSelect' }}
                         title={t('3dSceneBuilder.multiSelectElements')}
                         styles={{
-                            iconChecked: { color: '#ffffff' },
-                            iconHovered: { color: '#ffffff' },
-                            rootChecked: { background: '#0078d4' },
-                            rootHovered: { background: '#0078d4' },
+                            iconChecked: { color: theme.palette.white },
+                            iconHovered: { color: theme.palette.white },
+                            rootChecked: {
+                                background: theme.palette.themePrimary
+                            },
+                            rootHovered: {
+                                background: theme.palette.themePrimary
+                            },
                             rootCheckedHovered: {
-                                background: '#0078d4'
+                                background: theme.palette.themePrimary
                             }
                         }}
                         ariaLabel={t('3dSceneBuilder.multiSelectElements')}

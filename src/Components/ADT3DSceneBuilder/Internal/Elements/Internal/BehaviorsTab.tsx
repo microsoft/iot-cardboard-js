@@ -137,26 +137,24 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 items={listItems}
                 listKey={`behavior-list`}
             />
-            <div>
-                <ActionButton
-                    id={calloutTarget}
-                    className="cb-scene-builder-left-panel-add-behavior"
-                    data-testid={'element-add-behavior'}
-                    style={{ color: 'var(--cb-color-theme-primary' }}
-                    styles={{
-                        root: {
-                            textAlign: 'start',
-                            padding: '0px'
-                        },
-                        label: {
-                            margin: '0px'
-                        }
-                    }}
-                    onClick={showCallout}
-                >
-                    {t('3dSceneBuilder.addBehaviorButton')}
-                </ActionButton>
-            </div>
+            <ActionButton
+                id={calloutTarget}
+                className="cb-scene-builder-left-panel-add-behavior"
+                data-testid={'element-add-behavior'}
+                style={{ color: 'var(--cb-color-theme-primary' }}
+                styles={{
+                    root: {
+                        textAlign: 'start',
+                        padding: '0px'
+                    },
+                    label: {
+                        margin: '0px'
+                    }
+                }}
+                onClick={showCallout}
+            >
+                {t('3dSceneBuilder.addBehaviorButton')}
+            </ActionButton>
             {showAddBehavior && (
                 <AddBehaviorCallout
                     calloutTarget={calloutTarget}
