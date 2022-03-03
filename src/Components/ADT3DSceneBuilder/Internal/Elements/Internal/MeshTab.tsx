@@ -9,12 +9,12 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
-    updateColoredMeshItems: (name?: string) => void;
+    // updateColoredMeshItems: (name?: string) => void;
     setSelectedMeshIds: (selectedNames: string[]) => void;
 }
 const MeshTab: React.FC<MeshTabProps> = ({
     elementToEdit,
-    updateColoredMeshItems,
+    // updateColoredMeshItems,
     setSelectedMeshIds
 }) => {
     const { t } = useTranslation();
@@ -26,15 +26,15 @@ const MeshTab: React.FC<MeshTabProps> = ({
     useEffect(() => {
         const listItems = getListItems(
             elementToEdit.meshIDs,
-            updateColoredMeshItems,
-            updateColoredMeshItems,
+            // updateColoredMeshItems,
+            // updateColoredMeshItems,
             setSelectedMeshIds
         );
         setListItems(listItems);
     }, [
         elementToEdit,
-        updateColoredMeshItems,
-        updateColoredMeshItems,
+        // updateColoredMeshItems,
+        // updateColoredMeshItems,
         setSelectedMeshIds
     ]);
 
@@ -56,19 +56,19 @@ const MeshTab: React.FC<MeshTabProps> = ({
 };
 function getListItems(
     filteredElements: string[],
-    onElementEnter: (element: string) => void,
-    onElementLeave: () => void,
+    // onElementEnter: (element: string) => void,
+    // onElementLeave: () => void,
     setSelectedMeshIds: (selectedNames: string[]) => void
 ): ICardboardListItem<string>[] {
     return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<string> = {
             ariaLabel: '',
-            buttonProps: {
-                onMouseOver: () => onElementEnter(item),
-                onMouseLeave: () => onElementLeave(),
-                onFocus: () => onElementEnter(item),
-                onBlur: () => onElementLeave()
-            },
+            // buttonProps: {
+            //     onMouseOver: () => onElementEnter(item),
+            //     onMouseLeave: () => onElementLeave(),
+            //     onFocus: () => onElementEnter(item),
+            //     onBlur: () => onElementLeave()
+            // },
             iconStartName: 'CubeShape',
             iconEndName: 'Delete',
             item: item,
