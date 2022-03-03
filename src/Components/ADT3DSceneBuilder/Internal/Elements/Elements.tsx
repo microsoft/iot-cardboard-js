@@ -113,11 +113,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [elements]);
 
-    // when multi-select changes, force the list to rerender
-    // useEffect(() => {
-    //     setFilteredElements([...filteredElements]);
-    // }, [isSelectionEnabled]);
-
     // put the selected items first in the list
     useEffect(() => {
         if (selectedElements?.length > 0 && !elementsSorted.current) {
