@@ -52,6 +52,7 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
+import { ADT3DRenderMode } from '.';
 
 export interface IAction {
     type: string;
@@ -620,8 +621,8 @@ export class ADT3DAddInEventData {
 
 export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerClick?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerHover?: (data: ADT3DAddInEventData) => boolean;
+    onMeshClick?: (data: ADT3DAddInEventData) => boolean;
+    onMeshHover?: (data: ADT3DAddInEventData) => boolean;
 }
 
 export interface ISceneViewWrapperProps {
@@ -642,5 +643,19 @@ export interface IADT3DViewerProps {
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
+    hideUI?: boolean;
     refetchConfig?: () => any;
+}
+
+export interface IADT3DViewerRenderMode {
+    id: ADT3DRenderMode;
+    text: string;
+    baseColor: { r: number; g: number; b: number; a: number };
+    fresnelColor: { r: number; g: number; b: number; a: number };
+    opacity: number;
+    isWireframe: boolean;
+    background: string;
+    meshSelectionColor: string;
+    meshHoverColor: string;
+    meshSelectionHoverColor: string;
 }
