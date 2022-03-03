@@ -14,6 +14,7 @@ import {
 } from '@fluentui/react';
 import {
     IScene,
+    IScenesConfig,
     ITwinToObjectMapping
 } from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -22,9 +23,9 @@ import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../CardboardList/CardboardList';
-import { CardboardListItemProps } from '../../../CardboardList/CardboardListItem';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import SearchHeader from '../Shared/SearchHeader';
+import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -40,6 +41,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     isEditBehavior,
     hideSearch
 }) => {
+    console.log('render elements');
     const { t } = useTranslation();
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
         false
@@ -59,6 +61,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
+    >([]);
+    const [listItems, setListItems] = useState<
+        ICardboardListItem<ITwinToObjectMapping>[]
     >([]);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -98,6 +103,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    // sort the list items
     useEffect(() => {
         if (elements) {
             const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
@@ -110,18 +116,23 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [elements]);
 
+    // when multi-select changes, force the list to rerender
+    // useEffect(() => {
+    //     setFilteredElements([...filteredElements]);
+    // }, [isSelectionEnabled]);
+
+    // put the selected items first in the list
     useEffect(() => {
         if (selectedElements?.length > 0 && !elementsSorted.current) {
+            // sort the list
             elementsSorted.current = true;
             selectedElements?.sort((a, b) =>
                 a.displayName > b.displayName ? 1 : -1
             );
 
+            // put selected items first
             const nonSelectedElements = elements?.filter(
-                (element) =>
-                    !selectedElements.find(
-                        (selectedElement) => selectedElement.id === element.id
-                    )
+                (element) => !selectedElements.find((x) => x.id === element.id)
             );
             setFilteredElements(selectedElements.concat(nonSelectedElements));
         }
@@ -135,78 +146,87 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setFilteredElements(filtered);
     }, [searchText]);
 
-    const updateCheckbox = (element: ITwinToObjectMapping) => {
-        const shouldCheck = !selectedElements?.find((x) => x.id === element.id);
-        updateSelectedElements(element, shouldCheck);
-        elementsSorted.current = true;
-    };
+    const updateCheckbox = useCallback(
+        (element: ITwinToObjectMapping) => {
+            const shouldCheck = !selectedElements?.find(
+                (x) => x.id === element.id
+            );
+            updateSelectedElements(element, shouldCheck);
+            elementsSorted.current = true;
+        },
+        [selectedElements, updateSelectedElements, elementsSorted.current]
+    );
 
-    const onMultiSelectChanged = () => {
+    const onMultiSelectChanged = useCallback(() => {
         clearSelectedElements();
         setIsSelectionEnabled(!isSelectionEnabled);
-    };
+    }, [isSelectionEnabled]);
 
     const onListItemClick = useCallback(
         (element: ITwinToObjectMapping) => {
-            if (!isSelectionEnabled) {
-                onElementClick(element);
-            } else {
+            if (isSelectionEnabled) {
                 updateCheckbox(element);
+            } else {
+                onElementClick(element);
             }
         },
-        [isSelectionEnabled]
+        [isSelectionEnabled, onElementClick, updateCheckbox]
     );
-    const getOverflowMenuItems = (
-        element: ITwinToObjectMapping
-    ): IContextualMenuItem[] => {
-        return [
-            {
-                key: 'modify',
-                'data-testid': 'modify-element',
-                iconProps: {
-                    iconName: 'Edit'
+    const getOverflowMenuItems = useCallback(
+        (element: ITwinToObjectMapping): IContextualMenuItem[] => {
+            return [
+                {
+                    key: 'modify',
+                    'data-testid': 'modify-element',
+                    iconProps: {
+                        iconName: 'Edit'
+                    },
+                    text: t('3dSceneBuilder.modifyElement'),
+                    onClick: () => onElementClick(element)
                 },
-                text: t('3dSceneBuilder.modifyElement'),
-                onClick: () => onElementClick(element)
-            },
-            {
-                key: 'delete',
-                'data-testid': 'delete-element',
-                iconProps: {
-                    iconName: 'blocked2'
-                },
-                text: t('3dSceneBuilder.removeElement'),
-                onClick: () => {
-                    setElementToDelete(element);
-                    setIsConfirmDeleteDialogOpen(true);
+                {
+                    key: 'delete',
+                    'data-testid': 'delete-element',
+                    iconProps: {
+                        iconName: 'blocked2'
+                    },
+                    text: t('3dSceneBuilder.removeElement'),
+                    onClick: () => {
+                        setElementToDelete(element);
+                        setIsConfirmDeleteDialogOpen(true);
+                    }
                 }
-            }
-        ];
-    };
-    const getListItemProps = (
-        item: ITwinToObjectMapping
-    ): CardboardListItemProps<ITwinToObjectMapping> => {
-        const metadata = ViewerConfigUtility.getElementMetaData(item, config);
-        return {
-            ariaLabel: '',
-            buttonProps: {
-                onMouseOver: () => onElementEnter(item),
-                onMouseLeave: () => onElementLeave(item),
-                onFocus: () => onElementEnter(item),
-                onBlur: () => onElementLeave(item)
-            },
-            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
-            onClick: onListItemClick,
-            overflowMenuItems: getOverflowMenuItems(item),
-            textPrimary: item.displayName,
-            textSecondary: t('3dSceneBuilder.elementMetaText', {
-                numBehaviors: metadata
-            }),
-            isChecked: isSelectionEnabled
-                ? !!selectedElements?.find((x) => x.id === item.id)
-                : undefined
-        };
-    };
+            ];
+        },
+        [onElementClick, setElementToDelete, setIsConfirmDeleteDialogOpen]
+    );
+
+    // generate the list of items to show
+    useEffect(() => {
+        const elementsList = getListItems(
+            config,
+            filteredElements,
+            getOverflowMenuItems,
+            isEditBehavior,
+            isSelectionEnabled,
+            onElementEnter,
+            onElementLeave,
+            onListItemClick,
+            selectedElements,
+            t
+        );
+        setListItems(elementsList);
+    }, [
+        config,
+        filteredElements,
+        getOverflowMenuItems,
+        isEditBehavior,
+        isSelectionEnabled,
+        onElementEnter,
+        onElementLeave,
+        onListItemClick,
+        selectedElements
+    ]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
@@ -221,7 +241,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 <SearchHeader
                     isSelectionEnabled={isSelectionEnabled}
                     onMultiSelectClicked={
-                        isEditBehavior && onMultiSelectChanged
+                        !isEditBehavior && onMultiSelectChanged
                     }
                     onSearchTextChange={setSearchText}
                     placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
@@ -239,9 +259,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     </p>
                 ) : (
                     <CardboardList<ITwinToObjectMapping>
-                        items={filteredElements}
-                        getListItemProps={getListItemProps}
-                        // need to do this hack to force rendering when state changes
+                        items={listItems}
                         listKey={`elements-in-scene`}
                         textToHighlight={searchText}
                     />
@@ -292,5 +310,47 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         </div>
     );
 };
+
+function getListItems(
+    config: IScenesConfig,
+    filteredElements: ITwinToObjectMapping[],
+    getOverflowMenuItems: (
+        element: ITwinToObjectMapping
+    ) => IContextualMenuItem[],
+    isEditBehavior: boolean,
+    isSelectionEnabled: boolean,
+    onElementEnter: (element: ITwinToObjectMapping) => void,
+    onElementLeave: (element: ITwinToObjectMapping) => void,
+    onListItemClick: (element: ITwinToObjectMapping) => void,
+    selectedElements: ITwinToObjectMapping[],
+    t
+): ICardboardListItem<ITwinToObjectMapping>[] {
+    return filteredElements.map((item) => {
+        const metadata = ViewerConfigUtility.getElementMetaData(item, config);
+        const isItemSelected = isSelectionEnabled
+            ? !!selectedElements?.find((x) => x.id === item.id)
+            : undefined;
+        const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
+            ariaLabel: '',
+            buttonProps: {
+                onMouseOver: () => onElementEnter(item),
+                onMouseLeave: () => onElementLeave(item),
+                onFocus: () => onElementEnter(item),
+                onBlur: () => onElementLeave(item)
+            },
+            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            item: item,
+            onClick: onListItemClick,
+            overflowMenuItems: getOverflowMenuItems(item),
+            textPrimary: item.displayName,
+            textSecondary: t('3dSceneBuilder.elementMetaText', {
+                numBehaviors: metadata
+            }),
+            isChecked: isItemSelected
+        };
+
+        return viewModel;
+    });
+}
 
 export default SceneElements;
