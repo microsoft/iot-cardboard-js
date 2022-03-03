@@ -8,12 +8,12 @@
 /**
  * Widget group to which a widget belongs
  */
-export type GroupID = string;
+export type IGroupID = string;
 /**
  * Expression which evaluates to a numeric value
  */
-export type ValueExpression = string;
-export type NumericOrInfinityType = number | 'Infinity' | '-Infinity';
+export type IValueExpression = string;
+export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
@@ -27,35 +27,12 @@ export interface DScenesConfigurationJSONSchema {
         scenes: {
             id: string;
             displayName: string;
-            elements: (
-                | {
-                      type: 'TwinToObjectMapping';
-                      id: string;
-                      displayName: string;
-                      /**
-                       * The twin referenced by this element
-                       */
-                      linkedTwinID: string;
-                      /**
-                       * Array of of object IDs in the scene
-                       */
-                      objectIDs: string[];
-                      /**
-                       * Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.
-                       */
-                      twinAliases?: {
-                          [k: string]: string;
-                      };
-                      extensionProperties?: ExtensionProperties;
-                      [k: string]: unknown;
-                  }
-                | CustomProperty
-            )[];
+            elements: (ITwinToObjectMapping | ICustomProperty)[];
             behaviorIDs: string[];
             assets: {
                 type: string;
                 url: string;
-                extensionProperties?: ExtensionProperties;
+                extensionProperties?: IExtensionProperties;
                 [k: string]: unknown;
             }[];
             [k: string]: unknown;
@@ -67,106 +44,18 @@ export interface DScenesConfigurationJSONSchema {
             /**
              * Data sources return an array of objects.  Each object is expected to have the same schema.  These objects can then be mapped over in visuals.
              */
-            datasources: (
-                | {
-                      type: 'ElementTwinToObjectMappingDataSource';
-                      elementIDs: string[];
-                      extensionProperties?: ExtensionProperties;
-                      [k: string]: unknown;
-                  }
-                | CustomProperty
-            )[];
+            datasources: (IElementTwinToObjectMappingDataSource | ICustomProperty)[];
             /**
              * Visuals take a datasource, and modify objects in the scene based on expressions.  They allow you to color objects based on their state, float badges under alert conditions and configure popovers that trigger with user interaction
              */
-            visuals: (
-                | {
-                      type: 'Popover';
-                      title: string;
-                      /**
-                       * Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.
-                       */
-                      widgets: (
-                          | {
-                                type: 'Gauge';
-                                groupID?: GroupID;
-                                valueExpression: ValueExpression;
-                                /**
-                                 * Widget configuration specifies widget specific properties that are used for rendering this gauge
-                                 */
-                                widgetConfiguration: {
-                                    units?: string;
-                                    label?: string;
-                                    min?: NumericOrInfinityType;
-                                    max?: NumericOrInfinityType;
-                                    [k: string]: unknown;
-                                };
-                                extensionProperties?: ExtensionProperties;
-                                [k: string]: unknown;
-                            }
-                          | {
-                                type: 'Link';
-                                groupID?: GroupID;
-                                /**
-                                 * Widget configuration specifies widget specific properties that are used for rendering this Link
-                                 */
-                                widgetConfiguration: {
-                                    /**
-                                     * Template string which evalues to http link
-                                     */
-                                    linkExpression?: string;
-                                    [k: string]: unknown;
-                                };
-                                [k: string]: unknown;
-                            }
-                      )[];
-                      widgetGroups: {
-                          id: string;
-                          title?: string;
-                          orientation?: string;
-                          [k: string]: unknown;
-                      }[];
-                      objectIDs: ObjectIDs;
-                      [k: string]: unknown;
-                  }
-                | {
-                      type: 'StatusColoring';
-                      /**
-                       * Expression which evaluates to numeric value
-                       */
-                      statusValueExpression: string;
-                      statusValueRanges: {
-                          color: string;
-                          min: NumericOrInfinityType;
-                          max: NumericOrInfinityType;
-                          [k: string]: unknown;
-                      }[];
-                      objectIDs: ObjectIDs;
-                      [k: string]: unknown;
-                  }
-                | {
-                      type: 'Alert';
-                      /**
-                       * Expression which evaluates to a boolean value
-                       */
-                      triggerExpression: string;
-                      /**
-                       * Expression which evalues to a string value
-                       */
-                      labelExpression: string;
-                      iconName: string;
-                      color: string;
-                      objectIDs: ObjectIDs;
-                      [k: string]: unknown;
-                  }
-            )[];
+            visuals: (IPopoverVisual | IStatusColoringVisual | IAlertVisual)[];
             [k: string]: unknown;
         }[];
         layers: {
             id: string;
             displayName: string;
             behaviorIDs: string[];
-            extensionProperties?: ExtensionProperties;
+            extensionProperties?: IExtensionProperties;
             [k: string]: unknown;
         }[];
         [k: string]: unknown;
@@ -174,15 +63,39 @@ export interface DScenesConfigurationJSONSchema {
     [k: string]: unknown;
 }
 /**
+ * An elements maps twins to objects in the scene
+ */
+export interface ITwinToObjectMapping {
+    type: 'TwinToObjectMapping';
+    id: string;
+    displayName: string;
+    /**
+     * The twin referenced by this element
+     */
+    linkedTwinID: string;
+    /**
+     * Array of of object IDs in the scene
+     */
+    objectIDs: string[];
+    /**
+     * Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.
+     */
+    twinAliases?: {
+        [k: string]: string;
+    };
+    extensionProperties?: IExtensionProperties;
+    [k: string]: unknown;
+}
+/**
  * Optional bag of non-schematized extension properties
  */
-export interface ExtensionProperties {
+export interface IExtensionProperties {
     [k: string]: unknown;
 }
 /**
  * Free form property
  */
-export interface CustomProperty {
+export interface ICustomProperty {
     /**
      * Bag for any custom properties
      */
@@ -191,10 +104,107 @@ export interface CustomProperty {
     };
 }
 /**
+ * ElementDataSources get their object from the elements defined in a scene
+ */
+export interface IElementTwinToObjectMappingDataSource {
+    type: 'ElementTwinToObjectMappingDataSource';
+    elementIDs: string[];
+    extensionProperties?: IExtensionProperties;
+    [k: string]: unknown;
+}
+/**
+ * A popover displays information about a datasource when you click on any of the associated objectIDs
+ */
+export interface IPopoverVisual {
+    type: 'Popover';
+    title: string;
+    /**
+     * Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.
+     */
+    widgets: (
+        | {
+              type: 'Gauge';
+              groupID?: IGroupID;
+              valueExpression: IValueExpression;
+              /**
+               * Widget configuration specifies widget specific properties that are used for rendering this gauge
+               */
+              widgetConfiguration: {
+                  units?: string;
+                  label?: string;
+                  min?: INumericOrInfinityType;
+                  max?: INumericOrInfinityType;
+                  [k: string]: unknown;
+              };
+              extensionProperties?: IExtensionProperties;
+              [k: string]: unknown;
+          }
+        | {
+              type: 'Link';
+              groupID?: IGroupID;
+              /**
+               * Widget configuration specifies widget specific properties that are used for rendering this Link
+               */
+              widgetConfiguration: {
+                  /**
+                   * Template string which evalues to http link
+                   */
+                  linkExpression?: string;
+                  [k: string]: unknown;
+              };
+              [k: string]: unknown;
+          }
+    )[];
+    widgetGroups: {
+        id: string;
+        title?: string;
+        orientation?: string;
+        [k: string]: unknown;
+    }[];
+    objectIDs: IObjectIDs;
+    [k: string]: unknown;
+}
+/**
  * objectIDs specify the objects in the scene that a visual pertains to
  */
-export interface ObjectIDs {
+export interface IObjectIDs {
     expression: string;
-    extensionProperties?: ExtensionProperties;
+    extensionProperties?: IExtensionProperties;
+    [k: string]: unknown;
+}
+/**
+ * a StatusColoring visual is used for mapping an expression result to a color
+ */
+export interface IStatusColoringVisual {
+    type: 'StatusColoring';
+    /**
+     * Expression which evaluates to numeric value
+     */
+    statusValueExpression: string;
+    statusValueRanges: {
+        color: string;
+        min: INumericOrInfinityType;
+        max: INumericOrInfinityType;
+        [k: string]: unknown;
+    }[];
+    objectIDs: IObjectIDs;
+    [k: string]: unknown;
+}
+/**
+ * Alert visual are used to show specific iconography when a boolean expression is true
+ */
+export interface IAlertVisual {
+    type: 'Alert';
+    /**
+     * Expression which evaluates to a boolean value
+     */
+    triggerExpression: string;
+    /**
+     * Expression which evalues to a string value
+     */
+    labelExpression: string;
+    iconName: string;
+    color: string;
+    objectIDs: IObjectIDs;
     [k: string]: unknown;
 }

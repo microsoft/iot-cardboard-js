@@ -29,52 +29,10 @@
                                 "items": {
                                     "anyOf": [
                                         {
-                                            "type": "object",
-                                            "description": "An elements maps twins to objects in the scene",
-                                            "properties": {
-                                                "type": {
-                                                    "const": "TwinToObjectMapping"
-                                                },
-                                                "id": {
-                                                    "type": "string"
-                                                },
-                                                "displayName": {
-                                                    "type": "string"
-                                                },
-                                                "linkedTwinID": {
-                                                    "type": "string",
-                                                    "description": "The twin referenced by this element"
-                                                },
-                                                "objectIDs": {
-                                                    "type": "array",
-                                                    "description": "Array of of object IDs in the scene",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "description": "An object ID represents 3D meshes in the scene",
-                                                        "uniqueItems": true
-                                                    }
-                                                },
-                                                "twinAliases": {
-                                                    "type": "object",
-                                                    "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
-                                                    "additionalProperties": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "extensionProperties": {
-                                                    "$ref": "#/$defs/extensionProperties"
-                                                }
-                                            },
-                                            "required": [
-                                                "type",
-                                                "id",
-                                                "displayName",
-                                                "linkedTwinID",
-                                                "objectIDs"
-                                            ]
+                                            "$ref": "#/$defs/ITwinToObjectMapping"
                                         },
                                         {
-                                            "$ref": "#/$defs/customProperty"
+                                            "$ref": "#/$defs/ICustomProperty"
                                         }
                                     ]
                                 }
@@ -100,7 +58,7 @@
                                             "type": "string"
                                         },
                                         "extensionProperties": {
-                                            "$ref": "#/$defs/extensionProperties"
+                                            "$ref": "#/$defs/IExtensionProperties"
                                         }
                                     },
                                     "required": ["type", "url"]
@@ -142,28 +100,10 @@
                                 "items": {
                                     "anyOf": [
                                         {
-                                            "type": "object",
-                                            "description": "ElementDataSources get their object from the elements defined in a scene",
-                                            "properties": {
-                                                "type": {
-                                                    "const": "ElementTwinToObjectMappingDataSource"
-                                                },
-                                                "elementIDs": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "description": "An element ID contained in this data source",
-                                                        "uniqueItems": true
-                                                    }
-                                                },
-                                                "extensionProperties": {
-                                                    "$ref": "#/$defs/extensionProperties"
-                                                }
-                                            },
-                                            "required": ["type", "elementIDs"]
+                                            "$ref": "#/$defs/IElementTwinToObjectMappingDataSource"
                                         },
                                         {
-                                            "$ref": "#/$defs/customProperty"
+                                            "$ref": "#/$defs/ICustomProperty"
                                         }
                                     ]
                                 }
@@ -174,199 +114,13 @@
                                 "items": {
                                     "anyOf": [
                                         {
-                                            "type": "object",
-                                            "description": "A popover displays information about a datasource when you click on any of the associated objectIDs",
-                                            "properties": {
-                                                "type": {
-                                                    "const": "Popover"
-                                                },
-                                                "title": {
-                                                    "type": "string"
-                                                },
-                                                "widgets": {
-                                                    "type": "array",
-                                                    "description": "Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.",
-                                                    "items": {
-                                                        "anyOf": [
-                                                            {
-                                                                "type": "object",
-                                                                "description": "A gauge widget",
-                                                                "properties": {
-                                                                    "type": {
-                                                                        "const": "Gauge"
-                                                                    },
-                                                                    "groupID": {
-                                                                        "$ref": "#/$defs/groupID"
-                                                                    },
-                                                                    "valueExpression": {
-                                                                        "$ref": "#/$defs/valueExpression"
-                                                                    },
-                                                                    "widgetConfiguration": {
-                                                                        "type": "object",
-                                                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this gauge",
-                                                                        "properties": {
-                                                                            "units": {
-                                                                                "type": "string"
-                                                                            },
-                                                                            "label": {
-                                                                                "type": "string"
-                                                                            },
-                                                                            "min": {
-                                                                                "$ref": "#/$defs/numericOrInfinityType"
-                                                                            },
-                                                                            "max": {
-                                                                                "$ref": "#/$defs/numericOrInfinityType"
-                                                                            }
-                                                                        }
-                                                                    },
-                                                                    "extensionProperties": {
-                                                                        "$ref": "#/$defs/extensionProperties"
-                                                                    }
-                                                                },
-                                                                "required": [
-                                                                    "type",
-                                                                    "valueExpression",
-                                                                    "widgetConfiguration"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "type": "object",
-                                                                "description": "A link widget which uses a string template to create a parametrized link",
-                                                                "properties": {
-                                                                    "type": {
-                                                                        "const": "Link"
-                                                                    },
-                                                                    "groupID": {
-                                                                        "$ref": "#/$defs/groupID"
-                                                                    },
-                                                                    "widgetConfiguration": {
-                                                                        "type": "object",
-                                                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
-                                                                        "properties": {
-                                                                            "linkExpression": {
-                                                                                "type": "string",
-                                                                                "description": "Template string which evalues to http link"
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "required": [
-                                                                    "type",
-                                                                    "widgetConfiguration"
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
-                                                },
-                                                "widgetGroups": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "description": "Defines a widget group, referenced by ID in widgets",
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "string"
-                                                            },
-                                                            "title": {
-                                                                "type": "string"
-                                                            },
-                                                            "orientation": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": ["id"]
-                                                    }
-                                                },
-                                                "objectIDs": {
-                                                    "$ref": "#/$defs/objectIDs"
-                                                }
-                                            },
-                                            "required": [
-                                                "type",
-                                                "title",
-                                                "widgets",
-                                                "widgetGroups",
-                                                "objectIDs"
-                                            ]
+                                            "$ref": "#/$defs/IPopoverVisual"
                                         },
                                         {
-                                            "type": "object",
-                                            "description": "a StatusColoring visual is used for mapping an expression result to a color",
-                                            "properties": {
-                                                "type": {
-                                                    "const": "StatusColoring"
-                                                },
-                                                "statusValueExpression": {
-                                                    "type": "string",
-                                                    "description": "Expression which evaluates to numeric value"
-                                                },
-                                                "statusValueRanges": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "description": "Numeric range to trigger coloring",
-                                                        "properties": {
-                                                            "color": {
-                                                                "type": "string"
-                                                            },
-                                                            "min": {
-                                                                "$ref": "#/$defs/numericOrInfinityType"
-                                                            },
-                                                            "max": {
-                                                                "$ref": "#/$defs/numericOrInfinityType"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "color",
-                                                            "min",
-                                                            "max"
-                                                        ]
-                                                    }
-                                                },
-                                                "objectIDs": {
-                                                    "$ref": "#/$defs/objectIDs"
-                                                }
-                                            },
-                                            "required": [
-                                                "type",
-                                                "statusValueExpression",
-                                                "statusValueRanges",
-                                                "objectIDs"
-                                            ]
+                                            "$ref": "#/$defs/IStatusColoringVisual"
                                         },
                                         {
-                                            "type": "object",
-                                            "description": "Alert visual are used to show specific iconography when a boolean expression is true",
-                                            "properties": {
-                                                "type": {
-                                                    "const": "Alert"
-                                                },
-                                                "triggerExpression": {
-                                                    "type": "string",
-                                                    "description": "Expression which evaluates to a boolean value"
-                                                },
-                                                "labelExpression": {
-                                                    "type": "string",
-                                                    "description": "Expression which evalues to a string value"
-                                                },
-                                                "iconName": {
-                                                    "type": "string"
-                                                },
-                                                "color": {
-                                                    "type": "string"
-                                                },
-                                                "objectIDs": {
-                                                    "$ref": "#/$defs/objectIDs"
-                                                }
-                                            },
-                                            "required": [
-                                                "type",
-                                                "triggerExpression",
-                                                "labelExpression",
-                                                "iconName",
-                                                "color",
-                                                "objectIDs"
-                                            ]
+                                            "$ref": "#/$defs/IAlertVisual"
                                         }
                                     ]
                                 }
@@ -399,7 +153,7 @@
                                 }
                             },
                             "extensionProperties": {
-                                "$ref": "#/$defs/extensionProperties"
+                                "$ref": "#/$defs/IExtensionProperties"
                             }
                         },
                         "required": ["id", "displayName", "behaviorIDs"]
@@ -411,19 +165,19 @@
     },
     "required": ["$schema", "configuration"],
     "$defs": {
-        "extensionProperties": {
+        "IExtensionProperties": {
             "type": "object",
             "description": "Optional bag of non-schematized extension properties"
         },
-        "groupID": {
+        "IGroupID": {
             "type": "string",
             "description": "Widget group to which a widget belongs"
         },
-        "valueExpression": {
+        "IValueExpression": {
             "type": "string",
             "description": "Expression which evaluates to a numeric value"
         },
-        "objectIDs": {
+        "IObjectIDs": {
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
             "properties": {
@@ -431,19 +185,19 @@
                     "type": "string"
                 },
                 "extensionProperties": {
-                    "$ref": "#/$defs/extensionProperties"
+                    "$ref": "#/$defs/IExtensionProperties"
                 }
             },
             "required": ["expression"]
         },
-        "numericOrInfinityType": {
+        "INumericOrInfinityType": {
             "anyOf": [
                 { "type": "number" },
                 { "const": "Infinity" },
                 { "const": "-Infinity" }
             ]
         },
-        "customProperty": {
+        "ICustomProperty": {
             "type": "object",
             "description": "Free form property",
             "additionalProperties": false,
@@ -454,6 +208,260 @@
                 }
             },
             "required": ["customProperties"]
+        },
+        "ITwinToObjectMapping": {
+            "type": "object",
+            "description": "An elements maps twins to objects in the scene",
+            "properties": {
+                "type": {
+                    "const": "TwinToObjectMapping"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "linkedTwinID": {
+                    "type": "string",
+                    "description": "The twin referenced by this element"
+                },
+                "objectIDs": {
+                    "type": "array",
+                    "description": "Array of of object IDs in the scene",
+                    "items": {
+                        "type": "string",
+                        "description": "An object ID represents 3D meshes in the scene",
+                        "uniqueItems": true
+                    }
+                },
+                "twinAliases": {
+                    "type": "object",
+                    "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": [
+                "type",
+                "id",
+                "displayName",
+                "linkedTwinID",
+                "objectIDs"
+            ]
+        },
+        "IElementTwinToObjectMappingDataSource": {
+            "type": "object",
+            "description": "ElementDataSources get their object from the elements defined in a scene",
+            "properties": {
+                "type": {
+                    "const": "ElementTwinToObjectMappingDataSource"
+                },
+                "elementIDs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "An element ID contained in this data source",
+                        "uniqueItems": true
+                    }
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "elementIDs"]
+        },
+        "IPopoverVisual": {
+            "type": "object",
+            "description": "A popover displays information about a datasource when you click on any of the associated objectIDs",
+            "properties": {
+                "type": {
+                    "const": "Popover"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "widgets": {
+                    "type": "array",
+                    "description": "Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "object",
+                                "description": "A gauge widget",
+                                "properties": {
+                                    "type": {
+                                        "const": "Gauge"
+                                    },
+                                    "groupID": {
+                                        "$ref": "#/$defs/IGroupID"
+                                    },
+                                    "valueExpression": {
+                                        "$ref": "#/$defs/IValueExpression"
+                                    },
+                                    "widgetConfiguration": {
+                                        "type": "object",
+                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this gauge",
+                                        "properties": {
+                                            "units": {
+                                                "type": "string"
+                                            },
+                                            "label": {
+                                                "type": "string"
+                                            },
+                                            "min": {
+                                                "$ref": "#/$defs/INumericOrInfinityType"
+                                            },
+                                            "max": {
+                                                "$ref": "#/$defs/INumericOrInfinityType"
+                                            }
+                                        }
+                                    },
+                                    "extensionProperties": {
+                                        "$ref": "#/$defs/IExtensionProperties"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "valueExpression",
+                                    "widgetConfiguration"
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "description": "A link widget which uses a string template to create a parametrized link",
+                                "properties": {
+                                    "type": {
+                                        "const": "Link"
+                                    },
+                                    "groupID": {
+                                        "$ref": "#/$defs/IGroupID"
+                                    },
+                                    "widgetConfiguration": {
+                                        "type": "object",
+                                        "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
+                                        "properties": {
+                                            "linkExpression": {
+                                                "type": "string",
+                                                "description": "Template string which evalues to http link"
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": ["type", "widgetConfiguration"]
+                            }
+                        ]
+                    }
+                },
+                "widgetGroups": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "Defines a widget group, referenced by ID in widgets",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "orientation": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["id"]
+                    }
+                },
+                "objectIDs": {
+                    "$ref": "#/$defs/IObjectIDs"
+                }
+            },
+            "required": [
+                "type",
+                "title",
+                "widgets",
+                "widgetGroups",
+                "objectIDs"
+            ]
+        },
+        "IStatusColoringVisual": {
+            "type": "object",
+            "description": "a StatusColoring visual is used for mapping an expression result to a color",
+            "properties": {
+                "type": {
+                    "const": "StatusColoring"
+                },
+                "statusValueExpression": {
+                    "type": "string",
+                    "description": "Expression which evaluates to numeric value"
+                },
+                "statusValueRanges": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "Numeric range to trigger coloring",
+                        "properties": {
+                            "color": {
+                                "type": "string"
+                            },
+                            "min": {
+                                "$ref": "#/$defs/INumericOrInfinityType"
+                            },
+                            "max": {
+                                "$ref": "#/$defs/INumericOrInfinityType"
+                            }
+                        },
+                        "required": ["color", "min", "max"]
+                    }
+                },
+                "objectIDs": {
+                    "$ref": "#/$defs/IObjectIDs"
+                }
+            },
+            "required": [
+                "type",
+                "statusValueExpression",
+                "statusValueRanges",
+                "objectIDs"
+            ]
+        },
+        "IAlertVisual": {
+            "type": "object",
+            "description": "Alert visual are used to show specific iconography when a boolean expression is true",
+            "properties": {
+                "type": {
+                    "const": "Alert"
+                },
+                "triggerExpression": {
+                    "type": "string",
+                    "description": "Expression which evaluates to a boolean value"
+                },
+                "labelExpression": {
+                    "type": "string",
+                    "description": "Expression which evalues to a string value"
+                },
+                "iconName": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "objectIDs": {
+                    "$ref": "#/$defs/IObjectIDs"
+                }
+            },
+            "required": [
+                "type",
+                "triggerExpression",
+                "labelExpression",
+                "iconName",
+                "color",
+                "objectIDs"
+            ]
         }
     }
 }
