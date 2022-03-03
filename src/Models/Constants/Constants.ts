@@ -4,6 +4,7 @@ import {
     WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { IADT3DViewerRenderMode } from '../Constants';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -116,3 +117,72 @@ export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+
+export const RenderModes: IADT3DViewerRenderMode[] = [
+    {
+        key: '3dSceneViewer.renderModes.default',
+        baseColor: null,
+        fresnelColor: null,
+        opacity: 1,
+        isWireframe: false,
+        meshSelectionColor: '#FF26D7',
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: null
+    },
+    {
+        key: '3dSceneViewer.renderModes.wireframe',
+        baseColor: null,
+        fresnelColor: null,
+        opacity: 1,
+        isWireframe: true,
+        meshSelectionColor: null,
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        key: '3dSceneViewer.renderModes.red',
+        baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
+        opacity: 0.1, // @coryboyle Doesn't seem to work
+        isWireframe: false,
+        meshSelectionColor: null,
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        key: '3dSceneViewer.renderModes.redWireframe',
+        baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: true,
+        meshSelectionColor: null,
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        key: '3dSceneViewer.renderModes.green',
+        baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: false,
+        meshSelectionColor: null,
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        key: '3dSceneViewer.renderModes.greenWireframe',
+        baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: true,
+        meshSelectionColor: null,
+        meshHoverColor: null,
+        meshSelectionHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    }
+];

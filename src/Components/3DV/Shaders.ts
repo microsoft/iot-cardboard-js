@@ -1,3 +1,5 @@
+import * as BABYLON from 'babylonjs';
+
 const customVertex = `
 precision highp float;
 
@@ -79,7 +81,8 @@ void main(void) {
 export function makeShaderMaterial(
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor: BABYLON.Color4
+    fresnelColor: BABYLON.Color4,
+    opacity: number
 ) {
     BABYLON.Effect.ShadersStore['customVertexShader'] = customVertex;
     BABYLON.Effect.ShadersStore['customFragmentShader'] = customFragment;
@@ -113,7 +116,7 @@ export function makeShaderMaterial(
     material.setFloat('time', 0);
     material.setVector3('cameraPosition', BABYLON.Vector3.Zero());
     material.backFaceCulling = false;
-    material.alpha = 0.5;
+    material.alpha = opacity;
     material.alphaMode = 5;
 
     return material;

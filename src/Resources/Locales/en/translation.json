@@ -367,9 +367,9 @@
             "default": "Default render mode",
             "wireframe": "Wireframe",
             "red": "Translucent red",
+            "redWireframe": "Translucent red wireframe",
             "green": "Translucent green",
-            "random": "Translucent random",
-            "randomWireframe": "Translucent random wireframe"
+            "greenWireframe": "Translucent green wireframe"
         }
     },
     "widgets": {

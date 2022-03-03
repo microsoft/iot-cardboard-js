@@ -20,15 +20,6 @@ import { Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 
 const debug = false;
-function isTransparent(color: { r: number; g: number; b: number; a: number }) {
-    return (
-        color &&
-        color.r === 0 &&
-        color.g === 0 &&
-        color.b === 0 &&
-        color.a === 0
-    );
-}
 
 async function loadPromise(
     root,
@@ -82,7 +73,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     coloredMeshItems,
     isWireframe,
     meshBaseColor,
-    meshFresnelColor
+    meshFresnelColor,
+    meshOpacity
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -109,7 +101,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const selMaterial = useRef<any>(null);
     const selHovMaterial = useRef<any>(null);
     const coloredMaterials = useRef<BABYLON.StandardMaterial[]>([]);
-    const shaderMaterials = useRef([]);
+    const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
 
@@ -341,7 +333,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
     // Update render mode
     useEffect(() => {
-        const materials = new Array(3);
         if (sceneRef.current?.meshes?.length) {
             if (
                 (!meshBaseColor || !meshFresnelColor) &&
@@ -367,62 +358,32 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (meshBaseColor && meshFresnelColor) {
-                // Temporary Easter Egg - transparent causes random
-                if (
-                    isTransparent(meshBaseColor) &&
-                    isTransparent(meshFresnelColor)
-                ) {
-                    //STANDARD RED
-                    materials[0] = makeShaderMaterial(
-                        sceneRef.current,
-                        new BABYLON.Color4(1.0, 0.33, 0.1, 1.0),
-                        new BABYLON.Color4(0.8, 0.0, 0.1, 1.0)
-                    );
+                const baseColor = new BABYLON.Color4(
+                    meshBaseColor.r,
+                    meshBaseColor.g,
+                    meshBaseColor.b,
+                    meshBaseColor.a
+                );
+                const fresnelColor = new BABYLON.Color4(
+                    meshFresnelColor.r,
+                    meshFresnelColor.g,
+                    meshFresnelColor.b,
+                    meshFresnelColor.a
+                );
+                const material = makeShaderMaterial(
+                    sceneRef.current,
+                    baseColor,
+                    fresnelColor,
+                    meshOpacity
+                );
 
-                    //STANDARD GREEN
-                    materials[1] = makeShaderMaterial(
-                        sceneRef.current,
-                        new BABYLON.Color4(0.1, 0.9, 0.3, 1.0),
-                        new BABYLON.Color4(0.4, 1.0, 0.1, 1.0)
-                    );
-
-                    //STANDARD BLUE
-                    materials[2] = makeShaderMaterial(
-                        sceneRef.current,
-                        new BABYLON.Color4(0.05, 0.15, 0.4, 0.4),
-                        new BABYLON.Color4(0.05, 0.1, 0.5, 0.5)
-                    );
-                } else if (meshBaseColor && meshFresnelColor) {
-                    const baseColor = new BABYLON.Color4(
-                        meshBaseColor.r,
-                        meshBaseColor.g,
-                        meshBaseColor.b,
-                        meshBaseColor.a
-                    );
-                    const fresnelColor = new BABYLON.Color4(
-                        meshFresnelColor.r,
-                        meshFresnelColor.g,
-                        meshFresnelColor.b,
-                        meshFresnelColor.a
-                    );
-                    materials[0] = materials[1] = materials[2] = makeShaderMaterial(
-                        sceneRef.current,
-                        baseColor,
-                        fresnelColor
-                    );
-                }
-
-                shaderMaterials.current = materials;
+                shaderMaterial.current = material;
                 if (!!isWireframe || (meshBaseColor && meshFresnelColor)) {
-                    let ct = 0;
                     for (const mesh of sceneRef.current.meshes) {
-                        if (++ct >= shaderMaterials.current.length) {
-                            ct = 0;
-                        }
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
                             if (meshBaseColor && meshFresnelColor && !ignore) {
-                                mesh.material = shaderMaterials.current[ct];
+                                mesh.material = shaderMaterial.current;
                                 mesh.material.wireframe = isWireframe || false;
                                 meshesAreOriginal.current = false;
                             }
@@ -871,16 +832,18 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
         return () => {
             for (const coloredMesh of coloredMeshesRef.current) {
-                const mesh = sceneRef.current.meshes.find(
-                    (item) => item.id === coloredMesh.id
-                );
+                if (sceneRef.current) {
+                    const mesh = sceneRef.current.meshes.find(
+                        (item) => item.id === coloredMesh.id
+                    );
 
-                mesh.material = coloredMesh.material;
-            }
+                    mesh.material = coloredMesh.material;
+                }
 
-            for (const material of coloredMaterials.current) {
-                sceneRef.current?.removeMaterial(material);
-                material.dispose(true, true);
+                for (const material of coloredMaterials.current) {
+                    sceneRef.current?.removeMaterial(material);
+                    material.dispose(true, true);
+                }
             }
 
             coloredMeshesRef.current = [];

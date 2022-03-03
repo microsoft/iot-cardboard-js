@@ -69,4 +69,5 @@ export interface ISceneViewProp {
     isWireframe?: boolean;
     meshBaseColor?: { r: number; g: number; b: number; a: number };
     meshFresnelColor?: { r: number; g: number; b: number; a: number };
+    meshOpacity?: number;
 }

@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
+import {
+    DTwin,
+    IADT3DViewerProps,
+    IADT3DViewerRenderMode
+} from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -17,6 +21,7 @@ import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { RenderModes } from '../../Models/Constants';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -39,14 +44,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
     const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
-    const [selectedRenderMode, setSelectedRenderMode] = React.useState(
-        'default'
-    );
+    const [selectedRenderMode, setSelectedRenderMode] = React.useState('');
     const lineId = useGuid();
     const popUpId = useGuid();
     const sceneWrapperId = useGuid();
     const popUpContainerId = useGuid();
-    const [renderModeState, setRenderModeState] = useState<any>();
+    const [renderMode, setRenderMode] = useState<IADT3DViewerRenderMode>();
 
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
@@ -220,55 +223,18 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         setConnectionLine();
     }
 
-    const renderModes = [
-        { key: 'default', text: t('3dSceneViewer.renderModes.default') },
-        { key: 'wireframe', text: t('3dSceneViewer.renderModes.wireframe') },
-        { key: 'red', text: t('3dSceneViewer.renderModes.red') },
-        { key: 'green', text: t('3dSceneViewer.renderModes.green') },
-        { key: 'random', text: t('3dSceneViewer.renderModes.random') },
-        {
-            key: 'randomWireframe',
-            text: t('3dSceneViewer.renderModes.randomWireframe')
-        }
-    ];
+    const renderModeOptions: IDropdownOption[] = [];
+    for (const mode of RenderModes) {
+        renderModeOptions.push({ key: mode.key, text: t(mode.key) });
+    }
+
+    if (!selectedRenderMode) {
+        setSelectedRenderMode(renderModeOptions[0].key as string);
+    }
 
     useEffect(() => {
-        let baseColor = { r: 0, g: 0, b: 0, a: 0 };
-        let fresnelColor = { r: 0, g: 0, b: 0, a: 0 };
-        let isWireframe = false;
-        switch (selectedRenderMode) {
-            case 'default':
-                baseColor = null;
-                fresnelColor = null;
-                isWireframe = false;
-                break;
-            case 'wireframe':
-                baseColor = null;
-                fresnelColor = null;
-                isWireframe = true;
-                break;
-            case 'red':
-                baseColor = { r: 1, g: 0.33, b: 0.1, a: 1 };
-                fresnelColor = { r: 0.8, g: 0, b: 0.1, a: 1 };
-                isWireframe = false;
-                break;
-            case 'green':
-                baseColor = { r: 0.1, g: 0.9, b: 0.3, a: 1 };
-                fresnelColor = { r: 0.4, g: 1, b: 0.1, a: 1 };
-                isWireframe = false;
-                break;
-            case 'random':
-                baseColor = { r: 0, g: 0, b: 0, a: 0 };
-                fresnelColor = { r: 0, g: 0, b: 0, a: 0 };
-                isWireframe = false;
-                break;
-            case 'randomWireframe':
-                baseColor = { r: 0, g: 0, b: 0, a: 0 };
-                fresnelColor = { r: 0, g: 0, b: 0, a: 0 };
-                isWireframe = true;
-                break;
-        }
-        setRenderModeState({ baseColor, fresnelColor, isWireframe });
+        const state = RenderModes.find((m) => m.key === selectedRenderMode);
+        setRenderMode(state);
     }, [selectedRenderMode]);
 
     const onRenderModeChange = (
@@ -285,7 +251,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             }
             adapterResults={[sceneData.adapterResult]}
         >
-            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
+            <div
+                id={sceneWrapperId}
+                className="cb-adt-3dviewer-wrapper"
+                style={
+                    renderMode?.background
+                        ? { background: renderMode.background }
+                        : {}
+                }
+            >
                 <SceneViewWrapper
                     adapter={adapter}
                     config={sceneConfig}
@@ -296,9 +270,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         modelUrl: modelUrl,
                         selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
-                        isWireframe: renderModeState?.isWireframe,
-                        meshBaseColor: renderModeState?.baseColor,
-                        meshFresnelColor: renderModeState?.fresnelColor,
+                        meshSelectionColor: renderMode?.meshSelectionColor,
+                        meshHoverColor: renderMode?.meshHoverColor,
+                        meshSelectionHoverColor:
+                            renderMode?.meshSelectionHoverColor,
+                        isWireframe: renderMode?.isWireframe,
+                        meshBaseColor: renderMode?.baseColor,
+                        meshFresnelColor: renderMode?.fresnelColor,
+                        meshOpacity: renderMode?.opacity,
                         onMarkerClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMarkerHover: (marker, mesh) =>
@@ -317,7 +296,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         <Dropdown
                             selectedKey={selectedRenderMode}
                             onChange={onRenderModeChange}
-                            options={renderModes}
+                            options={renderModeOptions}
                             styles={{
                                 dropdown: { width: 250 }
                             }}

@@ -642,3 +642,15 @@ export interface IADT3DViewerProps {
     hideUI?: boolean;
     refetchConfig?: () => any;
 }
+
+export interface IADT3DViewerRenderMode {
+    key: string;
+    baseColor: { r: number; g: number; b: number; a: number };
+    fresnelColor: { r: number; g: number; b: number; a: number };
+    opacity: number;
+    isWireframe: boolean;
+    background: string;
+    meshSelectionColor: string;
+    meshHoverColor: string;
+    meshSelectionHoverColor: string;
+}
