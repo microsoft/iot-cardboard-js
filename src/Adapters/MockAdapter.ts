@@ -30,7 +30,7 @@ import {
     TsiClientData
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import mockVConfig from './__mockData__/3DScenesConfiguration.json';
+import mockVConfig from './__mockData__/vconfigDecFinal.json';
 import {
     IScenesConfig,
     DatasourceType,
@@ -39,7 +39,8 @@ import {
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+// TODO Validate JSON with schema
+// import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 
 export default class MockAdapter
     implements
@@ -238,8 +239,9 @@ export default class MockAdapter
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
-            // Validate JSON with schema
-            const config = validate3DConfigWithSchema(this.scenesConfig);
+            // TODO Validate JSON with schema
+            // const config = validate3DConfigWithSchema(this.scenesConfig);
+            const config = this.scenesConfig;
             return new ADTScenesConfigData(config as any);
         });
     }
