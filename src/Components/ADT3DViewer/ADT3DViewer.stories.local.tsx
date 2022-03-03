@@ -6,10 +6,7 @@ import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IScenesConfig } from '../../Models/Classes/3DVConfig';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
-import {
-    ADT3DAddInEventData,
-    IADT3DAddInProps
-} from '../../Components/3DV/SceneViewWrapper';
+import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
 
 export default {
     title: '3DV/ADT3DViewer',
@@ -50,7 +47,35 @@ export const EngineWithMeshSelection = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: '100%', height: '600px' }}>
+        <div style={{ width: '100%', height: '100%' }}>
+            <ADT3DViewer
+                title="3D Viewer"
+                adapter={
+                    new ADTAdapter(
+                        authenticationParameters.adt.hostUrl,
+                        new MsalAuthService(
+                            authenticationParameters.adt.aadParameters
+                        )
+                    )
+                }
+                sceneConfig={scenesConfig}
+                pollingInterval={10000}
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
+                connectionLineColor="#000"
+                enableMeshSelection={true}
+            />
+        </div>
+    );
+};
+
+export const EngineWithShaders = () => {
+    const authenticationParameters = useAuthParams();
+    const scenesConfig = mockVConfig as IScenesConfig;
+
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={{ width: '100%', height: '100%', background: '#2A3A44' }}>
             <ADT3DViewer
                 title="3D Viewer"
                 adapter={
@@ -114,7 +139,7 @@ export const AddIn = () => {
         return processEvent(data);
     };
 
-    const onMarkerHover = (data: ADT3DAddInEventData) => {
+    const onMeshHover = (data: ADT3DAddInEventData) => {
         if (!data.mesh) {
             setData(null);
             return false;
@@ -123,14 +148,14 @@ export const AddIn = () => {
         return processEvent(data);
     };
 
-    const onMarkerClick = (data: ADT3DAddInEventData) => {
+    const onMeshClick = (data: ADT3DAddInEventData) => {
         return processEvent(data);
     };
 
     const addInProps: IADT3DAddInProps = {
         onSceneLoaded,
-        onMarkerHover,
-        onMarkerClick
+        onMeshHover,
+        onMeshClick
     };
 
     return !authenticationParameters ? (

@@ -56,14 +56,19 @@ export interface ISceneViewProp {
     modelUrl: string;
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
-    onMarkerClick?: SceneViewEventHandler;
-    onMarkerHover?: SceneViewEventHandler;
+    onMeshClick?: SceneViewEventHandler;
+    onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
     selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;
     meshSelectionHoverColor?: string;
+    isWireframe?: boolean;
+    meshBaseColor?: { r: number; g: number; b: number; a: number };
+    meshFresnelColor?: { r: number; g: number; b: number; a: number };
+    meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    showHoverOnSelected?: boolean;
 }

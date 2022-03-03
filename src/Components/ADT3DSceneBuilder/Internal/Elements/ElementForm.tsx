@@ -19,7 +19,6 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
-import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
@@ -61,8 +60,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         sceneId,
         getConfig,
         selectedMeshIds,
-        setSelectedMeshIds,
-        setColoredMeshItems
+        setSelectedMeshIds
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -129,19 +127,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             getConfig();
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
-
-    const updateColoredMeshItems = (meshName?: string) => {
-        const coloredMeshes: ColoredMeshItem[] = [];
-        for (const meshId of elementToEdit.meshIDs) {
-            if (meshName && meshId === meshName) {
-                coloredMeshes.push({ meshId: meshId, color: '#00EDD9' });
-            } else {
-                coloredMeshes.push({ meshId: meshId, color: '#00A8F0' });
-            }
-        }
-
-        setColoredMeshItems(coloredMeshes);
-    };
 
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
@@ -219,7 +204,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         <div className={commonPanelStyles.formTabContents}>
                             <MeshTab
                                 elementToEdit={elementToEdit}
-                                updateColoredMeshItems={updateColoredMeshItems}
+                                // updateColoredMeshItems={updateColoredMeshItems}
                                 setSelectedMeshIds={setSelectedMeshIds}
                             />
                         </div>
