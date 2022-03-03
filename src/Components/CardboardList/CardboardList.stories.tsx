@@ -1,9 +1,14 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { CardboardList, ICardboardListProps } from './CardboardList';
-import { CardboardListItemProps } from './CardboardListItem';
+import { userEvent, within } from '@storybook/testing-library';
+import { CardboardList } from './CardboardList';
 import { IContextualMenuItem } from '@fluentui/react';
-import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import {
+    getDefaultStoryDecorator,
+    sleep
+} from '../../Models/Services/StoryUtilities';
+import { ICardboardListItem, ICardboardListProps } from './CardboardList.types';
+import { Theme } from '../..';
 
 const cardStyle = {
     height: '600px',
@@ -67,15 +72,16 @@ const getDefaultMenuItems = (item): IContextualMenuItem[] => {
 const defaultOnClickHandler = (item) => {
     alert(`clicked item ${item.itemId}`);
 };
-const defaultGetListItemPropsHandler = (
+const getListItem = (
     item: IFakeListItem,
     index: number
-): CardboardListItemProps<IFakeListItem> => {
+): ICardboardListItem<IFakeListItem> => {
     return {
         ariaLabel: '',
         isChecked: item.isChecked,
         iconStartName: index % 3 == 0 ? 'Shapes' : undefined,
         iconEndName: index % 4 == 0 ? 'Link' : undefined,
+        item: item,
         onClick: defaultOnClickHandler,
         overflowMenuItems: index % 2 ? getDefaultMenuItems(item) : [],
         textPrimary: item.itemId + ' some extra text for overflow',
@@ -83,14 +89,12 @@ const defaultGetListItemPropsHandler = (
     };
 };
 
-const defaultProps: ICardboardListProps<unknown> = {
-    getListItemProps: defaultGetListItemPropsHandler as (
-        item: unknown,
-        index: number
-    ) => CardboardListItemProps<unknown>,
-    items: defaultListItems,
+const getDefaultItems = (): ICardboardListItem<IFakeListItem>[] =>
+    defaultListItems.map((item, index) => getListItem(item, index));
+const getDefaultProps = (): ICardboardListProps<unknown> => ({
+    items: getDefaultItems(),
     listKey: 'testList'
-};
+});
 
 type TemplateStory = ComponentStory<typeof CardboardList>;
 const Template: TemplateStory = (args) => (
@@ -100,97 +104,148 @@ const Template: TemplateStory = (args) => (
 );
 
 export const BasicList = Template.bind({}) as TemplateStory;
-BasicList.args = defaultProps;
+BasicList.args = getDefaultProps();
+BasicList.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // type in the search box
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-testList-1-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+    await sleep(1);
+};
 
 export const WithAllElements = Template.bind({}) as TemplateStory;
 WithAllElements.args = {
-    ...defaultProps,
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        textPrimary: (item as IFakeListItem).itemId,
-        textSecondary: (item as IFakeListItem).itemDescription,
-        iconStartName: 'Link',
-        iconEndName: 'Shapes',
-        onClick: defaultOnClickHandler,
-        overflowMenuItems: [
-            {
-                key: 'key1',
-                text: 'key 1',
-                iconProps: {
-                    iconName: 'Shapes'
-                }
-            }
-        ],
-        isChecked: index % 2 === 0
-    })
+    ...getDefaultProps(),
+    items: getDefaultItems().map(
+        (item, index) =>
+            ({
+                textPrimary: item.item.itemId,
+                textSecondary: item.item.itemDescription,
+                iconStartName: 'Link',
+                iconEndName: 'Shapes',
+                item: item,
+                onClick: defaultOnClickHandler,
+                overflowMenuItems: [
+                    {
+                        key: 'key1',
+                        text: 'key 1',
+                        iconProps: {
+                            iconName: 'Shapes'
+                        }
+                    }
+                ],
+                isChecked: index % 2 === 0
+            } as ICardboardListItem<unknown>)
+    )
+};
+WithAllElements.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // type in the search box
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-testList-1-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+    await sleep(1);
 };
 
 export const WithMenu = Template.bind({}) as TemplateStory;
 WithMenu.args = {
-    ...defaultProps,
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        onClick: defaultOnClickHandler,
-        overflowMenuItems: [
-            {
-                key: 'item 1',
-                text: 'item 1',
-                iconProps: {
-                    iconName: 'Shapes'
-                }
-            }
-        ],
-        textPrimary: `List item ${index}`
-    })
+    ...getDefaultProps(),
+    items: getDefaultItems().map(
+        (item, index) =>
+            ({
+                item: item,
+                onClick: defaultOnClickHandler,
+                overflowMenuItems: [
+                    {
+                        key: 'item 1',
+                        text: 'item 1',
+                        iconProps: {
+                            iconName: 'Shapes'
+                        }
+                    }
+                ],
+                textPrimary: `List item ${index}`
+            } as ICardboardListItem<unknown>)
+    )
+};
+WithMenu.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // type in the search box
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-testList-0-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+    await sleep(1);
 };
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
 WithStartAndEndIcon.args = {
-    ...defaultProps,
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        iconStartName: 'Link',
-        iconEndName: 'Shapes',
-        onClick: defaultOnClickHandler,
-        textPrimary: `List item ${index}`
-    })
+    ...getDefaultProps(),
+    items: getDefaultItems().map(
+        (item, index) =>
+            ({
+                iconStartName: 'Link',
+                iconEndName: 'Shapes',
+                item: item,
+                onClick: defaultOnClickHandler,
+                overflowMenuItems: undefined,
+                textPrimary: `List item ${index}`
+            } as ICardboardListItem<unknown>)
+    )
 };
 
 export const WithStartIconAndMenu = Template.bind({}) as TemplateStory;
 WithStartIconAndMenu.args = {
-    ...defaultProps,
-    getListItemProps: (item, index) => ({
-        ariaLabel: '',
-        iconStartName: 'Link',
-        textPrimary: `List item ${index}`,
-        onClick: defaultOnClickHandler,
-        overflowMenuItems: getDefaultMenuItems(item)
-    })
+    ...getDefaultProps(),
+    items: getDefaultItems().map(
+        (item, index) =>
+            ({
+                iconStartName: 'Link',
+                item: item,
+                textPrimary: `List item ${index}`,
+                onClick: defaultOnClickHandler,
+                overflowMenuItems: getDefaultMenuItems(item)
+            } as ICardboardListItem<unknown>)
+    )
+};
+WithStartIconAndMenu.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // type in the search box
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-testList-0-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+    await sleep(1);
 };
 
+const customItems: IFakeListItem[] = [
+    {
+        itemId: 'rock 1'
+    } as IFakeListItem,
+    {
+        itemId: 'stream 1'
+    } as IFakeListItem,
+    {
+        itemId: 'stream 2'
+    } as IFakeListItem,
+    {
+        itemId: 'rock 2'
+    } as IFakeListItem
+];
 export const WithHighlightedText = Template.bind({}) as TemplateStory;
 WithHighlightedText.args = {
-    ...defaultProps,
-    items: [
-        {
-            itemId: 'rock 1'
-        } as IFakeListItem,
-        {
-            itemId: 'stream 1'
-        } as IFakeListItem,
-        {
-            itemId: 'stream 2'
-        } as IFakeListItem,
-        {
-            itemId: 'rock 2'
-        } as IFakeListItem
-    ],
-    textToHighlight: 'rock',
-    getListItemProps: (item, _index) => ({
-        ariaLabel: '',
-        iconStartName: 'Shapes',
-        onClick: defaultOnClickHandler,
-        textPrimary: (item as IFakeListItem).itemId,
-        textSecondary: (item as IFakeListItem).itemDescription
-    })
+    ...getDefaultProps(),
+    items: customItems.map(
+        (item) =>
+            ({
+                iconStartName: 'Shapes',
+                onClick: defaultOnClickHandler,
+                textPrimary: item.itemId,
+                textSecondary: item.itemDescription
+            } as ICardboardListItem<unknown>)
+    ),
+    textToHighlight: 'rock'
 };

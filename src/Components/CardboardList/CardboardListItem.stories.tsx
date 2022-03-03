@@ -1,17 +1,14 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import {
-    CardboardListItem,
-    ICardboardListItemPropsInternal
-} from './CardboardListItem';
+import { CardboardListItem } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
-    sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
+import { ICardboardListItemPropsInternal } from './CardboardList.types';
 
 const cardStyle = {
     width: '300px',

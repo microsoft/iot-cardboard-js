@@ -6,11 +6,9 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import {
     clickOverFlowMenuItem,
-    findCalloutItemByTestId,
     findDialogMenuItem,
     findOverflowMenuItem,
-    sleep,
-    waitForFirstRender
+    sleep
 } from '../../Models/Services/StoryUtilities';
 
 export default {
