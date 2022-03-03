@@ -30,13 +30,15 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
             <div className="cb-scene-builder-element-search-header">
                 <div className="cb-scene-builder-element-search-box">
                     <SearchBox
+                        data-testid={'search-header-search-box'}
                         placeholder={placeholder}
                         onChange={(_e, value) => onSearchTextChange(value)}
                         value={searchText}
                     />
                 </div>
-                {!onMultiSelectClicked && (
+                {onMultiSelectClicked && (
                     <IconButton
+                        data-testid={'search-header-multi-select'}
                         iconProps={{ iconName: 'MultiSelect' }}
                         title={t('3dSceneBuilder.multiSelectElements')}
                         styles={{

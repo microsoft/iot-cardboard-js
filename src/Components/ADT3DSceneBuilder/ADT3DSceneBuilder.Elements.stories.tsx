@@ -55,7 +55,7 @@ Search.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // type in the search box
-    const searchBox = canvas.getByPlaceholderText('Search elements');
+    const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'box');
 };
 
@@ -66,7 +66,7 @@ MultiSelect.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // toggle multi select
-    const toggle = canvas.getByTitle('Multi-select elements');
+    const toggle = canvas.getByTestId('search-header-multi-select');
     await userEvent.click(toggle);
 
     // click a list item

@@ -55,7 +55,7 @@ Search.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     // type in the search box
-    const searchBox = await canvas.findByPlaceholderText('Search behaviors');
+    const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'wheels');
 };
 
