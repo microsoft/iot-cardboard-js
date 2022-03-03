@@ -1,11 +1,11 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import StorageContainerPermissionError from './StorageContainerPermissionError';
 import { ComponentErrorType } from '../../Models/Constants';
+import ScenePageError from './ScenePageError';
 
 export default {
-    title: 'Components/StorageContainerPermissionError',
-    component: StorageContainerPermissionError
+    title: 'Components/ScenePageError',
+    component: ScenePageError
 };
 
 export const UnauthorizedAccessError = () => {
@@ -13,7 +13,7 @@ export const UnauthorizedAccessError = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <StorageContainerPermissionError
+        <ScenePageError
             errors={[
                 {
                     type: ComponentErrorType.NonExistentBlob,
@@ -30,7 +30,7 @@ export const NonExistentBlob = () => {
         <div></div>
     ) : (
         <div>
-            <StorageContainerPermissionError
+            <ScenePageError
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,
@@ -48,7 +48,7 @@ export const ReaderAccessOnly = () => {
         <div></div>
     ) : (
         <div>
-            <StorageContainerPermissionError
+            <ScenePageError
                 errors={[
                     {
                         type: ComponentErrorType.ReaderAccessOnly,

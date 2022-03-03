@@ -32,7 +32,7 @@ import {
 } from '../../Models/Constants/Interfaces';
 import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContainer';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import StorageContainerPermissionError from '../../Components/StorageContainerPermissionError/StorageContainerPermissionError';
+import ScenePageError from '../../Components/ScenePageError/ScenePageError';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
@@ -226,7 +226,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </>
                     )}
 
-                    <StorageContainerPermissionError errors={state.errors}>
+                    <ScenePageError errors={state.errors}>
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">
@@ -309,7 +309,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                 </div>
                             </>
                         )}
-                    </StorageContainerPermissionError>
+                    </ScenePageError>
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>
