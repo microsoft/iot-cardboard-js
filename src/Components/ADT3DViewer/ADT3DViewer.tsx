@@ -31,7 +31,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     connectionLineColor,
     addInProps,
     hideUI,
-    refetchConfig
+    refetchConfig,
+    showMeshesOnHover
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
@@ -249,6 +250,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         coloredMeshItems: coloredMeshItems,
                         meshSelectionColor: renderMode?.meshSelectionColor,
                         meshHoverColor: renderMode?.meshHoverColor,
+                        showMeshesOnHover: showMeshesOnHover,
                         meshSelectionHoverColor:
                             renderMode?.meshSelectionHoverColor,
                         isWireframe: renderMode?.isWireframe,

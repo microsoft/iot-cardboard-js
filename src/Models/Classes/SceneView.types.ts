@@ -59,7 +59,6 @@ export interface ISceneViewProp {
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
-    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
     meshSelectionColor?: string;
     meshHoverColor?: string;

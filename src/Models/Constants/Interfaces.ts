@@ -640,6 +640,7 @@ export interface IADT3DViewerProps {
     addInProps?: IADT3DAddInProps;
     hideUI?: boolean;
     refetchConfig?: () => any;
+    showMeshesOnHover?: boolean;
 }
 
 export interface IADT3DViewerRenderMode {
