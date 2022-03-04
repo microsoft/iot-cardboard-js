@@ -1,10 +1,16 @@
-import { IAuthService, IBlobAdapter } from '../Models/Constants/Interfaces';
+import {
+    IAuthService,
+    IBlobAdapter,
+    IBlobFile
+} from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import { IScenesConfig } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
+import { XMLParser } from 'fast-xml-parser';
+import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storateAccountHostUrl: string;
@@ -122,6 +128,51 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
 
                 return new ADTScenesConfigData(result);
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+            }
+        }, 'storage');
+    }
+
+    async getContainerBlobs(fileTypes: Array<string>) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            try {
+                const filesData = await axios({
+                    method: 'GET',
+                    url: `${this.blobProxyServerPath}${this.blobContainerPath}`,
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                        'x-ms-version': '2017-11-09',
+                        'x-blob-host': this.storateAccountHostUrl
+                    },
+                    params: {
+                        restype: 'container',
+                        comp: 'list'
+                    }
+                });
+                const filesXML = filesData.data;
+                const parser = new XMLParser();
+                let files: Array<IBlobFile> = parser.parse(filesXML)
+                    ?.EnumerationResults?.Blobs?.Blob;
+                if (fileTypes) {
+                    files = files.filter((f) =>
+                        fileTypes.includes(f.Name?.split('.')?.[1])
+                    );
+                }
+                files.map(
+                    (f) =>
+                        (f.Path = `https://${this.storateAccountHostUrl}${this.blobContainerPath}/${f.Name}`)
+                );
+
+                return new BlobsData(files);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,

@@ -148,3 +148,14 @@ export enum ADT3DAddInEventTypes {
     MarkerHover = 'MarkerHover',
     MarkerClick = 'MarkerClick'
 }
+
+export enum Supported3DFileTypes {
+    GLTransmissionFormat = 'gltf',
+    GLTransmissionFormatBinary = 'glb'
+}
+
+export enum SupportedBlobFileTypes {
+    JavaScriptObjectNotation = 'json',
+    GLTransmissionFormat = 'gltf',
+    GLTransmissionFormatBinary = 'glb'
+}

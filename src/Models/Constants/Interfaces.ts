@@ -51,6 +51,7 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 
 export interface IAction {
     type: string;
@@ -419,6 +420,9 @@ export interface IBlobAdapter {
     putScenesConfig: (
         config: IScenesConfig
     ) => AdapterReturnType<ADTScenesConfigData>;
+    getContainerBlobs: (
+        fileTypes?: Array<string>
+    ) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -639,4 +643,10 @@ export interface IADT3DViewerProps {
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
     refetchConfig?: () => any;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }
