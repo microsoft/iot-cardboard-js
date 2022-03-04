@@ -45,7 +45,7 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
         }
     }, [config.adapterResult.result]);
 
-    const onMarkerClick = (marker) => {
+    const onMeshClick = (marker) => {
         if (marker && sceneClickRef.current) {
             sceneClickRef.current(marker.scene);
         }
@@ -60,7 +60,7 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
                 <SceneView
                     modelUrl="Globe"
                     markers={markers}
-                    onMarkerClick={(marker) => onMarkerClick(marker)}
+                    onMeshClick={(marker) => onMeshClick(marker)}
                 />
             </div>
         </BaseComponent>
