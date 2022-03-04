@@ -32,7 +32,6 @@ export const DropdownFor3DFiles = (_args, { globals: { theme, locale } }) => {
             onChange={(blobPath) => {
                 console.log(blobPath);
             }}
-            selectedBlobUrl="https://mockStorageAccountName.blob.core.windows.net/mockContainerName/mockFile1.gltf"
         />
     );
 };
