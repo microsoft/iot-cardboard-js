@@ -42,7 +42,7 @@ export type SceneViewCallbackHandler = (
 
 export interface ColoredMeshItem {
     meshId: string;
-    color: string;
+    color?: string;
 }
 
 export type SceneViewEventHandler = (

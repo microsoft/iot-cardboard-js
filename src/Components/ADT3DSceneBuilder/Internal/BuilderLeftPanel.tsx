@@ -220,7 +220,7 @@ const BuilderLeftPanel: React.FC = () => {
         ) {
             for (const id of element.meshIDs) {
                 if (!coloredMeshes.find((meshId) => meshId.meshId === id)) {
-                    coloredMeshes.push({ meshId: id, color: null });
+                    coloredMeshes.push({ meshId: id });
                 }
             }
         }

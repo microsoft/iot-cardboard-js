@@ -216,10 +216,16 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 if (e.button === 2) {
                     addContextualMenuItems(item);
                 } else {
+                    // only remove the menu item if the item was already selected and no other meshes from the element are selected
+                    const coloredMeshesInElement = state.coloredMeshItems.filter(
+                        (coloredMesh) =>
+                            element.meshIDs.includes(coloredMesh.meshId)
+                    );
                     if (
                         state.coloredMeshItems.find(
-                            (selectedMesh) => selectedMesh.meshId === mesh.id
-                        )
+                            (coloredMesh) => coloredMesh.meshId === mesh.id
+                        ) &&
+                        coloredMeshesInElement.length === 1
                     ) {
                         removeContextualMenuItems(item);
                     } else {
@@ -235,7 +241,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     (selectedMesh) => selectedMesh.meshId === mesh.id
                 )
             ) {
-                coloredMeshes.push({ meshId: mesh.id, color: null });
+                coloredMeshes.push({ meshId: mesh.id });
             }
         } else {
             if (
@@ -247,7 +253,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     (id) => id.meshId !== mesh.id
                 );
             } else {
-                coloredMeshes.push({ meshId: mesh.id, color: null });
+                coloredMeshes.push({ meshId: mesh.id });
             }
         }
 
@@ -275,7 +281,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 (item) => item.meshId !== selectedMesh.meshId
             );
         } else {
-            coloredMeshes.push({ meshId: mesh.id, color: null });
+            coloredMeshes.push({ meshId: mesh.id });
         }
         setColoredMeshItems(coloredMeshes);
     };
