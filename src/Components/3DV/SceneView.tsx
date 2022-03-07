@@ -324,17 +324,16 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     };
 
     const restoreMeshMaterials = () => {
-        if (sceneRef.current?.meshes?.length) {
-            if (meshesAreOriginal.current)
-                if (originalMaterials.current) {
-                    for (const mesh of sceneRef.current.meshes) {
-                        mesh.material = originalMaterials.current[mesh.id];
-                    }
-                } else {
-                    for (const mesh of sceneRef.current.meshes) {
-                        mesh.material = shaderMaterial.current;
-                    }
+        if (sceneRef.current?.meshes?.length && !isLoading) {
+            if (meshesAreOriginal.current) {
+                for (const mesh of sceneRef.current.meshes) {
+                    mesh.material = originalMaterials.current[mesh.id];
                 }
+            } else {
+                for (const mesh of sceneRef.current.meshes) {
+                    mesh.material = shaderMaterial.current;
+                }
+            }
         }
     };
 
