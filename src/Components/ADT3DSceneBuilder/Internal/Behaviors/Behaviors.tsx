@@ -1,5 +1,5 @@
 import {
-    FontIcon,
+    ActionButton,
     FontSizes,
     FontWeights,
     IContextualMenuItem,
@@ -150,7 +150,7 @@ const SceneBehaviors: React.FC<Props> = ({
             behaviorToDeleteRef,
             filteredItemsNotInScene,
             'NotInScene',
-            undefined,
+            onAddBehaviorToScene,
             onBehaviorClick,
             sceneId,
             setIsDeleteDialogOpen,
@@ -198,7 +198,9 @@ const SceneBehaviors: React.FC<Props> = ({
                         {itemsInSceneVisible && (
                             <div>
                                 <div className={customStyles.listSectionLabel}>
-                                    {t('3dSceneBuilder.behaviorsInSceneTitle')}
+                                    {t('3dSceneBuilder.behaviorsInSceneTitle', {
+                                        count: behaviorsInScene?.length
+                                    })}
                                 </div>
                                 <CardboardList<IBehavior>
                                     items={listItemsInScene}
@@ -213,37 +215,36 @@ const SceneBehaviors: React.FC<Props> = ({
                         )}
                         {/* Items not in the scene */}
                         {itemsNotInSceneVisible && (
-                            <div>
-                                {/* TODO: convert to button for keyboard acessibility */}
-                                <div
-                                    className="cb-scene-builder-left-panel-collapse-chevron-header"
-                                    tabIndex={0}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
+                            <>
+                                <ActionButton
+                                    iconProps={{
+                                        iconName: isBehaviorLibraryExpanded
+                                            ? 'ChevronDown'
+                                            : 'ChevronRight',
+                                        styles: {
+                                            root: {
+                                                color:
+                                                    theme.semanticColors
+                                                        .buttonText
+                                            }
+                                        }
+                                    }}
+                                    styles={{
+                                        root: {
+                                            fontWeight: FontWeights.semibold,
+                                            padding: 0
+                                        }
+                                    }}
+                                    text={t(
+                                        '3dSceneBuilder.behaviorsNotInSceneTitle',
+                                        { count: behaviorsNotInScene?.length }
+                                    )}
+                                    onClick={() => {
                                         setIsBehaviorLibraryExpanded(
                                             (prev) => !prev
                                         );
                                     }}
-                                >
-                                    <FontIcon
-                                        iconName={'ChevronRight'}
-                                        className={`cb-chevron ${
-                                            isBehaviorLibraryExpanded
-                                                ? 'cb-expanded'
-                                                : 'cb-collapsed'
-                                        }`}
-                                    />
-                                    <div
-                                        className={
-                                            customStyles.listSectionLabel
-                                        }
-                                    >
-                                        {t(
-                                            '3dSceneBuilder.behaviorsNotInSceneTitle'
-                                        )}{' '}
-                                        ({listItemsNotInScene.length})
-                                    </div>
-                                </div>
+                                />
 
                                 {isBehaviorLibraryExpanded && (
                                     <CardboardList<IBehavior>
@@ -252,7 +253,7 @@ const SceneBehaviors: React.FC<Props> = ({
                                         textToHighlight={searchText}
                                     />
                                 )}
-                            </div>
+                            </>
                         )}
                     </div>
                 )}
@@ -299,7 +300,7 @@ function getListItems(
     }>,
     filteredElements: IBehavior[],
     listType: 'InScene' | 'NotInScene',
-    onAddBehaviorToScene: (behavior: IBehavior) => void | undefined,
+    onAddBehaviorToScene: (behavior: IBehavior) => void,
     onListItemClick: (element: IBehavior) => void,
     sceneId: string,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -343,7 +344,7 @@ function getListItems(
                         'data-testid': `removeFromSceneOverflow-${behavior.id}`
                     }
                 ];
-            default:
+            case 'NotInScene':
                 return [
                     {
                         key: 'addToScene',
@@ -368,7 +369,8 @@ function getListItems(
                         }
                     }
                 ];
-                break;
+            default:
+                return [];
         }
     };
     return filteredElements.map((item) => {

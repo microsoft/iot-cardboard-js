@@ -349,6 +349,7 @@ const BuilderLeftPanel: React.FC = () => {
     };
 
     const onAddBehaviorToScene = async (behavior: IBehavior) => {
+        console.log('Adding behavior to scene');
         await addBehaviorToSceneAdapterData.callAdapter({
             behavior
         });
