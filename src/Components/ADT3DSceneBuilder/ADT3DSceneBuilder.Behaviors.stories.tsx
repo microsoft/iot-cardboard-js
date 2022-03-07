@@ -76,7 +76,7 @@ MoreMenuEdit.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
     await MoreMenuShow.play({ canvasElement });
 
-    const moreMenus = await findOverflowMenuItem('editOverflow-wheelsTooLow');
+    const moreMenus = await findOverflowMenuItem('editOverflow');
     await clickOverFlowMenuItem(moreMenus);
 };
 

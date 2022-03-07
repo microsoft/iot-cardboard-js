@@ -319,16 +319,16 @@ function getListItems(
                         text: t('3dSceneBuilder.editBehavior'),
                         iconProps: { iconName: 'Edit' },
                         onClick: () => onListItemClick(behavior),
-                        id: `editOverflow-${behavior.id}`,
-                        'data-testid': `editOverflow-${behavior.id}`
+                        id: `editOverflow`,
+                        'data-testid': `editOverflow`
                     },
                     {
                         key: 'manageLayers',
                         text: t('3dSceneBuilder.manageSceneLayer'),
                         iconProps: { iconName: 'MapLayers' },
                         disabled: true,
-                        id: `manageLayersOverflow-${behavior.id}`,
-                        'data-testid': `manageLayersOverflow-${behavior.id}`
+                        id: `manageLayersOverflow`,
+                        'data-testid': `manageLayersOverflow`
                     },
                     {
                         key: 'removeFromThisScene',
@@ -341,24 +341,24 @@ function getListItems(
                             };
                             setIsDeleteDialogOpen(true);
                         },
-                        id: `removeFromSceneOverflow-${behavior.id}`,
-                        'data-testid': `removeFromSceneOverflow-${behavior.id}`
+                        id: `removeFromSceneOverflow`,
+                        'data-testid': `removeFromSceneOverflow`
                     }
                 ];
             case 'NotInScene':
                 return [
                     {
                         key: 'addToScene',
-                        id: `addToScene-${behavior.id}`,
-                        'data-testid': `addToScene-${behavior.id}`,
+                        id: `addToScene`,
+                        'data-testid': `addToScene`,
                         text: t('3dSceneBuilder.addBehaviorToScene'),
                         iconProps: { iconName: 'Add' },
                         onClick: () => onAddBehaviorToScene(behavior)
                     },
                     {
                         key: 'removeFromAllScenes',
-                        id: `removeFromAllOverflow-${behavior.id}`,
-                        'data-testid': `removeFromAllOverflow-${behavior.id}`,
+                        id: `removeFromAllOverflow`,
+                        'data-testid': `removeFromAllOverflow`,
                         text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
                         iconProps: { iconName: 'Delete' },
                         onClick: () => {
