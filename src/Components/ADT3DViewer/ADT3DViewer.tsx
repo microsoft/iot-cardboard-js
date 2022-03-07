@@ -29,10 +29,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     sceneConfig,
     pollingInterval,
     connectionLineColor,
-    enableMeshSelection,
     addInProps,
     hideUI,
-    refetchConfig
+    refetchConfig,
+    showMeshesOnHover,
+    enableMeshSelection,
+    showHoverOnSelected
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
@@ -43,7 +45,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const [selectedRenderMode, setSelectedRenderMode] = React.useState('');
     const lineId = useGuid();
     const popUpId = useGuid();
@@ -76,7 +77,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
-            const tempColoredMeshItems = [];
+            const tempColoredMeshItems = [...coloredMeshItems];
 
             for (const sceneVisual of sceneData.adapterResult.result.data
                 .sceneVisuals) {
@@ -93,7 +94,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                                         meshId: mesh,
                                         color: color
                                     };
-                                    tempColoredMeshItems.push(coloredMesh);
+                                    if (
+                                        !tempColoredMeshItems.find(
+                                            (item) =>
+                                                item.meshId ===
+                                                coloredMesh.meshId
+                                        )
+                                    ) {
+                                        tempColoredMeshItems.push(coloredMesh);
+                                    }
                                 }
                                 break;
                             }
@@ -148,22 +157,22 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         }
 
         if (enableMeshSelection) {
-            let meshes = [...selectedMeshIds];
+            let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
-                const selectedMesh = selectedMeshIds.find(
-                    (item) => item === mesh.id
+                const coloredMesh = coloredMeshItems.find(
+                    (item) => item.meshId === mesh.id
                 );
-                if (selectedMesh) {
-                    meshes = selectedMeshIds.filter(
-                        (item) => item !== selectedMesh
+                if (coloredMesh) {
+                    coloredMeshes = coloredMeshes.filter(
+                        (item) => item.meshId !== coloredMesh.meshId
                     );
-                    setselectedMeshIds(meshes);
+                    setColoredMeshItems(coloredMeshes);
                 } else {
-                    meshes.push(mesh.id);
-                    setselectedMeshIds(meshes);
+                    coloredMeshes.push({ meshId: mesh.id });
+                    setColoredMeshItems(coloredMeshes);
                 }
             } else {
-                setselectedMeshIds([]);
+                setColoredMeshItems([]);
             }
         }
     };
@@ -268,12 +277,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     addInProps={addInProps}
                     sceneViewProps={{
                         modelUrl: modelUrl,
-                        selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
-                        meshSelectionColor: renderMode?.meshSelectionColor,
+                        defaultColoredMeshColor:
+                            renderMode?.defaultColoredMeshColor,
                         meshHoverColor: renderMode?.meshHoverColor,
-                        meshSelectionHoverColor:
-                            renderMode?.meshSelectionHoverColor,
+                        showHoverOnSelected: showHoverOnSelected,
+                        showMeshesOnHover: showMeshesOnHover,
+                        defaultColoredMeshHoverColor:
+                            renderMode?.defaultColoredMeshHoverColor,
                         isWireframe: renderMode?.isWireframe,
                         meshBaseColor: renderMode?.baseColor,
                         meshFresnelColor: renderMode?.fresnelColor,

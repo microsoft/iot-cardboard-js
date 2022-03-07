@@ -641,6 +641,8 @@ export interface IADT3DViewerProps {
     addInProps?: IADT3DAddInProps;
     hideUI?: boolean;
     refetchConfig?: () => any;
+    showMeshesOnHover?: boolean;
+    showHoverOnSelected?: boolean;
 }
 
 export interface IADT3DViewerRenderMode {
@@ -651,7 +653,7 @@ export interface IADT3DViewerRenderMode {
     opacity: number;
     isWireframe: boolean;
     background: string;
-    meshSelectionColor: string;
+    defaultColoredMeshColor: string;
     meshHoverColor: string;
-    meshSelectionHoverColor: string;
+    defaultColoredMeshHoverColor: string;
 }

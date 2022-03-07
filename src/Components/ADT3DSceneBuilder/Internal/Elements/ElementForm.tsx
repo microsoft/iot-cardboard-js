@@ -59,8 +59,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        selectedMeshIds,
-        setSelectedMeshIds
+        coloredMeshItems,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -116,11 +116,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        const meshIds = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            meshIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -147,11 +151,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        const meshIds = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            meshIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -205,7 +213,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             <MeshTab
                                 elementToEdit={elementToEdit}
                                 // updateColoredMeshItems={updateColoredMeshItems}
-                                setSelectedMeshIds={setSelectedMeshIds}
+                                setColoredMeshItems={setColoredMeshItems}
                             />
                         </div>
                     </PivotItem>
