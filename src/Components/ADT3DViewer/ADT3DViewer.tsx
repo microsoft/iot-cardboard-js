@@ -32,7 +32,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     addInProps,
     hideUI,
     refetchConfig,
-    showMeshesOnHover
+    showMeshesOnHover,
+    enableMeshSelection,
+    showHoverOnSelected
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
@@ -75,7 +77,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
-            const tempColoredMeshItems = [];
+            const tempColoredMeshItems = [...coloredMeshItems];
 
             for (const sceneVisual of sceneData.adapterResult.result.data
                 .sceneVisuals) {
@@ -92,7 +94,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                                         meshId: mesh,
                                         color: color
                                     };
-                                    tempColoredMeshItems.push(coloredMesh);
+                                    if (
+                                        !tempColoredMeshItems.find(
+                                            (item) =>
+                                                item.meshId ===
+                                                coloredMesh.meshId
+                                        )
+                                    ) {
+                                        tempColoredMeshItems.push(coloredMesh);
+                                    }
                                 }
                                 break;
                             }
@@ -143,6 +153,26 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             } else {
                 selectedMesh.current = null;
                 setShowPopUp(false);
+            }
+        }
+
+        if (enableMeshSelection) {
+            let coloredMeshes = [...coloredMeshItems];
+            if (mesh) {
+                const coloredMesh = coloredMeshItems.find(
+                    (item) => item.meshId === mesh.id
+                );
+                if (coloredMesh) {
+                    coloredMeshes = coloredMeshes.filter(
+                        (item) => item.meshId !== coloredMesh.meshId
+                    );
+                    setColoredMeshItems(coloredMeshes);
+                } else {
+                    coloredMeshes.push({ meshId: mesh.id });
+                    setColoredMeshItems(coloredMeshes);
+                }
+            } else {
+                setColoredMeshItems([]);
             }
         }
     };
@@ -250,6 +280,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         coloredMeshItems: coloredMeshItems,
                         meshSelectionColor: renderMode?.meshSelectionColor,
                         meshHoverColor: renderMode?.meshHoverColor,
+                        showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         meshSelectionHoverColor:
                             renderMode?.meshSelectionHoverColor,
