@@ -208,7 +208,6 @@ function getListItems(
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item),
             textPrimary: item.id
-            // title: t('delete')
         };
 
         return viewModel;
