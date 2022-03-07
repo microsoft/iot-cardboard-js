@@ -87,8 +87,8 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     await userEvent.click(moreMenu);
 };
 
-export const EditItem = Template.bind({});
-EditItem.play = async ({ canvasElement }) => {
+export const EditItemMeshTab = Template.bind({});
+EditItemMeshTab.play = async ({ canvasElement }) => {
     // switch to the elements tab
     await ElementsTab.play({ canvasElement });
 
@@ -103,7 +103,7 @@ EditItem.play = async ({ canvasElement }) => {
 export const EditMeshTabDelete = Template.bind({});
 EditMeshTabDelete.play = async ({ canvasElement }) => {
     // switch to the elements tab & edit
-    await EditItem.play({ canvasElement });
+    await EditItemMeshTab.play({ canvasElement });
 
     // click a list item
     const canvas = within(canvasElement);
@@ -116,7 +116,7 @@ EditMeshTabDelete.play = async ({ canvasElement }) => {
 export const EditBehaviorsTab = Template.bind({});
 EditBehaviorsTab.play = async ({ canvasElement }) => {
     // switch to the elements tab & edit
-    await EditItem.play({ canvasElement });
+    await EditItemMeshTab.play({ canvasElement });
 
     // click a list item
     const canvas = within(canvasElement);
@@ -198,7 +198,7 @@ EditBehaviorsTabRemoveBehavior.play = async ({ canvasElement }) => {
 export const EditAliasedTwinsTab = Template.bind({});
 EditAliasedTwinsTab.play = async ({ canvasElement }) => {
     // switch to the elements tab & edit
-    await EditItem.play({ canvasElement });
+    await EditItemMeshTab.play({ canvasElement });
 
     // click a list item
     const canvas = within(canvasElement);
