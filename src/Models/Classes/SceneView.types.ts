@@ -60,9 +60,9 @@ export interface ISceneViewProp {
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
     showMeshesOnHover?: boolean;
-    meshSelectionColor?: string;
+    defaultColoredMeshColor?: string;
     meshHoverColor?: string;
-    meshSelectionHoverColor?: string;
+    defaultColoredMeshHoverColor?: string;
     isWireframe?: boolean;
     meshBaseColor?: { r: number; g: number; b: number; a: number };
     meshFresnelColor?: { r: number; g: number; b: number; a: number };

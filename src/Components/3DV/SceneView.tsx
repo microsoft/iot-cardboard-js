@@ -63,9 +63,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMeshHover,
     onCameraMove,
     showMeshesOnHover,
-    meshSelectionColor,
+    defaultColoredMeshColor,
     meshHoverColor,
-    meshSelectionHoverColor,
+    defaultColoredMeshHoverColor,
     isWireframe,
     meshBaseColor,
     meshFresnelColor,
@@ -95,16 +95,15 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const tooltipTop = useRef(0);
     const highlightedMeshRef = useRef<string>(null);
     const hovMaterial = useRef<any>(null);
-    const selMaterial = useRef<any>(null);
-    const selHovMaterial = useRef<any>(null);
+    const coloredHovMaterial = useRef<any>(null);
     const coloredMaterials = useRef<any>([]);
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
 
     const hoverColor = meshHoverColor || '#F3FF14';
-    const selectionColor = meshSelectionColor || '#00A8F0';
-    const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
+    const coloredMeshColor = defaultColoredMeshColor || '#00A8F0';
+    const coloredMeshHoverColor = defaultColoredMeshHoverColor || '#00EDD9';
 
     const defaultMeshHover = (
         marker: Marker,
@@ -269,14 +268,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 hoverColor
             );
-            selMaterial.current = new BABYLON.StandardMaterial('selected', sc);
-            selMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                selectionColor
-            );
 
-            selHovMaterial.current = new BABYLON.StandardMaterial('selhov', sc);
-            selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                selectedHoverColor
+            coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                'colHov',
+                sc
+            );
+            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                coloredMeshHoverColor
             );
 
             new BABYLON.HemisphericLight(
@@ -358,11 +356,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 hovMaterial.current.alpha = 1;
-                selMaterial.current.alpha = 1;
-                selHovMaterial.current.alpha = 1;
+                coloredHovMaterial.current.alpha = 1;
                 hovMaterial.current.wireframe = !!isWireframe;
-                selMaterial.current.wireframe = !!isWireframe;
-                selHovMaterial.current.wireframe = !!isWireframe;
+                coloredHovMaterial.current.wireframe = !!isWireframe;
                 meshesAreOriginal.current = true;
             }
 
@@ -402,16 +398,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
                 if (meshBaseColor && meshFresnelColor) {
                     hovMaterial.current.alpha = 0.5;
-                    selMaterial.current.alpha = 0.5;
-                    selHovMaterial.current.alpha = 0.5;
+                    coloredHovMaterial.current.alpha = 0.5;
                 } else {
                     hovMaterial.current.alpha = 1;
-                    selMaterial.current.alpha = 1;
-                    selHovMaterial.current.alpha = 1;
+                    coloredHovMaterial.current.alpha = 1;
                 }
                 hovMaterial.current.wireframe = !!isWireframe;
-                selMaterial.current.wireframe = !!isWireframe;
-                selHovMaterial.current.wireframe = !!isWireframe;
+                coloredHovMaterial.current.wireframe = !!isWireframe;
             }
         }
     }, [meshBaseColor, meshFresnelColor]);
@@ -426,8 +419,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             hovMaterial.current.wireframe = !!isWireframe;
-            selMaterial.current.wireframe = !!isWireframe;
-            selHovMaterial.current.wireframe = !!isWireframe;
+            coloredHovMaterial.current.wireframe = !!isWireframe;
         }
     }, [isWireframe]);
 
@@ -590,7 +582,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             // If it is selected, get its original color, not its current color
                             if (isColored) {
                                 if (showHoverOnSelected) {
-                                    mesh.material = selHovMaterial.current;
+                                    mesh.material = coloredHovMaterial.current;
                                 }
                             } else {
                                 mesh.material = hovMaterial.current;
@@ -785,7 +777,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             material.diffuseColor = BABYLON.Color3.FromHexString(color);
         } else {
             material.diffuseColor = BABYLON.Color3.FromHexString(
-                selectionColor
+                coloredMeshColor
             );
         }
 

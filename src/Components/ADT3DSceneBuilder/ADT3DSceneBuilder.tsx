@@ -238,7 +238,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         if (e.button === 2) {
             if (
                 !state.coloredMeshItems.find(
-                    (selectedMesh) => selectedMesh.meshId === mesh.id
+                    (coloredMesh) => coloredMesh.meshId === mesh.id
                 )
             ) {
                 coloredMeshes.push({ meshId: mesh.id });
@@ -246,7 +246,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         } else {
             if (
                 state.coloredMeshItems.find(
-                    (selectedMesh) => selectedMesh.meshId === mesh.id
+                    (coloredMesh) => coloredMesh.meshId === mesh.id
                 )
             ) {
                 coloredMeshes = coloredMeshes.filter(
