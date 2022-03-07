@@ -42,7 +42,7 @@ export type SceneViewCallbackHandler = (
 
 export interface ColoredMeshItem {
     meshId: string;
-    color: string;
+    color?: string;
 }
 
 export type SceneViewEventHandler = (
@@ -59,11 +59,10 @@ export interface ISceneViewProp {
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
-    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
-    meshSelectionColor?: string;
+    defaultColoredMeshColor?: string;
     meshHoverColor?: string;
-    meshSelectionHoverColor?: string;
+    defaultColoredMeshHoverColor?: string;
     isWireframe?: boolean;
     meshBaseColor?: { r: number; g: number; b: number; a: number };
     meshFresnelColor?: { r: number; g: number; b: number; a: number };

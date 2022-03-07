@@ -24,6 +24,7 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
 import ElementBehaviors from './ElementBehaviors';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -54,8 +55,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        selectedMeshIds,
-        setSelectedMeshIds
+        coloredMeshItems,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -111,11 +112,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        const meshIds = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            meshIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -142,11 +147,15 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        const meshIds = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            meshIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -199,7 +208,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                                 currentObjects.indexOf(meshId),
                                                 1
                                             );
-                                            setSelectedMeshIds(currentObjects);
+
+                                            setColoredMeshItems(
+                                                createColoredMeshItems(
+                                                    currentObjects,
+                                                    null
+                                                )
+                                            );
                                         }}
                                     />
                                 </li>

@@ -88,7 +88,7 @@ export const Globe = () => {
     return (
         <div style={{ height: '100%', position: 'relative' }}>
             <SceneView
-                modelUrl="https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf"
+                modelUrl="Globe"
                 markers={markers}
                 onMeshClick={(marker, mesh, e) => meshClick(marker, mesh, e)}
             />
