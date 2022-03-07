@@ -8,7 +8,6 @@ import {
     sleep
 } from '../../Models/Services/StoryUtilities';
 import { ICardboardListItem, ICardboardListProps } from './CardboardList.types';
-import { Theme } from '../..';
 
 const cardStyle = {
     height: '600px',
