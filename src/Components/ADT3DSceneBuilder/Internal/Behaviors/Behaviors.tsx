@@ -225,7 +225,8 @@ const SceneBehaviors: React.FC<Props> = ({
                                             root: {
                                                 color:
                                                     theme.semanticColors
-                                                        .buttonText
+                                                        .buttonText,
+                                                fontSize: FontSizes.size12
                                             }
                                         }
                                     }}
