@@ -180,9 +180,7 @@ EditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
 export const RemoveDialogShow = Template.bind({});
 RemoveDialogShow.play = async ({ canvasElement }) => {
     await MoreMenuShow.play({ canvasElement });
-    const moreMenus = await findOverflowMenuItem(
-        'removeFromSceneOverflow-wheelsTooLow'
-    );
+    const moreMenus = await findOverflowMenuItem('removeFromSceneOverflow');
     await clickOverFlowMenuItem(moreMenus);
 };
 
