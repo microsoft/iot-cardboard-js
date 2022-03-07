@@ -6,16 +6,18 @@ import { CardboardList } from '../../../../CardboardList';
 import { useTheme } from '@fluentui/react';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { createColoredMeshItems } from '../../../../3DV/SceneView.Utils';
+import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
     // updateColoredMeshItems: (name?: string) => void;
-    setSelectedMeshIds: (selectedNames: string[]) => void;
+    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void;
 }
 const MeshTab: React.FC<MeshTabProps> = ({
     elementToEdit,
     // updateColoredMeshItems,
-    setSelectedMeshIds
+    setColoredMeshItems
 }) => {
     const { t } = useTranslation();
     const [listItems, setListItems] = useState<ICardboardListItem<string>[]>(
@@ -28,14 +30,14 @@ const MeshTab: React.FC<MeshTabProps> = ({
             elementToEdit.meshIDs,
             // updateColoredMeshItems,
             // updateColoredMeshItems,
-            setSelectedMeshIds
+            setColoredMeshItems
         );
         setListItems(listItems);
     }, [
         elementToEdit,
         // updateColoredMeshItems,
         // updateColoredMeshItems,
-        setSelectedMeshIds
+        setColoredMeshItems
     ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
@@ -58,7 +60,7 @@ function getListItems(
     filteredElements: string[],
     // onElementEnter: (element: string) => void,
     // onElementLeave: () => void,
-    setSelectedMeshIds: (selectedNames: string[]) => void
+    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void
 ): ICardboardListItem<string>[] {
     return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<string> = {
@@ -75,7 +77,9 @@ function getListItems(
             onClick: () => {
                 const currentObjects = [...filteredElements];
                 currentObjects.splice(currentObjects.indexOf(item), 1);
-                setSelectedMeshIds(currentObjects);
+                setColoredMeshItems(
+                    createColoredMeshItems(currentObjects, null)
+                );
             },
             textPrimary: item
         };
