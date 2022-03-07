@@ -122,9 +122,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         opacity: 1,
         isWireframe: false,
-        meshSelectionColor: '#FF26D7',
+        defaultColoredMeshColor: '#FF26D7',
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: null
     },
     {
@@ -134,9 +134,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         opacity: 1,
         isWireframe: true,
-        meshSelectionColor: null,
+        defaultColoredMeshColor: null,
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -146,9 +146,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.1, // @coryboyle Doesn't seem to work
         isWireframe: false,
-        meshSelectionColor: '#FF8300',
+        defaultColoredMeshColor: '#FF8300',
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -158,9 +158,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
-        meshSelectionColor: null,
+        defaultColoredMeshColor: null,
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -170,9 +170,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: false,
-        meshSelectionColor: null,
+        defaultColoredMeshColor: null,
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -182,9 +182,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
-        meshSelectionColor: null,
+        defaultColoredMeshColor: null,
         meshHoverColor: null,
-        meshSelectionHoverColor: null,
+        defaultColoredMeshHoverColor: null,
         background: 'radial-gradient(#0a0a54, #020024)'
     }
 ];
