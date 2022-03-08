@@ -1,23 +1,36 @@
-import { FontIcon, SearchBox, Separator, Text } from '@fluentui/react';
+import {
+    ActionButton,
+    FontSizes,
+    FontWeights,
+    IContextualMenuItem,
+    IStyle,
+    memoizeFunction,
+    mergeStyleSets,
+    Separator,
+    Theme,
+    useTheme
+} from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IBehavior } from '../../../../Models/Classes/3DVConfig';
+import { TFunction, useTranslation } from 'react-i18next';
+import { IBehavior, IScenesConfig } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { CardboardList } from '../../../CardboardListItem/CardboardList';
-import { CardboardListItemProps } from '../../../CardboardListItem/CardboardListItem';
+import { CardboardList } from '../../../CardboardList/CardboardList';
+import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import SearchHeader from '../Shared/SearchHeader';
 
 interface Props {
     behaviors: Array<IBehavior>;
-    onCreateBehaviorClick: () => any;
-    onBehaviorClick: (behavior: IBehavior) => any;
+    onCreateBehaviorClick: () => void;
+    onBehaviorClick: (behavior: IBehavior) => void;
     onRemoveBehaviorFromScene: (
         behaviorId: string,
         removeFromAllScenes?: boolean
-    ) => any;
-    onAddBehaviorToScene: (behavior: IBehavior) => any;
+    ) => void;
+    onAddBehaviorToScene: (behavior: IBehavior) => void;
 }
 
 const SceneBehaviors: React.FC<Props> = ({
@@ -30,7 +43,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const { t } = useTranslation();
     const { config, sceneId } = useContext(SceneBuilderContext);
 
-    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [filteredItemsInScene, setFilteredItemsInScene] = useState<
         IBehavior[]
@@ -41,6 +54,12 @@ const SceneBehaviors: React.FC<Props> = ({
     const [isBehaviorLibraryExpanded, setIsBehaviorLibraryExpanded] = useState(
         false
     );
+    const [listItemsInScene, setListItemsInScene] = useState<
+        ICardboardListItem<IBehavior>[]
+    >([]);
+    const [listItemsNotInScene, setListItemsNotInScene] = useState<
+        ICardboardListItem<IBehavior>[]
+    >([]);
     const behaviorToDeleteRef = useRef<{
         id: string;
         removeFromAllScenes?: boolean;
@@ -93,12 +112,6 @@ const SceneBehaviors: React.FC<Props> = ({
             filteredNotInScene.length > 0 &&
             !isBehaviorLibraryExpanded
         ) {
-            console.log(
-                'Expanding library',
-                searchText,
-                filteredNotInScene.length,
-                isBehaviorLibraryExpanded
-            );
             setIsBehaviorLibraryExpanded(true);
         }
     }, [searchText, behaviorsInScene, behaviorsNotInScene]);
@@ -106,135 +119,73 @@ const SceneBehaviors: React.FC<Props> = ({
     const itemsInSceneVisible = filteredItemsInScene?.length > 0;
     const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
 
-    const getOverflowMenuItemsInScene = (behavior: IBehavior) => {
-        return [
-            {
-                key: 'edit',
-                text: t('3dSceneBuilder.editBehavior'),
-                iconProps: { iconName: 'Edit' },
-                onClick: () => onBehaviorClick(behavior),
-                id: `editOverflow-${behavior.id}`,
-                'data-testid': `editOverflow-${behavior.id}`
-            },
-            {
-                key: 'manageLayers',
-                text: t('3dSceneBuilder.manageSceneLayer'),
-                iconProps: { iconName: 'MapLayers' },
-                disabled: true,
-                id: `manageLayersOverflow-${behavior.id}`,
-                'data-testid': `manageLayersOverflow-${behavior.id}`
-            },
-            {
-                key: 'removeFromThisScene',
-                text: t('3dSceneBuilder.removeBehaviorFromScene'),
-                iconProps: { iconName: 'Delete' },
-                onClick: () => {
-                    behaviorToDeleteRef.current = {
-                        id: behavior.id,
-                        removeFromAllScenes: false
-                    };
-                    setIsConfirmDeleteOpen(true);
-                },
-                id: `removeFromSceneOverflow-${behavior.id}`,
-                'data-testid': `removeFromSceneOverflow-${behavior.id}`
-            }
-        ];
-    };
-    const getOverflowMenuItemsNotInScene = (behavior: IBehavior) => {
-        return [
-            {
-                key: 'addToScene',
-                id: `addToScene-${behavior.id}`,
-                'data-testid': `addToScene-${behavior.id}`,
-                text: t('3dSceneBuilder.addBehaviorToScene'),
-                iconProps: { iconName: 'Add' },
-                onClick: () => onAddBehaviorToScene(behavior)
-            },
-            {
-                key: 'removeFromAllScenes',
-                id: `removeFromAllOverflow-${behavior.id}`,
-                'data-testid': `removeFromAllOverflow-${behavior.id}`,
-                text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
-                iconProps: { iconName: 'Delete' },
-                onClick: () => {
-                    behaviorToDeleteRef.current = {
-                        id: behavior.id,
-                        removeFromAllScenes: true
-                    };
-                    setIsConfirmDeleteOpen(true);
-                }
-            }
-        ];
-    };
-    const getListItemPropsInScene = (
-        item
-    ): CardboardListItemProps<IBehavior> => {
-        const metadata = ViewerConfigUtility.getBehaviorMetaData(
+    // generate the list of items to show - In Scene
+    useEffect(() => {
+        const listItems = getListItems(
             config,
+            behaviorToDeleteRef,
+            filteredItemsInScene,
+            'InScene',
+            onAddBehaviorToScene,
+            onBehaviorClick,
             sceneId,
-            item
+            setIsDeleteDialogOpen,
+            t
         );
-        return {
-            ariaLabel: '',
-            iconStartName: 'Ringer',
-            onClick: onBehaviorClick,
-            overflowMenuItems: getOverflowMenuItemsInScene(item),
-            textPrimary: item.id,
-            textSecondary: t('3dSceneBuilder.behaviorMetaText', {
-                numElementsInActiveScene: metadata.numElementsInActiveScene,
-                numSceneRefs: metadata.numSceneRefs
-            })
-        };
-    };
-
-    const getListItemPropsNotInScene = (
-        item
-    ): CardboardListItemProps<IBehavior> => {
-        const metadata = ViewerConfigUtility.getBehaviorMetaData(
+        setListItemsInScene(listItems);
+    }, [
+        config,
+        behaviorToDeleteRef,
+        filteredItemsInScene,
+        'InScene',
+        onAddBehaviorToScene,
+        onBehaviorClick,
+        sceneId,
+        setIsDeleteDialogOpen
+    ]);
+    // generate the list of items to show - NOT In Scene
+    useEffect(() => {
+        const listItems = getListItems(
             config,
+            behaviorToDeleteRef,
+            filteredItemsNotInScene,
+            'NotInScene',
+            onAddBehaviorToScene,
+            onBehaviorClick,
             sceneId,
-            item
+            setIsDeleteDialogOpen,
+            t
         );
-        return {
-            ariaLabel: '',
-            iconStartName: 'Ringer',
-            openMenuOnClick: true,
-            overflowMenuItems: getOverflowMenuItemsNotInScene(item),
-            textPrimary: item.id,
-            textSecondary: t('3dSceneBuilder.behaviorMetaText', {
-                numElementsInActiveScene: metadata.numElementsInActiveScene,
-                numSceneRefs: metadata.numSceneRefs
-            })
-        };
-    };
+        setListItemsNotInScene(listItems);
+    }, [
+        config,
+        behaviorToDeleteRef,
+        filteredItemsNotInScene,
+        'InScene',
+        onAddBehaviorToScene,
+        onBehaviorClick,
+        sceneId,
+        setIsDeleteDialogOpen
+    ]);
 
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <div className="cb-scene-builder-behavior-list">
+            <div className={commonPanelStyles.rootListContainer}>
                 {behaviors.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsText')}
                     </p>
                 ) : (
                     <div>
-                        <div className="cb-scene-builder-behavior-search-box">
-                            <SearchBox
-                                placeholder={t(
-                                    '3dSceneBuilder.searchBehaviorsPlaceholder'
-                                )}
-                                onChange={(_e, value) => setSearchText(value)}
-                                value={searchText}
-                            />
-                        </div>
-                        <Separator
-                            styles={{
-                                root: {
-                                    '&:before': {
-                                        backgroundColor:
-                                            'var(--fluent-color-grey-30)'
-                                    }
-                                }
-                            }}
+                        <SearchHeader
+                            onSearchTextChange={setSearchText}
+                            placeholder={t(
+                                '3dSceneBuilder.searchBehaviorsPlaceholder'
+                            )}
+                            searchText={searchText}
                         />
                         {!itemsInSceneVisible && !itemsNotInSceneVisible ? (
                             <p className="cb-scene-builder-left-panel-text">
@@ -246,19 +197,13 @@ const SceneBehaviors: React.FC<Props> = ({
                         {/* List of behaviors in the scene */}
                         {itemsInSceneVisible && (
                             <div>
-                                <div className="cb-behavior-list-section-label-top-container">
-                                    <Text
-                                        variant="medium"
-                                        className="cb-behavior-list-section-label"
-                                    >
-                                        {t(
-                                            '3dSceneBuilder.behaviorsInSceneTitle'
-                                        )}
-                                    </Text>
+                                <div className={customStyles.listSectionLabel}>
+                                    {t('3dSceneBuilder.behaviorsInSceneTitle', {
+                                        count: behaviorsInScene?.length
+                                    })}
                                 </div>
                                 <CardboardList<IBehavior>
-                                    items={filteredItemsInScene}
-                                    getListItemProps={getListItemPropsInScene}
+                                    items={listItemsInScene}
                                     listKey={'behaviors-in-scene'}
                                     textToHighlight={searchText}
                                 />
@@ -270,50 +215,46 @@ const SceneBehaviors: React.FC<Props> = ({
                         )}
                         {/* Items not in the scene */}
                         {itemsNotInSceneVisible && (
-                            <div>
-                                {/* TODO: convert to button for keyboard acessibility */}
-                                <div
-                                    className="cb-scene-builder-left-panel-collapse-chevron-header"
-                                    tabIndex={0}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
+                            <>
+                                <ActionButton
+                                    iconProps={{
+                                        iconName: isBehaviorLibraryExpanded
+                                            ? 'ChevronDown'
+                                            : 'ChevronRight',
+                                        styles: {
+                                            root: {
+                                                color:
+                                                    theme.semanticColors
+                                                        .buttonText,
+                                                fontSize: FontSizes.size12
+                                            }
+                                        }
+                                    }}
+                                    styles={{
+                                        root: {
+                                            fontWeight: FontWeights.semibold,
+                                            padding: 0
+                                        }
+                                    }}
+                                    text={t(
+                                        '3dSceneBuilder.behaviorsNotInSceneTitle',
+                                        { count: behaviorsNotInScene?.length }
+                                    )}
+                                    onClick={() => {
                                         setIsBehaviorLibraryExpanded(
                                             (prev) => !prev
                                         );
                                     }}
-                                >
-                                    <FontIcon
-                                        iconName={'ChevronRight'}
-                                        className={`cb-chevron ${
-                                            isBehaviorLibraryExpanded
-                                                ? 'cb-expanded'
-                                                : 'cb-collapsed'
-                                        }`}
-                                    />
-                                    <Text
-                                        variant="medium"
-                                        className="cb-behavior-list-section-label"
-                                    >
-                                        <span>
-                                            {t(
-                                                '3dSceneBuilder.behaviorsNotInSceneTitle'
-                                            )}{' '}
-                                            ({filteredItemsNotInScene.length})
-                                        </span>
-                                    </Text>
-                                </div>
+                                />
 
                                 {isBehaviorLibraryExpanded && (
                                     <CardboardList<IBehavior>
-                                        items={filteredItemsNotInScene}
-                                        getListItemProps={
-                                            getListItemPropsNotInScene
-                                        }
+                                        items={listItemsNotInScene}
                                         listKey={'behaviors-not-in-scene'}
                                         textToHighlight={searchText}
                                     />
                                 )}
-                            </div>
+                            </>
                         )}
                     </div>
                 )}
@@ -326,8 +267,8 @@ const SceneBehaviors: React.FC<Props> = ({
                 />
             </div>
             <ConfirmDeleteDialog
-                isOpen={isConfirmDeleteOpen}
-                setIsOpen={setIsConfirmDeleteOpen}
+                isOpen={isDeleteDialogOpen}
+                setIsOpen={setIsDeleteDialogOpen}
                 onConfirmDeletion={() => {
                     onRemoveBehaviorFromScene(
                         behaviorToDeleteRef.current.id,
@@ -352,4 +293,135 @@ const SceneBehaviors: React.FC<Props> = ({
     );
 };
 
+function getListItems(
+    config: IScenesConfig,
+    behaviorToDeleteRef: React.MutableRefObject<{
+        id: string;
+        removeFromAllScenes?: boolean;
+    }>,
+    filteredElements: IBehavior[],
+    listType: 'InScene' | 'NotInScene',
+    onAddBehaviorToScene: (behavior: IBehavior) => void,
+    onListItemClick: (element: IBehavior) => void,
+    sceneId: string,
+    setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    t: TFunction<string>
+): ICardboardListItem<IBehavior>[] {
+    const getMenuItems = (
+        type: 'InScene' | 'NotInScene',
+        behavior: IBehavior
+    ): IContextualMenuItem[] => {
+        switch (type) {
+            case 'InScene':
+                return [
+                    {
+                        key: 'edit',
+                        text: t('3dSceneBuilder.editBehavior'),
+                        iconProps: { iconName: 'Edit' },
+                        onClick: () => onListItemClick(behavior),
+                        id: `editOverflow`,
+                        'data-testid': `editOverflow`
+                    },
+                    {
+                        key: 'manageLayers',
+                        text: t('3dSceneBuilder.manageSceneLayer'),
+                        iconProps: { iconName: 'MapLayers' },
+                        disabled: true,
+                        id: `manageLayersOverflow`,
+                        'data-testid': `manageLayersOverflow`
+                    },
+                    {
+                        key: 'removeFromThisScene',
+                        text: t('3dSceneBuilder.removeBehaviorFromScene'),
+                        iconProps: { iconName: 'Delete' },
+                        onClick: () => {
+                            behaviorToDeleteRef.current = {
+                                id: behavior.id,
+                                removeFromAllScenes: false
+                            };
+                            setIsDeleteDialogOpen(true);
+                        },
+                        id: `removeFromSceneOverflow`,
+                        'data-testid': `removeFromSceneOverflow`
+                    }
+                ];
+            case 'NotInScene':
+                return [
+                    {
+                        key: 'addToScene',
+                        id: `addToScene`,
+                        'data-testid': `addToScene`,
+                        text: t('3dSceneBuilder.addBehaviorToScene'),
+                        iconProps: { iconName: 'Add' },
+                        onClick: () => onAddBehaviorToScene(behavior)
+                    },
+                    {
+                        key: 'removeFromAllScenes',
+                        id: `removeFromAllOverflow`,
+                        'data-testid': `removeFromAllOverflow`,
+                        text: t('3dSceneBuilder.removeBehaviorFromAllScenes'),
+                        iconProps: { iconName: 'Delete' },
+                        onClick: () => {
+                            behaviorToDeleteRef.current = {
+                                id: behavior.id,
+                                removeFromAllScenes: true
+                            };
+                            setIsDeleteDialogOpen(true);
+                        }
+                    }
+                ];
+            default:
+                return [];
+        }
+    };
+    return filteredElements.map((item) => {
+        const metadata = ViewerConfigUtility.getBehaviorMetaData(
+            config,
+            sceneId,
+            item
+        );
+        let viewModel: ICardboardListItem<IBehavior>;
+        if (listType === 'InScene') {
+            viewModel = {
+                ariaLabel: '',
+                iconStartName: 'Ringer',
+                item: item,
+                onClick: onListItemClick,
+                overflowMenuItems: getMenuItems(listType, item),
+                textPrimary: item.id,
+                textSecondary: t('3dSceneBuilder.behaviorMetaText', {
+                    numElementsInActiveScene: metadata.numElementsInActiveScene,
+                    numSceneRefs: metadata.numSceneRefs
+                })
+            };
+        } else {
+            viewModel = {
+                ariaLabel: '',
+                iconStartName: 'Ringer',
+                item: item,
+                openMenuOnClick: true,
+                overflowMenuItems: getMenuItems(listType, item),
+                textPrimary: item.id,
+                textSecondary: t('3dSceneBuilder.behaviorMetaText', {
+                    numElementsInActiveScene: metadata.numElementsInActiveScene,
+                    numSceneRefs: metadata.numSceneRefs
+                })
+            };
+        }
+
+        return viewModel;
+    });
+}
+
 export default SceneBehaviors;
+
+const getStyles = memoizeFunction((_theme: Theme) => {
+    return mergeStyleSets({
+        listSectionLabel: {
+            fontSize: FontSizes.size14,
+            fontWeight: FontWeights.semibold,
+            marginBottom: 4,
+            paddingLeft: 8
+        } as IStyle
+    });
+});

@@ -9,6 +9,7 @@ import {
     IWidgetLibraryItem,
     IWidget
 } from '../../Models/Classes/3DVConfig';
+import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -52,8 +53,8 @@ export interface I3DSceneBuilderContext {
     config: IScenesConfig;
     getConfig: () => void;
     sceneId: string;
-    selectedMeshIds: Array<string>;
-    setSelectedMeshIds: (objects: Array<string>) => void;
+    coloredMeshItems: Array<ColoredMeshItem>;
+    setColoredMeshItems: (objects: Array<ColoredMeshItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
@@ -93,14 +94,6 @@ export interface IADT3DSceneBuilderElementFormProps {
     onBehaviorSave: OnBehaviorSave;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
-}
-
-export interface IADT3DSceneBuilderElementBehaviorProps {
-    behaviors: Array<IBehavior>;
-    elementToEdit: ITwinToObjectMapping;
-    onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
-    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
 }
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
@@ -157,7 +150,7 @@ export interface IADT3DSceneBuilderElementsProps {
 
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
-    selectedMeshIds: Array<string>;
+    coloredMeshItems: Array<ColoredMeshItem>;
     widgetFormInfo: WidgetFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;

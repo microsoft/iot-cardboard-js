@@ -317,8 +317,8 @@
         "noBehaviorsOnElement": "No behaviors assigned to this element",
         "noElementsText": "No elements created yet",
         "noResults": "No results",
-        "behaviorsInSceneTitle": "In this scene",
-        "behaviorsNotInSceneTitle": "In other scenes",
+        "behaviorsInSceneTitle": "In this scene ({{count}})",
+        "behaviorsNotInSceneTitle": "In other scenes ({{count}})",
         "noBehaviorsText": "No behaviors found",
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
         "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes.  You can't undo this action.",
@@ -366,7 +366,8 @@
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
-        "aliasedTwins": "Aliased twins"
+        "aliasedTwins": "Aliased twins",
+        "notImplemented": "Not implemented"
     },
     "3dSceneViewer": {
         "renderModes": {
