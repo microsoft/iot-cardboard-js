@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
@@ -36,68 +42,77 @@ const WidgetsTab: React.FC = () => {
         );
     }, [behaviorToEdit]);
 
-    const onEditWidgetStart = (index: number) => {
-        const widget = widgets[index];
+    const onEditWidgetStart = useCallback(
+        (index: number) => {
+            const widget = widgets[index];
 
-        const matchingWidgetLibraryItem = availableWidgets.find(
-            (aW) => aW.data.type === widget.type
-        );
+            const matchingWidgetLibraryItem = availableWidgets.find(
+                (aW) => aW.data.type === widget.type
+            );
 
-        const { iconName, title, description } = matchingWidgetLibraryItem;
+            const { iconName, title, description } = matchingWidgetLibraryItem;
 
-        if (widget && matchingWidgetLibraryItem) {
-            setWidgetFormInfo({
-                widget: {
-                    iconName,
-                    title,
-                    description,
-                    data: widget
-                },
-                mode: WidgetFormMode.EditWidget,
-                widgetIdx: index
-            });
-        }
-    };
+            if (widget && matchingWidgetLibraryItem) {
+                setWidgetFormInfo({
+                    widget: {
+                        iconName,
+                        title,
+                        description,
+                        data: widget
+                    },
+                    mode: WidgetFormMode.EditWidget,
+                    widgetIdx: index
+                });
+            }
+        },
+        [setWidgetFormInfo]
+    );
 
-    const onRemoveWidget = (index: number) => {
-        const wids = [...widgets];
-        wids.splice(index, 1);
-        setBehaviorToEdit(
-            produce((draft) => {
-                const popOver = draft?.visuals?.find(
-                    (visual) => visual.type === VisualType.OnClickPopover
-                );
-                popOver.widgets = wids;
-
-                if (wids.length === 0 && popOver) {
-                    // If removing all widgets, remove popover container
-                    const popOverIdx = draft.visuals.findIndex(
-                        (v) => v.type === VisualType.OnClickPopover
-                    );
-                    draft.visuals.splice(popOverIdx, 1);
-                }
-            })
-        );
-    };
-
-    function onWidgetAdd(libraryItem: IWidgetLibraryItem) {
-        setWidgetFormInfo({
-            widget: libraryItem,
-            mode: WidgetFormMode.CreateWidget
-        });
-
-        // Add popover visual if not already present
-        const popOver = behaviorToEdit.visuals?.find(
-            (v) => v.type === VisualType.OnClickPopover
-        );
-        if (!popOver) {
+    const onRemoveWidget = useCallback(
+        (index: number) => {
+            const wids = [...widgets];
+            wids.splice(index, 1);
             setBehaviorToEdit(
                 produce((draft) => {
-                    draft.visuals.push(defaultOnClickPopover);
+                    const popOver = draft?.visuals?.find(
+                        (visual) => visual.type === VisualType.OnClickPopover
+                    );
+                    popOver.widgets = wids;
+
+                    if (wids.length === 0 && popOver) {
+                        // If removing all widgets, remove popover container
+                        const popOverIdx = draft.visuals.findIndex(
+                            (v) => v.type === VisualType.OnClickPopover
+                        );
+                        draft.visuals.splice(popOverIdx, 1);
+                    }
                 })
             );
-        }
-    }
+        },
+        [setBehaviorToEdit]
+    );
+
+    const onWidgetAdd = useCallback(
+        (libraryItem: IWidgetLibraryItem) => {
+            setWidgetFormInfo({
+                widget: libraryItem,
+                mode: WidgetFormMode.CreateWidget
+            });
+
+            // Add popover visual if not already present
+            const popOver = behaviorToEdit.visuals?.find(
+                (v) => v.type === VisualType.OnClickPopover
+            );
+            if (!popOver) {
+                setBehaviorToEdit(
+                    produce((draft) => {
+                        draft.visuals.push(defaultOnClickPopover);
+                    })
+                );
+            }
+        },
+        [setWidgetFormInfo, setBehaviorToEdit]
+    );
 
     // generate the list of items to show
     useEffect(() => {

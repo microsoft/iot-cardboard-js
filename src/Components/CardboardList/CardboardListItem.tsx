@@ -1,13 +1,10 @@
-import { Checkbox, DefaultButton, FontIcon, useTheme } from '@fluentui/react';
+import { DefaultButton, FontIcon, useTheme } from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { Utils } from '../..';
+import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
 import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
-import {
-    getStyles,
-    getButtonStyles,
-    checkboxStyles
-} from './CardboardListItem.styles';
+import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
 export const CardboardListItem = <T extends unknown>({
     buttonProps,
@@ -64,11 +61,12 @@ export const CardboardListItem = <T extends unknown>({
                 }}
             >
                 {showCheckbox && (
-                    <Checkbox
-                        checked={isChecked}
-                        inputProps={preventFocus}
-                        styles={checkboxStyles}
-                    />
+                    <>
+                        <CheckboxRenderer
+                            isChecked={isChecked}
+                            className={customStyles.checkbox}
+                        />
+                    </>
                 )}
                 {showStartIcon && (
                     <FontIcon
@@ -123,7 +121,3 @@ export const CardboardListItem = <T extends unknown>({
         </>
     );
 };
-
-const preventFocus = {
-    'data-is-focusable': false
-} as React.ButtonHTMLAttributes<HTMLElement | HTMLButtonElement>;

@@ -1,7 +1,6 @@
 import {
     FontSizes,
     IButtonStyles,
-    ICheckboxStyles,
     memoizeFunction,
     mergeStyleSets,
     Theme
@@ -15,6 +14,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         textOverflow: 'ellipsis'
     };
     return mergeStyleSets({
+        checkbox: { marginRight: 8 },
         endIcon: { marginLeft: '8px' },
         icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
         menuIcon: { opacity: 0 },
@@ -37,11 +37,6 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         }
     });
 });
-export const checkboxStyles: ICheckboxStyles = {
-    checkbox: {
-        marginRight: '8px'
-    }
-};
 export const getButtonStyles = memoizeFunction(
     (): IButtonStyles => {
         return {
