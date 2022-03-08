@@ -16,14 +16,15 @@ import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButt
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
 import { TextField, DefaultButton, Separator } from '@fluentui/react';
-import BehaviorFormAlertsTab from './BehaviorFormTabs/BehaviorFormAlertsTab';
+import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
-import BehaviorFormWidgetsTab from './BehaviorFormTabs/BehaviorFormWidgetsTab';
+import WidgetsTab from './Internal/WidgetsTab';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParams
 } from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
+import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -171,12 +172,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                                     .itemKey as BehaviorPivot
                                             )
                                         }
-                                        styles={{
-                                            root: {
-                                                marginLeft: -8,
-                                                marginBottom: 8
-                                            }
-                                        }}
+                                        styles={leftPanelPivotStyles}
                                     >
                                         <PivotItem
                                             headerText={t(
@@ -210,7 +206,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             )}
                                             itemKey={BehaviorPivot.alerts}
                                         >
-                                            <BehaviorFormAlertsTab />
+                                            <AlertsTab />
                                         </PivotItem>
                                         <PivotItem
                                             headerText={t(
@@ -218,7 +214,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             )}
                                             itemKey={BehaviorPivot.widgets}
                                         >
-                                            <BehaviorFormWidgetsTab />
+                                            <WidgetsTab />
                                         </PivotItem>
                                     </Pivot>
                                 </div>

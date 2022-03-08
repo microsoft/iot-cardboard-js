@@ -42,7 +42,7 @@ export default class BlobAdapter implements IBlobAdapter {
                     this.blobContainerPath = url.pathname;
                 }
             } catch (error) {
-                console.log('Unable to parse container URL!');
+                console.error('Unable to parse container URL!');
             }
         }
     }

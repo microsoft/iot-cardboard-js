@@ -7,6 +7,7 @@
     // git
     "donjayamanne.githistory", // Git History
     "eamodio.gitlens", // Git Lens
+    "GitHub.vscode-pull-request-github", // PRs
     // .md
     "shd101wyy.markdown-preview-enhanced", // Markdown preview Enhanced
     // Import Intellisense

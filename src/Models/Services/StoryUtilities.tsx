@@ -60,6 +60,10 @@ export async function waitForFirstRender() {
     return sleep(1);
 }
 
+export const findCalloutItemByTestId = async (testId: string) => {
+    return await screen.findByTestId(testId);
+};
+
 export const findOverflowMenuItem = async (testId: string) => {
     return await screen.findByTestId(testId);
 };
