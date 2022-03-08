@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentErrorType } from '../../Models/Constants';
-import './ScenePageError.scss';
+import './ScenePageErrorHandlingWrapper.scss';
 import {
     Image,
     MessageBar,
@@ -9,12 +9,12 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { ScenePageErrorProps } from './ScenePageError.types';
+import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
 import Error from '../../Resources/Static/error.svg';
 import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
 import { PrimaryButton } from '@fluentui/react';
 import { Link, Text } from '@fluentui/react';
-const ScenePageError: React.FC<ScenePageErrorProps> = ({
+const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
     children
 }) => {
@@ -32,7 +32,8 @@ const ScenePageError: React.FC<ScenePageErrorProps> = ({
                     style={{
                         margin: 'auto',
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
                 >
                     <Image
@@ -41,7 +42,7 @@ const ScenePageError: React.FC<ScenePageErrorProps> = ({
                         src={Error}
                         {...imageProps}
                     />
-                    <div>
+                    <div style={{ textAlign: 'center' }}>
                         <Text
                             className="cb-error-title"
                             style={{
@@ -81,8 +82,9 @@ const ScenePageError: React.FC<ScenePageErrorProps> = ({
                     className="cb-scene-page-error-splash-wrapper"
                     style={{
                         margin: 'auto',
-                        display: 'block',
-                        flexDirection: 'column'
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
                 >
                     <Image
@@ -91,7 +93,7 @@ const ScenePageError: React.FC<ScenePageErrorProps> = ({
                         src={AccessRestrictedError}
                         {...imageProps}
                     />
-                    <div>
+                    <div style={{ textAlign: 'center' }}>
                         <Text
                             className="cb-error-title"
                             style={{
@@ -156,4 +158,4 @@ function _learnMoreClicked(): void {
     alert('Clicked');
 }
 
-export default React.memo(ScenePageError);
+export default React.memo(ScenePageErrorHandlingWrapper);

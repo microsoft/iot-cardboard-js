@@ -1,6 +1,6 @@
 import { IComponentError } from '../../Models/Constants';
 
-export interface ScenePageErrorProps {
+export interface ScenePageErrorHandlingWrapperProps {
     errors: Array<IComponentError>;
     children?: React.ReactNode;
 }

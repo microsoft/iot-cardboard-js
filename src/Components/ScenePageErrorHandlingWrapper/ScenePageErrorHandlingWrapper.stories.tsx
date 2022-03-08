@@ -1,11 +1,11 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import { ComponentErrorType } from '../../Models/Constants';
-import ScenePageError from './ScenePageError';
+import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
 
 export default {
-    title: 'Components/ScenePageError',
-    component: ScenePageError
+    title: 'Components/ScenePageErrorHandlingWrapper',
+    component: ScenePageErrorHandlingWrapper
 };
 
 export const UnauthorizedAccessError = () => {
@@ -13,7 +13,7 @@ export const UnauthorizedAccessError = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <ScenePageError
+        <ScenePageErrorHandlingWrapper
             errors={[
                 {
                     type: ComponentErrorType.NonExistentBlob,
@@ -30,7 +30,7 @@ export const NonExistentBlob = () => {
         <div></div>
     ) : (
         <div>
-            <ScenePageError
+            <ScenePageErrorHandlingWrapper
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,
@@ -48,7 +48,7 @@ export const ReaderAccessOnly = () => {
         <div></div>
     ) : (
         <div>
-            <ScenePageError
+            <ScenePageErrorHandlingWrapper
                 errors={[
                     {
                         type: ComponentErrorType.ReaderAccessOnly,
