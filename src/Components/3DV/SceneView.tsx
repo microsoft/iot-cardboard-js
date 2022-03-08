@@ -20,6 +20,15 @@ import { makeShaderMaterial } from './Shaders';
 
 const debug = false;
 
+function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
+    };
+}
 async function loadPromise(
     root,
     file,
@@ -426,10 +435,27 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
         // This should save a lot of memory for large scenes
+        const canvas = document.getElementById(canvasId);
+        let observer: ResizeObserver;
+        if (canvas) {
+            observer = new ResizeObserver(
+                debounce(() => {
+                    if (engineRef.current) {
+                        engineRef.current.resize();
+                    }
+                }, 10)
+            );
+            observer.observe(canvas);
+        }
+
         return () => {
             if (sceneRef.current) {
                 if (debug) {
                     console.log('Unmount - has scene');
+                }
+
+                if (observer) {
+                    observer.disconnect();
                 }
 
                 try {
@@ -442,13 +468,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
             }
 
-            const resize = () => {
-                engineRef.current.resize();
-            };
-
             sceneRef.current = null;
             cameraRef.current = null;
-            window.removeEventListener('resize', resize);
         };
     }, [modelUrl]);
 
