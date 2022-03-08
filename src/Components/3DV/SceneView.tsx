@@ -20,19 +20,19 @@ import { makeShaderMaterial } from './Shaders';
 
 const debug = false;
 
-function debounce(func, timeout = 300) {
-    let timer;
-    return (...args) => {
+function debounce(func: any, timeout = 300) {
+    let timer: NodeJS.Timeout;
+    return () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
-            func.apply(this, args);
+            func();
         }, timeout);
     };
 }
 async function loadPromise(
-    root,
-    file,
-    scene,
+    root: string,
+    file: string,
+    scene: BABYLON.Scene,
     onProgress: any,
     onError: any
 ): Promise<BABYLON.AssetContainer> {
@@ -175,8 +175,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 root,
                 file,
                 sc,
-                (e) => onProgress(e),
-                (s, m, e) => {
+                (e: any) => onProgress(e),
+                (s: any, m: any, e: any) => {
                     console.log('Error loading model. Try Ctrl-F5', s, e);
                     success = false;
                     setIsLoading(undefined);
@@ -237,7 +237,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
 
-        function totalBoundingInfo(meshes) {
+        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
             let boundingInfo = meshes[0].getBoundingInfo();
             let min = boundingInfo.boundingBox.minimumWorld;
             let max = boundingInfo.boundingBox.maximumWorld;
@@ -672,7 +672,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onMeshClickRef.current) {
-            const pointerTap = (e) => {
+            const pointerTap = (e: BABYLON.PointerInfo) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -723,7 +723,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onCameraMoveRef.current) {
-            const cameraMove = (e) => {
+            const cameraMove = (e: any) => {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, null, scene, e);
                 }
