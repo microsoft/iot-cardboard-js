@@ -21,7 +21,7 @@ import { makeShaderMaterial } from './Shaders';
 const debug = false;
 
 function debounce(func: any, timeout = 300) {
-    let timer: NodeJS.Timeout;
+    let timer: any;
     return () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
@@ -672,7 +672,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onMeshClickRef.current) {
-            const pointerTap = (e: BABYLON.PointerInfo) => {
+            const pointerTap = (e: any) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
