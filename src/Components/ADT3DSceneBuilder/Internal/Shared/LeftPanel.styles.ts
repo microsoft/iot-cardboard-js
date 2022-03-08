@@ -25,7 +25,6 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             flexDirection: 'column',
             flexGrow: 1,
             overflow: 'auto'
-            // padding: '8px'
         } as IStyle
     });
 });
