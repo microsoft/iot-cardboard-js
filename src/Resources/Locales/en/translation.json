@@ -323,6 +323,7 @@
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
+        "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
         "searchTwinId": "Search Twin ID...",
         "noTwinsFound": "No twins found (search is case sensitive)",

@@ -12,6 +12,7 @@ interface ADT3DBuilderProps {
     modelUrl: string;
     title?: string;
     onMeshClicked?: (clickedMesh: AbstractMesh, e: PointerEvent) => void;
+    onMeshHovered?: (clickedMesh: AbstractMesh) => void;
     showMeshesOnHover?: boolean;
     coloredMeshItems?: ColoredMeshItem[];
     showHoverOnSelected?: boolean;
@@ -21,6 +22,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     adapter,
     modelUrl,
     onMeshClicked,
+    onMeshHovered,
     showMeshesOnHover,
     coloredMeshItems,
     showHoverOnSelected
@@ -36,12 +38,24 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
         }
     };
 
+    const meshHover = (
+        _marker: Marker,
+        mesh: AbstractMesh,
+        _scene: Scene,
+        _e: PointerEvent
+    ) => {
+        if (onMeshHovered) {
+            onMeshHovered(mesh);
+        }
+    };
+
     return (
         <BaseComponent>
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneView
                     modelUrl={modelUrl}
                     onMeshClick={meshClick}
+                    onMeshHover={meshHover}
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
                     showHoverOnSelected={showHoverOnSelected}

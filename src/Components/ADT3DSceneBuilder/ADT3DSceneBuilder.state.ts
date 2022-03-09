@@ -29,7 +29,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedElement: null,
     selectedElements: null,
     selectedBehavior: null,
-    showHoverOnSelected: false
+    showHoverOnSelected: false,
+    enableHoverOnModel: false
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -69,15 +70,25 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;
-                if (payload === ADT3DSceneBuilderMode.ElementsIdle) {
-                    draft.selectedElement = null;
-                    draft.selectedPivotTab =
-                        ADT3DSceneTwinBindingsMode.Elements;
-                }
-                if (payload === ADT3DSceneBuilderMode.BehaviorIdle) {
-                    draft.selectedBehavior = null;
-                    draft.selectedPivotTab =
-                        ADT3DSceneTwinBindingsMode.Behaviors;
+                switch (payload) {
+                    case ADT3DSceneBuilderMode.ElementsIdle:
+                        draft.selectedElement = null;
+                        draft.selectedPivotTab =
+                            ADT3DSceneTwinBindingsMode.Elements;
+                        draft.enableHoverOnModel = false;
+                        break;
+                    case ADT3DSceneBuilderMode.BehaviorIdle:
+                        draft.selectedBehavior = null;
+                        draft.selectedPivotTab =
+                            ADT3DSceneTwinBindingsMode.Behaviors;
+                        break;
+                    case ADT3DSceneBuilderMode.EditElement:
+                    case ADT3DSceneBuilderMode.CreateElement:
+                        draft.enableHoverOnModel = true;
+                        break;
+                    default:
+                        draft.enableHoverOnModel = false;
+                        break;
                 }
                 break;
             default:

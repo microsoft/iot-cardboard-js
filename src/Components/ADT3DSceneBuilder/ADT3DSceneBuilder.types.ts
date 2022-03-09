@@ -168,6 +168,7 @@ export interface ADT3DSceneBuilderState {
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
+    enableHoverOnModel: boolean;
 }
 
 export interface IWidgetBuilderFormDataProps {
