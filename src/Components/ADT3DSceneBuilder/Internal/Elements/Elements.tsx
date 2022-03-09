@@ -26,6 +26,8 @@ import { CardboardList } from '../../../CardboardList/CardboardList';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import SearchHeader from '../Shared/SearchHeader';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -36,8 +38,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     updateSelectedElements,
     clearSelectedElements,
     onCreateBehaviorClick,
-    onElementEnter,
-    onElementLeave,
+    setColoredMeshItems,
     isEditBehavior,
     hideSearch
 }) => {
@@ -162,12 +163,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             isEditBehavior,
             isSelectionEnabled,
             onElementClick,
-            onElementEnter,
-            onElementLeave,
             onUpdateCheckbox,
             selectedElements,
             setElementToDelete,
             setIsDeleteDialogOpen,
+            setColoredMeshItems,
             t
         );
         setListItems(elementsList);
@@ -177,12 +177,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         isEditBehavior,
         isSelectionEnabled,
         onElementClick,
-        onElementEnter,
-        onElementLeave,
         onUpdateCheckbox,
         selectedElements,
         setElementToDelete,
-        setIsDeleteDialogOpen
+        setIsDeleteDialogOpen,
+        setColoredMeshItems
     ]);
 
     const theme = useTheme();
@@ -274,14 +273,13 @@ function getListItems(
     isEditBehavior: boolean,
     isSelectionEnabled: boolean,
     onElementClick: (element: ITwinToObjectMapping) => void,
-    onElementEnter: (element: ITwinToObjectMapping) => void,
-    onElementLeave: (element: ITwinToObjectMapping) => void,
     onUpdateCheckbox: (element: ITwinToObjectMapping) => void,
     selectedElements: ITwinToObjectMapping[],
     setElementToDelete: React.Dispatch<
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -325,10 +323,16 @@ function getListItems(
         const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onElementEnter(item),
-                onMouseLeave: () => onElementLeave(item),
-                onFocus: () => onElementEnter(item),
-                onBlur: () => onElementLeave(item)
+                onMouseOver: () =>
+                    setColoredMeshItems(
+                        createColoredMeshItems(item.meshIDs, null)
+                    ),
+                onMouseLeave: () => setColoredMeshItems([]),
+                onFocus: () =>
+                    setColoredMeshItems(
+                        createColoredMeshItems(item.meshIDs, null)
+                    ),
+                onBlur: () => setColoredMeshItems([])
             },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             item: item,

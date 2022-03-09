@@ -45,8 +45,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    onElementEnter,
-    onElementLeave,
+    setColoredMeshItems,
     updateSelectedElements
 }) => {
     const { t } = useTranslation();
@@ -186,11 +185,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                                     selectedElements={
                                                         selectedElements
                                                     }
-                                                    onElementEnter={
-                                                        onElementEnter
-                                                    }
-                                                    onElementLeave={
-                                                        onElementLeave
+                                                    setColoredMeshItems={
+                                                        setColoredMeshItems
                                                     }
                                                     updateSelectedElements={
                                                         updateSelectedElements
