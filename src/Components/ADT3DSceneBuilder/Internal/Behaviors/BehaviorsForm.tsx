@@ -83,21 +83,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             setSelectedElements(selectedElements);
         }
 
+        let meshIds: string[] = [];
+        for (const element of selectedElements) {
+            if (element.meshIDs) {
+                meshIds = meshIds.concat(element.meshIDs);
+            }
+        }
+        setColoredMeshItems(createColoredMeshItems(meshIds, null));
+
         // Save original Id
         setOriginalBehaviorId(selectedBehavior?.id);
     }, []);
-
-    useEffect(() => {
-        if (selectedBehaviorPivotKey === BehaviorPivot.elements) {
-            setColoredMeshItems([]);
-        } else {
-            let meshIds: string[] = [];
-            for (const element of selectedElements) {
-                meshIds = meshIds.concat(element.meshIDs);
-            }
-            setColoredMeshItems(createColoredMeshItems(meshIds, null));
-        }
-    }, [selectedBehaviorPivotKey]);
 
     useEffect(() => {
         const mappingIds = [];

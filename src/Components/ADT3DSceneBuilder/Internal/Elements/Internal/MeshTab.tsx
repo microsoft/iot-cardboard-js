@@ -8,6 +8,7 @@ import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { createColoredMeshItems } from '../../../../3DV/SceneView.Utils';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
+import { colored_Mesh_Hover_Color } from '../../../../../Models/Constants/SceneView.constants';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
@@ -58,7 +59,10 @@ function getListItems(
             elementMeshIds.filter((id) => id !== meshId),
             null
         );
-        coloredMeshItems.push({ meshId: meshId, color: '#00EDD9' });
+        coloredMeshItems.push({
+            meshId: meshId,
+            color: colored_Mesh_Hover_Color
+        });
         setColoredMeshItems(coloredMeshItems);
     };
 

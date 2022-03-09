@@ -11,6 +11,9 @@ import {
     SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
+    colored_Mesh_Color,
+    colored_Mesh_Hover_Color,
+    hover_Color,
     Scene_Marker,
     Scene_Visible_Marker,
     SphereMaterial
@@ -136,9 +139,10 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
 
-    const hoverColor = meshHoverColor || '#F3FF14';
-    const coloredMeshColor = defaultColoredMeshColor || '#00A8F0';
-    const coloredMeshHoverColor = defaultColoredMeshHoverColor || '#00EDD9';
+    const hoverColor = meshHoverColor || hover_Color;
+    const coloredMeshColor = defaultColoredMeshColor || colored_Mesh_Color;
+    const coloredMeshHoverColor =
+        defaultColoredMeshHoverColor || colored_Mesh_Hover_Color;
 
     const defaultMeshHover = (
         marker: Marker,

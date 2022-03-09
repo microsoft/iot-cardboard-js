@@ -28,6 +28,10 @@ import SearchHeader from '../Shared/SearchHeader';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import {
+    colored_Mesh_Color,
+    colored_Mesh_Hover_Color
+} from '../../../../Models/Constants/SceneView.constants';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -316,6 +320,67 @@ function getListItems(
             }
         ];
     };
+
+    const onElementEnter = (element: ITwinToObjectMapping) => {
+        let coloredMeshes: ColoredMeshItem[] = [];
+        if (isEditBehavior) {
+            if (selectedElements) {
+                // color elements already selected for this behavior
+                for (const selectedElement of selectedElements) {
+                    if (element.id !== selectedElement.id) {
+                        coloredMeshes = coloredMeshes.concat(
+                            createColoredMeshItems(
+                                selectedElement.meshIDs,
+                                colored_Mesh_Color
+                            )
+                        );
+                    }
+                }
+                if (
+                    selectedElements?.find(
+                        (selectedElement) => selectedElement.id === element.id
+                    )
+                ) {
+                    // if element is in behavior and hovered set it to a different color
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.meshIDs,
+                            colored_Mesh_Hover_Color
+                        )
+                    );
+                } else {
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.meshIDs,
+                            colored_Mesh_Color
+                        )
+                    );
+                }
+            }
+        } else {
+            coloredMeshes = createColoredMeshItems(element?.meshIDs, null);
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const onElementLeave = () => {
+        if (isEditBehavior) {
+            let meshIds: string[] = [];
+            for (const element of selectedElements) {
+                if (element.meshIDs) {
+                    meshIds = meshIds.concat(element.meshIDs);
+                }
+            }
+
+            if (meshIds) {
+                setColoredMeshItems(createColoredMeshItems(meshIds, null));
+            }
+        } else {
+            setColoredMeshItems([]);
+        }
+    };
+
     return filteredElements.map((item) => {
         const isItemSelected = isSelectionEnabled
             ? !!selectedElements?.find((x) => x.id === item.id)
@@ -323,16 +388,10 @@ function getListItems(
         const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () =>
-                    setColoredMeshItems(
-                        createColoredMeshItems(item.meshIDs, null)
-                    ),
-                onMouseLeave: () => setColoredMeshItems([]),
-                onFocus: () =>
-                    setColoredMeshItems(
-                        createColoredMeshItems(item.meshIDs, null)
-                    ),
-                onBlur: () => setColoredMeshItems([])
+                onMouseOver: () => onElementEnter(item),
+                onMouseLeave: () => onElementLeave(),
+                onFocus: () => onElementEnter(item),
+                onBlur: () => onElementLeave()
             },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             item: item,
