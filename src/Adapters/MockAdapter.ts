@@ -20,6 +20,7 @@ import {
 import {
     AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
+    IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
     primaryTwinName
 } from '../Models/Constants';
@@ -41,6 +42,7 @@ import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerDat
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 // TODO Validate JSON with schema
 // import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 
 export default class MockAdapter
     implements
@@ -502,5 +504,41 @@ export default class MockAdapter
         _behavior: IBehavior
     ): Promise<string[]> {
         return ['$dtId', 'InFlow', 'OutFlow'];
+    }
+
+    async getContainerBlobs() {
+        const mockBlobs: Array<IBlobFile> = [
+            {
+                Name: 'BasicObjects.gltf',
+                Path:
+                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf',
+                Properties: { 'Content-Length': 1000 }
+            },
+            {
+                Name: 'BluePackingLine.gltf',
+                Path:
+                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BluePackingLine.gltf',
+                Properties: { 'Content-Length': 2000 }
+            },
+            {
+                Name: 'vconfigDecFinal.json',
+                Path:
+                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/vconfigDecFinal.json',
+                Properties: { 'Content-Length': 3000 }
+            }
+        ];
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new BlobsData(mockBlobs),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<BlobsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 }

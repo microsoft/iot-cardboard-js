@@ -33,7 +33,7 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
             for (const scene of scenes) {
                 const marker = new Marker();
                 marker.scene = scene;
-                marker.color = { r: 255, g: 0, b: 0 };
+                marker.color = '#f00';
                 marker.latitude = scene.latitude;
                 marker.longitude = scene.longitude;
                 marker.name = scene.displayName || 'Unknown';

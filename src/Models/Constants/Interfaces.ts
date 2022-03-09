@@ -53,6 +53,7 @@ import {
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
 import { ADT3DRenderMode } from '.';
+import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 
 export interface IAction {
     type: string;
@@ -424,6 +425,9 @@ export interface IBlobAdapter {
     putScenesConfig: (
         config: IScenesConfig
     ) => AdapterReturnType<ADTScenesConfigData>;
+    getContainerBlobs: (
+        fileTypes?: Array<string>
+    ) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -652,12 +656,18 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerRenderMode {
     id: ADT3DRenderMode;
     text: string;
-    baseColor: { r: number; g: number; b: number; a: number };
-    fresnelColor: { r: number; g: number; b: number; a: number };
+    baseColor: string;
+    fresnelColor: string;
     opacity: number;
     isWireframe: boolean;
     background: string;
     defaultColoredMeshColor: string;
     meshHoverColor: string;
     defaultColoredMeshHoverColor: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }
