@@ -1,3 +1,5 @@
+import { IContextualMenuItem } from '@fluentui/react';
+import React from 'react';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import {
@@ -34,6 +36,7 @@ export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
     'SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMST';
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
+export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -50,12 +53,12 @@ export interface I3DSceneBuilderContext {
     config: IScenesConfig;
     getConfig: () => void;
     sceneId: string;
-    selectedMeshIds: Array<string>;
-    coloredMeshItems: ColoredMeshItem[];
-    setSelectedMeshIds: (objects: Array<string>) => void;
-    setColoredMeshItems: (objects: ColoredMeshItem[]) => void;
+    coloredMeshItems: Array<ColoredMeshItem>;
+    setColoredMeshItems: (objects: Array<ColoredMeshItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
+    dispatch: React.Dispatch<{ type: string; payload: any }>;
+    state: ADT3DSceneBuilderState;
 }
 
 export type WidgetFormInfo = null | {
@@ -67,6 +70,13 @@ export type WidgetFormInfo = null | {
 export interface IBehaviorFormContext {
     behaviorToEdit: IBehavior;
     setBehaviorToEdit: React.Dispatch<React.SetStateAction<IBehavior>>;
+}
+
+export interface IContextMenuProps {
+    isVisible: boolean;
+    x: number;
+    y: number;
+    items: IContextualMenuItem[];
 }
 
 export interface IADT3DSceneBuilderElementListProps {
@@ -84,14 +94,6 @@ export interface IADT3DSceneBuilderElementFormProps {
     onBehaviorSave: OnBehaviorSave;
     onBehaviorClick: (behavior: IBehavior) => void;
     onCreateBehaviorWithElements: () => void;
-}
-
-export interface IADT3DSceneBuilderElementBehaviorProps {
-    behaviors: Array<IBehavior>;
-    elementToEdit: ITwinToObjectMapping;
-    onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
-    updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
 }
 
 export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
@@ -148,12 +150,8 @@ export interface IADT3DSceneBuilderElementsProps {
 
 export interface ADT3DSceneBuilderState {
     config: IScenesConfig;
-    selectedMeshIds: Array<string>;
-    coloredMeshItems: ColoredMeshItem[];
+    coloredMeshItems: Array<ColoredMeshItem>;
     widgetFormInfo: WidgetFormInfo;
-}
-
-export interface ADT3DSceneBuilderLeftPanelState {
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
     elements: Array<ITwinToObjectMapping>;
@@ -161,6 +159,7 @@ export interface ADT3DSceneBuilderLeftPanelState {
     selectedElement: ITwinToObjectMapping;
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
+    showHoverOnSelected: boolean;
 }
 
 export interface IWidgetBuilderFormDataProps {

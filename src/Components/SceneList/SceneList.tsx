@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { SceneListProps } from './SceneList.types';
 import './SceneList.scss';
 import { useAdapter } from '../../Models/Hooks';
@@ -25,8 +25,12 @@ import { IAsset, IScenesConfig, IScene } from '../../Models/Classes/3DVConfig';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IComponentError } from '../../Models/Constants/Interfaces';
-import { ComponentErrorType } from '../../Models/Constants/Enums';
+import {
+    ComponentErrorType,
+    Supported3DFileTypes
+} from '../../Models/Constants/Enums';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import BlobDropdown from '../BlobDropdown/BlobDropdown';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -214,6 +218,23 @@ const SceneList: React.FC<SceneListProps> = ({
         }
     };
 
+    const renderBlobDropdown = useCallback(
+        (onChange?: (blobUrl: string) => void) => (
+            <BlobDropdown
+                adapter={adapter}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                fileTypes={Object.values(Supported3DFileTypes)}
+                selectedBlobUrl={(selectedScene?.assets?.[0] as IAsset)?.url}
+                onChange={onChange}
+                width={492}
+                isRequired
+            />
+        ),
+        [adapter, theme, locale, localeStrings, selectedScene]
+    );
+
     return (
         <BaseComponent
             theme={theme}
@@ -381,6 +402,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         scene: { id: newId, ...newScene }
                     });
                 }}
+                renderBlobDropdown={renderBlobDropdown}
             ></SceneListDialog>
         </BaseComponent>
     );
@@ -391,13 +413,15 @@ const SceneListDialog = ({
     onClose,
     sceneToEdit,
     onAddScene,
-    onEditScene
+    onEditScene,
+    renderBlobDropdown
 }: {
     isOpen: any;
     onClose: any;
     sceneToEdit: IScene;
     onAddScene: any;
     onEditScene: any;
+    renderBlobDropdown: (onChange?: (blobUrl: string) => void) => JSX.Element;
 }) => {
     const [newSceneName, setNewSceneName] = useState('');
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
@@ -442,6 +466,16 @@ const SceneListDialog = ({
         }
     }, [isOpen]);
 
+    const handleBlobUrlChange = (blobUrl: string) => {
+        if (sceneToEdit) {
+            const selectedSceneCopy = Object.assign({}, scene);
+            selectedSceneCopy.assets[0].url = blobUrl;
+            setScene(selectedSceneCopy);
+        } else {
+            setNewSceneBlobUrl(blobUrl);
+        }
+    };
+
     return (
         <Dialog
             hidden={!isOpen}
@@ -467,30 +501,7 @@ const SceneListDialog = ({
                     }
                 }}
             />
-            <TextField
-                className="cb-scene-list-form-dialog-text-field"
-                multiline
-                rows={3}
-                label={t('scenes.blobUrl')}
-                title={newSceneBlobUrl}
-                value={
-                    sceneToEdit
-                        ? scene?.assets.map((a: IAsset) => a.url).join('\n')
-                        : newSceneBlobUrl
-                }
-                onChange={(e) => {
-                    if (sceneToEdit) {
-                        const selectedSceneCopy = Object.assign({}, scene);
-                        const urls = e.currentTarget.value?.split('\n');
-                        urls.map((url, idx) => {
-                            selectedSceneCopy.assets[idx].url = url;
-                        });
-                        setScene(selectedSceneCopy);
-                    } else {
-                        setNewSceneBlobUrl(e.currentTarget.value);
-                    }
-                }}
-            />
+            {renderBlobDropdown(handleBlobUrlChange)}
             <DialogFooter>
                 <DefaultButton
                     className="cb-scene-list-modal-buttons"

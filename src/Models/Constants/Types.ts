@@ -144,3 +144,26 @@ export type AdapterTypes =
     | IKeyValuePairAdapter
     | ITsiClientChartDataAdapter
     | IADTAdapter;
+
+export type CardboardIconNames =
+    | 'Add'
+    | 'Chart'
+    | 'Color'
+    | 'CubeShape'
+    | 'Database'
+    | 'Delete'
+    | 'Design'
+    | 'Edit'
+    | 'Home'
+    | 'Info'
+    | 'Link'
+    | 'LinkedDatabase'
+    | 'MapLayers'
+    | 'MoreVertical'
+    | 'MultiSelect'
+    | 'Org'
+    | 'ProductVariant'
+    | 'Ringer'
+    | 'Shapes'
+    | 'SpeedHigh'
+    | 'View';

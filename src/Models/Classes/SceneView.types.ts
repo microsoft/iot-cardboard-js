@@ -28,7 +28,7 @@ export class Marker {
     position?: Vector3;
     latitude?: number;
     longitude?: number;
-    color: { r: number; g: number; b: number };
+    color: string;
     isNav?: boolean;
     scene?: IScene;
 }
@@ -42,7 +42,7 @@ export type SceneViewCallbackHandler = (
 
 export interface ColoredMeshItem {
     meshId: string;
-    color: string;
+    color?: string;
 }
 
 export type SceneViewEventHandler = (
@@ -56,14 +56,18 @@ export interface ISceneViewProp {
     modelUrl: string;
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
-    onMarkerClick?: SceneViewEventHandler;
-    onMarkerHover?: SceneViewEventHandler;
+    onMeshClick?: SceneViewEventHandler;
+    onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
-    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
-    meshSelectionColor?: string;
+    defaultColoredMeshColor?: string;
     meshHoverColor?: string;
-    meshSelectionHoverColor?: string;
+    defaultColoredMeshHoverColor?: string;
+    isWireframe?: boolean;
+    meshBaseColor?: string;
+    meshFresnelColor?: string;
+    meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    showHoverOnSelected?: boolean;
 }

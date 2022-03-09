@@ -149,8 +149,28 @@ export enum BehaviorListSegment {
     NotInThisScene
 }
 
+export enum ADT3DRenderMode {
+    Default = 'Default',
+    Wireframe = 'Wireframe',
+    Red = 'Red',
+    RedWireframe = 'RedWireframe',
+    Green = 'Green',
+    GreenWireframe = 'GreenWireframe'
+}
+
 export enum ADT3DAddInEventTypes {
     SceneLoaded = 'SceneLoaded',
     MarkerHover = 'MarkerHover',
     MarkerClick = 'MarkerClick'
+}
+
+export enum Supported3DFileTypes {
+    GLTransmissionFormat = 'gltf',
+    GLTransmissionFormatBinary = 'glb'
+}
+
+export enum SupportedBlobFileTypes {
+    JavaScriptObjectNotation = 'json',
+    GLTransmissionFormat = 'gltf',
+    GLTransmissionFormatBinary = 'glb'
 }

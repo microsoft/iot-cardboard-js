@@ -51,6 +51,8 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import { ADT3DRenderMode } from '.';
+import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 
 export interface IAction {
     type: string;
@@ -419,6 +421,9 @@ export interface IBlobAdapter {
     putScenesConfig: (
         config: IScenesConfig
     ) => AdapterReturnType<ADTScenesConfigData>;
+    getContainerBlobs: (
+        fileTypes?: Array<string>
+    ) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -616,8 +621,8 @@ export class ADT3DAddInEventData {
 
 export interface IADT3DAddInProps {
     onSceneLoaded?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerClick?: (data: ADT3DAddInEventData) => boolean;
-    onMarkerHover?: (data: ADT3DAddInEventData) => boolean;
+    onMeshClick?: (data: ADT3DAddInEventData) => boolean;
+    onMeshHover?: (data: ADT3DAddInEventData) => boolean;
 }
 
 export interface ISceneViewWrapperProps {
@@ -638,5 +643,27 @@ export interface IADT3DViewerProps {
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
+    hideUI?: boolean;
     refetchConfig?: () => any;
+    showMeshesOnHover?: boolean;
+    showHoverOnSelected?: boolean;
+}
+
+export interface IADT3DViewerRenderMode {
+    id: ADT3DRenderMode;
+    text: string;
+    baseColor: string;
+    fresnelColor: string;
+    opacity: number;
+    isWireframe: boolean;
+    background: string;
+    defaultColoredMeshColor: string;
+    meshHoverColor: string;
+    defaultColoredMeshHoverColor: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }

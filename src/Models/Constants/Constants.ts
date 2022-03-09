@@ -1,9 +1,12 @@
+import { IADT3DViewerRenderMode } from '../Constants';
+import { ADT3DRenderMode } from './Enums';
 import {
     defaultGaugeWidget,
     IWidgetLibraryItem,
     WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
 export const ADTModel_ImgSrc_PropertyName = 'processGraphicImageSrc';
@@ -104,7 +107,6 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 
 export const primaryTwinName = 'primaryTwin';
-
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
@@ -112,7 +114,92 @@ export const ValidAdtHostSuffixes = [
 ];
 export const ValidContainerHostSuffixes = ['blob.core.windows.net'];
 
+export const RenderModes: IADT3DViewerRenderMode[] = [
+    {
+        id: ADT3DRenderMode.Default,
+        text: '3dSceneViewer.renderModes.default',
+        baseColor: null,
+        fresnelColor: null,
+        opacity: 1,
+        isWireframe: false,
+        defaultColoredMeshColor: '#FF26D7',
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: null
+    },
+    {
+        id: ADT3DRenderMode.Wireframe,
+        text: '3dSceneViewer.renderModes.wireframe',
+        baseColor: null,
+        fresnelColor: null,
+        opacity: 1,
+        isWireframe: true,
+        defaultColoredMeshColor: null,
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        id: ADT3DRenderMode.Red,
+        text: '3dSceneViewer.renderModes.red',
+        baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
+        opacity: 0.1, // @coryboyle Doesn't seem to work
+        isWireframe: false,
+        defaultColoredMeshColor: '#FF8300',
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        id: ADT3DRenderMode.RedWireframe,
+        text: '3dSceneViewer.renderModes.redWireframe',
+        baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: true,
+        defaultColoredMeshColor: null,
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        id: ADT3DRenderMode.Green,
+        text: '3dSceneViewer.renderModes.green',
+        baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: false,
+        defaultColoredMeshColor: null,
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        id: ADT3DRenderMode.GreenWireframe,
+        text: '3dSceneViewer.renderModes.greenWireframe',
+        baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
+        opacity: 0.5,
+        isWireframe: true,
+        defaultColoredMeshColor: null,
+        meshHoverColor: null,
+        defaultColoredMeshHoverColor: null,
+        background: 'radial-gradient(#0a0a54, #020024)'
+    }
+];
+
 export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+
+export const StyleConstants = {
+    listItems: {
+        hoverBackgroundColor: 'var(--fluent-color-grey-20)'
+    },
+    icons: {
+        size20: FontSizes.size20,
+        size16: FontSizes.size16
+    }
+};
