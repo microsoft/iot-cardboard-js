@@ -5,6 +5,7 @@ export type BlobDropdownProps = BaseComponentProps & {
     adapter: IBlobAdapter | MockAdapter;
     fileTypes: Array<string>;
     width?: number | string;
+    hasLabel?: boolean;
     label?: string;
     placeholder?: string;
     isRequired?: boolean;

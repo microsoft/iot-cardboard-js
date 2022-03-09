@@ -20,7 +20,7 @@ export default class ADTandBlobAdapter {
 
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
-            this.storateAccountHostUrl = containerURL.hostname;
+            this.storageAccountHostUrl = containerURL.hostname;
             this.blobContainerPath = containerURL.pathname;
         }
 

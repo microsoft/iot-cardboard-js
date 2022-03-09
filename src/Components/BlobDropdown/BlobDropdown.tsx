@@ -25,6 +25,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     localeStrings,
     adapter,
     width = 360,
+    hasLabel = true,
     label,
     placeholder,
     fileTypes = Object.values(SupportedBlobFileTypes),
@@ -125,32 +126,37 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     };
 
     const onRenderLabel = (p: IOnRenderComboBoxLabelProps) => (
-        <div className="cb-blob-dropdown-label">
-            <span
-                className={`cb-blob-dropdown-label-text-wrapper ${
-                    isRequired ? 'cb-required' : ''
-                }`}
-            >
-                <span className="cb-blob-dropdown-label-text">
-                    {p.props.label}
+        <div
+            className={`cb-blob-dropdown-label ${
+                !hasLabel ? 'cb-blob-dropdown-label-position-absolute ' : ''
+            }`}
+        >
+            {hasLabel && p.props.label && (
+                <span className={'cb-blob-dropdown-label-text-wrapper'}>
+                    <span
+                        className={`cb-blob-dropdown-label-text ${
+                            isRequired ? 'cb-required' : ''
+                        }`}
+                    >
+                        {p.props.label}
+                    </span>
+                    <TooltipHost
+                        className="cb-blob-dropdown-label-info"
+                        content={t('blobDropdown.supportedFileTypes', {
+                            fileTypes: fileTypes.join(', ')
+                        })}
+                        styles={{
+                            root: {
+                                display: 'inline-block',
+                                cursor: 'pointer',
+                                height: 16
+                            }
+                        }}
+                    >
+                        <Icon iconName={'Info'} aria-label={t('info')} />
+                    </TooltipHost>
                 </span>
-                <TooltipHost
-                    className="cb-blob-dropdown-label-info"
-                    content={t('blobDropdown.supportedFileTypes', {
-                        fileTypes: fileTypes.join(', ')
-                    })}
-                    styles={{
-                        root: {
-                            display: 'inline-block',
-                            padding: '0 8px',
-                            cursor: 'pointer',
-                            height: 16
-                        }
-                    }}
-                >
-                    <Icon iconName={'Info'} aria-label={t('info')} />
-                </TooltipHost>
-            </span>
+            )}
             {containerBlobsAdapterData.isLoading && (
                 <Spinner
                     size={SpinnerSize.xSmall}
@@ -200,7 +206,6 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         (option, value) => {
             setInputOrOption(value ? 'input' : 'option');
             let newVal = value ?? option?.text;
-            setValueToEdit(newVal);
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
                     newVal = 'https://' + newVal;
@@ -208,7 +213,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 const existingFile = files.find((f) => f.Path === newVal);
                 if (existingFile) {
                     setInputOrOption('option'); // convert entered input to existing option
-                    setValueToEdit(existingFile.Name);
+                    newVal = existingFile.Name;
                 } else if (customUrls.findIndex((e) => e === newVal) === -1) {
                     setCustomUrls(customUrls.concat(newVal));
                 }
@@ -217,6 +222,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                     onChange(newVal);
                 }
             }
+            setValueToEdit(newVal);
             if (option && onChange) {
                 onChange(option.data?.Path ?? option.text);
             }
@@ -239,11 +245,17 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             locale={locale}
             localeStrings={localeStrings}
             theme={theme}
-            containerClassName="cb-blob-dropdown"
+            containerClassName={`cb-blob-dropdown ${
+                !hasLabel ? 'cb-blob-dropdown-with-overflow' : ''
+            }`}
         >
             <ComboBox
                 placeholder={placeholder ?? t('blobDropdown.selectFileOrEnter')}
-                label={label ?? t('blobDropdown.3dFileFromContainer')}
+                label={
+                    hasLabel
+                        ? label ?? t('blobDropdown.3dFileFromContainer')
+                        : undefined
+                }
                 autoComplete={'on'}
                 allowFreeform={true}
                 options={options}
@@ -252,7 +264,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 text={valueToEdit}
                 errorMessage={customUrlInputError}
                 onRenderLabel={onRenderLabel}
-                onRenderOption={(option) => onRenderOption(option)}
+                onRenderOption={onRenderOption}
                 onChange={(_e, option, _idx, value) =>
                     handleChange(option, value)
                 }
