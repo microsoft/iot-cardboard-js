@@ -20,10 +20,19 @@ import { makeShaderMaterial } from './Shaders';
 
 const debug = false;
 
+function debounce(func: any, timeout = 300) {
+    let timer: any;
+    return () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func();
+        }, timeout);
+    };
+}
 async function loadPromise(
-    root,
-    file,
-    scene,
+    root: string,
+    file: string,
+    scene: BABYLON.Scene,
     onProgress: any,
     onError: any
 ): Promise<BABYLON.AssetContainer> {
@@ -166,9 +175,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 root,
                 file,
                 sc,
-                (e) => onProgress(e),
-                (s, m, e) => {
-                    console.log('Error loading model. Try Ctrl-F5', s, e);
+                (e: any) => onProgress(e),
+                (s: any, m: any, e: any) => {
+                    console.error('Error loading model. Try Ctrl-F5', s, e);
                     success = false;
                     setIsLoading(undefined);
                 }
@@ -228,7 +237,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
 
-        function totalBoundingInfo(meshes) {
+        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
             let boundingInfo = meshes[0].getBoundingInfo();
             let min = boundingInfo.boundingBox.minimumWorld;
             let max = boundingInfo.boundingBox.maximumWorld;
@@ -426,10 +435,27 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
         // This should save a lot of memory for large scenes
+        const canvas = document.getElementById(canvasId);
+        let observer: ResizeObserver;
+        if (canvas) {
+            observer = new ResizeObserver(
+                debounce(() => {
+                    if (engineRef.current) {
+                        engineRef.current.resize();
+                    }
+                }, 10)
+            );
+            observer.observe(canvas);
+        }
+
         return () => {
             if (sceneRef.current) {
                 if (debug) {
                     console.log('Unmount - has scene');
+                }
+
+                if (observer) {
+                    observer.disconnect();
                 }
 
                 try {
@@ -438,17 +464,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         engineRef.current.dispose();
                     }
                 } catch {
-                    console.log('unable to dispose scene');
+                    console.warn('unable to dispose scene');
                 }
             }
 
-            const resize = () => {
-                engineRef.current.resize();
-            };
-
             sceneRef.current = null;
             cameraRef.current = null;
-            window.removeEventListener('resize', resize);
         };
     }, [modelUrl]);
 
@@ -651,7 +672,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onMeshClickRef.current) {
-            const pointerTap = (e) => {
+            const pointerTap = (e: any) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -702,7 +723,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onCameraMoveRef.current) {
-            const cameraMove = (e) => {
+            const cameraMove = (e: any) => {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, null, scene, e);
                 }
@@ -752,7 +773,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
             } catch {
-                console.log('unable to color mesh');
+                console.warn('unable to color mesh');
             }
         }
 
