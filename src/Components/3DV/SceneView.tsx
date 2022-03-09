@@ -30,7 +30,7 @@ function debounce(func: any, timeout = 300) {
     };
 }
 
-function hexToColor4(hex: string) {
+function hexToColor4(hex: string): BABYLON.Color4 {
     if (!hex) {
         return undefined;
     }
