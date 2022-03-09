@@ -365,17 +365,14 @@ function getListItems(
     };
 
     const onElementLeave = () => {
-        if (isEditBehavior) {
+        if (isEditBehavior && selectedElements?.length > 0) {
             let meshIds: string[] = [];
             for (const element of selectedElements) {
                 if (element.meshIDs) {
-                    meshIds = meshIds.concat(element.meshIDs);
+                    meshIds = meshIds.concat(element?.meshIDs);
                 }
             }
-
-            if (meshIds) {
-                setColoredMeshItems(createColoredMeshItems(meshIds, null));
-            }
+            setColoredMeshItems(createColoredMeshItems(meshIds, null));
         } else {
             setColoredMeshItems([]);
         }
