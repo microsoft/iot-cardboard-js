@@ -25,6 +25,7 @@ import LeftPanelBuilderHeader, {
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -85,6 +86,19 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         // Save original Id
         setOriginalBehaviorId(selectedBehavior?.id);
     }, []);
+
+    useEffect(() => {
+        console.log(selectedElements);
+        if (selectedBehaviorPivotKey === BehaviorPivot.elements) {
+            setColoredMeshItems([]);
+        } else {
+            let meshIds: string[] = [];
+            for (const element of selectedElements) {
+                meshIds = meshIds.concat(element.meshIDs);
+            }
+            setColoredMeshItems(createColoredMeshItems(meshIds, null));
+        }
+    }, [selectedBehaviorPivotKey]);
 
     useEffect(() => {
         const mappingIds = [];
