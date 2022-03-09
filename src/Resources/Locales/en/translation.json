@@ -79,7 +79,7 @@
         "unkownError": "Unknown error occurred",
         "schemaValidationFailed": {
             "type": "JSON schema validation failed",
-            "message": "JSON is invalid.  Check syntax matches required schema."
+            "message": "JSON is invalid. Check syntax matches required schema."
         }
     },
     "adapterErrors": {
