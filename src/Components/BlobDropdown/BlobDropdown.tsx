@@ -176,12 +176,19 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                     <span>{option.text}</span>
                 </div>
                 <div className={'cb-blob-dropdown-option-right-size'}>
-                    {option.data &&
-                        prettyBytes(option.data.Properties['Content-Length'])}
+                    {option.data && getFileSize(option.data)}
                 </div>
             </div>
         );
     };
+
+    const getFileSize = useCallback((file: IBlobFile) => {
+        try {
+            return prettyBytes(file?.Properties?.['Content-Length']);
+        } catch (error) {
+            return 'null';
+        }
+    }, []);
 
     // this validation can be improved as necessary
     const isValidUrlStr = useCallback((urlStr: string) => {
