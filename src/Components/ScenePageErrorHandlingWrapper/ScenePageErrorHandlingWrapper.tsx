@@ -1,130 +1,37 @@
 import React from 'react';
 import { ComponentErrorType } from '../../Models/Constants';
 import './ScenePageErrorHandlingWrapper.scss';
-import {
-    Image,
-    MessageBar,
-    MessageBarType,
-    IImageProps
-} from '@fluentui/react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
-import Error from '../../Resources/Static/error.svg';
-import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
-import { PrimaryButton } from '@fluentui/react';
-import { Link, Text } from '@fluentui/react';
+import { ErrorImages } from '../../Models/Constants';
+import ErrorIllustration from '../ErrorIllustration/ErrorIllustration';
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
     children
 }) => {
     const { t } = useTranslation();
-    const imageProps: IImageProps = {
-        height: 200
-    };
-
     let componentContent;
     switch (errors?.[0]?.type) {
         case ComponentErrorType.NonExistentBlob:
             componentContent = (
-                <div
-                    className="cb-scene-page-error-splash-wrapper"
-                    style={{
-                        margin: 'auto',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Image
-                        className="cb-scene-nonexistant-blob-error-image"
-                        shouldStartVisible={true}
-                        src={Error}
-                        {...imageProps}
-                    />
-                    <div style={{ textAlign: 'center' }}>
-                        <Text
-                            className="cb-error-title"
-                            style={{
-                                fontFamily: 'Segoe UI',
-                                fontWeight: 'bold',
-                                textAlign: 'center'
-                            }}
-                        >
-                            {t('NonExistentBlobErrorTitle')}
-                        </Text>
-                        <div>
-                            <Text
-                                className="cb-error-message"
-                                style={{
-                                    fontFamily: 'Segoe UI',
-                                    textAlign: 'center'
-                                }}
-                            >
-                                {t('NonExistentBlobErrorMessage')}
-                                {''}
-                                <Link href="#"> Learn More </Link> {''}
-                            </Text>
-                        </div>
-                        <div style={{ marginTop: '20px' }}>
-                            <PrimaryButton
-                                text="Try Again"
-                                onClick={_tryAgainClicked}
-                            ></PrimaryButton>
-                        </div>
-                    </div>
-                </div>
+                <ErrorIllustration
+                    imageName={ErrorImages.BlobError}
+                    errorTitle={t('nonExistentBlobErrorTitle')}
+                    errorMessage={t('nonExistentBlobErrorMessage')}
+                    buttonText={t('tryAgain')}
+                ></ErrorIllustration>
             );
             break;
         case ComponentErrorType.UnauthorizedAccess:
             componentContent = (
-                <div
-                    className="cb-scene-page-error-splash-wrapper"
-                    style={{
-                        margin: 'auto',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Image
-                        className="cb-acccess-restricted-error-image"
-                        shouldStartVisible={true}
-                        src={AccessRestrictedError}
-                        {...imageProps}
-                    />
-                    <div style={{ textAlign: 'center' }}>
-                        <Text
-                            className="cb-error-title"
-                            style={{
-                                fontFamily: 'Segoe UI',
-                                fontWeight: 'bold',
-                                textAlign: 'center'
-                            }}
-                        >
-                            {t('UnauthorizedAccessErrorTitle')}
-                        </Text>
-                        <div>
-                            <Text
-                                className="cb-error-message"
-                                style={{
-                                    fontFamily: 'Segoe UI',
-                                    textAlign: 'center'
-                                }}
-                            >
-                                {t('UnauthorizedAccessErrorMessage')}
-                                {''}
-                                <Link href="#"> Learn More </Link> {''}
-                            </Text>
-                        </div>
-                        <div style={{ marginTop: '20px' }}>
-                            <PrimaryButton
-                                text="Learn More"
-                                onClick={_learnMoreClicked}
-                            ></PrimaryButton>
-                        </div>
-                    </div>
-                </div>
+                <ErrorIllustration
+                    imageName={ErrorImages.AccessRestricted}
+                    errorTitle={t('unauthorizedAccessErrorTitle')}
+                    errorMessage={t('unauthorizedAccessErrorMessage')}
+                    buttonText={t('tryAgain')}
+                ></ErrorIllustration>
             );
             break;
         case ComponentErrorType.ReaderAccessOnly:
@@ -136,7 +43,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     dismissButtonAriaLabel={t('close')}
                     className="cb-scene-page-warning-message"
                 >
-                    {t('ReaderAccessOnlyErrorMessage')}
+                    {t('readerAccessOnlyErrorMessage')}
                 </MessageBar>
             );
             break;
@@ -149,13 +56,5 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
         </BaseComponent>
     );
 };
-
-function _tryAgainClicked(): void {
-    alert('Clicked');
-}
-
-function _learnMoreClicked(): void {
-    alert('Clicked');
-}
 
 export default React.memo(ScenePageErrorHandlingWrapper);

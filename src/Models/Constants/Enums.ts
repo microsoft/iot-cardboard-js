@@ -26,6 +26,11 @@ export enum ComponentErrorType {
     ReaderAccessOnly = 'ReaderAccessOnly'
 }
 
+export enum ErrorImages {
+    AccessRestricted = 'AccessRestrictedError',
+    BlobError = 'BlobError'
+}
+
 export enum HierarchyNodeType {
     Parent,
     Child,
