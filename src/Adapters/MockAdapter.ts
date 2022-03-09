@@ -40,6 +40,8 @@ import {
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+// TODO Validate JSON with schema
+// import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 
 export default class MockAdapter
@@ -62,8 +64,7 @@ export default class MockAdapter
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
-        this.scenesConfig =
-            mockAdapterArgs?.mockData || (mockVConfig as IScenesConfig);
+        this.scenesConfig = mockAdapterArgs?.mockData || mockVConfig;
 
         this.mockError = mockAdapterArgs?.mockError;
         this.networkTimeoutMillis =
@@ -236,18 +237,15 @@ export default class MockAdapter
     }
 
     async getScenesConfig() {
-        try {
+        const adapterMethodSandbox = new AdapterMethodSandbox();
+
+        return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
-            return new AdapterResult<ADTScenesConfigData>({
-                result: new ADTScenesConfigData(this.scenesConfig),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ADTScenesConfigData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
+            // TODO Validate JSON with schema
+            // const config = validate3DConfigWithSchema(this.scenesConfig);
+            const config = this.scenesConfig;
+            return new ADTScenesConfigData(config as any);
+        });
     }
 
     async putScenesConfig(config: IScenesConfig) {

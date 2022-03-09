@@ -1,7 +1,6 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
     title: 'Pages/ADT3DScenePage',
@@ -20,7 +19,7 @@ export const Mock3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                 title={'3D Scene Page'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: mockVConfig })}
+                adapter={new MockAdapter()}
             />
         </div>
     );

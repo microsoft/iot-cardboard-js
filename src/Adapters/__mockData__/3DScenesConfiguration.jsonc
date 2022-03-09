@@ -1,0 +1,266 @@
+// all properties are required unless explicitly specified as optional
+{
+    "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    // actual configuration is captured in configuration
+    "configuration": {
+        /* the scenes property is an array of scene objects
+           conceptually a scene is a single view that can be rendered from 3D assets */
+        "scenes": [
+            {
+                // most objects in this file contain id, and displayName
+                "id": "58e02362287440d9a5bf3f8d6d6bfcf9",
+                "displayName": "TruckAndBoxes1",
+
+                // scenes contain elements, which map twins to objects in the scene
+                "elements": [
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "5ba433d52b8445979fabc818fd40ae3d",
+                        "displayName": "leftWheels",
+                        "linkedTwinID": "SaltMachine_C1", // the twin that this element references
+                        // in the web application, objectIDs will generally be meshIDs
+                        // the name is deliberately generic to be suitable for other applications
+                        "objectIDs": [
+                            "wheel1Mesh_primitive0",
+                            "wheel2Mesh_primitive0"
+                        ],
+                        // most objects will have extensionProperties.  it is an optional property, and deliberately untyped
+                        // it allows consumers of this schema a mechanism for extension that is not strictly enforced by parsers
+                        "extensionProperties": {}
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "4cb0990d646a4bbea3e1102676e200fe",
+                        "displayName": "tank",
+                        "linkedTwinID": "SaltMachine_C1",
+                        "objectIDs": ["tankMesh"],
+                        /* in some situations, elements will need to reference more than just the LinkedTwin
+                           aliases are used for other relevant twins, and they can be referenced in behavior expressions
+                           twinAliases is an optional field
+                           in practice any aliases required by behaviors should be present on elements that are used in those behaviors */
+                        "twinAliases": {
+                            "temperatureTag": "Tag_F2DB"
+                        },
+                        "extensionProperties": {}
+                    },
+                    {
+                        "type": "TwinToObjectMapping",
+                        "id": "0c785dde26664341b1f391a4e1b35180",
+                        "displayName": "box1",
+                        "linkedTwinID": "BoxA",
+                        "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
+                    }
+                ],
+                /* scenes reference the behaviors that are used in them to support faster resolution of elements from behaviors
+                   this means that we dont need to loop over ever element in every behavior to determine what is being used in this scene at runtime */
+                "behaviorIDs": [
+                    "bf1ec41d7886438d880c140fb1bb570a",
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
+                /* assets are 3D files used to create the scene
+                   in the web viewer, we will use a single file for now that is an entire scene
+                   in other viewers, there may be multiple assets that are positioned in space using attributes on extensionProperties */
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
+                        "extensionProperties": {}
+                    }
+                ]
+            }
+        ],
+
+        /* behaviors are used for reflecting twin state on objects of a scene
+           in practice, this is used for coloring meshes, badging objects when alerts happen, 
+           and building interactive experiences, like popovers with charts. */
+        "behaviors": [
+            {
+                "id": "bf1ec41d7886438d880c140fb1bb570a",
+                "displayName": "wheelsTooLow",
+
+                /*  datasources are designed to return an array of objects, and each object is expected to have the same schema.
+                    The objects returned by datasources are then mapped over in visuals.  Conceptually, it should feel like this...
+                    getDatasources().forEach(ds => applyVisuals(ds)) */
+                "datasources": [
+                    {
+                        /* ElementDatasources get their object from the elements defined in a scene.
+                           The structure returned from an ElementDatasource looks like this...
+                           [{LinkedTwin: <fromAdt>, aTwinAlias: <fromADT>, objectIDs: [arrayOfMeshIDs]}
+                           Note that the properties in this object are referenced in expressions below */
+                        "type": "ElementTwinToObjectMappingDataSource",
+                        "elementIDs": [
+                            "5ba433d52b8445979fabc818fd40ae3d",
+                            "2aa6955f3c73418a9be0f7b19c019b75"
+                        ],
+                        "extensionProperties": {}
+                    }
+                ],
+                /* Visuals take a datasource, and modify objects in the scene based on expressions.
+                   They allow you to color objects based on their state, float badges under alert conditions
+                   and configure popovers that trigger with user interaction */
+                "visuals": [
+                    {
+                        // A popover displays information about a datasource when you click on any of the associated objectIDs
+                        "type": "Popover",
+                        "title": "Average Tire Pressure",
+
+                        // widgets are placed in the popover, and can be grouped using groups below
+                        "widgets": [
+                            {
+                                // this is a gauge that displays the outflow property of the linked twin returned from the datasource above
+                                "type": "Gauge",
+
+                                // groupID is optional, may not match with any group either, we should handle its non-presence or mismatched value gracefully
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "valueExpression": "LinkedTwin.OutFlow",
+
+                                /* widget configuration specifies widget specific properties that are used for rendering this gauge
+                                   like units, label, min and max value
+                                   this is intended to grow, and will likely be strongly typed but may have a broad schema
+                                   ideally, we can use type discrimination to say "hey, this is of type "Gauge", so widgetConfiguration should have these properties
+                                   tbd if thats possible */
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Left",
+                                    "min": 0,
+                                    "max": 500
+                                },
+                                "extensionProperties": {}
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "valueExpression": "LinkedTwin.InFlow",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Right",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "valueExpression": "LinkedTwin.Temperature",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Left",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                "type": "Gauge",
+                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "valueExpression": "LinkedTwin.OutFlow",
+                                "widgetConfiguration": {
+                                    "units": "PSI",
+                                    "label": "Right",
+                                    "min": 0,
+                                    "max": 500
+                                }
+                            },
+                            {
+                                // This is a link widget that uses a string template to create a parametrized link
+                                "type": "Link",
+                                "groupID": "29dd688a00554d46be0eead725c668b4",
+                                "widgetConfiguration": {
+                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                }
+                            }
+                        ],
+                        // widgetGroups are used for grouping widgets, they are referenced by ID in widgets, they will have a secondary title as well
+                        "widgetGroups": [
+                            {
+                                "id": "8bf489e804884596afe8abb7e803d5c5",
+                                "title": "Front", // optional
+                                "orientation": "Horizontal" // optional, default to Horizontal probably
+                            },
+                            {
+                                "id": "286fac42a4a645b4bdcad9bcee915d0f",
+                                "title": "Rear",
+                                "orientation": "Horizontal"
+                            },
+                            {
+                                "id": "29dd688a00554d46be0eead725c668b4",
+                                "orientation": "Horizontal"
+                            }
+                        ],
+
+                        // objectIDs specify the objects in the scene that this visual pertains to
+                        "objectIDs": {
+                            // in this case, the IDs of the objects are from the datasource, where they are called objectIDs, since they are from an Element
+                            "expression": "objectIDs",
+                            "extensionProperties": {} // always optional
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "8b99ab46fabd45fab3adbaf88245a6b5",
+                "displayName": "tankTooHot",
+                "twinAliases": ["temperatureTag"],
+                "datasources": [
+                    {
+                        "type": "ElementTwinToObjectMappingDataSource",
+                        "elementIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
+                    }
+                ],
+                "visuals": [
+                    {
+                        // a StatusColoring visual is used for mapping an expression result to a color
+                        "type": "StatusColoring",
+
+                        /* right now this is numeric, but you can imagine that we could support categorical values by using
+                           something like "values: ['Good']" instead of min/max */
+                        "statusValueExpression": "temperatureTag.OutFlow",
+                        "statusValueRanges": [
+                            {
+                                "color": "#FF0000",
+                                "min": 100,
+                                "max": "Infinity"
+                            },
+                            {
+                                "color": "#00FF00",
+                                "min": "-Infinity",
+                                "max": 100
+                            }
+                        ],
+                        "objectIDs": {
+                            "expression": "objectIDs",
+                            "extensionProperties": {}
+                        }
+                    },
+                    {
+                        // an Alert visual is used for showing specific iconography when a boolean expression is true
+                        "type": "Alert",
+                        "triggerExpression": "temperatureTag.value > 100",
+                        "labelExpression": "${LinkedTwin.displayName} is too hot!",
+                        "iconName": "heart",
+                        "color": "#00FF00",
+                        "objectIDs": {
+                            "expression": "objectIDs"
+                        }
+                    }
+                ]
+            }
+        ],
+
+        /* layers are used for showing only certain gropus of behaviors at a time 
+           customers should be able to specify which layers a behavior belongs to, and toggle layers in the viewer component */
+        "layers": [
+            {
+                "id": "3511cc0c61394d0e857cde735ddb4e81",
+                "displayName": "TireStuff",
+                "behaviorIDs": ["bf1ec41d7886438d880c140fb1bb570a"],
+                "extensionProperties": {}
+            },
+            {
+                "id": "a2912b78335c4e75a58ba72d987fefac",
+                "displayName": "HotStuff",
+                "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
+                "extensionProperties": {}
+            }
+        ]
+    }
+}

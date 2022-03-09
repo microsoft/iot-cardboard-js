@@ -5,6 +5,8 @@ import { NodeRole } from '../PropertyTree/PropertyTree.types';
 import testModel from './testModel.json';
 import testTwin from './testTwin.json';
 
+jest.mock('../../../i18n.ts', () => ({ t: () => 'testTranslation' }));
+
 describe('Property nodes are parsed correctly', () => {
     test('Object property is correctly parsed into a tree node', () => {
         const testObject = {
