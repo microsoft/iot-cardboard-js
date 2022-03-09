@@ -52,6 +52,7 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ADT3DRenderMode } from '.';
+import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 
 export interface IAction {
     type: string;
@@ -420,6 +421,9 @@ export interface IBlobAdapter {
     putScenesConfig: (
         config: IScenesConfig
     ) => AdapterReturnType<ADTScenesConfigData>;
+    getContainerBlobs: (
+        fileTypes?: Array<string>
+    ) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -656,4 +660,10 @@ export interface IADT3DViewerRenderMode {
     defaultColoredMeshColor: string;
     meshHoverColor: string;
     defaultColoredMeshHoverColor: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }

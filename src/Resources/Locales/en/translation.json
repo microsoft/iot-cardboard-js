@@ -74,6 +74,7 @@
     "selectOption": "Select an option",
     "globe": "Globe",
     "list": "List",
+    "selectFile": "Select file",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -593,5 +594,12 @@
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
         "imgTag": "SVG icon via img tag src",
         "reactComponent": "SVG illustration via React component syntax"
+    },
+    "blobDropdown": {
+        "selectFileOrEnter": "Select file or enter URL",
+        "3dFileFromContainer": "3D file in container",
+        "loading3DFiles": "Loading files",
+        "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+        "supportedFileTypes": "Supported file types are {{fileTypes}}."
     }
 }
