@@ -1,6 +1,5 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import SceneList from './SceneList';
 
 export default {
@@ -18,7 +17,7 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 title={'Mock Scene List Card'}
                 theme={theme}
                 locale={locale}
-                adapter={new MockAdapter({ mockData: mockVConfig })}
+                adapter={new MockAdapter()}
             />
         </div>
     );

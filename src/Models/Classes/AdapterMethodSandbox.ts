@@ -114,10 +114,11 @@ class AdapterMethodSandbox {
                     type: ComponentErrorType.UnknownError
                 });
 
-                this.errors.push(this.catasrophicError);
+                this.errors.unshift(this.catasrophicError);
             } else if (!this.catasrophicError) {
                 // Uncaught ComponentError thrown explicitly (not pushed to sandbox).  Attach to catastrophicError.
                 this.catasrophicError = err;
+                this.errors.unshift(this.catasrophicError);
             }
             // Attach errorInfo, nullify result, and return AdapterResult.
             return new AdapterResult<T>({

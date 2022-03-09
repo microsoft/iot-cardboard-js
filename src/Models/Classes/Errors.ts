@@ -1,5 +1,6 @@
 import i18n from '../../i18n';
 import { ComponentErrorType, IComponentError } from '../Constants';
+import { ErrorObject } from 'ajv';
 
 class CancelledPromiseError extends Error {
     constructor(m = 'Promise cancelled.') {
@@ -16,6 +17,7 @@ class ComponentError extends Error implements IComponentError {
     public isCatastrophic;
     public rawError;
     public messageParams: { [key: string]: string };
+    public jsonSchemaErrors?: ErrorObject[];
 
     private getComponentErrorNameFromType = (errorType: ComponentErrorType) => {
         switch (errorType) {
@@ -29,6 +31,8 @@ class ComponentError extends Error implements IComponentError {
                 return i18n.t('boardErrors.invalidCardType');
             case ComponentErrorType.ErrorBoundary:
                 return i18n.t('errors.errorBoundary');
+            case ComponentErrorType.JsonSchemaError:
+                return i18n.t('errors.schemaValidationFailed.type');
             default:
                 return i18n.t('errors.unkownError');
         }
@@ -44,6 +48,8 @@ class ComponentError extends Error implements IComponentError {
                     'boardErrors.invalidCardTypeMessage',
                     messageParams
                 );
+            case ComponentErrorType.JsonSchemaError:
+                return i18n.t('errors.schemaValidationFailed.message');
             default:
                 return i18n.t('errors.unkownError');
         }
@@ -55,7 +61,8 @@ class ComponentError extends Error implements IComponentError {
         type = ComponentErrorType.UnknownError,
         isCatastrophic = false,
         rawError = null,
-        messageParams = {}
+        messageParams = {},
+        jsonSchemaErrors = null
     }: IComponentError) {
         super(message);
         this.name = name ? name : this.getComponentErrorNameFromType(type);
@@ -66,6 +73,7 @@ class ComponentError extends Error implements IComponentError {
         this.isCatastrophic = isCatastrophic;
         this.rawError = rawError;
         this.messageParams = messageParams;
+        this.jsonSchemaErrors = jsonSchemaErrors;
 
         Object.setPrototypeOf(this, ComponentError.prototype);
     }

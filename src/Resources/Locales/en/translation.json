@@ -82,7 +82,11 @@
     "selectFile": "Select file",
     "errors": {
         "errorBoundary": "Error boundary",
-        "unkownError": "Unknown error occurred"
+        "unkownError": "Unknown error occurred",
+        "schemaValidationFailed": {
+            "type": "JSON schema validation failed",
+            "message": "JSON is invalid. Check syntax matches required schema."
+        }
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",

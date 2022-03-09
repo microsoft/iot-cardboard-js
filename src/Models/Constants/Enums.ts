@@ -28,7 +28,8 @@ export enum ComponentErrorType {
 
 export enum ErrorImages {
     AccessRestricted = 'AccessRestrictedError',
-    BlobError = 'BlobError'
+    BlobError = 'BlobError',
+    JsonSchemaError = 'JsonSchemaError'
 }
 
 export enum HierarchyNodeType {

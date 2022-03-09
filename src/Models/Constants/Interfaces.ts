@@ -51,6 +51,7 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import { ErrorObject } from 'ajv';
 import { ADT3DRenderMode } from '.';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 
@@ -163,6 +164,9 @@ export interface IComponentError {
 
     /** Values that can be used in string interpolation when constructing the error message */
     messageParams?: { [key: string]: string };
+
+    /** Error data from JSON schema validation*/
+    jsonSchemaErrors?: ErrorObject[];
 }
 
 export interface IMockAdapter {

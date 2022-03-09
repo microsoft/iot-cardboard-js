@@ -3,8 +3,8 @@ import useAdapter from '../useAdapter';
 import { MockAdapter } from '../../../Adapters';
 import { AdapterResult, KeyValuePairAdapterData } from '../../Classes';
 
-const networkTimeoutMillis = 50;
-const pollingIntervalMillis = 50;
+const networkTimeoutMillis = 100;
+const pollingIntervalMillis = 100;
 
 jest.mock('../../../i18n.ts', () => ({ t: () => 'testTranslation' }));
 
@@ -96,12 +96,7 @@ describe('Basic useAdapter tests', () => {
 
 describe('Long polling useAdapter tests', () => {
     test('Long polling activated, pulse state, and long polling toggle', async (done) => {
-        const {
-            result,
-            waitForNextUpdate,
-            waitForValueToChange,
-            unmount
-        } = renderHook(() =>
+        const { result, waitForValueToChange, unmount } = renderHook(() =>
             useAdapter(getUseAdapterParams({ isLongPolling: true }))
         );
 
@@ -121,10 +116,12 @@ describe('Long polling useAdapter tests', () => {
         // Test state once data has loaded and save data fetched into variable
         expect(result.current.adapterResult.hasNoData()).toBe(false);
         expect(result.current.pulse).toBe(true);
-        const dataFetched = result.current.adapterResult.result.data;
+        const dataFetched = result.current.adapterResult.result.data.slice(0);
 
-        // Wait for first long poll completion.  Data should be updated.
-        await waitForNextUpdate();
+        // Wait for first long poll to trigger
+        await waitForValueToChange(
+            () => result.current.adapterResult.result.data
+        );
 
         expect(dataFetched).not.toEqual(
             result.current.adapterResult.result.data

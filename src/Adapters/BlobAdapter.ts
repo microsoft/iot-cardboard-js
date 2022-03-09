@@ -9,6 +9,8 @@ import axios from 'axios';
 import { IScenesConfig } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
+// TODO Validate JSON with schema
+// import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 
@@ -72,10 +74,13 @@ export default class BlobAdapter implements IBlobAdapter {
                         }
                     });
                     if (scenesBlob.data) {
+                        // TODO Validate JSON with schema
+                        // config = validate3DConfigWithSchema(scenesBlob.data);
                         config = scenesBlob.data as IScenesConfig;
+                    } else {
+                        throw new Error('Data not found');
                     }
                 }
-
                 return new ADTScenesConfigData(config);
             } catch (err) {
                 switch (err?.response?.status) {
