@@ -88,7 +88,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
 
     useEffect(() => {
-        console.log(selectedElements);
         if (selectedBehaviorPivotKey === BehaviorPivot.elements) {
             setColoredMeshItems([]);
         } else {
