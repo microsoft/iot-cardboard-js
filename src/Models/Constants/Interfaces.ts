@@ -648,8 +648,8 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerRenderMode {
     id: ADT3DRenderMode;
     text: string;
-    baseColor: { r: number; g: number; b: number; a: number };
-    fresnelColor: { r: number; g: number; b: number; a: number };
+    baseColor: string;
+    fresnelColor: string;
     opacity: number;
     isWireframe: boolean;
     background: string;

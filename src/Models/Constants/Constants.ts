@@ -142,8 +142,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
     {
         id: ADT3DRenderMode.Red,
         text: '3dSceneViewer.renderModes.red',
-        baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
-        fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
+        baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.1, // @coryboyle Doesn't seem to work
         isWireframe: false,
         defaultColoredMeshColor: '#FF8300',
@@ -154,8 +154,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
     {
         id: ADT3DRenderMode.RedWireframe,
         text: '3dSceneViewer.renderModes.redWireframe',
-        baseColor: { r: 1, g: 0.33, b: 0.1, a: 1 },
-        fresnelColor: { r: 0.8, g: 0, b: 0.1, a: 1 },
+        baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
+        fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
         defaultColoredMeshColor: null,
@@ -166,8 +166,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
     {
         id: ADT3DRenderMode.Green,
         text: '3dSceneViewer.renderModes.green',
-        baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
-        fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
+        baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: false,
         defaultColoredMeshColor: null,
@@ -178,8 +178,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
     {
         id: ADT3DRenderMode.GreenWireframe,
         text: '3dSceneViewer.renderModes.greenWireframe',
-        baseColor: { r: 0.1, g: 0.9, b: 0.3, a: 1 },
-        fresnelColor: { r: 0.4, g: 1, b: 0.1, a: 1 },
+        baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
+        fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
         defaultColoredMeshColor: null,
