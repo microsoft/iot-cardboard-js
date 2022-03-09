@@ -28,17 +28,10 @@ const MeshTab: React.FC<MeshTabProps> = ({
     useEffect(() => {
         const listItems = getListItems(
             elementToEdit.meshIDs,
-            // updateColoredMeshItems,
-            // updateColoredMeshItems,
             setColoredMeshItems
         );
         setListItems(listItems);
-    }, [
-        elementToEdit,
-        // updateColoredMeshItems,
-        // updateColoredMeshItems,
-        setColoredMeshItems
-    ]);
+    }, [elementToEdit, setColoredMeshItems]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
@@ -57,25 +50,36 @@ const MeshTab: React.FC<MeshTabProps> = ({
     );
 };
 function getListItems(
-    filteredElements: string[],
-    // onElementEnter: (element: string) => void,
-    // onElementLeave: () => void,
+    elementMeshIds: string[],
     setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void
 ): ICardboardListItem<string>[] {
-    return filteredElements.map((item) => {
+    const onMeshItemEnter = (meshId: string) => {
+        const coloredMeshItems: ColoredMeshItem[] = createColoredMeshItems(
+            elementMeshIds.filter((id) => id !== meshId),
+            null
+        );
+        coloredMeshItems.push({ meshId: meshId, color: '#00EDD9' });
+        setColoredMeshItems(coloredMeshItems);
+    };
+
+    const onMeshItemLeave = () => {
+        setColoredMeshItems(createColoredMeshItems(elementMeshIds, null));
+    };
+
+    return elementMeshIds.sort().map((item) => {
         const viewModel: ICardboardListItem<string> = {
             ariaLabel: '',
-            // buttonProps: {
-            //     onMouseOver: () => onElementEnter(item),
-            //     onMouseLeave: () => onElementLeave(),
-            //     onFocus: () => onElementEnter(item),
-            //     onBlur: () => onElementLeave()
-            // },
+            buttonProps: {
+                onMouseOver: () => onMeshItemEnter(item),
+                onMouseLeave: () => onMeshItemLeave(),
+                onFocus: () => onMeshItemEnter(item),
+                onBlur: () => onMeshItemLeave()
+            },
             iconStartName: 'CubeShape',
             iconEndName: 'Delete',
             item: item,
             onClick: () => {
-                const currentObjects = [...filteredElements];
+                const currentObjects = [...elementMeshIds];
                 currentObjects.splice(currentObjects.indexOf(item), 1);
                 setColoredMeshItems(
                     createColoredMeshItems(currentObjects, null)
