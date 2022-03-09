@@ -28,7 +28,7 @@ export class Marker {
     position?: Vector3;
     latitude?: number;
     longitude?: number;
-    color: { r: number; g: number; b: number };
+    color: string;
     isNav?: boolean;
     scene?: IScene;
 }
@@ -64,8 +64,8 @@ export interface ISceneViewProp {
     meshHoverColor?: string;
     defaultColoredMeshHoverColor?: string;
     isWireframe?: boolean;
-    meshBaseColor?: { r: number; g: number; b: number; a: number };
-    meshFresnelColor?: { r: number; g: number; b: number; a: number };
+    meshBaseColor?: string;
+    meshFresnelColor?: string;
     meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];

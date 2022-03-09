@@ -29,6 +29,32 @@ function debounce(func: any, timeout = 300) {
         }, timeout);
     };
 }
+
+function hexToColor4(hex: string) {
+    if (!hex) {
+        return undefined;
+    }
+
+    // remove invalid characters
+    hex = hex.replace(/[^0-9a-fA-F]/g, '');
+    if (hex.length < 5) {
+        // 3, 4 characters double-up
+        hex = hex
+            .split('')
+            .map((s) => s + s)
+            .join('');
+    }
+
+    // parse pairs of two
+    const rgba = hex
+        .match(/.{1,2}/g)
+        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
+    // alpha code between 0 & 1 / default 1
+    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
+    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
+    return color;
+}
+
 async function loadPromise(
     root: string,
     file: string,
@@ -326,7 +352,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
         let ignore = false;
         if (coloredMeshItems) {
-            ignore = !!coloredMeshItems.find((mi) => mi.meshId === mesh.id);
+            ignore = !!coloredMeshItems?.find((mi) => mi.meshId === mesh.id);
         }
 
         return ignore;
@@ -371,18 +397,8 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (meshBaseColor && meshFresnelColor) {
-                const baseColor = new BABYLON.Color4(
-                    meshBaseColor.r,
-                    meshBaseColor.g,
-                    meshBaseColor.b,
-                    meshBaseColor.a
-                );
-                const fresnelColor = new BABYLON.Color4(
-                    meshFresnelColor.r,
-                    meshFresnelColor.g,
-                    meshFresnelColor.b,
-                    meshFresnelColor.a
-                );
+                const baseColor = hexToColor4(meshBaseColor);
+                const fresnelColor = hexToColor4(meshFresnelColor);
                 const material = makeShaderMaterial(
                     sceneRef.current,
                     baseColor,
@@ -415,7 +431,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 coloredHovMaterial.current.wireframe = !!isWireframe;
             }
         }
-    }, [meshBaseColor, meshFresnelColor]);
+    }, [meshBaseColor, meshFresnelColor, isLoading]);
 
     // Handle isWireframe changes
     useEffect(() => {
@@ -496,10 +512,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
+                const rgba = hexToColor4(marker.color);
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
@@ -520,9 +537,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current
                 );
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
@@ -581,7 +598,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             );
 
                             if (meshToReset) {
-                                const isColored = coloredMeshItems.find(
+                                const isColored = coloredMeshItems?.find(
                                     (m) => m.meshId === meshToReset.id
                                 );
                                 meshToReset.material = isColored
@@ -594,7 +611,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current = null;
                         } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
-                            const isColored = coloredMeshItems.find(
+                            const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === mesh.id
                             );
                             highlightedMeshRef.current = mesh.id;
@@ -614,7 +631,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             (m) => m.id === highlightedMeshRef.current
                         );
                         if (lastMesh) {
-                            const isColored = coloredMeshItems.find(
+                            const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === lastMesh.id
                             );
 
