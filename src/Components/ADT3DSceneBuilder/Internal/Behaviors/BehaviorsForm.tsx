@@ -25,6 +25,7 @@ import LeftPanelBuilderHeader, {
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -45,13 +46,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    onElementEnter,
-    onElementLeave,
     updateSelectedElements
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo } = useContext(SceneBuilderContext);
+    const { widgetFormInfo, setColoredMeshItems } = useContext(
+        SceneBuilderContext
+    );
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior ? defaultBehavior : selectedBehavior
@@ -82,6 +83,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
+
+        let meshIds: string[] = [];
+        for (const element of selectedElements) {
+            if (element.meshIDs) {
+                meshIds = meshIds.concat(element.meshIDs);
+            }
+        }
+        setColoredMeshItems(createColoredMeshItems(meshIds, null));
 
         // Save original Id
         setOriginalBehaviorId(selectedBehavior?.id);
@@ -178,21 +187,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         )}
                                         itemKey={BehaviorPivot.elements}
                                     >
-                                        <div>
-                                            <SceneElements
-                                                elements={elements}
-                                                selectedElements={
-                                                    selectedElements
-                                                }
-                                                onElementEnter={onElementEnter}
-                                                onElementLeave={onElementLeave}
-                                                updateSelectedElements={
-                                                    updateSelectedElements
-                                                }
-                                                isEditBehavior={true}
-                                                hideSearch={true}
-                                            />
-                                        </div>
+                                        <SceneElements
+                                            elements={elements}
+                                            selectedElements={selectedElements}
+                                            updateSelectedElements={
+                                                updateSelectedElements
+                                            }
+                                            isEditBehavior={true}
+                                            hideSearch={true}
+                                        />
                                     </PivotItem>
                                     <PivotItem
                                         headerText={t('3dSceneBuilder.alerts')}

@@ -278,17 +278,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
-                        defaultColoredMeshColor:
-                            renderMode?.defaultColoredMeshColor,
-                        meshHoverColor: renderMode?.meshHoverColor,
+                        renderMode: renderMode,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
-                        defaultColoredMeshHoverColor:
-                            renderMode?.defaultColoredMeshHoverColor,
-                        isWireframe: renderMode?.isWireframe,
-                        meshBaseColor: renderMode?.baseColor,
-                        meshFresnelColor: renderMode?.fresnelColor,
-                        meshOpacity: renderMode?.opacity,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),
