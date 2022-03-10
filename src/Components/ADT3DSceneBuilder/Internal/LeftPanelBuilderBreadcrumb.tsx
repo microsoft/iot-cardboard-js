@@ -129,7 +129,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                 >
                     <FontIcon
                         iconName={'Home'}
-                        className="cb-left-panel-builder-breadcrumb-home-icon"
+                        className={'cb-left-panel-builder-breadcrumb-home-icon'}
                     />
                 </button>
             );

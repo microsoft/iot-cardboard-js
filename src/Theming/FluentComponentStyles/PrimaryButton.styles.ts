@@ -14,7 +14,8 @@ export const getPrimaryButtonStyles = (
 
     return {
         root: {
-            boxShadow
+            boxShadow,
+            color: 'white'
         }
     };
 };
