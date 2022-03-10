@@ -209,44 +209,6 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onElementEnter = (element: ITwinToObjectMapping) => {
-        const coloredMeshes = [...state.coloredMeshItems];
-        if (
-            (state.selectedElements &&
-                !state.selectedElements.find(
-                    (item) => item.id === element.id
-                )) ||
-            !state.selectedElements
-        ) {
-            for (const id of element.meshIDs) {
-                if (!coloredMeshes.find((meshId) => meshId.meshId === id)) {
-                    coloredMeshes.push({ meshId: id });
-                }
-            }
-        }
-
-        setColoredMeshItems(coloredMeshes);
-    };
-
-    const onElementLeave = (element: ITwinToObjectMapping) => {
-        if (state.selectedElements && state.selectedElements.length > 0) {
-            let coloredMeshes = [...state.coloredMeshItems];
-            if (
-                !state.selectedElements.find((item) => item.id === element.id)
-            ) {
-                for (const id of element.meshIDs) {
-                    coloredMeshes = coloredMeshes.filter(
-                        (meshId) => meshId.meshId !== id
-                    );
-                }
-
-                setColoredMeshItems(coloredMeshes);
-            }
-        } else {
-            setColoredMeshItems([]);
-        }
-    };
-
     const onBackClick = (
         idleMode: ADT3DSceneBuilderMode = ADT3DSceneBuilderMode.ElementsIdle
     ) => {
@@ -436,8 +398,6 @@ const BuilderLeftPanel: React.FC = () => {
                             onCreateElementClick={onCreateElementClick}
                             onRemoveElement={onRemoveElement}
                             onElementClick={onElementClick}
-                            onElementEnter={onElementEnter}
-                            onElementLeave={onElementLeave}
                             updateSelectedElements={updateSelectedElements}
                             clearSelectedElements={clearSelectedElements}
                             onCreateBehaviorClick={onCreateBehaviorWithElements}
@@ -488,8 +448,6 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
-                    onElementEnter={onElementEnter}
-                    onElementLeave={onElementLeave}
                     updateSelectedElements={updateSelectedElements}
                 />
             )}

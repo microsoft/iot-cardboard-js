@@ -1,6 +1,9 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
-import { DTwin } from '../../Models/Constants/Interfaces';
+import {
+    DTwin,
+    IADT3DViewerRenderMode
+} from '../../Models/Constants/Interfaces';
 import { IScene, IVisual } from './3DVConfig';
 
 export class SceneVisual {
@@ -60,14 +63,8 @@ export interface ISceneViewProp {
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
     showMeshesOnHover?: boolean;
-    defaultColoredMeshColor?: string;
-    meshHoverColor?: string;
-    defaultColoredMeshHoverColor?: string;
-    isWireframe?: boolean;
-    meshBaseColor?: string;
-    meshFresnelColor?: string;
-    meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
     showHoverOnSelected?: boolean;
+    renderMode?: IADT3DViewerRenderMode;
 }
