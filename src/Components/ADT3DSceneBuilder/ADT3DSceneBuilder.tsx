@@ -345,6 +345,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     )
                                 ]?.assets[0].url
                             }
+                            renderMode={state.renderMode}
                             onMeshClicked={onMeshClicked}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}

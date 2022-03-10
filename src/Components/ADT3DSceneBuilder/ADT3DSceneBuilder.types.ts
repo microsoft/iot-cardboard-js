@@ -11,7 +11,10 @@ import {
     Theme,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
-import { IConsumeCompositeCardProps } from '../../Models/Constants/Interfaces';
+import {
+    IConsumeCompositeCardProps,
+    IADT3DViewerRenderMode
+} from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
     IBehavior,
@@ -37,6 +40,7 @@ export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
+export const SET_RENDER_MODE = 'SET_RENDER_MODE';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -121,8 +125,6 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
-    onElementEnter: (element: ITwinToObjectMapping) => void;
-    onElementLeave: (element: ITwinToObjectMapping) => void;
     updateSelectedElements: (
         element: ITwinToObjectMapping,
         isSelected: boolean
@@ -136,8 +138,6 @@ export interface IADT3DSceneBuilderElementsProps {
         updatedElement: ITwinToObjectMapping,
         isSelected: boolean
     ) => void;
-    onElementEnter: (element: ITwinToObjectMapping) => void;
-    onElementLeave: (element: ITwinToObjectMapping) => void;
     clearSelectedElements?: () => void;
     onCreateBehaviorClick?: () => void;
     onCreateElementClick?: () => void;
@@ -159,6 +159,7 @@ export interface ADT3DSceneBuilderState {
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
+    renderMode: IADT3DViewerRenderMode;
 }
 
 export interface IWidgetBuilderFormDataProps {

@@ -25,6 +25,7 @@ import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -45,13 +46,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    onElementEnter,
-    onElementLeave,
     updateSelectedElements
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo } = useContext(SceneBuilderContext);
+    const { widgetFormInfo, setColoredMeshItems } = useContext(
+        SceneBuilderContext
+    );
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
@@ -80,6 +81,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
+
+        let meshIds: string[] = [];
+        for (const element of selectedElements) {
+            if (element.meshIDs) {
+                meshIds = meshIds.concat(element.meshIDs);
+            }
+        }
+        setColoredMeshItems(createColoredMeshItems(meshIds, null));
     }, []);
 
     useEffect(() => {
@@ -174,12 +183,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                                     elements={elements}
                                                     selectedElements={
                                                         selectedElements
-                                                    }
-                                                    onElementEnter={
-                                                        onElementEnter
-                                                    }
-                                                    onElementLeave={
-                                                        onElementLeave
                                                     }
                                                     updateSelectedElements={
                                                         updateSelectedElements

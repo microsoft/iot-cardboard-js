@@ -7,6 +7,7 @@ import {
 import {
     fluentDarkThemePalette,
     fluentExplorerThemePalette,
+    fluentKrakenThemePalette,
     fluentLightThemePalette
 } from './Palettes';
 import { Theme } from '../Models/Constants/Enums';
@@ -14,6 +15,7 @@ import { getCustomComponentStyles } from './FluentComponentStyles';
 import {
     fluentDarkThemeSemanticColors,
     fluentExplorerThemeSemanticColors,
+    fluentKrakenThemeSemanticColors,
     fluentLightThemeSemanticColors
 } from './SemanticColors';
 
@@ -25,6 +27,8 @@ export const getFluentTheme = (theme: Theme): ITheme => {
             return fluentLightTheme;
         case Theme.Explorer:
             return fluentExplorerTheme;
+        case Theme.Kraken:
+            return fluentKrakenTheme;
         default:
             return fluentLightTheme;
     }
@@ -64,6 +68,11 @@ const fluentExplorerThemeInfo: IPartialTheme = {
     semanticColors: fluentExplorerThemeSemanticColors
 };
 
+const fluentKrakenThemeInfo: IPartialTheme = {
+    palette: fluentKrakenThemePalette,
+    semanticColors: fluentKrakenThemeSemanticColors
+};
+
 const fluentLightTheme = createThemeWithCustomStyles(
     fluentLightThemeInfo,
     Theme.Light
@@ -77,4 +86,9 @@ const fluentDarkTheme = createThemeWithCustomStyles(
 const fluentExplorerTheme = createThemeWithCustomStyles(
     fluentExplorerThemeInfo,
     Theme.Explorer
+);
+
+const fluentKrakenTheme = createThemeWithCustomStyles(
+    fluentKrakenThemeInfo,
+    Theme.Kraken
 );

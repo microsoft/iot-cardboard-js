@@ -31,7 +31,7 @@ import {
 } from '../../Models/Constants/Interfaces';
 import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContainer';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import StorageContainerPermissionError from '../../Components/StorageContainerPermissionError/StorageContainerPermissionError';
+import ScenePageErrorHandlingWrapper from '../../Components/ScenePageErrorHandlingWrapper/ScenePageErrorHandlingWrapper';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
@@ -226,12 +226,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     }}
                                 />
                             </div>
+                        </>
+                    )}
+
+                    <ScenePageErrorHandlingWrapper errors={state.errors}>
+                        {state.currentStep ===
+                            ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">
-                                {state.errors.length > 0 && (
-                                    <StorageContainerPermissionError
-                                        errorType={state.errors[0].type}
-                                    />
-                                )}
                                 {state.selectedBlobContainerURL && (
                                     <SceneList
                                         key={state.selectedBlobContainerURL}
@@ -264,53 +265,54 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                     />
                                 )}
                             </div>
-                        </>
-                    )}
-                    {state.currentStep === ADT3DScenePageSteps.Globe && (
-                        <div className="cb-scene-page-scene-globe-container">
-                            <Breadcrumb
-                                items={[
-                                    {
-                                        text: t('3dScenePage.home'),
-                                        key: 'Home',
-                                        onClick: handleOnHomeClick
-                                    },
-                                    {
-                                        text: t('3dScenePage.globe'),
-                                        key: 'Scene'
-                                    }
-                                ]}
-                                maxDisplayedItems={10}
-                                ariaLabel="Breadcrumb with items rendered as buttons"
-                                overflowAriaLabel="More links"
-                            />
-                            <ADT3DGlobe
-                                theme={theme}
-                                adapter={adapter as IBlobAdapter}
-                                onSceneClick={(scene) => {
-                                    handleOnSceneClick(scene);
-                                }}
-                            />
-                        </div>
-                    )}
-                    {state.currentStep === ADT3DScenePageSteps.SceneBuilder && (
-                        <>
-                            <div className="cb-scene-builder-and-viewer-container">
-                                <ADT3DSceneBuilderContainer
-                                    mode={state.scenePageMode}
-                                    scenesConfig={state.scenesConfig}
-                                    scene={state.selectedScene}
-                                    adapter={adapter}
+                        )}
+                        {state.currentStep === ADT3DScenePageSteps.Globe && (
+                            <div className="cb-scene-page-scene-globe-container">
+                                <Breadcrumb
+                                    items={[
+                                        {
+                                            text: t('3dScenePage.home'),
+                                            key: 'Home',
+                                            onClick: handleOnHomeClick
+                                        },
+                                        {
+                                            text: t('3dScenePage.globe'),
+                                            key: 'Scene'
+                                        }
+                                    ]}
+                                    maxDisplayedItems={10}
+                                    ariaLabel="Breadcrumb with items rendered as buttons"
+                                    overflowAriaLabel="More links"
+                                />
+                                <ADT3DGlobe
                                     theme={theme}
-                                    locale={locale}
-                                    localeStrings={localeStrings}
-                                    refetchConfig={() =>
-                                        scenesConfig.callAdapter()
-                                    }
+                                    adapter={adapter as IBlobAdapter}
+                                    onSceneClick={(scene) => {
+                                        handleOnSceneClick(scene);
+                                    }}
                                 />
                             </div>
-                        </>
-                    )}
+                        )}
+                        {state.currentStep ===
+                            ADT3DScenePageSteps.SceneBuilder && (
+                            <>
+                                <div className="cb-scene-builder-and-viewer-container">
+                                    <ADT3DSceneBuilderContainer
+                                        mode={state.scenePageMode}
+                                        scenesConfig={state.scenesConfig}
+                                        scene={state.selectedScene}
+                                        adapter={adapter}
+                                        theme={theme}
+                                        locale={locale}
+                                        localeStrings={localeStrings}
+                                        refetchConfig={() =>
+                                            scenesConfig.callAdapter()
+                                        }
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </ScenePageErrorHandlingWrapper>
                 </BaseComponent>
             </div>
         </ADT3DScenePageContext.Provider>
