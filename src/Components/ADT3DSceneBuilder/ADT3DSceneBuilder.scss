@@ -24,7 +24,7 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-    padding: 0 20px 20px 0;
+    padding: 0 0 20px 0;
     width: 360px;
 
     .cb-scene-builder-left-panel-create-wrapper {
@@ -72,7 +72,6 @@
     .cb-scene-builder-behavior-search-box,
     .cb-scene-builder-element-search-box {
         flex: 1;
-        margin-left: 8px;
         margin-right: 4px;
     }
 
