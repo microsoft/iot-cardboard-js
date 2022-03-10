@@ -122,9 +122,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         opacity: 1,
         isWireframe: false,
-        defaultColoredMeshColor: '#FF26D7',
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#F3FF14',
+        coloredMeshHoverColor: '#00EDD9',
         background: null
     },
     {
@@ -134,9 +134,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         opacity: 1,
         isWireframe: true,
-        defaultColoredMeshColor: null,
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#ff0000',
+        coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -146,9 +146,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.1, // @coryboyle Doesn't seem to work
         isWireframe: false,
-        defaultColoredMeshColor: '#FF8300',
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#00FF00',
+        coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -158,9 +158,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
-        defaultColoredMeshColor: null,
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#F3FF14',
+        coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -170,9 +170,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: false,
-        defaultColoredMeshColor: null,
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#F3FF14',
+        coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -182,9 +182,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
         opacity: 0.5,
         isWireframe: true,
-        defaultColoredMeshColor: null,
-        meshHoverColor: null,
-        defaultColoredMeshHoverColor: null,
+        coloredMeshColor: '#00A8F0',
+        meshHoverColor: '#F3FF14',
+        coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     }
 ];

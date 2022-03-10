@@ -653,7 +653,7 @@ export interface IADT3DViewerRenderMode {
     opacity: number;
     isWireframe: boolean;
     background: string;
-    defaultColoredMeshColor: string;
+    coloredMeshColor: string;
     meshHoverColor: string;
-    defaultColoredMeshHoverColor: string;
+    coloredMeshHoverColor: string;
 }

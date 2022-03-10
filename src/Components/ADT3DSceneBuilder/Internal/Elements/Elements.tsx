@@ -28,10 +28,7 @@ import SearchHeader from '../Shared/SearchHeader';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
-import {
-    colored_Mesh_Color,
-    colored_Mesh_Hover_Color
-} from '../../../../Models/Constants/SceneView.constants';
+import { IADT3DViewerRenderMode } from '../../../..';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -53,7 +50,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const { adapter, config, sceneId } = useContext(SceneBuilderContext);
+    const { adapter, config, sceneId, state } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -172,6 +169,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             setElementToDelete,
             setIsDeleteDialogOpen,
             setColoredMeshItems,
+            state.renderMode,
             t
         );
         setListItems(elementsList);
@@ -284,6 +282,7 @@ function getListItems(
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
+    renderMode: IADT3DViewerRenderMode,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -331,7 +330,7 @@ function getListItems(
                         coloredMeshes = coloredMeshes.concat(
                             createColoredMeshItems(
                                 selectedElement.meshIDs,
-                                colored_Mesh_Color
+                                renderMode.coloredMeshColor
                             )
                         );
                     }
@@ -345,14 +344,14 @@ function getListItems(
                     coloredMeshes = coloredMeshes.concat(
                         createColoredMeshItems(
                             element?.meshIDs,
-                            colored_Mesh_Hover_Color
+                            renderMode.coloredMeshHoverColor
                         )
                     );
                 } else {
                     coloredMeshes = coloredMeshes.concat(
                         createColoredMeshItems(
                             element?.meshIDs,
-                            colored_Mesh_Color
+                            renderMode.coloredMeshColor
                         )
                     );
                 }
