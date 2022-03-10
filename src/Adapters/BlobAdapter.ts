@@ -6,13 +6,12 @@ import {
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
-import { IScenesConfig } from '../Models/Classes/3DVConfig';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
-// TODO Validate JSON with schema
-// import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
+import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountHostUrl: string;
@@ -62,7 +61,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             try {
-                let config;
+                let config: I3DScenesConfig;
                 if (this.storageAccountHostUrl && this.blobContainerPath) {
                     const scenesBlob = await axios({
                         method: 'GET',
@@ -74,9 +73,7 @@ export default class BlobAdapter implements IBlobAdapter {
                         }
                     });
                     if (scenesBlob.data) {
-                        // TODO Validate JSON with schema
-                        // config = validate3DConfigWithSchema(scenesBlob.data);
-                        config = scenesBlob.data as IScenesConfig;
+                        config = validate3DConfigWithSchema(scenesBlob.data);
                     } else {
                         throw new Error('Data not found');
                     }
@@ -109,7 +106,7 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async putScenesConfig(config: IScenesConfig) {
+    async putScenesConfig(config: I3DScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );

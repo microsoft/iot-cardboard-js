@@ -6,20 +6,20 @@ import {
     ResponsiveContainer,
     PolarAngleAxis
 } from 'recharts';
-import { IControlConfiguration } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import { parseExpression } from '../../../Models/Services/Utils';
+import { IGaugeWidget } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 interface IProp {
-    config: IControlConfiguration;
+    widget: IGaugeWidget;
     twins: Record<string, DTwin>;
 }
 
-export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
-    const expression = config.expression;
-    const label = config.label;
-    const width = config.width || 150;
-    const height = config.height || 150;
-    const units = config.units || '';
+export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
+    const expression = widget.valueExpression;
+    const label = widget.widgetConfiguration.label;
+    const width = 150;
+    const height = 150;
+    const units = widget.widgetConfiguration.units || '';
     let value = 0;
     try {
         value = parseExpression(expression, twins);
@@ -33,26 +33,10 @@ export const GaugeWidget: React.FC<IProp> = ({ config, twins }) => {
 
     value = value || 20; // TODO: Hack
 
-    let color = '#ff0000';
+    const color = '#00ff00';
     let lastBp: number = undefined;
-    if (
-        config.valueBreakPoints?.length &&
-        config.colors?.length === config.valueBreakPoints.length
-    ) {
-        for (let i = 0; i < config.valueBreakPoints.length; i++) {
-            const bp = config.valueBreakPoints[i];
-            const c = config.colors[i];
-            if (lastBp === undefined) {
-                color = c;
-                lastBp = bp;
-            } else if (value > lastBp) {
-                color = c;
-            }
-            lastBp = bp;
-        }
-    }
 
-    lastBp = lastBp || 1000; // Used as max data point
+    lastBp = Number(widget.widgetConfiguration.max) || 1000; // Used as max data point
 
     const data = [{ value, fill: color }];
     return (

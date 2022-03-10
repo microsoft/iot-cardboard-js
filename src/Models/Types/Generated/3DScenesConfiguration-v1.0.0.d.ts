@@ -5,6 +5,10 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type IElement = ITwinToObjectMapping | ICustomProperty;
+export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
+export type IVisual = IPopoverVisual | IStatusColoringVisual | IAlertVisual;
+export type IWidget = IGaugeWidget | ILinkWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -24,43 +28,24 @@ export interface I3DScenesConfig {
      * 3D scene configuration data
      */
     configuration: {
-        scenes: {
-            id: string;
-            displayName: string;
-            elements: (ITwinToObjectMapping | ICustomProperty)[];
-            behaviorIDs: string[];
-            assets: {
-                type: string;
-                url: string;
-                extensionProperties?: IExtensionProperties;
-                [k: string]: unknown;
-            }[];
-            [k: string]: unknown;
-        }[];
-        behaviors: {
-            id: string;
-            displayName: string;
-            twinAliases?: string[];
-            /**
-             * Data sources return an array of objects.  Each object is expected to have the same schema.  These objects can then be mapped over in visuals.
-             */
-            datasources: (IElementTwinToObjectMappingDataSource | ICustomProperty)[];
-            /**
-             * Visuals take a datasource, and modify objects in the scene based on expressions.  They allow you to color objects based on their state, float badges under alert conditions and configure popovers that trigger with user interaction
-             */
-            visuals: (IPopoverVisual | IStatusColoringVisual | IAlertVisual)[];
-            [k: string]: unknown;
-        }[];
-        layers: {
-            id: string;
-            displayName: string;
-            behaviorIDs: string[];
-            extensionProperties?: IExtensionProperties;
-            [k: string]: unknown;
-        }[];
+        scenes: IScene[];
+        behaviors: IBehavior[];
+        layers: ILayer[];
         [k: string]: unknown;
     };
     [k: string]: unknown;
+}
+/**
+ * A scene is a single view that can be rendered from 3D assets
+ */
+export interface IScene {
+    id: string;
+    displayName: string;
+    latitude?: number;
+    longitude?: number;
+    elements: IElement[];
+    behaviorIDs: string[];
+    assets: IAsset[];
 }
 /**
  * An elements maps twins to objects in the scene
@@ -84,7 +69,6 @@ export interface ITwinToObjectMapping {
         [k: string]: string;
     };
     extensionProperties?: IExtensionProperties;
-    [k: string]: unknown;
 }
 /**
  * Optional bag of non-schematized extension properties
@@ -96,12 +80,32 @@ export interface IExtensionProperties {
  * Free form property
  */
 export interface ICustomProperty {
+    type: 'CustomProperty';
+    [k: string]: unknown;
+}
+/**
+ * A 3D asset used to create the scene
+ */
+export interface IAsset {
+    type: string;
+    url: string;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * A behavior applies visual or interactive representations of twin state to objects in the scene
+ */
+export interface IBehavior {
+    id: string;
+    displayName: string;
+    twinAliases?: string[];
     /**
-     * Bag for any custom properties
+     * Data sources return an array of objects.  Each object is expected to have the same schema.  These objects can then be mapped over in visuals.
      */
-    customProperties: {
-        [k: string]: unknown;
-    };
+    datasources: IDataSource[];
+    /**
+     * Visuals take a datasource, and modify objects in the scene based on expressions.  They allow you to color objects based on their state, float badges under alert conditions and configure popovers that trigger with user interaction
+     */
+    visuals: IVisual[];
 }
 /**
  * These datasources get their objects from the elements defined in a scene
@@ -110,7 +114,6 @@ export interface IElementTwinToObjectMappingDataSource {
     type: 'ElementTwinToObjectMappingDataSource';
     elementIDs: string[];
     extensionProperties?: IExtensionProperties;
-    [k: string]: unknown;
 }
 /**
  * A popover displays information about a datasource when you click on any of the associated objectIDs
@@ -121,48 +124,51 @@ export interface IPopoverVisual {
     /**
      * Widgets are visuals within a popover.  Widgets can be grouped via widgetGroups property.
      */
-    widgets: (
-        | {
-              type: 'Gauge';
-              groupID?: IGroupID;
-              valueExpression: IValueExpression;
-              /**
-               * Widget configuration specifies widget specific properties that are used for rendering this gauge
-               */
-              widgetConfiguration: {
-                  units?: string;
-                  label?: string;
-                  min?: INumericOrInfinityType;
-                  max?: INumericOrInfinityType;
-                  [k: string]: unknown;
-              };
-              extensionProperties?: IExtensionProperties;
-              [k: string]: unknown;
-          }
-        | {
-              type: 'Link';
-              groupID?: IGroupID;
-              /**
-               * Widget configuration specifies widget specific properties that are used for rendering this Link
-               */
-              widgetConfiguration: {
-                  /**
-                   * Template string which evalues to http link
-                   */
-                  linkExpression?: string;
-                  [k: string]: unknown;
-              };
-              [k: string]: unknown;
-          }
-    )[];
-    widgetGroups: {
+    widgets: IWidget[];
+    widgetGroups?: {
         id: string;
         title?: string;
         orientation?: string;
         [k: string]: unknown;
     }[];
     objectIDs: IObjectIDs;
-    [k: string]: unknown;
+}
+/**
+ * A gauge widget
+ */
+export interface IGaugeWidget {
+    type: 'Gauge';
+    groupID?: IGroupID;
+    valueExpression: IValueExpression;
+    /**
+     * Widget configuration specifies widget specific properties that are used for rendering this gauge
+     */
+    widgetConfiguration: {
+        units?: string;
+        label?: string;
+        min?: INumericOrInfinityType;
+        max?: INumericOrInfinityType;
+        [k: string]: unknown;
+    };
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * A link widget which uses a string template to create a parametrized link
+ */
+export interface ILinkWidget {
+    type: 'Link';
+    groupID?: IGroupID;
+    /**
+     * Widget configuration specifies widget specific properties that are used for rendering this Link
+     */
+    widgetConfiguration: {
+        /**
+         * Template string which evalues to http link
+         */
+        linkExpression?: string;
+        [k: string]: unknown;
+    };
+    extensionProperties?: IExtensionProperties;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to
@@ -170,7 +176,6 @@ export interface IPopoverVisual {
 export interface IObjectIDs {
     expression: string;
     extensionProperties?: IExtensionProperties;
-    [k: string]: unknown;
 }
 /**
  * a StatusColoring visual is used for mapping an expression result to a color
@@ -188,7 +193,7 @@ export interface IStatusColoringVisual {
         [k: string]: unknown;
     }[];
     objectIDs: IObjectIDs;
-    [k: string]: unknown;
+    extensionProperties?: IExtensionProperties;
 }
 /**
  * Alert visual are used to show specific iconography when a boolean expression is true
@@ -206,5 +211,14 @@ export interface IAlertVisual {
     iconName: string;
     color: string;
     objectIDs: IObjectIDs;
-    [k: string]: unknown;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Layers are used to group behavior visibility
+ */
+export interface ILayer {
+    id: string;
+    displayName: string;
+    behaviorIDs: string[];
+    extensionProperties?: IExtensionProperties;
 }

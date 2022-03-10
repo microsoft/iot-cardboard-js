@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
@@ -95,15 +95,16 @@ EditElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(elementListItem);
 };
 
-export const EditAlertsTab = Template.bind({});
-EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTab.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the first one
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
-};
+// TODO SCHEMA MIGRATION - update Alerts tab to new schema & types
+// export const EditAlertsTab = Template.bind({});
+// EditAlertsTab.play = async ({ canvasElement }) => {
+//     await EditElementsTab.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the first one
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[1]);
+// };
 
 export const EditWidgetsTab = Template.bind({});
 EditWidgetsTab.play = async ({ canvasElement }) => {

@@ -1,3 +1,5 @@
+// TODO SCHEMA MIGRATION - update Alerts tab to new schema & types
+/*
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -65,3 +67,4 @@ const AlertsTab: React.FC = () => {
 };
 
 export default AlertsTab;
+*/

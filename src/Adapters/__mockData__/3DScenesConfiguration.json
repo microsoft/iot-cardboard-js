@@ -52,7 +52,7 @@
         "behaviors": [
             {
                 "id": "bf1ec41d7886438d880c140fb1bb570a",
-                "displayName": "wheelsTooLow",
+                "displayName": "Wheels too low",
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
@@ -146,7 +146,7 @@
             },
             {
                 "id": "8b99ab46fabd45fab3adbaf88245a6b5",
-                "displayName": "tankTooHot",
+                "displayName": "Tank too hot",
                 "twinAliases": ["temperatureTag"],
                 "datasources": [
                     {

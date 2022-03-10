@@ -6,10 +6,13 @@ import {
     WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
-    IWidget,
     VisualType
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
+import {
+    IPopoverVisual,
+    IWidget
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
@@ -74,8 +77,8 @@ const WidgetForm: React.FC<any> = () => {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.OnClickPopover
-                    );
+                        (visual) => visual.type === VisualType.Popover
+                    ) as IPopoverVisual;
 
                     if (popOver) {
                         const widgets = popOver?.widgets;
@@ -90,8 +93,8 @@ const WidgetForm: React.FC<any> = () => {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.OnClickPopover
-                    );
+                        (visual) => visual.type === VisualType.Popover
+                    ) as IPopoverVisual;
 
                     if (
                         popOver &&

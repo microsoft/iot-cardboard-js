@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { ITwinToObjectMapping } from '../../../../../Models/Classes/3DVConfig';
-
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { useTheme } from '@fluentui/react';
@@ -8,6 +6,7 @@ import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { createColoredMeshItems } from '../../../../3DV/SceneView.Utils';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
+import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
@@ -27,7 +26,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
     // generate the list of items to show
     useEffect(() => {
         const listItems = getListItems(
-            elementToEdit.meshIDs,
+            elementToEdit.objectIDs,
             setColoredMeshItems
         );
         setListItems(listItems);
@@ -36,7 +35,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
-            {elementToEdit.meshIDs.length === 0 ? (
+            {elementToEdit.objectIDs.length === 0 ? (
                 <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.noMeshAddedText')}
                 </div>

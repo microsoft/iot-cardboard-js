@@ -18,9 +18,7 @@ import BaseComponent from '../../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import {
     DatasourceType,
-    defaultBehavior,
-    IBehavior,
-    ITwinToObjectMapping
+    defaultBehavior
 } from '../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import SceneBehaviors from '../Internal/Behaviors/Behaviors';
@@ -30,6 +28,10 @@ import SceneElements from '../Internal/Elements/Elements';
 import LeftPanelBuilderBreadcrumb from '../Internal/LeftPanelBuilderBreadcrumb';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
 import { createColoredMeshItems } from '../../3DV/SceneView.Utils';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -74,16 +76,9 @@ const BuilderLeftPanel: React.FC = () => {
     });
 
     const editBehaviorAdapterData = useAdapter({
-        adapterMethod: (params: {
-            behavior: IBehavior;
-            originalBehaviorId: string;
-        }) =>
+        adapterMethod: (params: { behavior: IBehavior }) =>
             adapter.putScenesConfig(
-                ViewerConfigUtility.editBehavior(
-                    config,
-                    params.behavior,
-                    params.originalBehaviorId
-                )
+                ViewerConfigUtility.editBehavior(config, params.behavior)
             ),
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -138,7 +133,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditElement
         });
 
-        setColoredMeshItems(createColoredMeshItems(element.meshIDs, null));
+        setColoredMeshItems(createColoredMeshItems(element.objectIDs, null));
     };
 
     const updateSelectedElements = (
@@ -176,7 +171,7 @@ const BuilderLeftPanel: React.FC = () => {
 
         const meshIds = [];
         for (const element of selectedElements) {
-            for (const id of element.meshIDs) {
+            for (const id of element.objectIDs) {
                 meshIds.push(id);
             }
         }
@@ -192,7 +187,7 @@ const BuilderLeftPanel: React.FC = () => {
 
         const meshIds = [];
         for (const element of elements) {
-            for (const id of element.meshIDs) {
+            for (const id of element.objectIDs) {
                 meshIds.push(id);
             }
         }
@@ -218,7 +213,7 @@ const BuilderLeftPanel: React.FC = () => {
                 )) ||
             !state.selectedElements
         ) {
-            for (const id of element.meshIDs) {
+            for (const id of element.objectIDs) {
                 if (!coloredMeshes.find((meshId) => meshId.meshId === id)) {
                     coloredMeshes.push({ meshId: id });
                 }
@@ -234,7 +229,7 @@ const BuilderLeftPanel: React.FC = () => {
             if (
                 !state.selectedElements.find((item) => item.id === element.id)
             ) {
-                for (const id of element.meshIDs) {
+                for (const id of element.objectIDs) {
                     coloredMeshes = coloredMeshes.filter(
                         (meshId) => meshId.meshId !== id
                     );
@@ -291,8 +286,8 @@ const BuilderLeftPanel: React.FC = () => {
         });
 
         behavior.datasources[0] = {
-            type: DatasourceType.TwinToObjectMapping,
-            mappingIDs: mappingIds
+            type: DatasourceType.ElementTwinToObjectMappingDataSource,
+            elementIDs: mappingIds
         };
 
         dispatch({
@@ -307,11 +302,7 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onBehaviorSave: OnBehaviorSave = async (
-        behavior,
-        mode,
-        originalBehaviorId
-    ) => {
+    const onBehaviorSave: OnBehaviorSave = async (behavior, mode) => {
         if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
             await addBehaviorAdapterData.callAdapter({
                 behavior
@@ -319,8 +310,7 @@ const BuilderLeftPanel: React.FC = () => {
         }
         if (mode === ADT3DSceneBuilderMode.EditBehavior) {
             await editBehaviorAdapterData.callAdapter({
-                behavior,
-                originalBehaviorId
+                behavior
             });
         }
         getConfig();
@@ -378,9 +368,8 @@ const BuilderLeftPanel: React.FC = () => {
     useEffect(() => {
         if (config) {
             const mappings =
-                config.viewerConfiguration?.scenes?.find(
-                    (s) => s.id === sceneId
-                )?.twinToObjectMappings || [];
+                config.configuration?.scenes?.find((s) => s.id === sceneId)
+                    ?.elements || [];
             dispatch({
                 type: SET_ADT_SCENE_BUILDER_ELEMENTS,
                 payload: mappings
@@ -394,10 +383,10 @@ const BuilderLeftPanel: React.FC = () => {
     }, [config]);
 
     // Get behaviors in active scene
-    const behaviors = useMemo(
-        () => config?.viewerConfiguration?.behaviors || [],
-        [config, sceneId]
-    );
+    const behaviors = useMemo(() => config?.configuration?.behaviors || [], [
+        config,
+        sceneId
+    ]);
 
     return (
         <BaseComponent

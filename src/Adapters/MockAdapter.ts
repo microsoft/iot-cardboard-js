@@ -31,18 +31,18 @@ import {
     TsiClientData
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import mockVConfig from './__mockData__/vconfigDecFinal.json';
-import {
-    IScenesConfig,
-    DatasourceType,
-    IBehavior
-} from '../Models/Classes/3DVConfig';
+import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
-// TODO Validate JSON with schema
-// import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
+import {
+    I3DScenesConfig,
+    IBehavior,
+    ITwinToObjectMapping
+} from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 
 export default class MockAdapter
     implements
@@ -55,7 +55,7 @@ export default class MockAdapter
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
-    private scenesConfig;
+    private scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
@@ -242,13 +242,12 @@ export default class MockAdapter
         return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
             // TODO Validate JSON with schema
-            // const config = validate3DConfigWithSchema(this.scenesConfig);
-            const config = this.scenesConfig;
-            return new ADTScenesConfigData(config as any);
+            const config = validate3DConfigWithSchema(this.scenesConfig);
+            return new ADTScenesConfigData(config);
         });
     }
 
-    async putScenesConfig(config: IScenesConfig) {
+    async putScenesConfig(config: I3DScenesConfig) {
         try {
             await this.mockNetwork();
             this.scenesConfig = config;
@@ -288,11 +287,11 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(sceneId: string, config: IScenesConfig) {
+    async getSceneData(sceneId: string, config: I3DScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         // get scene based on id
-        const scene = config.viewerConfiguration?.scenes?.find(
+        const scene = config.configuration.scenes?.find(
             (scene) => scene.id === sceneId
         );
         let modelUrl = null;
@@ -301,13 +300,12 @@ export default class MockAdapter
             // get modelUrl
             modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
-            if (scene.behaviors) {
+            if (scene.behaviorIDs) {
                 // cycle through behaviors for scene
-                for (const sceneBehavior of scene.behaviors) {
+                for (const sceneBehavior of scene.behaviorIDs) {
                     // cycle through all behaviors
                     // check if behavior is relevent for the current scene
-                    for (const behavior of config.viewerConfiguration
-                        ?.behaviors)
+                    for (const behavior of config.configuration?.behaviors)
                         if (sceneBehavior === behavior.id) {
                             const mappingIds: string[] = [];
                             // cycle through the datasources of behavior
@@ -315,9 +313,9 @@ export default class MockAdapter
                                 // if its a TwinToObjectMappingDatasource get the mapping id
                                 if (
                                     dataSource.type ===
-                                    DatasourceType.TwinToObjectMapping
+                                    DatasourceType.ElementTwinToObjectMappingDataSource
                                 ) {
-                                    dataSource.mappingIDs.forEach(
+                                    dataSource.elementIDs.forEach(
                                         (mappingId) => {
                                             mappingIds.push(mappingId);
                                         }
@@ -330,9 +328,12 @@ export default class MockAdapter
                             // cycle through mapping ids to get twins for behavior and scene
                             for (const id of mappingIds) {
                                 const twins = {};
-                                const mapping = scene.twinToObjectMappings.find(
-                                    (mapping) => mapping.id === id
-                                );
+                                const mapping: ITwinToObjectMapping = scene.elements.find(
+                                    (mapping) =>
+                                        mapping.type ===
+                                            ElementType.TwinToObjectMapping &&
+                                        mapping.id === id
+                                ) as ITwinToObjectMapping;
 
                                 // get primary twin
                                 twins[primaryTwinName] = {
@@ -359,7 +360,7 @@ export default class MockAdapter
                                 }
 
                                 const sceneVisual = new SceneVisual(
-                                    mapping.meshIDs,
+                                    mapping.objectIDs,
                                     behavior.visuals,
                                     twins
                                 );
@@ -492,7 +493,7 @@ export default class MockAdapter
 
     async getTwinsForBehavior(
         _sceneId: string,
-        _config: IScenesConfig,
+        _config: I3DScenesConfig,
         _behavior: IBehavior
     ): Promise<Record<string, any>> {
         return null;
@@ -500,7 +501,7 @@ export default class MockAdapter
 
     async getCommonTwinPropertiesForBehavior(
         _sceneId: string,
-        _config: IScenesConfig,
+        _config: I3DScenesConfig,
         _behavior: IBehavior
     ): Promise<string[]> {
         return ['$dtId', 'InFlow', 'OutFlow'];
@@ -521,9 +522,9 @@ export default class MockAdapter
                 Properties: { 'Content-Length': 2000 }
             },
             {
-                Name: 'vconfigDecFinal.json',
+                Name: '3DScenesConfiguration.json',
                 Path:
-                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/vconfigDecFinal.json',
+                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/3DScenesConfiguration.json',
                 Properties: { 'Content-Length': 3000 }
             }
         ];

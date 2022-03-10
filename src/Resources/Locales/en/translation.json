@@ -8,6 +8,7 @@
     "selectProperties": "Select properties",
     "empty": "Empty",
     "hierarchy": "Hierarchy",
+    "displayName": "Display name",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",

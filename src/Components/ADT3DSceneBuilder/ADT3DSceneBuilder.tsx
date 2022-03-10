@@ -23,7 +23,6 @@ import {
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import { IScenesConfig } from '../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderReducer,
     defaultADT3DSceneBuilderState
@@ -34,6 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../3DV/SceneView.Utils';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -142,7 +142,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     useEffect(() => {
         if (!getScenesConfig.adapterResult.hasNoData()) {
-            const config: IScenesConfig = getScenesConfig.adapterResult.getData();
+            const config: I3DScenesConfig = getScenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
@@ -181,7 +181,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
         let coloredMeshes = [...state.coloredMeshItems];
         for (const element of state.elements) {
-            if (element.meshIDs.includes(mesh.id)) {
+            if (element.objectIDs.includes(mesh.id)) {
                 const item = {
                     key: element.id,
                     text: element.displayName,
@@ -205,7 +205,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     },
                     onFocus: () => {
                         setColoredMeshItems(
-                            createColoredMeshItems(element.meshIDs, null)
+                            createColoredMeshItems(element.objectIDs, null)
                         );
                     },
                     onBlur: () => {
@@ -219,7 +219,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     // only remove the menu item if the item was already selected and no other meshes from the element are selected
                     const coloredMeshesInElement = state.coloredMeshItems.filter(
                         (coloredMesh) =>
-                            element.meshIDs.includes(coloredMesh.meshId)
+                            element.objectIDs.includes(coloredMesh.meshId)
                     );
                     if (
                         state.coloredMeshItems.find(
@@ -339,8 +339,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         <ADT3DBuilder
                             adapter={adapter as IADTAdapter}
                             modelUrl={
-                                state.config.viewerConfiguration?.scenes[
-                                    state.config.viewerConfiguration?.scenes.findIndex(
+                                state.config.configuration?.scenes[
+                                    state.config.configuration?.scenes.findIndex(
                                         (s) => s.id === sceneId
                                     )
                                 ]?.assets[0].url
