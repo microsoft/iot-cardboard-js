@@ -23,13 +23,13 @@ export enum ComponentErrorType {
     UnknownError = 'UnknownError',
     NonExistentBlob = 'NonExistentBlob',
     UnauthorizedAccess = 'UnauthorizedAccess',
-    ReaderAccessOnly = 'ReaderAccessOnly'
+    ReaderAccessOnly = 'ReaderAccessOnly',
+    JsonSchemaError = 'JsonSchemaError'
 }
 
 export enum ErrorImages {
     AccessRestricted = 'AccessRestrictedError',
-    BlobError = 'BlobError',
-    JsonSchemaError = 'JsonSchemaError'
+    BlobError = 'BlobError'
 }
 
 export enum HierarchyNodeType {
