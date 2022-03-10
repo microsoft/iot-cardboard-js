@@ -1,7 +1,9 @@
+/** Names of themes, mapped value needs to match the scss keys */
 export enum Theme {
     Light = 'light',
     Dark = 'dark',
-    Explorer = 'explorer'
+    Explorer = 'explorer',
+    Kraken = 'kraken'
 }
 
 export enum TSIComponentTypes {
