@@ -15,7 +15,7 @@
     "showMore": "Show more",
     "UnauthorizedAccess": "User Config File Not Found",
     "NonExistentBlob": "Your blob container does not exist or you do not have proper permission to view the blob container",
-    "DataFetchFailed": "Data Fetch Failded",
+    "DataFetchFailed": "Data Fetch Failed",
     "more": "More",
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
@@ -343,7 +343,7 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
-        "expressionPlaceholder": "Enter expression (eg primaryTwin.InFlow > 3)",
+        "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -363,7 +363,7 @@
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}",
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${LinkedTwin.property}",
         "behaviorTypes": {
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"

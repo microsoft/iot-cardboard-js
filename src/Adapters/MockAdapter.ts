@@ -44,6 +44,57 @@ import {
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 
+const mockTwins = [
+    {
+        $dtId: 'PasteurizationMachine_A01',
+        $etag: 'PasteurizationMachineTag',
+        $metadata: {
+            $model: 'PasteurizationMachine'
+        },
+        InFlow: 100,
+        OutFlow: 150,
+        Temperature: 50
+    },
+    {
+        $dtId: 'PasteurizationMachine_A02',
+        $etag: 'PasteurizationMachineTag',
+        $metadata: {
+            $model: 'PasteurizationMachine'
+        },
+        InFlow: 200,
+        OutFlow: 250,
+        Temperature: 150
+    },
+    {
+        $dtId: 'PasteurizationMachine_A03',
+        $etag: 'PasteurizationMachineTag',
+        $metadata: {
+            $model: 'PasteurizationMachine'
+        },
+        InFlow: 300,
+        OutFlow: 350,
+        Temperature: 250
+    },
+    {
+        $dtId: 'SaltMachine_C1',
+        $etag: 'SaltMachineTag',
+        $metadata: {
+            $model: 'SaltMachine'
+        },
+        InFlow: 100,
+        OutFlow: 150
+    },
+    {
+        $dtId: 'SaltMachine_C2',
+        $etag: 'SaltMachineTag',
+        $metadata: {
+            $model: 'SaltMachine'
+        },
+        InFlow: 200,
+        OutFlow: 250
+    }
+];
+
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
@@ -241,7 +292,7 @@ export default class MockAdapter
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             await this.mockNetwork();
-            // TODO Validate JSON with schema
+            // If schema validation fails - error with be thrown and classified by adapterMethodSandbox
             const config = validate3DConfigWithSchema(this.scenesConfig);
             return new ADTScenesConfigData(config);
         });
@@ -335,36 +386,40 @@ export default class MockAdapter
                                         mapping.id === id
                                 ) as ITwinToObjectMapping;
 
-                                // get primary twin
-                                twins[primaryTwinName] = {
-                                    $dtId: 'machineID',
-                                    InFlow: 300,
-                                    OutFlow: 250,
-                                    Temperature: 50,
-                                    displayName: 'My Machine'
-                                };
+                                if (mapping) {
+                                    // get primary twin
+                                    twins[primaryTwinName] = mockTwins[
+                                        mapping.linkedTwinID
+                                    ] || {
+                                        $dtId: 'machineID1',
+                                        InFlow: 300,
+                                        OutFlow: 250,
+                                        Temperature: 50,
+                                        displayName: 'My Machine 1'
+                                    };
 
-                                // check for twin aliases and add to twins object
-                                if (mapping.twinAliases) {
-                                    for (const alias of Object.keys(
-                                        mapping.twinAliases
-                                    )) {
-                                        twins[alias] = {
-                                            $dtId: 'machineID',
-                                            InFlow: 300,
-                                            OutFlow: 250,
-                                            Temperature: 50,
-                                            displayName: 'My Machine'
-                                        };
+                                    // check for twin aliases and add to twins object
+                                    if (mapping.twinAliases) {
+                                        for (const alias of Object.keys(
+                                            mapping.twinAliases
+                                        )) {
+                                            twins[alias] = mockTwins[alias] || {
+                                                $dtId: 'machineID2',
+                                                InFlow: 300,
+                                                OutFlow: 250,
+                                                Temperature: 50,
+                                                displayName: 'My Machine 2'
+                                            };
+                                        }
                                     }
-                                }
 
-                                const sceneVisual = new SceneVisual(
-                                    mapping.objectIDs,
-                                    behavior.visuals,
-                                    twins
-                                );
-                                sceneVisuals.push(sceneVisual);
+                                    const sceneVisual = new SceneVisual(
+                                        mapping.objectIDs,
+                                        behavior.visuals,
+                                        twins
+                                    );
+                                    sceneVisuals.push(sceneVisual);
+                                }
                             }
                         }
                 }
@@ -381,56 +436,6 @@ export default class MockAdapter
     }
 
     async searchADTTwins(params: AdapterMethodParamsForSearchADTTwins) {
-        const mockTwins = [
-            {
-                $dtId: 'PasteurizationMachine_A01',
-                $etag: 'PasteurizationMachineTag',
-                $metadata: {
-                    $model: 'PasteurizationMachine'
-                },
-                InFlow: 100,
-                OutFlow: 150,
-                Temperature: 50
-            },
-            {
-                $dtId: 'PasteurizationMachine_A02',
-                $etag: 'PasteurizationMachineTag',
-                $metadata: {
-                    $model: 'PasteurizationMachine'
-                },
-                InFlow: 200,
-                OutFlow: 250,
-                Temperature: 150
-            },
-            {
-                $dtId: 'PasteurizationMachine_A03',
-                $etag: 'PasteurizationMachineTag',
-                $metadata: {
-                    $model: 'PasteurizationMachine'
-                },
-                InFlow: 300,
-                OutFlow: 350,
-                Temperature: 250
-            },
-            {
-                $dtId: 'SaltMachine_C1',
-                $etag: 'SaltMachineTag',
-                $metadata: {
-                    $model: 'SaltMachine'
-                },
-                InFlow: 100,
-                OutFlow: 150
-            },
-            {
-                $dtId: 'SaltMachine_C2',
-                $etag: 'SaltMachineTag',
-                $metadata: {
-                    $model: 'SaltMachine'
-                },
-                InFlow: 200,
-                OutFlow: 250
-            }
-        ];
         try {
             await this.mockNetwork();
 

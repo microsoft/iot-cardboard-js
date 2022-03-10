@@ -423,7 +423,7 @@ const SceneListDialog = ({
     isOpen: any;
     onClose: any;
     sceneToEdit: IScene;
-    onAddScene: any;
+    onAddScene: (scene: IScene) => any;
     onEditScene: any;
     renderBlobDropdown: (onChange?: (blobUrl: string) => void) => JSX.Element;
 }) => {
@@ -518,17 +518,17 @@ const SceneListDialog = ({
                         if (sceneToEdit) {
                             onEditScene(scene);
                         } else {
-                            const newScene = {
+                            const newScene: IScene = {
+                                id: 'temp',
                                 displayName: newSceneName,
-                                type: 'Scene',
                                 assets: [
                                     {
                                         type: 'Asset3D',
-                                        name: 'Asset',
                                         url: newSceneBlobUrl
                                     }
                                 ],
-                                behaviors: []
+                                behaviorIDs: [],
+                                elements: []
                             };
                             onAddScene(newScene);
                         }

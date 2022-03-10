@@ -29,7 +29,8 @@ import {
     IADTTwinComponent,
     KeyValuePairData,
     DTwinUpdateEvent,
-    IComponentError
+    IComponentError,
+    primaryTwinName
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -863,7 +864,7 @@ export default class ADTAdapter implements IADTAdapter {
                                         element.linkedTwinID
                                     );
                                     pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
-                                    twins['primaryTwin'] =
+                                    twins[primaryTwinName] =
                                         primaryTwin.result?.data;
 
                                     // check for twin aliases and add to twins object
@@ -935,7 +936,7 @@ export default class ADTAdapter implements IADTAdapter {
             // get primary twin
             const primaryTwin = await this.getADTTwin(element.linkedTwinID);
             pushErrors(primaryTwin.getErrors());
-            twins['primaryTwin.' + element.primaryTwinID] =
+            twins[`${primaryTwinName}.` + element.linkedTwinID] =
                 primaryTwin.result?.data;
 
             // check for twin aliases and add to twins object

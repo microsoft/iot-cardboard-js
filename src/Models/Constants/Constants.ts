@@ -80,13 +80,13 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         data: {
             type: WidgetType.Link,
             widgetConfiguration: {
-                linkExpression: 'https://mypowerbi.biz/${primaryTwin.$dtId}'
+                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}'
             }
         }
     }
 ];
 
-export const primaryTwinName = 'primaryTwin';
+export const primaryTwinName = 'LinkedTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

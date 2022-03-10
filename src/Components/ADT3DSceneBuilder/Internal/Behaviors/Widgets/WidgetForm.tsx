@@ -15,8 +15,9 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
-import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
-import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
+// TODO SCHEMA MIGRATION -- update widget builders to new schema / types
+// import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
+// import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
@@ -48,21 +49,22 @@ const WidgetForm: React.FC<any> = () => {
 
     const getWidgetBuilder = () => {
         switch (widgetFormInfo.widget.data.type) {
-            case WidgetType.Gauge:
-                return (
-                    <GaugeWidgetBuilder
-                        formData={formData}
-                        setFormData={setFormData}
-                        behaviorToEdit={behaviorToEdit}
-                    />
-                );
-            case WidgetType.Link:
-                return (
-                    <LinkWidgetBuilder
-                        formData={formData}
-                        setFormData={setFormData}
-                    />
-                );
+            // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
+            // case WidgetType.Gauge:
+            //     return (
+            //         <GaugeWidgetBuilder
+            //             formData={formData}
+            //             setFormData={setFormData}
+            //             behaviorToEdit={behaviorToEdit}
+            //         />
+            //     );
+            // case WidgetType.Link:
+            //     return (
+            //         <LinkWidgetBuilder
+            //             formData={formData}
+            //             setFormData={setFormData}
+            //         />
+            //     );
             default:
                 return (
                     <div className="cb-widget-not-supported">

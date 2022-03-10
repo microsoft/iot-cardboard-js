@@ -56,10 +56,7 @@
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "5ba433d52b8445979fabc818fd40ae3d",
-                            "2aa6955f3c73418a9be0f7b19c019b75"
-                        ],
+                        "elementIDs": ["5ba433d52b8445979fabc818fd40ae3d"],
                         "extensionProperties": {}
                     }
                 ],

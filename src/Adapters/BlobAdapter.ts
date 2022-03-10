@@ -12,6 +12,8 @@ import { validate3DConfigWithSchema } from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
+import { ComponentError } from '../Models/Classes';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountHostUrl: string;
@@ -80,13 +82,17 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
                 return new ADTScenesConfigData(config);
             } catch (err) {
+                if (
+                    err instanceof ComponentError &&
+                    err.type === ComponentErrorType.JsonSchemaError
+                ) {
+                    // If JsonSchemaError - throw to adapter sandbox to classify
+                    throw err;
+                }
                 switch (err?.response?.status) {
                     case 404:
-                        adapterMethodSandbox.pushError({
-                            type: ComponentErrorType.NonExistentBlob,
-                            isCatastrophic: true,
-                            rawError: err
-                        });
+                        // Create scene config (if it doesn't exist)
+                        await this.putScenesConfig(defaultConfig);
                         break;
                     case 403:
                         adapterMethodSandbox.pushError({
