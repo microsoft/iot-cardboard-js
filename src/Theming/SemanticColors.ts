@@ -17,3 +17,5 @@ export const fluentExplorerThemeSemanticColors: Partial<ISemanticColors> = {
     severeWarningBackground: '#442726',
     messageText: '#ffffff'
 };
+
+export const fluentKrakenThemeSemanticColors: Partial<ISemanticColors> = {};
