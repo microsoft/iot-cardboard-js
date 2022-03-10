@@ -62,7 +62,7 @@ export default class BlobAdapter implements IBlobAdapter {
         );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            try {
+            const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
                 if (this.storageAccountHostUrl && this.blobContainerPath) {
                     const scenesBlob = await axios({
@@ -81,6 +81,11 @@ export default class BlobAdapter implements IBlobAdapter {
                     }
                 }
                 return new ADTScenesConfigData(config);
+            };
+
+            try {
+                const configBlob = await getConfigBlob();
+                return configBlob;
             } catch (err) {
                 if (
                     err instanceof ComponentError &&
@@ -91,9 +96,9 @@ export default class BlobAdapter implements IBlobAdapter {
                 }
                 switch (err?.response?.status) {
                     case 404:
-                        // Create scene config (if it doesn't exist)
+                        // If config does not exist, create, then retry getting config blob
                         await this.putScenesConfig(defaultConfig);
-                        break;
+                        return await getConfigBlob();
                     case 403:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.UnauthorizedAccess,

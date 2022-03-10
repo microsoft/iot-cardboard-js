@@ -403,7 +403,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     }
                     addScene.callAdapter({
                         config: config,
-                        scene: { id: newId, ...newScene }
+                        scene: { ...newScene, id: newId }
                     });
                 }}
                 renderBlobDropdown={renderBlobDropdown}
