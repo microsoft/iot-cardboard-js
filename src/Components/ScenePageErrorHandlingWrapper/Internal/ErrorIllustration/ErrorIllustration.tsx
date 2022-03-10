@@ -1,12 +1,12 @@
 import React from 'react';
 import { ErrorIllustrationProps } from './ErrorIllustration.types';
 import { Image, IImageProps } from '@fluentui/react';
-import BlobError from '../../Resources/Static/error.svg';
-import AccessRestrictedError from '../../Resources/Static/accessRestricted.svg';
+import BlobError from '../../../../Resources/Static/error.svg';
+import AccessRestrictedError from '../../../../Resources/Static/accessRestricted.svg';
 import { PrimaryButton } from '@fluentui/react';
-import { Link, Text } from '@fluentui/react';
-import { ErrorImages } from '../../Models/Constants';
+import { Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { ErrorImages } from '../../../../Models/Constants/Enums';
 
 const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
     imageName,
@@ -67,7 +67,6 @@ const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
                     >
                         {errorMessage}
                         {''}
-                        <Link href="#"> {t('learnMore')} </Link> {''}
                     </Text>
                 </div>
                 <div style={{ marginTop: '20px' }}>

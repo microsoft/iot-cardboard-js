@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
 import { ErrorImages } from '../../Models/Constants';
-import ErrorIllustration from '../ErrorIllustration/ErrorIllustration';
+import ErrorIllustration from './Internal/ErrorIllustration/ErrorIllustration';
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
     children
