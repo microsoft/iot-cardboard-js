@@ -12,8 +12,13 @@
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
-    "UnauthorizedAccess": "User Config File Not Found",
-    "NonExistentBlob": "Your blob container does not exist or you do not have proper permission to view the blob container",
+    "unauthorizedAccessErrorTitle": "Access Restricted",
+    "unauthorizedAccessErrorMessage": "You do not have access to this blob. Request Reader access or try a different blob.",
+    "nonExistentBlobErrorTitle": "Blob Error",
+    "nonExistentBlobErrorMessage": "Blob does not exist.",
+    "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
+    "tryAgain": "Try Again",
+    "learnMore": "Learn More",
     "DataFetchFailed": "Data Fetch Failded",
     "more": "More",
     "search": "Search",
@@ -393,7 +398,10 @@
             "title": "Link widget",
             "description": "Reference external content by linking a URL"
         },
-        "panel": { "title": "Panel widget", "description": "A layout panel" },
+        "panel": {
+            "title": "Panel widget",
+            "description": "A layout panel"
+        },
         "notSupported": "This widget type is not currently supported"
     },
     "sdkStrings": {
