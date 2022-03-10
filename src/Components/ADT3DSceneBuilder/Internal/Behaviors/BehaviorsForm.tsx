@@ -46,12 +46,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    setColoredMeshItems,
     updateSelectedElements
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo } = useContext(SceneBuilderContext);
+    const { widgetFormInfo, setColoredMeshItems } = useContext(
+        SceneBuilderContext
+    );
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior ? defaultBehavior : selectedBehavior
@@ -193,9 +194,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                                     elements={elements}
                                                     selectedElements={
                                                         selectedElements
-                                                    }
-                                                    setColoredMeshItems={
-                                                        setColoredMeshItems
                                                     }
                                                     updateSelectedElements={
                                                         updateSelectedElements

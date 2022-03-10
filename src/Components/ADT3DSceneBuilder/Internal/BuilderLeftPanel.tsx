@@ -398,7 +398,6 @@ const BuilderLeftPanel: React.FC = () => {
                             onCreateElementClick={onCreateElementClick}
                             onRemoveElement={onRemoveElement}
                             onElementClick={onElementClick}
-                            setColoredMeshItems={setColoredMeshItems}
                             updateSelectedElements={updateSelectedElements}
                             clearSelectedElements={clearSelectedElements}
                             onCreateBehaviorClick={onCreateBehaviorWithElements}
@@ -449,7 +448,6 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
-                    setColoredMeshItems={setColoredMeshItems}
                     updateSelectedElements={updateSelectedElements}
                 />
             )}

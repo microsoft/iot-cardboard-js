@@ -39,7 +39,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     updateSelectedElements,
     clearSelectedElements,
     onCreateBehaviorClick,
-    setColoredMeshItems,
     isEditBehavior,
     hideSearch
 }) => {
@@ -50,7 +49,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const { adapter, config, sceneId, state } = useContext(SceneBuilderContext);
+    const { adapter, config, sceneId, state, setColoredMeshItems } = useContext(
+        SceneBuilderContext
+    );
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -322,9 +323,10 @@ function getListItems(
 
     const onElementEnter = (element: ITwinToObjectMapping) => {
         let coloredMeshes: ColoredMeshItem[] = [];
+        // if on the edit behavior panel all elements in that behavior should stay highlighted
         if (isEditBehavior) {
             if (selectedElements) {
-                // color elements already selected for this behavior
+                // color elements in current behavior
                 for (const selectedElement of selectedElements) {
                     if (element.id !== selectedElement.id) {
                         coloredMeshes = coloredMeshes.concat(
@@ -357,6 +359,7 @@ function getListItems(
                 }
             }
         } else {
+            // hightlight just the current hovered element
             coloredMeshes = createColoredMeshItems(element?.meshIDs, null);
         }
 
@@ -385,9 +388,9 @@ function getListItems(
             ariaLabel: '',
             buttonProps: {
                 onMouseOver: () => onElementEnter(item),
-                onMouseLeave: () => onElementLeave(),
+                onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
-                onBlur: () => onElementLeave()
+                onBlur: onElementLeave
             },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             item: item,

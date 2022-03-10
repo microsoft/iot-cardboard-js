@@ -126,7 +126,6 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     onBehaviorBackClick: () => void;
     onBehaviorSave: OnBehaviorSave;
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
-    setColoredMeshItems: (coloredMeshItems: Array<ColoredMeshItem>) => void;
     updateSelectedElements: (
         element: ITwinToObjectMapping,
         isSelected: boolean
@@ -140,7 +139,6 @@ export interface IADT3DSceneBuilderElementsProps {
         updatedElement: ITwinToObjectMapping,
         isSelected: boolean
     ) => void;
-    setColoredMeshItems: (coloredMeshItems: Array<ColoredMeshItem>) => void;
     clearSelectedElements?: () => void;
     onCreateBehaviorClick?: () => void;
     onCreateElementClick?: () => void;

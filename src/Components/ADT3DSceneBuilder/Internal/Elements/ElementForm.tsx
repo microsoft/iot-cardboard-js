@@ -210,11 +210,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 >
                     <PivotItem headerText={t('3dSceneBuilder.meshes')}>
                         <div className={commonPanelStyles.formTabContents}>
-                            <MeshTab
-                                elementToEdit={elementToEdit}
-                                // updateColoredMeshItems={updateColoredMeshItems}
-                                setColoredMeshItems={setColoredMeshItems}
-                            />
+                            <MeshTab elementToEdit={elementToEdit} />
                         </div>
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
