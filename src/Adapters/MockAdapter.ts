@@ -22,7 +22,7 @@ import {
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
-    primaryTwinName
+    linkedTwinName
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -388,7 +388,7 @@ export default class MockAdapter
 
                                 if (mapping) {
                                     // get primary twin
-                                    twins[primaryTwinName] = mockTwins[
+                                    twins[linkedTwinName] = mockTwins[
                                         mapping.linkedTwinID
                                     ] || {
                                         $dtId: 'machineID1',

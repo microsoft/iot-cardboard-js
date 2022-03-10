@@ -61,10 +61,10 @@
                 },
                 "behaviorIDs": {
                     "type": "array",
+                    "uniqueItems": true,
                     "items": {
                         "type": "string",
-                        "description": "A reference to a behavior present in this scene",
-                        "uniqueItems": true
+                        "description": "A reference to a behavior present in this scene"
                     }
                 },
                 "assets": {
@@ -132,10 +132,10 @@
                 },
                 "twinAliases": {
                     "type": "array",
+                    "uniqueItems": true,
                     "items": {
                         "type": "string",
-                        "description": "Twin aliases present on this behavior",
-                        "uniqueItems": true
+                        "description": "Twin aliases present on this behavior"
                     }
                 },
                 "datasources": {
@@ -254,11 +254,11 @@
                 },
                 "objectIDs": {
                     "type": "array",
+                    "uniqueItems": true,
                     "description": "Array of of object IDs in the scene",
                     "items": {
                         "type": "string",
-                        "description": "An object ID represents 3D meshes in the scene",
-                        "uniqueItems": true
+                        "description": "An object ID represents 3D meshes in the scene"
                     }
                 },
                 "twinAliases": {
@@ -290,10 +290,10 @@
                 },
                 "elementIDs": {
                     "type": "array",
+                    "uniqueItems": true,
                     "items": {
                         "type": "string",
-                        "description": "An element ID contained in this data source",
-                        "uniqueItems": true
+                        "description": "An element ID contained in this data source"
                     }
                 },
                 "extensionProperties": {
@@ -420,6 +420,22 @@
             },
             "required": ["type", "title", "widgets", "objectIDs"]
         },
+        "IStatusValueRange": {
+            "type": "object",
+            "description": "Numeric range to trigger coloring",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "min": {
+                    "$ref": "#/$defs/INumericOrInfinityType"
+                },
+                "max": {
+                    "$ref": "#/$defs/INumericOrInfinityType"
+                }
+            },
+            "required": ["color", "min", "max"]
+        },
         "IStatusColoringVisual": {
             "type": "object",
             "description": "a StatusColoring visual is used for mapping an expression result to a color",
@@ -435,20 +451,7 @@
                 "statusValueRanges": {
                     "type": "array",
                     "items": {
-                        "type": "object",
-                        "description": "Numeric range to trigger coloring",
-                        "properties": {
-                            "color": {
-                                "type": "string"
-                            },
-                            "min": {
-                                "$ref": "#/$defs/INumericOrInfinityType"
-                            },
-                            "max": {
-                                "$ref": "#/$defs/INumericOrInfinityType"
-                            }
-                        },
-                        "required": ["color", "min", "max"]
+                        "$ref": "#/$defs/IStatusValueRange"
                     }
                 },
                 "objectIDs": {

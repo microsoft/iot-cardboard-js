@@ -23,6 +23,7 @@ import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { RenderModes } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -86,23 +87,31 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     for (const visual of sceneVisual.visuals) {
                         switch (visual.type) {
                             case VisualType.StatusColoring: {
-                                const color = parseExpression(
+                                const value = parseExpression(
                                     visual.statusValueExpression,
                                     sceneVisual.twins
                                 );
-                                for (const mesh of sceneVisual.meshIds) {
-                                    const coloredMesh: ColoredMeshItem = {
-                                        meshId: mesh,
-                                        color: color
-                                    };
-                                    if (
-                                        !tempColoredMeshItems.find(
-                                            (item) =>
-                                                item.meshId ===
-                                                coloredMesh.meshId
-                                        )
-                                    ) {
-                                        tempColoredMeshItems.push(coloredMesh);
+                                const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+                                    visual.statusValueRanges,
+                                    value
+                                );
+                                if (color) {
+                                    for (const mesh of sceneVisual.meshIds) {
+                                        const coloredMesh: ColoredMeshItem = {
+                                            meshId: mesh,
+                                            color: color
+                                        };
+                                        if (
+                                            !tempColoredMeshItems.find(
+                                                (item) =>
+                                                    item.meshId ===
+                                                    coloredMesh.meshId
+                                            )
+                                        ) {
+                                            tempColoredMeshItems.push(
+                                                coloredMesh
+                                            );
+                                        }
                                     }
                                 }
                                 break;

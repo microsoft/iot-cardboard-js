@@ -86,7 +86,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
     }
 ];
 
-export const primaryTwinName = 'LinkedTwin';
+export const linkedTwinName = 'LinkedTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

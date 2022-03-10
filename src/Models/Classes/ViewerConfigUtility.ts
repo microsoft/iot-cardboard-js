@@ -5,6 +5,7 @@ import {
     IElement,
     IElementTwinToObjectMappingDataSource,
     IScene,
+    IStatusValueRange,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from './3DVConfig';
@@ -374,6 +375,19 @@ abstract class ViewerConfigUtility {
         }
 
         return behavior;
+    }
+
+    static getColorOrNullFromStatusValueRange(
+        ranges: IStatusValueRange[],
+        value: number
+    ): string | null {
+        let color = null;
+        for (const range of ranges) {
+            if (value >= Number(range.min) && value <= Number(range.max)) {
+                color = range.color;
+            }
+        }
+        return color;
     }
 
     static getMappingIdsForBehavior(behavior: IBehavior) {

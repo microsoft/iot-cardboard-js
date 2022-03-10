@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
 import { VisualType } from '../../../../../Models/Classes/3DVConfig';
-import { primaryTwinName } from '../../../../../Models/Constants';
+import { linkedTwinName } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 
@@ -33,7 +33,7 @@ const AlertsTab: React.FC = () => {
     }
 
     function getPropertyNames(twinId: string) {
-        return twinId === primaryTwinName ? propertyNames : [];
+        return twinId === linkedTwinName ? propertyNames : [];
     }
 
     return (
@@ -59,7 +59,7 @@ const AlertsTab: React.FC = () => {
                     );
                 }}
                 defaultValue={colorAlertTriggerExpression}
-                aliasNames={[primaryTwinName]}
+                aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
         </>

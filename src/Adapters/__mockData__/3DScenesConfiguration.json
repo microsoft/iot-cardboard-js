@@ -89,28 +89,6 @@
                                 }
                             },
                             {
-                                "type": "Gauge",
-                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.Temperature",
-                                "widgetConfiguration": {
-                                    "units": "PSI",
-                                    "label": "Left",
-                                    "min": 0,
-                                    "max": 500
-                                }
-                            },
-                            {
-                                "type": "Gauge",
-                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.OutFlow",
-                                "widgetConfiguration": {
-                                    "units": "PSI",
-                                    "label": "Right",
-                                    "min": 0,
-                                    "max": 500
-                                }
-                            },
-                            {
                                 "type": "Link",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
@@ -138,6 +116,26 @@
                             "expression": "objectIDs",
                             "extensionProperties": {}
                         }
+                    },
+                    {
+                        "type": "StatusColoring",
+                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "statusValueRanges": [
+                            {
+                                "color": "#FF0000",
+                                "min": 21,
+                                "max": "Infinity"
+                            },
+                            {
+                                "color": "#0000FF",
+                                "min": "-Infinity",
+                                "max": 20
+                            }
+                        ],
+                        "objectIDs": {
+                            "expression": "objectIDs",
+                            "extensionProperties": {}
+                        }
                     }
                 ]
             },
@@ -157,7 +155,7 @@
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "statusValueRanges": [
                             {
-                                "color": "#FF0000",
+                                "color": "#0000FF",
                                 "min": 100,
                                 "max": "Infinity"
                             },
@@ -174,7 +172,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "temperatureTag.value > 100",
+                        "triggerExpression": "temperatureTag.value > 25",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
                         "iconName": "heart",
                         "color": "#00FF00",

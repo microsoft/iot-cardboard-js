@@ -26,7 +26,7 @@
 //             <TextField
 //                 label={t('url')}
 //                 description={t('3dSceneBuilder.linkWidgetUrlDescription')}
-//                 placeholder="https://mypowerbi.biz/${primaryTwin.$dtId}"
+//                 placeholder="https://mypowerbi.biz/${LinkedTwin.$dtId}"
 //                 value={formData.controlConfiguration.expression}
 //                 onChange={(_ev, newVal) =>
 //                     setFormData(

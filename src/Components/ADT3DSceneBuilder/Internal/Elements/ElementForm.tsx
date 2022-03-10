@@ -61,8 +61,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        coloredMeshItems,
-        setColoredMeshItems
+        coloredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({

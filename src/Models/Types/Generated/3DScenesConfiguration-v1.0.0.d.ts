@@ -186,14 +186,18 @@ export interface IStatusColoringVisual {
      * Expression which evaluates to numeric value
      */
     statusValueExpression: string;
-    statusValueRanges: {
-        color: string;
-        min: INumericOrInfinityType;
-        max: INumericOrInfinityType;
-        [k: string]: unknown;
-    }[];
+    statusValueRanges: IStatusValueRange[];
     objectIDs: IObjectIDs;
     extensionProperties?: IExtensionProperties;
+}
+/**
+ * Numeric range to trigger coloring
+ */
+export interface IStatusValueRange {
+    color: string;
+    min: INumericOrInfinityType;
+    max: INumericOrInfinityType;
+    [k: string]: unknown;
 }
 /**
  * Alert visual are used to show specific iconography when a boolean expression is true

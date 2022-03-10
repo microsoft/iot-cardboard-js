@@ -25,6 +25,8 @@ const WidgetForm: React.FC<any> = () => {
         SceneBuilderContext
     );
 
+    // TODO SCHEMA MIGRATION -- remove no-unused-vars flag once widget builders are supported
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );

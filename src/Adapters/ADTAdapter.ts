@@ -30,7 +30,7 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    primaryTwinName
+    linkedTwinName
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -860,12 +860,12 @@ export default class ADTAdapter implements IADTAdapter {
                                     ) as ITwinToObjectMapping;
 
                                     // get primary twin
-                                    const primaryTwin = await this.getADTTwin(
+                                    const linkedTwin = await this.getADTTwin(
                                         element.linkedTwinID
                                     );
-                                    pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
-                                    twins[primaryTwinName] =
-                                        primaryTwin.result?.data;
+                                    pushErrors(linkedTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
+                                    twins[linkedTwinName] =
+                                        linkedTwin.result?.data;
 
                                     // check for twin aliases and add to twins object
                                     if (element.twinAliases) {
@@ -934,10 +934,14 @@ export default class ADTAdapter implements IADTAdapter {
             ) as ITwinToObjectMapping;
 
             // get primary twin
-            const primaryTwin = await this.getADTTwin(element.linkedTwinID);
-            pushErrors(primaryTwin.getErrors());
-            twins[`${primaryTwinName}.` + element.linkedTwinID] =
-                primaryTwin.result?.data;
+            try {
+                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
+                pushErrors(linkedTwin.getErrors());
+                twins[`${linkedTwinName}.` + element.linkedTwinID] =
+                    linkedTwin.result?.data;
+            } catch (err) {
+                console.error(err);
+            }
 
             // check for twin aliases and add to twins object
             // NOT IN SCOPE YET
