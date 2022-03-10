@@ -173,13 +173,13 @@ const SceneBehaviors: React.FC<Props> = ({
     const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            <div className={commonPanelStyles.rootListContainer}>
+            <div className={commonPanelStyles.content}>
                 {behaviors.length === 0 ? (
                     <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noBehaviorsText')}
                     </p>
                 ) : (
-                    <div>
+                    <>
                         <SearchHeader
                             onSearchTextChange={setSearchText}
                             placeholder={t(
@@ -187,76 +187,61 @@ const SceneBehaviors: React.FC<Props> = ({
                             )}
                             searchText={searchText}
                         />
-                        {!itemsInSceneVisible && !itemsNotInSceneVisible ? (
+                        {!itemsInSceneVisible && !itemsNotInSceneVisible && (
                             <p className="cb-scene-builder-left-panel-text">
                                 {t('3dSceneBuilder.noResults')}
                             </p>
-                        ) : (
-                            <></>
                         )}
-                        {/* List of behaviors in the scene */}
-                        {itemsInSceneVisible && (
-                            <div>
-                                <div className={customStyles.listSectionLabel}>
-                                    {t('3dSceneBuilder.behaviorsInSceneTitle', {
-                                        count: behaviorsInScene?.length
-                                    })}
-                                </div>
-                                <CardboardList<IBehavior>
-                                    items={listItemsInScene}
-                                    listKey={'behaviors-in-scene'}
-                                    textToHighlight={searchText}
-                                />
-                            </div>
-                        )}
-                        {/* Separator between lists */}
-                        {itemsInSceneVisible && itemsNotInSceneVisible && (
-                            <Separator />
-                        )}
-                        {/* Items not in the scene */}
-                        {itemsNotInSceneVisible && (
-                            <>
-                                <ActionButton
-                                    iconProps={{
-                                        iconName: isBehaviorLibraryExpanded
-                                            ? 'ChevronDown'
-                                            : 'ChevronRight',
-                                        styles: {
-                                            root: {
-                                                color:
-                                                    theme.semanticColors
-                                                        .buttonText,
-                                                fontSize: FontSizes.size12
+                        <div className={customStyles.content}>
+                            {/* List of behaviors in the scene */}
+                            {itemsInSceneVisible && (
+                                <>
+                                    <div
+                                        className={
+                                            customStyles.listSectionLabel
+                                        }
+                                    >
+                                        {t(
+                                            '3dSceneBuilder.behaviorsInSceneTitle',
+                                            {
+                                                count: behaviorsInScene?.length
                                             }
-                                        }
-                                    }}
-                                    styles={{
-                                        root: {
-                                            fontWeight: FontWeights.semibold,
-                                            padding: 0
-                                        }
-                                    }}
-                                    text={t(
-                                        '3dSceneBuilder.behaviorsNotInSceneTitle',
-                                        { count: behaviorsNotInScene?.length }
-                                    )}
-                                    onClick={() => {
-                                        setIsBehaviorLibraryExpanded(
-                                            (prev) => !prev
-                                        );
-                                    }}
-                                />
-
-                                {isBehaviorLibraryExpanded && (
+                                        )}
+                                    </div>
                                     <CardboardList<IBehavior>
-                                        items={listItemsNotInScene}
-                                        listKey={'behaviors-not-in-scene'}
+                                        items={listItemsInScene}
+                                        listKey={'behaviors-in-scene'}
                                         textToHighlight={searchText}
                                     />
-                                )}
-                            </>
-                        )}
-                    </div>
+                                </>
+                            )}
+                            {/* Separator between lists */}
+                            {itemsInSceneVisible && itemsNotInSceneVisible && (
+                                <Separator />
+                            )}
+                            {/* Items not in the scene */}
+                            {itemsNotInSceneVisible && (
+                                <>
+                                    <ExpandSectionLabel
+                                        isBehaviorLibraryExpanded={
+                                            isBehaviorLibraryExpanded
+                                        }
+                                        listItemCount={
+                                            behaviorsNotInScene?.length
+                                        }
+                                        onClick={setIsBehaviorLibraryExpanded}
+                                    />
+                                    {isBehaviorLibraryExpanded && (
+                                        <CardboardList<IBehavior>
+                                            items={listItemsNotInScene}
+                                            listKey={'behaviors-not-in-scene'}
+                                            textToHighlight={searchText}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
             <div className="cb-scene-builder-footer-container">
@@ -290,6 +275,48 @@ const SceneBehaviors: React.FC<Props> = ({
                 }
             />
         </div>
+    );
+};
+
+interface IOutOfScenesSectionLabelProps {
+    isBehaviorLibraryExpanded: boolean;
+    listItemCount: number;
+    onClick: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const ExpandSectionLabel: React.FC<IOutOfScenesSectionLabelProps> = ({
+    isBehaviorLibraryExpanded,
+    listItemCount,
+    onClick
+}) => {
+    const theme = useTheme();
+    const { t } = useTranslation();
+    return (
+        <ActionButton
+            data-testid={'behaviors-in-other-scenes-button'}
+            iconProps={{
+                iconName: isBehaviorLibraryExpanded
+                    ? 'ChevronDown'
+                    : 'ChevronRight',
+                styles: {
+                    root: {
+                        color: theme.semanticColors.buttonText,
+                        fontSize: FontSizes.size12
+                    }
+                }
+            }}
+            styles={{
+                root: {
+                    fontWeight: FontWeights.semibold,
+                    padding: 0
+                }
+            }}
+            text={t('3dSceneBuilder.behaviorsNotInSceneTitle', {
+                count: listItemCount
+            })}
+            onClick={() => {
+                onClick((prev) => !prev);
+            }}
+        />
     );
 };
 
@@ -422,6 +449,10 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             fontWeight: FontWeights.semibold,
             marginBottom: 4,
             paddingLeft: 8
+        } as IStyle,
+        content: {
+            height: 'calc(100% - 60px)',
+            overflow: 'auto'
         } as IStyle
     });
 });

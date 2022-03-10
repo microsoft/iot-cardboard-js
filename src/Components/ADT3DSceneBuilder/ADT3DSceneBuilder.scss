@@ -25,6 +25,7 @@
     height: 100%;
     padding: 0 20px 20px 0;
     width: 360px;
+    overflow: hidden;
 
     .cb-scene-builder-left-panel-create-wrapper {
         display: flex;
@@ -195,6 +196,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow: hidden;
     width: 100%;
 
     > div:last-child {
@@ -251,11 +253,12 @@
     margin-right: 2px;
     width: 32px;
     &:hover {
-        background: var(--cb-color-icon-hover-bg);
+        background: var(--fluent-color-grey-20);
     }
 }
 .cb-left-panel-builder-breadcrumb-home-icon {
     font-size: 16px;
+    color: var(--cb-color-text-primary);
 }
 
 .cb-left-panel-builder-breadcrumb {

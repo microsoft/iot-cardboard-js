@@ -59,6 +59,55 @@ Search.play = async ({ canvasElement }) => {
     await userEvent.type(searchBox, 'box');
 };
 
+const mockElement = {
+    primaryTwinID: 'SaltMachine_C1',
+    meshIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0']
+};
+const longData = Object.assign({}, mockVConfig);
+longData.viewerConfiguration.scenes = [
+    {
+        ...longData.viewerConfiguration.scenes[0],
+        twinToObjectMappings: [
+            ...longData.viewerConfiguration.scenes[0].twinToObjectMappings,
+            {
+                ...mockElement,
+                id: 'element1',
+                displayName: 'element 1'
+            },
+            {
+                ...mockElement,
+                id: 'element2',
+                displayName: 'element 2'
+            },
+            {
+                ...mockElement,
+                id: 'element3',
+                displayName: 'element 3'
+            },
+            {
+                ...mockElement,
+                id: 'element4',
+                displayName: 'element 4'
+            }
+        ]
+    }
+];
+export const Scrolling = Template.bind({});
+Scrolling.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await ElementsTab.play({ canvasElement });
+
+    // Click one of the overflow menus to bring the bottom of the list in focus
+    const canvas = within(canvasElement);
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-elements-in-scene-0-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+};
+Scrolling.parameters = {
+    data: longData
+};
+
 export const MultiSelect = Template.bind({});
 MultiSelect.play = async ({ canvasElement }) => {
     // switch to the behaviors tab

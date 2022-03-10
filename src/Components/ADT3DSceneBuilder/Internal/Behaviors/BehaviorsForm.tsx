@@ -145,79 +145,68 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     <>
                         <div className="cb-scene-builder-left-panel-create-form">
                             <div className="cb-scene-builder-left-panel-create-form-contents">
-                                <div>
-                                    <TextField
-                                        label={t('3dSceneBuilder.behaviorId')}
-                                        value={behaviorToEdit.id}
-                                        required
-                                        onChange={(_e, newValue) => {
-                                            setBehaviorToEdit(
-                                                produce((draft) => {
-                                                    draft.id = newValue.replace(
-                                                        /\s/g,
-                                                        ''
-                                                    );
-                                                })
-                                            );
-                                        }}
-                                    />
+                                <TextField
+                                    label={t('3dSceneBuilder.behaviorId')}
+                                    value={behaviorToEdit.id}
+                                    required
+                                    onChange={(_e, newValue) => {
+                                        setBehaviorToEdit(
+                                            produce((draft) => {
+                                                draft.id = newValue.replace(
+                                                    /\s/g,
+                                                    ''
+                                                );
+                                            })
+                                        );
+                                    }}
+                                />
 
-                                    <Separator />
+                                <Separator />
 
-                                    <Pivot
-                                        selectedKey={selectedBehaviorPivotKey}
-                                        onLinkClick={(item) =>
-                                            setSelectedBehaviorPivotKey(
-                                                item.props
-                                                    .itemKey as BehaviorPivot
-                                            )
-                                        }
-                                        styles={leftPanelPivotStyles}
+                                <Pivot
+                                    selectedKey={selectedBehaviorPivotKey}
+                                    onLinkClick={(item) =>
+                                        setSelectedBehaviorPivotKey(
+                                            item.props.itemKey as BehaviorPivot
+                                        )
+                                    }
+                                    styles={leftPanelPivotStyles}
+                                >
+                                    <PivotItem
+                                        headerText={t(
+                                            '3dSceneBuilder.elements'
+                                        )}
+                                        itemKey={BehaviorPivot.elements}
                                     >
-                                        <PivotItem
-                                            headerText={t(
-                                                '3dSceneBuilder.elements'
-                                            )}
-                                            itemKey={BehaviorPivot.elements}
-                                        >
-                                            <div>
-                                                <SceneElements
-                                                    elements={elements}
-                                                    selectedElements={
-                                                        selectedElements
-                                                    }
-                                                    onElementEnter={
-                                                        onElementEnter
-                                                    }
-                                                    onElementLeave={
-                                                        onElementLeave
-                                                    }
-                                                    updateSelectedElements={
-                                                        updateSelectedElements
-                                                    }
-                                                    isEditBehavior={true}
-                                                    hideSearch={true}
-                                                />
-                                            </div>
-                                        </PivotItem>
-                                        <PivotItem
-                                            headerText={t(
-                                                '3dSceneBuilder.alerts'
-                                            )}
-                                            itemKey={BehaviorPivot.alerts}
-                                        >
-                                            <AlertsTab />
-                                        </PivotItem>
-                                        <PivotItem
-                                            headerText={t(
-                                                '3dSceneBuilder.widgets'
-                                            )}
-                                            itemKey={BehaviorPivot.widgets}
-                                        >
-                                            <WidgetsTab />
-                                        </PivotItem>
-                                    </Pivot>
-                                </div>
+                                        <div>
+                                            <SceneElements
+                                                elements={elements}
+                                                selectedElements={
+                                                    selectedElements
+                                                }
+                                                onElementEnter={onElementEnter}
+                                                onElementLeave={onElementLeave}
+                                                updateSelectedElements={
+                                                    updateSelectedElements
+                                                }
+                                                isEditBehavior={true}
+                                                hideSearch={true}
+                                            />
+                                        </div>
+                                    </PivotItem>
+                                    <PivotItem
+                                        headerText={t('3dSceneBuilder.alerts')}
+                                        itemKey={BehaviorPivot.alerts}
+                                    >
+                                        <AlertsTab />
+                                    </PivotItem>
+                                    <PivotItem
+                                        headerText={t('3dSceneBuilder.widgets')}
+                                        itemKey={BehaviorPivot.widgets}
+                                    >
+                                        <WidgetsTab />
+                                    </PivotItem>
+                                </Pivot>
                             </div>
                         </div>
 

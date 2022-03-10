@@ -14,8 +14,9 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             fontSize: FontSizes.size12,
             color: theme.palette.neutralSecondary
         } as IStyle,
-        rootListContainer: {
+        content: {
             flexGrow: 1,
+            height: '100%',
             marginBottom: '16px',
             overflowX: 'hidden',
             overflowY: 'auto'

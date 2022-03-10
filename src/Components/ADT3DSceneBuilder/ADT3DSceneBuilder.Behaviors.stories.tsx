@@ -8,8 +8,10 @@ import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
     findOverflowMenuItem,
+    IStoryContext,
     sleep
 } from '../../Models/Services/StoryUtilities';
+import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Behaviors',
@@ -25,18 +27,36 @@ const cardStyle = {
 };
 
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
-const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
-    <div style={cardStyle}>
-        <ADT3DSceneBuilder
-            title={'3D Scene Builder'}
-            theme={theme}
-            locale={locale}
-            adapter={new MockAdapter({ mockData: mockVConfig })}
-            sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
-            {..._args}
-        />
-    </div>
-);
+const Template: SceneBuilderStory = (
+    _args,
+    context: IStoryContext<IADT3DSceneBuilderCardProps>
+) => {
+    console.log(
+        `**running story. Globals, Parameters`,
+        context.globals,
+        context.parameters
+    );
+    return (
+        <div style={cardStyle}>
+            <ADT3DSceneBuilder
+                title={'3D Scene Builder'}
+                theme={context.globals.theme}
+                locale={context.globals.locale}
+                adapter={
+                    new MockAdapter({
+                        mockData: context.parameters.data
+                            ? JSON.parse(
+                                  JSON.stringify(context.parameters.data)
+                              )
+                            : undefined
+                    })
+                }
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
+                {..._args}
+            />
+        </div>
+    );
+};
 
 export const BehaviorsTab = Template.bind({});
 BehaviorsTab.play = async ({ canvasElement }) => {
@@ -55,6 +75,102 @@ Search.play = async ({ canvasElement }) => {
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'wheels');
+};
+
+const mockBehavior = {
+    id: 'wheelsTooLow',
+    type: 'Behavior',
+    layers: ['PhysicalProperties'],
+    datasources: [
+        {
+            type: 'TwinToObjectMappingDatasource',
+            mappingIDs: [
+                '5ba433d52b8445979fabc818fd40ae3d',
+                '2aa6955f3c73418a9be0f7b19c019b75'
+            ]
+        }
+    ],
+    visuals: []
+};
+const longData = JSON.parse(JSON.stringify(mockVConfig));
+longData.viewerConfiguration.scenes = [
+    {
+        ...longData.viewerConfiguration.scenes[0],
+        behaviors: [
+            ...longData.viewerConfiguration.scenes[0].behaviors,
+            'behavior1',
+            'behavior2',
+            'behavior3',
+            'behavior4'
+        ]
+    }
+];
+longData.viewerConfiguration.behaviors = [
+    ...longData.viewerConfiguration.behaviors,
+    {
+        ...mockBehavior,
+        id: 'behavior1'
+    },
+    {
+        ...mockBehavior,
+        id: 'behavior2'
+    },
+    {
+        ...mockBehavior,
+        id: 'behavior3'
+    },
+    {
+        ...mockBehavior,
+        id: 'behavior4'
+    }
+];
+export const Scrolling = Template.bind({});
+Scrolling.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+};
+Scrolling.parameters = {
+    data: longData
+};
+
+const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
+longDataWithRemoved.viewerConfiguration.behaviors = [
+    ...longDataWithRemoved.viewerConfiguration.behaviors,
+    {
+        ...mockBehavior,
+        id: 'behavior5'
+    },
+    {
+        ...mockBehavior,
+        id: 'behavior6'
+    },
+    {
+        ...mockBehavior,
+        id: 'behavior7'
+    }
+];
+export const ScrollingWithRemoved = Template.bind({});
+ScrollingWithRemoved.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+};
+ScrollingWithRemoved.parameters = {
+    data: longDataWithRemoved
+};
+
+export const ScrollingWithRemovedExpanded = Template.bind({});
+ScrollingWithRemovedExpanded.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await ScrollingWithRemoved.play({ canvasElement });
+    // Click the section header
+    const canvas = within(canvasElement);
+    const sectionHeader = await canvas.findByTestId(
+        'behaviors-in-other-scenes-button'
+    );
+    await userEvent.click(sectionHeader);
+};
+ScrollingWithRemovedExpanded.parameters = {
+    data: longDataWithRemoved
 };
 
 export const MoreMenuShow = Template.bind({});

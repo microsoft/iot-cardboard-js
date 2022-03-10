@@ -56,6 +56,8 @@ export type ICardboardListItemPropsInternal<T> = {
 } & ICardboardListItem<T>;
 
 export interface ICardboardListProps<T> {
+    /** name of the class to put on the root node */
+    className?: string;
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */
