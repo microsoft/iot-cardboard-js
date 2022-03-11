@@ -6,7 +6,6 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
-    findCalloutItemByTestId,
     findDialogMenuItem,
     findOverflowMenuItem,
     IStoryContext,
