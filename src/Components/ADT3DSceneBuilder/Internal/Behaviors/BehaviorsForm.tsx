@@ -15,7 +15,7 @@ import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
 import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { TextField, DefaultButton, Separator } from '@fluentui/react';
+import { TextField, DefaultButton, Separator, useTheme } from '@fluentui/react';
 import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import WidgetsTab from './Internal/WidgetsTab';
@@ -26,6 +26,8 @@ import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import { getStyles } from './BehaviorsForm.styles';
+import PanelFooter from '../Shared/PanelFooter';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -135,6 +137,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [widgetFormInfo, builderMode]
     );
 
+    const styles = getStyles(useTheme());
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -179,13 +182,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             item.props.itemKey as BehaviorPivot
                                         )
                                     }
-                                    styles={leftPanelPivotStyles}
+                                    // styles={leftPanelPivotStyles}
+                                    styles={{}}
                                 >
                                     <PivotItem
                                         headerText={t(
                                             '3dSceneBuilder.elements'
                                         )}
                                         itemKey={BehaviorPivot.elements}
+                                        className={styles.pivotItem}
                                     >
                                         <SceneElements
                                             elements={elements}
@@ -213,32 +218,29 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             </div>
                         </div>
 
-                        <div className="cb-scene-builder-left-panel-create-form-actions">
-                            <div>
-                                <PrimaryButton
-                                    onClick={onBehaviorSaveClick}
-                                    text={
-                                        builderMode ===
-                                        ADT3DSceneBuilderMode.CreateBehavior
-                                            ? t('3dSceneBuilder.createBehavior')
-                                            : t('3dSceneBuilder.updateBehavior')
-                                    }
-                                    disabled={
-                                        !behaviorToEdit?.id ||
-                                        behaviorToEdit.datasources?.[0]
-                                            ?.mappingIDs?.length === 0
-                                    }
-                                />
-                                <DefaultButton
-                                    text={t('cancel')}
-                                    styles={{ root: { marginLeft: 8 } }}
-                                    onClick={() => {
-                                        onBehaviorBackClick();
-                                        setSelectedElements([]);
-                                    }}
-                                />
-                            </div>
-                        </div>
+                        <PanelFooter>
+                            <PrimaryButton
+                                onClick={onBehaviorSaveClick}
+                                text={
+                                    builderMode ===
+                                    ADT3DSceneBuilderMode.CreateBehavior
+                                        ? t('3dSceneBuilder.createBehavior')
+                                        : t('3dSceneBuilder.updateBehavior')
+                                }
+                                disabled={
+                                    !behaviorToEdit?.id ||
+                                    behaviorToEdit.datasources?.[0]?.mappingIDs
+                                        ?.length === 0
+                                }
+                            />
+                            <DefaultButton
+                                text={t('cancel')}
+                                onClick={() => {
+                                    onBehaviorBackClick();
+                                    setSelectedElements([]);
+                                }}
+                            />
+                        </PanelFooter>
                     </>
                 )}
             </div>

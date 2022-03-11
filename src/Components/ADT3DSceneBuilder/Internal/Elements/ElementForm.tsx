@@ -29,6 +29,7 @@ import {
     getLeftPanelStyles,
     leftPanelPivotStyles
 } from '../Shared/LeftPanel.styles';
+import PanelFooter from '../Shared/PanelFooter';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -235,7 +236,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     </PivotItem>
                 </Pivot>
             </div>
-            <div className="cb-scene-builder-left-panel-create-form-actions">
+            <PanelFooter>
                 <PrimaryButton
                     onClick={handleSaveElement}
                     text={
@@ -253,12 +254,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    styles={{ root: { marginLeft: 8 } }}
                     onClick={() => {
                         onElementBackClick();
                     }}
                 />
-            </div>
+            </PanelFooter>
         </div>
     );
 };

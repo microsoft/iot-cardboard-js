@@ -11,6 +11,7 @@ import {
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import PanelFooter from '../../Shared/PanelFooter';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -120,7 +121,7 @@ const WidgetForm: React.FC<any> = () => {
                     {getWidgetBuilder()}
                 </div>
             </div>
-            <div className="cb-scene-builder-left-panel-create-form-actions">
+            <PanelFooter>
                 <PrimaryButton
                     onClick={onSaveWidgetForm}
                     text={
@@ -132,13 +133,12 @@ const WidgetForm: React.FC<any> = () => {
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    styles={{ root: { marginLeft: 8 } }}
                     onClick={() => {
                         setWidgetFormInfo(null);
                         setFormData(null);
                     }}
                 />
-            </div>
+            </PanelFooter>
         </>
     );
 };
