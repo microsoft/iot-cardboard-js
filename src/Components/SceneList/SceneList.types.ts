@@ -18,7 +18,7 @@ export interface ISceneDialogProps {
     isOpen: boolean;
     onClose: () => void;
     sceneToEdit: IScene;
-    onAddScene: (newScene: Partial<IScene>) => void;
+    onAddScene: (newScene: IScene) => void;
     onEditScene: (updatedScene: IScene) => void;
     renderBlobDropdown: (
         onChange?: (blobUrl: string) => void,
