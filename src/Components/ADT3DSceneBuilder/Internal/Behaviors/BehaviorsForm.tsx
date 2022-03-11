@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
@@ -118,11 +124,21 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         );
     }, [selectedElements]);
 
-    const onBehaviorSaveClick = () => {
+    const onSaveClick = useCallback(() => {
         onBehaviorSave(behaviorToEdit, builderMode as BehaviorSaveMode);
         onBehaviorBackClick();
         setSelectedElements([]);
-    };
+    }, [
+        behaviorToEdit,
+        builderMode,
+        onBehaviorBackClick,
+        onBehaviorSave,
+        setSelectedElements
+    ]);
+    const onCancelClick = useCallback(() => {
+        onBehaviorBackClick();
+        setSelectedElements([]);
+    }, [onBehaviorBackClick, setSelectedElements]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
@@ -219,7 +235,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
                         <PanelFooter>
                             <PrimaryButton
-                                onClick={onBehaviorSaveClick}
+                                onClick={onSaveClick}
                                 text={
                                     builderMode ===
                                     ADT3DSceneBuilderMode.CreateBehavior
@@ -228,16 +244,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 }
                                 disabled={
                                     !behaviorToEdit?.id ||
-                                    behaviorToEdit.datasources?.[0]?.mappingIDs
-                                        ?.length === 0
+                                    behaviorToEdit.datasources.filter(
+                                        ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                                    )?.[0]?.elementIDs?.length === 0
                                 }
                             />
                             <DefaultButton
                                 text={t('cancel')}
-                                onClick={() => {
-                                    onBehaviorBackClick();
-                                    setSelectedElements([]);
-                                }}
+                                onClick={onCancelClick}
                             />
                         </PanelFooter>
                     </>
