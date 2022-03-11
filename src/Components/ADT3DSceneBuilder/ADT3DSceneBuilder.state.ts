@@ -12,7 +12,8 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_WIDGET_FORM_INFO,
     SET_REVERT_TO_HOVER_COLOR,
-    SET_RENDER_MODE
+    SET_RENDER_MODE,
+    SET_MESH_IDS_TO_OUTLINE
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -23,6 +24,7 @@ import { RenderModes } from '../..';
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     coloredMeshItems: [],
+    meshIdsToOutline: [],
     widgetFormInfo: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
@@ -70,6 +72,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_REVERT_TO_HOVER_COLOR:
                 draft.showHoverOnSelected = payload;
+                break;
+            case SET_MESH_IDS_TO_OUTLINE:
+                draft.meshIdsToOutline = payload;
                 break;
             case SET_RENDER_MODE:
                 draft.renderMode = payload;

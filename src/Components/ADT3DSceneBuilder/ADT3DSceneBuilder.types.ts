@@ -41,6 +41,7 @@ export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 export const SET_RENDER_MODE = 'SET_RENDER_MODE';
+export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -59,6 +60,7 @@ export interface I3DSceneBuilderContext {
     sceneId: string;
     coloredMeshItems: Array<ColoredMeshItem>;
     setColoredMeshItems: (objects: Array<ColoredMeshItem>) => void;
+    setMeshIdsToOutline: (ids: Array<string>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
@@ -150,6 +152,7 @@ export interface IADT3DSceneBuilderElementsProps {
 export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
     coloredMeshItems: Array<ColoredMeshItem>;
+    meshIdsToOutline: Array<string>;
     widgetFormInfo: WidgetFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;

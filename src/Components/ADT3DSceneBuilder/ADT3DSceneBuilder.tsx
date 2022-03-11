@@ -16,6 +16,7 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
     SET_WIDGET_FORM_INFO,
     WidgetFormInfo
@@ -34,6 +35,7 @@ import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../3DV/SceneView.Utils';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { RenderModes } from '../../Models/Constants';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -128,6 +130,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         });
     };
 
+    const setMeshIdsToOutline = (meshIdsToOutline: Array<string>) => {
+        dispatch({
+            type: SET_MESH_IDS_TO_OUTLINE,
+            payload: meshIdsToOutline
+        });
+    };
+
     const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
         dispatch({
             type: SET_WIDGET_FORM_INFO,
@@ -181,26 +190,24 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     const onMeshHovered = (mesh: AbstractMesh) => {
         if (state.builderMode === ADT3DSceneBuilderMode.ElementsIdle) {
             let coloredMeshes = [];
+            const meshIds = [];
             if (mesh && !contextualMenuProps.isVisible) {
                 for (const element of state.elements) {
                     if (element.objectIDs.includes(mesh.id)) {
                         for (const id of element.objectIDs) {
                             if (id !== mesh.id) {
-                                coloredMeshes.push({
-                                    meshId: id,
-                                    color: '#23AD23'
-                                });
+                                meshIds.push(id);
                             } else {
                                 coloredMeshes.push({
                                     meshId: id,
-                                    color: '#F3FF14'
+                                    color: state.renderMode.meshHoverColor
                                 });
                             }
                         }
                     } else {
                         coloredMeshes.push({
                             meshId: mesh.id,
-                            color: '#F3FF14'
+                            color: state.renderMode.meshHoverColor
                         });
                     }
                 }
@@ -208,6 +215,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 coloredMeshes = previouslyColoredMeshItems.current;
             }
 
+            setMeshIdsToOutline(meshIds);
             setColoredMeshItems(coloredMeshes);
         }
     };
@@ -241,11 +249,19 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         });
                     },
                     onMouseOver: () => {
-                        setColoredMeshItems(
-                            createColoredMeshItems(element.objectIDs, null)
-                        );
+                        const ids = [];
+                        for (const id of element.objectIDs) {
+                            if (
+                                id !==
+                                previouslyColoredMeshItems.current[0].meshId
+                            ) {
+                                ids.push(id);
+                            }
+                        }
+                        setMeshIdsToOutline(ids);
                     },
                     onMouseOut: () => {
+                        setMeshIdsToOutline([]);
                         setColoredMeshItems(previouslyColoredMeshItems.current);
                     }
                 };
@@ -257,6 +273,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         coloredMeshes.push({ meshId: mesh.id });
 
         setColoredMeshItems(coloredMeshes);
+        setMeshIdsToOutline([]);
         previouslyColoredMeshItems.current = coloredMeshes;
 
         setContextualMenuProps({
@@ -302,6 +319,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 localeStrings,
                 coloredMeshItems: state.coloredMeshItems,
                 setColoredMeshItems,
+                setMeshIdsToOutline,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
                 sceneId,
@@ -333,6 +351,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             renderMode={state.renderMode}
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
+                            meshIdsToOutline={state.meshIdsToOutline}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
                             showMeshesOnHover={state.enableHoverOnModel}

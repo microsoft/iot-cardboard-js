@@ -68,6 +68,7 @@ export interface ISceneViewProp {
     showMeshesOnHover?: boolean;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
+    meshIdsToOutline?: string[];
     showHoverOnSelected?: boolean;
     renderMode?: IADT3DViewerRenderMode;
 }
