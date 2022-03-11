@@ -74,6 +74,12 @@ WithAllElementsDark.parameters = {
     theme: Theme.Dark
 };
 
+export const WithAllElementsKraken = Template.bind({}) as TemplateStory;
+WithAllElementsKraken.args = WithAllElements.args;
+WithAllElementsKraken.parameters = {
+    theme: Theme.Kraken
+};
+
 export const WithMenu = Template.bind({}) as TemplateStory;
 WithMenu.args = {
     ...defaultProps,
@@ -87,6 +93,18 @@ WithMenuOpened.play = async ({ canvasElement }) => {
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId('context-menu-listItemKey-0-moreMenu');
     await userEvent.click(menuItem);
+};
+export const WithMenuOpenedDark = Template.bind({}) as TemplateStory;
+WithMenuOpenedDark.args = WithMenuOpened.args;
+WithMenuOpenedDark.play = WithMenuOpened.play;
+WithMenuOpenedDark.parameters = {
+    theme: Theme.Dark
+};
+export const WithMenuOpenedKraken = Template.bind({}) as TemplateStory;
+WithMenuOpenedKraken.args = WithMenuOpened.args;
+WithMenuOpenedKraken.play = WithMenuOpened.play;
+WithMenuOpenedKraken.parameters = {
+    theme: Theme.Kraken
 };
 
 export const WithStartIcon = Template.bind({}) as TemplateStory;
