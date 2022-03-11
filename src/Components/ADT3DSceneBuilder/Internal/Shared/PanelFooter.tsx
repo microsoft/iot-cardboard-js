@@ -25,7 +25,7 @@ const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 const stackStyles: IStackStyles = {
     root: {
         display: 'flex',
-        padding: '12px 20px 24px 20px' // separator has weird built in padding on top
+        padding: '12px 4px 24px 4px' // separator has weird built in padding on top
     }
 };
 const styles = mergeStyleSets({
