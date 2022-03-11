@@ -26,6 +26,7 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
+import { getWidgetFormStyles } from './WidgetForm.styles';
 // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
 // import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 // import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -127,13 +128,13 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const theme = useTheme();
-    const customStyles = getStyles(theme);
+    const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getFormStyles(theme, 0);
     return (
         <>
             <div className={commonFormStyles.content}>
                 <div className={commonFormStyles.formHeader}>
-                    <div className={customStyles.descrption}>
+                    <div className={customStyles.description}>
                         {widgetFormInfo.widget.description}
                     </div>
                     {getWidgetBuilder()}
@@ -160,14 +161,5 @@ const WidgetForm: React.FC<any> = () => {
         </>
     );
 };
-
-const getStyles = memoizeFunction((theme: Theme) => {
-    return mergeStyleSets({
-        descrption: {
-            fontSize: FontSizes.size14,
-            color: theme.palette.neutralSecondary
-        } as IStyle
-    });
-});
 
 export default WidgetForm;
