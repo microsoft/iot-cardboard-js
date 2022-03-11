@@ -20,6 +20,7 @@ import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import PanelFooter from '../Shared/PanelFooter';
 import SearchHeader from '../Shared/SearchHeader';
 
 interface Props {
@@ -244,13 +245,13 @@ const SceneBehaviors: React.FC<Props> = ({
                     </>
                 )}
             </div>
-            <div className="cb-scene-builder-footer-container">
+            <PanelFooter>
                 <PrimaryButton
                     className="cb-scene-builder-create-button"
                     onClick={() => onCreateBehaviorClick()}
                     text={t('3dSceneBuilder.newBehavior')}
                 />
-            </div>
+            </PanelFooter>
             <ConfirmDeleteDialog
                 isOpen={isDeleteDialogOpen}
                 setIsOpen={setIsDeleteDialogOpen}

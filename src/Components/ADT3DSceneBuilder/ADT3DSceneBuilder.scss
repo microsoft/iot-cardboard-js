@@ -24,7 +24,6 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-    padding: 0 0 20px 0;
     width: 360px;
 
     .cb-scene-builder-left-panel-create-wrapper {
@@ -45,6 +44,7 @@
 
     .cb-scene-builder-left-panel-create-form-contents {
         padding: 0 0 4px;
+        overflow: hidden;
     }
 
     .cb-scene-builder-left-panel-collapse-chevron-header {
@@ -63,16 +63,6 @@
         flex-direction: column;
         height: 100%;
         justify-content: space-between;
-    }
-
-    .cb-scene-builder-element-search-header {
-        display: flex;
-    }
-
-    .cb-scene-builder-behavior-search-box,
-    .cb-scene-builder-element-search-box {
-        flex: 1;
-        margin-right: 4px;
     }
 
     .cb-scene-builder-cancel-button {
