@@ -105,13 +105,6 @@ export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
     await ElementsTab.play({ canvasElement });
-
-    // Click one of the overflow menus to bring the bottom of the list in focus
-    const canvas = within(canvasElement);
-    const moreMenu = await canvas.findByTestId(
-        'context-menu-elements-in-scene-0-moreMenu'
-    );
-    await userEvent.click(moreMenu);
 };
 Scrolling.parameters = {
     data: longData
