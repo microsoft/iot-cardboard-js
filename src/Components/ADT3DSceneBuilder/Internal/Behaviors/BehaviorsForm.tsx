@@ -182,8 +182,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             item.props.itemKey as BehaviorPivot
                                         )
                                     }
-                                    // styles={leftPanelPivotStyles}
-                                    styles={{}}
+                                    styles={leftPanelPivotStyles}
                                 >
                                     <PivotItem
                                         headerText={t(
