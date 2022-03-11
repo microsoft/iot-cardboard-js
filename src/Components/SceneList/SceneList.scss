@@ -94,9 +94,15 @@
         flex-grow: 1;
         padding: 0 4px 0 12px;
 
-        span:last-child {
-            color: var(--cb-color-input-border);
-            font-size: 12px;
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &:last-child {
+                color: var(--cb-color-input-border);
+                font-size: 12px;
+            }
         }
     }
 

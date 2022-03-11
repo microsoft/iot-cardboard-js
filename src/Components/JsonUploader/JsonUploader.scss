@@ -21,7 +21,7 @@
 /* stylelint-disable indentation */
 .cb-drop-files-container {
     align-items: center;
-    background: linear-gradient(
+    background-image: linear-gradient(
             to right,
             var(--cb-color-inactive) 50%,
             rgba(255, 255, 255, 0) 0%
@@ -43,6 +43,69 @@
     line-height: 18px;
     padding: 32px 40px;
     width: 304px;
+
+    &.cb-dropzone-is-focused {
+        background-image: linear-gradient(
+                to right,
+                var(--cb-color-inactive) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-inactive) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                to right,
+                var(--cb-color-inactive) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-inactive) 50%,
+                rgba(255, 255, 255, 0) 0%
+            );
+    }
+
+    &.cb-dropzone-is-drag-accept {
+        background-image: linear-gradient(
+                to right,
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                to right,
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            );
+    }
+
+    &.cb-dropzone-is-drag-reject {
+        background-image: linear-gradient(
+                to right,
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                to right,
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            ),
+            linear-gradient(
+                var(--cb-color-input-border) 50%,
+                rgba(255, 255, 255, 0) 0%
+            );
+    }
 
     button {
         margin-top: 8px;
