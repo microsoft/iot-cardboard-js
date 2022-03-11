@@ -1,19 +1,13 @@
-import {
-    mergeStyleSets,
-    Separator,
-    IStyle,
-    Stack,
-    IStackTokens,
-    IStackStyles
-} from '@fluentui/react';
+import { Separator, Stack, IStackTokens, IStackStyles } from '@fluentui/react';
 import React from 'react';
+import { PanelFooterStyles } from './PanelFooter.styles';
 
 interface IPanelFooterProps {
     className?: string;
 }
 const PanelFooter: React.FC<IPanelFooterProps> = ({ children, className }) => {
     return (
-        <div className={`${styles.root} ${className}`}>
+        <div className={`${PanelFooterStyles.root} ${className}`}>
             <Separator />
             <Stack horizontal tokens={sectionStackTokens} styles={stackStyles}>
                 {children}
@@ -28,11 +22,4 @@ const stackStyles: IStackStyles = {
         padding: '12px 4px 24px 4px' // separator has weird built in padding on top
     }
 };
-const styles = mergeStyleSets({
-    root: {
-        display: 'flex',
-        flexDirection: 'column'
-    } as IStyle,
-    content: {} as IStyle
-});
 export default PanelFooter;
