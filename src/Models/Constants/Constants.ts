@@ -64,19 +64,9 @@ export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 // prettier-ignore
 export const CharacterWidths = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.2796875,0.2765625,0.3546875,0.5546875,0.5546875,0.8890625,0.665625,0.190625,0.3328125,0.3328125,0.3890625,0.5828125,0.2765625,0.3328125,0.2765625,0.3015625,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.5546875,0.2765625,0.2765625,0.584375,0.5828125,0.584375,0.5546875,1.0140625,0.665625,0.665625,0.721875,0.721875,0.665625,0.609375,0.7765625,0.721875,0.2765625,0.5,0.665625,0.5546875,0.8328125,0.721875,0.7765625,0.665625,0.7765625,0.721875,0.665625,0.609375,0.721875,0.665625,0.94375,0.665625,0.665625,0.609375,0.2765625,0.3546875,0.2765625,0.4765625,0.5546875,0.3328125,0.5546875,0.5546875,0.5,0.5546875,0.5546875,0.2765625,0.5546875,0.5546875,0.221875,0.240625,0.5,0.221875,0.8328125,0.5546875,0.5546875,0.5546875,0.5546875,0.3328125,0.5,0.2765625,0.5546875,0.5,0.721875,0.5,0.5,0.5,0.3546875,0.259375,0.353125,0.5890625];
 
-export const ADT3DSceneConfigFileNameInBlobStore = 'vconfigDecFinal'; //TODO: update this as appropriate
+export const ADT3DSceneConfigFileNameInBlobStore = '3DScenesConfiguration'; //TODO: update this as appropriate
 
 export const availableWidgets: Array<IWidgetLibraryItem> = [
-    {
-        title: i18n.t('widgets.trend.title'),
-        description: i18n.t('widgets.trend.description'),
-        iconName: 'HistoricalWeather',
-        disabled: true,
-        data: {
-            type: WidgetType.Trend,
-            controlConfiguration: {}
-        }
-    },
     {
         title: i18n.t('widgets.gauge.title'),
         description: i18n.t('widgets.gauge.description'),
@@ -89,24 +79,14 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         iconName: 'Link',
         data: {
             type: WidgetType.Link,
-            controlConfiguration: {
-                expression: 'https://mypowerbi.biz/${primaryTwin.$dtId}'
+            widgetConfiguration: {
+                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}'
             }
-        }
-    },
-    {
-        title: i18n.t('widgets.panel.title'),
-        description: i18n.t('widgets.panel.description'),
-        iconName: 'ViewAll2',
-        disabled: true,
-        data: {
-            type: WidgetType.Panel,
-            controlConfiguration: {}
         }
     }
 ];
 
-export const primaryTwinName = 'primaryTwin';
+export const linkedTwinName = 'LinkedTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

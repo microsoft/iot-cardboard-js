@@ -1,5 +1,5 @@
 import { IAdapterData } from '../../Constants/Interfaces';
-import { IScene } from '../3DVConfig';
+import { IScene } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 class ADTSceneData implements IAdapterData {
     data: IScene;

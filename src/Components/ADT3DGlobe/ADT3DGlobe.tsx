@@ -6,8 +6,8 @@ import './ADT3DGlobe.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import { MockAdapter } from '../..';
-import { IScene } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface ADT3DGlobeProps {
     adapter: IBlobAdapter | MockAdapter;
@@ -27,15 +27,14 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
 
     useEffect(() => {
         const markers: Marker[] = [];
-        const scenes =
-            config.adapterResult.result?.data?.viewerConfiguration?.scenes;
+        const scenes = config.adapterResult.result?.data?.configuration?.scenes;
         if (scenes) {
             for (const scene of scenes) {
                 const marker = new Marker();
                 marker.scene = scene;
                 marker.color = '#f00';
-                marker.latitude = scene.latitude;
-                marker.longitude = scene.longitude;
+                marker.latitude = scene.latitude || 0;
+                marker.longitude = scene.longitude || 0;
                 marker.name = scene.displayName || 'Unknown';
                 marker.isNav = true;
                 markers.push(marker);

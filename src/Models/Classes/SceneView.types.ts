@@ -1,10 +1,13 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import {
+    IScene,
+    IVisual
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
     DTwin,
     IADT3DViewerRenderMode
 } from '../../Models/Constants/Interfaces';
-import { IScene, IVisual } from './3DVConfig';
 
 export class SceneVisual {
     meshIds: string[];

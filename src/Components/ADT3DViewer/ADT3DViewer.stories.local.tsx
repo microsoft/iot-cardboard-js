@@ -4,9 +4,9 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { IScenesConfig } from '../../Models/Classes/3DVConfig';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: '3DV/ADT3DViewer',
@@ -15,7 +15,7 @@ export default {
 
 export const Engine = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return !authenticationParameters ? (
         <div></div>
@@ -42,7 +42,7 @@ export const Engine = () => {
 
 export const EngineWithHover = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return !authenticationParameters ? (
         <div></div>
@@ -70,7 +70,7 @@ export const EngineWithHover = () => {
 
 export const EngineWithShaders = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return !authenticationParameters ? (
         <div></div>
@@ -110,7 +110,7 @@ const addInDivStyle: React.CSSProperties = {
 
 export const AddIn = () => {
     const authenticationParameters = useAuthParams();
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
     const [data, setData] = useState<ADT3DAddInEventData>(null);
     const [twinIds, setTwinIds] = useState<string[]>([]);
 
@@ -193,7 +193,7 @@ export const AddIn = () => {
 };
 
 export const Mock = () => {
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
@@ -210,7 +210,7 @@ export const Mock = () => {
 };
 
 export const MockWithHover = () => {
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return (
         <div style={{ width: '100%', height: '600px' }}>
@@ -228,7 +228,7 @@ export const MockWithHover = () => {
 };
 
 export const MockWithSelection = () => {
-    const scenesConfig = mockVConfig as IScenesConfig;
+    const scenesConfig = mockVConfig as I3DScenesConfig;
 
     return (
         <div style={{ width: '100%', height: '600px' }}>

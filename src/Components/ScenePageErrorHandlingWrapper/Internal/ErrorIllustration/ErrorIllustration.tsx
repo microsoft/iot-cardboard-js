@@ -5,7 +5,6 @@ import BlobError from '../../../../Resources/Static/error.svg';
 import AccessRestrictedError from '../../../../Resources/Static/accessRestricted.svg';
 import { PrimaryButton } from '@fluentui/react';
 import { Text } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
 import { ErrorImages } from '../../../../Models/Constants/Enums';
 
 const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
@@ -17,7 +16,6 @@ const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
     const imageProps: IImageProps = {
         height: 200
     };
-    const { t } = useTranslation();
 
     let imageAsset;
     switch (imageName) {

@@ -2,13 +2,7 @@ import { IContextualMenuItem } from '@fluentui/react';
 import React from 'react';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
-import {
-    IBehavior,
-    ITwinToObjectMapping,
-    IScenesConfig,
-    IWidgetLibraryItem,
-    IWidget
-} from '../../Models/Classes/3DVConfig';
+import { IWidgetLibraryItem } from '../../Models/Classes/3DVConfig';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
@@ -18,9 +12,15 @@ import {
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import {
-    IADT3DViewerRenderMode,
-    IConsumeCompositeCardProps
+    IConsumeCompositeCardProps,
+    IADT3DViewerRenderMode
 } from '../../Models/Constants/Interfaces';
+import {
+    I3DScenesConfig,
+    IBehavior,
+    ITwinToObjectMapping,
+    IWidget
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // START of Actions
 export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
@@ -54,7 +54,7 @@ export interface I3DSceneBuilderContext {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    config: IScenesConfig;
+    config: I3DScenesConfig;
     getConfig: () => void;
     sceneId: string;
     coloredMeshItems: Array<ColoredMeshItem>;
@@ -114,8 +114,7 @@ export type BehaviorSaveMode =
 
 export type OnBehaviorSave = (
     behavior: IBehavior,
-    mode: BehaviorSaveMode,
-    originalBehaviorId?: string
+    mode: BehaviorSaveMode
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
@@ -149,7 +148,7 @@ export interface IADT3DSceneBuilderElementsProps {
 }
 
 export interface ADT3DSceneBuilderState {
-    config: IScenesConfig;
+    config: I3DScenesConfig;
     coloredMeshItems: Array<ColoredMeshItem>;
     widgetFormInfo: WidgetFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;

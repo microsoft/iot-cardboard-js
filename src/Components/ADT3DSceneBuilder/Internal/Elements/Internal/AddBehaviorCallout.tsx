@@ -7,10 +7,10 @@ import {
     PrimaryButton,
     FocusTrapCallout
 } from '@fluentui/react';
-import { IBehavior } from '../../../../../Models/Classes/3DVConfig';
 import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../../ADT3DSceneBuilder.types';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
     availableBehaviors,
@@ -36,7 +36,9 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     const searchBehaviors = (searchTerm: string) => {
         setFilteredAvailableBehaviors(
             availableBehaviors.filter((behavior) =>
-                behavior.id.toLowerCase().includes(searchTerm.toLowerCase())
+                behavior.displayName
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
             )
         );
     };
@@ -114,7 +116,7 @@ function getListItems(
             iconEndName: 'Add',
             item: item,
             onClick: onAddBehavior,
-            textPrimary: item.id
+            textPrimary: item.displayName
         };
 
         return viewModel;

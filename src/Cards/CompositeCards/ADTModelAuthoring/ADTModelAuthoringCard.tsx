@@ -499,7 +499,7 @@ const ModelsToPublishList = ({ models, t }) => {
             columns={[
                 {
                     key: 'cb-model-list-column-name',
-                    name: t('modelCreate.displayName'),
+                    name: t('displayName'),
                     minWidth: 210,
                     maxWidth: 350,
                     isResizable: true,
