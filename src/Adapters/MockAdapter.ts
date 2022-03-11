@@ -266,6 +266,26 @@ export default class MockAdapter
         }
     }
 
+    async putBlob(file: File) {
+        try {
+            await this.mockNetwork();
+            const mockBlobFile: IBlobFile = {
+                Name: file.name,
+                Path: `https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net/${file.name}`,
+                Properties: { 'Content-Length': file.size }
+            };
+            return new AdapterResult<BlobsData>({
+                result: new BlobsData([mockBlobFile]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<BlobsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
     async getTsiclientChartDataShape(
         _id: string,
         searchSpan: SearchSpan,

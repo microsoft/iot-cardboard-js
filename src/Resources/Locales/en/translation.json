@@ -75,6 +75,8 @@
     "globe": "Globe",
     "list": "List",
     "selectFile": "Select file",
+    "uploadFile": "Upload file",
+    "uploadingFile": "Uploading file...",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred"
@@ -132,8 +134,13 @@
         "blobUrl": "3D file blob URL",
         "addDialogTitle": "Create new scene",
         "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
-        "editDialogTitle": "Edit your 3D file",
-        "editDialogSubText": "Edit the URL of your 3D file in blob storage"
+        "editDialogTitle": "Edit scene",
+        "editDialogSubText": "Edit the name and linked 3D file of your scene",
+        "3dFileSelectionMode": "3D file selection mode",
+        "fromContainer": "From container",
+        "3dFileAsset": "3D file asset",
+        "overwriteIfExist": "Overwrite if file already exists",
+        "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },
     "BIMUpload": {
         "specifyFiles": "Specify files to upload from",
@@ -253,7 +260,8 @@
         "inherit": "Inherit"
     },
     "fileUploader": {
-        "dragAndDrop": "Drag and drop files here",
+        "dragAndDropFiles": "Drag and drop files here",
+        "dragAndDropFile": "Drag and drop file here",
         "browseFiles": "Browse for files"
     },
     "modelAuthoring": {
@@ -595,9 +603,9 @@
         "reactComponent": "SVG illustration via React component syntax"
     },
     "blobDropdown": {
-        "selectFileOrEnter": "Select file or enter URL",
+        "selectFileOrEnter": "Select file or enter blob URL",
         "3dFileFromContainer": "3D file in container",
-        "loading3DFiles": "Loading files",
+        "loading3DFiles": "Loading files...",
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     }

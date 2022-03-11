@@ -104,38 +104,26 @@ export default class BlobAdapter implements IBlobAdapter {
         }, 'storage');
     }
 
-    async putScenesConfig(config: IScenesConfig) {
+    putScenesConfig(config: IScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            try {
-                const putBlob = await axios({
-                    method: 'PUT',
-                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
-                    headers: {
-                        authorization: 'Bearer ' + token,
-                        'Content-Type': 'application/json',
-                        'x-ms-version': '2017-11-09',
-                        'x-blob-host': this.storageAccountHostUrl,
-                        'x-ms-blob-type': 'BlockBlob'
-                    },
-                    data: config
-                });
-                let result;
-                if (putBlob.status === 201) {
-                    result = config;
-                }
-
-                return new ADTScenesConfigData(result);
-            } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
-            }
-        }, 'storage');
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTScenesConfigData,
+            {
+                method: 'put',
+                url: `${this.blobProxyServerPath}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-ms-version': '2017-11-09',
+                    'x-blob-host': this.storageAccountHostUrl,
+                    'x-ms-blob-type': 'BlockBlob'
+                },
+                data: config
+            },
+            undefined,
+            'storage'
+        );
     }
 
     /**
@@ -185,5 +173,43 @@ export default class BlobAdapter implements IBlobAdapter {
                 });
             }
         }, 'storage');
+    }
+
+    // This method create/update existing blob in the container using Put Blob API (https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob)
+    putBlob(file: File) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+        const createBlobFileData = (apiResponse: string) => {
+            // successful response data is alwasy empty string which is not useful
+            if (apiResponse === '') {
+                const blobFile: IBlobFile = {
+                    Name: file.name,
+                    Path: `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${file.name}`,
+                    Properties: { 'Content-Length': file.size }
+                };
+                return [blobFile];
+            } else {
+                return null;
+            }
+        };
+
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            BlobsData,
+            {
+                method: 'put',
+                url: `${this.blobProxyServerPath}${this.blobContainerPath}/${file.name}`,
+                headers: {
+                    'x-ms-version': '2017-11-09',
+                    'x-blob-host': this.storageAccountHostUrl,
+                    'x-ms-blob-type': 'BlockBlob',
+                    'Content-Length': file.size,
+                    'Content-Type': 'application/octet-stream'
+                },
+                data: file
+            },
+            createBlobFileData,
+            'storage'
+        );
     }
 }

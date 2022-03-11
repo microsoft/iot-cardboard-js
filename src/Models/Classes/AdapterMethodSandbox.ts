@@ -133,7 +133,8 @@ class AdapterMethodSandbox {
     safelyFetchDataCancellableAxiosPromise(
         returnDataClass: { new (data: any) },
         axiosParams: AxiosParams,
-        dataTransformFunc?: (data) => any
+        dataTransformFunc?: (data) => any,
+        tokenFor?: 'azureManagement' | 'adx' | 'storage'
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
@@ -169,7 +170,7 @@ class AdapterMethodSandbox {
             return new returnDataClass(
                 dataTransformFunc ? dataTransformFunc(result) : result
             );
-        }) as ICancellablePromise<AdapterResult<any>>;
+        }, tokenFor) as ICancellablePromise<AdapterResult<any>>;
         cancellablePromise.cancel = cancelTokenSource.cancel;
         return cancellablePromise;
     }

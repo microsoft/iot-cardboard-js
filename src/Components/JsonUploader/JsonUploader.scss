@@ -6,22 +6,6 @@
     min-height: 0;
     width: 100%;
 
-    .cb-drop-files-container {
-        align-items: center;
-        background: var(--cb-color-bg-card);
-        display: flex;
-        flex-direction: column;
-        font-size: 13px;
-        height: 180px;
-        line-height: 18px;
-        padding: 32px 40px;
-        width: 304px;
-
-        button {
-            margin-top: 8px;
-        }
-    }
-
     .cb-file-list {
         height: 100%;
         overflow-x: hidden;
@@ -33,3 +17,35 @@
         font-size: 16px;
     }
 }
+
+/* stylelint-disable indentation */
+.cb-drop-files-container {
+    align-items: center;
+    background: linear-gradient(
+            to right,
+            var(--cb-color-inactive) 50%,
+            rgba(255, 255, 255, 0) 0%
+        ),
+        linear-gradient(var(--cb-color-inactive) 50%, rgba(255, 255, 255, 0) 0%),
+        linear-gradient(
+            to right,
+            var(--cb-color-inactive) 50%,
+            rgba(255, 255, 255, 0) 0%
+        ),
+        linear-gradient(var(--cb-color-inactive) 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: top, right, bottom, left;
+    background-repeat: repeat-x, repeat-y;
+    background-size: 16px 1px, 1px 16px;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    height: 180px;
+    line-height: 18px;
+    padding: 32px 40px;
+    width: 304px;
+
+    button {
+        margin-top: 8px;
+    }
+}
+/* stylelint-enable indentation */

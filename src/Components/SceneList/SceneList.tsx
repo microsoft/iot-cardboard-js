@@ -15,22 +15,23 @@ import {
     PrimaryButton,
     DefaultButton,
     DialogType,
-    TextField,
     IDetailsListProps,
     DetailsRow,
-    IButtonProps
+    IButtonProps,
+    IModalStyles
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { IAsset, IScenesConfig, IScene } from '../../Models/Classes/3DVConfig';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { IComponentError } from '../../Models/Constants/Interfaces';
+import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
 import {
     ComponentErrorType,
     Supported3DFileTypes
 } from '../../Models/Constants/Enums';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import BlobDropdown from '../BlobDropdown/BlobDropdown';
+import SceneDialog from './Internal/SceneDialog';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -154,7 +155,7 @@ const SceneList: React.FC<SceneListProps> = ({
         subText: t('confirmDeletionDesc')
     };
 
-    const confirmDeletionDialogStyles = {
+    const confirmDeletionDialogStyles: Partial<IModalStyles> = {
         main: { maxWidth: 450, minHeight: 165 }
     };
 
@@ -219,19 +220,28 @@ const SceneList: React.FC<SceneListProps> = ({
     };
 
     const renderBlobDropdown = useCallback(
-        (onChange?: (blobUrl: string) => void) => (
-            <BlobDropdown
-                adapter={adapter}
-                theme={theme}
-                locale={locale}
-                localeStrings={localeStrings}
-                fileTypes={Object.values(Supported3DFileTypes)}
-                selectedBlobUrl={(selectedScene?.assets?.[0] as IAsset)?.url}
-                onChange={onChange}
-                width={492}
-                isRequired
-            />
-        ),
+        (
+            onChange?: (blobUrl: string) => void,
+            onLoad?: (blobs: Array<IBlobFile>) => void
+        ) => {
+            return (
+                <BlobDropdown
+                    adapter={adapter}
+                    theme={theme}
+                    locale={locale}
+                    localeStrings={localeStrings}
+                    fileTypes={Object.values(Supported3DFileTypes)}
+                    selectedBlobUrl={
+                        (selectedScene?.assets?.[0] as IAsset)?.url
+                    }
+                    hasLabel={false}
+                    onChange={onChange}
+                    onLoad={onLoad}
+                    width={592}
+                    isRequired
+                />
+            );
+        },
         [adapter, theme, locale, localeStrings, selectedScene]
     );
 
@@ -376,12 +386,14 @@ const SceneList: React.FC<SceneListProps> = ({
                     />
                 </div>
             )}
-
-            <SceneListDialog
+            <SceneDialog
+                adapter={adapter}
                 isOpen={isSceneDialogOpen}
                 onClose={() => {
                     setIsSceneDialogOpen(false);
                     setSelectedScene(null);
+                    addScene.cancelAdapter();
+                    editScene.cancelAdapter();
                 }}
                 sceneToEdit={selectedScene}
                 onEditScene={(updatedScene) => {
@@ -403,136 +415,8 @@ const SceneList: React.FC<SceneListProps> = ({
                     });
                 }}
                 renderBlobDropdown={renderBlobDropdown}
-            ></SceneListDialog>
-        </BaseComponent>
-    );
-};
-
-const SceneListDialog = ({
-    isOpen,
-    onClose,
-    sceneToEdit,
-    onAddScene,
-    onEditScene,
-    renderBlobDropdown
-}: {
-    isOpen: any;
-    onClose: any;
-    sceneToEdit: IScene;
-    onAddScene: any;
-    onEditScene: any;
-    renderBlobDropdown: (onChange?: (blobUrl: string) => void) => JSX.Element;
-}) => {
-    const [newSceneName, setNewSceneName] = useState('');
-    const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
-    const [scene, setScene] = useState(sceneToEdit);
-    const { t } = useTranslation();
-
-    const isDialogOpenContent = {
-        type: DialogType.normal,
-        title: sceneToEdit
-            ? t('scenes.editDialogTitle')
-            : t('scenes.addDialogTitle'),
-        closeButtonAriaLabel: t('close'),
-        subText: sceneToEdit
-            ? t('scenes.editDialogSubText')
-            : t('scenes.addDialogSubText')
-    };
-
-    const isDialogOpenStyles = {
-        main: {
-            minWidth: '540px !important',
-            minHeight: '350px'
-        }
-    };
-
-    const isDialogOpenProps = React.useMemo(
-        () => ({
-            isBlocking: true,
-            styles: isDialogOpenStyles,
-            className: 'cb-scene-list-dialog-wrapper'
-        }),
-        []
-    );
-
-    useEffect(() => {
-        setScene(sceneToEdit);
-    }, [sceneToEdit]);
-
-    useEffect(() => {
-        if (isOpen) {
-            setNewSceneName('');
-            setNewSceneBlobUrl('');
-        }
-    }, [isOpen]);
-
-    const handleBlobUrlChange = (blobUrl: string) => {
-        if (sceneToEdit) {
-            const selectedSceneCopy = Object.assign({}, scene);
-            selectedSceneCopy.assets[0].url = blobUrl;
-            setScene(selectedSceneCopy);
-        } else {
-            setNewSceneBlobUrl(blobUrl);
-        }
-    };
-
-    return (
-        <Dialog
-            hidden={!isOpen}
-            onDismiss={() => onClose()}
-            dialogContentProps={isDialogOpenContent}
-            modalProps={isDialogOpenProps}
-        >
-            <TextField
-                className="cb-scene-list-form-dialog-text-field"
-                label={t('name')}
-                title={newSceneName}
-                value={sceneToEdit ? scene?.displayName : newSceneName}
-                onChange={(e) => {
-                    if (sceneToEdit) {
-                        const selectedSceneCopy: IScene = Object.assign(
-                            {},
-                            sceneToEdit
-                        );
-                        selectedSceneCopy.displayName = e.currentTarget.value;
-                        setScene(selectedSceneCopy);
-                    } else {
-                        setNewSceneName(e.currentTarget.value);
-                    }
-                }}
             />
-            {renderBlobDropdown(handleBlobUrlChange)}
-            <DialogFooter>
-                <DefaultButton
-                    className="cb-scene-list-modal-buttons"
-                    onClick={() => onClose()}
-                    text={t('cancel')}
-                />
-                <PrimaryButton
-                    className="cb-scene-list-dialog-buttons"
-                    onClick={() => {
-                        if (sceneToEdit) {
-                            onEditScene(scene);
-                        } else {
-                            const newScene = {
-                                displayName: newSceneName,
-                                type: 'Scene',
-                                assets: [
-                                    {
-                                        type: 'Asset3D',
-                                        name: 'Asset',
-                                        url: newSceneBlobUrl
-                                    }
-                                ],
-                                behaviors: []
-                            };
-                            onAddScene(newScene);
-                        }
-                    }}
-                    text={sceneToEdit ? t('update') : t('create')}
-                />
-            </DialogFooter>
-        </Dialog>
+        </BaseComponent>
     );
 };
 

@@ -424,6 +424,7 @@ export interface IBlobAdapter {
     getContainerBlobs: (
         fileTypes?: Array<string>
     ) => AdapterReturnType<BlobsData>;
+    putBlob: (file: File) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

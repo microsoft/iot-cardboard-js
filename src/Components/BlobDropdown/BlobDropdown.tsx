@@ -31,6 +31,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     fileTypes = Object.values(SupportedBlobFileTypes),
     isRequired = false,
     onChange,
+    onLoad,
     selectedBlobUrl
 }) => {
     const { t } = useTranslation();
@@ -49,9 +50,12 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
 
     useEffect(() => {
         if (!containerBlobsAdapterData.adapterResult.hasNoData()) {
-            const files: Array<IBlobFile> =
-                containerBlobsAdapterData.adapterResult.result?.data;
+            const files: Array<IBlobFile> = containerBlobsAdapterData
+                .adapterResult.result?.data as Array<IBlobFile>;
             setFiles(files);
+            if (onLoad) {
+                onLoad(files);
+            }
             if (selectedBlobUrl) {
                 const selectedFileInContainer = files.find(
                     (f) => f.Path === selectedBlobUrl
@@ -141,7 +145,6 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                         {p.props.label}
                     </span>
                     <TooltipHost
-                        className="cb-blob-dropdown-label-info"
                         content={t('blobDropdown.supportedFileTypes', {
                             fileTypes: fileTypes.join(', ')
                         })}
