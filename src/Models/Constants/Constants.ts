@@ -102,8 +102,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         opacity: 1,
         isWireframe: false,
-        coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#F3FF14',
+        coloredMeshColor: '#0000FF',
+        meshHoverColor: '#FF0000',
         coloredMeshHoverColor: '#00EDD9',
         background: null
     },
@@ -115,7 +115,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         opacity: 1,
         isWireframe: true,
         coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#ff0000',
+        meshHoverColor: '#00FF00',
         coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
@@ -166,6 +166,32 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
         background: 'radial-gradient(#0a0a54, #020024)'
+    },
+    {
+        id: ADT3DRenderMode.Blue,
+        text: '3dSceneViewer.renderModes.blue',
+        baseColor: '#0d54cc',
+        fresnelColor: '#1a38e6',
+        opacity: 0.1,
+        isWireframe: false,
+        coloredMeshColor: '#0060f1',
+        meshHoverColor: '#5096ff',
+        coloredMeshHoverColor: '#00EDD9',
+        background: 'radial-gradient(#1E1D43, #06051A)',
+        reflectionTexture: null
+    },
+    {
+        id: ADT3DRenderMode.Gold,
+        text: '3dSceneViewer.renderModes.gold',
+        baseColor: '#0060f1',
+        fresnelColor: '#5096ff',
+        opacity: 0.1,
+        isWireframe: false,
+        coloredMeshColor: '#0060f1',
+        meshHoverColor: '#5096ff',
+        coloredMeshHoverColor: '#0060f1',
+        background: 'radial-gradient(#2d2c2a, #000)',
+        reflectionTexture: null
     }
 ];
 

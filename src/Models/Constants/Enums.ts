@@ -158,7 +158,9 @@ export enum ADT3DRenderMode {
     Red = 'Red',
     RedWireframe = 'RedWireframe',
     Green = 'Green',
-    GreenWireframe = 'GreenWireframe'
+    GreenWireframe = 'GreenWireframe',
+    Blue = 'Blue',
+    Gold = 'Gold'
 }
 
 export enum ADT3DAddInEventTypes {

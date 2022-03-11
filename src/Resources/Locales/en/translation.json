@@ -383,7 +383,9 @@
             "red": "Translucent red",
             "redWireframe": "Translucent red wireframe",
             "green": "Translucent green",
-            "greenWireframe": "Translucent green wireframe"
+            "greenWireframe": "Translucent green wireframe",
+            "blue": "Translucent Blue",
+            "gold": "Gold Tinsel"
         }
     },
     "widgets": {

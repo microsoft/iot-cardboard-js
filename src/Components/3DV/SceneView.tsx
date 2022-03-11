@@ -16,7 +16,7 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, Tools } from 'babylonjs';
-import { makeShaderMaterial } from './Shaders';
+import { makeShaderMaterial, calculateFresnelColor } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 
 const debug = false;
@@ -130,7 +130,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-    const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
+    const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[7]);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -291,6 +291,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+            //Materials are standard by default and are overwritted on RenderMode change
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 currentRenderMode.meshHoverColor
@@ -324,6 +326,31 @@ const SceneView: React.FC<ISceneViewProp> = ({
             // Register a render loop to repeatedly render the scene
             engine.runRenderLoop(() => {
                 if (cameraRef.current) {
+                    //Update shader material references to have updated camera position data every frame.
+                    //This can be broken out into a pre - renderloop function if needed
+                    shaderMaterial.current?.setVector3(
+                        'cameraPosition',
+                        cameraRef.current.position
+                    );
+                    if (
+                        typeof hovMaterial.current ==
+                        typeof BABYLON.ShaderMaterial
+                    ) {
+                        hovMaterial.current?.setVector3(
+                            'cameraPosition',
+                            cameraRef.current.position
+                        );
+                    }
+
+                    if (
+                        typeof coloredHovMaterial.current ==
+                        typeof BABYLON.ShaderMaterial
+                    ) {
+                        coloredHovMaterial.current?.setVector3(
+                            'cameraPosition',
+                            cameraRef.current.position
+                        );
+                    }
                     sc.render();
                 }
             });
@@ -373,13 +400,67 @@ const SceneView: React.FC<ISceneViewProp> = ({
     // Update render mode
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
-            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.meshHoverColor
-            );
+            if (currentRenderMode.baseColor) {
+                const hovCol = BABYLON.Color3.FromHexString(
+                    currentRenderMode.meshHoverColor
+                );
+                hovMaterial.current = makeShaderMaterial(
+                    'hover',
+                    sceneRef.current,
+                    hovCol,
+                    calculateFresnelColor(hovCol),
+                    0.999
+                );
 
-            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.coloredMeshHoverColor
-            );
+                const selectMeshColor = BABYLON.Color3.FromHexString(
+                    currentRenderMode.coloredMeshHoverColor
+                );
+                coloredHovMaterial.current = makeShaderMaterial(
+                    'colHov',
+                    sceneRef.current,
+                    selectMeshColor,
+                    calculateFresnelColor(selectMeshColor),
+                    0.999
+                );
+            } else {
+                hovMaterial.current = new BABYLON.StandardMaterial(
+                    'hover',
+                    sceneRef.current
+                );
+                hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentRenderMode.meshHoverColor
+                );
+                coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                    'colHov',
+                    sceneRef.current
+                );
+                coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                    currentRenderMode.coloredMeshHoverColor
+                );
+            }
+            // //Default renderMode uses standard material which sets color by property
+            // if (currentRenderMode == RenderModes[0]) {
+            //     hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+            //         currentRenderMode.meshHoverColor
+            //     );
+            //     coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+            //         currentRenderMode.coloredMeshHoverColor
+            //     );
+            // } else {
+            //     //ShaderMaterials set colors by passing uniforms
+            //     hovMaterial.current.setColor3(
+            //         'baseColor',
+            //         BABYLON.Color3.FromHexString(
+            //             currentRenderMode.coloredMeshHoverColor
+            //         )
+            //     );
+            //     coloredHovMaterial.current.setColor3(
+            //         'baseColor',
+            //         BABYLON.Color3.FromHexString(
+            //             currentRenderMode.coloredMeshHoverColor
+            //         )
+            //     );
+            // }
 
             if (
                 (!currentRenderMode.baseColor ||
@@ -404,15 +485,19 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
-                const baseColor = hexToColor4(currentRenderMode.baseColor);
-                const fresnelColor = hexToColor4(
+                const baseColor = BABYLON.Color3.FromHexString(
+                    currentRenderMode.baseColor
+                );
+                const fresnelColor = BABYLON.Color3.FromHexString(
                     currentRenderMode.fresnelColor
                 );
                 const material = makeShaderMaterial(
+                    'shader',
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    currentRenderMode.opacity
+                    currentRenderMode.opacity,
+                    currentRenderMode.reflectionTexture
                 );
 
                 shaderMaterial.current = material;
@@ -833,17 +918,28 @@ const SceneView: React.FC<ISceneViewProp> = ({
     }, [coloredMeshItems, isLoading, currentRenderMode]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
-        const material = new BABYLON.StandardMaterial(
+        const coloredMeshMaterialColor = color
+            ? BABYLON.Color3.FromHexString(color)
+            : BABYLON.Color3.FromHexString(currentRenderMode.coloredMeshColor);
+        const material = makeShaderMaterial(
             'coloredMeshMaterial',
-            sceneRef.current
+            sceneRef.current,
+            coloredMeshMaterialColor,
+            coloredMeshMaterialColor,
+            0.999,
+            currentRenderMode.reflectionTexture
         );
-        if (color) {
-            material.diffuseColor = BABYLON.Color3.FromHexString(color);
-        } else {
-            material.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.coloredMeshColor
-            );
-        }
+        // const material = new BABYLON.StandardMaterial(
+        //     'coloredMeshMaterial',
+        //     sceneRef.current
+        // );
+        // if (color) {
+        //     material.diffuseColor = BABYLON.Color3.FromHexString(color);
+        // } else {
+        //     material.diffuseColor = BABYLON.Color3.FromHexString(
+        //         currentRenderMode.coloredMeshColor
+        //     );
+        // }
 
         material.wireframe = !!currentRenderMode.isWireframe;
 

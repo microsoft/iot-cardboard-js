@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from 'babylonjs';
+import { AbstractMesh, BaseTexture, Scene } from 'babylonjs';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -667,6 +667,7 @@ export interface IADT3DViewerRenderMode {
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
+    reflectionTexture?: BaseTexture;
 }
 
 export interface IBlobFile {
