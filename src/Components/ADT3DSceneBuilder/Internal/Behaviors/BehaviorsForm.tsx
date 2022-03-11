@@ -152,16 +152,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         <div className={commonFormStyles.content}>
                             <div className={commonFormStyles.formHeader}>
                                 <TextField
-                                    label={t('3dSceneBuilder.behaviorId')}
-                                    value={behaviorToEdit.id}
+                                    label={t('displayName')}
+                                    value={behaviorToEdit.displayName}
                                     required
                                     onChange={(_e, newValue) => {
                                         setBehaviorToEdit(
-                                            produce((draft) => {
-                                                draft.id = newValue.replace(
-                                                    /\s/g,
-                                                    ''
-                                                );
+                                            produce((draft: IBehavior) => {
+                                                draft.displayName = newValue;
                                             })
                                         );
                                     }}
