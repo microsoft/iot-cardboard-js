@@ -49,9 +49,14 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const { adapter, config, sceneId, state, setColoredMeshItems } = useContext(
-        SceneBuilderContext
-    );
+    const {
+        adapter,
+        config,
+        sceneId,
+        state,
+        setColoredMeshItems,
+        setMeshIdsToOutline
+    } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -95,6 +100,22 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         });
         onRemoveElement(newElements);
     };
+
+    useEffect(() => {
+        let coloredMeshes = [];
+        if (selectedElements) {
+            for (const selectedElement of selectedElements) {
+                coloredMeshes = coloredMeshes.concat(
+                    createColoredMeshItems(
+                        selectedElement.objectIDs,
+                        state.renderMode.coloredMeshColor
+                    )
+                );
+            }
+
+            setColoredMeshItems(coloredMeshes);
+        }
+    }, [selectedElements]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -171,6 +192,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             setIsDeleteDialogOpen,
             setColoredMeshItems,
             state.renderMode,
+            setMeshIdsToOutline,
             t
         );
         setListItems(elementsList);
@@ -184,7 +206,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         selectedElements,
         setElementToDelete,
         setIsDeleteDialogOpen,
-        setColoredMeshItems
+        setColoredMeshItems,
+        setMeshIdsToOutline
     ]);
 
     const theme = useTheme();
@@ -284,6 +307,7 @@ function getListItems(
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
     renderMode: IADT3DViewerRenderMode,
+    setMeshIdsToOutline: (ids: Array<string>) => void,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -350,17 +374,19 @@ function getListItems(
                         )
                     );
                 } else {
-                    coloredMeshes = coloredMeshes.concat(
-                        createColoredMeshItems(
-                            element?.objectIDs,
-                            renderMode.coloredMeshColor
-                        )
-                    );
+                    // coloredMeshes = coloredMeshes.concat(
+                    //     createColoredMeshItems(
+                    //         element?.objectIDs,
+                    //         renderMode.coloredMeshColor
+                    //     )
+                    // );
+                    setMeshIdsToOutline(element?.objectIDs);
                 }
             }
         } else {
             // hightlight just the current hovered element
-            coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
+            setMeshIdsToOutline(element?.objectIDs);
+            //coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
         }
 
         setColoredMeshItems(coloredMeshes);
@@ -375,8 +401,10 @@ function getListItems(
                 }
             }
             setColoredMeshItems(createColoredMeshItems(meshIds, null));
+            setMeshIdsToOutline([]);
         } else {
-            setColoredMeshItems([]);
+            setMeshIdsToOutline([]);
+            //setColoredMeshItems([]);
         }
     };
 

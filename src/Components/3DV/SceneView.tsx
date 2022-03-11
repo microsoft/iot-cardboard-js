@@ -847,12 +847,19 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     (mesh) => mesh.id === id
                 );
 
-                highlightLayer.current.addMesh(
-                    meshToOutline as BABYLON.Mesh,
-                    BABYLON.Color3.FromHexString(renderMode.coloredMeshColor)
-                );
-
-                outlinedMeshes.current.push(meshToOutline);
+                if (meshIdsToOutline) {
+                    try {
+                        highlightLayer.current.addMesh(
+                            meshToOutline as BABYLON.Mesh,
+                            BABYLON.Color3.FromHexString(
+                                renderMode.coloredMeshColor
+                            )
+                        );
+                        outlinedMeshes.current.push(meshToOutline);
+                    } catch {
+                        console.log('Unable to highlight mesh');
+                    }
+                }
             }
         }
 
