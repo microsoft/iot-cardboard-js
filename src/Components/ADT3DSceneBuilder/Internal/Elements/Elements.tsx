@@ -12,11 +12,6 @@ import {
     PrimaryButton,
     useTheme
 } from '@fluentui/react';
-import {
-    IScene,
-    IScenesConfig,
-    ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
@@ -26,6 +21,11 @@ import { CardboardList } from '../../../CardboardList/CardboardList';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import SearchHeader from '../Shared/SearchHeader';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import {
+    I3DScenesConfig,
+    IScene,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 import { IADT3DViewerRenderMode } from '../../../..';
@@ -70,13 +70,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
-                ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
+                ...config.configuration.scenes[
+                    config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
             };
-            sceneToUpdate.twinToObjectMappings = params.elements;
+            sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
@@ -272,7 +272,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 };
 
 function getListItems(
-    config: IScenesConfig,
+    config: I3DScenesConfig,
     filteredElements: ITwinToObjectMapping[],
     isEditBehavior: boolean,
     isSelectionEnabled: boolean,
@@ -332,7 +332,7 @@ function getListItems(
                     if (element.id !== selectedElement.id) {
                         coloredMeshes = coloredMeshes.concat(
                             createColoredMeshItems(
-                                selectedElement.meshIDs,
+                                selectedElement.objectIDs,
                                 renderMode.coloredMeshColor
                             )
                         );
@@ -346,14 +346,14 @@ function getListItems(
                     // if element is in behavior and hovered set it to a different color
                     coloredMeshes = coloredMeshes.concat(
                         createColoredMeshItems(
-                            element?.meshIDs,
+                            element?.objectIDs,
                             renderMode.coloredMeshHoverColor
                         )
                     );
                 } else {
                     coloredMeshes = coloredMeshes.concat(
                         createColoredMeshItems(
-                            element?.meshIDs,
+                            element?.objectIDs,
                             renderMode.coloredMeshColor
                         )
                     );
@@ -361,7 +361,7 @@ function getListItems(
             }
         } else {
             // hightlight just the current hovered element
-            coloredMeshes = createColoredMeshItems(element?.meshIDs, null);
+            coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
         }
 
         setColoredMeshItems(coloredMeshes);
@@ -371,8 +371,8 @@ function getListItems(
         if (isEditBehavior && selectedElements?.length > 0) {
             let meshIds: string[] = [];
             for (const element of selectedElements) {
-                if (element.meshIDs) {
-                    meshIds = meshIds.concat(element?.meshIDs);
+                if (element.objectIDs) {
+                    meshIds = meshIds.concat(element?.objectIDs);
                 }
             }
             setColoredMeshItems(createColoredMeshItems(meshIds, null));

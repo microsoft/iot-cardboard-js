@@ -10,11 +10,6 @@ import {
     useTheme
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
-import {
-    IBehavior,
-    IScene,
-    ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -28,6 +23,12 @@ import AliasedTwinsTab from './Internal/AliasedTwinsTab';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import { formPivotStyles, getFormStyles } from '../Shared/PanelForms.styles';
+import {
+    IBehavior,
+    IScene,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ElementType } from '../../../../Models/Classes/3DVConfig';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -42,10 +43,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { t } = useTranslation();
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         selectedElement ?? {
+            type: ElementType.TwinToObjectMapping,
             id: '',
             displayName: '',
-            primaryTwinID: '',
-            meshIDs: []
+            linkedTwinID: '',
+            objectIDs: []
         }
     );
 
@@ -58,20 +60,19 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        coloredMeshItems,
-        setColoredMeshItems
+        coloredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
-                ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
+                ...config.configuration.scenes[
+                    config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
             };
-            sceneToUpdate.twinToObjectMappings = params.elements;
+            sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
@@ -81,10 +82,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     });
 
     const handleSaveElement = async () => {
-        const existingElements = config.viewerConfiguration?.scenes?.find(
-            (s) => s.id === sceneId
-        ).twinToObjectMappings;
+        const existingElements = config.configuration?.scenes
+            ?.find((s) => s.id === sceneId)
+            .elements.filter(ViewerConfigUtility.isTwinToObjectMappingElement);
+
         const newElements = existingElements ? [...existingElements] : [];
+
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             let newId = createGUID(false);
             const existingIds = existingElements?.map((e) => e.id);
@@ -104,11 +107,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
 
         for (const behavior of behaviorsToEdit) {
-            await onBehaviorSave(
-                behavior,
-                ADT3DSceneBuilderMode.EditBehavior,
-                behavior.id
-            );
+            await onBehaviorSave(behavior, ADT3DSceneBuilderMode.EditBehavior);
         }
 
         onElementSave(newElements);
@@ -121,7 +120,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: meshIds
+            objectIDs: meshIds
         });
     }, [coloredMeshItems]);
 
@@ -134,29 +133,29 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
-            elementToEdit.displayName === elementToEdit.primaryTwinID
+            elementToEdit.displayName === elementToEdit.linkedTwinID
         ) {
             setElementToEdit({
                 ...elementToEdit,
-                primaryTwinID: selectedTwinId,
+                linkedTwinID: selectedTwinId,
                 displayName: selectedTwinId
             });
         } else {
             setElementToEdit({
                 ...elementToEdit,
-                primaryTwinID: selectedTwinId
+                linkedTwinID: selectedTwinId
             });
         }
     };
 
     useEffect(() => {
-        const meshIds = [];
+        const meshIds: string[] = [];
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
         }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: meshIds
+            objectIDs: meshIds
         });
     }, [coloredMeshItems]);
 
@@ -189,7 +188,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <TwinSearchDropdown
                         adapter={adapter}
                         label={t('3dSceneBuilder.linkedTwin')}
-                        selectedTwinId={selectedElement?.primaryTwinID}
+                        selectedTwinId={selectedElement?.linkedTwinID}
                         onTwinIdSelect={handleSelectTwinId}
                     />
                     <TextField
@@ -255,8 +254,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     disabled={
                         !(
                             elementToEdit?.displayName &&
-                            elementToEdit?.primaryTwinID &&
-                            elementToEdit?.meshIDs?.length > 0
+                            elementToEdit?.linkedTwinID &&
+                            elementToEdit?.objectIDs?.length > 0
                         )
                     }
                 />

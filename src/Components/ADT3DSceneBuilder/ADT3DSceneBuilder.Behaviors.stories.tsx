@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
@@ -13,6 +13,10 @@ import {
     sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import {
+    I3DScenesConfig,
+    IBehavior
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Behaviors',
@@ -78,51 +82,68 @@ Search.play = async ({ canvasElement }) => {
     await userEvent.type(searchBox, 'wheels');
 };
 
-const mockBehavior = {
-    id: 'wheelsTooLow',
-    type: 'Behavior',
-    layers: ['PhysicalProperties'],
+const mockBehavior: IBehavior = {
+    id: 'bf1ec41d7886438d880c140fb1bb570a',
+    displayName: 'Wheels too low',
     datasources: [
         {
-            type: 'TwinToObjectMappingDatasource',
-            mappingIDs: [
-                '5ba433d52b8445979fabc818fd40ae3d',
-                '2aa6955f3c73418a9be0f7b19c019b75'
-            ]
+            type: 'ElementTwinToObjectMappingDataSource',
+            elementIDs: ['5ba433d52b8445979fabc818fd40ae3d'],
+            extensionProperties: {}
+        },
+        {
+            type: 'ElementTwinToObjectMappingDataSource',
+            elementIDs: ['4cb0990d646a4bbea3e1102676e200fe']
         }
     ],
     visuals: []
 };
-const longData = JSON.parse(JSON.stringify(mockVConfig));
-longData.viewerConfiguration.scenes = [
+const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+longData.configuration.scenes = [
     {
-        ...longData.viewerConfiguration.scenes[0],
-        behaviors: [
-            ...longData.viewerConfiguration.scenes[0].behaviors,
+        ...longData.configuration.scenes[0],
+        behaviorIDs: [
+            ...longData.configuration.scenes[0].behaviorIDs,
             'behavior1',
             'behavior2',
             'behavior3',
-            'behavior4'
+            'behavior4',
+            'behavior5',
+            'behavior6'
         ]
     }
 ];
-longData.viewerConfiguration.behaviors = [
-    ...longData.viewerConfiguration.behaviors,
+longData.configuration.behaviors = [
+    ...longData.configuration.behaviors,
     {
         ...mockBehavior,
+        displayName: 'behavior 1',
         id: 'behavior1'
     },
     {
         ...mockBehavior,
+        displayName: 'behavior 2',
         id: 'behavior2'
     },
     {
         ...mockBehavior,
+        displayName: 'behavior 3',
         id: 'behavior3'
     },
     {
         ...mockBehavior,
+        displayName: 'behavior 4',
         id: 'behavior4'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 5',
+        id: 'behavior5'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 6',
+        id: 'behavior6'
     }
 ];
 export const Scrolling = Template.bind({});
@@ -135,34 +156,37 @@ Scrolling.parameters = {
 };
 
 const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
-longDataWithRemoved.viewerConfiguration.behaviors = [
-    ...longDataWithRemoved.viewerConfiguration.behaviors,
+longDataWithRemoved.configuration.behaviors = [
+    ...longDataWithRemoved.configuration.behaviors,
     {
         ...mockBehavior,
+        displayName: 'behavior 5',
         id: 'behavior5'
     },
     {
         ...mockBehavior,
+        displayName: 'behavior 6',
         id: 'behavior6'
     },
     {
         ...mockBehavior,
+        displayName: 'behavior 7',
         id: 'behavior7'
     }
 ];
-export const ScrollingWithRemoved = Template.bind({});
-ScrollingWithRemoved.play = async ({ canvasElement }) => {
+export const WithRemoved = Template.bind({});
+WithRemoved.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
     await BehaviorsTab.play({ canvasElement });
 };
-ScrollingWithRemoved.parameters = {
+WithRemoved.parameters = {
     data: longDataWithRemoved
 };
 
 export const ScrollingWithRemovedExpanded = Template.bind({});
 ScrollingWithRemovedExpanded.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
-    await ScrollingWithRemoved.play({ canvasElement });
+    await WithRemoved.play({ canvasElement });
     // Click the section header
     const canvas = within(canvasElement);
     const sectionHeader = await canvas.findByTestId(
@@ -212,15 +236,16 @@ EditElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(elementListItem);
 };
 
-export const EditAlertsTab = Template.bind({});
-EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTab.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the first one
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
-};
+// TODO SCHEMA MIGRATION - update Alerts tab to new schema & types
+// export const EditAlertsTab = Template.bind({});
+// EditAlertsTab.play = async ({ canvasElement }) => {
+//     await EditElementsTab.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the first one
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[1]);
+// };
 
 export const EditWidgetsTab = Template.bind({});
 EditWidgetsTab.play = async ({ canvasElement }) => {
@@ -232,79 +257,86 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     await userEvent.click(tab[2]);
 };
 
-export const EditWidgetsTabEmpty = Template.bind({});
-EditWidgetsTabEmpty.play = async ({ canvasElement }) => {
-    await BehaviorsTab.play({ canvasElement });
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabEmpty = Template.bind({});
+// EditWidgetsTabEmpty.play = async ({ canvasElement }) => {
+//     await BehaviorsTab.play({ canvasElement });
 
-    const canvas = within(canvasElement);
-    // click the 3rd behavior
-    const listItem = await canvas.findByTestId(
-        'cardboard-list-item-behaviors-in-scene-2'
-    );
-    await userEvent.click(listItem);
-    await sleep(1);
+//     const canvas = within(canvasElement);
+//     // click the 3rd behavior
+//     const listItem = await canvas.findByTestId(
+//         'cardboard-list-item-behaviors-in-scene-2'
+//     );
+//     await userEvent.click(listItem);
+//     await sleep(1);
 
-    // switch to widgets tab
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
-};
+//     // switch to widgets tab
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[2]);
+// };
 
-export const EditWidgetsTabMore = Template.bind({});
-EditWidgetsTabMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
-    await EditWidgetsTab.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the first one
-    const moreButton = await canvas.findByTestId(
-        `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
-    );
-    await userEvent.click(moreButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMore = Template.bind({});
+// EditWidgetsTabMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
+//     await EditWidgetsTab.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the first one
+//     const moreButton = await canvas.findByTestId(
+//         `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
+//     );
+//     await userEvent.click(moreButton);
+// };
 
-export const EditWidgetsTabMoreEditPanel = Template.bind({});
-EditWidgetsTabMoreEditPanel.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement });
-    // click the edit button in the overflow
-    const editButton = await findOverflowMenuItem('editWidgetOverflow');
-    await clickOverFlowMenuItem(editButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreEditPanel = Template.bind({});
+// EditWidgetsTabMoreEditPanel.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement });
+//     // click the edit button in the overflow
+//     const editButton = await findOverflowMenuItem('editWidgetOverflow');
+//     await clickOverFlowMenuItem(editButton);
+// };
 
-export const EditWidgetsTabMoreEditLink = Template.bind({});
-EditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement, listItemIndex: 2 });
-    // click the edit button in the overflow
-    const editButton = await findOverflowMenuItem('editWidgetOverflow');
-    await clickOverFlowMenuItem(editButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreEditLink = Template.bind({});
+// EditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement, listItemIndex: 2 });
+//     // click the edit button in the overflow
+//     const editButton = await findOverflowMenuItem('editWidgetOverflow');
+//     await clickOverFlowMenuItem(editButton);
+// };
 
-export const EditWidgetsTabEditGauge = Template.bind({});
-EditWidgetsTabEditGauge.play = async ({ canvasElement }) => {
-    await EditWidgetsTabAddDialogShow.play({ canvasElement });
-    // mock data does not have a gauge so we go through the flow to add one
-    const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
-    await userEvent.click(gaugeButton);
-    const addButton = await findCalloutItemByTestId(
-        'widget-library-add-button'
-    );
-    await userEvent.click(addButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabEditGauge = Template.bind({});
+// EditWidgetsTabEditGauge.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabAddDialogShow.play({ canvasElement });
+//     // mock data does not have a gauge so we go through the flow to add one
+//     const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
+//     await userEvent.click(gaugeButton);
+//     const addButton = await findCalloutItemByTestId(
+//         'widget-library-add-button'
+//     );
+//     await userEvent.click(addButton);
+// };
 
-export const EditWidgetsTabMoreRemove = Template.bind({});
-EditWidgetsTabMoreRemove.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement });
-    // Click the remove button in the overflow
-    const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
-    await clickOverFlowMenuItem(removeButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreRemove = Template.bind({});
+// EditWidgetsTabMoreRemove.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement });
+//     // Click the remove button in the overflow
+//     const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
+//     await clickOverFlowMenuItem(removeButton);
+// };
 
-export const EditWidgetsTabAddDialogShow = Template.bind({});
-EditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
-    await EditWidgetsTab.play({ canvasElement });
-    // Click the remove button in the overflow
-    const canvas = within(canvasElement);
-    const addButton = await canvas.findByTestId('widgetForm-addWidget');
-    await userEvent.click(addButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabAddDialogShow = Template.bind({});
+// EditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
+//     await EditWidgetsTab.play({ canvasElement });
+//     // Click the remove button in the overflow
+//     const canvas = within(canvasElement);
+//     const addButton = await canvas.findByTestId('widgetForm-addWidget');
+//     await userEvent.click(addButton);
+// };
 
 export const RemoveDialogShow = Template.bind({});
 RemoveDialogShow.play = async ({ canvasElement }) => {

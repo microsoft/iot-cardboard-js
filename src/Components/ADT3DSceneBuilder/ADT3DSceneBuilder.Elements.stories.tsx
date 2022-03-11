@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
@@ -11,6 +11,10 @@ import {
     sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
+import {
+    I3DScenesConfig,
+    IElement
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
@@ -48,27 +52,32 @@ ElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(tabButton[0]);
 };
 
-export const Search = Template.bind({});
-Search.play = async ({ canvasElement }) => {
-    // switch to the behaviors tab
-    await ElementsTab.play({ canvasElement });
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const Search = Template.bind({});
+// Search.play = async ({ canvasElement }) => {
+//     // switch to the behaviors tab
+//     await ElementsTab.play({ canvasElement });
 
-    const canvas = within(canvasElement);
-    // type in the search box
-    const searchBox = canvas.getByTestId('search-header-search-box');
-    await userEvent.type(searchBox, 'box');
-};
+//     const canvas = within(canvasElement);
+//     // type in the search box
+//     const searchBox = canvas.getByTestId('search-header-search-box');
+//     await userEvent.type(searchBox, 'box');
+// };
 
-const mockElement = {
-    primaryTwinID: 'SaltMachine_C1',
-    meshIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0']
+const mockElement: IElement = {
+    type: 'TwinToObjectMapping',
+    id: '5ba433d52b8445979fabc818fd40ae3d',
+    displayName: 'leftWheels',
+    linkedTwinID: 'SaltMachine_C1',
+    objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
+    extensionProperties: {}
 };
-const longData = Object.assign({}, mockVConfig);
-longData.viewerConfiguration.scenes = [
+const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+longData.configuration.scenes = [
     {
-        ...longData.viewerConfiguration.scenes[0],
-        twinToObjectMappings: [
-            ...longData.viewerConfiguration.scenes[0].twinToObjectMappings,
+        ...longData.configuration.scenes[0],
+        elements: [
+            ...longData.configuration.scenes[0].elements,
             {
                 ...mockElement,
                 id: 'element1',

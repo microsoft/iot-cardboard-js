@@ -1,0 +1,8 @@
+{
+    "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "configuration": {
+        "scenes": [],
+        "behaviors": [],
+        "layers": []
+    }
+}
