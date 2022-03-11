@@ -78,34 +78,6 @@
         padding-right: 24px;
     }
 
-    .cb-scene-list-form-dialog-3d-file-wrapper {
-        align-items: center;
-        border: 1px solid var(--cb-color-natural-light);
-        display: flex;
-        flex-direction: row;
-        height: 44px;
-        justify-content: space-between;
-        padding: 4px 8px;
-        width: 320px;
-    }
-
-    .cb-scene-list-form-dialog-3d-file-name {
-        display: grid;
-        flex-grow: 1;
-        padding: 0 4px 0 12px;
-
-        span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            &:last-child {
-                color: var(--cb-color-input-border);
-                font-size: 12px;
-            }
-        }
-    }
-
     .cb-scene-list-form-dialog-3d-file-upload-progress {
         display: flex;
         flex-direction: row;

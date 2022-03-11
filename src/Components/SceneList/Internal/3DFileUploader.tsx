@@ -1,7 +1,6 @@
 import {
     Checkbox,
     Icon,
-    IconButton,
     Image,
     MessageBar,
     MessageBarType,
@@ -9,13 +8,15 @@ import {
     ProgressIndicator
 } from '@fluentui/react';
 import prettyBytes from 'pretty-bytes';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { AdapterResult } from '../../../Models/Classes';
 import BlobsData from '../../../Models/Classes/AdapterDataClasses/BlobsData';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import DropFileIcon from '../../../Resources/Static/dropFile.svg';
+import { CardboardList } from '../../CardboardList/CardboardList';
+import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
 
 interface File3DUploaderProps {
     isOverwriteVisible: boolean;
@@ -56,6 +57,30 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
         }
     });
     const [selectedFile, setSelectedFile] = useState<File>(null);
+
+    const SingleFileList = useMemo(
+        () =>
+            selectedFile ? (
+                <CardboardList<File>
+                    items={[
+                        {
+                            iconStartName: 'OpenFile',
+                            textPrimary: selectedFile.name,
+                            textSecondary: prettyBytes(selectedFile.size),
+                            iconEndName: 'Cancel',
+                            onClick: () => {
+                                setSelectedFile(null);
+                                onFileChange(null);
+                            }
+                        } as ICardboardListItem<File>
+                    ]}
+                    listKey={'selected-file-list'}
+                />
+            ) : (
+                ''
+            ),
+        [selectedFile]
+    );
 
     return (
         <>
@@ -98,32 +123,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                               })}
                     </MessageBar>
                 ) : (
-                    <div className="cb-scene-list-form-dialog-3d-file-wrapper">
-                        <Icon
-                            iconName="OpenFile"
-                            styles={{
-                                root: {
-                                    fontSize: 16
-                                }
-                            }}
-                        />
-                        <span className="cb-scene-list-form-dialog-3d-file-name">
-                            <span>{selectedFile.name}</span>
-                            <span>{prettyBytes(selectedFile.size)}</span>
-                        </span>
-                        <IconButton
-                            className="cb-remove-file-button"
-                            iconProps={{
-                                iconName: 'Cancel'
-                            }}
-                            title={t('remove')}
-                            ariaLabel={t('remove')}
-                            onClick={() => {
-                                setSelectedFile(null);
-                                onFileChange(null);
-                            }}
-                        />
-                    </div>
+                    SingleFileList
                 )
             ) : (
                 <div
