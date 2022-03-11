@@ -33,9 +33,7 @@ import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
-import { createColoredMeshItems } from '../3DV/SceneView.Utils';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { RenderModes } from '../../Models/Constants';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null

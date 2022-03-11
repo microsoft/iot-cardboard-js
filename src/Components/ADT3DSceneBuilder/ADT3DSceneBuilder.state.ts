@@ -96,6 +96,7 @@ export const ADT3DSceneBuilderReducer: (
                     case ADT3DSceneBuilderMode.EditElement:
                     case ADT3DSceneBuilderMode.CreateElement:
                         draft.enableHoverOnModel = true;
+                        draft.meshIdsToOutline = [];
                         break;
                     default:
                         draft.enableHoverOnModel = false;
