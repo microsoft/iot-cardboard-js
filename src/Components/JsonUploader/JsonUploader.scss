@@ -23,16 +23,22 @@
     align-items: center;
     background-image: linear-gradient(
             to right,
-            var(--cb-color-inactive) 50%,
+            var(--cb-color-file-dropzone-border) 50%,
             rgba(255, 255, 255, 0) 0%
         ),
-        linear-gradient(var(--cb-color-inactive) 50%, rgba(255, 255, 255, 0) 0%),
+        linear-gradient(
+            var(--cb-color-file-dropzone-border) 50%,
+            rgba(255, 255, 255, 0) 0%
+        ),
         linear-gradient(
             to right,
-            var(--cb-color-inactive) 50%,
+            var(--cb-color-file-dropzone-border) 50%,
             rgba(255, 255, 255, 0) 0%
         ),
-        linear-gradient(var(--cb-color-inactive) 50%, rgba(255, 255, 255, 0) 0%);
+        linear-gradient(
+            var(--cb-color-file-dropzone-border) 50%,
+            rgba(255, 255, 255, 0) 0%
+        );
     background-position: top, right, bottom, left;
     background-repeat: repeat-x, repeat-y;
     background-size: 16px 1px, 1px 16px;
@@ -43,27 +49,6 @@
     line-height: 18px;
     padding: 32px 40px;
     width: 304px;
-
-    &.cb-dropzone-is-focused {
-        background-image: linear-gradient(
-                to right,
-                var(--cb-color-inactive) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-inactive) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                to right,
-                var(--cb-color-inactive) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-inactive) 50%,
-                rgba(255, 255, 255, 0) 0%
-            );
-    }
 
     &.cb-dropzone-is-drag-accept {
         background-image: linear-gradient(

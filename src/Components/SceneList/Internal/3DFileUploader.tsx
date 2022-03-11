@@ -41,7 +41,6 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
     const {
         getRootProps,
         getInputProps,
-        isFocused,
         // currently react-dropzone's isDragAccept and isDragReject does not fully work with the accepted files that we pass in this component,
         // so styling based on these is not reliable, therefore the style for these states are set with default values
         isDragAccept,
@@ -130,9 +129,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                 <div
                     {...getRootProps({
                         className: `cb-drop-files-container ${
-                            isFocused
-                                ? 'cb-dropzone-is-focused'
-                                : isDragAccept
+                            isDragAccept
                                 ? 'cb-dropzone-is-drag-accept'
                                 : isDragReject
                                 ? 'cb-dropzone-is-drag-reject'
