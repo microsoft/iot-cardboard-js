@@ -19,6 +19,9 @@ export const getPrimaryButtonStyles = (
         },
         rootHovered: {
             color: 'white' // force in all themes
+        },
+        rootPressed: {
+            color: 'white' // force in all themes
         }
     };
 };
