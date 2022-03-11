@@ -101,13 +101,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const dialogStyles: Partial<IModalStyles> = useMemo(() => {
         return {
             main: {
-                minWidth: '640px !important',
-                height:
-                    selected3DFilePivotItem ===
-                    SelectionModeOf3DFile.FromContainer
-                        ? '388px'
-                        : '628px',
-                transition: 'height .6s ease'
+                minWidth: '640px !important'
             },
             scrollableContent: {
                 selectors: {
@@ -121,7 +115,17 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                         flexDirection: 'column',
                         justifyContent: 'space-between',
                         flexGrow: 1,
-                        overflow: 'auto'
+                        overflowX: 'hidden',
+                        height:
+                            selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromContainer
+                                ? '338px'
+                                : '578px',
+                        transition: 'height .6s ease',
+                        ...(selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromComputer && {
+                            animation: 'show-scroll-y 1s'
+                        })
                     },
                     '.ms-Dialog-title': {
                         paddingBottom: 8
@@ -131,7 +135,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     },
                     '.ms-Dialog-content': {
                         overflowX: 'hidden',
-                        overflowY: 'auto'
+                        ...(selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromComputer && {
+                            animation: 'show-scroll-y 1s'
+                        })
                     }
                 }
             }

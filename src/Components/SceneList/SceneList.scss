@@ -84,6 +84,15 @@
         height: 44px;
         width: 320px;
     }
+
+    @keyframes show-scroll-y {
+        from {
+            overflow-y: hidden;
+        }
+        to {
+            overflow-y: auto;
+        }
+    }
 }
 
 .cb-scene-list-form-dialog-text-field {
