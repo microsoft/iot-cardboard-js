@@ -1,4 +1,4 @@
-import { mergeStyleSets, IStyle } from '@fluentui/react';
+import { mergeStyleSets, IStyle, IStackStyles } from '@fluentui/react';
 
 const classPrefix = 'panel-footer';
 const classNames = {
@@ -15,3 +15,9 @@ export const PanelFooterStyles = mergeStyleSets({
     ],
     content: [classNames.content, {} as IStyle]
 });
+export const PanelFooterStackStyles: IStackStyles = {
+    root: {
+        display: 'flex',
+        padding: '12px 4px 24px 4px' // separator has weird built in padding on top
+    }
+};

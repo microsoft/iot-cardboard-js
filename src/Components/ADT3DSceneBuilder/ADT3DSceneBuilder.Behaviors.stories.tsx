@@ -160,6 +160,16 @@ longDataWithRemoved.configuration.behaviors = [
     ...longDataWithRemoved.configuration.behaviors,
     {
         ...mockBehavior,
+        displayName: 'behavior 3',
+        id: 'behavior3'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 4',
+        id: 'behavior4'
+    },
+    {
+        ...mockBehavior,
         displayName: 'behavior 5',
         id: 'behavior5'
     },
