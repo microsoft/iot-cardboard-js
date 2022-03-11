@@ -1,15 +1,15 @@
 import React from 'react';
-import { IControlConfiguration } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
+import { ILinkWidget } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { performSubstitutions } from '../Widget.Utils';
 
 interface IProp {
-    config: IControlConfiguration;
+    widget: ILinkWidget;
     twins: Record<string, DTwin>;
 }
 
-export const LinkWidget: React.FC<IProp> = ({ config, twins }) => {
-    let expression = config.expression;
+export const LinkWidget: React.FC<IProp> = ({ widget, twins }) => {
+    let expression = widget.widgetConfiguration.linkExpression;
     expression = performSubstitutions(expression, twins);
     return (
         <a href={expression} target="_blank">

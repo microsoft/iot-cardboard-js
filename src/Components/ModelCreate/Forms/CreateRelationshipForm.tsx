@@ -241,7 +241,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
-                        label={t('modelCreate.displayName')}
+                        label={t('displayName')}
                         title={displayName}
                         value={
                             formMode === FormMode.Readonly && !displayName

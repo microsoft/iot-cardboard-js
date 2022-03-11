@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IScene } from '../../../Models/Classes/3DVConfig';
 import { ISceneDialogProps, SelectionModeOf3DFile } from '../SceneList.types';
 import {
     DefaultButton,
@@ -20,6 +19,7 @@ import File3DUploader from './3DFileUploader';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import { IBlobFile } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
+import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const SceneDialog: React.FC<ISceneDialogProps> = ({
     adapter,
@@ -62,24 +62,23 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     ...scene,
                     assets: [
                         {
-                            type: 'Asset3D',
-                            name: 'Asset',
+                            type: '3DAsset',
                             url: newlyAdded3DFile.Path
                         }
                     ]
                 });
             } else {
-                const newScene = {
+                const newScene: IScene = {
+                    id: undefined,
                     displayName: newSceneName,
-                    type: 'Scene',
                     assets: [
                         {
-                            type: 'Asset3D',
-                            name: 'Asset',
+                            type: '3DAsset',
                             url: newlyAdded3DFile.Path
                         }
                     ],
-                    behaviors: []
+                    elements: [],
+                    behaviorIDs: []
                 };
                 onAddScene(newScene);
             }
@@ -190,17 +189,17 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             if (sceneToEdit) {
                 onEditScene(scene);
             } else {
-                const newScene = {
+                const newScene: IScene = {
+                    id: undefined,
                     displayName: newSceneName,
-                    type: 'Scene',
                     assets: [
                         {
-                            type: 'Asset3D',
-                            name: 'Asset',
+                            type: '3DAsset',
                             url: newSceneBlobUrl
                         }
                     ],
-                    behaviors: []
+                    elements: [],
+                    behaviorIDs: []
                 };
                 onAddScene(newScene);
             }

@@ -55,3 +55,5 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
         </div>
     );
 };
+
+ADT3DScenePageCard.storyName = 'ADT 3D Scene Page';

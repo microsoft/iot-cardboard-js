@@ -1,7 +1,13 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
-import { DTwin } from '../../Models/Constants/Interfaces';
-import { IScene, IVisual } from './3DVConfig';
+import {
+    IScene,
+    IVisual
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    DTwin,
+    IADT3DViewerRenderMode
+} from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
     meshIds: string[];
@@ -28,7 +34,7 @@ export class Marker {
     position?: Vector3;
     latitude?: number;
     longitude?: number;
-    color: { r: number; g: number; b: number };
+    color: string;
     isNav?: boolean;
     scene?: IScene;
 }
@@ -42,7 +48,7 @@ export type SceneViewCallbackHandler = (
 
 export interface ColoredMeshItem {
     meshId: string;
-    color: string;
+    color?: string;
 }
 
 export type SceneViewEventHandler = (
@@ -59,16 +65,9 @@ export interface ISceneViewProp {
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
-    selectedMeshIds?: string[];
     showMeshesOnHover?: boolean;
-    meshSelectionColor?: string;
-    meshHoverColor?: string;
-    meshSelectionHoverColor?: string;
-    isWireframe?: boolean;
-    meshBaseColor?: { r: number; g: number; b: number; a: number };
-    meshFresnelColor?: { r: number; g: number; b: number; a: number };
-    meshOpacity?: number;
     getToken?: () => Promise<string>;
     coloredMeshItems?: ColoredMeshItem[];
     showHoverOnSelected?: boolean;
+    renderMode?: IADT3DViewerRenderMode;
 }

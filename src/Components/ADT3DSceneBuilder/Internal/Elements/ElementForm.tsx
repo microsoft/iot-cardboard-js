@@ -1,21 +1,15 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
-    FontIcon,
-    IconButton,
     Pivot,
     PivotItem,
     PrimaryButton,
     Separator,
-    TextField
+    TextField,
+    useTheme
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
-import {
-    IBehavior,
-    IScene,
-    ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -23,7 +17,19 @@ import useAdapter from '../../../../Models/Hooks/useAdapter';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
 import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
-import ElementBehaviors from './ElementBehaviors';
+import MeshTab from './Internal/MeshTab';
+import BehaviorsTab from './Internal/BehaviorsTab';
+import AliasedTwinsTab from './Internal/AliasedTwinsTab';
+import {
+    getLeftPanelStyles,
+    leftPanelPivotStyles
+} from '../Shared/LeftPanel.styles';
+import {
+    IBehavior,
+    IScene,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ElementType } from '../../../../Models/Classes/3DVConfig';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -38,10 +44,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { t } = useTranslation();
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
         selectedElement ?? {
+            type: ElementType.TwinToObjectMapping,
             id: '',
             displayName: '',
-            primaryTwinID: '',
-            meshIDs: []
+            linkedTwinID: '',
+            objectIDs: []
         }
     );
 
@@ -54,20 +61,19 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        selectedMeshIds,
-        setSelectedMeshIds
+        coloredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
-                ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
+                ...config.configuration.scenes[
+                    config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
             };
-            sceneToUpdate.twinToObjectMappings = params.elements;
+            sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
@@ -77,10 +83,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     });
 
     const handleSaveElement = async () => {
-        const existingElements = config.viewerConfiguration?.scenes?.find(
-            (s) => s.id === sceneId
-        ).twinToObjectMappings;
+        const existingElements = config.configuration?.scenes
+            ?.find((s) => s.id === sceneId)
+            .elements.filter(ViewerConfigUtility.isTwinToObjectMappingElement);
+
         const newElements = existingElements ? [...existingElements] : [];
+
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             let newId = createGUID(false);
             const existingIds = existingElements?.map((e) => e.id);
@@ -100,22 +108,22 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
 
         for (const behavior of behaviorsToEdit) {
-            await onBehaviorSave(
-                behavior,
-                ADT3DSceneBuilderMode.EditBehavior,
-                behavior.id
-            );
+            await onBehaviorSave(behavior, ADT3DSceneBuilderMode.EditBehavior);
         }
 
         onElementSave(newElements);
     };
 
     useEffect(() => {
+        const meshIds = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            objectIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -126,27 +134,31 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
-            elementToEdit.displayName === elementToEdit.primaryTwinID
+            elementToEdit.displayName === elementToEdit.linkedTwinID
         ) {
             setElementToEdit({
                 ...elementToEdit,
-                primaryTwinID: selectedTwinId,
+                linkedTwinID: selectedTwinId,
                 displayName: selectedTwinId
             });
         } else {
             setElementToEdit({
                 ...elementToEdit,
-                primaryTwinID: selectedTwinId
+                linkedTwinID: selectedTwinId
             });
         }
     };
 
     useEffect(() => {
+        const meshIds: string[] = [];
+        for (const item of coloredMeshItems) {
+            meshIds.push(item.meshId);
+        }
         setElementToEdit({
             ...elementToEdit,
-            meshIDs: selectedMeshIds
+            objectIDs: meshIds
         });
-    }, [selectedMeshIds]);
+    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
@@ -154,64 +166,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
-    const ElementAliasedTwins = useCallback(
-        () => (
-            <div className="cb-scene-builder-left-panel-element-aliased-twins">
-                <span>Not implemented yet</span>
-            </div>
-        ),
-        []
-    );
-
-    const ElementMeshes = useCallback(
-        () => (
-            <div className="cb-scene-builder-left-panel-element-objects">
-                <div className="cb-scene-builder-left-panel-element-objects-container">
-                    {elementToEdit.meshIDs.length === 0 ? (
-                        <div className="cb-scene-builder-left-panel-text">
-                            {t('3dSceneBuilder.noMeshAddedText')}
-                        </div>
-                    ) : (
-                        <ul className="cb-scene-builder-left-panel-element-object-list">
-                            {elementToEdit.meshIDs.map((meshId) => (
-                                <li
-                                    key={meshId}
-                                    className="cb-scene-builder-left-panel-element-object"
-                                >
-                                    <div className="cb-mesh-name-wrapper">
-                                        <FontIcon iconName={'CubeShape'} />
-                                        <span className="cb-mesh-name">
-                                            {meshId}
-                                        </span>
-                                    </div>
-                                    <IconButton
-                                        className="cb-remove-object-button"
-                                        iconProps={{
-                                            iconName: 'Delete'
-                                        }}
-                                        title={t('remove')}
-                                        ariaLabel={t('remove')}
-                                        onClick={() => {
-                                            const currentObjects = [
-                                                ...elementToEdit.meshIDs
-                                            ];
-                                            currentObjects.splice(
-                                                currentObjects.indexOf(meshId),
-                                                1
-                                            );
-                                            setSelectedMeshIds(currentObjects);
-                                        }}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            </div>
-        ),
-        [elementToEdit.meshIDs]
-    );
-
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <div className="cb-scene-builder-left-panel-create-wrapper">
             <LeftPanelBuilderHeader
@@ -232,7 +187,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <TwinSearchDropdown
                         adapter={adapter}
                         label={t('3dSceneBuilder.linkedTwin')}
-                        selectedTwinId={selectedElement?.primaryTwinID}
+                        selectedTwinId={selectedElement?.linkedTwinID}
                         onTwinIdSelect={handleSelectTwinId}
                     />
                     <TextField
@@ -250,26 +205,32 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 <Separator />
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
-                    className="cb-scene-builder-left-panel-pivot"
+                    styles={leftPanelPivotStyles}
                 >
                     <PivotItem headerText={t('3dSceneBuilder.meshes')}>
-                        <ElementMeshes />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <MeshTab elementToEdit={elementToEdit} />
+                        </div>
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
-                        <ElementBehaviors
-                            elementToEdit={elementToEdit}
-                            behaviors={behaviors}
-                            updateBehaviorsToEdit={(behaviors) => {
-                                setBehaviorsToEdit(behaviors);
-                            }}
-                            onBehaviorClick={onBehaviorClick}
-                            onCreateBehaviorWithElements={
-                                onCreateBehaviorWithElements
-                            }
-                        />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <BehaviorsTab
+                                elementToEdit={elementToEdit}
+                                behaviors={behaviors}
+                                updateBehaviorsToEdit={(behaviors) => {
+                                    setBehaviorsToEdit(behaviors);
+                                }}
+                                onBehaviorClick={onBehaviorClick}
+                                onCreateBehaviorWithElements={
+                                    onCreateBehaviorWithElements
+                                }
+                            />
+                        </div>
                     </PivotItem>
                     <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
-                        <ElementAliasedTwins />
+                        <div className={commonPanelStyles.formTabContents}>
+                            <AliasedTwinsTab elementToEdit={elementToEdit} />
+                        </div>
                     </PivotItem>
                 </Pivot>
             </div>
@@ -284,8 +245,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     disabled={
                         !(
                             elementToEdit?.displayName &&
-                            elementToEdit?.primaryTwinID &&
-                            elementToEdit?.meshIDs?.length > 0
+                            elementToEdit?.linkedTwinID &&
+                            elementToEdit?.objectIDs?.length > 0
                         )
                     }
                 />

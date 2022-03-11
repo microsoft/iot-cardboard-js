@@ -21,7 +21,6 @@ import {
     IModalStyles
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { IAsset, IScenesConfig, IScene } from '../../Models/Classes/3DVConfig';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
@@ -32,6 +31,11 @@ import {
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import BlobDropdown from '../BlobDropdown/BlobDropdown';
 import SceneDialog from './Internal/SceneDialog';
+import {
+    I3DScenesConfig,
+    IAsset,
+    IScene
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -47,7 +51,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const addScene = useAdapter({
-        adapterMethod: (params: { config: IScenesConfig; scene: IScene }) =>
+        adapterMethod: (params: { config: I3DScenesConfig; scene: IScene }) =>
             adapter.putScenesConfig(
                 ViewerConfigUtility.addScene(params.config, params.scene)
             ),
@@ -57,7 +61,7 @@ const SceneList: React.FC<SceneListProps> = ({
 
     const editScene = useAdapter({
         adapterMethod: (params: {
-            config: IScenesConfig;
+            config: I3DScenesConfig;
             sceneId: string;
             scene: IScene;
         }) =>
@@ -73,7 +77,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const deleteScene = useAdapter({
-        adapterMethod: (params: { config: IScenesConfig; sceneId: string }) =>
+        adapterMethod: (params: { config: I3DScenesConfig; sceneId: string }) =>
             adapter.putScenesConfig(
                 ViewerConfigUtility.deleteScene(params.config, params.sceneId)
             ),
@@ -82,7 +86,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const [errors, setErrors] = useState<Array<IComponentError>>([]);
-    const [config, setConfig] = useState<IScenesConfig>(null);
+    const [config, setConfig] = useState<I3DScenesConfig>(null);
     const [sceneList, setSceneList] = useState<Array<IScene>>([]);
     const [selectedScene, setSelectedScene] = useState<IScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
@@ -92,12 +96,12 @@ const SceneList: React.FC<SceneListProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: IScenesConfig = scenesConfig.adapterResult.getData();
+            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
             setSceneList(() => {
                 let scenes;
                 try {
-                    scenes = config?.viewerConfiguration?.scenes?.sort(
+                    scenes = config?.configuration?.scenes?.sort(
                         (a: IScene, b: IScene) =>
                             a.displayName?.localeCompare(
                                 b.displayName,
@@ -108,7 +112,7 @@ const SceneList: React.FC<SceneListProps> = ({
                             )
                     );
                 } catch {
-                    scenes = config?.viewerConfiguration?.scenes;
+                    scenes = config?.configuration?.scenes;
                 }
                 return scenes ?? [];
             });
@@ -411,7 +415,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     }
                     addScene.callAdapter({
                         config: config,
-                        scene: { id: newId, ...newScene }
+                        scene: { ...newScene, id: newId }
                     });
                 }}
                 renderBlobDropdown={renderBlobDropdown}

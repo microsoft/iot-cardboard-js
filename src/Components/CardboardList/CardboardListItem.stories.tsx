@@ -1,17 +1,14 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import {
-    CardboardListItem,
-    ICardboardListItemPropsInternal
-} from './CardboardListItem';
+import { CardboardListItem } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
-    sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
+import { ICardboardListItemPropsInternal } from './CardboardList.types';
 
 const cardStyle = {
     width: '300px',
@@ -90,7 +87,6 @@ WithMenuOpened.play = async ({ canvasElement }) => {
     // Finds the menu and clicks it
     const menuItem = canvas.getByTestId('context-menu-listItemKey-0-moreMenu');
     await userEvent.click(menuItem);
-    await sleep(5000);
 };
 
 export const WithStartIcon = Template.bind({}) as TemplateStory;

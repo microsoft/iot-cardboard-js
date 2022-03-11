@@ -1,7 +1,9 @@
+/** Names of themes, mapped value needs to match the scss keys */
 export enum Theme {
     Light = 'light',
     Dark = 'dark',
-    Explorer = 'explorer'
+    Explorer = 'explorer',
+    Kraken = 'kraken'
 }
 
 export enum TSIComponentTypes {
@@ -22,7 +24,14 @@ export enum ComponentErrorType {
     ErrorBoundary = 'ErrorBoundary',
     UnknownError = 'UnknownError',
     NonExistentBlob = 'NonExistentBlob',
-    UnauthorizedAccess = 'UnauthorizedAccess'
+    UnauthorizedAccess = 'UnauthorizedAccess',
+    ReaderAccessOnly = 'ReaderAccessOnly',
+    JsonSchemaError = 'JsonSchemaError'
+}
+
+export enum ErrorImages {
+    AccessRestricted = 'AccessRestrictedError',
+    BlobError = 'BlobError'
 }
 
 export enum HierarchyNodeType {

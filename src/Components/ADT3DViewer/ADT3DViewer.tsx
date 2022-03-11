@@ -14,7 +14,7 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
-import { IVisual, VisualType } from '../../Models/Classes/3DVConfig';
+import { VisualType } from '../../Models/Classes/3DVConfig';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import { parseExpression } from '../../Models/Services/Utils';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -22,6 +22,8 @@ import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
 import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { RenderModes } from '../../Models/Constants';
+import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -29,10 +31,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     sceneConfig,
     pollingInterval,
     connectionLineColor,
-    enableMeshSelection,
     addInProps,
     hideUI,
-    refetchConfig
+    refetchConfig,
+    showMeshesOnHover,
+    enableMeshSelection,
+    showHoverOnSelected
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
@@ -41,9 +45,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpConfig, setPopUpConfig] = useState<IVisual>(null);
+    const [popUpConfig, setPopUpConfig] = useState<IPopoverVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
-    const [selectedMeshIds, setselectedMeshIds] = useState<string[]>([]);
     const [selectedRenderMode, setSelectedRenderMode] = React.useState('');
     const lineId = useGuid();
     const popUpId = useGuid();
@@ -76,24 +79,40 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
-            const tempColoredMeshItems = [];
+            const tempColoredMeshItems = [...coloredMeshItems];
 
             for (const sceneVisual of sceneData.adapterResult.result.data
                 .sceneVisuals) {
                 if (sceneVisual.visuals) {
                     for (const visual of sceneVisual.visuals) {
                         switch (visual.type) {
-                            case VisualType.ColorChange: {
-                                const color = parseExpression(
-                                    visual.color.expression,
+                            case VisualType.StatusColoring: {
+                                const value = parseExpression(
+                                    visual.statusValueExpression,
                                     sceneVisual.twins
                                 );
-                                for (const mesh of sceneVisual.meshIds) {
-                                    const coloredMesh: ColoredMeshItem = {
-                                        meshId: mesh,
-                                        color: color
-                                    };
-                                    tempColoredMeshItems.push(coloredMesh);
+                                const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+                                    visual.statusValueRanges,
+                                    value
+                                );
+                                if (color) {
+                                    for (const mesh of sceneVisual.meshIds) {
+                                        const coloredMesh: ColoredMeshItem = {
+                                            meshId: mesh,
+                                            color: color
+                                        };
+                                        if (
+                                            !tempColoredMeshItems.find(
+                                                (item) =>
+                                                    item.meshId ===
+                                                    coloredMesh.meshId
+                                            )
+                                        ) {
+                                            tempColoredMeshItems.push(
+                                                coloredMesh
+                                            );
+                                        }
+                                    }
                                 }
                                 break;
                             }
@@ -112,8 +131,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
             const popOver = sceneVisual?.visuals?.find(
-                (visual) => visual.type === VisualType.OnClickPopover
-            );
+                (visual) => visual.type === VisualType.Popover
+            ) as IPopoverVisual;
 
             if (sceneVisual && popOver) {
                 if (selectedMesh.current === mesh) {
@@ -148,22 +167,22 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         }
 
         if (enableMeshSelection) {
-            let meshes = [...selectedMeshIds];
+            let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
-                const selectedMesh = selectedMeshIds.find(
-                    (item) => item === mesh.id
+                const coloredMesh = coloredMeshItems.find(
+                    (item) => item.meshId === mesh.id
                 );
-                if (selectedMesh) {
-                    meshes = selectedMeshIds.filter(
-                        (item) => item !== selectedMesh
+                if (coloredMesh) {
+                    coloredMeshes = coloredMeshes.filter(
+                        (item) => item.meshId !== coloredMesh.meshId
                     );
-                    setselectedMeshIds(meshes);
+                    setColoredMeshItems(coloredMeshes);
                 } else {
-                    meshes.push(mesh.id);
-                    setselectedMeshIds(meshes);
+                    coloredMeshes.push({ meshId: mesh.id });
+                    setColoredMeshItems(coloredMeshes);
                 }
             } else {
-                setselectedMeshIds([]);
+                setColoredMeshItems([]);
             }
         }
     };
@@ -176,7 +195,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             if (
                 sceneVisual &&
                 sceneVisual.visuals.find(
-                    (visual) => visual.type === VisualType.OnClickPopover
+                    (visual) => visual.type === VisualType.Popover
                 )
             ) {
                 document.body.style.cursor = 'pointer';
@@ -268,16 +287,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     addInProps={addInProps}
                     sceneViewProps={{
                         modelUrl: modelUrl,
-                        selectedMeshIds: selectedMeshIds,
                         coloredMeshItems: coloredMeshItems,
-                        meshSelectionColor: renderMode?.meshSelectionColor,
-                        meshHoverColor: renderMode?.meshHoverColor,
-                        meshSelectionHoverColor:
-                            renderMode?.meshSelectionHoverColor,
-                        isWireframe: renderMode?.isWireframe,
-                        meshBaseColor: renderMode?.baseColor,
-                        meshFresnelColor: renderMode?.fresnelColor,
-                        meshOpacity: renderMode?.opacity,
+                        renderMode: renderMode,
+                        showHoverOnSelected: showHoverOnSelected,
+                        showMeshesOnHover: showMeshesOnHover,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),

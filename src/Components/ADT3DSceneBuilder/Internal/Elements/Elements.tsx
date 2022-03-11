@@ -1,24 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
-    Checkbox,
     DefaultButton,
-    FontIcon,
-    IconButton,
+    IContextualMenuItem,
     PrimaryButton,
-    SearchBox,
-    Separator
+    useTheme
 } from '@fluentui/react';
-import {
-    IScene,
-    ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { Utils } from '../../../../Models/Services';
+import { CardboardList } from '../../../CardboardList/CardboardList';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import SearchHeader from '../Shared/SearchHeader';
+import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import {
+    I3DScenesConfig,
+    IScene,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import { IADT3DViewerRenderMode } from '../../../..';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -29,27 +39,22 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     updateSelectedElements,
     clearSelectedElements,
     onCreateBehaviorClick,
-    onElementEnter,
-    onElementLeave,
     isEditBehavior,
     hideSearch
 }) => {
     const { t } = useTranslation();
-    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
-        false
-    );
+    const [isConfirmDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const [hoveredElement, setHoveredElement] = useState<ITwinToObjectMapping>(
-        undefined
+    const { adapter, config, sceneId, state, setColoredMeshItems } = useContext(
+        SceneBuilderContext
     );
-    const { adapter, config, sceneId } = useContext(SceneBuilderContext);
 
-    const [toggleElementSelection, setToggleElementSelection] = useState(
-        isEditBehavior
+    const [isSelectionEnabled, setIsSelectionEnabled] = useState(
+        isEditBehavior || false
     );
 
     const elementsSorted = useRef(false);
@@ -57,17 +62,20 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
     >([]);
+    const [listItems, setListItems] = useState<
+        ICardboardListItem<ITwinToObjectMapping>[]
+    >([]);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
-                ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
+                ...config.configuration.scenes[
+                    config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
             };
-            sceneToUpdate.twinToObjectMappings = params.elements;
+            sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
@@ -91,10 +99,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             setElementToDelete(null);
-            setIsConfirmDeleteDialogOpen(false);
+            setIsDeleteDialogOpen(false);
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
+    // sort the list items
     useEffect(() => {
         if (elements) {
             const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
@@ -107,18 +116,18 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         }
     }, [elements]);
 
+    // put the selected items first in the list
     useEffect(() => {
         if (selectedElements?.length > 0 && !elementsSorted.current) {
+            // sort the list
             elementsSorted.current = true;
             selectedElements?.sort((a, b) =>
                 a.displayName > b.displayName ? 1 : -1
             );
 
+            // put selected items first
             const nonSelectedElements = elements?.filter(
-                (element) =>
-                    !selectedElements.find(
-                        (selectedElement) => selectedElement.id === element.id
-                    )
+                (element) => !selectedElements.find((x) => x.id === element.id)
             );
             setFilteredElements(selectedElements.concat(nonSelectedElements));
         }
@@ -132,16 +141,54 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         setFilteredElements(filtered);
     }, [searchText]);
 
-    const updateCheckbox = (element: ITwinToObjectMapping) => {
-        const shouldCheck = selectedElements?.find(
-            (selectedElement) => selectedElement.id === element.id
-        )
-            ? false
-            : true;
-        updateSelectedElements(element, shouldCheck);
-        elementsSorted.current = true;
-    };
+    const onUpdateCheckbox = useCallback(
+        (element: ITwinToObjectMapping) => {
+            const shouldCheck = !selectedElements?.find(
+                (x) => x.id === element.id
+            );
+            updateSelectedElements(element, shouldCheck);
+            elementsSorted.current = true;
+        },
+        [selectedElements, updateSelectedElements, elementsSorted.current]
+    );
 
+    const onMultiSelectChanged = useCallback(() => {
+        clearSelectedElements();
+        setIsSelectionEnabled(!isSelectionEnabled);
+    }, [isSelectionEnabled]);
+
+    // generate the list of items to show
+    useEffect(() => {
+        const elementsList = getListItems(
+            config,
+            filteredElements,
+            isEditBehavior,
+            isSelectionEnabled,
+            onElementClick,
+            onUpdateCheckbox,
+            selectedElements,
+            setElementToDelete,
+            setIsDeleteDialogOpen,
+            setColoredMeshItems,
+            state.renderMode,
+            t
+        );
+        setListItems(elementsList);
+    }, [
+        config,
+        filteredElements,
+        isEditBehavior,
+        isSelectionEnabled,
+        onElementClick,
+        onUpdateCheckbox,
+        selectedElements,
+        setElementToDelete,
+        setIsDeleteDialogOpen,
+        setColoredMeshItems
+    ]);
+
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
             {isEditBehavior && (
@@ -150,192 +197,36 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 </div>
             )}
             {!hideSearch && (
-                <div>
-                    <div className="cb-scene-builder-element-search-header">
-                        <div className="cb-scene-builder-element-search-box">
-                            <SearchBox
-                                placeholder={t(
-                                    '3dSceneBuilder.searchElementsPlaceholder'
-                                )}
-                                onChange={(_e, value) => setSearchText(value)}
-                                value={searchText}
-                            />
-                        </div>
-                        {!isEditBehavior && (
-                            <IconButton
-                                iconProps={{ iconName: 'MultiSelect' }}
-                                title={t('3dSceneBuilder.multiSelectElements')}
-                                styles={{
-                                    iconChecked: { color: '#ffffff' },
-                                    iconHovered: { color: '#ffffff' },
-                                    rootChecked: { background: '#0078d4' },
-                                    rootHovered: { background: '#0078d4' },
-                                    rootCheckedHovered: {
-                                        background: '#0078d4'
-                                    }
-                                }}
-                                ariaLabel={t(
-                                    '3dSceneBuilder.multiSelectElements'
-                                )}
-                                onClick={() => {
-                                    setToggleElementSelection(
-                                        !toggleElementSelection
-                                    );
-                                    clearSelectedElements();
-                                }}
-                                checked={toggleElementSelection}
-                            />
-                        )}
-                    </div>
-                    <Separator />
-                </div>
+                <SearchHeader
+                    isSelectionEnabled={isSelectionEnabled}
+                    onMultiSelectClicked={
+                        !isEditBehavior && onMultiSelectChanged
+                    }
+                    onSearchTextChange={setSearchText}
+                    placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
+                    searchText={searchText}
+                />
             )}
-            <div className="cb-scene-builder-element-list">
+            <div className={commonPanelStyles.rootListContainer}>
                 {elements.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noElementsText')}
                     </p>
                 ) : filteredElements.length === 0 ? (
-                    <p className="cb-scene-builder-left-panel-text">
+                    <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noResults')}
                     </p>
                 ) : (
-                    filteredElements.map(
-                        (element: ITwinToObjectMapping, index) => (
-                            <div
-                                className={`cb-scene-builder-left-panel-element ${
-                                    hoveredElement?.id === element.id ||
-                                    elementToDelete?.id === element.id
-                                        ? 'cb-selected-element'
-                                        : ''
-                                }${isEditBehavior ? 'cb-element-center' : ''}`}
-                                key={element.displayName}
-                                onClick={() => {
-                                    if (!toggleElementSelection) {
-                                        onElementClick(element);
-                                    } else {
-                                        updateCheckbox(element);
-                                    }
-                                }}
-                                onMouseOver={() => onElementEnter(element)}
-                                onMouseLeave={() => onElementLeave(element)}
-                            >
-                                {toggleElementSelection && (
-                                    <Checkbox
-                                        onChange={(e, checked) => {
-                                            updateSelectedElements(
-                                                element,
-                                                !checked
-                                            );
-                                            elementsSorted.current = true;
-                                        }}
-                                        className="cb-scene-builder-element-checkbox"
-                                        checked={
-                                            selectedElements?.find(
-                                                (item) => item.id === element.id
-                                            )
-                                                ? true
-                                                : false
-                                        }
-                                    />
-                                )}
-                                {!isEditBehavior && (
-                                    <div>
-                                        <FontIcon
-                                            iconName={'Shapes'}
-                                            className="cb-element-icon"
-                                        />
-                                    </div>
-                                )}
-                                <div className="cb-scene-builder-element-title">
-                                    <div className="cb-scene-builder-element-name">
-                                        {searchText
-                                            ? Utils.getMarkedHtmlBySearch(
-                                                  element.displayName,
-                                                  searchText
-                                              )
-                                            : element.displayName}
-                                    </div>
-                                    {!isEditBehavior && (
-                                        <div className="cb-scene-builder-element-item-meta">
-                                            {t(
-                                                '3dSceneBuilder.elementMetaText',
-                                                {
-                                                    numBehaviors: ViewerConfigUtility.getElementMetaData(
-                                                        element,
-                                                        config
-                                                    )
-                                                }
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                {!toggleElementSelection && (
-                                    <IconButton
-                                        className={`${
-                                            hoveredElement?.id === element.id
-                                                ? 'cb-scene-builder-element-actions-hovered'
-                                                : 'cb-scene-builder-element-actions'
-                                        }`}
-                                        title={t('more')}
-                                        ariaLabel={t('more')}
-                                        data-testid={`moreMenu-${index}`}
-                                        menuIconProps={{
-                                            iconName: 'MoreVertical',
-                                            style: {
-                                                fontWeight: 'bold',
-                                                fontSize: 18,
-                                                color: 'black'
-                                            }
-                                        }}
-                                        onMenuClick={() => {
-                                            setHoveredElement(element);
-                                        }}
-                                        menuProps={{
-                                            onMenuDismissed: () => {
-                                                setHoveredElement(null);
-                                            },
-                                            items: [
-                                                {
-                                                    key: 'Modify',
-                                                    text: t(
-                                                        '3dSceneBuilder.modifyElement'
-                                                    ),
-                                                    iconProps: {
-                                                        iconName: 'edit'
-                                                    },
-                                                    onClick: () =>
-                                                        onElementClick(element)
-                                                },
-                                                {
-                                                    key: 'delete',
-                                                    text: t(
-                                                        '3dSceneBuilder.removeElement'
-                                                    ),
-                                                    iconProps: {
-                                                        iconName: 'blocked2'
-                                                    },
-                                                    onClick: () => {
-                                                        setElementToDelete(
-                                                            element
-                                                        );
-                                                        setIsConfirmDeleteDialogOpen(
-                                                            true
-                                                        );
-                                                    }
-                                                }
-                                            ]
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        )
-                    )
+                    <CardboardList<ITwinToObjectMapping>
+                        items={listItems}
+                        listKey={`elements-in-scene`}
+                        textToHighlight={searchText}
+                    />
                 )}
             </div>
             {!isEditBehavior && (
                 <div className="cb-scene-builder-footer-container">
-                    {toggleElementSelection ? (
+                    {isSelectionEnabled ? (
                         <div>
                             <PrimaryButton
                                 className="cb-scene-builder-create-button"
@@ -351,7 +242,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             <DefaultButton
                                 text={t('3dSceneBuilder.cancel')}
                                 onClick={() => {
-                                    setToggleElementSelection(false);
+                                    setIsSelectionEnabled(false);
                                     clearSelectedElements();
                                 }}
                                 className="cb-scene-builder-cancel-button"
@@ -370,13 +261,155 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 isOpen={isConfirmDeleteDialogOpen}
                 onCancel={() => {
                     setElementToDelete(null);
-                    setIsConfirmDeleteDialogOpen(false);
+                    setIsDeleteDialogOpen(false);
                 }}
                 onConfirmDeletion={handleDeleteElement}
-                setIsOpen={setIsConfirmDeleteDialogOpen}
+                setIsOpen={setIsDeleteDialogOpen}
             />
         </div>
     );
 };
+
+function getListItems(
+    config: I3DScenesConfig,
+    filteredElements: ITwinToObjectMapping[],
+    isEditBehavior: boolean,
+    isSelectionEnabled: boolean,
+    onElementClick: (element: ITwinToObjectMapping) => void,
+    onUpdateCheckbox: (element: ITwinToObjectMapping) => void,
+    selectedElements: ITwinToObjectMapping[],
+    setElementToDelete: React.Dispatch<
+        React.SetStateAction<ITwinToObjectMapping>
+    >,
+    setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
+    renderMode: IADT3DViewerRenderMode,
+    t: TFunction<string>
+): ICardboardListItem<ITwinToObjectMapping>[] {
+    const onListItemClick = (element: ITwinToObjectMapping) => {
+        if (isSelectionEnabled) {
+            onUpdateCheckbox(element);
+        } else {
+            onElementClick(element);
+        }
+    };
+    const getOverflowMenuItems = (
+        element: ITwinToObjectMapping
+    ): IContextualMenuItem[] => {
+        return [
+            {
+                key: 'modify',
+                'data-testid': 'modify-element',
+                iconProps: {
+                    iconName: 'Edit'
+                },
+                text: t('3dSceneBuilder.modifyElement'),
+                onClick: () => onElementClick(element)
+            },
+            {
+                key: 'delete',
+                'data-testid': 'delete-element',
+                iconProps: {
+                    iconName: 'blocked2'
+                },
+                text: t('3dSceneBuilder.removeElement'),
+                onClick: () => {
+                    setElementToDelete(element);
+                    setIsDeleteDialogOpen(true);
+                }
+            }
+        ];
+    };
+
+    const onElementEnter = (element: ITwinToObjectMapping) => {
+        let coloredMeshes: ColoredMeshItem[] = [];
+        // if on the edit behavior panel all elements in that behavior should stay highlighted
+        if (isEditBehavior) {
+            if (selectedElements) {
+                // color elements in current behavior
+                for (const selectedElement of selectedElements) {
+                    if (element.id !== selectedElement.id) {
+                        coloredMeshes = coloredMeshes.concat(
+                            createColoredMeshItems(
+                                selectedElement.objectIDs,
+                                renderMode.coloredMeshColor
+                            )
+                        );
+                    }
+                }
+                if (
+                    selectedElements?.find(
+                        (selectedElement) => selectedElement.id === element.id
+                    )
+                ) {
+                    // if element is in behavior and hovered set it to a different color
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.objectIDs,
+                            renderMode.coloredMeshHoverColor
+                        )
+                    );
+                } else {
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.objectIDs,
+                            renderMode.coloredMeshColor
+                        )
+                    );
+                }
+            }
+        } else {
+            // hightlight just the current hovered element
+            coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const onElementLeave = () => {
+        if (isEditBehavior && selectedElements?.length > 0) {
+            let meshIds: string[] = [];
+            for (const element of selectedElements) {
+                if (element.objectIDs) {
+                    meshIds = meshIds.concat(element?.objectIDs);
+                }
+            }
+            setColoredMeshItems(createColoredMeshItems(meshIds, null));
+        } else {
+            setColoredMeshItems([]);
+        }
+    };
+
+    return filteredElements.map((item) => {
+        const isItemSelected = isSelectionEnabled
+            ? !!selectedElements?.find((x) => x.id === item.id)
+            : undefined;
+        const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
+            ariaLabel: '',
+            buttonProps: {
+                onMouseOver: () => onElementEnter(item),
+                onMouseLeave: onElementLeave,
+                onFocus: () => onElementEnter(item),
+                onBlur: onElementLeave
+            },
+            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            item: item,
+            onClick: onListItemClick,
+            overflowMenuItems: getOverflowMenuItems(item),
+            textPrimary: item.displayName,
+            textSecondary: isEditBehavior
+                ? undefined
+                : t('3dSceneBuilder.elementMetaText', {
+                      numBehaviors: ViewerConfigUtility.getElementMetaData(
+                          item,
+                          config
+                      )
+                  }),
+            isChecked: isItemSelected
+        };
+
+        return viewModel;
+    });
+}
 
 export default SceneElements;

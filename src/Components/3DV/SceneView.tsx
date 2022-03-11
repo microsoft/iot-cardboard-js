@@ -8,23 +8,58 @@ import { createGUID } from '../../Models/Services/Utils';
 import {
     ISceneViewProp,
     Marker,
-    SceneViewCallbackHandler,
-    SelectedMesh
+    SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
     Scene_Marker,
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { Tools } from 'babylonjs';
+import { AbstractMesh, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
+import { RenderModes } from '../../Models/Constants';
 
 const debug = false;
 
+function debounce(func: any, timeout = 300) {
+    let timer: any;
+    return () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func();
+        }, timeout);
+    };
+}
+
+function hexToColor4(hex: string): BABYLON.Color4 {
+    if (!hex) {
+        return undefined;
+    }
+
+    // remove invalid characters
+    hex = hex.replace(/[^0-9a-fA-F]/g, '');
+    if (hex.length < 5) {
+        // 3, 4 characters double-up
+        hex = hex
+            .split('')
+            .map((s) => s + s)
+            .join('');
+    }
+
+    // parse pairs of two
+    const rgba = hex
+        .match(/.{1,2}/g)
+        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
+    // alpha code between 0 & 1 / default 1
+    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
+    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
+    return color;
+}
+
 async function loadPromise(
-    root,
-    file,
-    scene,
+    root: string,
+    file: string,
+    scene: BABYLON.Scene,
     onProgress: any,
     onError: any
 ): Promise<BABYLON.AssetContainer> {
@@ -64,14 +99,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMeshHover,
     onCameraMove,
     showMeshesOnHover,
-    selectedMeshIds,
-    meshSelectionColor,
-    meshHoverColor,
-    meshSelectionHoverColor,
-    isWireframe,
-    meshBaseColor,
-    meshFresnelColor,
-    meshOpacity,
+    renderMode,
     onSceneLoaded,
     getToken,
     coloredMeshItems,
@@ -95,20 +123,14 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const [tooltipText, setTooltipText] = useState('');
     const tooltipLeft = useRef(0);
     const tooltipTop = useRef(0);
-    const highlightedMeshRef = useRef<SelectedMesh>(null);
-    const selectedMeshesRef = useRef<SelectedMesh[]>([]);
-    const coloredMeshesRef = useRef<SelectedMesh[]>([]);
+    const highlightedMeshRef = useRef<string>(null);
     const hovMaterial = useRef<any>(null);
-    const selMaterial = useRef<any>(null);
-    const selHovMaterial = useRef<any>(null);
-    const coloredMaterials = useRef<BABYLON.StandardMaterial[]>([]);
+    const coloredHovMaterial = useRef<any>(null);
+    const coloredMaterials = useRef<any>([]);
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-
-    const hoverColor = meshHoverColor || '#F3FF14';
-    const selectionColor = meshSelectionColor || '#00A8F0';
-    const selectedHoverColor = meshSelectionHoverColor || '#00EDD9';
+    const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -171,9 +193,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 root,
                 file,
                 sc,
-                (e) => onProgress(e),
-                (s, m, e) => {
-                    console.log('Error loading model. Try Ctrl-F5', s, e);
+                (e: any) => onProgress(e),
+                (s: any, m: any, e: any) => {
+                    console.error('Error loading model. Try Ctrl-F5', s, e);
                     success = false;
                     setIsLoading(undefined);
                 }
@@ -233,7 +255,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
 
-        function totalBoundingInfo(meshes) {
+        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
             let boundingInfo = meshes[0].getBoundingInfo();
             let min = boundingInfo.boundingBox.minimumWorld;
             let max = boundingInfo.boundingBox.maximumWorld;
@@ -271,16 +293,15 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                hoverColor
-            );
-            selMaterial.current = new BABYLON.StandardMaterial('selected', sc);
-            selMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                selectionColor
+                currentRenderMode.meshHoverColor
             );
 
-            selHovMaterial.current = new BABYLON.StandardMaterial('selhov', sc);
-            selHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                selectedHoverColor
+            coloredHovMaterial.current = new BABYLON.StandardMaterial(
+                'colHov',
+                sc
+            );
+            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.coloredMeshHoverColor
             );
 
             new BABYLON.HemisphericLight(
@@ -323,20 +344,46 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
         let ignore = false;
         if (coloredMeshItems) {
-            ignore = !!coloredMeshItems.find((mi) => mi.meshId === mesh.id);
+            ignore = !!coloredMeshItems?.find((mi) => mi.meshId === mesh.id);
         }
 
-        if (!ignore && selectedMeshIds) {
-            ignore = !!selectedMeshIds.find((id) => id === mesh.id);
-        }
         return ignore;
+    };
+
+    useEffect(() => {
+        if (renderMode) {
+            setCurrentRenderMode(renderMode);
+        }
+    }, [renderMode]);
+
+    const restoreMeshMaterials = () => {
+        if (sceneRef.current?.meshes?.length && !isLoading) {
+            if (meshesAreOriginal.current) {
+                for (const mesh of sceneRef.current.meshes) {
+                    mesh.material = originalMaterials.current[mesh.id];
+                }
+            } else {
+                for (const mesh of sceneRef.current.meshes) {
+                    mesh.material = shaderMaterial.current;
+                }
+            }
+        }
     };
 
     // Update render mode
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
+            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.meshHoverColor
+            );
+
+            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.coloredMeshHoverColor
+            );
+
             if (
-                (!meshBaseColor || !meshFresnelColor) &&
+                (!currentRenderMode.baseColor ||
+                    !currentRenderMode.fresnelColor) &&
                 !meshesAreOriginal.current
             ) {
                 for (const mesh of sceneRef.current.meshes) {
@@ -350,87 +397,102 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 hovMaterial.current.alpha = 1;
-                selMaterial.current.alpha = 1;
-                selHovMaterial.current.alpha = 1;
-                hovMaterial.current.wireframe = !!isWireframe;
-                selMaterial.current.wireframe = !!isWireframe;
-                selHovMaterial.current.wireframe = !!isWireframe;
+                coloredHovMaterial.current.alpha = 1;
+                hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+                coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
                 meshesAreOriginal.current = true;
             }
 
-            if (meshBaseColor && meshFresnelColor) {
-                const baseColor = new BABYLON.Color4(
-                    meshBaseColor.r,
-                    meshBaseColor.g,
-                    meshBaseColor.b,
-                    meshBaseColor.a
-                );
-                const fresnelColor = new BABYLON.Color4(
-                    meshFresnelColor.r,
-                    meshFresnelColor.g,
-                    meshFresnelColor.b,
-                    meshFresnelColor.a
+            if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
+                const baseColor = hexToColor4(currentRenderMode.baseColor);
+                const fresnelColor = hexToColor4(
+                    currentRenderMode.fresnelColor
                 );
                 const material = makeShaderMaterial(
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    meshOpacity
+                    currentRenderMode.opacity
                 );
 
                 shaderMaterial.current = material;
-                if (!!isWireframe || (meshBaseColor && meshFresnelColor)) {
+                if (
+                    !!currentRenderMode.isWireframe ||
+                    (currentRenderMode.baseColor &&
+                        currentRenderMode.fresnelColor)
+                ) {
                     for (const mesh of sceneRef.current.meshes) {
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
-                            if (meshBaseColor && meshFresnelColor && !ignore) {
+                            if (
+                                currentRenderMode.baseColor &&
+                                currentRenderMode.fresnelColor &&
+                                !ignore
+                            ) {
                                 mesh.material = shaderMaterial.current;
-                                mesh.material.wireframe = isWireframe || false;
+                                mesh.material.wireframe =
+                                    currentRenderMode.isWireframe || false;
                                 meshesAreOriginal.current = false;
                             }
                         }
                     }
                 }
 
-                if (meshBaseColor && meshFresnelColor) {
+                if (
+                    currentRenderMode.baseColor &&
+                    currentRenderMode.fresnelColor
+                ) {
                     hovMaterial.current.alpha = 0.5;
-                    selMaterial.current.alpha = 0.5;
-                    selHovMaterial.current.alpha = 0.5;
+                    coloredHovMaterial.current.alpha = 0.5;
                 } else {
                     hovMaterial.current.alpha = 1;
-                    selMaterial.current.alpha = 1;
-                    selHovMaterial.current.alpha = 1;
+                    coloredHovMaterial.current.alpha = 1;
                 }
-                hovMaterial.current.wireframe = !!isWireframe;
-                selMaterial.current.wireframe = !!isWireframe;
-                selHovMaterial.current.wireframe = !!isWireframe;
+                hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+                coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
             }
         }
-    }, [meshBaseColor, meshFresnelColor]);
+    }, [currentRenderMode, isLoading]);
 
     // Handle isWireframe changes
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
-                    mesh.material.wireframe = !!isWireframe;
+                    mesh.material.wireframe = !!currentRenderMode.isWireframe;
                 }
             }
 
-            hovMaterial.current.wireframe = !!isWireframe;
-            selMaterial.current.wireframe = !!isWireframe;
-            selHovMaterial.current.wireframe = !!isWireframe;
+            hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+            coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
         }
-    }, [isWireframe]);
+    }, [currentRenderMode.isWireframe]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
         // If this cleanup gets called with a non-empty scene, we can destroy the scene as the component is going away
         // This should save a lot of memory for large scenes
+        const canvas = document.getElementById(canvasId);
+        let observer: ResizeObserver;
+        if (canvas) {
+            observer = new ResizeObserver(
+                debounce(() => {
+                    if (engineRef.current) {
+                        engineRef.current.resize();
+                    }
+                }, 10)
+            );
+            observer.observe(canvas);
+        }
+
         return () => {
             if (sceneRef.current) {
                 if (debug) {
                     console.log('Unmount - has scene');
+                }
+
+                if (observer) {
+                    observer.disconnect();
                 }
 
                 try {
@@ -439,17 +501,12 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         engineRef.current.dispose();
                     }
                 } catch {
-                    console.log('unable to dispose scene');
+                    console.warn('unable to dispose scene');
                 }
             }
 
-            const resize = () => {
-                engineRef.current.resize();
-            };
-
             sceneRef.current = null;
             cameraRef.current = null;
-            window.removeEventListener('resize', resize);
         };
     }, [modelUrl]);
 
@@ -476,10 +533,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
+                const rgba = hexToColor4(marker.color);
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
@@ -500,9 +558,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current
                 );
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
@@ -554,58 +612,55 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                         // reset mesh color if hightlighted mesh does not match the picked mesh AND the picked mesh is not currently selected
                         if (
                             highlightedMeshRef.current &&
-                            highlightedMeshRef.current.id !== mesh.id
+                            highlightedMeshRef.current !== mesh.id
                         ) {
                             const meshToReset = scene.meshes.find(
-                                (m) => m.id === highlightedMeshRef.current.id
+                                (m) => m.id === highlightedMeshRef.current
                             );
 
                             if (meshToReset) {
-                                const isSelected = selectedMeshesRef.current.find(
-                                    (m) => m.id === meshToReset.id
+                                const isColored = coloredMeshItems?.find(
+                                    (m) => m.meshId === meshToReset.id
                                 );
-                                meshToReset.material = isSelected
-                                    ? selMaterial.current
-                                    : highlightedMeshRef.current.material;
+                                meshToReset.material = isColored
+                                    ? coloredMaterials.current[meshToReset.id]
+                                    : meshesAreOriginal.current
+                                    ? originalMaterials.current[meshToReset.id]
+                                    : shaderMaterial.current;
                             }
 
                             highlightedMeshRef.current = null;
                         } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
-                            let selectedMesh: SelectedMesh;
-                            const selMesh = selectedMeshesRef.current.find(
-                                (m) => m.id === mesh.id
+                            const isColored = coloredMeshItems?.find(
+                                (m) => m.meshId === mesh.id
                             );
+                            highlightedMeshRef.current = mesh.id;
+
                             // If it is selected, get its original color, not its current color
-                            if (selMesh) {
-                                selectedMesh = {
-                                    id: mesh.id,
-                                    material: selMesh.material
-                                };
+                            if (isColored) {
                                 if (showHoverOnSelected) {
-                                    mesh.material = selHovMaterial.current;
+                                    mesh.material = coloredHovMaterial.current;
                                 }
                             } else {
-                                selectedMesh = {
-                                    id: mesh.id,
-                                    material: mesh.material
-                                };
                                 mesh.material = hovMaterial.current;
                             }
-                            highlightedMeshRef.current = selectedMesh;
                         }
                     } else if (highlightedMeshRef.current) {
                         // reset the highlighted mesh color if no mesh is picked
                         const lastMesh = scene.meshes.find(
-                            (m) => m.id === highlightedMeshRef.current.id
+                            (m) => m.id === highlightedMeshRef.current
                         );
                         if (lastMesh) {
-                            const isSelected = selectedMeshesRef.current.find(
-                                (m) => m.id === lastMesh.id
+                            const isColored = coloredMeshItems?.find(
+                                (m) => m.meshId === lastMesh.id
                             );
-                            lastMesh.material = isSelected
-                                ? selMaterial.current
-                                : highlightedMeshRef.current.material;
+
+                            lastMesh.material = isColored
+                                ? coloredMaterials.current[lastMesh.id]
+                                : meshesAreOriginal.current
+                                ? originalMaterials.current[lastMesh.id]
+                                : shaderMaterial.current;
                         }
                         highlightedMeshRef.current = null;
                     }
@@ -644,7 +699,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers, showHoverOnSelected]);
+    }, [
+        scene,
+        markers,
+        showHoverOnSelected,
+        coloredMeshItems,
+        currentRenderMode
+    ]);
 
     // SETUP LOGIC FOR onMeshClick
     useEffect(() => {
@@ -655,7 +716,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onMeshClickRef.current) {
-            const pointerTap = (e) => {
+            const pointerTap = (e: any) => {
                 setTooltipText('');
                 const p = e.pickInfo;
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -697,62 +758,6 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [scene, markers]);
 
-    // Color selected meshes
-    useEffect(() => {
-        if (selectedMeshIds) {
-            for (const selectedMeshId of selectedMeshIds) {
-                const mesh = sceneRef.current.meshes.find(
-                    (item) => item.id === selectedMeshId
-                );
-                if (mesh) {
-                    // only color mesh if it isn't already colored
-                    if (
-                        !selectedMeshesRef.current.find(
-                            (m) => m.id === selectedMeshId
-                        )
-                    ) {
-                        let m: SelectedMesh;
-                        if (selectedMeshId !== highlightedMeshRef.current?.id) {
-                            m = { id: mesh.id, material: mesh.material };
-                        } else {
-                            m = {
-                                id: mesh.id,
-                                material: highlightedMeshRef.current?.material
-                            };
-                        }
-                        selectedMeshesRef.current.push(m);
-                        mesh.material = selMaterial.current;
-                    }
-                }
-            }
-
-            // reset mesh color if not selected
-            if (selectedMeshesRef.current) {
-                const meshesToReset = selectedMeshesRef.current.filter(
-                    (m) => !selectedMeshIds.includes(m.id)
-                );
-                for (const meshToReset of meshesToReset) {
-                    selectedMeshesRef.current = selectedMeshesRef.current.filter(
-                        (m) => m !== meshToReset
-                    );
-                    const mesh = sceneRef.current.meshes.find(
-                        (item) => item.id === meshToReset.id
-                    );
-                    if (mesh) {
-                        if (
-                            meshToReset.id === highlightedMeshRef.current?.id &&
-                            showHoverOnSelected
-                        ) {
-                            mesh.material = hovMaterial.current;
-                        } else {
-                            mesh.material = meshToReset.material;
-                        }
-                    }
-                }
-            }
-        }
-    }, [selectedMeshIds]);
-
     // Camera move handler
     useEffect(() => {
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
@@ -762,7 +767,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             );
         }
         if (scene && onCameraMoveRef.current) {
-            const cameraMove = (e) => {
+            const cameraMove = (e: any) => {
                 if (onCameraMoveRef.current) {
                     onCameraMoveRef.current(null, null, scene, e);
                 }
@@ -801,60 +806,54 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             try {
                 for (const coloredMesh of coloredMeshItems) {
-                    if (coloredMesh.meshId && coloredMesh.color) {
+                    if (coloredMesh.meshId) {
                         const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
                             (mesh) => mesh.id === coloredMesh.meshId
                         );
 
                         if (mesh) {
-                            const material = new BABYLON.StandardMaterial(
-                                'coloredMeshMaterial',
-                                sceneRef.current
-                            );
-                            material.diffuseColor = BABYLON.Color3.FromHexString(
-                                coloredMesh.color
-                            );
-
-                            material.wireframe = !!isWireframe;
-
-                            if (meshBaseColor && meshFresnelColor) {
-                                material.alpha = 0.5;
-                            }
-
-                            coloredMeshesRef.current.push({
-                                id: mesh.id,
-                                material: mesh.material
-                            });
-                            mesh.material = material;
-                            coloredMaterials.current.push(material);
+                            colorMesh(mesh, coloredMesh.color);
                         }
                     }
                 }
             } catch {
-                console.log('unable to color mesh');
+                console.warn('unable to color mesh');
             }
         }
 
         return () => {
-            for (const coloredMesh of coloredMeshesRef.current) {
-                if (sceneRef.current) {
-                    const mesh = sceneRef.current.meshes.find(
-                        (item) => item.id === coloredMesh.id
-                    );
-
-                    mesh.material = coloredMesh.material;
-                }
-
-                for (const material of coloredMaterials.current) {
-                    sceneRef.current?.removeMaterial(material);
-                    material.dispose(true, true);
-                }
+            restoreMeshMaterials();
+            for (const material of coloredMaterials.current) {
+                sceneRef.current?.removeMaterial(material);
+                material.dispose(true, true);
             }
 
-            coloredMeshesRef.current = [];
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems, isLoading, meshBaseColor]);
+    }, [coloredMeshItems, isLoading, currentRenderMode]);
+
+    const colorMesh = (mesh: AbstractMesh, color: string) => {
+        const material = new BABYLON.StandardMaterial(
+            'coloredMeshMaterial',
+            sceneRef.current
+        );
+        if (color) {
+            material.diffuseColor = BABYLON.Color3.FromHexString(color);
+        } else {
+            material.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.coloredMeshColor
+            );
+        }
+
+        material.wireframe = !!currentRenderMode.isWireframe;
+
+        if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
+            material.alpha = 0.5;
+        }
+
+        mesh.material = material;
+        coloredMaterials.current[mesh.id] = material;
+    };
 
     return (
         <div className="cb-sceneview-container">

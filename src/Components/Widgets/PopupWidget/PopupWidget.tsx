@@ -1,10 +1,10 @@
 import React from 'react';
-import { IVisual } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
+import { IPopoverVisual } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { PanelWidget } from '../PanelWidget/PanelWidget';
 
 interface IProp {
-    config: IVisual;
+    config: IPopoverVisual;
     twins: Record<string, DTwin>;
     onClose?: () => void;
 }

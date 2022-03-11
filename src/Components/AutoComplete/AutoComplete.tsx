@@ -90,7 +90,6 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
         e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         let index = selectedItemIndex;
-        // console.log(e.key);
         switch (e.key) {
             case 'ArrowUp':
                 if (calloutVisible) {

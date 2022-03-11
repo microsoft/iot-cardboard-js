@@ -4,11 +4,36 @@ import {
     ADTModel_ViewData_PropertyName,
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
-    ADTModel_InBIM_RelationshipName
+    ADTModel_InBIM_RelationshipName,
+    ComponentErrorType
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
+import Ajv from 'ajv/dist/2020';
+import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
+import { ComponentError } from '../Classes/Errors';
+import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+let ajv: Ajv = null;
+
+/** Validates input data with JSON schema */
+export const validate3DConfigWithSchema = (
+    data: I3DScenesConfig
+): I3DScenesConfig => {
+    if (!ajv) ajv = new Ajv();
+    const validate = ajv.compile(schema); // This is cached if schema doesn't change
+    const valid = validate(data);
+    if (valid) {
+        return data;
+    } else {
+        // TODO remove error printing
+        console.log('Schema validation errors: ', validate.errors);
+        throw new ComponentError({
+            type: ComponentErrorType.JsonSchemaError,
+            jsonSchemaErrors: validate.errors
+        });
+    }
+};
 
 export const createGUID = (isWithDashes = true) => {
     const s4 = () => {
