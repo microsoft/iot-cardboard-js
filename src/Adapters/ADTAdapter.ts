@@ -29,7 +29,8 @@ import {
     IADTTwinComponent,
     KeyValuePairData,
     DTwinUpdateEvent,
-    IComponentError
+    IComponentError,
+    linkedTwinName
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -53,8 +54,13 @@ import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/Simu
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
-import { IBehavior, IScenesConfig } from '../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
+import {
+    I3DScenesConfig,
+    IBehavior,
+    ITwinToObjectMapping
+} from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ElementType } from '../Models/Classes/3DVConfig';
 
 export default class ADTAdapter implements IADTAdapter {
     protected tenantId: string;
@@ -805,7 +811,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getSceneData(sceneId: string, config: IScenesConfig) {
+    async getSceneData(sceneId: string, config: I3DScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         function pushErrors(errors: IComponentError[]) {
@@ -822,7 +828,7 @@ export default class ADTAdapter implements IADTAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             // get scene based on id
-            const scene = config.viewerConfiguration?.scenes?.find(
+            const scene = config.configuration?.scenes?.find(
                 (scene) => scene.id === sceneId
             );
             let modelUrl = null;
@@ -831,14 +837,13 @@ export default class ADTAdapter implements IADTAdapter {
                 // get modelUrl
                 modelUrl = scene.assets?.find((asset) => asset.url)?.url;
 
-                if (scene.behaviors) {
+                if (scene.behaviorIDs) {
                     // cycle through behaviors for scene
-                    for (const sceneBehavior of scene.behaviors) {
+                    for (const sceneBehaviorId of scene.behaviorIDs) {
                         // cycle through all behaviors
                         // check if behavior is relevent for the current scene
-                        for (const behavior of config.viewerConfiguration
-                            ?.behaviors)
-                            if (sceneBehavior === behavior.id) {
+                        for (const behavior of config.configuration.behaviors)
+                            if (sceneBehaviorId === behavior.id) {
                                 const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
                                     behavior
                                 );
@@ -847,25 +852,28 @@ export default class ADTAdapter implements IADTAdapter {
                                 // cycle through mapping ids to get twins for behavior and scene
                                 for (const id of mappingIds) {
                                     const twins = {};
-                                    const mapping = scene.twinToObjectMappings.find(
-                                        (mapping) => mapping.id === id
-                                    );
+                                    const element = scene.elements.find(
+                                        (element) =>
+                                            element.type ===
+                                                ElementType.TwinToObjectMapping &&
+                                            element.id === id
+                                    ) as ITwinToObjectMapping;
 
                                     // get primary twin
-                                    const primaryTwin = await this.getADTTwin(
-                                        mapping.primaryTwinID
+                                    const linkedTwin = await this.getADTTwin(
+                                        element.linkedTwinID
                                     );
-                                    pushErrors(primaryTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
-                                    twins['primaryTwin'] =
-                                        primaryTwin.result?.data;
+                                    pushErrors(linkedTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
+                                    twins[linkedTwinName] =
+                                        linkedTwin.result?.data;
 
                                     // check for twin aliases and add to twins object
-                                    if (mapping.twinAliases) {
+                                    if (element.twinAliases) {
                                         for (const alias of Object.keys(
-                                            mapping.twinAliases
+                                            element.twinAliases
                                         )) {
                                             const twin = await this.getADTTwin(
-                                                mapping.twinAliases[alias]
+                                                element.twinAliases[alias]
                                             );
                                             pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                             twins[alias] = twin.result?.data;
@@ -873,7 +881,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     }
 
                                     const sceneVisual = new SceneVisual(
-                                        mapping.meshIDs,
+                                        element.objectIDs,
                                         behavior.visuals,
                                         twins
                                     );
@@ -890,7 +898,7 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getTwinsForBehavior(
         sceneId: string,
-        config: IScenesConfig,
+        config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<Record<string, any>> {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
@@ -907,7 +915,7 @@ export default class ADTAdapter implements IADTAdapter {
         }
 
         // get scene based on id
-        const scene = config.viewerConfiguration?.scenes?.find(
+        const scene = config.configuration?.scenes?.find(
             (scene) => scene.id === sceneId
         );
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
@@ -919,15 +927,21 @@ export default class ADTAdapter implements IADTAdapter {
         // cycle through mapping ids to get twins for behavior and scene
         const twins = {};
         for (const id of mappingIds) {
-            const mapping = scene.twinToObjectMappings.find(
-                (mapping) => mapping.id === id
-            );
+            const element = scene.elements.find(
+                (element) =>
+                    element.type === ElementType.TwinToObjectMapping &&
+                    element.id === id
+            ) as ITwinToObjectMapping;
 
             // get primary twin
-            const primaryTwin = await this.getADTTwin(mapping.primaryTwinID);
-            pushErrors(primaryTwin.getErrors());
-            twins['primaryTwin.' + mapping.primaryTwinID] =
-                primaryTwin.result?.data;
+            try {
+                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
+                pushErrors(linkedTwin.getErrors());
+                twins[`${linkedTwinName}.` + element.linkedTwinID] =
+                    linkedTwin.result?.data;
+            } catch (err) {
+                console.error(err);
+            }
 
             // check for twin aliases and add to twins object
             // NOT IN SCOPE YET
@@ -947,7 +961,7 @@ export default class ADTAdapter implements IADTAdapter {
 
     async getCommonTwinPropertiesForBehavior(
         sceneId: string,
-        config: IScenesConfig,
+        config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(sceneId, config, behavior);

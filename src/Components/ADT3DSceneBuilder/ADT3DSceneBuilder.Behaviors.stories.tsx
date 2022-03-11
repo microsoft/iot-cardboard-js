@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
@@ -95,15 +95,16 @@ EditElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(elementListItem);
 };
 
-export const EditAlertsTab = Template.bind({});
-EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTab.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the first one
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
-};
+// TODO SCHEMA MIGRATION - update Alerts tab to new schema & types
+// export const EditAlertsTab = Template.bind({});
+// EditAlertsTab.play = async ({ canvasElement }) => {
+//     await EditElementsTab.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the first one
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[1]);
+// };
 
 export const EditWidgetsTab = Template.bind({});
 EditWidgetsTab.play = async ({ canvasElement }) => {
@@ -115,67 +116,73 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     await userEvent.click(tab[2]);
 };
 
-export const EditWidgetsTabEmpty = Template.bind({});
-EditWidgetsTabEmpty.play = async ({ canvasElement }) => {
-    await BehaviorsTab.play({ canvasElement });
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabEmpty = Template.bind({});
+// EditWidgetsTabEmpty.play = async ({ canvasElement }) => {
+//     await BehaviorsTab.play({ canvasElement });
 
-    const canvas = within(canvasElement);
-    // click the 3rd behavior
-    const listItem = await canvas.findByTestId(
-        'cardboard-list-item-behaviors-in-scene-2'
-    );
-    await userEvent.click(listItem);
-    await sleep(1);
+//     const canvas = within(canvasElement);
+//     // click the 3rd behavior
+//     const listItem = await canvas.findByTestId(
+//         'cardboard-list-item-behaviors-in-scene-2'
+//     );
+//     await userEvent.click(listItem);
+//     await sleep(1);
 
-    // switch to widgets tab
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
-};
+//     // switch to widgets tab
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[2]);
+// };
 
-export const EditWidgetsTabMore = Template.bind({});
-EditWidgetsTabMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
-    await EditWidgetsTab.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the first one
-    const moreButton = await canvas.findByTestId(
-        `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
-    );
-    await userEvent.click(moreButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMore = Template.bind({});
+// EditWidgetsTabMore.play = async ({ canvasElement, listItemIndex = 0 }) => {
+//     await EditWidgetsTab.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the first one
+//     const moreButton = await canvas.findByTestId(
+//         `context-menu-widgets-in-behavior-${listItemIndex}-moreMenu`
+//     );
+//     await userEvent.click(moreButton);
+// };
 
-export const EditWidgetsTabMoreEditPanel = Template.bind({});
-EditWidgetsTabMoreEditPanel.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement });
-    // click the edit button in the overflow
-    const editButton = await findOverflowMenuItem('editWidgetOverflow');
-    await clickOverFlowMenuItem(editButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreEditPanel = Template.bind({});
+// EditWidgetsTabMoreEditPanel.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement });
+//     // click the edit button in the overflow
+//     const editButton = await findOverflowMenuItem('editWidgetOverflow');
+//     await clickOverFlowMenuItem(editButton);
+// };
 
-export const EditWidgetsTabMoreEditLink = Template.bind({});
-EditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement, listItemIndex: 2 });
-    // click the edit button in the overflow
-    const editButton = await findOverflowMenuItem('editWidgetOverflow');
-    await clickOverFlowMenuItem(editButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreEditLink = Template.bind({});
+// EditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement, listItemIndex: 2 });
+//     // click the edit button in the overflow
+//     const editButton = await findOverflowMenuItem('editWidgetOverflow');
+//     await clickOverFlowMenuItem(editButton);
+// };
 
-export const EditWidgetsTabMoreRemove = Template.bind({});
-EditWidgetsTabMoreRemove.play = async ({ canvasElement }) => {
-    await EditWidgetsTabMore.play({ canvasElement });
-    // Click the remove button in the overflow
-    const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
-    await clickOverFlowMenuItem(removeButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabMoreRemove = Template.bind({});
+// EditWidgetsTabMoreRemove.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabMore.play({ canvasElement });
+//     // Click the remove button in the overflow
+//     const removeButton = await findOverflowMenuItem('removeWidgetOverflow');
+//     await clickOverFlowMenuItem(removeButton);
+// };
 
-export const EditWidgetsTabAddDialogShow = Template.bind({});
-EditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
-    await EditWidgetsTab.play({ canvasElement });
-    // Click the remove button in the overflow
-    const canvas = within(canvasElement);
-    const addButton = await canvas.findByTestId('widgetForm-addWidget');
-    await userEvent.click(addButton);
-};
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabAddDialogShow = Template.bind({});
+// EditWidgetsTabAddDialogShow.play = async ({ canvasElement }) => {
+//     await EditWidgetsTab.play({ canvasElement });
+//     // Click the remove button in the overflow
+//     const canvas = within(canvasElement);
+//     const addButton = await canvas.findByTestId('widgetForm-addWidget');
+//     await userEvent.click(addButton);
+// };
 
 export const RemoveDialogShow = Template.bind({});
 RemoveDialogShow.play = async ({ canvasElement }) => {

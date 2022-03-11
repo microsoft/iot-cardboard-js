@@ -42,7 +42,6 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
-import { IBehavior, IScenesConfig } from '../Classes/3DVConfig';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
@@ -51,7 +50,13 @@ import {
     Marker,
     SceneVisual
 } from '../Classes/SceneView.types';
+import { ErrorObject } from 'ajv';
 import { ADT3DRenderMode } from '.';
+import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
+import {
+    I3DScenesConfig,
+    IBehavior
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IAction {
     type: string;
@@ -162,6 +167,9 @@ export interface IComponentError {
 
     /** Values that can be used in string interpolation when constructing the error message */
     messageParams?: { [key: string]: string };
+
+    /** Error data from JSON schema validation*/
+    jsonSchemaErrors?: ErrorObject[];
 }
 
 export interface IMockAdapter {
@@ -350,7 +358,7 @@ export interface ITsiClientChartDataAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: IScenesConfig
+        config: I3DScenesConfig
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
@@ -403,12 +411,12 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
         sceneId: string,
-        config: IScenesConfig,
+        config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<Record<string, any>>;
     getCommonTwinPropertiesForBehavior(
         sceneId: string,
-        config: IScenesConfig,
+        config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<string[]>;
 }
@@ -418,8 +426,11 @@ export interface IBlobAdapter {
     setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
     putScenesConfig: (
-        config: IScenesConfig
+        config: I3DScenesConfig
     ) => AdapterReturnType<ADTScenesConfigData>;
+    getContainerBlobs: (
+        fileTypes?: Array<string>
+    ) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -605,7 +616,7 @@ export interface IADTInstancesProps {
 }
 export class ADT3DAddInEventData {
     eventType: ADT3DAddInEventTypes;
-    config: IScenesConfig;
+    config: I3DScenesConfig;
     sceneId: string;
     adapter: IADT3DViewerAdapter;
     sceneVisuals?: SceneVisual[];
@@ -622,7 +633,7 @@ export interface IADT3DAddInProps {
 }
 
 export interface ISceneViewWrapperProps {
-    config: IScenesConfig;
+    config: I3DScenesConfig;
     sceneId: string;
     adapter: IADT3DViewerAdapter;
     sceneViewProps: ISceneViewProp;
@@ -633,7 +644,7 @@ export interface ISceneViewWrapperProps {
 export interface IADT3DViewerProps {
     adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: IScenesConfig;
+    sceneConfig: I3DScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
@@ -648,12 +659,18 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerRenderMode {
     id: ADT3DRenderMode;
     text: string;
-    baseColor: { r: number; g: number; b: number; a: number };
-    fresnelColor: { r: number; g: number; b: number; a: number };
+    baseColor: string;
+    fresnelColor: string;
     opacity: number;
     isWireframe: boolean;
     background: string;
-    defaultColoredMeshColor: string;
+    coloredMeshColor: string;
     meshHoverColor: string;
-    defaultColoredMeshHoverColor: string;
+    coloredMeshHoverColor: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }

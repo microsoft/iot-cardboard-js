@@ -118,7 +118,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
-                label={t('modelCreate.displayName')}
+                label={t('displayName')}
                 title={displayName}
                 value={
                     formControlMode === FormMode.Readonly && !displayName

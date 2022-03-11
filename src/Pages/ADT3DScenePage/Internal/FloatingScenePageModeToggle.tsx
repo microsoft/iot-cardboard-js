@@ -1,8 +1,8 @@
 import { Pivot, PivotItem } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IScene } from '../../../Models/Classes/3DVConfig';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
+import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface Props {
     handleScenePageModeChange: (newScenePageMode: ADT3DScenePageModes) => void;

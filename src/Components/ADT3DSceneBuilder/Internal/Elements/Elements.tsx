@@ -12,11 +12,6 @@ import {
     PrimaryButton,
     useTheme
 } from '@fluentui/react';
-import {
-    IScene,
-    IScenesConfig,
-    ITwinToObjectMapping
-} from '../../../../Models/Classes/3DVConfig';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import { IADT3DSceneBuilderElementsProps } from '../../ADT3DSceneBuilder.types';
@@ -26,6 +21,14 @@ import { CardboardList } from '../../../CardboardList/CardboardList';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import SearchHeader from '../Shared/SearchHeader';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import {
+    I3DScenesConfig,
+    IScene,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import { IADT3DViewerRenderMode } from '../../../..';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -36,8 +39,6 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     updateSelectedElements,
     clearSelectedElements,
     onCreateBehaviorClick,
-    onElementEnter,
-    onElementLeave,
     isEditBehavior,
     hideSearch
 }) => {
@@ -48,7 +49,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         elementToDelete,
         setElementToDelete
     ] = useState<ITwinToObjectMapping>(undefined);
-    const { adapter, config, sceneId } = useContext(SceneBuilderContext);
+    const { adapter, config, sceneId, state, setColoredMeshItems } = useContext(
+        SceneBuilderContext
+    );
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -66,13 +69,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
             const sceneToUpdate: IScene = {
-                ...config.viewerConfiguration.scenes[
-                    config.viewerConfiguration.scenes.findIndex(
+                ...config.configuration.scenes[
+                    config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
             };
-            sceneToUpdate.twinToObjectMappings = params.elements;
+            sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
@@ -162,12 +165,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             isEditBehavior,
             isSelectionEnabled,
             onElementClick,
-            onElementEnter,
-            onElementLeave,
             onUpdateCheckbox,
             selectedElements,
             setElementToDelete,
             setIsDeleteDialogOpen,
+            setColoredMeshItems,
+            state.renderMode,
             t
         );
         setListItems(elementsList);
@@ -177,12 +180,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         isEditBehavior,
         isSelectionEnabled,
         onElementClick,
-        onElementEnter,
-        onElementLeave,
         onUpdateCheckbox,
         selectedElements,
         setElementToDelete,
-        setIsDeleteDialogOpen
+        setIsDeleteDialogOpen,
+        setColoredMeshItems
     ]);
 
     const theme = useTheme();
@@ -269,19 +271,19 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 };
 
 function getListItems(
-    config: IScenesConfig,
+    config: I3DScenesConfig,
     filteredElements: ITwinToObjectMapping[],
     isEditBehavior: boolean,
     isSelectionEnabled: boolean,
     onElementClick: (element: ITwinToObjectMapping) => void,
-    onElementEnter: (element: ITwinToObjectMapping) => void,
-    onElementLeave: (element: ITwinToObjectMapping) => void,
     onUpdateCheckbox: (element: ITwinToObjectMapping) => void,
     selectedElements: ITwinToObjectMapping[],
     setElementToDelete: React.Dispatch<
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
+    renderMode: IADT3DViewerRenderMode,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -318,6 +320,66 @@ function getListItems(
             }
         ];
     };
+
+    const onElementEnter = (element: ITwinToObjectMapping) => {
+        let coloredMeshes: ColoredMeshItem[] = [];
+        // if on the edit behavior panel all elements in that behavior should stay highlighted
+        if (isEditBehavior) {
+            if (selectedElements) {
+                // color elements in current behavior
+                for (const selectedElement of selectedElements) {
+                    if (element.id !== selectedElement.id) {
+                        coloredMeshes = coloredMeshes.concat(
+                            createColoredMeshItems(
+                                selectedElement.objectIDs,
+                                renderMode.coloredMeshColor
+                            )
+                        );
+                    }
+                }
+                if (
+                    selectedElements?.find(
+                        (selectedElement) => selectedElement.id === element.id
+                    )
+                ) {
+                    // if element is in behavior and hovered set it to a different color
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.objectIDs,
+                            renderMode.coloredMeshHoverColor
+                        )
+                    );
+                } else {
+                    coloredMeshes = coloredMeshes.concat(
+                        createColoredMeshItems(
+                            element?.objectIDs,
+                            renderMode.coloredMeshColor
+                        )
+                    );
+                }
+            }
+        } else {
+            // hightlight just the current hovered element
+            coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
+        }
+
+        setColoredMeshItems(coloredMeshes);
+    };
+
+    const onElementLeave = () => {
+        if (isEditBehavior && selectedElements?.length > 0) {
+            let meshIds: string[] = [];
+            for (const element of selectedElements) {
+                if (element.objectIDs) {
+                    meshIds = meshIds.concat(element?.objectIDs);
+                }
+            }
+            setColoredMeshItems(createColoredMeshItems(meshIds, null));
+        } else {
+            setColoredMeshItems([]);
+        }
+    };
+
     return filteredElements.map((item) => {
         const isItemSelected = isSelectionEnabled
             ? !!selectedElements?.find((x) => x.id === item.id)
@@ -326,9 +388,9 @@ function getListItems(
             ariaLabel: '',
             buttonProps: {
                 onMouseOver: () => onElementEnter(item),
-                onMouseLeave: () => onElementLeave(item),
+                onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
-                onBlur: () => onElementLeave(item)
+                onBlur: onElementLeave
             },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             item: item,

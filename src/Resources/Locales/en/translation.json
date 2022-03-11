@@ -8,13 +8,19 @@
     "selectProperties": "Select properties",
     "empty": "Empty",
     "hierarchy": "Hierarchy",
+    "displayName": "Display name",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
-    "UnauthorizedAccess": "User Config File Not Found",
-    "NonExistentBlob": "Your blob container does not exist or you do not have proper permission to view the blob container",
-    "DataFetchFailed": "Data Fetch Failded",
+    "unauthorizedAccessErrorTitle": "Access Restricted",
+    "unauthorizedAccessErrorMessage": "You do not have access to this blob. Request Reader access or try a different blob.",
+    "nonExistentBlobErrorTitle": "Blob Error",
+    "nonExistentBlobErrorMessage": "Blob does not exist.",
+    "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
+    "tryAgain": "Try Again",
+    "learnMore": "Learn More",
+    "DataFetchFailed": "Data Fetch Failed",
     "more": "More",
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
@@ -74,9 +80,14 @@
     "selectOption": "Select an option",
     "globe": "Globe",
     "list": "List",
+    "selectFile": "Select file",
     "errors": {
         "errorBoundary": "Error boundary",
-        "unkownError": "Unknown error occurred"
+        "unkownError": "Unknown error occurred",
+        "schemaValidationFailed": {
+            "type": "JSON schema validation failed",
+            "message": "JSON is invalid. Check syntax matches required schema."
+        }
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
@@ -338,7 +349,7 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
-        "expressionPlaceholder": "Enter expression (eg primaryTwin.InFlow > 3)",
+        "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -358,7 +369,7 @@
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}",
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${LinkedTwin.property}",
         "behaviorTypes": {
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
@@ -389,7 +400,10 @@
             "title": "Link widget",
             "description": "Reference external content by linking a URL"
         },
-        "panel": { "title": "Panel widget", "description": "A layout panel" },
+        "panel": {
+            "title": "Panel widget",
+            "description": "A layout panel"
+        },
         "notSupported": "This widget type is not currently supported"
     },
     "sdkStrings": {
@@ -594,5 +608,12 @@
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
         "imgTag": "SVG icon via img tag src",
         "reactComponent": "SVG illustration via React component syntax"
+    },
+    "blobDropdown": {
+        "selectFileOrEnter": "Select file or enter URL",
+        "3dFileFromContainer": "3D file in container",
+        "loading3DFiles": "Loading files",
+        "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+        "supportedFileTypes": "Supported file types are {{fileTypes}}."
     }
 }

@@ -17,6 +17,7 @@ import {
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
+import { RenderModes } from '../../Models/Constants';
 
 const debug = false;
 
@@ -29,6 +30,32 @@ function debounce(func: any, timeout = 300) {
         }, timeout);
     };
 }
+
+function hexToColor4(hex: string): BABYLON.Color4 {
+    if (!hex) {
+        return undefined;
+    }
+
+    // remove invalid characters
+    hex = hex.replace(/[^0-9a-fA-F]/g, '');
+    if (hex.length < 5) {
+        // 3, 4 characters double-up
+        hex = hex
+            .split('')
+            .map((s) => s + s)
+            .join('');
+    }
+
+    // parse pairs of two
+    const rgba = hex
+        .match(/.{1,2}/g)
+        .map((s) => parseFloat((parseInt(s, 16) / 255).toString()));
+    // alpha code between 0 & 1 / default 1
+    rgba[3] = rgba.length > 3 ? rgba[3] : 1;
+    const color = new BABYLON.Color4(rgba[0], rgba[1], rgba[2], rgba[3]);
+    return color;
+}
+
 async function loadPromise(
     root: string,
     file: string,
@@ -72,13 +99,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     onMeshHover,
     onCameraMove,
     showMeshesOnHover,
-    defaultColoredMeshColor,
-    meshHoverColor,
-    defaultColoredMeshHoverColor,
-    isWireframe,
-    meshBaseColor,
-    meshFresnelColor,
-    meshOpacity,
+    renderMode,
     onSceneLoaded,
     getToken,
     coloredMeshItems,
@@ -109,10 +130,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-
-    const hoverColor = meshHoverColor || '#F3FF14';
-    const coloredMeshColor = defaultColoredMeshColor || '#00A8F0';
-    const coloredMeshHoverColor = defaultColoredMeshHoverColor || '#00EDD9';
+    const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -275,7 +293,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                hoverColor
+                currentRenderMode.meshHoverColor
             );
 
             coloredHovMaterial.current = new BABYLON.StandardMaterial(
@@ -283,7 +301,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 sc
             );
             coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                coloredMeshHoverColor
+                currentRenderMode.coloredMeshHoverColor
             );
 
             new BABYLON.HemisphericLight(
@@ -326,11 +344,17 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     const shouldIgnore = (mesh: BABYLON.AbstractMesh) => {
         let ignore = false;
         if (coloredMeshItems) {
-            ignore = !!coloredMeshItems.find((mi) => mi.meshId === mesh.id);
+            ignore = !!coloredMeshItems?.find((mi) => mi.meshId === mesh.id);
         }
 
         return ignore;
     };
+
+    useEffect(() => {
+        if (renderMode) {
+            setCurrentRenderMode(renderMode);
+        }
+    }, [renderMode]);
 
     const restoreMeshMaterials = () => {
         if (sceneRef.current?.meshes?.length && !isLoading) {
@@ -349,8 +373,17 @@ export const SceneView: React.FC<ISceneViewProp> = ({
     // Update render mode
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
+            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.meshHoverColor
+            );
+
+            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
+                currentRenderMode.coloredMeshHoverColor
+            );
+
             if (
-                (!meshBaseColor || !meshFresnelColor) &&
+                (!currentRenderMode.baseColor ||
+                    !currentRenderMode.fresnelColor) &&
                 !meshesAreOriginal.current
             ) {
                 for (const mesh of sceneRef.current.meshes) {
@@ -365,71 +398,75 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
                 hovMaterial.current.alpha = 1;
                 coloredHovMaterial.current.alpha = 1;
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+                coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
                 meshesAreOriginal.current = true;
             }
 
-            if (meshBaseColor && meshFresnelColor) {
-                const baseColor = new BABYLON.Color4(
-                    meshBaseColor.r,
-                    meshBaseColor.g,
-                    meshBaseColor.b,
-                    meshBaseColor.a
-                );
-                const fresnelColor = new BABYLON.Color4(
-                    meshFresnelColor.r,
-                    meshFresnelColor.g,
-                    meshFresnelColor.b,
-                    meshFresnelColor.a
+            if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
+                const baseColor = hexToColor4(currentRenderMode.baseColor);
+                const fresnelColor = hexToColor4(
+                    currentRenderMode.fresnelColor
                 );
                 const material = makeShaderMaterial(
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    meshOpacity
+                    currentRenderMode.opacity
                 );
 
                 shaderMaterial.current = material;
-                if (!!isWireframe || (meshBaseColor && meshFresnelColor)) {
+                if (
+                    !!currentRenderMode.isWireframe ||
+                    (currentRenderMode.baseColor &&
+                        currentRenderMode.fresnelColor)
+                ) {
                     for (const mesh of sceneRef.current.meshes) {
                         if (mesh?.material) {
                             const ignore = shouldIgnore(mesh);
-                            if (meshBaseColor && meshFresnelColor && !ignore) {
+                            if (
+                                currentRenderMode.baseColor &&
+                                currentRenderMode.fresnelColor &&
+                                !ignore
+                            ) {
                                 mesh.material = shaderMaterial.current;
-                                mesh.material.wireframe = isWireframe || false;
+                                mesh.material.wireframe =
+                                    currentRenderMode.isWireframe || false;
                                 meshesAreOriginal.current = false;
                             }
                         }
                     }
                 }
 
-                if (meshBaseColor && meshFresnelColor) {
+                if (
+                    currentRenderMode.baseColor &&
+                    currentRenderMode.fresnelColor
+                ) {
                     hovMaterial.current.alpha = 0.5;
                     coloredHovMaterial.current.alpha = 0.5;
                 } else {
                     hovMaterial.current.alpha = 1;
                     coloredHovMaterial.current.alpha = 1;
                 }
-                hovMaterial.current.wireframe = !!isWireframe;
-                coloredHovMaterial.current.wireframe = !!isWireframe;
+                hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+                coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
             }
         }
-    }, [meshBaseColor, meshFresnelColor]);
+    }, [currentRenderMode, isLoading]);
 
     // Handle isWireframe changes
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
             for (const mesh of sceneRef.current.meshes) {
                 if (mesh?.material) {
-                    mesh.material.wireframe = !!isWireframe;
+                    mesh.material.wireframe = !!currentRenderMode.isWireframe;
                 }
             }
 
-            hovMaterial.current.wireframe = !!isWireframe;
-            coloredHovMaterial.current.wireframe = !!isWireframe;
+            hovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
+            coloredHovMaterial.current.wireframe = !!currentRenderMode.isWireframe;
         }
-    }, [isWireframe]);
+    }, [currentRenderMode.isWireframe]);
 
     // This is really our componentDidMount/componentWillUnmount stuff
     useEffect(() => {
@@ -496,10 +533,11 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     SphereMaterial,
                     sceneRef.current
                 );
+                const rgba = hexToColor4(marker.color);
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
@@ -520,9 +558,9 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current
                 );
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
-                    marker.color.r,
-                    marker.color.g,
-                    marker.color.b
+                    rgba.r * 255,
+                    rgba.g * 255,
+                    rgba.b * 255
                 );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
@@ -581,7 +619,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             );
 
                             if (meshToReset) {
-                                const isColored = coloredMeshItems.find(
+                                const isColored = coloredMeshItems?.find(
                                     (m) => m.meshId === meshToReset.id
                                 );
                                 meshToReset.material = isColored
@@ -594,7 +632,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current = null;
                         } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
-                            const isColored = coloredMeshItems.find(
+                            const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === mesh.id
                             );
                             highlightedMeshRef.current = mesh.id;
@@ -614,7 +652,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                             (m) => m.id === highlightedMeshRef.current
                         );
                         if (lastMesh) {
-                            const isColored = coloredMeshItems.find(
+                            const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === lastMesh.id
                             );
 
@@ -661,7 +699,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                 );
             }
         };
-    }, [scene, markers, showHoverOnSelected, coloredMeshItems]);
+    }, [
+        scene,
+        markers,
+        showHoverOnSelected,
+        coloredMeshItems,
+        currentRenderMode
+    ]);
 
     // SETUP LOGIC FOR onMeshClick
     useEffect(() => {
@@ -786,7 +830,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
 
             coloredMaterials.current = [];
         };
-    }, [coloredMeshItems, isLoading, meshBaseColor]);
+    }, [coloredMeshItems, isLoading, currentRenderMode]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         const material = new BABYLON.StandardMaterial(
@@ -797,13 +841,13 @@ export const SceneView: React.FC<ISceneViewProp> = ({
             material.diffuseColor = BABYLON.Color3.FromHexString(color);
         } else {
             material.diffuseColor = BABYLON.Color3.FromHexString(
-                coloredMeshColor
+                currentRenderMode.coloredMeshColor
             );
         }
 
-        material.wireframe = !!isWireframe;
+        material.wireframe = !!currentRenderMode.isWireframe;
 
-        if (meshBaseColor && meshFresnelColor) {
+        if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
             material.alpha = 0.5;
         }
 

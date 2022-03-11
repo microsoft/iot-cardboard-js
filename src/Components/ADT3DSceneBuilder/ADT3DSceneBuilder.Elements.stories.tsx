@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
+import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
@@ -48,16 +48,17 @@ ElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(tabButton[0]);
 };
 
-export const Search = Template.bind({});
-Search.play = async ({ canvasElement }) => {
-    // switch to the behaviors tab
-    await ElementsTab.play({ canvasElement });
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const Search = Template.bind({});
+// Search.play = async ({ canvasElement }) => {
+//     // switch to the behaviors tab
+//     await ElementsTab.play({ canvasElement });
 
-    const canvas = within(canvasElement);
-    // type in the search box
-    const searchBox = canvas.getByTestId('search-header-search-box');
-    await userEvent.type(searchBox, 'box');
-};
+//     const canvas = within(canvasElement);
+//     // type in the search box
+//     const searchBox = canvas.getByTestId('search-header-search-box');
+//     await userEvent.type(searchBox, 'box');
+// };
 
 export const MultiSelect = Template.bind({});
 MultiSelect.play = async ({ canvasElement }) => {

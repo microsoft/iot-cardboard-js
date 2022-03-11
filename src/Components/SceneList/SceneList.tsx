@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { SceneListProps } from './SceneList.types';
 import './SceneList.scss';
 import { useAdapter } from '../../Models/Hooks';
@@ -21,12 +21,20 @@ import {
     IButtonProps
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { IAsset, IScenesConfig, IScene } from '../../Models/Classes/3DVConfig';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IComponentError } from '../../Models/Constants/Interfaces';
-import { ComponentErrorType } from '../../Models/Constants/Enums';
+import {
+    ComponentErrorType,
+    Supported3DFileTypes
+} from '../../Models/Constants/Enums';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import BlobDropdown from '../BlobDropdown/BlobDropdown';
+import {
+    I3DScenesConfig,
+    IAsset,
+    IScene
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -42,7 +50,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const addScene = useAdapter({
-        adapterMethod: (params: { config: IScenesConfig; scene: IScene }) =>
+        adapterMethod: (params: { config: I3DScenesConfig; scene: IScene }) =>
             adapter.putScenesConfig(
                 ViewerConfigUtility.addScene(params.config, params.scene)
             ),
@@ -52,7 +60,7 @@ const SceneList: React.FC<SceneListProps> = ({
 
     const editScene = useAdapter({
         adapterMethod: (params: {
-            config: IScenesConfig;
+            config: I3DScenesConfig;
             sceneId: string;
             scene: IScene;
         }) =>
@@ -68,7 +76,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const deleteScene = useAdapter({
-        adapterMethod: (params: { config: IScenesConfig; sceneId: string }) =>
+        adapterMethod: (params: { config: I3DScenesConfig; sceneId: string }) =>
             adapter.putScenesConfig(
                 ViewerConfigUtility.deleteScene(params.config, params.sceneId)
             ),
@@ -77,7 +85,7 @@ const SceneList: React.FC<SceneListProps> = ({
     });
 
     const [errors, setErrors] = useState<Array<IComponentError>>([]);
-    const [config, setConfig] = useState<IScenesConfig>(null);
+    const [config, setConfig] = useState<I3DScenesConfig>(null);
     const [sceneList, setSceneList] = useState<Array<IScene>>([]);
     const [selectedScene, setSelectedScene] = useState<IScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
@@ -87,12 +95,12 @@ const SceneList: React.FC<SceneListProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: IScenesConfig = scenesConfig.adapterResult.getData();
+            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
             setConfig(config);
             setSceneList(() => {
                 let scenes;
                 try {
-                    scenes = config?.viewerConfiguration?.scenes?.sort(
+                    scenes = config?.configuration?.scenes?.sort(
                         (a: IScene, b: IScene) =>
                             a.displayName?.localeCompare(
                                 b.displayName,
@@ -103,7 +111,7 @@ const SceneList: React.FC<SceneListProps> = ({
                             )
                     );
                 } catch {
-                    scenes = config?.viewerConfiguration?.scenes;
+                    scenes = config?.configuration?.scenes;
                 }
                 return scenes ?? [];
             });
@@ -213,6 +221,23 @@ const SceneList: React.FC<SceneListProps> = ({
                 return <span>{fieldContent}</span>;
         }
     };
+
+    const renderBlobDropdown = useCallback(
+        (onChange?: (blobUrl: string) => void) => (
+            <BlobDropdown
+                adapter={adapter}
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                fileTypes={Object.values(Supported3DFileTypes)}
+                selectedBlobUrl={(selectedScene?.assets?.[0] as IAsset)?.url}
+                onChange={onChange}
+                width={492}
+                isRequired
+            />
+        ),
+        [adapter, theme, locale, localeStrings, selectedScene]
+    );
 
     return (
         <BaseComponent
@@ -378,9 +403,10 @@ const SceneList: React.FC<SceneListProps> = ({
                     }
                     addScene.callAdapter({
                         config: config,
-                        scene: { id: newId, ...newScene }
+                        scene: { ...newScene, id: newId }
                     });
                 }}
+                renderBlobDropdown={renderBlobDropdown}
             ></SceneListDialog>
         </BaseComponent>
     );
@@ -391,13 +417,15 @@ const SceneListDialog = ({
     onClose,
     sceneToEdit,
     onAddScene,
-    onEditScene
+    onEditScene,
+    renderBlobDropdown
 }: {
     isOpen: any;
     onClose: any;
     sceneToEdit: IScene;
-    onAddScene: any;
+    onAddScene: (scene: IScene) => any;
     onEditScene: any;
+    renderBlobDropdown: (onChange?: (blobUrl: string) => void) => JSX.Element;
 }) => {
     const [newSceneName, setNewSceneName] = useState('');
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
@@ -442,6 +470,16 @@ const SceneListDialog = ({
         }
     }, [isOpen]);
 
+    const handleBlobUrlChange = (blobUrl: string) => {
+        if (sceneToEdit) {
+            const selectedSceneCopy = Object.assign({}, scene);
+            selectedSceneCopy.assets[0].url = blobUrl;
+            setScene(selectedSceneCopy);
+        } else {
+            setNewSceneBlobUrl(blobUrl);
+        }
+    };
+
     return (
         <Dialog
             hidden={!isOpen}
@@ -467,30 +505,7 @@ const SceneListDialog = ({
                     }
                 }}
             />
-            <TextField
-                className="cb-scene-list-form-dialog-text-field"
-                multiline
-                rows={3}
-                label={t('scenes.blobUrl')}
-                title={newSceneBlobUrl}
-                value={
-                    sceneToEdit
-                        ? scene?.assets.map((a: IAsset) => a.url).join('\n')
-                        : newSceneBlobUrl
-                }
-                onChange={(e) => {
-                    if (sceneToEdit) {
-                        const selectedSceneCopy = Object.assign({}, scene);
-                        const urls = e.currentTarget.value?.split('\n');
-                        urls.map((url, idx) => {
-                            selectedSceneCopy.assets[idx].url = url;
-                        });
-                        setScene(selectedSceneCopy);
-                    } else {
-                        setNewSceneBlobUrl(e.currentTarget.value);
-                    }
-                }}
-            />
+            {renderBlobDropdown(handleBlobUrlChange)}
             <DialogFooter>
                 <DefaultButton
                     className="cb-scene-list-modal-buttons"
@@ -503,17 +518,17 @@ const SceneListDialog = ({
                         if (sceneToEdit) {
                             onEditScene(scene);
                         } else {
-                            const newScene = {
+                            const newScene: IScene = {
+                                id: 'temp',
                                 displayName: newSceneName,
-                                type: 'Scene',
                                 assets: [
                                     {
                                         type: 'Asset3D',
-                                        name: 'Asset',
                                         url: newSceneBlobUrl
                                     }
                                 ],
-                                behaviors: []
+                                behaviorIDs: [],
+                                elements: []
                             };
                             onAddScene(newScene);
                         }

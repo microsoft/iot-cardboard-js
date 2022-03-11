@@ -314,7 +314,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 }
                             />
                             <TextField
-                                label={t('modelCreate.displayName')}
+                                label={t('displayName')}
                                 title={displayName}
                                 value={
                                     formMode === FormMode.Readonly &&

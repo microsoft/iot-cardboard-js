@@ -23,7 +23,6 @@ import {
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import useAdapter from '../../Models/Hooks/useAdapter';
-import { IScenesConfig } from '../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderReducer,
     defaultADT3DSceneBuilderState
@@ -34,6 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../3DV/SceneView.Utils';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -142,7 +142,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     useEffect(() => {
         if (!getScenesConfig.adapterResult.hasNoData()) {
-            const config: IScenesConfig = getScenesConfig.adapterResult.getData();
+            const config: I3DScenesConfig = getScenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config
@@ -183,8 +183,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             let coloredMeshes = [];
             if (mesh && !contextualMenuProps.isVisible) {
                 for (const element of state.elements) {
-                    if (element.meshIDs.includes(mesh.id)) {
-                        for (const id of element.meshIDs) {
+                    if (element.objectIDs.includes(mesh.id)) {
+                        for (const id of element.objectIDs) {
                             if (id !== mesh.id) {
                                 coloredMeshes.push({
                                     meshId: id,
@@ -216,7 +216,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         const coloredMeshes = [];
         contextualMenuItems.current[0].sectionProps.items = [];
         for (const element of state.elements) {
-            if (element.meshIDs.includes(mesh.id)) {
+            if (element.objectIDs.includes(mesh.id)) {
                 const item = {
                     key: element.id,
                     text: t('3dSceneBuilder.edit', {
@@ -242,7 +242,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     },
                     onMouseOver: () => {
                         setColoredMeshItems(
-                            createColoredMeshItems(element.meshIDs, null)
+                            createColoredMeshItems(element.objectIDs, null)
                         );
                     },
                     onMouseOut: () => {
@@ -324,12 +324,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         <ADT3DBuilder
                             adapter={adapter as IADTAdapter}
                             modelUrl={
-                                state.config.viewerConfiguration?.scenes[
-                                    state.config.viewerConfiguration?.scenes.findIndex(
+                                state.config.configuration?.scenes[
+                                    state.config.configuration?.scenes.findIndex(
                                         (s) => s.id === sceneId
                                     )
                                 ]?.assets[0].url
                             }
+                            renderMode={state.renderMode}
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
                             showHoverOnSelected={state.showHoverOnSelected}

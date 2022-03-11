@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 
 export default {
     title: 'Components/ADT3DSceneBuilder',
@@ -23,7 +22,7 @@ const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
             title={'3D Scene Builder'}
             theme={theme}
             locale={locale}
-            adapter={new MockAdapter({ mockData: mockVConfig })}
+            adapter={new MockAdapter()}
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             {..._args}
         />
