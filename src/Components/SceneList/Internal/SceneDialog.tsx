@@ -8,6 +8,8 @@ import {
     DialogType,
     Icon,
     IDialogContentProps,
+    IModalProps,
+    IModalStyles,
     Label,
     Pivot,
     PivotItem,
@@ -96,7 +98,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             : t('scenes.addDialogSubText')
     };
 
-    const dialogStyles = useCallback(() => {
+    const dialogStyles: Partial<IModalStyles> = useMemo(() => {
         return {
             main: {
                 minWidth: '640px !important',
@@ -118,20 +120,25 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        flexGrow: 1
+                        flexGrow: 1,
+                        overflow: 'auto'
                     },
                     '.ms-Dialog-title': {
                         paddingBottom: 8
                     },
                     '.ms-Dialog-subText': {
                         marginBottom: 20
+                    },
+                    '.ms-Dialog-content': {
+                        overflowX: 'hidden',
+                        overflowY: 'auto'
                     }
                 }
             }
         };
     }, [selected3DFilePivotItem, isSelectedFileExistInBlob]);
 
-    const dialogModalProps = React.useMemo(
+    const dialogModalProps: IModalProps = React.useMemo(
         () => ({
             layerProps: { eventBubblingEnabled: true }, // this is for making react-dropzone work in dialog
             isBlocking: true,

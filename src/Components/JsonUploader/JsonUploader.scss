@@ -53,20 +53,20 @@
     &.cb-dropzone-is-drag-accept {
         background-image: linear-gradient(
                 to right,
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
                 to right,
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             );
     }
@@ -74,20 +74,20 @@
     &.cb-dropzone-is-drag-reject {
         background-image: linear-gradient(
                 to right,
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
                 to right,
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             ),
             linear-gradient(
-                var(--cb-color-input-border) 50%,
+                var(--cb-color-theme-primary) 50%,
                 rgba(255, 255, 255, 0) 0%
             );
     }
