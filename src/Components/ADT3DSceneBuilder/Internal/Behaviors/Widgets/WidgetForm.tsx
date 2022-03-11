@@ -1,4 +1,13 @@
-import { DefaultButton, PrimaryButton } from '@fluentui/react';
+import {
+    DefaultButton,
+    FontSizes,
+    IStyle,
+    memoizeFunction,
+    mergeStyleSets,
+    PrimaryButton,
+    Theme,
+    useTheme
+} from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +21,7 @@ import {
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
+import { getFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -109,14 +119,15 @@ const WidgetForm: React.FC<any> = () => {
         setFormData(null);
     };
 
+    const theme = useTheme();
+    const customStyles = getStyles(theme);
+    const commonFormStyles = getFormStyles(theme, 0);
     return (
         <>
-            <div className="cb-scene-builder-left-panel-create-form">
-                <div className="cb-scene-builder-left-panel-create-form-contents">
-                    <div className="cb-widget-builder-description-container">
-                        <div className="cb-widget-builder-description">
-                            {widgetFormInfo.widget.description}
-                        </div>
+            <div className={commonFormStyles.content}>
+                <div className={commonFormStyles.formHeader}>
+                    <div className={customStyles.descrption}>
+                        {widgetFormInfo.widget.description}
                     </div>
                     {getWidgetBuilder()}
                 </div>
@@ -142,5 +153,14 @@ const WidgetForm: React.FC<any> = () => {
         </>
     );
 };
+
+const getStyles = memoizeFunction((theme: Theme) => {
+    return mergeStyleSets({
+        descrption: {
+            fontSize: FontSizes.size14,
+            color: theme.palette.neutralSecondary
+        } as IStyle
+    });
+});
 
 export default WidgetForm;

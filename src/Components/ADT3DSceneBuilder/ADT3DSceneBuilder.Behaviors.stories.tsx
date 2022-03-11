@@ -6,6 +6,7 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import mockVConfig from '../../Adapters/__mockData__/vconfigDecFinal.json';
 import {
     clickOverFlowMenuItem,
+    findCalloutItemByTestId,
     findDialogMenuItem,
     findOverflowMenuItem,
     IStoryContext,
@@ -274,6 +275,18 @@ EditWidgetsTabMoreEditLink.play = async ({ canvasElement }) => {
     // click the edit button in the overflow
     const editButton = await findOverflowMenuItem('editWidgetOverflow');
     await clickOverFlowMenuItem(editButton);
+};
+
+export const EditWidgetsTabEditGauge = Template.bind({});
+EditWidgetsTabEditGauge.play = async ({ canvasElement }) => {
+    await EditWidgetsTabAddDialogShow.play({ canvasElement });
+    // mock data does not have a gauge so we go through the flow to add one
+    const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
+    await userEvent.click(gaugeButton);
+    const addButton = await findCalloutItemByTestId(
+        'widget-library-add-button'
+    );
+    await userEvent.click(addButton);
 };
 
 export const EditWidgetsTabMoreRemove = Template.bind({});

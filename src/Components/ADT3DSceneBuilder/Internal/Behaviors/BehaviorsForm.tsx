@@ -24,10 +24,14 @@ import LeftPanelBuilderHeader, {
 } from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
-import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
+import {
+    getLeftPanelStyles,
+    leftPanelPivotStyles
+} from '../Shared/LeftPanel.styles';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 import { getStyles } from './BehaviorsForm.styles';
 import PanelFooter from '../Shared/PanelFooter';
+import { formPivotStyles, getFormStyles } from '../Shared/PanelForms.styles';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -137,7 +141,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [widgetFormInfo, builderMode]
     );
 
-    const styles = getStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const commonFormStyles = getFormStyles(theme, 92);
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -145,7 +151,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 setBehaviorToEdit
             }}
         >
-            <div className="cb-scene-builder-left-panel-create-wrapper">
+            <div className={commonFormStyles.root}>
                 <LeftPanelBuilderHeader
                     headerText={headerText}
                     subHeaderText={subHeaderText}
@@ -155,8 +161,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     <WidgetForm />
                 ) : (
                     <>
-                        <div className="cb-scene-builder-left-panel-create-form">
-                            <div className="cb-scene-builder-left-panel-create-form-contents">
+                        <div className={commonFormStyles.content}>
+                            <div className={commonFormStyles.formHeader}>
                                 <TextField
                                     label={t('3dSceneBuilder.behaviorId')}
                                     value={behaviorToEdit.id}
@@ -172,49 +178,54 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         );
                                     }}
                                 />
-
-                                <Separator />
-
-                                <Pivot
-                                    selectedKey={selectedBehaviorPivotKey}
-                                    onLinkClick={(item) =>
-                                        setSelectedBehaviorPivotKey(
-                                            item.props.itemKey as BehaviorPivot
-                                        )
-                                    }
-                                    styles={leftPanelPivotStyles}
-                                >
-                                    <PivotItem
-                                        headerText={t(
-                                            '3dSceneBuilder.elements'
-                                        )}
-                                        itemKey={BehaviorPivot.elements}
-                                        className={styles.pivotItem}
-                                    >
-                                        <SceneElements
-                                            elements={elements}
-                                            selectedElements={selectedElements}
-                                            updateSelectedElements={
-                                                updateSelectedElements
-                                            }
-                                            isEditBehavior={true}
-                                            hideSearch={true}
-                                        />
-                                    </PivotItem>
-                                    <PivotItem
-                                        headerText={t('3dSceneBuilder.alerts')}
-                                        itemKey={BehaviorPivot.alerts}
-                                    >
-                                        <AlertsTab />
-                                    </PivotItem>
-                                    <PivotItem
-                                        headerText={t('3dSceneBuilder.widgets')}
-                                        itemKey={BehaviorPivot.widgets}
-                                    >
-                                        <WidgetsTab />
-                                    </PivotItem>
-                                </Pivot>
                             </div>
+                            <Separator />
+                            <Pivot
+                                selectedKey={selectedBehaviorPivotKey}
+                                onLinkClick={(item) =>
+                                    setSelectedBehaviorPivotKey(
+                                        item.props.itemKey as BehaviorPivot
+                                    )
+                                }
+                                className={commonFormStyles.pivot}
+                                styles={formPivotStyles}
+                            >
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.elements')}
+                                    itemKey={BehaviorPivot.elements}
+                                >
+                                    <SceneElements
+                                        elements={elements}
+                                        selectedElements={selectedElements}
+                                        updateSelectedElements={
+                                            updateSelectedElements
+                                        }
+                                        isEditBehavior={true}
+                                        hideSearch={true}
+                                    />
+                                </PivotItem>
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.alerts')}
+                                    itemKey={BehaviorPivot.alerts}
+                                >
+                                    <AlertsTab />
+                                </PivotItem>
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.widgets')}
+                                    itemKey={BehaviorPivot.widgets}
+                                >
+                                    <WidgetsTab />
+                                </PivotItem>
+                            </Pivot>
                         </div>
 
                         <PanelFooter>
