@@ -1,4 +1,10 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, {
+    useEffect,
+    useCallback,
+    useState,
+    useMemo,
+    useRef
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { ISceneDialogProps, SelectionModeOf3DFile } from '../SceneList.types';
 import {
@@ -44,6 +50,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const [newSceneName, setNewSceneName] = useState('');
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
+    const sceneRef = useRef(scene);
     const [selected3DFilePivotItem, setSelected3DFilePivotItem] = useState(
         SelectionModeOf3DFile.FromContainer
     );
@@ -166,6 +173,10 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     }, [sceneToEdit]);
 
     useEffect(() => {
+        sceneRef.current = scene;
+    }, [scene]);
+
+    useEffect(() => {
         if (!isOpen) {
             resetState();
         }
@@ -188,27 +199,31 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleNameChange = useCallback(
         (e) => {
             if (sceneToEdit) {
-                const selectedSceneCopy: IScene = Object.assign({}, scene);
+                const selectedSceneCopy: IScene = JSON.parse(
+                    JSON.stringify(sceneRef.current)
+                );
                 selectedSceneCopy.displayName = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
                 setNewSceneName(e.currentTarget.value);
             }
         },
-        [sceneToEdit]
+        [sceneToEdit, scene]
     );
 
     const handleBlobUrlChange = useCallback(
         (blobUrl: string) => {
             if (sceneToEdit) {
-                const selectedSceneCopy = JSON.parse(JSON.stringify(scene));
+                const selectedSceneCopy = JSON.parse(
+                    JSON.stringify(sceneRef.current)
+                );
                 selectedSceneCopy.assets[0].url = blobUrl;
                 setScene(selectedSceneCopy);
             } else {
                 setNewSceneBlobUrl(blobUrl);
             }
         },
-        [scene]
+        [sceneToEdit, scene]
     );
 
     const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
