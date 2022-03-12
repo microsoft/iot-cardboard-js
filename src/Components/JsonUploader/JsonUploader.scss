@@ -1,5 +1,26 @@
 @import '../../Resources/Styles/BaseStyles';
 
+/* stylelint-disable indentation */
+$cb-drag-on-accept-or-reject-border: linear-gradient(
+        to right,
+        var(--cb-color-theme-primary) 50%,
+        rgba(255, 255, 255, 0) 0%
+    ),
+    linear-gradient(
+        var(--cb-color-theme-primary) 50%,
+        rgba(255, 255, 255, 0) 0%
+    ),
+    linear-gradient(
+        to right,
+        var(--cb-color-theme-primary) 50%,
+        rgba(255, 255, 255, 0) 0%
+    ),
+    linear-gradient(
+        var(--cb-color-theme-primary) 50%,
+        rgba(255, 255, 255, 0) 0%
+    );
+/* stylelint-enable indentation */
+
 .cb-file-uploader {
     display: flex;
     flex-direction: column;
@@ -51,45 +72,11 @@
     width: 304px;
 
     &.cb-dropzone-is-drag-accept {
-        background-image: linear-gradient(
-                to right,
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                to right,
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            );
+        background-image: $cb-drag-on-accept-or-reject-border;
     }
 
     &.cb-dropzone-is-drag-reject {
-        background-image: linear-gradient(
-                to right,
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                to right,
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            ),
-            linear-gradient(
-                var(--cb-color-theme-primary) 50%,
-                rgba(255, 255, 255, 0) 0%
-            );
+        background-image: $cb-drag-on-accept-or-reject-border;
     }
 
     button {

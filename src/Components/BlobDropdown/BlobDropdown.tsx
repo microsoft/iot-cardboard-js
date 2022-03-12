@@ -50,8 +50,8 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
 
     useEffect(() => {
         if (!containerBlobsAdapterData.adapterResult.hasNoData()) {
-            const files: Array<IBlobFile> = containerBlobsAdapterData
-                .adapterResult.result?.data as Array<IBlobFile>;
+            const files: Array<IBlobFile> =
+                containerBlobsAdapterData.adapterResult.result?.data;
             setFiles(files);
             if (onLoad) {
                 onLoad(files);
