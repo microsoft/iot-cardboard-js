@@ -11,10 +11,10 @@
     }
 
     .cb-scene-page-container {
+        background-color: var(--cb-color-bg-canvas);
         display: flex;
         flex-direction: column;
         height: 100%;
-        background-color: var(--cb-color-bg-canvas);
     }
 
     .cb-scene-page-scene-environment-picker {
