@@ -18,6 +18,7 @@ import {
     IModalStyles,
     ITooltipHostStyles,
     Label,
+    memoizeFunction,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -37,6 +38,52 @@ const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
         height: 16
     }
 };
+
+const getDialogStyles = memoizeFunction(
+    (selected3DFilePivotItem: SelectionModeOf3DFile): Partial<IModalStyles> => {
+        return {
+            scrollableContent: {
+                selectors: {
+                    '> div': {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '100%'
+                    },
+                    '.ms-Dialog-inner': {
+                        ...(selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromComputer && {
+                            animation: 'show-scroll-y 1s'
+                        }),
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flexGrow: 1,
+                        height:
+                            selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromContainer
+                                ? '338px'
+                                : '578px',
+                        justifyContent: 'space-between',
+                        overflowX: 'hidden',
+                        transition: 'height .6s ease'
+                    },
+                    '.ms-Dialog-title': {
+                        paddingBottom: 8
+                    },
+                    '.ms-Dialog-subText': {
+                        marginBottom: 20
+                    },
+                    '.ms-Dialog-content': {
+                        ...(selected3DFilePivotItem ===
+                            SelectionModeOf3DFile.FromComputer && {
+                            animation: 'show-scroll-y 1s'
+                        }),
+                        overflowX: 'hidden'
+                    }
+                }
+            }
+        };
+    }
+);
 
 const SceneDialog: React.FC<ISceneDialogProps> = ({
     adapter,
@@ -114,58 +161,14 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             : t('scenes.addDialogSubText')
     };
 
-    const dialogStyles: Partial<IModalStyles> = useMemo(() => {
-        return {
-            scrollableContent: {
-                selectors: {
-                    '> div': {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%'
-                    },
-                    '.ms-Dialog-inner': {
-                        ...(selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromComputer && {
-                            animation: 'show-scroll-y 1s'
-                        }),
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flexGrow: 1,
-                        height:
-                            selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromContainer
-                                ? '338px'
-                                : '578px',
-                        justifyContent: 'space-between',
-                        overflowX: 'hidden',
-                        transition: 'height .6s ease'
-                    },
-                    '.ms-Dialog-title': {
-                        paddingBottom: 8
-                    },
-                    '.ms-Dialog-subText': {
-                        marginBottom: 20
-                    },
-                    '.ms-Dialog-content': {
-                        ...(selected3DFilePivotItem ===
-                            SelectionModeOf3DFile.FromComputer && {
-                            animation: 'show-scroll-y 1s'
-                        }),
-                        overflowX: 'hidden'
-                    }
-                }
-            }
-        };
-    }, [selected3DFilePivotItem]);
-
-    const dialogModalProps: IModalProps = React.useMemo(
+    const dialogModalProps: IModalProps = useMemo(
         () => ({
             layerProps: { eventBubblingEnabled: true }, // this is for making react-dropzone work in dialog
             isBlocking: true,
-            styles: dialogStyles,
+            styles: getDialogStyles(selected3DFilePivotItem),
             className: 'cb-scene-list-dialog-wrapper'
         }),
-        [dialogStyles]
+        [getDialogStyles]
     );
 
     useEffect(() => {
