@@ -35,11 +35,6 @@ const Template: SceneBuilderStory = (
     _args,
     context: IStoryContext<IADT3DSceneBuilderCardProps>
 ) => {
-    console.log(
-        `**running story. Globals, Parameters`,
-        context.globals,
-        context.parameters
-    );
     return (
         <div style={cardStyle}>
             <ADT3DSceneBuilder

@@ -68,6 +68,10 @@ setConsoleOptions({
 //add decorators here
 const decoratorWithConsole = (storyFn, context) => withConsole()(storyFn)(context);
 const decoratorWithWrapper = (Story, context) => {
+    if (context.parameters.noGlobalWrapper) {
+        return <Story {...context} />
+    }
+
     let background = '';
     // based on var(--cb-color-bg-canvas)
     // can't use themes here since we are above the theme in the DOM
@@ -94,8 +98,6 @@ const decoratorWithWrapper = (Story, context) => {
         </div >
     )
 };
-export const decorators = [
-    decoratorWithConsole,
-    decoratorWithStableGuid,
-    decoratorWithWrapper
-];
+addDecorator(decoratorWithConsole);
+addDecorator(decoratorWithStableGuid);
+addDecorator(decoratorWithWrapper);
