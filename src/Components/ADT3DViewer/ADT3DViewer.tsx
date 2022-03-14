@@ -36,12 +36,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     refetchConfig,
     showMeshesOnHover,
     enableMeshSelection,
-    showHoverOnSelected
+    showHoverOnSelected,
+    coloredMeshItems: coloredMeshItemsProp
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
     const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
-        []
+        coloredMeshItemsProp || []
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
@@ -79,7 +80,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         if (sceneData?.adapterResult?.result?.data) {
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneData.adapterResult.result.data.sceneVisuals);
-            const tempColoredMeshItems = [...coloredMeshItems];
+            const prop = coloredMeshItemsProp || [];
+            const tempColoredMeshItems = [...prop];
 
             for (const sceneVisual of sceneData.adapterResult.result.data
                 .sceneVisuals) {
@@ -122,8 +124,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             }
 
             setColoredMeshItems(tempColoredMeshItems);
+        } else {
+            setColoredMeshItems(coloredMeshItemsProp || []);
         }
-    }, [sceneData.adapterResult.result]);
+    }, [sceneData.adapterResult.result, coloredMeshItemsProp]);
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {

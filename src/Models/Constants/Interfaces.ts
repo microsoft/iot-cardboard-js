@@ -46,6 +46,7 @@ import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigDa
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
+    ColoredMeshItem,
     ISceneViewProp,
     Marker,
     SceneVisual
@@ -655,6 +656,7 @@ export interface IADT3DViewerProps {
     refetchConfig?: () => any;
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
+    coloredMeshItems?: ColoredMeshItem[];
 }
 
 export interface IADT3DViewerRenderMode {
