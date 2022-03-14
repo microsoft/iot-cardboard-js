@@ -84,8 +84,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
         let meshIds: string[] = [];
         for (const element of selectedElements) {
-            if (element.meshIDs) {
-                meshIds = meshIds.concat(element.meshIDs);
+            if (element.objectIDs) {
+                meshIds = meshIds.concat(element.objectIDs);
             }
         }
         setColoredMeshItems(createColoredMeshItems(meshIds, null));

@@ -30,6 +30,7 @@ import {
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
+import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -61,7 +62,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        coloredMeshItems
+        coloredMeshItems,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -113,6 +115,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
         onElementSave(newElements);
     };
+
+    useEffect(() => {
+        if (selectedElement) {
+            setColoredMeshItems(
+                createColoredMeshItems(selectedElement.objectIDs, null)
+            );
+        }
+    }, []);
 
     useEffect(() => {
         const meshIds = [];
