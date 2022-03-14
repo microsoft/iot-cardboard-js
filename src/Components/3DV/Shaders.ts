@@ -125,7 +125,6 @@ export function makeShaderMaterial(
     material.setColor3('baseColor', baseColor);
     material.setColor3('fresnelColor', fresnelColor);
     material.setFloat('opacity', opacity);
-    //material.setFloat('time', 0);
     material.setVector3('cameraPosition', BABYLON.Vector3.Zero());
     if (reflectionMap) material.setTexture('refSampler', reflectionMap);
     material.backFaceCulling = false;

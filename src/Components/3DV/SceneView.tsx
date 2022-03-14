@@ -292,7 +292,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
-            //Materials are standard by default and are overwritted on RenderMode change
+            //Materials are standard by default and are overwritten on RenderMode change
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 currentRenderMode.meshHoverColor
@@ -408,7 +408,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     'hover',
                     sceneRef.current,
                     hovCol,
-                    calculateFresnelColor(hovCol),
+                    BABYLON.Color3.FromHexString(
+                        currentRenderMode.fresnelColor
+                    ),
                     0.999
                 );
 
@@ -419,7 +421,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     'colHov',
                     sceneRef.current,
                     selectMeshColor,
-                    calculateFresnelColor(selectMeshColor),
+                    BABYLON.Color3.FromHexString(
+                        currentRenderMode.fresnelColor
+                    ),
                     0.999
                 );
             } else {
@@ -491,7 +495,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const fresnelColor = BABYLON.Color3.FromHexString(
                     currentRenderMode.fresnelColor
                 );
-                const material = makeShaderMaterial(
+
+                shaderMaterial.current = makeShaderMaterial(
                     'shader',
                     sceneRef.current,
                     baseColor,
@@ -500,7 +505,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     currentRenderMode.reflectionTexture
                 );
 
-                shaderMaterial.current = material;
                 if (
                     !!currentRenderMode.isWireframe ||
                     (currentRenderMode.baseColor &&

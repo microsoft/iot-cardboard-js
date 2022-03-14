@@ -175,8 +175,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         opacity: 0.1,
         isWireframe: false,
         coloredMeshColor: '#0060f1',
-        meshHoverColor: '#5096ff',
-        coloredMeshHoverColor: '#00EDD9',
+        meshHoverColor: '#0052cc55',
+        coloredMeshHoverColor: '#0052ccff',
         background: 'radial-gradient(#1E1D43, #06051A)',
         reflectionTexture: null
     },
