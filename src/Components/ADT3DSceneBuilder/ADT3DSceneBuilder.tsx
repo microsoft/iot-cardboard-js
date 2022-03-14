@@ -193,14 +193,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 for (const element of state.elements) {
                     if (element.objectIDs.includes(mesh.id)) {
                         for (const id of element.objectIDs) {
-                            if (id !== mesh.id) {
-                                meshIds.push(id);
-                            } else {
+                            if (id === mesh.id) {
                                 coloredMeshes.push({
                                     meshId: id,
                                     color: state.renderMode.meshHoverColor
                                 });
                             }
+                            meshIds.push(id);
                         }
                     } else {
                         coloredMeshes.push({

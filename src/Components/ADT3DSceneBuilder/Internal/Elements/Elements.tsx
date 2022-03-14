@@ -374,19 +374,12 @@ function getListItems(
                         )
                     );
                 } else {
-                    // coloredMeshes = coloredMeshes.concat(
-                    //     createColoredMeshItems(
-                    //         element?.objectIDs,
-                    //         renderMode.coloredMeshColor
-                    //     )
-                    // );
                     setMeshIdsToOutline(element?.objectIDs);
                 }
             }
         } else {
             // hightlight just the current hovered element
             setMeshIdsToOutline(element?.objectIDs);
-            //coloredMeshes = createColoredMeshItems(element?.objectIDs, null);
         }
 
         setColoredMeshItems(coloredMeshes);

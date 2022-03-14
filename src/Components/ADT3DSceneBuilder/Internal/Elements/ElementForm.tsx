@@ -150,17 +150,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
-        const meshIds: string[] = [];
-        for (const item of coloredMeshItems) {
-            meshIds.push(item.meshId);
-        }
-        setElementToEdit({
-            ...elementToEdit,
-            objectIDs: meshIds
-        });
-    }, [coloredMeshItems]);
-
-    useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             getConfig();
         }

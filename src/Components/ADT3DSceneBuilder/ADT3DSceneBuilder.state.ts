@@ -20,6 +20,7 @@ import {
     ADT3DSceneTwinBindingsMode
 } from '../../Models/Constants/Enums';
 import { RenderModes } from '../..';
+import { createColoredMeshItems } from '../3DV/SceneView.Utils';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
@@ -96,6 +97,12 @@ export const ADT3DSceneBuilderReducer: (
                     case ADT3DSceneBuilderMode.EditElement:
                     case ADT3DSceneBuilderMode.CreateElement:
                         draft.enableHoverOnModel = true;
+                        if (draft.selectedElement?.objectIDs) {
+                            draft.coloredMeshItems = createColoredMeshItems(
+                                draft.selectedElement.objectIDs,
+                                null
+                            );
+                        }
                         draft.meshIdsToOutline = [];
                         break;
                     default:
