@@ -7,6 +7,7 @@ import {
     Theme
 } from '@fluentui/react';
 import { StyleConstants } from '../../Models/Constants';
+import { getTransparentColor, hexToRgbCss } from '../../Models/Services/Utils';
 
 const classPrefix = 'cardboard-list-item';
 const classNames = {
@@ -64,23 +65,23 @@ export const getStyles = memoizeFunction((theme: Theme) => {
     });
 });
 export const getButtonStyles = memoizeFunction(
-    (): IButtonStyles => {
+    (theme: Theme): IButtonStyles => {
         return {
             root: {
-                border: 0,
                 alignItems: 'start', // top align everything
-                padding: '8px 12px',
-                width: '100%',
+                border: 0,
                 height: 'auto',
                 ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                     opacity: 1
-                }
+                },
+                padding: '8px 12px',
+                width: '100%'
             },
             rootFocused: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: theme.palette.neutralLighter
             },
             rootHovered: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: theme.palette.neutralLighter
             },
             flexContainer: {
                 justifyContent: 'start'
