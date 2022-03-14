@@ -74,8 +74,13 @@
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Left",
-                                    "min": 0,
-                                    "max": 500
+                                    "valueRanges": [
+                                        {
+                                            "min": 0,
+                                            "max": 500,
+                                            "color": "#FF0000"
+                                        }
+                                    ]
                                 },
                                 "extensionProperties": {}
                             },
@@ -86,8 +91,13 @@
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
-                                    "min": 0,
-                                    "max": 500
+                                    "valueRanges": [
+                                        {
+                                            "min": 0,
+                                            "max": 500,
+                                            "color": "#FF0000"
+                                        }
+                                    ]
                                 }
                             },
                             {
@@ -122,7 +132,7 @@
                     {
                         "type": "StatusColoring",
                         "statusValueExpression": "LinkedTwin.Temperature",
-                        "statusValueRanges": [
+                        "valueRanges": [
                             {
                                 "color": "#FF0000",
                                 "min": 21,
@@ -155,7 +165,7 @@
                     {
                         "type": "StatusColoring",
                         "statusValueExpression": "temperatureTag.OutFlow",
-                        "statusValueRanges": [
+                        "valueRanges": [
                             {
                                 "color": "#0000FF",
                                 "min": 100,
