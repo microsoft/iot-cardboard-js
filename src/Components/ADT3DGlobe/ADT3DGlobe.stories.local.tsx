@@ -1,8 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import BlobAdapter from '../../Adapters/BlobAdapter';
-import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DGlobe from './ADT3DGlobe';
+import { MockAdapter } from '../../Adapters';
 
 export default {
     title: '3DV/ADT3DGlobe'
@@ -13,18 +12,8 @@ export const Globe = () => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: '600px', height: '400px' }}>
-            <ADT3DGlobe
-                title="Globe"
-                adapter={
-                    new BlobAdapter(
-                        authenticationParameters.storage.blobContainerUrl,
-                        new MsalAuthService(
-                            authenticationParameters.storage.aadParameters
-                        )
-                    )
-                }
-            />
+        <div style={{ width: '100%', height: '100%' }}>
+            <ADT3DGlobe title="Globe" adapter={new MockAdapter()} />
         </div>
     );
 };

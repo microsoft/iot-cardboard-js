@@ -92,7 +92,7 @@ function convertLatLonToVector3(
 
 let lastName = '';
 
-export const SceneView: React.FC<ISceneViewProp> = ({
+const SceneView: React.FC<ISceneViewProp> = ({
     modelUrl,
     markers,
     onMeshClick,
@@ -904,3 +904,5 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         </div>
     );
 };
+
+export default SceneView;
