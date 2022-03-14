@@ -667,7 +667,7 @@ export interface IADT3DViewerRenderMode {
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
-    reflectionTexture?: BaseTexture;
+    reflectionTexture?: string;
 }
 
 export interface IBlobFile {

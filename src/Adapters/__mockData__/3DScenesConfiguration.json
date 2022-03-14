@@ -45,7 +45,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced_AO.glb",
                         "extensionProperties": {}
                     }
                 ]

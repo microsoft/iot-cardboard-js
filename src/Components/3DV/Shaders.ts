@@ -1,4 +1,6 @@
 import * as BABYLON from 'babylonjs';
+import { BaseTexture, Texture } from 'babylonjs';
+import { customShaderTag } from '../../Models/Constants';
 
 const customVertex = `
 precision highp float;
@@ -48,8 +50,13 @@ uniform vec3 cameraPosition;
 uniform vec3 baseColor;
 uniform vec3 fresnelColor;
 uniform float opacity;
+
 uniform sampler2D textureSampler;
+
+#ifdef TDV_REFLECTION
+uniform mat4 worldView;
 uniform sampler2D refSampler;
+#endif
 
 vec3 fresnel_glow(float amount, float intensity, vec3 color, vec3 normal, vec3 view)
 {
@@ -66,27 +73,26 @@ void main(void) {
     float fresnelBias = 0.2;
     float fresnelPower = 2.0;
     vec3 viewDirectionW = normalize(cameraPosition - vPositionW);
-
-    // Fresnel
-	// float fresnelTerm = dot(viewDirectionW, vNormalW);
-	// fresnelTerm = clamp(1.0 - fresnelTerm, 0., 1.);
-    // fresnelTerm = pow(fresnelBias + fresnelTerm, fresnelPower);
-    // vec4 _blendedColor = vec4(normalize(_baseColor + (_fresnelColor * fresnelTerm)), opacity);
-
+    
     vec3 fresnel = fresnel_glow(4.0, 4.5, _fresnelColor, vNormalW, viewDirectionW);
     vec4 _blendedColor = vec4(normalize(_baseColor + fresnel), opacity);
-
+    
+    #ifdef TDV_REFLECTION
     //Reflection
-    // vec3 r = reflect( e, n );
-    // float m = 2. * sqrt(
-    //     pow( r.x, 2. ) +
-    //     pow( r.y, 2. ) +
-    //     pow( r.z + 1., 2. )
-    // );
-    // vec2 vN = r.xy / m + .5;
+    vec3 e = normalize( vec3( worldView * vec4(vPositionW, 1.) ) );
+    vec3 n = normalize( worldView * vec4(vNormalW, 0.0) ).xyz;
 
-    // vec3 refBase = texture2D( refSampler, vN).rgb;
-    // _blendedColor *= refBase;
+    vec3 r = reflect( e, n );
+    float m = 2. * sqrt(
+        pow( r.x, 2. ) +
+        pow( r.y, 2. ) +
+        pow( r.z + 1., 2. )
+    );
+    vec2 vN = r.xy / m + .5;
+
+    vec3 refBase = texture2D( refSampler, vN).rgb;
+    _blendedColor *= vec4(refBase,1.);
+    #endif
 
     gl_FragColor = _blendedColor;
 }
@@ -99,8 +105,9 @@ export function makeShaderMaterial(
     baseColor: BABYLON.Color3,
     fresnelColor: BABYLON.Color3,
     opacity: number,
-    reflectionMap?: BABYLON.BaseTexture
+    reflectionTexture: Texture
 ) {
+    const hasRefTexture = reflectionTexture != null;
     BABYLON.Effect.ShadersStore['customVertexShader'] = customVertex;
     BABYLON.Effect.ShadersStore['customFragmentShader'] = customFragment;
     const material = new BABYLON.ShaderMaterial(
@@ -118,7 +125,10 @@ export function makeShaderMaterial(
                 'worldViewProjection',
                 'view',
                 'projection'
-            ]
+            ],
+            samplers: ['refSampler'],
+            defines: [hasRefTexture ? '#define TDV_REFLECTION' : ''],
+            needAlphaBlending: true
         }
     );
 
@@ -126,10 +136,14 @@ export function makeShaderMaterial(
     material.setColor3('fresnelColor', fresnelColor);
     material.setFloat('opacity', opacity);
     material.setVector3('cameraPosition', BABYLON.Vector3.Zero());
-    if (reflectionMap) material.setTexture('refSampler', reflectionMap);
+    if (hasRefTexture) material.setTexture('refSampler', reflectionTexture);
+
     material.backFaceCulling = false;
     material.alpha = opacity;
     material.alphaMode = opacity > 0.9 ? 5 : 1;
+
+    //Add a camera update tag to flag for Fresnel update
+    BABYLON.Tags.AddTagsTo(material, customShaderTag);
 
     return material;
 }
