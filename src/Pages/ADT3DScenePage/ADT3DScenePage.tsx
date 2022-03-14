@@ -1,8 +1,9 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
-    ADT3DScenePageSteps
+    ADT3DScenePageSteps,
+    ComponentErrorType
 } from '../../Models/Constants/Enums';
 import SceneList from '../../Components/SceneList/SceneList';
 import {
@@ -21,7 +22,8 @@ import {
     SET_CURRENT_STEP,
     SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
-    SET_SELECTED_SCENE
+    SET_SELECTED_SCENE,
+    SET_UNAUTHORIZED
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import { IScene, IScenesConfig } from '../../Models/Classes/3DVConfig';
@@ -54,7 +56,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
     const { t } = useTranslation();
-
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -158,6 +159,24 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
     }, []);
 
+    useEffect(() => {
+        if (
+            state?.errors?.[0]?.type === ComponentErrorType.UnauthorizedAccess
+        ) {
+            dispatch({
+                type: SET_UNAUTHORIZED,
+                payload: {
+                    buttonText: t('learnMore'),
+                    buttonAction: () => {
+                        window.open(
+                            'https://docs.microsoft.com/azure/digital-twins/'
+                        );
+                    }
+                }
+            });
+        }
+    }, [state.errors]);
+
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick }}
@@ -226,7 +245,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </>
                     )}
 
-                    <ScenePageErrorHandlingWrapper errors={state.errors}>
+                    <ScenePageErrorHandlingWrapper
+                        errors={state.errors}
+                        primaryOnclickAction={
+                            state?.unauthorizedError?.buttonAction
+                        }
+                        buttonText={state?.unauthorizedError?.buttonText}
+                    >
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">

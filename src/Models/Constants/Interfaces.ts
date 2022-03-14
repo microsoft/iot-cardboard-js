@@ -95,6 +95,11 @@ export interface IErrorComponentProps {
     errorType?: ComponentErrorType;
 }
 
+export interface IErrorButtonAction {
+    buttonText: string;
+    buttonAction: () => void;
+}
+
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;

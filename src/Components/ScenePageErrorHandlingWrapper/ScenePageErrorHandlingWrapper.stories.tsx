@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import { ComponentErrorType } from '../../Models/Constants';
 import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
@@ -8,12 +9,17 @@ export default {
     component: ScenePageErrorHandlingWrapper
 };
 
-export const UnauthorizedAccessError = () => {
+export const NonExistentBlob = () => {
+    const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <ScenePageErrorHandlingWrapper
+            primaryOnclickAction={() => {
+                return;
+            }}
+            buttonText={t('learnMore')}
             errors={[
                 {
                     type: ComponentErrorType.NonExistentBlob,
@@ -24,13 +30,18 @@ export const UnauthorizedAccessError = () => {
     );
 };
 
-export const NonExistentBlob = () => {
+export const UnauthorizedAccessError = () => {
+    const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div>
             <ScenePageErrorHandlingWrapper
+                primaryOnclickAction={() => {
+                    return;
+                }}
+                buttonText={t('learnMore')}
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,
