@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
 import * as GUI from 'babylonjs-gui';
-import { ProgressIndicator } from '@fluentui/react';
+import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
@@ -855,6 +855,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
         coloredMaterials.current[mesh.id] = material;
     };
 
+    const theme = useTheme();
     return (
         <div className="cb-sceneview-container">
             <canvas
@@ -871,7 +872,7 @@ export const SceneView: React.FC<ISceneViewProp> = ({
                     className="cb-sceneview-progressbar"
                     styles={{
                         itemDescription: {
-                            color: 'white',
+                            color: theme.palette.white,
                             fontSize: 26,
                             marginTop: 10,
                             textAlign: 'center'
