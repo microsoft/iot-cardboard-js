@@ -2,6 +2,7 @@
 :root {
     --cb-color-bg-canvas: #fff;
     --cb-color-bg-canvas-inset: #cacacac4;
+    --cb-color-file-dropzone-border: #a19f9d;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #cb2431;
     --cb-color-text-error: #a4262c;
@@ -30,6 +31,7 @@
 [cardboard-data-theme='dark'] {
     --cb-color-bg-canvas: #0d0f0e;
     --cb-color-bg-canvas-inset: #4949499e;
+    --cb-color-file-dropzone-border: #333;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #f85149;
     --cb-color-text-error: #751d20;
@@ -58,6 +60,7 @@
 [cardboard-data-theme='explorer'] {
     --cb-color-bg-canvas: #222;
     --cb-color-bg-canvas-inset: #4949499e;
+    --cb-color-file-dropzone-border: #333;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #f85149;
     --cb-color-success: #32a852;
@@ -84,6 +87,7 @@
 [cardboard-data-theme='kraken'] {
     --cb-color-bg-canvas: #0d1326;
     --cb-color-bg-canvas-inset: #4949499e;
+    --cb-color-file-dropzone-border: #333;
     --cb-color-inactive: #afafaf;
     --cb-color-text-danger: #f85149;
     --cb-color-success: #32a852;
