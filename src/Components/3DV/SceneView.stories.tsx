@@ -1,5 +1,5 @@
 import React from 'react';
-import { SceneView } from './SceneView';
+import SceneView from './SceneView';
 import { Marker } from '../../Models/Classes/SceneView.types';
 
 export default {

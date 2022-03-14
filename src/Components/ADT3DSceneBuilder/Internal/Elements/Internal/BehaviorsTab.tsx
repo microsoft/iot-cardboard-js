@@ -5,13 +5,13 @@ import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
 import AddBehaviorCallout from './AddBehaviorCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import {
-    IBehavior,
-    ITwinToObjectMapping
-} from '../../../../../Models/Classes/3DVConfig';
 import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
@@ -207,7 +207,7 @@ function getListItems(
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item),
-            textPrimary: item.id
+            textPrimary: item.displayName
         };
 
         return viewModel;

@@ -8,6 +8,7 @@
     "selectProperties": "Select properties",
     "empty": "Empty",
     "hierarchy": "Hierarchy",
+    "displayName": "Display name",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
@@ -19,7 +20,7 @@
     "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
     "tryAgain": "Try Again",
     "learnMore": "Learn More",
-    "DataFetchFailed": "Data Fetch Failded",
+    "DataFetchFailed": "Data Fetch Failed",
     "more": "More",
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
@@ -80,6 +81,8 @@
     "globe": "Globe",
     "list": "List",
     "selectFile": "Select file",
+    "uploadFile": "Upload file",
+    "uploadingFile": "Uploading file...",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -141,8 +144,13 @@
         "blobUrl": "3D file blob URL",
         "addDialogTitle": "Create new scene",
         "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
-        "editDialogTitle": "Edit your 3D file",
-        "editDialogSubText": "Edit the URL of your 3D file in blob storage"
+        "editDialogTitle": "Edit scene",
+        "editDialogSubText": "Edit the name and linked 3D file of your scene",
+        "3dFileSelectionMode": "3D file selection mode",
+        "fromContainer": "From container",
+        "3dFileAsset": "3D file asset",
+        "overwriteIfExist": "Overwrite if file already exists",
+        "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },
     "BIMUpload": {
         "specifyFiles": "Specify files to upload from",
@@ -262,7 +270,8 @@
         "inherit": "Inherit"
     },
     "fileUploader": {
-        "dragAndDrop": "Drag and drop files here",
+        "dragAndDropFiles": "Drag and drop files here",
+        "dragAndDropFile": "Drag and drop file here",
         "browseFiles": "Browse for files"
     },
     "modelAuthoring": {
@@ -347,7 +356,7 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
-        "expressionPlaceholder": "Enter expression (eg primaryTwin.InFlow > 3)",
+        "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -367,7 +376,7 @@
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${primaryTwin.property}",
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${LinkedTwin.property}",
         "behaviorTypes": {
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
@@ -608,9 +617,9 @@
         "reactComponent": "SVG illustration via React component syntax"
     },
     "blobDropdown": {
-        "selectFileOrEnter": "Select file or enter URL",
+        "selectFileOrEnter": "Select file or enter blob URL",
         "3dFileFromContainer": "3D file in container",
-        "loading3DFiles": "Loading files",
+        "loading3DFiles": "Loading files...",
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     }

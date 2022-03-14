@@ -1,9 +1,8 @@
 import React from 'react';
-import { ITwinToObjectMapping } from '../../../../../Models/Classes/3DVConfig';
-
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@fluentui/react';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface AliasedTwinsTabProps {
     elementToEdit: ITwinToObjectMapping;

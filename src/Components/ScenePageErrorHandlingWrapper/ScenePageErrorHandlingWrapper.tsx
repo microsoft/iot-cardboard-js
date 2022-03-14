@@ -52,6 +52,21 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                 </MessageBar>
             );
             break;
+        case ComponentErrorType.JsonSchemaError:
+            // TODO SCHEMA MIGRATION -- update json schema error UI to clearly show error information
+            componentContent = (
+                <ErrorIllustration
+                    imageName={ErrorImages.BlobError}
+                    errorTitle={'JSON schema validation failed'}
+                    errorMessage={errors[0].jsonSchemaErrors
+                        .map((schemaError) =>
+                            JSON.stringify(schemaError, null, 2)
+                        )
+                        .join('\n\n')}
+                    buttonText={t('tryAgain')}
+                ></ErrorIllustration>
+            );
+            break;
         default:
             componentContent = children;
     }

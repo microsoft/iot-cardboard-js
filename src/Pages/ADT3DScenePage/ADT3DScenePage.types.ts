@@ -1,6 +1,5 @@
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
-import { IScene, IScenesConfig } from '../../Models/Classes/3DVConfig';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps
@@ -12,6 +11,10 @@ import {
     IADTInstance,
     IErrorButtonAction
 } from '../../Models/Constants/Interfaces';
+import {
+    I3DScenesConfig,
+    IScene
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
@@ -42,12 +45,12 @@ export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     adapter: ADTandBlobAdapter | MockAdapter;
     mode: ADT3DScenePageModes;
     scene: IScene;
-    scenesConfig: IScenesConfig;
+    scenesConfig: I3DScenesConfig;
     refetchConfig?: () => any;
 }
 
 export interface ADT3DScenePageState {
-    scenesConfig: IScenesConfig;
+    scenesConfig: I3DScenesConfig;
     selectedBlobContainerURL: string;
     selectedScene: IScene;
     scene?: IScene;

@@ -35,7 +35,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 
     const items: Array<IBreadcrumbItem> = useMemo(() => {
         const sceneName =
-            config.viewerConfiguration.scenes.find((s) => s.id === sceneId)
+            config.configuration.scenes.find((s) => s.id === sceneId)
                 ?.displayName || '';
 
         const rootItems: Array<IBreadcrumbItem> = [

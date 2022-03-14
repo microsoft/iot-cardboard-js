@@ -13,8 +13,11 @@ import {
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { IBehavior, IScenesConfig } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import {
+    I3DScenesConfig,
+    IBehavior
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -99,11 +102,15 @@ const SceneBehaviors: React.FC<Props> = ({
     // apply filtering
     useEffect(() => {
         const filteredInScene = behaviorsInScene.filter((behavior) =>
-            behavior.id.toLowerCase().includes(searchText.toLowerCase())
+            behavior.displayName
+                .toLowerCase()
+                .includes(searchText.toLowerCase())
         );
         setFilteredItemsInScene(filteredInScene);
         const filteredNotInScene = behaviorsNotInScene.filter((behavior) =>
-            behavior.id.toLowerCase().includes(searchText.toLowerCase())
+            behavior.displayName
+                .toLowerCase()
+                .includes(searchText.toLowerCase())
         );
         setFilteredItemsNotInScene(filteredNotInScene);
         // if we find an item in the library, expand the library to show it
@@ -294,7 +301,7 @@ const SceneBehaviors: React.FC<Props> = ({
 };
 
 function getListItems(
-    config: IScenesConfig,
+    config: I3DScenesConfig,
     behaviorToDeleteRef: React.MutableRefObject<{
         id: string;
         removeFromAllScenes?: boolean;
@@ -388,7 +395,7 @@ function getListItems(
                 item: item,
                 onClick: onListItemClick,
                 overflowMenuItems: getMenuItems(listType, item),
-                textPrimary: item.id,
+                textPrimary: item.displayName,
                 textSecondary: t('3dSceneBuilder.behaviorMetaText', {
                     numElementsInActiveScene: metadata.numElementsInActiveScene,
                     numSceneRefs: metadata.numSceneRefs
@@ -401,7 +408,7 @@ function getListItems(
                 item: item,
                 openMenuOnClick: true,
                 overflowMenuItems: getMenuItems(listType, item),
-                textPrimary: item.id,
+                textPrimary: item.displayName,
                 textSecondary: t('3dSceneBuilder.behaviorMetaText', {
                     numElementsInActiveScene: metadata.numElementsInActiveScene,
                     numSceneRefs: metadata.numSceneRefs

@@ -26,7 +26,6 @@ import {
     SET_UNAUTHORIZED
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
-import { IScene, IScenesConfig } from '../../Models/Classes/3DVConfig';
 import {
     IADTInstance,
     IBlobAdapter,
@@ -39,6 +38,10 @@ import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
 import ADTAdapter from '../../Adapters/ADTAdapter';
+import {
+    I3DScenesConfig,
+    IScene
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -127,7 +130,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
-            const config: IScenesConfig = scenesConfig.adapterResult.getData();
+            const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
             dispatch({
                 type: SET_ADT_SCENE_CONFIG,
                 payload: config

@@ -1,9 +1,12 @@
 import React from 'react';
-import { SceneView } from '../3DV/SceneView';
+import SceneView from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
-import { IADTAdapter } from '../../Models/Constants/Interfaces';
+import {
+    IADT3DViewerRenderMode,
+    IADTAdapter
+} from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from 'babylonjs';
 
@@ -15,6 +18,7 @@ interface ADT3DBuilderProps {
     showMeshesOnHover?: boolean;
     coloredMeshItems?: ColoredMeshItem[];
     showHoverOnSelected?: boolean;
+    renderMode?: IADT3DViewerRenderMode;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
@@ -23,7 +27,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     onMeshClicked,
     showMeshesOnHover,
     coloredMeshItems,
-    showHoverOnSelected
+    showHoverOnSelected,
+    renderMode
 }) => {
     const meshClick = (
         _marker: Marker,
@@ -45,6 +50,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                     coloredMeshItems={coloredMeshItems}
                     showMeshesOnHover={showMeshesOnHover ?? true}
                     showHoverOnSelected={showHoverOnSelected}
+                    renderMode={renderMode}
                     getToken={
                         (adapter as any).authService
                             ? () =>

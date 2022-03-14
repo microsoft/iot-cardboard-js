@@ -5,6 +5,8 @@
             {
                 "id": "58e02362287440d9a5bf3f8d6d6bfcf9",
                 "displayName": "TruckAndBoxes1",
+                "latitude": 51.5073,
+                "longitude": 0.1276,
                 "elements": [
                     {
                         "type": "TwinToObjectMapping",
@@ -52,14 +54,11 @@
         "behaviors": [
             {
                 "id": "bf1ec41d7886438d880c140fb1bb570a",
-                "displayName": "wheelsTooLow",
+                "displayName": "Wheels too low",
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "5ba433d52b8445979fabc818fd40ae3d",
-                            "2aa6955f3c73418a9be0f7b19c019b75"
-                        ],
+                        "elementIDs": ["5ba433d52b8445979fabc818fd40ae3d"],
                         "extensionProperties": {}
                     }
                 ],
@@ -84,28 +83,6 @@
                                 "type": "Gauge",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
                                 "valueExpression": "LinkedTwin.InFlow",
-                                "widgetConfiguration": {
-                                    "units": "PSI",
-                                    "label": "Right",
-                                    "min": 0,
-                                    "max": 500
-                                }
-                            },
-                            {
-                                "type": "Gauge",
-                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.Temperature",
-                                "widgetConfiguration": {
-                                    "units": "PSI",
-                                    "label": "Left",
-                                    "min": 0,
-                                    "max": 500
-                                }
-                            },
-                            {
-                                "type": "Gauge",
-                                "groupID": "286fac42a4a645b4bdcad9bcee915d0f",
-                                "valueExpression": "LinkedTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
@@ -141,12 +118,32 @@
                             "expression": "objectIDs",
                             "extensionProperties": {}
                         }
+                    },
+                    {
+                        "type": "StatusColoring",
+                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "statusValueRanges": [
+                            {
+                                "color": "#FF0000",
+                                "min": 21,
+                                "max": "Infinity"
+                            },
+                            {
+                                "color": "#0000FF",
+                                "min": "-Infinity",
+                                "max": 20
+                            }
+                        ],
+                        "objectIDs": {
+                            "expression": "objectIDs",
+                            "extensionProperties": {}
+                        }
                     }
                 ]
             },
             {
                 "id": "8b99ab46fabd45fab3adbaf88245a6b5",
-                "displayName": "tankTooHot",
+                "displayName": "Tank too hot",
                 "twinAliases": ["temperatureTag"],
                 "datasources": [
                     {
@@ -160,7 +157,7 @@
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "statusValueRanges": [
                             {
-                                "color": "#FF0000",
+                                "color": "#0000FF",
                                 "min": 100,
                                 "max": "Infinity"
                             },
@@ -177,7 +174,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "temperatureTag.value > 100",
+                        "triggerExpression": "temperatureTag.value > 25",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
                         "iconName": "heart",
                         "color": "#00FF00",

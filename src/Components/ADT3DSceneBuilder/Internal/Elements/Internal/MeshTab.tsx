@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ITwinToObjectMapping } from '../../../../../Models/Classes/3DVConfig';
-
+import React, { useContext, useEffect, useState } from 'react';
+import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { useTheme } from '@fluentui/react';
@@ -8,27 +7,26 @@ import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { createColoredMeshItems } from '../../../../3DV/SceneView.Utils';
 import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
+import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import { IADT3DViewerRenderMode } from '../../../../../Models/Constants';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
-    // updateColoredMeshItems: (name?: string) => void;
-    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void;
 }
-const MeshTab: React.FC<MeshTabProps> = ({
-    elementToEdit,
-    // updateColoredMeshItems,
-    setColoredMeshItems
-}) => {
+const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
     const { t } = useTranslation();
     const [listItems, setListItems] = useState<ICardboardListItem<string>[]>(
         []
     );
 
+    const { setColoredMeshItems, state } = useContext(SceneBuilderContext);
+
     // generate the list of items to show
     useEffect(() => {
         const listItems = getListItems(
-            elementToEdit.meshIDs,
-            setColoredMeshItems
+            elementToEdit.objectIDs,
+            setColoredMeshItems,
+            state.renderMode
         );
         setListItems(listItems);
     }, [elementToEdit, setColoredMeshItems]);
@@ -36,7 +34,7 @@ const MeshTab: React.FC<MeshTabProps> = ({
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <>
-            {elementToEdit.meshIDs.length === 0 ? (
+            {elementToEdit.objectIDs.length === 0 ? (
                 <div className={commonPanelStyles.noDataText}>
                     {t('3dSceneBuilder.noMeshAddedText')}
                 </div>
@@ -51,14 +49,18 @@ const MeshTab: React.FC<MeshTabProps> = ({
 };
 function getListItems(
     elementMeshIds: string[],
-    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void
+    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void,
+    renderMode: IADT3DViewerRenderMode
 ): ICardboardListItem<string>[] {
     const onMeshItemEnter = (meshId: string) => {
         const coloredMeshItems: ColoredMeshItem[] = createColoredMeshItems(
             elementMeshIds.filter((id) => id !== meshId),
             null
         );
-        coloredMeshItems.push({ meshId: meshId, color: '#00EDD9' });
+        coloredMeshItems.push({
+            meshId: meshId,
+            color: renderMode.coloredMeshHoverColor
+        });
         setColoredMeshItems(coloredMeshItems);
     };
 
