@@ -166,7 +166,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 ) : (
                     <>
                         <div className={commonFormStyles.content}>
-                            <div className={commonFormStyles.formHeader}>
+                            <div className={commonFormStyles.header}>
                                 <TextField
                                     label={t('displayName')}
                                     value={behaviorToEdit.displayName}

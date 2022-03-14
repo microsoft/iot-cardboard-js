@@ -11,7 +11,7 @@ const classPrefix = 'form';
 const classNames = {
     root: `${classPrefix}-root`,
     content: `${classPrefix}-content`,
-    formHeader: `${classPrefix}-form-header`,
+    header: `${classPrefix}-header`,
     pivot: `${classPrefix}-pivot`
 };
 export const getFormStyles = memoizeFunction(
@@ -37,8 +37,8 @@ export const getFormStyles = memoizeFunction(
                     overflow: 'hidden'
                 } as IStyle
             ],
-            formHeader: [
-                classNames.formHeader,
+            header: [
+                classNames.header,
                 {
                     padding: '0 0 4px',
                     overflow: 'hidden'

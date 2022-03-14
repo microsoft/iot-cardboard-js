@@ -124,7 +124,7 @@ const WidgetForm: React.FC<any> = () => {
     return (
         <>
             <div className={commonFormStyles.content}>
-                <div className={commonFormStyles.formHeader}>
+                <div className={commonFormStyles.header}>
                     <div className={customStyles.description}>
                         {widgetFormInfo.widget.description}
                     </div>

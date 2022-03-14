@@ -184,7 +184,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 iconName={'Shapes'}
             />
             <div className={commonFormStyles.content}>
-                <div className={commonFormStyles.formHeader}>
+                <div className={commonFormStyles.header}>
                     <TwinSearchDropdown
                         adapter={adapter}
                         label={t('3dSceneBuilder.linkedTwin')}
