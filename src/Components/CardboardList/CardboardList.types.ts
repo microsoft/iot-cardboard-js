@@ -14,6 +14,8 @@ type IListItemBaseProps<T> = {
     buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'>;
     /** icon to render on the right side of the list item */
     iconEndName?: IIconNames;
+    /** callback when end icon is clicked */
+    onIconEndClick?: (item: T) => void;
     /** icon to render at the left side of the list item */
     iconStartName?: IIconNames;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */

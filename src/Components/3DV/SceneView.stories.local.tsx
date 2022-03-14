@@ -1,7 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import { SceneView } from './SceneView';
+import SceneView from './SceneView';
 
 export default {
     title: 'Components/SceneView',

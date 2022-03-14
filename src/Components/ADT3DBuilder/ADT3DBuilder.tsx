@@ -1,5 +1,5 @@
 import React from 'react';
-import { SceneView } from '../3DV/SceneView';
+import SceneView from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';

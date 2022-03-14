@@ -13,3 +13,16 @@
 .cb-warning-icon {
     color: var(--cb-color-text-warning);
 }
+
+.cb-base-fade-in {
+    animation: fadeIn 0.367s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

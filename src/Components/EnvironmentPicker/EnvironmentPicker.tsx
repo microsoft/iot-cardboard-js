@@ -57,6 +57,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
     const dialogResettingValuesTimeoutRef = useRef(null);
+    const hasPulledEnvironmentsFromSubscription = useRef(false);
 
     const dialogContentProps = {
         type: DialogType.normal,
@@ -97,7 +98,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const environmentsState = useAdapter({
         adapterMethod: () => props.adapter.getADTInstances(),
         refetchDependencies: [],
-        isAdapterCalledOnMount: props.shouldPullFromSubscription
+        isAdapterCalledOnMount: false
     });
 
     // set initial values based on props and local storage
@@ -218,6 +219,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     )
                 )
             );
+            hasPulledEnvironmentsFromSubscription.current = true;
         }
     }, [environmentsState.adapterResult.result]);
 
@@ -356,6 +358,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             </div>
         );
     };
+
+    const handleOnEditClick = useCallback(() => {
+        if (
+            props.shouldPullFromSubscription &&
+            !hasPulledEnvironmentsFromSubscription.current &&
+            !environmentsState.isLoading
+        ) {
+            environmentsState.callAdapter();
+        }
+        toggleIsDialogHidden();
+    }, []);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
@@ -533,7 +546,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     iconProps={{ iconName: 'Edit' }}
                     title={t('edit')}
                     ariaLabel={t('edit')}
-                    onClick={toggleIsDialogHidden}
+                    onClick={handleOnEditClick}
                     className={'cb-environment-picker-edit-button'}
                 />
             </div>

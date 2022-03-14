@@ -431,6 +431,7 @@ export interface IBlobAdapter {
     getContainerBlobs: (
         fileTypes?: Array<string>
     ) => AdapterReturnType<BlobsData>;
+    putBlob: (file: File) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -667,6 +668,12 @@ export interface IADT3DViewerRenderMode {
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }
 
 export interface IBlobFile {
