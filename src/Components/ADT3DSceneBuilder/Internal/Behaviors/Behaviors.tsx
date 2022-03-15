@@ -6,14 +6,15 @@ import {
     IStyle,
     memoizeFunction,
     mergeStyleSets,
+    PrimaryButton,
     Separator,
     Theme,
     useTheme
 } from '@fluentui/react';
-import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+
 import {
     I3DScenesConfig,
     IBehavior
@@ -255,6 +256,7 @@ const SceneBehaviors: React.FC<Props> = ({
             <PanelFooter>
                 <PrimaryButton
                     className="cb-scene-builder-create-button"
+                    data-testid={'behavior-list-new-button'}
                     onClick={() => onCreateBehaviorClick()}
                     text={t('3dSceneBuilder.newBehavior')}
                 />

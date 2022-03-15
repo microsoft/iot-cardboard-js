@@ -301,7 +301,8 @@
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",
-        "alerts": "Alerts",
+        "alertsTab": "Alerts",
+        "statesTab": "States",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -355,8 +356,14 @@
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
-        "behaviorTriggerLabel": "Trigger expression",
-        "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+        "behaviorAlertForm": {
+            "colorPickerLabel": "Badge color",
+            "expressionLabel": "Trigger expression",
+            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
+            "notificationLabel": "Notification text",
+            "notificationPlaceholder": "None"
+        },
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",

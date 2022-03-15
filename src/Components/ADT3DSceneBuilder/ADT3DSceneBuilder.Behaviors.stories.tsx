@@ -225,6 +225,42 @@ MoreMenuEdit.play = async ({ canvasElement }) => {
     await clickOverFlowMenuItem(moreMenus);
 };
 
+export const NewElementsTab = Template.bind({});
+NewElementsTab.play = async ({ canvasElement }) => {
+    await BehaviorsTab.play({ canvasElement });
+    const canvas = within(canvasElement);
+    // click the behavior
+    const button = await canvas.findByTestId('behavior-list-new-button');
+    await userEvent.click(button);
+};
+
+export const NewStatesTab = Template.bind({});
+NewStatesTab.play = async ({ canvasElement }) => {
+    await NewElementsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[1]);
+};
+
+export const NewAlertsTab = Template.bind({});
+NewAlertsTab.play = async ({ canvasElement }) => {
+    await NewElementsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
+};
+
+export const NewWidgetsTab = Template.bind({});
+NewWidgetsTab.play = async ({ canvasElement }) => {
+    await NewElementsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[3]);
+};
+
 export const EditElementsTab = Template.bind({});
 EditElementsTab.play = async ({ canvasElement }) => {
     await BehaviorsTab.play({ canvasElement });

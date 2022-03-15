@@ -38,15 +38,17 @@ import {
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
+import AlertsTab from './Internal/AlertsTab';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
 );
 
 enum BehaviorPivot {
-    elements = 'elements',
-    twins = 'twins',
     alerts = 'alerts',
+    elements = 'elements',
+    states = 'states',
+    twins = 'twins',
     widgets = 'widgets'
 }
 
@@ -151,7 +153,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getPanelFormStyles(theme, 92);
+    const commonFormStyles = getPanelFormStyles(theme, 128);
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -216,12 +218,19 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
-                                    headerText={t('3dSceneBuilder.alerts')}
+                                    headerText={t('3dSceneBuilder.statesTab')}
+                                    itemKey={BehaviorPivot.states}
+                                >
+                                    <>States go here</>
+                                </PivotItem>
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.alertsTab')}
                                     itemKey={BehaviorPivot.alerts}
                                 >
-                                    {/* TODO SCHEMA MIGRATION - update
-                                Alerts tab to new schema & types */}
-                                    {/* <AlertsTab /> */}
+                                    <AlertsTab />
                                 </PivotItem>
                                 <PivotItem
                                     className={
