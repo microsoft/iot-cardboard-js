@@ -1,5 +1,6 @@
 import { IButtonStyles, ITheme } from '@fluentui/react';
 import { Theme } from '../../Models/Constants/Enums';
+import { customOverrides } from '../Palettes';
 
 // Overrides PrimaryButton styles
 export const getPrimaryButtonStyles = (
@@ -14,7 +15,17 @@ export const getPrimaryButtonStyles = (
 
     return {
         root: {
-            boxShadow
+            boxShadow,
+            color: customOverrides.primaryButtonTextColor // force in all themes
+        },
+        rootHovered: {
+            color: customOverrides.primaryButtonTextColor // force in all themes
+        },
+        rootPressed: {
+            color: customOverrides.primaryButtonTextColor // force in all themes
+        },
+        rootDisabled: {
+            color: customOverrides.primaryButtonTextColorDisabled
         }
     };
 };

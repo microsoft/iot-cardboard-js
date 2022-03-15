@@ -3,6 +3,7 @@ import { Theme } from '../../Models/Constants/Enums';
 import { getDropdownStyles } from './Dropdown.styles';
 import { getPivotStyles } from './Pivot.styles';
 import { getPrimaryButtonStyles } from './PrimaryButton.styles';
+import { getSeparatorStyles } from './Separator.styles';
 import { getSpinButtonStyles } from './SpinButton.styles';
 import { getTextFieldStyles } from './TextField.styles';
 import { getToggleStyles } from './Toggle.styles';
@@ -27,6 +28,9 @@ export const getCustomComponentStyles = (
     },
     Dropdown: {
         styles: getDropdownStyles(themeSetting, theme)
+    },
+    Separator: {
+        styles: getSeparatorStyles(themeSetting, theme)
     },
     SpinButton: {
         styles: getSpinButtonStyles(themeSetting, theme)

@@ -7,6 +7,7 @@ import {
 import { CardboardListItem } from './CardboardListItem';
 
 export const CardboardList = <T extends unknown>({
+    className,
     focusZoneProps,
     items,
     listKey,
@@ -29,6 +30,7 @@ export const CardboardList = <T extends unknown>({
         <>
             <FocusZone
                 {...focusZoneProps}
+                className={className}
                 direction={FocusZoneDirection.vertical}
             >
                 <List
