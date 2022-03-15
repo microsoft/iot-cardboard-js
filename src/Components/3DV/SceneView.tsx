@@ -101,7 +101,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     showMeshesOnHover,
     renderMode,
     zoomToMeshIds,
-    hideUnzoomedMeshes,
+    unzoomedMeshOpacity,
     onSceneLoaded,
     getToken,
     coloredMeshItems,
@@ -135,7 +135,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
-    const prevHideUnzoomedRef = useRef<boolean>(undefined);
+    const prevHideUnzoomedRef = useRef<number>(undefined);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -286,9 +286,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 sceneRef.current?.meshes?.length &&
                 (!cameraRef.current ||
                     prevZoomToIds.current !== zoomTo ||
-                    prevHideUnzoomedRef.current !== hideUnzoomedMeshes)
+                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
             ) {
-                prevHideUnzoomedRef.current = hideUnzoomedMeshes;
+                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
                 meshMap.current = {};
                 for (const mesh of sceneRef.current.meshes) {
                     if (mesh.id) {
@@ -297,10 +297,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                     mesh.computeWorldMatrix(true);
                     mesh.visibility =
-                        hideUnzoomedMeshes &&
+                        unzoomedMeshOpacity !== undefined &&
                         zoomToMeshIds?.length &&
                         !zoomToMeshIds.includes(mesh.id)
-                            ? 0
+                            ? unzoomedMeshOpacity
                             : 1;
                 }
 
@@ -355,10 +355,25 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                         camera.attachControl(canvas, false);
                         cameraRef.current = camera;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+                    } else {
+                        const positionFrom = cameraRef.current.position;
+                        const targetFrom = cameraRef.current.target;
+                        const radiusFrom = cameraRef.current.radius;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+                        const positionTo = cameraRef.current.position;
+                        const targetTo = cameraRef.current.target;
+                        const radiusTo = cameraRef.current.radius;
+                        cameraRef.current.position = positionFrom;
+                        cameraRef.current.target = targetFrom;
+                        const ease = new BABYLON.CubicEase();
+                        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+                        BABYLON.Animation.CreateAndStartAnimation('an1', cameraRef.current, 'position', 30, 30, positionFrom, positionTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
+                        BABYLON.Animation.CreateAndStartAnimation('an2', cameraRef.current, 'target', 30, 30, targetFrom, targetTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
+                        BABYLON.Animation.CreateAndStartAnimation('an3', cameraRef.current, 'radius', 30, 30, radiusFrom, radiusTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
                     }
-
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
                 }
             }
         }
@@ -383,7 +398,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         createOrZoomCamera();
-    }, [isLoading, zoomToMeshIds, hideUnzoomedMeshes]);
+    }, [isLoading, zoomToMeshIds, unzoomedMeshOpacity]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
