@@ -8,6 +8,7 @@ import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
     findOverflowMenuItem as findOverflowMenuItemByTestId,
+    IStoryContext,
     sleep,
     waitForFirstRender
 } from '../../Models/Services/StoryUtilities';
@@ -15,6 +16,7 @@ import {
     I3DScenesConfig,
     IElement
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
@@ -30,13 +32,22 @@ const cardStyle = {
 };
 
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
-const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
+const Template: SceneBuilderStory = (
+    _args,
+    context: IStoryContext<IADT3DSceneBuilderCardProps>
+) => (
     <div style={cardStyle}>
         <ADT3DSceneBuilder
             title={'3D Scene Builder'}
-            theme={theme}
-            locale={locale}
-            adapter={new MockAdapter({ mockData: mockVConfig })}
+            theme={context.globals.theme}
+            locale={context.globals.locale}
+            adapter={
+                new MockAdapter({
+                    mockData: context.parameters.data
+                        ? JSON.parse(JSON.stringify(context.parameters.data))
+                        : undefined
+                })
+            }
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
             {..._args}
         />
@@ -97,10 +108,16 @@ longData.configuration.scenes = [
                 ...mockElement,
                 id: 'element4',
                 displayName: 'element 4'
+            },
+            {
+                ...mockElement,
+                id: 'element5',
+                displayName: 'element 5'
             }
         ]
     }
 ];
+console.log(`**Long data`, longData);
 export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
