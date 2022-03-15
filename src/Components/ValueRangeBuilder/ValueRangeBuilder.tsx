@@ -1,22 +1,26 @@
 import produce from 'immer';
-import React, { useState } from 'react';
-import { useGuid } from '../../Models/Hooks';
+import React, { createContext, useContext, useState } from 'react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ReactComponent as InfinitySvg } from '../../Resources/Static/infinity.svg';
 import './ValueRangeBuilder.scss';
-import { ActionButton, IconButton } from '@fluentui/react';
+import {
+    ActionButton,
+    Callout,
+    IColorCellProps,
+    IconButton,
+    SwatchColorPicker
+} from '@fluentui/react';
 import { createGUID } from '../../Models/Services/Utils';
+import { useBoolean, useId } from '@fluentui/react-hooks';
+import {
+    IValueRangeBuilderContext,
+    IValueRangeBuilderProps,
+    OnRangeValueUpdateParams,
+    Boundary
+} from './ValueRangeBuilder.types';
 
-export interface IValueRangeBuilderProps {
-    valueRanges: IValueRange[];
-    setValueRanges: React.Dispatch<React.SetStateAction<IValueRange[]>>;
-}
-
-enum Boundary {
-    min = 'min',
-    max = 'max'
-}
+const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>(null);
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
     color: '#FF0000',
@@ -24,94 +28,181 @@ const defaultValueRange: Omit<IValueRange, 'id'> = {
     max: 'Infinity'
 };
 
+export const defaultSwatchColors: IColorCellProps[] = [
+    { id: 'green', label: 'green', color: '#7DDF64' },
+    { id: 'purple', label: 'purple', color: '#7A306C' },
+    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
+    { id: 'blue', label: 'blue', color: '#3AAED8' },
+    { id: 'red', label: 'red', color: '#E84855' }
+];
+
 const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
     valueRanges = [],
-    setValueRanges
+    setValueRanges,
+    customSwatchColors,
+    baseComponentProps
 }) => {
-    const onRangeValueUpdate = (
-        boundary: Boundary,
-        newValue: string,
-        id: string
-    ) => {
+    const onRangeValueUpdate = ({
+        boundary,
+        id,
+        newValue,
+        newColor
+    }: OnRangeValueUpdateParams) => {
         setValueRanges(
             produce((draft) => {
                 const valueRangeToUpdate = draft.find((vr) => vr.id === id);
-                if (valueRangeToUpdate) {
-                    if (boundary === Boundary.min) {
-                        valueRangeToUpdate.min = newValue as any;
-                    } else if (boundary === Boundary.max) {
-                        valueRangeToUpdate.max = newValue as any;
-                    }
+                if (!valueRangeToUpdate) return;
+                if (typeof newValue === 'string') {
+                    boundary === Boundary.min
+                        ? (valueRangeToUpdate.min = newValue as any)
+                        : (valueRangeToUpdate.max = newValue as any);
+                } else if (newColor) {
+                    valueRangeToUpdate.color = newColor;
                 }
             })
         );
     };
 
+    const colorSwatch = customSwatchColors || defaultSwatchColors;
+
     return (
-        <BaseComponent>
-            {valueRanges.map((valueRange) => (
-                <div className="cb-value-range-container" key={valueRange.id}>
-                    <RangeBoundaryInput
-                        value={String(valueRange.min)}
-                        boundary={Boundary.min}
-                        updateValue={(newValue) =>
-                            onRangeValueUpdate(
-                                Boundary.min,
-                                newValue,
-                                valueRange.id
-                            )
+        <ValueRangeBuilderContext.Provider
+            value={{
+                valueRanges,
+                onRangeValueUpdate,
+                setValueRanges,
+                colorSwatch
+            }}
+        >
+            <BaseComponent
+                {...baseComponentProps}
+                containerClassName="cb-value-range-builder-container"
+            >
+                {valueRanges.map((valueRange) => (
+                    <ValueRangeRow
+                        valueRange={valueRange}
+                        key={valueRange.id}
+                    />
+                ))}
+                <ActionButton
+                    iconProps={{ iconName: 'Add' }}
+                    onClick={() =>
+                        setValueRanges(
+                            produce((draft) => {
+                                draft.push({
+                                    ...defaultValueRange,
+                                    color:
+                                        colorSwatch[
+                                            Math.floor(
+                                                Math.random() *
+                                                    colorSwatch.length
+                                            )
+                                        ]?.color || '#FF000',
+                                    id: createGUID(false)
+                                });
+                            })
+                        )
+                    }
+                >
+                    Add value range
+                </ActionButton>
+            </BaseComponent>
+        </ValueRangeBuilderContext.Provider>
+    );
+};
+
+const ValueRangeRow: React.FC<{
+    valueRange: IValueRange;
+}> = ({ valueRange }) => {
+    const { onRangeValueUpdate, setValueRanges, colorSwatch } = useContext(
+        ValueRangeBuilderContext
+    );
+
+    const labelId = useId('callout-label');
+    const colorButtonId = useId('color-button');
+
+    const [
+        isRowColorCalloutVisible,
+        { toggle: toggleIsRowColorCalloutVisible }
+    ] = useBoolean(false);
+
+    return (
+        <div className="cb-value-range-container">
+            <RangeBoundaryInput
+                value={String(valueRange.min)}
+                boundary={Boundary.min}
+                updateValue={(newValue) =>
+                    onRangeValueUpdate({
+                        boundary: Boundary.min,
+                        newValue,
+                        id: valueRange.id
+                    })
+                }
+            />
+            <RangeBoundaryInput
+                value={String(valueRange.max)}
+                boundary={Boundary.max}
+                updateValue={(newValue) =>
+                    onRangeValueUpdate({
+                        boundary: Boundary.max,
+                        newValue,
+                        id: valueRange.id
+                    })
+                }
+            />
+            <button
+                aria-label={'Select color for value range'}
+                style={{ backgroundColor: valueRange.color }}
+                className="cb-value-range-color-button"
+                onClick={toggleIsRowColorCalloutVisible}
+                id={colorButtonId}
+            ></button>
+            {isRowColorCalloutVisible && (
+                <Callout
+                    ariaLabelledBy={labelId}
+                    target={`#${colorButtonId}`}
+                    onDismiss={toggleIsRowColorCalloutVisible}
+                    setInitialFocus
+                    styles={{ root: { width: 100 } }}
+                >
+                    <SwatchColorPicker
+                        columnCount={3}
+                        cellShape={'square'}
+                        colorCells={colorSwatch}
+                        aria-labelledby={labelId}
+                        onChange={(_e, _id, color) =>
+                            onRangeValueUpdate({
+                                boundary: Boundary.max,
+                                newColor: color,
+                                id: valueRange.id
+                            })
+                        }
+                        selectedId={
+                            colorSwatch.find(
+                                (color) => color.color === valueRange.color
+                            )?.id
                         }
                     />
-                    <RangeBoundaryInput
-                        value={String(valueRange.max)}
-                        boundary={Boundary.max}
-                        updateValue={(newValue) =>
-                            onRangeValueUpdate(
-                                Boundary.max,
-                                newValue,
-                                valueRange.id
-                            )
-                        }
-                    />
-                    <button
-                        style={{ backgroundColor: 'red' }}
-                        className="cb-value-range-color-button"
-                    ></button>
-                    <IconButton
-                        iconProps={{ iconName: 'Delete' }}
-                        title="Delete value range"
-                        styles={{
-                            root: { alignSelf: 'flex-end', height: '24px' }
-                        }}
-                        onClick={() => {
-                            setValueRanges(
-                                produce((draft) => {
-                                    const valueRangeToRemove = draft.findIndex(
-                                        (vr) => vr.id === valueRange.id
-                                    );
-                                    draft.splice(valueRangeToRemove, 1);
-                                })
-                            );
-                        }}
-                    />
-                </div>
-            ))}
-            <ActionButton
-                iconProps={{ iconName: 'Add' }}
-                onClick={() =>
+                </Callout>
+            )}
+            <IconButton
+                iconProps={{ iconName: 'Delete' }}
+                title="Delete value range"
+                styles={{
+                    root: { alignSelf: 'flex-end', height: '24px' }
+                }}
+                onClick={() => {
                     setValueRanges(
                         produce((draft) => {
-                            draft.push({
-                                ...defaultValueRange,
-                                id: createGUID(false)
-                            });
+                            const valueRangeToRemove = draft.findIndex(
+                                (vr) => vr.id === valueRange.id
+                            );
+                            draft.splice(valueRangeToRemove, 1);
                         })
-                    )
-                }
-            >
-                Add value range
-            </ActionButton>
-        </BaseComponent>
+                    );
+                }}
+            />
+        </div>
     );
 };
 
@@ -120,7 +211,7 @@ const RangeBoundaryInput: React.FC<{
     boundary: Boundary;
     updateValue: (newValue: string) => void;
 }> = ({ value, updateValue, boundary }) => {
-    const guid = useGuid();
+    const guid = useId();
     const isMin = boundary === Boundary.min;
 
     const [isNumericInputValid, setIsNumericInputValid] = useState(true);

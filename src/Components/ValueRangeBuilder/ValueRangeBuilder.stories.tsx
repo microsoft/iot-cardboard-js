@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import ValueRangeBuilder from './ValueRangeBuilder';
+import ValueRangeBuilder, { defaultSwatchColors } from './ValueRangeBuilder';
 
 export default {
     title: 'Components/Value Range Builder',
     component: ValueRangeBuilder
 };
 
-const Template = (args, { parameters: { defaultCardWrapperStyle } }) => {
+const Template = (
+    args,
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+) => {
     const [valueRanges, setValueRanges] = useState(
         args.initialValueRanges || []
     );
@@ -17,6 +20,7 @@ const Template = (args, { parameters: { defaultCardWrapperStyle } }) => {
                 {...args}
                 valueRanges={valueRanges}
                 setValueRanges={setValueRanges}
+                baseComponentProps={{ theme, locale }}
             />
         </div>
     );
@@ -30,9 +34,21 @@ ValueRangesPresent.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: '#FF0000',
+            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            min: 1,
+            max: 1000
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf161',
+            color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: '-Infinity',
-            max: 100
+            max: 0
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf162',
+            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            min: 1001,
+            max: 'Infinity'
         }
     ]
 };
