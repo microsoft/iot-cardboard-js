@@ -18,6 +18,7 @@ import {
 import { AbstractMesh, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
+import { totalBoundingInfo } from './SceneView.Utils';
 
 const debug = false;
 
@@ -369,32 +370,45 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         cameraRef.current.position = positionFrom;
                         cameraRef.current.target = targetFrom;
                         const ease = new BABYLON.CubicEase();
-                        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-                        BABYLON.Animation.CreateAndStartAnimation('an1', cameraRef.current, 'position', 30, 30, positionFrom, positionTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
-                        BABYLON.Animation.CreateAndStartAnimation('an2', cameraRef.current, 'target', 30, 30, targetFrom, targetTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
-                        BABYLON.Animation.CreateAndStartAnimation('an3', cameraRef.current, 'radius', 30, 30, radiusFrom, radiusTo, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT, ease);
+                        ease.setEasingMode(
+                            BABYLON.EasingFunction.EASINGMODE_EASEINOUT
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an1',
+                            cameraRef.current,
+                            'position',
+                            30,
+                            30,
+                            positionFrom,
+                            positionTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an2',
+                            cameraRef.current,
+                            'target',
+                            30,
+                            30,
+                            targetFrom,
+                            targetTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an3',
+                            cameraRef.current,
+                            'radius',
+                            30,
+                            30,
+                            radiusFrom,
+                            radiusTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
                     }
                 }
             }
-        }
-
-        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
-            let boundingInfo = meshes[0].getBoundingInfo();
-            let min = boundingInfo.boundingBox.minimumWorld;
-            let max = boundingInfo.boundingBox.maximumWorld;
-
-            for (const mesh of meshes) {
-                boundingInfo = mesh.getBoundingInfo();
-                min = BABYLON.Vector3.Minimize(
-                    min,
-                    boundingInfo.boundingBox.minimumWorld
-                );
-                max = BABYLON.Vector3.Maximize(
-                    max,
-                    boundingInfo.boundingBox.maximumWorld
-                );
-            }
-            return new BABYLON.BoundingInfo(min, max);
         }
 
         createOrZoomCamera();
