@@ -108,6 +108,11 @@ longData.configuration.scenes = [
                 ...mockElement,
                 id: 'element4',
                 displayName: 'element 4'
+            },
+            {
+                ...mockElement,
+                id: 'element5',
+                displayName: 'element 5'
             }
         ]
     }
