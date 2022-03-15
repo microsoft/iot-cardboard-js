@@ -1,7 +1,13 @@
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
 import * as GUI from 'babylonjs-gui';
-import { ProgressIndicator, useTheme } from '@fluentui/react';
+import {
+    IProgressIndicatorStyles,
+    memoizeFunction,
+    ProgressIndicator,
+    Theme,
+    useTheme
+} from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
@@ -870,14 +876,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             {isLoading && (
                 <ProgressIndicator
                     className="cb-sceneview-progressbar"
-                    styles={{
-                        itemDescription: {
-                            color: theme.palette.white,
-                            fontSize: 26,
-                            marginTop: 10,
-                            textAlign: 'center'
-                        }
-                    }}
+                    styles={getProgressStyles(theme)}
                     description={`Loading model (${Math.floor(
                         loadProgress * 100
                     )}%)...`}
@@ -905,5 +904,27 @@ const SceneView: React.FC<ISceneViewProp> = ({
         </div>
     );
 };
+
+const getProgressStyles = memoizeFunction(
+    (_theme: Theme): Partial<IProgressIndicatorStyles> => ({
+        root: {
+            color: '#fff',
+            fontSize: 24,
+            left: '50%',
+            position: 'absolute',
+            textShadow:
+                '1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000',
+            top: '50%',
+            transform: `translate(-50%, 0%)`,
+            width: '300px'
+        },
+        itemDescription: {
+            color: '#fff',
+            fontSize: 26,
+            marginTop: 10,
+            textAlign: 'center'
+        }
+    })
+);
 
 export default SceneView;
