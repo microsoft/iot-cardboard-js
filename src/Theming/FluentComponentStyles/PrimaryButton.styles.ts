@@ -14,14 +14,7 @@ export const getPrimaryButtonStyles = (
 
     return {
         root: {
-            boxShadow,
-            color: 'white' // force in all themes
-        },
-        rootHovered: {
-            color: 'white' // force in all themes
-        },
-        rootPressed: {
-            color: 'white' // force in all themes
+            boxShadow
         }
     };
 };
