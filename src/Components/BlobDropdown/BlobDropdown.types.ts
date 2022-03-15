@@ -1,4 +1,4 @@
-import { IBlobAdapter, MockAdapter } from '../..';
+import { IBlobAdapter, IBlobFile, MockAdapter } from '../..';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 export type BlobDropdownProps = BaseComponentProps & {
@@ -10,5 +10,6 @@ export type BlobDropdownProps = BaseComponentProps & {
     placeholder?: string;
     isRequired?: boolean;
     onChange?: (blobUrl: string) => void;
+    onLoad?: (blobs: Array<IBlobFile>) => void;
     selectedBlobUrl?: string;
 };

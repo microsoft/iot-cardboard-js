@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SceneView } from '../3DV/SceneView';
+import SceneView from '../3DV/SceneView';
 import { IBlobAdapter } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import './ADT3DGlobe.scss';
