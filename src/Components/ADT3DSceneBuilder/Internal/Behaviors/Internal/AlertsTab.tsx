@@ -6,7 +6,7 @@ import { VisualType } from '../../../../../Models/Classes/3DVConfig';
 import { linkedTwinName } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
-import { IStatusColoringVisual } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IAlertVisual } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
     Stack,
@@ -31,12 +31,13 @@ const AlertsTab: React.FC = () => {
     );
     const [propertyNames, setPropertyNames] = useState<string[]>(null);
 
+    // we only grab the first alert in the collection
     const colorChangeVisual = behaviorToEdit.visuals.find(
-        (visual) => visual.type === VisualType.StatusColoring
-    ) as IStatusColoringVisual;
+        (visual) => visual.type === VisualType.Alert
+    ) as IAlertVisual;
 
     const colorAlertTriggerExpression =
-        colorChangeVisual?.statusValueExpression || '';
+        colorChangeVisual?.triggerExpression || '';
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
     if (!propertyNames) {
@@ -70,10 +71,9 @@ const AlertsTab: React.FC = () => {
                         produce((draft) => {
                             // Assuming only 1 color change visual per behavior
                             const colorChangeVisual = draft.visuals.find(
-                                (visual) =>
-                                    visual.type === VisualType.StatusColoring
-                            ) as IStatusColoringVisual;
-                            colorChangeVisual.statusValueExpression = newValue;
+                                (visual) => visual.type === VisualType.Alert
+                            ) as IAlertVisual;
+                            colorChangeVisual.triggerExpression = newValue;
                         })
                     );
                 }}
