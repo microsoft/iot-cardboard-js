@@ -76,6 +76,7 @@
                                     "label": "Left",
                                     "valueRanges": [
                                         {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf160",
                                             "min": 0,
                                             "max": 500,
                                             "color": "#FF0000"
@@ -93,6 +94,7 @@
                                     "label": "Right",
                                     "valueRanges": [
                                         {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf161",
                                             "min": 0,
                                             "max": 500,
                                             "color": "#FF0000"
@@ -134,11 +136,13 @@
                         "statusValueExpression": "LinkedTwin.Temperature",
                         "valueRanges": [
                             {
+                                "id": "0278cd377adbc30253b0fdb6b5fcf162",
                                 "color": "#FF0000",
                                 "min": 21,
                                 "max": "Infinity"
                             },
                             {
+                                "id": "0278cd377adbc30253b0fdb6b5fcf163",
                                 "color": "#0000FF",
                                 "min": "-Infinity",
                                 "max": 20
@@ -167,11 +171,13 @@
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "valueRanges": [
                             {
+                                "id": "0278ed377adbc30153b0fdb6b5fcf167",
                                 "color": "#0000FF",
                                 "min": 100,
                                 "max": "Infinity"
                             },
                             {
+                                "id": "0278bd377adbc30254b0fdb6b5fcf169",
                                 "color": "#00FF00",
                                 "min": "-Infinity",
                                 "max": 100

@@ -6,16 +6,15 @@ export default {
     component: ValueRangeBuilder
 };
 
-const Template = (
-    args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
-) => {
+const wrapperStyle = { width: '340px', height: '400px' };
+
+const Template = (args, { globals: { theme, locale } }) => {
     const [valueRanges, setValueRanges] = useState(
         args.initialValueRanges || []
     );
 
     return (
-        <div style={defaultCardWrapperStyle}>
+        <div style={wrapperStyle}>
             <ValueRangeBuilder
                 {...args}
                 valueRanges={valueRanges}
