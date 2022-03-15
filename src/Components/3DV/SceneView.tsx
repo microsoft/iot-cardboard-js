@@ -16,7 +16,7 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, Tools } from 'babylonjs';
-import { makeShaderMaterial } from './Shaders';
+import { calculateAverageFresnel, makeShaderMaterial } from './Shaders';
 import { customShaderTag, RenderModes } from '../../Models/Constants';
 
 const debug = false;
@@ -333,7 +333,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current?.getMaterialByTags(
                         customShaderTag,
                         (x) => {
-                            x.setVector3(
+                            const y = x as BABYLON.ShaderMaterial;
+                            y.setVector3(
                                 'cameraPosition',
                                 cameraRef.current.position
                             );
@@ -940,7 +941,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
             'coloredMeshMaterial',
             sceneRef.current,
             coloredMeshMaterialColor,
-            BABYLON.Color4.FromHexString(currentRenderMode.fresnelColor),
+            calculateAverageFresnel(
+                BABYLON.Color4.FromHexString(currentRenderMode.fresnelColor),
+                coloredMeshMaterialColor
+            ),
             reflectionTexture.current
         );
         // const material = new BABYLON.StandardMaterial(

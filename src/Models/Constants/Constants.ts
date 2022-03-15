@@ -184,7 +184,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         id: ADT3DRenderMode.Gold,
         text: '3dSceneViewer.renderModes.gold',
         baseColor: '#BBBBBB1A',
-        fresnelColor: '#FFFFFF1A',
+        fresnelColor: '#FFFFFF4D',
         isWireframe: false,
         coloredMeshColor: '#999999FC',
         meshHoverColor: '#DDDDDD4D',

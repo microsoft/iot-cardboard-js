@@ -143,3 +143,16 @@ export function makeShaderMaterial(
 
     return material;
 }
+export function calculateAverageFresnel(
+    themeFresnel: BABYLON.Color4,
+    baseColor: BABYLON.Color4
+) {
+    const newFresnel = new BABYLON.Color4(
+        (baseColor.r + themeFresnel.r) * 0.5,
+        (baseColor.g + themeFresnel.g) * 0.5,
+        (baseColor.b + themeFresnel.b) * 0.5,
+        (baseColor.a + themeFresnel.a) * 0.5
+    );
+
+    return newFresnel;
+}
