@@ -864,7 +864,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 className={
                     isLoading
                         ? customStyles.canvas
-                        : `${customStyles.canvas} ${customStyles.canvasVisible}`
+                        : `${customStyles.canvasVisible} ${customStyles.canvas}`
                 }
                 id={canvasId}
                 touch-action="none"
