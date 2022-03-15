@@ -103,9 +103,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         fresnelColor: null,
         //opacity: 1,
         isWireframe: false,
-        coloredMeshColor: '#00FF00',
-        meshHoverColor: '#FF0000',
-        coloredMeshHoverColor: '#eaed00',
+        coloredMeshColor: '#00FF00FF',
+        meshHoverColor: '#FF0000ff',
+        coloredMeshHoverColor: '#eaed00ff',
         background: null
     },
     {
