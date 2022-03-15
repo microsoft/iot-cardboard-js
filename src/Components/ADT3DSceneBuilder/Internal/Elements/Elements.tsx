@@ -397,7 +397,6 @@ function getListItems(
             setMeshIdsToOutline([]);
         } else {
             setMeshIdsToOutline([]);
-            //setColoredMeshItems([]);
         }
     };
 

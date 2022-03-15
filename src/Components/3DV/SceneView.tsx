@@ -847,7 +847,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     (mesh) => mesh.id === id
                 );
 
-                if (meshIdsToOutline) {
+                if (meshToOutline) {
                     try {
                         highlightLayer.current.addMesh(
                             meshToOutline as BABYLON.Mesh,
