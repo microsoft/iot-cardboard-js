@@ -34,7 +34,8 @@ export const getFormStyles = memoizeFunction(
                     display: 'flex',
                     flexDirection: 'column',
                     flex: 1,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    position: 'relative'
                 } as IStyle
             ],
             header: [
