@@ -85,12 +85,15 @@ const AlertsTab: React.FC = () => {
             <Text>{t(LOC_KEYS.colorPickerLabel)}</Text>
             <div
                 style={{
+                    alignItems: 'center',
                     backgroundColor: 'red',
+                    border: `1px solid ${theme.semanticColors.inputBorder}`,
+                    borderRadius: 4,
+                    display: 'flex',
                     fontSize: 12,
                     height: 32,
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center'
+                    padding: 4,
+                    width: '100%'
                 }}
             >
                 To be implemented
