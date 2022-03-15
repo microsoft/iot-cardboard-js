@@ -7,7 +7,10 @@ import ADTTwinsPage from './ADTTwinsPage';
 
 export default {
     title: 'Pages/ADTTwinsPage',
-    component: ADTTwinsPage
+    component: ADTTwinsPage,
+    parameters: {
+        noGlobalWrapper: true
+    }
 };
 
 const cardStyle = {

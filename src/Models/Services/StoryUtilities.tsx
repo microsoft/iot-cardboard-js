@@ -11,7 +11,7 @@ import BaseComponent from '../../Components/BaseComponent/BaseComponent';
  * Context passed into the story decorator.
  * <T> is the type for the props of the component
  */
-type IStoryContext<T> = StoryContext<
+export type IStoryContext<T> = StoryContext<
     ReactFramework,
     T & {
         children?: React.ReactNode;

@@ -70,11 +70,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
         default:
             componentContent = children;
     }
-    return (
-        <BaseComponent containerClassName="cb-scene-page-container">
-            {componentContent}
-        </BaseComponent>
-    );
+    return <BaseComponent>{componentContent}</BaseComponent>;
 };
 
 export default React.memo(ScenePageErrorHandlingWrapper);
