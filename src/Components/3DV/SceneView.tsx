@@ -18,7 +18,7 @@ import {
 import { AbstractMesh, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
-import { totalBoundingInfo } from './SceneView.Utils';
+import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 
 const debug = false;
@@ -325,7 +325,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
 
                     someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                        totalBoundingInfo(meshes)
+                        getBoundingBox(meshes)
                     );
 
                     someMeshFromTheArrayOfMeshes.showBoundingBox = false;
