@@ -1,5 +1,4 @@
 import * as BABYLON from 'babylonjs';
-import { BaseTexture, Texture } from 'babylonjs';
 import { customShaderTag } from '../../Models/Constants';
 
 const customVertex = `
@@ -47,9 +46,8 @@ varying vec4 vColor;
 
 // Refs
 uniform vec3 cameraPosition;
-uniform vec3 baseColor;
-uniform vec3 fresnelColor;
-uniform float opacity;
+uniform vec4 baseColor;
+uniform vec4 fresnelColor;
 
 uniform sampler2D textureSampler;
 
@@ -58,24 +56,24 @@ uniform mat4 worldView;
 uniform sampler2D refSampler;
 #endif
 
-vec3 fresnel_glow(float amount, float intensity, vec3 color, vec3 normal, vec3 view)
+vec4 fresnel_glow(float amount, float intensity, vec4 color, vec3 normal, vec3 view)
 {
 	return pow((1.0 - dot(normalize(normal), normalize(view))), amount) * color * intensity;
 }
 
 void main(void) {
-	vec3 _baseColor = baseColor;
-    vec3 _fresnelColor = fresnelColor;
+	vec4 _baseColor = baseColor;
+    vec4 _fresnelColor = fresnelColor;
     #ifdef VERTEXCOLOR
 	_baseColor.rgb *= vColor.rgb;
     #endif
 
-    float fresnelBias = 0.2;
-    float fresnelPower = 2.0;
+    // float fresnelBias = 0.2;
+    // float fresnelPower = 2.0;
     vec3 viewDirectionW = normalize(cameraPosition - vPositionW);
     
-    vec3 fresnel = fresnel_glow(4.0, 4.5, _fresnelColor, vNormalW, viewDirectionW);
-    vec4 _blendedColor = vec4(normalize(_baseColor + fresnel), opacity);
+    vec4 fresnel = fresnel_glow(4.0, 4.5, _fresnelColor, vNormalW, viewDirectionW);
+    vec4 _blendedColor = vec4(normalize(_baseColor + fresnel).rgb, _baseColor.a);
     
     #ifdef TDV_REFLECTION
     //Reflection
@@ -91,7 +89,7 @@ void main(void) {
     vec2 vN = r.xy / m + .5;
 
     vec3 refBase = texture2D( refSampler, vN).rgb;
-    _blendedColor *= vec4(refBase,1.);
+    _blendedColor *= vec4(refBase, 1.);
     #endif
 
     gl_FragColor = _blendedColor;
@@ -102,10 +100,9 @@ void main(void) {
 export function makeShaderMaterial(
     name: string,
     scene: any,
-    baseColor: BABYLON.Color3,
-    fresnelColor: BABYLON.Color3,
-    opacity: number,
-    reflectionTexture: Texture
+    baseColor: BABYLON.Color4,
+    fresnelColor: BABYLON.Color4,
+    reflectionTexture: BABYLON.Texture
 ) {
     const hasRefTexture = reflectionTexture != null;
     BABYLON.Effect.ShadersStore['customVertexShader'] = customVertex;
@@ -132,28 +129,17 @@ export function makeShaderMaterial(
         }
     );
 
-    material.setColor3('baseColor', baseColor);
-    material.setColor3('fresnelColor', fresnelColor);
-    material.setFloat('opacity', opacity);
+    material.setColor4('baseColor', baseColor);
+    material.setColor4('fresnelColor', fresnelColor);
     material.setVector3('cameraPosition', BABYLON.Vector3.Zero());
     if (hasRefTexture) material.setTexture('refSampler', reflectionTexture);
 
     material.backFaceCulling = false;
-    material.alpha = opacity;
-    material.alphaMode = opacity > 0.9 ? 5 : 1;
+    material.alpha = baseColor.a;
+    material.alphaMode = baseColor.a > 0.9 ? 5 : 1;
 
     //Add a camera update tag to flag for Fresnel update
     BABYLON.Tags.AddTagsTo(material, customShaderTag);
 
     return material;
-}
-
-export function calculateFresnelColor(baseColor: BABYLON.Color3) {
-    const luminanceMultiplier = 2.0;
-    const newColor = new BABYLON.Color3(
-        baseColor.r * luminanceMultiplier,
-        baseColor.g * luminanceMultiplier,
-        baseColor.b * luminanceMultiplier
-    );
-    return newColor;
 }

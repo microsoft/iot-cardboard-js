@@ -15,10 +15,9 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, BaseTexture, CubeTexture, Tools } from 'babylonjs';
-import { makeShaderMaterial, calculateFresnelColor } from './Shaders';
+import { AbstractMesh, Tools } from 'babylonjs';
+import { makeShaderMaterial } from './Shaders';
 import { customShaderTag, RenderModes } from '../../Models/Constants';
-import { current } from 'immer';
 
 const debug = false;
 
@@ -409,31 +408,29 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (currentRenderMode.baseColor || currentRenderMode.fresnelColor) {
-                const hovCol = BABYLON.Color3.FromHexString(
+                const hovCol = BABYLON.Color4.FromHexString(
                     currentRenderMode.meshHoverColor
                 );
                 hovMaterial.current = makeShaderMaterial(
                     'hover',
                     sceneRef.current,
                     hovCol,
-                    BABYLON.Color3.FromHexString(
+                    BABYLON.Color4.FromHexString(
                         currentRenderMode.fresnelColor
                     ),
-                    0.3,
                     reflectionTexture.current
                 );
 
-                const selectMeshColor = BABYLON.Color3.FromHexString(
+                const selectMeshColor = BABYLON.Color4.FromHexString(
                     currentRenderMode.coloredMeshHoverColor
                 );
                 coloredHovMaterial.current = makeShaderMaterial(
                     'colHov',
                     sceneRef.current,
                     selectMeshColor,
-                    BABYLON.Color3.FromHexString(
+                    BABYLON.Color4.FromHexString(
                         currentRenderMode.fresnelColor
                     ),
-                    0.999,
                     reflectionTexture.current
                 );
             } else {
@@ -499,10 +496,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
-                const baseColor = BABYLON.Color3.FromHexString(
+                const baseColor = BABYLON.Color4.FromHexString(
                     currentRenderMode.baseColor
                 );
-                const fresnelColor = BABYLON.Color3.FromHexString(
+                const fresnelColor = BABYLON.Color4.FromHexString(
                     currentRenderMode.fresnelColor
                 );
 
@@ -511,7 +508,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    currentRenderMode.opacity,
                     reflectionTexture.current
                 );
 
@@ -933,15 +929,18 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         const coloredMeshMaterialColor = color
-            ? BABYLON.Color3.FromHexString(color)
-            : BABYLON.Color3.FromHexString(currentRenderMode.coloredMeshColor);
-        console.log(color);
+            ? BABYLON.Color4.FromHexString(color)
+            : BABYLON.Color4.FromHexString(currentRenderMode.coloredMeshColor);
+
+        //If the hex value is only 3 or 6 places, assume full opacity
+        if (color && (color.length == 4 || color.length == 7))
+            coloredMeshMaterialColor.a = 1;
+
         const material = makeShaderMaterial(
             'coloredMeshMaterial',
             sceneRef.current,
             coloredMeshMaterialColor,
-            BABYLON.Color3.FromHexString(currentRenderMode.fresnelColor),
-            1.0,
+            BABYLON.Color4.FromHexString(currentRenderMode.fresnelColor),
             reflectionTexture.current
         );
         // const material = new BABYLON.StandardMaterial(

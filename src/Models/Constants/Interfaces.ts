@@ -1,4 +1,4 @@
-import { AbstractMesh, BaseTexture, Scene } from 'babylonjs';
+import { AbstractMesh, Scene } from 'babylonjs';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -661,7 +661,7 @@ export interface IADT3DViewerRenderMode {
     text: string;
     baseColor: string;
     fresnelColor: string;
-    opacity: number;
+    //opacity: number;
     isWireframe: boolean;
     background: string;
     coloredMeshColor: string;
