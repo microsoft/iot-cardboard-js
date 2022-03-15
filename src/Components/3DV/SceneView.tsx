@@ -344,6 +344,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         canvasId
                     ) as HTMLCanvasElement;
 
+                    // First time in after loading - create the camera
                     if (!cameraRef.current) {
                         const camera = new BABYLON.ArcRotateCamera(
                             'camera',
@@ -359,16 +360,21 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
                     } else {
+                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                        // First save the current camera position
                         const positionFrom = cameraRef.current.position;
                         const targetFrom = cameraRef.current.target;
                         const radiusFrom = cameraRef.current.radius;
+                        // Now move it immediately to where we want it and save the new position
                         cameraRef.current.zoomOn(meshes, true);
                         cameraRef.current.radius = radius;
                         const positionTo = cameraRef.current.position;
                         const targetTo = cameraRef.current.target;
                         const radiusTo = cameraRef.current.radius;
+                        // Reset camera back to original position
                         cameraRef.current.position = positionFrom;
                         cameraRef.current.target = targetFrom;
+                        // And animate to the desired position
                         const ease = new BABYLON.CubicEase();
                         ease.setEasingMode(
                             BABYLON.EasingFunction.EASINGMODE_EASEINOUT
@@ -377,8 +383,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             'an1',
                             cameraRef.current,
                             'position',
-                            30,
-                            30,
+                            30, // FPS
+                            30, // Number of frames (ie 1 second)
                             positionFrom,
                             positionTo,
                             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
