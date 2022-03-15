@@ -152,6 +152,7 @@ export interface IGaugeWidgetConfiguration {
  * Numeric range to trigger coloring
  */
 export interface IValueRange {
+    id: string;
     color: string;
     min: INumericOrInfinityType;
     max: INumericOrInfinityType;
@@ -190,7 +191,7 @@ export interface IStatusColoringVisual {
      * Expression which evaluates to numeric value
      */
     statusValueExpression: string;
-    valueRanges?: IValueRange[];
+    valueRanges: IValueRange[];
     objectIDs: IObjectIDs;
     extensionProperties?: IExtensionProperties;
 }

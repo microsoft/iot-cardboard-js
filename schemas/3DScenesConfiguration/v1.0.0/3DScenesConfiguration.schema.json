@@ -436,6 +436,9 @@
             "additionalProperties": false,
             "description": "Numeric range to trigger coloring",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "color": {
                     "type": "string"
                 },
@@ -446,7 +449,7 @@
                     "$ref": "#/$defs/INumericOrInfinityType"
                 }
             },
-            "required": ["color", "min", "max"]
+            "required": ["id", "color", "min", "max"]
         },
         "IStatusColoringVisual": {
             "type": "object",
