@@ -14,7 +14,7 @@ const classNames = {
     header: `${classPrefix}-header`,
     pivot: `${classPrefix}-pivot`
 };
-export const getFormStyles = memoizeFunction(
+export const getPanelFormStyles = memoizeFunction(
     (_theme: Theme, formHeaderHeight: number) => {
         const breadcrumbHeight = '40px';
         return mergeStyleSets({
@@ -53,7 +53,7 @@ export const getFormStyles = memoizeFunction(
     }
 );
 const pivotTabsHeight = 36;
-export const formPivotStyles: Partial<IPivotStyles> = {
+export const panelFormPivotStyles: Partial<IPivotStyles> = {
     root: leftPanelPivotStyles.root,
     itemContainer: {
         height: `calc(100% - ${pivotTabsHeight}px)`,

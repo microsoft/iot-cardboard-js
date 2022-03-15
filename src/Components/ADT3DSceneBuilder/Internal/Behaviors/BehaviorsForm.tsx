@@ -31,7 +31,10 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 import PanelFooter from '../Shared/PanelFooter';
-import { formPivotStyles, getFormStyles } from '../Shared/PanelForms.styles';
+import {
+    panelFormPivotStyles,
+    getPanelFormStyles
+} from '../Shared/PanelForms.styles';
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -148,7 +151,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getFormStyles(theme, 92);
+    const commonFormStyles = getPanelFormStyles(theme, 92);
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -190,7 +193,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                                 className={commonFormStyles.pivot}
-                                styles={formPivotStyles}
+                                styles={panelFormPivotStyles}
                             >
                                 <PivotItem
                                     className={

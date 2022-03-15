@@ -15,7 +15,7 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
-import { getFormStyles } from '../../Shared/PanelForms.styles';
+import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
@@ -120,7 +120,7 @@ const WidgetForm: React.FC<any> = () => {
 
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
-    const commonFormStyles = getFormStyles(theme, 0);
+    const commonFormStyles = getPanelFormStyles(theme, 0);
     return (
         <>
             <div className={commonFormStyles.content}>

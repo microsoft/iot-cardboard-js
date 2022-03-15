@@ -22,7 +22,10 @@ import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
-import { formPivotStyles, getFormStyles } from '../Shared/PanelForms.styles';
+import {
+    panelFormPivotStyles,
+    getPanelFormStyles
+} from '../Shared/PanelForms.styles';
 import {
     IBehavior,
     IScene,
@@ -167,7 +170,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getFormStyles(theme, 170);
+    const commonFormStyles = getPanelFormStyles(theme, 170);
     return (
         <div className={commonFormStyles.root}>
             <LeftPanelBuilderHeader
@@ -207,7 +210,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
                     className={commonFormStyles.pivot}
-                    styles={formPivotStyles}
+                    styles={panelFormPivotStyles}
                 >
                     <PivotItem
                         headerText={t('3dSceneBuilder.meshes')}
