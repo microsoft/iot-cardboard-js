@@ -26,10 +26,9 @@ const Template = (args, { globals: { theme, locale } }) => {
 };
 
 export const Empty = Template.bind({});
+export const ValidRanges = Template.bind({});
 
-export const ValueRangesPresent = Template.bind({});
-
-ValueRangesPresent.args = {
+ValidRanges.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
@@ -47,6 +46,66 @@ ValueRangesPresent.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
             color: defaultSwatchColors.find((c) => c.id === 'red').color,
             min: 1001,
+            max: 'Infinity'
+        }
+    ]
+};
+
+export const InvalidRange = Template.bind({});
+InvalidRange.args = {
+    initialValueRanges: [
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf141',
+            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            min: '-Infinity',
+            max: 0
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf178',
+            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            min: 300,
+            max: 100
+        }
+    ]
+};
+
+export const NonNumericValue = Template.bind({});
+NonNumericValue.args = {
+    initialValueRanges: [
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf141',
+            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            min: 'asdf',
+            max: 0
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf178',
+            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            min: 100,
+            max: 300
+        }
+    ]
+};
+
+export const RangeOverlap = Template.bind({});
+RangeOverlap.args = {
+    initialValueRanges: [
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf160',
+            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            min: 1,
+            max: 1000
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf161',
+            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            min: '-Infinity',
+            max: 0
+        },
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf162',
+            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            min: 750,
             max: 'Infinity'
         }
     ]

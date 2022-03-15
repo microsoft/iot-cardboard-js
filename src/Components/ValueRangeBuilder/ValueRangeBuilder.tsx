@@ -141,11 +141,11 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                 containerClassName="cb-value-range-builder-container"
             >
                 {valueRanges.map((valueRange) => (
-                    <div className="cb-value-range-and-messaging-row-container">
-                        <ValueRangeRow
-                            valueRange={valueRange}
-                            key={valueRange.id}
-                        />
+                    <div
+                        className="cb-value-range-and-messaging-row-container"
+                        key={valueRange.id}
+                    >
+                        <ValueRangeRow valueRange={valueRange} />
                         <ValueRangeValidationError valueRange={valueRange} />
                     </div>
                 ))}
@@ -227,12 +227,16 @@ const ValueRangeRow: React.FC<{
         { toggle: toggleIsRowColorCalloutVisible }
     ] = useBoolean(false);
 
+    const validationData = valueRangeValidationMap[valueRange.id];
+    const isRangeInvalid =
+        validationData.minValid &&
+        validationData.maxValid &&
+        !validationData.rangeValid;
+
     return (
         <div
             className={`cb-value-range-container ${
-                !valueRangeValidationMap[valueRange.id].rangeValid
-                    ? 'cb-range-invalid'
-                    : ''
+                isRangeInvalid ? 'cb-range-invalid' : ''
             }`}
         >
             <RangeBoundaryInput
