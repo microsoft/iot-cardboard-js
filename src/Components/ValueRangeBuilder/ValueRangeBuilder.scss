@@ -8,7 +8,19 @@
 }
 .cb-value-range-container {
     display: flex;
+    &.cb-range-invalid {
+        input {
+            border: 1px solid var(--cb-color-text-danger);
+        }
+    }
+}
+.cb-value-range-and-messaging-row-container {
     margin-bottom: 8px;
+}
+.cb-value-range-validation-error {
+    color: var(--cb-color-text-danger);
+    font-size: 12px;
+    margin-top: 2px;
 }
 .cb-range-boundary {
     display: flex;

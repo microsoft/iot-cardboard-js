@@ -18,6 +18,10 @@ export interface IValueRangeBuilderContext
     extends Omit<IValueRangeBuilderProps, 'customSwatchColors'> {
     onRangeValueUpdate: (updateParams: OnRangeValueUpdateParams) => void;
     colorSwatch: IColorCellProps[];
+    setValueRangeValidationMap: React.Dispatch<
+        React.SetStateAction<IValueRangeValidationMap>
+    >;
+    valueRangeValidationMap: IValueRangeValidationMap;
 }
 
 export interface OnRangeValueUpdateParams {
@@ -25,4 +29,14 @@ export interface OnRangeValueUpdateParams {
     newValue?: any;
     newColor?: string;
     id: string;
+}
+
+export interface IValueRangeValidation {
+    minValid: boolean;
+    maxValid: boolean;
+    rangeValid: boolean;
+}
+
+export interface IValueRangeValidationMap {
+    [id: string]: IValueRangeValidation;
 }
