@@ -124,12 +124,12 @@
                         "statusValueExpression": "LinkedTwin.Temperature",
                         "statusValueRanges": [
                             {
-                                "color": "#FF0000",
+                                "color": "#FF0000ff",
                                 "min": 21,
                                 "max": "Infinity"
                             },
                             {
-                                "color": "#0000FF",
+                                "color": "#0000FFff",
                                 "min": "-Infinity",
                                 "max": 20
                             }
@@ -157,12 +157,12 @@
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "statusValueRanges": [
                             {
-                                "color": "#0000FF",
+                                "color": "#0000FFff",
                                 "min": 100,
                                 "max": "Infinity"
                             },
                             {
-                                "color": "#00FF00",
+                                "color": "#00FF00ff",
                                 "min": "-Infinity",
                                 "max": 100
                             }
@@ -177,7 +177,7 @@
                         "triggerExpression": "temperatureTag.value > 25",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
                         "iconName": "heart",
-                        "color": "#00FF00",
+                        "color": "#00FF00ff",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }

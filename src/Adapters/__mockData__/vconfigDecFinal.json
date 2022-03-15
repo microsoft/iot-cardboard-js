@@ -110,9 +110,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.OutFlow",
                                                 "label": "Left"
@@ -128,9 +128,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"
@@ -155,9 +155,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFf",
+                                                    "#00D700ff",
+                                                    "#ff0000ff"
                                                 ],
                                                 "expression": "primaryTwin.Temperature",
                                                 "label": "Left"
@@ -173,9 +173,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4Dff",
+                                                    "#00D700ff",
+                                                    "#ff0000ff"
                                                 ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"

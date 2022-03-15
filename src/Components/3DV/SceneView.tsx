@@ -933,8 +933,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
             : BABYLON.Color4.FromHexString(currentRenderMode.coloredMeshColor);
 
         //If the hex value is only 3 or 6 places, assume full opacity
-        if (color && (color.length == 4 || color.length == 7))
-            coloredMeshMaterialColor.a = 1;
+        // if (color && (color.length == 4 || color.length == 7))
+        //     coloredMeshMaterialColor.a = 1;
 
         const material = makeShaderMaterial(
             'coloredMeshMaterial',
