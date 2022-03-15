@@ -37,7 +37,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     showMeshesOnHover,
     enableMeshSelection,
     showHoverOnSelected,
-    coloredMeshItems: coloredMeshItemsProp
+    coloredMeshItems: coloredMeshItemsProp,
+    zoomToMeshIds,
+    hideUnzoomedMeshes
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
@@ -295,6 +297,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         renderMode: renderMode,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
+                        zoomToMeshIds: zoomToMeshIds,
+                        hideUnzoomedMeshes: hideUnzoomedMeshes,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),

@@ -657,6 +657,8 @@ export interface IADT3DViewerProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: ColoredMeshItem[];
+    zoomToMeshIds?: string[];
+    hideUnzoomedMeshes?: boolean;
 }
 
 export interface IADT3DViewerRenderMode {
