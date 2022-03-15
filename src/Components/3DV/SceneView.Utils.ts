@@ -94,6 +94,7 @@ export function createColoredMeshItems(meshIds: string[], color: string) {
     return items;
 }
 
+// Get the total bounding box of an array of meshes
 export function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
     let boundingInfo = meshes[0].getBoundingInfo();
     let min = boundingInfo.boundingBox.minimumWorld;
