@@ -64,6 +64,18 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
     };
 
     const colorSwatch = customSwatchColors || defaultSwatchColors;
+    const getNextColor = () => {
+        const randomColor =
+            colorSwatch[Math.floor(Math.random() * colorSwatch.length)]
+                ?.color || '#FF000';
+
+        for (const { color } of colorSwatch) {
+            if (!valueRanges.map((vr) => vr.color).includes(color)) {
+                return color;
+            }
+        }
+        return randomColor;
+    };
 
     return (
         <ValueRangeBuilderContext.Provider
@@ -91,13 +103,7 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                             produce((draft) => {
                                 draft.push({
                                     ...defaultValueRange,
-                                    color:
-                                        colorSwatch[
-                                            Math.floor(
-                                                Math.random() *
-                                                    colorSwatch.length
-                                            )
-                                        ]?.color || '#FF000',
+                                    color: getNextColor(),
                                     id: createGUID(false)
                                 });
                             })
