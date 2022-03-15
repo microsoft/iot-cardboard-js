@@ -100,6 +100,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     onCameraMove,
     showMeshesOnHover,
     renderMode,
+    zoomToMeshIds,
+    hideUnzoomedMeshes,
     onSceneLoaded,
     getToken,
     coloredMeshItems,
@@ -134,6 +136,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const outlinedMeshes = useRef<AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
     const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
+    const meshMap = useRef<any>(null);
+    const prevZoomToIds = useRef('');
+    const prevHideUnzoomedRef = useRef<boolean>(undefined);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -206,7 +211,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
-                createCamera();
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
@@ -216,65 +220,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     onSceneLoaded(sc);
                 }
             }
-        }
-
-        function createCamera() {
-            for (const mesh of sceneRef.current.meshes) {
-                mesh.computeWorldMatrix(true);
-            }
-
-            if (sceneRef.current.meshes) {
-                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                    totalBoundingInfo(sceneRef.current.meshes)
-                );
-                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
-
-                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.extendSize;
-                const es_scaled = es.scale(3);
-                const width = es_scaled.x;
-                const height = es_scaled.y;
-                const depth = es_scaled.z;
-
-                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                    .boundingBox.centerWorld;
-
-                const canvas = document.getElementById(
-                    canvasId
-                ) as HTMLCanvasElement;
-
-                const camera = new BABYLON.ArcRotateCamera(
-                    'camera',
-                    0,
-                    Math.PI / 2.5,
-                    Math.max(width, height, depth),
-                    center,
-                    sceneRef.current
-                );
-
-                camera.attachControl(canvas, false);
-                cameraRef.current = camera;
-            }
-        }
-
-        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
-            let boundingInfo = meshes[0].getBoundingInfo();
-            let min = boundingInfo.boundingBox.minimumWorld;
-            let max = boundingInfo.boundingBox.maximumWorld;
-
-            for (const mesh of meshes) {
-                boundingInfo = mesh.getBoundingInfo();
-                min = BABYLON.Vector3.Minimize(
-                    min,
-                    boundingInfo.boundingBox.minimumWorld
-                );
-                max = BABYLON.Vector3.Maximize(
-                    max,
-                    boundingInfo.boundingBox.maximumWorld
-                );
-            }
-            return new BABYLON.BoundingInfo(min, max);
         }
 
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
@@ -339,6 +284,114 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
         return sceneRef.current;
     }, [canvasId, modelUrl]);
+
+    // Handle mesh zooming
+    useEffect(() => {
+        function createOrZoomCamera() {
+            const zoomTo = (zoomToMeshIds || []).join(',');
+            if (
+                !isLoading &&
+                sceneRef.current?.meshes?.length &&
+                (!cameraRef.current ||
+                    prevZoomToIds.current !== zoomTo ||
+                    prevHideUnzoomedRef.current !== hideUnzoomedMeshes)
+            ) {
+                prevHideUnzoomedRef.current = hideUnzoomedMeshes;
+                meshMap.current = {};
+                for (const mesh of sceneRef.current.meshes) {
+                    if (mesh.id) {
+                        meshMap.current[mesh.id] = mesh;
+                    }
+
+                    mesh.computeWorldMatrix(true);
+                    mesh.visibility =
+                        hideUnzoomedMeshes &&
+                        zoomToMeshIds?.length &&
+                        !zoomToMeshIds.includes(mesh.id)
+                            ? 0
+                            : 1;
+                }
+
+                // Only zoom if the Ids actually changed, not just a re-render
+                if (!cameraRef.current || prevZoomToIds.current !== zoomTo) {
+                    prevZoomToIds.current = zoomTo;
+                    const someMeshFromTheArrayOfMeshes =
+                        sceneRef.current.meshes[0];
+                    let meshes = sceneRef.current.meshes;
+                    if (zoomToMeshIds?.length) {
+                        const meshList: BABYLON.AbstractMesh[] = [];
+                        for (const id of zoomToMeshIds) {
+                            const m = meshMap.current[id];
+                            if (m) {
+                                meshList.push(m);
+                            }
+                        }
+
+                        meshes = meshList;
+                    }
+
+                    someMeshFromTheArrayOfMeshes.setBoundingInfo(
+                        totalBoundingInfo(meshes)
+                    );
+
+                    someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+
+                    const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.extendSize;
+                    const es_scaled = es.scale(zoomToMeshIds?.length ? 5 : 3);
+                    const width = es_scaled.x;
+                    const height = es_scaled.y;
+                    const depth = es_scaled.z;
+                    const radius = Math.max(width, height, depth);
+
+                    const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                        .boundingBox.centerWorld;
+
+                    const canvas = document.getElementById(
+                        canvasId
+                    ) as HTMLCanvasElement;
+
+                    if (!cameraRef.current) {
+                        const camera = new BABYLON.ArcRotateCamera(
+                            'camera',
+                            0,
+                            Math.PI / 2.5,
+                            radius,
+                            center,
+                            sceneRef.current
+                        );
+
+                        camera.attachControl(canvas, false);
+                        cameraRef.current = camera;
+                    }
+
+                    cameraRef.current.zoomOn(meshes, true);
+                    cameraRef.current.radius = radius;
+                }
+            }
+        }
+
+        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
+            let boundingInfo = meshes[0].getBoundingInfo();
+            let min = boundingInfo.boundingBox.minimumWorld;
+            let max = boundingInfo.boundingBox.maximumWorld;
+
+            for (const mesh of meshes) {
+                boundingInfo = mesh.getBoundingInfo();
+                min = BABYLON.Vector3.Minimize(
+                    min,
+                    boundingInfo.boundingBox.minimumWorld
+                );
+                max = BABYLON.Vector3.Maximize(
+                    max,
+                    boundingInfo.boundingBox.maximumWorld
+                );
+            }
+            return new BABYLON.BoundingInfo(min, max);
+        }
+
+        createOrZoomCamera();
+    }, [isLoading, zoomToMeshIds, hideUnzoomedMeshes]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
