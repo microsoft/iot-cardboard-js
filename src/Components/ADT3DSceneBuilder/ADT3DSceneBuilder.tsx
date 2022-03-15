@@ -37,10 +37,16 @@ import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
 import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { createColoredMeshItems } from '../3DV/SceneView.Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { createGUID } from '../../Models/Services/Utils';
+import {
+    DatasourceType,
+    defaultBehavior
+} from '../../Models/Classes/3DVConfig';
 
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
@@ -123,7 +129,16 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             {
                 key: t('3dSceneBuilder.behaviorActions'),
                 itemType: ContextualMenuItemType.Header,
-                text: t('3dSceneBuilder.elementActions')
+                text: t('3dSceneBuilder.behaviorActions')
+            },
+            {
+                key: t('3dSceneBuilder.behaviors'),
+                itemType: ContextualMenuItemType.Section,
+                sectionProps: {
+                    topDivider: true,
+                    bottomDivider: false,
+                    items: []
+                }
             },
             {
                 key: t('3dSceneBuilder.actions'),
@@ -281,8 +296,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     const meshClickOnBehaviorsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
         let coloredMeshes = [];
-        const elements = [];
+        const elements: ITwinToObjectMapping[] = [];
         behaviorContextualMenuItems.current[1].sectionProps.items = [];
+        behaviorContextualMenuItems.current[2].sectionProps.items = [];
         for (const element of state.elements) {
             if (element.objectIDs.includes(mesh.id)) {
                 elements.push(element);
@@ -326,6 +342,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 },
                 onClick: () => {
                     behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
                     setMeshIdsToOutline([]);
                     dispatch({
                         type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
@@ -386,10 +403,21 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 },
                 onClick: () => {
                     behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
                     setMeshIdsToOutline([]);
+
+                    const newBehavior: IBehavior = {
+                        ...JSON.parse(JSON.stringify(defaultBehavior)),
+                        id: createGUID(false)
+                    };
+                    newBehavior.datasources[0] = {
+                        type:
+                            DatasourceType.ElementTwinToObjectMappingDataSource,
+                        elementIDs: [element.id]
+                    };
                     dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
-                        payload: [element]
+                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                        payload: newBehavior
                     });
                     dispatch({
                         type: SET_ADT_SCENE_BUILDER_MODE,
@@ -408,16 +436,18 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
             addContextualMenuItems(
                 item,
-                behaviorContextualMenuItems.current[1]
+                behaviorContextualMenuItems.current[2]
             );
         }
 
-        setContextualMenuProps({
-            isVisible: true,
-            x: e.clientX,
-            y: e.clientY,
-            items: behaviorContextualMenuItems.current
-        });
+        if (elements.length > 0) {
+            setContextualMenuProps({
+                isVisible: true,
+                x: e.clientX,
+                y: e.clientY,
+                items: behaviorContextualMenuItems.current
+            });
+        }
     };
 
     const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
