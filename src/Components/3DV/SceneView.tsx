@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
 import * as GUI from 'babylonjs-gui';
-import { ProgressIndicator } from '@fluentui/react';
+import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
@@ -19,6 +19,7 @@ import { AbstractMesh, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 import { totalBoundingInfo } from './SceneView.Utils';
+import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 
 const debug = false;
 
@@ -937,28 +938,22 @@ const SceneView: React.FC<ISceneViewProp> = ({
         coloredMaterials.current[mesh.id] = material;
     };
 
+    const theme = useTheme();
+    const customStyles = getSceneViewStyles(theme);
     return (
-        <div className="cb-sceneview-container">
+        <div className={customStyles.root}>
             <canvas
                 className={
-                    isLoading === true
-                        ? 'cb-sceneview-canvas'
-                        : 'cb-sceneview-canvas cb-o1'
+                    isLoading
+                        ? customStyles.canvas
+                        : `${customStyles.canvasVisible} ${customStyles.canvas}`
                 }
                 id={canvasId}
                 touch-action="none"
             />
             {isLoading && (
                 <ProgressIndicator
-                    className="cb-sceneview-progressbar"
-                    styles={{
-                        itemDescription: {
-                            color: 'white',
-                            fontSize: 26,
-                            marginTop: 10,
-                            textAlign: 'center'
-                        }
-                    }}
+                    styles={getProgressStyles(theme)}
                     description={`Loading model (${Math.floor(
                         loadProgress * 100
                     )}%)...`}
@@ -967,13 +962,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 />
             )}
             {isLoading === undefined && (
-                <div className="cb-sceneview-errormessage">
+                <div className={customStyles.errorMessage}>
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
             {tooltipText && (
                 <div
-                    className="cb-sceneview-tooltip"
+                    className={customStyles.globeTooltip}
                     style={{
                         top: tooltipTop.current,
                         left: tooltipLeft.current

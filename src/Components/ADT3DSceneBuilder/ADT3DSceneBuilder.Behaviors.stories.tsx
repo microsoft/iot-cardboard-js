@@ -8,8 +8,14 @@ import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
     findOverflowMenuItem,
+    IStoryContext,
     sleep
 } from '../../Models/Services/StoryUtilities';
+import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import {
+    I3DScenesConfig,
+    IBehavior
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Behaviors',
@@ -25,18 +31,31 @@ const cardStyle = {
 };
 
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
-const Template: SceneBuilderStory = (_args, { globals: { theme, locale } }) => (
-    <div style={cardStyle}>
-        <ADT3DSceneBuilder
-            title={'3D Scene Builder'}
-            theme={theme}
-            locale={locale}
-            adapter={new MockAdapter({ mockData: mockVConfig })}
-            sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
-            {..._args}
-        />
-    </div>
-);
+const Template: SceneBuilderStory = (
+    _args,
+    context: IStoryContext<IADT3DSceneBuilderCardProps>
+) => {
+    return (
+        <div style={cardStyle}>
+            <ADT3DSceneBuilder
+                title={'3D Scene Builder'}
+                theme={context.globals.theme}
+                locale={context.globals.locale}
+                adapter={
+                    new MockAdapter({
+                        mockData: context.parameters.data
+                            ? JSON.parse(
+                                  JSON.stringify(context.parameters.data)
+                              )
+                            : undefined
+                    })
+                }
+                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
+                {..._args}
+            />
+        </div>
+    );
+};
 
 export const BehaviorsTab = Template.bind({});
 BehaviorsTab.play = async ({ canvasElement }) => {
@@ -55,6 +74,132 @@ Search.play = async ({ canvasElement }) => {
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'wheels');
+};
+
+const mockBehavior: IBehavior = {
+    id: 'bf1ec41d7886438d880c140fb1bb570a',
+    displayName: 'Wheels too low',
+    datasources: [
+        {
+            type: 'ElementTwinToObjectMappingDataSource',
+            elementIDs: ['5ba433d52b8445979fabc818fd40ae3d'],
+            extensionProperties: {}
+        },
+        {
+            type: 'ElementTwinToObjectMappingDataSource',
+            elementIDs: ['4cb0990d646a4bbea3e1102676e200fe']
+        }
+    ],
+    visuals: []
+};
+const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+longData.configuration.scenes = [
+    {
+        ...longData.configuration.scenes[0],
+        behaviorIDs: [
+            ...longData.configuration.scenes[0].behaviorIDs,
+            'behavior1',
+            'behavior2',
+            'behavior3',
+            'behavior4',
+            'behavior5',
+            'behavior6'
+        ]
+    }
+];
+longData.configuration.behaviors = [
+    ...longData.configuration.behaviors,
+    {
+        ...mockBehavior,
+        displayName: 'behavior 1',
+        id: 'behavior1'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 2',
+        id: 'behavior2'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 3',
+        id: 'behavior3'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 4',
+        id: 'behavior4'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 5',
+        id: 'behavior5'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 6',
+        id: 'behavior6'
+    }
+];
+export const Scrolling = Template.bind({});
+Scrolling.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+};
+Scrolling.parameters = {
+    data: longData
+};
+
+const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
+longDataWithRemoved.configuration.behaviors = [
+    ...longDataWithRemoved.configuration.behaviors,
+    {
+        ...mockBehavior,
+        displayName: 'behavior 3',
+        id: 'behavior3'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 4',
+        id: 'behavior4'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 5',
+        id: 'behavior5'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 6',
+        id: 'behavior6'
+    },
+    {
+        ...mockBehavior,
+        displayName: 'behavior 7',
+        id: 'behavior7'
+    }
+];
+export const WithRemoved = Template.bind({});
+WithRemoved.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+};
+WithRemoved.parameters = {
+    data: longDataWithRemoved
+};
+
+export const ScrollingWithRemovedExpanded = Template.bind({});
+ScrollingWithRemovedExpanded.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await WithRemoved.play({ canvasElement });
+    // Click the section header
+    const canvas = within(canvasElement);
+    const sectionHeader = await canvas.findByTestId(
+        'behaviors-in-other-scenes-button'
+    );
+    await userEvent.click(sectionHeader);
+};
+ScrollingWithRemovedExpanded.parameters = {
+    data: longDataWithRemoved
 };
 
 export const MoreMenuShow = Template.bind({});
@@ -163,6 +308,19 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
 //     // click the edit button in the overflow
 //     const editButton = await findOverflowMenuItem('editWidgetOverflow');
 //     await clickOverFlowMenuItem(editButton);
+// };
+
+// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
+// export const EditWidgetsTabEditGauge = Template.bind({});
+// EditWidgetsTabEditGauge.play = async ({ canvasElement }) => {
+//     await EditWidgetsTabAddDialogShow.play({ canvasElement });
+//     // mock data does not have a gauge so we go through the flow to add one
+//     const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
+//     await userEvent.click(gaugeButton);
+//     const addButton = await findCalloutItemByTestId(
+//         'widget-library-add-button'
+//     );
+//     await userEvent.click(addButton);
 // };
 
 // TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
