@@ -2,7 +2,10 @@ import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { VisualType } from '../../../../../Models/Classes/3DVConfig';
+import {
+    VisualType,
+    DatasourceType
+} from '../../../../../Models/Classes/3DVConfig';
 import { linkedTwinName } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
