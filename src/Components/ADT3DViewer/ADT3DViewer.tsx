@@ -96,7 +96,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                                     sceneVisual.twins
                                 );
                                 const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-                                    visual.statusValueRanges,
+                                    visual.valueRanges,
                                     value
                                 );
                                 if (color) {
