@@ -135,7 +135,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             )}
             <CardboardList<IBehavior>
                 items={listItems}
-                listKey={`behavior-list`}
+                listKey={'behavior-list'}
             />
             <ActionButton
                 id={calloutTarget}

@@ -19,7 +19,7 @@ export const MockData = (
             <RelationshipsTable
                 theme={theme}
                 id={args.twinID}
-                title={`Mock Relationships`}
+                title={'Mock Relationships'}
                 adapter={new MockAdapter()}
                 onRelationshipClick={relationshipsOnClick}
             />

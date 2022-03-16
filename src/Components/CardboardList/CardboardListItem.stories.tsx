@@ -40,13 +40,13 @@ const defaultProps: ICardboardListItemPropsInternal<unknown> = {
 
 const defaultMenuItem: IContextualMenuItem = {
     key: 'addToScene',
-    id: `addToScene-1`,
-    'data-testid': `addToScene-1`,
+    id: 'addToScene-1',
+    'data-testid': 'addToScene-1',
     text: 'Add to the scene',
     iconProps: {
         iconName: 'Add',
     },
-    onClick: () => alert(`add 1`),
+    onClick: () => alert('add 1'),
 };
 const defaultMenuItems: IContextualMenuItem[] = [defaultMenuItem];
 

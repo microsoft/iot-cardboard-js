@@ -8,7 +8,7 @@ import { BaseComponentProps } from './BaseComponent.types';
 import { default as ErrorComponent } from '../Error/Error';
 import './BaseComponent.scss';
 import Overlay from '../Modal/Overlay';
-import { Spinner } from '@fluentui/react/lib/components/Spinner/Spinner';
+import { Spinner } from '@fluentui/react';
 
 /** Provides wrapper component for theming and localization.
  *  Also provides optional UI states for loading, empty data, and errors.

@@ -27,6 +27,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
         this.adxAuthService = adxAuthService;
         this.adxAuthService.login();
     }
+
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,

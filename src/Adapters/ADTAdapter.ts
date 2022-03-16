@@ -347,7 +347,7 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const axiosResult = await this.axiosInstance({
                 method: 'post',
-                url: `/models`,
+                url: '/models',
                 data: models,
                 headers: {
                     'Content-Type': 'application/json',
@@ -1002,7 +1002,7 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const subscriptions = await axios({
                 method: 'get',
-                url: `https://management.azure.com/subscriptions`,
+                url: 'https://management.azure.com/subscriptions',
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,

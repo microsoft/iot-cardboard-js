@@ -3,10 +3,6 @@ import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 import { DTMIRegex, Locale } from '../../Models/Constants';
-import { Text } from '@fluentui/react/lib/Text';
-import { Panel, PanelType } from '@fluentui/react/lib/Panel';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Breadcrumb, IBreadcrumbItem } from '@fluentui/react/lib/Breadcrumb';
 import CreateRelationshipForm from './Forms/CreateRelationshipForm';
 import CreateComponentForm from './Forms/CreateComponentForm';
 import CreatePropertyForm from './Forms/CreatePropertyForm';
@@ -21,7 +17,15 @@ import { FormMode } from '../../Models/Constants/Enums';
 import FormSection from '../FormSection/FormSection';
 import BaseForm from '../ModelCreate/Forms/BaseForm';
 import './ModelCreate.scss';
-import { DefaultButton } from '@fluentui/react';
+import {
+    Breadcrumb,
+    DefaultButton,
+    IBreadcrumbItem,
+    Panel,
+    PanelType,
+    Text,
+    TextField,
+} from '@fluentui/react';
 import JsonPreview from '../JsonPreview/JsonPreview';
 
 enum ModelCreateMode {

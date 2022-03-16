@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
-import { SpinButton } from '@fluentui/react/lib/SpinButton';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Separator } from '@fluentui/react/lib/Separator';
 import { DTDLProperty, DTDLRelationship } from '../../../Models/Classes/DTDL';
 import CreatePropertyForm from './CreatePropertyForm';
 import ElementsList from '../ElementsList';
 import BaseForm from './BaseForm';
 import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import {
+    IDropdownOption,
+    TextField,
+    SpinButton,
+    Dropdown,
+    Toggle,
+    Separator,
+} from '@fluentui/react';
 
 export enum CreateRelationshipMode {
     RelationshipForm,

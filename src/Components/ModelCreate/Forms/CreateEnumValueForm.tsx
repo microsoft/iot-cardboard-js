@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TextField } from '@fluentui/react/lib/TextField';
 import { DTDLEnumValue } from '../../../Models/Classes/DTDL';
 import BaseForm from './BaseForm';
 import { useTranslation } from 'react-i18next';
 import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
+import { TextField } from '@fluentui/react';
 
 interface CreateEnumValueFormProps {
     onCancel: () => void;

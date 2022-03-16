@@ -213,7 +213,7 @@ describe('Parsing twin into property tree', () => {
         // Check testComponentObjectModel is parsed into tree
         const componentA = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentObjectModel`,
+            '/testComponentObjectModel',
         );
         expect(componentA.type).toEqual(DTDLType.Component);
         expect(componentA.name).toEqual('testComponentObjectModel');
@@ -221,7 +221,7 @@ describe('Parsing twin into property tree', () => {
         // Check testComponentMapModel is parsed into tree
         const componentB = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentMapModel`,
+            '/testComponentMapModel',
         );
         expect(componentB.type).toEqual(DTDLType.Component);
         expect(componentB.name).toEqual('testComponentMapModel');
@@ -230,7 +230,7 @@ describe('Parsing twin into property tree', () => {
     test('Object (within component) is set in inspector and matches value on test twin', () => {
         const objectOnComponent = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentObjectModel/testObject`,
+            '/testComponentObjectModel/testObject',
         );
 
         expect(objectOnComponent).toBeTruthy();
@@ -261,7 +261,7 @@ describe('Parsing twin into property tree', () => {
     test('Map (within component) is set in inspector and matches value on test twin', () => {
         const mapOnComponent = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentMapModel/testMap`,
+            '/testComponentMapModel/testMap',
         );
 
         // Check map exists on component

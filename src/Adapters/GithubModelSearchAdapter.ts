@@ -29,7 +29,7 @@ export default class GithubModelSearchAdapter
             );
 
             const res = await fetch(
-                `https://api.github.com/search/code?q=` +
+                'https://api.github.com/search/code?q=' +
                     queryParam +
                     `&per_page=${this.pageSize}` +
                     `&page=${pageIdx}`,

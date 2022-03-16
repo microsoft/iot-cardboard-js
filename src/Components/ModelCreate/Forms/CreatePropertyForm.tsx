@@ -1,13 +1,4 @@
 import React, { useState } from 'react';
-import { DefaultButton } from '@fluentui/react/lib/Button';
-import {
-    Dropdown,
-    IDropdownOption,
-    DropdownMenuItemType,
-} from '@fluentui/react/lib/Dropdown';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import { Stack } from '@fluentui/react/lib/Stack';
 import {
     DTDLEnum,
     DTDLProperty,
@@ -18,6 +9,15 @@ import CreateEnumForm from './CreateEnumForm';
 import BaseForm from './BaseForm';
 import { useTranslation } from 'react-i18next';
 import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
+import {
+    IDropdownOption,
+    DropdownMenuItemType,
+    TextField,
+    Stack,
+    Dropdown,
+    DefaultButton,
+    Toggle,
+} from '@fluentui/react';
 
 export enum CreatePropertyMode {
     PropertyForm,

@@ -341,7 +341,7 @@ function getDefaultBoardInfo(
     );
 
     const dataHistory = CardInfo.fromObject({
-        key: `historized-data`,
+        key: 'historized-data',
         title: `${t('board.dataHistory')}${
             searchSpan ? '' : ', ' + t('board.last7days')
         }`,
@@ -356,7 +356,7 @@ function getDefaultBoardInfo(
     if (hasAllProcessGraphicsCardProperties(dtTwin)) {
         board.cards.push(
             CardInfo.fromObject({
-                key: `lkv-process-graphic`,
+                key: 'lkv-process-graphic',
                 title: t('board.processGraphic'),
                 type: CardTypes.LKVProcessGraphicCard,
                 size: { rows: 2 },

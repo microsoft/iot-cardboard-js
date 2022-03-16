@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { Text } from '@fluentui/react/lib/Text';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import ElementsList from '../ElementsList';
 import BaseForm from './BaseForm';
 import { DTDLEnum, DTDLEnumValue } from '../../../Models/Classes/DTDL';
@@ -9,6 +6,7 @@ import CreateEnumValueForm from './CreateEnumValueForm';
 import '../ModelCreate.scss';
 import { useTranslation } from 'react-i18next';
 import { DTMIRegex, FormMode } from '../../../Models/Constants';
+import { IDropdownOption, Text, TextField, Dropdown } from '@fluentui/react';
 
 export enum CreateEnumMode {
     EnumForm,

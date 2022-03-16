@@ -32,11 +32,11 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
                 <PivotItem
                     headerText={t('build')}
                     itemKey={ADT3DScenePageModes.BuildScene}
-                ></PivotItem>
+                />
                 <PivotItem
                     headerText={t('view')}
                     itemKey={ADT3DScenePageModes.ViewScene}
-                ></PivotItem>
+                />
             </Pivot>
         </div>
     );

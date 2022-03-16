@@ -41,7 +41,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
             ) : (
                 <CardboardList<string>
                     items={listItems}
-                    listKey={`mesh-list`}
+                    listKey={'mesh-list'}
                 />
             )}
         </>

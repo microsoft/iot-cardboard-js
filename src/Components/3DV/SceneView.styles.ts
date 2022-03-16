@@ -77,7 +77,7 @@ export const getProgressStyles = memoizeFunction(
             position: 'absolute',
             textShadow: getTextShadow(theme),
             top: '50%',
-            transform: `translate(-50%, 0%)`,
+            transform: 'translate(-50%, 0%)',
             width: '300px',
         },
         itemDescription: {

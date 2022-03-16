@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Dropdown } from '@fluentui/react/lib/Dropdown';
 import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
 import '../ModelCreate.scss';
 import { useTranslation } from 'react-i18next';
 import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
+import { TextField, Dropdown } from '@fluentui/react';
 
 interface CreateComponentFormProps {
     onPrimaryAction: (component: DTDLComponent) => void;

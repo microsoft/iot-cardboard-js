@@ -4,13 +4,8 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, PropertyTreeNode } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
-import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
-import {
-    IIconStyleProps,
-    IIconStyles,
-} from '@fluentui/react/lib/components/Icon/Icon.types';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
+import { Checkbox, Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -329,7 +324,7 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     };
 
     return (
-        <div className={`cb-property-tree-node-value`}>
+        <div className={'cb-property-tree-node-value'}>
             <input
                 style={{ width: 120 }}
                 value={newMapKey}
@@ -338,7 +333,7 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
                 onKeyDown={(e) =>
                     e.key === 'Enter' ? handleAddMapValue() : null
                 }
-            ></input>
+            />
             <div
                 tabIndex={0}
                 aria-label={t('propertyInspector.addMapIconTitle')}

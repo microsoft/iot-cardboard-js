@@ -17,10 +17,15 @@ import {
     IBehaviorFormContext,
 } from '../../ADT3DSceneBuilder.types';
 import produce from 'immer';
-import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
-import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { TextField, DefaultButton, Separator, useTheme } from '@fluentui/react';
+import {
+    TextField,
+    DefaultButton,
+    Separator,
+    useTheme,
+    Pivot,
+    PivotItem,
+    PrimaryButton,
+} from '@fluentui/react';
 // import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import LeftPanelBuilderHeader, {

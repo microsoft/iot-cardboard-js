@@ -130,7 +130,7 @@ const AutoCompleteSearchBox = ({
                     />
                     {isCalloutVisible && (
                         <Callout
-                            target={`#cb-ms-searchbox`}
+                            target={'#cb-ms-searchbox'}
                             className={classes.callout}
                             isBeakVisible={false}
                             doNotLayer={true}

@@ -242,7 +242,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 ) : (
                     <CardboardList<ITwinToObjectMapping>
                         items={listItems}
-                        listKey={`elements-in-scene`}
+                        listKey={'elements-in-scene'}
                         textToHighlight={searchText}
                     />
                 )}

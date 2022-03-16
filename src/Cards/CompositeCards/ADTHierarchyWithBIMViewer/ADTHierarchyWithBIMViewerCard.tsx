@@ -56,7 +56,7 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
             />
             <BIMViewerCard
                 adapter={adapter}
-                title={`BIM viewer`}
+                title={'BIM viewer'}
                 id={bimTwinId}
                 theme={theme}
                 centeredObject={selectedChildNode?.id}

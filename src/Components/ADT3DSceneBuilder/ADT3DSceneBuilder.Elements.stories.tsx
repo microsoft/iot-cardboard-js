@@ -117,7 +117,7 @@ longData.configuration.scenes = [
         ],
     },
 ];
-console.log(`**Long data`, longData);
+console.log('**Long data', longData);
 export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
     // switch to the behaviors tab

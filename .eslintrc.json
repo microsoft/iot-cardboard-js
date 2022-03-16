@@ -13,9 +13,34 @@
         "prettier/@typescript-eslint"
     ],
     "rules": {
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "lines-between-class-members": [
+            "warn",
+            "always",
+            {
+                "exceptAfterSingleLine": true
+            }
+        ],
         "no-debugger": "error",
         "no-duplicate-imports": "error",
         "no-multiple-empty-lines": "error",
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": [
+                    "office-ui-fabric-react/*",
+                    "@fluentui/react/*",
+                    "@uifabric*"
+                ]
+            }
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
         "@typescript-eslint/explicit-module-boundary-types": [
             "off"
         ],
@@ -33,13 +58,6 @@
         "react/no-danger": "error",
         "react/no-unused-class-component-methods": "error",
         "react/jsx-closing-tag-location": "error",
-        "react/jsx-curly-newline": [
-            "error",
-            {
-                "multiline": "consistent",
-                "singleline": "consistent"
-            }
-        ],
         "react/jsx-curly-brace-presence": [
             "error",
             {

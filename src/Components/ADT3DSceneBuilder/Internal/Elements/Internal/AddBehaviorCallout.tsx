@@ -98,7 +98,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     ) : (
                         <CardboardList<IBehavior>
                             items={listItems}
-                            listKey={`behavior-callout-list`}
+                            listKey={'behavior-callout-list'}
                             textToHighlight={searchText}
                         />
                     )}
