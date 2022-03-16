@@ -46,7 +46,7 @@ import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigDa
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
-    ColoredMeshItem,
+    CustomMeshItem,
     ISceneViewProp,
     Marker,
     SceneVisual
@@ -656,7 +656,7 @@ export interface IADT3DViewerProps {
     refetchConfig?: () => any;
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
-    coloredMeshItems?: ColoredMeshItem[];
+    coloredMeshItems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
 }
@@ -672,6 +672,9 @@ export interface IADT3DViewerRenderMode {
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
+    outlinedMeshHoverColor: string;
+    outlinedMeshSelectedColor: string;
+    outlinedMeshHoverSelectedColor: string;
 }
 
 export interface IBlobFile {

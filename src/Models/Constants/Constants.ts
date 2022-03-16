@@ -105,6 +105,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#ffb780',
         background: null
     },
     {
@@ -117,6 +120,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#ff0000',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#ff9a4d',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -129,6 +135,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#00FF00',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -141,6 +150,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -153,6 +165,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -165,6 +180,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     }
 ];

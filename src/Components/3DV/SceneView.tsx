@@ -15,7 +15,7 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, Tools } from 'babylonjs';
+import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 import { getBoundingBox } from './SceneView.Utils';
@@ -107,7 +107,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     onSceneLoaded,
     getToken,
     coloredMeshItems,
-    showHoverOnSelected
+    showHoverOnSelected,
+    outlinedMeshitems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -134,6 +135,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
+    const outlinedMeshes = useRef<AbstractMesh[]>([]);
+    const highlightLayer = useRef<HighlightLayer>(null);
     const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
@@ -250,6 +253,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
             coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 currentRenderMode.coloredMeshHoverColor
             );
+
+            highlightLayer.current = new BABYLON.HighlightLayer('hl1', scene, {
+                blurHorizontalSize: 0.5,
+                blurVerticalSize: 0.5
+            });
 
             new BABYLON.HemisphericLight(
                 'light',
@@ -920,6 +928,44 @@ const SceneView: React.FC<ISceneViewProp> = ({
             coloredMaterials.current = [];
         };
     }, [coloredMeshItems, isLoading, currentRenderMode]);
+
+    useEffect(() => {
+        if (outlinedMeshitems) {
+            for (const item of outlinedMeshitems) {
+                const meshToOutline = sceneRef.current.meshes.find(
+                    (mesh) => mesh.id === item.meshId
+                );
+
+                if (meshToOutline) {
+                    try {
+                        if (item.color) {
+                            highlightLayer.current.addMesh(
+                                meshToOutline as BABYLON.Mesh,
+                                BABYLON.Color3.FromHexString(item.color)
+                            );
+                        } else {
+                            highlightLayer.current.addMesh(
+                                meshToOutline as BABYLON.Mesh,
+                                BABYLON.Color3.FromHexString(
+                                    renderMode.outlinedMeshSelectedColor
+                                )
+                            );
+                        }
+
+                        outlinedMeshes.current.push(meshToOutline);
+                    } catch {
+                        console.log('Unable to highlight mesh');
+                    }
+                }
+            }
+        }
+
+        return () => {
+            for (const mesh of outlinedMeshes.current) {
+                highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+            }
+        };
+    }, [outlinedMeshitems]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         const material = new BABYLON.StandardMaterial(

@@ -86,7 +86,7 @@ export function createBadge(
     return badge;
 }
 
-export function createColoredMeshItems(meshIds: string[], color: string) {
+export function createCustomMeshItems(meshIds: string[], color: string) {
     const items = [];
     for (const id of meshIds) {
         items.push({ meshId: id, color: color });
