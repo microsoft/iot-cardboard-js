@@ -1,12 +1,24 @@
 import {
     FontSizes,
     IButtonStyles,
+    IStyle,
     memoizeFunction,
     mergeStyleSets,
     Theme
 } from '@fluentui/react';
 import { StyleConstants } from '../../Models/Constants';
+import { getTransparentColor, hexToRgbCss } from '../../Models/Services/Utils';
 
+const classPrefix = 'cardboard-list-item';
+const classNames = {
+    checkbox: `${classPrefix}-checkbox`,
+    endIcon: `${classPrefix}-end-icon`,
+    icon: `${classPrefix}-icon`,
+    menuIcon: `${classPrefix}-menu-icon`,
+    textContainer: `${classPrefix}-text-container`,
+    primaryText: `${classPrefix}-primary-text`,
+    secondaryText: `${classPrefix}-secondary-text`
+};
 export const getStyles = memoizeFunction((theme: Theme) => {
     const ellipseStyles = {
         overflow: 'hidden',
@@ -14,47 +26,62 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         textOverflow: 'ellipsis'
     };
     return mergeStyleSets({
-        checkbox: { marginRight: 8 },
-        endIcon: { marginLeft: '8px' },
-        icon: { marginRight: '8px', fontSize: StyleConstants.icons.size16 },
-        menuIcon: { opacity: 0 },
-        textContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-            overflow: 'hidden',
-            textAlign: 'start'
-        },
-        primaryText: {
-            color: theme.palette.black,
-            fontSize: FontSizes.size14,
-            ...ellipseStyles
-        },
-        secondaryText: {
-            color: theme.palette.neutralSecondary,
-            fontSize: FontSizes.size12,
-            ...ellipseStyles
-        }
+        checkbox: [classNames.checkbox, { marginRight: 8 } as IStyle],
+        endIcon: [classNames.endIcon, { marginLeft: 8 } as IStyle],
+        icon: [
+            classNames.icon,
+            {
+                marginRight: 8,
+                fontSize: StyleConstants.icons.size16
+            } as IStyle
+        ],
+        menuIcon: [classNames.menuIcon, { opacity: 0 } as IStyle],
+        textContainer: [
+            classNames.textContainer,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+                overflow: 'hidden',
+                textAlign: 'start'
+            } as IStyle
+        ],
+        primaryText: [
+            classNames.primaryText,
+            {
+                color: theme.palette.black,
+                fontSize: FontSizes.size14,
+                ...ellipseStyles
+            } as IStyle
+        ],
+        secondaryText: [
+            classNames.secondaryText,
+            {
+                color: theme.palette.neutralSecondary,
+                fontSize: FontSizes.size12,
+                ...ellipseStyles
+            } as IStyle
+        ]
     });
 });
 export const getButtonStyles = memoizeFunction(
-    (): IButtonStyles => {
+    (theme: Theme): IButtonStyles => {
         return {
             root: {
-                border: 0,
                 alignItems: 'start', // top align everything
-                padding: '8px 12px',
-                width: '100%',
+                border: 0,
                 height: 'auto',
                 ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                     opacity: 1
-                }
+                },
+                padding: '8px 12px',
+                width: '100%'
             },
             rootFocused: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: theme.palette.neutralLighter
             },
             rootHovered: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: theme.palette.neutralLighter
             },
             flexContainer: {
                 justifyContent: 'start'

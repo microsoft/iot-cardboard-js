@@ -175,9 +175,6 @@ export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
 export const StyleConstants = {
-    listItems: {
-        hoverBackgroundColor: 'var(--fluent-color-grey-20)'
-    },
     icons: {
         size20: FontSizes.size20,
         size16: FontSizes.size16

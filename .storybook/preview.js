@@ -1,3 +1,5 @@
+
+import React, { CSSProperties } from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
@@ -56,7 +58,7 @@ export const parameters = {
 };
 
 // Wrap stories with stable GUID provider
-const withStableGuid = (Story, context) => {
+const decoratorWithStableGuid = (Story, context) => {
     return (
         <StableGuidRngProvider seed={context.id}>
             <Story {...context} />
@@ -71,5 +73,38 @@ setConsoleOptions({
 });
 
 //add decorators here
-addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(withStableGuid);
+const decoratorWithConsole = (storyFn, context) => withConsole()(storyFn)(context);
+const decoratorWithWrapper = (Story, context) => {
+    if (context.parameters.noGlobalWrapper) {
+        return <Story {...context} />
+    }
+
+    let background = '';
+    // based on var(--cb-color-bg-canvas)
+    // can't use themes here since we are above the theme in the DOM
+    switch (context.globals.theme) {
+        case 'light':
+            background = '#fff';
+            break;
+        case 'dark':
+            background = '#0d0f0e';
+            break;
+        case 'explorer':
+            background = '#222';
+            break;
+        case 'kraken':
+            background = '#0d1326';
+            break;
+        default:
+            background = '';
+            break;
+    }
+    return (
+        <div style={{ padding: 8, backgroundColor: background }}>
+            <Story {...context} />
+        </div >
+    )
+};
+addDecorator(decoratorWithConsole);
+addDecorator(decoratorWithStableGuid);
+addDecorator(decoratorWithWrapper);

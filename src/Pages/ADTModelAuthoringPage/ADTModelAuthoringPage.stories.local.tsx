@@ -6,7 +6,10 @@ import ADTModelAuthoringPage from './ADTModelAuthoringPage';
 
 export default {
     title: 'Pages/ADTModelAuthoringPage',
-    component: ADTModelAuthoringPage
+    component: ADTModelAuthoringPage,
+    parameters: {
+        noGlobalWrapper: true
+    }
 };
 
 const cardStyle = {

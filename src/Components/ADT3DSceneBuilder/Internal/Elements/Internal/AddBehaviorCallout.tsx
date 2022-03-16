@@ -5,7 +5,8 @@ import {
     SearchBox,
     mergeStyleSets,
     PrimaryButton,
-    FocusTrapCallout
+    FocusTrapCallout,
+    useTheme
 } from '@fluentui/react';
 import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../../ADT3DSceneBuilder.types';
 import { CardboardList } from '../../../../CardboardList';
@@ -52,6 +53,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
         setListItems(listItems);
     }, [filteredAvailableBehaviors, onAddBehavior]);
 
+    const theme = useTheme();
     return (
         <FocusTrapCallout
             focusTrapProps={{
@@ -62,6 +64,17 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
             isBeakVisible={false}
             directionalHint={DirectionalHint.bottomLeftEdge}
             onDismiss={hideCallout}
+            styles={{
+                root: {
+                    padding: 15,
+                    width: 300,
+                    backgroundColor: theme.semanticColors.bodyBackground
+                    // boxShadow:
+                },
+                calloutMain: {
+                    backgroundColor: 'unset'
+                }
+            }}
         >
             <div>
                 <h4 className={styles.title}>
@@ -125,9 +138,8 @@ function getListItems(
 
 const styles = mergeStyleSets({
     callout: {
-        padding: '15px',
-        width: '300px',
-        background: '#ffffff'
+        // padding: '15px',
+        // width: '300px'
     },
     title: {
         marginTop: '0px'
