@@ -36,7 +36,7 @@
 .cb-value-range-input {
     background-color: var(--cb-color-bg-canvas);
     border: 1px solid var(--cb-color-input-border);
-    border-radius: 2px;
+    border-radius: 4px;
     color: var(--cb-color-text-primary);
     height: 24px;
     padding-right: 32px;
@@ -76,7 +76,7 @@
 .cb-value-range-color-button {
     align-self: flex-end;
     border: 1px solid var(--cb-color-input-border);
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
     height: 24px;
     width: 60px;

@@ -1,6 +1,6 @@
-import { IColorCellProps } from '@fluentui/react';
 import produce from 'immer';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { defaultSwatchColors } from '../../Theming/Palettes';
 import {
     Boundary,
     IValueRangeBuilderState,
@@ -11,14 +11,6 @@ import {
     isRangeOverlapFound,
     getRangeValidation
 } from './ValueRangeBuilder.utils';
-
-export const defaultSwatchColors: IColorCellProps[] = [
-    { id: 'green', label: 'green', color: '#7DDF64' },
-    { id: 'purple', label: 'purple', color: '#7A306C' },
-    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
-    { id: 'blue', label: 'blue', color: '#3AAED8' },
-    { id: 'red', label: 'red', color: '#E84855' }
-];
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     valueRanges: [],

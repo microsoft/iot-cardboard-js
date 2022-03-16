@@ -1,7 +1,8 @@
 import { DefaultButton } from '@fluentui/react';
+import { ComponentStory } from '@storybook/react';
 import React, { useRef, useState } from 'react';
+import { defaultSwatchColors } from '../../Theming/Palettes';
 import ValueRangeBuilder from './ValueRangeBuilder';
-import { defaultSwatchColors } from './ValueRangeBuilder.state';
 import { IValueRangeBuilderHandle } from './ValueRangeBuilder.types';
 
 export default {
@@ -10,8 +11,12 @@ export default {
 };
 
 const wrapperStyle = { width: '340px', height: '400px' };
+type ValueRangeBuilderStory = ComponentStory<typeof ValueRangeBuilder>;
 
-const Template = (args, { globals: { theme, locale } }) => {
+const Template: ValueRangeBuilderStory = (
+    args,
+    { globals: { theme, locale } }
+) => {
     return (
         <div style={wrapperStyle}>
             <ValueRangeBuilder
@@ -23,7 +28,10 @@ const Template = (args, { globals: { theme, locale } }) => {
     );
 };
 
-const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
+const TemplateWithValidation: ValueRangeBuilderStory = (
+    args,
+    { globals: { theme, locale } }
+) => {
     const [areRangesValid, setAreRangesValid] = useState(true);
     const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
     return (
@@ -62,7 +70,9 @@ const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
     );
 };
 
-export const InfoFromConsumingComponent = TemplateWithValidation.bind({});
+export const InfoFromConsumingComponent = TemplateWithValidation.bind(
+    {}
+) as ValueRangeBuilderStory;
 InfoFromConsumingComponent.args = {
     initialValueRanges: [
         {
@@ -86,8 +96,8 @@ InfoFromConsumingComponent.args = {
     ]
 };
 
-export const Empty = Template.bind({});
-export const ValidRanges = Template.bind({});
+export const Empty = Template.bind({}) as ValueRangeBuilderStory;
+export const ValidRanges = Template.bind({}) as ValueRangeBuilderStory;
 
 ValidRanges.args = {
     initialValueRanges: [
@@ -112,7 +122,7 @@ ValidRanges.args = {
     ]
 };
 
-export const InvalidRange = Template.bind({});
+export const InvalidRange = Template.bind({}) as ValueRangeBuilderStory;
 InvalidRange.args = {
     initialValueRanges: [
         {
@@ -130,13 +140,13 @@ InvalidRange.args = {
     ]
 };
 
-export const NonNumericValue = Template.bind({});
+export const NonNumericValue = Template.bind({}) as ValueRangeBuilderStory;
 NonNumericValue.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
-            min: 'asdf',
+            min: 'asdf' as any,
             max: 0
         },
         {
@@ -148,7 +158,7 @@ NonNumericValue.args = {
     ]
 };
 
-export const RangeOverlap = Template.bind({});
+export const RangeOverlap = Template.bind({}) as ValueRangeBuilderStory;
 RangeOverlap.args = {
     initialValueRanges: [
         {
@@ -172,7 +182,7 @@ RangeOverlap.args = {
     ]
 };
 
-export const MinAndMaxRanges = Template.bind({});
+export const MinAndMaxRanges = Template.bind({}) as ValueRangeBuilderStory;
 
 MinAndMaxRanges.args = {
     initialValueRanges: [
