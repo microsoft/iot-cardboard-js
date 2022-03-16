@@ -1,4 +1,4 @@
-import { DefaultButton, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,10 @@ import {
     IWidget
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import PanelFooter from '../../Shared/PanelFooter';
+import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
+import { getWidgetFormStyles } from './WidgetForm.styles';
 // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
 // import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 // import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
@@ -115,19 +118,20 @@ const WidgetForm: React.FC<any> = () => {
         setFormData(null);
     };
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+    const commonFormStyles = getPanelFormStyles(theme, 0);
     return (
         <>
-            <div className="cb-scene-builder-left-panel-create-form">
-                <div className="cb-scene-builder-left-panel-create-form-contents">
-                    <div className="cb-widget-builder-description-container">
-                        <div className="cb-widget-builder-description">
-                            {widgetFormInfo.widget.description}
-                        </div>
+            <div className={commonFormStyles.content}>
+                <div className={commonFormStyles.header}>
+                    <div className={customStyles.description}>
+                        {widgetFormInfo.widget.description}
                     </div>
                     {getWidgetBuilder()}
                 </div>
             </div>
-            <div className="cb-scene-builder-left-panel-create-form-actions">
+            <PanelFooter>
                 <PrimaryButton
                     onClick={onSaveWidgetForm}
                     text={
@@ -139,13 +143,12 @@ const WidgetForm: React.FC<any> = () => {
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    styles={{ root: { marginLeft: 8 } }}
                     onClick={() => {
                         setWidgetFormInfo(null);
                         setFormData(null);
                     }}
                 />
-            </div>
+            </PanelFooter>
         </>
     );
 };

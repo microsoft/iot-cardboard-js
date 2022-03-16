@@ -70,7 +70,7 @@ export interface ISceneViewProp {
     coloredMeshItems?: ColoredMeshItem[];
     meshIdsToOutline?: string[];
     zoomToMeshIds?: string[];
-    hideUnzoomedMeshes?: boolean;
+    unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
     renderMode?: IADT3DViewerRenderMode;
 }

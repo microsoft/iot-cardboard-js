@@ -5,7 +5,10 @@ import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 
 export default {
     title: 'Pages/ADT3DScenePage',
-    component: ADT3DScenePage
+    component: ADT3DScenePage,
+    parameters: {
+        noGlobalWrapper: true
+    }
 };
 
 const cardStyle = {

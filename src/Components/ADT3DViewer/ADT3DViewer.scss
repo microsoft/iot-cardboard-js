@@ -11,8 +11,8 @@
 }
 
 .cb-adt-3dviewer-popup {
-    background-color: #fff;
-    border-color: #000;
+    background-color: var(--cb-color-bg-canvas);
+    border-color: var(--cb-color-input-border);
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;

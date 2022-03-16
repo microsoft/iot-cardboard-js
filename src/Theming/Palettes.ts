@@ -1,5 +1,10 @@
 import { IPalette } from '@fluentui/react';
 
+export const customOverrides = {
+    primaryButtonTextColor: '#F2F3F4',
+    primaryButtonTextColorDisabled: '#A5A5A5'
+};
+
 // Palettes created from https://aka.ms/themedesigner
 export const fluentLightThemePalette: Partial<IPalette> = {
     themePrimary: '#0078d4',

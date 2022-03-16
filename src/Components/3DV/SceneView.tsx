@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
 import * as GUI from 'babylonjs-gui';
-import { ProgressIndicator } from '@fluentui/react';
+import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
@@ -18,6 +18,8 @@ import {
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
+import { getBoundingBox } from './SceneView.Utils';
+import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 
 const debug = false;
 
@@ -101,7 +103,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     showMeshesOnHover,
     renderMode,
     zoomToMeshIds,
-    hideUnzoomedMeshes,
+    unzoomedMeshOpacity,
     onSceneLoaded,
     getToken,
     coloredMeshItems,
@@ -138,7 +140,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
-    const prevHideUnzoomedRef = useRef<boolean>(undefined);
+    const prevHideUnzoomedRef = useRef<number>(undefined);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -294,9 +296,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 sceneRef.current?.meshes?.length &&
                 (!cameraRef.current ||
                     prevZoomToIds.current !== zoomTo ||
-                    prevHideUnzoomedRef.current !== hideUnzoomedMeshes)
+                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
             ) {
-                prevHideUnzoomedRef.current = hideUnzoomedMeshes;
+                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
                 meshMap.current = {};
                 for (const mesh of sceneRef.current.meshes) {
                     if (mesh.id) {
@@ -305,10 +307,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                     mesh.computeWorldMatrix(true);
                     mesh.visibility =
-                        hideUnzoomedMeshes &&
+                        unzoomedMeshOpacity !== undefined &&
                         zoomToMeshIds?.length &&
                         !zoomToMeshIds.includes(mesh.id)
-                            ? 0
+                            ? unzoomedMeshOpacity
                             : 1;
                 }
 
@@ -331,7 +333,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
 
                     someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                        totalBoundingInfo(meshes)
+                        getBoundingBox(meshes)
                     );
 
                     someMeshFromTheArrayOfMeshes.showBoundingBox = false;
@@ -351,6 +353,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         canvasId
                     ) as HTMLCanvasElement;
 
+                    // First time in after loading - create the camera
                     if (!cameraRef.current) {
                         const camera = new BABYLON.ArcRotateCamera(
                             'camera',
@@ -363,35 +366,68 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                         camera.attachControl(canvas, false);
                         cameraRef.current = camera;
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+                    } else {
+                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                        // First save the current camera position
+                        const positionFrom = cameraRef.current.position;
+                        const targetFrom = cameraRef.current.target;
+                        const radiusFrom = cameraRef.current.radius;
+                        // Now move it immediately to where we want it and save the new position
+                        cameraRef.current.zoomOn(meshes, true);
+                        cameraRef.current.radius = radius;
+                        const positionTo = cameraRef.current.position;
+                        const targetTo = cameraRef.current.target;
+                        const radiusTo = cameraRef.current.radius;
+                        // Reset camera back to original position
+                        cameraRef.current.position = positionFrom;
+                        cameraRef.current.target = targetFrom;
+                        // And animate to the desired position
+                        const ease = new BABYLON.CubicEase();
+                        ease.setEasingMode(
+                            BABYLON.EasingFunction.EASINGMODE_EASEINOUT
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an1',
+                            cameraRef.current,
+                            'position',
+                            30, // FPS
+                            30, // Number of frames (ie 1 second)
+                            positionFrom,
+                            positionTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an2',
+                            cameraRef.current,
+                            'target',
+                            30,
+                            30,
+                            targetFrom,
+                            targetTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
+                        BABYLON.Animation.CreateAndStartAnimation(
+                            'an3',
+                            cameraRef.current,
+                            'radius',
+                            30,
+                            30,
+                            radiusFrom,
+                            radiusTo,
+                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                            ease
+                        );
                     }
-
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
                 }
             }
         }
 
-        function totalBoundingInfo(meshes: BABYLON.AbstractMesh[]) {
-            let boundingInfo = meshes[0].getBoundingInfo();
-            let min = boundingInfo.boundingBox.minimumWorld;
-            let max = boundingInfo.boundingBox.maximumWorld;
-
-            for (const mesh of meshes) {
-                boundingInfo = mesh.getBoundingInfo();
-                min = BABYLON.Vector3.Minimize(
-                    min,
-                    boundingInfo.boundingBox.minimumWorld
-                );
-                max = BABYLON.Vector3.Maximize(
-                    max,
-                    boundingInfo.boundingBox.maximumWorld
-                );
-            }
-            return new BABYLON.BoundingInfo(min, max);
-        }
-
         createOrZoomCamera();
-    }, [isLoading, zoomToMeshIds, hideUnzoomedMeshes]);
+    }, [isLoading, zoomToMeshIds, unzoomedMeshOpacity]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
@@ -946,28 +982,22 @@ const SceneView: React.FC<ISceneViewProp> = ({
         coloredMaterials.current[mesh.id] = material;
     };
 
+    const theme = useTheme();
+    const customStyles = getSceneViewStyles(theme);
     return (
-        <div className="cb-sceneview-container">
+        <div className={customStyles.root}>
             <canvas
                 className={
-                    isLoading === true
-                        ? 'cb-sceneview-canvas'
-                        : 'cb-sceneview-canvas cb-o1'
+                    isLoading
+                        ? customStyles.canvas
+                        : `${customStyles.canvasVisible} ${customStyles.canvas}`
                 }
                 id={canvasId}
                 touch-action="none"
             />
             {isLoading && (
                 <ProgressIndicator
-                    className="cb-sceneview-progressbar"
-                    styles={{
-                        itemDescription: {
-                            color: 'white',
-                            fontSize: 26,
-                            marginTop: 10,
-                            textAlign: 'center'
-                        }
-                    }}
+                    styles={getProgressStyles(theme)}
                     description={`Loading model (${Math.floor(
                         loadProgress * 100
                     )}%)...`}
@@ -976,13 +1006,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 />
             )}
             {isLoading === undefined && (
-                <div className="cb-sceneview-errormessage">
+                <div className={customStyles.errorMessage}>
                     Error loading model. Try Ctrl-F5
                 </div>
             )}
             {tooltipText && (
                 <div
-                    className="cb-sceneview-tooltip"
+                    className={customStyles.globeTooltip}
                     style={{
                         top: tooltipTop.current,
                         left: tooltipLeft.current

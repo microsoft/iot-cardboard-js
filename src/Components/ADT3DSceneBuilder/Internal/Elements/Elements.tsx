@@ -29,6 +29,7 @@ import {
 import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 import { IADT3DViewerRenderMode } from '../../../..';
+import PanelFooter from '../Shared/PanelFooter';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -230,7 +231,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     searchText={searchText}
                 />
             )}
-            <div className={commonPanelStyles.rootListContainer}>
+            <div className={commonPanelStyles.content}>
                 {elements.length === 0 ? (
                     <p className={commonPanelStyles.noDataText}>
                         {t('3dSceneBuilder.noElementsText')}
@@ -248,7 +249,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 )}
             </div>
             {!isEditBehavior && (
-                <div className="cb-scene-builder-footer-container">
+                <PanelFooter>
                     {isSelectionEnabled ? (
                         <div>
                             <PrimaryButton
@@ -278,7 +279,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                             text={t('3dSceneBuilder.newElement')}
                         />
                     )}
-                </div>
+                </PanelFooter>
             )}
             <ConfirmDeleteDialog
                 isOpen={isConfirmDeleteDialogOpen}
