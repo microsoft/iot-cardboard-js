@@ -135,6 +135,7 @@ export interface IPopoverVisual {
  */
 export interface IGaugeWidget {
     type: 'Gauge';
+    id: string;
     groupID?: IGroupID;
     valueExpression: IValueExpression;
     widgetConfiguration: IGaugeWidgetConfiguration;
@@ -162,6 +163,7 @@ export interface IValueRange {
  */
 export interface ILinkWidget {
     type: 'Link';
+    id: string;
     groupID?: IGroupID;
     widgetConfiguration: ILinkWidgetConfiguration;
     extensionProperties?: IExtensionProperties;

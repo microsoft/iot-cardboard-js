@@ -6,9 +6,11 @@ import {
     IElementTwinToObjectMappingDataSource,
     IScene,
     IValueRange,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
+    IPopoverVisual,
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType } from './3DVConfig';
+import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -252,6 +254,10 @@ abstract class ViewerConfigUtility {
         element: IElement
     ): element is ITwinToObjectMapping {
         return element.type === ElementType.TwinToObjectMapping;
+    }
+
+    static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
+        return visual.type === VisualType.Popover;
     }
 
     static getBehaviorsSegmentedByPresenceInScene(

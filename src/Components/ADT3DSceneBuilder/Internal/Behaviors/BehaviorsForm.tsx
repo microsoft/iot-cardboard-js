@@ -37,6 +37,7 @@ import {
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
+import WidgetsTab from './Internal/WidgetsTab';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -218,9 +219,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     headerText={t('3dSceneBuilder.widgets')}
                                     itemKey={BehaviorPivot.widgets}
                                 >
-                                    {/* TODO SCHEMA MIGRATION - update
-                                            Alerts tab to new schema & types */}
-                                    {/* <WidgetsTab /> */}
+                                    <WidgetsTab />
                                 </PivotItem>
                             </Pivot>
                         </div>

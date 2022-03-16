@@ -342,6 +342,9 @@
                 "type": {
                     "const": "Gauge"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "groupID": {
                     "$ref": "#/$defs/IGroupID"
                 },
@@ -355,7 +358,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "valueExpression", "widgetConfiguration"]
+            "required": ["type", "id", "valueExpression", "widgetConfiguration"]
         },
         "ILinkWidget": {
             "type": "object",
@@ -364,6 +367,9 @@
             "properties": {
                 "type": {
                     "const": "Link"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "groupID": {
                     "$ref": "#/$defs/IGroupID"
@@ -375,7 +381,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "widgetConfiguration"]
+            "required": ["type", "id", "widgetConfiguration"]
         },
         "IWidget": {
             "anyOf": [
