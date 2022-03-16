@@ -72,7 +72,7 @@ const WidgetForm: React.FC<any> = () => {
             //     );
             default:
                 return (
-                    <div className="cb-widget-not-supported">
+                    <div className={"cb-widget-not-supported"}>
                         {t('widgets.notSupported') + ' :('}
                     </div>
                 );

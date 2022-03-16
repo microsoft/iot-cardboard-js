@@ -68,7 +68,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 data={getData()}
                 chartOptions={getChartOptions()}
                 chartDataOptions={chartDataOptions}
-            ></Linechart>
+            >
+            </Linechart>
         </BaseCard>
     );
 };

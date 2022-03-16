@@ -13,7 +13,7 @@ export const Globe = () => {
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '100%' }}>
-            <ADT3DGlobe title="Globe" adapter={new MockAdapter()} />
+            <ADT3DGlobe title={"Globe"} adapter={new MockAdapter()} />
         </div>
     );
 };

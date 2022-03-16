@@ -259,7 +259,7 @@ const SceneList: React.FC<SceneListProps> = ({
         >
             {sceneList.length > 0 ? (
                 <>
-                    <div className="cb-scene-list-action-buttons">
+                    <div className={"cb-scene-list-action-buttons"}>
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
@@ -285,7 +285,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         ))}
                     </div>
 
-                    <div className="cb-scenes-list">
+                    <div className={"cb-scenes-list"}>
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
@@ -305,7 +305,7 @@ const SceneList: React.FC<SceneListProps> = ({
                                     minWidth: 400,
                                     isResizable: true,
                                     onRender: (item: IScene) => (
-                                        <ul className="cb-scene-list-blob-urls">
+                                        <ul className={"cb-scene-list-blob-urls"}>
                                             {item.assets.map(
                                                 (a: IAsset, idx) => {
                                                     return (
@@ -339,7 +339,7 @@ const SceneList: React.FC<SceneListProps> = ({
                                     minWidth: 100
                                 }
                             ]}
-                            setKey="set"
+                            setKey={"set"}
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}
                             onRenderItemColumn={renderItemColumn}
@@ -361,8 +361,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DialogFooter>
                             <DefaultButton
                                 onClick={() =>
-                                    setIsConfirmDeleteDialogOpen(false)
-                                }
+                                    setIsConfirmDeleteDialogOpen(false)}
                                 text={t('cancel')}
                             />
                             <PrimaryButton
@@ -378,10 +377,10 @@ const SceneList: React.FC<SceneListProps> = ({
                     </Dialog>
                 </>
             ) : (
-                <div className="cb-scene-list-empty">
+                <div className={"cb-scene-list-empty"}>
                     <p>{t('scenes.noScenes')}</p>
                     <PrimaryButton
-                        className="cb-scene-list-empty-button"
+                        className={"cb-scene-list-empty-button"}
                         onClick={() => {
                             setIsSceneDialogOpen(true);
                         }}

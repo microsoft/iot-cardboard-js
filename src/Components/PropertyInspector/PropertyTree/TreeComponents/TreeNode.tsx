@@ -12,12 +12,12 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
     return (
         <>
-            <div className="cb-property-tree-node">
+            <div className={"cb-property-tree-node"}>
                 <TreeNodeName node={node} />
                 <TreeNodeValue node={node} />
                 {node.unit && (
                     <div
-                        className="cb-property-tree-node-unit"
+                        className={"cb-property-tree-node-unit"}
                         aria-label={node.unit}
                     >
                         {node.unit}
@@ -33,8 +33,8 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                 node.role === NodeRole.parent &&
                 (!node.children ||
                     (node.children && node.children.length === 0)) && (
-                    <ul className="cb-property-tree-list-group cb-is-child-tree">
-                        <li className="cb-property-tree-list-item cb-property-tree-node-value-metadata">
+                    <ul className={"cb-property-tree-list-group cb-is-child-tree"}>
+                        <li className={"cb-property-tree-list-item cb-property-tree-node-value-metadata"}>
                             ({t('empty')})
                         </li>
                     </ul>

@@ -319,8 +319,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         (e) => e.hostName === new URL(option.text).hostname
                     ) === -1 && (
                         <Icon
-                            iconName="Delete"
-                            aria-hidden="true"
+                            iconName={"Delete"}
+                            aria-hidden={"true"}
                             title={t('environmentPicker.removeFromList')}
                             style={{ paddingLeft: 20 }}
                             onClick={(event) => {
@@ -536,10 +536,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             locale={props.locale}
             localeStrings={props.localeStrings}
             theme={props.theme}
-            containerClassName="cb-environment-picker"
+            containerClassName={"cb-environment-picker"}
         >
-            <div className="cb-environment-picker-environment">
-                <span className="cb-environment-picker-environment-title">
+            <div className={"cb-environment-picker-environment"}>
+                <span className={"cb-environment-picker-environment-title"}>
                     {displayNameForEnvironment(selectedEnvironment)}
                 </span>
                 <IconButton
@@ -551,9 +551,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 />
             </div>
             {props.storage && (
-                <div className="cb-environment-picker-container">
+                <div className={"cb-environment-picker-container"}>
                     <FontIcon iconName={'Database'} />
-                    <span className="cb-environment-picker-container-title">
+                    <span className={"cb-environment-picker-container-title"}>
                         {displayNameForContainer(selectedContainerUrl)}
                     </span>
                 </div>
@@ -565,7 +565,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
             >
-                <div className="cb-environment-picker-dialog-form">
+                <div className={"cb-environment-picker-dialog-form"}>
                     <ComboBox
                         placeholder={t('environmentPicker.enterEnvironmentUrl')}
                         label={t('environmentPicker.environmentUrl')}
@@ -580,23 +580,21 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 : 'https://' + environmentToEdit.hostName
                         }
                         onChange={(_e, option, _idx, value) =>
-                            handleOnEnvironmentUrlChange(option, value)
-                        }
+                            handleOnEnvironmentUrlChange(option, value)}
                         errorMessage={environmentInputError}
                         onRenderOption={(option) =>
-                            onRenderOption(option, 'environment')
-                        }
+                            onRenderOption(option, 'environment')}
                         onRenderLabel={(p) => (
-                            <div className="cb-environment-picker-environment-url-label">
-                                <span className="cb-environment-picker-environment-url-label-text">
+                            <div className={"cb-environment-picker-environment-url-label"}>
+                                <span className={"cb-environment-picker-environment-url-label-text"}>
                                     {p.props.label}
                                 </span>
                                 {environmentsState.isLoading && (
                                     <Spinner
                                         size={SpinnerSize.xSmall}
                                         label={t('loadingInstances')}
-                                        ariaLive="assertive"
-                                        labelPosition="right"
+                                        ariaLive={"assertive"}
+                                        labelPosition={"right"}
                                     />
                                 )}
                             </div>
@@ -620,12 +618,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             required
                             text={containerUrlToEdit}
                             onChange={(_e, option, _idx, value) =>
-                                handleOnContainerUrlChange(option, value)
-                            }
+                                handleOnContainerUrlChange(option, value)}
                             errorMessage={containerInputError}
                             onRenderOption={(option) =>
-                                onRenderOption(option, 'container')
-                            }
+                                onRenderOption(option, 'container')}
                             selectedKey={containerUrlToEdit}
                         />
                     )}

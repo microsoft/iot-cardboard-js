@@ -535,7 +535,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
     }, []);
 
     return (
-        <div className="cb-adt-hierarchy-wrapper">
+        <div className={"cb-adt-hierarchy-wrapper"}>
             <BaseCard
                 title={title}
                 isLoading={
@@ -548,7 +548,7 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                 localeStrings={localeStrings}
             >
                 <Searchbox
-                    className="cb-adt-hierarchy-search"
+                    className={"cb-adt-hierarchy-search"}
                     placeholder={t('search')}
                     onSearch={handleOnSearch}
                     onClear={exitSearchMode}
@@ -568,7 +568,8 @@ const ADTHierarchyCard: React.FC<ADTHierarchyCardProps> = ({
                         lookupTwinId &&
                         twinLookupStatus === TwinLookupStatus.Finished
                     }
-                ></Hierarchy>
+                >
+                </Hierarchy>
             </BaseCard>
         </div>
     );

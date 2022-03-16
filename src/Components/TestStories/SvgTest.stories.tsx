@@ -14,7 +14,7 @@ const SvgTest = () => {
 
     return (
         <div
-            className="cb-svg-test-wrapper"
+            className={"cb-svg-test-wrapper"}
             style={{ display: 'flex', flexDirection: 'column' }}
         >
             <h3>{t('svgTests.fluentUI')}</h3>

@@ -359,7 +359,7 @@ const BuilderLeftPanel: React.FC = () => {
             theme={theme}
             locale={locale}
             localeStrings={localeStrings}
-            containerClassName="cb-scene-builder-left-panel"
+            containerClassName={"cb-scene-builder-left-panel"}
         >
             <LeftPanelBuilderBreadcrumb
                 builderMode={state.builderMode}
@@ -368,8 +368,7 @@ const BuilderLeftPanel: React.FC = () => {
                     setSelectedElements([]);
                 }}
                 onElementsRootClick={() =>
-                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
-                }
+                    onBackClick(ADT3DSceneBuilderMode.ElementsIdle)}
             />
             {(state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
                 state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle) && (
@@ -377,7 +376,7 @@ const BuilderLeftPanel: React.FC = () => {
                     aria-label={t('3dScenePage.buildMode')}
                     selectedKey={state.selectedPivotTab}
                     onLinkClick={setPivotItem}
-                    className="cb-scene-builder-left-panel-pivot"
+                    className={"cb-scene-builder-left-panel-pivot"}
                     styles={{ root: { marginBottom: 16 } }}
                 >
                     <PivotItem
@@ -399,7 +398,7 @@ const BuilderLeftPanel: React.FC = () => {
                     <PivotItem
                         headerText={t('3dSceneBuilder.behaviors')}
                         itemKey={ADT3DSceneTwinBindingsMode.Behaviors}
-                        data-testid="3dScene.panelPivot.behaviorsTab"
+                        data-testid={"3dScene.panelPivot.behaviorsTab"}
                         style={{ width: '100%' }}
                     >
                         <SceneBehaviors
@@ -421,8 +420,7 @@ const BuilderLeftPanel: React.FC = () => {
                     behaviors={behaviors}
                     selectedElement={state.selectedElement}
                     onElementBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
-                    }
+                        onBackClick(ADT3DSceneBuilderMode.ElementsIdle)}
                     onElementSave={onElementSave}
                     onBehaviorSave={onBehaviorSave}
                     onBehaviorClick={onBehaviorClick}
@@ -435,8 +433,7 @@ const BuilderLeftPanel: React.FC = () => {
                     elements={state.elements}
                     builderMode={state.builderMode}
                     onBehaviorBackClick={() =>
-                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)
-                    }
+                        onBackClick(ADT3DSceneBuilderMode.BehaviorIdle)}
                     selectedBehavior={state.selectedBehavior}
                     onBehaviorSave={onBehaviorSave}
                     selectedElements={state.selectedElements}

@@ -3,14 +3,14 @@ import React, {
     useContext,
     useEffect,
     useRef,
-    useState
+    useState,
 } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
     DefaultButton,
     IContextualMenuItem,
     PrimaryButton,
-    useTheme
+    useTheme,
 } from '@fluentui/react';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
@@ -24,7 +24,7 @@ import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
 import {
     I3DScenesConfig,
     IScene,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
@@ -41,25 +41,25 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     clearSelectedElements,
     onCreateBehaviorClick,
     isEditBehavior,
-    hideSearch
+    hideSearch,
 }) => {
     const { t } = useTranslation();
-    const [isConfirmDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [
         elementToDelete,
-        setElementToDelete
+        setElementToDelete,
     ] = useState<ITwinToObjectMapping>(undefined);
     const {
         adapter,
         config,
         sceneId,
         state,
-        setOutlinedMeshItems
+        setOutlinedMeshItems,
     } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
-        isEditBehavior || false
+        isEditBehavior || false,
     );
 
     const elementsSorted = useRef(false);
@@ -76,27 +76,27 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             const sceneToUpdate: IScene = {
                 ...config.configuration.scenes[
                     config.configuration.scenes.findIndex(
-                        (s) => s.id === sceneId
+                        (s) => s.id === sceneId,
                     )
-                ]
+                ],
             };
             sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
-                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
+                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate),
             );
         },
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const handleDeleteElement = () => {
         const newElements = [...elements];
         newElements.splice(
             elements.findIndex((e) => e.id === elementToDelete.id),
-            1
+            1,
         );
         updateTwinToObjectMappings.callAdapter({
-            elements: newElements
+            elements: newElements,
         });
         onRemoveElement(newElements);
     };
@@ -108,8 +108,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 outlinedMeshes = outlinedMeshes.concat(
                     createCustomMeshItems(
                         selectedElement.objectIDs,
-                        state.renderMode.outlinedMeshSelectedColor
-                    )
+                        state.renderMode.outlinedMeshSelectedColor,
+                    ),
                 );
             }
 
@@ -128,10 +128,10 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     useEffect(() => {
         if (elements) {
             const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
-                JSON.stringify(elements)
+                JSON.stringify(elements),
             );
             const sortedElements = elementsCopy.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
+                a.displayName > b.displayName ? 1 : -1,
             );
             setFilteredElements(sortedElements);
         }
@@ -143,12 +143,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             // sort the list
             elementsSorted.current = true;
             selectedElements?.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
+                a.displayName > b.displayName ? 1 : -1,
             );
 
             // put selected items first
             const nonSelectedElements = elements?.filter(
-                (element) => !selectedElements.find((x) => x.id === element.id)
+                (element) => !selectedElements.find((x) => x.id === element.id),
             );
             setFilteredElements(selectedElements.concat(nonSelectedElements));
         }
@@ -157,7 +157,9 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     // apply filtering
     useEffect(() => {
         const filtered = elements.filter((element) =>
-            element.displayName.toLowerCase().includes(searchText.toLowerCase())
+            element.displayName
+                .toLowerCase()
+                .includes(searchText.toLowerCase()),
         );
         setFilteredElements(filtered);
     }, [searchText]);
@@ -165,12 +167,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {
             const shouldCheck = !selectedElements?.find(
-                (x) => x.id === element.id
+                (x) => x.id === element.id,
             );
             updateSelectedElements(element, shouldCheck);
             elementsSorted.current = true;
         },
-        [selectedElements, updateSelectedElements, elementsSorted.current]
+        [selectedElements, updateSelectedElements, elementsSorted.current],
     );
 
     const onMultiSelectChanged = useCallback(() => {
@@ -192,7 +194,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             setIsDeleteDialogOpen,
             state.renderMode,
             setOutlinedMeshItems,
-            t
+            t,
         );
         setListItems(elementsList);
     }, [
@@ -205,15 +207,15 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         selectedElements,
         setElementToDelete,
         setIsDeleteDialogOpen,
-        setOutlinedMeshItems
+        setOutlinedMeshItems,
     ]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
-        <div className="cb-scene-builder-pivot-contents">
+        <div className={'cb-scene-builder-pivot-contents'}>
             {isEditBehavior && (
-                <div className="cb-scene-builder-elements-title">
+                <div className={'cb-scene-builder-elements-title'}>
                     {t('3dSceneBuilder.selectBehaviorElements')}
                 </div>
             )}
@@ -250,7 +252,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                     {isSelectionEnabled ? (
                         <div>
                             <PrimaryButton
-                                className="cb-scene-builder-create-button"
+                                className={'cb-scene-builder-create-button'}
                                 text={t('3dSceneBuilder.createBehavior')}
                                 onClick={onCreateBehaviorClick}
                                 disabled={
@@ -266,12 +268,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                                     setIsSelectionEnabled(false);
                                     clearSelectedElements();
                                 }}
-                                className="cb-scene-builder-cancel-button"
+                                className={'cb-scene-builder-cancel-button'}
                             />
                         </div>
                     ) : (
                         <PrimaryButton
-                            className="cb-scene-builder-create-button"
+                            className={'cb-scene-builder-create-button'}
                             onClick={onCreateElementClick}
                             text={t('3dSceneBuilder.newElement')}
                         />
@@ -279,7 +281,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 </PanelFooter>
             )}
             <ConfirmDeleteDialog
-                isOpen={isConfirmDeleteDialogOpen}
+                isOpen={isDeleteDialogOpen}
                 onCancel={() => {
                     setElementToDelete(null);
                     setIsDeleteDialogOpen(false);
@@ -305,7 +307,7 @@ function getListItems(
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
     renderMode: IADT3DViewerRenderMode,
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void,
-    t: TFunction<string>
+    t: TFunction<string>,
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
         if (isSelectionEnabled) {
@@ -315,30 +317,30 @@ function getListItems(
         }
     };
     const getOverflowMenuItems = (
-        element: ITwinToObjectMapping
+        element: ITwinToObjectMapping,
     ): IContextualMenuItem[] => {
         return [
             {
                 key: 'modify',
                 'data-testid': 'modify-element',
                 iconProps: {
-                    iconName: 'Edit'
+                    iconName: 'Edit',
                 },
                 text: t('3dSceneBuilder.modifyElement'),
-                onClick: () => onElementClick(element)
+                onClick: () => onElementClick(element),
             },
             {
                 key: 'delete',
                 'data-testid': 'delete-element',
                 iconProps: {
-                    iconName: 'blocked2'
+                    iconName: 'blocked2',
                 },
                 text: t('3dSceneBuilder.removeElement'),
                 onClick: () => {
                     setElementToDelete(element);
                     setIsDeleteDialogOpen(true);
-                }
-            }
+                },
+            },
         ];
     };
 
@@ -351,16 +353,16 @@ function getListItems(
                     highlightedElements = highlightedElements.concat(
                         createCustomMeshItems(
                             selectedElement.objectIDs,
-                            renderMode.outlinedMeshHoverSelectedColor
-                        )
+                            renderMode.outlinedMeshHoverSelectedColor,
+                        ),
                     );
                 } else {
                     // highlight other selected elements
                     highlightedElements = highlightedElements.concat(
                         createCustomMeshItems(
                             selectedElement.objectIDs,
-                            renderMode.outlinedMeshSelectedColor
-                        )
+                            renderMode.outlinedMeshSelectedColor,
+                        ),
                     );
                 }
             }
@@ -370,8 +372,8 @@ function getListItems(
                 highlightedElements = highlightedElements.concat(
                     createCustomMeshItems(
                         element?.objectIDs,
-                        renderMode.outlinedMeshHoverColor
-                    )
+                        renderMode.outlinedMeshHoverColor,
+                    ),
                 );
             }
             setOutlinedMeshItems(highlightedElements);
@@ -379,8 +381,8 @@ function getListItems(
             setOutlinedMeshItems(
                 createCustomMeshItems(
                     element?.objectIDs,
-                    renderMode.outlinedMeshHoverColor
-                )
+                    renderMode.outlinedMeshHoverColor,
+                ),
             );
         }
     };
@@ -396,8 +398,8 @@ function getListItems(
             setOutlinedMeshItems(
                 createCustomMeshItems(
                     meshIds,
-                    renderMode.outlinedMeshSelectedColor
-                )
+                    renderMode.outlinedMeshSelectedColor,
+                ),
             );
         } else {
             setOutlinedMeshItems([]);
@@ -414,7 +416,7 @@ function getListItems(
                 onMouseOver: () => onElementEnter(item),
                 onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
-                onBlur: onElementLeave
+                onBlur: onElementLeave,
             },
             iconStartName: !isEditBehavior ? 'Shapes' : undefined,
             item: item,
@@ -426,10 +428,10 @@ function getListItems(
                 : t('3dSceneBuilder.elementMetaText', {
                       numBehaviors: ViewerConfigUtility.getElementMetaData(
                           item,
-                          config
-                      )
+                          config,
+                      ),
                   }),
-            isChecked: isItemSelected
+            isChecked: isItemSelected,
         };
 
         return viewModel;

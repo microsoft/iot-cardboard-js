@@ -139,7 +139,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             />
             <ActionButton
                 id={calloutTarget}
-                className="cb-scene-builder-left-panel-add-behavior"
+                className={"cb-scene-builder-left-panel-add-behavior"}
                 data-testid={'element-add-behavior'}
                 style={{ color: 'var(--cb-color-theme-primary' }}
                 styles={{

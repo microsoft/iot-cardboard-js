@@ -118,9 +118,9 @@ const ModelSearch = ({
             return (
                 <Trans
                     t={t}
-                    i18nKey="modelSearch.cdnModelSearchdescription"
+                    i18nKey={"modelSearch.cdnModelSearchdescription"}
                     components={{
-                        CndLink: <a href={adapter.CdnUrl} target="_blank"></a>
+                        CndLink: <a href={adapter.CdnUrl} target={"_blank"} rel={"noreferrer"}></a>
                     }}
                 />
             );
@@ -128,14 +128,15 @@ const ModelSearch = ({
             return (
                 <Trans
                     t={t}
-                    i18nKey="modelSearch.githubModelSearchdescription"
+                    i18nKey={"modelSearch.githubModelSearchdescription"}
                     values={{ repo: adapter.githubRepo }}
                     components={{
                         GithubRepo: (
                             <a
                                 href={`https://github.com/${adapter.githubRepo}`}
-                                target="_blank"
-                            ></a>
+                                target={"_blank"} rel={"noreferrer"}
+                            >
+                            </a>
                         )
                     }}
                 />
@@ -144,7 +145,7 @@ const ModelSearch = ({
     }, [adapter]);
 
     return (
-        <div className="cb-modelsearch-container">
+        <div className={"cb-modelsearch-container"}>
             <AutoCompleteSearchBox
                 onChange={(
                     _event?: React.ChangeEvent<HTMLInputElement>,
@@ -174,14 +175,14 @@ const ModelSearch = ({
                 }}
                 onRenderSuggestionCell={(item: IStandardModelSearchItem) => {
                     return (
-                        <div className="cb-modelsearch-suggestion-item">
-                            <div className="cb-modelsearch-suggestion-item-id">
+                        <div className={"cb-modelsearch-suggestion-item"}>
+                            <div className={"cb-modelsearch-suggestion-item-id"}>
                                 {item.dtmi}
                             </div>
-                            <div className="cb-modelsearch-suggestion-item-name">
+                            <div className={"cb-modelsearch-suggestion-item-name"}>
                                 {item.displayName}
                             </div>
-                            <div className="cb-modelsearch-suggestion-item-description">
+                            <div className={"cb-modelsearch-suggestion-item-description"}>
                                 {item.description}
                             </div>
                         </div>
@@ -193,7 +194,7 @@ const ModelSearch = ({
                 }}
                 searchDisabled={modelIndexState.isLoading}
             />
-            <div className="cb-ms-info">
+            <div className={"cb-ms-info"}>
                 <p>{getDescription()}</p>
             </div>
             {searchDataState.adapterResult.getData()?.metadata
@@ -205,7 +206,7 @@ const ModelSearch = ({
                     }
                 />
             )}
-            <div className="cb-ms-results">
+            <div className={"cb-ms-results"}>
                 <ModelSearchList
                     items={mergedSearchResults}
                     adapterState={modelDataState}
@@ -214,15 +215,14 @@ const ModelSearch = ({
                 {searchDataState.adapterResult.getData()?.metadata
                     ?.hasMoreItems && (
                     <DefaultButton
-                        className="cb-ms-show-more"
+                        className={"cb-ms-show-more"}
                         text={t('showMore')}
                         onClick={() =>
                             searchDataState.callAdapter({
                                 queryString: searchString,
                                 pageIdx: searchDataState.adapterResult.getData()
                                     .metadata?.pageIdx
-                            })
-                        }
+                            })}
                         disabled={searchDataState.isLoading}
                     />
                 )}

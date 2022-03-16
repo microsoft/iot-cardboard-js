@@ -14,8 +14,8 @@ export const BasicBIMViewer = () => (
         }}
     >
         <BIMViewer
-            bimFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt"
-            metadataFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"
+            bimFilePath={"https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplex.xkt"}
+            metadataFilePath={"https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"}
         />
     </div>
 );
@@ -28,8 +28,8 @@ export const BIMViewerBadPath = () => (
         }}
     >
         <BIMViewer
-            bimFilePath="https://bogusurl111.biz/fakeBIM.xkt"
-            metadataFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"
+            bimFilePath={"https://bogusurl111.biz/fakeBIM.xkt"}
+            metadataFilePath={"https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"}
         />
     </div>
 );
@@ -42,8 +42,8 @@ export const BIMViewerBadFileType = () => (
         }}
     >
         <BIMViewer
-            bimFilePath="https://bogusurl111.biz"
-            metadataFilePath="https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"
+            bimFilePath={"https://bogusurl111.biz"}
+            metadataFilePath={"https://cardboardresources.blob.core.windows.net/carboard-bim-files/duplexMetaModel.json"}
         />
     </div>
 );

@@ -29,7 +29,7 @@ export const Mock = (
     <div style={defaultCardWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
-            id="notRelevant"
+            id={"notRelevant"}
             properties={properties}
             adapter={new MockAdapter()}
         />
@@ -43,7 +43,7 @@ export const MockError = (
     <div style={defaultCardWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
-            id="notRelevant"
+            id={"notRelevant"}
             properties={properties}
             adapter={
                 new MockAdapter({
@@ -58,7 +58,7 @@ export const MockOverflow = (_args, { globals: { theme } }) => (
     <div style={{ height: '200px', width: '200px' }}>
         <KeyValuePairCard
             theme={theme}
-            id="notRelevant"
+            id={"notRelevant"}
             properties={properties}
             adapter={new MockAdapter()}
         />
@@ -100,7 +100,7 @@ export const UsingCustomKVPAdapter = (
     return (
         <div style={defaultCardWrapperStyle}>
             <KeyValuePairCard
-                id="kvp-tester"
+                id={"kvp-tester"}
                 theme={theme}
                 properties={['Custom KeyValuePair Adapter example']}
                 adapter={customAdapterUsingInterface}

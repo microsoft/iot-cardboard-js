@@ -22,7 +22,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
             localeStrings={localeStrings}
         >
             {mode === ADT3DScenePageModes.BuildScene ? (
-                <div className="cb-scene-page-scene-builder-wrapper">
+                <div className={"cb-scene-page-scene-builder-wrapper"}>
                     <ADT3DSceneBuilder
                         theme={theme}
                         locale={locale}
@@ -31,7 +31,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                     />
                 </div>
             ) : (
-                <div className="cb-scene-view-viewer">
+                <div className={"cb-scene-view-viewer"}>
                     <ADT3DViewer
                         adapter={adapter}
                         pollingInterval={10000}

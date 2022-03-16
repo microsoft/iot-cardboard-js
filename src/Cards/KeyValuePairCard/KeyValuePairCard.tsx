@@ -77,7 +77,7 @@ const KVPComponentTable: React.FC<any> = React.memo(
             []
         );
         return (
-            <div className="cb-kvpc-kvp">
+            <div className={"cb-kvpc-kvp"}>
                 <table
                     className={`cb-component-table ${
                         pulse ? 'cb-kvpc-pulse' : ''
@@ -87,8 +87,8 @@ const KVPComponentTable: React.FC<any> = React.memo(
                         <tr>
                             <td></td>
                             <th
-                                scope="col"
-                                className="cb-component-table-header-main"
+                                scope={"col"}
+                                className={"cb-component-table-header-main"}
                             >
                                 {t('properties')}
                             </th>
@@ -98,7 +98,7 @@ const KVPComponentTable: React.FC<any> = React.memo(
                             {contextPropertiesTableHeaders.map((h, i) => (
                                 <th
                                     key={`header-${i}`}
-                                    className="cb-component-table-header cb-component-table-cell"
+                                    className={"cb-component-table-header cb-component-table-cell"}
                                 >
                                     {h}
                                 </th>
@@ -112,7 +112,7 @@ const KVPComponentTable: React.FC<any> = React.memo(
                                     <td
                                         key={`cell-${i}-${j}`}
                                         title={cell}
-                                        className="cb-component-table-cell"
+                                        className={"cb-component-table-cell"}
                                     >
                                         {cell}
                                     </td>

@@ -33,15 +33,16 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey="propertyInspector.schemaInfo.dateTime.text"
+                    i18nKey={"propertyInspector.schemaInfo.dateTime.text"}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
                                 }
-                                target="_blank"
-                            ></a>
+                                target={"_blank"} rel={"noreferrer"}
+                            >
+                            </a>
                         )
                     }}
                 />
@@ -64,15 +65,16 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey="propertyInspector.schemaInfo.time.text"
+                    i18nKey={"propertyInspector.schemaInfo.time.text"}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
                                 }
-                                target="_blank"
-                            ></a>
+                                target={"_blank"} rel={"noreferrer"}
+                            >
+                            </a>
                         )
                     }}
                 />
@@ -83,15 +85,16 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey="propertyInspector.schemaInfo.map.text"
+                    i18nKey={"propertyInspector.schemaInfo.map.text"}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#mapkey'
                                 }
-                                target="_blank"
-                            ></a>
+                                target={"_blank"} rel={"noreferrer"}
+                            >
+                            </a>
                         )
                     }}
                 />

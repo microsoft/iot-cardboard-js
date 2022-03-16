@@ -155,13 +155,13 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     return (
         <div>
             {!isLabelHidden && (
-                <Label className="cb-required-icon">
+                <Label className={"cb-required-icon"}>
                     {label ?? t('board.twinID')}
                 </Label>
             )}
             <CreatableSelect
-                classNamePrefix="cb-search-autocomplete"
-                className="cb-search-autocomplete-container"
+                classNamePrefix={"cb-search-autocomplete"}
+                className={"cb-search-autocomplete-container"}
                 options={searchTwinAdapterData.isLoading ? [] : twinSuggestions}
                 defaultValue={twinSuggestions[0] ?? undefined}
                 defaultInputValue={selectedTwinId ?? ''}
@@ -221,12 +221,11 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 formatCreateLabel={(inputValue: string) =>
                     `${t(
                         '3dSceneBuilder.useNonExistingTwinId'
-                    )} "${inputValue}"`
-                }
+                    )} "${inputValue}"`}
                 isSearchable
                 isClearable
             />
-            <Text className="cb-search-autocomplete-desc" variant={'xSmall'}>
+            <Text className={"cb-search-autocomplete-desc"} variant={'xSmall'}>
                 {t('3dSceneBuilder.linkedTwinInputInfo')}
             </Text>
         </div>

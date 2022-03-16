@@ -313,12 +313,12 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         isInitialLoad
     )
         return (
-            <div className="cb-property-inspector-loading">{t('loading')}</div>
+            <div className={"cb-property-inspector-loading"}>{t('loading')}</div>
         );
 
     if (!inputData) {
         return (
-            <div className="cb-property-inspector-no-data">
+            <div className={"cb-property-inspector-no-data"}>
                 {isTwin(props)
                     ? t('propertyInspector.noTwinFound')
                     : t('propertyInspector.noRelationshipFound')}
@@ -327,7 +327,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     }
 
     return (
-        <div className="cb-property-inspector-container">
+        <div className={"cb-property-inspector-container"}>
             <StandalonePropertyInspector
                 inputData={inputData}
                 onCommitChanges={onCommitChanges}

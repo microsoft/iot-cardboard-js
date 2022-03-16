@@ -34,8 +34,7 @@ export const ADTModelAuthoring = (_args, { globals: { theme, locale } }) => {
                 }
                 onCancel={() => console.log('Closed!')}
                 onPublish={(models: Array<IADTModel>) =>
-                    console.log(models.map((m) => m.id))
-                }
+                    console.log(models.map((m) => m.id))}
             />
         </div>
     );

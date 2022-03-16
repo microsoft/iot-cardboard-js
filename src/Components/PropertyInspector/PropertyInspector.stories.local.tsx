@@ -94,8 +94,7 @@ export const ModeToggleWithResolvedData = (
                 onClick={() =>
                     setMode((prev) =>
                         prev === 'twin' ? 'relationship' : 'twin'
-                    )
-                }
+                    )}
             >
                 {mode === 'twin' ? 'Change to relationship' : 'Change to twin'}
             </button>

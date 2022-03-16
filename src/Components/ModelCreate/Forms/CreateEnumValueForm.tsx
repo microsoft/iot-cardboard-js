@@ -83,7 +83,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                         ? 'cb-noinformation-value'
                         : ''
                 }`}
-                placeholder="<scheme>:<path>;<version>"
+                placeholder={"<scheme>:<path>;<version>"}
                 description={'e.g., dtmi:com:example:enumValue1;1'}
                 onChange={(e) => setId(e.currentTarget.value)}
                 validateOnLoad={false}
@@ -93,8 +93,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                         ? t('modelCreate.invalidIdentifier', {
                               dtmiLink: 'http://aka.ms/ADTv2Models'
                           })
-                        : ''
-                }
+                        : ''}
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
@@ -123,8 +122,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                         ? t('modelCreate.invalidDTDLName', {
                               dtdlLink: 'http://aka.ms/ADTv2Models'
                           })
-                        : ''
-                }
+                        : ''}
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField

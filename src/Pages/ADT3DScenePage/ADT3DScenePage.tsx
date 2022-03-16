@@ -165,7 +165,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick }}
         >
-            <div className="cb-scene-page-wrapper">
+            <div className={"cb-scene-page-wrapper"}>
                 <BaseComponent
                     theme={theme}
                     locale={locale}
@@ -179,7 +179,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     />
                     {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                         <>
-                            <div className="cb-scene-page-scene-environment-picker">
+                            <div className={"cb-scene-page-scene-environment-picker"}>
                                 <EnvironmentPicker
                                     theme={theme}
                                     locale={locale}
@@ -232,7 +232,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     <ScenePageErrorHandlingWrapper errors={state.errors}>
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
-                            <div className="cb-scene-page-scene-list-container">
+                            <div className={"cb-scene-page-scene-list-container"}>
                                 {state.selectedBlobContainerURL && (
                                     <SceneList
                                         key={state.selectedBlobContainerURL}
@@ -267,7 +267,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                             </div>
                         )}
                         {state.currentStep === ADT3DScenePageSteps.Globe && (
-                            <div className="cb-scene-page-scene-globe-container">
+                            <div className={"cb-scene-page-scene-globe-container"}>
                                 <Breadcrumb
                                     items={[
                                         {
@@ -281,8 +281,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                         }
                                     ]}
                                     maxDisplayedItems={10}
-                                    ariaLabel="Breadcrumb with items rendered as buttons"
-                                    overflowAriaLabel="More links"
+                                    ariaLabel={"Breadcrumb with items rendered as buttons"}
+                                    overflowAriaLabel={"More links"}
                                 />
                                 <ADT3DGlobe
                                     theme={theme}
@@ -296,7 +296,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneBuilder && (
                             <>
-                                <div className="cb-scene-builder-and-viewer-container">
+                                <div className={"cb-scene-builder-and-viewer-container"}>
                                     <ADT3DSceneBuilderContainer
                                         mode={state.scenePageMode}
                                         scenesConfig={state.scenesConfig}
@@ -306,8 +306,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                                         locale={locale}
                                         localeStrings={localeStrings}
                                         refetchConfig={() =>
-                                            scenesConfig.callAdapter()
-                                        }
+                                            scenesConfig.callAdapter()}
                                     />
                                 </div>
                             </>

@@ -153,7 +153,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                 >
                     <TextField
                         label={t('modelCreate.enumId')}
-                        placeholder="<scheme>:<path>;<version>"
+                        placeholder={"<scheme>:<path>;<version>"}
                         description={'e.g., dtmi:com:example:enum1;1'}
                         title={id}
                         value={
@@ -178,8 +178,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                                 ? t('modelCreate.invalidIdentifier', {
                                       dtmiLink: 'http://aka.ms/ADTv2Models'
                                   })
-                                : ''
-                        }
+                                : ''}
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -264,12 +263,12 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                         }
                         disabled={formControlMode === FormMode.Readonly}
                     />
-                    <Text variant="medium" className="cb-modelcreate-title">
+                    <Text variant={"medium"} className={"cb-modelcreate-title"}>
                         {t('modelCreate.enumValues')}
                     </Text>
                     <ElementsList
-                        noElementLabelKey="modelCreate.noEnumValues"
-                        addElementLabelKey="modelCreate.addEnumValue"
+                        noElementLabelKey={"modelCreate.noEnumValues"}
+                        addElementLabelKey={"modelCreate.addEnumValue"}
                         elements={enumValues}
                         handleEditElement={handleSelectEnumValue}
                         handleNewElement={onClickAddEnumValue}

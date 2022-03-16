@@ -107,7 +107,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
     }));
 
     return (
-        <div className="cb-adt-model-uploader-wrapper">
+        <div className={"cb-adt-model-uploader-wrapper"}>
             <BaseCard
                 title={title}
                 isLoading={false}
@@ -117,13 +117,13 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 locale={locale}
                 localeStrings={localeStrings}
             >
-                <div className="cb-adt-model-uploader">
+                <div className={"cb-adt-model-uploader"}>
                     <JsonUploader
                         onFileListChanged={onFileListChanged}
                         ref={jsonUploaderComponentRef}
                         existingFiles={existingFiles}
                     />
-                    <div className="cb-adt-model-uploader-footer">
+                    <div className={"cb-adt-model-uploader-footer"}>
                         {hasMessageBar && progressMessage && (
                             <MessageBar
                                 messageBarType={
@@ -137,7 +137,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                                 dismissButtonAriaLabel={t('close')}
                                 truncated={true}
                                 onDismiss={() => setProgressMessage(null)}
-                                className="cb-adt-model-uploader-progress-message"
+                                className={"cb-adt-model-uploader-progress-message"}
                             >
                                 {progressMessage}
                             </MessageBar>
@@ -150,7 +150,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                                         ? t('generateADTAssets.uploading')
                                         : t('upload')
                                 }
-                                className="cb-adt-model-uploader-button"
+                                className={"cb-adt-model-uploader-button"}
                             />
                         )}
                     </div>

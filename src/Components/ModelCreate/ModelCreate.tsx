@@ -250,11 +250,11 @@ function ModelCreate(props: ModelCreateProps, ref) {
     };
 
     return (
-        <div className="cb-modelcreate-container">
+        <div className={"cb-modelcreate-container"}>
             <I18nProviderWrapper locale={locale} i18n={i18n}>
                 <>
-                    <div className="cb-modelcreate-header">
-                        <Text variant="large" className="cb-modelcreate-title">
+                    <div className={"cb-modelcreate-header"}>
+                        <Text variant={"large"} className={"cb-modelcreate-title"}>
                             {formMode === FormMode.Readonly
                                 ? t('modelCreate.modelDetails')
                                 : formMode === FormMode.Edit
@@ -289,12 +289,11 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         <FormSection title={t('modelCreate.summary')}>
                             <TextField
                                 label={t('modelCreate.modelId')}
-                                placeholder="<scheme>:<path>;<version>"
+                                placeholder={"<scheme>:<path>;<version>"}
                                 description={'e.g., dtmi:com:example:model1;1'}
                                 value={modelId}
                                 onChange={(e) =>
-                                    setModelId(e.currentTarget.value)
-                                }
+                                    setModelId(e.currentTarget.value)}
                                 required
                                 className={
                                     formMode === FormMode.Readonly
@@ -310,8 +309,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                               dtmiLink:
                                                   'http://aka.ms/ADTv2Models'
                                           })
-                                        : ''
-                                }
+                                        : ''}
                             />
                             <TextField
                                 label={t('displayName')}
@@ -333,8 +331,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                         : ''
                                 }`}
                                 onChange={(e) =>
-                                    setDisplayName(e.currentTarget.value)
-                                }
+                                    setDisplayName(e.currentTarget.value)}
                                 disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
@@ -359,8 +356,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                         : ''
                                 }`}
                                 onChange={(e) =>
-                                    setDescription(e.currentTarget.value)
-                                }
+                                    setDescription(e.currentTarget.value)}
                                 disabled={formMode === FormMode.Readonly}
                             />
                             <TextField
@@ -383,15 +379,14 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                         : ''
                                 }`}
                                 onChange={(e) =>
-                                    setComment(e.currentTarget.value)
-                                }
+                                    setComment(e.currentTarget.value)}
                                 disabled={formMode === FormMode.Readonly}
                             />
                         </FormSection>
                         <FormSection title={t('modelCreate.properties')}>
                             <ElementsList
-                                noElementLabelKey="modelCreate.noProperties"
-                                addElementLabelKey="modelCreate.addProperty"
+                                noElementLabelKey={"modelCreate.noProperties"}
+                                addElementLabelKey={"modelCreate.addProperty"}
                                 elements={properties}
                                 handleEditElement={handleSelectProperty}
                                 handleNewElement={handleClickAddProperty}
@@ -401,8 +396,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         </FormSection>
                         <FormSection title={t('modelCreate.relationships')}>
                             <ElementsList
-                                noElementLabelKey="modelCreate.noRelationships"
-                                addElementLabelKey="modelCreate.addRelationship"
+                                noElementLabelKey={"modelCreate.noRelationships"}
+                                addElementLabelKey={"modelCreate.addRelationship"}
                                 elements={relationships}
                                 handleEditElement={handleSelectRelationship}
                                 handleNewElement={handleClickAddRelationship}
@@ -412,8 +407,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
                         </FormSection>
                         <FormSection title={t('modelCreate.components')}>
                             <ElementsList
-                                noElementLabelKey="modelCreate.noComponents"
-                                addElementLabelKey="modelCreate.addComponent"
+                                noElementLabelKey={"modelCreate.noComponents"}
+                                addElementLabelKey={"modelCreate.addComponent"}
                                 elements={components}
                                 handleEditElement={handleSelectComponent}
                                 handleNewElement={handleClickAddComponent}
@@ -445,13 +440,13 @@ function ModelCreate(props: ModelCreateProps, ref) {
                     }}
                     closeButtonAriaLabel={t('cancel')}
                 >
-                    <div className="cb-form-breadcrumbs">
+                    <div className={"cb-form-breadcrumbs"}>
                         <Breadcrumb
                             items={breadcrumbs}
                             maxDisplayedItems={3}
                             ariaLabel={t('modelCreate.breadcrumbs')}
                             overflowAriaLabel={t('modelCreate.moreSteps')}
-                            className="cb-modelcreate-breadcrumb"
+                            className={"cb-modelcreate-breadcrumb"}
                             styles={{ item: { paddingLeft: 0 } }}
                         />
                     </div>
@@ -461,8 +456,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             popBreadcrumb={popBreadcrumb}
                             onCancel={backToModelForm}
                             onPrimaryAction={(property) =>
-                                handleListFormAction(property, setProperties)
-                            }
+                                handleListFormAction(property, setProperties)}
                             propertyToEdit={
                                 elementToEdit.element as DTDLProperty
                             }
@@ -480,8 +474,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                                 handleListFormAction(
                                     relationship,
                                     setRelationships
-                                )
-                            }
+                                )}
                             relationshipToEdit={
                                 elementToEdit.element as DTDLRelationship
                             }
@@ -494,8 +487,7 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             existingModelIds={existingModelIds}
                             onCancel={backToModelForm}
                             onPrimaryAction={(component) =>
-                                handleListFormAction(component, setComponents)
-                            }
+                                handleListFormAction(component, setComponents)}
                             componentToEdit={
                                 elementToEdit.element as DTDLComponent
                             }

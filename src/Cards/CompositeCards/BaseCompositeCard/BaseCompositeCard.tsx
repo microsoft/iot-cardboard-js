@@ -24,24 +24,24 @@ const BaseCompositeCard: React.FC<BaseCompositeCardProps> = ({
             adapterResults={adapterResults}
             isLoading={isLoading}
         >
-            <div className="cb-base-composite-card-wrapper">
-                <div className="cb-base-composite-card">
+            <div className={"cb-base-composite-card-wrapper"}>
+                <div className={"cb-base-composite-card"}>
                     {title && (
-                        <h3 className="cb-base-composite-card-title">
+                        <h3 className={"cb-base-composite-card-title"}>
                             {title}
                         </h3>
                     )}
-                    <div className="cb-base-composite-card-content">
+                    <div className={"cb-base-composite-card-content"}>
                         {isLoading && <Overlay>{t('loading')}</Overlay>}
                         {!children ? (
                             <Overlay>{t('empty')}</Overlay>
                         ) : (
-                            <div className="cb-base-composite-card-items">
+                            <div className={"cb-base-composite-card-items"}>
                                 {React.Children.map(
                                     children,
                                     (child) =>
                                         child && (
-                                            <div className="cb-base-composite-card-item">
+                                            <div className={"cb-base-composite-card-item"}>
                                                 {child}
                                             </div>
                                         )

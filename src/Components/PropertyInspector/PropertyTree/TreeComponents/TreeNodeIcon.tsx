@@ -95,7 +95,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
         return null;
     }
     return (
-        <div className="cb-property-tree-node-icon">
+        <div className={"cb-property-tree-node-icon"}>
             <Icon
                 iconName={iconName}
                 styles={iconStyles}

@@ -88,7 +88,7 @@ export const Globe = () => {
     return (
         <div style={{ height: '100%', position: 'relative' }}>
             <SceneView
-                modelUrl="Globe"
+                modelUrl={"Globe"}
                 markers={markers}
                 onMeshClick={(marker, mesh, e) => meshClick(marker, mesh, e)}
             />

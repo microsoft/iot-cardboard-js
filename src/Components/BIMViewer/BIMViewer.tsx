@@ -31,7 +31,7 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
     }, [viewer, centeredObject]);
 
     return (
-        <div className="cb-bimviewer-container">
+        <div className={"cb-bimviewer-container"}>
             {errorText && <Error errorTitle={errorText} />}
             <canvas id={viewerGuid}></canvas>
         </div>

@@ -2,8 +2,7 @@ import axios from 'axios';
 import { IAuthService } from '../Models/Constants/Interfaces';
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
-import { IKeyValuePairAdapter } from '../Models/Constants';
-import { ComponentErrorType } from '../Models/Constants';
+import { ComponentErrorType, IKeyValuePairAdapter } from '../Models/Constants';
 import { KeyValuePairData } from '../Models/Constants/Types';
 
 export default class IoTCentralAdapter implements IKeyValuePairAdapter {
@@ -29,9 +28,9 @@ export default class IoTCentralAdapter implements IKeyValuePairAdapter {
                         `https://${this.iotCentralAppId}/api/preview/devices/${id}/telemetry/${prop}`,
                         {
                             headers: {
-                                Authorization: 'Bearer ' + token
-                            }
-                        }
+                                Authorization: 'Bearer ' + token,
+                            },
+                        },
                     );
                 });
 
@@ -40,7 +39,7 @@ export default class IoTCentralAdapter implements IKeyValuePairAdapter {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
-                    rawError: err
+                    rawError: err,
                 });
             }
 

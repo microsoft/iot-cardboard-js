@@ -59,7 +59,7 @@ function JsonUploader(
             <div {...getRootProps({ className: 'cb-drop-files-container' })}>
                 <input {...getInputProps()} />
                 <Icon
-                    iconName="CloudUpload"
+                    iconName={"CloudUpload"}
                     styles={{
                         root: {
                             fontSize: 32,
@@ -77,7 +77,8 @@ function JsonUploader(
                 onRemoveFile={removeFileHandler}
                 ref={fileListRef}
                 onListUpdated={onFileListChanged}
-            ></FilesList>
+            >
+            </FilesList>
         </div>
     );
 }

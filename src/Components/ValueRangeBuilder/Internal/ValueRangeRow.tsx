@@ -51,10 +51,11 @@ const ValueRangeRow: React.FC<{
             <button
                 aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
                 style={{ backgroundColor: valueRange.color }}
-                className="cb-value-range-color-button"
+                className={"cb-value-range-color-button"}
                 onClick={toggleIsRowColorCalloutVisible}
                 id={colorButtonId}
-            ></button>
+            >
+            </button>
             {isRowColorCalloutVisible && (
                 <Callout
                     ariaLabelledBy={labelId}
@@ -77,8 +78,7 @@ const ValueRangeRow: React.FC<{
                                     newColor: color,
                                     id: valueRange.id
                                 }
-                            })
-                        }
+                            })}
                         selectedId={
                             colorSwatch.find(
                                 (color) => color.color === valueRange.color
@@ -101,8 +101,7 @@ const ValueRangeRow: React.FC<{
                         payload: {
                             id: valueRange.id
                         }
-                    })
-                }
+                    })}
             />
         </div>
     );

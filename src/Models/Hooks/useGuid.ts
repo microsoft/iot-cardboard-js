@@ -4,8 +4,9 @@ import { useStableGuidRng } from '../Context/StableGuidRngProvider';
 
 const useGuid = () => {
     const stableGuidRng = useStableGuidRng();
+    // eslint-disable-next-line react/hook-use-state
     const [guid] = useState(
-        stableGuidRng ? createSeededGUID(stableGuidRng) : createGUID()
+        stableGuidRng ? createSeededGUID(stableGuidRng) : createGUID(),
     );
     return guid;
 };

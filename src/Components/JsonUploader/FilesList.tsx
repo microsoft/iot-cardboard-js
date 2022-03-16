@@ -98,7 +98,7 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
     return (
         <>
             <DetailsList
-                className="cb-file-list"
+                className={"cb-file-list"}
                 items={listItems}
                 columns={[
                     {
@@ -135,9 +135,10 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                                     }
                                 >
                                     <FontIcon
-                                        iconName="Warning"
-                                        className="cb-warning-icon"
-                                    ></FontIcon>
+                                        iconName={"Warning"}
+                                        className={"cb-warning-icon"}
+                                    >
+                                    </FontIcon>
                                 </ViewWithTooltip>
                             )
                     },

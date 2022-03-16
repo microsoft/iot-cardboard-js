@@ -154,14 +154,14 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
     );
 
     return (
-        <div className="cb-mbcard-wrapper">
+        <div className={"cb-mbcard-wrapper"}>
             <BaseCompositeCard
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
             >
                 {!isModelAuthoringVisible && (
-                    <div className="cb-mbcard-list">
+                    <div className={"cb-mbcard-list"}>
                         <ADTModelListCard
                             theme={theme}
                             locale={locale}
@@ -175,11 +175,11 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     </div>
                 )}
                 {selectedModel && (
-                    <div className="cb-mbcard-form">
+                    <div className={"cb-mbcard-form"}>
                         <CommandBar
                             className={'cb-commandbar'}
                             items={commandItems}
-                            ariaLabel="Use left and right arrow keys to navigate between commands"
+                            ariaLabel={"Use left and right arrow keys to navigate between commands"}
                         />
                         <ModelCreate
                             key={selectedModel?.['@id']}
@@ -196,7 +196,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                                 messageBarType={MessageBarType.error}
                                 dismissButtonAriaLabel={t('close')}
                                 onDismiss={() => setErrorMessage(null)}
-                                className="cb-mbcard-error-message"
+                                className={"cb-mbcard-error-message"}
                             >
                                 {errorMessage}
                             </MessageBar>
@@ -204,7 +204,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     </div>
                 )}
                 {isModelAuthoringVisible && (
-                    <div className="cb-mbcard-authoring">
+                    <div className={"cb-mbcard-authoring"}>
                         <ADTModelAuthoringCard
                             theme={theme}
                             locale={locale}

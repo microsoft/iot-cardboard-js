@@ -21,10 +21,10 @@ const BaseForm: React.FC<BaseFormProps> = ({
     isActionButtonsVisible = true,
     children
 }) => (
-    <div className="cb-form-container">
-        <div className="cb-form-main">{children}</div>
+    <div className={"cb-form-container"}>
+        <div className={"cb-form-main"}>{children}</div>
         {isActionButtonsVisible && (
-            <div className="cb-form-footer">
+            <div className={"cb-form-footer"}>
                 <DefaultButton onClick={onCancel}>{cancelLabel}</DefaultButton>
                 {formControlMode !== FormMode.Readonly && (
                     <PrimaryButton onClick={onPrimaryAction}>

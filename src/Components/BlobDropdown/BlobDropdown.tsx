@@ -123,7 +123,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         return (
             <Icon
                 iconName={iconName}
-                aria-hidden="true"
+                aria-hidden={"true"}
                 style={{ paddingRight: 8 }}
             />
         );
@@ -164,8 +164,8 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 <Spinner
                     size={SpinnerSize.xSmall}
                     label={t('blobDropdown.loading3DFiles')}
-                    ariaLive="assertive"
-                    labelPosition="right"
+                    ariaLive={"assertive"}
+                    labelPosition={"right"}
                 />
             )}
         </div>
@@ -276,8 +276,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 onRenderLabel={onRenderLabel}
                 onRenderOption={onRenderOption}
                 onChange={(_e, option, _idx, value) =>
-                    handleChange(option, value)
-                }
+                    handleChange(option, value)}
             />
         </BaseComponent>
     );

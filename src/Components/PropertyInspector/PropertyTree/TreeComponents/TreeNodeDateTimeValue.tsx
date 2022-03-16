@@ -22,7 +22,7 @@ const PickerIcon: React.FC<{
         <div
             tabIndex={0}
             aria-label={title}
-            className="cb-property-tree-node-datetime-picker-icon-container"
+            className={"cb-property-tree-node-datetime-picker-icon-container"}
             onClick={onClick}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -91,7 +91,7 @@ export const DateTimeValue: React.FC<{
                 <input
                     ref={pickerRef}
                     type={type}
-                    className="cb-property-tree-node-datetime-picker-input"
+                    className={"cb-property-tree-node-datetime-picker-input"}
                     value={pickerVal}
                     onChange={(e) => setPickerVal(e.target.value)}
                     onBlur={() => {
@@ -105,7 +105,7 @@ export const DateTimeValue: React.FC<{
                     step={step}
                 />
                 <PickerIcon
-                    iconName="PlainText"
+                    iconName={"PlainText"}
                     title={t('propertyInspector.dateTimePicker.plainTextInput')}
                     onClick={() => setIsPickerOpen((prev) => !prev)}
                 />

@@ -103,11 +103,11 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         >
             <BaseComponent
                 {...baseComponentProps}
-                containerClassName="cb-value-range-builder-container"
+                containerClassName={"cb-value-range-builder-container"}
             >
                 {state.valueRanges.map((valueRange) => (
                     <div
-                        className="cb-value-range-and-messaging-row-container"
+                        className={"cb-value-range-and-messaging-row-container"}
                         key={valueRange.id}
                     >
                         <ValueRangeRow valueRange={valueRange} />
@@ -116,7 +116,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                 ))}
                 {areDistinctValueRangesValid(validationMap) &&
                     validationMap.overlapFound && (
-                        <div className="cb-value-range-validation-error">
+                        <div className={"cb-value-range-validation-error"}>
                             {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}

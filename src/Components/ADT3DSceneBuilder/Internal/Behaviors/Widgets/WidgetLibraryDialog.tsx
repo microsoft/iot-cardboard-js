@@ -48,16 +48,16 @@ const WidgetLibraryDialog: React.FC<{
             hidden={false}
             onDismiss={() => setIsLibraryDialogOpen(false)}
         >
-            <Label className="cb-widget-panel-item-label">
+            <Label className={"cb-widget-panel-item-label"}>
                 {t('3dSceneBuilder.exploreWidgets')}
             </Label>
             <SearchBox
-                className="cb-widget-dialog-search-box"
+                className={"cb-widget-dialog-search-box"}
                 placeholder={t('3dSceneBuilder.searchWidgets')}
             />
             <Pivot>
                 <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
-                    <div className="cb-widget-library-dialog-list-container">
+                    <div className={"cb-widget-library-dialog-list-container"}>
                         <List
                             items={filteredAvailableWidgets}
                             onRenderCell={(widget, index) => (
@@ -76,28 +76,29 @@ const WidgetLibraryDialog: React.FC<{
                                     }}
                                     data-testid={`widget-library-${widget.data.type}`}
                                 >
-                                    <div className="cb-widget-dialog-list-item-content">
-                                        <div className="cb-widget-dialog-icon-background">
+                                    <div className={"cb-widget-dialog-list-item-content"}>
+                                        <div className={"cb-widget-dialog-icon-background"}>
                                             <FontIcon
-                                                className="cb-widget-dialog-icon"
+                                                className={"cb-widget-dialog-icon"}
                                                 iconName={widget.iconName}
                                             />
                                         </div>
                                         <div>
                                             <Label>{widget.data.type}</Label>
-                                            <Label className="cb-widget-panel-item-label">
+                                            <Label className={"cb-widget-panel-item-label"}>
                                                 {widget.description}
                                             </Label>
                                         </div>
                                     </div>
                                 </div>
                             )}
-                        ></List>
-                        <div className="cb-widget-panel-clear-float" />
+                        >
+                        </List>
+                        <div className={"cb-widget-panel-clear-float"} />
                     </div>
                 </PivotItem>
                 <PivotItem headerText={t('3dSceneBuilder.myWidgets')}>
-                    <Label className="cb-widget-panel-no-widgets">
+                    <Label className={"cb-widget-panel-no-widgets"}>
                         {t('3dSceneBuilder.noWidgets')}
                     </Label>
                 </PivotItem>

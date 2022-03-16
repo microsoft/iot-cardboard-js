@@ -615,10 +615,10 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                containerClassName="cb-scene-builder-card-wrapper"
+                containerClassName={"cb-scene-builder-card-wrapper"}
             >
                 {state.config && <BuilderLeftPanel />}
-                <div className="cb-scene-builder-canvas">
+                <div className={"cb-scene-builder-canvas"}>
                     {state.config && (
                         <ADT3DBuilder
                             adapter={adapter as IADTAdapter}
@@ -641,7 +641,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     {contextualMenuProps.isVisible && (
                         <div>
                             <div
-                                id="cb-3d-builder-contextual-menu"
+                                id={"cb-3d-builder-contextual-menu"}
                                 style={{
                                     left: contextualMenuProps.x,
                                     top: contextualMenuProps.y,
@@ -653,15 +653,14 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             <ContextualMenu
                                 items={contextualMenuProps.items}
                                 hidden={!contextualMenuProps.isVisible}
-                                target="#cb-3d-builder-contextual-menu"
+                                target={"#cb-3d-builder-contextual-menu"}
                                 onDismiss={() =>
                                     setContextualMenuProps({
                                         isVisible: false,
                                         x: 0,
                                         y: 0,
                                         items: []
-                                    })
-                                }
+                                    })}
                             />
                         </div>
                     )}

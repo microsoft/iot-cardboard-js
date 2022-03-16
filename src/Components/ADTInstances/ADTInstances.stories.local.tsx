@@ -29,8 +29,7 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
             locale={locale}
             hasLabel={true}
             onInstanceChange={(instanceHostName: string) =>
-                console.log(instanceHostName)
-            }
+                console.log(instanceHostName)}
         />
     );
 };

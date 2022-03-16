@@ -58,7 +58,7 @@ const JsonPreview = ({
                 </div>
                 <div className={'cb-json-preview-modal-footer-actions'}>
                     <PrimaryButton
-                        className="cb-footer-copy-json-button"
+                        className={"cb-footer-copy-json-button"}
                         text={copyText}
                         disabled={copyText === t('copied')}
                         onClick={() => {
@@ -104,7 +104,7 @@ const JsonPreview = ({
                         }
                     }}
                 >
-                    <div className="cb-json-preview-container">
+                    <div className={"cb-json-preview-container"}>
                         <SyntaxHighlighter
                             customStyle={{
                                 marginTop: '0px',

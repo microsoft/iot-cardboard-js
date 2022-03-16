@@ -21,13 +21,14 @@ export const Step: React.FC<IStep> = ({
             } ${isNavigationDisabled ? 'cb-step-is-disabled' : ''}`}
             tabIndex={0}
             onClick={onClick}
-            role="button"
+            role={"button"}
         >
             <div
                 className={`cb-stepper-wizard-step-circle ${
                     isSelected ? 'cb-step-is-selected' : ''
                 } ${isFinished ? 'cb-step-is-finished' : ''}`}
-            ></div>
+            >
+            </div>
             <div>{label}</div>
         </div>
     );

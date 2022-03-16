@@ -124,7 +124,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         if (props.key === 'Home') {
             return (
                 <button
-                    className="cb-left-panel-builder-breadcrumb-home-icon-container"
+                    className={"cb-left-panel-builder-breadcrumb-home-icon-container"}
                     onClick={props.onClick}
                 >
                     <FontIcon
@@ -144,7 +144,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     };
 
     return (
-        <div className="cb-left-panel-builder-breadcrumb-container">
+        <div className={"cb-left-panel-builder-breadcrumb-container"}>
             <Breadcrumb
                 className={`cb-left-panel-builder-breadcrumb ${
                     isAtSceneRoot

@@ -20,23 +20,24 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
     if (!scene) return null;
 
     return (
-        <div className="cb-scene-page-mode-toggle-container">
+        <div className={"cb-scene-page-mode-toggle-container"}>
             <Pivot
                 selectedKey={selectedMode}
                 onLinkClick={(item) =>
                     handleScenePageModeChange(
                         item.props.itemKey as ADT3DScenePageModes
-                    )
-                }
+                    )}
             >
                 <PivotItem
                     headerText={t('build')}
                     itemKey={ADT3DScenePageModes.BuildScene}
-                ></PivotItem>
+                >
+                </PivotItem>
                 <PivotItem
                     headerText={t('view')}
                     itemKey={ADT3DScenePageModes.ViewScene}
-                ></PivotItem>
+                >
+                </PivotItem>
             </Pivot>
         </div>
     );

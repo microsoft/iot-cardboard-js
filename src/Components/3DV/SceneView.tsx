@@ -8,14 +8,13 @@ import { createGUID } from '../../Models/Services/Utils';
 import {
     ISceneViewProp,
     Marker,
-    SceneViewCallbackHandler
+    SceneViewCallbackHandler,
 } from '../../Models/Classes/SceneView.types';
 import {
     Scene_Marker,
     Scene_Visible_Marker,
-    SphereMaterial
+    SphereMaterial,
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 import { getBoundingBox } from './SceneView.Utils';
@@ -63,7 +62,7 @@ async function loadPromise(
     file: string,
     scene: BABYLON.Scene,
     onProgress: any,
-    onError: any
+    onError: any,
 ): Promise<BABYLON.AssetContainer> {
     return new Promise((resolve) => {
         BABYLON.SceneLoader.LoadAssetContainer(
@@ -74,7 +73,7 @@ async function loadPromise(
                 resolve(container);
             },
             (e) => onProgress(e),
-            (s, m, e) => onError(s, m, e)
+            (s, m, e) => onError(s, m, e),
         );
     });
 }
@@ -82,7 +81,7 @@ async function loadPromise(
 function convertLatLonToVector3(
     latitude: number,
     longitude: number,
-    earthRadius = 50
+    earthRadius = 50,
 ): BABYLON.Vector3 {
     const latitude_rad = (latitude * Math.PI) / 180;
     const longitude_rad = (longitude * Math.PI) / 180;
@@ -108,10 +107,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
     getToken,
     coloredMeshItems,
     showHoverOnSelected,
-    outlinedMeshitems
+    outlinedMeshitems,
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
+    // eslint-disable-next-line react/hook-use-state
     const [canvasId] = useState(createGUID());
     const [scene, setScene] = useState<BABYLON.Scene>(undefined);
     const onMeshClickRef = useRef<SceneViewCallbackHandler>(null);
@@ -135,8 +135,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-    const outlinedMeshes = useRef<AbstractMesh[]>([]);
-    const highlightLayer = useRef<HighlightLayer>(null);
+    const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
+    const highlightLayer = useRef<BABYLON.HighlightLayer>(null);
     const [currentRenderMode, setCurrentRenderMode] = useState(RenderModes[0]);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
@@ -146,7 +146,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         marker: Marker,
         mesh: any,
         scene: BABYLON.Scene,
-        e: any
+        e: any,
     ) => {
         if (lastName !== marker?.name) {
             tooltipLeft.current = e.offsetX + 5;
@@ -181,7 +181,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             getToken: () => Promise<string>,
             root: string,
             file: string,
-            sc: BABYLON.Scene
+            sc: BABYLON.Scene,
         ) {
             let success = true;
             let token = '';
@@ -190,13 +190,15 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
 
             if (token) {
-                Tools.CustomRequestHeaders.Authorization = 'Bearer ' + token;
-                Tools.CustomRequestHeaders['x-ms-version'] = '2017-11-09';
-                Tools.UseCustomRequestHeaders = true;
+                BABYLON.Tools.CustomRequestHeaders.Authorization =
+                    'Bearer ' + token;
+                BABYLON.Tools.CustomRequestHeaders['x-ms-version'] =
+                    '2017-11-09';
+                BABYLON.Tools.UseCustomRequestHeaders = true;
             } else {
-                delete Tools.CustomRequestHeaders.Authorization;
-                delete Tools.CustomRequestHeaders['x-ms-version'];
-                Tools.UseCustomRequestHeaders = false;
+                delete BABYLON.Tools.CustomRequestHeaders.Authorization;
+                delete BABYLON.Tools.CustomRequestHeaders['x-ms-version'];
+                BABYLON.Tools.UseCustomRequestHeaders = false;
             }
 
             const assets = await loadPromise(
@@ -208,13 +210,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     console.error('Error loading model. Try Ctrl-F5', s, e);
                     success = false;
                     setIsLoading(undefined);
-                }
+                },
             );
 
             if (success) {
                 assets.addAllToScene();
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
-                    'UI'
+                    'UI',
                 );
                 setIsLoading(false);
                 engineRef.current.resize();
@@ -234,7 +236,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
         if (!sceneRef.current) {
             const canvas = document.getElementById(
-                canvasId
+                canvasId,
             ) as HTMLCanvasElement; // Get the canvas element
             const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
             engineRef.current = engine;
@@ -243,26 +245,26 @@ const SceneView: React.FC<ISceneViewProp> = ({
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.meshHoverColor
+                currentRenderMode.meshHoverColor,
             );
 
             coloredHovMaterial.current = new BABYLON.StandardMaterial(
                 'colHov',
-                sc
+                sc,
             );
             coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.coloredMeshHoverColor
+                currentRenderMode.coloredMeshHoverColor,
             );
 
             highlightLayer.current = new BABYLON.HighlightLayer('hl1', scene, {
                 blurHorizontalSize: 0.5,
-                blurVerticalSize: 0.5
+                blurVerticalSize: 0.5,
             });
 
             new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
-                sc
+                sc,
             );
 
             if (modelUrl) {
@@ -333,7 +335,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
 
                     someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                        getBoundingBox(meshes)
+                        getBoundingBox(meshes),
                     );
 
                     someMeshFromTheArrayOfMeshes.showBoundingBox = false;
@@ -350,7 +352,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         .boundingBox.centerWorld;
 
                     const canvas = document.getElementById(
-                        canvasId
+                        canvasId,
                     ) as HTMLCanvasElement;
 
                     // First time in after loading - create the camera
@@ -361,7 +363,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             Math.PI / 2.5,
                             radius,
                             center,
-                            sceneRef.current
+                            sceneRef.current,
                         );
 
                         camera.attachControl(canvas, false);
@@ -386,7 +388,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         // And animate to the desired position
                         const ease = new BABYLON.CubicEase();
                         ease.setEasingMode(
-                            BABYLON.EasingFunction.EASINGMODE_EASEINOUT
+                            BABYLON.EasingFunction.EASINGMODE_EASEINOUT,
                         );
                         BABYLON.Animation.CreateAndStartAnimation(
                             'an1',
@@ -397,7 +399,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             positionFrom,
                             positionTo,
                             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
+                            ease,
                         );
                         BABYLON.Animation.CreateAndStartAnimation(
                             'an2',
@@ -408,7 +410,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             targetFrom,
                             targetTo,
                             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
+                            ease,
                         );
                         BABYLON.Animation.CreateAndStartAnimation(
                             'an3',
@@ -419,7 +421,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             radiusFrom,
                             radiusTo,
                             BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
+                            ease,
                         );
                     }
                 }
@@ -471,11 +473,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         if (sceneRef.current?.meshes?.length) {
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.meshHoverColor
+                currentRenderMode.meshHoverColor,
             );
 
             coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.coloredMeshHoverColor
+                currentRenderMode.coloredMeshHoverColor,
             );
 
             if (
@@ -503,13 +505,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
             if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
                 const baseColor = hexToColor4(currentRenderMode.baseColor);
                 const fresnelColor = hexToColor4(
-                    currentRenderMode.fresnelColor
+                    currentRenderMode.fresnelColor,
                 );
                 const material = makeShaderMaterial(
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    currentRenderMode.opacity
+                    currentRenderMode.opacity,
                 );
 
                 shaderMaterial.current = material;
@@ -577,7 +579,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     if (engineRef.current) {
                         engineRef.current.resize();
                     }
-                }, 10)
+                }, 10),
             );
             observer.observe(canvas);
         }
@@ -611,7 +613,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         if (debug) {
             console.log(
-                'init effect' + (scene ? ' with scene ' : ' no scene ')
+                'init effect' + (scene ? ' with scene ' : ' no scene '),
             );
         }
         if (modelUrl && modelUrl !== modelUrlRef.current) {
@@ -628,19 +630,19 @@ const SceneView: React.FC<ISceneViewProp> = ({
             for (const marker of markers) {
                 let sphereMaterial = new BABYLON.StandardMaterial(
                     SphereMaterial,
-                    sceneRef.current
+                    sceneRef.current,
                 );
                 const rgba = hexToColor4(marker.color);
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
                     rgba.r * 255,
                     rgba.g * 255,
-                    rgba.b * 255
+                    rgba.b * 255,
                 );
                 let sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Visible_Marker}${marker.name}`,
                     16,
                     2,
-                    sceneRef.current
+                    sceneRef.current,
                 );
                 const position =
                     marker.position ||
@@ -652,19 +654,19 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 // Make the hit targets larger in case iPhone
                 sphereMaterial = new BABYLON.StandardMaterial(
                     SphereMaterial,
-                    sceneRef.current
+                    sceneRef.current,
                 );
                 sphereMaterial.diffuseColor = BABYLON.Color3.FromInts(
                     rgba.r * 255,
                     rgba.g * 255,
-                    rgba.b * 255
+                    rgba.b * 255,
                 );
                 sphereMaterial.alpha = 0;
                 sphere = BABYLON.Mesh.CreateSphere(
                     `${Scene_Marker}${marker.name}`,
                     16,
                     4,
-                    sceneRef.current
+                    sceneRef.current,
                 );
                 sphere.position = position;
                 sphere.material = sphereMaterial;
@@ -698,7 +700,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         return !!mesh;
                     },
                     false,
-                    cameraRef.current
+                    cameraRef.current,
                 );
 
                 const mesh: BABYLON.AbstractMesh = p?.pickedMesh;
@@ -712,12 +714,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current !== mesh.id
                         ) {
                             const meshToReset = scene.meshes.find(
-                                (m) => m.id === highlightedMeshRef.current
+                                (m) => m.id === highlightedMeshRef.current,
                             );
 
                             if (meshToReset) {
                                 const isColored = coloredMeshItems?.find(
-                                    (m) => m.meshId === meshToReset.id
+                                    (m) => m.meshId === meshToReset.id,
                                 );
                                 meshToReset.material = isColored
                                     ? coloredMaterials.current[meshToReset.id]
@@ -730,7 +732,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         } else if (!highlightedMeshRef.current) {
                             // highlight the mesh
                             const isColored = coloredMeshItems?.find(
-                                (m) => m.meshId === mesh.id
+                                (m) => m.meshId === mesh.id,
                             );
                             highlightedMeshRef.current = mesh.id;
 
@@ -746,11 +748,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     } else if (highlightedMeshRef.current) {
                         // reset the highlighted mesh color if no mesh is picked
                         const lastMesh = scene.meshes.find(
-                            (m) => m.id === highlightedMeshRef.current
+                            (m) => m.id === highlightedMeshRef.current,
                         );
                         if (lastMesh) {
                             const isColored = coloredMeshItems?.find(
-                                (m) => m.meshId === lastMesh.id
+                                (m) => m.meshId === lastMesh.id,
                             );
 
                             lastMesh.material = isColored
@@ -792,7 +794,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         return () => {
             if (debug) {
                 console.log(
-                    'hover clean' + (scene ? ' with scene' : ' no scene')
+                    'hover clean' + (scene ? ' with scene' : ' no scene'),
                 );
             }
         };
@@ -801,7 +803,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         markers,
         showHoverOnSelected,
         coloredMeshItems,
-        currentRenderMode
+        currentRenderMode,
     ]);
 
     // SETUP LOGIC FOR onMeshClick
@@ -809,7 +811,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerTap effect' + (scene ? ' with scene' : ' no scene')
+                'pointerTap effect' + (scene ? ' with scene' : ' no scene'),
             );
         }
         if (scene && onMeshClickRef.current) {
@@ -840,7 +842,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             if (scene) {
                 pt = scene.onPointerObservable.add(
                     pointerTap,
-                    BABYLON.PointerEventTypes.POINTERTAP
+                    BABYLON.PointerEventTypes.POINTERTAP,
                 );
             }
         }
@@ -860,7 +862,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (debug) {
             console.log(
-                'pointerMove effect' + (scene ? ' with scene' : ' no scene')
+                'pointerMove effect' + (scene ? ' with scene' : ' no scene'),
             );
         }
         if (scene && onCameraMoveRef.current) {
@@ -873,7 +875,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             if (scene) {
                 pt = scene.onPointerObservable.add(
                     cameraMove,
-                    BABYLON.PointerEventTypes.POINTERMOVE
+                    BABYLON.PointerEventTypes.POINTERMOVE,
                 );
             }
         }
@@ -893,7 +895,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         if (debug) {
             console.log(
                 'color meshes based on coloredmeshitems prop' +
-                    (scene ? ' with scene' : ' no scene')
+                    (scene ? ' with scene' : ' no scene'),
             );
         }
         if (scene && coloredMeshItems && !isLoading) {
@@ -905,7 +907,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 for (const coloredMesh of coloredMeshItems) {
                     if (coloredMesh.meshId) {
                         const mesh: BABYLON.AbstractMesh = scene?.meshes?.find(
-                            (mesh) => mesh.id === coloredMesh.meshId
+                            (mesh) => mesh.id === coloredMesh.meshId,
                         );
 
                         if (mesh) {
@@ -933,7 +935,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
                 const meshToOutline = sceneRef.current.meshes.find(
-                    (mesh) => mesh.id === item.meshId
+                    (mesh) => mesh.id === item.meshId,
                 );
 
                 if (meshToOutline) {
@@ -941,14 +943,14 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         if (item.color) {
                             highlightLayer.current.addMesh(
                                 meshToOutline as BABYLON.Mesh,
-                                BABYLON.Color3.FromHexString(item.color)
+                                BABYLON.Color3.FromHexString(item.color),
                             );
                         } else {
                             highlightLayer.current.addMesh(
                                 meshToOutline as BABYLON.Mesh,
                                 BABYLON.Color3.FromHexString(
-                                    renderMode.outlinedMeshSelectedColor
-                                )
+                                    renderMode.outlinedMeshSelectedColor,
+                                ),
                             );
                         }
 
@@ -967,16 +969,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
         };
     }, [outlinedMeshitems]);
 
-    const colorMesh = (mesh: AbstractMesh, color: string) => {
+    const colorMesh = (mesh: BABYLON.AbstractMesh, color: string) => {
         const material = new BABYLON.StandardMaterial(
             'coloredMeshMaterial',
-            sceneRef.current
+            sceneRef.current,
         );
         if (color) {
             material.diffuseColor = BABYLON.Color3.FromHexString(color);
         } else {
             material.diffuseColor = BABYLON.Color3.FromHexString(
-                currentRenderMode.coloredMeshColor
+                currentRenderMode.coloredMeshColor,
             );
         }
 
@@ -1001,13 +1003,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         : `${customStyles.canvasVisible} ${customStyles.canvas}`
                 }
                 id={canvasId}
-                touch-action="none"
+                touch-action={'none'}
             />
             {isLoading && (
                 <ProgressIndicator
                     styles={getProgressStyles(theme)}
                     description={`Loading model (${Math.floor(
-                        loadProgress * 100
+                        loadProgress * 100,
                     )}%)...`}
                     percentComplete={loadProgress}
                     barHeight={10}
@@ -1023,9 +1025,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     className={customStyles.globeTooltip}
                     style={{
                         top: tooltipTop.current,
-                        left: tooltipLeft.current
+                        left: tooltipLeft.current,
                     }}
-                    id="tooltip"
+                    id={'tooltip'}
                 >
                     {tooltipText}
                 </div>

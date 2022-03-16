@@ -189,7 +189,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 ? 'cb-noinformation-value'
                                 : ''
                         }`}
-                        placeholder="<scheme>:<path>;<version>"
+                        placeholder={"<scheme>:<path>;<version>"}
                         description={'e.g., dtmi:com:example:property1;1'}
                         onChange={(e) => setId(e.currentTarget.value)}
                         validateOnLoad={false}
@@ -199,8 +199,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 ? t('modelCreate.invalidIdentifier', {
                                       dtmiLink: 'http://aka.ms/ADTv2Models'
                                   })
-                                : ''
-                        }
+                                : ''}
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -229,8 +228,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 ? t('modelCreate.invalidDTDLName', {
                                       dtdlLink: 'http://aka.ms/ADTv2Models'
                                   })
-                                : ''
-                        }
+                                : ''}
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -263,8 +261,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                             label={t('modelCreate.schema')}
                             placeholder={t('selectOption')}
                             onChange={(_e, option) =>
-                                onSchemaOptionChange(option)
-                            }
+                                onSchemaOptionChange(option)}
                             options={schemaOptions}
                             required
                             className={`${
@@ -281,8 +278,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                         addStep(
                                             CreatePropertyMode.EnumForm,
                                             'modelCreate.addEnumSchema'
-                                        )
-                                    }
+                                        )}
                                 >
                                     {t('modelCreate.addEnumSchema')}
                                 </DefaultButton>
@@ -364,8 +360,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 (t) => t.SemanticType
                             ).includes(typeInfo)
                                 ? t('modelCreate.invalidTypeForUnitSupport')
-                                : ''
-                        }
+                                : ''}
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <Toggle

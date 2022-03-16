@@ -128,25 +128,25 @@ const Board: React.FC<IBoardProps> = ({
             theme={theme}
         >
             {errorMessage && (
-                <div className="cb-base-catastrophic-error-wrapper">
-                    <div className="cb-base-catastrophic-error-box">
-                        <div className="cb-base-catastrophic-error-message">
+                <div className={"cb-base-catastrophic-error-wrapper"}>
+                    <div className={"cb-base-catastrophic-error-box"}>
+                        <div className={"cb-base-catastrophic-error-message"}>
                             {errorMessage}
                         </div>
                     </div>
                 </div>
             )}
             {!errorMessage && cardComponents.length === 0 && (
-                <div className="cb-base-catastrophic-error-wrapper">
-                    <div className="cb-base-catastrophic-error-box">
-                        <div className="cb-base-catastrophic-error-message">
+                <div className={"cb-base-catastrophic-error-wrapper"}>
+                    <div className={"cb-base-catastrophic-error-box"}>
+                        <div className={"cb-base-catastrophic-error-message"}>
                             {t('board.empty')}
                         </div>
                     </div>
                 </div>
             )}
             {!errorMessage && cardComponents.length > 0 && (
-                <div className="cb-board" style={layoutStyles}>
+                <div className={"cb-board"} style={layoutStyles}>
                     {cardComponents}
                 </div>
             )}

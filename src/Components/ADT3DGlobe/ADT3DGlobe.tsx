@@ -55,9 +55,9 @@ const ADT3DGlobe: React.FC<ADT3DGlobeProps> = ({ adapter, onSceneClick }) => {
             isLoading={config.isLoading && config.adapterResult.hasNoData()}
             adapterResults={[config.adapterResult]}
         >
-            <div className="cb-adt-3dglobe-wrapper">
+            <div className={"cb-adt-3dglobe-wrapper"}>
                 <SceneView
-                    modelUrl="Globe"
+                    modelUrl={"Globe"}
                     markers={markers}
                     onMeshClick={(marker) => onMeshClick(marker)}
                 />

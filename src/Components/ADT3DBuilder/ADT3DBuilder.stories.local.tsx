@@ -21,7 +21,7 @@ export const Engine = () => {
     ) : (
         <div style={{ width: '600px', height: '400px' }}>
             <ADT3DBuilder
-                title="3D Builder"
+                title={"3D Builder"}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -30,7 +30,7 @@ export const Engine = () => {
                         )
                     )
                 }
-                modelUrl="https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"
+                modelUrl={"https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"}
                 onMeshClicked={onMeshClicked}
             />
         </div>

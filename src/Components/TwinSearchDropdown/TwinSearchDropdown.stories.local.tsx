@@ -29,7 +29,7 @@ export const ADTTwinSearchDropdown = () => {
                         )
                     )
                 }
-                label="Twin ID"
+                label={"Twin ID"}
                 onTwinIdSelect={handleSelectTwinId}
             />
         </div>

@@ -147,7 +147,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             localeStrings={props.localeStrings}
             theme={props.theme}
         >
-            <div className="cb-standalone-property-inspector-container">
+            <div className={"cb-standalone-property-inspector-container"}>
                 <StandalonePropertyInspectorCommandBar
                     setIsTreeCollapsed={setIsTreeCollapsed}
                     onCommitChanges={onCommitChanges}
@@ -159,7 +159,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     }
                     editStatus={state.editStatus}
                 />
-                <div className="cb-property-inspector-scrollable-container">
+                <div className={"cb-property-inspector-scrollable-container"}>
                     <PropertyInspectorMessaging
                         {...props}
                         nodes={state.propertyTreeNodes}
@@ -194,9 +194,9 @@ const PropertyInspectorMessaging: React.FC<
         return null;
 
     return (
-        <div className="cb-property-inspector-warning-container">
+        <div className={"cb-property-inspector-warning-container"}>
             {showMissingModelsWarning && (
-                <div className="cb-property-inspector-warning-missing-models">
+                <div className={"cb-property-inspector-warning-missing-models"}>
                     <MessageBar
                         messageBarType={MessageBarType.severeWarning}
                         isMultiline={false}
@@ -207,7 +207,7 @@ const PropertyInspectorMessaging: React.FC<
                                 ? 'Twin'
                                 : 'Relationship'
                         })}{' '}
-                        <span className="cb-missing-model-id-list">
+                        <span className={"cb-missing-model-id-list"}>
                             {props.missingModelIds.map((mmid, idx) => (
                                 <span key={idx}>
                                     <i>{mmid}</i>
@@ -263,8 +263,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     const { t } = useTranslation();
 
     return (
-        <div className="cb-standalone-property-inspector-header">
-            <div className="cb-standalone-property-inspector-header-label">
+        <div className={"cb-standalone-property-inspector-header"}>
+            <div className={"cb-standalone-property-inspector-header-label"}>
                 {commandBarTitle}
             </div>
             <CommandBar

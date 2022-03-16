@@ -49,7 +49,8 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
                         ]
                     }
                     centeredObject={centeredObject}
-                ></BIMViewer>
+                >
+                </BIMViewer>
             )}
         </BaseCard>
     );

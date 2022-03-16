@@ -178,8 +178,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 onLinkClick={(item) =>
                                     setSelectedBehaviorPivotKey(
                                         item.props.itemKey as BehaviorPivot
-                                    )
-                                }
+                                    )}
                                 className={commonFormStyles.pivot}
                                 styles={panelFormPivotStyles}
                             >

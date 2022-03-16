@@ -19,8 +19,7 @@ export const GithubModelSearch = () => (
                 )
             }
             onStandardModelSelection={(modelData) =>
-                alert(JSON.stringify(modelData, null, 2))
-            }
+                alert(JSON.stringify(modelData, null, 2))}
         />
     </div>
 );
@@ -35,8 +34,7 @@ export const CdnModelSearch = () => (
                 )
             }
             onStandardModelSelection={(modelData) =>
-                alert(JSON.stringify(modelData, null, 2))
-            }
+                alert(JSON.stringify(modelData, null, 2))}
         />
     </div>
 );

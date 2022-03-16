@@ -1,12 +1,11 @@
 import * as BABYLON from 'babylonjs';
-import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import {
     IScene,
-    IVisual
+    IVisual,
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     DTwin,
-    IADT3DViewerRenderMode
+    IADT3DViewerRenderMode,
 } from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
@@ -16,7 +15,7 @@ export class SceneVisual {
     constructor(
         meshIds: string[],
         visuals: IVisual[],
-        twins: Record<string, DTwin>
+        twins: Record<string, DTwin>,
     ) {
         this.meshIds = meshIds;
         this.visuals = visuals;
@@ -26,12 +25,12 @@ export class SceneVisual {
 
 export interface SelectedMesh {
     id: string;
-    material: Material;
+    material: BABYLON.Material;
 }
 
 export class Marker {
     name: string;
-    position?: Vector3;
+    position?: BABYLON.Vector3;
     latitude?: number;
     longitude?: number;
     color: string;
@@ -41,9 +40,9 @@ export class Marker {
 
 export type SceneViewCallbackHandler = (
     marker: Marker,
-    mesh: AbstractMesh,
+    mesh: BABYLON.AbstractMesh,
     scene: BABYLON.Scene,
-    e: PointerEvent
+    e: PointerEvent,
 ) => void;
 
 export interface CustomMeshItem {
@@ -55,7 +54,7 @@ export type SceneViewEventHandler = (
     marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
-    e: PointerEvent
+    e: PointerEvent,
 ) => void;
 
 export interface ISceneViewProp {

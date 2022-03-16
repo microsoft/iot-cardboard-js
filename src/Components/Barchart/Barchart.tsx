@@ -16,9 +16,10 @@ const Barchart: React.FC<ITSIChartComponentProps> = ({
     });
     return (
         <div
-            className="cb-tsicomponent-container"
+            className={"cb-tsicomponent-container"}
             id={chartContainerGUID}
-        ></div>
+        >
+        </div>
     );
 };
 

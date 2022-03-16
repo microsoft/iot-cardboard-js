@@ -129,14 +129,14 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     }, [connectionState.adapterResult.result]);
 
     return (
-        <div className="cb-hbcard-container">
+        <div className={"cb-hbcard-container"}>
             <BaseCompositeCard
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
                 isLoading={connectionState.isLoading}
             >
-                <div className="cb-hbcard-hierarchy">
+                <div className={"cb-hbcard-hierarchy"}>
                     <ADTHierarchyCard
                         adapter={adapter}
                         title={title || t('hierarchy')}
@@ -147,7 +147,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
                         lookupTwinId={reverseLookupTwinId}
                     />
                 </div>
-                <div className="cb-hbcard-board">
+                <div className={"cb-hbcard-board"}>
                     {selectedTwin && ADXConnectionInfo && (
                         <Board
                             theme={theme}

@@ -180,7 +180,7 @@ const SceneBehaviors: React.FC<Props> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const customStyles = getStyles(theme);
     return (
-        <div className="cb-scene-builder-pivot-contents">
+        <div className={"cb-scene-builder-pivot-contents"}>
             <div className={commonPanelStyles.content}>
                 {behaviors.length === 0 ? (
                     <p className={commonPanelStyles.noDataText}>
@@ -196,7 +196,7 @@ const SceneBehaviors: React.FC<Props> = ({
                             searchText={searchText}
                         />
                         {!itemsInSceneVisible && !itemsNotInSceneVisible && (
-                            <p className="cb-scene-builder-left-panel-text">
+                            <p className={"cb-scene-builder-left-panel-text"}>
                                 {t('3dSceneBuilder.noResults')}
                             </p>
                         )}
@@ -254,7 +254,7 @@ const SceneBehaviors: React.FC<Props> = ({
             </div>
             <PanelFooter>
                 <PrimaryButton
-                    className="cb-scene-builder-create-button"
+                    className={"cb-scene-builder-create-button"}
                     onClick={() => onCreateBehaviorClick()}
                     text={t('3dSceneBuilder.newBehavior')}
                 />

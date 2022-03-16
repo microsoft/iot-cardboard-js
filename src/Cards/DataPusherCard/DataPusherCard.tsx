@@ -199,8 +199,8 @@ const DataPusherCard = ({
             title={t('dataPusher.dataPusherTitle')}
         >
             <DataPusherContext.Provider value={{ state, dispatch }}>
-                <div className="cb-datapusher-container">
-                    <div className="cb-adt-data-pusher">
+                <div className={"cb-datapusher-container"}>
+                    <div className={"cb-adt-data-pusher"}>
                         <TextField
                             label={t('dataPusher.instanceUrl')}
                             placeholder={
@@ -213,8 +213,7 @@ const DataPusherCard = ({
                                     payload: newValue
                                         .replace('https://', '')
                                         .replace('http://', '')
-                                })
-                            }
+                                })}
                             styles={{
                                 fieldGroup: { width: '600px' },
                                 root: { marginBottom: '8px' }
@@ -223,7 +222,7 @@ const DataPusherCard = ({
                         {!state.disablePastEvents && (
                             <>
                                 <Separator
-                                    alignContent="start"
+                                    alignContent={"start"}
                                     styles={separatorStyles}
                                 >
                                     {t('dataPusher.pastEventsLabel')}
@@ -232,14 +231,14 @@ const DataPusherCard = ({
                             </>
                         )}
                         <Separator
-                            alignContent="start"
+                            alignContent={"start"}
                             styles={separatorStyles}
                         >
                             {t('dataPusher.liveStreamLabel')}
                         </Separator>
                         <LiveStreamDataForm />
                         <Separator
-                            alignContent="start"
+                            alignContent={"start"}
                             styles={separatorStyles}
                         >
                             {t('dataPusher.create')}
@@ -247,7 +246,7 @@ const DataPusherCard = ({
                         <FormFieldDescription>
                             {t('dataPusher.generateEnvironmentDescription')}
                         </FormFieldDescription>
-                        <div className="cb-generate-assets-container">
+                        <div className={"cb-generate-assets-container"}>
                             {state.areAssetsSet && (
                                 <GenerateADTAssets
                                     adapter={adapter}
@@ -268,7 +267,7 @@ const DataPusherCard = ({
                             />
                         </div>
                         <Separator
-                            alignContent="start"
+                            alignContent={"start"}
                             styles={separatorStyles}
                         >
                             {t('dataPusher.simulate')}
@@ -309,8 +308,7 @@ const DataPusherCard = ({
                             onClick={() =>
                                 state.isSimulationRunning
                                     ? stopSimulation()
-                                    : startSimulation()
-                            }
+                                    : startSimulation()}
                             className={'cb-initiate-action-button'}
                         />
                     </div>
@@ -324,9 +322,9 @@ const QuickFillDataForm = () => {
     const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
-        <div className="cb-quick-fill-data-form-container">
+        <div className={"cb-quick-fill-data-form-container"}>
             <Toggle
-                label=""
+                label={""}
                 checked={state.isDataBackFilled}
                 onText={t('on')}
                 offText={t('off')}
@@ -334,8 +332,7 @@ const QuickFillDataForm = () => {
                     dispatch({
                         type: dataPusherActionType.SET_IS_DATA_BACK_FILLED,
                         payload: checked
-                    })
-                }
+                    })}
                 styles={{ root: { marginBottom: 0, marginTop: 4 } }}
             />
             <FormFieldDescription>
@@ -367,15 +364,13 @@ const QuickFillDataForm = () => {
                                     type:
                                         dataPusherActionType.SET_DAYS_TO_SIMULATE,
                                     payload: newValue
-                                })
-                            }
+                                })}
                             onDecrement={(newValue) =>
                                 dispatch({
                                     type:
                                         dataPusherActionType.SET_DAYS_TO_SIMULATE,
                                     payload: newValue
-                                })
-                            }
+                                })}
                         />
                         <FormFieldDescription>
                             {t('dataPusher.daysToSimulateDescription')}
@@ -400,14 +395,12 @@ const QuickFillDataForm = () => {
                                 dispatch({
                                     type: dataPusherActionType.SET_DATA_SPACING,
                                     payload: newValue
-                                })
-                            }
+                                })}
                             onDecrement={(newValue) =>
                                 dispatch({
                                     type: dataPusherActionType.SET_DATA_SPACING,
                                     payload: newValue
-                                })
-                            }
+                                })}
                         />
                         <FormFieldDescription>
                             {t('dataPusher.dataSpacingDescription')}
@@ -434,15 +427,13 @@ const QuickFillDataForm = () => {
                                     type:
                                         dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
                                     payload: newValue
-                                })
-                            }
+                                })}
                             onDecrement={(newValue) =>
                                 dispatch({
                                     type:
                                         dataPusherActionType.SET_QUICK_STREAM_FREQUENCY,
                                     payload: newValue
-                                })
-                            }
+                                })}
                         />
                         <FormFieldDescription>
                             {t('dataPusher.quickStreamFrequencyDescription')}
@@ -458,11 +449,11 @@ const LiveStreamDataForm = () => {
     const { t } = useTranslation();
     const { state, dispatch } = useDataPusherContext();
     return (
-        <div className="cb-live-stream-data-form-container">
+        <div className={"cb-live-stream-data-form-container"}>
             {!state.disablePastEvents && (
                 <>
                     <Toggle
-                        label=""
+                        label={""}
                         checked={state.isLiveDataSimulated}
                         onText={t('on')}
                         offText={t('off')}
@@ -471,8 +462,7 @@ const LiveStreamDataForm = () => {
                                 type:
                                     dataPusherActionType.SET_IS_LIVE_DATA_SIMULATED,
                                 payload: checked
-                            })
-                        }
+                            })}
                         styles={{ root: { marginBottom: 0, marginTop: 4 } }}
                     />
                     <FormFieldDescription>
@@ -483,7 +473,7 @@ const LiveStreamDataForm = () => {
                 </>
             )}
             <ExpandableSlideInContent isExpanded={state.isLiveDataSimulated}>
-                <div className="cb-live-stream-data-form-options">
+                <div className={"cb-live-stream-data-form-options"}>
                     <NumericSpinInput
                         label={t('dataPusher.liveStreamFrequencyLabel')}
                         width={125}
@@ -508,15 +498,13 @@ const LiveStreamDataForm = () => {
                                 type:
                                     dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
                                 payload: newValue
-                            })
-                        }
+                            })}
                         onDecrement={(newValue) =>
                             dispatch({
                                 type:
                                     dataPusherActionType.SET_LIVE_STREAM_FREQUENCY,
                                 payload: newValue
-                            })
-                        }
+                            })}
                     />
                     <FormFieldDescription>
                         {t('dataPusher.liveStreamFrequencyDescription')}
@@ -535,7 +523,7 @@ const FormFieldDescription = ({ children }: { children: React.ReactNode }) => {
     });
 
     return (
-        <div className="cb-form-field-description">
+        <div className={"cb-form-field-description"}>
             <Text variant={'small'} styles={styles}>
                 {children}
             </Text>

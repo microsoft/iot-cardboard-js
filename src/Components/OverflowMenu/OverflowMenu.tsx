@@ -80,7 +80,8 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     items: menuItems
                 }}
                 title={t('more')}
-            ></IconButton>
+            >
+            </IconButton>
         </>
     );
 };

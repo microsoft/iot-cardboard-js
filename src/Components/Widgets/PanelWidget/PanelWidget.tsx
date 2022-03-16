@@ -34,7 +34,7 @@ export const PanelWidget: React.FC<IProp> = ({ config, twins }) => {
         return (
             <div>
                 {config.title && (
-                    <div className="cb-adt-3dviewer-popup-title">
+                    <div className={"cb-adt-3dviewer-popup-title"}>
                         {config.title}
                     </div>
                 )}

@@ -9,7 +9,7 @@ const Error: React.FC<IErrorComponentProps> = ({
 }) => {
     return (
         <Overlay>
-            <div className="cb-error-title">{errorTitle}</div>
+            <div className={"cb-error-title"}>{errorTitle}</div>
             {errorContent && <div>{errorContent}</div>}
         </Overlay>
     );

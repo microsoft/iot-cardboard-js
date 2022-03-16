@@ -58,7 +58,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
 
     return (
         <BaseComponent>
-            <div className="cb-adt3dbuilder-wrapper">
+            <div className={"cb-adt3dbuilder-wrapper"}>
                 <SceneView
                     modelUrl={modelUrl}
                     onMeshClick={meshClick}

@@ -60,9 +60,9 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
             localeStrings={localeStrings}
         >
             <div className={'cb-relationships-table-wrapper'}>
-                <table className="cb-relationships-table">
+                <table className={"cb-relationships-table"}>
                     <thead>
-                        <tr className="cb-relationships-header-row">
+                        <tr className={"cb-relationships-header-row"}>
                             <th>{t('relationshipsTable.twinID')}</th>
                             <th>{t('relationshipsTable.model')}</th>
                             <th>{t('relationshipsTable.relationshipName')}</th>
@@ -87,16 +87,15 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                             onRelationshipClick &&
                                             wrappedOnClick(
                                                 relationship.targetId
-                                            )
-                                        }
+                                            )}
                                     >
-                                        <td className="cb-relationships-content-cell">
+                                        <td className={"cb-relationships-content-cell"}>
                                             {relationship.targetId}
                                         </td>
-                                        <td className="cb-relationships-content-cell">
+                                        <td className={"cb-relationships-content-cell"}>
                                             {relationship.targetModel}
                                         </td>
-                                        <td className="cb-relationships-content-cell">
+                                        <td className={"cb-relationships-content-cell"}>
                                             {relationship.relationshipName}
                                         </td>
                                     </tr>

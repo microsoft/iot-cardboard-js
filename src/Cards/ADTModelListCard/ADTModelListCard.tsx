@@ -187,7 +187,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
     );
 
     return (
-        <div className="cb-adt-model-list-wrapper">
+        <div className={"cb-adt-model-list-wrapper"}>
             <BaseCard
                 title={title}
                 isLoading={
@@ -199,7 +199,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 locale={locale}
                 localeStrings={localeStrings}
             >
-                <div className="cb-adt-model-list-actions">
+                <div className={"cb-adt-model-list-actions"}>
                     <ActionButton
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
@@ -211,14 +211,15 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                         {t('new')}
                     </ActionButton>
                 </div>
-                <div className="cb-adt-model-list">
+                <div className={"cb-adt-model-list"}>
                     <Hierarchy
                         data={nodes}
                         onChildNodeClick={handleModelClick}
                         searchTermToMark={searchTerm}
                         isLoading={modelState.isLoading}
                         noDataText={t('noModels')}
-                    ></Hierarchy>
+                    >
+                    </Hierarchy>
                 </div>
             </BaseCard>
         </div>

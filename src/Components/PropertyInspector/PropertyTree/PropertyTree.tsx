@@ -29,7 +29,7 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 readonly
             }}
         >
-            <div className="cb-property-tree-container">
+            <div className={"cb-property-tree-container"}>
                 <Tree data={data} />
             </div>
         </PropertyTreeContext.Provider>
@@ -45,7 +45,7 @@ export const Tree: React.FC<TreeProps> = ({ data, isChildTree = false }) => {
         >
             {data.map((node) => {
                 return (
-                    <li className="cb-property-tree-list-item" key={node.name}>
+                    <li className={"cb-property-tree-list-item"} key={node.name}>
                         <TreeNode node={node} />
                     </li>
                 );

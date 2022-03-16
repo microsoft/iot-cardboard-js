@@ -60,17 +60,15 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
         >
             {showInfo && (
                 <>
-                    {
-                        <Overlay>
-                            {isLoading ? (
-                                <div>
-                                    <Spinner label={loadingMessage} />
-                                </div>
+                    <Overlay>
+                        {isLoading ? (
+                            <div>
+                                <Spinner label={loadingMessage} />
+                            </div>
                             ) : (
                                 t('noData')
                             )}
-                        </Overlay>
-                    }
+                    </Overlay>
                 </>
             )}
             {errorToRender && (

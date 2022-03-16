@@ -34,7 +34,7 @@ export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                sceneId="46743de47dfb6cf24365f57c7f69d3ba"
+                sceneId={"46743de47dfb6cf24365f57c7f69d3ba"}
             />
         </div>
     );

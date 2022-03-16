@@ -218,7 +218,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 value={value}
                 onChange={(e, val) => onChanged(val)}
                 spellCheck={false}
-                autoComplete="off"
+                autoComplete={"off"}
                 {...textFieldProps}
                 id={textFieldId}
                 onKeyDown={(e) => onKeyDown(e)}

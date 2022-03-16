@@ -62,7 +62,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
         >
             <TextField
                 label={t('modelCreate.componentId')}
-                placeholder="<scheme>:<path>;<version>"
+                placeholder={"<scheme>:<path>;<version>"}
                 description={'e.g., dtmi:com:example:component1;1'}
                 title={id}
                 value={
@@ -87,8 +87,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                         ? t('modelCreate.invalidIdentifier', {
                               dtmiLink: 'http://aka.ms/ADTv2Models'
                           })
-                        : ''
-                }
+                        : ''}
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
@@ -104,8 +103,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                         ? t('modelCreate.invalidDTDLName', {
                               dtdlLink: 'http://aka.ms/ADTv2Models'
                           })
-                        : ''
-                }
+                        : ''}
                 className={`${
                     formControlMode === FormMode.Readonly
                         ? 'cb-modelcreate-readonly'

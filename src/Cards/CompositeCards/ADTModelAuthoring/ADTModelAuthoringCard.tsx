@@ -7,7 +7,7 @@ import StepperWizard from '../../../Components/StepperWizard/StepperWizard';
 import {
     DTModel,
     IADTModel,
-    IStepperWizardStep
+    IStepperWizardStep,
 } from '../../../Models/Constants/Interfaces';
 import ADTModelUploaderCard from '../../ADTModelUploaderCard/ADTModelUploaderCard';
 import {
@@ -21,13 +21,13 @@ import {
     MessageBar,
     MessageBarType,
     PrimaryButton,
-    SelectionMode
+    SelectionMode,
 } from '@fluentui/react';
 import {
     FormMode,
     ModelAuthoringModes,
     ModelAuthoringSteps,
-    UploadPhase
+    UploadPhase,
 } from '../../../Models/Constants/Enums';
 import ModelCreate from '../../../Components/ModelCreate/ModelCreate';
 import ModelSearch from '../../../Components/ModelSearch/ModelSearch';
@@ -43,15 +43,15 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     title,
     onCancel,
     onPublish,
-    existingModelIds
+    existingModelIds,
 }) => {
     const { t } = useTranslation();
     const [
         authoringMode,
-        setAuthoringMode
+        setAuthoringMode,
     ] = useState<ModelAuthoringModes | null>(null);
-    const [authoringStep, setAuthoringSteps] = useState<ModelAuthoringSteps>(
-        ModelAuthoringSteps.SelectType
+    const [authoringStep, setAuthoringStep] = useState<ModelAuthoringSteps>(
+        ModelAuthoringSteps.SelectType,
     );
     const [modelsToPublish, setModelsToPublish] = useState([]);
     const existingModelIdsRef = useRef(existingModelIds ?? []);
@@ -60,20 +60,20 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     const modelCreateComponentRef = useRef();
     const [errorMessage, setErrorMessage] = useState(null);
     const [uploadingStatus, setUploadingStatus] = useState(
-        UploadPhase.PreUpload
+        UploadPhase.PreUpload,
     );
 
     const pushModelsState = useAdapter({
         adapterMethod: (models: Array<DTModel>) =>
             adapter.createADTModels(models),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const steps: Array<IStepperWizardStep> = [
         { label: t('modelAuthoring.selectType') },
         { label: t('modelAuthoring.review') },
-        { label: t('modelAuthoring.publish') }
+        { label: t('modelAuthoring.publish') },
     ];
 
     const onNextClick = () => {
@@ -85,13 +85,13 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                 const modelToPublish = (modelCreateComponentRef.current as any)?.getModel();
                 setModelsToPublish([modelToPublish.trimmedCopy() as DTModel]);
             }
-            setAuthoringSteps(authoringStep + 1);
+            setAuthoringStep(authoringStep + 1);
         }
     };
 
     const onPreviousClick = () => {
         setErrorMessage(null);
-        setAuthoringSteps(authoringStep - 1);
+        setAuthoringStep(authoringStep - 1);
     };
 
     const onCancelClick = () => {
@@ -103,7 +103,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     const onFileListChanged = (files: Array<File>) => {
         existingFilesRef.current = files;
         setModelsToPublish(
-            (modelUploaderComponentRef.current as any).getJsonList()
+            (modelUploaderComponentRef.current as any).getJsonList(),
         );
     };
 
@@ -131,11 +131,11 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                 setUploadingStatus(UploadPhase.Failed);
                 setErrorMessage(
                     t('uploadProgress.uploadFailed', {
-                        assetType: 'models'
+                        assetType: 'models',
                     }) +
                         ': ' +
                         (pushModelsState.adapterResult?.getCatastrophicError()
-                            ?.rawError as any).response.data.error.message
+                            ?.rawError as any).response.data.error.message,
                 );
             } else {
                 setUploadingStatus(UploadPhase.PartiallyFailed);
@@ -144,16 +144,16 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                         assetType: 'models',
                         errorCount:
                             pushModelsState.adapterResult.errorInfo.errors
-                                .length
-                    })
+                                .length,
+                    }),
                 );
             }
         } else if (pushModelsState.adapterResult?.getData()) {
             setUploadingStatus(UploadPhase.Succeeded);
             setErrorMessage(
                 t('uploadProgress.uploadSuccess', {
-                    assetType: 'models'
-                })
+                    assetType: 'models',
+                }),
             );
         }
 
@@ -164,47 +164,51 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
     }, [pushModelsState?.adapterResult]);
 
     return (
-        <div className="cb-model-authoring-card-wrapper">
-            <div className="cb-model-authoring-card-main">
+        <div className={'cb-model-authoring-card-wrapper'}>
+            <div className={'cb-model-authoring-card-main'}>
                 <BaseCompositeCard
                     title={title}
                     theme={theme}
                     locale={locale}
                     localeStrings={localeStrings}
                 >
-                    <div className="cb-model-authoring-card-wizard">
+                    <div className={'cb-model-authoring-card-wizard'}>
                         <StepperWizard
                             steps={steps}
                             currentStepIndex={authoringStep}
                             isNavigationDisabled={true}
                         />
                     </div>
-                    <div className="cb-model-authoring-card-step">
+                    <div className={'cb-model-authoring-card-step'}>
                         {authoringStep === ModelAuthoringSteps.SelectType ? (
                             <>
-                                <div className="cb-model-authoring-card-step-title">
+                                <div
+                                    className={
+                                        'cb-model-authoring-card-step-title'
+                                    }
+                                >
                                     {t('modelAuthoring.selectType')}
                                 </div>
                                 <div
                                     style={{
                                         display: 'flex',
-                                        flexDirection: 'row'
+                                        flexDirection: 'row',
                                     }}
                                 >
                                     <AuthoringModeSelector
                                         iconName={'Upload'}
                                         title={t(
-                                            'modelAuthoring.authoringModes.uploadDTDLFiles'
+                                            'modelAuthoring.authoringModes.uploadDTDLFiles',
                                         )}
                                         description={t(
-                                            'modelAuthoring.authoringModes.uploadDTDLFilesDesc'
+                                            'modelAuthoring.authoringModes.uploadDTDLFilesDesc',
                                         )}
                                         onClick={() => {
                                             setAuthoringMode(
-                                                ModelAuthoringModes.UploadFiles
+                                                ModelAuthoringModes.UploadFiles,
                                             );
-                                            setAuthoringSteps(
-                                                ModelAuthoringSteps.Review
+                                            setAuthoringStep(
+                                                ModelAuthoringSteps.Review,
                                             );
                                             setModelsToPublish([]);
                                             existingFilesRef.current = [];
@@ -213,17 +217,17 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     <AuthoringModeSelector
                                         iconName={'TextDocument'}
                                         title={t(
-                                            'modelAuthoring.authoringModes.createFromTemplates'
+                                            'modelAuthoring.authoringModes.createFromTemplates',
                                         )}
                                         description={t(
-                                            'modelAuthoring.authoringModes.createFromTemplatesDesc'
+                                            'modelAuthoring.authoringModes.createFromTemplatesDesc',
                                         )}
                                         onClick={() => {
                                             setAuthoringMode(
-                                                ModelAuthoringModes.FromTemplate
+                                                ModelAuthoringModes.FromTemplate,
                                             );
-                                            setAuthoringSteps(
-                                                ModelAuthoringSteps.Review
+                                            setAuthoringStep(
+                                                ModelAuthoringSteps.Review,
                                             );
                                             setModelsToPublish([]);
                                         }}
@@ -231,17 +235,17 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                     <AuthoringModeSelector
                                         iconName={'Document'}
                                         title={t(
-                                            'modelAuthoring.authoringModes.buildFromScratch'
+                                            'modelAuthoring.authoringModes.buildFromScratch',
                                         )}
                                         description={t(
-                                            'modelAuthoring.authoringModes.buildFromScratchDesc'
+                                            'modelAuthoring.authoringModes.buildFromScratchDesc',
                                         )}
                                         onClick={() => {
                                             setAuthoringMode(
-                                                ModelAuthoringModes.BuildForm
+                                                ModelAuthoringModes.BuildForm,
                                             );
-                                            setAuthoringSteps(
-                                                ModelAuthoringSteps.Review
+                                            setAuthoringStep(
+                                                ModelAuthoringSteps.Review,
                                             );
                                             setModelsToPublish([]);
                                         }}
@@ -252,10 +256,18 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                             <>
                                 {authoringMode ===
                                     ModelAuthoringModes.UploadFiles && (
-                                    <div className="cb-model-authoring-card-upload-files">
-                                        <div className="cb-model-authoring-card-step-title">
+                                    <div
+                                        className={
+                                            'cb-model-authoring-card-upload-files'
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                'cb-model-authoring-card-step-title'
+                                            }
+                                        >
                                             {t(
-                                                'modelAuthoring.authoringModes.uploadDTDLFiles'
+                                                'modelAuthoring.authoringModes.uploadDTDLFiles',
                                             )}
                                         </div>
                                         <ADTModelUploaderCard
@@ -277,21 +289,29 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
 
                                 {authoringMode ===
                                     ModelAuthoringModes.FromTemplate && (
-                                    <div className="cb-model-authoring-card-from-template">
-                                        <div className="cb-model-authoring-card-step-title">
+                                    <div
+                                        className={
+                                            'cb-model-authoring-card-from-template'
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                'cb-model-authoring-card-step-title'
+                                            }
+                                        >
                                             {t(
-                                                'modelAuthoring.selectTemplates'
+                                                'modelAuthoring.selectTemplates',
                                             )}
                                         </div>
                                         <ModelSearch
                                             adapter={
                                                 new CdnModelSearchAdapter(
                                                     'https://devicemodelstest.azure.com',
-                                                    10
+                                                    10,
                                                 )
                                             }
                                             onStandardModelSelection={(
-                                                modelData
+                                                modelData,
                                             ) =>
                                                 setModelsToPublish(
                                                     modelsToPublish.concat(
@@ -305,14 +325,13 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                                             ] ===
                                                                             item[
                                                                                 '@id'
-                                                                            ]
+                                                                            ],
                                                                     ) === -1
                                                                 );
-                                                            }
-                                                        )
-                                                    )
-                                                )
-                                            }
+                                                            },
+                                                        ),
+                                                    ),
+                                                )}
                                             primaryActionText={t('select')}
                                         />
                                         <div
@@ -330,7 +349,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                             key={`cb-selected-model-name-${m['@id']}`}
                                                             style={{
                                                                 fontWeight:
-                                                                    'bold'
+                                                                    'bold',
                                                             }}
                                                         >
                                                             {m['@id']}
@@ -340,7 +359,7 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                         >
                                                             {' '}
                                                             {t(
-                                                                'modelAuthoring.addedToBePublished'
+                                                                'modelAuthoring.addedToBePublished',
                                                             )}
                                                         </span>,
                                                         <span
@@ -350,20 +369,21 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                             <Link
                                                                 onClick={() =>
                                                                     onRemoveSelectedModel(
-                                                                        m['@id']
-                                                                    )
-                                                                }
+                                                                        m[
+                                                                            '@id'
+                                                                        ],
+                                                                    )}
                                                             >
                                                                 {t('remove')}
                                                             </Link>
-                                                        </span>
+                                                        </span>,
                                                     ],
                                                     activityIcon: (
                                                         <Icon
                                                             iconName={'Add'}
                                                         />
                                                     ),
-                                                    isCompact: true
+                                                    isCompact: true,
                                                 }))
                                                 .map(
                                                     (item: {
@@ -372,22 +392,28 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                         <ActivityItem
                                                             {...(item as IActivityItemProps)}
                                                             key={item.key}
-                                                            className="cb-selected-model"
+                                                            className={
+                                                                'cb-selected-model'
+                                                            }
                                                         />
-                                                    )
+                                                    ),
                                                 )}
                                         </div>
                                     </div>
                                 )}
                                 {authoringMode ===
                                     ModelAuthoringModes.BuildForm && (
-                                    <div className="cb-model-authoring-card-new-model">
+                                    <div
+                                        className={
+                                            'cb-model-authoring-card-new-model'
+                                        }
+                                    >
                                         <ModelCreate
                                             locale={locale}
                                             modelToEdit={
                                                 modelsToPublish[0]
                                                     ? DTDLModel.fromObject(
-                                                          modelsToPublish[0]
+                                                          modelsToPublish[0],
                                                       )
                                                     : null
                                             }
@@ -395,10 +421,9 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                 existingModelIdsRef.current
                                             }
                                             onCancel={() =>
-                                                setAuthoringSteps(
-                                                    ModelAuthoringSteps.SelectType
-                                                )
-                                            }
+                                                setAuthoringStep(
+                                                    ModelAuthoringSteps.SelectType,
+                                                )}
                                             formControlMode={FormMode.New}
                                             isPrimaryActionButtonsVisible={
                                                 false
@@ -411,7 +436,11 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                             </>
                         ) : (
                             <>
-                                <div className="cb-model-authoring-card-step-title">
+                                <div
+                                    className={
+                                        'cb-model-authoring-card-step-title'
+                                    }
+                                >
                                     {t('modelAuthoring.publishModels')}
                                 </div>
                                 <ModelsToPublishList
@@ -431,7 +460,9 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                         }
                                         dismissButtonAriaLabel={t('close')}
                                         onDismiss={() => setErrorMessage(null)}
-                                        className="cb-model-authoring-card-error-message"
+                                        className={
+                                            'cb-model-authoring-card-error-message'
+                                        }
                                     >
                                         {errorMessage}
                                     </MessageBar>
@@ -441,19 +472,21 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                     </div>
                 </BaseCompositeCard>
             </div>
-            <div className="cb-model-authoring-card-footer">
-                <div className="cb-navigation-left">
+            <div className={'cb-model-authoring-card-footer'}>
+                <div className={'cb-navigation-left'}>
                     <DefaultButton onClick={onCancelClick} text={t('cancel')} />
                 </div>
                 {authoringStep !== ModelAuthoringSteps.SelectType && (
-                    <div className="cb-navigation-right">
+                    <div className={'cb-navigation-right'}>
                         <DefaultButton
                             onClick={onPreviousClick}
                             text={t('previous')}
                         />
                         {isNextButtonVisible && (
                             <PrimaryButton
-                                className="cb-model-authoring-primary-action-button"
+                                className={
+                                    'cb-model-authoring-primary-action-button'
+                                }
                                 onClick={onNextClick}
                                 text={
                                     pushModelsState.isLoading
@@ -475,16 +508,16 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
 const AuthoringModeSelector = ({ iconName, title, description, onClick }) => {
     return (
         <div
-            className="cb-model-authoring-card-mode-selector"
+            className={'cb-model-authoring-card-mode-selector'}
             onClick={onClick}
         >
-            <div className="cb-model-authoring-card-mode-selector-icon">
+            <div className={'cb-model-authoring-card-mode-selector-icon'}>
                 <Icon iconName={iconName} />
             </div>
-            <div className="cb-model-authoring-card-mode-selector-content">
+            <div className={'cb-model-authoring-card-mode-selector-content'}>
                 <div>
-                    <span className="cb-title">{title}</span>
-                    <p className="cb-description">{description}</p>
+                    <span className={'cb-title'}>{title}</span>
+                    <p className={'cb-description'}>{description}</p>
                 </div>
             </div>
         </div>
@@ -494,7 +527,7 @@ const AuthoringModeSelector = ({ iconName, title, description, onClick }) => {
 const ModelsToPublishList = ({ models, t }) => {
     return (
         <DetailsList
-            className="cb-file-list"
+            className={'cb-file-list'}
             items={models}
             columns={[
                 {
@@ -505,28 +538,28 @@ const ModelsToPublishList = ({ models, t }) => {
                     isResizable: true,
                     onRender: (item) => (
                         <span>{item.displayName?.en ?? item.displayName}</span>
-                    )
+                    ),
                 },
                 {
                     key: 'cb-model-list-column-type',
                     name: t('type'),
                     minWidth: 60,
                     maxWidth: 120,
-                    onRender: (item) => <span>{item['@type']}</span>
+                    onRender: (item) => <span>{item['@type']}</span>,
                 },
                 {
                     key: 'cb-model-list-column-id',
                     name: t('id'),
                     minWidth: 40,
-                    onRender: (item) => item['@id']
+                    onRender: (item) => item['@id'],
                 },
                 {
                     key: 'cb-model-list-column-inherit',
                     name: t('modelCreate.inherit'),
                     minWidth: 110,
                     maxWidth: 250,
-                    onRender: (item) => item.extends?.toString(', ')
-                }
+                    onRender: (item) => item.extends?.toString(', '),
+                },
             ]}
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.none}
@@ -537,16 +570,16 @@ const ModelsToPublishList = ({ models, t }) => {
                         '.ms-DetailsRow-cell': {
                             height: 32,
                             paddingLeft: 20,
-                            fontSize: '14px'
+                            fontSize: '14px',
                         },
                         '.ms-DetailsHeader': {
-                            paddingTop: 0
+                            paddingTop: 0,
                         },
                         '.ms-DetailsHeader-cellTitle': {
-                            paddingLeft: 20
-                        }
-                    }
-                }
+                            paddingLeft: 20,
+                        },
+                    },
+                },
             }}
         />
     );

@@ -340,7 +340,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             modalProps={dialogModalProps}
         >
             <TextField
-                className="cb-scene-list-form-dialog-text-field"
+                className={"cb-scene-list-form-dialog-text-field"}
                 label={t('name')}
                 required
                 title={newSceneName}
@@ -348,7 +348,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 onChange={handleNameChange}
             />
             <div>
-                <Label className="cb-scene-list-form-dialog-3d-file-pivot-label">
+                <Label className={"cb-scene-list-form-dialog-3d-file-pivot-label"}>
                     {t('scenes.3dFileAsset')}
                 </Label>
                 <TooltipHost

@@ -36,7 +36,7 @@ const TemplateWithValidation: ValueRangeBuilderStory = (
     const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
     return (
         <div
-            className="cb-value-range-builder-template-with-validation"
+            className={"cb-value-range-builder-template-with-validation"}
             style={wrapperStyle}
         >
             <ValueRangeBuilder

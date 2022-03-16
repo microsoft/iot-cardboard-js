@@ -97,9 +97,9 @@ const AutoCompleteSearchBox = ({
     };
 
     return (
-        <div className="cb-ms-auto-complete-search-box-container">
-            <div className="cb-ms-auto-complete-searchbar">
-                <div className="cb-ms-searchbox" id={'cb-ms-searchbox'}>
+        <div className={"cb-ms-auto-complete-search-box-container"}>
+            <div className={"cb-ms-auto-complete-searchbar"}>
+                <div className={"cb-ms-searchbox"} id={'cb-ms-searchbox'}>
                     <SearchBox
                         autoComplete={'off'}
                         ref={searchBoxRef}
@@ -141,12 +141,12 @@ const AutoCompleteSearchBox = ({
                             <FocusZone
                                 direction={FocusZoneDirection.vertical}
                                 isCircularNavigation={true}
-                                role="grid"
+                                role={"grid"}
                             >
                                 <List
                                     items={suggestions}
                                     onRenderCell={onRenderCell}
-                                    className="cb-ms-suggestion-list"
+                                    className={"cb-ms-suggestion-list"}
                                 />
                             </FocusZone>
                         </Callout>

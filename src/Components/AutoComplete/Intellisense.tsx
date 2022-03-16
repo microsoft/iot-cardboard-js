@@ -202,7 +202,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     };
 
     return (
-        <div className="bgwhite">
+        <div className={"bgwhite"}>
             <AutoComplete
                 defaultValue={value}
                 getItems={getItems}

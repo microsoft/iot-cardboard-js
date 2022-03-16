@@ -124,17 +124,17 @@ const ElementsList: React.FC<ElementsListProps> = ({
     return (
         <Stack>
             {(!elements || elements.length === 0) && (
-                <div className="cb-elementslist-empty">
+                <div className={"cb-elementslist-empty"}>
                     <Text>{t(noElementLabelKey)}</Text>
                 </div>
             )}
             {elements?.length > 0 && (
                 <DetailsList
-                    className="cb-detail-list"
+                    className={"cb-detail-list"}
                     selectionMode={SelectionMode.none}
                     items={elements}
                     columns={listTableColumns}
-                    setKey="set"
+                    setKey={"set"}
                     layoutMode={DetailsListLayoutMode.justified}
                     onRenderRow={renderListRow}
                     onRenderItemColumn={renderItemColumn}

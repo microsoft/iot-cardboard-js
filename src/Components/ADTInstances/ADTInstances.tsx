@@ -57,7 +57,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     const onRenderLabel = (props: IDropdownProps): JSX.Element => {
         return (
             hasLabel && (
-                <Stack horizontal verticalAlign="center">
+                <Stack horizontal verticalAlign={"center"}>
                     <Label>{props.label}</Label>
                     <TooltipHost content={t('ADTInstancesInfo')}>
                         <IconButton
@@ -78,7 +78,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
             localeStrings={localeStrings}
             theme={theme}
         >
-            <div className="cb-adt-instances-dropdown-list-container">
+            <div className={"cb-adt-instances-dropdown-list-container"}>
                 <Dropdown
                     placeholder={
                         environmentsState.isLoading

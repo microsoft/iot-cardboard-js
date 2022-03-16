@@ -1,15 +1,14 @@
 import React from 'react';
-import { ComponentErrorType } from '../../Models/Constants';
+import { ComponentErrorType, ErrorImages } from '../../Models/Constants';
 import './ScenePageErrorHandlingWrapper.scss';
 import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ScenePageErrorHandlingWrapperProps } from './ScenePageErrorHandlingWrapper.types';
-import { ErrorImages } from '../../Models/Constants';
 import ErrorIllustration from './Internal/ErrorIllustration/ErrorIllustration';
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
-    children
+    children,
 }) => {
     const { t } = useTranslation();
     let componentContent;
@@ -21,7 +20,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('nonExistentBlobErrorTitle')}
                     errorMessage={t('nonExistentBlobErrorMessage')}
                     buttonText={t('tryAgain')}
-                ></ErrorIllustration>
+                />
             );
             break;
         case ComponentErrorType.UnauthorizedAccess:
@@ -31,7 +30,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('unauthorizedAccessErrorTitle')}
                     errorMessage={t('unauthorizedAccessErrorMessage')}
                     buttonText={t('tryAgain')}
-                ></ErrorIllustration>
+                />
             );
             break;
         case ComponentErrorType.ReaderAccessOnly:
@@ -41,7 +40,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     isMultiline={false}
                     onDismiss={null}
                     dismissButtonAriaLabel={t('close')}
-                    className="cb-scene-page-warning-message"
+                    className={'cb-scene-page-warning-message'}
                 >
                     {t('readerAccessOnlyErrorMessage')}
                 </MessageBar>
@@ -55,11 +54,11 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={'JSON schema validation failed'}
                     errorMessage={errors[0].jsonSchemaErrors
                         .map((schemaError) =>
-                            JSON.stringify(schemaError, null, 2)
+                            JSON.stringify(schemaError, null, 2),
                         )
                         .join('\n\n')}
                     buttonText={t('tryAgain')}
-                ></ErrorIllustration>
+                />
             );
             break;
         default:

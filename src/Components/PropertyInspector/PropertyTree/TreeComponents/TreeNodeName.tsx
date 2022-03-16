@@ -44,7 +44,7 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
                 }}
             >
                 <Chevron collapsed={node.isCollapsed} />
-                <div className="cb-property-tree-parent-node-inset">
+                <div className={"cb-property-tree-parent-node-inset"}>
                     <TreeNodeIcon node={node} />
                     <div
                         className={`cb-property-tree-node-name-text${
@@ -73,7 +73,7 @@ const TreeNodeName: React.FC<NodeProps> = ({ node }) => {
         );
     } else {
         return (
-            <div className="cb-property-tree-node-name">
+            <div className={"cb-property-tree-node-name"}>
                 <TreeNodeIcon node={node} />
                 <div
                     className={`cb-property-tree-node-name-text${

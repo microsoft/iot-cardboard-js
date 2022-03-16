@@ -112,7 +112,7 @@ export const ErrorBoundaryCompositeCard = (
                 locale={locale}
             >
                 <BaseCardWithErrorBoundary
-                    title="BaseCard-1 component with buggy content"
+                    title={"BaseCard-1 component with buggy content"}
                     theme={theme}
                     locale={locale}
                     isLoading={false}
@@ -122,7 +122,7 @@ export const ErrorBoundaryCompositeCard = (
                 </BaseCardWithErrorBoundary>
 
                 <BaseCardWithErrorBoundary
-                    title="BaseCard-2 component with buggy content"
+                    title={"BaseCard-2 component with buggy content"}
                     theme={theme}
                     locale={locale}
                     isLoading={false}
@@ -132,7 +132,7 @@ export const ErrorBoundaryCompositeCard = (
                 </BaseCardWithErrorBoundary>
 
                 <BaseCardWithErrorBoundary
-                    title="BaseCard-3 error handling component with buggy content"
+                    title={"BaseCard-3 error handling component with buggy content"}
                     theme={theme}
                     locale={locale}
                     isLoading={false}

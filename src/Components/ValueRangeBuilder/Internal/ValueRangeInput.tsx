@@ -36,16 +36,16 @@ const ValueRangeInput: React.FC<{
 
     return (
         <>
-            <div className="cb-range-boundary">
-                <label className="cb-range-boundary-label" htmlFor={guid}>
+            <div className={"cb-range-boundary"}>
+                <label className={"cb-range-boundary-label"} htmlFor={guid}>
                     {isMin ? t('min') : t('max')}
                 </label>
-                <div className="cb-range-boundary-input-container">
+                <div className={"cb-range-boundary-input-container"}>
                     <input
-                        autoComplete="false"
+                        autoComplete={"false"}
                         id={guid}
                         value={String(value)}
-                        type="string"
+                        type={"string"}
                         onChange={(event) =>
                             dispatch({
                                 type:
@@ -55,8 +55,7 @@ const ValueRangeInput: React.FC<{
                                     newValue: event.target.value,
                                     id: valueRange.id
                                 }
-                            })
-                        }
+                            })}
                         className={`cb-value-range-input ${
                             !isNumericInputValid
                                 ? 'cb-value-range-input-invalid'
@@ -71,8 +70,7 @@ const ValueRangeInput: React.FC<{
                                     isMin,
                                     newValue: value
                                 }
-                            })
-                        }
+                            })}
                     />
                     <button
                         className={`cb-value-range-input-infinity-button ${
@@ -92,8 +90,7 @@ const ValueRangeInput: React.FC<{
                                             : 'Infinity',
                                     currentValueRange: valueRange
                                 }
-                            })
-                        }
+                            })}
                     >
                         <InfinitySvg />
                     </button>

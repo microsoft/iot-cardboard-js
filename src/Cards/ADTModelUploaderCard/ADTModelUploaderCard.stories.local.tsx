@@ -29,7 +29,7 @@ export const ADTModelsUploader = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                title="Upload DTDL model files"
+                title={"Upload DTDL model files"}
                 theme={theme}
                 locale={locale}
                 hasUploadButton={true}

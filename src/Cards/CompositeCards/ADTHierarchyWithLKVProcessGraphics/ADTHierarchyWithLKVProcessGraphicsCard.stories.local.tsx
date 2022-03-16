@@ -36,8 +36,7 @@ export const ADTHiearchyWithLKVPG = (_args, { globals: { theme, locale } }) => {
                     )
                 }
                 getHierarchyNodeProperties={(node: IHierarchyNode) =>
-                    parseViewProperties(node.nodeData.$metadata)
-                }
+                    parseViewProperties(node.nodeData.$metadata)}
                 pollingIntervalMillis={5000}
             />
         </div>

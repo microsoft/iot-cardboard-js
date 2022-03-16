@@ -1,8 +1,8 @@
 import {
     IAdapterData,
-    IStandardModelIndexData
+    IStandardModelIndexData,
+    IStandardModelSearchResult,
 } from '../../Constants/Interfaces';
-import { IStandardModelSearchResult } from '../../Constants/Interfaces';
 
 class StandardModelSearchData implements IAdapterData {
     data: IStandardModelSearchResult;

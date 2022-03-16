@@ -12,33 +12,34 @@ export default {
     parameters: {
         docs: {
             source: {
-                type: 'code'
-            }
-        }
-    }
+                type: 'code',
+            },
+        },
+    },
 };
 
 const basicGeoData = [
     {
         id: 'boat1',
-        properties: ['latitude', 'longitude']
-    }
+        properties: ['latitude', 'longitude'],
+    },
 ];
 
 const adtGeoData = [
     {
         id: 'PasteurizationMachine_A02',
-        properties: ['InFlow', 'OutFlow']
-    }
+        properties: ['InFlow', 'OutFlow'],
+    },
 ];
 
 export const Mock = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
+    // eslint-disable-next-line react/hook-use-state
     const [properties] = useState({
         properties: basicGeoData[0].properties,
-        id: basicGeoData[0].id
+        id: basicGeoData[0].id,
     });
 
     return (
@@ -58,7 +59,7 @@ export const Mock = (
 
 export const FailedToGetData = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     return (
         <div style={wideCardWrapperStyle}>
@@ -71,7 +72,7 @@ export const FailedToGetData = (
                 locale={locale}
                 adapter={
                     new MockAdapter({
-                        mockError: ComponentErrorType.DataFetchFailed
+                        mockError: ComponentErrorType.DataFetchFailed,
                     })
                 }
             />
@@ -81,7 +82,7 @@ export const FailedToGetData = (
 
 export const ADT = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
 
@@ -100,8 +101,8 @@ export const ADT = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />

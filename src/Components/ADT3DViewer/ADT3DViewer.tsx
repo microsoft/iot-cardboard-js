@@ -278,7 +278,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         >
             <div
                 id={sceneWrapperId}
-                className="cb-adt-3dviewer-wrapper"
+                className={"cb-adt-3dviewer-wrapper"}
                 style={
                     renderMode?.background
                         ? { background: renderMode.background }
@@ -312,7 +312,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     }}
                 />
                 {!hideUI && (
-                    <div className="cb-adt-3dviewer-render-mode-dropdown">
+                    <div className={"cb-adt-3dviewer-render-mode-dropdown"}>
                         <Dropdown
                             selectedKey={selectedRenderMode}
                             onChange={onRenderModeChange}
@@ -326,17 +326,17 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 {showPopUp && (
                     <div
                         id={popUpContainerId}
-                        className="cb-adt-3dviewer-popup-container"
+                        className={"cb-adt-3dviewer-popup-container"}
                     >
                         <canvas
                             id={lineId}
-                            className="cb-adt-3dviewer-line-canvas"
+                            className={"cb-adt-3dviewer-line-canvas"}
                         />
                         <Draggable
-                            bounds="parent"
+                            bounds={"parent"}
                             onDrag={(e, data) => setPopUpPosition(e, data)}
                         >
-                            <div id={popUpId} className="cb-adt-3dviewer-popup">
+                            <div id={popUpId} className={"cb-adt-3dviewer-popup"}>
                                 <PopupWidget
                                     config={popUpConfig}
                                     onClose={() => setShowPopUp(false)}

@@ -142,7 +142,8 @@ class ErrorBoundary extends React.Component<
                             rawError: new Error(this.state.error.stack)
                         })
                     }
-                ></BaseComponent>
+                >
+                </BaseComponent>
             );
         }
         return this.props.children;
