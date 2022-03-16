@@ -8,7 +8,8 @@
 }
 .cb-value-range-container {
     display: flex;
-    &.cb-range-invalid {
+    &.cb-range-invalid,
+    &.cb-is-overlapping {
         input {
             border: 1px solid var(--cb-color-text-danger);
         }
@@ -40,6 +41,7 @@
     color: var(--cb-color-text-primary);
     height: 24px;
     padding-right: 32px;
+    user-select: text;
     width: 100px;
     &.cb-value-range-input-invalid {
         border: 1px solid var(--cb-color-text-danger);

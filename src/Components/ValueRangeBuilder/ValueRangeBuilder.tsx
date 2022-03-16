@@ -1,5 +1,4 @@
-import produce from 'immer';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useReducer } from 'react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ReactComponent as InfinitySvg } from '../../Resources/Static/infinity.svg';
@@ -7,7 +6,6 @@ import './ValueRangeBuilder.scss';
 import {
     ActionButton,
     Callout,
-    IColorCellProps,
     IconButton,
     SwatchColorPicker
 } from '@fluentui/react';
@@ -16,131 +14,52 @@ import { useBoolean, useId } from '@fluentui/react-hooks';
 import {
     IValueRangeBuilderContext,
     IValueRangeBuilderProps,
-    OnRangeValueUpdateParams,
     Boundary,
-    IValueRangeValidationMap,
-    IValueRangeValidation
+    ValueRangeBuilderActionType
 } from './ValueRangeBuilder.types';
+import {
+    getValidationMapFromValueRanges,
+    areDistinctValueRangesValid,
+    getNextColor
+} from './ValueRangeBuilder.utils';
+import {
+    defaultValueRangeBuilderState,
+    valueRangeBuilderReducer
+} from './ValueRangeBuilder.state';
 
 const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>(null);
 
-const defaultValueRange: Omit<IValueRange, 'id'> = {
-    color: '#FF0000',
-    min: '-Infinity',
-    max: 'Infinity'
-};
-
-export const defaultSwatchColors: IColorCellProps[] = [
-    { id: 'green', label: 'green', color: '#7DDF64' },
-    { id: 'purple', label: 'purple', color: '#7A306C' },
-    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
-    { id: 'blue', label: 'blue', color: '#3AAED8' },
-    { id: 'red', label: 'red', color: '#E84855' }
-];
-
-const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
-    const validationMap: IValueRangeValidationMap = {};
-    valueRanges.forEach((vr) => {
-        validationMap[vr.id] = getRangeValidation(vr);
-    });
-
-    return validationMap;
-};
-
-const getRangeValidation = (valueRange: IValueRange): IValueRangeValidation => {
-    let minValid = false,
-        maxValid = false,
-        rangeValid = false,
-        minNumeric,
-        maxNumeric;
-
-    try {
-        minNumeric = Number(valueRange.min);
-        if (!isNaN(minNumeric)) {
-            minValid = true;
-        }
-        maxNumeric = Number(valueRange.max);
-        if (!isNaN(maxNumeric)) {
-            maxValid = true;
-        }
-        if (minValid && maxValid && minNumeric < maxNumeric) {
-            rangeValid = true;
-        }
-    } catch (err) {
-        console.error(err);
-    }
-
-    return {
-        minValid,
-        maxValid,
-        rangeValid
-    };
-};
-
 const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
-    valueRanges = [],
-    setValueRanges,
+    initialValueRanges = [],
     customSwatchColors,
     baseComponentProps
 }) => {
-    const [
-        valueRangeValidationMap,
-        setValueRangeValidationMap
-    ] = useState<IValueRangeValidationMap>(
-        getValidationMapFromValueRanges(valueRanges)
+    const initialValidationMap = useMemo(
+        () => getValidationMapFromValueRanges(initialValueRanges),
+        [initialValueRanges]
     );
 
-    const onRangeValueUpdate = ({
-        boundary,
-        id,
-        newValue,
-        newColor
-    }: OnRangeValueUpdateParams) => {
-        setValueRanges(
-            produce((draft) => {
-                const valueRangeToUpdate = draft.find((vr) => vr.id === id);
-                if (!valueRangeToUpdate) return;
-                if (typeof newValue === 'string') {
-                    boundary === Boundary.min
-                        ? (valueRangeToUpdate.min = newValue as any)
-                        : (valueRangeToUpdate.max = newValue as any);
-                } else if (newColor) {
-                    valueRangeToUpdate.color = newColor;
-                }
-            })
-        );
-    };
+    const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
+        ...defaultValueRangeBuilderState,
+        valueRanges: initialValueRanges,
+        validationMap: initialValidationMap,
+        ...(customSwatchColors && { colorSwatch: customSwatchColors })
+    });
 
-    const colorSwatch = customSwatchColors || defaultSwatchColors;
-    const getNextColor = () => {
-        const randomColor =
-            colorSwatch[Math.floor(Math.random() * colorSwatch.length)]
-                ?.color || '#FF000';
-
-        for (const { color } of colorSwatch) {
-            if (!valueRanges.map((vr) => vr.color).includes(color)) {
-                return color;
-            }
-        }
-        return randomColor;
-    };
+    const { validationMap } = state;
 
     return (
         <ValueRangeBuilderContext.Provider
             value={{
-                valueRanges,
-                onRangeValueUpdate,
-                setValueRanges,
-                colorSwatch,
-                setValueRangeValidationMap,
-                valueRangeValidationMap
+                state,
+                dispatch
             }}
         >
             <BaseComponent
                 {...baseComponentProps}
                 containerClassName="cb-value-range-builder-container"
             >
-                {valueRanges.map((valueRange) => (
+                {state.valueRanges.map((valueRange) => (
                     <div
                         className="cb-value-range-and-messaging-row-container"
                         key={valueRange.id}
@@ -149,32 +68,29 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                         <ValueRangeValidationError valueRange={valueRange} />
                     </div>
                 ))}
+                {areDistinctValueRangesValid(validationMap) &&
+                    validationMap.overlappingIds.length > 0 && (
+                        <div className="cb-value-range-validation-error">
+                            {
+                                'Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.'
+                            }
+                        </div>
+                    )}
                 <ActionButton
                     iconProps={{ iconName: 'Add' }}
                     onClick={() => {
                         const id = createGUID(false);
 
-                        // Add value range
-                        setValueRanges(
-                            produce((draft) => {
-                                draft.push({
-                                    ...defaultValueRange,
-                                    color: getNextColor(),
-                                    id
-                                });
-                            })
-                        );
-
-                        // Add new range to validation map
-                        setValueRangeValidationMap(
-                            produce((draft) => {
-                                draft[id] = {
-                                    minValid: true,
-                                    maxValid: true,
-                                    rangeValid: true
-                                };
-                            })
-                        );
+                        dispatch({
+                            type: ValueRangeBuilderActionType.ADD_VALUE_RANGE,
+                            payload: {
+                                id,
+                                color: getNextColor(
+                                    state.valueRanges,
+                                    state.colorSwatch
+                                )
+                            }
+                        });
                     }}
                 >
                     Add value range
@@ -187,9 +103,9 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
 const ValueRangeValidationError: React.FC<{
     valueRange: IValueRange;
 }> = ({ valueRange }) => {
-    const { valueRangeValidationMap } = useContext(ValueRangeBuilderContext);
+    const { state } = useContext(ValueRangeBuilderContext);
 
-    const validationData = valueRangeValidationMap[valueRange.id];
+    const validationData = state.validationMap.validation[valueRange.id];
 
     const getValidationMessaging = () => {
         if (!validationData.maxValid || !validationData.minValid) {
@@ -211,13 +127,7 @@ const ValueRangeValidationError: React.FC<{
 const ValueRangeRow: React.FC<{
     valueRange: IValueRange;
 }> = ({ valueRange }) => {
-    const {
-        onRangeValueUpdate,
-        setValueRanges,
-        colorSwatch,
-        setValueRangeValidationMap,
-        valueRangeValidationMap
-    } = useContext(ValueRangeBuilderContext);
+    const { state, dispatch } = useContext(ValueRangeBuilderContext);
 
     const labelId = useId('callout-label');
     const colorButtonId = useId('color-button');
@@ -227,17 +137,25 @@ const ValueRangeRow: React.FC<{
         { toggle: toggleIsRowColorCalloutVisible }
     ] = useBoolean(false);
 
-    const validationData = valueRangeValidationMap[valueRange.id];
+    const { validationMap, colorSwatch } = state;
+
+    const validationData = validationMap.validation[valueRange.id];
     const isRangeInvalid =
         validationData.minValid &&
         validationData.maxValid &&
         !validationData.rangeValid;
 
+    const isOverlapping =
+        areDistinctValueRangesValid(validationMap) &&
+        !!validationMap.overlappingIds.find((overlap) =>
+            [overlap.source, overlap.pair].includes(valueRange.id)
+        );
+
     return (
         <div
             className={`cb-value-range-container ${
                 isRangeInvalid ? 'cb-range-invalid' : ''
-            }`}
+            } ${isOverlapping ? 'cb-is-overlapping' : ''}`}
         >
             <RangeBoundaryInput
                 value={String(valueRange.min)}
@@ -270,10 +188,14 @@ const ValueRangeRow: React.FC<{
                         colorCells={colorSwatch}
                         aria-labelledby={labelId}
                         onChange={(_e, _id, color) =>
-                            onRangeValueUpdate({
-                                boundary: Boundary.max,
-                                newColor: color,
-                                id: valueRange.id
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
+                                payload: {
+                                    boundary: Boundary.max,
+                                    newColor: color,
+                                    id: valueRange.id
+                                }
                             })
                         }
                         selectedId={
@@ -290,24 +212,14 @@ const ValueRangeRow: React.FC<{
                 styles={{
                     root: { alignSelf: 'flex-end', height: '24px' }
                 }}
-                onClick={() => {
-                    // Remove value range
-                    setValueRanges(
-                        produce((draft) => {
-                            const valueRangeToRemove = draft.findIndex(
-                                (vr) => vr.id === valueRange.id
-                            );
-                            draft.splice(valueRangeToRemove, 1);
-                        })
-                    );
-
-                    // Remove range from validation map
-                    setValueRangeValidationMap(
-                        produce((draft) => {
-                            delete draft[valueRange.id];
-                        })
-                    );
-                }}
+                onClick={() =>
+                    dispatch({
+                        type: ValueRangeBuilderActionType.DELETE_VALUE_RANGE,
+                        payload: {
+                            id: valueRange.id
+                        }
+                    })
+                }
             />
         </div>
     );
@@ -321,32 +233,17 @@ const RangeBoundaryInput: React.FC<{
     const guid = useId();
 
     const {
-        setValueRangeValidationMap,
-        onRangeValueUpdate,
-        valueRangeValidationMap
+        state: { validationMap },
+        dispatch
     } = useContext(ValueRangeBuilderContext);
 
     const isMin = boundary === Boundary.min;
 
-    const checkIsNumericInputValid = (value: string) => {
-        setValueRangeValidationMap(
-            produce((draft) => {
-                const vr: IValueRange = {
-                    ...valueRange,
-                    ...(isMin && { min: value as any }),
-                    ...(!isMin && { max: value as any })
-                };
-                draft[valueRange.id] = getRangeValidation(vr);
-                console.log(draft[valueRange.id]);
-            })
-        );
-    };
-
     let isNumericInputValid = true;
     if (isMin) {
-        isNumericInputValid = valueRangeValidationMap[valueRange.id].minValid;
+        isNumericInputValid = validationMap.validation[valueRange.id].minValid;
     } else {
-        isNumericInputValid = valueRangeValidationMap[valueRange.id].maxValid;
+        isNumericInputValid = validationMap.validation[valueRange.id].maxValid;
     }
     return (
         <>
@@ -356,14 +253,19 @@ const RangeBoundaryInput: React.FC<{
                 </label>
                 <div className="cb-range-boundary-input-container">
                     <input
+                        autoComplete="false"
                         id={guid}
-                        value={value}
+                        value={String(value)}
                         type="string"
                         onChange={(event) =>
-                            onRangeValueUpdate({
-                                id: valueRange.id,
-                                newValue: event.target.value,
-                                boundary
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
+                                payload: {
+                                    boundary,
+                                    newValue: event.target.value,
+                                    id: valueRange.id
+                                }
                             })
                         }
                         className={`cb-value-range-input ${
@@ -371,7 +273,17 @@ const RangeBoundaryInput: React.FC<{
                                 ? 'cb-value-range-input-invalid'
                                 : ''
                         }`}
-                        onBlur={() => checkIsNumericInputValid(value)}
+                        onBlur={() =>
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION,
+                                payload: {
+                                    currentValueRange: valueRange,
+                                    isMin,
+                                    newValue: value
+                                }
+                            })
+                        }
                     />
                     <button
                         className={`cb-value-range-input-infinity-button ${
@@ -387,18 +299,20 @@ const RangeBoundaryInput: React.FC<{
                                 ? 'Set value to -Infinity'
                                 : 'Set value to Infinity'
                         }
-                        onClick={() => {
-                            const newValue =
-                                boundary === Boundary.min
-                                    ? '-Infinity'
-                                    : 'Infinity';
-                            onRangeValueUpdate({
-                                id: valueRange.id,
-                                newValue,
-                                boundary
-                            });
-                            checkIsNumericInputValid(newValue);
-                        }}
+                        onClick={() =>
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.SNAP_VALUE_TO_INFINITY,
+                                payload: {
+                                    boundary,
+                                    newValue:
+                                        boundary === Boundary.min
+                                            ? '-Infinity'
+                                            : 'Infinity',
+                                    currentValueRange: valueRange
+                                }
+                            })
+                        }
                     >
                         <InfinitySvg />
                     </button>

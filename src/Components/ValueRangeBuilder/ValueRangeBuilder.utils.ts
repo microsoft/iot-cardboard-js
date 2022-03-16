@@ -1,0 +1,122 @@
+import { IColorCellProps } from '@fluentui/react';
+import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IValueRangeValidationMap,
+    IValueRangeValidation
+} from './ValueRangeBuilder.types';
+
+export const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
+    const validationMap: IValueRangeValidationMap = {
+        overlappingIds: [],
+        validation: {}
+    };
+
+    // Construct validation data
+    valueRanges.forEach((vr) => {
+        validationMap.validation[vr.id] = getRangeValidation(vr);
+    });
+
+    // Check for overlapping ranges
+    validationMap.overlappingIds = getOverlappingIds(
+        valueRanges,
+        validationMap
+    );
+
+    return validationMap;
+};
+
+export const getRangeValidation = (
+    valueRange: IValueRange
+): IValueRangeValidation => {
+    let minValid = false,
+        maxValid = false,
+        rangeValid = false,
+        minNumeric,
+        maxNumeric;
+
+    try {
+        minNumeric = Number(valueRange.min);
+        if (!isNaN(minNumeric)) {
+            minValid = true;
+        }
+        maxNumeric = Number(valueRange.max);
+        if (!isNaN(maxNumeric)) {
+            maxValid = true;
+        }
+        if (minValid && maxValid && minNumeric < maxNumeric) {
+            rangeValid = true;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+
+    return {
+        minValid,
+        maxValid,
+        rangeValid
+    };
+};
+
+export const areDistinctValueRangesValid = (
+    validationMap: IValueRangeValidationMap
+) => {
+    let isValid = true;
+    for (const key of Object.keys(validationMap.validation)) {
+        const validationData = validationMap.validation[key];
+        if (
+            !validationData.maxValid ||
+            !validationData.minValid ||
+            !validationData.rangeValid
+        ) {
+            isValid = false;
+            break;
+        }
+    }
+    return isValid;
+};
+
+export const getOverlappingIds = (
+    valueRanges: IValueRange[],
+    validationMap: IValueRangeValidationMap
+) => {
+    // If basic validation (numeric and valid range) fails -- return empty
+    if (!areDistinctValueRangesValid(validationMap)) {
+        return [];
+    }
+
+    // Sort value ranges by min
+    const sortedValueRanges = valueRanges.slice(0).sort((a, b) => {
+        return Number(a.min) - Number(b.min);
+    });
+
+    // Verify all (max @ i) <= min @ i + 1
+    const overlappingIds = [];
+    for (let i = 0; i < sortedValueRanges.length - 1; i++) {
+        const valueRange = sortedValueRanges[i];
+        const nextValueRange = sortedValueRanges[i + 1];
+
+        if (valueRange.max >= nextValueRange.min) {
+            overlappingIds.push({
+                source: valueRange.id,
+                pair: nextValueRange.id
+            });
+        }
+    }
+    return overlappingIds;
+};
+
+export const getNextColor = (
+    valueRanges: IValueRange[],
+    colorSwatch: IColorCellProps[]
+) => {
+    const randomColor =
+        colorSwatch[Math.floor(Math.random() * colorSwatch.length)]?.color ||
+        '#FF000';
+
+    for (const { color } of colorSwatch) {
+        if (!valueRanges.map((vr) => vr.color).includes(color)) {
+            return color;
+        }
+    }
+    return randomColor;
+};

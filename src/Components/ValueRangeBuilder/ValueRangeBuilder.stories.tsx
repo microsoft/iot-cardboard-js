@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import ValueRangeBuilder, { defaultSwatchColors } from './ValueRangeBuilder';
+import React from 'react';
+import ValueRangeBuilder from './ValueRangeBuilder';
+import { defaultSwatchColors } from './ValueRangeBuilder.state';
 
 export default {
     title: 'Components/Value Range Builder',
@@ -9,16 +10,11 @@ export default {
 const wrapperStyle = { width: '340px', height: '400px' };
 
 const Template = (args, { globals: { theme, locale } }) => {
-    const [valueRanges, setValueRanges] = useState(
-        args.initialValueRanges || []
-    );
-
     return (
         <div style={wrapperStyle}>
             <ValueRangeBuilder
                 {...args}
-                valueRanges={valueRanges}
-                setValueRanges={setValueRanges}
+                initialValueRanges={args.initialValueRanges || []}
                 baseComponentProps={{ theme, locale }}
             />
         </div>
@@ -94,7 +90,7 @@ RangeOverlap.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 1,
-            max: 1000
+            max: 'Infinity'
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
@@ -106,7 +102,7 @@ RangeOverlap.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
             color: defaultSwatchColors.find((c) => c.id === 'red').color,
             min: 750,
-            max: 'Infinity'
+            max: 1500
         }
     ]
 };
