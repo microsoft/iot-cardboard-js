@@ -1,7 +1,9 @@
 import React, {
     createContext,
+    forwardRef,
     useContext,
     useEffect,
+    useImperativeHandle,
     useMemo,
     useReducer
 } from 'react';
@@ -21,7 +23,8 @@ import {
     IValueRangeBuilderContext,
     IValueRangeBuilderProps,
     Boundary,
-    ValueRangeBuilderActionType
+    ValueRangeBuilderActionType,
+    IValueRangeBuilderHandle
 } from './ValueRangeBuilder.types';
 import {
     getValidationMapFromValueRanges,
@@ -33,15 +36,24 @@ import {
     defaultValueRangeBuilderState,
     valueRangeBuilderReducer
 } from './ValueRangeBuilder.state';
+import { useTranslation } from 'react-i18next';
 
 const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>(null);
 
-const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
-    initialValueRanges = [],
-    customSwatchColors,
-    baseComponentProps,
-    setAreRangesValid
-}) => {
+const ValueRangeBuilder: React.ForwardRefRenderFunction<
+    IValueRangeBuilderHandle,
+    IValueRangeBuilderProps
+> = (
+    {
+        initialValueRanges = [],
+        customSwatchColors,
+        baseComponentProps,
+        setAreRangesValid
+    },
+    forwardedRef
+) => {
+    const { t } = useTranslation();
+
     const initialValidationMap = useMemo(
         () => getValidationMapFromValueRanges(initialValueRanges),
         [initialValueRanges]
@@ -73,6 +85,12 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
         }
     }, [state.validationMap]);
 
+    useImperativeHandle(forwardedRef, () => ({
+        getValueRanges: () => {
+            return state.valueRanges;
+        }
+    }));
+
     return (
         <ValueRangeBuilderContext.Provider
             value={{
@@ -96,9 +114,7 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                 {areDistinctValueRangesValid(validationMap) &&
                     validationMap.overlapFound && (
                         <div className="cb-value-range-validation-error">
-                            {
-                                'Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.'
-                            }
+                            {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}
                 <ActionButton
@@ -117,8 +133,9 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                             }
                         });
                     }}
+                    ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}
                 >
-                    Add value range
+                    {t('valueRangeBuilder.addValueRangeButtonText')}
                 </ActionButton>
             </BaseComponent>
         </ValueRangeBuilderContext.Provider>
@@ -129,14 +146,15 @@ const ValueRangeValidationError: React.FC<{
     valueRange: IValueRange;
 }> = ({ valueRange }) => {
     const { state } = useContext(ValueRangeBuilderContext);
+    const { t } = useTranslation();
 
     const validationData = state.validationMap.validation[valueRange.id];
 
     const getValidationMessaging = () => {
         if (!validationData.maxValid || !validationData.minValid) {
-            return "Values must be numeric, '-Infinity', or 'Infinity'";
+            return t('valueRangeBuilder.rangeValueInvalidMessage');
         } else if (!validationData.rangeValid) {
-            return 'Min value must be less than (<) Max value';
+            return t('valueRangeBuilder.rangeInvalidMessage');
         } else {
             return null;
         }
@@ -152,6 +170,7 @@ const ValueRangeValidationError: React.FC<{
 const ValueRangeRow: React.FC<{
     valueRange: IValueRange;
 }> = ({ valueRange }) => {
+    const { t } = useTranslation();
     const { state, dispatch } = useContext(ValueRangeBuilderContext);
 
     const labelId = useId('callout-label');
@@ -187,7 +206,7 @@ const ValueRangeRow: React.FC<{
                 valueRange={valueRange}
             />
             <button
-                aria-label={'Select color for value range'}
+                aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
                 style={{ backgroundColor: valueRange.color }}
                 className="cb-value-range-color-button"
                 onClick={toggleIsRowColorCalloutVisible}
@@ -227,7 +246,7 @@ const ValueRangeRow: React.FC<{
             )}
             <IconButton
                 iconProps={{ iconName: 'Delete' }}
-                title="Delete value range"
+                title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
                     root: { alignSelf: 'flex-end', height: '24px' }
                 }}
@@ -250,6 +269,7 @@ const RangeBoundaryInput: React.FC<{
     boundary: Boundary;
 }> = ({ value, valueRange, boundary }) => {
     const guid = useId();
+    const { t } = useTranslation();
 
     const {
         state: { validationMap },
@@ -257,6 +277,9 @@ const RangeBoundaryInput: React.FC<{
     } = useContext(ValueRangeBuilderContext);
 
     const isMin = boundary === Boundary.min;
+    const infinityIconMessage = isMin
+        ? t('valueRangeBuilder.negativeInfinityIconMessage')
+        : t('valueRangeBuilder.positiveInfinityIconMessage');
 
     let isNumericInputValid = true;
     if (isMin) {
@@ -264,11 +287,12 @@ const RangeBoundaryInput: React.FC<{
     } else {
         isNumericInputValid = validationMap.validation[valueRange.id].maxValid;
     }
+
     return (
         <>
             <div className="cb-range-boundary">
                 <label className="cb-range-boundary-label" htmlFor={guid}>
-                    {isMin ? 'Min' : 'Max'}
+                    {isMin ? t('min') : t('max')}
                 </label>
                 <div className="cb-range-boundary-input-container">
                     <input
@@ -308,16 +332,8 @@ const RangeBoundaryInput: React.FC<{
                         className={`cb-value-range-input-infinity-button ${
                             isMin ? 'cb-value-range-negative-infinity' : ''
                         }`}
-                        aria-label={
-                            isMin
-                                ? 'Set value to -Infinity'
-                                : 'Set value to Infinity'
-                        }
-                        title={
-                            isMin
-                                ? 'Set value to -Infinity'
-                                : 'Set value to Infinity'
-                        }
+                        aria-label={infinityIconMessage}
+                        title={infinityIconMessage}
                         onClick={() =>
                             dispatch({
                                 type:
@@ -341,4 +357,4 @@ const RangeBoundaryInput: React.FC<{
     );
 };
 
-export default ValueRangeBuilder;
+export default forwardRef(ValueRangeBuilder);

@@ -1,7 +1,8 @@
-import { PrimaryButton } from '@fluentui/react';
-import React, { useState } from 'react';
+import { DefaultButton } from '@fluentui/react';
+import React, { useRef, useState } from 'react';
 import ValueRangeBuilder from './ValueRangeBuilder';
 import { defaultSwatchColors } from './ValueRangeBuilder.state';
+import { IValueRangeBuilderHandle } from './ValueRangeBuilder.types';
 
 export default {
     title: 'Components/Value Range Builder',
@@ -24,6 +25,7 @@ const Template = (args, { globals: { theme, locale } }) => {
 
 const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
     const [areRangesValid, setAreRangesValid] = useState(true);
+    const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
     return (
         <div
             className="cb-value-range-builder-template-with-validation"
@@ -34,10 +36,27 @@ const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
                 initialValueRanges={args.initialValueRanges || []}
                 baseComponentProps={{ theme, locale }}
                 setAreRangesValid={setAreRangesValid}
+                ref={valueRangeBuilderHandleRef}
             />
             <div>
                 Consuming component - ranges are valid:{' '}
                 {areRangesValid ? '✅' : '❌'}
+            </div>
+            <div style={{ marginTop: 8 }}>
+                <DefaultButton
+                    onClick={() => {
+                        const valueRanges = valueRangeBuilderHandleRef.current.getValueRanges();
+                        alert(
+                            `${valueRanges.length} value ranges were retrieved from this consuming component.  Details have been logged in the console`
+                        );
+                        console.log(
+                            'Value ranges printed from consuming component: ',
+                            valueRanges
+                        );
+                    }}
+                >
+                    Grab value ranges from parent
+                </DefaultButton>
             </div>
         </div>
     );

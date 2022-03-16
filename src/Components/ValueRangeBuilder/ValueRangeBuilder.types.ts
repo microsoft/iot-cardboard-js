@@ -97,3 +97,7 @@ export interface IValueRangeValidationMap {
         [id: string]: IValueRangeValidation;
     };
 }
+
+export interface IValueRangeBuilderHandle {
+    getValueRanges: () => IValueRange[];
+}

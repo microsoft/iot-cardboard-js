@@ -2,6 +2,8 @@
     "preview": "Preview",
     "loading": "Loading...",
     "label": "Label",
+    "min": "Min",
+    "max": "Max",
     "noData": "No data",
     "error": "Error fetching data",
     "unsupportedFileType": "Unsupported file type",
@@ -90,6 +92,16 @@
             "type": "JSON schema validation failed",
             "message": "JSON is invalid. Check syntax matches required schema."
         }
+    },
+    "valueRangeBuilder": {
+        "overlapDetectedMessage": "Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.",
+        "addValueRangeButtonText": "Add value range",
+        "rangeValueInvalidMessage": "Values must be numeric, '-Infinity', or 'Infinity'",
+        "rangeInvalidMessage": "Min value must be less than (<) Max value",
+        "colorButtonAriaLabel": "Select color for value range",
+        "deleteValueRangeTitle": "Delete value range",
+        "negativeInfinityIconMessage": "Set value to -Infinity",
+        "positiveInfinityIconMessage": "Set value to Infinity"
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
