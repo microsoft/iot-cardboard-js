@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './GaugeWidget.scss';
 import {
     RadialBarChart,
@@ -34,9 +34,17 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
     value = value || 20; // TODO: Hack
 
     const color = '#00ff00';
-    let lastBp: number = undefined;
 
-    lastBp = Number(widget.widgetConfiguration.max) || 1000; // Used as max data point
+    const maxValue: number = useMemo(() => {
+        let maxValue = Number('-Infinity');
+        widget.widgetConfiguration.valueRanges?.forEach?.((vr) => {
+            const val = Number(vr.max);
+            if (val > maxValue) {
+                maxValue = val;
+            }
+        });
+        return maxValue;
+    }, [widget]);
 
     const data = [{ value, fill: color }];
     return (
@@ -52,7 +60,7 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
                 >
                     <PolarAngleAxis
                         type="number"
-                        domain={[0, lastBp]}
+                        domain={[0, maxValue]}
                         dataKey={'value'}
                         angleAxisId={0}
                         tick={false}

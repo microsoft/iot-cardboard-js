@@ -32,6 +32,7 @@ import {
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -63,7 +64,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        coloredMeshItems
+        coloredMeshItems,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -117,6 +119,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        if (selectedElement) {
+            setColoredMeshItems(
+                createCustomMeshItems(selectedElement.objectIDs, null)
+            );
+        }
+    }, []);
+
+    useEffect(() => {
         const meshIds = [];
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
@@ -150,17 +160,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             });
         }
     };
-
-    useEffect(() => {
-        const meshIds: string[] = [];
-        for (const item of coloredMeshItems) {
-            meshIds.push(item.meshId);
-        }
-        setElementToEdit({
-            ...elementToEdit,
-            objectIDs: meshIds
-        });
-    }, [coloredMeshItems]);
 
     useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {

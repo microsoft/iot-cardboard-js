@@ -4,12 +4,14 @@
     "title": "I3DScenesConfig",
     "description": "A vocabulary to annotate and validate the JSON representation of 3D scene configuration data",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "$schema": {
             "type": "string"
         },
         "configuration": {
             "type": "object",
+            "additionalProperties": false,
             "description": "3D scene configuration data",
             "properties": {
                 "scenes": {
@@ -302,6 +304,36 @@
             },
             "required": ["type", "elementIDs"]
         },
+        "IGaugeWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this gauge",
+            "properties": {
+                "units": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "valueRanges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/IValueRange"
+                    }
+                }
+            }
+        },
+        "ILinkWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
+            "properties": {
+                "linkExpression": {
+                    "type": "string",
+                    "description": "Template string which evalues to http link"
+                }
+            }
+        },
         "IGaugeWidget": {
             "type": "object",
             "description": "A gauge widget",
@@ -317,22 +349,7 @@
                     "$ref": "#/$defs/IValueExpression"
                 },
                 "widgetConfiguration": {
-                    "type": "object",
-                    "description": "Widget configuration specifies widget specific properties that are used for rendering this gauge",
-                    "properties": {
-                        "units": {
-                            "type": "string"
-                        },
-                        "label": {
-                            "type": "string"
-                        },
-                        "min": {
-                            "$ref": "#/$defs/INumericOrInfinityType"
-                        },
-                        "max": {
-                            "$ref": "#/$defs/INumericOrInfinityType"
-                        }
-                    }
+                    "$ref": "#/$defs/IGaugeWidgetConfiguration"
                 },
                 "extensionProperties": {
                     "$ref": "#/$defs/IExtensionProperties"
@@ -352,14 +369,7 @@
                     "$ref": "#/$defs/IGroupID"
                 },
                 "widgetConfiguration": {
-                    "type": "object",
-                    "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
-                    "properties": {
-                        "linkExpression": {
-                            "type": "string",
-                            "description": "Template string which evalues to http link"
-                        }
-                    }
+                    "$ref": "#/$defs/ILinkWidgetConfiguration"
                 },
                 "extensionProperties": {
                     "$ref": "#/$defs/IExtensionProperties"
@@ -399,6 +409,7 @@
                     "type": "array",
                     "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Defines a widget group, referenced by ID in widgets",
                         "properties": {
                             "id": {
@@ -420,10 +431,14 @@
             },
             "required": ["type", "title", "widgets", "objectIDs"]
         },
-        "IStatusValueRange": {
+        "IValueRange": {
             "type": "object",
+            "additionalProperties": false,
             "description": "Numeric range to trigger coloring",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "color": {
                     "type": "string"
                 },
@@ -434,7 +449,7 @@
                     "$ref": "#/$defs/INumericOrInfinityType"
                 }
             },
-            "required": ["color", "min", "max"]
+            "required": ["id", "color", "min", "max"]
         },
         "IStatusColoringVisual": {
             "type": "object",
@@ -448,10 +463,10 @@
                     "type": "string",
                     "description": "Expression which evaluates to numeric value"
                 },
-                "statusValueRanges": {
+                "valueRanges": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/IStatusValueRange"
+                        "$ref": "#/$defs/IValueRange"
                     }
                 },
                 "objectIDs": {
@@ -464,7 +479,7 @@
             "required": [
                 "type",
                 "statusValueExpression",
-                "statusValueRanges",
+                "valueRanges",
                 "objectIDs"
             ]
         },
