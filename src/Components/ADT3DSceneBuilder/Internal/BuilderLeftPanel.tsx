@@ -32,7 +32,6 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import BehaviorTypeSelector from './Behaviors/BehaviorsTypeSelector';
 
 const BuilderLeftPanel: React.FC = () => {
     const { t } = useTranslation();
@@ -425,9 +424,6 @@ const BuilderLeftPanel: React.FC = () => {
                     onBehaviorClick={onBehaviorClick}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
                 />
-            )}
-            {state.builderMode === ADT3DSceneBuilderMode.BehaviorTypeSelect && (
-                <BehaviorTypeSelector item={''} />
             )}
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
                 state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
