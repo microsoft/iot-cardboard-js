@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { defaultValueRangeColor } from '../../Models/Constants';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { defaultSwatchColors } from '../../Theming/Palettes';
 import {
@@ -24,7 +25,7 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
-    color: '#FF0000',
+    color: defaultValueRangeColor,
     min: Number('-Infinity'),
     max: Number('Infinity')
 };

@@ -174,6 +174,8 @@ export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
+export const defaultValueRangeColor = '#FF0000';
+
 export const StyleConstants = {
     icons: {
         size20: FontSizes.size20,
