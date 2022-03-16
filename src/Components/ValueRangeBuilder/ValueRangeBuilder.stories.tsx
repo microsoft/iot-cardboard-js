@@ -171,3 +171,20 @@ RangeOverlap.args = {
         }
     ]
 };
+
+export const MinAndMaxRanges = Template.bind({});
+
+MinAndMaxRanges.args = {
+    initialValueRanges: [
+        {
+            id: '0278cd377adbc30253b0fdb6b5fcf160',
+            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            min: '-Infinity',
+            max: 'Infinity'
+        }
+    ],
+    minRanges: 1,
+    maxRanges: 3
+};
+
+MinAndMaxRanges.storyName = 'Min (1) and Max (3) Ranges';

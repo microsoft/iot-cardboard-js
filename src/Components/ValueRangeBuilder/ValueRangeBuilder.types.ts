@@ -61,6 +61,8 @@ export interface IValueRangeBuilderState {
     valueRanges: IValueRange[];
     validationMap: IValueRangeValidationMap;
     colorSwatch: IColorCellProps[];
+    minRanges: number;
+    maxRanges: number;
 }
 
 export interface IValueRangeBuilderAction {
@@ -73,6 +75,8 @@ export interface IValueRangeBuilderProps {
     customSwatchColors?: IColorCellProps[];
     baseComponentProps?: BaseComponentProps;
     setAreRangesValid?: React.Dispatch<React.SetStateAction<boolean>>;
+    minRanges?: number;
+    maxRanges?: number;
 }
 
 export interface IValueRangeBuilderContext {

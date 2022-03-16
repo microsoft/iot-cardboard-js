@@ -48,7 +48,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         initialValueRanges = [],
         customSwatchColors,
         baseComponentProps,
-        setAreRangesValid
+        setAreRangesValid,
+        minRanges = 0,
+        maxRanges
     },
     forwardedRef
 ) => {
@@ -65,10 +67,13 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
             (a, b) => Number(a.min) - Number(b.min)
         ),
         validationMap: initialValidationMap,
-        ...(customSwatchColors && { colorSwatch: customSwatchColors })
+        ...(customSwatchColors && { colorSwatch: customSwatchColors }),
+        minRanges,
+        maxRanges
     });
 
     const { validationMap } = state;
+    console.log('min ranges: ', state.minRanges);
 
     // Update consumer when validation map changes
     useEffect(() => {
@@ -89,7 +94,11 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
 
     useImperativeHandle(forwardedRef, () => ({
         getValueRanges: () => {
-            return state.valueRanges;
+            return state.valueRanges.map((vr) => ({
+                ...vr,
+                min: Number(vr.min),
+                max: Number(vr.max)
+            }));
         }
     }));
 
@@ -136,6 +145,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                         });
                     }}
                     ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}
+                    disabled={
+                        maxRanges && state.valueRanges.length >= maxRanges
+                    }
                 >
                     {t('valueRangeBuilder.addValueRangeButtonText')}
                 </ActionButton>
@@ -183,7 +195,7 @@ const ValueRangeRow: React.FC<{
         { toggle: toggleIsRowColorCalloutVisible }
     ] = useBoolean(false);
 
-    const { validationMap, colorSwatch } = state;
+    const { validationMap, colorSwatch, minRanges, valueRanges } = state;
 
     const validationData = validationMap.validation[valueRange.id];
     const isRangeInvalid =
@@ -246,12 +258,14 @@ const ValueRangeRow: React.FC<{
                     />
                 </Callout>
             )}
+
             <IconButton
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
                     root: { alignSelf: 'flex-end', height: '24px' }
                 }}
+                disabled={valueRanges.length <= minRanges}
                 onClick={() =>
                     dispatch({
                         type: ValueRangeBuilderActionType.DELETE_VALUE_RANGE,
