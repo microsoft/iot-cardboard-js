@@ -7,7 +7,7 @@ import {
 
 export const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
     const validationMap: IValueRangeValidationMap = {
-        overlappingIds: [],
+        overlapFound: false,
         validation: {}
     };
 
@@ -17,7 +17,7 @@ export const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
     });
 
     // Check for overlapping ranges
-    validationMap.overlappingIds = getOverlappingIds(
+    validationMap.overlapFound = isRangeOverlapFound(
         valueRanges,
         validationMap
     );
@@ -75,13 +75,13 @@ export const areDistinctValueRangesValid = (
     return isValid;
 };
 
-export const getOverlappingIds = (
+export const isRangeOverlapFound = (
     valueRanges: IValueRange[],
     validationMap: IValueRangeValidationMap
 ) => {
     // If basic validation (numeric and valid range) fails -- return empty
     if (!areDistinctValueRangesValid(validationMap)) {
-        return [];
+        return false;
     }
 
     // Sort value ranges by min
@@ -90,19 +90,17 @@ export const getOverlappingIds = (
     });
 
     // Verify all (max @ i) <= min @ i + 1
-    const overlappingIds = [];
+    let overlapFound = false;
     for (let i = 0; i < sortedValueRanges.length - 1; i++) {
         const valueRange = sortedValueRanges[i];
         const nextValueRange = sortedValueRanges[i + 1];
 
         if (valueRange.max >= nextValueRange.min) {
-            overlappingIds.push({
-                source: valueRange.id,
-                pair: nextValueRange.id
-            });
+            overlapFound = true;
+            break;
         }
     }
-    return overlappingIds;
+    return overlapFound;
 };
 
 export const getNextColor = (

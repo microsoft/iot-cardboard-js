@@ -8,8 +8,7 @@
 }
 .cb-value-range-container {
     display: flex;
-    &.cb-range-invalid,
-    &.cb-is-overlapping {
+    &.cb-range-invalid {
         input {
             border: 1px solid var(--cb-color-text-danger);
         }

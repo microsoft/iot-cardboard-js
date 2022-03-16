@@ -1,5 +1,5 @@
 import { IColorCellProps } from '@fluentui/react';
-import produce, { current } from 'immer';
+import produce from 'immer';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     Boundary,
@@ -8,7 +8,7 @@ import {
     ValueRangeBuilderActionType
 } from './ValueRangeBuilder.types';
 import {
-    getOverlappingIds,
+    isRangeOverlapFound,
     getRangeValidation
 } from './ValueRangeBuilder.utils';
 
@@ -23,7 +23,7 @@ export const defaultSwatchColors: IColorCellProps[] = [
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     valueRanges: [],
     validationMap: {
-        overlappingIds: [],
+        overlapFound: false,
         validation: {}
     },
     colorSwatch: defaultSwatchColors
@@ -44,8 +44,16 @@ export const valueRangeBuilderReducer: (
             case ValueRangeBuilderActionType.ADD_VALUE_RANGE: {
                 // Add value range
                 const { color, id } = action.payload;
+                let newMin = Number('-Infinity');
+                draft.valueRanges.forEach((vr) => {
+                    if (!isNaN(Number(vr.max)) && vr.max > newMin) {
+                        newMin = Number(vr.max) + 1;
+                    }
+                });
+
                 draft.valueRanges.push({
                     ...defaultValueRange,
+                    min: newMin,
                     id,
                     color
                 });
@@ -58,7 +66,7 @@ export const valueRangeBuilderReducer: (
                 };
 
                 // Update overlapping IDs
-                draft.validationMap.overlappingIds = getOverlappingIds(
+                draft.validationMap.overlapFound = isRangeOverlapFound(
                     draft.valueRanges,
                     draft.validationMap
                 );
@@ -80,11 +88,10 @@ export const valueRangeBuilderReducer: (
                 // Remove validation entry
                 delete draft.validationMap.validation[id];
 
-                // Remove range from overlapping Ids
-                draft.validationMap.overlappingIds.splice(
-                    draft.validationMap.overlappingIds.findIndex((overlap) =>
-                        [overlap.source, overlap.pair].includes(id)
-                    )
+                // Update overlapping IDs
+                draft.validationMap.overlapFound = isRangeOverlapFound(
+                    draft.valueRanges,
+                    draft.validationMap
                 );
                 break;
             }
@@ -169,7 +176,7 @@ const updateValueRangeValidation = (
     draft.validationMap.validation[currentValueRange.id] = getRangeValidation(
         newValueRangeToCheck
     );
-    draft.validationMap.overlappingIds = getOverlappingIds(
+    draft.validationMap.overlapFound = isRangeOverlapFound(
         draft.valueRanges,
         draft.validationMap
     );

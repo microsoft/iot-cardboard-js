@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useReducer } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useReducer
+} from 'react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { ReactComponent as InfinitySvg } from '../../Resources/Static/infinity.svg';
@@ -20,7 +26,8 @@ import {
 import {
     getValidationMapFromValueRanges,
     areDistinctValueRangesValid,
-    getNextColor
+    getNextColor,
+    isRangeOverlapFound
 } from './ValueRangeBuilder.utils';
 import {
     defaultValueRangeBuilderState,
@@ -32,7 +39,8 @@ const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>(null);
 const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
     initialValueRanges = [],
     customSwatchColors,
-    baseComponentProps
+    baseComponentProps,
+    setAreRangesValid
 }) => {
     const initialValidationMap = useMemo(
         () => getValidationMapFromValueRanges(initialValueRanges),
@@ -47,6 +55,23 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
     });
 
     const { validationMap } = state;
+
+    // Update consumer when validation map changes
+    useEffect(() => {
+        const areDistinctRangesValid = areDistinctValueRangesValid(
+            state.validationMap
+        );
+        const isOverlapDetected = isRangeOverlapFound(
+            state.valueRanges,
+            state.validationMap
+        );
+
+        const areRangesValid = areDistinctRangesValid && !isOverlapDetected;
+
+        if (typeof setAreRangesValid === 'function') {
+            setAreRangesValid(areRangesValid);
+        }
+    }, [state.validationMap]);
 
     return (
         <ValueRangeBuilderContext.Provider
@@ -69,7 +94,7 @@ const ValueRangeBuilder: React.FC<IValueRangeBuilderProps> = ({
                     </div>
                 ))}
                 {areDistinctValueRangesValid(validationMap) &&
-                    validationMap.overlappingIds.length > 0 && (
+                    validationMap.overlapFound && (
                         <div className="cb-value-range-validation-error">
                             {
                                 'Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.'
@@ -145,17 +170,11 @@ const ValueRangeRow: React.FC<{
         validationData.maxValid &&
         !validationData.rangeValid;
 
-    const isOverlapping =
-        areDistinctValueRangesValid(validationMap) &&
-        !!validationMap.overlappingIds.find((overlap) =>
-            [overlap.source, overlap.pair].includes(valueRange.id)
-        );
-
     return (
         <div
             className={`cb-value-range-container ${
                 isRangeInvalid ? 'cb-range-invalid' : ''
-            } ${isOverlapping ? 'cb-is-overlapping' : ''}`}
+            }`}
         >
             <RangeBoundaryInput
                 value={String(valueRange.min)}

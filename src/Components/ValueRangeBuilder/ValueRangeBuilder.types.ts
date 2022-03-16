@@ -72,6 +72,7 @@ export interface IValueRangeBuilderProps {
     initialValueRanges: IValueRange[];
     customSwatchColors?: IColorCellProps[];
     baseComponentProps?: BaseComponentProps;
+    setAreRangesValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IValueRangeBuilderContext {
@@ -91,7 +92,7 @@ export interface IValueRangeOverlap {
 }
 
 export interface IValueRangeValidationMap {
-    overlappingIds: Array<IValueRangeOverlap>;
+    overlapFound: boolean;
     validation: {
         [id: string]: IValueRangeValidation;
     };
