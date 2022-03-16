@@ -46,6 +46,7 @@ import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigDa
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetDevice } from '../Classes/Simulations/Asset';
 import {
+    ColoredMeshItem,
     ISceneViewProp,
     Marker,
     SceneVisual
@@ -431,6 +432,7 @@ export interface IBlobAdapter {
     getContainerBlobs: (
         fileTypes?: Array<string>
     ) => AdapterReturnType<BlobsData>;
+    putBlob: (file: File) => AdapterReturnType<BlobsData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -654,6 +656,9 @@ export interface IADT3DViewerProps {
     refetchConfig?: () => any;
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
+    coloredMeshItems?: ColoredMeshItem[];
+    zoomToMeshIds?: string[];
+    unzoomedMeshOpacity?: number;
 }
 
 export interface IADT3DViewerRenderMode {
@@ -668,6 +673,12 @@ export interface IADT3DViewerRenderMode {
     meshHoverColor: string;
     coloredMeshHoverColor: string;
     reflectionTexture?: string;
+}
+
+export interface IBlobFile {
+    Name: string;
+    Path: string;
+    Properties: Record<string, any>;
 }
 
 export interface IBlobFile {

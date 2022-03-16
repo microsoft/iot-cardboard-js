@@ -74,6 +74,7 @@ const WidgetLibraryDialog: React.FC<{
                                             ...enabledWidgets
                                         ]);
                                     }}
+                                    data-testid={`widget-library-${widget.data.type}`}
                                 >
                                     <div className="cb-widget-dialog-list-item-content">
                                         <div className="cb-widget-dialog-icon-background">
@@ -103,6 +104,7 @@ const WidgetLibraryDialog: React.FC<{
             </Pivot>
             <DialogFooter>
                 <PrimaryButton
+                    data-testid={'widget-library-add-button'}
                     disabled={selectedWidget === null}
                     onClick={() => {
                         setIsLibraryDialogOpen(false);
@@ -111,6 +113,7 @@ const WidgetLibraryDialog: React.FC<{
                     text={t('3dSceneBuilder.addWidget')}
                 />
                 <DefaultButton
+                    data-testid={'widget-library-cancel-button'}
                     onClick={() => setIsLibraryDialogOpen(false)}
                     text={t('cancel')}
                 />

@@ -14,6 +14,8 @@ type IListItemBaseProps<T> = {
     buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'>;
     /** icon to render on the right side of the list item */
     iconEndName?: IIconNames;
+    /** callback when end icon is clicked */
+    onIconEndClick?: (item: T) => void;
     /** icon to render at the left side of the list item */
     iconStartName?: IIconNames;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
@@ -56,6 +58,8 @@ export type ICardboardListItemPropsInternal<T> = {
 } & ICardboardListItem<T>;
 
 export interface ICardboardListProps<T> {
+    /** name of the class to put on the root node */
+    className?: string;
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */

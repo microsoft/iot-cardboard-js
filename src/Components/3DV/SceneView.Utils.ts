@@ -93,3 +93,23 @@ export function createColoredMeshItems(meshIds: string[], color: string) {
     }
     return items;
 }
+
+// Get the total bounding box of an array of meshes
+export function getBoundingBox(meshes: BABYLON.AbstractMesh[]) {
+    let boundingInfo = meshes[0].getBoundingInfo();
+    let min = boundingInfo.boundingBox.minimumWorld;
+    let max = boundingInfo.boundingBox.maximumWorld;
+
+    for (const mesh of meshes) {
+        boundingInfo = mesh.getBoundingInfo();
+        min = BABYLON.Vector3.Minimize(
+            min,
+            boundingInfo.boundingBox.minimumWorld
+        );
+        max = BABYLON.Vector3.Maximize(
+            max,
+            boundingInfo.boundingBox.maximumWorld
+        );
+    }
+    return new BABYLON.BoundingInfo(min, max);
+}

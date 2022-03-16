@@ -68,7 +68,7 @@ function JsonUploader(
                         }
                     }}
                 />
-                <span>{t('fileUploader.dragAndDrop')}</span>
+                <span>{t('fileUploader.dragAndDropFiles')}</span>
                 <span>{t('or')}</span>
                 <PrimaryButton>{t('fileUploader.browseFiles')}</PrimaryButton>
             </div>

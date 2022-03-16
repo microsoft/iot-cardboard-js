@@ -42,7 +42,7 @@
     }
 
     .cb-scene-list-action-buttons {
-        border-bottom: 1px solid #edebe9;
+        border-bottom: 1px solid var(--cb-color-natural-light);
     }
 
     .cb-scenes-list {
@@ -50,10 +50,69 @@
     }
 }
 
-.cb-scene-list-dialog-buttons {
-    margin-top: 10px;
+.cb-scene-list-dialog-wrapper {
+    .cb-drop-files-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        padding: 20px 20px 28px;
+        width: 100%;
+    }
+
+    .cb-scene-list-form-dialog-3d-file-dropzone-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px 0;
+
+        span {
+            font-weight: 600;
+            padding-top: 4px;
+            text-align: center;
+        }
+    }
+
+    .cb-scene-list-form-dialog-3d-file-dropzone-icon {
+        padding-right: 24px;
+    }
+
+    .cb-scene-list-form-dialog-3d-file-upload-progress {
+        display: flex;
+        flex-direction: row;
+        height: 44px;
+        width: 100%;
+    }
+
+    @keyframes show-scroll-y {
+        from {
+            overflow-y: hidden;
+        }
+        to {
+            overflow-y: auto;
+        }
+    }
 }
 
 .cb-scene-list-form-dialog-text-field {
     padding-bottom: 12px;
+}
+
+.cb-scene-list-form-dialog-3d-file-pivot-label {
+    display: inline-block;
+    &::after {
+        color: var(--cb-color-text-error);
+        content: ' *';
+        padding-right: 12px;
+    }
+}
+
+.cb-scene-list-form-dialog-3d-file-note {
+    padding-top: 12px;
+
+    .cb-scene-list-form-dialog-3d-file-exists-message {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
