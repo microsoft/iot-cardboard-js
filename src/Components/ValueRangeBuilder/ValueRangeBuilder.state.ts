@@ -51,12 +51,14 @@ export const valueRangeBuilderReducer: (
                     }
                 });
 
-                draft.valueRanges.push({
+                const newValueRange = {
                     ...defaultValueRange,
                     min: newMin,
                     id,
                     color
-                });
+                };
+
+                draft.valueRanges.push(newValueRange);
 
                 // Add validation entry
                 draft.validationMap.validation[id] = {
@@ -64,6 +66,22 @@ export const valueRangeBuilderReducer: (
                     maxValid: true,
                     rangeValid: true
                 };
+
+                // Update min validation
+                updateValueRangeValidation(
+                    draft,
+                    newValueRange,
+                    String(newValueRange.min),
+                    true
+                );
+
+                // Update max validation
+                updateValueRangeValidation(
+                    draft,
+                    newValueRange,
+                    String(newValueRange.max),
+                    false
+                );
 
                 // Update overlapping IDs
                 draft.validationMap.overlapFound = isRangeOverlapFound(
