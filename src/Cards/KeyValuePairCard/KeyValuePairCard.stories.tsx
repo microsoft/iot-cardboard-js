@@ -14,22 +14,22 @@ export default {
     parameters: {
         docs: {
             source: {
-                type: 'code'
-            }
-        }
-    }
+                type: 'code',
+            },
+        },
+    },
 };
 
 const properties = ['foo'] as [string];
 
 export const Mock = (
     _args,
-    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
-            id={"notRelevant"}
+            id={'notRelevant'}
             properties={properties}
             adapter={new MockAdapter()}
         />
@@ -38,16 +38,16 @@ export const Mock = (
 
 export const MockError = (
     _args,
-    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <KeyValuePairCard
             theme={theme}
-            id={"notRelevant"}
+            id={'notRelevant'}
             properties={properties}
             adapter={
                 new MockAdapter({
-                    mockError: ComponentErrorType.TokenRetrievalFailed
+                    mockError: ComponentErrorType.TokenRetrievalFailed,
                 })
             }
         />
@@ -58,7 +58,7 @@ export const MockOverflow = (_args, { globals: { theme } }) => (
     <div style={{ height: '200px', width: '200px' }}>
         <KeyValuePairCard
             theme={theme}
-            id={"notRelevant"}
+            id={'notRelevant'}
             properties={properties}
             adapter={new MockAdapter()}
         />
@@ -67,7 +67,7 @@ export const MockOverflow = (_args, { globals: { theme } }) => (
 
 export const UsingCustomKVPAdapter = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => {
     const seededRng = useStableGuidRng();
 
@@ -86,21 +86,21 @@ export const UsingCustomKVPAdapter = (
                         key: prop,
                         value: seededRng(),
                         timestamp: new Date(
-                            new Date('01/01/2021').getTime() + idx * 1000
-                        )
+                            new Date('01/01/2021').getTime() + idx * 1000,
+                        ),
                     };
                     return kvp;
                 });
 
                 return new KeyValuePairAdapterData(kvps);
             });
-        }
+        },
     };
 
     return (
         <div style={defaultCardWrapperStyle}>
             <KeyValuePairCard
-                id={"kvp-tester"}
+                id={'kvp-tester'}
                 theme={theme}
                 properties={['Custom KeyValuePair Adapter example']}
                 adapter={customAdapterUsingInterface}

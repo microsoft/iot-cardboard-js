@@ -6,7 +6,7 @@ import RelationshipsTable from './RelationshipsTable';
 
 export default {
     title: 'Cards/RelationshipsTable',
-    component: RelationshipsTable
+    component: RelationshipsTable,
 };
 
 const relationshipsOnClick = (twin, model, errors) =>
@@ -14,7 +14,7 @@ const relationshipsOnClick = (twin, model, errors) =>
 
 export const ADTData = (
     args,
-    { globals: { theme }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme }, parameters: { wideCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -29,8 +29,8 @@ export const ADTData = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 onRelationshipClick={relationshipsOnClick}
@@ -48,9 +48,9 @@ ADTData.argTypes = {
                 'Phillip',
                 'SaltMachine_C0',
                 'OsloFactory',
-                'Norway'
-            ]
+                'Norway',
+            ],
         },
-        defaultValue: 'Phillip'
-    }
+        defaultValue: 'Phillip',
+    },
 };

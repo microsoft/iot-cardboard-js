@@ -2,7 +2,7 @@ import { ADTandADXAdapter } from '../../Adapters';
 import { SearchSpan } from '../../Models/Classes';
 import {
     IADTTwin,
-    IConsumeCompositeCardProps
+    IConsumeCompositeCardProps,
 } from '../../Models/Constants/Interfaces';
 
 export interface ADTTwinsPageProps extends IConsumeCompositeCardProps {

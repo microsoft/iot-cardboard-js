@@ -3,7 +3,7 @@ import JsonUploader from './JsonUploader';
 
 export default {
     title: 'Components/JsonUploader',
-    component: JsonUploader
+    component: JsonUploader,
 };
 
 export const UploadFiles = (_args) => {
@@ -11,7 +11,7 @@ export const UploadFiles = (_args) => {
         <div
             style={{
                 width: '800px',
-                height: '300px'
+                height: '300px',
             }}
         >
             <JsonUploader />

@@ -6,7 +6,7 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
     title: 'Components/EnvironmentPicker',
-    component: EnvironmentPicker
+    component: EnvironmentPicker,
 };
 
 export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
@@ -22,10 +22,10 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.adt.aadParameters,
                         ),
                         authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.adt.aadParameters.uniqueObjectId,
                     )
                 }
                 isLocalStorageEnabled={true}
@@ -42,7 +42,7 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                         process.env.STORYBOOK_MOCK_CONTAINERS_LOCAL_STORAGE_KEY,
                     selectedItemLocalStorageKey:
                         process.env
-                            .STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY
+                            .STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY,
                 }}
                 shouldPullFromSubscription={true}
             />

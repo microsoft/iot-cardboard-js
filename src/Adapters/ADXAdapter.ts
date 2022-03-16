@@ -1,6 +1,6 @@
 import {
     IAuthService,
-    ITsiClientChartDataAdapter
+    ITsiClientChartDataAdapter,
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
@@ -19,7 +19,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
         clusterUrl: string,
         databaseName: string,
         tableName: string,
-        adxAuthService: IAuthService
+        adxAuthService: IAuthService,
     ) {
         this.clusterUrl = clusterUrl;
         this.databaseName = databaseName;
@@ -30,10 +30,10 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
-        properties: string[]
+        properties: string[],
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.adxAuthService
+            this.adxAuthService,
         );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -44,14 +44,14 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                             kind: 'numeric',
                             value: { tsx: `$event.${prop}.Double` },
                             filter: null,
-                            aggregation: { tsx: 'avg($value)' }
-                        }
+                            aggregation: { tsx: 'avg($value)' },
+                        },
                     };
                     const tsqExpression = new TsqExpression(
                         { timeSeriesId: [id] },
                         variableObject,
                         searchSpan,
-                        { alias: prop }
+                        { alias: prop },
                     );
                     return tsqExpression;
                 });
@@ -63,14 +63,14 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     data: {
                         db: this.databaseName,
                         csl: `${
                             this.tableName
-                        } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
-                    }
+                        } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`,
+                    },
                 });
             };
 
@@ -78,37 +78,37 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 // fetch data history of the properties using ADX api
                 const adxDataHistoryResults = await Promise.all(
                     properties.map(async (prop) =>
-                        getDataHistoryOfProperty(prop)
-                    )
+                        getDataHistoryOfProperty(prop),
+                    ),
                 );
 
                 // parse all data history results to get available timestamp and value pairs for the properties
                 const tsqResults = [];
                 adxDataHistoryResults?.map((result, idx) => {
                     const primaryResultFrames = result.data.filter(
-                        (frame) => frame.TableKind === 'PrimaryResult'
+                        (frame) => frame.TableKind === 'PrimaryResult',
                     );
                     if (primaryResultFrames.length) {
                         const timeStampColumnIndex = primaryResultFrames[0].Columns.findIndex(
-                            (c) => c.ColumnName === 'TimeStamp'
+                            (c) => c.ColumnName === 'TimeStamp',
                         );
                         const valueColumnIndex = primaryResultFrames[0].Columns.findIndex(
-                            (c) => c.ColumnName === 'Value'
+                            (c) => c.ColumnName === 'Value',
                         );
                         const mergedTimeStampAndValuePairs = [];
                         primaryResultFrames.forEach((rF) =>
                             rF.Rows.forEach((r) =>
                                 mergedTimeStampAndValuePairs.push([
                                     r[timeStampColumnIndex],
-                                    r[valueColumnIndex]
-                                ])
-                            )
+                                    r[valueColumnIndex],
+                                ]),
+                            ),
                         );
                         const adxTimestamps = mergedTimeStampAndValuePairs.map(
-                            (tSandValuePair) => tSandValuePair[0]
+                            (tSandValuePair) => tSandValuePair[0],
                         );
                         const adxValues = mergedTimeStampAndValuePairs.map(
-                            (tSandValuePair) => tSandValuePair[1]
+                            (tSandValuePair) => tSandValuePair[1],
                         );
                         const tsqResult = {};
                         tsqResult['timestamps'] = adxTimestamps;
@@ -116,8 +116,8 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                             {
                                 values: adxValues,
                                 name: properties[idx],
-                                type: 'Double'
-                            }
+                                type: 'Double',
+                            },
                         ];
                         tsqResults.push(tsqResult);
                     }
@@ -126,7 +126,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 const tsqExpressions = getTsqExpressions();
                 const transformedResults = transformTsqResultsForVisualization(
                     tsqResults,
-                    tsqExpressions
+                    tsqExpressions,
                 ) as any;
 
                 return new TsiClientAdapterData(transformedResults);
@@ -134,7 +134,7 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
-                    rawError: err
+                    rawError: err,
                 });
             }
         }, 'adx');

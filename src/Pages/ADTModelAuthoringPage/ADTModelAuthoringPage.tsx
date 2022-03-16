@@ -12,7 +12,7 @@ import {
     ICommandBarItemProps,
     MessageBar,
     MessageBarType,
-    PrimaryButton
+    PrimaryButton,
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JsonPreview from '../../Components/JsonPreview/JsonPreview';
@@ -28,16 +28,16 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
     locale,
     localeStrings,
     onAuthoringOpen,
-    onAuthoringClose
+    onAuthoringClose,
 }) => {
     const { t } = useTranslation();
     const [selectedModel, setSelectedModel] = useState(undefined);
     const [isModelAuthoringVisible, setIsModelAuthoringVisible] = useState(
-        false
+        false,
     );
     const [isModelPreviewOpen, setIsModelPreviewOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
-        false
+        false,
     );
     const [errorMessage, setErrorMessage] = useState(null);
     const newlyAddedModels = useRef([]);
@@ -78,7 +78,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                 selectedModelRef.current ||
                     (modelCreateComponentRef.current as any)?.getModel(),
                 null,
-                2
+                2,
             ),
             `${
                 selectedModelRef.current?.displayName ||
@@ -87,7 +87,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     .displayName ||
                 (modelCreateComponentRef.current as any)?.getModel()['@id'] ||
                 t('modelCreate.newModel')
-            }.json`
+            }.json`,
         );
     };
 
@@ -113,14 +113,14 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                 iconProps: { iconName: 'FileCode' },
                 onClick: () => {
                     setIsModelPreviewOpen(true);
-                }
+                },
             },
             {
                 key: 'download',
                 text: t('download'),
                 iconProps: { iconName: 'Download' },
-                onClick: onDowloadClick
-            }
+                onClick: onDowloadClick,
+            },
         ];
         if (selectedModelRef.current) {
             actions.push({
@@ -129,7 +129,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                 iconProps: { iconName: 'Delete' },
                 onClick: () => {
                     setIsConfirmDeleteDialogOpen(true);
-                }
+                },
             });
         }
         return actions;
@@ -139,29 +139,29 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
         type: DialogType.normal,
         title: t('confirmDeletion'),
         closeButtonAriaLabel: t('close'),
-        subText: t('confirmDeletionDesc')
+        subText: t('confirmDeletionDesc'),
     };
 
     const confirmDeletionDialogStyles = {
-        main: { maxWidth: 450, minHeight: 165 }
+        main: { maxWidth: 450, minHeight: 165 },
     };
     const confirmDeletionModalProps = React.useMemo(
         () => ({
             isBlocking: false,
-            styles: confirmDeletionDialogStyles
+            styles: confirmDeletionDialogStyles,
         }),
-        []
+        [],
     );
 
     return (
-        <div className={"cb-mbcard-wrapper"}>
+        <div className={'cb-mbcard-wrapper'}>
             <BaseCompositeCard
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
             >
                 {!isModelAuthoringVisible && (
-                    <div className={"cb-mbcard-list"}>
+                    <div className={'cb-mbcard-list'}>
                         <ADTModelListCard
                             theme={theme}
                             locale={locale}
@@ -175,11 +175,13 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     </div>
                 )}
                 {selectedModel && (
-                    <div className={"cb-mbcard-form"}>
+                    <div className={'cb-mbcard-form'}>
                         <CommandBar
                             className={'cb-commandbar'}
                             items={commandItems}
-                            ariaLabel={"Use left and right arrow keys to navigate between commands"}
+                            ariaLabel={
+                                'Use left and right arrow keys to navigate between commands'
+                            }
                         />
                         <ModelCreate
                             key={selectedModel?.['@id']}
@@ -196,7 +198,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                                 messageBarType={MessageBarType.error}
                                 dismissButtonAriaLabel={t('close')}
                                 onDismiss={() => setErrorMessage(null)}
-                                className={"cb-mbcard-error-message"}
+                                className={'cb-mbcard-error-message'}
                             >
                                 {errorMessage}
                             </MessageBar>
@@ -204,7 +206,7 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     </div>
                 )}
                 {isModelAuthoringVisible && (
-                    <div className={"cb-mbcard-authoring"}>
+                    <div className={'cb-mbcard-authoring'}>
                         <ADTModelAuthoringCard
                             theme={theme}
                             locale={locale}
@@ -236,12 +238,12 @@ const ADTModelAuthoringPage: React.FC<ADTModelAuthoringPageProps> = ({
                     <PrimaryButton
                         onClick={() => {
                             adapter.deleteADTModel(
-                                selectedModelRef.current['@id']
+                                selectedModelRef.current['@id'],
                             );
                             setIsConfirmDeleteDialogOpen(false);
                             setSelectedModel(undefined);
                             (modelListComponentRef.current as any)?.deleteModel(
-                                selectedModelRef.current['@id']
+                                selectedModelRef.current['@id'],
                             );
                         }}
                         text={t('delete')}

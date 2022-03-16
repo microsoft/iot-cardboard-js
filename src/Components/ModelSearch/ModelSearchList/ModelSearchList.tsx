@@ -21,16 +21,16 @@ type ModelItemProps = {
 const ModelSearchList = ({
     items,
     adapterState,
-    primaryActionText
+    primaryActionText,
 }: ModelSearchListProps) => {
     if (!items) {
         return null;
     }
 
     return (
-        <div className={"cb-modelsearchlist-container"}>
+        <div className={'cb-modelsearchlist-container'}>
             {items.length === 0 && (
-                <Separator className={"cb-modelsearchlist-empty"}>
+                <Separator className={'cb-modelsearchlist-empty'}>
                     No results
                 </Separator>
             )}
@@ -51,14 +51,14 @@ const ModelSearchList = ({
 const ModelItem = ({
     item,
     adapterState,
-    primaryActionText
+    primaryActionText,
 }: ModelItemProps) => {
     const { t } = useTranslation();
 
     return (
         <>
-            <div className={"cb-msl-model-item"}>
-                <div className={"cb-msl-model-item-left"}>
+            <div className={'cb-msl-model-item'}>
+                <div className={'cb-msl-model-item-left'}>
                     <div>
                         <b>{item.dtmi}</b>
                     </div>
@@ -69,15 +69,16 @@ const ModelItem = ({
                         </div>
                     )}
                 </div>
-                <div className={"cb-msl-model-item-right"}>
+                <div className={'cb-msl-model-item-right'}>
                     <DefaultButton
-                        className={"cb-msl-model-item-preview"}
+                        className={'cb-msl-model-item-preview'}
                         text={t('modelSearch.modelListItemPreview')}
                         onClick={() =>
                             adapterState.callAdapter({
                                 dtmi: item.dtmi,
-                                actionType: modelActionType.preview
-                            })}
+                                actionType: modelActionType.preview,
+                            })
+                        }
                     />
                     <PrimaryButton
                         text={
@@ -88,8 +89,9 @@ const ModelItem = ({
                         onClick={() =>
                             adapterState.callAdapter({
                                 dtmi: item.dtmi,
-                                actionType: modelActionType.select
-                            })}
+                                actionType: modelActionType.select,
+                            })
+                        }
                     />
                 </div>
             </div>

@@ -5,7 +5,7 @@ import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
 
 export default {
     title: 'Components/ScenePageErrorHandlingWrapper',
-    component: ScenePageErrorHandlingWrapper
+    component: ScenePageErrorHandlingWrapper,
 };
 
 export const UnauthorizedAccessError = () => {
@@ -17,8 +17,8 @@ export const UnauthorizedAccessError = () => {
             errors={[
                 {
                     type: ComponentErrorType.NonExistentBlob,
-                    isCatastrophic: true
-                }
+                    isCatastrophic: true,
+                },
             ]}
         />
     );
@@ -34,8 +34,8 @@ export const NonExistentBlob = () => {
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,
-                        isCatastrophic: true
-                    }
+                        isCatastrophic: true,
+                    },
                 ]}
             />
         </div>
@@ -52,8 +52,8 @@ export const ReaderAccessOnly = () => {
                 errors={[
                     {
                         type: ComponentErrorType.ReaderAccessOnly,
-                        isCatastrophic: true
-                    }
+                        isCatastrophic: true,
+                    },
                 ]}
             />
         </div>

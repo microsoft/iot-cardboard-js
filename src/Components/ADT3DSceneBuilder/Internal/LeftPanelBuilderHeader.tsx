@@ -12,7 +12,7 @@ interface Props {
 
 export const getLeftPanelBuilderHeaderParams = (
     widgetFormInfo: WidgetFormInfo,
-    builderMode: ADT3DSceneBuilderMode
+    builderMode: ADT3DSceneBuilderMode,
 ) => {
     let headerText = '',
         subHeaderText = '',
@@ -39,24 +39,24 @@ export const getLeftPanelBuilderHeaderParams = (
     return {
         headerText,
         subHeaderText,
-        iconName
+        iconName,
     };
 };
 
 const LeftPanelBuilderHeader: React.FC<Props> = ({
     headerText,
     subHeaderText,
-    iconName
+    iconName,
 }) => {
     return (
-        <div className={"cb-left-panel-builder-header-container"}>
-            <h2 className={"cb-left-panel-builder-header"}>{headerText}</h2>
-            <div className={"cb-left-panel-builder-subheader"}>
+        <div className={'cb-left-panel-builder-header-container'}>
+            <h2 className={'cb-left-panel-builder-header'}>{headerText}</h2>
+            <div className={'cb-left-panel-builder-subheader'}>
                 <FontIcon
                     iconName={iconName}
-                    className={"cb-left-panel-builder-subheader-icon"}
+                    className={'cb-left-panel-builder-subheader-icon'}
                 />
-                <span className={"cb-left-panel-builder-subheader-text"}>
+                <span className={'cb-left-panel-builder-subheader-text'}>
                     {subHeaderText}
                 </span>
             </div>

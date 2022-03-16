@@ -6,17 +6,17 @@ import {
     ADTTwinData,
     KeyValuePairAdapterData,
     SearchSpan,
-    TsiClientAdapterData
+    TsiClientAdapterData,
 } from '../Classes';
 import {
     ADTAdapterModelsData,
     ADTAdapterPatchData,
-    ADTAdapterTwinsData
+    ADTAdapterTwinsData,
 } from '../Classes/AdapterDataClasses/ADTAdapterData';
 import {
     StandardModelData,
     StandardModelIndexData,
-    StandardModelSearchData
+    StandardModelSearchData,
 } from '../Classes/AdapterDataClasses/StandardModelData';
 import ADTTwinLookupData from '../Classes/AdapterDataClasses/ADTTwinLookupData';
 import AdapterResult from '../Classes/AdapterResult';
@@ -27,18 +27,18 @@ import {
     HierarchyNodeType,
     modelActionType,
     FileUploadStatus,
-    ADT3DAddInEventTypes
+    ADT3DAddInEventTypes,
 } from './Enums';
 import {
     AdapterReturnType,
     AdapterMethodParams,
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
-    AdapterMethodParamsForSearchADTTwins
+    AdapterMethodParamsForSearchADTTwins,
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName
+    ADTModel_ImgSrc_PropertyName,
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
@@ -49,14 +49,14 @@ import {
     CustomMeshItem,
     ISceneViewProp,
     Marker,
-    SceneVisual
+    SceneVisual,
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
 import { ADT3DRenderMode } from '.';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IAction {
@@ -111,7 +111,7 @@ export interface IConsumeCompositeCardProps extends ICardBaseProps {
 export interface IAuthService {
     login: () => void;
     getToken: (
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage',
     ) => Promise<string>;
 }
 
@@ -201,7 +201,7 @@ export interface IHierarchyProps {
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (
         parentNode: IHierarchyNode,
-        childNode: IHierarchyNode
+        childNode: IHierarchyNode,
     ) => void;
     noDataText?: string;
     shouldScrollToSelectedNode?: boolean;
@@ -329,7 +329,7 @@ export interface ISearchboxProps {
     placeholder: string;
     onChange?: (
         event?: React.ChangeEvent<HTMLInputElement>,
-        newValue?: string
+        newValue?: string,
     ) => void;
     onSearch?: (value: string) => void;
     onClear?: () => void;
@@ -343,7 +343,7 @@ export interface IKeyValuePairAdapter {
     getKeyValuePairs(
         id: string,
         properties: readonly string[],
-        additionalParameters?: IGetKeyValuePairsAdditionalParameters
+        additionalParameters?: IGetKeyValuePairsAdditionalParameters,
     ): AdapterReturnType<KeyValuePairAdapterData>;
 }
 
@@ -352,26 +352,26 @@ export interface ITsiClientChartDataAdapter {
         id: string,
         searchSpan: SearchSpan,
         properties: readonly string[],
-        additionalParameters?: Record<string, any>
+        additionalParameters?: Record<string, any>,
     ): AdapterReturnType<TsiClientAdapterData>;
 }
 
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
 export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getADTModels(
-        params?: AdapterMethodParamsForGetADTModels
+        params?: AdapterMethodParamsForGetADTModels,
     ): AdapterReturnType<ADTAdapterModelsData>;
     getADTTwinsByModelId(
-        params: AdapterMethodParamsForGetADTTwinsByModelId
+        params: AdapterMethodParamsForGetADTTwinsByModelId,
     ): AdapterReturnType<ADTAdapterTwinsData>;
     searchADTTwins(
-        params: AdapterMethodParamsForSearchADTTwins
+        params: AdapterMethodParamsForSearchADTTwins,
     ): AdapterReturnType<ADTAdapterTwinsData>;
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
@@ -379,7 +379,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     lookupADTTwin?(twinId: string): Promise<ADTTwinLookupData>;
     getADTRelationship(
         twinId: string,
-        relationshipId: string
+        relationshipId: string,
     ): AdapterReturnType<ADTRelationshipData>;
     createADTModels(models: DTModel[]): AdapterReturnType<ADTAdapterModelsData>;
     deleteADTModel(id: string): AdapterReturnType<ADTModelData>;
@@ -388,37 +388,37 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     createTwins(twins: DTwin[], onUploadProgress?): any;
     createRelationships(
         relationships: DTwinRelationship[],
-        onUploadProgress?
+        onUploadProgress?,
     ): any;
     getExpandedAdtModel(
         modelId: string,
-        baseModelIds?: string[]
+        baseModelIds?: string[],
     ): AdapterReturnType<ExpandedADTModelData>;
     updateTwin(
         twinId: string,
-        patches: Array<ADTPatch>
+        patches: Array<ADTPatch>,
     ): AdapterReturnType<ADTAdapterPatchData>;
     updateRelationship(
         twinId: string,
         relationshipId: string,
-        patches: Array<ADTPatch>
+        patches: Array<ADTPatch>,
     ): AdapterReturnType<ADTAdapterPatchData>;
     getIncomingRelationships(
-        twinId: string
+        twinId: string,
     ): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTInstances: (
         tenantId?: string,
-        uniqueObjectId?: string
+        uniqueObjectId?: string,
     ) => AdapterReturnType<ADTInstancesData>;
     getTwinsForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): Promise<Record<string, any>>;
     getCommonTwinPropertiesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): Promise<string[]>;
 }
 
@@ -427,10 +427,10 @@ export interface IBlobAdapter {
     setBlobContainerPath: (configBlobPath: string) => void;
     getScenesConfig: () => AdapterReturnType<ADTScenesConfigData>;
     putScenesConfig: (
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
     ) => AdapterReturnType<ADTScenesConfigData>;
     getContainerBlobs: (
-        fileTypes?: Array<string>
+        fileTypes?: Array<string>,
     ) => AdapterReturnType<BlobsData>;
     putBlob: (file: File) => AdapterReturnType<BlobsData>;
 }
@@ -440,7 +440,7 @@ export interface IBaseStandardModelSearchAdapter {
     getModelSearchIndex(): AdapterReturnType<StandardModelIndexData>;
     fetchModelJsonFromCDN(
         dtmi: string,
-        actionType: modelActionType
+        actionType: modelActionType,
     ): AdapterReturnType<StandardModelData>;
 }
 
@@ -453,7 +453,7 @@ export interface IStandardModelSearchAdapter
     extends IBaseStandardModelSearchAdapter {
     githubRepo?: string;
     searchString(
-        params: IModelSearchStringParams
+        params: IModelSearchStringParams,
     ): AdapterReturnType<StandardModelSearchData>;
 }
 
@@ -567,11 +567,11 @@ export interface IAdtPusherSimulation {
     tick(): Array<any>;
     generateDTModels(
         isImagesIncluded?: boolean,
-        download?: boolean
+        download?: boolean,
     ): Array<DTModel>;
     generateDTwins(
         isImagesIncluded?: boolean,
-        download?: boolean
+        download?: boolean,
     ): Array<DTwin>;
     generateTwinRelationships(): Array<DTwinRelationship>;
 }

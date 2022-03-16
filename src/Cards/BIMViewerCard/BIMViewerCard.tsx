@@ -7,7 +7,7 @@ import React from 'react';
 import {
     ADTModel_BimFilePath_PropertyName,
     ADTModel_MetadataFilePath_PropertyName,
-    ADTModel_ViewData_PropertyName
+    ADTModel_ViewData_PropertyName,
 } from '../../Models/Constants';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
@@ -19,13 +19,13 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
     title,
     localeStrings,
     theme,
-    centeredObject
+    centeredObject,
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties, {}),
         refetchDependencies: [id],
         isLongPolling: false,
-        pollingIntervalMillis: null
+        pollingIntervalMillis: null,
     });
 
     return (
@@ -49,8 +49,7 @@ const BIMViewerCard: React.FC<BIMViewerCardProps> = ({
                         ]
                     }
                     centeredObject={centeredObject}
-                >
-                </BIMViewer>
+                ></BIMViewer>
             )}
         </BaseCard>
     );

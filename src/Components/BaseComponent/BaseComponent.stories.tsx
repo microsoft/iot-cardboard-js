@@ -5,12 +5,12 @@ import BaseComponent from './BaseComponent';
 
 export default {
     title: 'Components/BaseComponent',
-    component: BaseComponent
+    component: BaseComponent,
 };
 
 export const NoData = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent theme={theme} locale={locale} isDataEmpty={true}>
@@ -21,7 +21,7 @@ export const NoData = (
 
 export const Loading = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent theme={theme} locale={locale} isLoading={true}>
@@ -32,7 +32,7 @@ export const Loading = (
 
 export const CustomLoadingMessage = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent
@@ -48,7 +48,7 @@ export const CustomLoadingMessage = (
 
 export const HardWiredComponentError = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent
@@ -59,7 +59,7 @@ export const HardWiredComponentError = (
                     isCatastrophic: true,
                     message: 'This is a test hard wired error',
                     rawError: new Error('This is a test error'),
-                    name: 'Test error'
+                    name: 'Test error',
                 })
             }
         >
@@ -70,7 +70,7 @@ export const HardWiredComponentError = (
 
 export const CatastrophicAdapterError = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent
@@ -84,12 +84,12 @@ export const CatastrophicAdapterError = (
                             message:
                                 'This is catastrophic adapter result error',
                             rawError: new Error('This is a test error'),
-                            name: 'Test error'
+                            name: 'Test error',
                         }),
-                        errors: []
+                        errors: [],
                     },
-                    result: null
-                })
+                    result: null,
+                }),
             ]}
         >
             <div>Example contents</div>
@@ -99,7 +99,7 @@ export const CatastrophicAdapterError = (
 
 export const NestedBaseComponent = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => (
     <div style={defaultCardWrapperStyle}>
         <BaseComponent theme={theme} locale={locale}>

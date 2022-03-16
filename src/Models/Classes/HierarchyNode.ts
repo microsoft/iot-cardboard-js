@@ -17,7 +17,7 @@ export class HierarchyNode implements IHierarchyNode {
     public static createNodesFromADTModels = (
         models: Array<IADTModel>,
         nodeType: HierarchyNodeType = HierarchyNodeType.Parent,
-        newlyAddedModelIds?: Array<string>
+        newlyAddedModelIds?: Array<string>,
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return models
             ? models
@@ -27,9 +27,9 @@ export class HierarchyNode implements IHierarchyNode {
                           undefined,
                           {
                               numeric: true,
-                              sensitivity: 'base'
-                          }
-                      )
+                              sensitivity: 'base',
+                          },
+                      ),
                   )
                   .reduce((p, c: IADTModel) => {
                       p[c.id] = {
@@ -39,9 +39,9 @@ export class HierarchyNode implements IHierarchyNode {
                           nodeType,
                           ...(nodeType === HierarchyNodeType.Parent && {
                               children: {},
-                              isCollapsed: true
+                              isCollapsed: true,
                           }),
-                          isNewlyAdded: newlyAddedModelIds?.includes(c.id)
+                          isNewlyAdded: newlyAddedModelIds?.includes(c.id),
                       } as IHierarchyNode;
                       return p;
                   }, {})
@@ -50,15 +50,15 @@ export class HierarchyNode implements IHierarchyNode {
 
     public static createNodesFromADTTwins = (
         twins: Array<IADTTwin>,
-        modelNode: IHierarchyNode
+        modelNode: IHierarchyNode,
     ): Record<string, IHierarchyNode> | Record<string, never> => {
         return twins
             ? twins
                   .sort((a, b) =>
                       a.$dtId.localeCompare(b.$dtId, undefined, {
                           numeric: true,
-                          sensitivity: 'base'
-                      })
+                          sensitivity: 'base',
+                      }),
                   )
                   .reduce((p, c: IADTTwin) => {
                       p[c.$dtId] = {
@@ -66,7 +66,7 @@ export class HierarchyNode implements IHierarchyNode {
                           id: c.$dtId,
                           parentNode: modelNode,
                           nodeData: c,
-                          nodeType: HierarchyNodeType.Child
+                          nodeType: HierarchyNodeType.Child,
                       } as IHierarchyNode;
                       return p;
                   }, {})

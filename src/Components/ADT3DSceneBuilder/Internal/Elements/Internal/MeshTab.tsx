@@ -16,7 +16,7 @@ interface MeshTabProps {
 const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
     const { t } = useTranslation();
     const [listItems, setListItems] = useState<ICardboardListItem<string>[]>(
-        []
+        [],
     );
 
     const { setColoredMeshItems, state } = useContext(SceneBuilderContext);
@@ -26,7 +26,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         const listItems = getListItems(
             elementToEdit.objectIDs,
             setColoredMeshItems,
-            state.renderMode
+            state.renderMode,
         );
         setListItems(listItems);
     }, [elementToEdit, setColoredMeshItems]);
@@ -50,16 +50,16 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
 function getListItems(
     elementMeshIds: string[],
     setColoredMeshItems: (selectedNames: CustomMeshItem[]) => void,
-    renderMode: IADT3DViewerRenderMode
+    renderMode: IADT3DViewerRenderMode,
 ): ICardboardListItem<string>[] {
     const onMeshItemEnter = (meshId: string) => {
         const coloredMeshItems: CustomMeshItem[] = createCustomMeshItems(
             elementMeshIds.filter((id) => id !== meshId),
-            null
+            null,
         );
         coloredMeshItems.push({
             meshId: meshId,
-            color: renderMode.coloredMeshHoverColor
+            color: renderMode.coloredMeshHoverColor,
         });
         setColoredMeshItems(coloredMeshItems);
     };
@@ -75,7 +75,7 @@ function getListItems(
                 onMouseOver: () => onMeshItemEnter(item),
                 onMouseLeave: () => onMeshItemLeave(),
                 onFocus: () => onMeshItemEnter(item),
-                onBlur: () => onMeshItemLeave()
+                onBlur: () => onMeshItemLeave(),
             },
             iconStartName: 'CubeShape',
             iconEndName: 'Delete',
@@ -84,10 +84,10 @@ function getListItems(
                 const currentObjects = [...elementMeshIds];
                 currentObjects.splice(currentObjects.indexOf(item), 1);
                 setColoredMeshItems(
-                    createCustomMeshItems(currentObjects, null)
+                    createCustomMeshItems(currentObjects, null),
                 );
             },
-            textPrimary: item
+            textPrimary: item,
         };
 
         return viewModel;

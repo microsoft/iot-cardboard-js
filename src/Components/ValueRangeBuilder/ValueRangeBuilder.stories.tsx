@@ -7,7 +7,7 @@ import { IValueRangeBuilderHandle } from './ValueRangeBuilder.types';
 
 export default {
     title: 'Components/Value Range Builder',
-    component: ValueRangeBuilder
+    component: ValueRangeBuilder,
 };
 
 const wrapperStyle = { width: '340px', height: '400px' };
@@ -15,7 +15,7 @@ type ValueRangeBuilderStory = ComponentStory<typeof ValueRangeBuilder>;
 
 const Template: ValueRangeBuilderStory = (
     args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     return (
         <div style={wrapperStyle}>
@@ -30,13 +30,13 @@ const Template: ValueRangeBuilderStory = (
 
 const TemplateWithValidation: ValueRangeBuilderStory = (
     args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const [areRangesValid, setAreRangesValid] = useState(true);
     const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
     return (
         <div
-            className={"cb-value-range-builder-template-with-validation"}
+            className={'cb-value-range-builder-template-with-validation'}
             style={wrapperStyle}
         >
             <ValueRangeBuilder
@@ -55,11 +55,11 @@ const TemplateWithValidation: ValueRangeBuilderStory = (
                     onClick={() => {
                         const valueRanges = valueRangeBuilderHandleRef.current.getValueRanges();
                         alert(
-                            `${valueRanges.length} value ranges were retrieved from this consuming component.  Details have been logged in the console`
+                            `${valueRanges.length} value ranges were retrieved from this consuming component.  Details have been logged in the console`,
                         );
                         console.log(
                             'Value ranges printed from consuming component: ',
-                            valueRanges
+                            valueRanges,
                         );
                     }}
                 >
@@ -71,7 +71,7 @@ const TemplateWithValidation: ValueRangeBuilderStory = (
 };
 
 export const InfoFromConsumingComponent = TemplateWithValidation.bind(
-    {}
+    {},
 ) as ValueRangeBuilderStory;
 InfoFromConsumingComponent.args = {
     initialValueRanges: [
@@ -79,21 +79,21 @@ InfoFromConsumingComponent.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 1,
-            max: 1000
+            max: 1000,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: '-Infinity',
-            max: 0
+            max: 0,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
             color: defaultSwatchColors.find((c) => c.id === 'red').color,
             min: 1001,
-            max: 'Infinity'
-        }
-    ]
+            max: 'Infinity',
+        },
+    ],
 };
 
 export const Empty = Template.bind({}) as ValueRangeBuilderStory;
@@ -105,21 +105,21 @@ ValidRanges.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 1,
-            max: 1000
+            max: 1000,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: '-Infinity',
-            max: 0
+            max: 0,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
             color: defaultSwatchColors.find((c) => c.id === 'red').color,
             min: 1001,
-            max: 'Infinity'
-        }
-    ]
+            max: 'Infinity',
+        },
+    ],
 };
 
 export const InvalidRange = Template.bind({}) as ValueRangeBuilderStory;
@@ -129,15 +129,15 @@ InvalidRange.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: '-Infinity',
-            max: 0
+            max: 0,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 300,
-            max: 100
-        }
-    ]
+            max: 100,
+        },
+    ],
 };
 
 export const NonNumericValue = Template.bind({}) as ValueRangeBuilderStory;
@@ -147,15 +147,15 @@ NonNumericValue.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: 'asdf' as any,
-            max: 0
+            max: 0,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 100,
-            max: 300
-        }
-    ]
+            max: 300,
+        },
+    ],
 };
 
 export const RangeOverlap = Template.bind({}) as ValueRangeBuilderStory;
@@ -165,21 +165,21 @@ RangeOverlap.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: 1,
-            max: 'Infinity'
+            max: 'Infinity',
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
             color: defaultSwatchColors.find((c) => c.id === 'green').color,
             min: '-Infinity',
-            max: 0
+            max: 0,
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
             color: defaultSwatchColors.find((c) => c.id === 'red').color,
             min: 750,
-            max: 1500
-        }
-    ]
+            max: 1500,
+        },
+    ],
 };
 
 export const MinAndMaxRanges = Template.bind({}) as ValueRangeBuilderStory;
@@ -190,11 +190,11 @@ MinAndMaxRanges.args = {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
             color: defaultSwatchColors.find((c) => c.id === 'blue').color,
             min: '-Infinity',
-            max: 'Infinity'
-        }
+            max: 'Infinity',
+        },
     ],
     minRanges: 1,
-    maxRanges: 3
+    maxRanges: 3,
 };
 
 MinAndMaxRanges.storyName = 'Min (1) and Max (3) Ranges';

@@ -12,8 +12,8 @@ const Overlay: React.FC<IOverlayProps> = ({ onClose, children }) => {
     }, [onClose]);
 
     return (
-        <div className={"cb-overlay-outer"} onClick={onCloseWrapper}>
-            <div className={"cb-overlay-inner"}>{children}</div>
+        <div className={'cb-overlay-outer'} onClick={onCloseWrapper}>
+            <div className={'cb-overlay-inner'}>{children}</div>
         </div>
     );
 };

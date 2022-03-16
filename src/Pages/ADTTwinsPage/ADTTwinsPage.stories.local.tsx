@@ -9,13 +9,13 @@ export default {
     title: 'Pages/ADTTwinsPage',
     component: ADTTwinsPage,
     parameters: {
-        noGlobalWrapper: true
-    }
+        noGlobalWrapper: true,
+    },
 };
 
 const cardStyle = {
     height: '700px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADT = (args, { globals: { theme, locale } }) => {
@@ -33,17 +33,17 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                     new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.adt.aadParameters,
                         ),
                         authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.adt.aadParameters.uniqueObjectId,
                     )
                 }
                 searchSpanForDataHistory={
                     new SearchSpan(
                         new Date('2021-09-20T20:00:00Z'),
                         new Date('2021-10-20T20:00:00Z'),
-                        '6h'
+                        '6h',
                     )
                 }
             />
@@ -66,10 +66,10 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                     new ADTandADXAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.adt.aadParameters,
                         ),
                         authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.adt.aadParameters.uniqueObjectId,
                     )
                 }
                 lookupTwinId={args.lookupTwinId}
@@ -81,8 +81,8 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
 ADTWithReverseLookup.argTypes = {
     lookupTwinId: {
         control: {
-            type: 'text'
+            type: 'text',
         },
-        defaultValue: 'CarTwin'
-    }
+        defaultValue: 'CarTwin',
+    },
 };

@@ -8,7 +8,7 @@ import {
     List,
     mergeStyleSets,
     PrimaryButton,
-    SearchBox
+    SearchBox,
 } from '@fluentui/react';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ type AutoCompleteSearchBoxProps = {
     value: string;
     onChange: (
         _event?: React.ChangeEvent<HTMLInputElement>,
-        newValue?: string
+        newValue?: string,
     ) => any;
     onRenderSuggestionCell: (item: any, index: number) => JSX.Element;
     onSelectSuggestedItem: (item: any) => any;
@@ -43,14 +43,14 @@ const classes = mergeStyleSets({
             display: 'flex',
             alignItems: 'center',
             selectors: {
-                '&:hover': { background: palette.neutralLight }
-            }
-        }
+                '&:hover': { background: palette.neutralLight },
+            },
+        },
     ],
     callout: {
         width: '100%',
-        zIndex: 2
-    }
+        zIndex: 2,
+    },
 });
 
 const AutoCompleteSearchBox = ({
@@ -62,7 +62,7 @@ const AutoCompleteSearchBox = ({
     onRenderSuggestionCell,
     onSelectSuggestedItem,
     minAutocompleteChars = 2,
-    searchDisabled = false
+    searchDisabled = false,
 }: AutoCompleteSearchBoxProps) => {
     const { t } = useTranslation();
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -79,7 +79,7 @@ const AutoCompleteSearchBox = ({
     const onRenderCell = (
         item: any,
         index: number,
-        _isScrolling: boolean
+        _isScrolling: boolean,
     ): JSX.Element => {
         return (
             <div
@@ -97,9 +97,9 @@ const AutoCompleteSearchBox = ({
     };
 
     return (
-        <div className={"cb-ms-auto-complete-search-box-container"}>
-            <div className={"cb-ms-auto-complete-searchbar"}>
-                <div className={"cb-ms-searchbox"} id={'cb-ms-searchbox'}>
+        <div className={'cb-ms-auto-complete-search-box-container'}>
+            <div className={'cb-ms-auto-complete-searchbar'}>
+                <div className={'cb-ms-searchbox'} id={'cb-ms-searchbox'}>
                     <SearchBox
                         autoComplete={'off'}
                         ref={searchBoxRef}
@@ -108,7 +108,7 @@ const AutoCompleteSearchBox = ({
                         disabled={searchDisabled}
                         onChange={(
                             event?: React.ChangeEvent<HTMLInputElement>,
-                            newValue?: string
+                            newValue?: string,
                         ) => {
                             suggest(newValue);
                             if (newValue === '') {
@@ -141,12 +141,12 @@ const AutoCompleteSearchBox = ({
                             <FocusZone
                                 direction={FocusZoneDirection.vertical}
                                 isCircularNavigation={true}
-                                role={"grid"}
+                                role={'grid'}
                             >
                                 <List
                                     items={suggestions}
                                     onRenderCell={onRenderCell}
-                                    className={"cb-ms-suggestion-list"}
+                                    className={'cb-ms-suggestion-list'}
                                 />
                             </FocusZone>
                         </Callout>

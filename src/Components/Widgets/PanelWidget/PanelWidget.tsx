@@ -3,7 +3,7 @@ import { WidgetType } from '../../../Models/Classes/3DVConfig';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import {
     IPopoverVisual,
-    IWidget
+    IWidget,
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { GaugeWidget } from '../GaugeWidget/GaugeWidget';
 import { LinkWidget } from '../LinkWidget/LinkWidget';
@@ -17,7 +17,7 @@ interface IProp {
 function makeWidget(
     index: number,
     widget: IWidget,
-    twins: Record<string, DTwin>
+    twins: Record<string, DTwin>,
 ) {
     switch (widget.type) {
         case WidgetType.Link:
@@ -34,13 +34,13 @@ export const PanelWidget: React.FC<IProp> = ({ config, twins }) => {
         return (
             <div>
                 {config.title && (
-                    <div className={"cb-adt-3dviewer-popup-title"}>
+                    <div className={'cb-adt-3dviewer-popup-title'}>
                         {config.title}
                     </div>
                 )}
                 <div className={'cb-panel-widget-container'}>
                     {config.widgets.map((widget, index) =>
-                        makeWidget(index, widget, twins)
+                        makeWidget(index, widget, twins),
                     )}
                 </div>
             </div>

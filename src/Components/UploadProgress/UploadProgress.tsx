@@ -6,12 +6,12 @@ import './UploadProgress.scss';
 export const UploadProgress = ({
     modelsStatus,
     twinsStatus,
-    relationshipsStatus
+    relationshipsStatus,
 }) => {
     return (
-        <div className={"cb-upload-progress"}>
-            <hr className={"cb-progress-line"} />
-            <div className={"cb-upload-sections-container"}>
+        <div className={'cb-upload-progress'}>
+            <hr className={'cb-progress-line'} />
+            <div className={'cb-upload-sections-container'}>
                 <UploadSection
                     status={modelsStatus}
                     uploadType={AssetTypes.Models}
@@ -29,7 +29,7 @@ export const UploadProgress = ({
                 />
             </div>
 
-            <div className={"cb-error-section"}>
+            <div className={'cb-error-section'}>
                 <ErrorMessage uploadStatus={modelsStatus} />
                 <ErrorMessage uploadStatus={twinsStatus} />
                 <ErrorMessage uploadStatus={relationshipsStatus} />
@@ -53,9 +53,8 @@ const StepIcon = ({ status, stepNumber }) => {
     return (
         <FontIcon
             iconName={iconMap[status.phase]}
-            className={"cb-font-icon"}
-        >
-        </FontIcon>
+            className={'cb-font-icon'}
+        ></FontIcon>
     );
 };
 
@@ -80,7 +79,7 @@ const UploadSection = ({ status, uploadType, stepNumber }) => {
         }
         if (phase === UploadPhase.PartiallyFailed) {
             return t('uploadProgress.uploadPartiallyFailed', {
-                assetType: uploadType
+                assetType: uploadType,
             });
         }
         if (phase === UploadPhase.Failed) {
@@ -89,18 +88,18 @@ const UploadSection = ({ status, uploadType, stepNumber }) => {
     };
 
     return (
-        <div className={"cb-upload-section"}>
+        <div className={'cb-upload-section'}>
             <div
                 className={`cb-progress-status cb-status-phase-${status.phase}`}
             >
                 <StepIcon status={status} stepNumber={stepNumber} />
             </div>
-            <div className={"cb-upload-section-text"}>
-                <h3 className={"cb-upload-section-header"}>
+            <div className={'cb-upload-section-text'}>
+                <h3 className={'cb-upload-section-header'}>
                     {getHeaderText(status.phase)}
                 </h3>
                 {status.message && (
-                    <p className={"cb-upload-section-content"}>
+                    <p className={'cb-upload-section-content'}>
                         {status.message}
                     </p>
                 )}

@@ -3,7 +3,7 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export const getSpinButtonStyles = (
     _themeSetting: Theme,
-    _theme: ITheme
+    _theme: ITheme,
 ): Partial<ISpinButtonStyles> => {
     return {
         root: {
@@ -11,25 +11,25 @@ export const getSpinButtonStyles = (
                 '&.cb-modelcreate-readonly': {
                     selectors: {
                         label: {
-                            color: 'var(--cb-color-text-primary)'
+                            color: 'var(--cb-color-text-primary)',
                         },
                         input: {
                             color: 'var(--cb-color-text-primary)',
-                            background: 'transparent'
+                            background: 'transparent',
                         },
                         div: {
                             color: 'var(--cb-color-text-primary)',
-                            background: 'transparent'
+                            background: 'transparent',
                         },
                         span: {
-                            display: 'none'
+                            display: 'none',
                         },
                         'div::after': {
-                            border: 'none'
-                        }
-                    }
-                }
-            }
-        }
+                            border: 'none',
+                        },
+                    },
+                },
+            },
+        },
     };
 };

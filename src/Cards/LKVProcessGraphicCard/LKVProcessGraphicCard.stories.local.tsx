@@ -7,7 +7,7 @@ import LKVProcessGraphicCard from './LKVProcessGraphicCard';
 
 export default {
     title: 'Cards/LkvProcessGraphicCard',
-    component: LKVProcessGraphicCard
+    component: LKVProcessGraphicCard,
 };
 
 const iotCentral = {
@@ -16,8 +16,8 @@ const iotCentral = {
     positions: {
         battery: { left: '10%', top: '20%' },
         fuel: { left: '80%', top: '40%' },
-        location: { left: '30%', top: '70%' }
-    }
+        location: { left: '30%', top: '70%' },
+    },
 };
 
 const digitalTwins = {
@@ -26,8 +26,8 @@ const digitalTwins = {
     positions: {
         OutdoorTemperature: { left: '80%', top: '5%' },
         Speed: { left: '80%', top: '40%' },
-        OilPressure: { left: '30%', top: '70%' }
-    }
+        OilPressure: { left: '30%', top: '70%' },
+    },
 };
 
 const imageSrc =
@@ -35,7 +35,7 @@ const imageSrc =
 
 export const IoTCentral = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -55,8 +55,8 @@ export const IoTCentral = (
                     new IoTCentralAdapter(
                         authenticationParameters.iotCentral.appId,
                         new MsalAuthService(
-                            authenticationParameters.iotCentral.aadParameters
-                        )
+                            authenticationParameters.iotCentral.aadParameters,
+                        ),
                     )
                 }
             />
@@ -66,7 +66,7 @@ export const IoTCentral = (
 
 export const ADT = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -86,8 +86,8 @@ export const ADT = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />

@@ -2,7 +2,7 @@ import { IColorCellProps, IPalette } from '@fluentui/react';
 
 export const customOverrides = {
     primaryButtonTextColor: '#F2F3F4',
-    primaryButtonTextColorDisabled: '#A5A5A5'
+    primaryButtonTextColorDisabled: '#A5A5A5',
 };
 
 export const defaultSwatchColors: IColorCellProps[] = [
@@ -10,7 +10,7 @@ export const defaultSwatchColors: IColorCellProps[] = [
     { id: 'purple', label: 'purple', color: '#7A306C' },
     { id: 'yellow', label: 'yellow', color: '#E8AE68' },
     { id: 'blue', label: 'blue', color: '#3AAED8' },
-    { id: 'red', label: 'red', color: '#E84855' }
+    { id: 'red', label: 'red', color: '#E84855' },
 ];
 
 // Palettes created from https://aka.ms/themedesigner
@@ -36,7 +36,7 @@ export const fluentLightThemePalette: Partial<IPalette> = {
     neutralPrimary: '#323130',
     neutralDark: '#201f1e',
     black: '#000000',
-    white: '#ffffff'
+    white: '#ffffff',
 };
 
 export const fluentDarkThemePalette: Partial<IPalette> = {
@@ -61,7 +61,7 @@ export const fluentDarkThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#0d0f0e'
+    white: '#0d0f0e',
 };
 
 export const fluentExplorerThemePalette: Partial<IPalette> = {
@@ -86,7 +86,7 @@ export const fluentExplorerThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#222222'
+    white: '#222222',
 };
 
 export const fluentKrakenThemePalette: Partial<IPalette> = {
@@ -111,5 +111,5 @@ export const fluentKrakenThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#0d1326'
+    white: '#0d1326',
 };

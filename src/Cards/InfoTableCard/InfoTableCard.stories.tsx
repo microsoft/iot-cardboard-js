@@ -4,7 +4,7 @@ import InfoTableCard from './InfoTableCard';
 
 export default {
     title: 'Cards/InfoTableCard',
-    component: InfoTableCard // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
+    component: InfoTableCard, // enable this to be able to use all args in your component. See https://storybook.js.org/docs/react/essentials/controls and https://storybook.js.org/docs/react/writing-stories/args
 };
 
 export const Mock = (_args, { globals: { theme, locale } }) => (
@@ -15,8 +15,8 @@ export const Mock = (_args, { globals: { theme, locale } }) => (
         tableRows={[
             [
                 'sub_wind_gen',
-                'dtmi:example:grid:transmission:generatorSubStation;1'
-            ]
+                'dtmi:example:grid:transmission:generatorSubStation;1',
+            ],
         ]}
     />
 );
@@ -31,7 +31,7 @@ export const MockTwinEdit = (_args, { globals: { theme, locale } }) => {
             tableRows={[['LeoTheDog', 'dtmi:com:cocrowle:teslamodely;1']]}
             infoTableActionButtonProps={{
                 label: t('editTwin'),
-                onClick: () => console.log('edit twin clicked')
+                onClick: () => console.log('edit twin clicked'),
             }}
         />
     );

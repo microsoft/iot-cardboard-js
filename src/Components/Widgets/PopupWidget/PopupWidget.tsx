@@ -20,7 +20,7 @@ export const PopupWidget: React.FC<IProp> = ({ config, onClose, twins }) => {
         <div>
             <PanelWidget config={config} twins={twins} />
             <button
-                className={"cb-adt-3dviewer-close-btn"}
+                className={'cb-adt-3dviewer-close-btn'}
                 onClick={() => doClose()}
             >
                 Close

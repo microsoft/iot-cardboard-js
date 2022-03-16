@@ -3,7 +3,7 @@ import { ADT3DRenderMode } from './Enums';
 import {
     defaultGaugeWidget,
     IWidgetLibraryItem,
-    WidgetType
+    WidgetType,
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
@@ -21,10 +21,10 @@ export const ADT_ApiVersion = '2020-10-31';
 export const ViewDataPropertyName = 'cb_viewdata';
 export const BoardInfoPropertyName = 'boardInfo';
 export const DTMIRegex = new RegExp(
-    '^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$'
+    '^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$',
 );
 export const DTDLNameRegex = new RegExp(
-    '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$'
+    '^[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?$',
 );
 
 export const dtdlPrimitiveTypesList = [
@@ -37,7 +37,7 @@ export const dtdlPrimitiveTypesList = [
     'integer',
     'long',
     'string',
-    'time'
+    'time',
 ];
 
 export enum dtdlPropertyTypesEnum {
@@ -54,7 +54,7 @@ export enum dtdlPropertyTypesEnum {
     Array = 'Array',
     Enum = 'Enum',
     Map = 'Map',
-    Object = 'Object'
+    Object = 'Object',
 }
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
@@ -71,7 +71,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         title: i18n.t('widgets.gauge.title'),
         description: i18n.t('widgets.gauge.description'),
         iconName: 'SpeedHigh',
-        data: defaultGaugeWidget
+        data: defaultGaugeWidget,
     },
     {
         title: i18n.t('widgets.link.title'),
@@ -80,17 +80,17 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         data: {
             type: WidgetType.Link,
             widgetConfiguration: {
-                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}'
-            }
-        }
-    }
+                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}',
+            },
+        },
+    },
 ];
 
 export const linkedTwinName = 'LinkedTwin';
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
-    'azuredigitaltwins-test.net'
+    'azuredigitaltwins-test.net',
 ];
 export const ValidContainerHostSuffixes = ['blob.core.windows.net'];
 
@@ -108,7 +108,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#ffb780',
-        background: null
+        background: null,
     },
     {
         id: ADT3DRenderMode.Wireframe,
@@ -123,7 +123,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#ff9a4d',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        background: 'radial-gradient(#0a0a54, #020024)',
     },
     {
         id: ADT3DRenderMode.Red,
@@ -138,7 +138,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        background: 'radial-gradient(#0a0a54, #020024)',
     },
     {
         id: ADT3DRenderMode.RedWireframe,
@@ -153,7 +153,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        background: 'radial-gradient(#0a0a54, #020024)',
     },
     {
         id: ADT3DRenderMode.Green,
@@ -168,7 +168,7 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        background: 'radial-gradient(#0a0a54, #020024)',
     },
     {
         id: ADT3DRenderMode.GreenWireframe,
@@ -183,8 +183,8 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
         outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
-    }
+        background: 'radial-gradient(#0a0a54, #020024)',
+    },
 ];
 
 export const EnvironmentsLocalStorageKey = 'cb-environments';
@@ -197,6 +197,6 @@ export const defaultValueRangeColor = '#FF0000';
 export const StyleConstants = {
     icons: {
         size20: FontSizes.size20,
-        size16: FontSizes.size16
-    }
+        size16: FontSizes.size16,
+    },
 };

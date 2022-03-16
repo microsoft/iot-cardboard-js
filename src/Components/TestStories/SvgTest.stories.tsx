@@ -6,7 +6,7 @@ import { Image } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
 export default {
-    title: 'Test stories/SvgTest'
+    title: 'Test stories/SvgTest',
 };
 
 const SvgTest = () => {
@@ -14,7 +14,7 @@ const SvgTest = () => {
 
     return (
         <div
-            className={"cb-svg-test-wrapper"}
+            className={'cb-svg-test-wrapper'}
             style={{ display: 'flex', flexDirection: 'column' }}
         >
             <h3>{t('svgTests.fluentUI')}</h3>
@@ -30,5 +30,5 @@ const SvgTest = () => {
 export const TestLoadingSvg = () => <SvgTest />;
 
 TestLoadingSvg.parameters = {
-    chromatic: { delay: 5000 }
+    chromatic: { delay: 5000 },
 };

@@ -11,11 +11,11 @@ interface IStepper {
 export const Stepper: React.FC<IStepper> = ({
     steps,
     currentStepIndex,
-    isNavigationDisabled
+    isNavigationDisabled,
 }) => {
     const [
         internalCurrentStepIndex,
-        setInternalCurrentStepIndex
+        setInternalCurrentStepIndex,
     ] = React.useState(currentStepIndex ?? 0);
 
     useEffect(() => {
@@ -35,10 +35,10 @@ export const Stepper: React.FC<IStepper> = ({
                             if (step.onClick) {
                                 step.onClick();
                             }
-                        }
-                    } as IStep)
+                        },
+                    } as IStep),
             ),
-        [steps]
+        [steps],
     );
 
     return (

@@ -11,16 +11,16 @@ export const getStyles = memoizeFunction(
                 display: 'flex',
                 height: 20,
                 justifyContent: 'center',
-                width: 20
+                width: 20,
             },
             isChecked: {
                 backgroundColor: theme.palette.themePrimary,
-                borderColor: theme.palette.themePrimary
+                borderColor: theme.palette.themePrimary,
             },
             checkmark: {
                 // hard coding as we always want it to be white in all themes
-                color: '#FFF'
-            }
+                color: '#FFF',
+            },
         });
-    }
+    },
 );

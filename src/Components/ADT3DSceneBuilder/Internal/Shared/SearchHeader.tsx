@@ -10,7 +10,7 @@ import {
     SearchBox,
     Separator,
     Theme,
-    useTheme
+    useTheme,
 } from '@fluentui/react';
 import { getSeparatorStyles } from './LeftPanel.styles';
 
@@ -32,7 +32,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
     onMultiSelectClicked,
     onSearchTextChange,
     placeholder,
-    searchText
+    searchText,
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -66,13 +66,13 @@ const styles = mergeStyleSets({
     root: {
         display: 'flex',
         marginLeft: 4,
-        marginRight: 4
-    } as IStyle
+        marginRight: 4,
+    } as IStyle,
 });
 const searchBoxStyles: ISearchBoxStyles = {
     root: {
-        flex: 1
-    }
+        flex: 1,
+    },
 };
 const getIconButtonStyles = memoizeFunction(
     (theme: Theme): IButtonStyles => ({
@@ -80,14 +80,14 @@ const getIconButtonStyles = memoizeFunction(
         iconHovered: { color: theme.palette.white },
         root: { marginLeft: 4 },
         rootChecked: {
-            background: theme.palette.themePrimary
+            background: theme.palette.themePrimary,
         },
         rootCheckedHovered: {
-            background: theme.palette.themePrimary
+            background: theme.palette.themePrimary,
         },
         rootHovered: {
-            background: theme.palette.themePrimary
-        }
-    })
+            background: theme.palette.themePrimary,
+        },
+    }),
 );
 export default SearchHeader;

@@ -2,7 +2,7 @@ import {
     IButtonProps,
     IContextualMenuItem,
     IFocusZoneProps,
-    IListProps
+    IListProps,
 } from '@fluentui/react';
 import { CardboardIconNames } from '../../Models/Constants';
 

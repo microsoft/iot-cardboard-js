@@ -3,7 +3,7 @@ import ServerClient from 'tsiclient/ServerClient';
 import { SearchSpan } from '../Models/Classes/SearchSpan';
 import {
     IAuthService,
-    ITsiClientChartDataAdapter
+    ITsiClientChartDataAdapter,
 } from '../Models/Constants/Interfaces';
 import { TsiClientAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
@@ -23,7 +23,7 @@ export default class TsiAdapter implements ITsiClientChartDataAdapter {
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
-        properties: string[]
+        properties: string[],
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -35,14 +35,14 @@ export default class TsiAdapter implements ITsiClientChartDataAdapter {
                         kind: 'numeric',
                         value: { tsx: `$event.${prop}.Double` },
                         filter: null,
-                        aggregation: { tsx: 'avg($value)' }
-                    }
+                        aggregation: { tsx: 'avg($value)' },
+                    },
                 };
                 const tsqExpression = new TsqExpression(
                     { timeSeriesId: [id] },
                     variableObject,
                     searchSpan,
-                    { alias: prop }
+                    { alias: prop },
                 );
                 tsqExpressions.push(tsqExpression);
             });
@@ -52,19 +52,19 @@ export default class TsiAdapter implements ITsiClientChartDataAdapter {
                 tsqResults = await new ServerClient().getTsqResults(
                     token,
                     this.environmentFqdn,
-                    tsqExpressions.map((tsqe) => tsqe.toTsq())
+                    tsqExpressions.map((tsqe) => tsqe.toTsq()),
                 );
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
-                    rawError: err
+                    rawError: err,
                 });
             }
 
             const transformedResults = transformTsqResultsForVisualization(
                 tsqResults,
-                tsqExpressions
+                tsqExpressions,
             ) as any;
 
             return new TsiClientAdapterData(transformedResults);

@@ -4,14 +4,14 @@ import {
     IAdtPusherSimulation,
     DTModel,
     DTwin,
-    DTwinRelationship
+    DTwinRelationship,
 } from '../../Models/Constants';
 
 export interface IDataPusherProps extends ICardBaseProps {
     adapter: ADTAdapter;
     Simulation: new (
         startTimeMillis: number,
-        frequency: number
+        frequency: number,
     ) => IAdtPusherSimulation;
     initialInstanceUrl?: string;
     disablePastEvents?: boolean;
@@ -66,5 +66,5 @@ export enum dataPusherActionType {
     SET_TWINS,
     SET_RELATIONSHIPS,
     SET_ARE_ASSETS_UPLOADED,
-    SET_ARE_ASSETS_SET
+    SET_ARE_ASSETS_SET,
 }

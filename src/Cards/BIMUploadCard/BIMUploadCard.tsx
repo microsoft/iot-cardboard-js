@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
     BIMFileTypes,
     BIMUploadState,
-    UploadPhase
+    UploadPhase,
 } from '../../Models/Constants';
 import { BIMUploadCardProps } from './BIMUploadCard.types';
 import './BIMUploadCard.scss';
@@ -19,7 +19,7 @@ import {
     MessageBar,
     MessageBarType,
     PrimaryButton,
-    Spinner
+    Spinner,
 } from '@fluentui/react';
 import GenerateADTAssets from '../../Components/GenerateADTAssets/GenerateADTAssets';
 
@@ -29,11 +29,11 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     title,
     locale,
     localeStrings,
-    adapterAdditionalParameters
+    adapterAdditionalParameters,
 }) => {
     const { t } = useTranslation();
     const [uploadState, setUploadState] = useState(
-        BIMUploadState.PreProcessing
+        BIMUploadState.PreProcessing,
     );
     const canvasGuid = useGuid();
 
@@ -43,7 +43,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
     const [metadataFilePath, setMetadataFilePath] = useState(null);
 
     const [generateEnvironmentStatus, setGenerateEnvironmentStatus] = useState(
-        UploadPhase.PreUpload
+        UploadPhase.PreUpload,
     );
 
     const bimFileInputRef = useRef(null);
@@ -54,7 +54,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         bimFilePath,
         metadataFilePath,
         BIMFileTypes.Xkt,
-        () => null
+        () => null,
     );
     // as of right now this is the only way I can find that creates the metadata necesary to traverse assets
     const assetsFromBim = useAssetsFromBIM(
@@ -62,7 +62,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
         'ghostTree',
         bimFilePath,
         metadataFilePath,
-        (isParsing) => setIsParsingBIM(isParsing)
+        (isParsing) => setIsParsingBIM(isParsing),
     );
 
     // for keeping track of which models pulled from the BIM are selected for upload
@@ -179,17 +179,17 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
             isLoading={false}
             adapterResult={null}
         >
-            <div className={"cb-bim-upload-container"}>
-                <canvas className={"cb-ghost"} id={canvasGuid}></canvas>
-                <div className={"cb-ghost"} id={'ghostTree'}></div>
-                <div className={"cb-section-container"}>
-                    <div className={"cb-section-header"}>
+            <div className={'cb-bim-upload-container'}>
+                <canvas className={'cb-ghost'} id={canvasGuid}></canvas>
+                <div className={'cb-ghost'} id={'ghostTree'}></div>
+                <div className={'cb-section-container'}>
+                    <div className={'cb-section-header'}>
                         {getSectionHeaderText()}
                     </div>
-                    <div className={"cb-section-subheader"}>
+                    <div className={'cb-section-subheader'}>
                         {getSectionSubheaderText()}
                     </div>
-                    <div className={"cb-section-content"}>
+                    <div className={'cb-section-content'}>
                         {uploadState === BIMUploadState.PreProcessing && (
                             <BIMFileSelection
                                 bimInputRef={bimFileInputRef}
@@ -215,7 +215,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                                     UploadPhase.PreUpload && (
                                     <PrimaryButton
                                         onClick={initiateEnvironmentCreation}
-                                        className={"cb-initiate-upload-button"}
+                                        className={'cb-initiate-upload-button'}
                                     >
                                         {t('BIMUpload.initiateUpload')}
                                     </PrimaryButton>
@@ -242,7 +242,7 @@ const BIMUploadCard: React.FC<BIMUploadCardProps> = ({
                             />
                         )}
                     </div>
-                    <div className={"cb-navigation-buttons"}>
+                    <div className={'cb-navigation-buttons'}>
                         <PrimaryButton
                             onClick={onNextClick}
                             className={'cb-navigation-button cb-next-button'}
@@ -269,28 +269,28 @@ const BIMFileSelection = ({
     metadataInputRef,
     t,
     defaultBIMPath,
-    defaultMetadataPath
+    defaultMetadataPath,
 }) => {
     return (
-        <div className={"cb-bim-file-selection-container cb-bim-file-selection"}>
-            <label className={"cb-bim-input-label"}>
+        <div
+            className={'cb-bim-file-selection-container cb-bim-file-selection'}
+        >
+            <label className={'cb-bim-input-label'}>
                 {t('BIMUpload.bimFilePath')}
             </label>
             <input
                 ref={bimInputRef}
-                className={"cb-bim-input"}
+                className={'cb-bim-input'}
                 defaultValue={defaultBIMPath ? defaultBIMPath : ''}
-            >
-            </input>
-            <label className={"cb-bim-input-label"}>
+            ></input>
+            <label className={'cb-bim-input-label'}>
                 {t('BIMUpload.metadataFilePath')}
             </label>
             <input
                 ref={metadataInputRef}
-                className={"cb-bim-input"}
+                className={'cb-bim-input'}
                 defaultValue={defaultMetadataPath ? defaultMetadataPath : ''}
-            >
-            </input>
+            ></input>
         </div>
     );
 };
@@ -300,7 +300,7 @@ const ModelSelection = ({
     setModelsDictionary,
     isParsingBIM,
     modelCounts,
-    t
+    t,
 }) => {
     const flipModelSelected = (model) => {
         const updatedModelsDictionary = { ...modelsDictionary };
@@ -331,10 +331,10 @@ const ModelSelection = ({
     };
 
     return (
-        <div className={"cb-model-selection-container"}>
+        <div className={'cb-model-selection-container'}>
             {isParsingBIM && (
-                <div className={"cb-loading-models-container"}>
-                    <h3 className={"cb-loading-models-text"}>
+                <div className={'cb-loading-models-container'}>
+                    <h3 className={'cb-loading-models-text'}>
                         {t('BIMUpload.parsingModels')}
                     </h3>
                     <Spinner />
@@ -354,25 +354,26 @@ const ModelSelection = ({
                 !!modelsDictionary &&
                 Object.keys(modelsDictionary).length !== 0 && (
                     <>
-                        <div className={"cb-selected-count"}>
+                        <div className={'cb-selected-count'}>
                             {t('BIMUpload.modelsSelectedCount', {
-                                count: getSelectedCount()
+                                count: getSelectedCount(),
                             })}
                         </div>
-                        <div className={"cb-checkbox-container"}>
+                        <div className={'cb-checkbox-container'}>
                             {Object.keys(modelsDictionary).map(
                                 (model, modelI) => (
                                     <Checkbox
                                         onRenderLabel={() =>
-                                            getCheckboxLabel(model)}
-                                        className={"cb-model-checkbox"}
+                                            getCheckboxLabel(model)
+                                        }
+                                        className={'cb-model-checkbox'}
                                         checked={modelsDictionary[model]}
                                         onChange={() =>
-                                            flipModelSelected(model)}
+                                            flipModelSelected(model)
+                                        }
                                         key={modelI}
-                                    >
-                                    </Checkbox>
-                                )
+                                    ></Checkbox>
+                                ),
                             )}
                         </div>
                     </>
@@ -383,17 +384,16 @@ const ModelSelection = ({
 
 const PostUpload = ({ t, environmentId }) => {
     return (
-        <div className={"cb-post-upload"}>
+        <div className={'cb-post-upload'}>
             <PrimaryButton
                 href={`http://explorer.digitaltwins.azure.net/?eid=${environmentId}`}
-                target={"_blank"}
+                target={'_blank'}
             >
                 {t('BIMUpload.goToEnvironment')}
                 <FontIcon
-                    iconName={"NavigateExternalInline"}
-                    className={"cb-navigate-icon"}
-                >
-                </FontIcon>
+                    iconName={'NavigateExternalInline'}
+                    className={'cb-navigate-icon'}
+                ></FontIcon>
             </PrimaryButton>
         </div>
     );

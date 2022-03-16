@@ -12,7 +12,7 @@ import {
     Pivot,
     PivotItem,
     PrimaryButton,
-    SearchBox
+    SearchBox,
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IWidgetLibraryItem } from '../../../../../Models/Classes/3DVConfig';
@@ -26,19 +26,19 @@ const WidgetLibraryDialog: React.FC<{
 }> = ({ setIsLibraryDialogOpen: setIsLibraryDialogOpen, onAddWidget }) => {
     const [selectedWidget, setSelectedWidget] = useState<number>(null);
     const [filteredAvailableWidgets, setFilteredAvailableWidgets] = useState(
-        enabledWidgets
+        enabledWidgets,
     );
     const { t } = useTranslation();
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.close,
-        title: t('3dSceneBuilder.widgetLibrary')
+        title: t('3dSceneBuilder.widgetLibrary'),
     };
 
     const modalProps: IModalProps = {
         isBlocking: false,
         containerClassName: 'cb-widget-dialog-modal',
-        isDarkOverlay: false
+        isDarkOverlay: false,
     };
 
     return (
@@ -48,16 +48,16 @@ const WidgetLibraryDialog: React.FC<{
             hidden={false}
             onDismiss={() => setIsLibraryDialogOpen(false)}
         >
-            <Label className={"cb-widget-panel-item-label"}>
+            <Label className={'cb-widget-panel-item-label'}>
                 {t('3dSceneBuilder.exploreWidgets')}
             </Label>
             <SearchBox
-                className={"cb-widget-dialog-search-box"}
+                className={'cb-widget-dialog-search-box'}
                 placeholder={t('3dSceneBuilder.searchWidgets')}
             />
             <Pivot>
                 <PivotItem headerText={t('3dSceneBuilder.allWidgets')}>
-                    <div className={"cb-widget-library-dialog-list-container"}>
+                    <div className={'cb-widget-library-dialog-list-container'}>
                         <List
                             items={filteredAvailableWidgets}
                             onRenderCell={(widget, index) => (
@@ -71,34 +71,47 @@ const WidgetLibraryDialog: React.FC<{
                                     onClick={() => {
                                         setSelectedWidget(index);
                                         setFilteredAvailableWidgets([
-                                            ...enabledWidgets
+                                            ...enabledWidgets,
                                         ]);
                                     }}
                                     data-testid={`widget-library-${widget.data.type}`}
                                 >
-                                    <div className={"cb-widget-dialog-list-item-content"}>
-                                        <div className={"cb-widget-dialog-icon-background"}>
+                                    <div
+                                        className={
+                                            'cb-widget-dialog-list-item-content'
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                'cb-widget-dialog-icon-background'
+                                            }
+                                        >
                                             <FontIcon
-                                                className={"cb-widget-dialog-icon"}
+                                                className={
+                                                    'cb-widget-dialog-icon'
+                                                }
                                                 iconName={widget.iconName}
                                             />
                                         </div>
                                         <div>
                                             <Label>{widget.data.type}</Label>
-                                            <Label className={"cb-widget-panel-item-label"}>
+                                            <Label
+                                                className={
+                                                    'cb-widget-panel-item-label'
+                                                }
+                                            >
                                                 {widget.description}
                                             </Label>
                                         </div>
                                     </div>
                                 </div>
                             )}
-                        >
-                        </List>
-                        <div className={"cb-widget-panel-clear-float"} />
+                        ></List>
+                        <div className={'cb-widget-panel-clear-float'} />
                     </div>
                 </PivotItem>
                 <PivotItem headerText={t('3dSceneBuilder.myWidgets')}>
-                    <Label className={"cb-widget-panel-no-widgets"}>
+                    <Label className={'cb-widget-panel-no-widgets'}>
                         {t('3dSceneBuilder.noWidgets')}
                     </Label>
                 </PivotItem>

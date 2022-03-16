@@ -5,14 +5,14 @@ import {
     IStyle,
     Theme,
     IPivotStyles,
-    ISeparatorStyles
+    ISeparatorStyles,
 } from '@fluentui/react';
 
 const classPrefix = 'left-panel';
 const classNames = {
     noDataText: `${classPrefix}-no-data-text`,
     content: `${classPrefix}-content`,
-    formTabContents: `${classPrefix}-form-tab-contents`
+    formTabContents: `${classPrefix}-form-tab-contents`,
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -20,8 +20,8 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.noDataText,
             {
                 fontSize: FontSizes.size12,
-                color: theme.palette.neutralSecondary
-            } as IStyle
+                color: theme.palette.neutralSecondary,
+            } as IStyle,
         ],
         content: [
             classNames.content,
@@ -29,8 +29,8 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 flexGrow: 1,
                 height: '100%',
                 overflowX: 'hidden',
-                overflowY: 'auto'
-            } as IStyle
+                overflowY: 'auto',
+            } as IStyle,
         ],
         formTabContents: [
             classNames.formTabContents,
@@ -38,23 +38,23 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
-                overflow: 'auto'
-            } as IStyle
-        ]
+                overflow: 'auto',
+            } as IStyle,
+        ],
     });
 });
 export const getSeparatorStyles = memoizeFunction(
     (theme: Theme): Partial<ISeparatorStyles> => ({
         root: {
             '&:before': {
-                backgroundColor: theme.palette.neutralLight
-            }
-        }
-    })
+                backgroundColor: theme.palette.neutralLight,
+            },
+        },
+    }),
 );
 export const leftPanelPivotStyles: Partial<IPivotStyles> = {
     root: {
         marginLeft: -8,
-        marginBottom: 8
-    }
+        marginBottom: 8,
+    },
 };

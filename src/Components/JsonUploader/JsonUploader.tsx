@@ -5,7 +5,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useRef,
-    useState
+    useState,
 } from 'react';
 import FilesList from './FilesList';
 import './JsonUploader.scss';
@@ -15,7 +15,7 @@ import { IJSONUploaderProps } from '../../Models/Constants/Interfaces';
 
 function JsonUploader(
     { onFileListChanged, existingFiles }: IJSONUploaderProps,
-    ref
+    ref,
 ) {
     const [files, setFiles] = useState<Array<File>>(existingFiles ?? []);
     const filesRef = useRef(files);
@@ -51,7 +51,7 @@ function JsonUploader(
     useImperativeHandle(ref, () => ({
         getJsonItems: () => {
             return (fileListRef.current as any)?.getItemContents();
-        }
+        },
     }));
 
     return (
@@ -59,13 +59,13 @@ function JsonUploader(
             <div {...getRootProps({ className: 'cb-drop-files-container' })}>
                 <input {...getInputProps()} />
                 <Icon
-                    iconName={"CloudUpload"}
+                    iconName={'CloudUpload'}
                     styles={{
                         root: {
                             fontSize: 32,
                             paddingBottom: 20,
-                            color: 'var(--cb-color-theme-primary)'
-                        }
+                            color: 'var(--cb-color-theme-primary)',
+                        },
                     }}
                 />
                 <span>{t('fileUploader.dragAndDropFiles')}</span>
@@ -77,8 +77,7 @@ function JsonUploader(
                 onRemoveFile={removeFileHandler}
                 ref={fileListRef}
                 onListUpdated={onFileListChanged}
-            >
-            </FilesList>
+            ></FilesList>
         </div>
     );
 }

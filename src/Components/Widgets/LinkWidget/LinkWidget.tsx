@@ -12,7 +12,7 @@ export const LinkWidget: React.FC<IProp> = ({ widget, twins }) => {
     let expression = widget.widgetConfiguration.linkExpression;
     expression = performSubstitutions(expression, twins);
     return (
-        <a href={expression} target={"_blank"} rel={"noreferrer"}>
+        <a href={expression} target={'_blank'} rel={'noreferrer'}>
             {expression}
         </a>
     );

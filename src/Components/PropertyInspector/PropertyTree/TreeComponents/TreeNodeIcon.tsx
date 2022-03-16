@@ -11,8 +11,8 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
     let iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.themePrimary
-        }
+            color: props.theme.palette.themePrimary,
+        },
     });
 
     let iconName = 'FieldEmpty';
@@ -26,8 +26,8 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
         iconTitle = t('propertyInspector.unmodelledProperty');
         iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
             root: {
-                color: props.theme.palette.orange
-            }
+                color: props.theme.palette.orange,
+            },
         });
     } else if (node.type === DTDLType.Component) {
         iconName = 'OEM';
@@ -95,7 +95,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
         return null;
     }
     return (
-        <div className={"cb-property-tree-node-icon"}>
+        <div className={'cb-property-tree-node-icon'}>
             <Icon
                 iconName={iconName}
                 styles={iconStyles}

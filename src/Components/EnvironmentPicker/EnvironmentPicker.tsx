@@ -11,7 +11,7 @@ import {
     IconButton,
     PrimaryButton,
     Spinner,
-    SpinnerSize
+    SpinnerSize,
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import React, {
@@ -20,7 +20,7 @@ import React, {
     useEffect,
     useMemo,
     useRef,
-    useState
+    useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -28,7 +28,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import {
     ADTEnvironmentInLocalStorage,
     ADTSelectedEnvironmentInLocalStorage,
-    EnvironmentPickerProps
+    EnvironmentPickerProps,
 } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
 import {
@@ -37,7 +37,7 @@ import {
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
-    ValidContainerHostSuffixes
+    ValidContainerHostSuffixes,
 } from '../../Models/Constants/Constants';
 import { IADTInstance } from '../../Models/Constants/Interfaces';
 
@@ -71,18 +71,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
               t('environmentPicker.descriptionForLocalStorage')
             : props.storage
             ? t('environmentPicker.descriptionForEnvAndCont')
-            : t('environmentPicker.descriptionForEnvironment')
+            : t('environmentPicker.descriptionForEnvironment'),
     };
     const dialogStyles = {
         main: {
             width: '640px !important',
             maxWidth: 'unset !important',
-            minHeight: 'fit-content'
-        }
+            minHeight: 'fit-content',
+        },
     };
     const modalProps = {
         isBlocking: false,
-        styles: dialogStyles
+        styles: dialogStyles,
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
         container: { paddingBottom: 16 },
@@ -90,15 +90,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         optionsContainerWrapper: { minWidth: 592 },
         optionsContainer: {
             selectors: {
-                span: { width: '100%' }
-            }
-        }
+                span: { width: '100%' },
+            },
+        },
     };
 
     const environmentsState = useAdapter({
         adapterMethod: () => props.adapter.getADTInstances(),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     // set initial values based on props and local storage
@@ -108,8 +108,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             try {
                 environmentsInLocalStorage = JSON.parse(
                     localStorage.getItem(
-                        props.localStorageKey ?? EnvironmentsLocalStorageKey
-                    )
+                        props.localStorageKey ?? EnvironmentsLocalStorageKey,
+                    ),
                 );
             } catch (error) {
                 environmentsInLocalStorage = null;
@@ -120,7 +120,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                       .filter((e) => e.config?.appAdtUrl)
                       .map(
                           (e: ADTEnvironmentInLocalStorage) =>
-                              e.config.appAdtUrl
+                              e.config.appAdtUrl,
                       )
                 : [];
 
@@ -130,8 +130,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     (JSON.parse(
                         localStorage.getItem(
                             props.selectedItemLocalStorageKey ??
-                                SelectedEnvironmentLocalStorageKey
-                        )
+                                SelectedEnvironmentLocalStorageKey,
+                        ),
                     ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
                     (props.environmentUrl || '');
             } catch (error) {
@@ -158,8 +158,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     JSON.parse(
                         localStorage.getItem(
                             props.storage.localStorageKey ??
-                                ContainersLocalStorageKey
-                        )
+                                ContainersLocalStorageKey,
+                        ),
                     ) ?? [];
             } catch (error) {
                 containerUrlsInLocalStorage = [];
@@ -170,7 +170,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 props.storage.containerUrl ??
                 (localStorage.getItem(
                     props.storage.selectedItemLocalStorageKey ??
-                        SelectedContainerLocalStorageKey
+                        SelectedContainerLocalStorageKey,
                 ) ||
                     '');
             if (
@@ -184,7 +184,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         } else {
             setSelectedContainerUrl(props.storage?.containerUrl ?? '');
             setContainers(
-                props.storage?.containerUrl ? [props.storage.containerUrl] : []
+                props.storage?.containerUrl ? [props.storage.containerUrl] : [],
             );
         }
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
@@ -209,15 +209,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         (env) =>
                             isValidUrlStr(
                                 'https://' + env.hostName,
-                                'environment'
+                                'environment',
                             ) &&
                             environments.findIndex((e: string | IADTInstance) =>
                                 typeof e === 'string'
                                     ? e === 'https://' + env.hostName
-                                    : e.hostName === env.hostName
-                            ) === -1
-                    )
-                )
+                                    : e.hostName === env.hostName,
+                            ) === -1,
+                    ),
+                ),
             );
             hasPulledEnvironmentsFromSubscription.current = true;
         }
@@ -229,15 +229,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 typeof e === 'string'
                     ? ({
                           key: `adt-environment-${idx}`,
-                          text: e
+                          text: e,
                       } as IComboBoxOption)
                     : ({
                           key: `adt-environment-${idx}`,
                           text: 'https://' + e.hostName,
-                          data: e
-                      } as IComboBoxOption)
+                          data: e,
+                      } as IComboBoxOption),
             ),
-        [environments]
+        [environments],
     );
 
     const containerOptions: Array<IComboBoxOption> = useMemo(
@@ -246,10 +246,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 (c) =>
                     ({
                         key: c,
-                        text: c
-                    } as IComboBoxOption)
+                        text: c,
+                    } as IComboBoxOption),
             ),
-        [containers]
+        [containers],
     );
 
     const isValidUrlStr = useCallback(
@@ -260,7 +260,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         urlStr &&
                         urlStr.startsWith('https://') &&
                         ValidAdtHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
+                            new URL(urlStr).hostname.endsWith(suffix),
                         )
                     );
                 } catch (error) {
@@ -272,7 +272,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         urlStr &&
                         urlStr.startsWith('https://') &&
                         ValidContainerHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
+                            new URL(urlStr).hostname.endsWith(suffix),
                         ) &&
                         new URL(urlStr).pathname !== '/'
                     );
@@ -281,7 +281,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 }
             }
         },
-        []
+        [],
     );
 
     const environmentInputError = useMemo(
@@ -291,11 +291,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 typeof environmentToEdit === 'string'
                     ? environmentToEdit
                     : 'https://' + environmentToEdit.hostName,
-                'environment'
+                'environment',
             )
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
-        [environmentToEdit, environmentsState]
+        [environmentToEdit, environmentsState],
     );
 
     const containerInputError = useMemo(
@@ -304,23 +304,23 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             !isValidUrlStr(containerUrlToEdit, 'container')
                 ? t('environmentPicker.errors.invalidContainerUrl')
                 : undefined,
-        [containerUrlToEdit]
+        [containerUrlToEdit],
     );
 
     const onRenderOption = (
         option: IComboBoxOption,
-        type: 'environment' | 'container'
+        type: 'environment' | 'container',
     ) => {
         return (
             <div className={'cb-environment-picker-dropdown-option'}>
                 <span>{option.text}</span>
                 {!environmentsState.isLoading &&
                     environmentsState.adapterResult?.result?.data?.findIndex(
-                        (e) => e.hostName === new URL(option.text).hostname
+                        (e) => e.hostName === new URL(option.text).hostname,
                     ) === -1 && (
                         <Icon
-                            iconName={"Delete"}
-                            aria-hidden={"true"}
+                            iconName={'Delete'}
+                            aria-hidden={'true'}
                             title={t('environmentPicker.removeFromList')}
                             style={{ paddingLeft: 20 }}
                             onClick={(event) => {
@@ -331,7 +331,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                             typeof e === 'string'
                                                 ? e !== option.text
                                                 : 'https://' + e.hostName !==
-                                                  option.text
+                                                  option.text,
                                     );
                                     setEnvironments(restOfOptions);
                                     if (
@@ -345,7 +345,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                     }
                                 } else {
                                     const restOfOptions = containers.filter(
-                                        (o: string) => o !== option.text
+                                        (o: string) => o !== option.text,
                                     );
                                     setContainers(restOfOptions);
                                     if (option.text === containerUrlToEdit) {
@@ -380,7 +380,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     ValidAdtHostSuffixes.some(
                         (suffix) =>
                             newVal.endsWith(suffix) ||
-                            newVal.endsWith(suffix + '/')
+                            newVal.endsWith(suffix + '/'),
                     )
                 ) {
                     newVal = 'https://' + newVal;
@@ -392,7 +392,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         typeof e === 'string'
                             ? new URL(e).hostname === new URL(newVal).hostname
                             : 'https://' + e.hostName ===
-                              new URL(newVal).hostname
+                              new URL(newVal).hostname,
                     ) === -1
                 ) {
                     setEnvironments(environments.concat(newVal));
@@ -401,7 +401,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setEnvironmentToEdit(option.data ?? option.text);
             }
         },
-        [environments]
+        [environments],
     );
 
     const handleOnContainerUrlChange = useCallback(
@@ -413,7 +413,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     const urlObj = new URL('https://' + newVal);
                     if (
                         ValidContainerHostSuffixes.some((suffix) =>
-                            urlObj.hostname.endsWith(suffix)
+                            urlObj.hostname.endsWith(suffix),
                         ) &&
                         urlObj.pathname !== '/'
                     ) {
@@ -431,7 +431,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(newVal));
             }
         },
-        [containers]
+        [containers],
     );
 
     const handleOnSave = useCallback(() => {
@@ -454,11 +454,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             appAdtUrl:
                                 typeof e === 'string'
                                     ? e
-                                    : 'https://' + e.hostName
+                                    : 'https://' + e.hostName,
                         },
-                        name: typeof e === 'string' ? e : e.name
-                    }))
-                )
+                        name: typeof e === 'string' ? e : e.name,
+                    })),
+                ),
             );
             localStorage.setItem(
                 props.selectedItemLocalStorageKey ??
@@ -467,19 +467,19 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     appAdtUrl:
                         typeof environmentToEdit === 'string'
                             ? environmentToEdit
-                            : 'https://' + environmentToEdit.hostName
-                })
+                            : 'https://' + environmentToEdit.hostName,
+                }),
             );
         }
         if (props.storage?.isLocalStorageEnabled) {
             localStorage.setItem(
                 props.storage.localStorageKey ?? ContainersLocalStorageKey,
-                JSON.stringify(containers)
+                JSON.stringify(containers),
             );
             localStorage.setItem(
                 props.storage.selectedItemLocalStorageKey ??
                     SelectedContainerLocalStorageKey,
-                containerUrlToEdit
+                containerUrlToEdit,
             );
         }
         toggleIsDialogHidden();
@@ -494,7 +494,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     (typeof e === 'string' ? e : 'https://' + e.hostName) ===
                     (typeof selectedEnvironment === 'string'
                         ? selectedEnvironment
-                        : 'https://' + selectedEnvironment.hostName)
+                        : 'https://' + selectedEnvironment.hostName),
             );
             setEnvironmentToEdit(selectedEnvironment);
             setContainerUrlToEdit(selectedContainerUrl);
@@ -519,7 +519,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 return t('environmentPicker.noEnvironment');
             }
         },
-        []
+        [],
     );
 
     const displayNameForContainer = useCallback((containerUrl: string) => {
@@ -536,10 +536,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             locale={props.locale}
             localeStrings={props.localeStrings}
             theme={props.theme}
-            containerClassName={"cb-environment-picker"}
+            containerClassName={'cb-environment-picker'}
         >
-            <div className={"cb-environment-picker-environment"}>
-                <span className={"cb-environment-picker-environment-title"}>
+            <div className={'cb-environment-picker-environment'}>
+                <span className={'cb-environment-picker-environment-title'}>
                     {displayNameForEnvironment(selectedEnvironment)}
                 </span>
                 <IconButton
@@ -551,9 +551,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 />
             </div>
             {props.storage && (
-                <div className={"cb-environment-picker-container"}>
+                <div className={'cb-environment-picker-container'}>
                     <FontIcon iconName={'Database'} />
-                    <span className={"cb-environment-picker-container-title"}>
+                    <span className={'cb-environment-picker-container-title'}>
                         {displayNameForContainer(selectedContainerUrl)}
                     </span>
                 </div>
@@ -565,7 +565,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
             >
-                <div className={"cb-environment-picker-dialog-form"}>
+                <div className={'cb-environment-picker-dialog-form'}>
                     <ComboBox
                         placeholder={t('environmentPicker.enterEnvironmentUrl')}
                         label={t('environmentPicker.environmentUrl')}
@@ -580,21 +580,31 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 : 'https://' + environmentToEdit.hostName
                         }
                         onChange={(_e, option, _idx, value) =>
-                            handleOnEnvironmentUrlChange(option, value)}
+                            handleOnEnvironmentUrlChange(option, value)
+                        }
                         errorMessage={environmentInputError}
                         onRenderOption={(option) =>
-                            onRenderOption(option, 'environment')}
+                            onRenderOption(option, 'environment')
+                        }
                         onRenderLabel={(p) => (
-                            <div className={"cb-environment-picker-environment-url-label"}>
-                                <span className={"cb-environment-picker-environment-url-label-text"}>
+                            <div
+                                className={
+                                    'cb-environment-picker-environment-url-label'
+                                }
+                            >
+                                <span
+                                    className={
+                                        'cb-environment-picker-environment-url-label-text'
+                                    }
+                                >
                                     {p.props.label}
                                 </span>
                                 {environmentsState.isLoading && (
                                     <Spinner
                                         size={SpinnerSize.xSmall}
                                         label={t('loadingInstances')}
-                                        ariaLive={"assertive"}
-                                        labelPosition={"right"}
+                                        ariaLive={'assertive'}
+                                        labelPosition={'right'}
                                     />
                                 )}
                             </div>
@@ -608,7 +618,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     {props.storage && (
                         <ComboBox
                             placeholder={t(
-                                'environmentPicker.enterContainerUrl'
+                                'environmentPicker.enterContainerUrl',
                             )}
                             label={t('environmentPicker.containerUrl')}
                             allowFreeform={true}
@@ -618,10 +628,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             required
                             text={containerUrlToEdit}
                             onChange={(_e, option, _idx, value) =>
-                                handleOnContainerUrlChange(option, value)}
+                                handleOnContainerUrlChange(option, value)
+                            }
                             errorMessage={containerInputError}
                             onRenderOption={(option) =>
-                                onRenderOption(option, 'container')}
+                                onRenderOption(option, 'container')
+                            }
                             selectedKey={containerUrlToEdit}
                         />
                     )}
@@ -638,11 +650,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                               ? environmentToEdit
                                               : 'https://' +
                                                     environmentToEdit.hostName,
-                                          'environment'
+                                          'environment',
                                       ) &&
                                       isValidUrlStr(
                                           containerUrlToEdit,
-                                          'container'
+                                          'container',
                                       )
                                   )
                                 : !isValidUrlStr(
@@ -650,7 +662,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                           ? environmentToEdit
                                           : 'https://' +
                                                 environmentToEdit.hostName,
-                                      'environment'
+                                      'environment',
                                   )
                         }
                     />

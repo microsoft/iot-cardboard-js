@@ -4,7 +4,7 @@ import { CardboardListItem } from './CardboardListItem';
 import { IContextualMenuItem } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
-    waitForFirstRender
+    waitForFirstRender,
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
@@ -13,16 +13,16 @@ import { ICardboardListItemPropsInternal } from './CardboardList.types';
 const cardStyle = {
     width: '300px',
     background: 'grey',
-    padding: '15px'
+    padding: '15px',
 };
 export default {
     title: 'Components/Lists/Items',
     component: CardboardListItem,
     decorators: [
         getDefaultStoryDecorator<ICardboardListItemPropsInternal<FakeListItem>>(
-            cardStyle
-        )
-    ]
+            cardStyle,
+        ),
+    ],
 };
 
 type FakeListItem = {
@@ -35,7 +35,7 @@ const defaultProps: ICardboardListItemPropsInternal<unknown> = {
     item: { id: 'someid' },
     listKey: 'listItemKey',
     onClick: (item) => alert(`clicked item ${(item as FakeListItem).id}`),
-    textPrimary: 'primary text'
+    textPrimary: 'primary text',
 };
 
 const defaultMenuItem: IContextualMenuItem = {
@@ -44,9 +44,9 @@ const defaultMenuItem: IContextualMenuItem = {
     'data-testid': `addToScene-1`,
     text: 'Add to the scene',
     iconProps: {
-        iconName: 'Add'
+        iconName: 'Add',
     },
-    onClick: () => alert(`add 1`)
+    onClick: () => alert(`add 1`),
 };
 const defaultMenuItems: IContextualMenuItem[] = [defaultMenuItem];
 
@@ -65,25 +65,25 @@ WithAllElements.args = {
     iconStartName: 'Link',
     iconEndName: 'Shapes',
     overflowMenuItems: defaultMenuItems,
-    isChecked: false
+    isChecked: false,
 };
 
 export const WithAllElementsDark = Template.bind({}) as TemplateStory;
 WithAllElementsDark.args = WithAllElements.args;
 WithAllElementsDark.parameters = {
-    theme: Theme.Dark
+    theme: Theme.Dark,
 };
 
 export const WithAllElementsKraken = Template.bind({}) as TemplateStory;
 WithAllElementsKraken.args = WithAllElements.args;
 WithAllElementsKraken.parameters = {
-    theme: Theme.Kraken
+    theme: Theme.Kraken,
 };
 
 export const WithMenu = Template.bind({}) as TemplateStory;
 WithMenu.args = {
     ...defaultProps,
-    overflowMenuItems: defaultMenuItems
+    overflowMenuItems: defaultMenuItems,
 };
 export const WithMenuOpened = Template.bind({}) as TemplateStory;
 WithMenuOpened.args = WithMenu.args;
@@ -98,60 +98,60 @@ export const WithMenuOpenedDark = Template.bind({}) as TemplateStory;
 WithMenuOpenedDark.args = WithMenuOpened.args;
 WithMenuOpenedDark.play = WithMenuOpened.play;
 WithMenuOpenedDark.parameters = {
-    theme: Theme.Dark
+    theme: Theme.Dark,
 };
 export const WithMenuOpenedKraken = Template.bind({}) as TemplateStory;
 WithMenuOpenedKraken.args = WithMenuOpened.args;
 WithMenuOpenedKraken.play = WithMenuOpened.play;
 WithMenuOpenedKraken.parameters = {
-    theme: Theme.Kraken
+    theme: Theme.Kraken,
 };
 
 export const WithStartIcon = Template.bind({}) as TemplateStory;
 WithStartIcon.args = {
     ...defaultProps,
-    iconStartName: 'Shapes'
+    iconStartName: 'Shapes',
 };
 
 export const WithEndIcon = Template.bind({}) as TemplateStory;
 WithEndIcon.args = {
     ...defaultProps,
-    iconEndName: 'Add'
+    iconEndName: 'Add',
 };
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
 WithStartAndEndIcon.args = {
     ...WithStartIcon.args,
-    ...WithEndIcon.args
+    ...WithEndIcon.args,
 };
 
 export const WithStartIconAndMenu = Template.bind({}) as TemplateStory;
 WithStartIconAndMenu.args = {
     ...WithStartIcon.args,
-    ...WithMenu.args
+    ...WithMenu.args,
 };
 
 export const WithSecondaryText = Template.bind({}) as TemplateStory;
 WithSecondaryText.args = {
     ...defaultProps,
-    textSecondary: 'secondary text goes here'
+    textSecondary: 'secondary text goes here',
 };
 
 export const WithCheckboxUnchecked = Template.bind({}) as TemplateStory;
 WithCheckboxUnchecked.args = {
     ...defaultProps,
-    isChecked: false
+    isChecked: false,
 };
 export const WithCheckboxChecked = Template.bind({}) as TemplateStory;
 WithCheckboxChecked.args = {
     ...defaultProps,
-    isChecked: true
+    isChecked: true,
 };
 
 export const WithCheckboxAndSecondary = Template.bind({}) as TemplateStory;
 WithCheckboxAndSecondary.args = {
     ...WithSecondaryText.args,
-    ...WithCheckboxUnchecked.args
+    ...WithCheckboxUnchecked.args,
 };
 
 export const WithLongText = Template.bind({}) as TemplateStory;
@@ -160,25 +160,25 @@ WithLongText.args = {
     textPrimary:
         'really long text for all the items and it gets cut off by overflowing',
     textSecondary:
-        'description can sometimes be really really long and we need it to overflow'
+        'description can sometimes be really really long and we need it to overflow',
 };
 
 export const WithLongTextAndIcon = Template.bind({}) as TemplateStory;
 WithLongTextAndIcon.args = {
     ...defaultProps,
     ...WithLongText.args,
-    iconEndName: 'Shapes'
+    iconEndName: 'Shapes',
 };
 
 export const WithLongTextAndMenu = Template.bind({}) as TemplateStory;
 WithLongTextAndMenu.args = {
     ...defaultProps,
     ...WithLongText.args,
-    overflowMenuItems: defaultMenuItems
+    overflowMenuItems: defaultMenuItems,
 };
 
 export const WithHighlightedText = Template.bind({}) as TemplateStory;
 WithHighlightedText.args = {
     ...defaultProps,
-    textToHighlight: 'prim'
+    textToHighlight: 'prim',
 };

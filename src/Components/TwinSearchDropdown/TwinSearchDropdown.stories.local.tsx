@@ -6,7 +6,7 @@ import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
     title: 'Components/TwinSearchDropdown',
-    component: TwinSearchDropdown
+    component: TwinSearchDropdown,
 };
 
 export const ADTTwinSearchDropdown = () => {
@@ -25,11 +25,11 @@ export const ADTTwinSearchDropdown = () => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
-                label={"Twin ID"}
+                label={'Twin ID'}
                 onTwinIdSelect={handleSelectTwinId}
             />
         </div>

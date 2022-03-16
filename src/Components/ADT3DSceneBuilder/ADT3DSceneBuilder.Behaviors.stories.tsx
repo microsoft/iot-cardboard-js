@@ -9,31 +9,31 @@ import {
     findDialogMenuItem,
     findOverflowMenuItem,
     IStoryContext,
-    sleep
+    sleep,
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import {
     I3DScenesConfig,
-    IBehavior
+    IBehavior,
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Behaviors',
     parameters: {
         // delay for the menus showing up
-        chromatic: { delay: 1000 }
-    }
+        chromatic: { delay: 1000 },
+    },
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
 const Template: SceneBuilderStory = (
     _args,
-    context: IStoryContext<IADT3DSceneBuilderCardProps>
+    context: IStoryContext<IADT3DSceneBuilderCardProps>,
 ) => {
     return (
         <div style={cardStyle}>
@@ -45,12 +45,12 @@ const Template: SceneBuilderStory = (
                     new MockAdapter({
                         mockData: context.parameters.data
                             ? JSON.parse(
-                                  JSON.stringify(context.parameters.data)
+                                  JSON.stringify(context.parameters.data),
                               )
-                            : undefined
+                            : undefined,
                     })
                 }
-                sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 {..._args}
             />
         </div>
@@ -83,14 +83,14 @@ const mockBehavior: IBehavior = {
         {
             type: 'ElementTwinToObjectMappingDataSource',
             elementIDs: ['5ba433d52b8445979fabc818fd40ae3d'],
-            extensionProperties: {}
+            extensionProperties: {},
         },
         {
             type: 'ElementTwinToObjectMappingDataSource',
-            elementIDs: ['4cb0990d646a4bbea3e1102676e200fe']
-        }
+            elementIDs: ['4cb0990d646a4bbea3e1102676e200fe'],
+        },
     ],
-    visuals: []
+    visuals: [],
 };
 const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
 longData.configuration.scenes = [
@@ -103,42 +103,42 @@ longData.configuration.scenes = [
             'behavior3',
             'behavior4',
             'behavior5',
-            'behavior6'
-        ]
-    }
+            'behavior6',
+        ],
+    },
 ];
 longData.configuration.behaviors = [
     ...longData.configuration.behaviors,
     {
         ...mockBehavior,
         displayName: 'behavior 1',
-        id: 'behavior1'
+        id: 'behavior1',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 2',
-        id: 'behavior2'
+        id: 'behavior2',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 3',
-        id: 'behavior3'
+        id: 'behavior3',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 4',
-        id: 'behavior4'
+        id: 'behavior4',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 5',
-        id: 'behavior5'
+        id: 'behavior5',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 6',
-        id: 'behavior6'
-    }
+        id: 'behavior6',
+    },
 ];
 export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
@@ -146,7 +146,7 @@ Scrolling.play = async ({ canvasElement }) => {
     await BehaviorsTab.play({ canvasElement });
 };
 Scrolling.parameters = {
-    data: longData
+    data: longData,
 };
 
 const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
@@ -155,28 +155,28 @@ longDataWithRemoved.configuration.behaviors = [
     {
         ...mockBehavior,
         displayName: 'behavior 3',
-        id: 'behavior3'
+        id: 'behavior3',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 4',
-        id: 'behavior4'
+        id: 'behavior4',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 5',
-        id: 'behavior5'
+        id: 'behavior5',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 6',
-        id: 'behavior6'
+        id: 'behavior6',
     },
     {
         ...mockBehavior,
         displayName: 'behavior 7',
-        id: 'behavior7'
-    }
+        id: 'behavior7',
+    },
 ];
 export const WithRemoved = Template.bind({});
 WithRemoved.play = async ({ canvasElement }) => {
@@ -184,7 +184,7 @@ WithRemoved.play = async ({ canvasElement }) => {
     await BehaviorsTab.play({ canvasElement });
 };
 WithRemoved.parameters = {
-    data: longDataWithRemoved
+    data: longDataWithRemoved,
 };
 
 export const ScrollingWithRemovedExpanded = Template.bind({});
@@ -194,12 +194,12 @@ ScrollingWithRemovedExpanded.play = async ({ canvasElement }) => {
     // Click the section header
     const canvas = within(canvasElement);
     const sectionHeader = await canvas.findByTestId(
-        'behaviors-in-other-scenes-button'
+        'behaviors-in-other-scenes-button',
     );
     await userEvent.click(sectionHeader);
 };
 ScrollingWithRemovedExpanded.parameters = {
-    data: longDataWithRemoved
+    data: longDataWithRemoved,
 };
 
 export const MoreMenuShow = Template.bind({});
@@ -210,7 +210,7 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-behaviors-in-scene-0-moreMenu'
+        'context-menu-behaviors-in-scene-0-moreMenu',
     );
     await userEvent.click(moreMenu);
     await sleep(1);
@@ -231,7 +231,7 @@ EditElementsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // click the behavior
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-behaviors-in-scene-0'
+        'cardboard-list-item-behaviors-in-scene-0',
     );
     await userEvent.click(listItem);
 

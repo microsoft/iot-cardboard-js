@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export enum CreateRelationshipMode {
     RelationshipForm,
-    PropertyForm
+    PropertyForm,
 }
 
 interface CreateRelationshipFromProps {
@@ -43,7 +43,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     popBreadcrumb,
     existingModelIds,
     relationshipToEdit = null,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
 }) => {
     const { t } = useTranslation();
 
@@ -53,11 +53,11 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
             ? formControlMode
             : relationshipToEdit
             ? FormMode.Edit
-            : FormMode.New
+            : FormMode.New,
     );
 
     const schemaOptions: IDropdownOption[] = [
-        { key: 'any', text: t('modelCreate.anyInterface') }
+        { key: 'any', text: t('modelCreate.anyInterface') },
     ];
 
     existingModelIds.forEach((modelId) => {
@@ -78,24 +78,24 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     const [id, setId] = useState(initialRelationship['@id']);
     const [name, setName] = useState(initialRelationship.name);
     const [displayName, setDisplayName] = useState(
-        initialRelationship.displayName
+        initialRelationship.displayName,
     );
     const [description, setDescription] = useState(
-        initialRelationship.description
+        initialRelationship.description,
     );
     const [comment, setComment] = useState(initialRelationship.comment);
     const [maxMultiplicity, setMaxMultiplicity] = useState(
-        initialRelationship.maxMultiplicity?.toString()
+        initialRelationship.maxMultiplicity?.toString(),
     );
     const [target, setTarget] = useState<IDropdownOption>(
-        parseTarget(initialRelationship.target)
+        parseTarget(initialRelationship.target),
     );
     const [writable, setWritable] = useState(initialRelationship.writable);
     const [properties, setProperties] = useState(
-        initialRelationship.properties
+        initialRelationship.properties,
     );
     const [propertyToEdit, setPropertyToEdit] = useState(
-        new PropertyToEditInfo()
+        new PropertyToEditInfo(),
     );
 
     const onClickCreate = () => {
@@ -108,7 +108,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
             writable,
             properties,
             !target || target.key === 'any' ? null : (target.key as string),
-            maxMultiplicity === undefined ? null : Number(maxMultiplicity)
+            maxMultiplicity === undefined ? null : Number(maxMultiplicity),
         );
         onPrimaryAction(relationship);
     };
@@ -138,7 +138,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
     const handleSelectProperty = (
         property: DTDLProperty,
         index: number,
-        formControlMode: FormMode = FormMode.Edit
+        formControlMode: FormMode = FormMode.Edit,
     ) => {
         setFormMode(formControlMode);
         setMode(CreateRelationshipMode.PropertyForm);
@@ -146,7 +146,7 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
         pushBreadcrumb(
             formControlMode === FormMode.Readonly
                 ? 'modelCreate.propertyDetails'
-                : 'modelCreate.editProperty'
+                : 'modelCreate.editProperty',
         );
     };
 
@@ -196,17 +196,18 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                                 ? 'cb-noinformation-value'
                                 : ''
                         }`}
-                        placeholder={"<scheme>:<path>;<version>"}
-                        description={"e.g., dtmi:com:example:relationship1;1"}
+                        placeholder={'<scheme>:<path>;<version>'}
+                        description={'e.g., dtmi:com:example:relationship1;1'}
                         onChange={(e) => setId(e.currentTarget.value)}
                         validateOnLoad={false}
                         validateOnFocusOut
                         onGetErrorMessage={(value) =>
                             value && !DTMIRegex.test(value)
                                 ? t('modelCreate.invalidIdentifier', {
-                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                      dtmiLink: 'http://aka.ms/ADTv2Models',
                                   })
-                                : ''}
+                                : ''
+                        }
                         disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
@@ -233,9 +234,10 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         onGetErrorMessage={(value) =>
                             !DTDLNameRegex.test(value)
                                 ? t('modelCreate.invalidDTDLName', {
-                                      dtdlLink: 'http://aka.ms/ADTv2Models'
+                                      dtdlLink: 'http://aka.ms/ADTv2Models',
                                   })
-                                : ''}
+                                : ''
+                        }
                         disabled={formMode === FormMode.Readonly}
                     />
                     <TextField
@@ -310,8 +312,9 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                         value={maxMultiplicity}
                         onChange={(_e, newValue) =>
                             setMaxMultiplicity(
-                                newValue === undefined ? '0' : newValue
-                            )}
+                                newValue === undefined ? '0' : newValue,
+                            )
+                        }
                         incrementButtonAriaLabel={t('modelCreate.increaseBy1')}
                         decrementButtonAriaLabel={t('modelCreate.decreaseBy1')}
                         className={
@@ -357,8 +360,8 @@ const CreateRelationshipForm: React.FC<CreateRelationshipFromProps> = ({
                     />
                     <Separator>{t('modelCreate.properties')}</Separator>
                     <ElementsList
-                        noElementLabelKey={"modelCreate.noProperties"}
-                        addElementLabelKey={"modelCreate.addProperty"}
+                        noElementLabelKey={'modelCreate.noProperties'}
+                        addElementLabelKey={'modelCreate.addProperty'}
                         elements={properties}
                         handleEditElement={handleSelectProperty}
                         handleNewElement={handleClickAddProperty}

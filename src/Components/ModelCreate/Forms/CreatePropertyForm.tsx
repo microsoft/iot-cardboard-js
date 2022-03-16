@@ -3,7 +3,7 @@ import { DefaultButton } from '@fluentui/react/lib/Button';
 import {
     Dropdown,
     IDropdownOption,
-    DropdownMenuItemType
+    DropdownMenuItemType,
 } from '@fluentui/react/lib/Dropdown';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Toggle } from '@fluentui/react/lib/Toggle';
@@ -12,7 +12,7 @@ import {
     DTDLEnum,
     DTDLProperty,
     DTDLSchema,
-    DTDLSemanticTypes
+    DTDLSemanticTypes,
 } from '../../../Models/Classes/DTDL';
 import CreateEnumForm from './CreateEnumForm';
 import BaseForm from './BaseForm';
@@ -21,7 +21,7 @@ import { DTDLNameRegex, DTMIRegex, FormMode } from '../../../Models/Constants';
 
 export enum CreatePropertyMode {
     PropertyForm,
-    EnumForm
+    EnumForm,
 }
 
 interface CreatePropertyFormProps {
@@ -41,7 +41,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     popBreadcrumb,
     propertyToEdit = null,
     formControlMode = FormMode.Edit,
-    cancelLabel
+    cancelLabel,
 }) => {
     const { t } = useTranslation();
 
@@ -51,7 +51,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         {
             key: 'primitives',
             text: t('modelCreate.primitives'),
-            itemType: DropdownMenuItemType.Header
+            itemType: DropdownMenuItemType.Header,
         },
         { key: 'boolean', text: 'boolean' },
         { key: 'date', text: 'date' },
@@ -67,20 +67,20 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         {
             key: 'complexSchema',
             text: t('modelCreate.complexSchema'),
-            itemType: DropdownMenuItemType.Header
+            itemType: DropdownMenuItemType.Header,
         },
         { key: 'enum', text: 'Enum' },
 
         // TODO: 'object' and 'map' schema types are not fully supported yet.
         // Update: iremay added data classes for those, should test integration
         { key: 'object', text: 'Object' },
-        { key: 'map', text: 'Map' }
+        { key: 'map', text: 'Map' },
     ];
 
     const parseSchema = (schema: DTDLSchema) => {
         const findDropdownOption = (key: string) => {
             const filtered = schemaOptions.filter(
-                (o) => o.key === key.toLowerCase()
+                (o) => o.key === key.toLowerCase(),
             );
             return filtered[0];
         };
@@ -88,12 +88,12 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         if (typeof schema === 'string') {
             return {
                 schema,
-                option: findDropdownOption(schema)
+                option: findDropdownOption(schema),
             };
         } else if (typeof schema === 'object') {
             return {
                 schema,
-                option: findDropdownOption(schema['@type'])
+                option: findDropdownOption(schema['@type']),
             };
         }
     };
@@ -107,7 +107,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     const [comment, setComment] = useState(initialProperty.comment);
     const [description, setDescription] = useState(initialProperty.description);
     const [schemaDropdown, setSchemaDropdown] = useState<IDropdownOption>(
-        schemaInfo.option
+        schemaInfo.option,
     );
     const [schema, setSchema] = useState<DTDLSchema>(schemaInfo.schema);
     const [unit, setUnit] = useState(initialProperty.unit);
@@ -122,7 +122,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             description,
             displayName,
             unit,
-            writable
+            writable,
         );
         onPrimaryAction(property);
     };
@@ -189,7 +189,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                 ? 'cb-noinformation-value'
                                 : ''
                         }`}
-                        placeholder={"<scheme>:<path>;<version>"}
+                        placeholder={'<scheme>:<path>;<version>'}
                         description={'e.g., dtmi:com:example:property1;1'}
                         onChange={(e) => setId(e.currentTarget.value)}
                         validateOnLoad={false}
@@ -197,9 +197,10 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         onGetErrorMessage={(value) =>
                             value && !DTMIRegex.test(value)
                                 ? t('modelCreate.invalidIdentifier', {
-                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                      dtmiLink: 'http://aka.ms/ADTv2Models',
                                   })
-                                : ''}
+                                : ''
+                        }
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -226,9 +227,10 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         onGetErrorMessage={(value) =>
                             !DTDLNameRegex.test(value)
                                 ? t('modelCreate.invalidDTDLName', {
-                                      dtdlLink: 'http://aka.ms/ADTv2Models'
+                                      dtdlLink: 'http://aka.ms/ADTv2Models',
                                   })
-                                : ''}
+                                : ''
+                        }
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -261,7 +263,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                             label={t('modelCreate.schema')}
                             placeholder={t('selectOption')}
                             onChange={(_e, option) =>
-                                onSchemaOptionChange(option)}
+                                onSchemaOptionChange(option)
+                            }
                             options={schemaOptions}
                             required
                             className={`${
@@ -277,8 +280,9 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                                     onClick={() =>
                                         addStep(
                                             CreatePropertyMode.EnumForm,
-                                            'modelCreate.addEnumSchema'
-                                        )}
+                                            'modelCreate.addEnumSchema',
+                                        )
+                                    }
                                 >
                                     {t('modelCreate.addEnumSchema')}
                                 </DefaultButton>
@@ -336,7 +340,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         value={
                             formControlMode === FormMode.Readonly && !unit
                                 ? DTDLSemanticTypes.map(
-                                      (t) => t.SemanticType
+                                      (t) => t.SemanticType,
                                   ).includes(typeInfo)
                                     ? '(' + t('noInformation') + ')'
                                     : '(' + t('notAvailable') + ')'
@@ -357,10 +361,11 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                         onGetErrorMessage={(_value) =>
                             unit &&
                             !DTDLSemanticTypes.map(
-                                (t) => t.SemanticType
+                                (t) => t.SemanticType,
                             ).includes(typeInfo)
                                 ? t('modelCreate.invalidTypeForUnitSupport')
-                                : ''}
+                                : ''
+                        }
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <Toggle

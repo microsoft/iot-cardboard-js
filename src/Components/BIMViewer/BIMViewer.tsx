@@ -9,7 +9,7 @@ import './BIMViewer.scss';
 const BIMViewer: React.FC<IBIMViewerProps> = ({
     bimFilePath,
     metadataFilePath,
-    centeredObject
+    centeredObject,
 }) => {
     const viewerGuid = useGuid();
 
@@ -19,19 +19,19 @@ const BIMViewer: React.FC<IBIMViewerProps> = ({
         bimFilePath,
         metadataFilePath,
         getFileType(bimFilePath) as BIMFileTypes,
-        setErrorText
+        setErrorText,
     );
 
     useEffect(() => {
         if (viewer && centeredObject) {
             viewer.current?.cameraFlight?.flyTo(
-                viewer.current?.scene?.objects?.[centeredObject]
+                viewer.current?.scene?.objects?.[centeredObject],
             );
         }
     }, [viewer, centeredObject]);
 
     return (
-        <div className={"cb-bimviewer-container"}>
+        <div className={'cb-bimviewer-container'}>
             {errorText && <Error errorTitle={errorText} />}
             <canvas id={viewerGuid}></canvas>
         </div>

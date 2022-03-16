@@ -6,7 +6,7 @@ import {
     IOnRenderComboBoxLabelProps,
     Spinner,
     SpinnerSize,
-    TooltipHost
+    TooltipHost,
 } from '@fluentui/react';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -32,20 +32,20 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     isRequired = false,
     onChange,
     onLoad,
-    selectedBlobUrl
+    selectedBlobUrl,
 }) => {
     const { t } = useTranslation();
     const [files, setFiles] = useState<Array<IBlobFile>>([]);
     const [customUrls, setCustomUrls] = useState<Array<string>>([]); // no local storage support yet
     const [valueToEdit, setValueToEdit] = useState(selectedBlobUrl ?? '');
     const [inputOrOption, setInputOrOption] = useState<'input' | 'option'>(
-        null
+        null,
     ); // letting user either select a file from blob storage or enter a url (e.g. from another container or somewhere else) manually
 
     const containerBlobsAdapterData = useAdapter({
         adapterMethod: () => adapter.getContainerBlobs(fileTypes),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: true,
     });
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             }
             if (selectedBlobUrl) {
                 const selectedFileInContainer = files.find(
-                    (f) => f.Path === selectedBlobUrl
+                    (f) => f.Path === selectedBlobUrl,
                 );
                 if (!selectedFileInContainer) {
                     setCustomUrls([selectedBlobUrl]);
@@ -77,9 +77,9 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         optionsContainerWrapper: { width: width },
         optionsContainer: {
             selectors: {
-                span: { width: '100%' }
-            }
-        }
+                span: { width: '100%' },
+            },
+        },
     };
 
     const options: Array<IComboBoxOption> = useMemo(
@@ -90,19 +90,19 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                         ({
                             key: f.Path,
                             text: f.Name,
-                            data: f
-                        } as IComboBoxOption)
+                            data: f,
+                        } as IComboBoxOption),
                 )
                 .concat(
                     customUrls.map(
                         (c: string) =>
                             ({
                                 key: c,
-                                text: c
-                            } as IComboBoxOption)
-                    )
+                                text: c,
+                            } as IComboBoxOption),
+                    ),
                 ),
-        [files, customUrls]
+        [files, customUrls],
     );
 
     const FileIcon = ({ file }) => {
@@ -123,7 +123,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         return (
             <Icon
                 iconName={iconName}
-                aria-hidden={"true"}
+                aria-hidden={'true'}
                 style={{ paddingRight: 8 }}
             />
         );
@@ -146,14 +146,14 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                     </span>
                     <TooltipHost
                         content={t('blobDropdown.supportedFileTypes', {
-                            fileTypes: fileTypes.join(', ')
+                            fileTypes: fileTypes.join(', '),
                         })}
                         styles={{
                             root: {
                                 display: 'inline-block',
                                 cursor: 'pointer',
-                                height: 16
-                            }
+                                height: 16,
+                            },
                         }}
                     >
                         <Icon iconName={'Info'} aria-label={t('info')} />
@@ -164,8 +164,8 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 <Spinner
                     size={SpinnerSize.xSmall}
                     label={t('blobDropdown.loading3DFiles')}
-                    ariaLive={"assertive"}
-                    labelPosition={"right"}
+                    ariaLive={'assertive'}
+                    labelPosition={'right'}
                 />
             )}
         </div>
@@ -203,7 +203,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             return (
                 urlStr &&
                 ValidContainerHostSuffixes.some((suffix) =>
-                    new URL(urlStringToTest).hostname.endsWith(suffix)
+                    new URL(urlStringToTest).hostname.endsWith(suffix),
                 ) &&
                 fileTypes.some((suffix) => urlStringToTest.endsWith(suffix))
             );
@@ -237,7 +237,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 onChange(option.data?.Path ?? option.text);
             }
         },
-        [customUrls, files]
+        [customUrls, files],
     );
 
     const customUrlInputError = useMemo(
@@ -247,7 +247,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             !isValidUrlStr(valueToEdit)
                 ? t('blobDropdown.invalidBlobUrlPath')
                 : undefined,
-        [valueToEdit]
+        [valueToEdit],
     );
 
     return (
@@ -276,7 +276,8 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
                 onRenderLabel={onRenderLabel}
                 onRenderOption={onRenderOption}
                 onChange={(_e, option, _idx, value) =>
-                    handleChange(option, value)}
+                    handleChange(option, value)
+                }
             />
         </BaseComponent>
     );

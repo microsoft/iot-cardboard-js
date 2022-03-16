@@ -5,7 +5,7 @@ import {
     IResolvedRelationshipClickErrors,
     Locale,
     Theme,
-    AdapterTypes
+    AdapterTypes,
 } from '../../Models/Constants';
 
 export interface IBoardProps {
@@ -20,7 +20,7 @@ export interface IBoardProps {
     onEntitySelect?: (
         twin: IADTTwin,
         model: IADTModel,
-        errors?: IResolvedRelationshipClickErrors
+        errors?: IResolvedRelationshipClickErrors,
     ) => void;
     hasDataHistory?: boolean;
 }

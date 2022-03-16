@@ -5,7 +5,7 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
-    ComponentErrorType
+    ComponentErrorType,
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -18,7 +18,7 @@ let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
 export const validate3DConfigWithSchema = (
-    data: I3DScenesConfig
+    data: I3DScenesConfig,
 ): I3DScenesConfig => {
     if (!ajv) ajv = new Ajv();
     const validate = ajv.compile(schema); // This is cached if schema doesn't change
@@ -30,7 +30,7 @@ export const validate3DConfigWithSchema = (
         console.log('Schema validation errors: ', validate.errors);
         throw new ComponentError({
             type: ComponentErrorType.JsonSchemaError,
-            jsonSchemaErrors: validate.errors
+            jsonSchemaErrors: validate.errors,
         });
     }
 };
@@ -86,7 +86,7 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
 export const getMarkedHtmlBySearch = (
     str,
     searchTerm,
-    isCaseSensitive = false
+    isCaseSensitive = false,
 ) => {
     try {
         const regexp = new RegExp(searchTerm, isCaseSensitive ? 'g' : 'gi');
@@ -100,10 +100,10 @@ export const getMarkedHtmlBySearch = (
                         ? React.createElement(
                               'mark',
                               { key: `marked_${i}` },
-                              matches[i]
+                              matches[i],
                           )
-                        : null
-                ])
+                        : null,
+                ]),
             );
     } catch (e) {
         return str;
@@ -124,17 +124,17 @@ export const parseViewProperties = (data: Record<string, any>) => {
 };
 
 export const hasAllProcessGraphicsCardProperties = (
-    dtTwin: IADTTwin
+    dtTwin: IADTTwin,
 ): boolean => {
     return (
         objectHasOwnProperty(dtTwin, ADTModel_ViewData_PropertyName) &&
         objectHasOwnProperty(
             dtTwin[ADTModel_ViewData_PropertyName],
-            ADTModel_ImgSrc_PropertyName
+            ADTModel_ImgSrc_PropertyName,
         ) &&
         objectHasOwnProperty(
             dtTwin[ADTModel_ViewData_PropertyName],
-            ADTModel_ImgPropertyPositions_PropertyName
+            ADTModel_ImgPropertyPositions_PropertyName,
         )
     );
 };
@@ -166,7 +166,7 @@ export const getModelContentType = (type: string | string[]) => {
 
 export const getModelContentUnit = (
     type: string | string[],
-    property: DtdlProperty
+    property: DtdlProperty,
 ) => {
     return Array.isArray(type) && type[1] ? property?.unit : null;
 };
@@ -182,7 +182,7 @@ export const applyMixins = (derivedCtor: any, constructors: any[]) => {
                 derivedCtor.prototype,
                 name,
                 Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
-                    Object.create(null)
+                    Object.create(null),
             );
         });
     });
@@ -193,7 +193,7 @@ export function measureText(str: string, fontSize: number) {
     return (
         Array.from(str).reduce(
             (acc, cur) => acc + (CharacterWidths[cur.charCodeAt(0)] ?? avg),
-            0
+            0,
         ) * fontSize
     );
 }
@@ -247,7 +247,7 @@ export function getTransparentColor(
         | '0.6'
         | '0.7'
         | '0.8'
-        | '0.9'
+        | '0.9',
 ): string {
     return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
 }

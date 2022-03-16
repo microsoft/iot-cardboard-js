@@ -12,7 +12,7 @@ import { DTMIRegex, FormMode } from '../../../Models/Constants';
 
 export enum CreateEnumMode {
     EnumForm,
-    EnumValueForm
+    EnumValueForm,
 }
 
 class EnumValueToEditInfo {
@@ -42,7 +42,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     popBreadcrumb,
     enumToEdit = null,
     formControlMode = FormMode.Edit,
-    cancelLabel
+    cancelLabel,
 }) => {
     const { t } = useTranslation();
 
@@ -50,7 +50,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
 
     const valueSchemaOptions: IDropdownOption[] = [
         { key: 'integer', text: 'integer' },
-        { key: 'string', text: 'string' }
+        { key: 'string', text: 'string' },
     ];
 
     const findSchemaOption = (key: string) => {
@@ -64,14 +64,14 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     const [description, setDescription] = useState(initialEnum.description);
     const [comment, setComment] = useState(initialEnum.comment);
     const [valueSchema, setValueSchema] = useState<IDropdownOption>(
-        findSchemaOption(initialEnum.valueSchema)
+        findSchemaOption(initialEnum.valueSchema),
     );
     const [enumValues, setEnumValues] = useState<DTDLEnumValue[]>(
-        initialEnum.enumValues
+        initialEnum.enumValues,
     );
 
     const [enumValueToEdit, setEnumValueToEdit] = useState(
-        new EnumValueToEditInfo()
+        new EnumValueToEditInfo(),
     );
 
     const onClickCreate = () => {
@@ -81,7 +81,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
             valueSchema.key === 'integer' ? 'integer' : 'string',
             displayName,
             description,
-            comment
+            comment,
         );
         onCreateEnum(newEnum);
     };
@@ -94,14 +94,14 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
     const handleSelectEnumValue = (
         enumValue: DTDLEnumValue,
         index: number,
-        formControlMode: FormMode = FormMode.Edit
+        formControlMode: FormMode = FormMode.Edit,
     ) => {
         setMode(CreateEnumMode.EnumValueForm);
         setEnumValueToEdit({ enumValue, index });
         pushBreadcrumb(
             formControlMode === FormMode.Readonly
                 ? 'modelCreate.enumValueDetails'
-                : 'modelCreate.editEnumValue'
+                : 'modelCreate.editEnumValue',
         );
     };
 
@@ -153,7 +153,7 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                 >
                     <TextField
                         label={t('modelCreate.enumId')}
-                        placeholder={"<scheme>:<path>;<version>"}
+                        placeholder={'<scheme>:<path>;<version>'}
                         description={'e.g., dtmi:com:example:enum1;1'}
                         title={id}
                         value={
@@ -176,9 +176,10 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                         onGetErrorMessage={(value) =>
                             value && !DTMIRegex.test(value)
                                 ? t('modelCreate.invalidIdentifier', {
-                                      dtmiLink: 'http://aka.ms/ADTv2Models'
+                                      dtmiLink: 'http://aka.ms/ADTv2Models',
                                   })
-                                : ''}
+                                : ''
+                        }
                         disabled={formControlMode === FormMode.Readonly}
                     />
                     <TextField
@@ -263,12 +264,12 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
                         }
                         disabled={formControlMode === FormMode.Readonly}
                     />
-                    <Text variant={"medium"} className={"cb-modelcreate-title"}>
+                    <Text variant={'medium'} className={'cb-modelcreate-title'}>
                         {t('modelCreate.enumValues')}
                     </Text>
                     <ElementsList
-                        noElementLabelKey={"modelCreate.noEnumValues"}
-                        addElementLabelKey={"modelCreate.addEnumValue"}
+                        noElementLabelKey={'modelCreate.noEnumValues'}
+                        addElementLabelKey={'modelCreate.addEnumValue'}
                         elements={enumValues}
                         handleEditElement={handleSelectEnumValue}
                         handleNewElement={onClickAddEnumValue}

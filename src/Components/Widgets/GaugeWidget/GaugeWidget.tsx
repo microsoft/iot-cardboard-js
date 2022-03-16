@@ -4,7 +4,7 @@ import {
     RadialBarChart,
     RadialBar,
     ResponsiveContainer,
-    PolarAngleAxis
+    PolarAngleAxis,
 } from 'recharts';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import { parseExpression } from '../../../Models/Services/Utils';
@@ -49,31 +49,30 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
     const data = [{ value, fill: color }];
     return (
         <div style={{ width: width, height: height, position: 'relative' }}>
-            <ResponsiveContainer width={"100%"} height={"100%"}>
+            <ResponsiveContainer width={'100%'} height={'100%'}>
                 <RadialBarChart
                     startAngle={180}
-                    innerRadius={"90%"}
-                    outerRadius={"100%"}
+                    innerRadius={'90%'}
+                    outerRadius={'100%'}
                     endAngle={0}
                     barSize={10}
                     data={data}
                 >
                     <PolarAngleAxis
-                        type={"number"}
+                        type={'number'}
                         domain={[0, maxValue]}
                         dataKey={'value'}
                         angleAxisId={0}
                         tick={false}
                     />
                     <RadialBar
-                        color={"fill"}
+                        color={'fill'}
                         background={{ fill: '#d3d6db' }}
-                        dataKey={"value"}
-                    >
-                    </RadialBar>
+                        dataKey={'value'}
+                    ></RadialBar>
                 </RadialBarChart>
             </ResponsiveContainer>
-            <div className={"cb-gauge-widget-text"}>
+            <div className={'cb-gauge-widget-text'}>
                 <div>
                     {value} {units}
                 </div>

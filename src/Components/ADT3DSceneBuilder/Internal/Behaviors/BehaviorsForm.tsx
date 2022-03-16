@@ -3,18 +3,18 @@ import React, {
     useContext,
     useEffect,
     useMemo,
-    useState
+    useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DatasourceType,
-    defaultBehavior
+    defaultBehavior,
 } from '../../../../Models/Classes/3DVConfig';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
-    IBehaviorFormContext
+    IBehaviorFormContext,
 } from '../../ADT3DSceneBuilder.types';
 import produce from 'immer';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
@@ -24,7 +24,7 @@ import { TextField, DefaultButton, Separator, useTheme } from '@fluentui/react';
 // import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import LeftPanelBuilderHeader, {
-    getLeftPanelBuilderHeaderParams
+    getLeftPanelBuilderHeaderParams,
 } from '../LeftPanelBuilderHeader';
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -32,21 +32,21 @@ import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import {
     panelFormPivotStyles,
-    getPanelFormStyles
+    getPanelFormStyles,
 } from '../Shared/PanelForms.styles';
 import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
-    null
+    null,
 );
 
 enum BehaviorPivot {
     elements = 'elements',
     twins = 'twins',
     alerts = 'alerts',
-    widgets = 'widgets'
+    widgets = 'widgets',
 }
 
 const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
@@ -57,7 +57,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    updateSelectedElements
+    updateSelectedElements,
 }) => {
     const { t } = useTranslation();
 
@@ -66,12 +66,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
             ? { ...defaultBehavior, id: createGUID(false) }
-            : selectedBehavior
+            : selectedBehavior,
     );
 
     const [
         selectedBehaviorPivotKey,
-        setSelectedBehaviorPivotKey
+        setSelectedBehaviorPivotKey,
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
     useEffect(() => {
@@ -109,10 +109,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     draft.datasources[0] = {
                         type:
                             DatasourceType.ElementTwinToObjectMappingDataSource,
-                        elementIDs: elementIds
+                        elementIDs: elementIds,
                     };
                 }
-            })
+            }),
         );
     }, [selectedElements]);
 
@@ -125,7 +125,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         builderMode,
         onBehaviorBackClick,
         onBehaviorSave,
-        setSelectedElements
+        setSelectedElements,
     ]);
     const onCancelClick = useCallback(() => {
         onBehaviorBackClick();
@@ -134,7 +134,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
-        [widgetFormInfo, builderMode]
+        [widgetFormInfo, builderMode],
     );
 
     const theme = useTheme();
@@ -144,7 +144,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         <BehaviorFormContext.Provider
             value={{
                 behaviorToEdit,
-                setBehaviorToEdit
+                setBehaviorToEdit,
             }}
         >
             <div className={commonFormStyles.root}>
@@ -167,7 +167,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         setBehaviorToEdit(
                                             produce((draft: IBehavior) => {
                                                 draft.displayName = newValue;
-                                            })
+                                            }),
                                         );
                                     }}
                                 />
@@ -177,8 +177,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 selectedKey={selectedBehaviorPivotKey}
                                 onLinkClick={(item) =>
                                     setSelectedBehaviorPivotKey(
-                                        item.props.itemKey as BehaviorPivot
-                                    )}
+                                        item.props.itemKey as BehaviorPivot,
+                                    )
+                                }
                                 className={commonFormStyles.pivot}
                                 styles={panelFormPivotStyles}
                             >
@@ -236,7 +237,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 disabled={
                                     !behaviorToEdit?.id ||
                                     behaviorToEdit.datasources.filter(
-                                        ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                                        ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
                                     )?.[0]?.elementIDs?.length === 0
                                 }
                             />

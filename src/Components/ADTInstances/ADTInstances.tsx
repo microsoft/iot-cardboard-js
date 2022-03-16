@@ -4,7 +4,7 @@ import {
     IDropdownProps,
     Label,
     Stack,
-    TooltipHost
+    TooltipHost,
 } from '@fluentui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     onInstanceChange,
     theme,
     locale,
-    localeStrings
+    localeStrings,
 }) => {
     const { t } = useTranslation();
     const [instances, setInstances] = useState<Array<IADTInstance>>([]);
@@ -28,7 +28,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
 
     const environmentsState = useAdapter({
         adapterMethod: () => adapter.getADTInstances(),
-        refetchDependencies: [adapter]
+        refetchDependencies: [adapter],
     });
 
     useEffect(() => {
@@ -42,22 +42,22 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
             instances
                 .sort((a, b) =>
                     a.hostName.localeCompare(b.hostName, undefined, {
-                        sensitivity: 'base'
-                    })
+                        sensitivity: 'base',
+                    }),
                 )
                 .map((e) => {
                     return {
                         key: e.hostName,
-                        text: e.hostName
+                        text: e.hostName,
                     };
                 }),
-        [instances]
+        [instances],
     );
 
     const onRenderLabel = (props: IDropdownProps): JSX.Element => {
         return (
             hasLabel && (
-                <Stack horizontal verticalAlign={"center"}>
+                <Stack horizontal verticalAlign={'center'}>
                     <Label>{props.label}</Label>
                     <TooltipHost content={t('ADTInstancesInfo')}>
                         <IconButton
@@ -78,7 +78,7 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
             localeStrings={localeStrings}
             theme={theme}
         >
-            <div className={"cb-adt-instances-dropdown-list-container"}>
+            <div className={'cb-adt-instances-dropdown-list-container'}>
                 <Dropdown
                     placeholder={
                         environmentsState.isLoading

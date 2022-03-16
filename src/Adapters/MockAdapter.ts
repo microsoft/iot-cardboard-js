@@ -1,7 +1,7 @@
 import {
     ADTAdapterTwinsData,
     KeyValuePairAdapterData,
-    TsiClientAdapterData
+    TsiClientAdapterData,
 } from '../Models/Classes';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
@@ -15,20 +15,20 @@ import {
     IADTAdapter,
     IKeyValuePairAdapter,
     IMockAdapter,
-    ITsiClientChartDataAdapter
+    ITsiClientChartDataAdapter,
 } from '../Models/Constants/Interfaces';
 import {
     AdapterMethodParamsForSearchADTTwins,
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
-    linkedTwinName
+    linkedTwinName,
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
     ADTRelationship,
     KeyValuePairData,
-    TsiClientData
+    TsiClientData,
 } from '../Models/Constants/Types';
 import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
@@ -40,7 +40,7 @@ import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
     IBehavior,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 
@@ -49,50 +49,50 @@ const mockTwins = [
         $dtId: 'PasteurizationMachine_A01',
         $etag: 'PasteurizationMachineTag',
         $metadata: {
-            $model: 'PasteurizationMachine'
+            $model: 'PasteurizationMachine',
         },
         InFlow: 100,
         OutFlow: 150,
-        Temperature: 50
+        Temperature: 50,
     },
     {
         $dtId: 'PasteurizationMachine_A02',
         $etag: 'PasteurizationMachineTag',
         $metadata: {
-            $model: 'PasteurizationMachine'
+            $model: 'PasteurizationMachine',
         },
         InFlow: 200,
         OutFlow: 250,
-        Temperature: 150
+        Temperature: 150,
     },
     {
         $dtId: 'PasteurizationMachine_A03',
         $etag: 'PasteurizationMachineTag',
         $metadata: {
-            $model: 'PasteurizationMachine'
+            $model: 'PasteurizationMachine',
         },
         InFlow: 300,
         OutFlow: 350,
-        Temperature: 250
+        Temperature: 250,
     },
     {
         $dtId: 'SaltMachine_C1',
         $etag: 'SaltMachineTag',
         $metadata: {
-            $model: 'SaltMachine'
+            $model: 'SaltMachine',
         },
         InFlow: 100,
-        OutFlow: 150
+        OutFlow: 150,
     },
     {
         $dtId: 'SaltMachine_C2',
         $etag: 'SaltMachineTag',
         $metadata: {
-            $model: 'SaltMachine'
+            $model: 'SaltMachine',
         },
         InFlow: 200,
-        OutFlow: 250
-    }
+        OutFlow: 250,
+    },
 ];
 
 export default class MockAdapter
@@ -143,7 +143,7 @@ export default class MockAdapter
             throw new ComponentError({
                 isCatastrophic: true,
                 type: this.mockError,
-                rawError: new Error('Mock error message')
+                rawError: new Error('Mock error message'),
             });
         }
     }
@@ -151,7 +151,7 @@ export default class MockAdapter
     async getKeyValuePairs(
         _id: string,
         properties: string[],
-        additionalParameters: IGetKeyValuePairsAdditionalParameters
+        additionalParameters: IGetKeyValuePairsAdditionalParameters,
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
@@ -181,7 +181,7 @@ export default class MockAdapter
 
     generateMockLineChartData(
         searchSpan: SearchSpan,
-        properties: string[]
+        properties: string[],
     ): TsiClientData {
         const data = [];
         const from = searchSpan.from;
@@ -199,7 +199,7 @@ export default class MockAdapter
                     if (!(k % 2 && k % 3)) {
                         // if check is to create some sparseness in the data
                         const to = new Date(
-                            from.valueOf() + bucketSizeMillis * k
+                            from.valueOf() + bucketSizeMillis * k,
                         );
                         const val = this.isDataStatic
                             ? this.seededRng()
@@ -223,7 +223,7 @@ export default class MockAdapter
                         relationshipId: `relationship ${id}`,
                         relationshipName: `relationship ${i}`,
                         targetId: `target twin ${i}`,
-                        targetModel: `target model ${i}`
+                        targetModel: `target model ${i}`,
                     });
                 }
                 return relationships;
@@ -243,7 +243,7 @@ export default class MockAdapter
                     description: {},
                     displayName: null,
                     decommissioned: false,
-                    uploadTime: '2021-1-1'
+                    uploadTime: '2021-1-1',
                 });
             };
 
@@ -251,12 +251,12 @@ export default class MockAdapter
 
             return new AdapterResult<ADTModelData>({
                 result: getModelData(),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<ADTModelData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -268,8 +268,8 @@ export default class MockAdapter
                     $dtId: twinId,
                     $etag: `${twinId}Tag`,
                     $metadata: {
-                        $model: `${twinId}Model`
-                    }
+                        $model: `${twinId}Model`,
+                    },
                 });
             };
 
@@ -277,12 +277,12 @@ export default class MockAdapter
 
             return new AdapterResult<ADTTwinData>({
                 result: getTwinData(),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<ADTTwinData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -304,12 +304,12 @@ export default class MockAdapter
             this.scenesConfig = config;
             return new AdapterResult<ADTScenesConfigData>({
                 result: new ADTScenesConfigData(this.scenesConfig),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<ADTScenesConfigData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -320,16 +320,16 @@ export default class MockAdapter
             const mockBlobFile: IBlobFile = {
                 Name: file.name,
                 Path: `https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net/${file.name}`,
-                Properties: { 'Content-Length': file.size }
+                Properties: { 'Content-Length': file.size },
             };
             return new AdapterResult<BlobsData>({
                 result: new BlobsData([mockBlobFile]),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<BlobsData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -337,7 +337,7 @@ export default class MockAdapter
     async getTsiclientChartDataShape(
         _id: string,
         searchSpan: SearchSpan,
-        properties: string[]
+        properties: string[],
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
@@ -348,7 +348,7 @@ export default class MockAdapter
                 } else {
                     return this.generateMockLineChartData(
                         searchSpan,
-                        properties
+                        properties,
                     );
                 }
             };
@@ -363,7 +363,7 @@ export default class MockAdapter
 
         // get scene based on id
         const scene = config.configuration.scenes?.find(
-            (scene) => scene.id === sceneId
+            (scene) => scene.id === sceneId,
         );
         let modelUrl = null;
         const sceneVisuals: SceneVisual[] = [];
@@ -389,7 +389,7 @@ export default class MockAdapter
                                     dataSource.elementIDs.forEach(
                                         (mappingId) => {
                                             mappingIds.push(mappingId);
-                                        }
+                                        },
                                     );
                                 }
 
@@ -403,7 +403,7 @@ export default class MockAdapter
                                     (mapping) =>
                                         mapping.type ===
                                             ElementType.TwinToObjectMapping &&
-                                        mapping.id === id
+                                        mapping.id === id,
                                 ) as ITwinToObjectMapping;
 
                                 if (mapping) {
@@ -415,20 +415,20 @@ export default class MockAdapter
                                         InFlow: 300,
                                         OutFlow: 250,
                                         Temperature: 50,
-                                        displayName: 'My Machine 1'
+                                        displayName: 'My Machine 1',
                                     };
 
                                     // check for twin aliases and add to twins object
                                     if (mapping.twinAliases) {
                                         for (const alias of Object.keys(
-                                            mapping.twinAliases
+                                            mapping.twinAliases,
                                         )) {
                                             twins[alias] = mockTwins[alias] || {
                                                 $dtId: 'machineID2',
                                                 InFlow: 300,
                                                 OutFlow: 250,
                                                 Temperature: 50,
-                                                displayName: 'My Machine 2'
+                                                displayName: 'My Machine 2',
                                             };
                                         }
                                     }
@@ -436,7 +436,7 @@ export default class MockAdapter
                                     const sceneVisual = new SceneVisual(
                                         mapping.objectIDs,
                                         behavior.visuals,
-                                        twins
+                                        twins,
                                     );
                                     sceneVisuals.push(sceneVisual);
                                 }
@@ -450,7 +450,7 @@ export default class MockAdapter
         return await adapterMethodSandbox.safelyFetchData(async () => {
             return new ADT3DViewerData(
                 modelUrl, //3d file with public access which does not require authentication to read
-                sceneVisuals
+                sceneVisuals,
             );
         });
     }
@@ -462,15 +462,15 @@ export default class MockAdapter
             return new AdapterResult({
                 result: new ADTAdapterTwinsData({
                     value: mockTwins.filter((t) =>
-                        t.$dtId.includes(params.searchTerm)
-                    )
+                        t.$dtId.includes(params.searchTerm),
+                    ),
                 }),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<ADTAdapterTwinsData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -482,20 +482,20 @@ export default class MockAdapter
                 hostName:
                     'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net',
                 resourceId: '12345',
-                location: 'wcus'
-            }
+                location: 'wcus',
+            },
         ];
         try {
             await this.mockNetwork();
 
             return new AdapterResult({
                 result: new ADTInstancesData(mockEnvironments),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<ADTInstancesData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }
@@ -519,7 +519,7 @@ export default class MockAdapter
     async getTwinsForBehavior(
         _sceneId: string,
         _config: I3DScenesConfig,
-        _behavior: IBehavior
+        _behavior: IBehavior,
     ): Promise<Record<string, any>> {
         return null;
     }
@@ -527,7 +527,7 @@ export default class MockAdapter
     async getCommonTwinPropertiesForBehavior(
         _sceneId: string,
         _config: I3DScenesConfig,
-        _behavior: IBehavior
+        _behavior: IBehavior,
     ): Promise<string[]> {
         return ['$dtId', 'InFlow', 'OutFlow'];
     }
@@ -538,32 +538,32 @@ export default class MockAdapter
                 Name: 'BasicObjects.gltf',
                 Path:
                     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BasicObjects.gltf',
-                Properties: { 'Content-Length': 1000 }
+                Properties: { 'Content-Length': 1000 },
             },
             {
                 Name: 'BluePackingLine.gltf',
                 Path:
                     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BluePackingLine.gltf',
-                Properties: { 'Content-Length': 2000 }
+                Properties: { 'Content-Length': 2000 },
             },
             {
                 Name: '3DScenesConfiguration.json',
                 Path:
                     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/3DScenesConfiguration.json',
-                Properties: { 'Content-Length': 3000 }
-            }
+                Properties: { 'Content-Length': 3000 },
+            },
         ];
         try {
             await this.mockNetwork();
 
             return new AdapterResult({
                 result: new BlobsData(mockBlobs),
-                errorInfo: null
+                errorInfo: null,
             });
         } catch (err) {
             return new AdapterResult<BlobsData>({
                 result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
+                errorInfo: { catastrophicError: err, errors: [err] },
             });
         }
     }

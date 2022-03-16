@@ -18,15 +18,15 @@ export const defaultAdtDataPusherState: IDataPusherState = {
     areAssetsSet: false,
     simulationStatus: {
         areAssetsUploaded: false,
-        liveStatus: null
-    }
+        liveStatus: null,
+    },
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
 export const dataPusherReducer = produce(
     (
         draft: IDataPusherState,
-        action: { type: dataPusherActionType; payload?: any }
+        action: { type: dataPusherActionType; payload?: any },
     ) => {
         const payload = action.payload;
 
@@ -79,5 +79,5 @@ export const dataPusherReducer = produce(
             default:
                 return;
         }
-    }
+    },
 );

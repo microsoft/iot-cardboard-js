@@ -3,17 +3,17 @@ export enum Theme {
     Light = 'light',
     Dark = 'dark',
     Explorer = 'explorer',
-    Kraken = 'kraken'
+    Kraken = 'kraken',
 }
 
 export enum TSIComponentTypes {
     Linechart = 'linechart',
-    Barchart = 'barchart'
+    Barchart = 'barchart',
 }
 
 export enum Locale {
     EN = 'en',
-    DE = 'de'
+    DE = 'de',
 }
 
 export enum ComponentErrorType {
@@ -26,22 +26,22 @@ export enum ComponentErrorType {
     NonExistentBlob = 'NonExistentBlob',
     UnauthorizedAccess = 'UnauthorizedAccess',
     ReaderAccessOnly = 'ReaderAccessOnly',
-    JsonSchemaError = 'JsonSchemaError'
+    JsonSchemaError = 'JsonSchemaError',
 }
 
 export enum ErrorImages {
     AccessRestricted = 'AccessRestrictedError',
-    BlobError = 'BlobError'
+    BlobError = 'BlobError',
 }
 
 export enum HierarchyNodeType {
     Parent,
     Child,
-    ShowMore
+    ShowMore,
 }
 
 export enum BIMFileTypes {
-    Xkt = 'xkt'
+    Xkt = 'xkt',
 }
 
 export enum CardTypes {
@@ -51,14 +51,14 @@ export enum CardTypes {
     LineChart = 'LineChart',
     LKVProcessGraphicCard = 'LKVProcessGraphicCard',
     RelationshipsTable = 'RelationshipsTable',
-    InfoTable = 'InfoTable'
+    InfoTable = 'InfoTable',
 }
 
 export enum BIMUploadState {
     PreProcessing = 'preProcessing',
     PreUpload = 'preUpload',
     InUpload = 'inUpload',
-    PostUpload = 'postUpload'
+    PostUpload = 'postUpload',
 }
 
 export enum UploadPhase {
@@ -66,12 +66,12 @@ export enum UploadPhase {
     Uploading = 'uploading',
     Succeeded = 'succeeded',
     PartiallyFailed = 'partiallyfailed',
-    Failed = 'failed'
+    Failed = 'failed',
 }
 
 export enum modelActionType {
     select = 'select',
-    preview = 'preview'
+    preview = 'preview',
 }
 
 export enum TwinLookupStatus {
@@ -79,47 +79,47 @@ export enum TwinLookupStatus {
     Ready,
     Started,
     ReadyToLocate,
-    Finished
+    Finished,
 }
 
 export enum FormMode {
     New,
     Edit,
-    Readonly
+    Readonly,
 }
 
 export enum PropertyInspectorPatchMode {
     twin,
-    relationship
+    relationship,
 }
 
 export enum AssetTypes {
     Models = 'models',
     Twins = 'twins',
-    Relationships = 'relationships'
+    Relationships = 'relationships',
 }
 
 export enum FileUploadStatus {
     Uploading = 'uploading',
-    Uploaded = 'uploaded'
+    Uploaded = 'uploaded',
 }
 
 export enum ModelAuthoringModes {
     UploadFiles,
     FromTemplate,
-    BuildForm
+    BuildForm,
 }
 
 export enum ModelAuthoringSteps {
     SelectType,
     Review,
-    Publish
+    Publish,
 }
 
 export enum ADT3DScenePageSteps {
     Globe,
     SceneLobby,
-    SceneBuilder
+    SceneBuilder,
 }
 
 export enum ADT3DSceneBuilderMode {
@@ -129,27 +129,27 @@ export enum ADT3DSceneBuilderMode {
     EditElement,
     CreateBehavior,
     EditBehavior,
-    TargetElements
+    TargetElements,
 }
 
 export enum WidgetFormMode {
     CreateWidget,
-    EditWidget
+    EditWidget,
 }
 
 export enum ADT3DSceneTwinBindingsMode {
     Elements = 'elements',
-    Behaviors = 'behaviors'
+    Behaviors = 'behaviors',
 }
 
 export enum ADT3DScenePageModes {
     BuildScene = 'adt-3d-scene-builder-mode-build',
-    ViewScene = 'adt-3d-scene-builder-mode-view'
+    ViewScene = 'adt-3d-scene-builder-mode-view',
 }
 
 export enum BehaviorListSegment {
     InThisScene,
-    NotInThisScene
+    NotInThisScene,
 }
 
 export enum ADT3DRenderMode {
@@ -158,22 +158,22 @@ export enum ADT3DRenderMode {
     Red = 'Red',
     RedWireframe = 'RedWireframe',
     Green = 'Green',
-    GreenWireframe = 'GreenWireframe'
+    GreenWireframe = 'GreenWireframe',
 }
 
 export enum ADT3DAddInEventTypes {
     SceneLoaded = 'SceneLoaded',
     MarkerHover = 'MarkerHover',
-    MarkerClick = 'MarkerClick'
+    MarkerClick = 'MarkerClick',
 }
 
 export enum Supported3DFileTypes {
     GLTransmissionFormat = 'gltf',
-    GLTransmissionFormatBinary = 'glb'
+    GLTransmissionFormatBinary = 'glb',
 }
 
 export enum SupportedBlobFileTypes {
     JavaScriptObjectNotation = 'json',
     GLTransmissionFormat = 'gltf',
-    GLTransmissionFormatBinary = 'glb'
+    GLTransmissionFormatBinary = 'glb',
 }

@@ -4,7 +4,7 @@ import ADT3DGlobe from './ADT3DGlobe';
 import { MockAdapter } from '../../Adapters';
 
 export default {
-    title: '3DV/ADT3DGlobe'
+    title: '3DV/ADT3DGlobe',
 };
 
 export const Globe = () => {
@@ -13,7 +13,7 @@ export const Globe = () => {
         <div></div>
     ) : (
         <div style={{ width: '100%', height: '100%' }}>
-            <ADT3DGlobe title={"Globe"} adapter={new MockAdapter()} />
+            <ADT3DGlobe title={'Globe'} adapter={new MockAdapter()} />
         </div>
     );
 };

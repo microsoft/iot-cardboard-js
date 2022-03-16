@@ -4,7 +4,7 @@ import RelationshipsTable from './RelationshipsTable';
 
 export default {
     title: 'Cards/RelationshipsTable',
-    component: RelationshipsTable
+    component: RelationshipsTable,
 };
 
 const relationshipsOnClick = (twin, model, errors) =>
@@ -12,7 +12,7 @@ const relationshipsOnClick = (twin, model, errors) =>
 
 export const MockData = (
     args,
-    { globals: { theme }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme }, parameters: { wideCardWrapperStyle } },
 ) => {
     return (
         <div style={wideCardWrapperStyle}>

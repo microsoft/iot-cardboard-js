@@ -16,13 +16,13 @@ const LKVProcessGraphicCard: React.FC<LKVProcessGraphicCardProps> = ({
     title,
     theme,
     locale,
-    localeStrings
+    localeStrings,
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
         refetchDependencies: [id, properties],
         isLongPolling: true,
-        pollingIntervalMillis: pollingIntervalMillis
+        pollingIntervalMillis: pollingIntervalMillis,
     });
 
     return (

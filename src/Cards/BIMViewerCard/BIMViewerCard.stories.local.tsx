@@ -6,12 +6,12 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
     title: 'Cards/BimViewerCard',
-    component: BIMViewerCard
+    component: BIMViewerCard,
 };
 
 const wrapperStyle = {
     height: '500px',
-    width: '500px'
+    width: '500px',
 };
 
 export const ADT = (_args, { globals: { theme } }) => {
@@ -27,8 +27,8 @@ export const ADT = (_args, { globals: { theme } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />

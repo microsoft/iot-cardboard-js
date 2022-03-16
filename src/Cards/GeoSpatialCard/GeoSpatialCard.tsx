@@ -14,13 +14,13 @@ const GeoSpatialCard: React.FC<GeoSpatialCardProps> = ({
     theme,
     locale,
     localeStrings,
-    adapterAdditionalParameters
+    adapterAdditionalParameters,
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getKeyValuePairs(id, properties),
         refetchDependencies: [id, properties],
         isLongPolling: true,
-        pollingIntervalMillis: pollingIntervalMillis
+        pollingIntervalMillis: pollingIntervalMillis,
     });
     return (
         <BaseCard

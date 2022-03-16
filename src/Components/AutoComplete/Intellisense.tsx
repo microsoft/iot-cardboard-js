@@ -57,7 +57,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     propertyNames,
     defaultValue,
     getPropertyNames,
-    onChange
+    onChange,
 }) => {
     const [value, setValue] = useState(defaultValue || '');
 
@@ -112,11 +112,11 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     const getItems = (
         value: string,
         _items: string[],
-        changedPosition: number
+        changedPosition: number,
     ) => {
         const { search, tokens, activeToken } = getSearchString(
             value,
-            value.substring(0, changedPosition)
+            value.substring(0, changedPosition),
         );
 
         let items = aliasNames || ['LinkedTwin'];
@@ -145,11 +145,11 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
             filtered = items.filter(
                 (item) =>
                     item.toLowerCase().substring(0, val.length) ===
-                    val.toLowerCase()
+                    val.toLowerCase(),
             );
         } else if (!isTwin && val) {
             filtered = items.filter(
-                (item) => item.toLowerCase().indexOf(val.toLowerCase()) >= 0
+                (item) => item.toLowerCase().indexOf(val.toLowerCase()) >= 0,
             );
             if (
                 filtered.length === 1 &&
@@ -169,11 +169,11 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     const onSelected = (
         value: string,
         newValue: string,
-        changedPosition: number
+        changedPosition: number,
     ): string => {
         const { search, tokens, activeToken } = getSearchString(
             value,
-            value.substring(0, changedPosition)
+            value.substring(0, changedPosition),
         );
         let str = '';
 
@@ -202,7 +202,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     };
 
     return (
-        <div className={"bgwhite"}>
+        <div className={'bgwhite'}>
             <AutoComplete
                 defaultValue={value}
                 getItems={getItems}

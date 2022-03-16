@@ -4,7 +4,7 @@ import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 export enum Boundary {
     min = 'min',
-    max = 'max'
+    max = 'max',
 }
 
 export enum ValueRangeBuilderActionType {
@@ -14,7 +14,7 @@ export enum ValueRangeBuilderActionType {
     DELETE_VALUE_RANGE,
     UPDATE_VALIDATION_MAP,
     UPDATE_VALUE_RANGE_VALIDATION,
-    SNAP_VALUE_TO_INFINITY
+    SNAP_VALUE_TO_INFINITY,
 }
 
 export type ValueRangeBuilderAction =

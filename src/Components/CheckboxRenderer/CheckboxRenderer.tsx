@@ -8,7 +8,7 @@ export interface CheckboxRendererProps {
 }
 const CheckboxRenderer: React.FC<CheckboxRendererProps> = ({
     isChecked,
-    className
+    className,
 }) => {
     const theme = useTheme();
     const checkboxStyles = getStyles(theme);

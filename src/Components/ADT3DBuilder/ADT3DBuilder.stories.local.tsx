@@ -6,7 +6,7 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 
 export default {
     title: '3DV/ADT3DBuilder',
-    component: 'ADT3DBuilder'
+    component: 'ADT3DBuilder',
 };
 
 export const Engine = () => {
@@ -21,16 +21,18 @@ export const Engine = () => {
     ) : (
         <div style={{ width: '600px', height: '400px' }}>
             <ADT3DBuilder
-                title={"3D Builder"}
+                title={'3D Builder'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
-                modelUrl={"https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"}
+                modelUrl={
+                    'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
+                }
                 onMeshClicked={onMeshClicked}
             />
         </div>

@@ -15,27 +15,27 @@ import { getToggleStyles } from './Toggle.styles';
 */
 export const getCustomComponentStyles = (
     themeSetting: Theme,
-    theme: ITheme
+    theme: ITheme,
 ) => ({
     PrimaryButton: {
-        styles: getPrimaryButtonStyles(themeSetting, theme)
+        styles: getPrimaryButtonStyles(themeSetting, theme),
     },
     TextField: {
-        styles: getTextFieldStyles(themeSetting, theme)
+        styles: getTextFieldStyles(themeSetting, theme),
     },
     Toggle: {
-        styles: getToggleStyles(themeSetting, theme)
+        styles: getToggleStyles(themeSetting, theme),
     },
     Dropdown: {
-        styles: getDropdownStyles(themeSetting, theme)
+        styles: getDropdownStyles(themeSetting, theme),
     },
     Separator: {
-        styles: getSeparatorStyles(themeSetting, theme)
+        styles: getSeparatorStyles(themeSetting, theme),
     },
     SpinButton: {
-        styles: getSpinButtonStyles(themeSetting, theme)
+        styles: getSpinButtonStyles(themeSetting, theme),
     },
     Pivot: {
-        styles: getPivotStyles(themeSetting, theme)
-    }
+        styles: getPivotStyles(themeSetting, theme),
+    },
 });

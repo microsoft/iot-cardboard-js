@@ -7,14 +7,14 @@ import BaseCard from './BaseCard';
 
 export default {
     title: 'Cards/BaseCard',
-    component: BaseCard
+    component: BaseCard,
 };
 
 export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
     <div
         style={{
             height: '400px',
-            position: 'relative'
+            position: 'relative',
         }}
     >
         <BaseCard
@@ -23,7 +23,7 @@ export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
             adapterResult={
                 new AdapterResult({
                     result: null,
-                    errorInfo: null
+                    errorInfo: null,
                 })
             }
             locale={locale}
@@ -33,16 +33,16 @@ export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
 
 const useMockError = (errorType: ComponentErrorType) => {
     const adapter = new MockAdapter({
-        mockError: errorType
+        mockError: errorType,
     });
     const id = 'errorTest';
     const properties = ['a', 'b', 'c'];
     const cardState = useAdapter({
         adapterMethod: () =>
             adapter.getKeyValuePairs(id, properties, {
-                isTimestampIncluded: true
+                isTimestampIncluded: true,
             }),
-        refetchDependencies: [...properties, errorType]
+        refetchDependencies: [...properties, errorType],
     });
     return cardState;
 };
@@ -54,7 +54,7 @@ export const CatastrophicErrors = (args, { globals: { theme } }) => {
         <div
             style={{
                 height: '400px',
-                position: 'relative'
+                position: 'relative',
             }}
         >
             <BaseCard
@@ -70,21 +70,21 @@ CatastrophicErrors.argTypes = {
     errorType: {
         control: {
             type: 'radio',
-            options: [...Object.keys(ComponentErrorType)]
+            options: [...Object.keys(ComponentErrorType)],
         },
         defaultValue: ComponentErrorType.TokenRetrievalFailed,
-        description: 'Test'
-    }
+        description: 'Test',
+    },
 };
 
 export const BasicCardWithCustomTranslation = (
     args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => (
     <div
         style={{
             height: '400px',
-            position: 'relative'
+            position: 'relative',
         }}
     >
         <BaseCard
@@ -93,7 +93,7 @@ export const BasicCardWithCustomTranslation = (
             adapterResult={
                 new AdapterResult({
                     result: null,
-                    errorInfo: null
+                    errorInfo: null,
                 })
             }
             locale={(args.locale as Locale) || locale}
@@ -109,32 +109,32 @@ const customTranslations = {
         translation: {
             preview: 'MyPreview-EN',
             loading: 'MyLoading...-EN',
-            noData: 'MyNo data-EN'
-        }
+            noData: 'MyNo data-EN',
+        },
     },
     de: {
         translation: {
             preview: 'MyPreview-DE',
             loading: 'MyLoading...-DE',
-            noData: 'MyNo data-DE'
-        }
+            noData: 'MyNo data-DE',
+        },
     },
     fr: {
         translation: {
             preview: 'MyPreview-FR',
             loading: 'MyLoading...-FR',
-            noData: 'MyNo data-FR'
-        }
-    }
+            noData: 'MyNo data-FR',
+        },
+    },
 };
 
 BasicCardWithCustomTranslation.argTypes = {
     locale: {
         control: {
             type: 'radio',
-            options: [undefined, 'en', 'de']
+            options: [undefined, 'en', 'de'],
         },
-        defaultValue: undefined
+        defaultValue: undefined,
     },
     localeStrings: {
         control: {
@@ -143,9 +143,9 @@ BasicCardWithCustomTranslation.argTypes = {
                 undefined,
                 JSON.stringify(customTranslations.en.translation),
                 JSON.stringify(customTranslations.de.translation),
-                JSON.stringify(customTranslations.fr.translation)
-            ]
+                JSON.stringify(customTranslations.fr.translation),
+            ],
         },
-        defaultValue: undefined
-    }
+        defaultValue: undefined,
+    },
 };

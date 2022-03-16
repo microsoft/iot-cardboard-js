@@ -8,7 +8,7 @@ import { Checkbox } from '@fluentui/react/lib/components/Checkbox/Checkbox';
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import {
     IIconStyleProps,
-    IIconStyles
+    IIconStyles,
 } from '@fluentui/react/lib/components/Icon/Icon.types';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
 
@@ -18,7 +18,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
         onNodeValueChange,
         onNodeValueUnset,
         readonly,
-        isTreeEdited
+        isTreeEdited,
     } = useContext(PropertyTreeContext);
     const propertyType = node.schema;
 
@@ -44,17 +44,18 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                         label={node.value ? t('true') : t('false')}
                         checked={(node.value as boolean) || false}
                         onChange={(_e, checked) =>
-                            onNodeValueChange(node, checked)}
+                            onNodeValueChange(node, checked)
+                        }
                         styles={{
                             checkbox: {
                                 width: 16,
                                 height: 16,
-                                border: '1px solid var(--cb-color-card-border)'
+                                border: '1px solid var(--cb-color-card-border)',
                             },
                             label: {
                                 display: 'flex',
-                                alignItems: 'center'
-                            }
+                                alignItems: 'center',
+                            },
                         }}
                     />
                 </div>
@@ -69,17 +70,17 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             }
             return (
                 <DateTimeValue
-                    iconName={"Calendar"}
+                    iconName={'Calendar'}
                     node={node}
                     pickerTitle={t(
-                        'propertyInspector.dateTimePicker.datePickerTitle'
+                        'propertyInspector.dateTimePicker.datePickerTitle',
                     )}
                     inputProps={{
                         placeholder: 'yyyy-mm-dd',
                         value: node.value as string,
-                        style: { width: 72 }
+                        style: { width: 72 },
                     }}
-                    type={"date"}
+                    type={'date'}
                 />
             );
         case dtdlPropertyTypesEnum.dateTime:
@@ -92,18 +93,18 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             }
             return (
                 <DateTimeValue
-                    iconName={"DateTime"}
+                    iconName={'DateTime'}
                     node={node}
                     pickerTitle={t(
-                        'propertyInspector.dateTimePicker.dateTimePickerTitle'
+                        'propertyInspector.dateTimePicker.dateTimePickerTitle',
                     )}
                     step={'1'}
                     inputProps={{
                         placeholder: 'yyyy-mm-ddThh:mm:ss',
                         value: node.value as string,
-                        style: { width: 172 }
+                        style: { width: 172 },
                     }}
-                    type={"datetime-local"}
+                    type={'datetime-local'}
                 />
             );
         case dtdlPropertyTypesEnum.integer:
@@ -118,7 +119,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
-                        type={"number"}
+                        type={'number'}
                         value={node.value as number}
                         style={{ width: 88 }}
                         onKeyDown={(e) => {
@@ -127,9 +128,9 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                             }
                         }}
                         onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)}
-                    >
-                    </input>
+                            onNodeValueChange(node, e.target.value)
+                        }
+                    ></input>
                 </div>
             );
         case dtdlPropertyTypesEnum.double:
@@ -144,7 +145,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
-                        type={"number"}
+                        type={'number'}
                         value={node.value as number}
                         style={{ width: 88 }}
                         onKeyDown={(e) => {
@@ -153,9 +154,9 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                             }
                         }}
                         onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)}
-                    >
-                    </input>
+                            onNodeValueChange(node, e.target.value)
+                        }
+                    ></input>
                 </div>
             );
         case dtdlPropertyTypesEnum.duration: // take ms or s and convert to standard notation
@@ -169,13 +170,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             return (
                 <div className={nodeValueClassname}>
                     <input
-                        placeholder={"PnYnMnDTnHnMnS"}
+                        placeholder={'PnYnMnDTnHnMnS'}
                         value={node.value as string}
                         style={{ width: 136 }}
                         onChange={(e) =>
-                            onNodeValueChange(node, e.target.value)}
-                    >
-                    </input>
+                            onNodeValueChange(node, e.target.value)
+                        }
+                    ></input>
                 </div>
             );
         case dtdlPropertyTypesEnum.string:
@@ -210,13 +211,13 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
                                 padding: '1px 4px',
                                 ...((node.value as string).length > 0 && {
                                     minWidth: 120,
-                                    minHeight: 24
-                                })
+                                    minHeight: 24,
+                                }),
                             }}
                             onChange={(e) =>
-                                onNodeValueChange(node, e.target.value)}
-                        >
-                        </textarea>
+                                onNodeValueChange(node, e.target.value)
+                            }
+                        ></textarea>
                     </div>
                 );
             }
@@ -231,18 +232,18 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
             }
             return (
                 <DateTimeValue
-                    iconName={"Clock"}
+                    iconName={'Clock'}
                     node={node}
                     pickerTitle={t(
-                        'propertyInspector.dateTimePicker.timePickerTitle'
+                        'propertyInspector.dateTimePicker.timePickerTitle',
                     )}
                     step={'1'}
                     inputProps={{
                         placeholder: 'hh:mm:ss',
                         value: node.value as string,
-                        style: { width: 92 }
+                        style: { width: 92 },
                     }}
-                    type={"time"}
+                    type={'time'}
                 />
             );
         case dtdlPropertyTypesEnum.Enum:
@@ -289,7 +290,7 @@ const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
 
 const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     node,
-    readonly
+    readonly,
 }) => {
     const { t } = useTranslation();
     const { onAddMapValue } = useContext(PropertyTreeContext);
@@ -309,8 +310,8 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
             color: props.theme.palette.neutralPrimaryAlt,
-            opacity: isAddMapValueDisabled ? 0.5 : 1
-        }
+            opacity: isAddMapValueDisabled ? 0.5 : 1,
+        },
     });
 
     const handleAddMapValue = () => {
@@ -335,9 +336,9 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
                 onChange={(e) => handleChangeMapKey(e)}
                 placeholder={t('propertyInspector.mapKeyPlaceholder')}
                 onKeyDown={(e) =>
-                    e.key === 'Enter' ? handleAddMapValue() : null}
-            >
-            </input>
+                    e.key === 'Enter' ? handleAddMapValue() : null
+                }
+            ></input>
             <div
                 tabIndex={0}
                 aria-label={t('propertyInspector.addMapIconTitle')}

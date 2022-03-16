@@ -5,7 +5,7 @@ import SceneView from './SceneView';
 
 export default {
     title: 'Components/SceneView',
-    component: 'SceneView'
+    component: 'SceneView',
 };
 
 export const BasicObjectWithAuth = () => {
@@ -23,11 +23,13 @@ export const BasicObjectWithAuth = () => {
         <div
             style={{
                 height: '100%',
-                position: 'relative'
+                position: 'relative',
             }}
         >
             <SceneView
-                modelUrl={"https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf"}
+                modelUrl={
+                    'https://cardboardresources.blob.core.windows.net/3dv-workspace-2/TruckBoxesEnginesPastmachine.gltf'
+                }
                 getToken={() => authService.getToken('storage')}
             />
         </div>

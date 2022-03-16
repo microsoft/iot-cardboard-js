@@ -6,7 +6,7 @@ import ADTModelUploaderCard from './ADTModelUploaderCard';
 
 export default {
     title: 'Cards/ADTModelUploaderCard',
-    component: ADTModelUploaderCard
+    component: ADTModelUploaderCard,
 };
 
 export const ADTModelsUploader = (_args, { globals: { theme, locale } }) => {
@@ -17,7 +17,7 @@ export const ADTModelsUploader = (_args, { globals: { theme, locale } }) => {
         <div
             style={{
                 width: '800px',
-                height: '520px'
+                height: '520px',
             }}
         >
             <ADTModelUploaderCard
@@ -25,11 +25,11 @@ export const ADTModelsUploader = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
-                title={"Upload DTDL model files"}
+                title={'Upload DTDL model files'}
                 theme={theme}
                 locale={locale}
                 hasUploadButton={true}

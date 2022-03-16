@@ -2,7 +2,7 @@ import { Separator, Stack, IStackTokens } from '@fluentui/react';
 import React from 'react';
 import {
     PanelFooterStackStyles,
-    PanelFooterStyles
+    PanelFooterStyles,
 } from './PanelFooter.styles';
 
 interface IPanelFooterProps {

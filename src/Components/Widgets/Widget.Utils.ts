@@ -3,7 +3,7 @@ import { parseExpression } from '../../Models/Services/Utils';
 
 export function performSubstitutions(
     expression: string,
-    twins: Record<string, DTwin>
+    twins: Record<string, DTwin>,
 ) {
     while (expression) {
         const n = expression.indexOf('${');

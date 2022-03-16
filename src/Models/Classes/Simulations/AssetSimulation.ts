@@ -3,19 +3,19 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
-    IAdtPusherSimulation
+    IAdtPusherSimulation,
 } from '../../Constants';
 import {
     AssetRelationship,
     AssetTwin,
     ADTPatch,
-    DTwinUpdateEvent
+    DTwinUpdateEvent,
 } from '../../Constants/Interfaces';
 import { downloadText } from '../../Services/Utils';
 import { Asset } from './Asset';
 
 const modelTwinsRelationshipsData = {
-    versionNumber: 1
+    versionNumber: 1,
 };
 
 export default class AssetSimulation implements IAdtPusherSimulation {
@@ -36,7 +36,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
 
         this.typeIds = {
             PasteurizationMachine: 'a259fb24-3359-4252-9bc8-c3c8583edc67',
-            HVACSystem: '04bb3d5b-2b3e-4d45-933e-fb0087be3685'
+            HVACSystem: '04bb3d5b-2b3e-4d45-933e-fb0087be3685',
         };
     }
 
@@ -57,7 +57,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                     dtId: twin.name,
                     patchJSON: twin.devices.map(function (d) {
                         return d.tick() as ADTPatch;
-                    })
+                    }),
                 };
                 events.push(updateTwin);
             });
@@ -71,8 +71,8 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                 (device) => ({
                     '@type': 'Property',
                     name: device.deviceName,
-                    schema: 'double'
-                })
+                    schema: 'double',
+                }),
             );
             const relationshipContents: Array<any> = asset.relationships.map(
                 (assetRelationship: AssetRelationship) => {
@@ -83,17 +83,17 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                             {
                                 '@type': 'Property',
                                 name: 'targetModel',
-                                schema: 'string'
-                            }
-                        ]
+                                schema: 'string',
+                            },
+                        ],
                     };
                     if (assetRelationship.target) {
                         relationship.target = this.generateModelId(
-                            assetRelationship.target
+                            assetRelationship.target,
                         );
                     }
                     return relationship;
-                }
+                },
             );
 
             const model: DTModel = {
@@ -101,7 +101,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                 '@type': 'Interface',
                 '@context': 'dtmi:dtdl:context;2',
                 displayName: asset.name,
-                contents: [...propertyContents, ...relationshipContents]
+                contents: [...propertyContents, ...relationshipContents],
             };
             return model;
         });
@@ -118,8 +118,8 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                 const twin: DTwin = {
                     $dtId: assetTwin.name,
                     $metadata: {
-                        $model: `dtmi:assetGen:${asset.name};${modelTwinsRelationshipsData.versionNumber}`
-                    }
+                        $model: `dtmi:assetGen:${asset.name};${modelTwinsRelationshipsData.versionNumber}`,
+                    },
                 };
                 asset.devices.forEach((device) => {
                     twin[`${device.deviceName}`] = device.minValue;
@@ -140,7 +140,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                 twin.assetRelationships?.forEach(
                     (
                         relationship: AssetRelationship,
-                        relationshipIndex: number
+                        relationshipIndex: number,
                     ) => {
                         relationships.push({
                             $relId: `${twin.name}_${relationship.name}_Relationship${relationshipIndex}`,
@@ -151,9 +151,9 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                                 : '',
                             targetModel: relationship.targetModel
                                 ? relationship.targetModel
-                                : ''
+                                : '',
                         });
-                    }
+                    },
                 );
             });
         });

@@ -370,5 +370,5 @@ export const dtdlSyntaxMap = {
     'dtmi:standard:schema:geospatial:lineString;2': 'lineString',
     'dtmi:standard:schema:geospatial:multiLineString;2': 'multiLineString',
     'dtmi:standard:schema:geospatial:polygon;2': 'polygon',
-    'dtmi:standard:schema:geospatial:multiPolygon;': 'multiPolygon'
+    'dtmi:standard:schema:geospatial:multiPolygon;': 'multiPolygon',
 };

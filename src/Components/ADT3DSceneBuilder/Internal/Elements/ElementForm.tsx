@@ -7,7 +7,7 @@ import {
     PrimaryButton,
     Separator,
     TextField,
-    useTheme
+    useTheme,
 } from '@fluentui/react';
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -24,12 +24,12 @@ import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
 import PanelFooter from '../Shared/PanelFooter';
 import {
     panelFormPivotStyles,
-    getPanelFormStyles
+    getPanelFormStyles,
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
     IScene,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
@@ -42,7 +42,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     onElementBackClick,
     onBehaviorSave,
     onBehaviorClick,
-    onCreateBehaviorWithElements
+    onCreateBehaviorWithElements,
 }) => {
     const { t } = useTranslation();
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
@@ -51,12 +51,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             id: '',
             displayName: '',
             linkedTwinID: '',
-            objectIDs: []
-        }
+            objectIDs: [],
+        },
     );
 
     const [behaviorsToEdit, setBehaviorsToEdit] = useState<Array<IBehavior>>(
-        []
+        [],
     );
 
     const {
@@ -65,7 +65,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         sceneId,
         getConfig,
         coloredMeshItems,
-        setColoredMeshItems
+        setColoredMeshItems,
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -73,17 +73,17 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             const sceneToUpdate: IScene = {
                 ...config.configuration.scenes[
                     config.configuration.scenes.findIndex(
-                        (s) => s.id === sceneId
+                        (s) => s.id === sceneId,
                     )
-                ]
+                ],
             };
             sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
-                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
+                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate),
             );
         },
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const handleSaveElement = async () => {
@@ -108,7 +108,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
 
         updateTwinToObjectMappings.callAdapter({
-            elements: newElements
+            elements: newElements,
         });
 
         for (const behavior of behaviorsToEdit) {
@@ -121,7 +121,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     useEffect(() => {
         if (selectedElement) {
             setColoredMeshItems(
-                createCustomMeshItems(selectedElement.objectIDs, null)
+                createCustomMeshItems(selectedElement.objectIDs, null),
             );
         }
     }, []);
@@ -133,7 +133,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         }
         setElementToEdit({
             ...elementToEdit,
-            objectIDs: meshIds
+            objectIDs: meshIds,
         });
     }, [coloredMeshItems]);
 
@@ -151,12 +151,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             setElementToEdit({
                 ...elementToEdit,
                 linkedTwinID: selectedTwinId,
-                displayName: selectedTwinId
+                displayName: selectedTwinId,
             });
         } else {
             setElementToEdit({
                 ...elementToEdit,
-                linkedTwinID: selectedTwinId
+                linkedTwinID: selectedTwinId,
             });
         }
     };
@@ -200,7 +200,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         onChange={(e) => {
                             setElementToEdit({
                                 ...elementToEdit,
-                                displayName: e.currentTarget.value
+                                displayName: e.currentTarget.value,
                             });
                         }}
                     />

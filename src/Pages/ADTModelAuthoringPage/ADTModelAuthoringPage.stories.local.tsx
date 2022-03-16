@@ -8,18 +8,18 @@ export default {
     title: 'Pages/ADTModelAuthoringPage',
     component: ADTModelAuthoringPage,
     parameters: {
-        noGlobalWrapper: true
-    }
+        noGlobalWrapper: true,
+    },
 };
 
 const cardStyle = {
     height: '700px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADTModelListWithModelDetails = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const authenticationParameters = useAuthParams();
 
@@ -34,8 +34,8 @@ export const ADTModelListWithModelDetails = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 onAuthoringOpen={() => console.log('Model authoring opened!')}

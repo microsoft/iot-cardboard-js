@@ -5,7 +5,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import {
     IADT3DViewerRenderMode,
-    IADTAdapter
+    IADTAdapter,
 } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from 'babylonjs';
@@ -32,13 +32,13 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     coloredMeshItems,
     showHoverOnSelected,
     renderMode,
-    outlinedMeshItems
+    outlinedMeshItems,
 }) => {
     const meshClick = (
         _marker: Marker,
         mesh: AbstractMesh,
         _scene: Scene,
-        e: PointerEvent
+        e: PointerEvent,
     ) => {
         if (onMeshClicked) {
             onMeshClicked(mesh, e);
@@ -49,7 +49,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
         _marker: Marker,
         mesh: AbstractMesh,
         _scene: Scene,
-        _e: PointerEvent
+        _e: PointerEvent,
     ) => {
         if (onMeshHovered) {
             onMeshHovered(mesh);
@@ -58,7 +58,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
 
     return (
         <BaseComponent>
-            <div className={"cb-adt3dbuilder-wrapper"}>
+            <div className={'cb-adt3dbuilder-wrapper'}>
                 <SceneView
                     modelUrl={modelUrl}
                     onMeshClick={meshClick}
@@ -72,7 +72,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                         (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
-                                      'storage'
+                                      'storage',
                                   )
                             : undefined
                     }

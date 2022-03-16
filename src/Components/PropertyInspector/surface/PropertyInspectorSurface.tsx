@@ -22,7 +22,7 @@ const PropertyInspectorSurface: React.FC<Props> = ({
     twinId,
     relationshipId,
     theme,
-    locale
+    locale,
 }) => {
     const { t } = useTranslation();
 
@@ -37,17 +37,17 @@ const PropertyInspectorSurface: React.FC<Props> = ({
             className={'cb-property-inspector-panel-container'}
             styles={{
                 header: {
-                    paddingLeft: 24
+                    paddingLeft: 24,
                 },
                 scrollableContent: {
-                    overflowY: 'hidden'
+                    overflowY: 'hidden',
                 },
                 content: {
                     height: '100%',
                     display: 'flex',
                     paddingLeft: '20px',
-                    paddingRight: '0px'
-                }
+                    paddingRight: '0px',
+                },
             }}
         >
             <PropertyInspector

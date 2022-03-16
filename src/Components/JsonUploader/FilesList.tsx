@@ -9,7 +9,7 @@ import {
     MessageBarType,
     SelectionMode,
     TooltipDelay,
-    TooltipHost
+    TooltipHost,
 } from '@fluentui/react';
 import prettyBytes from 'pretty-bytes';
 import React, {
@@ -17,12 +17,12 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
-    useState
+    useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     FileUploadStatus,
-    IJSONUploaderFileItem as IFileItem
+    IJSONUploaderFileItem as IFileItem,
 } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import { useId } from '@fluentui/react-hooks';
@@ -47,7 +47,7 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                 const newListItem = {
                     name: f.name,
                     size: prettyBytes(f.size),
-                    status: FileUploadStatus.Uploading
+                    status: FileUploadStatus.Uploading,
                 } as IFileItem;
                 try {
                     const content = await f.text();
@@ -92,13 +92,13 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                     }
                     return acc;
                 }, []);
-        }
+        },
     }));
 
     return (
         <>
             <DetailsList
-                className={"cb-file-list"}
+                className={'cb-file-list'}
                 items={listItems}
                 columns={[
                     {
@@ -106,14 +106,14 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                         name: t('name'),
                         minWidth: 210,
                         isResizable: true,
-                        onRender: (item: IFileItem) => <span>{item.name}</span>
+                        onRender: (item: IFileItem) => <span>{item.name}</span>,
                     },
                     {
                         key: 'cb-file-list-column-size',
                         name: t('size'),
                         minWidth: 160,
                         maxWidth: 250,
-                        onRender: (item: IFileItem) => <span>{item.size}</span>
+                        onRender: (item: IFileItem) => <span>{item.size}</span>,
                     },
                     {
                         key: 'cb-file-list-column-status',
@@ -135,12 +135,11 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                                     }
                                 >
                                     <FontIcon
-                                        iconName={"Warning"}
-                                        className={"cb-warning-icon"}
-                                    >
-                                    </FontIcon>
+                                        iconName={'Warning'}
+                                        className={'cb-warning-icon'}
+                                    ></FontIcon>
                                 </ViewWithTooltip>
-                            )
+                            ),
                     },
                     {
                         key: 'cb-file-list-column-actions',
@@ -165,9 +164,9 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                                         styles: {
                                             root: {
                                                 color:
-                                                    'var(--cb-color-text-error)'
-                                            }
-                                        }
+                                                    'var(--cb-color-text-error)',
+                                            },
+                                        },
                                     }}
                                     title={t('delete')}
                                     ariaLabel={t('delete')}
@@ -177,8 +176,8 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                                     }}
                                 />
                             </div>
-                        )
-                    }
+                        ),
+                    },
                 ]}
                 layoutMode={DetailsListLayoutMode.justified}
                 selectionMode={SelectionMode.none}
@@ -187,10 +186,10 @@ function FilesList({ files, onRemoveFile, onListUpdated }: IFilesList, ref) {
                         selectors: {
                             '.ms-DetailsRow-cell': {
                                 lineHeight: '32px',
-                                fontSize: '14px'
-                            }
-                        }
-                    }
+                                fontSize: '14px',
+                            },
+                        },
+                    },
                 }}
             />
             {isPreviewOpen && (

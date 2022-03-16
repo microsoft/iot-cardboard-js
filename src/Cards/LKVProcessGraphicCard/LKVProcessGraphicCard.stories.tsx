@@ -12,10 +12,10 @@ export default {
     parameters: {
         docs: {
             source: {
-                type: 'code'
-            }
-        }
-    }
+                type: 'code',
+            },
+        },
+    },
 };
 
 const propChangeMock = [
@@ -25,17 +25,17 @@ const propChangeMock = [
         positions: {
             battery: { left: '10%', top: '20%' },
             fuel: { left: '80%', top: '40%' },
-            location: { left: '30%', top: '70%' }
-        }
+            location: { left: '30%', top: '70%' },
+        },
     },
     {
         id: 'a56yutiodse',
         properties: ['temp', 'pressure'],
         positions: {
             temp: { left: '20%', top: '40%' },
-            pressure: { left: '50%', top: '50%' }
-        }
-    }
+            pressure: { left: '50%', top: '50%' },
+        },
+    },
 ];
 
 const imageSrc =
@@ -43,19 +43,19 @@ const imageSrc =
 
 export const Mock = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     const [properties, setProperties] = useState({
         properties: propChangeMock[0].properties,
         propertyPositions: propChangeMock[0].positions,
-        id: propChangeMock[0].id
+        id: propChangeMock[0].id,
     });
 
     setTimeout(() => {
         setProperties({
             properties: propChangeMock[1].properties,
             propertyPositions: propChangeMock[1].positions,
-            id: propChangeMock[1].id
+            id: propChangeMock[1].id,
         });
     }, 5000);
 
@@ -78,7 +78,7 @@ export const Mock = (
 
 export const UsingCustomKVPAdapter = (
     _args,
-    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { wideCardWrapperStyle } },
 ) => {
     const seededRng = useStableGuidRng();
 
@@ -88,8 +88,8 @@ export const UsingCustomKVPAdapter = (
         positions: {
             TireTemp: { left: '30%', top: '80%' },
             Speed: { left: '15%', top: '10%' },
-            Battery: { left: '70%', top: '60%' }
-        }
+            Battery: { left: '70%', top: '60%' },
+        },
     };
 
     // Create adapter object adhering to IKeyValuePairAdapter interface
@@ -107,15 +107,15 @@ export const UsingCustomKVPAdapter = (
                         key: prop,
                         value: seededRng(),
                         timestamp: new Date(
-                            new Date('01/01/2021').getTime() + idx * 1000
-                        )
+                            new Date('01/01/2021').getTime() + idx * 1000,
+                        ),
                     };
                     return kvp;
                 });
 
                 return new KeyValuePairAdapterData(kvps);
             });
-        }
+        },
     };
 
     return (

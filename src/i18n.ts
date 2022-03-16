@@ -6,11 +6,11 @@ import deTranslation from './Resources/Locales/de/translation.json';
 
 const resources = {
     en: {
-        translation: enTranslation
+        translation: enTranslation,
     },
     de: {
-        translation: deTranslation
-    }
+        translation: deTranslation,
+    },
 };
 
 const i18nInstance = i18n;
@@ -24,11 +24,11 @@ i18nInstance
         debug: process.env.NODE_ENV !== 'production',
 
         interpolation: {
-            escapeValue: false // not needed for react!!
+            escapeValue: false, // not needed for react!!
         },
         react: {
-            useSuspense: true
-        }
+            useSuspense: true,
+        },
     });
 
 export default i18nInstance;

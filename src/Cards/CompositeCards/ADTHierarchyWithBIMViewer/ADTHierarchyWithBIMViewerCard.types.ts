@@ -1,7 +1,7 @@
 import { ADTAdapter } from '../../../Adapters';
 import {
     IConsumeCompositeCardProps,
-    IHierarchyNode
+    IHierarchyNode,
 } from '../../../Models/Constants/Interfaces';
 
 export interface ADTHierarchyWithBIMViewerCardProps

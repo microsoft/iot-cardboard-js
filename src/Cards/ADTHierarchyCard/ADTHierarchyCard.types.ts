@@ -2,7 +2,7 @@ import {
     IStandaloneConsumeCardProps,
     IADTAdapter,
     IHierarchyNode,
-    TwinLookupStatus
+    TwinLookupStatus,
 } from '../..';
 
 export interface ADTHierarchyCardProps extends IStandaloneConsumeCardProps {
@@ -10,10 +10,10 @@ export interface ADTHierarchyCardProps extends IStandaloneConsumeCardProps {
     onParentNodeClick?: (node: IHierarchyNode) => void;
     onChildNodeClick?: (
         parentNode: IHierarchyNode,
-        childNode: IHierarchyNode
+        childNode: IHierarchyNode,
     ) => void;
     nodeFilter?: (
-        nodes: Record<string, IHierarchyNode>
+        nodes: Record<string, IHierarchyNode>,
     ) => Record<string, IHierarchyNode>;
     lookupTwinId?: string;
 }

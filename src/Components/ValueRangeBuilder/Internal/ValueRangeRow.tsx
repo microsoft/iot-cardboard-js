@@ -4,7 +4,7 @@ import { IValueRange } from '../../../Models/Types/Generated/3DScenesConfigurati
 import { ValueRangeBuilderContext } from '../ValueRangeBuilder';
 import {
     Boundary,
-    ValueRangeBuilderActionType
+    ValueRangeBuilderActionType,
 } from '../ValueRangeBuilder.types';
 import { useId, useBoolean } from '@fluentui/react-hooks';
 import ValueRangeInput from './ValueRangeInput';
@@ -21,7 +21,7 @@ const ValueRangeRow: React.FC<{
 
     const [
         isRowColorCalloutVisible,
-        { toggle: toggleIsRowColorCalloutVisible }
+        { toggle: toggleIsRowColorCalloutVisible },
     ] = useBoolean(false);
 
     const { validationMap, colorSwatch, minRanges, valueRanges } = state;
@@ -51,11 +51,10 @@ const ValueRangeRow: React.FC<{
             <button
                 aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
                 style={{ backgroundColor: valueRange.color }}
-                className={"cb-value-range-color-button"}
+                className={'cb-value-range-color-button'}
                 onClick={toggleIsRowColorCalloutVisible}
                 id={colorButtonId}
-            >
-            </button>
+            ></button>
             {isRowColorCalloutVisible && (
                 <Callout
                     ariaLabelledBy={labelId}
@@ -76,12 +75,13 @@ const ValueRangeRow: React.FC<{
                                 payload: {
                                     boundary: Boundary.max,
                                     newColor: color,
-                                    id: valueRange.id
-                                }
-                            })}
+                                    id: valueRange.id,
+                                },
+                            })
+                        }
                         selectedId={
                             colorSwatch.find(
-                                (color) => color.color === valueRange.color
+                                (color) => color.color === valueRange.color,
                             )?.id
                         }
                     />
@@ -92,16 +92,17 @@ const ValueRangeRow: React.FC<{
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
-                    root: { alignSelf: 'flex-end', height: '24px' }
+                    root: { alignSelf: 'flex-end', height: '24px' },
                 }}
                 disabled={valueRanges.length <= minRanges}
                 onClick={() =>
                     dispatch({
                         type: ValueRangeBuilderActionType.DELETE_VALUE_RANGE,
                         payload: {
-                            id: valueRange.id
-                        }
-                    })}
+                            id: valueRange.id,
+                        },
+                    })
+                }
             />
         </div>
     );

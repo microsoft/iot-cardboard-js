@@ -4,7 +4,7 @@ import {
     IStyle,
     memoizeFunction,
     mergeStyleSets,
-    Theme
+    Theme,
 } from '@fluentui/react';
 import { StyleConstants } from '../../Models/Constants';
 
@@ -16,13 +16,13 @@ const classNames = {
     menuIcon: `${classPrefix}-menu-icon`,
     textContainer: `${classPrefix}-text-container`,
     primaryText: `${classPrefix}-primary-text`,
-    secondaryText: `${classPrefix}-secondary-text`
+    secondaryText: `${classPrefix}-secondary-text`,
 };
 export const getStyles = memoizeFunction((theme: Theme) => {
     const ellipseStyles = {
         overflow: 'hidden',
         whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
+        textOverflow: 'ellipsis',
     };
     return mergeStyleSets({
         checkbox: [classNames.checkbox, { marginRight: 8 } as IStyle],
@@ -31,8 +31,8 @@ export const getStyles = memoizeFunction((theme: Theme) => {
             classNames.icon,
             {
                 marginRight: 8,
-                fontSize: StyleConstants.icons.size16
-            } as IStyle
+                fontSize: StyleConstants.icons.size16,
+            } as IStyle,
         ],
         menuIcon: [classNames.menuIcon, { opacity: 0 } as IStyle],
         textContainer: [
@@ -42,25 +42,25 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 flexDirection: 'column',
                 flexGrow: 1,
                 overflow: 'hidden',
-                textAlign: 'start'
-            } as IStyle
+                textAlign: 'start',
+            } as IStyle,
         ],
         primaryText: [
             classNames.primaryText,
             {
                 color: theme.palette.black,
                 fontSize: FontSizes.size14,
-                ...ellipseStyles
-            } as IStyle
+                ...ellipseStyles,
+            } as IStyle,
         ],
         secondaryText: [
             classNames.secondaryText,
             {
                 color: theme.palette.neutralSecondary,
                 fontSize: FontSizes.size12,
-                ...ellipseStyles
-            } as IStyle
-        ]
+                ...ellipseStyles,
+            } as IStyle,
+        ],
     });
 });
 export const getButtonStyles = memoizeFunction(
@@ -71,20 +71,20 @@ export const getButtonStyles = memoizeFunction(
                 border: 0,
                 height: 'auto',
                 ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
-                    opacity: 1
+                    opacity: 1,
                 },
                 padding: '8px 12px',
-                width: '100%'
+                width: '100%',
             },
             rootFocused: {
-                backgroundColor: theme.palette.neutralLighter
+                backgroundColor: theme.palette.neutralLighter,
             },
             rootHovered: {
-                backgroundColor: theme.palette.neutralLighter
+                backgroundColor: theme.palette.neutralLighter,
             },
             flexContainer: {
-                justifyContent: 'start'
-            }
+                justifyContent: 'start',
+            },
         };
-    }
+    },
 );

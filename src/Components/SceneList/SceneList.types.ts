@@ -3,7 +3,7 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import {
     IBlobAdapter,
     IBlobFile,
-    IStandaloneConsumeCardProps
+    IStandaloneConsumeCardProps,
 } from '../../Models/Constants/Interfaces';
 import { IScene } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -22,11 +22,11 @@ export interface ISceneDialogProps {
     onEditScene: (updatedScene: IScene) => void;
     renderBlobDropdown: (
         onChange?: (blobUrl: string) => void,
-        onLoad?: (blobs: Array<IBlobFile>) => void
+        onLoad?: (blobs: Array<IBlobFile>) => void,
     ) => JSX.Element;
 }
 
 export enum SelectionModeOf3DFile {
     FromContainer = 'fromContainer',
-    FromComputer = 'fromComputer'
+    FromComputer = 'fromComputer',
 }

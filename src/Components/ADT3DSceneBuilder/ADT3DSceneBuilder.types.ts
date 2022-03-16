@@ -9,17 +9,17 @@ import {
     ADT3DSceneTwinBindingsMode,
     Locale,
     Theme,
-    WidgetFormMode
+    WidgetFormMode,
 } from '../../Models/Constants/Enums';
 import {
     IConsumeCompositeCardProps,
-    IADT3DViewerRenderMode
+    IADT3DViewerRenderMode,
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping,
-    IWidget
+    IWidget,
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // START of Actions
@@ -116,7 +116,7 @@ export type BehaviorSaveMode =
 
 export type OnBehaviorSave = (
     behavior: IBehavior,
-    mode: BehaviorSaveMode
+    mode: BehaviorSaveMode,
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
@@ -129,7 +129,7 @@ export interface IADT3DSceneBuilderBehaviorFormProps {
     setSelectedElements: (elements: Array<ITwinToObjectMapping>) => any;
     updateSelectedElements: (
         element: ITwinToObjectMapping,
-        isSelected: boolean
+        isSelected: boolean,
     ) => void;
 }
 
@@ -138,7 +138,7 @@ export interface IADT3DSceneBuilderElementsProps {
     selectedElements: Array<ITwinToObjectMapping>;
     updateSelectedElements: (
         updatedElement: ITwinToObjectMapping,
-        isSelected: boolean
+        isSelected: boolean,
     ) => void;
     clearSelectedElements?: () => void;
     onCreateBehaviorClick?: () => void;

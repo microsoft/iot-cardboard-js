@@ -5,7 +5,7 @@ import {
     IContextualMenuItem,
     IContextualMenuProps,
     IRefObject,
-    useTheme
+    useTheme,
 } from '@fluentui/react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +36,7 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
     index,
     menuKey,
     menuProps,
-    menuRef
+    menuRef,
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
@@ -50,12 +50,12 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     styles: {
                         ...x.iconProps?.styles,
                         root: {
-                            color: theme.palette.black
-                        }
-                    }
-                }
+                            color: theme.palette.black,
+                        },
+                    },
+                },
             })),
-        [menuProps.items]
+        [menuProps.items],
     );
     return (
         <>
@@ -72,16 +72,15 @@ export const OverflowMenu: React.FC<IOverflowMenuProps> = ({
                     style: {
                         fontWeight: 'bold',
                         fontSize: StyleConstants.icons.size16,
-                        color: theme.palette.black
-                    }
+                        color: theme.palette.black,
+                    },
                 }}
                 menuProps={{
                     ...menuProps,
-                    items: menuItems
+                    items: menuItems,
                 }}
                 title={t('more')}
-            >
-            </IconButton>
+            ></IconButton>
         </>
     );
 };

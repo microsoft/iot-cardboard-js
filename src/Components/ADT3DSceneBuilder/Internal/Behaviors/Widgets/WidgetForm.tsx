@@ -6,12 +6,12 @@ import {
     WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
-    VisualType
+    VisualType,
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import {
     IPopoverVisual,
-    IWidget
+    IWidget,
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
@@ -25,13 +25,13 @@ import { getWidgetFormStyles } from './WidgetForm.styles';
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC<any> = () => {
     const { widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
+        SceneBuilderContext,
     );
 
     // TODO SCHEMA MIGRATION -- remove no-unused-vars flag once widget builders are supported
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
+        BehaviorFormContext,
     );
     const { t } = useTranslation();
 
@@ -49,7 +49,7 @@ const WidgetForm: React.FC<any> = () => {
     const [formData, setFormData] = useState<IWidget>(
         widgetFormInfo.mode === WidgetFormMode.CreateWidget
             ? getDefaultFormData()
-            : widgetFormInfo.widget.data
+            : widgetFormInfo.widget.data,
     );
 
     const getWidgetBuilder = () => {
@@ -72,7 +72,7 @@ const WidgetForm: React.FC<any> = () => {
             //     );
             default:
                 return (
-                    <div className={"cb-widget-not-supported"}>
+                    <div className={'cb-widget-not-supported'}>
                         {t('widgets.notSupported') + ' :('}
                     </div>
                 );
@@ -84,7 +84,7 @@ const WidgetForm: React.FC<any> = () => {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.Popover
+                        (visual) => visual.type === VisualType.Popover,
                     ) as IPopoverVisual;
 
                     if (popOver) {
@@ -93,14 +93,14 @@ const WidgetForm: React.FC<any> = () => {
                             ? popOver.widgets.push(formData)
                             : (popOver.widgets = [formData]);
                     }
-                })
+                }),
             );
         }
         if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.Popover
+                        (visual) => visual.type === VisualType.Popover,
                     ) as IPopoverVisual;
 
                     if (
@@ -110,7 +110,7 @@ const WidgetForm: React.FC<any> = () => {
                         const widgets = popOver?.widgets;
                         widgets[widgetFormInfo.widgetIdx] = formData;
                     }
-                })
+                }),
             );
         }
 

@@ -5,7 +5,7 @@ import { customOverrides } from '../Palettes';
 // Overrides PrimaryButton styles
 export const getPrimaryButtonStyles = (
     themeSetting: Theme,
-    _theme: ITheme
+    _theme: ITheme,
 ): Partial<IButtonStyles> => {
     // Adds box shadow on light theme
     const boxShadow =
@@ -16,16 +16,16 @@ export const getPrimaryButtonStyles = (
     return {
         root: {
             boxShadow,
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            color: customOverrides.primaryButtonTextColor, // force in all themes
         },
         rootHovered: {
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            color: customOverrides.primaryButtonTextColor, // force in all themes
         },
         rootPressed: {
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            color: customOverrides.primaryButtonTextColor, // force in all themes
         },
         rootDisabled: {
-            color: customOverrides.primaryButtonTextColorDisabled
-        }
+            color: customOverrides.primaryButtonTextColorDisabled,
+        },
     };
 };

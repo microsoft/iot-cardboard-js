@@ -5,7 +5,7 @@ import ModelSearch from './ModelSearch';
 
 export default {
     title: 'Components/ModelSearch',
-    component: ModelSearch
+    component: ModelSearch,
 };
 
 export const GithubModelSearch = () => (
@@ -15,11 +15,12 @@ export const GithubModelSearch = () => (
                 new GithubModelSearchAdapter(
                     'https://devicemodels.azure.com',
                     'Azure/iot-plugandplay-models',
-                    100
+                    100,
                 )
             }
             onStandardModelSelection={(modelData) =>
-                alert(JSON.stringify(modelData, null, 2))}
+                alert(JSON.stringify(modelData, null, 2))
+            }
         />
     </div>
 );
@@ -30,11 +31,12 @@ export const CdnModelSearch = () => (
             adapter={
                 new CdnModelSearchAdapter(
                     'https://devicemodelstest.azure.com',
-                    10
+                    10,
                 )
             }
             onStandardModelSelection={(modelData) =>
-                alert(JSON.stringify(modelData, null, 2))}
+                alert(JSON.stringify(modelData, null, 2))
+            }
         />
     </div>
 );

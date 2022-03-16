@@ -4,7 +4,7 @@ import React, {
     ErrorInfo,
     useContext,
     useMemo,
-    useState
+    useState,
 } from 'react';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { ComponentError } from '../Classes/Errors';
@@ -19,7 +19,7 @@ interface IErrorBoundaryContext {
 const ErrorBoundaryContext = React.createContext<IErrorBoundaryContext>({
     error: null,
     errorInfo: null,
-    setIsHandled: (_isHandled: boolean) => undefined
+    setIsHandled: (_isHandled: boolean) => undefined,
 });
 
 /** This hook exposes the error and errorInfo from the error boundary context
@@ -29,7 +29,7 @@ const ErrorBoundaryContext = React.createContext<IErrorBoundaryContext>({
 export const useErrorBoundaryContext = (): [
     Error,
     ErrorInfo,
-    Dispatch<boolean>
+    Dispatch<boolean>,
 ] => {
     const context = useContext(ErrorBoundaryContext);
     return [context.error, context.errorInfo, context.setIsHandled];
@@ -47,9 +47,9 @@ const ErrorBoundaryWrapper: React.FC<{
         () => ({
             error,
             errorInfo,
-            setIsHandled
+            setIsHandled,
         }),
-        [error, errorInfo]
+        [error, errorInfo],
     );
     return (
         <ErrorBoundaryContext.Provider value={errorContextValue}>
@@ -119,7 +119,7 @@ class ErrorBoundary extends React.Component<
     static getDerivedStateFromError(error) {
         return {
             error: error,
-            hasError: true
+            hasError: true,
         };
     }
 
@@ -139,11 +139,10 @@ class ErrorBoundary extends React.Component<
                             type: ComponentErrorType.ErrorBoundary,
                             name: this.state.error.name,
                             message: this.state.error.message,
-                            rawError: new Error(this.state.error.stack)
+                            rawError: new Error(this.state.error.stack),
                         })
                     }
-                >
-                </BaseComponent>
+                ></BaseComponent>
             );
         }
         return this.props.children;

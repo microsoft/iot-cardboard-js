@@ -4,7 +4,7 @@ import { PropertyTreeNode } from './PropertyTree/PropertyTree.types';
 import './StandalonePropertyInspector.scss';
 import {
     isTwin,
-    StandalonePropertyInspectorProps
+    StandalonePropertyInspectorProps,
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
@@ -12,7 +12,7 @@ import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar
 import { useTranslation } from 'react-i18next';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
-    spiActionType
+    spiActionType,
 } from './StandalonePropertyInspector.state';
 import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
 import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
@@ -24,7 +24,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
  *  This component constructs a property tree and generates a JSON delta patch on save.
  */
 const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = (
-    props
+    props,
 ) => {
     const { t, i18n } = useTranslation();
 
@@ -35,11 +35,11 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                   path: '',
                   rootModel: props.inputData.rootModel,
                   twin: props.inputData.twin,
-                  expandedModels: props.inputData.expandedModels
+                  expandedModels: props.inputData.expandedModels,
               })
             : PropertyInspectorModel.parseRelationshipIntoPropertyTree(
                   props.inputData.relationship,
-                  props.inputData.relationshipModel
+                  props.inputData.relationshipModel,
               );
     }, [props.inputData, i18n.language]);
 
@@ -47,32 +47,32 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         ...defaultStandalonePropertyInspectorState,
         propertyTreeNodes: originalTree,
         originalPropertyTreeNodes: originalTree.map((el) =>
-            Object.assign({}, el)
-        )
+            Object.assign({}, el),
+        ),
     });
 
     // Reset property inspector when input data changes
     useEffect(() => {
         dispatch({
             type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree
+            nodes: originalTree,
         });
     }, [props.inputData, i18n.language]);
 
     const undoAllChanges = () => {
         dispatch({
             type: spiActionType.SET_PROPERTY_TREE_NODES,
-            nodes: originalTree
+            nodes: originalTree,
         });
         dispatch({
-            type: spiActionType.RESET_EDIT_STATUS
+            type: spiActionType.RESET_EDIT_STATUS,
         });
     };
 
     const onParentClick = (parentNode: PropertyTreeNode) => {
         dispatch({
             type: spiActionType.TOGGLE_PARENT_NODE_COLLAPSE_STATE,
-            parentNode
+            parentNode,
         });
     };
 
@@ -80,7 +80,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         dispatch({
             type: spiActionType.ON_NODE_VALUE_CHANGED,
             node,
-            newValue
+            newValue,
         });
     };
 
@@ -88,28 +88,28 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         dispatch({
             type: spiActionType.ON_ADD_MAP_VALUE,
             mapKey,
-            mapNode
+            mapNode,
         });
     };
 
     const onRemoveMapValue = (mapChildToRemove: PropertyTreeNode) => {
         dispatch({
             type: spiActionType.ON_REMOVE_MAP_VALUE,
-            mapChildToRemove
+            mapChildToRemove,
         });
     };
 
     const onNodeValueUnset = (node: PropertyTreeNode) => {
         dispatch({
             type: spiActionType.ON_NODE_VALUE_UNSET,
-            node
+            node,
         });
     };
 
     const setIsTreeCollapsed = (isCollapsed: boolean) => {
         dispatch({
             type: spiActionType.SET_IS_TREE_COLLAPSED,
-            isCollapsed
+            isCollapsed,
         });
     };
 
@@ -119,24 +119,24 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
         if (isTwin(props.inputData)) {
             patchData = PropertyInspectorModel.generatePatchData(
                 props.inputData.twin,
-                state.propertyTreeNodes as PropertyTreeNode[]
+                state.propertyTreeNodes as PropertyTreeNode[],
             );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.twin,
                 id: props.inputData.twin.$dtId,
-                patches: patchData as Array<ADTPatch>
+                patches: patchData as Array<ADTPatch>,
             });
         } else {
             patchData = PropertyInspectorModel.generatePatchData(
                 props.inputData.relationship,
                 state.propertyTreeNodes as PropertyTreeNode[],
-                true
+                true,
             );
             props.onCommitChanges({
                 patchMode: PropertyInspectorPatchMode.relationship,
                 id: props.inputData.relationship.$relationshipId,
                 patches: patchData as Array<ADTPatch>,
-                sourceTwinId: props.inputData.relationship.$sourceId
+                sourceTwinId: props.inputData.relationship.$sourceId,
             });
         }
     };
@@ -147,7 +147,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             localeStrings={props.localeStrings}
             theme={props.theme}
         >
-            <div className={"cb-standalone-property-inspector-container"}>
+            <div className={'cb-standalone-property-inspector-container'}>
                 <StandalonePropertyInspectorCommandBar
                     setIsTreeCollapsed={setIsTreeCollapsed}
                     onCommitChanges={onCommitChanges}
@@ -159,7 +159,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     }
                     editStatus={state.editStatus}
                 />
-                <div className={"cb-property-inspector-scrollable-container"}>
+                <div className={'cb-property-inspector-scrollable-container'}>
                     <PropertyInspectorMessaging
                         {...props}
                         nodes={state.propertyTreeNodes}
@@ -187,16 +187,16 @@ const PropertyInspectorMessaging: React.FC<
     const showMissingModelsWarning =
         props.missingModelIds && props.missingModelIds.length > 0;
     const showUnmodelledPropertiesWarning = PropertyInspectorModel.getAreUnmodelledPropertiesPresent(
-        props.nodes
+        props.nodes,
     );
 
     if (!showMissingModelsWarning && !showUnmodelledPropertiesWarning)
         return null;
 
     return (
-        <div className={"cb-property-inspector-warning-container"}>
+        <div className={'cb-property-inspector-warning-container'}>
             {showMissingModelsWarning && (
-                <div className={"cb-property-inspector-warning-missing-models"}>
+                <div className={'cb-property-inspector-warning-missing-models'}>
                     <MessageBar
                         messageBarType={MessageBarType.severeWarning}
                         isMultiline={false}
@@ -205,9 +205,9 @@ const PropertyInspectorMessaging: React.FC<
                         {t('propertyInspector.modelNotFound', {
                             piMode: isTwin(props.inputData)
                                 ? 'Twin'
-                                : 'Relationship'
+                                : 'Relationship',
                         })}{' '}
-                        <span className={"cb-missing-model-id-list"}>
+                        <span className={'cb-missing-model-id-list'}>
                             {props.missingModelIds.map((mmid, idx) => (
                                 <span key={idx}>
                                     <i>{mmid}</i>
@@ -236,7 +236,7 @@ const PropertyInspectorMessaging: React.FC<
                         {t('propertyInspector.unmodelledPropertyWarning', {
                             piMode: isTwin(props.inputData)
                                 ? 'Twin'
-                                : 'Relationship'
+                                : 'Relationship',
                         })}
                     </MessageBar>
                 </div>
@@ -258,13 +258,13 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     onCommitChanges,
     undoAllChanges,
     commandBarTitle,
-    editStatus
+    editStatus,
 }) => {
     const { t } = useTranslation();
 
     return (
-        <div className={"cb-standalone-property-inspector-header"}>
-            <div className={"cb-standalone-property-inspector-header-label"}>
+        <div className={'cb-standalone-property-inspector-header'}>
+            <div className={'cb-standalone-property-inspector-header-label'}>
                 {commandBarTitle}
             </div>
             <CommandBar
@@ -277,7 +277,7 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         iconOnly: true,
                         iconProps: { iconName: 'Undo' },
                         onClick: () => undoAllChanges(),
-                        disabled: Object.keys(editStatus).length === 0
+                        disabled: Object.keys(editStatus).length === 0,
                     },
                     {
                         key: 'expandTree',
@@ -285,17 +285,17 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         ariaLabel: t('propertyInspector.commandBar.expandTree'),
                         iconOnly: true,
                         iconProps: { iconName: 'ExploreContent' },
-                        onClick: () => setIsTreeCollapsed(false)
+                        onClick: () => setIsTreeCollapsed(false),
                     },
                     {
                         key: 'collapseTree',
                         text: t('propertyInspector.commandBar.collapseTree'),
                         ariaLabel: t(
-                            'propertyInspector.commandBar.collapseTree'
+                            'propertyInspector.commandBar.collapseTree',
                         ),
                         iconOnly: true,
                         iconProps: { iconName: 'CollapseContent' },
-                        onClick: () => setIsTreeCollapsed(true)
+                        onClick: () => setIsTreeCollapsed(true),
                     },
                     {
                         key: 'save',
@@ -304,8 +304,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         iconOnly: true,
                         iconProps: { iconName: 'Save' },
                         onClick: () => onCommitChanges(),
-                        disabled: Object.keys(editStatus).length === 0
-                    }
+                        disabled: Object.keys(editStatus).length === 0,
+                    },
                 ]}
             />
         </div>

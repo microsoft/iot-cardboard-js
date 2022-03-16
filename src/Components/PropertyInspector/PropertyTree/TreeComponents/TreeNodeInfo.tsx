@@ -11,8 +11,8 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.neutralPrimary
-        }
+            color: props.theme.palette.neutralPrimary,
+        },
     });
 
     const iconName = 'Info';
@@ -33,17 +33,17 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey={"propertyInspector.schemaInfo.dateTime.text"}
+                    i18nKey={'propertyInspector.schemaInfo.dateTime.text'}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
                                 }
-                                target={"_blank"} rel={"noreferrer"}
-                            >
-                            </a>
-                        )
+                                target={'_blank'}
+                                rel={'noreferrer'}
+                            ></a>
+                        ),
                     }}
                 />
             );
@@ -65,17 +65,17 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey={"propertyInspector.schemaInfo.time.text"}
+                    i18nKey={'propertyInspector.schemaInfo.time.text'}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://datatracker.ietf.org/doc/html/rfc3339#section-5.6'
                                 }
-                                target={"_blank"} rel={"noreferrer"}
-                            >
-                            </a>
-                        )
+                                target={'_blank'}
+                                rel={'noreferrer'}
+                            ></a>
+                        ),
                     }}
                 />
             );
@@ -85,17 +85,17 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
             tooltipInfo = (
                 <Trans
                     t={t}
-                    i18nKey={"propertyInspector.schemaInfo.map.text"}
+                    i18nKey={'propertyInspector.schemaInfo.map.text'}
                     components={{
                         DocLink: (
                             <a
                                 href={
                                     'https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#mapkey'
                                 }
-                                target={"_blank"} rel={"noreferrer"}
-                            >
-                            </a>
-                        )
+                                target={'_blank'}
+                                rel={'noreferrer'}
+                            ></a>
+                        ),
                     }}
                 />
             );
@@ -114,17 +114,17 @@ const TreeNodeInfo: React.FC<NodeProps> = ({ node }) => {
                 },
                 styles: (props) => ({
                     content: {
-                        '& a': { color: props.theme.palette.themePrimary }
-                    }
-                })
+                        '& a': { color: props.theme.palette.themePrimary },
+                    },
+                }),
             }}
             styles={{
                 root: {
                     alignItems: 'center',
                     display: 'flex',
                     marginLeft: '8px',
-                    marginTop: '2px'
-                }
+                    marginTop: '2px',
+                },
             }}
         >
             <Icon

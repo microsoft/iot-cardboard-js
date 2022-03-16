@@ -1,6 +1,6 @@
 import {
     ISpinButtonStyles,
-    SpinButton
+    SpinButton,
 } from '@fluentui/react/lib/components/SpinButton';
 import { Position } from '@fluentui/react/lib/Positioning';
 import React from 'react';
@@ -24,7 +24,7 @@ const onIncrementSpinner = (
     value: string,
     max: number,
     suffix: string,
-    step: number
+    step: number,
 ): string | void => {
     const numericValue = getNumericPart(value);
     if (numericValue !== undefined) {
@@ -37,7 +37,7 @@ const onDecrementSpinner = (
     value: string,
     min: number,
     suffix: string,
-    step: number
+    step: number,
 ): string | void => {
     const numericValue = getNumericPart(value);
     if (numericValue !== undefined) {
@@ -53,7 +53,7 @@ const onValidateInput = (
     value: string,
     min: number,
     max: number,
-    suffix: string
+    suffix: string,
 ): string => {
     let numericValue = getNumericPart(value);
     if (numericValue !== undefined) {
@@ -73,10 +73,10 @@ const NumericSpinInput = ({
     step,
     suffix,
     width,
-    value
+    value,
 }: Props) => {
     const spinButtonStyles: Partial<ISpinButtonStyles> = {
-        spinButtonWrapper: { width }
+        spinButtonWrapper: { width },
     };
 
     return (

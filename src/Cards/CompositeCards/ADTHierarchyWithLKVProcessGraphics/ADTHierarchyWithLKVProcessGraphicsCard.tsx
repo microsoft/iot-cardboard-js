@@ -6,7 +6,7 @@ import { IHierarchyNode } from '../../../Models/Constants/Interfaces';
 import BaseCompositeCard from '../BaseCompositeCard/BaseCompositeCard';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName
+    ADTModel_ImgSrc_PropertyName,
 } from '../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 
@@ -18,14 +18,14 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
     localeStrings,
     adapterAdditionalParameters,
     getHierarchyNodeProperties,
-    pollingIntervalMillis
+    pollingIntervalMillis,
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
     const { t } = useTranslation();
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
-        childNode: IHierarchyNode
+        childNode: IHierarchyNode,
     ) => {
         setSelectedChildNode(childNode);
     };
@@ -61,7 +61,7 @@ const ADTHierarchyWithLKVProcessGraphicsCard: React.FC<ADTHierarchyWithLKVProces
                             ? JSON.parse(
                                   selectedChildNode.nodeData[
                                       ADTModel_ImgPropertyPositions_PropertyName
-                                  ]
+                                  ],
                               )
                             : {}
                     }

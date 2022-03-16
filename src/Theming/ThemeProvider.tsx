@@ -3,7 +3,7 @@ import { Theme as LibThemes } from '../Models/Constants/Enums';
 import { getFluentTheme } from './FluentThemes';
 import {
     initializeIcons,
-    ThemeProvider as FluentThemeProvider
+    ThemeProvider as FluentThemeProvider,
 } from '@fluentui/react';
 
 export const Theme = React.createContext(null);

@@ -6,12 +6,12 @@ import MsalAuthService from '../../../Models/Services/MsalAuthService';
 import ADTModelAuthoringCard from './ADTModelAuthoringCard';
 
 export default {
-    title: 'Cards/CompositeCards/ADTModelAuthoringCard'
+    title: 'Cards/CompositeCards/ADTModelAuthoringCard',
 };
 
 const cardStyle = {
     height: '720px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADTModelAuthoring = (_args, { globals: { theme, locale } }) => {
@@ -28,13 +28,14 @@ export const ADTModelAuthoring = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 onCancel={() => console.log('Closed!')}
                 onPublish={(models: Array<IADTModel>) =>
-                    console.log(models.map((m) => m.id))}
+                    console.log(models.map((m) => m.id))
+                }
             />
         </div>
     );

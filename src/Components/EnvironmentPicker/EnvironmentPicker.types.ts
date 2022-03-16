@@ -18,7 +18,7 @@ type StorageContainer = {
     containerUrl?: string;
     onContainerUrlChange?: (
         containerUrl: string,
-        containerUrls: Array<string>
+        containerUrls: Array<string>,
     ) => void;
 } & (WithLocalStorage | WithoutLocalStorage);
 
@@ -28,7 +28,7 @@ export type EnvironmentPickerProps = BaseComponentProps & {
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
         environment: string | IADTInstance,
-        environments: Array<string | IADTInstance>
+        environments: Array<string | IADTInstance>,
     ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);

@@ -23,30 +23,30 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     label,
     isLabelHidden = false,
     selectedTwinId,
-    onTwinIdSelect
+    onTwinIdSelect,
 }) => {
     const { t } = useTranslation();
     const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
-        selectedTwinId ?? ''
+        selectedTwinId ?? '',
     );
     const [twinSuggestions, setTwinSuggestions] = useState(
         selectedTwinId
             ? [
                   {
                       value: selectedTwinId,
-                      label: selectedTwinId
-                  }
+                      label: selectedTwinId,
+                  },
               ]
-            : []
+            : [],
     );
 
     const [selectedOption, setSelectedOption] = useState(
         selectedTwinId
             ? {
                   value: selectedTwinId,
-                  label: selectedTwinId
+                  label: selectedTwinId,
               }
-            : null
+            : null,
     );
 
     const shouldAppendTwinSuggestions = useRef(false);
@@ -58,7 +58,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     useEffect(() => {
@@ -69,19 +69,19 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                         searchTwinAdapterData.adapterResult.result.data.value.map(
                             (t) => ({
                                 value: t.$dtId,
-                                label: t.$dtId
-                            })
-                        )
-                    )
+                                label: t.$dtId,
+                            }),
+                        ),
+                    ),
                 );
             } else {
                 setTwinSuggestions(
                     searchTwinAdapterData.adapterResult.result.data.value.map(
                         (t) => ({
                             value: t.$dtId,
-                            label: t.$dtId
-                        })
-                    )
+                            label: t.$dtId,
+                        }),
+                    ),
                 );
             }
 
@@ -110,7 +110,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 searchTwinAdapterData.callAdapter({
                     searchTerm: twinIdSearchTerm,
                     shouldSearchByModel: false,
-                    continuationToken: twinSearchContinuationToken.current
+                    continuationToken: twinSearchContinuationToken.current,
                 } as AdapterMethodParamsForSearchADTTwins);
             }
         }
@@ -124,7 +124,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 {getMarkedHtmlBySearch(
                     props.data.label,
                     twinIdSearchTerm,
-                    true
+                    true,
                 )}
             </components.Option>
         );
@@ -137,7 +137,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
         useEffect(() => {
             if (twinSuggestionListWrapperRef.current) {
                 twinSuggestionListRef.current = twinSuggestionListWrapperRef.current.querySelector(
-                    'div'
+                    'div',
                 );
                 twinSuggestionListRef.current.onscroll = handleOnScroll;
             }
@@ -155,13 +155,13 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     return (
         <div>
             {!isLabelHidden && (
-                <Label className={"cb-required-icon"}>
+                <Label className={'cb-required-icon'}>
                     {label ?? t('board.twinID')}
                 </Label>
             )}
             <CreatableSelect
-                classNamePrefix={"cb-search-autocomplete"}
-                className={"cb-search-autocomplete-container"}
+                classNamePrefix={'cb-search-autocomplete'}
+                className={'cb-search-autocomplete-container'}
                 options={searchTwinAdapterData.isLoading ? [] : twinSuggestions}
                 defaultValue={twinSuggestions[0] ?? undefined}
                 defaultInputValue={selectedTwinId ?? ''}
@@ -169,7 +169,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 inputValue={twinIdSearchTerm}
                 components={{
                     Option: CustomOption,
-                    MenuList: CustomMenuList
+                    MenuList: CustomMenuList,
                 }}
                 onInputChange={(inputValue, actionMeta) => {
                     if (actionMeta.action === 'input-change') {
@@ -181,7 +181,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             searchTerm: inputValue,
                             shouldSearchByModel: false,
                             continuationToken:
-                                twinSearchContinuationToken.current
+                                twinSearchContinuationToken.current,
                         } as AdapterMethodParamsForSearchADTTwins);
 
                         if (!inputValue && actionMeta.prevInputValue) {
@@ -189,7 +189,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                         }
                     } else if (actionMeta.action === 'menu-close') {
                         setTwinSuggestions(
-                            selectedOption ? [selectedOption] : []
+                            selectedOption ? [selectedOption] : [],
                         );
                         setTwinIdSearchTerm(selectedOption?.value ?? '');
                     }
@@ -211,7 +211,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                         searchTwinAdapterData.callAdapter({
                             searchTerm: twinIdSearchTerm,
                             shouldSearchByModel: false,
-                            continuationToken: null
+                            continuationToken: null,
                         } as AdapterMethodParamsForSearchADTTwins);
                     }
                 }}
@@ -220,12 +220,13 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 isLoading={searchTwinAdapterData.isLoading}
                 formatCreateLabel={(inputValue: string) =>
                     `${t(
-                        '3dSceneBuilder.useNonExistingTwinId'
-                    )} "${inputValue}"`}
+                        '3dSceneBuilder.useNonExistingTwinId',
+                    )} "${inputValue}"`
+                }
                 isSearchable
                 isClearable
             />
-            <Text className={"cb-search-autocomplete-desc"} variant={'xSmall'}>
+            <Text className={'cb-search-autocomplete-desc'} variant={'xSmall'}>
                 {t('3dSceneBuilder.linkedTwinInputInfo')}
             </Text>
         </div>

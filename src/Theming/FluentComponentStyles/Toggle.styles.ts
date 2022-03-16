@@ -3,7 +3,7 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export const getToggleStyles = (
     _themeSetting: Theme,
-    _theme: ITheme
+    _theme: ITheme,
 ): Partial<IToggleStyles> => {
     return {
         root: {
@@ -11,14 +11,14 @@ export const getToggleStyles = (
                 '&.cb-modelcreate-readonly': {
                     selectors: {
                         label: {
-                            color: 'var(--cb-color-text-primary)'
+                            color: 'var(--cb-color-text-primary)',
                         },
                         button: {
-                            display: 'none'
-                        }
-                    }
-                }
-            }
-        }
+                            display: 'none',
+                        },
+                    },
+                },
+            },
+        },
     };
 };

@@ -5,7 +5,7 @@ import {
     DTwinRelationship,
     DTModel,
     UploadPhase,
-    IGenerateADTAssetsProps
+    IGenerateADTAssetsProps,
 } from '../../Models/Constants';
 import { useAdapter } from '../../Models/Hooks';
 import { UploadProgress } from '../UploadProgress/UploadProgress';
@@ -17,7 +17,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
     twins,
     relationships,
     triggerUpload,
-    onComplete
+    onComplete,
 }) => {
     const [isUploading, setIsUploading] = useState(false);
     const { t } = useTranslation();
@@ -25,7 +25,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
     const pushModelsState = useAdapter({
         adapterMethod: (models: Array<DTModel>) => adapter.createModels(models),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     //set upload progress state based on adapter result
@@ -35,17 +35,17 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 phase: UploadPhase.Failed,
                 message: null,
                 errorMessage: t('generateADTAssets.assetsPushError', {
-                    assetType: AssetTypes.Models
-                })
+                    assetType: AssetTypes.Models,
+                }),
             });
         } else if (pushModelsState.adapterResult.result) {
             setModelsUploadStatus({
                 phase: UploadPhase.Succeeded,
                 message: t('generateADTAssets.assetsPushedCount', {
                     count: pushModelsState.adapterResult.getData()?.length,
-                    assetType: AssetTypes.Models
+                    assetType: AssetTypes.Models,
                 }),
-                errorMessage: null
+                errorMessage: null,
             });
         }
     }, [pushModelsState.adapterResult]);
@@ -55,9 +55,9 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
             phase: UploadPhase.Uploading,
             message: t('generateADTAssets.uploadProgress', {
                 pushed: twinsUploaded,
-                total: totalTwins
+                total: totalTwins,
             }),
-            errorMessage: null
+            errorMessage: null,
         });
     };
 
@@ -65,20 +65,20 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         adapterMethod: (twins: Array<DTwin>) =>
             adapter.createTwins(twins, updateTwinsUploadProgress),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const updateRelationshipsUploadStatus = (
         relationshipsUploaded,
-        totalRelationships
+        totalRelationships,
     ) => {
         setRelationshipsUploadStatus({
             phase: UploadPhase.Uploading,
             message: t('generateADTAssets.uploadProgress', {
                 pushed: relationshipsUploaded,
-                total: totalRelationships
+                total: totalRelationships,
             }),
-            errorMessage: null
+            errorMessage: null,
         });
     };
 
@@ -86,10 +86,10 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         adapterMethod: (relationships: Array<DTwinRelationship>) =>
             adapter.createRelationships(
                 relationships,
-                updateRelationshipsUploadStatus
+                updateRelationshipsUploadStatus,
             ),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     //set upload progress state based on adapter result
@@ -100,8 +100,8 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                     phase: UploadPhase.Failed,
                     message: null,
                     errorMessage: t('generateADTAssets.assetsPushError', {
-                        assetType: AssetTypes.Relationships
-                    })
+                        assetType: AssetTypes.Relationships,
+                    }),
                 });
             } else {
                 setRelationshipsUploadStatus({
@@ -109,14 +109,14 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                     message: t('generateADTAssets.assetsPushedCount', {
                         count: pushRelationshipsState.adapterResult.getData()
                             ?.length,
-                        assetType: AssetTypes.Relationships
+                        assetType: AssetTypes.Relationships,
                     }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Relationships,
                         errorCount:
                             pushRelationshipsState.adapterResult.errorInfo
-                                .errors.length
-                    })
+                                .errors.length,
+                    }),
                 });
             }
         } else if (pushTwinsState.adapterResult.result) {
@@ -125,10 +125,10 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 message: t('generateADTAssets.assetsPushedCount', {
                     count: pushRelationshipsState.adapterResult.getData()
                         ?.length,
-                    assetType: AssetTypes.Relationships
+                    assetType: AssetTypes.Relationships,
                 }),
 
-                errorMessage: null
+                errorMessage: null,
             });
         }
     }, [pushRelationshipsState.adapterResult]);
@@ -141,21 +141,22 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                     phase: UploadPhase.Failed,
                     message: null,
                     errorMessage: t('generateADTAssets.assetsPushError', {
-                        assetType: AssetTypes.Twins
-                    })
+                        assetType: AssetTypes.Twins,
+                    }),
                 });
             } else {
                 setTwinsUploadStatus({
                     phase: UploadPhase.PartiallyFailed,
                     message: t('generateADTAssets.assetsPushedCount', {
                         count: pushTwinsState.adapterResult.getData()?.length,
-                        assetType: AssetTypes.Twins
+                        assetType: AssetTypes.Twins,
                     }),
                     errorMessage: t('generateADTAssets.partialError', {
                         assetType: AssetTypes.Twins,
                         errorCount:
-                            pushTwinsState.adapterResult.errorInfo.errors.length
-                    })
+                            pushTwinsState.adapterResult.errorInfo.errors
+                                .length,
+                    }),
                 });
             }
         } else if (pushTwinsState.adapterResult.result) {
@@ -163,9 +164,9 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
                 phase: UploadPhase.Succeeded,
                 message: t('generateADTAssets.assetsPushedCount', {
                     count: pushTwinsState.adapterResult.getData()?.length,
-                    assetType: AssetTypes.Twins
+                    assetType: AssetTypes.Twins,
                 }),
-                errorMessage: null
+                errorMessage: null,
             });
         }
     }, [pushTwinsState.adapterResult]);
@@ -187,7 +188,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         setModelsUploadStatus({
             phase: UploadPhase.Uploading,
             message: t('generateADTAssets.uploading'),
-            errorMessage: null
+            errorMessage: null,
         });
         return pushModelsState.callAdapter(models);
     };
@@ -196,7 +197,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         setTwinsUploadStatus({
             phase: UploadPhase.Uploading,
             message: t('generateADTAssets.uploading'),
-            errorMessage: null
+            errorMessage: null,
         });
         return pushTwinsState.callAdapter(twins);
     };
@@ -205,7 +206,7 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         setRelationshipsUploadStatus({
             phase: UploadPhase.Uploading,
             message: t('generateADTAssets.uploading'),
-            errorMessage: null
+            errorMessage: null,
         });
         return pushRelationshipsState.callAdapter(relationships);
     };
@@ -214,19 +215,19 @@ const GenerateADTAssets: React.FC<IGenerateADTAssetsProps> = ({
         return {
             phase: UploadPhase.PreUpload,
             message: null,
-            errorMessage: null
+            errorMessage: null,
         };
     };
 
     const [modelsUploadStatus, setModelsUploadStatus] = useState(
-        initializeUploadStatus()
+        initializeUploadStatus(),
     );
 
     const [twinsUploadStatus, setTwinsUploadStatus] = useState(
-        initializeUploadStatus()
+        initializeUploadStatus(),
     );
     const [relationshipsUploadStatus, setRelationshipsUploadStatus] = useState(
-        initializeUploadStatus()
+        initializeUploadStatus(),
     );
 
     return (

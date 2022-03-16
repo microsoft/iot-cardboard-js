@@ -3,11 +3,11 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export const getPivotStyles = (
     _themeSetting: Theme,
-    _theme: ITheme
+    _theme: ITheme,
 ): Partial<IPivotStyles> => {
     return {
         link: {
-            height: '36px'
-        }
+            height: '36px',
+        },
     };
 };

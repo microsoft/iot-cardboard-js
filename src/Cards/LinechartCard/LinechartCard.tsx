@@ -21,7 +21,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
     chartOptions,
     title,
     locale,
-    localeStrings
+    localeStrings,
 }) => {
     const { t } = useTranslation();
 
@@ -31,11 +31,11 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 id,
                 searchSpan,
                 properties,
-                adapterAdditionalParameters
+                adapterAdditionalParameters,
             ),
         refetchDependencies: [id, properties, searchSpan],
         isLongPolling: !!pollingIntervalMillis,
-        pollingIntervalMillis: pollingIntervalMillis || null
+        pollingIntervalMillis: pollingIntervalMillis || null,
     });
 
     const getData = () => {
@@ -50,8 +50,8 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
             theme: theme ? theme : Theme.Light,
             legend: 'compact',
             strings: t('sdkStrings', {
-                returnObjects: true
-            })
+                returnObjects: true,
+            }),
         };
     };
 
@@ -68,8 +68,7 @@ const LinechartCard: React.FC<LinechartCardProps> = ({
                 data={getData()}
                 chartOptions={getChartOptions()}
                 chartDataOptions={chartDataOptions}
-            >
-            </Linechart>
+            ></Linechart>
         </BaseCard>
     );
 };

@@ -20,7 +20,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     onCancel,
     existingModelIds,
     componentToEdit = null,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
 }) => {
     const { t } = useTranslation();
 
@@ -28,12 +28,12 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
     const [id, setId] = useState(initialComponent['@id']);
     const [name, setName] = useState(initialComponent.name);
     const [displayName, setDisplayName] = useState(
-        initialComponent.displayName
+        initialComponent.displayName,
     );
     const [schema, setSchema] = useState(initialComponent.schema);
     const [comment, setComment] = useState(initialComponent.comment);
     const [description, setDescription] = useState(
-        initialComponent.description
+        initialComponent.description,
     );
 
     const onClickCreate = () => {
@@ -43,7 +43,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
             schema,
             comment,
             description,
-            displayName
+            displayName,
         );
         onPrimaryAction(component);
     };
@@ -62,7 +62,7 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
         >
             <TextField
                 label={t('modelCreate.componentId')}
-                placeholder={"<scheme>:<path>;<version>"}
+                placeholder={'<scheme>:<path>;<version>'}
                 description={'e.g., dtmi:com:example:component1;1'}
                 title={id}
                 value={
@@ -85,9 +85,10 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 onGetErrorMessage={(value) =>
                     value && !DTMIRegex.test(value)
                         ? t('modelCreate.invalidIdentifier', {
-                              dtmiLink: 'http://aka.ms/ADTv2Models'
+                              dtmiLink: 'http://aka.ms/ADTv2Models',
                           })
-                        : ''}
+                        : ''
+                }
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
@@ -101,9 +102,10 @@ const CreateComponentForm: React.FC<CreateComponentFormProps> = ({
                 onGetErrorMessage={(value) =>
                     !DTDLNameRegex.test(value)
                         ? t('modelCreate.invalidDTDLName', {
-                              dtdlLink: 'http://aka.ms/ADTv2Models'
+                              dtdlLink: 'http://aka.ms/ADTv2Models',
                           })
-                        : ''}
+                        : ''
+                }
                 className={`${
                     formControlMode === FormMode.Readonly
                         ? 'cb-modelcreate-readonly'

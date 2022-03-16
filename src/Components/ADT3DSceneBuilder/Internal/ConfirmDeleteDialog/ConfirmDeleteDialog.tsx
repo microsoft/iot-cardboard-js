@@ -6,7 +6,7 @@ import {
     IDialogContentProps,
     IDialogStyles,
     IModalProps,
-    PrimaryButton
+    PrimaryButton,
 } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
     isOpen,
     setIsOpen,
     onCancel,
-    onConfirmDeletion
+    onConfirmDeletion,
 }) => {
     const { t } = useTranslation();
 
@@ -34,20 +34,20 @@ const ConfirmDeleteDialog: React.FC<Props> = ({
         type: DialogType.normal,
         title: title ?? t('confirmDeletion'),
         closeButtonAriaLabel: t('close'),
-        subText: message ?? t('confirmDeletionDesc')
+        subText: message ?? t('confirmDeletionDesc'),
     };
 
     const confirmDeletionDialogStyles: Partial<IDialogStyles> = {
         main: {
             maxWidth: 450,
-            minHeight: 165
-        }
+            minHeight: 165,
+        },
     };
 
     const confirmDeletionModalProps: IModalProps = {
         isBlocking: false,
         styles: confirmDeletionDialogStyles,
-        className: 'cb-scene-builder-element-list-dialog-wrapper'
+        className: 'cb-scene-builder-element-list-dialog-wrapper',
     };
 
     return (

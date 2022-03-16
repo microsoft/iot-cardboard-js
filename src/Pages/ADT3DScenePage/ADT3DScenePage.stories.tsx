@@ -7,13 +7,13 @@ export default {
     title: 'Pages/ADT3DScenePage',
     component: ADT3DScenePage,
     parameters: {
-        noGlobalWrapper: true
-    }
+        noGlobalWrapper: true,
+    },
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
@@ -33,7 +33,7 @@ Mock3DScenePage.storyName = 'Mock 3D scene page';
 
 export const Mock3DScenePageSchemaErrors = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const invalidConfig = JSON.parse(JSON.stringify(mockConfig));
     invalidConfig.configuration.scenes[0]['invalidPropTest'] = 'uh oh';

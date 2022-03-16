@@ -5,7 +5,7 @@ import {
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
     SET_ADT_HIERARCHY_SEARCH,
     SET_ADT_HIERARCHY_SELECTED_TWIN_ID,
-    SET_TWIN_LOOKUP_STATUS
+    SET_TWIN_LOOKUP_STATUS,
 } from '../../Models/Constants/ActionTypes';
 import { ADTHierarchyCardConsumeState } from './ADTHierarchyCard.types';
 import { TwinLookupStatus } from '../../Models/Constants';
@@ -14,7 +14,7 @@ export const defaultADTHierarchyCardConsumeState: ADTHierarchyCardConsumeState =
     hierarchyNodes: {},
     searchTerm: '',
     selectedTwin: null,
-    twinLookupStatus: TwinLookupStatus.Idle
+    twinLookupStatus: TwinLookupStatus.Idle,
 };
 
 // Using immer immutability helper: https://github.com/immerjs/immer
@@ -67,14 +67,14 @@ export const ADTHierarchyCardConsumeReducer = produce(
 
                     draft.selectedTwin = {
                         modelId: payload.modelId,
-                        twinId: payload.twinId
+                        twinId: payload.twinId,
                     };
                 } else if (payload?.twinId) {
                     draft.hierarchyNodes[payload.twinId].isSelected = true;
 
                     draft.selectedTwin = {
                         modelId: undefined,
-                        twinId: payload.twinId
+                        twinId: payload.twinId,
                     };
                 } else {
                     draft.selectedTwin = null;
@@ -91,5 +91,5 @@ export const ADTHierarchyCardConsumeReducer = produce(
                 break;
         }
     },
-    defaultADTHierarchyCardConsumeState
+    defaultADTHierarchyCardConsumeState,
 );

@@ -3,7 +3,7 @@ import {
     FontIcon,
     IBreadcrumbItem,
     IBreadcrumbStyles,
-    IRenderFunction
+    IRenderFunction,
 } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,13 +20,13 @@ interface Props {
 const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     builderMode,
     onBehaviorsRootClick,
-    onElementsRootClick
+    onElementsRootClick,
 }) => {
     const { t } = useTranslation();
 
     const scenePageContext = useContext(ADT3DScenePageContext);
     const { sceneId, config, widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
+        SceneBuilderContext,
     );
 
     const isAtSceneRoot =
@@ -46,8 +46,8 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                     onClick: () => {
                         scenePageContext.handleOnHomeClick();
                         setWidgetFormInfo(null);
-                    }
-                })
+                    },
+                }),
             },
             {
                 text: sceneName,
@@ -64,9 +64,9 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                             onBehaviorsRootClick();
                             setWidgetFormInfo(null);
                         }
-                    }
-                })
-            }
+                    },
+                }),
+            },
         ];
 
         const behaviorsRoot: IBreadcrumbItem = {
@@ -77,8 +77,8 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                     builderMode !== ADT3DSceneBuilderMode.EditBehavior)) && {
                 onClick: () => {
                     setWidgetFormInfo(null);
-                }
-            })
+                },
+            }),
         };
 
         const elementsRoot: IBreadcrumbItem = {
@@ -86,13 +86,13 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
             key: 'elementsRoot',
             ...(builderMode !== ADT3DSceneBuilderMode.CreateElement &&
                 builderMode !== ADT3DSceneBuilderMode.EditElement && {
-                    onClick: () => onElementsRootClick()
-                })
+                    onClick: () => onElementsRootClick(),
+                }),
         };
 
         const widgetsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.widget'),
-            key: 'widgetsRoot'
+            key: 'widgetsRoot',
         };
 
         let activePanelBreadcrumb: Array<IBreadcrumbItem> = [];
@@ -119,12 +119,14 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 
     const onRenderItem: IRenderFunction<IBreadcrumbItem> = (
         props: IBreadcrumbItem,
-        defaultRender?: (props?: IBreadcrumbItem) => JSX.Element
+        defaultRender?: (props?: IBreadcrumbItem) => JSX.Element,
     ) => {
         if (props.key === 'Home') {
             return (
                 <button
-                    className={"cb-left-panel-builder-breadcrumb-home-icon-container"}
+                    className={
+                        'cb-left-panel-builder-breadcrumb-home-icon-container'
+                    }
                     onClick={props.onClick}
                 >
                     <FontIcon
@@ -140,11 +142,11 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         root: { marginTop: 0 },
         item: { fontSize: 14 },
         listItem: { fontSize: 14 },
-        itemLink: { fontSize: 14 }
+        itemLink: { fontSize: 14 },
     };
 
     return (
-        <div className={"cb-left-panel-builder-breadcrumb-container"}>
+        <div className={'cb-left-panel-builder-breadcrumb-container'}>
             <Breadcrumb
                 className={`cb-left-panel-builder-breadcrumb ${
                     isAtSceneRoot

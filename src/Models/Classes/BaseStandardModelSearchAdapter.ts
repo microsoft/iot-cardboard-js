@@ -2,7 +2,7 @@ import { IBaseStandardModelSearchAdapter } from '../Constants';
 import { modelActionType } from '../Constants/Enums';
 import {
     StandardModelData,
-    StandardModelIndexData
+    StandardModelIndexData,
 } from './AdapterDataClasses/StandardModelData';
 import AdapterMethodSandbox from './AdapterMethodSandbox';
 
@@ -29,7 +29,7 @@ class BaseStandardModelSearchAdapter
                 modelSearchStringIndex = [...modelSearchStringIndex, ...models];
                 modelSearchIndexObj = {
                     ...modelSearchIndexObj,
-                    ...json.models
+                    ...json.models,
                 };
                 return json;
             };
@@ -38,13 +38,13 @@ class BaseStandardModelSearchAdapter
 
             while (jsonRes.links?.next) {
                 jsonRes = await fetchDataFromCdnAndUpdateIndex(
-                    jsonRes.links.next
+                    jsonRes.links.next,
                 );
             }
 
             return new StandardModelIndexData({
                 modelSearchIndexObj,
-                modelSearchStringIndex
+                modelSearchStringIndex,
             });
         });
     }

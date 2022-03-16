@@ -3,7 +3,7 @@ import React, {
     useEffect,
     useMemo,
     useRef,
-    useState
+    useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADTTwinsPageProps } from './ADTTwinsPage.types';
@@ -12,7 +12,7 @@ import {
     IADTTwin,
     IADTModel,
     IResolvedRelationshipClickErrors,
-    IADTInstanceConnection
+    IADTInstanceConnection,
 } from '../../Models/Constants/Interfaces';
 import './ADTTwinsPage.scss';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -27,26 +27,26 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     localeStrings,
     lookupTwinId,
     onTwinClick,
-    searchSpanForDataHistory
+    searchSpanForDataHistory,
 }) => {
     const [selectedTwin, setSelectedTwin]: [
         IADTTwin,
-        React.Dispatch<IADTTwin>
+        React.Dispatch<IADTTwin>,
     ] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
-        lookupTwinId
+        lookupTwinId,
     );
     const [
         ADXConnectionInfo,
-        setADXConnectionInfo
+        setADXConnectionInfo,
     ] = useState<IADTInstanceConnection>(null);
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
 
     const connectionState = useAdapter({
         adapterMethod: () => adapter.getConnectionInformation(),
-        refetchDependencies: [adapter]
+        refetchDependencies: [adapter],
     });
 
     const hasConnectionInfo = useMemo(
@@ -54,14 +54,14 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
             Boolean(
                 ADXConnectionInfo?.kustoClusterUrl &&
                     ADXConnectionInfo?.kustoDatabaseName &&
-                    ADXConnectionInfo?.kustoTableName
+                    ADXConnectionInfo?.kustoTableName,
             ),
-        [ADXConnectionInfo]
+        [ADXConnectionInfo],
     );
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
-        childNode: IHierarchyNode
+        childNode: IHierarchyNode,
     ) => {
         if (
             !(
@@ -81,7 +81,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
         (
             twin: IADTTwin,
             _model: IADTModel,
-            errors?: IResolvedRelationshipClickErrors
+            errors?: IResolvedRelationshipClickErrors,
         ) => {
             if (errors.twinErrors || errors.modelErrors) {
                 setSelectedTwin(null);
@@ -102,7 +102,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
                 setErrorMessage(null);
             }
         },
-        []
+        [],
     );
 
     useEffect(() => {
@@ -129,14 +129,14 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     }, [connectionState.adapterResult.result]);
 
     return (
-        <div className={"cb-hbcard-container"}>
+        <div className={'cb-hbcard-container'}>
             <BaseCompositeCard
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
                 isLoading={connectionState.isLoading}
             >
-                <div className={"cb-hbcard-hierarchy"}>
+                <div className={'cb-hbcard-hierarchy'}>
                     <ADTHierarchyCard
                         adapter={adapter}
                         title={title || t('hierarchy')}
@@ -147,7 +147,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
                         lookupTwinId={reverseLookupTwinId}
                     />
                 </div>
-                <div className={"cb-hbcard-board"}>
+                <div className={'cb-hbcard-board'}>
                     {selectedTwin && ADXConnectionInfo && (
                         <Board
                             theme={theme}

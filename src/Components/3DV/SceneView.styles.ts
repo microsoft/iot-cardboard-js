@@ -4,7 +4,7 @@ import {
     IStyle,
     IProgressIndicatorStyles,
     FontSizes,
-    Theme
+    Theme,
 } from '@fluentui/react';
 
 const classPrefix = 'scene-view';
@@ -13,7 +13,7 @@ const classNames = {
     canvasVisible: `${classPrefix}-canvas-visible`,
     errorMessage: `${classPrefix}-error-message`,
     globeTooltip: `${classPrefix}-globe-tooltip`,
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
 };
 export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
     mergeStyleSets({
@@ -22,8 +22,8 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
             {
                 height: '100%',
                 position: 'relative',
-                width: '100%'
-            } as IStyle
+                width: '100%',
+            } as IStyle,
         ],
         canvas: [
             classNames.canvas,
@@ -32,15 +32,15 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 opacity: 0,
                 outline: 'none',
                 webkitTapHighlightColor: theme.palette.black,
-                width: '100%'
-            } as IStyle
+                width: '100%',
+            } as IStyle,
         ],
         canvasVisible: [
             classNames.canvasVisible,
             {
                 opacity: 1,
-                transition: '2s'
-            } as IStyle
+                transition: '2s',
+            } as IStyle,
         ],
         errorMessage: [
             classNames.errorMessage,
@@ -51,8 +51,8 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 position: 'absolute',
                 textShadow: getTextShadow(theme),
                 top: '50%',
-                transform: 'translate(-50%, 0%)'
-            } as IStyle
+                transform: 'translate(-50%, 0%)',
+            } as IStyle,
         ],
         globeTooltip: [
             classNames.globeTooltip,
@@ -63,10 +63,10 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 color: '#fff',
                 padding: 5,
                 pointerEvents: 'none !important',
-                position: 'absolute'
-            } as IStyle
-        ]
-    })
+                position: 'absolute',
+            } as IStyle,
+        ],
+    }),
 );
 export const getProgressStyles = memoizeFunction(
     (theme: Theme): Partial<IProgressIndicatorStyles> => ({
@@ -78,18 +78,18 @@ export const getProgressStyles = memoizeFunction(
             textShadow: getTextShadow(theme),
             top: '50%',
             transform: `translate(-50%, 0%)`,
-            width: '300px'
+            width: '300px',
         },
         itemDescription: {
             color: theme.semanticColors.bodyText,
             fontSize: FontSizes.size24,
             marginTop: 10,
-            textAlign: 'center'
-        }
-    })
+            textAlign: 'center',
+        },
+    }),
 );
 
 const getTextShadow = memoizeFunction(
     (theme: Theme): string =>
-        `1px 0 0 ${theme.palette.white}, 0 -1px 0 ${theme.palette.white}, 0 1px 0 ${theme.palette.white}, -1px 0 0 ${theme.palette.white}`
+        `1px 0 0 ${theme.palette.white}, 0 -1px 0 ${theme.palette.white}, 0 1px 0 ${theme.palette.white}, -1px 0 0 ${theme.palette.white}`,
 );

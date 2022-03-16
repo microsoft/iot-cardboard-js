@@ -1,6 +1,6 @@
 import {
     IConsumeCardProps,
-    IKeyValuePairAdapter
+    IKeyValuePairAdapter,
 } from '../../Models/Constants/Interfaces';
 import { ImgPropertyPositions } from '../../Models/Constants/Types';
 

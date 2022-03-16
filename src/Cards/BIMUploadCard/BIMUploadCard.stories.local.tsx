@@ -6,12 +6,12 @@ import BIMUploadCard from './BIMUploadCard';
 
 export default {
     title: 'Cards/BimUploadCard',
-    component: BIMUploadCard
+    component: BIMUploadCard,
 };
 
 const cardStyle = {
     height: '480px',
-    width: '800px'
+    width: '800px',
 };
 
 export const UploadFromBIM = (_args, { globals: { theme, locale } }) => {
@@ -29,8 +29,8 @@ export const UploadFromBIM = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />

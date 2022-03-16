@@ -6,7 +6,7 @@ import {
     SelectionMode,
     DetailsRow,
     IDetailsListProps,
-    IColumn
+    IColumn,
 } from '@fluentui/react/lib/DetailsList';
 import { Text } from '@fluentui/react/lib/Text';
 import { IIconProps } from '@fluentui/react/lib/Icon';
@@ -27,7 +27,7 @@ interface ElementsListProps {
     handleEditElement: (
         element: any,
         index: number,
-        formControlMode?: FormMode
+        formControlMode?: FormMode,
     ) => void;
     handleDeleteElement: (index: number) => void;
     formControlMode?: FormMode;
@@ -40,7 +40,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
     handleNewElement,
     handleEditElement,
     handleDeleteElement,
-    formControlMode = FormMode.Edit
+    formControlMode = FormMode.Edit,
 }) => {
     const { t } = useTranslation();
 
@@ -51,8 +51,8 @@ const ElementsList: React.FC<ElementsListProps> = ({
             fieldName: 'name',
             minWidth: 100,
             maxWidth: 300,
-            headerClassName: 'cb-detail-list-header-cell'
-        }
+            headerClassName: 'cb-detail-list-header-cell',
+        },
     ];
 
     if (formControlMode !== FormMode.Readonly) {
@@ -62,7 +62,7 @@ const ElementsList: React.FC<ElementsListProps> = ({
             fieldName: 'action',
             minWidth: 50,
             maxWidth: 50,
-            headerClassName: 'cb-detail-list-header-cell'
+            headerClassName: 'cb-detail-list-header-cell',
         });
     }
 
@@ -76,8 +76,8 @@ const ElementsList: React.FC<ElementsListProps> = ({
                 styles={{
                     cell: {
                         display: 'flex',
-                        alignItems: 'center'
-                    }
+                        alignItems: 'center',
+                    },
                 }}
                 className={`cb-elementslist-row ${
                     formControlMode === FormMode.Readonly
@@ -124,17 +124,17 @@ const ElementsList: React.FC<ElementsListProps> = ({
     return (
         <Stack>
             {(!elements || elements.length === 0) && (
-                <div className={"cb-elementslist-empty"}>
+                <div className={'cb-elementslist-empty'}>
                     <Text>{t(noElementLabelKey)}</Text>
                 </div>
             )}
             {elements?.length > 0 && (
                 <DetailsList
-                    className={"cb-detail-list"}
+                    className={'cb-detail-list'}
                     selectionMode={SelectionMode.none}
                     items={elements}
                     columns={listTableColumns}
-                    setKey={"set"}
+                    setKey={'set'}
                     layoutMode={DetailsListLayoutMode.justified}
                     onRenderRow={renderListRow}
                     onRenderItemColumn={renderItemColumn}

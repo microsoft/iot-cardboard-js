@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import {
     getDefaultStoryDecorator,
-    waitForFirstRender
+    waitForFirstRender,
 } from '../../Models/Services/StoryUtilities';
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
@@ -11,12 +11,12 @@ import { IOverflowMenuProps, OverflowMenu } from './OverflowMenu';
 const cardStyle = {
     background: 'grey',
     width: '100px',
-    padding: '15px'
+    padding: '15px',
 };
 export default {
     title: 'Components/OverflowMenu',
     component: OverflowMenu,
-    decorators: [getDefaultStoryDecorator<IOverflowMenuProps>(cardStyle)]
+    decorators: [getDefaultStoryDecorator<IOverflowMenuProps>(cardStyle)],
 };
 
 const defaultProps: IOverflowMenuProps = {
@@ -28,26 +28,26 @@ const defaultProps: IOverflowMenuProps = {
             {
                 key: 'item 1',
                 text: 'item 1',
-                onClick: () => alert('clicked item 1')
+                onClick: () => alert('clicked item 1'),
             },
             {
                 key: 'item 2',
                 text: 'item 2',
                 iconProps: {
-                    iconName: 'Shapes'
+                    iconName: 'Shapes',
                 },
-                onClick: () => alert('clicked item 2')
+                onClick: () => alert('clicked item 2'),
             },
             {
                 key: 'item 3',
                 text: 'item 3',
                 iconProps: {
-                    iconName: 'Add'
+                    iconName: 'Add',
                 },
-                onClick: () => alert('clicked item 3')
-            }
-        ]
-    }
+                onClick: () => alert('clicked item 3'),
+            },
+        ],
+    },
 };
 
 type TemplateStory = ComponentStory<typeof OverflowMenu>;
@@ -61,7 +61,7 @@ BasicItem.args = defaultProps;
 export const BasicItemDark = Template.bind({}) as TemplateStory;
 BasicItemDark.args = BasicItem.args;
 BasicItemDark.parameters = {
-    theme: Theme.Dark
+    theme: Theme.Dark,
 };
 
 export const MenuOpened = Template.bind({}) as TemplateStory;
@@ -78,5 +78,5 @@ export const MenuOpenedDark = Template.bind({}) as TemplateStory;
 MenuOpenedDark.args = MenuOpened.args;
 MenuOpenedDark.play = MenuOpened.play;
 MenuOpenedDark.parameters = {
-    theme: Theme.Dark
+    theme: Theme.Dark,
 };

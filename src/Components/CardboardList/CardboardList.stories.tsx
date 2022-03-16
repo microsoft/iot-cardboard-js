@@ -5,20 +5,20 @@ import { CardboardList } from './CardboardList';
 import { IContextualMenuItem } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
-    sleep
+    sleep,
 } from '../../Models/Services/StoryUtilities';
 import { ICardboardListItem, ICardboardListProps } from './CardboardList.types';
 
 const cardStyle = {
     height: '600px',
-    width: '300px'
+    width: '300px',
 };
 export default {
     title: 'Components/Lists',
     component: CardboardList,
     decorators: [
-        getDefaultStoryDecorator<ICardboardListProps<IFakeListItem>>(cardStyle)
-    ]
+        getDefaultStoryDecorator<ICardboardListProps<IFakeListItem>>(cardStyle),
+    ],
 };
 
 interface IFakeListItem {
@@ -30,28 +30,28 @@ const defaultListItems: IFakeListItem[] = [
     {
         itemId: 'item 1',
         itemDescription: 'description for item 1',
-        isChecked: false
+        isChecked: false,
     },
     {
         itemId: 'item 2',
         itemDescription: 'description for item 1',
-        isChecked: true
+        isChecked: true,
     },
     {
         itemId: 'item 3',
         itemDescription: 'description for item 3',
-        isChecked: undefined
+        isChecked: undefined,
     },
     {
         itemId: 'item 4',
         itemDescription: 'description for item 4',
-        isChecked: true
+        isChecked: true,
     },
     {
         itemId: 'item 5',
         itemDescription: 'description for item 5',
-        isChecked: false
-    }
+        isChecked: false,
+    },
 ];
 
 const getDefaultMenuItems = (item): IContextualMenuItem[] => {
@@ -62,10 +62,10 @@ const getDefaultMenuItems = (item): IContextualMenuItem[] => {
             'data-testid': `addToScene-${item.id}`,
             text: 'Add to the scene',
             iconProps: {
-                iconName: 'Add'
+                iconName: 'Add',
             },
-            onClick: () => alert(`add ${item.id}`)
-        }
+            onClick: () => alert(`add ${item.id}`),
+        },
     ];
 };
 const defaultOnClickHandler = (item) => {
@@ -73,7 +73,7 @@ const defaultOnClickHandler = (item) => {
 };
 const getListItem = (
     item: IFakeListItem,
-    index: number
+    index: number,
 ): ICardboardListItem<IFakeListItem> => {
     return {
         ariaLabel: '',
@@ -84,7 +84,7 @@ const getListItem = (
         onClick: defaultOnClickHandler,
         overflowMenuItems: index % 2 ? getDefaultMenuItems(item) : [],
         textPrimary: item.itemId + ' some extra text for overflow',
-        textSecondary: item.itemDescription
+        textSecondary: item.itemDescription,
     };
 };
 
@@ -92,7 +92,7 @@ const getDefaultItems = (): ICardboardListItem<IFakeListItem>[] =>
     defaultListItems.map((item, index) => getListItem(item, index));
 const getDefaultProps = (): ICardboardListProps<unknown> => ({
     items: getDefaultItems(),
-    listKey: 'testList'
+    listKey: 'testList',
 });
 
 type TemplateStory = ComponentStory<typeof CardboardList>;
@@ -108,7 +108,7 @@ BasicList.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-testList-1-moreMenu'
+        'context-menu-testList-1-moreMenu',
     );
     await userEvent.click(moreMenu);
     await sleep(1);
@@ -131,19 +131,19 @@ WithAllElements.args = {
                         key: 'key1',
                         text: 'key 1',
                         iconProps: {
-                            iconName: 'Shapes'
-                        }
-                    }
+                            iconName: 'Shapes',
+                        },
+                    },
                 ],
-                isChecked: index % 2 === 0
-            } as ICardboardListItem<unknown>)
-    )
+                isChecked: index % 2 === 0,
+            } as ICardboardListItem<unknown>),
+    ),
 };
 WithAllElements.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-testList-1-moreMenu'
+        'context-menu-testList-1-moreMenu',
     );
     await userEvent.click(moreMenu);
     await sleep(1);
@@ -162,19 +162,19 @@ WithMenu.args = {
                         key: 'item 1',
                         text: 'item 1',
                         iconProps: {
-                            iconName: 'Shapes'
-                        }
-                    }
+                            iconName: 'Shapes',
+                        },
+                    },
                 ],
-                textPrimary: `List item ${index}`
-            } as ICardboardListItem<unknown>)
-    )
+                textPrimary: `List item ${index}`,
+            } as ICardboardListItem<unknown>),
+    ),
 };
 WithMenu.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-testList-0-moreMenu'
+        'context-menu-testList-0-moreMenu',
     );
     await userEvent.click(moreMenu);
     await sleep(1);
@@ -191,9 +191,9 @@ WithStartAndEndIcon.args = {
                 item: item,
                 onClick: defaultOnClickHandler,
                 overflowMenuItems: undefined,
-                textPrimary: `List item ${index}`
-            } as ICardboardListItem<unknown>)
-    )
+                textPrimary: `List item ${index}`,
+            } as ICardboardListItem<unknown>),
+    ),
 };
 
 export const WithStartIconAndMenu = Template.bind({}) as TemplateStory;
@@ -206,15 +206,15 @@ WithStartIconAndMenu.args = {
                 item: item,
                 textPrimary: `List item ${index}`,
                 onClick: defaultOnClickHandler,
-                overflowMenuItems: getDefaultMenuItems(item)
-            } as ICardboardListItem<unknown>)
-    )
+                overflowMenuItems: getDefaultMenuItems(item),
+            } as ICardboardListItem<unknown>),
+    ),
 };
 WithStartIconAndMenu.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-testList-0-moreMenu'
+        'context-menu-testList-0-moreMenu',
     );
     await userEvent.click(moreMenu);
     await sleep(1);
@@ -222,17 +222,17 @@ WithStartIconAndMenu.play = async ({ canvasElement }) => {
 
 const customItems: IFakeListItem[] = [
     {
-        itemId: 'rock 1'
+        itemId: 'rock 1',
     } as IFakeListItem,
     {
-        itemId: 'stream 1'
+        itemId: 'stream 1',
     } as IFakeListItem,
     {
-        itemId: 'stream 2'
+        itemId: 'stream 2',
     } as IFakeListItem,
     {
-        itemId: 'rock 2'
-    } as IFakeListItem
+        itemId: 'rock 2',
+    } as IFakeListItem,
 ];
 export const WithHighlightedText = Template.bind({}) as TemplateStory;
 WithHighlightedText.args = {
@@ -243,8 +243,8 @@ WithHighlightedText.args = {
                 iconStartName: 'Shapes',
                 onClick: defaultOnClickHandler,
                 textPrimary: item.itemId,
-                textSecondary: item.itemDescription
-            } as ICardboardListItem<unknown>)
+                textSecondary: item.itemDescription,
+            } as ICardboardListItem<unknown>),
     ),
-    textToHighlight: 'rock'
+    textToHighlight: 'rock',
 };

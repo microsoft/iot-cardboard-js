@@ -4,7 +4,7 @@ import useGuid from './useGuid';
 
 const useTSIChartComponentRender = (
     component,
-    renderParameters: ITSIChartComponentProps
+    renderParameters: ITSIChartComponentProps,
 ) => {
     const chartContainerGUID = useGuid();
     const chart = useRef(null);
@@ -12,14 +12,14 @@ const useTSIChartComponentRender = (
     useEffect(() => {
         if (chart.current === null) {
             chart.current = new component(
-                document.getElementById(chartContainerGUID)
+                document.getElementById(chartContainerGUID),
             );
         }
         if (renderParameters.data) {
             chart.current.render(
                 renderParameters.data,
                 renderParameters.chartOptions,
-                renderParameters.chartDataOptions
+                renderParameters.chartDataOptions,
             );
         }
     }, [renderParameters]);

@@ -3,7 +3,7 @@ import {
     DirectionalHint,
     ICalloutProps,
     ITextFieldProps,
-    TextField
+    TextField,
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
 import React, { useRef, useState } from 'react';
@@ -23,12 +23,12 @@ export interface IAutoCompleteProps {
     getItems?: (
         value: string,
         items: string[],
-        changedPosition: number
+        changedPosition: number,
     ) => string[];
     onSelected?: (
         value: string,
         selectedValue,
-        changedPosition: number
+        changedPosition: number,
     ) => string;
 }
 
@@ -47,7 +47,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     itemClassName,
     onValueChange: onChange,
     getItems,
-    onSelected
+    onSelected,
 }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const [calloutVisible, setCalloutVisible] = useState(false);
@@ -87,7 +87,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     };
 
     const onKeyDown = (
-        e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         let index = selectedItemIndex;
         switch (e.key) {
@@ -144,13 +144,13 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     const defaultGetItems = (
         newValue: string,
         items: string[],
-        _changedPosition: number
+        _changedPosition: number,
     ): string[] => {
         const val = newValue.replaceAll('\n', '');
         const it = items || [];
         const filtered = val
             ? it.filter(
-                  (item) => item.toLowerCase().indexOf(val.toLowerCase()) >= 0
+                  (item) => item.toLowerCase().indexOf(val.toLowerCase()) >= 0,
               )
             : [];
         return filtered;
@@ -218,7 +218,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 value={value}
                 onChange={(e, val) => onChanged(val)}
                 spellCheck={false}
-                autoComplete={"off"}
+                autoComplete={'off'}
                 {...textFieldProps}
                 id={textFieldId}
                 onKeyDown={(e) => onKeyDown(e)}

@@ -6,12 +6,12 @@ import {
     SET_CURRENT_STEP,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE,
-    SET_ERRORS
+    SET_ERRORS,
 } from '../../Models/Constants/ActionTypes';
 import { ADT3DScenePageState } from './ADT3DScenePage.types';
 import {
     ADT3DScenePageModes,
-    ADT3DScenePageSteps
+    ADT3DScenePageSteps,
 } from '../../Models/Constants/Enums';
 
 export const defaultADT3DScenePageState: ADT3DScenePageState = {
@@ -20,12 +20,12 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneLobby,
     errors: [],
-    scenePageMode: ADT3DScenePageModes.BuildScene
+    scenePageMode: ADT3DScenePageModes.BuildScene,
 };
 
 export const ADT3DScenePageReducer: (
     draft: ADT3DScenePageState,
-    action: IAction
+    action: IAction,
 ) => ADT3DScenePageState = produce(
     (draft: ADT3DScenePageState, action: IAction) => {
         const payload = action.payload;
@@ -53,5 +53,5 @@ export const ADT3DScenePageReducer: (
                 break;
         }
     },
-    defaultADT3DScenePageState
+    defaultADT3DScenePageState,
 );

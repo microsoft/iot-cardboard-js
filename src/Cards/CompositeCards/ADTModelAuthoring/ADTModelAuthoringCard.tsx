@@ -331,7 +331,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                             },
                                                         ),
                                                     ),
-                                                )}
+                                                )
+                                            }
                                             primaryActionText={t('select')}
                                         />
                                         <div
@@ -372,7 +373,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                                                         m[
                                                                             '@id'
                                                                         ],
-                                                                    )}
+                                                                    )
+                                                                }
                                                             >
                                                                 {t('remove')}
                                                             </Link>
@@ -423,7 +425,8 @@ const ADTModelAuthoringCard: React.FC<ADTModelAuthoringCardProps> = ({
                                             onCancel={() =>
                                                 setAuthoringStep(
                                                     ModelAuthoringSteps.SelectType,
-                                                )}
+                                                )
+                                            }
                                             formControlMode={FormMode.New}
                                             isPrimaryActionButtonsVisible={
                                                 false

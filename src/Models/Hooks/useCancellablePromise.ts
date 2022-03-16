@@ -6,12 +6,12 @@ import { CancellablePromise } from '../Constants/Types';
 /** Wraps promise with logic that allows for promise cancellation via cancel() method */
 export function makeCancellable<T>(
     promise: Promise<T>,
-    promisesRef?: React.MutableRefObject<any>
+    promisesRef?: React.MutableRefObject<any>,
 ): CancellablePromise<T> {
     let isCancelled = false;
     let returnValue: CancellablePromise<T> = {
         promise: null,
-        cancel: () => null
+        cancel: () => null,
     };
 
     const wrappedPromise = new Promise<T>((resolve, reject) => {
@@ -36,7 +36,7 @@ export function makeCancellable<T>(
                 promisesRef.current.indexOf(returnValue) !== -1
             ) {
                 promisesRef.current = promisesRef.current.filter(
-                    (promise) => promise !== returnValue
+                    (promise) => promise !== returnValue,
                 );
             }
         }
@@ -47,7 +47,7 @@ export function makeCancellable<T>(
         promise: wrappedPromise,
         cancel() {
             isCancelled = true;
-        }
+        },
     };
 
     return returnValue;

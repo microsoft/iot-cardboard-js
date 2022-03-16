@@ -6,33 +6,33 @@ import {
     Boundary,
     IValueRangeBuilderState,
     ValueRangeBuilderAction,
-    ValueRangeBuilderActionType
+    ValueRangeBuilderActionType,
 } from './ValueRangeBuilder.types';
 import {
     isRangeOverlapFound,
-    getRangeValidation
+    getRangeValidation,
 } from './ValueRangeBuilder.utils';
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     valueRanges: [],
     validationMap: {
         overlapFound: false,
-        validation: {}
+        validation: {},
     },
     colorSwatch: defaultSwatchColors,
     minRanges: 0,
-    maxRanges: null
+    maxRanges: null,
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
     color: defaultValueRangeColor,
     min: Number('-Infinity'),
-    max: Number('Infinity')
+    max: Number('Infinity'),
 };
 
 export const valueRangeBuilderReducer: (
     draft: IValueRangeBuilderState,
-    action: ValueRangeBuilderAction
+    action: ValueRangeBuilderAction,
 ) => IValueRangeBuilderState = produce(
     (draft: IValueRangeBuilderState, action: ValueRangeBuilderAction) => {
         switch (action.type) {
@@ -50,7 +50,7 @@ export const valueRangeBuilderReducer: (
                     ...defaultValueRange,
                     min: newMin,
                     id,
-                    color
+                    color,
                 };
 
                 draft.valueRanges.push(newValueRange);
@@ -59,7 +59,7 @@ export const valueRangeBuilderReducer: (
                 draft.validationMap.validation[id] = {
                     minValid: true,
                     maxValid: true,
-                    rangeValid: true
+                    rangeValid: true,
                 };
 
                 // Update min validation
@@ -67,7 +67,7 @@ export const valueRangeBuilderReducer: (
                     draft,
                     newValueRange,
                     String(newValueRange.min),
-                    true
+                    true,
                 );
 
                 // Update max validation
@@ -75,13 +75,13 @@ export const valueRangeBuilderReducer: (
                     draft,
                     newValueRange,
                     String(newValueRange.max),
-                    false
+                    false,
                 );
 
                 // Update overlapping IDs
                 draft.validationMap.overlapFound = isRangeOverlapFound(
                     draft.valueRanges,
-                    draft.validationMap
+                    draft.validationMap,
                 );
                 break;
             }
@@ -94,7 +94,7 @@ export const valueRangeBuilderReducer: (
                 const { id } = action.payload;
                 // Remove value from value range list
                 const valueRangeToRemove = draft.valueRanges.findIndex(
-                    (vr) => vr.id === id
+                    (vr) => vr.id === id,
                 );
                 draft.valueRanges.splice(valueRangeToRemove, 1);
 
@@ -104,7 +104,7 @@ export const valueRangeBuilderReducer: (
                 // Update overlapping IDs
                 draft.validationMap.overlapFound = isRangeOverlapFound(
                     draft.valueRanges,
-                    draft.validationMap
+                    draft.validationMap,
                 );
                 break;
             }
@@ -114,12 +114,12 @@ export const valueRangeBuilderReducer: (
                     draft,
                     currentValueRange,
                     newValue,
-                    isMin
+                    isMin,
                 );
 
                 // If newValue is valid numeric type -- parse to number internally
                 const valueToUpdate = draft.valueRanges.find(
-                    (vr) => vr.id === currentValueRange.id
+                    (vr) => vr.id === currentValueRange.id,
                 );
                 if (!valueToUpdate) return;
 
@@ -135,20 +135,20 @@ export const valueRangeBuilderReducer: (
                 const {
                     boundary,
                     currentValueRange,
-                    newValue
+                    newValue,
                 } = action.payload;
                 updateValueRange(
                     draft,
                     currentValueRange.id,
                     boundary,
                     newValue,
-                    null
+                    null,
                 );
                 updateValueRangeValidation(
                     draft,
                     currentValueRange,
                     newValue,
-                    boundary === Boundary.min
+                    boundary === Boundary.min,
                 );
                 break;
             }
@@ -156,7 +156,7 @@ export const valueRangeBuilderReducer: (
                 break;
         }
     },
-    defaultValueRangeBuilderState
+    defaultValueRangeBuilderState,
 );
 
 const updateValueRange = (
@@ -164,7 +164,7 @@ const updateValueRange = (
     id: string,
     boundary: Boundary,
     newValue: string,
-    newColor: string
+    newColor: string,
 ) => {
     const valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
     if (!valueToUpdate) return;
@@ -182,12 +182,12 @@ const updateValueRangeValidation = (
     draft: IValueRangeBuilderState,
     currentValueRange: IValueRange,
     newValue: string,
-    isMin: boolean
+    isMin: boolean,
 ) => {
     const newValueRangeToCheck: IValueRange = {
         ...currentValueRange,
         ...(isMin && { min: newValue as any }),
-        ...(!isMin && { max: newValue as any })
+        ...(!isMin && { max: newValue as any }),
     };
 
     const validation = getRangeValidation(newValueRangeToCheck);
@@ -195,7 +195,7 @@ const updateValueRangeValidation = (
 
     draft.validationMap.overlapFound = isRangeOverlapFound(
         draft.valueRanges,
-        draft.validationMap
+        draft.validationMap,
     );
 
     return validation;

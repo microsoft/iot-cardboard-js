@@ -4,7 +4,7 @@ import {
     DTwinRelationship,
     IADTAdapter,
     IKeyValuePairAdapter,
-    ITsiClientChartDataAdapter
+    ITsiClientChartDataAdapter,
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -14,7 +14,7 @@ import {
     IHierarchyNode,
     IErrorInfo,
     ICancellablePromise,
-    IADTRelationship
+    IADTRelationship,
 } from './Interfaces';
 
 export type AdapterReturnType<T extends IAdapterData> =

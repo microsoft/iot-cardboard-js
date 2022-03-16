@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
     DTwin,
     IADT3DViewerProps,
-    IADT3DViewerRenderMode
+    IADT3DViewerRenderMode,
 } from '../../Models/Constants/Interfaces';
 import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
@@ -10,7 +10,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     Marker,
-    SceneVisual
+    SceneVisual,
 } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
@@ -39,12 +39,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds,
-    unzoomedMeshOpacity
+    unzoomedMeshOpacity,
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
-        coloredMeshItemsProp || []
+        coloredMeshItemsProp || [],
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
@@ -67,7 +67,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         adapterMethod: () => adapter.getSceneData(sceneId, sceneConfig),
         refetchDependencies: [sceneId, sceneConfig],
         isLongPolling: true,
-        pollingIntervalMillis: pollingInterval
+        pollingIntervalMillis: pollingInterval,
     });
 
     useEffect(() => {
@@ -93,27 +93,27 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                             case VisualType.StatusColoring: {
                                 const value = parseExpression(
                                     visual.statusValueExpression,
-                                    sceneVisual.twins
+                                    sceneVisual.twins,
                                 );
                                 const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
                                     visual.valueRanges,
-                                    value
+                                    value,
                                 );
                                 if (color) {
                                     for (const mesh of sceneVisual.meshIds) {
                                         const coloredMesh: CustomMeshItem = {
                                             meshId: mesh,
-                                            color: color
+                                            color: color,
                                         };
                                         if (
                                             !tempColoredMeshItems.find(
                                                 (item) =>
                                                     item.meshId ===
-                                                    coloredMesh.meshId
+                                                    coloredMesh.meshId,
                                             )
                                         ) {
                                             tempColoredMeshItems.push(
-                                                coloredMesh
+                                                coloredMesh,
                                             );
                                         }
                                     }
@@ -134,10 +134,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
-                sceneVisual.meshIds.find((id) => id === mesh?.id)
+                sceneVisual.meshIds.find((id) => id === mesh?.id),
             );
             const popOver = sceneVisual?.visuals?.find(
-                (visual) => visual.type === VisualType.Popover
+                (visual) => visual.type === VisualType.Popover,
             ) as IPopoverVisual;
 
             if (sceneVisual && popOver) {
@@ -176,11 +176,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
                 const coloredMesh = coloredMeshItems.find(
-                    (item) => item.meshId === mesh.id
+                    (item) => item.meshId === mesh.id,
                 );
                 if (coloredMesh) {
                     coloredMeshes = coloredMeshes.filter(
-                        (item) => item.meshId !== coloredMesh.meshId
+                        (item) => item.meshId !== coloredMesh.meshId,
                     );
                     setColoredMeshItems(coloredMeshes);
                 } else {
@@ -196,12 +196,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const meshHover = (marker: Marker, mesh: any) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
-                sceneVisual.meshIds.find((id) => id === mesh?.id)
+                sceneVisual.meshIds.find((id) => id === mesh?.id),
             );
             if (
                 sceneVisual &&
                 sceneVisual.visuals.find(
-                    (visual) => visual.type === VisualType.Popover
+                    (visual) => visual.type === VisualType.Popover,
                 )
             ) {
                 document.body.style.cursor = 'pointer';
@@ -221,12 +221,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             const position = getMeshCenter(
                 selectedMesh.current,
                 sceneRef.current,
-                sceneWrapper
+                sceneWrapper,
             );
             const container = document.getElementById(popUpContainerId);
             if (container) {
                 const canvas: HTMLCanvasElement = document.getElementById(
-                    lineId
+                    lineId,
                 ) as HTMLCanvasElement;
                 canvas.width = container.clientWidth;
                 canvas.height = container.clientHeight;
@@ -264,7 +264,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
 
     const onRenderModeChange = (
         _event: React.FormEvent<HTMLDivElement>,
-        item: IDropdownOption
+        item: IDropdownOption,
     ): void => {
         setSelectedRenderMode(item.key as string);
     };
@@ -278,7 +278,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         >
             <div
                 id={sceneWrapperId}
-                className={"cb-adt-3dviewer-wrapper"}
+                className={'cb-adt-3dviewer-wrapper'}
                 style={
                     renderMode?.background
                         ? { background: renderMode.background }
@@ -306,19 +306,19 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
-                                      'storage'
+                                      'storage',
                                   )
-                            : undefined
+                            : undefined,
                     }}
                 />
                 {!hideUI && (
-                    <div className={"cb-adt-3dviewer-render-mode-dropdown"}>
+                    <div className={'cb-adt-3dviewer-render-mode-dropdown'}>
                         <Dropdown
                             selectedKey={selectedRenderMode}
                             onChange={onRenderModeChange}
                             options={renderModeOptions}
                             styles={{
-                                dropdown: { width: 250 }
+                                dropdown: { width: 250 },
                             }}
                         />
                     </div>
@@ -326,17 +326,20 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 {showPopUp && (
                     <div
                         id={popUpContainerId}
-                        className={"cb-adt-3dviewer-popup-container"}
+                        className={'cb-adt-3dviewer-popup-container'}
                     >
                         <canvas
                             id={lineId}
-                            className={"cb-adt-3dviewer-line-canvas"}
+                            className={'cb-adt-3dviewer-line-canvas'}
                         />
                         <Draggable
-                            bounds={"parent"}
+                            bounds={'parent'}
                             onDrag={(e, data) => setPopUpPosition(e, data)}
                         >
-                            <div id={popUpId} className={"cb-adt-3dviewer-popup"}>
+                            <div
+                                id={popUpId}
+                                className={'cb-adt-3dviewer-popup'}
+                            >
                                 <PopupWidget
                                     config={popUpConfig}
                                     onClose={() => setShowPopUp(false)}

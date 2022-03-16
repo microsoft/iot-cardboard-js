@@ -3,7 +3,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useRef,
-    useState
+    useState,
 } from 'react';
 import './ADTModelUploaderCard.scss';
 import { useTranslation } from 'react-i18next';
@@ -30,12 +30,12 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
         hasMessageBar,
         onUploadFinish,
         onFileListChanged,
-        existingFiles
+        existingFiles,
     } = props;
     const { t } = useTranslation();
     const jsonUploaderComponentRef = useRef();
     const [uploadingStatus, setUploadingStatus] = useState(
-        UploadPhase.PreUpload
+        UploadPhase.PreUpload,
     );
     const [progressMessage, setProgressMessage] = useState(null);
 
@@ -43,7 +43,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
         adapterMethod: (models: Array<DTDLModel>) =>
             adapter.createModels(models),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     useEffect(() => {
@@ -54,11 +54,11 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 setUploadingStatus(UploadPhase.Failed);
                 setProgressMessage(
                     t('uploadProgress.uploadFailed', {
-                        assetType: 'models'
+                        assetType: 'models',
                     }) +
                         ': ' +
                         (pushModelsState.adapterResult?.getCatastrophicError()
-                            ?.rawError as any).response.data.error.message
+                            ?.rawError as any).response.data.error.message,
                 );
             } else {
                 setUploadingStatus(UploadPhase.PartiallyFailed);
@@ -67,22 +67,22 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                         assetType: 'models',
                         errorCount:
                             pushModelsState.adapterResult.errorInfo.errors
-                                .length
-                    })
+                                .length,
+                    }),
                 );
             }
         } else if (pushModelsState.adapterResult?.getData()) {
             setUploadingStatus(UploadPhase.Succeeded);
             setProgressMessage(
                 t('uploadProgress.uploadSuccess', {
-                    assetType: 'models'
-                })
+                    assetType: 'models',
+                }),
             );
         }
 
         if (onUploadFinish) {
             onUploadFinish(
-                pushModelsState?.adapterResult as AdapterResult<ADTModelsData>
+                pushModelsState?.adapterResult as AdapterResult<ADTModelsData>,
             );
         }
     }, [pushModelsState?.adapterResult]);
@@ -103,11 +103,11 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
     useImperativeHandle(ref, () => ({
         uploadFiles: uploadHandler,
         getJsonList: () =>
-            (jsonUploaderComponentRef.current as any)?.getJsonItems()
+            (jsonUploaderComponentRef.current as any)?.getJsonItems(),
     }));
 
     return (
-        <div className={"cb-adt-model-uploader-wrapper"}>
+        <div className={'cb-adt-model-uploader-wrapper'}>
             <BaseCard
                 title={title}
                 isLoading={false}
@@ -117,13 +117,13 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                 locale={locale}
                 localeStrings={localeStrings}
             >
-                <div className={"cb-adt-model-uploader"}>
+                <div className={'cb-adt-model-uploader'}>
                     <JsonUploader
                         onFileListChanged={onFileListChanged}
                         ref={jsonUploaderComponentRef}
                         existingFiles={existingFiles}
                     />
-                    <div className={"cb-adt-model-uploader-footer"}>
+                    <div className={'cb-adt-model-uploader-footer'}>
                         {hasMessageBar && progressMessage && (
                             <MessageBar
                                 messageBarType={
@@ -137,7 +137,9 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                                 dismissButtonAriaLabel={t('close')}
                                 truncated={true}
                                 onDismiss={() => setProgressMessage(null)}
-                                className={"cb-adt-model-uploader-progress-message"}
+                                className={
+                                    'cb-adt-model-uploader-progress-message'
+                                }
                             >
                                 {progressMessage}
                             </MessageBar>
@@ -150,7 +152,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
                                         ? t('generateADTAssets.uploading')
                                         : t('upload')
                                 }
-                                className={"cb-adt-model-uploader-button"}
+                                className={'cb-adt-model-uploader-button'}
                             />
                         )}
                     </div>

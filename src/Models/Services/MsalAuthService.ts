@@ -1,7 +1,7 @@
 import * as Msal from '@azure/msal-browser';
 import {
     IEnvironmentToConstantMapping,
-    IAuthService
+    IAuthService,
 } from '../Constants/Interfaces';
 
 export default class MsalAuthService implements IAuthService {
@@ -21,7 +21,7 @@ export default class MsalAuthService implements IAuthService {
 
         scope: 'https://api.timeseries.azure.com/.default',
 
-        redirectUri: window.location.protocol + '//' + window.location.hostname
+        redirectUri: window.location.protocol + '//' + window.location.hostname,
 
         // // The resource URI for ADT should NOT end with a trailing slash as it will cause
         // // authentication to fail.
@@ -37,15 +37,15 @@ export default class MsalAuthService implements IAuthService {
                 clientId: this.environmentToConstantMapping.clientId,
                 authority: `${this.environmentToConstantMapping.authority}`,
                 redirectUri: this.environmentToConstantMapping.redirectUri,
-                navigateToLoginRequestUrl: true
+                navigateToLoginRequestUrl: true,
             },
             cache: {
                 cacheLocation: 'localStorage',
-                storeAuthStateInCookie: true
-            }
+                storeAuthStateInCookie: true,
+            },
         };
         this.authContext = new Msal.PublicClientApplication(
-            this.authContextConfig
+            this.authContextConfig,
         );
     }
 
@@ -89,7 +89,7 @@ export default class MsalAuthService implements IAuthService {
         scope,
         resolve,
         reject,
-        allowParallelGetTokenAfterComplete
+        allowParallelGetTokenAfterComplete,
     ) => {
         const resolveToken = ({ accessToken }) => {
             if (allowParallelGetTokenAfterComplete) {
@@ -110,7 +110,7 @@ export default class MsalAuthService implements IAuthService {
                         // popups are likely to be blocked by the browser
                         // notify the user that they should enable them
                         alert(
-                            'Some authentication flows will require pop-ups, please make sure popups are enabled for this site.'
+                            'Some authentication flows will require pop-ups, please make sure popups are enabled for this site.',
                         );
                         this.authContext
                             .acquireTokenPopup(scope)
@@ -129,7 +129,7 @@ export default class MsalAuthService implements IAuthService {
 
     private getGenericTokenPromiseCallback = (
         scope,
-        allowParallelGetTokenAfterComplete = false
+        allowParallelGetTokenAfterComplete = false,
     ) => {
         scope.authority = `${this.environmentToConstantMapping.authority}`;
         return (resolve, reject) => {
@@ -137,7 +137,7 @@ export default class MsalAuthService implements IAuthService {
                 scope,
                 resolve,
                 reject,
-                allowParallelGetTokenAfterComplete
+                allowParallelGetTokenAfterComplete,
             );
             this.getTokenCalls.push(getTokenCall);
             if (
@@ -156,37 +156,37 @@ export default class MsalAuthService implements IAuthService {
             return new Promise(
                 this.getGenericTokenPromiseCallback(
                     {
-                        scopes: [scope]
+                        scopes: [scope],
                     },
-                    true
-                )
+                    true,
+                ),
             ) as Promise<string>;
         } else if (tokenFor === 'adx') {
             scope = 'https://help.kusto.windows.net/user_impersonation';
             return new Promise(
                 this.getGenericTokenPromiseCallback(
                     {
-                        scopes: [scope]
+                        scopes: [scope],
                     },
-                    true
-                )
+                    true,
+                ),
             ) as Promise<string>;
         } else if (tokenFor === 'storage') {
             scope = 'https://storage.azure.com/user_impersonation';
             return new Promise(
                 this.getGenericTokenPromiseCallback(
                     {
-                        scopes: [scope]
+                        scopes: [scope],
                     },
-                    true
-                )
+                    true,
+                ),
             ) as Promise<string>;
         } else {
             scope = this.environmentToConstantMapping.scope;
             return new Promise(
                 this.getGenericTokenPromiseCallback({
-                    scopes: [scope]
-                })
+                    scopes: [scope],
+                }),
             ) as Promise<string>;
         }
     };

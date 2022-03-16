@@ -7,7 +7,7 @@ import { Supported3DFileTypes } from '../..';
 
 export default {
     title: 'Components/BlobDropdown',
-    component: BlobDropdown
+    component: BlobDropdown,
 };
 
 export const DropdownFor3DFiles = (_args, { globals: { theme, locale } }) => {
@@ -23,8 +23,8 @@ export const DropdownFor3DFiles = (_args, { globals: { theme, locale } }) => {
                 new BlobAdapter(
                     authenticationParameters.storage.blobContainerUrl,
                     new MsalAuthService(
-                        authenticationParameters.storage.aadParameters
-                    )
+                        authenticationParameters.storage.aadParameters,
+                    ),
                 )
             }
             fileTypes={Object.values(Supported3DFileTypes)}

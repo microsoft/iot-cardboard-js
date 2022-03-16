@@ -6,7 +6,7 @@ import { IStepperWizardProps } from '../../Models/Constants/Interfaces';
 const StepperWizard = ({
     steps,
     currentStepIndex,
-    isNavigationDisabled = false
+    isNavigationDisabled = false,
 }: IStepperWizardProps) => {
     return (
         <div className={'cb-stepper-wizard'}>

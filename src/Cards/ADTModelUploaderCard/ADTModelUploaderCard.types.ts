@@ -2,7 +2,7 @@ import { ADTModelsData } from '../../Models/Classes/AdapterDataClasses/ADTUpload
 import AdapterResult from '../../Models/Classes/AdapterResult';
 import {
     IADTAdapter,
-    IStandaloneConsumeCardProps
+    IStandaloneConsumeCardProps,
 } from '../../Models/Constants/Interfaces';
 
 export interface ADTModelUploaderCardProps extends IStandaloneConsumeCardProps {

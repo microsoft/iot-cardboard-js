@@ -6,12 +6,12 @@ import ADTHierarchyCard from './ADTHierarchyCard';
 
 export default {
     title: 'Cards/ADTHierarchyCard',
-    component: ADTHierarchyCard
+    component: ADTHierarchyCard,
 };
 
 const hierarchyCardStyle = {
     height: '400px',
-    width: '720px'
+    width: '720px',
 };
 
 export const ADTHierarchy = (_args, { globals: { theme, locale } }) => {
@@ -28,8 +28,8 @@ export const ADTHierarchy = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />
@@ -39,7 +39,7 @@ export const ADTHierarchy = (_args, { globals: { theme, locale } }) => {
 
 export const ADTHierarchyWithReverseLookup = (
     args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -54,8 +54,8 @@ export const ADTHierarchyWithReverseLookup = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 lookupTwinId={args.lookupTwinId}
@@ -67,8 +67,8 @@ export const ADTHierarchyWithReverseLookup = (
 ADTHierarchyWithReverseLookup.argTypes = {
     lookupTwinId: {
         control: {
-            type: 'text'
+            type: 'text',
         },
-        defaultValue: 'CarTwin'
-    }
+        defaultValue: 'CarTwin',
+    },
 };

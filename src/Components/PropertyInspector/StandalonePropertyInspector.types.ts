@@ -4,7 +4,7 @@ import {
     IADTRelationship,
     PropertyInspectorPatchMode,
     Theme,
-    Locale
+    Locale,
 } from '../..';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 
@@ -37,7 +37,7 @@ export type RelationshipParams = {
 };
 
 export const isTwin = (
-    inputData: TwinParams | RelationshipParams
+    inputData: TwinParams | RelationshipParams,
 ): inputData is TwinParams => {
     return (inputData as TwinParams).twin !== undefined;
 };

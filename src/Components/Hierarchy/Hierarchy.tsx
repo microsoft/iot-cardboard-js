@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import {
     HierarchyNodeType,
     IHierarchyNode,
-    IHierarchyProps
+    IHierarchyProps,
 } from '../../Models/Constants';
 import './Hierarchy.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
@@ -17,7 +17,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     onParentNodeClick,
     onChildNodeClick,
     noDataText,
-    shouldScrollToSelectedNode
+    shouldScrollToSelectedNode,
 }) => {
     const { t } = useTranslation();
     const selectedNodeRef = useRef(null);
@@ -27,7 +27,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
             (selectedNodeRef.current as HTMLUListElement).scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
-                inline: 'start'
+                inline: 'start',
             });
         }
     }, [shouldScrollToSelectedNode]);
@@ -57,7 +57,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
         };
         return node.nodeType === HierarchyNodeType.Parent ? (
             <>
-                <div className={"cb-hierarchy-node"}>
+                <div className={'cb-hierarchy-node'}>
                     <Chevron collapsed={node.isCollapsed} />
                     <div
                         className={
@@ -69,12 +69,12 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                             }
                         }}
                     >
-                        <span className={"cb-hierarchy-node-name"}>
+                        <span className={'cb-hierarchy-node-name'}>
                             {formattedNodeName()}
                         </span>
                         {node.children &&
                             Object.keys(node.children).length > 0 && (
-                                <span className={"cb-hierarchy-child-count"}>
+                                <span className={'cb-hierarchy-child-count'}>
                                     {Object.keys(node.children).length -
                                         (node.childrenContinuationToken
                                             ? 1
@@ -96,7 +96,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
             </>
         ) : (
             <>
-                <div className={"cb-hierarchy-node"}>
+                <div className={'cb-hierarchy-node'}>
                     <div
                         ref={node.isSelected ? selectedNodeRef : undefined}
                         className={`cb-hierarchy-node-name-wrapper cb-hierarchy-child-node ${
@@ -121,7 +121,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                         {node.isLoading ? (
                             <Spinner size={SpinnerSize.xSmall} />
                         ) : (
-                            <span className={"cb-hierarchy-node-name"}>
+                            <span className={'cb-hierarchy-node-name'}>
                                 {node.isNewlyAdded && (
                                     <Icon
                                         iconName={'Glimmer'}
@@ -141,12 +141,12 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     const Tree: React.FC<IHierarchyProps> = ({
         data,
         searchTermToMark,
-        isLoading
+        isLoading,
     }) => {
         return isLoading ? (
             <Spinner size={SpinnerSize.xSmall} />
         ) : !data || Object.keys(data).length === 0 ? (
-            <span className={"cb-hierarchy-no-results"}>
+            <span className={'cb-hierarchy-no-results'}>
                 {searchTermToMark
                     ? t('noSearchResults')
                     : noDataText
@@ -154,10 +154,10 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
                     : t('noData')}
             </span>
         ) : (
-            <ul className={"cb-hierarchy-component-list-group"}>
+            <ul className={'cb-hierarchy-component-list-group'}>
                 {Object.keys(data).map((nodeId: string, idx: number) => (
                     <li
-                        className={"cb-hierarchy-node-wrapper"}
+                        className={'cb-hierarchy-node-wrapper'}
                         key={'cb-hierarchy-node' + idx}
                     >
                         <MemoizedTreeNode
@@ -171,7 +171,7 @@ const Hierarchy: React.FC<IHierarchyProps> = ({
     };
     const MemoizedTree = React.memo(Tree);
     return (
-        <div className={"cb-hierarchy-component-wrapper"}>
+        <div className={'cb-hierarchy-component-wrapper'}>
             <div className={'cb-hierarchy-component'}>
                 <MemoizedTree
                     data={data}

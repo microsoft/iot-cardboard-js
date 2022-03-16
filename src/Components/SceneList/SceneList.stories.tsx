@@ -3,11 +3,11 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import SceneList from './SceneList';
 
 export default {
-    title: 'Components/SceneList'
+    title: 'Components/SceneList',
 };
 
 const SceneListStyle = {
-    height: '100%'
+    height: '100%',
 };
 
 export const Mock = (_args, { globals: { theme, locale } }) => {

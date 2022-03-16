@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useMemo,
-    useReducer
+    useReducer,
 } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import './ValueRangeBuilder.scss';
@@ -14,24 +14,24 @@ import {
     IValueRangeBuilderContext,
     IValueRangeBuilderProps,
     ValueRangeBuilderActionType,
-    IValueRangeBuilderHandle
+    IValueRangeBuilderHandle,
 } from './ValueRangeBuilder.types';
 import {
     getValidationMapFromValueRanges,
     areDistinctValueRangesValid,
     getNextColor,
-    isRangeOverlapFound
+    isRangeOverlapFound,
 } from './ValueRangeBuilder.utils';
 import {
     defaultValueRangeBuilderState,
-    valueRangeBuilderReducer
+    valueRangeBuilderReducer,
 } from './ValueRangeBuilder.state';
 import { useTranslation } from 'react-i18next';
 import ValueRangeValidationError from './Internal/ValueRangeValidationError';
 import ValueRangeRow from './Internal/ValueRangeRow';
 
 export const ValueRangeBuilderContext = createContext<IValueRangeBuilderContext>(
-    null
+    null,
 );
 
 const ValueRangeBuilder: React.ForwardRefRenderFunction<
@@ -44,26 +44,26 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         baseComponentProps,
         setAreRangesValid,
         minRanges = 0,
-        maxRanges
+        maxRanges,
     },
-    forwardedRef
+    forwardedRef,
 ) => {
     const { t } = useTranslation();
 
     const initialValidationMap = useMemo(
         () => getValidationMapFromValueRanges(initialValueRanges),
-        [initialValueRanges]
+        [initialValueRanges],
     );
 
     const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
         ...defaultValueRangeBuilderState,
         valueRanges: initialValueRanges.sort(
-            (a, b) => Number(a.min) - Number(b.min)
+            (a, b) => Number(a.min) - Number(b.min),
         ),
         validationMap: initialValidationMap,
         ...(customSwatchColors && { colorSwatch: customSwatchColors }),
         minRanges,
-        maxRanges
+        maxRanges,
     });
 
     const { validationMap } = state;
@@ -72,11 +72,11 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
     useEffect(() => {
         if (typeof setAreRangesValid === 'function') {
             const areDistinctRangesValid = areDistinctValueRangesValid(
-                state.validationMap
+                state.validationMap,
             );
             const isOverlapDetected = isRangeOverlapFound(
                 state.valueRanges,
-                state.validationMap
+                state.validationMap,
             );
 
             const areRangesValid = areDistinctRangesValid && !isOverlapDetected;
@@ -89,25 +89,25 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
             return state.valueRanges.map((vr) => ({
                 ...vr,
                 min: Number(vr.min),
-                max: Number(vr.max)
+                max: Number(vr.max),
             }));
-        }
+        },
     }));
 
     return (
         <ValueRangeBuilderContext.Provider
             value={{
                 state,
-                dispatch
+                dispatch,
             }}
         >
             <BaseComponent
                 {...baseComponentProps}
-                containerClassName={"cb-value-range-builder-container"}
+                containerClassName={'cb-value-range-builder-container'}
             >
                 {state.valueRanges.map((valueRange) => (
                     <div
-                        className={"cb-value-range-and-messaging-row-container"}
+                        className={'cb-value-range-and-messaging-row-container'}
                         key={valueRange.id}
                     >
                         <ValueRangeRow valueRange={valueRange} />
@@ -116,7 +116,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                 ))}
                 {areDistinctValueRangesValid(validationMap) &&
                     validationMap.overlapFound && (
-                        <div className={"cb-value-range-validation-error"}>
+                        <div className={'cb-value-range-validation-error'}>
                             {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}
@@ -131,9 +131,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                                 id,
                                 color: getNextColor(
                                     state.valueRanges,
-                                    state.colorSwatch
-                                )
-                            }
+                                    state.colorSwatch,
+                                ),
+                            },
                         });
                     }}
                     ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}

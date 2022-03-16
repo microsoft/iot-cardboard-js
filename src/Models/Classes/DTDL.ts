@@ -8,24 +8,24 @@ export enum DTDLType {
     Property = 'Property',
     Command = 'Command',
     Relationship = 'Relationship',
-    Component = 'Component'
+    Component = 'Component',
 }
 
 export const DTDLSemanticTypes = [
     {
         SemanticType: 'Acceleration',
         UnitType: 'AccelerationUnit',
-        Unit: ['metrePerSecondSquared', 'centimetrePerSecondSquared', 'gForce']
+        Unit: ['metrePerSecondSquared', 'centimetrePerSecondSquared', 'gForce'],
     },
     {
         SemanticType: 'Angle',
         UnitType: 'AngleUnit',
-        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn'],
     },
     {
         SemanticType: 'AngularAcceleration',
         UnitType: 'AngularAccelerationUnit',
-        Unit: ['radianPerSecondSquared']
+        Unit: ['radianPerSecondSquared'],
     },
     {
         SemanticType: 'AngularVelocity',
@@ -34,8 +34,8 @@ export const DTDLSemanticTypes = [
             'radianPerSecond',
             'degreePerSecond',
             'revolutionPerSecond',
-            'revolutionPerMinute'
-        ]
+            'revolutionPerMinute',
+        ],
     },
     {
         SemanticType: 'Area',
@@ -48,18 +48,18 @@ export const DTDLSemanticTypes = [
             'hectare',
             'squareFoot',
             'squareInch',
-            'acre'
-        ]
+            'acre',
+        ],
     },
     {
         SemanticType: 'Capacitance',
         UnitType: 'CapacitanceUnit',
-        Unit: ['farad', 'millifarad', 'microfarad', 'nanofarad', 'picofarad']
+        Unit: ['farad', 'millifarad', 'microfarad', 'nanofarad', 'picofarad'],
     },
     {
         SemanticType: 'Current',
         UnitType: 'CurrentUnit',
-        Unit: ['ampere', 'microampere', 'milliampere']
+        Unit: ['ampere', 'microampere', 'milliampere'],
     },
     {
         SemanticType: 'DataRate',
@@ -80,8 +80,8 @@ export const DTDLSemanticTypes = [
             'tebibytePerSecond',
             'exbibytePerSecond',
             'zebibytePerSecond',
-            'yobibytePerSecond'
-        ]
+            'yobibytePerSecond',
+        ],
     },
     {
         SemanticType: 'DataSize',
@@ -102,13 +102,13 @@ export const DTDLSemanticTypes = [
             'tebibyte',
             'exbibyte',
             'zebibyte',
-            'yobibyte'
-        ]
+            'yobibyte',
+        ],
     },
     {
         SemanticType: 'Density',
         UnitType: 'DensityUnit',
-        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre']
+        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre'],
     },
     {
         SemanticType: 'Distance',
@@ -124,13 +124,13 @@ export const DTDLSemanticTypes = [
             'inch',
             'mile',
             'nauticalMile',
-            'astronomicalUnit'
-        ]
+            'astronomicalUnit',
+        ],
     },
     {
         SemanticType: 'ElectricCharge',
         UnitType: 'ChargeUnit',
-        Unit: ['coulomb']
+        Unit: ['coulomb'],
     },
     {
         SemanticType: 'Energy',
@@ -142,43 +142,43 @@ export const DTDLSemanticTypes = [
             'gigajoule',
             'electronvolt',
             'megaelectronvolt',
-            'kilowattHour'
-        ]
+            'kilowattHour',
+        ],
     },
     {
         SemanticType: 'Force',
         UnitType: 'ForceUnit',
-        Unit: ['newton', 'pound', 'ounce', 'ton']
+        Unit: ['newton', 'pound', 'ounce', 'ton'],
     },
     {
         SemanticType: 'Frequency',
         UnitType: 'FrequencyUnit',
-        Unit: ['hertz', 'kilohertz', 'megahertz', 'gigahertz']
+        Unit: ['hertz', 'kilohertz', 'megahertz', 'gigahertz'],
     },
     {
         SemanticType: 'Humidity',
         UnitType: 'DensityUnit',
-        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre']
+        Unit: ['kilogramPerCubicMetre', 'gramPerCubicMetre'],
     },
     {
         SemanticType: 'Illuminance',
         UnitType: 'IlluminanceUnit',
-        Unit: ['lux', 'footcandle']
+        Unit: ['lux', 'footcandle'],
     },
     {
         SemanticType: 'Inductance',
         UnitType: 'InductanceUnit',
-        Unit: ['henry', 'millihenry', 'microhenry']
+        Unit: ['henry', 'millihenry', 'microhenry'],
     },
     {
         SemanticType: 'Latitude',
         UnitType: 'AngleUnit',
-        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn'],
     },
     {
         SemanticType: 'Longitude',
         UnitType: 'AngleUnit',
-        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn']
+        Unit: ['radian', 'degreeOfArc', 'minuteOfArc', 'secondOfArc', 'turn'],
     },
     {
         SemanticType: 'Length',
@@ -194,13 +194,13 @@ export const DTDLSemanticTypes = [
             'inch',
             'mile',
             'nauticalMile',
-            'astronomicalUnit'
-        ]
+            'astronomicalUnit',
+        ],
     },
     {
         SemanticType: 'Luminance',
         UnitType: 'LuminanceUnit',
-        Unit: ['candelaPerSquareMetre']
+        Unit: ['candelaPerSquareMetre'],
     },
     {
         SemanticType: 'Luminosity',
@@ -213,33 +213,33 @@ export const DTDLSemanticTypes = [
             'megawatt',
             'gigawatt',
             'horsepower',
-            'kilowattHourPerYear'
-        ]
+            'kilowattHourPerYear',
+        ],
     },
     {
         SemanticType: 'LuminousFlux',
         UnitType: 'LuminousFluxUnit',
-        Unit: ['lumen']
+        Unit: ['lumen'],
     },
     {
         SemanticType: 'LuminousIntensity',
         UnitType: 'LuminousIntensityUnit',
-        Unit: ['candela']
+        Unit: ['candela'],
     },
     {
         SemanticType: 'MagneticFlux',
         UnitType: 'MagneticFluxUnit',
-        Unit: ['weber', 'maxwell']
+        Unit: ['weber', 'maxwell'],
     },
     {
         SemanticType: 'MagneticInduction',
         UnitType: 'MagneticInductionUnit',
-        Unit: ['tesla']
+        Unit: ['tesla'],
     },
     {
         SemanticType: 'Mass',
         UnitType: 'MassUnit',
-        Unit: ['kilogram', 'gram', 'milligram', 'microgram', 'tonne', 'slug']
+        Unit: ['kilogram', 'gram', 'milligram', 'microgram', 'tonne', 'slug'],
     },
     {
         SemanticType: 'MassFlowRate',
@@ -248,8 +248,8 @@ export const DTDLSemanticTypes = [
             'gramPerSecond',
             'kilogramPerSecond',
             'gramPerHour',
-            'kilogramPerHour'
-        ]
+            'kilogramPerHour',
+        ],
     },
     {
         SemanticType: 'Power',
@@ -262,8 +262,8 @@ export const DTDLSemanticTypes = [
             'megawatt',
             'gigawatt',
             'horsepower',
-            'kilowattHourPerYear'
-        ]
+            'kilowattHourPerYear',
+        ],
     },
     {
         SemanticType: 'Pressure',
@@ -276,33 +276,33 @@ export const DTDLSemanticTypes = [
             'millimetresOfMercury',
             'poundPerSquareInch',
             'inchesOfMercury',
-            'inchesOfWater'
-        ]
+            'inchesOfWater',
+        ],
     },
     {
         SemanticType: 'RelativeHumidity',
         UnitType: 'unitless',
-        Unit: ['unity percent']
+        Unit: ['unity percent'],
     },
     {
         SemanticType: 'Resistance',
         UnitType: 'ResistanceUnit',
-        Unit: ['ohm', 'milliohm', 'kiloohm', 'megaohm']
+        Unit: ['ohm', 'milliohm', 'kiloohm', 'megaohm'],
     },
     {
         SemanticType: 'SoundPressure',
         UnitType: 'SoundPressureUnit',
-        Unit: ['decibel', 'bel']
+        Unit: ['decibel', 'bel'],
     },
     {
         SemanticType: 'Temperature',
         UnitType: 'TemperatureUnit',
-        Unit: ['kelvin', 'degreeCelsius', 'degreeFahrenheit']
+        Unit: ['kelvin', 'degreeCelsius', 'degreeFahrenheit'],
     },
     {
         SemanticType: 'Thrust',
         UnitType: 'ForceUnit',
-        Unit: ['newton', 'pound', 'ounce', 'ton']
+        Unit: ['newton', 'pound', 'ounce', 'ton'],
     },
     {
         SemanticType: 'TimeSpan',
@@ -315,13 +315,13 @@ export const DTDLSemanticTypes = [
             'minute',
             'hour',
             'day',
-            'year'
-        ]
+            'year',
+        ],
     },
     {
         SemanticType: 'Torque',
         UnitType: 'TorqueUnit',
-        Unit: ['newtonMetre']
+        Unit: ['newtonMetre'],
     },
     {
         SemanticType: 'Velocity',
@@ -334,13 +334,13 @@ export const DTDLSemanticTypes = [
             'kilometrePerHour',
             'milePerHour',
             'milePerSecond',
-            'knot'
-        ]
+            'knot',
+        ],
     },
     {
         SemanticType: 'Voltage',
         UnitType: 'VoltageUnit',
-        Unit: ['volt', 'millivolt', 'microvolt', 'kilovolt', 'megavolt']
+        Unit: ['volt', 'millivolt', 'microvolt', 'kilovolt', 'megavolt'],
     },
     {
         SemanticType: 'Volume',
@@ -353,8 +353,8 @@ export const DTDLSemanticTypes = [
             'cubicFoot',
             'cubicInch',
             'fluidOunce',
-            'gallon'
-        ]
+            'gallon',
+        ],
     },
     {
         SemanticType: 'VolumeFlowRate',
@@ -363,9 +363,9 @@ export const DTDLSemanticTypes = [
             'litrePerSecond',
             'millilitrePerSecond',
             'litrePerHour',
-            'millilitrePerHour'
-        ]
-    }
+            'millilitrePerHour',
+        ],
+    },
 ];
 
 export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
@@ -388,7 +388,7 @@ export enum DTDLSchemaType {
     Enum = 'Enum',
     Array = 'Array',
     Map = 'Map',
-    Object = 'Object'
+    Object = 'Object',
 }
 
 export class DTDLModel {
@@ -408,7 +408,7 @@ export class DTDLModel {
         comment: string,
         properties: any[],
         relationships: any[],
-        components: any[]
+        components: any[],
     ) {
         this['@type'] = DTDLType.Interface;
         this['@context'] = CURRENT_CONTEXT_VERSION;
@@ -419,7 +419,7 @@ export class DTDLModel {
         this.contents = [
             ...(properties ?? []),
             ...(relationships ?? []),
-            ...(components ?? [])
+            ...(components ?? []),
         ];
     }
 
@@ -441,7 +441,7 @@ export class DTDLModel {
                 .map((r: any) => DTDLRelationship.fromObject(r)),
             obj.contents
                 ?.filter((c) => c['@type'] === DTDLType.Component)
-                .map((c: any) => DTDLComponent.fromObject(c))
+                .map((c: any) => DTDLComponent.fromObject(c)),
         );
     }
 
@@ -451,7 +451,7 @@ export class DTDLModel {
 
     get relationships() {
         return this.contents.filter(
-            (c) => c['@type'] === DTDLType.Relationship
+            (c) => c['@type'] === DTDLType.Relationship,
         );
     }
 
@@ -503,7 +503,7 @@ export class DTDLProperty {
         description: string,
         displayName: string,
         unit: string,
-        writable: boolean
+        writable: boolean,
     ) {
         this['@type'] = 'Property';
         this['@id'] = id;
@@ -537,7 +537,7 @@ export class DTDLProperty {
             obj.description,
             obj.displayName,
             obj.unit,
-            obj.writable
+            obj.writable,
         );
     }
 }
@@ -564,7 +564,7 @@ export class DTDLRelationship {
         writeable: boolean,
         properties: DTDLProperty[],
         target: string | null = null,
-        maxMultiplicity: number | null = null
+        maxMultiplicity: number | null = null,
     ) {
         this['@type'] = 'Relationship';
         this['@id'] = id;
@@ -605,7 +605,7 @@ export class DTDLRelationship {
             obj.writeable,
             obj.properties?.map((p) => DTDLProperty.fromObject(p)),
             obj.target,
-            obj.maxMultiplicity
+            obj.maxMultiplicity,
         );
     }
 }
@@ -625,7 +625,7 @@ export class DTDLComponent {
         schema: string,
         comment: string,
         description: string,
-        displayName: string
+        displayName: string,
     ) {
         this['@type'] = DTDLType.Component;
         this['@id'] = id;
@@ -648,7 +648,7 @@ export class DTDLComponent {
             obj.schema,
             obj.comment,
             obj.description,
-            obj.displayName
+            obj.displayName,
         );
     }
 }
@@ -666,7 +666,7 @@ export class DTDLArray {
         elementSchema: DTDLSchema,
         displayName?: string,
         description?: string,
-        comment?: string
+        comment?: string,
     ) {
         this['@type'] = DTDLSchemaType.Array;
         this.elementSchema = elementSchema;
@@ -686,7 +686,7 @@ export class DTDLArray {
             obj.elementSchema,
             obj.displayName,
             obj.description,
-            obj.comment
+            obj.comment,
         );
     }
 }
@@ -706,7 +706,7 @@ export class DTDLMap {
         mapValue: Record<string, any>,
         displayName?: string,
         description?: string,
-        comment?: string
+        comment?: string,
     ) {
         this['@type'] = DTDLSchemaType.Map;
         this.mapKey = mapKey;
@@ -728,7 +728,7 @@ export class DTDLMap {
             obj.mapValue,
             obj.displayName,
             obj.description,
-            obj.comment
+            obj.comment,
         );
     }
 }
@@ -746,7 +746,7 @@ export class DTDLObject {
         fields: Array<Record<string, any>>,
         displayName?: string,
         description?: string,
-        comment?: string
+        comment?: string,
     ) {
         this['@type'] = DTDLSchemaType.Object;
         this.fields = fields;
@@ -766,7 +766,7 @@ export class DTDLObject {
             obj.fields,
             obj.displayName,
             obj.description,
-            obj.comment
+            obj.comment,
         );
     }
 }
@@ -786,7 +786,7 @@ export class DTDLEnum {
         valueSchema: 'integer' | 'string' | undefined,
         displayName: string,
         description: string,
-        comment: string
+        comment: string,
     ) {
         this['@type'] = DTDLSchemaType.Enum;
         this['@id'] = id;
@@ -805,12 +805,12 @@ export class DTDLEnum {
         return new DTDLEnum(
             obj['@id'],
             obj.enumValues.map((eV) =>
-                DTDLEnumValue.fromObject(eV, obj.valueSchema)
+                DTDLEnumValue.fromObject(eV, obj.valueSchema),
             ),
             obj.valueSchema,
             obj.displayName,
             obj.unit,
-            obj.writable
+            obj.writable,
         );
     }
 }
@@ -829,7 +829,7 @@ export class DTDLEnumValue {
         enumValue: number | string,
         displayName: string,
         description: string,
-        comment: string
+        comment: string,
     ) {
         this['@id'] = id;
         this.name = name;
@@ -852,7 +852,7 @@ export class DTDLEnumValue {
                 : obj.enumValue,
             obj.displayName,
             obj.description,
-            obj.comment
+            obj.comment,
         );
     }
 }

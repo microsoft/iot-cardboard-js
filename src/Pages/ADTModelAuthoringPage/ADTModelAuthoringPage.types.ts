@@ -1,6 +1,6 @@
 import {
     IADTAdapter,
-    IConsumeCompositeCardProps
+    IConsumeCompositeCardProps,
 } from '../../Models/Constants/Interfaces';
 
 export interface ADTModelAuthoringPageProps extends IConsumeCompositeCardProps {

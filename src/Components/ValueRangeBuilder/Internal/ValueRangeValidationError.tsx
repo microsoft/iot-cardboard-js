@@ -25,7 +25,7 @@ const ValueRangeValidationError: React.FC<{
 
     if (!message) return null;
 
-    return <div className={"cb-value-range-validation-error"}>{message}</div>;
+    return <div className={'cb-value-range-validation-error'}>{message}</div>;
 };
 
 export default ValueRangeValidationError;

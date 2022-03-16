@@ -7,15 +7,15 @@ export default {
     parameters: {
         backgrounds: {
             default: 'gray',
-            values: [{ name: 'gray', value: '#F9F9F9' }]
-        }
-    }
+            values: [{ name: 'gray', value: '#F9F9F9' }],
+        },
+    },
 };
 
 const mockExistingModels = [
     'dtmi;com:example:www:door1;1',
     'dtmi;com:example:www:roof1;1',
-    'dtmi;com:example:www:room1;1'
+    'dtmi;com:example:www:room1;1',
 ];
 
 export const Default = (_args, { globals: { locale } }) => (

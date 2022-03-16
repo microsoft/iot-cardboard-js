@@ -4,7 +4,7 @@ import StepperWizard from './StepperWizard';
 
 export default {
     title: 'Components/StepperWizard',
-    component: StepperWizard
+    component: StepperWizard,
 };
 
 export const VerticalStepperWizard = (args) => {
@@ -13,26 +13,26 @@ export const VerticalStepperWizard = (args) => {
             label: 'Step-1',
             onClick: () => {
                 console.log('Step-1 clicked!');
-            }
+            },
         },
         {
             label: 'Step-2',
             onClick: () => {
                 console.log('Step-2 clicked!');
-            }
+            },
         },
         {
             label: 'Step-3',
             onClick: () => {
                 console.log('Step-3 clicked!');
-            }
-        }
+            },
+        },
     ];
     return (
         <div
             style={{
                 height: '400px',
-                width: 'fit-content'
+                width: 'fit-content',
             }}
         >
             <StepperWizard
@@ -47,8 +47,8 @@ VerticalStepperWizard.argTypes = {
     currentStepIndex: {
         control: {
             type: 'radio',
-            options: [0, 1, 2]
+            options: [0, 1, 2],
         },
-        defaultValue: 1
-    }
+        defaultValue: 1,
+    },
 };

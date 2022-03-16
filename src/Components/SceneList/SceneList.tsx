@@ -18,7 +18,7 @@ import {
     IDetailsListProps,
     DetailsRow,
     IButtonProps,
-    IModalStyles
+    IModalStyles,
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
@@ -26,7 +26,7 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
 import {
     ComponentErrorType,
-    Supported3DFileTypes
+    Supported3DFileTypes,
 } from '../../Models/Constants/Enums';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import BlobDropdown from '../BlobDropdown/BlobDropdown';
@@ -34,7 +34,7 @@ import SceneDialog from './Internal/SceneDialog';
 import {
     I3DScenesConfig,
     IAsset,
-    IScene
+    IScene,
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const SceneList: React.FC<SceneListProps> = ({
@@ -43,20 +43,20 @@ const SceneList: React.FC<SceneListProps> = ({
     locale,
     localeStrings,
     onSceneClick,
-    additionalActions
+    additionalActions,
 }) => {
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
-        refetchDependencies: [adapter]
+        refetchDependencies: [adapter],
     });
 
     const addScene = useAdapter({
         adapterMethod: (params: { config: I3DScenesConfig; scene: IScene }) =>
             adapter.putScenesConfig(
-                ViewerConfigUtility.addScene(params.config, params.scene)
+                ViewerConfigUtility.addScene(params.config, params.scene),
             ),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const editScene = useAdapter({
@@ -69,20 +69,20 @@ const SceneList: React.FC<SceneListProps> = ({
                 ViewerConfigUtility.editScene(
                     params.config,
                     params.sceneId,
-                    params.scene
-                )
+                    params.scene,
+                ),
             ),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const deleteScene = useAdapter({
         adapterMethod: (params: { config: I3DScenesConfig; sceneId: string }) =>
             adapter.putScenesConfig(
-                ViewerConfigUtility.deleteScene(params.config, params.sceneId)
+                ViewerConfigUtility.deleteScene(params.config, params.sceneId),
             ),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const [errors, setErrors] = useState<Array<IComponentError>>([]);
@@ -91,7 +91,7 @@ const SceneList: React.FC<SceneListProps> = ({
     const [selectedScene, setSelectedScene] = useState<IScene>(undefined);
     const [isSceneDialogOpen, setIsSceneDialogOpen] = useState(false);
     const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(
-        false
+        false,
     );
 
     useEffect(() => {
@@ -107,9 +107,9 @@ const SceneList: React.FC<SceneListProps> = ({
                                 b.displayName,
                                 undefined,
                                 {
-                                    sensitivity: 'base'
-                                }
-                            )
+                                    sensitivity: 'base',
+                                },
+                            ),
                     );
                 } catch {
                     scenes = config?.configuration?.scenes;
@@ -156,20 +156,20 @@ const SceneList: React.FC<SceneListProps> = ({
         type: DialogType.normal,
         title: t('confirmDeletion'),
         closeButtonAriaLabel: t('close'),
-        subText: t('confirmDeletionDesc')
+        subText: t('confirmDeletionDesc'),
     };
 
     const confirmDeletionDialogStyles: Partial<IModalStyles> = {
-        main: { maxWidth: 450, minHeight: 165 }
+        main: { maxWidth: 450, minHeight: 165 },
     };
 
     const confirmDeletionModalProps = React.useMemo(
         () => ({
             isBlocking: false,
             styles: confirmDeletionDialogStyles,
-            className: 'cb-scene-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper',
         }),
-        []
+        [],
     );
 
     const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
@@ -187,7 +187,7 @@ const SceneList: React.FC<SceneListProps> = ({
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: any,
         _itemIndex: number,
-        column: IColumn
+        column: IColumn,
     ) => {
         const fieldContent = item[column.fieldName] as string;
         switch (column.key) {
@@ -226,7 +226,7 @@ const SceneList: React.FC<SceneListProps> = ({
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
-            onLoad?: (blobs: Array<IBlobFile>) => void
+            onLoad?: (blobs: Array<IBlobFile>) => void,
         ) => {
             return (
                 <BlobDropdown
@@ -246,7 +246,7 @@ const SceneList: React.FC<SceneListProps> = ({
                 />
             );
         },
-        [adapter, theme, locale, localeStrings, selectedScene]
+        [adapter, theme, locale, localeStrings, selectedScene],
     );
 
     return (
@@ -259,7 +259,7 @@ const SceneList: React.FC<SceneListProps> = ({
         >
             {sceneList.length > 0 ? (
                 <>
-                    <div className={"cb-scene-list-action-buttons"}>
+                    <div className={'cb-scene-list-action-buttons'}>
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
@@ -285,7 +285,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         ))}
                     </div>
 
-                    <div className={"cb-scenes-list"}>
+                    <div className={'cb-scenes-list'}>
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
@@ -297,7 +297,7 @@ const SceneList: React.FC<SceneListProps> = ({
                                     isResizable: true,
                                     onRender: (item: IScene) => (
                                         <span>{item.displayName}</span>
-                                    )
+                                    ),
                                 },
                                 {
                                     key: 'scene-urls',
@@ -305,7 +305,11 @@ const SceneList: React.FC<SceneListProps> = ({
                                     minWidth: 400,
                                     isResizable: true,
                                     onRender: (item: IScene) => (
-                                        <ul className={"cb-scene-list-blob-urls"}>
+                                        <ul
+                                            className={
+                                                'cb-scene-list-blob-urls'
+                                            }
+                                        >
                                             {item.assets.map(
                                                 (a: IAsset, idx) => {
                                                     return (
@@ -315,39 +319,39 @@ const SceneList: React.FC<SceneListProps> = ({
                                                             {a.url}
                                                         </li>
                                                     );
-                                                }
+                                                },
                                             )}
                                         </ul>
-                                    )
+                                    ),
                                 },
                                 {
                                     key: 'scene-latitude',
                                     name: t('scenes.sceneLatitude'),
                                     minWidth: 100,
-                                    onRender: (item: IScene) => item.latitude
+                                    onRender: (item: IScene) => item.latitude,
                                 },
                                 {
                                     key: 'scene-longitude',
                                     name: t('scenes.sceneLongitude'),
                                     minWidth: 100,
-                                    onRender: (item: IScene) => item.longitude
+                                    onRender: (item: IScene) => item.longitude,
                                 },
                                 {
                                     key: 'scene-action',
                                     name: t('action'),
                                     fieldName: 'action',
-                                    minWidth: 100
-                                }
+                                    minWidth: 100,
+                                },
                             ]}
-                            setKey={"set"}
+                            setKey={'set'}
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}
                             onRenderItemColumn={renderItemColumn}
                             styles={{
                                 root: {
                                     overflowY: 'auto',
-                                    overflowX: 'hidden'
-                                }
+                                    overflowX: 'hidden',
+                                },
                             }}
                         />
                     </div>
@@ -361,14 +365,15 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DialogFooter>
                             <DefaultButton
                                 onClick={() =>
-                                    setIsConfirmDeleteDialogOpen(false)}
+                                    setIsConfirmDeleteDialogOpen(false)
+                                }
                                 text={t('cancel')}
                             />
                             <PrimaryButton
                                 onClick={() => {
                                     deleteScene.callAdapter({
                                         config: config,
-                                        sceneId: selectedScene.id
+                                        sceneId: selectedScene.id,
                                     });
                                 }}
                                 text={t('delete')}
@@ -377,10 +382,10 @@ const SceneList: React.FC<SceneListProps> = ({
                     </Dialog>
                 </>
             ) : (
-                <div className={"cb-scene-list-empty"}>
+                <div className={'cb-scene-list-empty'}>
                     <p>{t('scenes.noScenes')}</p>
                     <PrimaryButton
-                        className={"cb-scene-list-empty-button"}
+                        className={'cb-scene-list-empty-button'}
                         onClick={() => {
                             setIsSceneDialogOpen(true);
                         }}
@@ -403,7 +408,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     editScene.callAdapter({
                         config: config,
                         sceneId: updatedScene.id,
-                        scene: updatedScene
+                        scene: updatedScene,
                     });
                 }}
                 onAddScene={(newScene) => {
@@ -414,7 +419,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     }
                     addScene.callAdapter({
                         config: config,
-                        scene: { ...newScene, id: newId }
+                        scene: { ...newScene, id: newId },
                     });
                 }}
                 renderBlobDropdown={renderBlobDropdown}

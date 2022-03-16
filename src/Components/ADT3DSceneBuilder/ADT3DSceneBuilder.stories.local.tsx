@@ -6,12 +6,12 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 
 export default {
     title: 'Components/ADT3DSceneBuilder',
-    component: ADT3DSceneBuilder
+    component: ADT3DSceneBuilder,
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
@@ -30,11 +30,11 @@ export const ADT3DBuilder = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
-                sceneId={"46743de47dfb6cf24365f57c7f69d3ba"}
+                sceneId={'46743de47dfb6cf24365f57c7f69d3ba'}
             />
         </div>
     );

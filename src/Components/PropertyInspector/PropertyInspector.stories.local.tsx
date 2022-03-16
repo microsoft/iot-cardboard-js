@@ -7,12 +7,12 @@ import PropertyInspector from './PropertyInspector';
 
 export default {
     title: 'Components/Property Inspector',
-    component: PropertyInspector
+    component: PropertyInspector,
 };
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
-    width: '100%'
+    width: '100%',
 };
 
 export const AdtTwin = (args, { globals: { theme, locale } }) => {
@@ -26,8 +26,8 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 twinId={args.twinId}
@@ -41,8 +41,8 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
 AdtTwin.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
-    }
+        defaultValue: 'LeoTheDog',
+    },
 };
 
 export const AdtRelationship = (args, { globals: { theme, locale } }) => {
@@ -56,8 +56,8 @@ export const AdtRelationship = (args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 relationshipId={args.relationshipId}
@@ -72,17 +72,17 @@ export const AdtRelationship = (args, { globals: { theme, locale } }) => {
 AdtRelationship.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'LeoTheDog',
     },
     relationshipId: {
         control: { type: 'text' },
-        defaultValue: '2932c97a-2939-416f-93a9-ecccff9b82fd'
-    }
+        defaultValue: '2932c97a-2939-416f-93a9-ecccff9b82fd',
+    },
 };
 
 export const ModeToggleWithResolvedData = (
     args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const authenticationParameters = useAuthParams();
     const [mode, setMode] = useState('twin');
@@ -93,8 +93,9 @@ export const ModeToggleWithResolvedData = (
             <button
                 onClick={() =>
                     setMode((prev) =>
-                        prev === 'twin' ? 'relationship' : 'twin'
-                    )}
+                        prev === 'twin' ? 'relationship' : 'twin',
+                    )
+                }
             >
                 {mode === 'twin' ? 'Change to relationship' : 'Change to twin'}
             </button>
@@ -105,8 +106,8 @@ export const ModeToggleWithResolvedData = (
                             new ADTAdapter(
                                 authenticationParameters.adt.hostUrl,
                                 new MsalAuthService(
-                                    authenticationParameters.adt.aadParameters
-                                )
+                                    authenticationParameters.adt.aadParameters,
+                                ),
                             )
                         }
                         twinId={args.twinId}
@@ -120,8 +121,8 @@ export const ModeToggleWithResolvedData = (
                             new ADTAdapter(
                                 authenticationParameters.adt.hostUrl,
                                 new MsalAuthService(
-                                    authenticationParameters.adt.aadParameters
-                                )
+                                    authenticationParameters.adt.aadParameters,
+                                ),
                             )
                         }
                         relationshipId={args.relationshipId}
@@ -139,10 +140,10 @@ export const ModeToggleWithResolvedData = (
 ModeToggleWithResolvedData.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'LeoTheDog'
+        defaultValue: 'LeoTheDog',
     },
     relationshipId: {
         control: { type: 'text' },
-        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
-    }
+        defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0',
+    },
 };

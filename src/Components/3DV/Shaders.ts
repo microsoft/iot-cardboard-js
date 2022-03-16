@@ -82,7 +82,7 @@ export function makeShaderMaterial(
     scene: any,
     baseColor: BABYLON.Color4,
     fresnelColor: BABYLON.Color4,
-    opacity: number
+    opacity: number,
 ) {
     BABYLON.Effect.ShadersStore['customVertexShader'] = customVertex;
     BABYLON.Effect.ShadersStore['customFragmentShader'] = customFragment;
@@ -91,7 +91,7 @@ export function makeShaderMaterial(
         scene,
         {
             vertex: 'custom',
-            fragment: 'custom'
+            fragment: 'custom',
         },
         {
             attributes: [
@@ -99,16 +99,16 @@ export function makeShaderMaterial(
                 'normal',
                 'uv',
                 'baseColor',
-                'fresnelColor'
+                'fresnelColor',
             ],
             uniforms: [
                 'world',
                 'worldView',
                 'worldViewProjection',
                 'view',
-                'projection'
-            ]
-        }
+                'projection',
+            ],
+        },
     );
 
     material.setColor4('baseColor', baseColor);

@@ -6,11 +6,11 @@ import BlobAdapter from '../../Adapters/BlobAdapter';
 
 export default {
     title: 'Components/SceneList',
-    component: SceneList
+    component: SceneList,
 };
 
 const SceneListStyle = {
-    height: '100%'
+    height: '100%',
 };
 
 export const ScenesCard = (_arg, { globals: { theme, locale } }) => {
@@ -27,8 +27,8 @@ export const ScenesCard = (_arg, { globals: { theme, locale } }) => {
                     new BlobAdapter(
                         authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
-                            authenticationParameters.storage.aadParameters
-                        )
+                            authenticationParameters.storage.aadParameters,
+                        ),
                     )
                 }
             />

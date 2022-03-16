@@ -2,7 +2,7 @@ import React from 'react';
 import {
     mockTwin,
     mockRelationship,
-    mockExpandedModels
+    mockExpandedModels,
 } from './__mockdata__/mockData';
 import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
@@ -10,13 +10,13 @@ import { DtdlInterface } from '../..';
 
 export default {
     title: 'Components/Property Inspector/Standalone',
-    component: StandalonePropertyInspector
+    component: StandalonePropertyInspector,
 };
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 export const TwinMock = (_args, { globals: { theme, locale } }) => (
@@ -25,7 +25,7 @@ export const TwinMock = (_args, { globals: { theme, locale } }) => (
             inputData={{
                 twin: mockTwin,
                 expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                rootModel: mockExpandedModels[0] as DtdlInterface,
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -40,7 +40,7 @@ export const SmallContainer = (_args, { globals: { theme, locale } }) => (
             inputData={{
                 twin: mockTwin,
                 expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                rootModel: mockExpandedModels[0] as DtdlInterface,
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -55,7 +55,7 @@ export const ReadOnlyTwinMock = (_args, { globals: { theme, locale } }) => (
             inputData={{
                 twin: mockTwin,
                 expandedModels: mockExpandedModels as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                rootModel: mockExpandedModels[0] as DtdlInterface,
             }}
             readonly={true}
             onCommitChanges={(patch) => console.log(patch)}
@@ -70,7 +70,7 @@ export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
         <StandalonePropertyInspector
             inputData={{
                 relationship: mockRelationship,
-                relationshipModel: mockExpandedModels[0] as DtdlInterface
+                relationshipModel: mockExpandedModels[0] as DtdlInterface,
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -81,7 +81,7 @@ export const RelationsipMock = (_args, { globals: { theme, locale } }) => (
 
 export const MissingSomeModelsMock = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector
@@ -89,9 +89,9 @@ export const MissingSomeModelsMock = (
                 twin: mockTwin,
                 expandedModels: mockExpandedModels.slice(
                     0,
-                    2
+                    2,
                 ) as DtdlInterface[],
-                rootModel: mockExpandedModels[0] as DtdlInterface
+                rootModel: mockExpandedModels[0] as DtdlInterface,
             }}
             missingModelIds={mockExpandedModel.slice(2).map((mm) => mm['@id'])}
             onCommitChanges={(patch) => console.log(patch)}
@@ -107,7 +107,7 @@ export const MissingAllModelsMock = (_args, { globals: { theme, locale } }) => (
             inputData={{
                 twin: mockTwin,
                 expandedModels: null,
-                rootModel: null
+                rootModel: null,
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}
@@ -118,7 +118,7 @@ export const MissingAllModelsMock = (_args, { globals: { theme, locale } }) => (
 
 export const PropertyInspectorErrorBoundary = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => (
     <div style={propertyInspectorStoryStyles}>
         <StandalonePropertyInspector

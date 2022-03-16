@@ -12,7 +12,7 @@ export const defaultPulseTimeoutMillis = 400;
 const useLongPoll = ({
     callback,
     pollingIntervalMillis = defaultPollingIntervalMillis,
-    pulseTimeoutMillis = defaultPulseTimeoutMillis
+    pulseTimeoutMillis = defaultPulseTimeoutMillis,
 }: UseLongPollParams) => {
     const [pulse, setPulse] = useState(false);
     const savedCallback = useRef(null);
@@ -32,7 +32,7 @@ const useLongPoll = ({
             mountedRef.current && setPulse(true);
             timeoutId = setTimeout(
                 () => mountedRef.current && setPulse(false),
-                pulseTimeoutMillis
+                pulseTimeoutMillis,
             );
         }
 
@@ -53,7 +53,7 @@ const useLongPoll = ({
          * after callback completion, before returning to false.  Can be used
          * for visual indication of updated data in UI.
          */
-        pulse
+        pulse,
     };
 };
 

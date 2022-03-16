@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import BaseCompositeCard from './BaseCompositeCard';
 import {
     useErrorBoundaryContext,
-    withErrorBoundary
+    withErrorBoundary,
 } from '../../../Models/Context/ErrorBoundary';
 import BaseCard from '../../BaseCard/BaseCard';
 
 export default {
     title: 'Cards/CompositeCards/BaseCompositeCard',
-    component: BaseCompositeCard
+    component: BaseCompositeCard,
 };
 
 export const EmptyCompositeCard = (_args, { globals: { theme, locale } }) => {
@@ -19,7 +19,7 @@ export const EmptyCompositeCard = (_args, { globals: { theme, locale } }) => {
         <div
             style={{
                 height: '400px',
-                position: 'relative'
+                position: 'relative',
             }}
         >
             <BaseCompositeCard
@@ -74,7 +74,7 @@ const BuggyCounterWithErrorHandling: React.FC<Record<string, unknown>> = () => {
                     style={{
                         height: '100%',
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
                     }}
                 >
                     Error handled by component: {error.toString()}
@@ -95,7 +95,7 @@ const BuggyCounterWithErrorHandling: React.FC<Record<string, unknown>> = () => {
 const BaseCardWithErrorBoundary = withErrorBoundary(BaseCard);
 export const ErrorBoundaryCompositeCard = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const { t } = useTranslation();
 
@@ -103,7 +103,7 @@ export const ErrorBoundaryCompositeCard = (
         <div
             style={{
                 height: '400px',
-                position: 'relative'
+                position: 'relative',
             }}
         >
             <BaseCompositeCard
@@ -112,7 +112,7 @@ export const ErrorBoundaryCompositeCard = (
                 locale={locale}
             >
                 <BaseCardWithErrorBoundary
-                    title={"BaseCard-1 component with buggy content"}
+                    title={'BaseCard-1 component with buggy content'}
                     theme={theme}
                     locale={locale}
                     isLoading={false}
@@ -122,7 +122,7 @@ export const ErrorBoundaryCompositeCard = (
                 </BaseCardWithErrorBoundary>
 
                 <BaseCardWithErrorBoundary
-                    title={"BaseCard-2 component with buggy content"}
+                    title={'BaseCard-2 component with buggy content'}
                     theme={theme}
                     locale={locale}
                     isLoading={false}
@@ -132,7 +132,9 @@ export const ErrorBoundaryCompositeCard = (
                 </BaseCardWithErrorBoundary>
 
                 <BaseCardWithErrorBoundary
-                    title={"BaseCard-3 error handling component with buggy content"}
+                    title={
+                        'BaseCard-3 error handling component with buggy content'
+                    }
                     theme={theme}
                     locale={locale}
                     isLoading={false}

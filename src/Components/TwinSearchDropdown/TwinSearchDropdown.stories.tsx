@@ -4,7 +4,7 @@ import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
     title: 'Components/TwinSearchDropdown',
-    component: TwinSearchDropdown
+    component: TwinSearchDropdown,
 };
 
 export const MockTwinSearchDropdown = () => {

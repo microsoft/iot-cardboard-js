@@ -3,14 +3,14 @@ import { IAction } from '../..';
 import {
     SET_ADT_HIERARCHY_NODES,
     SET_ADT_HIERARCHY_NODE_PROPERTIES,
-    SET_ADT_HIERARCHY_SEARCH
+    SET_ADT_HIERARCHY_SEARCH,
 } from '../../Models/Constants/ActionTypes';
 import { ADTModelListCardConsumeState } from './ADTModelListCard.types';
 
 export const defaultADTModelListCardState: ADTModelListCardConsumeState = {
     nodes: {},
     selectedModelId: null,
-    searchTerm: ''
+    searchTerm: '',
 };
 
 export const ADTModelListCardConsumeReducer = produce(
@@ -45,5 +45,5 @@ export const ADTModelListCardConsumeReducer = produce(
                 break;
         }
     },
-    defaultADTModelListCardState
+    defaultADTModelListCardState,
 );

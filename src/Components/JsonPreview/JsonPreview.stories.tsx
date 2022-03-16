@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 export default {
     title: 'Components/JsonPreview',
-    component: JsonPreviewView
+    component: JsonPreviewView,
 };
 
 export const JsonPreview = (_args, { globals: { theme } }) => {

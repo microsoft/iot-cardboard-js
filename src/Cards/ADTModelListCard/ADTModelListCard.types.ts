@@ -1,7 +1,7 @@
 import {
     IStandaloneConsumeCardProps,
     IADTAdapter,
-    IHierarchyNode
+    IHierarchyNode,
 } from '../..';
 
 export interface ADTModelListCardProps extends IStandaloneConsumeCardProps {

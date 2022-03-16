@@ -1,7 +1,7 @@
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import {
     IIconStyleProps,
-    IIconStyles
+    IIconStyles,
 } from '@fluentui/react/lib/components/Icon/Icon.types';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,8 +16,8 @@ const TreeNodeMapTool: React.FC<NodeProps> = ({ node }) => {
 
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.neutralPrimaryAlt
-        }
+            color: props.theme.palette.neutralPrimaryAlt,
+        },
     });
 
     const handleRemoveMapValue = () => {

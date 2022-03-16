@@ -7,12 +7,12 @@ import DataPusherCard from './DataPusherCard';
 
 export default {
     title: 'Cards/DataPusherCard',
-    component: DataPusherCard
+    component: DataPusherCard,
 };
 
 const wrapperStyle = {
     height: '660px',
-    width: '100%'
+    width: '100%',
 };
 
 export const DataPusher = (_args, { globals: { theme, locale } }) => {
@@ -28,8 +28,8 @@ export const DataPusher = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 Simulation={AssetSimulation}

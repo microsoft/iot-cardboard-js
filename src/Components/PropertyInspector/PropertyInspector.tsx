@@ -7,13 +7,13 @@ import { DTDLType } from '../../Models/Classes/DTDL';
 import {
     Locale,
     PropertyInspectorPatchMode,
-    Theme
+    Theme,
 } from '../../Models/Constants/Enums';
 import {
     ADTPatch,
     IADTAdapter,
     IADTRelationship,
-    IADTTwin
+    IADTTwin,
 } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import { getModelContentType } from '../../Models/Services/Utils';
@@ -21,7 +21,7 @@ import StandalonePropertyInspector from './StandalonePropertyInspector';
 import {
     OnCommitPatchParams,
     RelationshipParams,
-    TwinParams
+    TwinParams,
 } from './StandalonePropertyInspector.types';
 import './PropertyInspector.scss';
 
@@ -55,7 +55,7 @@ type PropertyInspectorProps = {
 
 /** Utility method for checking PropertyInspectorProps type -- twin or relationship*/
 const isTwin = (
-    props: PropertyInspectorProps
+    props: PropertyInspectorProps,
 ): props is TwinPropertyInspectorProps => {
     return (props as TwinPropertyInspectorProps).relationshipId === undefined;
 };
@@ -64,7 +64,7 @@ const isTwin = (
 const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     const { t } = useTranslation();
     const [inputData, setInputData] = useState<TwinParams | RelationshipParams>(
-        null
+        null,
     );
     const [refetchTrigger, setRefetchTrigger] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -81,15 +81,15 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 return Promise.resolve(
                     new AdapterResult<ADTTwinData>({
                         result: new ADTTwinData(params.resolvedTwin),
-                        errorInfo: null
-                    })
+                        errorInfo: null,
+                    }),
                 );
             } else {
                 return props.adapter.getADTTwin(params.twinId);
             }
         },
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const relationshipData = useAdapter({
@@ -108,20 +108,20 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 return Promise.resolve(
                     new AdapterResult<ADTRelationshipData>({
                         result: new ADTRelationshipData(
-                            params.resolvedRelationship
+                            params.resolvedRelationship,
                         ),
-                        errorInfo: null
-                    })
+                        errorInfo: null,
+                    }),
                 );
             } else {
                 return props.adapter.getADTRelationship(
                     params.twinId,
-                    params.relationshipId
+                    params.relationshipId,
                 );
             }
         },
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const modelData = useAdapter({
@@ -129,21 +129,21 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             if (props.rootAndBaseModelIdsToFlatten) {
                 return props.adapter.getExpandedAdtModel(
                     params.modelId,
-                    props.rootAndBaseModelIdsToFlatten.baseModelIds
+                    props.rootAndBaseModelIdsToFlatten.baseModelIds,
                 );
             } else {
                 return props.adapter.getExpandedAdtModel(params.modelId);
             }
         },
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const patchTwinData = useAdapter({
         adapterMethod: (params: { twinId: string; patches: Array<ADTPatch> }) =>
             props.adapter.updateTwin(params.twinId, params.patches),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const patchRelationshipData = useAdapter({
@@ -155,10 +155,10 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             props.adapter.updateRelationship(
                 params.twinId,
                 params.relationshipId,
-                params.patches
+                params.patches,
             ),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     // On mount, fetch necessary data for twin | relationship
@@ -176,7 +176,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             relationshipData.callAdapter({
                 twinId: props.twinId,
                 relationshipId: props.relationshipId,
-                resolvedRelationship: props.resolvedRelationship
+                resolvedRelationship: props.resolvedRelationship,
             });
         }
     }, [props.twinId, props.relationshipId]);
@@ -209,7 +209,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             setMissingModelIds(
                 modelData.adapterResult.errorInfo.errors
                     .slice()
-                    .map((e) => e.message)
+                    .map((e) => e.message),
             );
         }
         if (isTwin(props) && data) {
@@ -217,7 +217,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 expandedModels: modelData.adapterResult.getData()
                     .expandedModels,
                 rootModel: modelData.adapterResult.getData().rootModel,
-                twin: twinData.adapterResult.getData()
+                twin: twinData.adapterResult.getData(),
             });
         } else if (data) {
             let relationshipModel = null;
@@ -243,7 +243,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
 
             setInputData({
                 relationship: relationship,
-                relationshipModel
+                relationshipModel,
             });
         }
         setIsInitialLoad(false);
@@ -254,7 +254,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             if (patchData.patchMode === PropertyInspectorPatchMode.twin) {
                 patchTwinData.callAdapter({
                     twinId: patchData.id,
-                    patches: patchData.patches
+                    patches: patchData.patches,
                 });
             } else if (
                 patchData.patchMode === PropertyInspectorPatchMode.relationship
@@ -262,7 +262,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 patchRelationshipData.callAdapter({
                     twinId: patchData.sourceTwinId,
                     relationshipId: patchData.id,
-                    patches: patchData.patches
+                    patches: patchData.patches,
                 });
             }
         }
@@ -274,7 +274,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
             twinData.callAdapter({
                 twinId: props.twinId,
                 shouldRefreshAfterPatch: true,
-                resolvedTwin: props.resolvedTwin
+                resolvedTwin: props.resolvedTwin,
             }); // refetch twin after patch
 
             props.onPatch &&
@@ -291,7 +291,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 twinId: props.twinId,
                 relationshipId: props.relationshipId,
                 shouldRefreshAfterPatch: true,
-                resolvedRelationship: props.resolvedRelationship
+                resolvedRelationship: props.resolvedRelationship,
             });
 
             props.onPatch &&
@@ -313,12 +313,14 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
         isInitialLoad
     )
         return (
-            <div className={"cb-property-inspector-loading"}>{t('loading')}</div>
+            <div className={'cb-property-inspector-loading'}>
+                {t('loading')}
+            </div>
         );
 
     if (!inputData) {
         return (
-            <div className={"cb-property-inspector-no-data"}>
+            <div className={'cb-property-inspector-no-data'}>
                 {isTwin(props)
                     ? t('propertyInspector.noTwinFound')
                     : t('propertyInspector.noRelationshipFound')}
@@ -327,7 +329,7 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
     }
 
     return (
-        <div className={"cb-property-inspector-container"}>
+        <div className={'cb-property-inspector-container'}>
             <StandalonePropertyInspector
                 inputData={inputData}
                 onCommitChanges={onCommitChanges}

@@ -5,7 +5,7 @@ import { Intellisense } from './Intellisense';
 
 export default {
     title: 'Components/AutoComplete',
-    AutoComplete
+    AutoComplete,
 };
 
 export const SimpleAutoComplete = () => {
@@ -17,8 +17,8 @@ export const SimpleAutoComplete = () => {
                     underlined: true,
                     styles: {
                         root: { width: 600 },
-                        fieldGroup: { background: '#fcfcfc' }
-                    }
+                        fieldGroup: { background: '#fcfcfc' },
+                    },
                 }}
                 items={['Apple', 'Oranges', 'Pears']}
             />
@@ -35,7 +35,7 @@ function getPropertyNames(aliasId: string) {
             'AliasProperty1',
             'AliasProperty2',
             'AliasProperty3',
-            'AliasProp'
+            'AliasProp',
         ];
     } else if (aliasId === linkedTwinName) {
         return ['Temperature', 'Pressure', 'Humidity'];
@@ -62,7 +62,7 @@ export const MultiLineIntellisense = () => {
                 aliasNames={[linkedTwinName, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
                 autoCompleteProps={{
-                    textFieldProps: { multiline: true, rows: 30 }
+                    textFieldProps: { multiline: true, rows: 30 },
                 }}
             />
         </div>

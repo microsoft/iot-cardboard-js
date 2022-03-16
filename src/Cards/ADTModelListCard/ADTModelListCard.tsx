@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useImperativeHandle,
     useReducer,
-    useRef
+    useRef,
 } from 'react';
 import './ADTModelListCard.scss';
 import { ADTModelListCardProps } from './ADTModelListCard.types';
@@ -12,7 +12,7 @@ import { ADTModelListCardProps } from './ADTModelListCard.types';
 import { useTranslation } from 'react-i18next';
 import {
     ADTModelListCardConsumeReducer,
-    defaultADTModelListCardState
+    defaultADTModelListCardState,
 } from './ADTModelListCard.state';
 import { ActionButton } from '@fluentui/react';
 import { BaseCard } from '..';
@@ -22,12 +22,12 @@ import {
     HierarchyNode,
     HierarchyNodeType,
     ADTModelsApiData,
-    IHierarchyNode
+    IHierarchyNode,
 } from '../..';
 import Hierarchy from '../../Components/Hierarchy/Hierarchy';
 import {
     SET_ADT_HIERARCHY_NODES,
-    SET_ADT_HIERARCHY_NODE_PROPERTIES
+    SET_ADT_HIERARCHY_NODE_PROPERTIES,
 } from '../../Models/Constants/ActionTypes';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
@@ -41,19 +41,19 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
         onModelClick,
         onNewModelClick,
         selectedModelId,
-        newlyAddedModelIds
+        newlyAddedModelIds,
     } = props;
 
     const { t } = useTranslation();
     const modelState = useAdapter({
         adapterMethod: () =>
             adapter.getADTModels({ shouldIncludeDefinitions: true }),
-        refetchDependencies: [adapter]
+        refetchDependencies: [adapter],
     });
 
     const [state, dispatch] = useReducer(
         ADTModelListCardConsumeReducer,
-        defaultADTModelListCardState
+        defaultADTModelListCardState,
     );
     const { nodes, searchTerm } = state;
     const focusedModelIdRef = useRef(null);
@@ -62,14 +62,14 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
         addNewModel: (model: IADTModel) => {
             const newModelNode = HierarchyNode.createNodesFromADTModels(
                 [model],
-                HierarchyNodeType.Child
+                HierarchyNodeType.Child,
             );
             dispatch({
                 type: SET_ADT_HIERARCHY_NODES,
                 payload: {
                     ...newModelNode,
-                    ...nodes
-                }
+                    ...nodes,
+                },
             });
         },
         deleteModel: (id: string) => {
@@ -77,12 +77,12 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
             delete currentNodes[id];
             dispatch({
                 type: SET_ADT_HIERARCHY_NODES,
-                payload: currentNodes
+                payload: currentNodes,
             });
         },
         getModelIds: () => {
             return Object.keys(nodes);
-        }
+        },
     }));
 
     useEffect(() => {
@@ -90,7 +90,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
         focusedModelIdRef.current = null;
         dispatch({
             type: SET_ADT_HIERARCHY_NODES,
-            payload: {}
+            payload: {},
         });
     }, [adapter]);
 
@@ -102,16 +102,16 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                 payload: {
                     modelId: selectedModelId,
-                    properties: { isSelected: true }
-                }
+                    properties: { isSelected: true },
+                },
             });
         } else if (state.selectedModelId) {
             dispatch({
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                 payload: {
                     modelId: state.selectedModelId,
-                    properties: { isSelected: false }
-                }
+                    properties: { isSelected: false },
+                },
             });
         }
     }, [selectedModelId]);
@@ -121,7 +121,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
             const newModelNodes = HierarchyNode.createNodesFromADTModels(
                 modelState.adapterResult.result?.data?.value,
                 HierarchyNodeType.Child,
-                newlyAddedModelIds
+                newlyAddedModelIds,
             );
 
             const modelsNextLink = (modelState.adapterResult.result
@@ -144,16 +144,16 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                                   type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                                   payload: {
                                       modelId: showMoreId,
-                                      properties: { isLoading: true }
-                                  }
+                                      properties: { isLoading: true },
+                                  },
                               });
                               modelState.callAdapter({
                                   continuationToken: new URLSearchParams(
-                                      modelsNextLink
-                                  ).get('continuationToken')
+                                      modelsNextLink,
+                                  ).get('continuationToken'),
                               });
-                          }
-                      } as IHierarchyNode
+                          },
+                      } as IHierarchyNode,
                   }
                 : null;
 
@@ -162,8 +162,8 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 payload: {
                     ...currentNodes,
                     ...newModelNodes,
-                    ...showMoreNode
-                }
+                    ...showMoreNode,
+                },
             });
         }
     }, [modelState.adapterResult.result]);
@@ -178,16 +178,16 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 type: SET_ADT_HIERARCHY_NODE_PROPERTIES,
                 payload: {
                     modelId: node.id,
-                    properties: { isSelected: true }
-                }
+                    properties: { isSelected: true },
+                },
             });
             focusedModelIdRef.current = node.id;
         },
-        []
+        [],
     );
 
     return (
-        <div className={"cb-adt-model-list-wrapper"}>
+        <div className={'cb-adt-model-list-wrapper'}>
             <BaseCard
                 title={title}
                 isLoading={
@@ -199,7 +199,7 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                 locale={locale}
                 localeStrings={localeStrings}
             >
-                <div className={"cb-adt-model-list-actions"}>
+                <div className={'cb-adt-model-list-actions'}>
                     <ActionButton
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
@@ -211,15 +211,14 @@ function ADTModelListCard(props: ADTModelListCardProps, ref) {
                         {t('new')}
                     </ActionButton>
                 </div>
-                <div className={"cb-adt-model-list"}>
+                <div className={'cb-adt-model-list'}>
                     <Hierarchy
                         data={nodes}
                         onChildNodeClick={handleModelClick}
                         searchTermToMark={searchTerm}
                         isLoading={modelState.isLoading}
                         noDataText={t('noModels')}
-                    >
-                    </Hierarchy>
+                    ></Hierarchy>
                 </div>
             </BaseCard>
         </div>

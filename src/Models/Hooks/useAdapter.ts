@@ -6,13 +6,13 @@ import {
     SET_ADAPTER_RESULT,
     SET_IS_LOADING,
     SET_IS_LONG_POLLING,
-    SET_IS_INITIAL_CALL
+    SET_IS_INITIAL_CALL,
 } from '../Constants/ActionTypes';
 import { IAction, IAdapterData, IUseAdapter } from '../Constants/Interfaces';
 import {
     AdapterReturnType,
     AdapterState,
-    AdapterMethodParams
+    AdapterMethodParams,
 } from '../Constants/Types';
 import useCancellablePromise from './useCancellablePromise';
 import useLongPoll from './useLongPoll';
@@ -38,7 +38,7 @@ const cardStateReducer = produce(
             default:
                 return;
         }
-    }
+    },
 );
 
 interface Params<T extends IAdapterData> {
@@ -68,19 +68,19 @@ const useAdapter = <T extends IAdapterData>({
     isLongPolling = false,
     pollingIntervalMillis,
     pulseTimeoutMillis,
-    isAdapterCalledOnMount = true
+    isAdapterCalledOnMount = true,
 }: Params<T>): IUseAdapter<T> => {
     const defaultCardState: AdapterState<T> = useMemo(
         () => ({
             adapterResult: new AdapterResult<T>({
                 result: null,
-                errorInfo: null
+                errorInfo: null,
             }),
             isLoading: isAdapterCalledOnMount,
             isLongPolling,
-            isInitialCall: true
+            isInitialCall: true,
         }),
-        [isLongPolling]
+        [isLongPolling],
     );
 
     const mountedRef = useRef(null);
@@ -96,7 +96,7 @@ const useAdapter = <T extends IAdapterData>({
         if (!adapterResult) {
             adapterResult = new AdapterResult<T>({
                 result: null,
-                errorInfo: null
+                errorInfo: null,
             });
         }
         dispatch({ type: SET_ADAPTER_RESULT, payload: adapterResult });
@@ -106,7 +106,7 @@ const useAdapter = <T extends IAdapterData>({
         setIsLoading(true);
         try {
             const adapterResult = await cancellablePromise(
-                adapterMethod(params)
+                adapterMethod(params),
             );
             if (mountedRef.current) {
                 setAdapterResult(adapterResult);
@@ -135,7 +135,7 @@ const useAdapter = <T extends IAdapterData>({
     const setIsLongPolling = (isLongPolling: boolean) => {
         dispatch({
             type: SET_IS_LONG_POLLING,
-            payload: isLongPolling
+            payload: isLongPolling,
         });
     };
 
@@ -144,7 +144,7 @@ const useAdapter = <T extends IAdapterData>({
         pollingIntervalMillis: !state.isLongPolling
             ? null
             : pollingIntervalMillis,
-        ...(pulseTimeoutMillis && { pulseTimeoutMillis })
+        ...(pulseTimeoutMillis && { pulseTimeoutMillis }),
     });
 
     useEffect(() => {
@@ -153,7 +153,7 @@ const useAdapter = <T extends IAdapterData>({
                 callAdapter();
                 dispatch({
                     type: SET_IS_INITIAL_CALL,
-                    payload: false
+                    payload: false,
                 });
             } else {
                 cancelAdapter();
@@ -177,7 +177,7 @@ const useAdapter = <T extends IAdapterData>({
         cancelAdapter,
         setIsLongPolling,
         isLongPolling: state.isLongPolling,
-        pulse: longPoll.pulse
+        pulse: longPoll.pulse,
     };
 };
 

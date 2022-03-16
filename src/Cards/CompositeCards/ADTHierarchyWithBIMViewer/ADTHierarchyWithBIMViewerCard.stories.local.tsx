@@ -7,17 +7,17 @@ import ADTHierarchyWithBIMViewerCard from './ADTHierarchyWithBIMViewerCard';
 
 export default {
     title: 'Cards/CompositeCards/AdtHierarchyWithBimViewerCard',
-    component: ADTHierarchyWithBIMViewerCard
+    component: ADTHierarchyWithBIMViewerCard,
 };
 
 const cardStyle = {
     height: '500px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADTHierarchyWithBIMViewer = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => {
     const authenticationParameters = useAuthParams();
 
@@ -34,8 +34,8 @@ export const ADTHierarchyWithBIMViewer = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 getHierarchyNodeProperties={() => []}

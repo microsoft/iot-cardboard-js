@@ -1,7 +1,7 @@
 import {
     IAuthService,
     IBlobAdapter,
-    IBlobFile
+    IBlobFile,
 } from '../Models/Constants/Interfaces';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import { ComponentErrorType } from '../Models/Constants/Enums';
@@ -24,7 +24,7 @@ export default class BlobAdapter implements IBlobAdapter {
     constructor(
         blobContainerUrl: string,
         authService: IAuthService,
-        blobProxyServerPath = '/proxy/blob'
+        blobProxyServerPath = '/proxy/blob',
     ) {
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
@@ -58,7 +58,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
     async getScenesConfig() {
         const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.blobAuthService
+            this.blobAuthService,
         );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -71,8 +71,8 @@ export default class BlobAdapter implements IBlobAdapter {
                         headers: {
                             authorization: 'Bearer ' + token,
                             'x-ms-version': '2017-11-09',
-                            'x-blob-host': this.storageAccountHostUrl
-                        }
+                            'x-blob-host': this.storageAccountHostUrl,
+                        },
                     });
                     if (scenesBlob.data) {
                         config = validate3DConfigWithSchema(scenesBlob.data);
@@ -103,14 +103,14 @@ export default class BlobAdapter implements IBlobAdapter {
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.UnauthorizedAccess,
                             isCatastrophic: true,
-                            rawError: err
+                            rawError: err,
                         });
                         break;
                     default:
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.DataFetchFailed,
                             isCatastrophic: true,
-                            rawError: err
+                            rawError: err,
                         });
                 }
             }
@@ -119,7 +119,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
     putScenesConfig(config: I3DScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.blobAuthService
+            this.blobAuthService,
         );
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
             ADTScenesConfigData,
@@ -130,12 +130,12 @@ export default class BlobAdapter implements IBlobAdapter {
                     'Content-Type': 'application/json',
                     'x-ms-version': '2017-11-09',
                     'x-blob-host': this.storageAccountHostUrl,
-                    'x-ms-blob-type': 'BlockBlob'
+                    'x-ms-blob-type': 'BlockBlob',
                 },
-                data: config
+                data: config,
             },
             undefined,
-            'storage'
+            'storage',
         );
     }
 
@@ -145,7 +145,7 @@ export default class BlobAdapter implements IBlobAdapter {
      */
     async getContainerBlobs(fileTypes: Array<string>) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.blobAuthService
+            this.blobAuthService,
         );
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             try {
@@ -156,12 +156,12 @@ export default class BlobAdapter implements IBlobAdapter {
                         authorization: 'Bearer ' + token,
                         'Content-Type': 'application/json',
                         'x-ms-version': '2017-11-09',
-                        'x-blob-host': this.storageAccountHostUrl
+                        'x-blob-host': this.storageAccountHostUrl,
                     },
                     params: {
                         restype: 'container',
-                        comp: 'list'
-                    }
+                        comp: 'list',
+                    },
                 });
                 const filesXML = filesData.data;
                 const parser = new XMLParser();
@@ -169,12 +169,12 @@ export default class BlobAdapter implements IBlobAdapter {
                     ?.EnumerationResults?.Blobs?.Blob;
                 if (fileTypes) {
                     files = files.filter((f) =>
-                        fileTypes.includes(f.Name?.split('.')?.[1])
+                        fileTypes.includes(f.Name?.split('.')?.[1]),
                     );
                 }
                 files.map(
                     (f) =>
-                        (f.Path = `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${f.Name}`)
+                        (f.Path = `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${f.Name}`),
                 );
 
                 return new BlobsData(files);
@@ -182,7 +182,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,
                     isCatastrophic: true,
-                    rawError: err
+                    rawError: err,
                 });
             }
         }, 'storage');
@@ -191,7 +191,7 @@ export default class BlobAdapter implements IBlobAdapter {
     // This method create/update existing blob in the container using Put Blob API (https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob)
     putBlob(file: File) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
-            this.blobAuthService
+            this.blobAuthService,
         );
         const createBlobFileData = (apiResponse: string) => {
             // successful response data is alwasy empty string which is not useful
@@ -199,7 +199,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 const blobFile: IBlobFile = {
                     Name: file.name,
                     Path: `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${file.name}`,
-                    Properties: { 'Content-Length': file.size }
+                    Properties: { 'Content-Length': file.size },
                 };
                 return [blobFile];
             } else {
@@ -216,12 +216,12 @@ export default class BlobAdapter implements IBlobAdapter {
                     'x-ms-version': '2017-11-09',
                     'x-blob-host': this.storageAccountHostUrl,
                     'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': 'application/octet-stream'
+                    'Content-Type': 'application/octet-stream',
                 },
-                data: file
+                data: file,
             },
             createBlobFileData,
-            'storage'
+            'storage',
         );
     }
 }

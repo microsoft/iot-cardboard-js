@@ -40,7 +40,7 @@ var properties = [
     'textDecoration', // might not make a difference, but better be safe
 
     'letterSpacing',
-    'wordSpacing'
+    'wordSpacing',
 ];
 
 function CaretCoordinates(element) {
@@ -90,7 +90,7 @@ CaretCoordinates.prototype.get = function (positionLeft) {
     if (this.element.nodeName === 'INPUT') {
         this.divText.nodeValue = this.divText.nodeValue.replace(
             /\s/g,
-            '\u00a0'
+            '\u00a0',
         );
     }
 
@@ -113,7 +113,7 @@ CaretCoordinates.prototype.get = function (positionLeft) {
     if (this.element.nodeName === 'INPUT') {
         this.divText.nodeValue = this.divText.nodeValue.replace(
             /\s/g,
-            '\u00a0'
+            '\u00a0',
         );
     }
 
@@ -128,7 +128,7 @@ CaretCoordinates.prototype.get = function (positionLeft) {
     var coordinates = {
         top:
             this.span.offsetTop + parseInt(this.computed['borderTopWidth'], 10),
-        left: left
+        left: left,
         // right: right
     };
 

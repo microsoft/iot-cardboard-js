@@ -35,7 +35,7 @@ export default class BoardInfo {
 
         boardInfo.layout = {
             numRows: obj.layout.numRows,
-            numColumns: obj.layout.numColumns
+            numColumns: obj.layout.numColumns,
         };
 
         boardInfo.cards = obj.cards;

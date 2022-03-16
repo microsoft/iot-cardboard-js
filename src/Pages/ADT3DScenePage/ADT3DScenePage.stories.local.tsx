@@ -6,12 +6,12 @@ import ADT3DScenePage from './ADT3DScenePage';
 
 export default {
     title: 'Pages/ADT3DScenePage',
-    component: ADT3DScenePage
+    component: ADT3DScenePage,
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
@@ -37,19 +37,19 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                         authenticationParameters.adt.hostUrl,
                         authenticationParameters.storage.blobContainerUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
+                            authenticationParameters.adt.aadParameters,
                         ),
                         authenticationParameters.adt.aadParameters.tenantId,
-                        authenticationParameters.adt.aadParameters.uniqueObjectId
+                        authenticationParameters.adt.aadParameters.uniqueObjectId,
                     )
                 }
                 environmentPickerOptions={{
                     environment: {
                         shouldPullFromSubscription: true,
                         isLocalStorageEnabled: true,
-                        onEnvironmentChange
+                        onEnvironmentChange,
                     },
-                    storage: { isLocalStorageEnabled: true, onContainerChange }
+                    storage: { isLocalStorageEnabled: true, onContainerChange },
                 }}
             />
         </div>

@@ -13,11 +13,11 @@ import {
     SET_WIDGET_FORM_INFO,
     SET_REVERT_TO_HOVER_COLOR,
     SET_RENDER_MODE,
-    SET_MESH_IDS_TO_OUTLINE
+    SET_MESH_IDS_TO_OUTLINE,
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
-    ADT3DSceneTwinBindingsMode
+    ADT3DSceneTwinBindingsMode,
 } from '../../Models/Constants/Enums';
 import { RenderModes } from '../..';
 
@@ -35,12 +35,12 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedBehavior: null,
     showHoverOnSelected: false,
     enableHoverOnModel: false,
-    renderMode: RenderModes[0]
+    renderMode: RenderModes[0],
 };
 
 export const ADT3DSceneBuilderReducer: (
     draft: ADT3DSceneBuilderState,
-    action: IAction
+    action: IAction,
 ) => ADT3DSceneBuilderState = produce(
     (draft: ADT3DSceneBuilderState, action: IAction) => {
         const payload = action.payload;
@@ -109,5 +109,5 @@ export const ADT3DSceneBuilderReducer: (
                 break;
         }
     },
-    defaultADT3DSceneBuilderState
+    defaultADT3DSceneBuilderState,
 );

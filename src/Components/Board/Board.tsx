@@ -14,14 +14,14 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     AdapterTypes,
     ITsiClientChartDataAdapter,
-    IKeyValuePairAdapter
+    IKeyValuePairAdapter,
 } from '../../Models/Constants';
 import { IBoardProps } from './Board.types';
 import {
     SearchSpan,
     CardInfo,
     ComponentError,
-    BoardInfo
+    BoardInfo,
 } from '../../Models/Classes';
 import { ADTAdapter } from '../../Adapters';
 import {
@@ -30,7 +30,7 @@ import {
     ADTHierarchyCard,
     KeyValuePairCard,
     LKVProcessGraphicCard,
-    InfoTableCard
+    InfoTableCard,
 } from '../../Cards';
 import BaseCard from '../../Cards/BaseCard/BaseCard';
 import { hasAllProcessGraphicsCardProperties } from '../../Models/Services/Utils';
@@ -48,7 +48,7 @@ const Board: React.FC<IBoardProps> = ({
     adtTwin,
     errorMessage,
     onEntitySelect,
-    hasDataHistory = false
+    hasDataHistory = false,
 }) => {
     const { t } = useTranslation();
     const [isInspectorOpen, setIsInspectorOpen] = useState(false);
@@ -78,7 +78,7 @@ const Board: React.FC<IBoardProps> = ({
                       : null,
                   gridTemplateColumns: boardInfo.layout?.numColumns
                       ? '1fr '.repeat(boardInfo.layout.numColumns)
-                      : null
+                      : null,
               }
             : {};
 
@@ -92,7 +92,7 @@ const Board: React.FC<IBoardProps> = ({
                 new SearchSpan(
                     defaultSearchSpanFrom,
                     defaultSearchSpanTo,
-                    '6h'
+                    '6h',
                 );
 
             const cardElement = getCardElement(
@@ -104,13 +104,13 @@ const Board: React.FC<IBoardProps> = ({
                 localeStrings,
                 onEntitySelect,
                 setIsInspectorOpen,
-                t
+                t,
             );
             const cardSizeStyles = {
                 gridRow: card.size?.rows ? `span ${card.size.rows}` : null,
                 gridColumn: card.size?.columns
                     ? `span ${card.size.columns}`
-                    : null
+                    : null,
             };
 
             return (
@@ -128,25 +128,25 @@ const Board: React.FC<IBoardProps> = ({
             theme={theme}
         >
             {errorMessage && (
-                <div className={"cb-base-catastrophic-error-wrapper"}>
-                    <div className={"cb-base-catastrophic-error-box"}>
-                        <div className={"cb-base-catastrophic-error-message"}>
+                <div className={'cb-base-catastrophic-error-wrapper'}>
+                    <div className={'cb-base-catastrophic-error-box'}>
+                        <div className={'cb-base-catastrophic-error-message'}>
                             {errorMessage}
                         </div>
                     </div>
                 </div>
             )}
             {!errorMessage && cardComponents.length === 0 && (
-                <div className={"cb-base-catastrophic-error-wrapper"}>
-                    <div className={"cb-base-catastrophic-error-box"}>
-                        <div className={"cb-base-catastrophic-error-message"}>
+                <div className={'cb-base-catastrophic-error-wrapper'}>
+                    <div className={'cb-base-catastrophic-error-box'}>
+                        <div className={'cb-base-catastrophic-error-message'}>
                             {t('board.empty')}
                         </div>
                     </div>
                 </div>
             )}
             {!errorMessage && cardComponents.length > 0 && (
-                <div className={"cb-board"} style={layoutStyles}>
+                <div className={'cb-board'} style={layoutStyles}>
                     {cardComponents}
                 </div>
             )}
@@ -175,10 +175,10 @@ function getCardElement(
     onEntitySelect: (
         twin: IADTTwin,
         model: IADTModel,
-        errors?: IResolvedRelationshipClickErrors
+        errors?: IResolvedRelationshipClickErrors,
     ) => void,
     setIsInspectorOpen,
-    t: TFunction<string>
+    t: TFunction<string>,
 ) {
     // TODO: In the current asset specific view defintion schema, an asset can specify
     // multiple entities to display. Is that what we want to use? For now, I simply get
@@ -203,7 +203,7 @@ function getCardElement(
                     searchSpan={searchSpan}
                     properties={entityInfo?.properties}
                     adapterAdditionalParameters={{
-                        chartDataOptions: entityInfo?.chartDataOptions
+                        chartDataOptions: entityInfo?.chartDataOptions,
                     }}
                     chartDataOptions={entityInfo?.chartDataOptions}
                 />
@@ -264,7 +264,7 @@ function getCardElement(
                     tableRows={entityInfo?.tableRows}
                     infoTableActionButtonProps={{
                         label: t('editTwin'),
-                        onClick: () => setIsInspectorOpen(true)
+                        onClick: () => setIsInspectorOpen(true),
                     }}
                 />
             );
@@ -277,7 +277,7 @@ function getCardElement(
                     cardError={
                         new ComponentError({
                             type: ComponentErrorType.InvalidCardType,
-                            messageParams: { cardType: cardInfo.type }
+                            messageParams: { cardType: cardInfo.type },
                         })
                     }
                 />
@@ -289,7 +289,7 @@ function getDefaultBoardInfo(
     dtTwin: IADTTwin,
     t: (str: string) => string,
     searchSpan?: SearchSpan,
-    hasDataHistory?: boolean
+    hasDataHistory?: boolean,
 ): BoardInfo {
     const board = new BoardInfo();
     board.layout = { numColumns: 3 };
@@ -310,14 +310,14 @@ function getDefaultBoardInfo(
             size: { rows: 1, columns: 3 },
             cardProperties: {
                 headers: [t('board.twinID'), t('board.model')],
-                twinId: dtTwin['$dtId']
+                twinId: dtTwin['$dtId'],
             },
             entities: [
                 {
-                    tableRows: [[dtTwin.$dtId, dtTwin.$metadata.$model]]
-                }
-            ]
-        })
+                    tableRows: [[dtTwin.$dtId, dtTwin.$metadata.$model]],
+                },
+            ],
+        }),
     );
 
     board.cards.push(
@@ -326,8 +326,8 @@ function getDefaultBoardInfo(
             type: CardTypes.RelationshipsTable,
             title: t('board.relationshipsTable'),
             size: { rows: 4, columns: 2 },
-            entities: [{ id: dtTwin.$dtId }]
-        })
+            entities: [{ id: dtTwin.$dtId }],
+        }),
     );
 
     const propertyCards = Object.keys(twinProperties).map((name: string) =>
@@ -336,8 +336,8 @@ function getDefaultBoardInfo(
             type: CardTypes.KeyValuePairCard,
             size: { rows: 2 },
             cardProperties: { pollingIntervalMillis: 5000 },
-            entities: [{ id: dtTwin.$dtId, properties: [name] }]
-        })
+            entities: [{ id: dtTwin.$dtId, properties: [name] }],
+        }),
     );
 
     const dataHistory = CardInfo.fromObject({
@@ -349,8 +349,8 @@ function getDefaultBoardInfo(
         size: { rows: 3, columns: 3 },
         cardProperties: { pollingIntervalMillis: 5000 },
         entities: [
-            { id: dtTwin.$dtId, properties: Object.keys(twinProperties) }
-        ]
+            { id: dtTwin.$dtId, properties: Object.keys(twinProperties) },
+        ],
     });
 
     if (hasAllProcessGraphicsCardProperties(dtTwin)) {
@@ -373,12 +373,12 @@ function getDefaultBoardInfo(
                             labelPositions: JSON.parse(
                                 dtTwin[ADTModel_ViewData_PropertyName][
                                     ADTModel_ImgPropertyPositions_PropertyName
-                                ]
-                            )
-                        }
-                    }
-                ]
-            })
+                                ],
+                            ),
+                        },
+                    },
+                ],
+            }),
         );
     }
 

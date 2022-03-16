@@ -3,7 +3,7 @@ import {
     IADTRelationship,
     IADTTwin,
     IAuthService,
-    IGetKeyValuePairsAdditionalParameters
+    IGetKeyValuePairsAdditionalParameters,
 } from '../Models/Constants/Interfaces';
 import axiosRetry from 'axios-retry';
 import {
@@ -11,13 +11,13 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
     ADTRelationship,
-    ADTRelationshipsApiData
+    ADTRelationshipsApiData,
 } from '../Models/Constants/Types';
 import { KeyValuePairAdapterData } from '../Models/Classes';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import {
     ADTRelationshipData,
-    ADTRelationshipsData
+    ADTRelationshipsData,
 } from '../Models/Classes/AdapterDataClasses/ADTRelationshipsData';
 import {
     ADT_ApiVersion,
@@ -30,14 +30,14 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    linkedTwinName
+    linkedTwinName,
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     ADTAdapterModelsData,
     ADTAdapterPatchData,
-    ADTAdapterTwinsData
+    ADTAdapterTwinsData,
 } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLookupData';
 import axios, { AxiosError, AxiosInstance } from 'axios';
@@ -47,7 +47,7 @@ import { DTDLType } from '../Models/Classes/DTDL';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
     ADTModelsData,
-    ADTTwinsData
+    ADTTwinsData,
 } from '../Models/Classes/AdapterDataClasses/ADTUploadData';
 import i18n from '../i18n';
 import { SimulationAdapterData } from '../Models/Classes/AdapterDataClasses/SimulationAdapterData';
@@ -58,7 +58,7 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import {
     I3DScenesConfig,
     IBehavior,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../Models/Classes/3DVConfig';
 
@@ -76,7 +76,7 @@ export default class ADTAdapter implements IADTAdapter {
         authService: IAuthService,
         tenantId?: string,
         uniqueObjectId?: string,
-        adtProxyServerPath = '/proxy/adt'
+        adtProxyServerPath = '/proxy/adt',
     ) {
         this.adtHostUrl = adtHostUrl;
         this.adtProxyServerPath = adtProxyServerPath;
@@ -97,7 +97,7 @@ export default class ADTAdapter implements IADTAdapter {
             retryDelay: (retryCount) => {
                 console.log((Math.pow(2, retryCount) - Math.random()) * 1000);
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
-            }
+            },
         });
     }
 
@@ -118,7 +118,7 @@ export default class ADTAdapter implements IADTAdapter {
             be explicitly provided when creating the twin relationship
         */
         const createRelationships = (
-            axiosData: ADTRelationshipsApiData
+            axiosData: ADTRelationshipsApiData,
         ): ADTRelationship[] =>
             axiosData.value.map((rawRelationship: IADTRelationship) => {
                 return {
@@ -127,7 +127,7 @@ export default class ADTAdapter implements IADTAdapter {
                     targetId: rawRelationship.$targetId,
                     targetModel: rawRelationship.targetModel
                         ? rawRelationship.targetModel
-                        : ''
+                        : '',
                 };
             });
 
@@ -139,13 +139,13 @@ export default class ADTAdapter implements IADTAdapter {
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(id)}/relationships`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             },
-            createRelationships
+            createRelationships,
         );
     }
 
@@ -159,12 +159,12 @@ export default class ADTAdapter implements IADTAdapter {
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(twinId)}`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+                    'api-version': ADT_ApiVersion,
+                },
+            },
         );
     }
 
@@ -176,12 +176,12 @@ export default class ADTAdapter implements IADTAdapter {
                 method: 'get',
                 url: `${this.adtProxyServerPath}/models/${modelId}`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+                    'api-version': ADT_ApiVersion,
+                },
+            },
         );
     }
 
@@ -194,12 +194,12 @@ export default class ADTAdapter implements IADTAdapter {
                 method: 'delete',
                 url: `${this.adtProxyServerPath}/models/${modelId}`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+                    'api-version': ADT_ApiVersion,
+                },
+            },
         );
     }
 
@@ -212,12 +212,12 @@ export default class ADTAdapter implements IADTAdapter {
                 method: 'delete',
                 url: `${this.adtProxyServerPath}/digitaltwins/${twinId}`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+                    'api-version': ADT_ApiVersion,
+                },
+            },
         );
     }
 
@@ -234,15 +234,15 @@ export default class ADTAdapter implements IADTAdapter {
                         : ''
                 }`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
                     'api-version': ADT_ApiVersion,
                     ...(params?.continuationToken && {
-                        continuationToken: params.continuationToken
-                    })
-                }
-            }
+                        continuationToken: params.continuationToken,
+                    }),
+                },
+            },
         );
     }
 
@@ -256,12 +256,12 @@ export default class ADTAdapter implements IADTAdapter {
                 url: `${this.adtProxyServerPath}/models`,
                 data: models,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
-            }
+                    'api-version': ADT_ApiVersion,
+                },
+            },
         );
     }
 
@@ -279,15 +279,15 @@ export default class ADTAdapter implements IADTAdapter {
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
+                            'x-adt-host': this.adtHostUrl,
                         },
                         params: {
-                            'api-version': ADT_ApiVersion
-                        }
+                            'api-version': ADT_ApiVersion,
+                        },
                     }).catch((err) => {
                         return err.response.data;
                     });
-                })
+                }),
             );
             return new SimulationAdapterData(data);
         });
@@ -302,16 +302,16 @@ export default class ADTAdapter implements IADTAdapter {
                 method: 'post',
                 url: `${this.adtProxyServerPath}/query`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
+                    'api-version': ADT_ApiVersion,
                 },
                 data: {
                     query: `SELECT * FROM DIGITALTWINS WHERE $metadata.$model = '${params.modelId}'`,
-                    continuationToken: params.continuationToken
-                }
-            }
+                    continuationToken: params.continuationToken,
+                },
+            },
         );
     }
 
@@ -325,10 +325,10 @@ export default class ADTAdapter implements IADTAdapter {
                 method: 'post',
                 url: `${this.adtProxyServerPath}/query`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
+                    'api-version': ADT_ApiVersion,
                 },
                 data: {
                     query: `SELECT * FROM DIGITALTWINS T WHERE ${
@@ -336,9 +336,9 @@ export default class ADTAdapter implements IADTAdapter {
                             ? `CONTAINS(T.$metadata.$model, '${params.searchTerm}') OR `
                             : ''
                     }CONTAINS(T.$dtId, '${params.searchTerm}')`,
-                    continuationToken: params.continuationToken
-                }
-            }
+                    continuationToken: params.continuationToken,
+                },
+            },
         );
     }
 
@@ -352,11 +352,11 @@ export default class ADTAdapter implements IADTAdapter {
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             }).catch((err) => {
                 if (err?.response?.status === 409) {
                     return { data: models };
@@ -364,7 +364,7 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         type: ComponentErrorType.DataUploadFailed,
                         isCatastrophic: true,
-                        rawError: err
+                        rawError: err,
                     });
                     return null;
                 }
@@ -388,16 +388,16 @@ export default class ADTAdapter implements IADTAdapter {
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
+                            'x-adt-host': this.adtHostUrl,
                         },
                         params: {
-                            'api-version': ADT_ApiVersion
-                        }
+                            'api-version': ADT_ApiVersion,
+                        },
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
-                            rawError: err
+                            rawError: err,
                         });
                         return null;
                     });
@@ -405,7 +405,7 @@ export default class ADTAdapter implements IADTAdapter {
                     onUploadProgress &&
                         onUploadProgress(uploadCounter, twins.length);
                     return axiosResponse ? axiosResponse.data : null;
-                })
+                }),
             );
 
             //filter out nulls, i.e. errors
@@ -419,7 +419,7 @@ export default class ADTAdapter implements IADTAdapter {
 
     async createRelationships(
         relationships: DTwinRelationship[],
-        onUploadProgress?
+        onUploadProgress?,
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
@@ -428,29 +428,29 @@ export default class ADTAdapter implements IADTAdapter {
                 relationships.map(async (relationship: DTwinRelationship) => {
                     const payload = {
                         $targetId: relationship.$targetId,
-                        $relationshipName: relationship.$name
+                        $relationshipName: relationship.$name,
                     };
                     const axiosResponse = await this.axiosInstance({
                         method: 'put',
                         url: `/digitaltwins/${encodeURIComponent(
-                            relationship.$dtId
+                            relationship.$dtId,
                         )}/relationships/${encodeURIComponent(
-                            relationship.$relId
+                            relationship.$relId,
                         )}`,
                         data: payload,
                         headers: {
                             'Content-Type': 'application/json',
                             authorization: 'Bearer ' + token,
-                            'x-adt-host': this.adtHostUrl
+                            'x-adt-host': this.adtHostUrl,
                         },
                         params: {
-                            'api-version': ADT_ApiVersion
-                        }
+                            'api-version': ADT_ApiVersion,
+                        },
                     }).catch((err) => {
                         adapterMethodSandbox.pushError({
                             type: ComponentErrorType.DataUploadFailed,
                             isCatastrophic: false,
-                            rawError: err
+                            rawError: err,
                         });
                         return null;
                     });
@@ -460,7 +460,7 @@ export default class ADTAdapter implements IADTAdapter {
                         onUploadProgress(uploadCounter, relationships.length);
 
                     return axiosResponse ? axiosResponse.data : null;
-                })
+                }),
             );
 
             //filter out nulls, i.e. errors
@@ -475,12 +475,12 @@ export default class ADTAdapter implements IADTAdapter {
     getKeyValuePairs(
         id: string,
         properties: string[],
-        additionalParameters: IGetKeyValuePairsAdditionalParameters
+        additionalParameters: IGetKeyValuePairsAdditionalParameters,
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         const createKeyValuePairData = (
-            axiosData: IADTTwin
+            axiosData: IADTTwin,
         ): KeyValuePairData[] =>
             axiosData
                 ? properties.map((prop) => {
@@ -489,13 +489,13 @@ export default class ADTAdapter implements IADTAdapter {
                       if (axiosData[prop]?.$metadata) {
                           // means it is a component
                           kvp.value = createKeyValuePairDataFromTwinComponent(
-                              axiosData[prop]
+                              axiosData[prop],
                           );
                       } else {
                           kvp.value = axiosData[prop];
                           if (additionalParameters?.isTimestampIncluded) {
                               kvp.timestamp = new Date(
-                                  axiosData.$metadata?.[prop]?.lastUpdateTime
+                                  axiosData.$metadata?.[prop]?.lastUpdateTime,
                               );
                           }
                       }
@@ -504,7 +504,7 @@ export default class ADTAdapter implements IADTAdapter {
                 : [];
 
         const createKeyValuePairDataFromTwinComponent = (
-            component: IADTTwinComponent
+            component: IADTTwinComponent,
         ): KeyValuePairData[] => {
             if (
                 component &&
@@ -531,13 +531,13 @@ export default class ADTAdapter implements IADTAdapter {
                         if (typeof component[prop] === 'object') {
                             // e.g. Properties, which can have 'Object' type of schema, can include sub-properties
                             kvp.value = createKeyValuePairDataFromTwinComponent(
-                                component[prop]
+                                component[prop],
                             );
                         } else {
                             kvp.value = component[prop];
                             if (additionalParameters?.isTimestampIncluded) {
                                 kvp.timestamp = new Date(
-                                    component.$metadata?.[prop]?.lastUpdateTime
+                                    component.$metadata?.[prop]?.lastUpdateTime,
                                 );
                             }
                             acc.push(kvp);
@@ -556,20 +556,20 @@ export default class ADTAdapter implements IADTAdapter {
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(id)}`,
                 headers: {
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             },
-            createKeyValuePairData
+            createKeyValuePairData,
         );
     }
 
     async lookupADTTwin(twinId: string) {
         const twinData = await this.getADTTwin(twinId);
         const modelData = await this.getADTModel(
-            twinData.getData()?.$metadata?.$model
+            twinData.getData()?.$metadata?.$model,
         );
         return new ADTTwinLookupData(twinData.getData(), modelData.getData());
     }
@@ -586,16 +586,16 @@ export default class ADTAdapter implements IADTAdapter {
                     url: `${
                         this.adtProxyServerPath
                     }/models/${encodeURIComponent(
-                        targetModelId
+                        targetModelId,
                     )}?includeModelDefinition=True`,
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        'x-adt-host': this.adtHostUrl
+                        'x-adt-host': this.adtHostUrl,
                     },
                     params: {
-                        'api-version': ADT_ApiVersion
-                    }
+                        'api-version': ADT_ApiVersion,
+                    },
                 });
             };
 
@@ -616,9 +616,9 @@ export default class ADTAdapter implements IADTAdapter {
                         await Promise.all(
                             baseModelsList.map((baseModelId) => {
                                 return recursivelyAddToExpandedModels(
-                                    baseModelId
+                                    baseModelId,
                                 );
-                            })
+                            }),
                         );
                     }
 
@@ -627,7 +627,7 @@ export default class ADTAdapter implements IADTAdapter {
                         ?.filter(
                             (m) =>
                                 getModelContentType(m['@type']) ===
-                                DTDLType.Component
+                                DTDLType.Component,
                         )
                         ?.map((m) => m.schema as string); // May need more validation to ensure component schema is a DTMI string
 
@@ -635,9 +635,9 @@ export default class ADTAdapter implements IADTAdapter {
                         await Promise.all(
                             componentModelIds?.map((componentModelId) => {
                                 return recursivelyAddToExpandedModels(
-                                    componentModelId
+                                    componentModelId,
                                 );
-                            })
+                            }),
                         );
                     }
 
@@ -646,7 +646,7 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         isCatastrophic: false,
                         rawError: err,
-                        message: modelId
+                        message: modelId,
                     });
                     return;
                 }
@@ -661,8 +661,8 @@ export default class ADTAdapter implements IADTAdapter {
                         isCatastrophic: false,
                         rawError: err,
                         message: i18n.t('propertyInspector.modelNotFound', {
-                            modelId
-                        })
+                            modelId,
+                        }),
                     });
                 }
             };
@@ -672,7 +672,7 @@ export default class ADTAdapter implements IADTAdapter {
                 await Promise.all(
                     [modelId, ...baseModelIds].map((id) => {
                         return parallelFetchModel(id);
-                    })
+                    }),
                 );
             } else {
                 // If base models unknown, recursively expand and fetch in sequence
@@ -682,8 +682,8 @@ export default class ADTAdapter implements IADTAdapter {
             return new ExpandedADTModelData({
                 expandedModels,
                 rootModel: expandedModels.find(
-                    (model) => model['@id'] === modelId
-                )
+                    (model) => model['@id'] === modelId,
+                ),
             });
         });
     }
@@ -701,11 +701,11 @@ export default class ADTAdapter implements IADTAdapter {
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             });
 
             if (axiosResponse.status === 204) {
@@ -725,16 +725,16 @@ export default class ADTAdapter implements IADTAdapter {
                 url: `${
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(
-                    twinId
+                    twinId,
                 )}/relationships/${encodeURIComponent(relationshipId)}`,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             });
 
             return new ADTRelationshipData(axiosResponse.data);
@@ -744,7 +744,7 @@ export default class ADTAdapter implements IADTAdapter {
     async updateRelationship(
         twinId: string,
         relationshipId: string,
-        patches: Array<ADTPatch>
+        patches: Array<ADTPatch>,
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -754,17 +754,17 @@ export default class ADTAdapter implements IADTAdapter {
                 url: `${
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(
-                    twinId
+                    twinId,
                 )}/relationships/${encodeURIComponent(relationshipId)}`,
                 data: patches,
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + token,
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             });
 
             if (axiosResponse.status === 204) {
@@ -779,14 +779,14 @@ export default class ADTAdapter implements IADTAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         const createRelationships = (
-            axiosData: ADTRelationshipsApiData
+            axiosData: ADTRelationshipsApiData,
         ): ADTRelationship[] =>
             axiosData.value.map((rawRelationship: IADTRelationship) => {
                 return {
                     relationshipId: rawRelationship.$relationshipId,
                     relationshipName: rawRelationship.$relationshipName,
                     relationshipLink: rawRelationship.$relationshipLink,
-                    sourceId: rawRelationship.$sourceId
+                    sourceId: rawRelationship.$sourceId,
                 };
             });
 
@@ -797,17 +797,17 @@ export default class ADTAdapter implements IADTAdapter {
                 url: `${
                     this.adtProxyServerPath
                 }/digitaltwins/${encodeURIComponent(
-                    twinId
+                    twinId,
                 )}/incomingrelationships`,
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-adt-host': this.adtHostUrl
+                    'x-adt-host': this.adtHostUrl,
                 },
                 params: {
-                    'api-version': ADT_ApiVersion
-                }
+                    'api-version': ADT_ApiVersion,
+                },
             },
-            createRelationships
+            createRelationships,
         );
     }
 
@@ -820,7 +820,7 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         type: error.type,
                         isCatastrophic: false, // TODO: for now set it to false to prevent partial getTwin failures causing the base card content render, revert it with error.isCatastrophic when proper error handling is implemented for partial failures
-                        rawError: new Error(error.message)
+                        rawError: new Error(error.message),
                     });
                 }
             }
@@ -829,7 +829,7 @@ export default class ADTAdapter implements IADTAdapter {
         return await adapterMethodSandbox.safelyFetchData(async () => {
             // get scene based on id
             const scene = config.configuration?.scenes?.find(
-                (scene) => scene.id === sceneId
+                (scene) => scene.id === sceneId,
             );
             let modelUrl = null;
             const sceneVisuals: SceneVisual[] = [];
@@ -845,7 +845,7 @@ export default class ADTAdapter implements IADTAdapter {
                         for (const behavior of config.configuration.behaviors)
                             if (sceneBehaviorId === behavior.id) {
                                 const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
-                                    behavior
+                                    behavior,
                                 );
                                 // TODO get FilteredTwinDatasources
 
@@ -856,12 +856,12 @@ export default class ADTAdapter implements IADTAdapter {
                                         (element) =>
                                             element.type ===
                                                 ElementType.TwinToObjectMapping &&
-                                            element.id === id
+                                            element.id === id,
                                     ) as ITwinToObjectMapping;
 
                                     // get primary twin
                                     const linkedTwin = await this.getADTTwin(
-                                        element.linkedTwinID
+                                        element.linkedTwinID,
                                     );
                                     pushErrors(linkedTwin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                     twins[linkedTwinName] =
@@ -870,10 +870,10 @@ export default class ADTAdapter implements IADTAdapter {
                                     // check for twin aliases and add to twins object
                                     if (element.twinAliases) {
                                         for (const alias of Object.keys(
-                                            element.twinAliases
+                                            element.twinAliases,
                                         )) {
                                             const twin = await this.getADTTwin(
-                                                element.twinAliases[alias]
+                                                element.twinAliases[alias],
                                             );
                                             pushErrors(twin.getErrors()); // TODO: handle partial twin 404 failure instead of causing the ADT3DViewer base card fail all together because of these pushed errors
                                             twins[alias] = twin.result?.data;
@@ -883,7 +883,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     const sceneVisual = new SceneVisual(
                                         element.objectIDs,
                                         behavior.visuals,
-                                        twins
+                                        twins,
                                     );
                                     sceneVisuals.push(sceneVisual);
                                 }
@@ -899,7 +899,7 @@ export default class ADTAdapter implements IADTAdapter {
     async getTwinsForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): Promise<Record<string, any>> {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         function pushErrors(errors: IComponentError[]) {
@@ -908,7 +908,7 @@ export default class ADTAdapter implements IADTAdapter {
                     adapterMethodSandbox.pushError({
                         type: error.type,
                         isCatastrophic: false, // TODO: for now set it to false to prevent partial getTwin failures causing the base card content render, revert it with error.isCatastrophic when proper error handling is implemented for partial failures
-                        rawError: new Error(error.message)
+                        rawError: new Error(error.message),
                     });
                 }
             }
@@ -916,10 +916,10 @@ export default class ADTAdapter implements IADTAdapter {
 
         // get scene based on id
         const scene = config.configuration?.scenes?.find(
-            (scene) => scene.id === sceneId
+            (scene) => scene.id === sceneId,
         );
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
-            behavior
+            behavior,
         );
 
         // TODO get FilteredTwinDatasources
@@ -930,7 +930,7 @@ export default class ADTAdapter implements IADTAdapter {
             const element = scene.elements.find(
                 (element) =>
                     element.type === ElementType.TwinToObjectMapping &&
-                    element.id === id
+                    element.id === id,
             ) as ITwinToObjectMapping;
 
             // get primary twin
@@ -962,7 +962,7 @@ export default class ADTAdapter implements IADTAdapter {
     async getCommonTwinPropertiesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
         let properties: string[] = null;
@@ -1005,11 +1005,11 @@ export default class ADTAdapter implements IADTAdapter {
                 url: `https://management.azure.com/subscriptions`,
                 headers: {
                     'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
+                    authorization: 'Bearer ' + token,
                 },
                 params: {
-                    'api-version': '2020-01-01'
-                }
+                    'api-version': '2020-01-01',
+                },
             });
 
             const subscriptionsByTenantId = subscriptions.data.value
@@ -1023,13 +1023,13 @@ export default class ADTAdapter implements IADTAdapter {
                         url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances`,
                         headers: {
                             'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + token
+                            authorization: 'Bearer ' + token,
                         },
                         params: {
-                            'api-version': '2020-12-01'
-                        }
+                            'api-version': '2020-12-01',
+                        },
                     });
-                })
+                }),
             );
 
             const digitalTwinsInstanceDictionary = [];
@@ -1049,14 +1049,14 @@ export default class ADTAdapter implements IADTAdapter {
                                     url: `https://management.azure.com${instance.id}/providers/Microsoft.Authorization/roleAssignments`,
                                     headers: {
                                         'Content-Type': 'application/json',
-                                        authorization: 'Bearer ' + token
+                                        authorization: 'Bearer ' + token,
                                     },
                                     params: {
                                         'api-version': '2021-04-01-preview',
-                                        $filter: `atScope() and assignedTo('${this.uniqueObjectId}')`
-                                    }
+                                        $filter: `atScope() and assignedTo('${this.uniqueObjectId}')`,
+                                    },
                                 });
-                            })
+                            }),
                         );
                         instances.data.value.map((instance, idx) => {
                             const assignedUserRoleIds = userRoleAssignments[
@@ -1070,17 +1070,17 @@ export default class ADTAdapter implements IADTAdapter {
                             // return the adt instances only if the user has 'Azure Digital Twins Data Reader' or 'Azure Digital Twins Data Owner' permission assigned for it
                             if (
                                 assignedUserRoleIds?.includes(
-                                    'd57506d4-4c8d-48b1-8587-93c323f6a5a3'
+                                    'd57506d4-4c8d-48b1-8587-93c323f6a5a3',
                                 ) ||
                                 assignedUserRoleIds?.includes(
-                                    'bcd981a7-7f74-457b-83e1-cceb9e632ffe'
+                                    'bcd981a7-7f74-457b-83e1-cceb9e632ffe',
                                 )
                             ) {
                                 digitalTwinsInstanceDictionary.push({
                                     name: instance.name,
                                     hostName: instance.properties.hostName,
                                     resourceId: instance.id,
-                                    location: instance.location
+                                    location: instance.location,
                                 });
                             }
                         });

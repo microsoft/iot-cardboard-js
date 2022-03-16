@@ -8,12 +8,12 @@ import ADTHierarchyWithLKVProcessGraphicsCard from './ADTHierarchyWithLKVProcess
 
 export default {
     title: 'Cards/CompositeCards/AdtHierarchyWithLkvProcessGraphicsCard',
-    component: ADTHierarchyWithLKVProcessGraphicsCard
+    component: ADTHierarchyWithLKVProcessGraphicsCard,
 };
 
 const cardStyle = {
     height: '500px',
-    width: '100%'
+    width: '100%',
 };
 
 export const ADTHiearchyWithLKVPG = (_args, { globals: { theme, locale } }) => {
@@ -31,12 +31,13 @@ export const ADTHiearchyWithLKVPG = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 getHierarchyNodeProperties={(node: IHierarchyNode) =>
-                    parseViewProperties(node.nodeData.$metadata)}
+                    parseViewProperties(node.nodeData.$metadata)
+                }
                 pollingIntervalMillis={5000}
             />
         </div>

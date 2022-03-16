@@ -12,7 +12,7 @@ import {
     AssetsFromBIMState,
     DTModel,
     DTwin,
-    DTwinRelationship
+    DTwinRelationship,
 } from '../Constants';
 
 const useAssetsFromBIM = (
@@ -20,13 +20,13 @@ const useAssetsFromBIM = (
     ghostTreeId,
     bimFilePath,
     metadataFilePath,
-    onIsLoadingChange
+    onIsLoadingChange,
 ) => {
     const [assetsState, setAssetsState] = useState<AssetsFromBIMState>({
         models: [],
         twins: [],
         relationships: [],
-        modelCounts: {}
+        modelCounts: {},
     });
 
     const resetAssetsState = () => {
@@ -34,7 +34,7 @@ const useAssetsFromBIM = (
             models: [],
             twins: [],
             relationships: [],
-            modelCounts: {}
+            modelCounts: {},
         });
         onIsLoadingChange(false);
     };
@@ -51,8 +51,8 @@ const useAssetsFromBIM = (
                 displayName: modelName,
                 contents: [
                     ...properties,
-                    ...typesDictionary[modelName].relationships
-                ]
+                    ...typesDictionary[modelName].relationships,
+                ],
             };
         });
     };
@@ -67,7 +67,7 @@ const useAssetsFromBIM = (
 
     const viewData = {
         [ADTModel_BimFilePath_PropertyName]: bimFilePath,
-        [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath
+        [ADTModel_MetadataFilePath_PropertyName]: metadataFilePath,
     };
 
     const extractAssets = useCallback(
@@ -83,18 +83,18 @@ const useAssetsFromBIM = (
                             fields: [
                                 {
                                     name: ADTModel_BimFilePath_PropertyName,
-                                    schema: 'string'
+                                    schema: 'string',
                                 },
                                 {
                                     name: ADTModel_MetadataFilePath_PropertyName,
-                                    schema: 'string'
-                                }
-                            ]
-                        }
-                    }
+                                    schema: 'string',
+                                },
+                            ],
+                        },
+                    },
                 ],
                 relationships: [],
-                count: 1
+                count: 1,
             };
 
             const bimModelID = createDTDLModelId(ADTModel_BIMContainerId);
@@ -102,9 +102,9 @@ const useAssetsFromBIM = (
             twinsDictionary[ADTModel_BIMContainerId] = {
                 $dtId: ADTModel_BIMContainerId,
                 $metadata: {
-                    $model: bimModelID
+                    $model: bimModelID,
                 },
-                [ADTModel_ViewData_PropertyName]: viewData
+                [ADTModel_ViewData_PropertyName]: viewData,
             };
             const relationshipsDictionary: Record<
                 string,
@@ -120,8 +120,8 @@ const useAssetsFromBIM = (
                                 '@type': 'Relationship',
                                 name: 'inBIM',
                                 displayName: 'in BIM',
-                                target: bimModelID
-                            }
+                                target: bimModelID,
+                            },
                         ],
                         properties: [
                             {
@@ -132,17 +132,17 @@ const useAssetsFromBIM = (
                                     fields: [
                                         {
                                             name: ADTModel_BimFilePath_PropertyName,
-                                            schema: 'string'
+                                            schema: 'string',
                                         },
                                         {
                                             name: ADTModel_MetadataFilePath_PropertyName,
-                                            schema: 'string'
-                                        }
-                                    ]
-                                }
-                            }
+                                            schema: 'string',
+                                        },
+                                    ],
+                                },
+                            },
                         ],
-                        count: 1
+                        count: 1,
                     };
                 } else {
                     typesDictionary[node.type].count += 1;
@@ -150,9 +150,9 @@ const useAssetsFromBIM = (
                 twinsDictionary[node.id] = {
                     $dtId: node.id,
                     $metadata: {
-                        $model: createDTDLModelId(node.type)
+                        $model: createDTDLModelId(node.type),
                     },
-                    [ADTModel_ViewData_PropertyName]: viewData
+                    [ADTModel_ViewData_PropertyName]: viewData,
                 };
                 if (node.children) {
                     const relationshipsMap = {};
@@ -172,7 +172,7 @@ const useAssetsFromBIM = (
                             '@type': 'Relationship',
                             name: relationshipName,
                             displayName: relationshipName,
-                            target: targetModelId
+                            target: targetModelId,
                         });
 
                         relationshipsMap[childType].forEach(
@@ -182,9 +182,9 @@ const useAssetsFromBIM = (
                                     $relId: relationshipId,
                                     $dtId: node.id,
                                     $targetId: child.id,
-                                    $name: relationshipName
+                                    $name: relationshipName,
                                 };
-                            }
+                            },
                         );
                     });
                 }
@@ -194,24 +194,24 @@ const useAssetsFromBIM = (
                 models: transformModels(typesDictionary),
                 twins: Object.values(twinsDictionary),
                 relationships: Object.values(relationshipsDictionary),
-                modelCounts: getModelCounts(typesDictionary)
+                modelCounts: getModelCounts(typesDictionary),
             });
             onIsLoadingChange(false);
         },
-        [bimFilePath, metadataFilePath]
+        [bimFilePath, metadataFilePath],
     );
 
     useEffect(() => {
         if (bimFilePath && metadataFilePath) {
             onIsLoadingChange(true);
             const viewer = new Viewer({
-                canvasId: ghostBimId
+                canvasId: ghostBimId,
             });
 
             new TreeViewPlugin(viewer, {
                 containerElement: document.getElementById(ghostTreeId),
                 autoExpandDepth: 1,
-                hierarchy: 'types'
+                hierarchy: 'types',
             });
             const loader = new XKTLoaderPlugin(viewer);
 
@@ -222,7 +222,7 @@ const useAssetsFromBIM = (
                         id: 'model',
                         src: bimFilePath,
                         metaModelSrc: metadataFilePath, // Creates a MetaObject instances in scene.metaScene.metaObjects
-                        edges: true
+                        edges: true,
                     });
                 } catch (e) {
                     resetAssetsState();

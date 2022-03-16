@@ -19,7 +19,7 @@ export const CardboardListItem = <T extends unknown>({
     textPrimary,
     textSecondary,
     textToHighlight,
-    onClick
+    onClick,
 }: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
@@ -82,7 +82,7 @@ export const CardboardListItem = <T extends unknown>({
                         {textToHighlight
                             ? Utils.getMarkedHtmlBySearch(
                                   textPrimary,
-                                  textToHighlight
+                                  textToHighlight,
                               )
                             : textPrimary}
                     </div>
@@ -113,7 +113,7 @@ export const CardboardListItem = <T extends unknown>({
                         menuProps={{
                             items: overflowMenuItems,
                             onMenuDismissed: () => onMenuStateChange(false),
-                            onMenuOpened: () => onMenuStateChange(true)
+                            onMenuOpened: () => onMenuStateChange(true),
                         }}
                     />
                 )}

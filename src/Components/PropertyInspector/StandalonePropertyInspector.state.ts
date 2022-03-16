@@ -12,7 +12,7 @@ export enum spiActionType {
     ON_ADD_MAP_VALUE,
     ON_REMOVE_MAP_VALUE,
     ON_NODE_VALUE_UNSET,
-    SET_IS_TREE_COLLAPSED
+    SET_IS_TREE_COLLAPSED,
 }
 
 type Action =
@@ -59,7 +59,7 @@ interface IStandalonePropertyInspectorState {
 export const defaultStandalonePropertyInspectorState: IStandalonePropertyInspectorState = {
     propertyTreeNodes: [],
     originalPropertyTreeNodes: [],
-    editStatus: {}
+    editStatus: {},
 };
 
 const StandalonePropertyInspectorReducer = produce(
@@ -69,7 +69,7 @@ const StandalonePropertyInspectorReducer = produce(
                 const { nodes } = action;
                 draft.propertyTreeNodes = nodes;
                 draft.originalPropertyTreeNodes = nodes.map((el) =>
-                    Object.assign({}, el)
+                    Object.assign({}, el),
                 );
                 break;
             }
@@ -80,7 +80,7 @@ const StandalonePropertyInspectorReducer = produce(
                 const { parentNode } = action;
                 const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
-                    parentNode.path
+                    parentNode.path,
                 );
                 targetNode
                     ? (targetNode.isCollapsed = !targetNode.isCollapsed)
@@ -91,11 +91,11 @@ const StandalonePropertyInspectorReducer = produce(
                 const { newValue, node } = action;
                 const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
-                    node.path
+                    node.path,
                 );
                 const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.originalPropertyTreeNodes,
-                    node.path
+                    node.path,
                 );
                 targetNode.value = newValue;
                 targetNode.isSet = true;
@@ -121,8 +121,8 @@ const StandalonePropertyInspectorReducer = produce(
                             .mapValue,
                         isMapChild: true,
                         forceSet: true,
-                        schemas: mapNode.mapSchemas
-                    }
+                        schemas: mapNode.mapSchemas,
+                    },
                 );
 
                 newTreeNode.edited = true;
@@ -130,7 +130,7 @@ const StandalonePropertyInspectorReducer = produce(
                 // Add new node to map and expand map node
                 const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
-                    mapNode.path
+                    mapNode.path,
                 );
 
                 if (Array.isArray(targetNode.children)) {
@@ -156,20 +156,20 @@ const StandalonePropertyInspectorReducer = produce(
                     draft.propertyTreeNodes,
                     mapChildToRemove.path.slice(
                         0,
-                        mapChildToRemove.path.lastIndexOf('/')
-                    )
+                        mapChildToRemove.path.lastIndexOf('/'),
+                    ),
                 );
 
                 const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.originalPropertyTreeNodes,
                     mapChildToRemove.path.slice(
                         0,
-                        mapChildToRemove.path.lastIndexOf('/')
-                    )
+                        mapChildToRemove.path.lastIndexOf('/'),
+                    ),
                 );
 
                 const childToRemoveIdx = mapNode.children.findIndex(
-                    (el) => el.path === mapChildToRemove.path
+                    (el) => el.path === mapChildToRemove.path,
                 );
 
                 if (childToRemoveIdx !== -1) {
@@ -192,22 +192,22 @@ const StandalonePropertyInspectorReducer = produce(
 
                 const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
-                    node.path
+                    node.path,
                 );
                 const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.originalPropertyTreeNodes,
-                    node.path
+                    node.path,
                 );
 
                 const setNodeToDefaultValue = (
                     nodeToUnset: PropertyTreeNode,
-                    isChildNode = false
+                    isChildNode = false,
                 ) => {
                     if (isChildNode) {
                         nodeToUnset.edited = false;
                     }
                     nodeToUnset.value = PropertyInspectorModel.getEmptyValueForNode(
-                        nodeToUnset.schema
+                        nodeToUnset.schema,
                     );
                     nodeToUnset.isSet = false;
                     if (nodeToUnset.children) {
@@ -237,7 +237,7 @@ const StandalonePropertyInspectorReducer = produce(
             default:
                 return;
         }
-    }
+    },
 );
 
 /**
@@ -252,15 +252,15 @@ const StandalonePropertyInspectorReducer = produce(
  */
 const autoSetParentObjects = (
     draft: IStandalonePropertyInspectorState,
-    parentPath: string
+    parentPath: string,
 ) => {
     const parentNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
         draft.propertyTreeNodes,
-        parentPath
+        parentPath,
     );
     const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
         draft.originalPropertyTreeNodes,
-        parentPath
+        parentPath,
     );
     parentNode.isSet = true;
 
@@ -285,7 +285,7 @@ const autoSetParentObjects = (
 const setNodeEditedFlag = (
     draft: IStandalonePropertyInspectorState,
     originalNode: PropertyTreeNode,
-    newNode: PropertyTreeNode
+    newNode: PropertyTreeNode,
 ) => {
     const editPath = newNode.path;
     if (
@@ -314,7 +314,7 @@ const setNodeEditedFlag = (
  */
 const setIsTreeCollapsed = (
     draftNodes: PropertyTreeNode[],
-    isCollapsed: boolean
+    isCollapsed: boolean,
 ) => {
     draftNodes.forEach((node) => {
         if (node.children) {

@@ -20,7 +20,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
     valueSchema,
     enumValueToEdit = null,
     formControlMode = FormMode.Edit,
-    cancelLabel
+    cancelLabel,
 }) => {
     const { t } = useTranslation();
 
@@ -28,11 +28,11 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
     const [id, setId] = useState(initialEnumValue['@id']);
     const [name, setName] = useState(initialEnumValue.name);
     const [displayName, setDisplayName] = useState(
-        initialEnumValue.displayName
+        initialEnumValue.displayName,
     );
     const [comment, setComment] = useState(initialEnumValue.comment);
     const [description, setDescription] = useState(
-        initialEnumValue.description
+        initialEnumValue.description,
     );
     const [enumValue, setEnumValue] = useState(initialEnumValue.enumValue);
 
@@ -45,7 +45,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                 : enumValue,
             displayName,
             description,
-            comment
+            comment,
         );
         onCreateEnumValue(newEnumValue);
     };
@@ -83,7 +83,7 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                         ? 'cb-noinformation-value'
                         : ''
                 }`}
-                placeholder={"<scheme>:<path>;<version>"}
+                placeholder={'<scheme>:<path>;<version>'}
                 description={'e.g., dtmi:com:example:enumValue1;1'}
                 onChange={(e) => setId(e.currentTarget.value)}
                 validateOnLoad={false}
@@ -91,9 +91,10 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                 onGetErrorMessage={(value) =>
                     value && !DTMIRegex.test(value)
                         ? t('modelCreate.invalidIdentifier', {
-                              dtmiLink: 'http://aka.ms/ADTv2Models'
+                              dtmiLink: 'http://aka.ms/ADTv2Models',
                           })
-                        : ''}
+                        : ''
+                }
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField
@@ -120,9 +121,10 @@ const CreateEnumValueForm: React.FC<CreateEnumValueFormProps> = ({
                 onGetErrorMessage={(value) =>
                     !DTDLNameRegex.test(value)
                         ? t('modelCreate.invalidDTDLName', {
-                              dtdlLink: 'http://aka.ms/ADTv2Models'
+                              dtdlLink: 'http://aka.ms/ADTv2Models',
                           })
-                        : ''}
+                        : ''
+                }
                 disabled={formControlMode === FormMode.Readonly}
             />
             <TextField

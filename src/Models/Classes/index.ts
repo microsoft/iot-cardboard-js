@@ -1,11 +1,11 @@
 export {
     ADTAdapterModelsData,
-    ADTAdapterTwinsData
+    ADTAdapterTwinsData,
 } from './AdapterDataClasses/ADTAdapterData';
 export { default as ADTModelData } from './AdapterDataClasses/ADTModelData';
 export {
     ADTRelationshipsData,
-    ADTRelationshipData
+    ADTRelationshipData,
 } from './AdapterDataClasses/ADTRelationshipsData';
 export { default as ADTTwinData } from './AdapterDataClasses/ADTTwinData';
 export { default as KeyValuePairAdapterData } from './AdapterDataClasses/KeyValuePairAdapterData';

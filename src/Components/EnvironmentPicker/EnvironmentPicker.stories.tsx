@@ -5,12 +5,12 @@ import { EnvironmentPickerProps } from './EnvironmentPicker.types';
 
 export default {
     title: 'Components/EnvironmentPicker',
-    component: EnvironmentPicker
+    component: EnvironmentPicker,
 };
 
 const Template = (
     args: EnvironmentPickerProps,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => (
     <div style={{ width: 336 }}>
         <EnvironmentPicker
@@ -33,22 +33,22 @@ MockEnvironmentPickerWithLocalStorage.args = {
         localStorageKey:
             process.env.STORYBOOK_MOCK_CONTAINERS_LOCAL_STORAGE_KEY,
         selectedItemLocalStorageKey:
-            process.env.STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY
-    }
+            process.env.STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY,
+    },
 } as EnvironmentPickerProps;
 
 export const MockEnvironmentPickerWithoutLocalStorage = Template.bind({});
 MockEnvironmentPickerWithoutLocalStorage.args = {
     isLocalStorageEnabled: false,
     storage: {
-        isLocalStorageEnabled: false
-    }
+        isLocalStorageEnabled: false,
+    },
 } as EnvironmentPickerProps;
 
 export const MockEnvironmentPickerWithEnvironmentsFromSubscription = Template.bind(
-    {}
+    {},
 );
 MockEnvironmentPickerWithEnvironmentsFromSubscription.args = {
     ...MockEnvironmentPickerWithoutLocalStorage.args,
-    shouldPullFromSubscription: true
+    shouldPullFromSubscription: true,
 } as EnvironmentPickerProps;

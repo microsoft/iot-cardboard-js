@@ -5,17 +5,17 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 
 export default {
     title: 'Components/ADT3DSceneBuilder',
-    component: ADT3DSceneBuilder
+    component: ADT3DSceneBuilder,
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
     _args,
-    { globals: { theme, locale } }
+    { globals: { theme, locale } },
 ) => (
     <div style={cardStyle}>
         <ADT3DSceneBuilder
@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
             theme={theme}
             locale={locale}
             adapter={new MockAdapter()}
-            sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
+            sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
             {..._args}
         />
     </div>

@@ -6,7 +6,7 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 
 export default {
     title: 'Components/ADTInstances',
-    ADTInstances
+    ADTInstances,
 };
 
 export const Instances = (_args, { globals: { theme, locale } }) => {
@@ -19,17 +19,18 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
                 new ADTAdapter(
                     authenticationParameters.adt.hostUrl,
                     new MsalAuthService(
-                        authenticationParameters.adt.aadParameters
+                        authenticationParameters.adt.aadParameters,
                     ),
                     authenticationParameters.adt.aadParameters.tenantId,
-                    authenticationParameters.adt.aadParameters.uniqueObjectId
+                    authenticationParameters.adt.aadParameters.uniqueObjectId,
                 )
             }
             theme={theme}
             locale={locale}
             hasLabel={true}
             onInstanceChange={(instanceHostName: string) =>
-                console.log(instanceHostName)}
+                console.log(instanceHostName)
+            }
         />
     );
 };

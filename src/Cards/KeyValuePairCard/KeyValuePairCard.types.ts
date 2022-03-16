@@ -1,6 +1,6 @@
 import {
     IConsumeCardProps,
-    IKeyValuePairAdapter
+    IKeyValuePairAdapter,
 } from '../../Models/Constants/Interfaces';
 export interface KeyValuePairCardProps extends IConsumeCardProps {
     adapter: IKeyValuePairAdapter;

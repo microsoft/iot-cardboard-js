@@ -6,12 +6,12 @@ import ADTModelListCard from './ADTModelListCard';
 
 export default {
     title: 'Cards/ADTModelListCard',
-    component: ADTModelListCard
+    component: ADTModelListCard,
 };
 
 const modelListCardStyle = {
     height: '480px',
-    width: '320px'
+    width: '320px',
 };
 
 export const ADTModelList = (_args, { globals: { theme, locale } }) => {
@@ -28,8 +28,8 @@ export const ADTModelList = (_args, { globals: { theme, locale } }) => {
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 onModelClick={(model) => {

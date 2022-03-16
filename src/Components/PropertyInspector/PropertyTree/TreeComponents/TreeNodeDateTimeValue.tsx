@@ -1,7 +1,7 @@
 import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
 import {
     IIconStyleProps,
-    IIconStyles
+    IIconStyles,
 } from '@fluentui/react/lib/components/Icon/Icon.types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,14 +15,14 @@ const PickerIcon: React.FC<{
 }> = ({ iconName, title, onClick }) => {
     const iconStyles = (props: IIconStyleProps): Partial<IIconStyles> => ({
         root: {
-            color: props.theme.palette.neutralPrimaryAlt
-        }
+            color: props.theme.palette.neutralPrimaryAlt,
+        },
     });
     return (
         <div
             tabIndex={0}
             aria-label={title}
-            className={"cb-property-tree-node-datetime-picker-icon-container"}
+            className={'cb-property-tree-node-datetime-picker-icon-container'}
             onClick={onClick}
             onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -91,7 +91,7 @@ export const DateTimeValue: React.FC<{
                 <input
                     ref={pickerRef}
                     type={type}
-                    className={"cb-property-tree-node-datetime-picker-input"}
+                    className={'cb-property-tree-node-datetime-picker-input'}
                     value={pickerVal}
                     onChange={(e) => setPickerVal(e.target.value)}
                     onBlur={() => {
@@ -105,7 +105,7 @@ export const DateTimeValue: React.FC<{
                     step={step}
                 />
                 <PickerIcon
-                    iconName={"PlainText"}
+                    iconName={'PlainText'}
                     title={t('propertyInspector.dateTimePicker.plainTextInput')}
                     onClick={() => setIsPickerOpen((prev) => !prev)}
                 />

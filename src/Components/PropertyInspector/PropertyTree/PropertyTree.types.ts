@@ -58,5 +58,5 @@ export interface NodeProps {
 
 export enum NodeRole {
     parent,
-    leaf
+    leaf,
 }

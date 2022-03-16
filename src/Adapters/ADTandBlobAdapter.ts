@@ -11,7 +11,7 @@ export default class ADTandBlobAdapter {
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt',
-        blobProxyServerPath = '/proxy/blob'
+        blobProxyServerPath = '/proxy/blob',
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.blobAuthService = authService;

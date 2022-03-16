@@ -6,7 +6,7 @@ export default function I18nProviderWrapper({
     children,
     locale,
     localeStrings = undefined,
-    i18n
+    i18n,
 }) {
     useEffect(() => {
         if (localeStrings) {
@@ -16,7 +16,7 @@ export default function I18nProviderWrapper({
                 'translation',
                 localeStrings,
                 true,
-                true
+                true,
             );
         }
         i18n.changeLanguage(locale);

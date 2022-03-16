@@ -2,13 +2,13 @@ import {
     createTheme,
     IPartialTheme,
     ITheme,
-    Theme as FluentTheme
+    Theme as FluentTheme,
 } from '@fluentui/react';
 import {
     fluentDarkThemePalette,
     fluentExplorerThemePalette,
     fluentKrakenThemePalette,
-    fluentLightThemePalette
+    fluentLightThemePalette,
 } from './Palettes';
 import { Theme } from '../Models/Constants/Enums';
 import { getCustomComponentStyles } from './FluentComponentStyles';
@@ -16,7 +16,7 @@ import {
     fluentDarkThemeSemanticColors,
     fluentExplorerThemeSemanticColors,
     fluentKrakenThemeSemanticColors,
-    fluentLightThemeSemanticColors
+    fluentLightThemeSemanticColors,
 } from './SemanticColors';
 
 export const getFluentTheme = (theme: Theme): ITheme => {
@@ -40,7 +40,7 @@ export const getFluentTheme = (theme: Theme): ITheme => {
 */
 const createThemeWithCustomStyles = (
     themeInfo: IPartialTheme,
-    themeSetting: Theme
+    themeSetting: Theme,
 ): FluentTheme => {
     const theme = createTheme(themeInfo);
     theme.components = getCustomComponentStyles(themeSetting, theme);
@@ -55,40 +55,40 @@ const createThemeWithCustomStyles = (
 */
 const fluentLightThemeInfo: IPartialTheme = {
     palette: fluentLightThemePalette,
-    semanticColors: fluentLightThemeSemanticColors
+    semanticColors: fluentLightThemeSemanticColors,
 };
 
 const fluentDarkThemeInfo: IPartialTheme = {
     palette: fluentDarkThemePalette,
-    semanticColors: fluentDarkThemeSemanticColors
+    semanticColors: fluentDarkThemeSemanticColors,
 };
 
 const fluentExplorerThemeInfo: IPartialTheme = {
     palette: fluentExplorerThemePalette,
-    semanticColors: fluentExplorerThemeSemanticColors
+    semanticColors: fluentExplorerThemeSemanticColors,
 };
 
 const fluentKrakenThemeInfo: IPartialTheme = {
     palette: fluentKrakenThemePalette,
-    semanticColors: fluentKrakenThemeSemanticColors
+    semanticColors: fluentKrakenThemeSemanticColors,
 };
 
 const fluentLightTheme = createThemeWithCustomStyles(
     fluentLightThemeInfo,
-    Theme.Light
+    Theme.Light,
 );
 
 const fluentDarkTheme = createThemeWithCustomStyles(
     fluentDarkThemeInfo,
-    Theme.Dark
+    Theme.Dark,
 );
 
 const fluentExplorerTheme = createThemeWithCustomStyles(
     fluentExplorerThemeInfo,
-    Theme.Explorer
+    Theme.Explorer,
 );
 
 const fluentKrakenTheme = createThemeWithCustomStyles(
     fluentKrakenThemeInfo,
-    Theme.Kraken
+    Theme.Kraken,
 );

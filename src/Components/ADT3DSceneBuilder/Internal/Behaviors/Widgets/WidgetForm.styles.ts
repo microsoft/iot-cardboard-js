@@ -3,12 +3,12 @@ import {
     mergeStyleSets,
     FontSizes,
     IStyle,
-    Theme
+    Theme,
 } from '@fluentui/react';
 
 const classPrefix = 'widget-form';
 const classNames = {
-    description: `${classPrefix}-description`
+    description: `${classPrefix}-description`,
 };
 export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -16,8 +16,8 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
             classNames.description,
             {
                 fontSize: FontSizes.size14,
-                color: theme.palette.neutralSecondary
-            } as IStyle
-        ]
+                color: theme.palette.neutralSecondary,
+            } as IStyle,
+        ],
     });
 });

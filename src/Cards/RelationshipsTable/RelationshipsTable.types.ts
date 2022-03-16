@@ -3,7 +3,7 @@ import {
     IADTModel,
     IADTTwin,
     IConsumeCardProps,
-    IResolvedRelationshipClickErrors
+    IResolvedRelationshipClickErrors,
 } from '../../Models/Constants';
 
 export interface RelationshipsTableProps
@@ -11,7 +11,7 @@ export interface RelationshipsTableProps
     onRelationshipClick?: (
         twin: IADTTwin,
         model: IADTModel,
-        errors?: IResolvedRelationshipClickErrors
+        errors?: IResolvedRelationshipClickErrors,
     ) => void;
     adapter: ADTAdapter | MockAdapter;
 }

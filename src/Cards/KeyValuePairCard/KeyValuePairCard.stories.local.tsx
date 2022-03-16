@@ -6,17 +6,17 @@ import KeyValuePairCard from './KeyValuePairCard';
 
 export default {
     title: 'Cards/KeyValuePairCard',
-    component: KeyValuePairCard
+    component: KeyValuePairCard,
 };
 
 const digitalTwins = {
     id: 'PasteurizationMachine_A01',
-    properties: ['Temperature'] as [string]
+    properties: ['Temperature'] as [string],
 };
 
 export const ADT = (
     _args,
-    { globals: { theme }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme }, parameters: { defaultCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
@@ -32,8 +32,8 @@ export const ADT = (
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
             />

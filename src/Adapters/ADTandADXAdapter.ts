@@ -15,7 +15,7 @@ export default class ADTandADXAdapter {
         tenantId: string,
         uniqueObjectId: string,
         adxInformation?: IADTInstanceConnection,
-        adtProxyServerPath = '/proxy/adt'
+        adtProxyServerPath = '/proxy/adt',
     ) {
         this.adtHostUrl = adtHostUrl;
         this.authService = this.adxAuthService = authService;
@@ -39,9 +39,9 @@ export default class ADTandADXAdapter {
                 result: new ADTInstanceConnectionData({
                     kustoClusterUrl: this.clusterUrl,
                     kustoDatabaseName: this.databaseName,
-                    kustoTableName: this.tableName
+                    kustoTableName: this.tableName,
                 }),
-                errorInfo: null
+                errorInfo: null,
             });
         }
 
@@ -51,7 +51,7 @@ export default class ADTandADXAdapter {
             // find the current ADT instance by its hostUrl
             const instanceDictionary: AdapterResult<ADTInstancesData> = await this.getADTInstances();
             const instance = instanceDictionary.result.data.find(
-                (d) => d.hostName === this.adtHostUrl
+                (d) => d.hostName === this.adtHostUrl,
             );
 
             try {
@@ -62,11 +62,11 @@ export default class ADTandADXAdapter {
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     params: {
-                        'api-version': '2021-06-30-preview'
-                    }
+                        'api-version': '2021-06-30-preview',
+                    },
                 });
                 this.clusterUrl =
                     connectionsData.data.value[0].properties.adxEndpointUri;
@@ -74,18 +74,18 @@ export default class ADTandADXAdapter {
                     connectionsData.data.value[0].properties.adxDatabaseName;
                 this.tableName = `adt_dh_${connectionsData.data.value[0].properties.adxDatabaseName.replaceAll(
                     '-',
-                    '_'
+                    '_',
                 )}_${instance.location}`;
             } catch (error) {
                 adapterMethodSandbox.pushError({
                     isCatastrophic: false,
-                    rawError: error
+                    rawError: error,
                 });
             }
             return new ADTInstanceConnectionData({
                 kustoClusterUrl: this.clusterUrl,
                 kustoDatabaseName: this.databaseName,
-                kustoTableName: this.tableName
+                kustoTableName: this.tableName,
             });
         }, 'azureManagement');
     };

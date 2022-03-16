@@ -30,7 +30,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
     componentError,
     containerClassName,
     customLoadingMessage,
-    children
+    children,
 }) => {
     // Access theme and localization contexts to see if they are already present in component tree
     const localizationContext = useContext(I18nContext);
@@ -44,7 +44,7 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
             if (err) return err;
             return null;
         },
-        null
+        null,
     );
 
     const errorToRender: IComponentError = componentError || catastrophicError;
@@ -65,9 +65,9 @@ const BaseComponent: React.FC<BaseComponentProps> = ({
                             <div>
                                 <Spinner label={loadingMessage} />
                             </div>
-                            ) : (
-                                t('noData')
-                            )}
+                        ) : (
+                            t('noData')
+                        )}
                     </Overlay>
                 </>
             )}

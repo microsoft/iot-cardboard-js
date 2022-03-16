@@ -5,7 +5,7 @@ import {
     AxiosParams,
     IAdapterData,
     IAuthService,
-    ICancellablePromise
+    ICancellablePromise,
 } from '../Constants';
 import AdapterResult from './AdapterResult';
 import { ComponentError } from './Errors';
@@ -38,7 +38,7 @@ class AdapterMethodSandbox {
             message,
             type,
             isCatastrophic,
-            rawError
+            rawError,
         });
 
         this.errors.push(error);
@@ -54,7 +54,7 @@ class AdapterMethodSandbox {
      * catastrophic TokenRetrievalFailed error, halting further execution.
      */
     private async safelyFetchToken(
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage',
     ) {
         // If adapterMethodSandbox not constructed with authService, skip token fetching
         if (!this.authService) {
@@ -71,7 +71,7 @@ class AdapterMethodSandbox {
             this.pushError({
                 isCatastrophic: true,
                 type: ComponentErrorType.TokenRetrievalFailed,
-                rawError: err
+                rawError: err,
             });
         }
         return token;
@@ -89,7 +89,7 @@ class AdapterMethodSandbox {
      *  */
     async safelyFetchData<T extends IAdapterData>(
         fetchDataWithToken: (token?: string) => Promise<T>,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage',
     ) {
         try {
             // Fetch token
@@ -100,9 +100,9 @@ class AdapterMethodSandbox {
             return new AdapterResult<T>({
                 errorInfo: {
                     errors: this.errors,
-                    catastrophicError: this.catasrophicError
+                    catastrophicError: this.catasrophicError,
                 },
-                result: data
+                result: data,
             });
         } catch (err) {
             // Uncaught errors are bubbled up and caught here.
@@ -111,7 +111,7 @@ class AdapterMethodSandbox {
                 this.catasrophicError = new ComponentError({
                     isCatastrophic: true,
                     rawError: err,
-                    type: ComponentErrorType.UnknownError
+                    type: ComponentErrorType.UnknownError,
                 });
 
                 this.errors.unshift(this.catasrophicError);
@@ -124,9 +124,9 @@ class AdapterMethodSandbox {
             return new AdapterResult<T>({
                 errorInfo: {
                     errors: this.errors,
-                    catastrophicError: this.catasrophicError
+                    catastrophicError: this.catasrophicError,
                 },
-                result: null
+                result: null,
             });
         }
     }
@@ -135,7 +135,7 @@ class AdapterMethodSandbox {
         returnDataClass: { new (data: any) },
         axiosParams: AxiosParams,
         dataTransformFunc?: (data) => any,
-        tokenFor?: 'azureManagement' | 'adx' | 'storage'
+        tokenFor?: 'azureManagement' | 'adx' | 'storage',
     ): ICancellablePromise<AdapterResult<any>> {
         const { headers, ...restOfParams } = axiosParams;
         const cancelTokenSource = axios.CancelToken.source();
@@ -148,28 +148,28 @@ class AdapterMethodSandbox {
                     headers: {
                         'Content-Type': 'application/json',
                         authorization: 'Bearer ' + token,
-                        ...headers
+                        ...headers,
                     },
-                    cancelToken: cancelTokenSource.token
+                    cancelToken: cancelTokenSource.token,
                 });
             } catch (err) {
                 if (axios.isCancel(err)) {
                     this.pushError({
                         type: ComponentErrorType.DataFetchFailed,
                         isCatastrophic: false,
-                        rawError: err
+                        rawError: err,
                     });
                 } else {
                     this.pushError({
                         type: ComponentErrorType.DataFetchFailed,
                         isCatastrophic: true,
-                        rawError: err
+                        rawError: err,
                     });
                 }
             }
             const result = axiosData?.data;
             return new returnDataClass(
-                dataTransformFunc ? dataTransformFunc(result) : result
+                dataTransformFunc ? dataTransformFunc(result) : result,
             );
         }, tokenFor) as ICancellablePromise<AdapterResult<any>>;
         cancellablePromise.cancel = cancelTokenSource.cancel;

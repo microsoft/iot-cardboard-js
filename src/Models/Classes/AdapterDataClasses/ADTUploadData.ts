@@ -2,7 +2,7 @@ import {
     IAdapterData,
     IADTModel,
     IADTRelationship,
-    IADTTwin
+    IADTTwin,
 } from '../../Constants/Interfaces';
 
 class ADTTwinsData implements IAdapterData {

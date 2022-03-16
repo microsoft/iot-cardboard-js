@@ -10,7 +10,7 @@ import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfigurat
 
 export default {
     title: '3DV/ADT3DViewer',
-    component: ADT3DViewer
+    component: ADT3DViewer,
 };
 
 export const Engine = () => {
@@ -22,19 +22,19 @@ export const Engine = () => {
     ) : (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title={"3D Viewer"}
+                title={'3D Viewer'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
-                connectionLineColor={"#000"}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
+                connectionLineColor={'#000'}
             />
         </div>
     );
@@ -49,20 +49,20 @@ export const EngineWithHover = () => {
     ) : (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title={"3D Viewer"}
+                title={'3D Viewer'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 sceneConfig={scenesConfig}
                 showMeshesOnHover={true}
                 pollingInterval={10000}
-                sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
-                connectionLineColor={"#000"}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
+                connectionLineColor={'#000'}
             />
         </div>
     );
@@ -77,19 +77,19 @@ export const EngineWithShaders = () => {
     ) : (
         <div style={{ width: '100%', height: '100%', background: '#2A3A44' }}>
             <ADT3DViewer
-                title={"3D Viewer"}
+                title={'3D Viewer'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
-                connectionLineColor={"#000"}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
+                connectionLineColor={'#000'}
             />
         </div>
     );
@@ -105,7 +105,7 @@ const addInDivStyle: React.CSSProperties = {
     border: '1px solid black',
     fontFamily: 'Segoe UI',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
 };
 
 export const AddIn = () => {
@@ -118,7 +118,7 @@ export const AddIn = () => {
         const sceneVisuals = data.sceneVisuals;
         const mesh = data.mesh;
         const sceneVisual = sceneVisuals?.find((sceneVisual) =>
-            sceneVisual.meshIds.find((id) => id === mesh?.id)
+            sceneVisual.meshIds.find((id) => id === mesh?.id),
         );
 
         const twins: string[] = [];
@@ -154,7 +154,7 @@ export const AddIn = () => {
     const addInProps: IADT3DAddInProps = {
         onSceneLoaded,
         onMeshHover,
-        onMeshClick
+        onMeshClick,
     };
 
     return !authenticationParameters ? (
@@ -162,19 +162,19 @@ export const AddIn = () => {
     ) : (
         <div style={{ width: '100%', height: '600px', position: 'relative' }}>
             <ADT3DViewer
-                title={"3D Viewer"}
+                title={'3D Viewer'}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
                         new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
+                            authenticationParameters.adt.aadParameters,
+                        ),
                     )
                 }
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
-                connectionLineColor={"#000"}
+                sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
+                connectionLineColor={'#000'}
                 addInProps={addInProps}
             />
             {data && (
@@ -198,12 +198,12 @@ export const Mock = () => {
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title={"3D Viewer (Mock Data)"}
+                title={'3D Viewer (Mock Data)'}
                 adapter={new MockAdapter()}
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
-                connectionLineColor={"#000"}
+                connectionLineColor={'#000'}
             />
         </div>
     );
@@ -215,13 +215,13 @@ export const MockWithHover = () => {
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title={"3D Viewer (Mock Data)"}
+                title={'3D Viewer (Mock Data)'}
                 adapter={new MockAdapter()}
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 showMeshesOnHover={true}
-                connectionLineColor={"#000"}
+                connectionLineColor={'#000'}
             />
         </div>
     );
@@ -233,7 +233,7 @@ export const MockWithSelection = () => {
     return (
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
-                title={"3D Viewer (Mock Data)"}
+                title={'3D Viewer (Mock Data)'}
                 adapter={new MockAdapter()}
                 sceneConfig={scenesConfig}
                 pollingInterval={10000}
@@ -241,7 +241,7 @@ export const MockWithSelection = () => {
                 enableMeshSelection={true}
                 showHoverOnSelected={true}
                 showMeshesOnHover={true}
-                connectionLineColor={"#000"}
+                connectionLineColor={'#000'}
             />
         </div>
     );

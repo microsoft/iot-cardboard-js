@@ -6,7 +6,7 @@ import {
     mergeStyleSets,
     PrimaryButton,
     FocusTrapCallout,
-    useTheme
+    useTheme,
 } from '@fluentui/react';
 import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../../ADT3DSceneBuilder.types';
 import { CardboardList } from '../../../../CardboardList';
@@ -18,16 +18,16 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     calloutTarget,
     onAddBehavior,
     onCreateBehaviorWithElements,
-    hideCallout
+    hideCallout,
 }) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
     const [
         filteredAvailableBehaviors,
-        setFilteredAvailableBehaviors
+        setFilteredAvailableBehaviors,
     ] = useState<Array<IBehavior>>([]);
     const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
-        []
+        [],
     );
 
     useEffect(() => {
@@ -39,8 +39,8 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
             availableBehaviors.filter((behavior) =>
                 behavior.displayName
                     .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
-            )
+                    .includes(searchTerm.toLowerCase()),
+            ),
         );
     };
 
@@ -48,7 +48,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     useEffect(() => {
         const listItems = getListItems(
             filteredAvailableBehaviors,
-            onAddBehavior
+            onAddBehavior,
         );
         setListItems(listItems);
     }, [filteredAvailableBehaviors, onAddBehavior]);
@@ -57,7 +57,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     return (
         <FocusTrapCallout
             focusTrapProps={{
-                isClickableOutsideFocusTrap: true
+                isClickableOutsideFocusTrap: true,
             }}
             className={styles.callout}
             target={`#${calloutTarget}`}
@@ -68,12 +68,12 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                 root: {
                     padding: 15,
                     width: 300,
-                    backgroundColor: theme.semanticColors.bodyBackground
+                    backgroundColor: theme.semanticColors.bodyBackground,
                     // boxShadow:
                 },
                 calloutMain: {
-                    backgroundColor: 'unset'
-                }
+                    backgroundColor: 'unset',
+                },
             }}
         >
             <div>
@@ -106,8 +106,8 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                 <PrimaryButton
                     styles={{
                         root: {
-                            marginTop: '16px'
-                        }
+                            marginTop: '16px',
+                        },
                     }}
                     onClick={onCreateBehaviorWithElements}
                 >
@@ -120,7 +120,7 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
 
 function getListItems(
     filteredElements: IBehavior[],
-    onAddBehavior: (item: IBehavior) => void
+    onAddBehavior: (item: IBehavior) => void,
 ) {
     return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<IBehavior> = {
@@ -129,7 +129,7 @@ function getListItems(
             iconEndName: 'Add',
             item: item,
             onClick: onAddBehavior,
-            textPrimary: item.displayName
+            textPrimary: item.displayName,
         };
 
         return viewModel;
@@ -142,33 +142,33 @@ const styles = mergeStyleSets({
         // width: '300px'
     },
     title: {
-        marginTop: '0px'
+        marginTop: '0px',
     },
     listRoot: {
-        paddingTop: 8
+        paddingTop: 8,
     },
     resultText: {
         fontSize: '12px',
         marginTop: '5px',
-        opacity: '0.6'
+        opacity: '0.6',
     },
     item: {
         alignItems: 'center',
         display: 'flex',
         marginTop: '15px',
         width: '100%',
-        height: 'auto'
+        height: 'auto',
     },
     icon: {
         display: 'inline-block',
-        fontSize: '16px'
+        fontSize: '16px',
     },
     name: {
         flex: '1',
         fontSize: '14px',
         paddingLeft: '8px',
-        textAlign: 'start'
-    }
+        textAlign: 'start',
+    },
 });
 
 export default AddBehaviorCallout;

@@ -6,7 +6,7 @@ import './SceneView.scss';
 export function getMeshCenter(
     mesh: BABYLON.AbstractMesh,
     scene: BABYLON.Scene,
-    wrapper: HTMLElement
+    wrapper: HTMLElement,
 ) {
     const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
     const worldMatrix = mesh.getWorldMatrix();
@@ -18,7 +18,7 @@ export function getMeshCenter(
             v,
             worldMatrix,
             transformMatrix,
-            viewport
+            viewport,
         );
         proj.x = proj.x * wrapper.clientWidth;
         proj.y = proj.y * wrapper.clientHeight;
@@ -38,7 +38,7 @@ export function createBadge(
     text?: string,
     textColor?: string,
     isIcon?: boolean,
-    onClickCallback?: any
+    onClickCallback?: any,
 ) {
     const badge = new GUI.Button();
     badge.width = '40px';
@@ -104,11 +104,11 @@ export function getBoundingBox(meshes: BABYLON.AbstractMesh[]) {
         boundingInfo = mesh.getBoundingInfo();
         min = BABYLON.Vector3.Minimize(
             min,
-            boundingInfo.boundingBox.minimumWorld
+            boundingInfo.boundingBox.minimumWorld,
         );
         max = BABYLON.Vector3.Maximize(
             max,
-            boundingInfo.boundingBox.maximumWorld
+            boundingInfo.boundingBox.maximumWorld,
         );
     }
     return new BABYLON.BoundingInfo(min, max);

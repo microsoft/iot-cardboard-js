@@ -10,11 +10,11 @@ import {
     findOverflowMenuItem as findOverflowMenuItemByTestId,
     IStoryContext,
     sleep,
-    waitForFirstRender
+    waitForFirstRender,
 } from '../../Models/Services/StoryUtilities';
 import {
     I3DScenesConfig,
-    IElement
+    IElement,
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 
@@ -22,19 +22,19 @@ export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
     parameters: {
         // delay for the menus showing up
-        chromatic: { delay: 1000 }
-    }
+        chromatic: { delay: 1000 },
+    },
 };
 
 const cardStyle = {
     height: '600px',
-    width: '100%'
+    width: '100%',
 };
 
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
 const Template: SceneBuilderStory = (
     _args,
-    context: IStoryContext<IADT3DSceneBuilderCardProps>
+    context: IStoryContext<IADT3DSceneBuilderCardProps>,
 ) => (
     <div style={cardStyle}>
         <ADT3DSceneBuilder
@@ -45,10 +45,10 @@ const Template: SceneBuilderStory = (
                 new MockAdapter({
                     mockData: context.parameters.data
                         ? JSON.parse(JSON.stringify(context.parameters.data))
-                        : undefined
+                        : undefined,
                 })
             }
-            sceneId={"58e02362287440d9a5bf3f8d6d6bfcf9"}
+            sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
             {..._args}
         />
     </div>
@@ -81,7 +81,7 @@ const mockElement: IElement = {
     displayName: 'leftWheels',
     linkedTwinID: 'SaltMachine_C1',
     objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
-    extensionProperties: {}
+    extensionProperties: {},
 };
 const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
 longData.configuration.scenes = [
@@ -92,30 +92,30 @@ longData.configuration.scenes = [
             {
                 ...mockElement,
                 id: 'element1',
-                displayName: 'element 1'
+                displayName: 'element 1',
             },
             {
                 ...mockElement,
                 id: 'element2',
-                displayName: 'element 2'
+                displayName: 'element 2',
             },
             {
                 ...mockElement,
                 id: 'element3',
-                displayName: 'element 3'
+                displayName: 'element 3',
             },
             {
                 ...mockElement,
                 id: 'element4',
-                displayName: 'element 4'
+                displayName: 'element 4',
             },
             {
                 ...mockElement,
                 id: 'element5',
-                displayName: 'element 5'
-            }
-        ]
-    }
+                displayName: 'element 5',
+            },
+        ],
+    },
 ];
 console.log(`**Long data`, longData);
 export const Scrolling = Template.bind({});
@@ -124,7 +124,7 @@ Scrolling.play = async ({ canvasElement }) => {
     await ElementsTab.play({ canvasElement });
 };
 Scrolling.parameters = {
-    data: longData
+    data: longData,
 };
 
 export const MultiSelect = Template.bind({});
@@ -150,7 +150,7 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const moreMenu = await canvas.findByTestId(
-        'context-menu-elements-in-scene-1-moreMenu'
+        'context-menu-elements-in-scene-1-moreMenu',
     );
     await userEvent.click(moreMenu);
 };
@@ -163,7 +163,7 @@ EditItemMeshTab.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-elements-in-scene-1'
+        'cardboard-list-item-elements-in-scene-1',
     );
     await userEvent.click(listItem);
 };
@@ -176,7 +176,7 @@ EditMeshTabDelete.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-mesh-list-0'
+        'cardboard-list-item-mesh-list-0',
     );
     await userEvent.click(listItem);
 };
@@ -223,7 +223,7 @@ EditBehaviorsTabAddSelect.play = async ({ canvasElement }) => {
 
     // click a list item
     const listItem = await findCalloutItemByTestId(
-        'cardboard-list-item-behavior-callout-list-0'
+        'cardboard-list-item-behavior-callout-list-0',
     );
     await userEvent.click(listItem);
 };
@@ -236,7 +236,7 @@ EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const listItem = await canvas.findByTestId(
-        'context-menu-behavior-list-0-moreMenu'
+        'context-menu-behavior-list-0-moreMenu',
     );
     await userEvent.click(listItem);
     // let the callout animate

@@ -5,7 +5,7 @@ import './RelationshipsTable.scss';
 import { useAdapter } from '../../Models/Hooks';
 import {
     ADTRelationship,
-    IResolvedRelationshipClickErrors
+    IResolvedRelationshipClickErrors,
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import ADTTwinData from '../../Models/Classes/AdapterDataClasses/ADTTwinData';
@@ -18,21 +18,21 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
     adapter,
     title,
     localeStrings,
-    onRelationshipClick
+    onRelationshipClick,
 }) => {
     const cardState = useAdapter({
         adapterMethod: () => adapter.getRelationships(id),
-        refetchDependencies: [id]
+        refetchDependencies: [id],
     });
 
     const wrappedOnClick = async (id: string) => {
         const resolvedTwin: AdapterResult<ADTTwinData> = await adapter.getADTTwin(
-            id
+            id,
         );
         let resolvedModel = null;
         if (resolvedTwin.result?.data?.$metadata?.$model) {
             resolvedModel = await adapter.getADTModel(
-                resolvedTwin.result.data.$metadata.$model
+                resolvedTwin.result.data.$metadata.$model,
             );
         }
 
@@ -47,7 +47,7 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
         onRelationshipClick(
             resolvedTwin.getData(),
             resolvedModel?.getData(),
-            errors
+            errors,
         );
     };
     const { t } = useTranslation();
@@ -60,9 +60,9 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
             localeStrings={localeStrings}
         >
             <div className={'cb-relationships-table-wrapper'}>
-                <table className={"cb-relationships-table"}>
+                <table className={'cb-relationships-table'}>
                     <thead>
-                        <tr className={"cb-relationships-header-row"}>
+                        <tr className={'cb-relationships-header-row'}>
                             <th>{t('relationshipsTable.twinID')}</th>
                             <th>{t('relationshipsTable.model')}</th>
                             <th>{t('relationshipsTable.relationshipName')}</th>
@@ -74,7 +74,7 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                             ?.map(
                                 (
                                     relationship: ADTRelationship,
-                                    relationshipI
+                                    relationshipI,
                                 ) => (
                                     <tr
                                         className={`cb-relationships-content-row${
@@ -86,20 +86,33 @@ const RelationshipsTable: React.FC<RelationshipsTableProps> = ({
                                         onClick={async () =>
                                             onRelationshipClick &&
                                             wrappedOnClick(
-                                                relationship.targetId
-                                            )}
+                                                relationship.targetId,
+                                            )
+                                        }
                                     >
-                                        <td className={"cb-relationships-content-cell"}>
+                                        <td
+                                            className={
+                                                'cb-relationships-content-cell'
+                                            }
+                                        >
                                             {relationship.targetId}
                                         </td>
-                                        <td className={"cb-relationships-content-cell"}>
+                                        <td
+                                            className={
+                                                'cb-relationships-content-cell'
+                                            }
+                                        >
                                             {relationship.targetModel}
                                         </td>
-                                        <td className={"cb-relationships-content-cell"}>
+                                        <td
+                                            className={
+                                                'cb-relationships-content-cell'
+                                            }
+                                        >
                                             {relationship.relationshipName}
                                         </td>
                                     </tr>
-                                )
+                                ),
                             )}
                     </tbody>
                 </table>

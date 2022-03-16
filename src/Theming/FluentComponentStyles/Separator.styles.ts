@@ -3,13 +3,13 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export const getSeparatorStyles = (
     _themeSetting: Theme,
-    theme: ITheme
+    theme: ITheme,
 ): Partial<ISeparatorStyles> => {
     return {
         root: {
             '&:before': {
-                backgroundColor: theme.palette.neutralLight
-            }
-        }
+                backgroundColor: theme.palette.neutralLight,
+            },
+        },
     };
 };

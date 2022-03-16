@@ -27,7 +27,7 @@ export type IStoryContext<T> = StoryContext<
 export function getDefaultStoryDecorator<T>(cardStyle: CSSProperties) {
     const styles = {
         width: '300px',
-        ...cardStyle
+        ...cardStyle,
     };
     return (Story, context: IStoryContext<T>) => (
         <div style={styles}>

@@ -9,13 +9,13 @@ const pollingIntervalMillis = 100;
 jest.mock('../../../i18n.ts', () => ({ t: () => 'testTranslation' }));
 
 const getUseAdapterParams: (options?: { isLongPolling?: boolean }) => any = (
-    options
+    options,
 ) => {
     return {
         adapterMethod: () => {
             return new MockAdapter({
                 networkTimeoutMillis,
-                isDataStatic: false
+                isDataStatic: false,
             }).getKeyValuePairs('test', ['temp', 'speed', 'pressure'], {});
         },
         refetchDependencies: [],
@@ -23,9 +23,9 @@ const getUseAdapterParams: (options?: { isLongPolling?: boolean }) => any = (
             ? {
                   isLongPolling: true,
                   pollingIntervalMillis,
-                  pulseTimeoutMillis: pollingIntervalMillis
+                  pulseTimeoutMillis: pollingIntervalMillis,
               }
-            : {})
+            : {}),
     };
 };
 
@@ -39,8 +39,8 @@ describe('Basic useAdapter tests', () => {
         expect(current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                errorInfo: null
-            })
+                errorInfo: null,
+            }),
         );
         expect(current.isLoading).toBe(true);
         expect(current.pulse).toBe(false);
@@ -48,7 +48,7 @@ describe('Basic useAdapter tests', () => {
 
     test('loading state is truthy while loading, then false once data loaded', async (done) => {
         const { result, waitForNextUpdate } = renderHook(() =>
-            useAdapter(getUseAdapterParams())
+            useAdapter(getUseAdapterParams()),
         );
 
         expect(result.current.isLoading).toBe(true);
@@ -69,7 +69,7 @@ describe('Basic useAdapter tests', () => {
         const {
             result,
             waitForNextUpdate,
-            waitForValueToChange
+            waitForValueToChange,
         } = renderHook(() => useAdapter(getUseAdapterParams()));
 
         // Wait for initial data fetch to complete
@@ -88,7 +88,7 @@ describe('Basic useAdapter tests', () => {
 
         // Verify new data is present
         expect(result.current.adapterResult.result.data).not.toEqual(
-            dataFetched
+            dataFetched,
         );
         done();
     });
@@ -97,15 +97,15 @@ describe('Basic useAdapter tests', () => {
 describe('Long polling useAdapter tests', () => {
     test('Long polling activated, pulse state, and long polling toggle', async (done) => {
         const { result, waitForValueToChange, unmount } = renderHook(() =>
-            useAdapter(getUseAdapterParams({ isLongPolling: true }))
+            useAdapter(getUseAdapterParams({ isLongPolling: true })),
         );
 
         // Test initial hook state on mount
         expect(result.current.adapterResult).toEqual(
             new AdapterResult<KeyValuePairAdapterData>({
                 result: null,
-                errorInfo: null
-            })
+                errorInfo: null,
+            }),
         );
         expect(result.current.pulse).toBe(false);
         expect(result.current.isLongPolling).toBe(true);
@@ -120,11 +120,11 @@ describe('Long polling useAdapter tests', () => {
 
         // Wait for first long poll to trigger
         await waitForValueToChange(
-            () => result.current.adapterResult.result.data
+            () => result.current.adapterResult.result.data,
         );
 
         expect(dataFetched).not.toEqual(
-            result.current.adapterResult.result.data
+            result.current.adapterResult.result.data,
         );
 
         // Toggle off long polling
@@ -147,15 +147,15 @@ describe('Dependency change testing', () => {
                 adapterMethod: () =>
                     new MockAdapter({
                         networkTimeoutMillis,
-                        isDataStatic: false
+                        isDataStatic: false,
                     }).getKeyValuePairs(
                         'test',
                         ['temp', 'speed', 'pressure'],
-                        {}
+                        {},
                     ),
                 refetchDependencies: refetchDeps,
-                isAdapterCalledOnMount: true
-            })
+                isAdapterCalledOnMount: true,
+            }),
         );
 
         // Wait for original data to load
@@ -175,7 +175,7 @@ describe('Dependency change testing', () => {
         await waitForValueToChange(() => result.current.isLoading);
 
         expect(dataFetched).not.toEqual(
-            result.current.adapterResult.result.data
+            result.current.adapterResult.result.data,
         );
         done();
     });

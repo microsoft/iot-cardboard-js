@@ -5,7 +5,7 @@ import {
     MessageBarType,
     DefaultButton,
     Spinner,
-    SpinnerSize
+    SpinnerSize,
 } from '@fluentui/react';
 import './ModelSearch.scss';
 import { useAdapter } from '../../Models/Hooks';
@@ -13,13 +13,13 @@ import ModelSearchList from './ModelSearchList/ModelSearchList';
 import {
     IStandardModelSearchAdapter,
     IStandardModelSearchItem,
-    modelActionType
+    modelActionType,
 } from '../../Models/Constants';
 import JsonPreview from '../JsonPreview/JsonPreview';
 import AutoCompleteSearchBox from '../Searchbox/AutoCompleteSearchBox/AutoCompleteSearchBox';
 import {
     CdnModelSearchAdapter,
-    GithubModelSearchAdapter
+    GithubModelSearchAdapter,
 } from '../../Adapters';
 import ModelIndexSearchResultsBuilder from '../../Models/Classes/ModelIndexSearchResultsBuilder';
 
@@ -32,7 +32,7 @@ type ModelSearchProps = {
 const ModelSearch = ({
     onStandardModelSelection = () => null,
     adapter,
-    primaryActionText
+    primaryActionText,
 }: ModelSearchProps) => {
     const { t } = useTranslation();
     const [searchString, setSearchString] = useState('');
@@ -42,7 +42,7 @@ const ModelSearch = ({
     const modelIndexState = useAdapter({
         adapterMethod: () => adapter.getModelSearchIndex(),
         refetchDependencies: [],
-        isAdapterCalledOnMount: true
+        isAdapterCalledOnMount: true,
     });
 
     const searchDataState = useAdapter({
@@ -51,10 +51,10 @@ const ModelSearch = ({
                 queryString: params.queryString,
                 pageIdx: params.pageIdx,
                 modelIndex: modelIndexState.adapterResult.getData()
-                    ?.modelSearchIndexObj
+                    ?.modelSearchIndexObj,
             }),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const modelDataState = useAdapter({
@@ -63,7 +63,7 @@ const ModelSearch = ({
             actionType: modelActionType;
         }) => adapter.fetchModelJsonFromCDN(params.dtmi, params.actionType),
         refetchDependencies: [],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     const onSearch = async (newVal?: string) => {
@@ -91,7 +91,7 @@ const ModelSearch = ({
         const newData = searchDataState.adapterResult.getData()?.data;
         if (newData) {
             setMergedSearchResults((oldData) =>
-                oldData ? [...oldData, ...newData] : newData
+                oldData ? [...oldData, ...newData] : newData,
             );
         }
     }, [searchDataState.adapterResult.result]);
@@ -118,9 +118,15 @@ const ModelSearch = ({
             return (
                 <Trans
                     t={t}
-                    i18nKey={"modelSearch.cdnModelSearchdescription"}
+                    i18nKey={'modelSearch.cdnModelSearchdescription'}
                     components={{
-                        CndLink: <a href={adapter.CdnUrl} target={"_blank"} rel={"noreferrer"}></a>
+                        CndLink: (
+                            <a
+                                href={adapter.CdnUrl}
+                                target={'_blank'}
+                                rel={'noreferrer'}
+                            ></a>
+                        ),
                     }}
                 />
             );
@@ -128,16 +134,16 @@ const ModelSearch = ({
             return (
                 <Trans
                     t={t}
-                    i18nKey={"modelSearch.githubModelSearchdescription"}
+                    i18nKey={'modelSearch.githubModelSearchdescription'}
                     values={{ repo: adapter.githubRepo }}
                     components={{
                         GithubRepo: (
                             <a
                                 href={`https://github.com/${adapter.githubRepo}`}
-                                target={"_blank"} rel={"noreferrer"}
-                            >
-                            </a>
-                        )
+                                target={'_blank'}
+                                rel={'noreferrer'}
+                            ></a>
+                        ),
                     }}
                 />
             );
@@ -145,11 +151,11 @@ const ModelSearch = ({
     }, [adapter]);
 
     return (
-        <div className={"cb-modelsearch-container"}>
+        <div className={'cb-modelsearch-container'}>
             <AutoCompleteSearchBox
                 onChange={(
                     _event?: React.ChangeEvent<HTMLInputElement>,
-                    newValue?: string
+                    newValue?: string,
                 ) => {
                     if (newValue === '') {
                         clearSearchResults();
@@ -164,7 +170,7 @@ const ModelSearch = ({
                         ?.modelSearchIndexObj;
                     if (index) {
                         const builder = new ModelIndexSearchResultsBuilder(
-                            index
+                            index,
                         );
 
                         Object.keys(index).forEach((key) => {
@@ -175,14 +181,24 @@ const ModelSearch = ({
                 }}
                 onRenderSuggestionCell={(item: IStandardModelSearchItem) => {
                     return (
-                        <div className={"cb-modelsearch-suggestion-item"}>
-                            <div className={"cb-modelsearch-suggestion-item-id"}>
+                        <div className={'cb-modelsearch-suggestion-item'}>
+                            <div
+                                className={'cb-modelsearch-suggestion-item-id'}
+                            >
                                 {item.dtmi}
                             </div>
-                            <div className={"cb-modelsearch-suggestion-item-name"}>
+                            <div
+                                className={
+                                    'cb-modelsearch-suggestion-item-name'
+                                }
+                            >
                                 {item.displayName}
                             </div>
-                            <div className={"cb-modelsearch-suggestion-item-description"}>
+                            <div
+                                className={
+                                    'cb-modelsearch-suggestion-item-description'
+                                }
+                            >
                                 {item.description}
                             </div>
                         </div>
@@ -194,7 +210,7 @@ const ModelSearch = ({
                 }}
                 searchDisabled={modelIndexState.isLoading}
             />
-            <div className={"cb-ms-info"}>
+            <div className={'cb-ms-info'}>
                 <p>{getDescription()}</p>
             </div>
             {searchDataState.adapterResult.getData()?.metadata
@@ -206,7 +222,7 @@ const ModelSearch = ({
                     }
                 />
             )}
-            <div className={"cb-ms-results"}>
+            <div className={'cb-ms-results'}>
                 <ModelSearchList
                     items={mergedSearchResults}
                     adapterState={modelDataState}
@@ -215,14 +231,15 @@ const ModelSearch = ({
                 {searchDataState.adapterResult.getData()?.metadata
                     ?.hasMoreItems && (
                     <DefaultButton
-                        className={"cb-ms-show-more"}
+                        className={'cb-ms-show-more'}
                         text={t('showMore')}
                         onClick={() =>
                             searchDataState.callAdapter({
                                 queryString: searchString,
                                 pageIdx: searchDataState.adapterResult.getData()
-                                    .metadata?.pageIdx
-                            })}
+                                    .metadata?.pageIdx,
+                            })
+                        }
                         disabled={searchDataState.isLoading}
                     />
                 )}
@@ -250,11 +267,11 @@ const RateLimitExceededWarning = ({ rateLimitResetTime }) => {
     const { t } = useTranslation();
     const [
         isRateLimitExceededWarningVisible,
-        setIsRateLimitExceededWarningVisible
+        setIsRateLimitExceededWarningVisible,
     ] = useState(true);
     const [secondsUntilReset, setSecondsUntilReset] = useState(
         new Date(rateLimitResetTime * 1000 - new Date().getTime()).getTime() /
-            1000
+            1000,
     );
     const countdownIntervalRef = useRef(null);
 
@@ -286,7 +303,7 @@ const RateLimitExceededWarning = ({ rateLimitResetTime }) => {
             >
                 <b>{t('modelSearch.rateLimitExceededTitle')}</b>.{' '}
                 {t('modelSearch.rateLimitExceededDescription', {
-                    numSeconds: Math.ceil(secondsUntilReset)
+                    numSeconds: Math.ceil(secondsUntilReset),
                 })}
                 .
             </MessageBar>

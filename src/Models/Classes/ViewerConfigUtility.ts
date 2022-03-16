@@ -6,7 +6,7 @@ import {
     IElementTwinToObjectMappingDataSource,
     IScene,
     IValueRange,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from './3DVConfig';
 
@@ -23,10 +23,10 @@ abstract class ViewerConfigUtility {
     static editScene(
         config: I3DScenesConfig,
         sceneId: string,
-        scene: IScene
+        scene: IScene,
     ): I3DScenesConfig {
         const sceneIndex: number = config.configuration.scenes.findIndex(
-            (s) => s.id === sceneId
+            (s) => s.id === sceneId,
         );
         const updatedConfig = { ...config };
         updatedConfig.configuration.scenes[sceneIndex] = scene;
@@ -37,10 +37,10 @@ abstract class ViewerConfigUtility {
     /** Delete scene with matching ID */
     static deleteScene(
         config: I3DScenesConfig,
-        sceneId: string
+        sceneId: string,
     ): I3DScenesConfig {
         const sceneIndex: number = config.configuration.scenes.findIndex(
-            (s) => s.id === sceneId
+            (s) => s.id === sceneId,
         );
         const updatedConfig = { ...config };
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
@@ -51,7 +51,7 @@ abstract class ViewerConfigUtility {
     static addBehavior(
         config: I3DScenesConfig,
         sceneId: string,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): I3DScenesConfig {
         const updatedConfig = { ...config };
         updatedConfig.configuration.behaviors.push(behavior);
@@ -66,13 +66,13 @@ abstract class ViewerConfigUtility {
      * changed with the update.*/
     static editBehavior(
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): I3DScenesConfig {
         const updatedConfig = { ...config };
 
         // Update modified behavior
         const behaviorIdx = updatedConfig.configuration.behaviors.findIndex(
-            (b) => b.id === behavior.id
+            (b) => b.id === behavior.id,
         );
         updatedConfig.configuration.behaviors[behaviorIdx] = behavior;
 
@@ -83,7 +83,7 @@ abstract class ViewerConfigUtility {
     static addBehaviorToScene(
         config: I3DScenesConfig,
         sceneId: string,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): I3DScenesConfig {
         const updatedConfig = { ...config };
         updatedConfig.configuration.scenes
@@ -99,17 +99,17 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string,
         behaviorId: string,
-        removeFromAllScenes?: boolean
+        removeFromAllScenes?: boolean,
     ): I3DScenesConfig {
         const updatedConfig = { ...config };
 
         // Remove behavior from active scene
         const activeScene = updatedConfig.configuration.scenes.find(
-            (scene) => scene.id === sceneId
+            (scene) => scene.id === sceneId,
         );
 
         const matchingBehaviorIdxInActiveScene = activeScene.behaviorIDs.indexOf(
-            behaviorId
+            behaviorId,
         );
 
         if (matchingBehaviorIdxInActiveScene !== -1) {
@@ -119,22 +119,22 @@ abstract class ViewerConfigUtility {
         // Clean up behavior datasources when removing behavior from scene reference only
         const elementIdsInActiveScene = ViewerConfigUtility.getDictionaryOfElementsIdsInScene(
             config,
-            sceneId
+            sceneId,
         );
 
         const behavior = config.configuration.behaviors.find(
-            (b) => b.id === behaviorId
+            (b) => b.id === behaviorId,
         );
 
         if (behavior) {
             const twinToObjectMapping = behavior.datasources.find(
                 (ds) =>
                     ds.type ===
-                    DatasourceType.ElementTwinToObjectMappingDataSource
+                    DatasourceType.ElementTwinToObjectMappingDataSource,
             ) as IElementTwinToObjectMappingDataSource;
             if (twinToObjectMapping) {
                 twinToObjectMapping.elementIDs = twinToObjectMapping.elementIDs.filter(
-                    (id) => !(id in elementIdsInActiveScene)
+                    (id) => !(id in elementIdsInActiveScene),
                 );
             }
         }
@@ -142,7 +142,7 @@ abstract class ViewerConfigUtility {
         if (removeFromAllScenes) {
             // Splice behavior out of behavior list
             const behaviorIdx = updatedConfig.configuration.behaviors.findIndex(
-                (b) => b.id === behaviorId
+                (b) => b.id === behaviorId,
             );
 
             if (behaviorIdx !== -1) {
@@ -152,7 +152,7 @@ abstract class ViewerConfigUtility {
             // If matching behavior Id found in ANY scene, splice out scene's behavior Id array
             updatedConfig.configuration.scenes.forEach((scene) => {
                 const matchingBehaviorIdIdx = scene.behaviorIDs.indexOf(
-                    behaviorId
+                    behaviorId,
                 );
                 if (matchingBehaviorIdIdx !== -1) {
                     scene.behaviorIDs.splice(matchingBehaviorIdIdx, 1);
@@ -167,7 +167,7 @@ abstract class ViewerConfigUtility {
             (behavior.datasources.find(
                 (ds) =>
                     ds.type ===
-                    DatasourceType.ElementTwinToObjectMappingDataSource
+                    DatasourceType.ElementTwinToObjectMappingDataSource,
             ) as IElementTwinToObjectMappingDataSource)?.elementIDs || []
         );
     }
@@ -176,17 +176,17 @@ abstract class ViewerConfigUtility {
     static getBehaviorMetaData(
         config: I3DScenesConfig,
         sceneId: string,
-        behavior: IBehavior
+        behavior: IBehavior,
     ): { numElementsInActiveScene: number; numSceneRefs: number } {
         const dictionaryOfElementsIdsInScene = ViewerConfigUtility.getDictionaryOfElementsIdsInScene(
             config,
-            sceneId
+            sceneId,
         );
 
         let numElementsInActiveScene = 0;
 
         const behaviorElementIds = ViewerConfigUtility.getBehaviorElementIds(
-            behavior
+            behavior,
         );
         behaviorElementIds.forEach((elementId) => {
             if (elementId in dictionaryOfElementsIdsInScene) {
@@ -204,29 +204,29 @@ abstract class ViewerConfigUtility {
 
         return {
             numElementsInActiveScene,
-            numSceneRefs
+            numSceneRefs,
         };
     }
 
     /** Returns information about the number of behaviors and meshes on a element  */
     static getElementMetaData(
         element: ITwinToObjectMapping,
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
     ) {
         const numBehaviors = this.getBehaviorsOnElement(
             element,
-            config?.configuration?.behaviors
+            config?.configuration?.behaviors,
         )?.length;
         return numBehaviors;
     }
 
     static getDictionaryOfElementsIdsInScene(
         config: I3DScenesConfig,
-        sceneId: string
+        sceneId: string,
     ): Record<string, any> {
         // Build up dictionary of all active element IDs on current scene
         const scene = config.configuration.scenes?.find(
-            (s) => s.id === sceneId
+            (s) => s.id === sceneId,
         );
         const elementIdMap = {};
 
@@ -240,7 +240,7 @@ abstract class ViewerConfigUtility {
     }
 
     static isElementTwinToObjectMappingDataSource(
-        dataSource: IDataSource
+        dataSource: IDataSource,
     ): dataSource is IElementTwinToObjectMappingDataSource {
         return (
             dataSource.type ===
@@ -249,7 +249,7 @@ abstract class ViewerConfigUtility {
     }
 
     static isTwinToObjectMappingElement(
-        element: IElement
+        element: IElement,
     ): element is ITwinToObjectMapping {
         return element.type === ElementType.TwinToObjectMapping;
     }
@@ -257,10 +257,10 @@ abstract class ViewerConfigUtility {
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
         sceneId: string,
-        behaviors: Array<IBehavior>
+        behaviors: Array<IBehavior>,
     ): [
         behaviorsInScene: Array<IBehavior>,
-        behaviorsNotInScene: Array<IBehavior>
+        behaviorsNotInScene: Array<IBehavior>,
     ] {
         const behaviorsInScene = [];
         const behaviorsNotInScene = [];
@@ -293,15 +293,15 @@ abstract class ViewerConfigUtility {
 
     static getBehaviorsOnElement(
         element: ITwinToObjectMapping,
-        behaviors: Array<IBehavior>
+        behaviors: Array<IBehavior>,
     ) {
         return (
             behaviors?.filter((behavior) => {
                 const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
-                    behavior
+                    behavior,
                 );
                 return dataSources?.[0]?.elementIDs?.find(
-                    (id) => id === element?.id
+                    (id) => id === element?.id,
                 );
             }) || []
         );
@@ -309,12 +309,12 @@ abstract class ViewerConfigUtility {
 
     static getAvailableBehaviorsForElement(
         element: ITwinToObjectMapping,
-        behaviors: Array<IBehavior>
+        behaviors: Array<IBehavior>,
     ) {
         return (
             behaviors.filter((behavior) => {
                 const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
-                    behavior
+                    behavior,
                 );
                 return (
                     dataSources.length === 0 ||
@@ -326,41 +326,41 @@ abstract class ViewerConfigUtility {
     }
 
     static getElementTwinToObjectMappingDataSourcesFromBehavior(
-        behavior: IBehavior
+        behavior: IBehavior,
     ) {
         return behavior.datasources.filter(
-            ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+            ViewerConfigUtility.isElementTwinToObjectMappingDataSource,
         );
     }
 
     static removeBehaviorFromList(
         behaviors: Array<IBehavior>,
-        behaviorToRemove: IBehavior
+        behaviorToRemove: IBehavior,
     ) {
         return behaviors.filter(
-            (behavior) => behavior.id !== behaviorToRemove.id
+            (behavior) => behavior.id !== behaviorToRemove.id,
         );
     }
 
     static removeElementFromBehavior(
         element: ITwinToObjectMapping,
-        behavior: IBehavior
+        behavior: IBehavior,
     ) {
         const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
-            behavior
+            behavior,
         );
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
-            (mappingId) => mappingId !== element.id
+            (mappingId) => mappingId !== element.id,
         );
         return behavior;
     }
 
     static addElementToBehavior(
         element: ITwinToObjectMapping,
-        behavior: IBehavior
+        behavior: IBehavior,
     ) {
         const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
-            behavior
+            behavior,
         );
         if (
             dataSources?.[0]?.elementIDs &&
@@ -370,7 +370,7 @@ abstract class ViewerConfigUtility {
         } else {
             dataSources[0] = {
                 type: DatasourceType.ElementTwinToObjectMappingDataSource,
-                elementIDs: [element.id]
+                elementIDs: [element.id],
             };
         }
 
@@ -379,7 +379,7 @@ abstract class ViewerConfigUtility {
 
     static getColorOrNullFromStatusValueRange(
         ranges: IValueRange[],
-        value: number
+        value: number,
     ): string | null {
         let color = null;
         for (const range of ranges) {

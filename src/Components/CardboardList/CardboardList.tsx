@@ -2,7 +2,7 @@ import { FocusZone, FocusZoneDirection, List } from '@fluentui/react';
 import React, { ReactNode } from 'react';
 import {
     ICardboardListItemPropsInternal,
-    ICardboardListProps
+    ICardboardListProps,
 } from './CardboardList.types';
 import { CardboardListItem } from './CardboardListItem';
 
@@ -12,11 +12,11 @@ export const CardboardList = <T extends unknown>({
     items,
     listKey,
     listProps,
-    textToHighlight
+    textToHighlight,
 }: ICardboardListProps<T> & { children?: ReactNode }) => {
     const onRenderListItem = (
         item: ICardboardListItemPropsInternal<T>,
-        index: number
+        index: number,
     ) => (
         <CardboardListItem<T>
             {...item}

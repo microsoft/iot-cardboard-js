@@ -2,13 +2,13 @@ import { IColorCellProps } from '@fluentui/react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IValueRangeValidationMap,
-    IValueRangeValidation
+    IValueRangeValidation,
 } from './ValueRangeBuilder.types';
 
 export const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
     const validationMap: IValueRangeValidationMap = {
         overlapFound: false,
-        validation: {}
+        validation: {},
     };
 
     // Construct validation data
@@ -19,14 +19,14 @@ export const getValidationMapFromValueRanges = (valueRanges: IValueRange[]) => {
     // Check for overlapping ranges
     validationMap.overlapFound = isRangeOverlapFound(
         valueRanges,
-        validationMap
+        validationMap,
     );
 
     return validationMap;
 };
 
 export const getRangeValidation = (
-    valueRange: IValueRange
+    valueRange: IValueRange,
 ): IValueRangeValidation => {
     let minValid = false,
         maxValid = false,
@@ -53,12 +53,12 @@ export const getRangeValidation = (
     return {
         minValid,
         maxValid,
-        rangeValid
+        rangeValid,
     };
 };
 
 export const areDistinctValueRangesValid = (
-    validationMap: IValueRangeValidationMap
+    validationMap: IValueRangeValidationMap,
 ) => {
     let isValid = true;
     for (const key of Object.keys(validationMap.validation)) {
@@ -77,7 +77,7 @@ export const areDistinctValueRangesValid = (
 
 export const isRangeOverlapFound = (
     valueRanges: IValueRange[],
-    validationMap: IValueRangeValidationMap
+    validationMap: IValueRangeValidationMap,
 ) => {
     // If basic validation (numeric and valid range) fails -- return empty
     if (!areDistinctValueRangesValid(validationMap)) {
@@ -105,7 +105,7 @@ export const isRangeOverlapFound = (
 
 export const getNextColor = (
     valueRanges: IValueRange[],
-    colorSwatch: IColorCellProps[]
+    colorSwatch: IColorCellProps[],
 ) => {
     const randomColor =
         colorSwatch[Math.floor(Math.random() * colorSwatch.length)]?.color ||

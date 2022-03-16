@@ -11,7 +11,7 @@ import SceneView from './SceneView';
 import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
-    ISceneViewWrapperProps
+    ISceneViewWrapperProps,
 } from '../../Models/Constants/Interfaces';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
@@ -20,7 +20,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     adapter,
     sceneViewProps,
     sceneVisuals,
-    addInProps
+    addInProps,
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -47,7 +47,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
-        pointerEvent: PointerEvent
+        pointerEvent: PointerEvent,
     ) => {
         data.eventType = ADT3DAddInEventTypes.MarkerHover;
         data.marker = marker;
@@ -68,7 +68,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         marker: Marker,
         mesh: BABYLON.AbstractMesh,
         scene: BABYLON.Scene,
-        pointerEvent: PointerEvent
+        pointerEvent: PointerEvent,
     ) => {
         data.eventType = ADT3DAddInEventTypes.MarkerClick;
         data.marker = marker;

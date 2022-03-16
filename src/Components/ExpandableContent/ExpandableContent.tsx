@@ -10,7 +10,7 @@ type Props = {
 const ExpandableSlideInContent = ({ children, isExpanded }: Props) => {
     return (
         <CSSTransition
-            classNames={"cb-expandable"}
+            classNames={'cb-expandable'}
             in={isExpanded}
             unmountOnExit
             timeout={400}

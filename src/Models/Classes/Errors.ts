@@ -40,13 +40,13 @@ class ComponentError extends Error implements IComponentError {
 
     private getComponentErrorMessageFromType = (
         errorType: ComponentErrorType,
-        messageParams: { [key: string]: string }
+        messageParams: { [key: string]: string },
     ) => {
         switch (errorType) {
             case ComponentErrorType.InvalidCardType:
                 return i18n.t(
                     'boardErrors.invalidCardTypeMessage',
-                    messageParams
+                    messageParams,
                 );
             case ComponentErrorType.JsonSchemaError:
                 return i18n.t('errors.schemaValidationFailed.message');
@@ -62,7 +62,7 @@ class ComponentError extends Error implements IComponentError {
         isCatastrophic = false,
         rawError = null,
         messageParams = {},
-        jsonSchemaErrors = null
+        jsonSchemaErrors = null,
     }: IComponentError) {
         super(message);
         this.name = name ? name : this.getComponentErrorNameFromType(type);

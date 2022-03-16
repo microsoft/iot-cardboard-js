@@ -7,7 +7,7 @@ const Searchbox: React.FC<ISearchboxProps> = ({
     placeholder,
     onChange,
     onSearch,
-    onClear
+    onClear,
 }) => {
     return (
         <SearchBox

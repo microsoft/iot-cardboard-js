@@ -15,12 +15,12 @@ class ModelIndexSearchResultsBuilder {
                 dtmi: indexKey,
                 ...(typeof this.modelIndex[indexKey]?.displayName ===
                     'string' && {
-                    displayName: this.modelIndex[indexKey].displayName
+                    displayName: this.modelIndex[indexKey].displayName,
                 }),
                 ...(typeof this.modelIndex[indexKey]?.description ===
                     'string' && {
-                    description: this.modelIndex[indexKey].description
-                })
+                    description: this.modelIndex[indexKey].description,
+                }),
             });
             this.keysAdded[indexKey] = true;
         }

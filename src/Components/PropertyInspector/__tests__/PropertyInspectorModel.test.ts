@@ -17,7 +17,7 @@ describe('Property nodes are parsed correctly', () => {
                 fields: [
                     {
                         name: 'testObject_DoubleChild',
-                        schema: 'double'
+                        schema: 'double',
                     },
                     {
                         name: 'testObject_ObjectChild',
@@ -26,14 +26,14 @@ describe('Property nodes are parsed correctly', () => {
                             fields: [
                                 {
                                     name: 'testObject_ObjectChild_StringChild',
-                                    schema: 'string'
-                                }
-                            ]
-                        }
-                    }
-                ]
+                                    schema: 'string',
+                                },
+                            ],
+                        },
+                    },
+                ],
             },
-            writable: true
+            writable: true,
         };
 
         const node = PropertyInspectorModel.parsePropertyIntoNode({
@@ -42,7 +42,7 @@ describe('Property nodes are parsed correctly', () => {
             isObjectChild: false,
             modelProperty: testObject,
             path: '',
-            propertySourceObject: {}
+            propertySourceObject: {},
         });
 
         expect(node.name).toBe('testObject');
@@ -72,7 +72,7 @@ describe('Property nodes are parsed correctly', () => {
                 '@type': 'Map',
                 mapKey: {
                     name: 'testMapKey',
-                    schema: 'string'
+                    schema: 'string',
                 },
                 mapValue: {
                     name: 'testMapValue',
@@ -81,16 +81,16 @@ describe('Property nodes are parsed correctly', () => {
                         fields: [
                             {
                                 name: 'testString',
-                                schema: 'string'
+                                schema: 'string',
                             },
                             {
                                 name: 'testDouble',
-                                schema: 'double'
-                            }
-                        ]
-                    }
-                }
-            }
+                                schema: 'double',
+                            },
+                        ],
+                    },
+                },
+            },
         };
 
         const node = PropertyInspectorModel.parsePropertyIntoNode({
@@ -103,10 +103,10 @@ describe('Property nodes are parsed correctly', () => {
                 testMap: {
                     testValue: {
                         testString: 'abc',
-                        testDouble: 123
-                    }
-                }
-            }
+                        testDouble: 123,
+                    },
+                },
+            },
         });
 
         expect(node.name).toBe('testMap');
@@ -132,8 +132,8 @@ describe('Parsing twin into property tree', () => {
                 expandedModels: testModel,
                 rootModel: testModel[0],
                 isInherited: false,
-                path: ''
-            }
+                path: '',
+            },
         );
     });
 
@@ -144,7 +144,7 @@ describe('Parsing twin into property tree', () => {
     const checkPrimitiveNode = (targetNodeName) => {
         const targetPiNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/${targetNodeName}`
+            `/${targetNodeName}`,
         );
         let valueOnTwin = testTwin[targetNodeName];
 
@@ -154,7 +154,7 @@ describe('Parsing twin into property tree', () => {
                 dtdlPropertyTypesEnum.integer,
                 dtdlPropertyTypesEnum.float,
                 dtdlPropertyTypesEnum.double,
-                dtdlPropertyTypesEnum.long
+                dtdlPropertyTypesEnum.long,
             ].includes(targetPiNode.schema)
         ) {
             valueOnTwin = String(valueOnTwin);
@@ -163,7 +163,7 @@ describe('Parsing twin into property tree', () => {
 
         return {
             targetPiNode,
-            valueOnTwin
+            valueOnTwin,
         };
     };
 
@@ -213,7 +213,7 @@ describe('Parsing twin into property tree', () => {
         // Check testComponentObjectModel is parsed into tree
         const componentA = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentObjectModel`
+            `/testComponentObjectModel`,
         );
         expect(componentA.type).toEqual(DTDLType.Component);
         expect(componentA.name).toEqual('testComponentObjectModel');
@@ -221,7 +221,7 @@ describe('Parsing twin into property tree', () => {
         // Check testComponentMapModel is parsed into tree
         const componentB = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentMapModel`
+            `/testComponentMapModel`,
         );
         expect(componentB.type).toEqual(DTDLType.Component);
         expect(componentB.name).toEqual('testComponentMapModel');
@@ -230,7 +230,7 @@ describe('Parsing twin into property tree', () => {
     test('Object (within component) is set in inspector and matches value on test twin', () => {
         const objectOnComponent = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentObjectModel/testObject`
+            `/testComponentObjectModel/testObject`,
         );
 
         expect(objectOnComponent).toBeTruthy();
@@ -240,35 +240,35 @@ describe('Parsing twin into property tree', () => {
 
         const testObject_DoubleChildNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            '/testComponentObjectModel/testObject/testObject_DoubleChild'
+            '/testComponentObjectModel/testObject/testObject_DoubleChild',
         );
 
         expect(String(objectOnTwin.testObject_DoubleChild)).toEqual(
-            testObject_DoubleChildNode.value
+            testObject_DoubleChildNode.value,
         );
 
         const testObject_ObjectChildNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            '/testComponentObjectModel/testObject/testObject_ObjectChild/testObject_ObjectChild_StringChild'
+            '/testComponentObjectModel/testObject/testObject_ObjectChild/testObject_ObjectChild_StringChild',
         );
 
         expect(
             objectOnTwin.testObject_ObjectChild
-                .testObject_ObjectChild_StringChild
+                .testObject_ObjectChild_StringChild,
         ).toEqual(testObject_ObjectChildNode.value);
     });
 
     test('Map (within component) is set in inspector and matches value on test twin', () => {
         const mapOnComponent = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorTwinNodes,
-            `/testComponentMapModel/testMap`
+            `/testComponentMapModel/testMap`,
         );
 
         // Check map exists on component
         expect(mapOnComponent).toBeTruthy();
 
         const mapValue = mapOnComponent.children.find(
-            (child) => child.name === 'testValue'
+            (child) => child.name === 'testValue',
         );
 
         // Check that map value is present
@@ -278,17 +278,17 @@ describe('Parsing twin into property tree', () => {
         expect(mapValue.schema).toEqual(dtdlPropertyTypesEnum.Object);
 
         const testString = mapValue.children.find(
-            (child) => child.name === 'testString'
+            (child) => child.name === 'testString',
         );
         expect(testString.value).toEqual(
-            testTwin.testComponentMapModel.testMap.testValue.testString
+            testTwin.testComponentMapModel.testMap.testValue.testString,
         );
 
         const testDouble = mapValue.children.find(
-            (child) => child.name === 'testDouble'
+            (child) => child.name === 'testDouble',
         );
         expect(testDouble.value).toEqual(
-            String(testTwin.testComponentMapModel.testMap.testValue.testDouble)
+            String(testTwin.testComponentMapModel.testMap.testValue.testDouble),
         );
     });
 });
@@ -300,32 +300,32 @@ const relationshipData = {
     $sourceId: 'LeoTheDog',
     $relationshipName: 'chargedBy',
     $targetId: 'Windmill_1',
-    lastChargedStation: 'Eugene Oregon Tesla Supercharger'
+    lastChargedStation: 'Eugene Oregon Tesla Supercharger',
 };
 
 describe('Parsing relationship into property tree', () => {
     beforeAll(() => {
         propertyInspectorRelationshipNodes = PropertyInspectorModel.parseRelationshipIntoPropertyTree(
             relationshipData,
-            testModel.find((m) => m['@id'] === 'dtmi:com:test:testmodel;1')
+            testModel.find((m) => m['@id'] === 'dtmi:com:test:testmodel;1'),
         );
     });
 
     test('Property inspector nodes were parsed', () => {
         expect(
-            propertyInspectorRelationshipNodes.length
+            propertyInspectorRelationshipNodes.length,
         ).toBeGreaterThanOrEqual(1);
     });
 
     test('Property exists on relationship', () => {
         const relationshipProperty = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
             propertyInspectorRelationshipNodes,
-            '/lastChargedStation'
+            '/lastChargedStation',
         );
 
         expect(relationshipProperty).toBeTruthy();
         expect(relationshipProperty.value).toEqual(
-            'Eugene Oregon Tesla Supercharger'
+            'Eugene Oregon Tesla Supercharger',
         );
     });
 });

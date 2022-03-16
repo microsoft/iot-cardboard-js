@@ -1,6 +1,6 @@
 import {
     IAdapterData,
-    IADTInstanceConnection
+    IADTInstanceConnection,
 } from '../../Constants/Interfaces';
 
 class ADTInstanceConnectionData implements IAdapterData {

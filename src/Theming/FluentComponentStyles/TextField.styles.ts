@@ -3,7 +3,7 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export const getTextFieldStyles = (
     _themeSetting: Theme,
-    _theme: ITheme
+    _theme: ITheme,
 ): Partial<ITextFieldStyles> => {
     return {
         root: {
@@ -12,25 +12,25 @@ export const getTextFieldStyles = (
                     selectors: {
                         label: {
                             color: 'var(--cb-color-text-primary)',
-                            paddingBottom: 0
+                            paddingBottom: 0,
                         },
                         '.ms-TextField-fieldGroup': {
-                            border: 'none'
+                            border: 'none',
                         },
                         input: {
                             color: 'var(--cb-color-text-primary)',
-                            background: 'transparent'
+                            background: 'transparent',
                         },
                         textarea: {
                             color: 'var(--cb-color-text-primary)',
-                            background: 'transparent'
+                            background: 'transparent',
                         },
                         '.ms-TextField-description': {
-                            display: 'none'
-                        }
-                    }
-                }
-            }
-        }
+                            display: 'none',
+                        },
+                    },
+                },
+            },
+        },
     };
 };

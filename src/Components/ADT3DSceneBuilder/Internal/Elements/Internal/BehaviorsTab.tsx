@@ -10,7 +10,7 @@ import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import {
     IBehavior,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
@@ -25,7 +25,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    updateBehaviorsToEdit
+    updateBehaviorsToEdit,
 }) => {
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
@@ -34,10 +34,10 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         behaviorToEdit: null,
         behaviorsToEdit: [],
         behaviorsOnElement: [],
-        availableBehaviors: []
+        availableBehaviors: [],
     });
     const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
-        []
+        [],
     );
 
     useEffect(() => {
@@ -45,14 +45,14 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
                     elementToEdit,
-                    JSON.parse(JSON.stringify(behaviors))
+                    JSON.parse(JSON.stringify(behaviors)),
                 );
 
                 draft.availableBehaviors = ViewerConfigUtility.getAvailableBehaviorsForElement(
                     elementToEdit,
-                    JSON.parse(JSON.stringify(behaviors))
+                    JSON.parse(JSON.stringify(behaviors)),
                 );
-            })
+            }),
         );
     }, [behaviors]);
 
@@ -65,17 +65,17 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.removeBehaviorFromList(
                     draft.behaviorsOnElement,
-                    draft.behaviorToEdit
+                    draft.behaviorToEdit,
                 );
 
                 draft.behaviorToEdit = ViewerConfigUtility.removeElementFromBehavior(
                     elementToEdit,
-                    draft.behaviorToEdit
+                    draft.behaviorToEdit,
                 );
 
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
                 draft.availableBehaviors.push(draft.behaviorToEdit);
-            })
+            }),
         );
     }, []);
 
@@ -84,15 +84,15 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
                     elementToEdit,
-                    behavior
+                    behavior,
                 );
                 draft.behaviorsOnElement.push(draft.behaviorToEdit);
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
                 draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
                     draft.availableBehaviors,
-                    draft.behaviorToEdit
+                    draft.behaviorToEdit,
                 );
-            })
+            }),
         );
     }, []);
 
@@ -100,7 +100,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorToEdit = item;
-            })
+            }),
         );
     }, []);
 
@@ -115,14 +115,14 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             setBehaviorToEdit,
             onBehaviorClick,
             removeBehavior,
-            t
+            t,
         );
         setListItems(listItems);
     }, [
         behaviorState.behaviorsOnElement,
         setBehaviorToEdit,
         onBehaviorClick,
-        removeBehavior
+        removeBehavior,
     ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
@@ -139,17 +139,17 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             />
             <ActionButton
                 id={calloutTarget}
-                className={"cb-scene-builder-left-panel-add-behavior"}
+                className={'cb-scene-builder-left-panel-add-behavior'}
                 data-testid={'element-add-behavior'}
                 style={{ color: 'var(--cb-color-theme-primary' }}
                 styles={{
                     root: {
                         textAlign: 'start',
-                        padding: '0px'
+                        padding: '0px',
                     },
                     label: {
-                        margin: '0px'
-                    }
+                        margin: '0px',
+                    },
                 }}
                 onClick={showCallout}
             >
@@ -172,7 +172,7 @@ function getListItems(
     setBehaviorToEdit: (item: IBehavior) => void,
     onBehaviorClick: (item: IBehavior) => void,
     removeBehavior: () => void,
-    t: TFunction<string>
+    t: TFunction<string>,
 ) {
     const getMenuItems = (item: IBehavior): IContextualMenuItem[] => {
         return [
@@ -184,20 +184,20 @@ function getListItems(
                 onClick: () => {
                     setBehaviorToEdit(item);
                     onBehaviorClick(item);
-                }
+                },
             },
             {
                 'data-testid': 'removeOverflow',
                 key: 'remove',
                 iconProps: {
-                    iconName: 'Delete'
+                    iconName: 'Delete',
                 },
                 text: t('3dSceneBuilder.removeBehavior'),
                 onClick: () => {
                     setBehaviorToEdit(item);
                     removeBehavior();
-                }
-            }
+                },
+            },
         ];
     };
     return filteredElements.map((item) => {
@@ -207,7 +207,7 @@ function getListItems(
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item),
-            textPrimary: item.displayName
+            textPrimary: item.displayName,
         };
 
         return viewModel;

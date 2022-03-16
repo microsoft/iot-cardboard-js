@@ -14,33 +14,33 @@ export const mockTwin = {
         rightRearPressure: 44,
         tireSpecification: {
             tireModel: 'Standard',
-            tireWidth: '18'
-        }
+            tireWidth: '18',
+        },
     },
     chargeHistory: {
         eugene: {
             city: 'Eugene, OR',
             cost: 25,
-            amountCharged: 60
+            amountCharged: 60,
         },
         vancouver: {
             city: 'Vancouver, BC',
             cost: 29,
-            amountCharged: 74
-        }
+            amountCharged: 74,
+        },
     },
     address: {
-        $metadata: {}
+        $metadata: {},
     },
     location: {
-        $metadata: {}
+        $metadata: {},
     },
     $metadata: {
         $model: 'dtmi:com:cocrowle:teslamodely;1',
         CarName: {
-            lastUpdateTime: '2021-08-09T20:51:23.7045803Z'
-        }
-    }
+            lastUpdateTime: '2021-08-09T20:51:23.7045803Z',
+        },
+    },
 };
 
 export const mockRelationship = {
@@ -48,7 +48,7 @@ export const mockRelationship = {
     $etag: 'W/"4215f07a-ed6e-4c8d-a516-d65715f207d9"',
     $sourceId: 'LeoTheDog',
     $relationshipName: 'chargedBy',
-    $targetId: 'Windmill_1'
+    $targetId: 'Windmill_1',
 };
 
 export const mockExpandedModels = [
@@ -65,7 +65,7 @@ export const mockExpandedModels = [
                 '@type': 'Telemetry',
                 name: 'batteryTemp',
                 displayName: 'Battery temperature',
-                'dtmi:dtdl:property:schema;2': 'double'
+                'dtmi:dtdl:property:schema;2': 'double',
             },
             {
                 '@type': 'Relationship',
@@ -76,9 +76,9 @@ export const mockExpandedModels = [
                     {
                         '@type': 'Property',
                         name: 'WheelInformation',
-                        schema: 'dtmi:com:cocrowle:wheelinformation;1'
-                    }
-                ]
+                        schema: 'dtmi:com:cocrowle:wheelinformation;1',
+                    },
+                ],
             },
             {
                 '@type': 'Property',
@@ -88,7 +88,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Battery state',
                 displayName: 'Battery dead',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -98,7 +98,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Date car activated',
                 displayName: 'Date activated',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -108,7 +108,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Last time the card was driven',
                 displayName: 'Last driven',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -118,7 +118,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Current Battery Level',
                 displayName: 'Battery level',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -129,7 +129,7 @@ export const mockExpandedModels = [
                 description:
                     'Driving time of the time in ISO 8601 duration format',
                 displayName: 'Time driven',
-                writable: true
+                writable: true,
             },
             {
                 '@type': ['Property', 'Energy'],
@@ -140,7 +140,7 @@ export const mockExpandedModels = [
                 description: 'Capacity of the car battery',
                 displayName: 'Battery capacity',
                 unit: 'kilowattHour',
-                writable: true
+                writable: true,
             },
             {
                 '@type': ['Property', 'Distance'],
@@ -151,7 +151,7 @@ export const mockExpandedModels = [
                 description: 'Current mileage of car',
                 displayName: 'Mileage',
                 unit: 'mile',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -161,7 +161,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Sale number',
                 displayName: 'Sale number',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -171,7 +171,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Name of the car',
                 displayName: 'Car name',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -181,7 +181,7 @@ export const mockExpandedModels = [
                 comment: '',
                 description: 'Time of day to start car charging',
                 displayName: 'Charge start time',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
@@ -201,7 +201,7 @@ export const mockExpandedModels = [
                             enumValue: 'Basic',
                             displayName: 'Basic',
                             description: '',
-                            comment: ''
+                            comment: '',
                         },
                         {
                             '@id': 'dtmi:com:cocrowle:carpackagestandard;1',
@@ -209,19 +209,19 @@ export const mockExpandedModels = [
                             enumValue: 'Standard',
                             displayName: 'Standard',
                             description: '',
-                            comment: ''
-                        }
-                    ]
+                            comment: '',
+                        },
+                    ],
                 },
                 comment: '',
                 description: '',
                 displayName: 'Car package',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'WheelInformation',
-                schema: 'dtmi:com:cocrowle:wheelinformation;1'
+                schema: 'dtmi:com:cocrowle:wheelinformation;1',
             },
             {
                 '@type': 'Property',
@@ -232,7 +232,7 @@ export const mockExpandedModels = [
                     '@type': 'Map',
                     'dtmi:dtdl:property:mapKey;2': {
                         name: 'ChargeStationName',
-                        schema: 'string'
+                        schema: 'string',
                     },
                     mapValue: {
                         name: 'ChargeInformation',
@@ -242,17 +242,17 @@ export const mockExpandedModels = [
                                 {
                                     name: 'city',
                                     displayName: 'City',
-                                    schema: 'string'
+                                    schema: 'string',
                                 },
                                 {
                                     name: 'cost',
                                     displayName: 'Cost',
-                                    schema: 'double'
+                                    schema: 'double',
                                 },
                                 {
                                     name: 'amountCharged',
                                     displayName: 'Amount charged',
-                                    schema: 'double'
+                                    schema: 'double',
                                 },
                                 {
                                     name: 'chargeEvent',
@@ -261,19 +261,19 @@ export const mockExpandedModels = [
                                         '@type': 'Map',
                                         mapKey: {
                                             name: 'eventName',
-                                            schema: 'string'
+                                            schema: 'string',
                                         },
                                         mapValue: {
                                             name: 'eventData',
-                                            schema: 'string'
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
+                                            schema: 'string',
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                },
+            },
         ],
         schemas: [
             {
@@ -285,22 +285,22 @@ export const mockExpandedModels = [
                     {
                         name: 'leftFrontPressure',
                         displayName: 'Left front pressure',
-                        schema: 'double'
+                        schema: 'double',
                     },
                     {
                         name: 'rightFrontPressure',
                         displayName: 'Right front pressure',
-                        schema: 'double'
+                        schema: 'double',
                     },
                     {
                         name: 'leftRearPressure',
                         displayName: 'Left rear pressure',
-                        schema: 'double'
+                        schema: 'double',
                     },
                     {
                         name: 'rightRearPressure',
                         displayName: 'Right rear pressure',
-                        schema: 'double'
+                        schema: 'double',
                     },
                     {
                         name: 'tireSpecification',
@@ -311,19 +311,19 @@ export const mockExpandedModels = [
                                 {
                                     name: 'tireModel',
                                     displayName: 'Tire model',
-                                    schema: 'string'
+                                    schema: 'string',
                                 },
                                 {
                                     name: 'tireWidth',
                                     displayName: 'Tire width',
-                                    schema: 'double'
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        ]
+                                    schema: 'double',
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        ],
     },
     {
         '@id': 'dtmi:digitaltwins:ngsi_ld:city:NGSILDBaseModel;1',
@@ -334,68 +334,68 @@ export const mockExpandedModels = [
                 '@type': 'Property',
                 name: 'dataProvider',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'dateModified',
                 schema: 'dateTime',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'dateCreated',
                 schema: 'dateTime',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'source',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'alternateName',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'name',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'description',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'owner',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'seeAlso',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Component',
                 name: 'address',
-                schema: 'dtmi:digitaltwins:ngsi_ld:city:Address;1'
+                schema: 'dtmi:digitaltwins:ngsi_ld:city:Address;1',
             },
             {
                 '@type': 'Component',
                 name: 'location',
-                schema: 'dtmi:digitaltwins:ngsi_ld:city:geoLocation;1'
-            }
+                schema: 'dtmi:digitaltwins:ngsi_ld:city:geoLocation;1',
+            },
         ],
-        '@context': ['dtmi:dtdl:context;2']
+        '@context': ['dtmi:dtdl:context;2'],
     },
     {
         '@id': 'dtmi:digitaltwins:ngsi_ld:city:Address;1',
@@ -406,40 +406,40 @@ export const mockExpandedModels = [
                 '@type': 'Property',
                 name: 'addressCountry',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'addressLocality',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'addressRegion',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'postOfficeBoxNumber',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'postalCode',
                 schema: 'string',
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'streetAddress',
                 schema: 'string',
-                writable: true
-            }
+                writable: true,
+            },
         ],
-        '@context': ['dtmi:dtdl:context;2']
+        '@context': ['dtmi:dtdl:context;2'],
     },
     {
         '@id': 'dtmi:digitaltwins:ngsi_ld:city:geoLocation;1',
@@ -456,49 +456,49 @@ export const mockExpandedModels = [
                         {
                             name: 'position',
                             displayName: 'Position',
-                            enumValue: 'Position'
+                            enumValue: 'Position',
                         },
                         {
                             name: 'point',
                             displayName: 'Point',
-                            enumValue: 'Point'
+                            enumValue: 'Point',
                         },
                         {
                             name: 'multiPoint',
                             displayName: 'MultiPoint',
-                            enumValue: 'MultiPoint'
+                            enumValue: 'MultiPoint',
                         },
                         {
                             name: 'lineString',
                             displayName: 'LineString',
-                            enumValue: 'LineString'
+                            enumValue: 'LineString',
                         },
                         {
                             name: 'multiLineString',
                             displayName: 'MultiLineString',
-                            enumValue: 'MultiLineString'
+                            enumValue: 'MultiLineString',
                         },
                         {
                             name: 'polygon',
                             displayName: 'Polygon',
-                            enumValue: 'Polygon'
+                            enumValue: 'Polygon',
                         },
                         {
                             name: 'multiPolygon',
                             displayName: 'MultiPolygon',
-                            enumValue: 'MultiPolygon'
-                        }
-                    ]
+                            enumValue: 'MultiPolygon',
+                        },
+                    ],
                 },
-                writable: true
+                writable: true,
             },
             {
                 '@type': 'Property',
                 name: 'coordinates',
                 schema: 'string',
-                writable: true
-            }
+                writable: true,
+            },
         ],
-        '@context': ['dtmi:dtdl:context;2']
-    }
+        '@context': ['dtmi:dtdl:context;2'],
+    },
 ];

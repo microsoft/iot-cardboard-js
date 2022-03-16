@@ -1,7 +1,7 @@
 import {
     IADTAdapter,
     IConsumeCompositeCardProps,
-    IHierarchyNode
+    IHierarchyNode,
 } from '../../../Models/Constants/Interfaces';
 
 export interface ADTHierarchyWithLKVProcessGraphicsCardProps

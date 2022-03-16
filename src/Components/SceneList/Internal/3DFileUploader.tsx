@@ -5,7 +5,7 @@ import {
     MessageBar,
     MessageBarType,
     PrimaryButton,
-    ProgressIndicator
+    ProgressIndicator,
 } from '@fluentui/react';
 import prettyBytes from 'pretty-bytes';
 import React, { useMemo, useState } from 'react';
@@ -23,7 +23,7 @@ interface File3DUploaderProps {
     isOverwriteChecked: boolean;
     onOverwriteChange: (
         ev?: React.FormEvent<HTMLInputElement | HTMLElement>,
-        checked?: boolean
+        checked?: boolean,
     ) => void;
     onFileChange: (file: File) => void;
     isUploadingFile?: boolean;
@@ -36,7 +36,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
     onOverwriteChange,
     onFileChange,
     isUploadingFile,
-    uploadFileAdapterResult
+    uploadFileAdapterResult,
 }) => {
     const { t } = useTranslation();
     const {
@@ -45,7 +45,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
         // currently react-dropzone's isDragAccept and isDragReject does not fully work with the accepted files that we pass in this component,
         // so styling based on these is not reliable, therefore the style for these states are set with default values
         isDragAccept,
-        isDragReject
+        isDragReject,
     } = useDropzone({
         multiple: false,
         accept: Object.values(Supported3DFileTypes)
@@ -54,7 +54,7 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
         onDrop: (acceptedFiles) => {
             setSelectedFile(acceptedFiles?.[0]);
             onFileChange(acceptedFiles?.[0]);
-        }
+        },
     });
     const [selectedFile, setSelectedFile] = useState<File>(null);
 
@@ -71,29 +71,33 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                             onClick: () => {
                                 setSelectedFile(null);
                                 onFileChange(null);
-                            }
-                        } as ICardboardListItem<File>
+                            },
+                        } as ICardboardListItem<File>,
                     ]}
                     listKey={'selected-file-list'}
                 />
             ) : (
                 ''
             ),
-        [selectedFile]
+        [selectedFile],
     );
 
     return (
         <>
             {selectedFile ? (
                 isUploadingFile ? (
-                    <div className={"cb-scene-list-form-dialog-3d-file-upload-progress"}>
+                    <div
+                        className={
+                            'cb-scene-list-form-dialog-3d-file-upload-progress'
+                        }
+                    >
                         <Icon
-                            iconName={"OpenFile"}
+                            iconName={'OpenFile'}
                             styles={{
                                 root: {
                                     fontSize: 16,
-                                    paddingTop: 6
-                                }
+                                    paddingTop: 6,
+                                },
                             }}
                         />
                         <ProgressIndicator
@@ -103,25 +107,25 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                     </div>
                 ) : uploadFileAdapterResult.result ||
                   uploadFileAdapterResult.errorInfo ? (
-                      <MessageBar
-                          className={"cb-base-fade-in"}
-                          styles={{ root: { marginBottom: 12 } }}
-                          messageBarType={
+                    <MessageBar
+                        className={'cb-base-fade-in'}
+                        styles={{ root: { marginBottom: 12 } }}
+                        messageBarType={
                             uploadFileAdapterResult.getErrors()?.length > 0
                                 ? MessageBarType.error
                                 : MessageBarType.success
                         }
-                          isMultiline={false}
-                          dismissButtonAriaLabel={t('close')}
+                        isMultiline={false}
+                        dismissButtonAriaLabel={t('close')}
                     >
-                          {uploadFileAdapterResult.getErrors()?.length > 0
+                        {uploadFileAdapterResult.getErrors()?.length > 0
                             ? t('uploadProgress.uploadFailed', {
-                                  assetType: selectedFile.name
+                                  assetType: selectedFile.name,
                               })
                             : t('uploadProgress.uploadSuccess', {
-                                  assetType: selectedFile.name
+                                  assetType: selectedFile.name,
                               })}
-                      </MessageBar>
+                    </MessageBar>
                 ) : (
                     SingleFileList
                 )
@@ -134,16 +138,22 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                                 : isDragReject
                                 ? 'cb-dropzone-is-drag-reject'
                                 : ''
-                        }`
+                        }`,
                     })}
                 >
                     <input {...getInputProps()} />
                     <Image
                         shouldStartVisible={true}
                         src={DropFileIcon}
-                        className={"cb-scene-list-form-dialog-3d-file-dropzone-icon"}
+                        className={
+                            'cb-scene-list-form-dialog-3d-file-dropzone-icon'
+                        }
                     />
-                    <div className={"cb-scene-list-form-dialog-3d-file-dropzone-text"}>
+                    <div
+                        className={
+                            'cb-scene-list-form-dialog-3d-file-dropzone-text'
+                        }
+                    >
                         <span>{t('fileUploader.dragAndDropFile')}</span>
                         <span>{t('or')}</span>
                     </div>
@@ -153,10 +163,14 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                 </div>
             )}
             {!isUploadingFile && isOverwriteVisible && (
-                <div className={"cb-scene-list-form-dialog-3d-file-note cb-base-fade-in"}>
+                <div
+                    className={
+                        'cb-scene-list-form-dialog-3d-file-note cb-base-fade-in'
+                    }
+                >
                     {!isOverwriteChecked && (
                         <MessageBar
-                            className={"cb-base-fade-in"}
+                            className={'cb-base-fade-in'}
                             styles={{ root: { marginBottom: 12 } }}
                             messageBarType={MessageBarType.error}
                             isMultiline={false}

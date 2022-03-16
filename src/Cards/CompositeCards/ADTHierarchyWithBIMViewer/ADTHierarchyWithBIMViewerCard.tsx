@@ -14,26 +14,26 @@ const ADTHierarchyWithBIMViewerCard: React.FC<ADTHierarchyWithBIMViewerCardProps
     locale,
     localeStrings,
     adapterAdditionalParameters,
-    bimTwinId
+    bimTwinId,
 }) => {
     const [selectedChildNode, setSelectedChildNode] = useState(null);
     const { t } = useTranslation();
 
     const cardState = useAdapter({
         adapterMethod: () => adapter.getADTTwin(bimTwinId),
-        refetchDependencies: [bimTwinId]
+        refetchDependencies: [bimTwinId],
     });
 
     const handleChildNodeClick = (
         _parentNode: IHierarchyNode,
-        childNode: IHierarchyNode
+        childNode: IHierarchyNode,
     ) => {
         setSelectedChildNode(childNode);
     };
 
     const memoizedNodeFilter = useMemo(() => {
         return createNodeFilterFromRootForBIM(
-            cardState.adapterResult.getData()?.['$metadata']?.['$model']
+            cardState.adapterResult.getData()?.['$metadata']?.['$model'],
         );
     }, [cardState.adapterResult.getData()]);
 

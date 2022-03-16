@@ -3,7 +3,7 @@ import { StandardModelSearchData } from '../Models/Classes/AdapterDataClasses/St
 import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelSearchAdapter';
 import {
     IModelSearchStringParams,
-    IStandardModelSearchAdapter
+    IStandardModelSearchAdapter,
 } from '../Models/Constants/Interfaces';
 import parse from 'parse-link-header';
 
@@ -25,18 +25,18 @@ export default class GithubModelSearchAdapter
 
         return await adapterSandbox.safelyFetchData(async () => {
             const queryParam = encodeURIComponent(
-                `${queryString} in:file,path path:dtmi extension:json repo:${this.githubRepo}`
+                `${queryString} in:file,path path:dtmi extension:json repo:${this.githubRepo}`,
             );
 
             const res = await fetch(
                 `https://api.github.com/search/code?q=` +
                     queryParam +
                     `&per_page=${this.pageSize}` +
-                    `&page=${pageIdx}`
+                    `&page=${pageIdx}`,
             );
 
             const rateLimitRemaining = Number(
-                res.headers.get('x-ratelimit-remaining')
+                res.headers.get('x-ratelimit-remaining'),
             );
 
             const rateLimitReset = Number(res.headers.get('x-ratelimit-reset'));
@@ -51,7 +51,7 @@ export default class GithubModelSearchAdapter
                               .replaceAll('/', ':')
                               .replaceAll('-', ';')
                               .replace('.json', ''),
-                          displayName: item.name
+                          displayName: item.name,
                       };
                   })
                 : [];
@@ -63,9 +63,9 @@ export default class GithubModelSearchAdapter
                     rateLimitReset,
                     ...(parsedLinkHeader && {
                         pageIdx: parsedLinkHeader?.next?.page,
-                        hasMoreItems: parsedLinkHeader?.next
-                    })
-                }
+                        hasMoreItems: parsedLinkHeader?.next,
+                    }),
+                },
             });
         });
     }

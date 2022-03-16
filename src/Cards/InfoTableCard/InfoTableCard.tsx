@@ -11,7 +11,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
     localeStrings,
     headers,
     tableRows,
-    infoTableActionButtonProps
+    infoTableActionButtonProps,
 }) => {
     return (
         <BaseComponent
@@ -19,7 +19,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
             localeStrings={localeStrings}
             theme={theme}
         >
-            <div className={"cb-infotable-card"}>
+            <div className={'cb-infotable-card'}>
                 <div
                     className={`cb-infotable-table-container ${
                         infoTableActionButtonProps &&
@@ -32,7 +32,9 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                                 {headers.map((h, i) => (
                                     <th
                                         key={i}
-                                        className={"cb-table-header cb-table-cell"}
+                                        className={
+                                            'cb-table-header cb-table-cell'
+                                        }
                                     >
                                         {h}
                                     </th>
@@ -45,7 +47,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                                     {row.map((cell, j) => (
                                         <td
                                             key={`cell-${i}-${j}`}
-                                            className={"cb-table-cell"}
+                                            className={'cb-table-cell'}
                                         >
                                             {cell}
                                         </td>
@@ -56,7 +58,7 @@ const InfoTableCard: React.FC<InfoTableCardProps> = ({
                     </table>
                 </div>
                 {infoTableActionButtonProps && (
-                    <div className={"cb-property-inspector-button-container"}>
+                    <div className={'cb-property-inspector-button-container'}>
                         <DefaultButton
                             iconProps={{ iconName: 'Edit' }}
                             text={infoTableActionButtonProps.label}

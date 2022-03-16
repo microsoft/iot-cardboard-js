@@ -8,12 +8,12 @@ import ADXAdapter from '../../Adapters/ADXAdapter';
 
 export default {
     title: 'Cards/LinechartCard',
-    component: LinechartCard
+    component: LinechartCard,
 };
 
 export const TsiData = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     const tsiId = 'df4412c4-dba2-4a52-87af-780e78ff156b';
@@ -21,7 +21,7 @@ export const TsiData = (
     const tsiSearchSpan = new SearchSpan(
         new Date('2017-04-20T20:00:00Z'),
         new Date('2017-05-20T20:00:00Z'),
-        '6h'
+        '6h',
     );
     return !authenticationParameters ? (
         <div></div>
@@ -37,8 +37,8 @@ export const TsiData = (
                     new TsiAdapter(
                         authenticationParameters.tsi.environmentFqdn,
                         new MsalAuthService(
-                            authenticationParameters.tsi.aadParameters
-                        )
+                            authenticationParameters.tsi.aadParameters,
+                        ),
                     )
                 }
             />
@@ -48,7 +48,7 @@ export const TsiData = (
 
 export const ADXData = (
     _args,
-    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } }
+    { globals: { theme, locale }, parameters: { defaultCardWrapperStyle } },
 ) => {
     const authenticationParameters = useAuthParams();
     const twinId = 'CarTwin';
@@ -56,7 +56,7 @@ export const ADXData = (
     const twinSearchSpan = new SearchSpan(
         new Date('2021-09-10'),
         new Date('2021-09-17'),
-        '6h'
+        '6h',
     );
     return !authenticationParameters ? (
         <div></div>
@@ -75,8 +75,8 @@ export const ADXData = (
                         authenticationParameters.adx.databaseName,
                         authenticationParameters.adx.tableName,
                         new MsalAuthService(
-                            authenticationParameters.adx.aadParameters
-                        )
+                            authenticationParameters.adx.aadParameters,
+                        ),
                     )
                 }
             />

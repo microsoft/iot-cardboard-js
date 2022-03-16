@@ -3,7 +3,7 @@ import React, {
     useCallback,
     useState,
     useMemo,
-    useRef
+    useRef,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ISceneDialogProps, SelectionModeOf3DFile } from '../SceneList.types';
@@ -23,7 +23,7 @@ import {
     PivotItem,
     PrimaryButton,
     TextField,
-    TooltipHost
+    TooltipHost,
 } from '@fluentui/react';
 import File3DUploader from './3DFileUploader';
 import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
@@ -35,8 +35,8 @@ const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
         display: 'inline-block',
         cursor: 'pointer',
-        height: 16
-    }
+        height: 16,
+    },
 };
 
 const getDialogStyles = memoizeFunction(
@@ -47,12 +47,12 @@ const getDialogStyles = memoizeFunction(
                     '> div': {
                         display: 'flex',
                         flexDirection: 'column',
-                        height: '100%'
+                        height: '100%',
                     },
                     '.ms-Dialog-inner': {
                         ...(selected3DFilePivotItem ===
                             SelectionModeOf3DFile.FromComputer && {
-                            animation: 'show-scroll-y 1s'
+                            animation: 'show-scroll-y 1s',
                         }),
                         display: 'flex',
                         flexDirection: 'column',
@@ -64,25 +64,25 @@ const getDialogStyles = memoizeFunction(
                                 : '578px',
                         justifyContent: 'space-between',
                         overflowX: 'hidden',
-                        transition: 'height .6s ease'
+                        transition: 'height .6s ease',
                     },
                     '.ms-Dialog-title': {
-                        paddingBottom: 8
+                        paddingBottom: 8,
                     },
                     '.ms-Dialog-subText': {
-                        marginBottom: 20
+                        marginBottom: 20,
                     },
                     '.ms-Dialog-content': {
                         ...(selected3DFilePivotItem ===
                             SelectionModeOf3DFile.FromComputer && {
-                            animation: 'show-scroll-y 1s'
+                            animation: 'show-scroll-y 1s',
                         }),
-                        overflowX: 'hidden'
-                    }
-                }
-            }
+                        overflowX: 'hidden',
+                    },
+                },
+            },
         };
-    }
+    },
 );
 
 const SceneDialog: React.FC<ISceneDialogProps> = ({
@@ -92,22 +92,22 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     sceneToEdit,
     onAddScene,
     onEditScene,
-    renderBlobDropdown
+    renderBlobDropdown,
 }) => {
     const [newSceneName, setNewSceneName] = useState('');
     const [newSceneBlobUrl, setNewSceneBlobUrl] = useState('');
     const [scene, setScene] = useState<IScene>({ ...sceneToEdit });
     const sceneRef = useRef(scene);
     const [selected3DFilePivotItem, setSelected3DFilePivotItem] = useState(
-        SelectionModeOf3DFile.FromContainer
+        SelectionModeOf3DFile.FromContainer,
     );
     const [isOverwriteFile, setIsOverwriteFile] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File>(null);
     const [blobsInContainer, setBlobsInContainer] = useState<Array<IBlobFile>>(
-        []
+        [],
     );
     const [isSelectedFileExistInBlob, setIsSelectedFileExistInBlob] = useState(
-        false
+        false,
     );
     const { t } = useTranslation();
 
@@ -115,7 +115,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         adapterMethod: (params: { fileToUpload: File }) =>
             adapter.putBlob(params.fileToUpload),
         refetchDependencies: [adapter],
-        isAdapterCalledOnMount: false
+        isAdapterCalledOnMount: false,
     });
 
     useEffect(() => {
@@ -128,9 +128,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     assets: [
                         {
                             type: '3DAsset',
-                            url: newlyAdded3DFile.Path
-                        }
-                    ]
+                            url: newlyAdded3DFile.Path,
+                        },
+                    ],
                 });
             } else {
                 const newScene: IScene = {
@@ -139,11 +139,11 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     assets: [
                         {
                             type: '3DAsset',
-                            url: newlyAdded3DFile.Path
-                        }
+                            url: newlyAdded3DFile.Path,
+                        },
                     ],
                     elements: [],
-                    behaviorIDs: []
+                    behaviorIDs: [],
                 };
                 onAddScene(newScene);
             }
@@ -158,7 +158,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         closeButtonAriaLabel: t('close'),
         subText: sceneToEdit
             ? t('scenes.editDialogSubText')
-            : t('scenes.addDialogSubText')
+            : t('scenes.addDialogSubText'),
     };
 
     const dialogModalProps: IModalProps = useMemo(
@@ -166,9 +166,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             layerProps: { eventBubblingEnabled: true }, // this is for making react-dropzone work in dialog
             isBlocking: true,
             styles: getDialogStyles(selected3DFilePivotItem),
-            className: 'cb-scene-list-dialog-wrapper'
+            className: 'cb-scene-list-dialog-wrapper',
         }),
-        [getDialogStyles]
+        [getDialogStyles],
     );
 
     useEffect(() => {
@@ -203,7 +203,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         (e) => {
             if (sceneToEdit) {
                 const selectedSceneCopy: IScene = JSON.parse(
-                    JSON.stringify(sceneRef.current)
+                    JSON.stringify(sceneRef.current),
                 );
                 selectedSceneCopy.displayName = e.currentTarget.value;
                 setScene(selectedSceneCopy);
@@ -211,14 +211,14 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setNewSceneName(e.currentTarget.value);
             }
         },
-        [sceneToEdit, scene]
+        [sceneToEdit, scene],
     );
 
     const handleBlobUrlChange = useCallback(
         (blobUrl: string) => {
             if (sceneToEdit) {
                 const selectedSceneCopy = JSON.parse(
-                    JSON.stringify(sceneRef.current)
+                    JSON.stringify(sceneRef.current),
                 );
                 selectedSceneCopy.assets[0].url = blobUrl;
                 setScene(selectedSceneCopy);
@@ -226,7 +226,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 setNewSceneBlobUrl(blobUrl);
             }
         },
-        [sceneToEdit, scene]
+        [sceneToEdit, scene],
     );
 
     const handleFileOverwriteChange = useCallback((_e, checked: boolean) => {
@@ -239,7 +239,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             selectedFile
         ) {
             put3DFileBlob.callAdapter({
-                fileToUpload: selectedFile
+                fileToUpload: selectedFile,
             });
         } else {
             if (sceneToEdit) {
@@ -251,11 +251,11 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     assets: [
                         {
                             type: '3DAsset',
-                            url: newSceneBlobUrl
-                        }
+                            url: newSceneBlobUrl,
+                        },
                     ],
                     elements: [],
-                    behaviorIDs: []
+                    behaviorIDs: [],
                 };
                 onAddScene(newScene);
             }
@@ -284,7 +284,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             }
             setSelectedFile(file);
         },
-        [blobsInContainer]
+        [blobsInContainer],
     );
 
     const handleOnBlobsLoaded = (blobs: Array<IBlobFile>) => {
@@ -294,9 +294,9 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleOnPivotClick = useCallback(
         (item) =>
             setSelected3DFilePivotItem(
-                item.props.itemKey as SelectionModeOf3DFile
+                item.props.itemKey as SelectionModeOf3DFile,
             ),
-        []
+        [],
     );
 
     const resetState = useCallback(() => {
@@ -327,8 +327,8 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             selectedFile,
             isSelectedFileExistInBlob,
             isOverwriteFile,
-            put3DFileBlob
-        ]
+            put3DFileBlob,
+        ],
     );
 
     return (
@@ -340,7 +340,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             modalProps={dialogModalProps}
         >
             <TextField
-                className={"cb-scene-list-form-dialog-text-field"}
+                className={'cb-scene-list-form-dialog-text-field'}
                 label={t('name')}
                 required
                 title={newSceneName}
@@ -348,14 +348,16 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 onChange={handleNameChange}
             />
             <div>
-                <Label className={"cb-scene-list-form-dialog-3d-file-pivot-label"}>
+                <Label
+                    className={'cb-scene-list-form-dialog-3d-file-pivot-label'}
+                >
                     {t('scenes.3dFileAsset')}
                 </Label>
                 <TooltipHost
                     content={t('blobDropdown.supportedFileTypes', {
                         fileTypes: Object.values(Supported3DFileTypes).join(
-                            ', '
-                        )
+                            ', ',
+                        ),
                     })}
                     styles={fileUploadLabelTooltipStyles}
                 >
@@ -376,7 +378,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 >
                     {renderBlobDropdown(
                         handleBlobUrlChange,
-                        handleOnBlobsLoaded
+                        handleOnBlobsLoaded,
                     )}
                 </PivotItem>
                 <PivotItem

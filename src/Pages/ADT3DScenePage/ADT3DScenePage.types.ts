@@ -2,17 +2,17 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import {
     ADT3DScenePageModes,
-    ADT3DScenePageSteps
+    ADT3DScenePageSteps,
 } from '../../Models/Constants/Enums';
 import {
     IComponentError,
     IAction,
     IConsumeCompositeCardProps,
-    IADTInstance
+    IADTInstance,
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
-    IScene
+    IScene,
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
@@ -25,7 +25,7 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             selectedItemLocalStorageKey?: string;
             onEnvironmentChange?: (
                 environment: string | IADTInstance,
-                environments: Array<string | IADTInstance>
+                environments: Array<string | IADTInstance>,
             ) => void;
         };
         storage?: {
@@ -34,7 +34,7 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             selectedItemLocalStorageKey?: string;
             onContainerChange?: (
                 containerUrl: string,
-                containerUrls: Array<string>
+                containerUrls: Array<string>,
             ) => void;
         };
     };

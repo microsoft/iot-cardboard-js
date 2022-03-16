@@ -2,7 +2,7 @@ import {
     AssetRelationship,
     AssetTwin,
     ADTPatch,
-    IAssetDevice
+    IAssetDevice,
 } from '../../Constants';
 import AssetSimulation from './AssetSimulation';
 
@@ -36,7 +36,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 20) + 40,
                         minValue: 0,
                         maxValue: 100,
-                        properties: { Units: 'MPH' }
+                        properties: { Units: 'MPH' },
                     },
                     {
                         id: this.name,
@@ -44,7 +44,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 40,
                         minValue: 20,
                         maxValue: 80,
-                        properties: { Units: 'DegF' }
+                        properties: { Units: 'DegF' },
                     },
                     {
                         id: this.name,
@@ -52,12 +52,12 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 30,
                         minValue: 28,
                         maxValue: 32,
-                        properties: { Units: 'KPA' }
-                    }
+                        properties: { Units: 'KPA' },
+                    },
                 ];
                 this.twins.push({
                     name: 'CarTwin',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 break;
             }
@@ -69,7 +69,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 20) + 40,
                         minValue: 0,
                         maxValue: 100,
-                        properties: { Units: 'degF' }
+                        properties: { Units: 'degF' },
                     },
                     {
                         id: this.name,
@@ -77,7 +77,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 30,
                         minValue: 29,
                         maxValue: 31,
-                        properties: { Units: 'in' }
+                        properties: { Units: 'in' },
                     },
 
                     {
@@ -86,7 +86,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 30),
                         minValue: 0,
                         maxValue: 70,
-                        properties: { Units: 'mph' }
+                        properties: { Units: 'mph' },
                     },
                     {
                         id: this.name,
@@ -94,7 +94,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 30) + 90,
                         minValue: 90,
                         maxValue: 200,
-                        properties: { Units: 'degF' }
+                        properties: { Units: 'degF' },
                     },
                     {
                         id: this.name,
@@ -102,13 +102,13 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 5) + 10,
                         minValue: 10,
                         maxValue: 80,
-                        properties: { Units: 'cSt' }
-                    }
+                        properties: { Units: 'cSt' },
+                    },
                 ];
 
                 this.twins.push({
                     name: 'Windmill_1',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 break;
             }
@@ -120,7 +120,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 20) + 40,
                         minValue: 0,
                         maxValue: 100,
-                        properties: { Units: 'MPH' }
+                        properties: { Units: 'MPH' },
                     },
                     {
                         id: this.name,
@@ -128,7 +128,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 40,
                         minValue: 20,
                         maxValue: 60,
-                        properties: { Units: 'DegF' }
+                        properties: { Units: 'DegF' },
                     },
                     {
                         id: this.name,
@@ -136,13 +136,13 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 50,
                         minValue: 40,
                         maxValue: 100,
-                        properties: { Units: 'DegF' }
-                    }
+                        properties: { Units: 'DegF' },
+                    },
                 ];
 
                 this.twins.push({
                     name: 'HVACSystem_1',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 break;
             }
@@ -154,7 +154,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 300) + 50,
                         minValue: 50,
                         maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        properties: { Units: 'Gallons' },
                     },
                     {
                         id: this.name,
@@ -162,7 +162,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 300) + 50,
                         minValue: 50,
                         maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        properties: { Units: 'Gallons' },
                     },
                     {
                         id: this.name,
@@ -170,7 +170,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random()) + 120,
                         minValue: 110,
                         maxValue: 250,
-                        properties: { Units: 'DegF' }
+                        properties: { Units: 'DegF' },
                     },
                     {
                         id: this.name,
@@ -178,13 +178,13 @@ export class Asset {
                         seedValue: Math.floor(Math.random()),
                         minValue: 0,
                         maxValue: 1,
-                        properties: { Units: 'Percent' }
-                    }
+                        properties: { Units: 'Percent' },
+                    },
                 ];
 
                 this.relationships.push({
                     name: 'feeds',
-                    target: 'SaltMachine'
+                    target: 'SaltMachine',
                 });
 
                 this.twins.push({
@@ -193,10 +193,10 @@ export class Asset {
                         {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
-                            targetModel: 'SaltMachine'
-                        }
+                            targetModel: 'SaltMachine',
+                        },
                     ],
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A02',
@@ -204,10 +204,10 @@ export class Asset {
                         {
                             name: 'feeds',
                             target: 'SaltMachine_C0',
-                            targetModel: 'SaltMachine'
-                        }
+                            targetModel: 'SaltMachine',
+                        },
                     ],
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A03',
@@ -215,10 +215,10 @@ export class Asset {
                         {
                             name: 'feeds',
                             target: 'SaltMachine_C1',
-                            targetModel: 'SaltMachine'
-                        }
+                            targetModel: 'SaltMachine',
+                        },
                     ],
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A04',
@@ -226,10 +226,10 @@ export class Asset {
                         {
                             name: 'feeds',
                             target: 'SaltMachine_C2',
-                            targetModel: 'SaltMachine'
-                        }
+                            targetModel: 'SaltMachine',
+                        },
                     ],
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 break;
             }
@@ -241,7 +241,7 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 300) + 50,
                         minValue: 50,
                         maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        properties: { Units: 'Gallons' },
                     },
                     {
                         id: this.name,
@@ -249,21 +249,21 @@ export class Asset {
                         seedValue: Math.floor(Math.random() * 300) + 50,
                         minValue: 50,
                         maxValue: 600,
-                        properties: { Units: 'Gallons' }
-                    }
+                        properties: { Units: 'Gallons' },
+                    },
                 ];
 
                 this.twins.push({
                     name: 'SaltMachine_C0',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 this.twins.push({
                     name: 'SaltMachine_C1',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 this.twins.push({
                     name: 'SaltMachine_C2',
-                    devices: this.getDeviceInstances()
+                    devices: this.getDeviceInstances(),
                 });
                 break;
             }
@@ -276,15 +276,15 @@ export class Asset {
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C0',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C1',
-                            targetModel: 'SaltMachine'
-                        }
+                            targetModel: 'SaltMachine',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 this.twins.push({
@@ -293,15 +293,15 @@ export class Asset {
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C1',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'maintains',
                             target: 'PasteurizationMachine_A01',
-                            targetModel: 'PasteurizationMachine'
-                        }
+                            targetModel: 'PasteurizationMachine',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 this.twins.push({
@@ -310,15 +310,15 @@ export class Asset {
                         {
                             name: 'maintains',
                             target: 'PasteurizationMachine_A02',
-                            targetModel: 'PasteurizationMachine'
+                            targetModel: 'PasteurizationMachine',
                         },
                         {
                             name: 'maintains',
                             target: 'PasteurizationMachine_A03',
-                            targetModel: 'PasteurizationMachine'
-                        }
+                            targetModel: 'PasteurizationMachine',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 this.twins.push({
@@ -327,15 +327,15 @@ export class Asset {
                         {
                             name: 'maintains',
                             target: 'SaltMachine_C2',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'maintains',
                             target: 'PasteurizationMachine_A04',
-                            targetModel: 'PasteurizationMachine'
-                        }
+                            targetModel: 'PasteurizationMachine',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 break;
@@ -344,7 +344,7 @@ export class Asset {
                 this.relationships.push({ name: 'contains' });
                 this.relationships.push({
                     name: 'employs',
-                    target: 'MaintenancePersonnel'
+                    target: 'MaintenancePersonnel',
                 });
 
                 this.twins.push({
@@ -353,45 +353,45 @@ export class Asset {
                         {
                             name: 'contains',
                             target: 'SaltMachine_C0',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'contains',
                             target: 'SaltMachine_C1',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'contains',
                             target: 'PasteurizationMachine_A01',
-                            targetModel: 'PasteurizationMachine'
+                            targetModel: 'PasteurizationMachine',
                         },
                         {
                             name: 'contains',
                             target: 'PasteurizationMachine_A02',
-                            targetModel: 'PasteurizationMachine'
+                            targetModel: 'PasteurizationMachine',
                         },
                         {
                             name: 'contains',
                             target: 'PasteurizationMachine_A03',
-                            targetModel: 'PasteurizationMachine'
+                            targetModel: 'PasteurizationMachine',
                         },
                         {
                             name: 'employs',
                             target: 'Amy',
-                            targetModel: 'MaintenancePersonnel'
+                            targetModel: 'MaintenancePersonnel',
                         },
                         {
                             name: 'employs',
                             target: 'John',
-                            targetModel: 'MaintenancePersonnel'
+                            targetModel: 'MaintenancePersonnel',
                         },
                         {
                             name: 'employs',
                             target: 'Xenia',
-                            targetModel: 'MaintenancePersonnel'
-                        }
+                            targetModel: 'MaintenancePersonnel',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 this.twins.push({
@@ -400,20 +400,20 @@ export class Asset {
                         {
                             name: 'contains',
                             target: 'SaltMachine_C2',
-                            targetModel: 'SaltMachine'
+                            targetModel: 'SaltMachine',
                         },
                         {
                             name: 'contains',
                             target: 'PasteurizationMachine_A04',
-                            targetModel: 'PasteurizationMachine'
+                            targetModel: 'PasteurizationMachine',
                         },
                         {
                             name: 'employs',
                             target: 'Phillip',
-                            targetModel: 'MaintenancePersonnel'
-                        }
+                            targetModel: 'MaintenancePersonnel',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
 
                 break;
@@ -421,7 +421,7 @@ export class Asset {
             case 'Country': {
                 this.relationships.push({
                     name: 'contains',
-                    target: 'Factory'
+                    target: 'Factory',
                 });
                 this.twins.push({
                     name: 'Norway',
@@ -429,10 +429,10 @@ export class Asset {
                         {
                             name: 'contains',
                             target: 'OsloFactory',
-                            targetModel: 'Factory'
-                        }
+                            targetModel: 'Factory',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
                 this.twins.push({
                     name: 'Sweden',
@@ -440,10 +440,10 @@ export class Asset {
                         {
                             name: 'contains',
                             target: 'StockholmFactory',
-                            targetModel: 'Factory'
-                        }
+                            targetModel: 'Factory',
+                        },
                     ],
-                    devices: []
+                    devices: [],
                 });
                 break;
             }
@@ -486,7 +486,7 @@ export class AssetDevice {
         const event: ADTPatch = {
             op: 'replace',
             path: `/${this.deviceName}`,
-            value: this.seedValue
+            value: this.seedValue,
         };
         return event;
     }

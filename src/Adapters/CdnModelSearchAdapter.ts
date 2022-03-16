@@ -5,7 +5,7 @@ import BaseStandardModelSearchAdapter from '../Models/Classes/BaseStandardModelS
 import ModelIndexSearchResultsBuilder from '../Models/Classes/ModelIndexSearchResultsBuilder';
 import {
     IModelSearchStringParams,
-    IStandardModelSearchAdapter
+    IStandardModelSearchAdapter,
 } from '../Models/Constants/Interfaces';
 
 export default class CdnModelSearchAdapter
@@ -21,7 +21,7 @@ export default class CdnModelSearchAdapter
     async searchString({
         modelIndex,
         pageIdx = 0,
-        queryString
+        queryString,
     }: IModelSearchStringParams) {
         const adapterSandbox = new AdapterMethodSandbox();
 
@@ -44,8 +44,8 @@ export default class CdnModelSearchAdapter
                 metadata: {
                     pageIdx: nextPageStartingIndex,
                     hasMoreItems:
-                        nextPageStartingIndex < modelSearchIndexKeys.length - 1
-                }
+                        nextPageStartingIndex < modelSearchIndexKeys.length - 1,
+                },
             });
         });
     }
