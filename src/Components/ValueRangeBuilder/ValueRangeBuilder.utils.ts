@@ -95,7 +95,7 @@ export const isRangeOverlapFound = (
         const valueRange = sortedValueRanges[i];
         const nextValueRange = sortedValueRanges[i + 1];
 
-        if (valueRange.max >= nextValueRange.min) {
+        if (valueRange.max > nextValueRange.min) {
             overlapFound = true;
             break;
         }

@@ -61,7 +61,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
 
     const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
         ...defaultValueRangeBuilderState,
-        valueRanges: initialValueRanges,
+        valueRanges: initialValueRanges.sort(
+            (a, b) => Number(a.min) - Number(b.min)
+        ),
         validationMap: initialValidationMap,
         ...(customSwatchColors && { colorSwatch: customSwatchColors })
     });

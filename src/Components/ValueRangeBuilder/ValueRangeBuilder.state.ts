@@ -47,7 +47,7 @@ export const valueRangeBuilderReducer: (
                 let newMin = Number('-Infinity');
                 draft.valueRanges.forEach((vr) => {
                     if (!isNaN(Number(vr.max)) && vr.max > newMin) {
-                        newMin = Number(vr.max) + 1;
+                        newMin = Number(vr.max);
                     }
                 });
 
@@ -97,12 +97,25 @@ export const valueRangeBuilderReducer: (
             }
             case ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION: {
                 const { newValue, currentValueRange, isMin } = action.payload;
-                updateValueRangeValidation(
+                const validation = updateValueRangeValidation(
                     draft,
                     currentValueRange,
                     newValue,
                     isMin
                 );
+
+                // If newValue is valid numeric type -- parse to number internally
+                const valueToUpdate = draft.valueRanges.find(
+                    (vr) => vr.id === currentValueRange.id
+                );
+                if (!valueToUpdate) return;
+
+                if (isMin && validation.minValid) {
+                    valueToUpdate.min = Number(newValue);
+                } else if (!isMin && validation.maxValid) {
+                    valueToUpdate.max = Number(newValue);
+                }
+
                 break;
             }
             case ValueRangeBuilderActionType.SNAP_VALUE_TO_INFINITY: {
@@ -144,18 +157,9 @@ const updateValueRange = (
     if (!valueToUpdate) return;
 
     if (typeof newValue === 'string') {
-        let tryCastNumeric: number | string = newValue;
-        try {
-            if (!isNaN(Number(newValue))) {
-                tryCastNumeric = Number(newValue);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-
         boundary === Boundary.min
-            ? (valueToUpdate.min = tryCastNumeric as any)
-            : (valueToUpdate.max = tryCastNumeric as any);
+            ? (valueToUpdate.min = newValue as any)
+            : (valueToUpdate.max = newValue as any);
     } else if (newColor) {
         valueToUpdate.color = newColor;
     }
@@ -173,11 +177,13 @@ const updateValueRangeValidation = (
         ...(!isMin && { max: newValue as any })
     };
 
-    draft.validationMap.validation[currentValueRange.id] = getRangeValidation(
-        newValueRangeToCheck
-    );
+    const validation = getRangeValidation(newValueRangeToCheck);
+    draft.validationMap.validation[currentValueRange.id] = validation;
+
     draft.validationMap.overlapFound = isRangeOverlapFound(
         draft.valueRanges,
         draft.validationMap
     );
+
+    return validation;
 };
