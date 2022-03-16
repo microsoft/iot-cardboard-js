@@ -32,7 +32,7 @@ import {
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
-import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -121,7 +121,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     useEffect(() => {
         if (selectedElement) {
             setColoredMeshItems(
-                createColoredMeshItems(selectedElement.objectIDs, null)
+                createCustomMeshItems(selectedElement.objectIDs, null)
             );
         }
     }, []);

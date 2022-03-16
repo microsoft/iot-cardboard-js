@@ -8,7 +8,7 @@ import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
-    ColoredMeshItem,
+    CustomMeshItem,
     Marker,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
@@ -43,7 +43,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
-    const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
+    const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
@@ -101,7 +101,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                                 );
                                 if (color) {
                                     for (const mesh of sceneVisual.meshIds) {
-                                        const coloredMesh: ColoredMeshItem = {
+                                        const coloredMesh: CustomMeshItem = {
                                             meshId: mesh,
                                             color: color
                                         };

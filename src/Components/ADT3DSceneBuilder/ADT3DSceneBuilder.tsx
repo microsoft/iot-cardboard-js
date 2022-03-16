@@ -37,13 +37,13 @@ import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
-import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
     IBehavior,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { createColoredMeshItems } from '../3DV/SceneView.Utils';
+import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../Models/Services/Utils';
 import {
@@ -179,17 +179,17 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [state.builderMode]);
 
-    const setColoredMeshItems = (coloredMeshItems: Array<ColoredMeshItem>) => {
+    const setColoredMeshItems = (coloredMeshItems: Array<CustomMeshItem>) => {
         dispatch({
             type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
             payload: coloredMeshItems
         });
     };
 
-    const setMeshIdsToOutline = (meshIdsToOutline: Array<string>) => {
+    const setOutlinedMeshItems = (outlinedMeshItems: Array<CustomMeshItem>) => {
         dispatch({
             type: SET_MESH_IDS_TO_OUTLINE,
-            payload: meshIdsToOutline
+            payload: outlinedMeshItems
         });
     };
 
@@ -244,6 +244,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
                 ) {
                     setColoredMeshItems([]);
+                    setOutlinedMeshItems([]);
                 }
             }
         },
@@ -263,19 +264,26 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
 
     const meshHoverOnBehaviorsIdle = (mesh: AbstractMesh) => {
         const meshIds = [];
-        if (mesh) {
-            for (const element of state.elements) {
-                // find elements that contain this mesh
-                if (element.objectIDs.includes(mesh.id)) {
-                    for (const id of element.objectIDs) {
-                        // add meshes that make up element to highlight
-                        meshIds.push(id);
+        if (!contextualMenuProps.isVisible) {
+            if (mesh) {
+                for (const element of state.elements) {
+                    // find elements that contain this mesh
+                    if (element.objectIDs.includes(mesh.id)) {
+                        for (const id of element.objectIDs) {
+                            // add meshes that make up element to highlight
+                            meshIds.push(id);
+                        }
                     }
                 }
+                setOutlinedMeshItems(
+                    createCustomMeshItems(
+                        meshIds,
+                        state.renderMode.outlinedMeshHoverColor
+                    )
+                );
+            } else {
+                setOutlinedMeshItems([]);
             }
-            setMeshIdsToOutline(meshIds);
-        } else {
-            setMeshIdsToOutline([]);
         }
     };
 
@@ -309,12 +317,17 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             coloredMeshes = previouslyColoredMeshItems.current;
         }
 
-        setMeshIdsToOutline(meshIds);
+        setOutlinedMeshItems(
+            createCustomMeshItems(
+                meshIds,
+                state.renderMode.outlinedMeshHoverColor
+            )
+        );
         setColoredMeshItems(coloredMeshes);
     };
 
     const meshClickOnBehaviorsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        let coloredMeshes = [];
+        let outlinedElements = [];
         const elements: ITwinToObjectMapping[] = [];
         // clear context menu
         behaviorContextualMenuItems.current[1].sectionProps.items = [];
@@ -324,19 +337,21 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             if (element.objectIDs.includes(mesh.id)) {
                 elements.push(element);
                 // color any meshes that are in the elements
-                coloredMeshes = coloredMeshes.concat(
-                    createColoredMeshItems(element.objectIDs, null)
+                outlinedElements = outlinedElements.concat(
+                    createCustomMeshItems(
+                        element.objectIDs,
+                        state.renderMode.outlinedMeshSelectedColor
+                    )
                 );
             }
         }
 
-        if (coloredMeshes.length > 0) {
-            setColoredMeshItems(coloredMeshes);
-            previouslyColoredMeshItems.current = coloredMeshes;
+        if (outlinedElements.length > 0) {
+            setOutlinedMeshItems(outlinedElements);
+            previouslyColoredMeshItems.current = outlinedElements;
         } else {
-            setColoredMeshItems([]);
+            setOutlinedMeshItems([]);
         }
-        setMeshIdsToOutline([]);
 
         let behaviors: IBehavior[] = [];
         // get behaviors that contain any of the elements
@@ -367,7 +382,6 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 onClick: () => {
                     behaviorContextualMenuItems.current[1].sectionProps.items = [];
                     behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    setMeshIdsToOutline([]);
                     dispatch({
                         type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
                         payload: behavior
@@ -398,14 +412,17 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         ids = ids.concat(element.objectIDs);
                     }
 
-                    setMeshIdsToOutline([]);
                     // colored meshes that are in the elements contained in the hovered behavior
-                    setColoredMeshItems(createColoredMeshItems(ids, null));
+                    setOutlinedMeshItems(
+                        createCustomMeshItems(
+                            ids,
+                            state.renderMode.outlinedMeshHoverColor
+                        )
+                    );
                 },
                 onMouseOut: () => {
                     // rest highlight and mesh colorings
-                    setMeshIdsToOutline([]);
-                    setColoredMeshItems(previouslyColoredMeshItems.current);
+                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
                 }
             };
 
@@ -433,7 +450,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 onClick: () => {
                     behaviorContextualMenuItems.current[1].sectionProps.items = [];
                     behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    setMeshIdsToOutline([]);
+                    setOutlinedMeshItems([]);
                     // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
                     // memory is updated which causes bugs when creating new behaviors)
                     const newBehavior: IBehavior = {
@@ -456,12 +473,15 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 },
                 onMouseOver: () => {
                     // highlight the hovered element
-                    setMeshIdsToOutline(element.objectIDs);
-                    setColoredMeshItems([]);
+                    setOutlinedMeshItems(
+                        createCustomMeshItems(
+                            element.objectIDs,
+                            state.renderMode.outlinedMeshHoverColor
+                        )
+                    );
                 },
                 onMouseOut: () => {
-                    setMeshIdsToOutline([]);
-                    setColoredMeshItems(previouslyColoredMeshItems.current);
+                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
                 }
             };
 
@@ -514,10 +534,15 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     },
                     onMouseOver: () => {
                         // highlight the hovered element
-                        setMeshIdsToOutline(element.objectIDs);
+                        setOutlinedMeshItems(
+                            createCustomMeshItems(
+                                element.objectIDs,
+                                state.renderMode.outlinedMeshHoverColor
+                            )
+                        );
                     },
                     onMouseOut: () => {
-                        setMeshIdsToOutline([]);
+                        setOutlinedMeshItems([]);
                         setColoredMeshItems(previouslyColoredMeshItems.current);
                     }
                 };
@@ -531,9 +556,9 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
 
         // colored the selected mesh
-        const coloredMesh: ColoredMeshItem = { meshId: mesh.id, color: null };
+        const coloredMesh: CustomMeshItem = { meshId: mesh.id, color: null };
         setColoredMeshItems([coloredMesh]);
-        setMeshIdsToOutline([]);
+        setOutlinedMeshItems([]);
         previouslyColoredMeshItems.current = [coloredMesh];
 
         setContextualMenuProps({
@@ -575,7 +600,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 localeStrings,
                 coloredMeshItems: state.coloredMeshItems,
                 setColoredMeshItems,
-                setMeshIdsToOutline,
+                setOutlinedMeshItems,
                 config: state.config,
                 getConfig: getScenesConfig.callAdapter,
                 sceneId,
@@ -607,7 +632,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             renderMode={state.renderMode}
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
-                            meshIdsToOutline={state.meshIdsToOutline}
+                            outlinedMeshItems={state.outlinedMeshItems}
                             showHoverOnSelected={state.showHoverOnSelected}
                             coloredMeshItems={state.coloredMeshItems}
                             showMeshesOnHover={state.enableHoverOnModel}

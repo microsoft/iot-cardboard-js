@@ -26,8 +26,8 @@ import {
     IScene,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { ColoredMeshItem } from '../../../../Models/Classes/SceneView.types';
-import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
+import { CustomMeshItem } from '../../../../Models/Classes/SceneView.types';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import { IADT3DViewerRenderMode } from '../../../..';
 import PanelFooter from '../Shared/PanelFooter';
 
@@ -55,8 +55,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         config,
         sceneId,
         state,
-        setColoredMeshItems,
-        setMeshIdsToOutline
+        setOutlinedMeshItems
     } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
@@ -103,18 +102,18 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     };
 
     useEffect(() => {
-        let coloredMeshes = [];
+        let outlinedMeshes = [];
         if (selectedElements) {
             for (const selectedElement of selectedElements) {
-                coloredMeshes = coloredMeshes.concat(
-                    createColoredMeshItems(
+                outlinedMeshes = outlinedMeshes.concat(
+                    createCustomMeshItems(
                         selectedElement.objectIDs,
-                        state.renderMode.coloredMeshColor
+                        state.renderMode.outlinedMeshSelectedColor
                     )
                 );
             }
 
-            setColoredMeshItems(coloredMeshes);
+            setOutlinedMeshItems(outlinedMeshes);
         }
     }, [selectedElements]);
 
@@ -191,9 +190,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             selectedElements,
             setElementToDelete,
             setIsDeleteDialogOpen,
-            setColoredMeshItems,
             state.renderMode,
-            setMeshIdsToOutline,
+            setOutlinedMeshItems,
             t
         );
         setListItems(elementsList);
@@ -207,8 +205,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         selectedElements,
         setElementToDelete,
         setIsDeleteDialogOpen,
-        setColoredMeshItems,
-        setMeshIdsToOutline
+        setOutlinedMeshItems
     ]);
 
     const theme = useTheme();
@@ -306,9 +303,8 @@ function getListItems(
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    setColoredMeshItems: (setColoredMeshItems: Array<ColoredMeshItem>) => void,
     renderMode: IADT3DViewerRenderMode,
-    setMeshIdsToOutline: (ids: Array<string>) => void,
+    setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -347,57 +343,64 @@ function getListItems(
     };
 
     const onElementEnter = (element: ITwinToObjectMapping) => {
-        let coloredMeshes: ColoredMeshItem[] = [];
-        // if on the edit behavior panel all elements in that behavior should stay highlighted
-        if (isEditBehavior) {
-            if (selectedElements) {
-                // color elements in current behavior
-                for (const selectedElement of selectedElements) {
-                    if (element.id !== selectedElement.id) {
-                        coloredMeshes = coloredMeshes.concat(
-                            createColoredMeshItems(
-                                selectedElement.objectIDs,
-                                renderMode.coloredMeshColor
-                            )
-                        );
-                    }
-                }
-                if (
-                    selectedElements?.find(
-                        (selectedElement) => selectedElement.id === element.id
-                    )
-                ) {
-                    // if element is in behavior and hovered set it to a different color
-                    coloredMeshes = coloredMeshes.concat(
-                        createColoredMeshItems(
-                            element?.objectIDs,
-                            renderMode.coloredMeshHoverColor
+        let highlightedElements: CustomMeshItem[] = [];
+        if (selectedElements?.length > 0) {
+            for (const selectedElement of selectedElements) {
+                // highlight hovered element if currently selected
+                if (selectedElement.id === element.id) {
+                    highlightedElements = highlightedElements.concat(
+                        createCustomMeshItems(
+                            selectedElement.objectIDs,
+                            renderMode.outlinedMeshHoverSelectedColor
                         )
                     );
                 } else {
-                    setMeshIdsToOutline(element?.objectIDs);
+                    // highlight other selected elements
+                    highlightedElements = highlightedElements.concat(
+                        createCustomMeshItems(
+                            selectedElement.objectIDs,
+                            renderMode.outlinedMeshSelectedColor
+                        )
+                    );
                 }
             }
-        } else {
-            // hightlight just the current hovered element
-            setMeshIdsToOutline(element?.objectIDs);
-        }
 
-        setColoredMeshItems(coloredMeshes);
+            // highlight if not selected but hovered
+            if (!selectedElements.find((se) => se.id === element.id)) {
+                highlightedElements = highlightedElements.concat(
+                    createCustomMeshItems(
+                        element?.objectIDs,
+                        renderMode.outlinedMeshHoverColor
+                    )
+                );
+            }
+            setOutlinedMeshItems(highlightedElements);
+        } else {
+            setOutlinedMeshItems(
+                createCustomMeshItems(
+                    element?.objectIDs,
+                    renderMode.outlinedMeshHoverColor
+                )
+            );
+        }
     };
 
     const onElementLeave = () => {
-        if (isEditBehavior && selectedElements?.length > 0) {
+        if (selectedElements?.length > 0) {
             let meshIds: string[] = [];
             for (const element of selectedElements) {
                 if (element.objectIDs) {
                     meshIds = meshIds.concat(element?.objectIDs);
                 }
             }
-            setColoredMeshItems(createColoredMeshItems(meshIds, null));
-            setMeshIdsToOutline([]);
+            setOutlinedMeshItems(
+                createCustomMeshItems(
+                    meshIds,
+                    renderMode.outlinedMeshSelectedColor
+                )
+            );
         } else {
-            setMeshIdsToOutline([]);
+            setOutlinedMeshItems([]);
         }
     };
 

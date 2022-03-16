@@ -3,7 +3,7 @@ import React from 'react';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IWidgetLibraryItem } from '../../Models/Classes/3DVConfig';
-import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -58,9 +58,9 @@ export interface I3DSceneBuilderContext {
     config: I3DScenesConfig;
     getConfig: () => void;
     sceneId: string;
-    coloredMeshItems: Array<ColoredMeshItem>;
-    setColoredMeshItems: (objects: Array<ColoredMeshItem>) => void;
-    setMeshIdsToOutline: (ids: Array<string>) => void;
+    coloredMeshItems: Array<CustomMeshItem>;
+    setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
+    setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
@@ -151,8 +151,8 @@ export interface IADT3DSceneBuilderElementsProps {
 
 export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
-    coloredMeshItems: Array<ColoredMeshItem>;
-    meshIdsToOutline: Array<string>;
+    coloredMeshItems: Array<CustomMeshItem>;
+    outlinedMeshItems: Array<CustomMeshItem>;
     widgetFormInfo: WidgetFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;

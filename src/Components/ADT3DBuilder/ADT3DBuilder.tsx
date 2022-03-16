@@ -2,7 +2,7 @@ import React from 'react';
 import SceneView from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import {
     IADT3DViewerRenderMode,
     IADTAdapter
@@ -17,10 +17,10 @@ interface ADT3DBuilderProps {
     onMeshClicked?: (clickedMesh: AbstractMesh, e: PointerEvent) => void;
     onMeshHovered?: (clickedMesh: AbstractMesh) => void;
     showMeshesOnHover?: boolean;
-    coloredMeshItems?: ColoredMeshItem[];
+    coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
     renderMode?: IADT3DViewerRenderMode;
-    meshIdsToOutline?: string[];
+    outlinedMeshItems?: CustomMeshItem[];
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
@@ -32,7 +32,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     coloredMeshItems,
     showHoverOnSelected,
     renderMode,
-    meshIdsToOutline
+    outlinedMeshItems
 }) => {
     const meshClick = (
         _marker: Marker,
@@ -67,7 +67,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                     showMeshesOnHover={showMeshesOnHover ?? true}
                     showHoverOnSelected={showHoverOnSelected}
                     renderMode={renderMode}
-                    meshIdsToOutline={meshIdsToOutline}
+                    outlinedMeshitems={outlinedMeshItems}
                     getToken={
                         (adapter as any).authService
                             ? () =>

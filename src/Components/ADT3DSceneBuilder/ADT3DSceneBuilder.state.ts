@@ -24,7 +24,7 @@ import { RenderModes } from '../..';
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     coloredMeshItems: [],
-    meshIdsToOutline: [],
+    outlinedMeshItems: [],
     widgetFormInfo: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
@@ -74,7 +74,7 @@ export const ADT3DSceneBuilderReducer: (
                 draft.showHoverOnSelected = payload;
                 break;
             case SET_MESH_IDS_TO_OUTLINE:
-                draft.meshIdsToOutline = payload;
+                draft.outlinedMeshItems = payload;
                 break;
             case SET_RENDER_MODE:
                 draft.renderMode = payload;
@@ -87,16 +87,18 @@ export const ADT3DSceneBuilderReducer: (
                         draft.selectedPivotTab =
                             ADT3DSceneTwinBindingsMode.Elements;
                         draft.enableHoverOnModel = false;
+                        draft.outlinedMeshItems = [];
                         break;
                     case ADT3DSceneBuilderMode.BehaviorIdle:
                         draft.selectedBehavior = null;
                         draft.selectedPivotTab =
                             ADT3DSceneTwinBindingsMode.Behaviors;
+                        draft.outlinedMeshItems = [];
                         break;
                     case ADT3DSceneBuilderMode.EditElement:
                     case ADT3DSceneBuilderMode.CreateElement:
                         draft.enableHoverOnModel = true;
-                        draft.meshIdsToOutline = [];
+                        draft.outlinedMeshItems = [];
                         break;
                     default:
                         draft.enableHoverOnModel = false;

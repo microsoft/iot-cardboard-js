@@ -108,7 +108,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     getToken,
     coloredMeshItems,
     showHoverOnSelected,
-    meshIdsToOutline
+    outlinedMeshitems
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -930,20 +930,28 @@ const SceneView: React.FC<ISceneViewProp> = ({
     }, [coloredMeshItems, isLoading, currentRenderMode]);
 
     useEffect(() => {
-        if (meshIdsToOutline) {
-            for (const id of meshIdsToOutline) {
+        if (outlinedMeshitems) {
+            for (const item of outlinedMeshitems) {
                 const meshToOutline = sceneRef.current.meshes.find(
-                    (mesh) => mesh.id === id
+                    (mesh) => mesh.id === item.meshId
                 );
 
                 if (meshToOutline) {
                     try {
-                        highlightLayer.current.addMesh(
-                            meshToOutline as BABYLON.Mesh,
-                            BABYLON.Color3.FromHexString(
-                                renderMode.coloredMeshColor
-                            )
-                        );
+                        if (item.color) {
+                            highlightLayer.current.addMesh(
+                                meshToOutline as BABYLON.Mesh,
+                                BABYLON.Color3.FromHexString(item.color)
+                            );
+                        } else {
+                            highlightLayer.current.addMesh(
+                                meshToOutline as BABYLON.Mesh,
+                                BABYLON.Color3.FromHexString(
+                                    renderMode.outlinedMeshSelectedColor
+                                )
+                            );
+                        }
+
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
                         console.log('Unable to highlight mesh');
@@ -957,7 +965,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
             }
         };
-    }, [meshIdsToOutline]);
+    }, [outlinedMeshitems]);
 
     const colorMesh = (mesh: AbstractMesh, color: string) => {
         const material = new BABYLON.StandardMaterial(
