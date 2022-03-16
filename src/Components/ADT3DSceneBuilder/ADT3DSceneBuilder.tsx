@@ -1,4 +1,8 @@
-import { ContextualMenu, ContextualMenuItemType } from '@fluentui/react';
+import {
+    ContextualMenu,
+    ContextualMenuItemType,
+    mergeStyleSets
+} from '@fluentui/react';
 import React, {
     useCallback,
     useEffect,
@@ -47,6 +51,14 @@ import {
     defaultBehavior
 } from '../../Models/Classes/3DVConfig';
 
+const contextMenuStyles = mergeStyleSets({
+    header: {
+        marginLeft: -25,
+        marginTop: -4,
+        marginBottom: -4
+    }
+});
+
 export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
 );
@@ -83,7 +95,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             {
                 key: t('3dSceneBuilder.elementActions'),
                 itemType: ContextualMenuItemType.Header,
-                text: t('3dSceneBuilder.elementActions')
+                text: t('3dSceneBuilder.elementActions'),
+                className: contextMenuStyles.header
             },
             {
                 key: t('3dSceneBuilder.elements'),
@@ -128,7 +141,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
             {
                 key: t('3dSceneBuilder.behaviorActions'),
                 itemType: ContextualMenuItemType.Header,
-                text: t('3dSceneBuilder.behaviorActions')
+                text: t('3dSceneBuilder.behaviorActions'),
+                className: contextMenuStyles.header
             },
             {
                 key: t('3dSceneBuilder.behaviors'),
