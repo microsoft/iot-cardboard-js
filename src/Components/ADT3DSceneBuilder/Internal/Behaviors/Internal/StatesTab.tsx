@@ -68,19 +68,22 @@ const StatesTab: React.FC = () => {
     // we only grab the first Status in the config
     const stateVisual = getStatusFromBehavior(behaviorToEdit);
     const theme = useTheme();
+    const hasProperties = propertyOptions.length;
     return (
         <Stack tokens={sectionStackTokens}>
             <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
                 {t(LOC_KEYS.notice)}
             </Text>
             <Dropdown
-                options={propertyOptions}
-                onChange={onPropertyChange}
+                data-testid={'behavior-form-state-dropdown'}
                 defaultSelectedKey={propertyOptions?.[0]?.key}
+                disabled={!hasProperties}
+                errorMessage={!hasProperties && 'No elements selected'}
                 label={t(LOC_KEYS.propertyDropdownLabel)}
-                errorMessage={!propertyOptions.length && 'No elements selected'}
+                onChange={onPropertyChange}
+                options={propertyOptions}
             />
-            <Separator />
+            {hasProperties && <Separator />}
             {/* TO DO: Implement for real */}
             {stateVisual?.statusValueRanges?.map((_x, index) => (
                 <div>{t(LOC_KEYS.stateItemLabel, { index: index + 1 })}</div>

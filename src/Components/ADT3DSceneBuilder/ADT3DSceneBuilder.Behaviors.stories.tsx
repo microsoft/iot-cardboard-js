@@ -234,11 +234,31 @@ NewElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(button);
 };
 
-export const NewStatesTab = Template.bind({});
-NewStatesTab.play = async ({ canvasElement }) => {
+export const NewStateTabEmpty = Template.bind({});
+NewStateTabEmpty.play = async ({ canvasElement }) => {
     await NewElementsTab.play({ canvasElement });
 
     const canvas = within(canvasElement);
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[1]);
+};
+
+export const NewStateTabWithData = Template.bind({});
+NewStateTabWithData.play = async ({ canvasElement }) => {
+    await NewElementsTab.play({ canvasElement });
+
+    // select some elements
+    const canvas = within(canvasElement);
+    const listItem1 = await canvas.findByTestId(
+        'cardboard-list-item-elements-in-scene-0'
+    );
+    await userEvent.click(listItem1);
+    const listItem2 = await canvas.findByTestId(
+        'cardboard-list-item-elements-in-scene-2'
+    );
+    await userEvent.click(listItem2);
+
+    // switch tabs
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[1]);
 };
