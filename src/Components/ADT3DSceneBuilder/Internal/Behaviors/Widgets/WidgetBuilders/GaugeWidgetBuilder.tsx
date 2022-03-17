@@ -62,7 +62,9 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t('3dSceneBuilder.expression'),
-                        placeholder: t('3dSceneBuilder.expressionPlaceholder'),
+                        placeholder: t(
+                            '3dSceneBuilder.numericExpressionPlaceholder'
+                        ),
                         multiline: formData.valueExpression.length > 40
                     }
                 }}
