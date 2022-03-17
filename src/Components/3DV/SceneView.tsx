@@ -64,6 +64,8 @@ function hexToColor4(hex: string): BABYLON.Color4 {
     return color;
 }
 
+let dummyProgress = 0; // Progress doesn't work for GLBs so fake it
+
 async function loadPromise(
     root: string,
     file: string,
@@ -202,6 +204,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 Tools.UseCustomRequestHeaders = false;
             }
 
+            dummyProgress = 0;
             const assets = await loadPromise(
                 root,
                 file,
@@ -228,11 +231,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
-            if (e.total) {
-                setLoadProgress(e.loaded / e.total);
-            } else {
-                setLoadProgress(0);
+            let progress = e.total ? e.loaded / e.total : 0;
+            if (!e.lengthComputable) {
+                dummyProgress += 0.01;
+                progress = dummyProgress > 1 ? 1 : dummyProgress;
             }
+            setLoadProgress(progress);
         }
 
         if (!sceneRef.current) {
@@ -303,9 +307,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
             ) {
                 prevHideUnzoomedRef.current = unzoomedMeshOpacity;
-                meshMap.current = {};
+                meshMap.current = cameraRef.current ? meshMap.current : {};
                 for (const mesh of sceneRef.current.meshes) {
-                    if (mesh.id) {
+                    if (!cameraRef.current && mesh.id) {
                         meshMap.current[mesh.id] = mesh;
                     }
 
@@ -720,9 +724,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current &&
                             highlightedMeshRef.current !== mesh.id
                         ) {
-                            const meshToReset = scene.meshes.find(
-                                (m) => m.id === highlightedMeshRef.current
-                            );
+                            const meshToReset =
+                                meshMap.current[highlightedMeshRef.current];
 
                             if (meshToReset) {
                                 const isColored = coloredMeshItems?.find(
@@ -754,9 +757,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         }
                     } else if (highlightedMeshRef.current) {
                         // reset the highlighted mesh color if no mesh is picked
-                        const lastMesh = scene.meshes.find(
-                            (m) => m.id === highlightedMeshRef.current
-                        );
+                        const lastMesh =
+                            meshMap.current[highlightedMeshRef.current];
                         if (lastMesh) {
                             const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === lastMesh.id
@@ -946,10 +948,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                const meshToOutline = sceneRef.current.meshes.find(
-                    (mesh) => mesh.id === item.meshId
-                );
-
+                const meshToOutline = meshMap.current[item.meshId];
                 if (meshToOutline) {
                     try {
                         if (item.color) {
