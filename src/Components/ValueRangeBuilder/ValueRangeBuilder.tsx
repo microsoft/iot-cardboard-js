@@ -69,18 +69,6 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
 
     const { validationMap } = state;
 
-    const addNewValueRange = useCallback(() => {
-        const id = createGUID(false);
-
-        dispatch({
-            type: ValueRangeBuilderActionType.ADD_VALUE_RANGE,
-            payload: {
-                id,
-                color: getNextColor(state.valueRanges, state.colorSwatch)
-            }
-        });
-    }, []);
-
     // On mount, pre-fill value ranges to min required
     useEffect(() => {
         if (state.valueRanges.length < minRanges) {
@@ -145,7 +133,20 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                     )}
                 <ActionButton
                     iconProps={{ iconName: 'Add' }}
-                    onClick={addNewValueRange}
+                    onClick={() => {
+                        const id = createGUID(false);
+
+                        dispatch({
+                            type: ValueRangeBuilderActionType.ADD_VALUE_RANGE,
+                            payload: {
+                                id,
+                                color: getNextColor(
+                                    state.valueRanges,
+                                    state.colorSwatch
+                                )
+                            }
+                        });
+                    }}
                     ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}
                     disabled={
                         maxRanges && state.valueRanges.length >= maxRanges
