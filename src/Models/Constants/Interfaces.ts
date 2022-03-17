@@ -415,7 +415,26 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<Record<string, any>>;
+    /**
+     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
+     * The names of the properties come in the format PropertyName
+     * @param sceneId Identifier for the scene
+     * @param config configuration data for the scene
+     * @param behavior behavior to look for the twins
+     */
     getCommonTwinPropertiesForBehavior(
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]>;
+    /**
+     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
+     * The names of the properties come in the format LinkedTwin.Alias.PropertyName
+     * @param sceneId Identifier for the scene
+     * @param config configuration data for the scene
+     * @param behavior behavior to look for the twins
+     */
+    getTwinPropertiesForBehaviorWithFullName(
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior

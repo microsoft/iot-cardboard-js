@@ -13,6 +13,10 @@ import {
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
+import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+
+const getStatusFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorStatusForm';
 const LOC_KEYS = {
@@ -20,6 +24,7 @@ const LOC_KEYS = {
     stateItemLabel: `${ROOT_LOC}.stateItemLabel`,
     notice: `${ROOT_LOC}.notice`
 };
+
 const StatesTab: React.FC = () => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
@@ -32,7 +37,11 @@ const StatesTab: React.FC = () => {
 
     useEffect(() => {
         adapter
-            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .getTwinPropertiesForBehaviorWithFullName(
+                sceneId,
+                config,
+                behaviorToEdit
+            )
             .then((properties) => {
                 if (properties?.length) {
                     setPropertyOptions(
@@ -48,9 +57,7 @@ const StatesTab: React.FC = () => {
             setBehaviorToEdit(
                 produce((draft) => {
                     // Assuming only 1 status visual per behavior
-                    const stateVisual = draft.visuals.filter(
-                        ViewerConfigUtility.isStatusColorVisual
-                    )[0];
+                    const stateVisual = getStatusFromBehavior(draft);
                     stateVisual.statusValueExpression = option.data;
                 })
             );
@@ -59,9 +66,7 @@ const StatesTab: React.FC = () => {
     );
 
     // we only grab the first Status in the config
-    const stateVisual = behaviorToEdit.visuals.filter(
-        ViewerConfigUtility.isStatusColorVisual
-    )[0];
+    const stateVisual = getStatusFromBehavior(behaviorToEdit);
     const theme = useTheme();
     return (
         <Stack tokens={sectionStackTokens}>
