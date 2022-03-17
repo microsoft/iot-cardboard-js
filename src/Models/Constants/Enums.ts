@@ -154,11 +154,6 @@ export enum BehaviorListSegment {
 
 export enum ADT3DRenderMode {
     Default = 'Default',
-    Wireframe = 'Wireframe',
-    Red = 'Red',
-    RedWireframe = 'RedWireframe',
-    Green = 'Green',
-    GreenWireframe = 'GreenWireframe',
     Blue = 'Blue',
     Gold = 'Gold'
 }

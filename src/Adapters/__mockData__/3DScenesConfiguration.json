@@ -45,7 +45,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced_AO.glb",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
                         "extensionProperties": {}
                     }
                 ]
@@ -74,8 +74,14 @@
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Left",
-                                    "min": 0,
-                                    "max": 500
+                                    "valueRanges": [
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf160",
+                                            "min": 0,
+                                            "max": 500,
+                                            "color": "#FF0000FF"
+                                        }
+                                    ]
                                 },
                                 "extensionProperties": {}
                             },
@@ -86,8 +92,14 @@
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
-                                    "min": 0,
-                                    "max": 500
+                                    "valueRanges": [
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf161",
+                                            "min": 0,
+                                            "max": 500,
+                                            "color": "#FF0000FF"
+                                        }
+                                    ]
                                 }
                             },
                             {
@@ -122,14 +134,16 @@
                     {
                         "type": "StatusColoring",
                         "statusValueExpression": "LinkedTwin.Temperature",
-                        "statusValueRanges": [
+                        "valueRanges": [
                             {
-                                "color": "#FF0000ff",
+                                "id": "0278cd377adbc30253b0fdb6b5fcf162",
+                                "color": "#FF0000FF",
                                 "min": 21,
                                 "max": "Infinity"
                             },
                             {
-                                "color": "#0000FFff",
+                                "id": "0278cd377adbc30253b0fdb6b5fcf163",
+                                "color": "#0000FFFF",
                                 "min": "-Infinity",
                                 "max": 20
                             }
@@ -155,14 +169,16 @@
                     {
                         "type": "StatusColoring",
                         "statusValueExpression": "temperatureTag.OutFlow",
-                        "statusValueRanges": [
+                        "valueRanges": [
                             {
-                                "color": "#0000FFff",
+                                "id": "0278ed377adbc30153b0fdb6b5fcf167",
+                                "color": "#0000FFFF",
                                 "min": 100,
                                 "max": "Infinity"
                             },
                             {
-                                "color": "#00FF00ff",
+                                "id": "0278bd377adbc30254b0fdb6b5fcf169",
+                                "color": "#00FF00FF",
                                 "min": "-Infinity",
                                 "max": 100
                             }
@@ -177,7 +193,7 @@
                         "triggerExpression": "temperatureTag.value > 25",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
                         "iconName": "heart",
-                        "color": "#00FF00ff",
+                        "color": "#00FF00FF",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }

@@ -7,7 +7,6 @@ import {
     Theme
 } from '@fluentui/react';
 import { StyleConstants } from '../../Models/Constants';
-import { getTransparentColor, hexToRgbCss } from '../../Models/Services/Utils';
 
 const classPrefix = 'cardboard-list-item';
 const classNames = {

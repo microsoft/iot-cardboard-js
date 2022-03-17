@@ -1,9 +1,17 @@
-import { IPalette } from '@fluentui/react';
+import { IColorCellProps, IPalette } from '@fluentui/react';
 
 export const customOverrides = {
     primaryButtonTextColor: '#F2F3F4',
     primaryButtonTextColorDisabled: '#A5A5A5'
 };
+
+export const defaultSwatchColors: IColorCellProps[] = [
+    { id: 'green', label: 'green', color: '#7DDF64' },
+    { id: 'purple', label: 'purple', color: '#7A306C' },
+    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
+    { id: 'blue', label: 'blue', color: '#3AAED8' },
+    { id: 'red', label: 'red', color: '#E84855' }
+];
 
 // Palettes created from https://aka.ms/themedesigner
 export const fluentLightThemePalette: Partial<IPalette> = {

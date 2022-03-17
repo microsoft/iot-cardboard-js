@@ -1,5 +1,5 @@
 import * as BABYLON from 'babylonjs';
-import { customShaderTag } from '../../Models/Constants';
+import { customShaderTag, shaderHasReflection } from '../../Models/Constants';
 
 const customVertex = `
 precision highp float;
@@ -138,8 +138,10 @@ export function makeShaderMaterial(
     material.alpha = baseColor.a;
     material.alphaMode = baseColor.a > 0.9 ? 5 : 1;
 
+    const tags =
+        customShaderTag + (hasRefTexture ? ' ' + shaderHasReflection : '');
     //Add a camera update tag to flag for Fresnel update
-    BABYLON.Tags.AddTagsTo(material, customShaderTag);
+    BABYLON.Tags.AddTagsTo(material, tags);
 
     return material;
 }
