@@ -701,6 +701,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('hover effect' + (scene ? ' with scene' : ' no scene'));
         let pt: BABYLON.Observer<BABYLON.PointerInfo>;
         if (scene) {
+            // setting flag based on mouse down (i.e camera is being moved) to stop hover events firing at the same time
             pt = scene.onPointerObservable.add((eventData) => {
                 if (eventData.type === BABYLON.PointerEventTypes.POINTERDOWN) {
                     pointerActive.current = true;
