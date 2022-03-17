@@ -1,14 +1,18 @@
 import {
     I3DScenesConfig,
+    IAlertVisual,
     IBehavior,
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    IPopoverVisual,
     IScene,
+    IStatusColoringVisual,
     IStatusValueRange,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType } from './3DVConfig';
+import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -252,6 +256,20 @@ abstract class ViewerConfigUtility {
         element: IElement
     ): element is ITwinToObjectMapping {
         return element.type === ElementType.TwinToObjectMapping;
+    }
+
+    static isStatusColorVisual(
+        visual: IVisual
+    ): visual is IStatusColoringVisual {
+        return visual.type === VisualType.StatusColoring;
+    }
+
+    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
+        return visual.type === VisualType.Alert;
+    }
+
+    static isPopOverVisual(visual: IVisual): visual is IPopoverVisual {
+        return visual.type === VisualType.Popover;
     }
 
     static getBehaviorsSegmentedByPresenceInScene(

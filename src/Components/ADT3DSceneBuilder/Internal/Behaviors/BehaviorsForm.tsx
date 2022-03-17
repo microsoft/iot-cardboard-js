@@ -39,6 +39,7 @@ import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfigurat
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
 import AlertsTab from './Internal/AlertsTab';
+import StatesTab from './Internal/StatesTab';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -221,7 +222,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     headerText={t('3dSceneBuilder.statesTab')}
                                     itemKey={BehaviorPivot.states}
                                 >
-                                    <>States go here</>
+                                    <StatesTab />
                                 </PivotItem>
                                 <PivotItem
                                     className={

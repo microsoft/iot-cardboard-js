@@ -1,15 +1,11 @@
 import produce from 'immer';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import {
-    VisualType,
-    DatasourceType
-} from '../../../../../Models/Classes/3DVConfig';
 import { linkedTwinName } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
-import { IAlertVisual } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
     Stack,
@@ -17,6 +13,10 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+
+const getAlertFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorAlertForm';
 const LOC_KEYS = {
@@ -27,6 +27,7 @@ const LOC_KEYS = {
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
+
 const AlertsTab: React.FC = () => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
@@ -34,13 +35,6 @@ const AlertsTab: React.FC = () => {
     );
     const [propertyNames, setPropertyNames] = useState<string[]>(null);
 
-    // we only grab the first alert in the collection
-    const colorChangeVisual = behaviorToEdit.visuals.find(
-        (visual) => visual.type === VisualType.Alert
-    ) as IAlertVisual;
-
-    const colorAlertTriggerExpression =
-        colorChangeVisual?.triggerExpression || '';
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
     if (!propertyNames) {
@@ -55,6 +49,22 @@ const AlertsTab: React.FC = () => {
         return twinId === linkedTwinName ? propertyNames : [];
     }
 
+    const onExpressionChange = useCallback(
+        (newValue) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    // Assuming only 1 color change visual per behavior
+                    const colorChangeVisual = getAlertFromBehavior(draft);
+                    colorChangeVisual.triggerExpression = newValue;
+                })
+            );
+        },
+        [setBehaviorToEdit]
+    );
+
+    // we only grab the first alert in the collection
+    const colorChangeVisual = getAlertFromBehavior(behaviorToEdit);
+    const expression = colorChangeVisual?.triggerExpression || '';
     const theme = useTheme();
     return (
         <Stack tokens={sectionStackTokens}>
@@ -65,22 +75,12 @@ const AlertsTab: React.FC = () => {
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t(LOC_KEYS.expressionLabel),
-                        multiline: colorAlertTriggerExpression.length > 40,
+                        multiline: expression.length > 40,
                         placeholder: t(LOC_KEYS.expressionPlaceholder)
                     }
                 }}
-                onChange={(newValue) => {
-                    setBehaviorToEdit(
-                        produce((draft) => {
-                            // Assuming only 1 color change visual per behavior
-                            const colorChangeVisual = draft.visuals.find(
-                                (visual) => visual.type === VisualType.Alert
-                            ) as IAlertVisual;
-                            colorChangeVisual.triggerExpression = newValue;
-                        })
-                    );
-                }}
-                defaultValue={colorAlertTriggerExpression}
+                onChange={onExpressionChange}
+                defaultValue={expression}
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
@@ -89,7 +89,7 @@ const AlertsTab: React.FC = () => {
             <div
                 style={{
                     alignItems: 'center',
-                    backgroundColor: 'red',
+                    backgroundColor: '#D42020',
                     border: `1px solid ${theme.semanticColors.inputBorder}`,
                     borderRadius: 4,
                     display: 'flex',

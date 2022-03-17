@@ -918,6 +918,7 @@ export default class ADTAdapter implements IADTAdapter {
         const scene = config.configuration?.scenes?.find(
             (scene) => scene.id === sceneId
         );
+        // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
         );
@@ -965,6 +966,8 @@ export default class ADTAdapter implements IADTAdapter {
         behavior: IBehavior
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        // eslint-disable-next-line no-debugger
+        debugger;
         let properties: string[] = null;
         for (const alias in twins) {
             const twin = twins[alias];

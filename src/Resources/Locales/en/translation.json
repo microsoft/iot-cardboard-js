@@ -364,6 +364,13 @@
             "notificationLabel": "Notification text",
             "notificationPlaceholder": "None"
         },
+        "behaviorStatusForm": {
+            "expressionLabel": "Trigger expression",
+            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "notice": "Use a single property to recolor this behavior's target elements.",
+            "propertyDropdownLabel": "Property",
+            "stateItemLabel": "State {{index}}"
+        },
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
