@@ -19,6 +19,7 @@ import {
     I3DScenesConfig,
     IBehavior,
     IGaugeWidget,
+    ILinkWidget,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IValueRangeBuilderHandle } from '../ValueRangeBuilder/ValueRangeBuilder.types';
@@ -168,17 +169,18 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
-    formData: IGaugeWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
-    behaviorToEdit?: IBehavior;
+    getIntellisensePropertyNames?: (twinId: string) => string[];
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface IGaugeWidgetBuilderProps {
+export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: ILinkWidget;
+    setFormData: React.Dispatch<React.SetStateAction<ILinkWidget>>;
+}
+
+export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IGaugeWidget;
     setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
-    behaviorToEdit?: IBehavior;
-    setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
     valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
 }
 

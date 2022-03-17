@@ -1,42 +1,21 @@
 import { TextField } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { linkedTwinName } from '../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
-import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
     setFormData,
-    behaviorToEdit,
     setIsWidgetConfigValid,
-    valueRangeRef
+    valueRangeRef,
+    getIntellisensePropertyNames
 }) => {
     const { t } = useTranslation();
-    const [propertyNames, setPropertyNames] = useState<string[]>(null);
-    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
     const [areValueRangesValid, setAreValueRangesValid] = useState(true);
-
-    useEffect(() => {
-        if (!propertyNames) {
-            adapter
-                .getCommonTwinPropertiesForBehavior(
-                    sceneId,
-                    config,
-                    behaviorToEdit
-                )
-                .then((properties) => {
-                    setPropertyNames(properties);
-                });
-        }
-    }, [sceneId, config, behaviorToEdit]);
-
-    function getPropertyNames(twinId: string) {
-        return twinId === linkedTwinName ? propertyNames : [];
-    }
 
     useEffect(() => {
         const {
@@ -96,7 +75,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     );
                 }}
                 aliasNames={[linkedTwinName]}
-                getPropertyNames={getPropertyNames}
+                getPropertyNames={getIntellisensePropertyNames}
             />
             <ValueRangeBuilder
                 initialValueRanges={formData.widgetConfiguration.valueRanges}
