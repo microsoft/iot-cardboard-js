@@ -109,6 +109,7 @@
                                 "id": "1d60362667067ff5763bb6f7765a9cc8",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
+                                    "label": "Power BI",
                                     "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                                 }
                             }

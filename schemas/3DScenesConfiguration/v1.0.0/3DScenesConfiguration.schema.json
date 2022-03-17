@@ -321,18 +321,23 @@
                         "$ref": "#/$defs/IValueRange"
                     }
                 }
-            }
+            },
+            "required": ["label", "valueRanges"]
         },
         "ILinkWidgetConfiguration": {
             "type": "object",
             "additionalProperties": false,
             "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
             "properties": {
+                "label": {
+                    "type": "string"
+                },
                 "linkExpression": {
                     "type": "string",
                     "description": "Template string which evalues to http link"
                 }
-            }
+            },
+            "required": ["label", "linkExpression"]
         },
         "IGaugeWidget": {
             "type": "object",

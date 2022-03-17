@@ -18,8 +18,8 @@ import {
 import {
     I3DScenesConfig,
     IBehavior,
-    ITwinToObjectMapping,
-    IWidget
+    IGaugeWidget,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // START of Actions
@@ -167,9 +167,10 @@ export interface ADT3DSceneBuilderState {
 }
 
 export interface IWidgetBuilderFormDataProps {
-    formData: IWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
+    formData: IGaugeWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
     behaviorToEdit?: IBehavior;
+    setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface BehaviorState {
     behaviorToEdit: IBehavior;

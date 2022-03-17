@@ -10,6 +10,7 @@ import {
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import {
+    IGaugeWidget,
     IPopoverVisual,
     IWidget
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -19,7 +20,7 @@ import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
-// import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
+import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 // import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
@@ -28,11 +29,12 @@ const WidgetForm: React.FC<any> = () => {
         SceneBuilderContext
     );
 
-    // TODO SCHEMA MIGRATION -- remove no-unused-vars flag once widget builders are supported
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
+
+    const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
+
     const { t } = useTranslation();
 
     const getDefaultFormData = () => {
@@ -54,15 +56,16 @@ const WidgetForm: React.FC<any> = () => {
 
     const getWidgetBuilder = () => {
         switch (widgetFormInfo.widget.data.type) {
+            case WidgetType.Gauge:
+                return (
+                    <GaugeWidgetBuilder
+                        formData={formData as IGaugeWidget}
+                        setFormData={setFormData}
+                        behaviorToEdit={behaviorToEdit}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                    />
+                );
             // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
-            // case WidgetType.Gauge:
-            //     return (
-            //         <GaugeWidgetBuilder
-            //             formData={formData}
-            //             setFormData={setFormData}
-            //             behaviorToEdit={behaviorToEdit}
-            //         />
-            //     );
             // case WidgetType.Link:
             //     return (
             //         <LinkWidgetBuilder
@@ -128,8 +131,8 @@ const WidgetForm: React.FC<any> = () => {
                     <div className={customStyles.description}>
                         {widgetFormInfo.widget.description}
                     </div>
-                    {getWidgetBuilder()}
                 </div>
+                {getWidgetBuilder()}
             </div>
             <PanelFooter>
                 <PrimaryButton
@@ -139,7 +142,7 @@ const WidgetForm: React.FC<any> = () => {
                             ? t('3dSceneBuilder.createWidget')
                             : t('3dSceneBuilder.updateWidget')
                     }
-                    disabled={false}
+                    disabled={!isWidgetConfigValid}
                 />
                 <DefaultButton
                     text={t('cancel')}

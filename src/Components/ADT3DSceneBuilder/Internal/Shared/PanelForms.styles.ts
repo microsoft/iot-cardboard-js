@@ -34,15 +34,15 @@ export const getPanelFormStyles = memoizeFunction(
                     display: 'flex',
                     flexDirection: 'column',
                     flex: 1,
-                    overflow: 'hidden',
+                    overflowX: 'hidden',
+                    overflowY: 'auto',
                     position: 'relative'
                 } as IStyle
             ],
             header: [
                 classNames.header,
                 {
-                    padding: '0 0 4px',
-                    overflow: 'hidden'
+                    padding: '0 0 4px'
                 } as IStyle
             ],
             pivot: [

@@ -57,7 +57,8 @@ export const defaultGaugeWidget: IGaugeWidget = {
     type: WidgetType.Gauge,
     valueExpression: '',
     widgetConfiguration: {
-        label: ''
+        label: '',
+        valueRanges: []
     }
 };
 
@@ -65,6 +66,7 @@ export const defaultLinkWidget: ILinkWidget = {
     id: 'temp',
     type: WidgetType.Link,
     widgetConfiguration: {
+        label: '',
         linkExpression: ''
     }
 };

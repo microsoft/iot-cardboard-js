@@ -195,7 +195,7 @@ function getListItems(
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item, index),
-            textPrimary: item.type
+            textPrimary: item?.widgetConfiguration?.label || item.type
         };
 
         return viewModel;

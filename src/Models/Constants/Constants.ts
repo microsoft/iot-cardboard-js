@@ -2,8 +2,8 @@ import { IADT3DViewerRenderMode } from '../Constants';
 import { ADT3DRenderMode } from './Enums';
 import {
     defaultGaugeWidget,
-    IWidgetLibraryItem,
-    WidgetType
+    defaultLinkWidget,
+    IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
@@ -77,12 +77,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         title: i18n.t('widgets.link.title'),
         description: i18n.t('widgets.link.description'),
         iconName: 'Link',
-        data: {
-            type: WidgetType.Link,
-            widgetConfiguration: {
-                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}'
-            }
-        }
+        data: defaultLinkWidget
     }
 ];
 
