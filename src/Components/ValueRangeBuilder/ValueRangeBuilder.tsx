@@ -21,7 +21,8 @@ import {
     getValidationMapFromValueRanges,
     areDistinctValueRangesValid,
     getNextColor,
-    isRangeOverlapFound
+    isRangeOverlapFound,
+    cleanValueOutput
 } from './ValueRangeBuilder.utils';
 import {
     defaultValueRangeBuilderState,
@@ -99,8 +100,8 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         getValueRanges: () => {
             return state.valueRanges.map((vr) => ({
                 ...vr,
-                min: Number(vr.min),
-                max: Number(vr.max)
+                min: cleanValueOutput(vr.min),
+                max: cleanValueOutput(vr.max)
             }));
         }
     }));
