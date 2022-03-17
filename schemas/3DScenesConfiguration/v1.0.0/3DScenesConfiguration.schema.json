@@ -49,6 +49,9 @@
                 "displayName": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "latitude": {
                     "type": "number"
                 },

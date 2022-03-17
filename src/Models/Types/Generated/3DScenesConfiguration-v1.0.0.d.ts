@@ -39,6 +39,7 @@ export interface I3DScenesConfig {
 export interface IScene {
     id: string;
     displayName: string;
+    description?: string;
     latitude?: number;
     longitude?: number;
     elements: IElement[];
