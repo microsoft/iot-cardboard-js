@@ -44,7 +44,7 @@ const ColorSelectButton: React.FC<ColorSelectButtonProps> = ({
                 >
                     <SwatchColorPicker
                         columnCount={3}
-                        cellShape={'square'}
+                        cellShape={'circle'}
                         colorCells={colorSwatch}
                         aria-labelledby={labelId}
                         onChange={(_e, _id, color) =>

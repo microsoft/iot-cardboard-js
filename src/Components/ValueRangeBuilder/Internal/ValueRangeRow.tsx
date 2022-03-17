@@ -58,7 +58,14 @@ const ValueRangeRow: React.FC<{
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
-                    root: { alignSelf: 'flex-end', height: '24px' }
+                    root: {
+                        alignSelf: 'flex-end',
+                        height: '24px',
+                        marginLeft: 4
+                    },
+                    rootDisabled: {
+                        backgroundColor: 'var(--cb-color-bg-canvas)'
+                    }
                 }}
                 disabled={valueRanges.length <= minRanges}
                 onClick={() =>

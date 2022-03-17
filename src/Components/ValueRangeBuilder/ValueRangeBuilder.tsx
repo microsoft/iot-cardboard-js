@@ -131,29 +131,31 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                             {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}
-                <ActionButton
-                    iconProps={{ iconName: 'Add' }}
-                    onClick={() => {
-                        const id = createGUID(false);
+                {!(maxRanges && state.valueRanges.length >= maxRanges) && (
+                    <ActionButton
+                        iconProps={{ iconName: 'Add' }}
+                        onClick={() => {
+                            const id = createGUID(false);
 
-                        dispatch({
-                            type: ValueRangeBuilderActionType.ADD_VALUE_RANGE,
-                            payload: {
-                                id,
-                                color: getNextColor(
-                                    state.valueRanges,
-                                    state.colorSwatch
-                                )
-                            }
-                        });
-                    }}
-                    ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}
-                    disabled={
-                        maxRanges && state.valueRanges.length >= maxRanges
-                    }
-                >
-                    {t('valueRangeBuilder.addValueRangeButtonText')}
-                </ActionButton>
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.ADD_VALUE_RANGE,
+                                payload: {
+                                    id,
+                                    color: getNextColor(
+                                        state.valueRanges,
+                                        state.colorSwatch
+                                    )
+                                }
+                            });
+                        }}
+                        ariaLabel={t(
+                            'valueRangeBuilder.addValueRangeButtonText'
+                        )}
+                    >
+                        {t('valueRangeBuilder.addValueRangeButtonText')}
+                    </ActionButton>
+                )}
             </BaseComponent>
         </ValueRangeBuilderContext.Provider>
     );
