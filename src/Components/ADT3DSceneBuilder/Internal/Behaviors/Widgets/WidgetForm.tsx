@@ -1,6 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -21,6 +21,8 @@ import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
+import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import { _ } from 'ajv';
 // import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 
 // Note, this widget form does not currently support panels
@@ -34,6 +36,8 @@ const WidgetForm: React.FC<any> = () => {
     );
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
+
+    const gaugeValueRangeRef = useRef<IValueRangeBuilderHandle>(null);
 
     const { t } = useTranslation();
 
@@ -63,6 +67,7 @@ const WidgetForm: React.FC<any> = () => {
                         setFormData={setFormData}
                         behaviorToEdit={behaviorToEdit}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
+                        valueRangeRef={gaugeValueRangeRef}
                     />
                 );
             // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
@@ -83,6 +88,12 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const onSaveWidgetForm = () => {
+        const formDataToSave = { ...formData };
+
+        if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
+            (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
+        }
+
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
@@ -93,8 +104,8 @@ const WidgetForm: React.FC<any> = () => {
                     if (popOver) {
                         const widgets = popOver?.widgets;
                         widgets
-                            ? popOver.widgets.push(formData)
-                            : (popOver.widgets = [formData]);
+                            ? popOver.widgets.push(formDataToSave)
+                            : (popOver.widgets = [formDataToSave]);
                     }
                 })
             );
@@ -111,7 +122,7 @@ const WidgetForm: React.FC<any> = () => {
                         typeof widgetFormInfo.widgetIdx === 'number'
                     ) {
                         const widgets = popOver?.widgets;
-                        widgets[widgetFormInfo.widgetIdx] = formData;
+                        widgets[widgetFormInfo.widgetIdx] = formDataToSave;
                     }
                 })
             );

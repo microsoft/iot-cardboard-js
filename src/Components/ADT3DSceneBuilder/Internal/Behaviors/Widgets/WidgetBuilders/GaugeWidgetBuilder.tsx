@@ -1,23 +1,22 @@
 import { TextField } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { linkedTwinName } from '../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
-import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
+import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
-import { IValueRangeBuilderHandle } from '../../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 
-const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
+const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
     setFormData,
     behaviorToEdit,
-    setIsWidgetConfigValid
+    setIsWidgetConfigValid,
+    valueRangeRef
 }) => {
     const { t } = useTranslation();
     const [propertyNames, setPropertyNames] = useState<string[]>(null);
-    const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
     const [areValueRangesValid, setAreValueRangesValid] = useState(true);
 
@@ -38,17 +37,6 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
     function getPropertyNames(twinId: string) {
         return twinId === linkedTwinName ? propertyNames : [];
     }
-
-    useEffect(() => {
-        // If ranges valid, update form data
-        if (areValueRangesValid) {
-            setFormData(
-                produce((draft) => {
-                    draft.widgetConfiguration.valueRanges = valueRangeBuilderHandleRef.current.getValueRanges();
-                })
-            );
-        }
-    }, [areValueRangesValid]);
 
     useEffect(() => {
         const {
@@ -114,7 +102,7 @@ const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
                 initialValueRanges={formData.widgetConfiguration.valueRanges}
                 maxRanges={3}
                 minRanges={1}
-                ref={valueRangeBuilderHandleRef}
+                ref={valueRangeRef}
                 setAreRangesValid={setAreValueRangesValid}
             />
         </>

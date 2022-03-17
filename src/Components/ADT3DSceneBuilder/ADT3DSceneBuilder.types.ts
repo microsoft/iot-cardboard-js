@@ -21,6 +21,7 @@ import {
     IGaugeWidget,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueRangeBuilderHandle } from '../ValueRangeBuilder/ValueRangeBuilder.types';
 
 // START of Actions
 export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
@@ -172,6 +173,15 @@ export interface IWidgetBuilderFormDataProps {
     behaviorToEdit?: IBehavior;
     setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface IGaugeWidgetBuilderProps {
+    formData: IGaugeWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
+    behaviorToEdit?: IBehavior;
+    setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
+    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
+}
+
 export interface BehaviorState {
     behaviorToEdit: IBehavior;
     behaviorsOnElement: Array<IBehavior>;
