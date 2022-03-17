@@ -382,11 +382,14 @@ abstract class ViewerConfigUtility {
         value: number
     ): string | null {
         let color = null;
-        for (const range of ranges) {
-            if (value >= Number(range.min) && value <= Number(range.max)) {
-                color = range.color;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    color = range.color;
+                }
             }
         }
+
         return color;
     }
 
