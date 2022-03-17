@@ -233,7 +233,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
             let progress = e.total ? e.loaded / e.total : 0;
             if (!e.lengthComputable) {
-                dummyProgress += 0.01;
+                dummyProgress += dummyProgress > 0.9 ? 0.001 : 0.005;
                 progress = dummyProgress > 1 ? 1 : dummyProgress;
             }
             setLoadProgress(progress);
@@ -331,7 +331,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     if (zoomToMeshIds?.length) {
                         const meshList: BABYLON.AbstractMesh[] = [];
                         for (const id of zoomToMeshIds) {
-                            const m = meshMap.current[id];
+                            const m = meshMap.current?.[id];
                             if (m) {
                                 meshList.push(m);
                             }
@@ -725,7 +725,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             highlightedMeshRef.current !== mesh.id
                         ) {
                             const meshToReset =
-                                meshMap.current[highlightedMeshRef.current];
+                                meshMap.current?.[highlightedMeshRef.current];
 
                             if (meshToReset) {
                                 const isColored = coloredMeshItems?.find(
@@ -758,7 +758,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     } else if (highlightedMeshRef.current) {
                         // reset the highlighted mesh color if no mesh is picked
                         const lastMesh =
-                            meshMap.current[highlightedMeshRef.current];
+                            meshMap.current?.[highlightedMeshRef.current];
                         if (lastMesh) {
                             const isColored = coloredMeshItems?.find(
                                 (m) => m.meshId === lastMesh.id
@@ -896,7 +896,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 for (const coloredMesh of coloredMeshItems) {
                     if (coloredMesh.meshId) {
                         const mesh: BABYLON.AbstractMesh =
-                            meshMap.current[coloredMesh.meshId];
+                            meshMap.current?.[coloredMesh.meshId];
                         colorMesh(mesh, coloredMesh.color);
                     }
                 }
@@ -948,7 +948,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                const meshToOutline = meshMap.current[item.meshId];
+                const meshToOutline = meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
                         if (item.color) {
