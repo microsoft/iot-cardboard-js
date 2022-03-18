@@ -195,3 +195,5 @@ export const StyleConstants = {
         size16: FontSizes.size16
     }
 };
+
+export const intellisenseMultilineBreakpoint = 40;

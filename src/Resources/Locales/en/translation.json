@@ -422,7 +422,8 @@
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL"
+            "description": "Reference external content by linking a URL",
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
         },
         "panel": {
             "title": "Panel widget",

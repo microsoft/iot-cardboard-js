@@ -24,9 +24,10 @@ import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
+import { createGUID } from '../../../../../Models/Services/Utils';
 
 // Note, this widget form does not currently support panels
-const WidgetForm: React.FC<any> = () => {
+const WidgetForm: React.FC = () => {
     const {
         widgetFormInfo,
         setWidgetFormInfo,
@@ -99,7 +100,7 @@ const WidgetForm: React.FC<any> = () => {
     };
 
     const onSaveWidgetForm = () => {
-        const formDataToSave = { ...formData };
+        const formDataToSave = JSON.parse(JSON.stringify(formData));
 
         if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
             (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
@@ -108,6 +109,7 @@ const WidgetForm: React.FC<any> = () => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
+                    draft.id = createGUID(false);
                     const popOver = draft.visuals?.find(
                         (visual) => visual.type === VisualType.Popover
                     ) as IPopoverVisual;

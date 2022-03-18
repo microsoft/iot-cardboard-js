@@ -1,11 +1,15 @@
-import { TextField } from '@fluentui/react';
+import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { linkedTwinName } from '../../../../../../Models/Constants';
+import {
+    intellisenseMultilineBreakpoint,
+    linkedTwinName
+} from '../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
+import { getWidgetFormStyles } from '../WidgetForm.styles';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -34,8 +38,11 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         }
     }, [formData, areValueRangesValid]);
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+
     return (
-        <>
+        <div className={customStyles.gaugeWidgetFormContents}>
             <TextField
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
@@ -65,7 +72,9 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                         placeholder: t(
                             '3dSceneBuilder.numericExpressionPlaceholder'
                         ),
-                        multiline: formData.valueExpression.length > 40
+                        multiline:
+                            formData.valueExpression.length >
+                            intellisenseMultilineBreakpoint
                     }
                 }}
                 defaultValue={formData.valueExpression}
@@ -86,7 +95,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 ref={valueRangeRef}
                 setAreRangesValid={setAreValueRangesValid}
             />
-        </>
+        </div>
     );
 };
 

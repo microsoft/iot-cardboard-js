@@ -3,7 +3,10 @@ import { TextField } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { linkedTwinName } from '../../../../../../Models/Constants';
+import {
+    intellisenseMultilineBreakpoint,
+    linkedTwinName
+} from '../../../../../../Models/Constants';
 import { Intellisense } from '../../../../../AutoComplete/Intellisense';
 
 import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
@@ -26,7 +29,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     }, [formData]);
 
     return (
-        <div>
+        <>
             <TextField
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
@@ -42,11 +45,10 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t('url'),
-                        placeholder:
-                            'https://mypowerbi.biz/${LinkedTwin.$dtId}',
+                        placeholder: t('widgets.link.urlPlaceholder'),
                         multiline:
                             formData.widgetConfiguration.linkExpression.length >
-                            40
+                            intellisenseMultilineBreakpoint
                     }
                 }}
                 defaultValue={formData.widgetConfiguration.linkExpression}
@@ -60,7 +62,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getIntellisensePropertyNames}
             />
-        </div>
+        </>
     );
 };
 

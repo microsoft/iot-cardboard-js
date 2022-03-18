@@ -53,7 +53,7 @@ export const defaultOnClickPopover: IPopoverVisual = {
 };
 
 export const defaultGaugeWidget: IGaugeWidget = {
-    id: 'temp',
+    id: '',
     type: WidgetType.Gauge,
     valueExpression: '',
     widgetConfiguration: {
@@ -63,7 +63,7 @@ export const defaultGaugeWidget: IGaugeWidget = {
 };
 
 export const defaultLinkWidget: ILinkWidget = {
-    id: 'temp',
+    id: '',
     type: WidgetType.Link,
     widgetConfiguration: {
         label: '',
