@@ -205,8 +205,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
 
 const styles = mergeStyleSets({
     callout: {
-        padding: '12px',
-        height: '400px'
+        padding: '12px'
     },
     header: {
         display: 'flex',
