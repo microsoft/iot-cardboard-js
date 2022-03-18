@@ -61,6 +61,15 @@ vec4 fresnel_glow(float amount, float intensity, vec4 color, vec3 normal, vec3 v
 	return pow((1.0 - dot(normalize(normal), normalize(view))), amount) * color * intensity;
 }
 
+vec3 vecThreeLerp(vec3 a, vec3 b, float position)
+{
+    return vec3(
+        mix(a.r,b.r,position),
+        mix(a.g,b.g,position),
+        mix(a.b,b.b,position)
+    );
+}
+
 void main(void) {
 	vec4 _baseColor = baseColor;
     vec4 _fresnelColor = fresnelColor;
@@ -89,7 +98,8 @@ void main(void) {
     vec2 vN = r.xy / m + .5;
 
     vec3 refBase = texture2D( refSampler, vN).rgb;
-    _blendedColor *= vec4(refBase, 1.);
+    float refMix = mix(0.15, 0.75, 1. - _baseColor.a);
+    _blendedColor.rgb = vecThreeLerp(_blendedColor.rgb, refBase, refMix);
     #endif
 
     gl_FragColor = _blendedColor;
@@ -136,7 +146,7 @@ export function makeShaderMaterial(
 
     material.backFaceCulling = false;
     material.alpha = baseColor.a;
-    material.alphaMode = baseColor.a > 0.9 ? 5 : 1;
+    material.alphaMode = selectAlphaMode(baseColor.a);
 
     const tags =
         customShaderTag + (hasRefTexture ? ' ' + shaderHasReflection : '');
@@ -157,4 +167,11 @@ export function calculateAverageFresnel(
     );
 
     return newFresnel;
+}
+
+function selectAlphaMode(alpha: number) {
+    if (alpha >= 1) return 0;
+    if (alpha >= 0.9) return 5;
+    if (alpha > 0) return 1;
+    return 0;
 }
