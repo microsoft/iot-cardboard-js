@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 export interface ModelTheme {
     objectColor: string;
     background: string;
-    theme: string;
+    style: string;
 }
 
 type ModelThemePickerProps = {
@@ -88,7 +88,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
         setTheme({
             objectColor: objectColors[0],
             background: backgroundColors[0],
-            theme: styleOptions[0].key
+            style: styleOptions[0].key
         });
     }, []);
 
@@ -99,7 +99,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     const themeChange = (theme: string) => {
         setTheme(
             produce((draft) => {
-                draft.theme = theme;
+                draft.style = theme;
             })
         );
     };
@@ -165,7 +165,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                         {t('modelThemePicker.style')}
                     </div>
                     <ChoiceGroup
-                        defaultSelectedKey="default"
+                        defaultSelectedKey={theme.style}
                         options={styleOptions}
                         onChange={(e, option) => themeChange(option.key)}
                     />
@@ -177,7 +177,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                             cellHeight={40}
                             cellWidth={40}
                             columnCount={colors.length}
-                            defaultSelectedId={objectColors[0]}
+                            defaultSelectedId={theme.objectColor}
                             cellShape={'circle'}
                             colorCells={colors}
                             onChange={(e, id, color) =>
@@ -193,7 +193,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                             cellHeight={40}
                             cellWidth={40}
                             columnCount={backgrounds.length}
-                            defaultSelectedId={backgroundColors[0]}
+                            defaultSelectedId={theme.background}
                             cellShape={'circle'}
                             colorCells={backgrounds}
                             onChange={(e, id, color) =>
