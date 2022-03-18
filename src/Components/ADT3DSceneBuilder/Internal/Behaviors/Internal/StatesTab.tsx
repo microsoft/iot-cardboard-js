@@ -85,7 +85,7 @@ const StatesTab: React.FC = () => {
             />
             {hasProperties && <Separator />}
             {/* TO DO: Implement for real */}
-            {stateVisual?.statusValueRanges?.map((_x, index) => (
+            {stateVisual?.valueRanges?.map((_x, index) => (
                 <div>{t(LOC_KEYS.stateItemLabel, { index: index + 1 })}</div>
             ))}
         </Stack>
