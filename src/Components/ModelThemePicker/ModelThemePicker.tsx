@@ -96,7 +96,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
         themeUpdated(theme);
     }, [theme]);
 
-    const themeChange = (theme: string) => {
+    const updateStyle = (theme: string) => {
         setTheme(
             produce((draft) => {
                 draft.style = theme;
@@ -167,7 +167,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                     <ChoiceGroup
                         defaultSelectedKey={theme.style}
                         options={styleOptions}
-                        onChange={(e, option) => themeChange(option.key)}
+                        onChange={(e, option) => updateStyle(option.key)}
                     />
                     <div className={styles.subHeading}>
                         {t('modelThemePicker.objectColors')}
