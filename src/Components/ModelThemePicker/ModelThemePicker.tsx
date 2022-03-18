@@ -4,8 +4,10 @@ import {
     FocusTrapCallout,
     FontIcon,
     IChoiceGroupOption,
+    IColorCellProps,
     IconButton,
-    mergeStyleSets
+    mergeStyleSets,
+    SwatchColorPicker
 } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
@@ -30,6 +32,8 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
 }) => {
     const [showPicker, setShowPicker] = useState(false);
     const [theme, setTheme] = useState<ModelTheme>(null);
+    const [colors, setColors] = useState<IColorCellProps[]>([]);
+    const [backgrounds, setBackgrounds] = useState<IColorCellProps[]>([]);
     const calloutAnchor = 'cb-theme-callout-anchor';
     const { t } = useTranslation();
 
@@ -67,6 +71,20 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     ];
 
     useEffect(() => {
+        const colors: IColorCellProps[] = [];
+        objectColors.forEach((color) => {
+            colors.push({ id: color, color: color });
+        });
+
+        setColors(colors);
+
+        const backgrounds: IColorCellProps[] = [];
+        backgroundColors.forEach((background) => {
+            backgrounds.push({ id: background, color: background });
+        });
+
+        setBackgrounds(backgrounds);
+
         setTheme({
             objectColor: objectColors[0],
             background: backgroundColors[0],
@@ -123,13 +141,13 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                     onDismiss={() => setShowPicker(false)}
                 >
                     <div className={styles.header}>
-                        <div className={styles.titleIcon}>
+                        <div>
                             <FontIcon iconName="color" />
                         </div>
                         <div className={styles.title}>
                             {t('modelThemePicker.title')}
                         </div>
-                        <div className={styles.titleIcon}>
+                        <div>
                             <IconButton
                                 iconProps={{
                                     iconName: 'Cancel',
@@ -155,81 +173,29 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                         {t('modelThemePicker.objectColors')}
                     </div>
                     <div>
-                        <div className={styles.colors}>
-                            {objectColors?.map((objectColor) => (
-                                <div key={objectColor}>
-                                    {objectColor !== theme.objectColor ? (
-                                        <div
-                                            className={styles.color}
-                                            style={{
-                                                background: objectColor
-                                            }}
-                                            onClick={() =>
-                                                updateObjectColor(objectColor)
-                                            }
-                                        />
-                                    ) : (
-                                        <div
-                                            className={
-                                                styles.colorSelectedContainer
-                                            }
-                                        >
-                                            <div
-                                                className={styles.colorSelected}
-                                                style={{
-                                                    background: objectColor
-                                                }}
-                                                onClick={() =>
-                                                    updateObjectColor(
-                                                        objectColor
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                        <SwatchColorPicker
+                            columnCount={colors.length}
+                            defaultSelectedId={objectColors[0]}
+                            cellShape={'circle'}
+                            colorCells={colors}
+                            onChange={(e, id, color) =>
+                                updateObjectColor(color)
+                            }
+                        />
                     </div>
                     <div className={styles.subHeading}>
                         {t('modelThemePicker.background')}
                     </div>
-                    <div className={styles.colors}>
-                        {backgroundColors?.map((backgroundColor) => (
-                            <div key={backgroundColor}>
-                                {backgroundColor !== theme.background ? (
-                                    <div
-                                        className={styles.color}
-                                        style={{
-                                            background: backgroundColor
-                                        }}
-                                        onClick={() =>
-                                            updateBackgroundColor(
-                                                backgroundColor
-                                            )
-                                        }
-                                    />
-                                ) : (
-                                    <div
-                                        className={
-                                            styles.colorSelectedContainer
-                                        }
-                                    >
-                                        <div
-                                            className={styles.colorSelected}
-                                            style={{
-                                                background: backgroundColor
-                                            }}
-                                            onClick={() =>
-                                                updateBackgroundColor(
-                                                    backgroundColor
-                                                )
-                                            }
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                    <div>
+                        <SwatchColorPicker
+                            columnCount={backgrounds.length}
+                            defaultSelectedId={backgroundColors[0]}
+                            cellShape={'circle'}
+                            colorCells={backgrounds}
+                            onChange={(e, id, color) =>
+                                updateBackgroundColor(color)
+                            }
+                        />
                     </div>
                 </FocusTrapCallout>
             )}
@@ -248,7 +214,6 @@ const styles = mergeStyleSets({
         verticalAlign: 'middle',
         fontSize: '16'
     },
-    titleIcon: {},
     title: {
         marginLeft: '12px',
         fontWeight: '500',
@@ -259,38 +224,6 @@ const styles = mergeStyleSets({
         fontWeight: '500',
         marginTop: '12px',
         marginBottom: '12px'
-    },
-    colors: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    color: {
-        borderRadius: '50%',
-        height: '36px',
-        width: '36px',
-        marginRight: '8px',
-        borderStyle: 'solid',
-        borderWidth: '1px',
-        borderColor: 'var(--cb-color-text-primary)',
-        cursor: 'pointer'
-    },
-    colorSelectedContainer: {
-        borderRadius: '50%',
-        height: '36px',
-        width: '36px',
-        marginRight: '8px',
-        borderStyle: 'solid',
-        borderWidth: '2px',
-        borderColor: 'var(--cb-color-theme-primary)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    colorSelected: {
-        borderRadius: '50%',
-        width: 'calc(100% - 8px)',
-        height: 'calc(100% - 8px)',
-        cursor: 'pointer'
     }
 });
 
