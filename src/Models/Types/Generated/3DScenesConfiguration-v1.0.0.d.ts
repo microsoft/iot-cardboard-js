@@ -31,9 +31,7 @@ export interface I3DScenesConfig {
         scenes: IScene[];
         behaviors: IBehavior[];
         layers: ILayer[];
-        [k: string]: unknown;
     };
-    [k: string]: unknown;
 }
 /**
  * A scene is a single view that can be rendered from 3D assets
@@ -41,6 +39,7 @@ export interface I3DScenesConfig {
 export interface IScene {
     id: string;
     displayName: string;
+    description?: string;
     latitude?: number;
     longitude?: number;
     elements: IElement[];
@@ -129,7 +128,6 @@ export interface IPopoverVisual {
         id: string;
         title?: string;
         orientation?: string;
-        [k: string]: unknown;
     }[];
     objectIDs: IObjectIDs;
 }
@@ -138,37 +136,48 @@ export interface IPopoverVisual {
  */
 export interface IGaugeWidget {
     type: 'Gauge';
+    id: string;
     groupID?: IGroupID;
     valueExpression: IValueExpression;
-    /**
-     * Widget configuration specifies widget specific properties that are used for rendering this gauge
-     */
-    widgetConfiguration: {
-        units?: string;
-        label?: string;
-        min?: INumericOrInfinityType;
-        max?: INumericOrInfinityType;
-        [k: string]: unknown;
-    };
+    widgetConfiguration: IGaugeWidgetConfiguration;
     extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration specifies widget specific properties that are used for rendering this gauge
+ */
+export interface IGaugeWidgetConfiguration {
+    units?: string;
+    label: string;
+    valueRanges: IValueRange[];
+}
+/**
+ * Numeric range to trigger coloring
+ */
+export interface IValueRange {
+    id: string;
+    color: string;
+    min: INumericOrInfinityType;
+    max: INumericOrInfinityType;
 }
 /**
  * A link widget which uses a string template to create a parametrized link
  */
 export interface ILinkWidget {
     type: 'Link';
+    id: string;
     groupID?: IGroupID;
-    /**
-     * Widget configuration specifies widget specific properties that are used for rendering this Link
-     */
-    widgetConfiguration: {
-        /**
-         * Template string which evalues to http link
-         */
-        linkExpression?: string;
-        [k: string]: unknown;
-    };
+    widgetConfiguration: ILinkWidgetConfiguration;
     extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration specifies widget specific properties that are used for rendering this Link
+ */
+export interface ILinkWidgetConfiguration {
+    label: string;
+    /**
+     * Template string which evalues to http link
+     */
+    linkExpression: string;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to
@@ -186,18 +195,9 @@ export interface IStatusColoringVisual {
      * Expression which evaluates to numeric value
      */
     statusValueExpression: string;
-    statusValueRanges: IStatusValueRange[];
+    valueRanges: IValueRange[];
     objectIDs: IObjectIDs;
     extensionProperties?: IExtensionProperties;
-}
-/**
- * Numeric range to trigger coloring
- */
-export interface IStatusValueRange {
-    color: string;
-    min: INumericOrInfinityType;
-    max: INumericOrInfinityType;
-    [k: string]: unknown;
 }
 /**
  * Alert visual are used to show specific iconography when a boolean expression is true

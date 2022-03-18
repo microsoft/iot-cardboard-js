@@ -17,7 +17,7 @@ export const globalTypes = {
         toolbar: {
             icon: 'circlehollow',
             items: ['light', 'dark', 'explorer', 'kraken'],
-            showName: true,
+            showName: true
         }
     },
     locale: {
@@ -30,7 +30,7 @@ export const globalTypes = {
                 { value: Locale.EN, right: 'US', title: 'English' },
                 { value: Locale.DE, right: 'DE', title: 'German' }
             ],
-            showName: true,
+            showName: true
         }
     }
 };
@@ -47,6 +47,13 @@ export const parameters = {
     wideCardWrapperStyle: {
         height: '400px',
         width: '720px'
+    },
+    options: {
+        // Adds storybook sorting to make finding stories easier :)
+        storySort: {
+            order: ['Pages', 'Components', '3DV', 'Test Stories'],
+            method: 'Alphabetical'
+        }
     }
 };
 

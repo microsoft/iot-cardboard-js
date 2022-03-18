@@ -27,7 +27,7 @@ import SceneElementForm from '../Internal/Elements/ElementForm';
 import SceneElements from '../Internal/Elements/Elements';
 import LeftPanelBuilderBreadcrumb from '../Internal/LeftPanelBuilderBreadcrumb';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
-import { createColoredMeshItems } from '../../3DV/SceneView.Utils';
+import { createCustomMeshItems } from '../../3DV/SceneView.Utils';
 import {
     IBehavior,
     ITwinToObjectMapping
@@ -41,6 +41,7 @@ const BuilderLeftPanel: React.FC = () => {
         getConfig,
         sceneId,
         setColoredMeshItems,
+        setOutlinedMeshItems,
         theme,
         locale,
         localeStrings,
@@ -133,7 +134,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: ADT3DSceneBuilderMode.EditElement
         });
 
-        setColoredMeshItems(createColoredMeshItems(element.objectIDs, null));
+        setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
     };
 
     const updateSelectedElements = (
@@ -176,7 +177,12 @@ const BuilderLeftPanel: React.FC = () => {
             }
         }
 
-        setColoredMeshItems(createColoredMeshItems(meshIds, null));
+        setOutlinedMeshItems(
+            createCustomMeshItems(
+                meshIds,
+                state.renderMode.outlinedMeshSelectedColor
+            )
+        );
     };
 
     const setSelectedElements = (elements: Array<ITwinToObjectMapping>) => {
@@ -191,8 +197,6 @@ const BuilderLeftPanel: React.FC = () => {
                 meshIds.push(id);
             }
         }
-
-        setColoredMeshItems(createColoredMeshItems(meshIds, null));
     };
 
     const clearSelectedElements = () => {
@@ -201,7 +205,7 @@ const BuilderLeftPanel: React.FC = () => {
             payload: null
         });
 
-        setColoredMeshItems([]);
+        setOutlinedMeshItems([]);
     };
 
     const onBackClick = (

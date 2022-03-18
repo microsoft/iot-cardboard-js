@@ -2,6 +2,8 @@
     "preview": "Preview",
     "loading": "Loading...",
     "label": "Label",
+    "min": "Min",
+    "max": "Max",
     "noData": "No data",
     "error": "Error fetching data",
     "unsupportedFileType": "Unsupported file type",
@@ -90,6 +92,16 @@
             "type": "JSON schema validation failed",
             "message": "JSON is invalid. Check syntax matches required schema."
         }
+    },
+    "valueRangeBuilder": {
+        "overlapDetectedMessage": "Overlapping ranges detected.  Verify that all value ranges are distinct.  Min values are inclusive, Max values are exclusive.",
+        "addValueRangeButtonText": "Add value range",
+        "rangeValueInvalidMessage": "Values must be numeric, '-Infinity', or 'Infinity'",
+        "rangeInvalidMessage": "Min value must be less than (<) Max value",
+        "colorButtonAriaLabel": "Select color for value range",
+        "deleteValueRangeTitle": "Delete value range",
+        "negativeInfinityIconMessage": "Set value to -Infinity",
+        "positiveInfinityIconMessage": "Set value to Infinity"
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
@@ -334,6 +346,9 @@
         "noElementsText": "No elements created yet",
         "noResults": "No results",
         "behaviorsInSceneTitle": "In this scene ({{count}})",
+        "createWithElement": "Create with {{element}}",
+        "elementActions": "Element actions",
+        "behaviorActions": "Behavior actions",
         "behaviorsNotInSceneTitle": "In other scenes ({{count}})",
         "noBehaviorsText": "No behaviors found",
         "confirmRemoveBehaviorFromScene": "Are you sure you want to remove this behavior from the current scene?",
@@ -343,6 +358,7 @@
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
+        "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
         "searchTwinId": "Search Twin ID...",
         "noTwinsFound": "No twins found (search is case sensitive)",
@@ -371,6 +387,7 @@
             "propertyDropdownLabel": "Property",
             "stateItemLabel": "State {{index}}"
         },
+        "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -419,7 +436,8 @@
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL"
+            "description": "Reference external content by linking a URL",
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
         },
         "panel": {
             "title": "Panel widget",

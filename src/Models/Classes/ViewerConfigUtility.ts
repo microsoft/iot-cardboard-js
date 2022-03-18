@@ -8,8 +8,8 @@ import {
     IPopoverVisual,
     IScene,
     IStatusColoringVisual,
-    IStatusValueRange,
     ITwinToObjectMapping,
+    IValueRange,
     IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType, VisualType } from './3DVConfig';
@@ -268,7 +268,7 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.Alert;
     }
 
-    static isPopOverVisual(visual: IVisual): visual is IPopoverVisual {
+    static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
         return visual.type === VisualType.Popover;
     }
 
@@ -396,15 +396,18 @@ abstract class ViewerConfigUtility {
     }
 
     static getColorOrNullFromStatusValueRange(
-        ranges: IStatusValueRange[],
+        ranges: IValueRange[],
         value: number
     ): string | null {
         let color = null;
-        for (const range of ranges) {
-            if (value >= Number(range.min) && value <= Number(range.max)) {
-                color = range.color;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    color = range.color;
+                }
             }
         }
+
         return color;
     }
 

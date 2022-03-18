@@ -29,7 +29,6 @@ import LeftPanelBuilderHeader, {
 import SceneElements from '../Elements/Elements';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
-import { createColoredMeshItems } from '../../../3DV/SceneView.Utils';
 import PanelFooter from '../Shared/PanelFooter';
 import {
     panelFormPivotStyles,
@@ -40,6 +39,7 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import { createGUID } from '../../../../Models/Services/Utils';
 import AlertsTab from './Internal/AlertsTab';
 import StatesTab from './Internal/StatesTab';
+import WidgetsTab from './Internal/WidgetsTab';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -65,9 +65,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo, setColoredMeshItems } = useContext(
-        SceneBuilderContext
-    );
+    const { widgetFormInfo } = useContext(SceneBuilderContext);
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
@@ -81,7 +79,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
     useEffect(() => {
-        // Color selected meshes
         const selectedElements = [];
 
         behaviorToEdit.datasources
@@ -96,14 +93,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         if (selectedElements?.length > 0) {
             setSelectedElements(selectedElements);
         }
-
-        let meshIds: string[] = [];
-        for (const element of selectedElements) {
-            if (element.meshIDs) {
-                meshIds = meshIds.concat(element.meshIDs);
-            }
-        }
-        setColoredMeshItems(createColoredMeshItems(meshIds, null));
     }, []);
 
     useEffect(() => {
@@ -240,9 +229,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     headerText={t('3dSceneBuilder.widgets')}
                                     itemKey={BehaviorPivot.widgets}
                                 >
-                                    {/* TODO SCHEMA MIGRATION - update
-                                            Alerts tab to new schema & types */}
-                                    {/* <WidgetsTab /> */}
+                                    <WidgetsTab />
                                 </PivotItem>
                             </Pivot>
                         </div>

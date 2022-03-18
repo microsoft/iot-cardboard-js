@@ -5,8 +5,8 @@ import { CardboardList } from '../../../../CardboardList';
 import { useTheme } from '@fluentui/react';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { createColoredMeshItems } from '../../../../3DV/SceneView.Utils';
-import { ColoredMeshItem } from '../../../../../Models/Classes/SceneView.types';
+import { createCustomMeshItems } from '../../../../3DV/SceneView.Utils';
+import { CustomMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { IADT3DViewerRenderMode } from '../../../../../Models/Constants';
 
@@ -49,11 +49,11 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
 };
 function getListItems(
     elementMeshIds: string[],
-    setColoredMeshItems: (selectedNames: ColoredMeshItem[]) => void,
+    setColoredMeshItems: (selectedNames: CustomMeshItem[]) => void,
     renderMode: IADT3DViewerRenderMode
 ): ICardboardListItem<string>[] {
     const onMeshItemEnter = (meshId: string) => {
-        const coloredMeshItems: ColoredMeshItem[] = createColoredMeshItems(
+        const coloredMeshItems: CustomMeshItem[] = createCustomMeshItems(
             elementMeshIds.filter((id) => id !== meshId),
             null
         );
@@ -65,7 +65,7 @@ function getListItems(
     };
 
     const onMeshItemLeave = () => {
-        setColoredMeshItems(createColoredMeshItems(elementMeshIds, null));
+        setColoredMeshItems(createCustomMeshItems(elementMeshIds, null));
     };
 
     return elementMeshIds.sort().map((item) => {
@@ -84,7 +84,7 @@ function getListItems(
                 const currentObjects = [...elementMeshIds];
                 currentObjects.splice(currentObjects.indexOf(item), 1);
                 setColoredMeshItems(
-                    createColoredMeshItems(currentObjects, null)
+                    createCustomMeshItems(currentObjects, null)
                 );
             },
             textPrimary: item
