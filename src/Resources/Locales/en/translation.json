@@ -373,6 +373,7 @@
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorTriggerLabel": "Trigger expression",
         "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+        "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -421,7 +422,8 @@
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL"
+            "description": "Reference external content by linking a URL",
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
         },
         "panel": {
             "title": "Panel widget",

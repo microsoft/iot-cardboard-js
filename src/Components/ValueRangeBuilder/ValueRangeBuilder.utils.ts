@@ -1,5 +1,8 @@
 import { IColorCellProps } from '@fluentui/react';
-import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    INumericOrInfinityType,
+    IValueRange
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IValueRangeValidationMap,
     IValueRangeValidation
@@ -117,4 +120,27 @@ export const getNextColor = (
         }
     }
     return randomColor;
+};
+
+export const cleanValueOutput = (value: any): INumericOrInfinityType => {
+    if (typeof value === 'number') {
+        switch (value) {
+            case Infinity:
+                return 'Infinity';
+            case -Infinity:
+                return '-Infinity';
+            default:
+                return value;
+        }
+    }
+    if (typeof value === 'string') {
+        switch (value) {
+            case 'Infinity':
+            case '-Infinity':
+                return value;
+            default:
+                return Number(value);
+        }
+    }
+    return Number(value);
 };

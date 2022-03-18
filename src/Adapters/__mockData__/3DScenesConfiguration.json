@@ -70,6 +70,7 @@
                         "widgets": [
                             {
                                 "type": "Gauge",
+                                "id": "3dbbbde93325c334c93e47d077b93995",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
                                 "valueExpression": "LinkedTwin.OutFlow",
                                 "widgetConfiguration": {
@@ -88,6 +89,7 @@
                             },
                             {
                                 "type": "Gauge",
+                                "id": "093aef7283a517432d32a267593ca876",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
                                 "valueExpression": "LinkedTwin.InFlow",
                                 "widgetConfiguration": {
@@ -105,8 +107,10 @@
                             },
                             {
                                 "type": "Link",
+                                "id": "1d60362667067ff5763bb6f7765a9cc8",
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
+                                    "label": "Power BI",
                                     "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
                                 }
                             }

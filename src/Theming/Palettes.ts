@@ -6,11 +6,12 @@ export const customOverrides = {
 };
 
 export const defaultSwatchColors: IColorCellProps[] = [
-    { id: 'green', label: 'green', color: '#7DDF64' },
-    { id: 'purple', label: 'purple', color: '#7A306C' },
-    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
-    { id: 'blue', label: 'blue', color: '#3AAED8' },
-    { id: 'red', label: 'red', color: '#E84855' }
+    { id: 'blue', label: 'blue', color: '#33A1FD' },
+    { id: 'green', label: 'green', color: '#26C485' },
+    { id: 'yellow', label: 'yellow', color: '#FEE440' },
+    { id: 'orange', label: 'orange', color: '#F79824' },
+    { id: 'red', label: 'red', color: '#C32F27' },
+    { id: 'pink', label: 'pink', color: '#EE92C2' }
 ];
 
 // Palettes created from https://aka.ms/themedesigner

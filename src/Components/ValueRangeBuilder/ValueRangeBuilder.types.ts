@@ -14,7 +14,8 @@ export enum ValueRangeBuilderActionType {
     DELETE_VALUE_RANGE,
     UPDATE_VALIDATION_MAP,
     UPDATE_VALUE_RANGE_VALIDATION,
-    SNAP_VALUE_TO_INFINITY
+    SNAP_VALUE_TO_INFINITY,
+    PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
 }
 
 export type ValueRangeBuilderAction =
@@ -24,6 +25,9 @@ export type ValueRangeBuilderAction =
               id: string;
               color: string;
           };
+      }
+    | {
+          type: ValueRangeBuilderActionType.PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED;
       }
     | {
           type: ValueRangeBuilderActionType.UPDATE_VALUE_RANGE;
