@@ -13,7 +13,7 @@ export const Picker = () => {
             <div style={{ marginBottom: '30px' }}>
                 <div>
                     <span>Theme: </span>
-                    <span>{theme?.theme}</span>
+                    <span>{theme?.style}</span>
                 </div>
                 <div>
                     <span>Object color: </span>
