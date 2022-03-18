@@ -174,6 +174,8 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                     </div>
                     <div>
                         <SwatchColorPicker
+                            cellHeight={40}
+                            cellWidth={40}
                             columnCount={colors.length}
                             defaultSelectedId={objectColors[0]}
                             cellShape={'circle'}
@@ -188,6 +190,8 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                     </div>
                     <div>
                         <SwatchColorPicker
+                            cellHeight={40}
+                            cellWidth={40}
                             columnCount={backgrounds.length}
                             defaultSelectedId={backgroundColors[0]}
                             cellShape={'circle'}
