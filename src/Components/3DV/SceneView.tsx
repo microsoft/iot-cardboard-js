@@ -234,8 +234,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
         function onProgress(e: BABYLON.ISceneLoaderProgressEvent) {
             let progress = e.total ? e.loaded / e.total : 0;
             if (!e.lengthComputable) {
-                dummyProgress += dummyProgress > 0.9 ? 0.001 : 0.005;
-                progress = dummyProgress > 1 ? 1 : dummyProgress;
+                dummyProgress += dummyProgress > 0.8 ? 0.001 : 0.003;
+                progress = dummyProgress > 0.99 ? 0.99 : dummyProgress;
             }
             setLoadProgress(progress);
         }
