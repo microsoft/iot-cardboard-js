@@ -19,6 +19,7 @@ type JsonPreviewProps = {
     onDismiss: () => any;
     modalTitle?: string;
     theme?: Theme;
+    handleJsonChange: () => any;
 };
 
 const JsonPreview = ({
@@ -26,9 +27,11 @@ const JsonPreview = ({
     isOpen,
     onDismiss,
     modalTitle,
-    theme
+    theme,
+    handleJsonChange
 }: JsonPreviewProps) => {
     const { t } = useTranslation();
+    const [jsonHandler, setJsonHandler] = useState(json);
     const formattedString = JSON.stringify(json, null, 2);
     const [isCodeWrapped, setIsCodeWrapped] = useState(true);
     const [copyText, setCopyText] = useState<string>(t('copy'));
@@ -44,6 +47,18 @@ const JsonPreview = ({
         return () => clearTimeout(timeoutRef.current);
     }, []);
 
+    useEffect(() => {
+        setJsonHandler(json);
+    }, [json]);
+
+    const cleanJson = () => {
+        setJsonHandler([]);
+    };
+
+    useEffect(() => {
+        handleJsonChange(jsonHandler);
+    }, [jsonHandler]);
+
     const onRenderFooterContent = () => {
         return (
             <div className={'cb-json-preview-modal-footer-container'}>
@@ -55,6 +70,7 @@ const JsonPreview = ({
                         offText={t('off')}
                         onChange={(_, checked) => setIsCodeWrapped(checked)}
                     />
+                    <PrimaryButton text="Clean Json" onClick={cleanJson} />
                 </div>
                 <div className={'cb-json-preview-modal-footer-actions'}>
                     <PrimaryButton
