@@ -27,7 +27,7 @@ export const Picker = () => {
             <ModelThemePicker
                 themeUpdated={(theme) => setTheme(theme)}
                 objectColors={['#50E6FF', '#FFC46B', '#B9B9B9']}
-                backgroundColors={['#3256FF', '#000000', '#FFFFFF']}
+                backgroundColors={['#3256FF', '#000000', '#FAF9F6']}
             />
         </div>
     );

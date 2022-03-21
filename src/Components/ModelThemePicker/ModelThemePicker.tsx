@@ -161,46 +161,40 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                             />
                         </div>
                     </div>
-                    <div className={styles.subHeading}>
+                    <h4 className={styles.subHeading}>
                         {t('modelThemePicker.style')}
-                    </div>
+                    </h4>
                     <ChoiceGroup
                         defaultSelectedKey={theme.style}
                         options={styleOptions}
                         onChange={(e, option) => updateStyle(option.key)}
                     />
-                    <div className={styles.subHeading}>
+                    <h4 className={styles.subHeading}>
                         {t('modelThemePicker.objectColors')}
-                    </div>
-                    <div>
-                        <SwatchColorPicker
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={colors.length}
-                            defaultSelectedId={theme.objectColor}
-                            cellShape={'circle'}
-                            colorCells={colors}
-                            onChange={(e, id, color) =>
-                                updateObjectColor(color)
-                            }
-                        />
-                    </div>
-                    <div className={styles.subHeading}>
+                    </h4>
+                    <SwatchColorPicker
+                        cellHeight={32}
+                        cellWidth={32}
+                        columnCount={colors.length}
+                        defaultSelectedId={theme.objectColor}
+                        cellShape={'circle'}
+                        colorCells={colors}
+                        onChange={(e, id, color) => updateObjectColor(color)}
+                    />
+                    <h4 className={styles.subHeading}>
                         {t('modelThemePicker.background')}
-                    </div>
-                    <div>
-                        <SwatchColorPicker
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={backgrounds.length}
-                            defaultSelectedId={theme.background}
-                            cellShape={'circle'}
-                            colorCells={backgrounds}
-                            onChange={(e, id, color) =>
-                                updateBackgroundColor(color)
-                            }
-                        />
-                    </div>
+                    </h4>
+                    <SwatchColorPicker
+                        cellHeight={32}
+                        cellWidth={32}
+                        columnCount={backgrounds.length}
+                        defaultSelectedId={theme.background}
+                        cellShape={'circle'}
+                        colorCells={backgrounds}
+                        onChange={(e, id, color) =>
+                            updateBackgroundColor(color)
+                        }
+                    />
                 </FocusTrapCallout>
             )}
         </div>
