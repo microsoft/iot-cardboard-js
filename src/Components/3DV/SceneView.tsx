@@ -220,6 +220,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
             if (success) {
                 assets.addAllToScene();
+                createOrZoomCamera();
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
@@ -283,162 +284,161 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const n = url.lastIndexOf('/') + 1;
                 load(getToken, url.substring(0, n), url.substring(n), sc);
             }
-
-            // Register a render loop to repeatedly render the scene
-            engine.runRenderLoop(() => {
-                if (cameraRef.current) {
-                    sc.render();
-                }
-            });
         }
 
         return sceneRef.current;
     }, [canvasId, modelUrl]);
 
-    // Handle mesh zooming
-    useEffect(() => {
-        debugLog('Mesh zooming');
-        function createOrZoomCamera() {
-            const zoomTo = (zoomToMeshIds || []).join(',');
-            if (
-                !isLoading &&
-                sceneRef.current?.meshes?.length &&
-                (!cameraRef.current ||
-                    prevZoomToIds.current !== zoomTo ||
-                    prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
-            ) {
-                prevHideUnzoomedRef.current = unzoomedMeshOpacity;
-                meshMap.current = cameraRef.current ? meshMap.current : {};
-                for (const mesh of sceneRef.current.meshes) {
-                    if (!cameraRef.current && mesh.id) {
-                        meshMap.current[mesh.id] = mesh;
-                    }
-
-                    mesh.computeWorldMatrix(true);
-                    mesh.visibility =
-                        unzoomedMeshOpacity !== undefined &&
-                        zoomToMeshIds?.length &&
-                        !zoomToMeshIds.includes(mesh.id)
-                            ? unzoomedMeshOpacity
-                            : 1;
+    const createOrZoomCamera = () => {
+        const zoomTo = (zoomToMeshIds || []).join(',');
+        if (
+            sceneRef.current?.meshes?.length &&
+            (!cameraRef.current ||
+                prevZoomToIds.current !== zoomTo ||
+                prevHideUnzoomedRef.current !== unzoomedMeshOpacity)
+        ) {
+            debugLog('createOrZoomCamera');
+            prevHideUnzoomedRef.current = unzoomedMeshOpacity;
+            meshMap.current = cameraRef.current ? meshMap.current : {};
+            for (const mesh of sceneRef.current.meshes) {
+                if (!cameraRef.current && mesh.id) {
+                    meshMap.current[mesh.id] = mesh;
                 }
 
-                // Only zoom if the Ids actually changed, not just a re-render
-                if (!cameraRef.current || prevZoomToIds.current !== zoomTo) {
-                    prevZoomToIds.current = zoomTo;
-                    const someMeshFromTheArrayOfMeshes =
-                        sceneRef.current.meshes[0];
-                    let meshes = sceneRef.current.meshes;
-                    if (zoomToMeshIds?.length) {
-                        const meshList: BABYLON.AbstractMesh[] = [];
-                        for (const id of zoomToMeshIds) {
-                            const m = meshMap.current?.[id];
-                            if (m) {
-                                meshList.push(m);
-                            }
+                mesh.computeWorldMatrix(true);
+                mesh.visibility =
+                    unzoomedMeshOpacity !== undefined &&
+                    zoomToMeshIds?.length &&
+                    !zoomToMeshIds.includes(mesh.id)
+                        ? unzoomedMeshOpacity
+                        : 1;
+            }
+
+            // Only zoom if the Ids actually changed, not just a re-render
+            if (!cameraRef.current || prevZoomToIds.current !== zoomTo) {
+                prevZoomToIds.current = zoomTo;
+                const someMeshFromTheArrayOfMeshes = sceneRef.current.meshes[0];
+                let meshes = sceneRef.current.meshes;
+                if (zoomToMeshIds?.length) {
+                    const meshList: BABYLON.AbstractMesh[] = [];
+                    for (const id of zoomToMeshIds) {
+                        const m = meshMap.current?.[id];
+                        if (m) {
+                            meshList.push(m);
                         }
-
-                        meshes = meshList;
                     }
 
-                    someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                        getBoundingBox(meshes)
+                    meshes = meshList;
+                }
+
+                someMeshFromTheArrayOfMeshes.setBoundingInfo(
+                    getBoundingBox(meshes)
+                );
+
+                someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+
+                const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.extendSize;
+                const es_scaled = es.scale(
+                    zoomToMeshIds && zoomToMeshIds.length < 10 ? 5 : 3
+                );
+                const width = es_scaled.x;
+                const height = es_scaled.y;
+                const depth = es_scaled.z;
+                const radius = Math.max(width, height, depth);
+
+                const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
+                    .boundingBox.centerWorld;
+
+                const canvas = document.getElementById(
+                    canvasId
+                ) as HTMLCanvasElement;
+
+                // First time in after loading - create the camera
+                if (!cameraRef.current) {
+                    const camera = new BABYLON.ArcRotateCamera(
+                        'camera',
+                        0,
+                        Math.PI / 2.5,
+                        radius,
+                        center,
+                        sceneRef.current
                     );
 
-                    someMeshFromTheArrayOfMeshes.showBoundingBox = false;
+                    camera.attachControl(canvas, false);
+                    cameraRef.current = camera;
+                    cameraRef.current.zoomOn(meshes, true);
+                    cameraRef.current.radius = radius;
 
-                    const es = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                        .boundingBox.extendSize;
-                    const es_scaled = es.scale(
-                        zoomToMeshIds && zoomToMeshIds.length < 10 ? 5 : 3
+                    // Register a render loop to repeatedly render the scene
+                    engineRef.current.runRenderLoop(() => {
+                        if (cameraRef.current) {
+                            sceneRef.current.render();
+                        }
+                    });
+                } else {
+                    // Here if the caller changed zoomToMeshIds - zoom the existing camera
+                    // First save the current camera position
+                    const positionFrom = cameraRef.current.position;
+                    const targetFrom = cameraRef.current.target;
+                    const radiusFrom = cameraRef.current.radius;
+                    // Now move it immediately to where we want it and save the new position
+                    cameraRef.current.zoomOn(meshes, true);
+                    cameraRef.current.radius = radius;
+                    const positionTo = cameraRef.current.position;
+                    const targetTo = cameraRef.current.target;
+                    const radiusTo = cameraRef.current.radius;
+                    // Reset camera back to original position
+                    cameraRef.current.position = positionFrom;
+                    cameraRef.current.target = targetFrom;
+                    // And animate to the desired position
+                    const ease = new BABYLON.CubicEase();
+                    ease.setEasingMode(
+                        BABYLON.EasingFunction.EASINGMODE_EASEINOUT
                     );
-                    const width = es_scaled.x;
-                    const height = es_scaled.y;
-                    const depth = es_scaled.z;
-                    const radius = Math.max(width, height, depth);
-
-                    const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
-                        .boundingBox.centerWorld;
-
-                    const canvas = document.getElementById(
-                        canvasId
-                    ) as HTMLCanvasElement;
-
-                    // First time in after loading - create the camera
-                    if (!cameraRef.current) {
-                        const camera = new BABYLON.ArcRotateCamera(
-                            'camera',
-                            0,
-                            Math.PI / 2.5,
-                            radius,
-                            center,
-                            sceneRef.current
-                        );
-
-                        camera.attachControl(canvas, false);
-                        cameraRef.current = camera;
-                        cameraRef.current.zoomOn(meshes, true);
-                        cameraRef.current.radius = radius;
-                    } else {
-                        // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                        // First save the current camera position
-                        const positionFrom = cameraRef.current.position;
-                        const targetFrom = cameraRef.current.target;
-                        const radiusFrom = cameraRef.current.radius;
-                        // Now move it immediately to where we want it and save the new position
-                        cameraRef.current.zoomOn(meshes, true);
-                        cameraRef.current.radius = radius;
-                        const positionTo = cameraRef.current.position;
-                        const targetTo = cameraRef.current.target;
-                        const radiusTo = cameraRef.current.radius;
-                        // Reset camera back to original position
-                        cameraRef.current.position = positionFrom;
-                        cameraRef.current.target = targetFrom;
-                        // And animate to the desired position
-                        const ease = new BABYLON.CubicEase();
-                        ease.setEasingMode(
-                            BABYLON.EasingFunction.EASINGMODE_EASEINOUT
-                        );
-                        BABYLON.Animation.CreateAndStartAnimation(
-                            'an1',
-                            cameraRef.current,
-                            'position',
-                            30, // FPS
-                            30, // Number of frames (ie 1 second)
-                            positionFrom,
-                            positionTo,
-                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
-                        );
-                        BABYLON.Animation.CreateAndStartAnimation(
-                            'an2',
-                            cameraRef.current,
-                            'target',
-                            30,
-                            30,
-                            targetFrom,
-                            targetTo,
-                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
-                        );
-                        BABYLON.Animation.CreateAndStartAnimation(
-                            'an3',
-                            cameraRef.current,
-                            'radius',
-                            30,
-                            30,
-                            radiusFrom,
-                            radiusTo,
-                            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                            ease
-                        );
-                    }
+                    BABYLON.Animation.CreateAndStartAnimation(
+                        'an1',
+                        cameraRef.current,
+                        'position',
+                        30, // FPS
+                        30, // Number of frames (ie 1 second)
+                        positionFrom,
+                        positionTo,
+                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                        ease
+                    );
+                    BABYLON.Animation.CreateAndStartAnimation(
+                        'an2',
+                        cameraRef.current,
+                        'target',
+                        30,
+                        30,
+                        targetFrom,
+                        targetTo,
+                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                        ease
+                    );
+                    BABYLON.Animation.CreateAndStartAnimation(
+                        'an3',
+                        cameraRef.current,
+                        'radius',
+                        30,
+                        30,
+                        radiusFrom,
+                        radiusTo,
+                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+                        ease
+                    );
                 }
             }
         }
+    };
 
+    // Handle mesh zooming
+    useEffect(() => {
+        debugLog('Mesh zooming');
         createOrZoomCamera();
-    }, [isLoading, zoomToMeshIds, unzoomedMeshOpacity]);
+    }, [zoomToMeshIds, unzoomedMeshOpacity]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
         originalMaterials.current = {};
@@ -615,6 +615,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 }
             }
 
+            originalMaterials.current = null;
+            meshMap.current = null;
+            materialCacheRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
         };
@@ -626,6 +629,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
         if (modelUrl && modelUrl !== modelUrlRef.current) {
             // Reload if modelUrl changes
             modelUrlRef.current = modelUrl;
+            setIsLoading(true);
             setScene(() => init());
         }
 
@@ -963,6 +967,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
         if (currentRenderMode.baseColor && currentRenderMode.fresnelColor) {
             material.alpha = 0.5;
+        } else {
+            material.alpha = 1;
         }
 
         mesh.material = material;
