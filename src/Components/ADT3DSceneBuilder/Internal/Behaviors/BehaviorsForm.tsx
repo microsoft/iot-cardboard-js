@@ -3,6 +3,7 @@ import React, {
     useContext,
     useEffect,
     useMemo,
+    useReducer,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,12 +35,20 @@ import {
     panelFormPivotStyles,
     getPanelFormStyles
 } from '../Shared/PanelForms.styles';
-import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
 import AlertsTab from './Internal/AlertsTab';
 import StatesTab from './Internal/StatesTab';
 import WidgetsTab from './Internal/WidgetsTab';
+import {
+    BehaviorFormReducer,
+    defaultBehaviorFormState
+} from './BehaviorForm.state';
+import { BehaviorFormActionType, IValidityState } from './BehaviorForm.types';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -66,6 +75,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const { t } = useTranslation();
 
     const { widgetFormInfo } = useContext(SceneBuilderContext);
+
+    const [state, dispatch] = useReducer(
+        BehaviorFormReducer,
+        defaultBehaviorFormState
+    );
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
@@ -120,6 +134,26 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         );
     }, [selectedElements]);
 
+    // need a local copy to intercept and update form validity
+    const localUpdateSelectedElements = useCallback(
+        (element: ITwinToObjectMapping, isSelected: boolean) => {
+            updateSelectedElements(element, isSelected);
+
+            const isValid =
+                behaviorToEdit.datasources.filter(
+                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                )?.[0]?.elementIDs?.length > 0;
+            dispatch({
+                type: BehaviorFormActionType.SET_TAB_STATE,
+                payload: {
+                    tabName: 'Elements',
+                    isValid: isValid
+                }
+            });
+        },
+        [updateSelectedElements]
+    );
+
     const onSaveClick = useCallback(() => {
         onBehaviorSave(behaviorToEdit, builderMode as BehaviorSaveMode);
         onBehaviorBackClick();
@@ -141,9 +175,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [widgetFormInfo, builderMode]
     );
 
+    const isFormValid = checkValidityMap(state.validityMap);
+
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getPanelFormStyles(theme, 128);
+    const commonFormStyles = getPanelFormStyles(theme, 92);
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -198,7 +234,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         elements={elements}
                                         selectedElements={selectedElements}
                                         updateSelectedElements={
-                                            updateSelectedElements
+                                            localUpdateSelectedElements
                                         }
                                         isEditBehavior={true}
                                         hideSearch={true}
@@ -243,12 +279,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         ? t('3dSceneBuilder.createBehavior')
                                         : t('3dSceneBuilder.updateBehavior')
                                 }
-                                disabled={
-                                    !behaviorToEdit?.id ||
-                                    behaviorToEdit.datasources.filter(
-                                        ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                                    )?.[0]?.elementIDs?.length === 0
-                                }
+                                disabled={!isFormValid}
                             />
                             <DefaultButton
                                 text={t('cancel')}
@@ -261,4 +292,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         </BehaviorFormContext.Provider>
     );
 };
+
+function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
+    let isValid = true;
+    validityMap.forEach((x) => {
+        isValid = isValid && x.isValid;
+    });
+    return isValid;
+}
+
 export default SceneBehaviorsForm;

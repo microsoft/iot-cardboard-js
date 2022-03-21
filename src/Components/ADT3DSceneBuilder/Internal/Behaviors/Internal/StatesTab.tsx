@@ -19,9 +19,14 @@ import {
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    IStatusColoringVisual
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
+import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants';
+import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -42,8 +47,12 @@ const StatesTab: React.FC = () => {
     const [propertyOptions, setPropertyOptions] = useState<IDropdownOption[]>(
         []
     );
+    const [
+        statusVisualToEdit,
+        setStatusVisualToEdit
+    ] = useState<IStatusColoringVisual>(defaultStatusColorVisual);
     const valueRangeRef = useRef<IValueRangeBuilderHandle>(null);
-    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
+    const { config, sceneId, adapter, state } = useContext(SceneBuilderContext);
 
     useEffect(() => {
         adapter
@@ -61,7 +70,7 @@ const StatesTab: React.FC = () => {
             });
     }, [behaviorToEdit, behaviorToEdit.datasources, config, sceneId]);
 
-    console.log(areValueRangesValid);
+    console.log(`**${areValueRangesValid}`);
     // useEffect(() => {
     //     const {
     //         valueExpression,
@@ -81,20 +90,33 @@ const StatesTab: React.FC = () => {
 
     const onPropertyChange = useCallback(
         (_e, option: IDropdownOption) => {
-            alert(option);
             setBehaviorToEdit(
                 produce((draft) => {
                     // Assuming only 1 status visual per behavior
                     const stateVisual = getStatusFromBehavior(draft);
-                    stateVisual.statusValueExpression = option.data;
+                    // Edit flow
+                    if (stateVisual) {
+                        stateVisual.statusValueExpression = option.data;
+                    } else {
+                        alert('Not implemented: need to do create flow');
+                    }
                 })
             );
         },
         [setBehaviorToEdit]
     );
 
-    // we only grab the first Status in the config
-    const stateVisual = getStatusFromBehavior(behaviorToEdit);
+    useEffect(() => {
+        console.log(`**Builder mode changed: ${state.builderMode}`);
+        let stateVisual: IStatusColoringVisual;
+        if (state.builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
+            stateVisual = defaultStatusColorVisual;
+        } else {
+            stateVisual = getStatusFromBehavior(behaviorToEdit);
+        }
+        setStatusVisualToEdit(stateVisual);
+    }, [state.builderMode]);
+
     const theme = useTheme();
     const hasProperties = propertyOptions.length;
     return (
@@ -113,15 +135,11 @@ const StatesTab: React.FC = () => {
             />
             {hasProperties && <Separator />}
             <ValueRangeBuilder
-                initialValueRanges={stateVisual.valueRanges}
+                initialValueRanges={statusVisualToEdit.valueRanges}
                 minRanges={1}
                 ref={valueRangeRef}
                 setAreRangesValid={setAreValueRangesValid}
             />
-            {/* TO DO: Implement for real */}
-            {stateVisual?.valueRanges?.map((_x, index) => (
-                <div>{t(LOC_KEYS.stateItemLabel, { index: index + 1 })}</div>
-            ))}
         </Stack>
     );
 };
