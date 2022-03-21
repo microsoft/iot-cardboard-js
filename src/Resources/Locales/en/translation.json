@@ -622,5 +622,9 @@
         "loading3DFiles": "Loading files...",
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
+    },
+    "elementsPanel": {
+        "elementAlerts": "Element alerts",
+        "noElements": "No elements to display"
     }
 }

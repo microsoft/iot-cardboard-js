@@ -2,6 +2,7 @@ import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import {
     IScene,
+    ITwinToObjectMapping,
     IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
@@ -10,15 +11,22 @@ import {
 } from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
+    element: ITwinToObjectMapping;
     meshIds: string[];
     visuals: IVisual[];
     twins: Record<string, DTwin>;
+    coloredMeshItems?: ColoredMeshItem[];
+
     constructor(
+        element: ITwinToObjectMapping,
         meshIds: string[],
         visuals: IVisual[],
-        twins: Record<string, DTwin>
+        twins: Record<string, DTwin>,
+        coloredMeshItems?: ColoredMeshItem[]
     ) {
+        this.element = element;
         this.meshIds = meshIds;
+        this.coloredMeshItems = coloredMeshItems;
         this.visuals = visuals;
         this.twins = twins;
     }

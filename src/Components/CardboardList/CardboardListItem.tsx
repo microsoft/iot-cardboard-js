@@ -39,7 +39,7 @@ export const CardboardListItem = <T extends unknown>({
     }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles();
+    const buttonStyles = getButtonStyles(buttonProps?.customStyles);
     return (
         <>
             <DefaultButton
@@ -68,12 +68,15 @@ export const CardboardListItem = <T extends unknown>({
                         />
                     </>
                 )}
-                {showStartIcon && (
-                    <FontIcon
-                        iconName={iconStartName}
-                        className={customStyles.icon}
-                    />
-                )}
+                {showStartIcon &&
+                    (typeof iconStartName === 'string' ? (
+                        <FontIcon
+                            iconName={iconStartName}
+                            className={customStyles.icon}
+                        />
+                    ) : (
+                        iconStartName
+                    ))}
                 <div className={customStyles.textContainer}>
                     <div
                         className={customStyles.primaryText}

@@ -1,6 +1,7 @@
 import {
     FontSizes,
     IButtonStyles,
+    IRawStyle,
     memoizeFunction,
     mergeStyleSets,
     Theme
@@ -38,7 +39,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
     });
 });
 export const getButtonStyles = memoizeFunction(
-    (): IButtonStyles => {
+    (customStyles?: IButtonStyles): IButtonStyles => {
         return {
             root: {
                 border: 0,
@@ -48,16 +49,20 @@ export const getButtonStyles = memoizeFunction(
                 height: 'auto',
                 ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                     opacity: 1
-                }
+                },
+                ...(customStyles?.root as IRawStyle)
             },
             rootFocused: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: StyleConstants.listItems.hoverBackgroundColor,
+                ...(customStyles?.rootFocused as IRawStyle)
             },
             rootHovered: {
-                backgroundColor: StyleConstants.listItems.hoverBackgroundColor
+                backgroundColor: StyleConstants.listItems.hoverBackgroundColor,
+                ...(customStyles?.rootHovered as IRawStyle)
             },
             flexContainer: {
-                justifyContent: 'start'
+                justifyContent: 'start',
+                ...(customStyles?.flexContainer as IRawStyle)
             }
         };
     }

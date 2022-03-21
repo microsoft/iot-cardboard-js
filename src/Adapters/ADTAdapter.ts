@@ -841,7 +841,7 @@ export default class ADTAdapter implements IADTAdapter {
                     // cycle through behaviors for scene
                     for (const sceneBehaviorId of scene.behaviorIDs) {
                         // cycle through all behaviors
-                        // check if behavior is relevent for the current scene
+                        // check if behavior is relevant for the current scene
                         for (const behavior of config.configuration.behaviors)
                             if (sceneBehaviorId === behavior.id) {
                                 const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
@@ -881,6 +881,7 @@ export default class ADTAdapter implements IADTAdapter {
                                     }
 
                                     const sceneVisual = new SceneVisual(
+                                        element,
                                         element.objectIDs,
                                         behavior.visuals,
                                         twins

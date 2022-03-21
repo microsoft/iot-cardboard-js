@@ -434,6 +434,7 @@ export default class MockAdapter
                                     }
 
                                     const sceneVisual = new SceneVisual(
+                                        mapping,
                                         mapping.objectIDs,
                                         behavior.visuals,
                                         twins

@@ -5,7 +5,8 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
-    ComponentErrorType
+    ComponentErrorType,
+    DTwin
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -198,7 +199,10 @@ export function measureText(str: string, fontSize: number) {
     );
 }
 
-export function parseExpression(expression: string, twins: any) {
+export function parseExpression(
+    expression: string,
+    twins: Record<string, DTwin>
+) {
     let result: any = '';
     try {
         result = Parser.evaluate(expression, twins) as any;

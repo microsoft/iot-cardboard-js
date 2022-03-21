@@ -1,5 +1,6 @@
 import {
     IButtonProps,
+    IButtonStyles,
     IContextualMenuItem,
     IFocusZoneProps,
     IListProps
@@ -11,13 +12,13 @@ type IListItemBaseProps<T> = {
     /** screen reader text to use for the list item */
     ariaLabel: string;
     /** override props for the root button */
-    buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'>;
+    buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'> & {
+        customStyles?: IButtonStyles;
+    };
     /** icon to render on the right side of the list item */
     iconEndName?: IIconNames;
-    /** callback when end icon is clicked */
-    onIconEndClick?: (item: T) => void;
     /** icon to render at the left side of the list item */
-    iconStartName?: IIconNames;
+    iconStartName?: IIconNames | JSX.Element;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
     /** the original item to provide back to callbacks */
