@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
@@ -14,6 +20,8 @@ import {
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -30,9 +38,11 @@ const StatesTab: React.FC = () => {
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
+    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
     const [propertyOptions, setPropertyOptions] = useState<IDropdownOption[]>(
         []
     );
+    const valueRangeRef = useRef<IValueRangeBuilderHandle>(null);
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
     useEffect(() => {
@@ -50,6 +60,24 @@ const StatesTab: React.FC = () => {
                 }
             });
     }, [behaviorToEdit, behaviorToEdit.datasources, config, sceneId]);
+
+    console.log(areValueRangesValid);
+    // useEffect(() => {
+    //     const {
+    //         valueExpression,
+    //         widgetConfiguration: { label }
+    //     } = formData;
+
+    //     if (
+    //         valueExpression?.length > 0 &&
+    //         label?.length > 0 &&
+    //         areValueRangesValid
+    //     ) {
+    //         setIsWidgetConfigValid(true);
+    //     } else {
+    //         setIsWidgetConfigValid(false);
+    //     }
+    // }, [behaviorToEdit, areValueRangesValid]);
 
     const onPropertyChange = useCallback(
         (_e, option: IDropdownOption) => {
@@ -84,6 +112,12 @@ const StatesTab: React.FC = () => {
                 options={propertyOptions}
             />
             {hasProperties && <Separator />}
+            <ValueRangeBuilder
+                initialValueRanges={stateVisual.valueRanges}
+                minRanges={1}
+                ref={valueRangeRef}
+                setAreRangesValid={setAreValueRangesValid}
+            />
             {/* TO DO: Implement for real */}
             {stateVisual?.valueRanges?.map((_x, index) => (
                 <div>{t(LOC_KEYS.stateItemLabel, { index: index + 1 })}</div>
