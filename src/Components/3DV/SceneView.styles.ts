@@ -39,7 +39,7 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
             classNames.canvasVisible,
             {
                 opacity: 1,
-                transition: '2s'
+                transition: '6s'
             } as IStyle
         ],
         errorMessage: [
