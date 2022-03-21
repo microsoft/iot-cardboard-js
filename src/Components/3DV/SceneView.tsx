@@ -20,6 +20,7 @@ import { makeShaderMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 const debug = false;
 
@@ -437,7 +438,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
     // Handle mesh zooming
     useEffect(() => {
         debugLog('Mesh zooming');
-        createOrZoomCamera();
+        if (!isLoading) {
+            createOrZoomCamera();
+        }
     }, [zoomToMeshIds, unzoomedMeshOpacity]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
@@ -1057,4 +1060,4 @@ const SceneView: React.FC<ISceneViewProp> = ({
     );
 };
 
-export default SceneView;
+export default withErrorBoundary(SceneView);
