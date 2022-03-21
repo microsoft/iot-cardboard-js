@@ -404,11 +404,9 @@
     "3dSceneViewer": {
         "renderModes": {
             "default": "Default render mode",
-            "wireframe": "Wireframe",
-            "red": "Translucent red",
-            "redWireframe": "Translucent red wireframe",
-            "green": "Translucent green",
-            "greenWireframe": "Translucent green wireframe"
+            "light": "Light",
+            "blue": "Blue",
+            "gold": "Gold"
         }
     },
     "widgets": {

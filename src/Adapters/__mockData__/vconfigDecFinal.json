@@ -83,7 +83,7 @@
                         "type": "ColorChange",
                         "color": {
                             "type": "BindingExpression",
-                            "expression": "primaryTwin.InFlow < 260 ? '#FF0000' : '#00FF00'"
+                            "expression": "primaryTwin.InFlow < 260 ? '#FF0000FF' : '#00FF00FF'"
                         },
                         "elementIDs": {
                             "type": "MeshIDArray",
@@ -110,9 +110,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.OutFlow",
                                                 "label": "Left"
@@ -128,9 +128,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"
@@ -155,9 +155,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.Temperature",
                                                 "label": "Left"
@@ -173,9 +173,9 @@
                                                 ],
                                                 "units": "PSI",
                                                 "colors": [
-                                                    "#FDCD4D",
-                                                    "#00D700",
-                                                    "#ff0000"
+                                                    "#FDCD4DFF",
+                                                    "#00D700FF",
+                                                    "#ff0000FF"
                                                 ],
                                                 "expression": "primaryTwin.InFlow",
                                                 "label": "Right"
@@ -214,7 +214,7 @@
                         "type": "ColorChange",
                         "color": {
                             "type": "BindingExpression",
-                            "expression": "temperatureTag.OutFlow > 100 ? '#FF0000' : '#00FF00'"
+                            "expression": "temperatureTag.OutFlow > 100 ? '#FF0000FF' : '#00FF00FF'"
                         },
                         "elementIDs": {
                             "type": "MeshIDArray",
@@ -252,7 +252,7 @@
                         "type": "ColorChange",
                         "color": {
                             "type": "BindingExpression",
-                            "expression": "primaryTwin.boxTemp > 80 ? 'red' : 'green'"
+                            "expression": "primaryTwin.boxTemp > 80 ? '#FF0000FF' : '#00FF00FF'"
                         },
                         "elementIDs": {
                             "type": "MeshIDArray",
@@ -278,7 +278,7 @@
                         "type": "ColorChange",
                         "color": {
                             "type": "BindingExpression",
-                            "expression": "data.engine.temperature > 70 ? 'green' : 'red'"
+                            "expression": "data.engine.temperature > 70 ? '#00FF00FF' : '#FF0000FF'"
                         },
                         "elementIDs": {
                             "type": "BindingExpression",
