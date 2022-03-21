@@ -12,6 +12,9 @@ import {
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import DefaultStyle from './Assets/default.svg';
+import TransparentStyle from './Assets/transparent.svg';
+import WireframeStyle from './Assets/wireframe.svg';
 
 export interface ModelTheme {
     objectColor: string;
@@ -40,31 +43,25 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     const styleOptions: IChoiceGroupOption[] = [
         {
             key: 'default',
-            imageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/DefaultStyle.png',
+            imageSrc: DefaultStyle,
             imageAlt: t('modelThemePicker.default'),
-            selectedImageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/DefaultStyle.png',
+            selectedImageSrc: DefaultStyle,
             imageSize: { width: 40, height: 40 },
             text: t('modelThemePicker.default')
         },
         {
             key: 'transparent',
-            imageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/TransparentStyle.png',
+            imageSrc: TransparentStyle,
             imageAlt: t('modelThemePicker.transparent'),
-            selectedImageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/TransparentStyle.png',
+            selectedImageSrc: TransparentStyle,
             imageSize: { width: 40, height: 40 },
             text: t('modelThemePicker.transparent')
         },
         {
             key: 'wireframe',
-            imageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/WireframeStyle.png',
+            imageSrc: WireframeStyle,
             imageAlt: t('modelThemePicker.wireframe'),
-            selectedImageSrc:
-                'https://cardboardresources.blob.core.windows.net/cardboard-images/WireframeStyle.png',
+            selectedImageSrc: WireframeStyle,
             imageSize: { width: 40, height: 40 },
             text: t('modelThemePicker.wireframe')
         }
