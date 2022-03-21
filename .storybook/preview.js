@@ -1,3 +1,5 @@
+
+import React, { CSSProperties } from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
@@ -15,7 +17,7 @@ export const globalTypes = {
         toolbar: {
             icon: 'circlehollow',
             items: ['light', 'dark', 'explorer', 'kraken'],
-            showName: true,
+            showName: true
         }
     },
     locale: {
@@ -28,7 +30,7 @@ export const globalTypes = {
                 { value: Locale.EN, right: 'US', title: 'English' },
                 { value: Locale.DE, right: 'DE', title: 'German' }
             ],
-            showName: true,
+            showName: true
         }
     }
 };
@@ -45,11 +47,18 @@ export const parameters = {
     wideCardWrapperStyle: {
         height: '400px',
         width: '720px'
+    },
+    options: {
+        // Adds storybook sorting to make finding stories easier :)
+        storySort: {
+            order: ['Pages', 'Components', '3DV', 'Test Stories'],
+            method: 'Alphabetical'
+        }
     }
 };
 
 // Wrap stories with stable GUID provider
-const withStableGuid = (Story, context) => {
+const decoratorWithStableGuid = (Story, context) => {
     return (
         <StableGuidRngProvider seed={context.id}>
             <Story {...context} />
@@ -64,5 +73,38 @@ setConsoleOptions({
 });
 
 //add decorators here
-addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(withStableGuid);
+const decoratorWithConsole = (storyFn, context) => withConsole()(storyFn)(context);
+const decoratorWithWrapper = (Story, context) => {
+    if (context.parameters.noGlobalWrapper) {
+        return <Story {...context} />
+    }
+
+    let background = '';
+    // based on var(--cb-color-bg-canvas)
+    // can't use themes here since we are above the theme in the DOM
+    switch (context.globals.theme) {
+        case 'light':
+            background = '#fff';
+            break;
+        case 'dark':
+            background = '#0d0f0e';
+            break;
+        case 'explorer':
+            background = '#222';
+            break;
+        case 'kraken':
+            background = '#0d1326';
+            break;
+        default:
+            background = '';
+            break;
+    }
+    return (
+        <div style={{ padding: 8, backgroundColor: background }}>
+            <Story {...context} />
+        </div >
+    )
+};
+addDecorator(decoratorWithConsole);
+addDecorator(decoratorWithStableGuid);
+addDecorator(decoratorWithWrapper);

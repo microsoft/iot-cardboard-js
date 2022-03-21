@@ -3,7 +3,7 @@ import React from 'react';
 import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { IWidgetLibraryItem } from '../../Models/Classes/3DVConfig';
-import { ColoredMeshItem } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
@@ -18,9 +18,11 @@ import {
 import {
     I3DScenesConfig,
     IBehavior,
-    ITwinToObjectMapping,
-    IWidget
+    IGaugeWidget,
+    ILinkWidget,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueRangeBuilderHandle } from '../ValueRangeBuilder/ValueRangeBuilder.types';
 
 // START of Actions
 export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
@@ -41,6 +43,7 @@ export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
 export const SET_RENDER_MODE = 'SET_RENDER_MODE';
+export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -57,8 +60,9 @@ export interface I3DSceneBuilderContext {
     config: I3DScenesConfig;
     getConfig: () => void;
     sceneId: string;
-    coloredMeshItems: Array<ColoredMeshItem>;
-    setColoredMeshItems: (objects: Array<ColoredMeshItem>) => void;
+    coloredMeshItems: Array<CustomMeshItem>;
+    setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
+    setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
@@ -149,7 +153,8 @@ export interface IADT3DSceneBuilderElementsProps {
 
 export interface ADT3DSceneBuilderState {
     config: I3DScenesConfig;
-    coloredMeshItems: Array<ColoredMeshItem>;
+    coloredMeshItems: Array<CustomMeshItem>;
+    outlinedMeshItems: Array<CustomMeshItem>;
     widgetFormInfo: WidgetFormInfo;
     selectedPivotTab: ADT3DSceneTwinBindingsMode;
     builderMode: ADT3DSceneBuilderMode;
@@ -159,14 +164,26 @@ export interface ADT3DSceneBuilderState {
     selectedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
+    enableHoverOnModel: boolean;
     renderMode: IADT3DViewerRenderMode;
 }
 
 export interface IWidgetBuilderFormDataProps {
-    formData: IWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
-    behaviorToEdit?: IBehavior;
+    getIntellisensePropertyNames?: (twinId: string) => string[];
+    setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: ILinkWidget;
+    setFormData: React.Dispatch<React.SetStateAction<ILinkWidget>>;
+}
+
+export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: IGaugeWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
+    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
+}
+
 export interface BehaviorState {
     behaviorToEdit: IBehavior;
     behaviorsOnElement: Array<IBehavior>;

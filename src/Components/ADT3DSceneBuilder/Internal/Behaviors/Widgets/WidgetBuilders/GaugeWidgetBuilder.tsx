@@ -1,123 +1,102 @@
-// TODO SCHEMA MIGRATION -- update GaugeWidgetBuilder to new schema / types
+import { TextField, useTheme } from '@fluentui/react';
+import produce from 'immer';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+    intellisenseMultilineBreakpoint,
+    linkedTwinName
+} from '../../../../../../Models/Constants';
+import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
+import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
+import { getWidgetFormStyles } from '../WidgetForm.styles';
 
-// import { Position, SpinButton, TextField, Toggle } from '@fluentui/react';
-// import produce from 'immer';
-// import React, { useContext, useState } from 'react';
-// import { useTranslation } from 'react-i18next';
-// import { primaryTwinName } from '../../../../../../Models/Constants';
-// import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
-// import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
-// import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
+const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
+    formData,
+    setFormData,
+    setIsWidgetConfigValid,
+    valueRangeRef,
+    getIntellisensePropertyNames
+}) => {
+    const { t } = useTranslation();
+    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
 
-// const GaugeWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
-//     formData,
-//     setFormData,
-//     behaviorToEdit
-// }) => {
-//     const { t } = useTranslation();
-//     const [propertyNames, setPropertyNames] = useState<string[]>(null);
-//     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
+    useEffect(() => {
+        const {
+            valueExpression,
+            widgetConfiguration: { label }
+        } = formData;
 
-//     if (!propertyNames) {
-//         adapter
-//             .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
-//             .then((properties) => {
-//                 setPropertyNames(properties);
-//             });
-//     }
+        if (
+            valueExpression?.length > 0 &&
+            label?.length > 0 &&
+            areValueRangesValid
+        ) {
+            setIsWidgetConfigValid(true);
+        } else {
+            setIsWidgetConfigValid(false);
+        }
+    }, [formData, areValueRangesValid]);
 
-//     function getPropertyNames(twinId: string) {
-//         return twinId === primaryTwinName ? propertyNames : [];
-//     }
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
 
-//     const warningBreakPointEnabled =
-//         typeof formData.controlConfiguration.valueBreakPoints?.[0] === 'number';
+    return (
+        <div className={customStyles.gaugeWidgetFormContents}>
+            <TextField
+                label={t('label')}
+                value={formData.widgetConfiguration.label}
+                onChange={(_ev, newVal) =>
+                    setFormData(
+                        produce((draft) => {
+                            draft.widgetConfiguration.label = newVal;
+                        })
+                    )
+                }
+            />
+            <TextField
+                label={t('3dSceneBuilder.unitOfMeasure')}
+                value={formData.widgetConfiguration.units}
+                onChange={(_ev, newVal) =>
+                    setFormData(
+                        produce((draft) => {
+                            draft.widgetConfiguration.units = newVal;
+                        })
+                    )
+                }
+            />
+            <Intellisense
+                autoCompleteProps={{
+                    textFieldProps: {
+                        label: t('3dSceneBuilder.expression'),
+                        placeholder: t(
+                            '3dSceneBuilder.numericExpressionPlaceholder'
+                        ),
+                        multiline:
+                            formData.valueExpression.length >
+                            intellisenseMultilineBreakpoint
+                    }
+                }}
+                defaultValue={formData.valueExpression}
+                onChange={(newVal) => {
+                    setFormData(
+                        produce((draft) => {
+                            draft.valueExpression = newVal;
+                        })
+                    );
+                }}
+                aliasNames={[linkedTwinName]}
+                getPropertyNames={getIntellisensePropertyNames}
+            />
+            <ValueRangeBuilder
+                initialValueRanges={formData.widgetConfiguration.valueRanges}
+                maxRanges={3}
+                minRanges={1}
+                ref={valueRangeRef}
+                setAreRangesValid={setAreValueRangesValid}
+            />
+        </div>
+    );
+};
 
-//     return (
-//         <div>
-//             <TextField
-//                 label={t('label')}
-//                 value={formData.controlConfiguration.label}
-//                 onChange={(_ev, newVal) =>
-//                     setFormData(
-//                         produce((draft) => {
-//                             draft.controlConfiguration.label = newVal;
-//                         })
-//                     )
-//                 }
-//             />
-//             <TextField
-//                 label={t('3dSceneBuilder.unitOfMeasure')}
-//                 value={formData.controlConfiguration.units}
-//                 onChange={(_ev, newVal) =>
-//                     setFormData(
-//                         produce((draft) => {
-//                             draft.controlConfiguration.units = newVal;
-//                         })
-//                     )
-//                 }
-//             />
-//             <Intellisense
-//                 autoCompleteProps={{
-//                     textFieldProps: {
-//                         label: t('3dSceneBuilder.expression'),
-//                         placeholder: t('3dSceneBuilder.expressionPlaceholder'),
-//                         multiline:
-//                             formData.controlConfiguration.expression.length > 40
-//                     }
-//                 }}
-//                 defaultValue={formData.controlConfiguration.expression}
-//                 onChange={(newVal) => {
-//                     setFormData(
-//                         produce((draft) => {
-//                             draft.controlConfiguration.expression = newVal;
-//                         })
-//                     );
-//                 }}
-//                 aliasNames={[primaryTwinName]}
-//                 getPropertyNames={getPropertyNames}
-//             />
-//             <Toggle
-//                 label={t('3dSceneBuilder.warningBreakPointToggleLabel')}
-//                 checked={warningBreakPointEnabled}
-//                 onText={t('on')}
-//                 offText={t('off')}
-//                 onChange={(_e, checked) => {
-//                     setFormData(
-//                         produce((draft) => {
-//                             if (checked) {
-//                                 draft.controlConfiguration.valueBreakPoints = [
-//                                     0
-//                                 ];
-//                                 draft.controlConfiguration.colors = ['#ffff00'];
-//                             } else {
-//                                 draft.controlConfiguration.valueBreakPoints = [];
-//                                 draft.controlConfiguration.colors = [];
-//                             }
-//                         })
-//                     );
-//                 }}
-//             />
-//             {warningBreakPointEnabled && (
-//                 <SpinButton
-//                     label={t('3dSceneBuilder.warningBreakPointLabel')}
-//                     labelPosition={Position.top}
-//                     value={String(
-//                         formData.controlConfiguration.valueBreakPoints[0]
-//                     )}
-//                     onChange={(_ev, newVal) => {
-//                         setFormData(
-//                             produce((draft) => {
-//                                 const valueBreakPoints =
-//                                     draft.controlConfiguration.valueBreakPoints;
-//                                 valueBreakPoints[0] = Number(newVal);
-//                             })
-//                         );
-//                     }}
-//                 />
-//             )}
-//         </div>
-//     );
-// };
-
-// export default GaugeWidgetBuilder;
+export default GaugeWidgetBuilder;

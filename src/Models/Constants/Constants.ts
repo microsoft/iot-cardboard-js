@@ -2,8 +2,8 @@ import { IADT3DViewerRenderMode } from '../Constants';
 import { ADT3DRenderMode } from './Enums';
 import {
     defaultGaugeWidget,
-    IWidgetLibraryItem,
-    WidgetType
+    defaultLinkWidget,
+    IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { FontSizes } from '@fluentui/react';
@@ -77,12 +77,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         title: i18n.t('widgets.link.title'),
         description: i18n.t('widgets.link.description'),
         iconName: 'Link',
-        data: {
-            type: WidgetType.Link,
-            widgetConfiguration: {
-                linkExpression: 'https://mypowerbi.biz/${LinkedTwin.$dtId}'
-            }
-        }
+        data: defaultLinkWidget
     }
 ];
 
@@ -105,6 +100,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#ffb780',
         background: null
     },
     {
@@ -117,6 +115,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#ff0000',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#ff9a4d',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -129,6 +130,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#00FF00',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -141,6 +145,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -153,6 +160,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     },
     {
@@ -165,6 +175,9 @@ export const RenderModes: IADT3DViewerRenderMode[] = [
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
+        outlinedMeshHoverColor: '#00A8F0',
+        outlinedMeshSelectedColor: '#f06900',
+        outlinedMeshHoverSelectedColor: '#f06900',
         background: 'radial-gradient(#0a0a54, #020024)'
     }
 ];
@@ -174,12 +187,13 @@ export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
+export const defaultValueRangeColor = '#FF0000';
+
 export const StyleConstants = {
-    listItems: {
-        hoverBackgroundColor: 'var(--fluent-color-grey-20)'
-    },
     icons: {
         size20: FontSizes.size20,
         size16: FontSizes.size16
     }
 };
+
+export const intellisenseMultilineBreakpoint = 40;

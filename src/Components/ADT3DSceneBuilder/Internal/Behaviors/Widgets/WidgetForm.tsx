@@ -1,6 +1,6 @@
-import { DefaultButton, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -10,26 +10,46 @@ import {
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import {
+    IGaugeWidget,
+    ILinkWidget,
     IPopoverVisual,
     IWidget
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import PanelFooter from '../../Shared/PanelFooter';
+import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
-// TODO SCHEMA MIGRATION -- update widget builders to new schema / types
-// import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
-// import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
+import { getWidgetFormStyles } from './WidgetForm.styles';
+import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
+import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
+import { linkedTwinName } from '../../../../../Models/Constants';
+import { createGUID } from '../../../../../Models/Services/Utils';
 
 // Note, this widget form does not currently support panels
-const WidgetForm: React.FC<any> = () => {
-    const { widgetFormInfo, setWidgetFormInfo } = useContext(
-        SceneBuilderContext
-    );
+const WidgetForm: React.FC = () => {
+    const {
+        widgetFormInfo,
+        setWidgetFormInfo,
+        config,
+        sceneId,
+        adapter
+    } = useContext(SceneBuilderContext);
 
-    // TODO SCHEMA MIGRATION -- remove no-unused-vars flag once widget builders are supported
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
+
+    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+
+    const getPropertyNames = (twinId: string) => {
+        return twinId === linkedTwinName ? propertyNames : [];
+    };
+
+    const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
+
+    const gaugeValueRangeRef = useRef<IValueRangeBuilderHandle>(null);
+
     const { t } = useTranslation();
 
     const getDefaultFormData = () => {
@@ -51,35 +71,45 @@ const WidgetForm: React.FC<any> = () => {
 
     const getWidgetBuilder = () => {
         switch (widgetFormInfo.widget.data.type) {
-            // TODO SCHEMA MIGRATION -- update widget builders to new schema / types
-            // case WidgetType.Gauge:
-            //     return (
-            //         <GaugeWidgetBuilder
-            //             formData={formData}
-            //             setFormData={setFormData}
-            //             behaviorToEdit={behaviorToEdit}
-            //         />
-            //     );
-            // case WidgetType.Link:
-            //     return (
-            //         <LinkWidgetBuilder
-            //             formData={formData}
-            //             setFormData={setFormData}
-            //         />
-            //     );
+            case WidgetType.Gauge:
+                return (
+                    <GaugeWidgetBuilder
+                        formData={formData as IGaugeWidget}
+                        setFormData={setFormData}
+                        getIntellisensePropertyNames={getPropertyNames}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                        valueRangeRef={gaugeValueRangeRef}
+                    />
+                );
+            case WidgetType.Link:
+                return (
+                    <LinkWidgetBuilder
+                        formData={formData as ILinkWidget}
+                        setFormData={setFormData}
+                        getIntellisensePropertyNames={getPropertyNames}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                    />
+                );
             default:
                 return (
                     <div className="cb-widget-not-supported">
-                        {t('widgets.notSupported') + ' :('}
+                        {t('widgets.notSupported')}
                     </div>
                 );
         }
     };
 
     const onSaveWidgetForm = () => {
+        const formDataToSave = JSON.parse(JSON.stringify(formData));
+
+        if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
+            (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
+        }
+
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
+                    draft.id = createGUID(false);
                     const popOver = draft.visuals?.find(
                         (visual) => visual.type === VisualType.Popover
                     ) as IPopoverVisual;
@@ -87,8 +117,8 @@ const WidgetForm: React.FC<any> = () => {
                     if (popOver) {
                         const widgets = popOver?.widgets;
                         widgets
-                            ? popOver.widgets.push(formData)
-                            : (popOver.widgets = [formData]);
+                            ? popOver.widgets.push(formDataToSave)
+                            : (popOver.widgets = [formDataToSave]);
                     }
                 })
             );
@@ -105,7 +135,7 @@ const WidgetForm: React.FC<any> = () => {
                         typeof widgetFormInfo.widgetIdx === 'number'
                     ) {
                         const widgets = popOver?.widgets;
-                        widgets[widgetFormInfo.widgetIdx] = formData;
+                        widgets[widgetFormInfo.widgetIdx] = formDataToSave;
                     }
                 })
             );
@@ -115,19 +145,34 @@ const WidgetForm: React.FC<any> = () => {
         setFormData(null);
     };
 
+    useEffect(() => {
+        if (!propertyNames) {
+            adapter
+                .getCommonTwinPropertiesForBehavior(
+                    sceneId,
+                    config,
+                    behaviorToEdit
+                )
+                .then((properties) => {
+                    setPropertyNames(properties);
+                });
+        }
+    }, [sceneId, config, behaviorToEdit]);
+
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+    const commonFormStyles = getPanelFormStyles(theme, 0);
     return (
         <>
-            <div className="cb-scene-builder-left-panel-create-form">
-                <div className="cb-scene-builder-left-panel-create-form-contents">
-                    <div className="cb-widget-builder-description-container">
-                        <div className="cb-widget-builder-description">
-                            {widgetFormInfo.widget.description}
-                        </div>
+            <div className={commonFormStyles.content}>
+                <div className={commonFormStyles.header}>
+                    <div className={customStyles.description}>
+                        {widgetFormInfo.widget.description}
                     </div>
-                    {getWidgetBuilder()}
                 </div>
+                {getWidgetBuilder()}
             </div>
-            <div className="cb-scene-builder-left-panel-create-form-actions">
+            <PanelFooter>
                 <PrimaryButton
                     onClick={onSaveWidgetForm}
                     text={
@@ -135,17 +180,16 @@ const WidgetForm: React.FC<any> = () => {
                             ? t('3dSceneBuilder.createWidget')
                             : t('3dSceneBuilder.updateWidget')
                     }
-                    disabled={false}
+                    disabled={!isWidgetConfigValid}
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    styles={{ root: { marginLeft: 8 } }}
                     onClick={() => {
                         setWidgetFormInfo(null);
                         setFormData(null);
                     }}
                 />
-            </div>
+            </PanelFooter>
         </>
     );
 };

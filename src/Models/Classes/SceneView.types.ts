@@ -54,7 +54,7 @@ export type SceneViewCallbackHandler = (
     e: PointerEvent
 ) => void;
 
-export interface ColoredMeshItem {
+export interface CustomMeshItem {
     meshId: string;
     color?: string;
 }
@@ -75,9 +75,10 @@ export interface ISceneViewProp {
     onCameraMove?: SceneViewEventHandler;
     showMeshesOnHover?: boolean;
     getToken?: () => Promise<string>;
-    coloredMeshItems?: ColoredMeshItem[];
+    coloredMeshItems?: CustomMeshItem[];
+    outlinedMeshitems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
-    hideUnzoomedMeshes?: boolean;
+    unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
     renderMode?: IADT3DViewerRenderMode;
 }

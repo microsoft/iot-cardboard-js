@@ -39,7 +39,7 @@ export const CardboardListItem = <T extends unknown>({
     }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles(buttonProps?.customStyles);
+    const buttonStyles = getButtonStyles(theme);
     return (
         <>
             <DefaultButton

@@ -1,43 +1,69 @@
 // TODO SCHEMA MIGRATION -- update LinkWidgetBuilder to new schema / types
-// import { TextField } from '@fluentui/react';
-// import produce from 'immer';
-// import React from 'react';
-// import { useTranslation } from 'react-i18next';
-// import { IWidgetBuilderFormDataProps } from '../../../../ADT3DSceneBuilder.types';
+import { TextField } from '@fluentui/react';
+import produce from 'immer';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+    intellisenseMultilineBreakpoint,
+    linkedTwinName
+} from '../../../../../../Models/Constants';
+import { Intellisense } from '../../../../../AutoComplete/Intellisense';
 
-// const LinkWidgetBuilder: React.FC<IWidgetBuilderFormDataProps> = ({
-//     formData,
-//     setFormData
-// }) => {
-//     const { t } = useTranslation();
-//     return (
-//         <div>
-//             <TextField
-//                 label={t('label')}
-//                 value={formData.controlConfiguration.label}
-//                 onChange={(_ev, newVal) =>
-//                     setFormData(
-//                         produce((draft) => {
-//                             draft.controlConfiguration.label = newVal;
-//                         })
-//                     )
-//                 }
-//             />
-//             <TextField
-//                 label={t('url')}
-//                 description={t('3dSceneBuilder.linkWidgetUrlDescription')}
-//                 placeholder="https://mypowerbi.biz/${LinkedTwin.$dtId}"
-//                 value={formData.controlConfiguration.expression}
-//                 onChange={(_ev, newVal) =>
-//                     setFormData(
-//                         produce((draft) => {
-//                             draft.controlConfiguration.expression = newVal;
-//                         })
-//                     )
-//                 }
-//             />
-//         </div>
-//     );
-// };
+import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 
-// export default LinkWidgetBuilder;
+const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
+    formData,
+    setFormData,
+    setIsWidgetConfigValid,
+    getIntellisensePropertyNames
+}) => {
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        const { label, linkExpression } = formData.widgetConfiguration;
+        if (label && linkExpression) {
+            setIsWidgetConfigValid(true);
+        } else {
+            setIsWidgetConfigValid(false);
+        }
+    }, [formData]);
+
+    return (
+        <>
+            <TextField
+                label={t('label')}
+                value={formData.widgetConfiguration.label}
+                onChange={(_ev, newVal) =>
+                    setFormData(
+                        produce((draft) => {
+                            draft.widgetConfiguration.label = newVal;
+                        })
+                    )
+                }
+            />
+            <Intellisense
+                autoCompleteProps={{
+                    textFieldProps: {
+                        label: t('url'),
+                        placeholder: t('widgets.link.urlPlaceholder'),
+                        multiline:
+                            formData.widgetConfiguration.linkExpression.length >
+                            intellisenseMultilineBreakpoint
+                    }
+                }}
+                defaultValue={formData.widgetConfiguration.linkExpression}
+                onChange={(newVal) => {
+                    setFormData(
+                        produce((draft) => {
+                            draft.widgetConfiguration.linkExpression = newVal;
+                        })
+                    );
+                }}
+                aliasNames={[linkedTwinName]}
+                getPropertyNames={getIntellisensePropertyNames}
+            />
+        </>
+    );
+};
+
+export default LinkWidgetBuilder;

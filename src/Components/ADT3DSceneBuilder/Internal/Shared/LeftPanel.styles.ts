@@ -8,24 +8,39 @@ import {
     ISeparatorStyles
 } from '@fluentui/react';
 
+const classPrefix = 'left-panel';
+const classNames = {
+    noDataText: `${classPrefix}-no-data-text`,
+    content: `${classPrefix}-content`,
+    formTabContents: `${classPrefix}-form-tab-contents`
+};
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
-        noDataText: {
-            fontSize: FontSizes.size12,
-            color: theme.palette.neutralSecondary
-        } as IStyle,
-        rootListContainer: {
-            flexGrow: 1,
-            marginBottom: '16px',
-            overflowX: 'hidden',
-            overflowY: 'auto'
-        } as IStyle,
-        formTabContents: {
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-            overflow: 'auto'
-        } as IStyle
+        noDataText: [
+            classNames.noDataText,
+            {
+                fontSize: FontSizes.size12,
+                color: theme.palette.neutralSecondary
+            } as IStyle
+        ],
+        content: [
+            classNames.content,
+            {
+                flexGrow: 1,
+                height: '100%',
+                overflowX: 'hidden',
+                overflowY: 'auto'
+            } as IStyle
+        ],
+        formTabContents: [
+            classNames.formTabContents,
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+                overflow: 'auto'
+            } as IStyle
+        ]
     });
 });
 export const getSeparatorStyles = memoizeFunction(

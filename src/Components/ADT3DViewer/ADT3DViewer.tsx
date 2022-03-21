@@ -7,7 +7,7 @@ import {
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { ColoredMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import { VisualType } from '../../Models/Classes/3DVConfig';
@@ -36,10 +36,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds: zoomToMeshIdsProp,
-    hideUnzoomedMeshes
+    unzoomedMeshOpacity
 }) => {
     const { t } = useTranslation();
-    const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
+    const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
@@ -255,7 +255,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
-                        hideUnzoomedMeshes: hideUnzoomedMeshes,
+                        unzoomedMeshOpacity: unzoomedMeshOpacity,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),

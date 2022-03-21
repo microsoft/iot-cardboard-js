@@ -212,3 +212,46 @@ export function parseExpression(
 
     return result;
 }
+
+/**
+ * Takes in a hex string and splits off the # and gives back an object with the RGB values
+ * @param hex hex value string with the # at the front
+ * @returns an object for the rgb values
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const stripped = hex.substring(1, hex.length - 1);
+    const rgb = parseInt(stripped, 16);
+
+    const r = (rgb >> 16) & 255;
+    const g = (rgb >> 8) & 255;
+    const b = rgb & 255;
+
+    return { r: r, g: g, b: b };
+}
+/** gives back the RGBA string for css */
+export function hexToRgbCss(hex: string): string {
+    const { r, g, b } = hexToRgb(hex);
+    return `${r}, ${g}, ${b}`;
+}
+/**
+ * Gives back the css string to use for making a give hex color into a transparent RGBA
+ * @param hex Hex value of the color. e
+ * @param transparency amount of transparency
+ * @example `getTransparentColor(theme.palette.black,'0.1')`
+ * @returns string to be plugged into a style
+ */
+export function getTransparentColor(
+    hex: string,
+    transparency:
+        | '0.1'
+        | '0.2'
+        | '0.3'
+        | '0.4'
+        | '0.5'
+        | '0.6'
+        | '0.7'
+        | '0.8'
+        | '0.9'
+): string {
+    return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
+}

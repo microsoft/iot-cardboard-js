@@ -8,7 +8,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
-    ColoredMeshItem,
+    CustomMeshItem,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
@@ -166,7 +166,7 @@ export const use3DViewerRuntime = (
             ];
 
             sceneVisuals.forEach((sceneVisual) => {
-                const coloredMeshItems: Array<ColoredMeshItem> = [];
+                const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.visuals?.map((visual) => {
                     switch (visual.type) {
                         case VisualType.StatusColoring: {
@@ -180,7 +180,7 @@ export const use3DViewerRuntime = (
                             );
                             if (color) {
                                 sceneVisual.meshIds?.map((meshId) => {
-                                    const coloredMesh: ColoredMeshItem = {
+                                    const coloredMesh: CustomMeshItem = {
                                         meshId: meshId,
                                         color: color
                                     };
@@ -207,7 +207,7 @@ export const use3DViewerRuntime = (
                                 const color = visual.color;
 
                                 sceneVisual.meshIds?.map((meshId) => {
-                                    const coloredMesh: ColoredMeshItem = {
+                                    const coloredMesh: CustomMeshItem = {
                                         meshId: meshId,
                                         color: color
                                     };

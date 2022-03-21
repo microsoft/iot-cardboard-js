@@ -20,16 +20,19 @@ import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSe
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
+import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
+import PanelFooter from '../Shared/PanelFooter';
 import {
-    getLeftPanelStyles,
-    leftPanelPivotStyles
-} from '../Shared/LeftPanel.styles';
+    panelFormPivotStyles,
+    getPanelFormStyles
+} from '../Shared/PanelForms.styles';
 import {
     IBehavior,
     IScene,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
+import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 
 const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     builderMode,
@@ -61,7 +64,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         config,
         sceneId,
         getConfig,
-        coloredMeshItems
+        coloredMeshItems,
+        setColoredMeshItems
     } = useContext(SceneBuilderContext);
 
     const updateTwinToObjectMappings = useAdapter({
@@ -115,6 +119,14 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
+        if (selectedElement) {
+            setColoredMeshItems(
+                createCustomMeshItems(selectedElement.objectIDs, null)
+            );
+        }
+    }, []);
+
+    useEffect(() => {
         const meshIds = [];
         for (const item of coloredMeshItems) {
             meshIds.push(item.meshId);
@@ -150,25 +162,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     };
 
     useEffect(() => {
-        const meshIds: string[] = [];
-        for (const item of coloredMeshItems) {
-            meshIds.push(item.meshId);
-        }
-        setElementToEdit({
-            ...elementToEdit,
-            objectIDs: meshIds
-        });
-    }, [coloredMeshItems]);
-
-    useEffect(() => {
         if (updateTwinToObjectMappings.adapterResult.result) {
             getConfig();
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const commonFormStyles = getPanelFormStyles(theme, 170);
     return (
-        <div className="cb-scene-builder-left-panel-create-wrapper">
+        <div className={commonFormStyles.root}>
             <LeftPanelBuilderHeader
                 headerText={
                     builderMode === ADT3DSceneBuilderMode.CreateElement
@@ -182,8 +185,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 }
                 iconName={'Shapes'}
             />
-            <div className="cb-scene-builder-left-panel-create-form">
-                <div className="cb-scene-builder-left-panel-create-form-contents">
+            <div className={commonFormStyles.content}>
+                <div className={commonFormStyles.header}>
                     <TwinSearchDropdown
                         adapter={adapter}
                         label={t('3dSceneBuilder.linkedTwin')}
@@ -205,14 +208,19 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 <Separator />
                 <Pivot
                     aria-label={t('3dScenePage.buildMode')}
-                    styles={leftPanelPivotStyles}
+                    className={commonFormStyles.pivot}
+                    styles={panelFormPivotStyles}
                 >
-                    <PivotItem headerText={t('3dSceneBuilder.meshes')}>
-                        <div className={commonPanelStyles.formTabContents}>
-                            <MeshTab elementToEdit={elementToEdit} />
-                        </div>
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.meshes')}
+                        className={commonPanelStyles.formTabContents}
+                    >
+                        <MeshTab elementToEdit={elementToEdit} />
                     </PivotItem>
-                    <PivotItem headerText={t('3dSceneBuilder.behaviors')}>
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.behaviors')}
+                        className={commonPanelStyles.formTabContents}
+                    >
                         <div className={commonPanelStyles.formTabContents}>
                             <BehaviorsTab
                                 elementToEdit={elementToEdit}
@@ -227,14 +235,17 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             />
                         </div>
                     </PivotItem>
-                    <PivotItem headerText={t('3dSceneBuilder.aliasedTwins')}>
+                    <PivotItem
+                        headerText={t('3dSceneBuilder.aliasedTwins')}
+                        className={commonPanelStyles.formTabContents}
+                    >
                         <div className={commonPanelStyles.formTabContents}>
                             <AliasedTwinsTab elementToEdit={elementToEdit} />
                         </div>
                     </PivotItem>
                 </Pivot>
             </div>
-            <div className="cb-scene-builder-left-panel-create-form-actions">
+            <PanelFooter>
                 <PrimaryButton
                     onClick={handleSaveElement}
                     text={
@@ -252,12 +263,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    styles={{ root: { marginLeft: 8 } }}
                     onClick={() => {
                         onElementBackClick();
                     }}
                 />
-            </div>
+            </PanelFooter>
         </div>
     );
 };
