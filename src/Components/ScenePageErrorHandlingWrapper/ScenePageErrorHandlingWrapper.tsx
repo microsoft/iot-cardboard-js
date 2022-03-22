@@ -9,13 +9,12 @@ import { ErrorImages } from '../../Models/Constants';
 import ErrorIllustration from './Internal/ErrorIllustration/ErrorIllustration';
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
-    primaryOnclickAction,
+    primaryOnClickAction,
     buttonText,
     children
 }) => {
     const { t } = useTranslation();
     let componentContent;
-    console.log(buttonText);
     switch (errors?.[0]?.type) {
         case ComponentErrorType.NonExistentBlob:
             componentContent = (
@@ -24,7 +23,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('nonExistentBlobErrorTitle')}
                     errorMessage={t('nonExistentBlobErrorMessage')}
                     buttonText={buttonText}
-                    onclickAction={primaryOnclickAction}
+                    onClickAction={primaryOnClickAction}
                 ></ErrorIllustration>
             );
             break;
@@ -35,7 +34,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('unauthorizedAccessErrorTitle')}
                     errorMessage={t('unauthorizedAccessErrorMessage')}
                     buttonText={buttonText}
-                    onclickAction={primaryOnclickAction}
+                    onClickAction={primaryOnClickAction}
                 ></ErrorIllustration>
             );
             break;
@@ -63,7 +62,8 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             JSON.stringify(schemaError, null, 2)
                         )
                         .join('\n\n')}
-                    buttonText={t('tryAgain')}
+                    buttonText={buttonText}
+                    onClickAction={primaryOnClickAction}
                 ></ErrorIllustration>
             );
             break;

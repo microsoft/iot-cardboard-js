@@ -12,7 +12,7 @@ const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
     errorTitle,
     errorMessage,
     buttonText,
-    onclickAction
+    onClickAction
 }) => {
     const imageProps: IImageProps = {
         height: 200
@@ -71,7 +71,7 @@ const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
                 <div style={{ marginTop: '20px' }}>
                     <PrimaryButton
                         text={buttonText}
-                        onClick={onclickAction}
+                        onClick={onClickAction}
                     ></PrimaryButton>
                 </div>
             </div>

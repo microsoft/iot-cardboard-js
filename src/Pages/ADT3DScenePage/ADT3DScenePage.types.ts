@@ -56,7 +56,7 @@ export interface ADT3DScenePageState {
     scene?: IScene;
     errors?: Array<IComponentError>;
     scenePageMode: ADT3DScenePageModes;
-    unauthorizedError: IErrorButtonAction;
+    errorCallback: IErrorButtonAction;
 }
 
 export interface ADT3DScenePageState {
