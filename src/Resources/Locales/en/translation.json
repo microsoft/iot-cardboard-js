@@ -651,7 +651,8 @@
         "wireframe": "Wireframe"
     },
     "elementsPanel": {
-        "elementAlerts": "Element alerts",
-        "noElements": "No elements to display"
+        "title": "Alerts",
+        "noElements": "No elements to display",
+        "filter": "Type to filter elements or alerts"
     }
 }

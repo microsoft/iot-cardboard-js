@@ -1,15 +1,11 @@
-import {
-    Icon,
-    IStyle,
-    memoizeFunction,
-    mergeStyleSets,
-    Separator
-} from '@fluentui/react';
-import React from 'react';
+import { Icon, useTheme } from '@fluentui/react';
+import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import { DTwin } from '../../../Models/Constants/Interfaces';
-import { parseExpression } from '../../../Models/Services/Utils';
+import {
+    getSceneElementStatusColor,
+    parseExpression
+} from '../../../Models/Services/Utils';
 import {
     IAlertVisual,
     IStatusColoringVisual,
@@ -19,9 +15,16 @@ import {
 import { CardboardList } from '../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
 import { performSubstitutions } from '../../Widgets/Widget.Utils';
+import {
+    getElementsPanelAlertStyles,
+    getElementsPanelStyles,
+    getElementsPanelStatusStyles,
+    getElementsPanelButtonSyles
+} from '../ElementsPanel.styles';
 
 interface ElementListProps {
     panelItems: Array<ElementsPanelItem>;
+    filterTerm?: string;
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
         meshIds: Array<string>
@@ -36,158 +39,114 @@ export interface ElementsPanelItem {
     meshIds: Array<string>;
 }
 
-const ElementList: React.FC<ElementListProps> = (props) => {
+const ElementList: React.FC<ElementListProps> = ({
+    panelItems,
+    filterTerm,
+    onItemClick,
+    onItemHover
+}) => {
     const { t } = useTranslation();
-    const elementListStyles = getElementListStyles();
+    const theme = useTheme();
+    const elementsPanelStyles = getElementsPanelStyles(theme);
+
+    const listItems = useMemo(
+        () => getListItems(panelItems, onItemClick, onItemHover),
+        [panelItems]
+    );
 
     return (
-        <div className={elementListStyles.list}>
-            {props.panelItems.length === 0 ? (
+        <div className={elementsPanelStyles.list}>
+            {panelItems.length === 0 ? (
                 <div style={{ padding: '0px 20px' }}>
                     {t('elementsPanel.noElements')}
                 </div>
             ) : (
-                <>
-                    <Separator styles={{ root: { padding: 0, height: 1 } }} />
-                    {props.panelItems.map((elementListItem, idx) => (
-                        <>
-                            <CardboardList<ITwinToObjectMapping | IVisual>
-                                key={`cb-elements-panel-item-${elementListItem.element.displayName}`}
-                                items={getListItems(
-                                    elementListItem,
-                                    props.onItemClick,
-                                    props.onItemHover
-                                )}
-                                listKey={`elements-panel`}
-                            />
-                            {idx < props.panelItems.length - 1 && (
-                                <Separator
-                                    key={`cb-elements-panel-separator-${elementListItem.element.displayName}`}
-                                    styles={{ root: { padding: 0, height: 1 } }}
-                                />
-                            )}
-                        </>
-                    ))}
-                </>
+                <CardboardList<ITwinToObjectMapping | IVisual>
+                    items={listItems}
+                    listKey={`elements-panel`}
+                    textToHighlight={filterTerm}
+                />
             )}
         </div>
     );
 };
 
 function getListItems(
-    panelItem: ElementsPanelItem,
+    panelItems: Array<ElementsPanelItem>,
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
         meshIds: Array<string>
     ) => void,
     onItemHover: (item: ITwinToObjectMapping | IVisual) => void
-): ICardboardListItem<ITwinToObjectMapping | IVisual>[] {
+): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
+    const buttonStyles = getElementsPanelButtonSyles();
     const listItems: Array<
         ICardboardListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
-    const element = panelItem.element;
-    const status = panelItem.visuals.find(
-        (v) => v.type === 'StatusColoring'
-    ) as IStatusColoringVisual;
-    const alerts = panelItem.visuals.filter(
-        (v) => v.type === 'Alert'
-    ) as Array<IAlertVisual>;
+    panelItems.map((panelItem, idx) => {
+        const element = panelItem.element;
+        const status = panelItem.visuals.find(
+            (v) => v.type === 'StatusColoring'
+        ) as IStatusColoringVisual;
+        const alerts = panelItem.visuals.filter(
+            (v) => v.type === 'Alert'
+        ) as Array<IAlertVisual>;
 
-    const statusStyle = getStatusStyle(
-        getStatusColor(
-            status.statusValueExpression,
-            status.valueRanges,
-            panelItem.twins
-        )
-    );
+        const statusStyles = getElementsPanelStatusStyles(
+            getSceneElementStatusColor(
+                status.statusValueExpression,
+                status.valueRanges,
+                panelItem.twins
+            )
+        );
 
-    const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
-        ariaLabel: element.displayName,
-        buttonProps: {
-            onMouseOver: () => onItemHover(element),
-            onBlur: () => onItemHover(element)
-        },
-        iconStartName: <div className={statusStyle.statusLine}></div>,
-        item: element,
-        onClick: () => onItemClick(element, panelItem.meshIds),
-        textPrimary: element.displayName
-    };
-    listItems.push(elementItemWithStatus);
+        const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
+            ariaLabel: element.displayName,
+            buttonProps: {
+                customStyles: buttonStyles,
+                onMouseOver: () => onItemHover(element),
+                onBlur: () => onItemHover(element)
+            },
+            iconStartName: <div className={statusStyles.statusLine}></div>,
+            item: element,
+            onClick: () => onItemClick(element, panelItem.meshIds),
+            textPrimary: element.displayName,
+            hasTopSeparator: idx === 0 ? false : true
+        };
+        listItems.push(elementItemWithStatus);
 
-    alerts.map((alert) => {
-        const alertStyle = getAlertStyle(alert.color);
-        if (parseExpression(alert.triggerExpression, panelItem.twins)) {
-            const alertItem: ICardboardListItem<IAlertVisual> = {
-                ariaLabel: performSubstitutions(
-                    alert.labelExpression,
-                    panelItem.twins
-                ),
-                buttonProps: {
-                    onMouseOver: () => onItemHover(element),
-                    onBlur: () => onItemHover(element)
-                },
-                iconStartName: (
-                    <span className={alertStyle.alertCircle}>
-                        <Icon iconName={alert.iconName} />
-                    </span>
-                ),
-                item: alert,
-                onClick: () => onItemClick(alert, panelItem.meshIds),
-                textPrimary: performSubstitutions(
-                    alert.labelExpression,
-                    panelItem.twins
-                )
-            };
-            listItems.push(alertItem);
-        }
+        alerts.map((alert) => {
+            const alertStyles = getElementsPanelAlertStyles(alert.color);
+            if (parseExpression(alert.triggerExpression, panelItem.twins)) {
+                const alertItem: ICardboardListItem<IAlertVisual> = {
+                    ariaLabel: performSubstitutions(
+                        alert.labelExpression,
+                        panelItem.twins
+                    ),
+                    buttonProps: {
+                        customStyles: buttonStyles,
+                        onMouseOver: () => onItemHover(element),
+                        onBlur: () => onItemHover(element)
+                    },
+                    iconStartName: (
+                        <span className={alertStyles.alertCircle}>
+                            <Icon iconName={alert.iconName} />
+                        </span>
+                    ),
+                    item: alert,
+                    onClick: () => onItemClick(alert, panelItem.meshIds),
+                    textPrimary: performSubstitutions(
+                        alert.labelExpression,
+                        panelItem.twins
+                    )
+                };
+                listItems.push(alertItem);
+            }
+        });
     });
 
     return listItems;
 }
 
-const getElementListStyles = memoizeFunction(() => {
-    return mergeStyleSets({
-        list: {
-            width: '100%',
-            height: '100%'
-        }
-    });
-});
-
-const getStatusStyle = memoizeFunction((statusColor: string) => {
-    return mergeStyleSets({
-        statusLine: {
-            width: 5,
-            height: 3,
-            boxShadow: `0px 0px 4px ${statusColor}`,
-            background: statusColor,
-            margin: '0px 16px'
-        } as IStyle
-    });
-});
-
-const getAlertStyle = memoizeFunction((alertColor: string) => {
-    return mergeStyleSets({
-        alertCircle: {
-            width: 24,
-            height: 24,
-            borderRadius: 30,
-            backgroundColor: alertColor,
-            margin: '0 6px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        } as IStyle
-    });
-});
-
-const getStatusColor = (statusValueExpression, valueRanges, twins) => {
-    const value = parseExpression(statusValueExpression, twins);
-    return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-        valueRanges,
-        value
-    );
-};
-
-export default ElementList;
+export default memo(ElementList);

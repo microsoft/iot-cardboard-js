@@ -1,4 +1,4 @@
-import { DefaultButton, FontIcon, useTheme } from '@fluentui/react';
+import { DefaultButton, FontIcon, Separator, useTheme } from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
@@ -19,6 +19,7 @@ export const CardboardListItem = <T extends unknown>({
     textPrimary,
     textSecondary,
     textToHighlight,
+    hasTopSeparator,
     onClick
 }: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,9 +40,12 @@ export const CardboardListItem = <T extends unknown>({
     }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles(theme);
+    const buttonStyles = getButtonStyles(theme, buttonProps.customStyles);
     return (
         <>
+            {hasTopSeparator && (
+                <Separator className={customStyles.separator} />
+            )}
             <DefaultButton
                 {...buttonProps}
                 key={`cardboard-list-item-${listKey}-${index}`}

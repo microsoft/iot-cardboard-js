@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     DTwin,
     IADT3DViewerProps,
@@ -18,9 +18,9 @@ import { Dropdown, IDropdownOption } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { RenderModes } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import ElementsPanel, {
-    use3DViewerRuntime
-} from '../ElementsPanel/ElementsPanel';
+import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
+import { ElementsPanelItem } from '../ElementsPanel/Internal/ElementList';
+import ElementsPanelModal from './Internal/ElementsPanelModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -61,7 +61,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const { modelUrl, sceneVisuals, isLoading } = use3DViewerRuntime(
+    const { modelUrl, sceneVisuals, isLoading } = useRuntimeSceneData(
         adapter,
         sceneId,
         sceneConfig,
@@ -77,6 +77,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     }, []);
 
     useEffect(() => {
+        //TODO when to remove existingColoredMeshItems?
         const newColoredMeshItems = [...coloredMeshItems];
         sceneVisuals.forEach((sceneVisual) => {
             sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
@@ -92,6 +93,17 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
         });
         setColoredMeshItems(newColoredMeshItems);
     }, [sceneVisuals]);
+
+    const panelItems: Array<ElementsPanelItem> = useMemo(
+        () =>
+            sceneVisuals.map((sceneVisual) => ({
+                element: sceneVisual.element,
+                visuals: sceneVisual.visuals,
+                twins: sceneVisual.twins,
+                meshIds: sceneVisual.meshIds
+            })),
+        [sceneVisuals]
+    );
 
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {
@@ -242,6 +254,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         : {}
                 }
             >
+                <ElementsPanelModal
+                    panelItems={panelItems}
+                    isLoading={isLoading}
+                    onItemClick={(item, meshIds) => setZoomToMeshIds(meshIds)}
+                    onItemHover={(item) => item.type}
+                />
                 <SceneViewWrapper
                     adapter={adapter}
                     config={sceneConfig}
@@ -303,14 +321,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         </Draggable>
                     </div>
                 )}
-                <ElementsPanel
-                    adapter={adapter}
-                    sceneId={sceneId}
-                    sceneConfig={sceneConfig}
-                    pollingInterval={10000}
-                    onItemClick={(item, meshIds) => setZoomToMeshIds(meshIds)}
-                    onItemHover={(item) => item.type}
-                />
             </div>
         </BaseComponent>
     );

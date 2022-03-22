@@ -17,7 +17,7 @@ type IListItemBaseProps<T> = {
     };
     /** icon to render on the right side of the list item */
     iconEndName?: IIconNames;
-    /** icon to render at the left side of the list item */
+    /** icon or JSX element to render at the left side of the list item */
     iconStartName?: IIconNames | JSX.Element;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
@@ -29,6 +29,8 @@ type IListItemBaseProps<T> = {
     textPrimary: string;
     /** secondary text to show below the main text */
     textSecondary?: string;
+    /** separator placed at the top of the list item */
+    hasTopSeparator?: boolean;
 };
 // when NOT provided, click handler required
 type WithOnClickMenuUndefined<T> = {

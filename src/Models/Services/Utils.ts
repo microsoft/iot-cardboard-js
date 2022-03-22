@@ -14,7 +14,11 @@ import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
-import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    I3DScenesConfig,
+    IValueRange
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -211,6 +215,18 @@ export function parseExpression(
     }
 
     return result;
+}
+
+export function getSceneElementStatusColor(
+    statusValueExpression: string,
+    valueRanges: IValueRange[],
+    twins: Record<string, DTwin>
+) {
+    const value = parseExpression(statusValueExpression, twins);
+    return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+        valueRanges,
+        value
+    );
 }
 
 /**
