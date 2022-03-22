@@ -16,16 +16,18 @@ export const NonExistentBlob = () => {
         <div></div>
     ) : (
         <ScenePageErrorHandlingWrapper
-            primaryOnclickAction={() => {
-                return;
-            }}
-            buttonText={t('learnMore')}
             errors={[
                 {
                     type: ComponentErrorType.NonExistentBlob,
                     isCatastrophic: true
                 }
             ]}
+            primaryClickAction={{
+                buttonText: t('learnMore'),
+                OnClickAction: () => {
+                    return window.alert('clicked');
+                }
+            }}
         />
     );
 };
@@ -38,10 +40,12 @@ export const UnauthorizedAccessError = () => {
     ) : (
         <div>
             <ScenePageErrorHandlingWrapper
-                primaryOnclickAction={() => {
-                    return;
+                primaryClickAction={{
+                    buttonText: t('learnMore'),
+                    OnClickAction: () => {
+                        return window.alert('clicked');
+                    }
                 }}
-                buttonText={t('learnMore')}
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,

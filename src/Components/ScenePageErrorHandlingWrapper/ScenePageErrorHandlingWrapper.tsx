@@ -9,13 +9,11 @@ import { ErrorImages } from '../../Models/Constants';
 import ErrorIllustration from './Internal/ErrorIllustration/ErrorIllustration';
 const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps> = ({
     errors,
-    primaryOnclickAction,
-    buttonText,
+    primaryClickAction,
     children
 }) => {
     const { t } = useTranslation();
     let componentContent;
-    console.log(buttonText);
     switch (errors?.[0]?.type) {
         case ComponentErrorType.NonExistentBlob:
             componentContent = (
@@ -23,8 +21,8 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     imageName={ErrorImages.BlobError}
                     errorTitle={t('nonExistentBlobErrorTitle')}
                     errorMessage={t('nonExistentBlobErrorMessage')}
-                    buttonText={buttonText}
-                    onclickAction={primaryOnclickAction}
+                    buttonText={primaryClickAction.buttonText}
+                    onClickAction={primaryClickAction.OnClickAction}
                 ></ErrorIllustration>
             );
             break;
@@ -34,8 +32,8 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     imageName={ErrorImages.AccessRestricted}
                     errorTitle={t('unauthorizedAccessErrorTitle')}
                     errorMessage={t('unauthorizedAccessErrorMessage')}
-                    buttonText={buttonText}
-                    onclickAction={primaryOnclickAction}
+                    buttonText={primaryClickAction.buttonText}
+                    onClickAction={primaryClickAction.OnClickAction}
                 ></ErrorIllustration>
             );
             break;
@@ -63,7 +61,8 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                             JSON.stringify(schemaError, null, 2)
                         )
                         .join('\n\n')}
-                    buttonText={t('tryAgain')}
+                    buttonText={primaryClickAction.buttonText}
+                    onClickAction={primaryClickAction.OnClickAction}
                 ></ErrorIllustration>
             );
             break;

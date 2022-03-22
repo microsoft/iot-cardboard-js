@@ -20,7 +20,9 @@ module.exports = function (app) {
         'x-ms-useragent',
         'User-Agent',
         'x-ms-version',
-        'x-ms-blob-type'
+        'x-ms-blob-type',
+        'x-ms-copy-source',
+        'x-ms-requires-sync'
     ];
 
     // eslint-disable-next-line max-len
