@@ -674,6 +674,7 @@ export interface IADT3DViewerRenderMode {
     fresnelColor: string;
     //opacity: number;
     isWireframe: boolean;
+    lightingStyle: number;
     background: string;
     reflectionTexture?: string;
     coloredMeshColor: string;
