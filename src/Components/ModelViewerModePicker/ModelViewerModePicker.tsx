@@ -7,8 +7,7 @@ import {
     IColorCellProps,
     IconButton,
     mergeStyleSets,
-    SwatchColorPicker,
-    useTheme
+    SwatchColorPicker
 } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
