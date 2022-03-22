@@ -18,10 +18,16 @@ import {
     IBehaviorFormContext
 } from '../../ADT3DSceneBuilder.types';
 import produce from 'immer';
-import { PrimaryButton } from '@fluentui/react/lib/components/Button/PrimaryButton/PrimaryButton';
-import { Pivot } from '@fluentui/react/lib/components/Pivot/Pivot';
-import { PivotItem } from '@fluentui/react/lib/components/Pivot/PivotItem';
-import { TextField, DefaultButton, Separator, useTheme } from '@fluentui/react';
+import {
+    DefaultButton,
+    IPivotItemProps,
+    Pivot,
+    PivotItem,
+    PrimaryButton,
+    Separator,
+    TextField,
+    useTheme
+} from '@fluentui/react';
 // import AlertsTab from './Internal/AlertsTab';
 import WidgetForm from './Widgets/WidgetForm';
 import LeftPanelBuilderHeader, {
@@ -48,11 +54,20 @@ import {
     BehaviorFormReducer,
     defaultBehaviorFormState
 } from './BehaviorForm.state';
-import { BehaviorFormActionType, IValidityState } from './BehaviorForm.types';
+import {
+    BehaviorFormActionType,
+    IValidityState,
+    TabNames
+} from './BehaviorForm.types';
+import { customPivotItemStyles } from './BehaviorsForm.styles';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
 );
+const getElementsFromBehavior = (behavior: IBehavior) =>
+    behavior.datasources.filter(
+        ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+    )[0] || null;
 
 enum BehaviorPivot {
     alerts = 'alerts',
@@ -134,24 +149,35 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         );
     }, [selectedElements]);
 
-    // need a local copy to intercept and update form validity
-    const localUpdateSelectedElements = useCallback(
-        (element: ITwinToObjectMapping, isSelected: boolean) => {
-            updateSelectedElements(element, isSelected);
-
-            const isValid =
-                behaviorToEdit.datasources.filter(
-                    ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                )?.[0]?.elementIDs?.length > 0;
+    const onTabValidityChange = useCallback(
+        (tabName: TabNames, state: IValidityState) => {
             dispatch({
                 type: BehaviorFormActionType.SET_TAB_STATE,
                 payload: {
-                    tabName: 'Elements',
-                    isValid: isValid
+                    tabName: tabName,
+                    state: { isValid: state.isValid }
                 }
             });
         },
-        [updateSelectedElements]
+        []
+    );
+
+    // need a local copy to intercept and update form validity
+    const localUpdateSelectedElements = useCallback(
+        (element: ITwinToObjectMapping, isSelected: boolean) => {
+            console.log(
+                `**Selected element ${element.id}, state: ${isSelected}`
+            );
+            let count = getElementsFromBehavior(behaviorToEdit)?.elementIDs
+                .length;
+            // if selecting, then add 1, else remove 1 from existing counts
+            count = isSelected ? count + 1 : count - 1;
+            const isValid = count > 0;
+            console.log(`**Selected elements changed: ${count}`);
+            updateSelectedElements(element, isSelected);
+            onTabValidityChange('Elements', { isValid: isValid });
+        },
+        [behaviorToEdit, updateSelectedElements, onTabValidityChange]
     );
 
     const onSaveClick = useCallback(() => {
@@ -174,9 +200,22 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
         [widgetFormInfo, builderMode]
     );
-
+    // report out initial state
+    useEffect(() => {
+        const isValid =
+            behaviorToEdit.displayName &&
+            getElementsFromBehavior(behaviorToEdit)?.elementIDs.length > 0;
+        onTabValidityChange('Elements', { isValid: isValid });
+    }, []);
     const isFormValid = checkValidityMap(state.validityMap);
 
+    console.log(
+        `***Rendering, isValid: ${isFormValid}, Elements: ${
+            state.validityMap?.get('Elements')?.isValid
+        }, Status: ${state.validityMap?.get('Status')?.isValid}, Alerts: ${
+            state.validityMap?.get('Alerts')?.isValid
+        }, Widgets: ${state.validityMap?.get('Widgets')?.isValid}`
+    );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 92);
@@ -246,8 +285,21 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     }
                                     headerText={t('3dSceneBuilder.statesTab')}
                                     itemKey={BehaviorPivot.states}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Status')
+                                                ?.isValid !== false,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
                                 >
-                                    <StatesTab />
+                                    <StatesTab
+                                        onValidityChange={onTabValidityChange}
+                                    />
                                 </PivotItem>
                                 <PivotItem
                                     className={
@@ -292,6 +344,22 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         </BehaviorFormContext.Provider>
     );
 };
+
+function _customTabRenderer(
+    isValid: boolean,
+    link?: IPivotItemProps,
+    defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
+): JSX.Element | null {
+    if (!link || !defaultRenderer) {
+        return null;
+    }
+    return (
+        <span className={customPivotItemStyles.root}>
+            {defaultRenderer({ ...link, itemIcon: undefined })}
+            {!isValid && <span className={customPivotItemStyles.alert} />}
+        </span>
+    );
+}
 
 function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
     let isValid = true;
