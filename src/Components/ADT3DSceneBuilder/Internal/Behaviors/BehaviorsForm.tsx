@@ -195,7 +195,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     const getStatusRangeValues = useCallback(() => {
-        return valueRangeRef.current.getValueRanges();
+        return valueRangeRef.current?.getValueRanges() || [];
     }, []);
     const storeStatusRanges = useCallback(() => {
         const ranges = getStatusRangeValues();
@@ -212,6 +212,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
 
     const onSaveClick = useCallback(() => {
+        // store the latest ranges from the status
         const rangeValues = getStatusRangeValues();
         const statusVisual = getStatusFromBehavior(behaviorToEdit);
         if (rangeValues && statusVisual) {
