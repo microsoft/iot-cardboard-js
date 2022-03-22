@@ -6,64 +6,69 @@ import {
     IChoiceGroupOption,
     IColorCellProps,
     IconButton,
+    memoizeFunction,
     mergeStyleSets,
-    SwatchColorPicker
+    SwatchColorPicker,
+    Theme,
+    useTheme
 } from '@fluentui/react';
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DefaultStyle from './Assets/default.svg';
-import TransparentStyle from './Assets/transparent.svg';
-import WireframeStyle from './Assets/wireframe.svg';
+import DefaultStyle from '../../Resources/Static/default.svg';
+import TransparentStyle from '../../Resources/Static/transparent.svg';
+import WireframeStyle from '../../Resources/Static/wireframe.svg';
 
-export interface ModelTheme {
+export interface ViewerMode {
     objectColor: string;
     background: string;
     style: string;
 }
 
-type ModelThemePickerProps = {
+interface ModelViewerModePickerProps {
     objectColors: string[];
     backgroundColors: string[];
-    themeUpdated: (theme: ModelTheme) => void;
-};
+    themeUpdated: (theme: ViewerMode) => void;
+}
 
-const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
+const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     objectColors,
     backgroundColors,
     themeUpdated
 }) => {
     const [showPicker, setShowPicker] = useState(false);
-    const [theme, setTheme] = useState<ModelTheme>(null);
+    const [viewerMode, setViewerMode] = useState<ViewerMode>(null);
     const [colors, setColors] = useState<IColorCellProps[]>([]);
     const [backgrounds, setBackgrounds] = useState<IColorCellProps[]>([]);
     const calloutAnchor = 'cb-theme-callout-anchor';
     const { t } = useTranslation();
+    const theme = useTheme();
+    const styles = getStyles(theme);
 
     const styleOptions: IChoiceGroupOption[] = [
         {
             key: 'default',
             imageSrc: DefaultStyle,
-            imageAlt: t('modelThemePicker.default'),
+            imageAlt: t('modelViewerModePicker.default'),
             selectedImageSrc: DefaultStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelThemePicker.default')
+            text: t('modelViewerModePicker.default')
         },
         {
             key: 'transparent',
             imageSrc: TransparentStyle,
-            imageAlt: t('modelThemePicker.transparent'),
+            imageAlt: t('modelViewerModePicker.transparent'),
             selectedImageSrc: TransparentStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelThemePicker.transparent')
+            text: t('modelViewerModePicker.transparent')
         },
         {
             key: 'wireframe',
             imageSrc: WireframeStyle,
-            imageAlt: t('modelThemePicker.wireframe'),
+            imageAlt: t('modelViewerModePicker.wireframe'),
             selectedImageSrc: WireframeStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelThemePicker.wireframe')
+            text: t('modelViewerModePicker.wireframe')
         }
     ];
 
@@ -82,7 +87,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
 
         setBackgrounds(backgrounds);
 
-        setTheme({
+        setViewerMode({
             objectColor: objectColors[0],
             background: backgroundColors[0],
             style: styleOptions[0].key
@@ -90,11 +95,11 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     }, []);
 
     useEffect(() => {
-        themeUpdated(theme);
-    }, [theme]);
+        themeUpdated(viewerMode);
+    }, [viewerMode]);
 
     const updateStyle = (theme: string) => {
-        setTheme(
+        setViewerMode(
             produce((draft) => {
                 draft.style = theme;
             })
@@ -102,7 +107,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     };
 
     const updateObjectColor = (objectColor: string) => {
-        setTheme(
+        setViewerMode(
             produce((draft) => {
                 draft.objectColor = objectColor;
             })
@@ -110,7 +115,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     };
 
     const updateBackgroundColor = (backgroundColor: string) => {
-        setTheme(
+        setViewerMode(
             produce((draft) => {
                 draft.background = backgroundColor;
             })
@@ -136,13 +141,14 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                     target={`#${calloutAnchor}`}
                     isBeakVisible={false}
                     onDismiss={() => setShowPicker(false)}
+                    backgroundColor={theme.semanticColors.bodyBackground}
                 >
                     <div className={styles.header}>
                         <div>
                             <FontIcon iconName="color" />
                         </div>
                         <div className={styles.title}>
-                            {t('modelThemePicker.title')}
+                            {t('modelViewerModePicker.title')}
                         </div>
                         <div>
                             <IconButton
@@ -150,8 +156,7 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                                     iconName: 'Cancel',
                                     style: {
                                         fontSize: '14',
-                                        height: '32',
-                                        color: 'var(--cb-color-text-primary)'
+                                        height: '32'
                                     }
                                 }}
                                 onClick={() => setShowPicker(false)}
@@ -159,33 +164,33 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
                         </div>
                     </div>
                     <h4 className={styles.subHeading}>
-                        {t('modelThemePicker.style')}
+                        {t('modelViewerModePicker.style')}
                     </h4>
                     <ChoiceGroup
-                        defaultSelectedKey={theme.style}
+                        defaultSelectedKey={viewerMode.style}
                         options={styleOptions}
                         onChange={(e, option) => updateStyle(option.key)}
                     />
                     <h4 className={styles.subHeading}>
-                        {t('modelThemePicker.objectColors')}
+                        {t('modelViewerModePicker.objectColors')}
                     </h4>
                     <SwatchColorPicker
                         cellHeight={32}
                         cellWidth={32}
                         columnCount={colors.length}
-                        defaultSelectedId={theme.objectColor}
+                        defaultSelectedId={viewerMode.objectColor}
                         cellShape={'circle'}
                         colorCells={colors}
                         onChange={(e, id, color) => updateObjectColor(color)}
                     />
                     <h4 className={styles.subHeading}>
-                        {t('modelThemePicker.background')}
+                        {t('modelViewerModePicker.background')}
                     </h4>
                     <SwatchColorPicker
                         cellHeight={32}
                         cellWidth={32}
                         columnCount={backgrounds.length}
-                        defaultSelectedId={theme.background}
+                        defaultSelectedId={viewerMode.background}
                         cellShape={'circle'}
                         colorCells={backgrounds}
                         onChange={(e, id, color) =>
@@ -198,27 +203,29 @@ const ModelThemePicker: React.FC<ModelThemePickerProps> = ({
     );
 };
 
-const styles = mergeStyleSets({
-    callout: {
-        padding: '12px'
-    },
-    header: {
-        display: 'flex',
-        lineHeight: '32px',
-        verticalAlign: 'middle',
-        fontSize: '16'
-    },
-    title: {
-        marginLeft: '12px',
-        fontWeight: '500',
-        flex: '1'
-    },
-    subHeading: {
-        fontSize: '12',
-        fontWeight: '500',
-        marginTop: '12px',
-        marginBottom: '12px'
-    }
+const getStyles = memoizeFunction((_theme: Theme) => {
+    return mergeStyleSets({
+        callout: {
+            padding: '12px'
+        },
+        header: {
+            display: 'flex',
+            lineHeight: '32px',
+            verticalAlign: 'middle',
+            fontSize: '16'
+        },
+        title: {
+            marginLeft: '12px',
+            fontWeight: '500',
+            flex: '1'
+        },
+        subHeading: {
+            fontSize: '12',
+            fontWeight: '500',
+            marginTop: '12px',
+            marginBottom: '12px'
+        }
+    });
 });
 
-export default ModelThemePicker;
+export default ModelViewerModePicker;
