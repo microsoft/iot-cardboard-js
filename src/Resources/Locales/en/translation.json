@@ -656,7 +656,7 @@
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     },
-    "modelThemePicker": {
+    "modelViewerModePicker": {
         "title": "Viewer Theme",
         "style": "Style",
         "objectColors": "Object color",
