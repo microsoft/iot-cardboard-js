@@ -138,7 +138,7 @@
                     },
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "statusValueExpression": "LinkedTwin.Volume",
                         "valueRanges": [
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf162",

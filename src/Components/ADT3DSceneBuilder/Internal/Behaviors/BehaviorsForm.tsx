@@ -4,6 +4,7 @@ import React, {
     useEffect,
     useMemo,
     useReducer,
+    useRef,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -60,6 +61,7 @@ import {
     TabNames
 } from './BehaviorForm.types';
 import { customPivotItemStyles } from './BehaviorsForm.styles';
+import { IValueRangeBuilderHandle } from '../../../ValueRangeBuilder/ValueRangeBuilder.types';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -68,6 +70,9 @@ const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
         ViewerConfigUtility.isElementTwinToObjectMappingDataSource
     )[0] || null;
+
+const getStatusFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
 
 enum BehaviorPivot {
     alerts = 'alerts',
@@ -95,6 +100,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         BehaviorFormReducer,
         defaultBehaviorFormState
     );
+    const valueRangeRef = useRef<IValueRangeBuilderHandle>(null);
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
@@ -165,28 +171,61 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // need a local copy to intercept and update form validity
     const localUpdateSelectedElements = useCallback(
         (element: ITwinToObjectMapping, isSelected: boolean) => {
-            console.log(
-                `**Selected element ${element.id}, state: ${isSelected}`
-            );
             let count = getElementsFromBehavior(behaviorToEdit)?.elementIDs
                 .length;
             // if selecting, then add 1, else remove 1 from existing counts
             count = isSelected ? count + 1 : count - 1;
             const isValid = count > 0;
-            console.log(`**Selected elements changed: ${count}`);
             updateSelectedElements(element, isSelected);
             onTabValidityChange('Elements', { isValid: isValid });
         },
         [behaviorToEdit, updateSelectedElements, onTabValidityChange]
     );
+    const onPivotItemClick = useCallback(
+        (item) => {
+            setSelectedBehaviorPivotKey((prevValue) => {
+                // if the current pivot is states, then store the data before we move
+                if (prevValue === BehaviorPivot.states) {
+                    storeStatusRanges();
+                }
+                return item.props.itemKey as BehaviorPivot;
+            });
+        },
+        [setSelectedBehaviorPivotKey]
+    );
+
+    const getStatusRangeValues = useCallback(() => {
+        return valueRangeRef.current.getValueRanges();
+    }, []);
+    const storeStatusRanges = useCallback(() => {
+        const ranges = getStatusRangeValues();
+        setBehaviorToEdit(
+            produce((draft) => {
+                // Assuming only 1 status visual per behavior
+                const stateVisual = getStatusFromBehavior(draft);
+                // Edit flow
+                if (stateVisual) {
+                    stateVisual.valueRanges = ranges;
+                }
+            })
+        );
+    }, []);
 
     const onSaveClick = useCallback(() => {
+        const rangeValues = getStatusRangeValues();
+        const statusVisual = getStatusFromBehavior(behaviorToEdit);
+        if (rangeValues && statusVisual) {
+            statusVisual.valueRanges = rangeValues;
+        }
+
+        // behaviorToEdit.
         onBehaviorSave(behaviorToEdit, builderMode as BehaviorSaveMode);
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
         behaviorToEdit,
         builderMode,
+        getStatusRangeValues,
         onBehaviorBackClick,
         onBehaviorSave,
         setSelectedElements
@@ -254,11 +293,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             <Separator />
                             <Pivot
                                 selectedKey={selectedBehaviorPivotKey}
-                                onLinkClick={(item) =>
-                                    setSelectedBehaviorPivotKey(
-                                        item.props.itemKey as BehaviorPivot
-                                    )
-                                }
+                                onLinkClick={onPivotItemClick}
                                 className={commonFormStyles.pivot}
                                 styles={panelFormPivotStyles}
                             >
@@ -291,7 +326,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     ) =>
                                         _customTabRenderer(
                                             state.validityMap?.get('Status')
-                                                ?.isValid !== false,
+                                                ?.isValid,
                                             props,
                                             defaultRenderer
                                         )
@@ -299,6 +334,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 >
                                     <StatesTab
                                         onValidityChange={onTabValidityChange}
+                                        valueRangeRef={valueRangeRef}
                                     />
                                 </PivotItem>
                                 <PivotItem
@@ -346,7 +382,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 };
 
 function _customTabRenderer(
-    isValid: boolean,
+    isValid: boolean | undefined,
     link?: IPivotItemProps,
     defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
 ): JSX.Element | null {
@@ -356,7 +392,9 @@ function _customTabRenderer(
     return (
         <span className={customPivotItemStyles.root}>
             {defaultRenderer({ ...link, itemIcon: undefined })}
-            {!isValid && <span className={customPivotItemStyles.alert} />}
+            {isValid === false && (
+                <span className={customPivotItemStyles.alert} />
+            )}
         </span>
     );
 }

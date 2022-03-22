@@ -296,16 +296,25 @@ EditElementsTab.play = async ({ canvasElement }) => {
     await userEvent.click(elementListItem);
 };
 
-// TODO SCHEMA MIGRATION - update Alerts tab to new schema & types
-// export const EditAlertsTab = Template.bind({});
-// EditAlertsTab.play = async ({ canvasElement }) => {
-//     await EditElementsTab.play({ canvasElement });
-//     // click one of the items in the list
-//     const canvas = within(canvasElement);
-//     // Finds the tabs and clicks the first one
-//     const tab = await canvas.findAllByRole('tab');
-//     await userEvent.click(tab[1]);
-// };
+export const EditAlertsTab = Template.bind({});
+EditAlertsTab.play = async ({ canvasElement }) => {
+    await EditElementsTab.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks the first one
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
+};
+
+export const EditStatusTab = Template.bind({});
+EditStatusTab.play = async ({ canvasElement }) => {
+    await EditElementsTab.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks the first one
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[1]);
+};
 
 export const EditWidgetsTab = Template.bind({});
 EditWidgetsTab.play = async ({ canvasElement }) => {
@@ -314,7 +323,7 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
+    await userEvent.click(tab[3]);
 };
 
 // TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support

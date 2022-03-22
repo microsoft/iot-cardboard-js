@@ -1,10 +1,4 @@
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
@@ -20,12 +14,12 @@ import {
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 import {
-    IBehavior,
-    IStatusColoringVisual
+    IBehavior
+    // IStatusColoringVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
-import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants';
+// import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
@@ -42,34 +36,36 @@ const LOC_KEYS = {
 };
 
 interface IStatesTabProps {
+    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
-const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
+const StatesTab: React.FC<IStatesTabProps> = ({
+    onValidityChange,
+    valueRangeRef
+}) => {
     const { t } = useTranslation();
-    const { config, sceneId, adapter, state } = useContext(SceneBuilderContext);
+    const {
+        config,
+        sceneId,
+        adapter
+        // , state
+    } = useContext(SceneBuilderContext);
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
+
     const [isPropertyListLoading, setIsPropertyListLoading] = useState(true);
     const [areValueRangesValid, setAreValueRangesValid] = useState(true);
-    // const [isTabValid, setIsTabValid] = useState(true);
     const [propertyOptions, setPropertyOptions] = useState<IDropdownOption[]>(
         []
     );
-    const [
-        statusVisualToEdit,
-        setStatusVisualToEdit
-    ] = useState<IStatusColoringVisual>(() => {
-        if (state.builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
-            return defaultStatusColorVisual;
-        } else {
-            return getStatusFromBehavior(behaviorToEdit);
-        }
-    });
-    const valueRangeRef = useRef<IValueRangeBuilderHandle>(null);
+    const statusVisualToEdit =
+        getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
+    const [selectedProperty, setSelectedProperty] = useState(
+        statusVisualToEdit.statusValueExpression
+    );
 
     useEffect(() => {
-        console.log('**fetching properties');
         adapter
             .getTwinPropertiesForBehaviorWithFullName(
                 sceneId,
@@ -77,10 +73,6 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
                 behaviorToEdit
             )
             .then((properties) => {
-                console.log(
-                    '**Finished fetching properties: ',
-                    properties.length
-                );
                 setIsPropertyListLoading(false);
                 if (properties?.length) {
                     setPropertyOptions(
@@ -91,7 +83,6 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
     }, [behaviorToEdit, behaviorToEdit.datasources, config, sceneId]);
 
     useEffect(() => {
-        console.log(`**State tab validity change: ${areValueRangesValid}`);
         onValidityChange('Status', {
             isValid: areValueRangesValid
         });
@@ -110,17 +101,20 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
                         const statusVisual = deepCopy(defaultStatusColorVisual);
                         statusVisual.statusValueExpression = option.data;
                         draft.visuals.push(statusVisual);
-                        setStatusVisualToEdit(statusVisual);
                     }
                 })
             );
+            setSelectedProperty(option.data);
         },
-        [setBehaviorToEdit, setStatusVisualToEdit]
+        [setBehaviorToEdit, setSelectedProperty]
     );
+
+    console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
 
     const theme = useTheme();
     const hasProperties = propertyOptions.length;
-    const showRangeBuilder = statusVisualToEdit.statusValueExpression;
+    const showError = !hasProperties && !isPropertyListLoading;
+    const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
             <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
@@ -128,12 +122,9 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
             </Text>
             <Dropdown
                 data-testid={'behavior-form-state-dropdown'}
+                selectedKey={selectedProperty}
                 disabled={!hasProperties}
-                errorMessage={
-                    !hasProperties &&
-                    !isPropertyListLoading &&
-                    t(LOC_KEYS.noElementsSelected)
-                }
+                errorMessage={showError && t(LOC_KEYS.noElementsSelected)}
                 label={t(LOC_KEYS.propertyDropdownLabel)}
                 onChange={onPropertyChange}
                 options={propertyOptions}

@@ -270,8 +270,6 @@ export default class MockAdapter
     async getADTTwin(twinId: string) {
         try {
             const getTwinData = (id: string) => {
-                console.log(`**Fetching data for ${id}`);
-
                 const twinData: IADTTwin = {
                     $dtId: id,
                     $etag: `${id}Tag`,
@@ -288,7 +286,6 @@ export default class MockAdapter
                     twinData[property] = additionalProperties[property];
                 }
                 const data = new ADTTwinData(twinData);
-                console.log(`**Data for ${id}`, data);
                 return data;
             };
 
@@ -616,7 +613,6 @@ export default class MockAdapter
             const twin = twins[alias];
             const split = alias.split('.');
             const name = split.length ? split[0] : alias;
-            console.log(`**fetched: ${alias}, name: ${name}`);
             for (const prop in twin) {
                 if (prop.substring(0, 1) !== '$' || prop === '$dtId') {
                     properties.add(`${name}.${prop}`);
