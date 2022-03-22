@@ -209,6 +209,10 @@ export function parseExpression(expression: string, twins: any) {
     return result;
 }
 
+export function deepCopy<T>(object: T): T {
+    return JSON.parse(JSON.stringify(object)) as T;
+}
+
 /**
  * Takes in a hex string and splits off the # and gives back an object with the RGB values
  * @param hex hex value string with the # at the front

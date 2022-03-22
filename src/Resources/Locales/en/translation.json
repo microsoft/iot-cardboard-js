@@ -383,6 +383,7 @@
         "behaviorStatusForm": {
             "expressionLabel": "Trigger expression",
             "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "noElementsSelected": "No elements selected",
             "notice": "Use a single property to recolor this behavior's target elements.",
             "propertyDropdownLabel": "Property",
             "stateItemLabel": "State {{index}}"

@@ -614,9 +614,12 @@ export default class MockAdapter
         const properties = new Set<string>();
         for (const alias in twins) {
             const twin = twins[alias];
+            const split = alias.split('.');
+            const name = split.length ? split[0] : alias;
+            console.log(`**fetched: ${alias}, name: ${name}`);
             for (const prop in twin) {
                 if (prop.substring(0, 1) !== '$' || prop === '$dtId') {
-                    properties.add(`${alias}.${prop}`);
+                    properties.add(`${name}.${prop}`);
                 }
             }
         }

@@ -19,7 +19,7 @@ export const BehaviorFormReducer = produce(
 
         switch (action.type) {
             case BehaviorFormActionType.SET_TAB_STATE:
-                draft.validityMap.set(payload.tabName, action.payload);
+                draft.validityMap.set(payload.tabName, payload.state);
                 break;
         }
     },
