@@ -30,6 +30,7 @@ const getStatusFromBehavior = (behavior: IBehavior) =>
 const ROOT_LOC = '3dSceneBuilder.behaviorStatusForm';
 const LOC_KEYS = {
     propertyDropdownLabel: `${ROOT_LOC}.propertyDropdownLabel`,
+    propertyDropdownPlaceholder: `${ROOT_LOC}.propertyDropdownPlaceholder`,
     stateItemLabel: `${ROOT_LOC}.stateItemLabel`,
     notice: `${ROOT_LOC}.notice`,
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`
@@ -75,9 +76,14 @@ const StatesTab: React.FC<IStatesTabProps> = ({
             .then((properties) => {
                 setIsPropertyListLoading(false);
                 if (properties?.length) {
-                    setPropertyOptions(
-                        buildPropertyDropdownOptions(properties)
-                    );
+                    const options = buildPropertyDropdownOptions(properties);
+                    // add an empty entry to the start of the list
+                    options.unshift({
+                        key: '',
+                        data: '',
+                        text: t(LOC_KEYS.propertyDropdownPlaceholder)
+                    });
+                    setPropertyOptions(options);
                 }
             });
     }, [behaviorToEdit, behaviorToEdit.datasources, config, sceneId]);
@@ -112,7 +118,7 @@ const StatesTab: React.FC<IStatesTabProps> = ({
     console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
 
     const theme = useTheme();
-    const hasProperties = propertyOptions.length;
+    const hasProperties = propertyOptions.length > 1; // ignore the default empty item
     const showError = !hasProperties && !isPropertyListLoading;
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
@@ -143,11 +149,12 @@ const StatesTab: React.FC<IStatesTabProps> = ({
 };
 const sectionStackTokens: IStackTokens = { childrenGap: 12 };
 function buildPropertyDropdownOptions(properties: string[]): IDropdownOption[] {
-    return properties.map((x) => ({
+    const entries = properties.map((x) => ({
         key: x,
         data: x,
         text: x
     }));
+    return entries;
 }
 
 export default StatesTab;

@@ -381,11 +381,10 @@
             "notificationPlaceholder": "None"
         },
         "behaviorStatusForm": {
-            "expressionLabel": "Trigger expression",
-            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
             "noElementsSelected": "No elements selected",
             "notice": "Use a single property to recolor this behavior's target elements.",
             "propertyDropdownLabel": "Property",
+            "propertyDropdownPlaceholder": "None",
             "stateItemLabel": "State {{index}}"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
