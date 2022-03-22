@@ -20,7 +20,7 @@ import { makeStandardMaterial } from './Shaders';
 import { RenderModes } from '../../Models/Constants';
 import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
-import { current } from 'immer';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 const debug = true;
 
@@ -439,7 +439,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
     // Handle mesh zooming
     useEffect(() => {
         debugLog('Mesh zooming');
-        createOrZoomCamera();
+        if (!isLoading) {
+            createOrZoomCamera();
+        }
     }, [zoomToMeshIds, unzoomedMeshOpacity]);
 
     if (!originalMaterials.current && sceneRef.current?.meshes?.length) {
@@ -484,15 +486,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         debugLog('Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
-            reflectionTexture.current = currentRenderMode.reflectionTexture
-                ? BABYLON.Texture.CreateFromBase64String(
-                      currentRenderMode.reflectionTexture,
-                      'reflectionTexture',
-                      sceneRef.current
-                  )
-                : null;
-            if (reflectionTexture.current)
+            //Reset the reflection Texture
+            reflectionTexture.current = null;
+            if (currentRenderMode.reflectionTexture) {
+                reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
+                    currentRenderMode.reflectionTexture,
+                    currentRenderMode.id + '_reflectionTexture',
+                    sceneRef.current
+                );
                 reflectionTexture.current.coordinatesMode = 1;
+            }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
             hovMaterial.current =
@@ -511,7 +514,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         currentRenderMode.fresnelColor ||
                             currentRenderMode.meshHoverColor
                     ),
-                    reflectionTexture.current
+                    reflectionTexture.current,
+                    currentRenderMode.styleType
                 ));
 
             // hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
@@ -537,7 +541,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         currentRenderMode.fresnelColor ||
                             currentRenderMode.coloredMeshHoverColor
                     ),
-                    reflectionTexture.current
+                    reflectionTexture.current,
+                    currentRenderMode.styleType
                 ));
 
             // coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
@@ -553,6 +558,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     const ignore = shouldIgnore(mesh);
                     if (!ignore) {
                         const material = originalMaterials.current[mesh.id];
+                        mesh.useVertexColors = currentRenderMode.styleType < 1;
                         if (material) {
                             mesh.material = material;
                         }
@@ -576,7 +582,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    reflectionTexture.current
+                    reflectionTexture.current,
+                    currentRenderMode.styleType
                 );
 
                 shaderMaterial.current = material;
@@ -594,6 +601,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                                 !ignore
                             ) {
                                 mesh.material = shaderMaterial.current;
+                                mesh.useVertexColors =
+                                    currentRenderMode.styleType < 1;
                                 mesh.material.wireframe =
                                     currentRenderMode.isWireframe || false;
                                 meshesAreOriginal.current = false;
@@ -675,6 +684,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             materialCacheRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
+            reflectionTexture.current = null;
         };
     }, [modelUrl]);
 
@@ -1017,7 +1027,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 'coloredMeshMaterial',
                 sceneRef.current,
                 BABYLON.Color4.FromHexString(col),
-                BABYLON.Color4.FromHexString(fresnelCol)
+                BABYLON.Color4.FromHexString(fresnelCol),
+                reflectionTexture.current,
+                currentRenderMode.styleType
             );
             // material = new BABYLON.StandardMaterial(
             //     'coloredMeshMaterial',
@@ -1122,4 +1134,4 @@ const SceneView: React.FC<ISceneViewProp> = ({
     );
 };
 
-export default SceneView;
+export default withErrorBoundary(SceneView);
