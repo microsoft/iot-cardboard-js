@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
@@ -23,7 +23,7 @@ import {
     SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE,
-    SET_ERROR_CALLBACK
+    SET_UNAUTHORIZED
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import {
@@ -66,12 +66,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             state.selectedBlobContainerURL,
             state.selectedScene
         ]
-    });
-
-    const resetConfig = useAdapter({
-        adapterMethod: () => adapter.resetSceneConfig(),
-        isAdapterCalledOnMount: false,
-        refetchDependencies: []
     });
 
     const handleOnHomeClick = () => {
@@ -170,31 +164,16 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
     useEffect(() => {
         if (
-            state?.errors?.[0]?.type ===
-                ComponentErrorType.UnauthorizedAccess ||
-            state?.errors?.[0]?.type === ComponentErrorType.NonExistentBlob
+            state?.errors?.[0]?.type === ComponentErrorType.UnauthorizedAccess
         ) {
             dispatch({
-                type: SET_ERROR_CALLBACK,
+                type: SET_UNAUTHORIZED,
                 payload: {
                     buttonText: t('learnMore'),
                     buttonAction: () => {
                         window.open(
                             'https://docs.microsoft.com/azure/digital-twins/'
                         );
-                    }
-                }
-            });
-        } else if (
-            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError
-        ) {
-            dispatch({
-                type: SET_ERROR_CALLBACK,
-                payload: {
-                    buttonText: 'Reset Configuration File',
-                    buttonAction: async () => {
-                        await resetConfig.callAdapter();
-                        await scenesConfig.callAdapter();
                     }
                 }
             });
@@ -271,10 +250,10 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
 
                     <ScenePageErrorHandlingWrapper
                         errors={state.errors}
-                        primaryOnClickAction={
-                            state?.errorCallback?.buttonAction
+                        primaryOnclickAction={
+                            state?.unauthorizedError?.buttonAction
                         }
-                        buttonText={state?.errorCallback?.buttonText}
+                        buttonText={state?.unauthorizedError?.buttonText}
                     >
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (

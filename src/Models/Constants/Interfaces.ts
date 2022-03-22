@@ -438,7 +438,6 @@ export interface IBlobAdapter {
         fileTypes?: Array<string>
     ) => AdapterReturnType<BlobsData>;
     putBlob: (file: File) => AdapterReturnType<BlobsData>;
-    resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
