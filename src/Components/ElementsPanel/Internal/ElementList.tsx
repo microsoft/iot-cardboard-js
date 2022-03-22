@@ -82,7 +82,6 @@ function getListItems(
     ) => void,
     onItemHover: (item: ITwinToObjectMapping | IVisual) => void
 ): ICardboardListItem<ITwinToObjectMapping | IVisual>[] {
-    const customButtonStyle = getButtonStyle();
     const listItems: Array<
         ICardboardListItem<ITwinToObjectMapping | IVisual>
     > = [];
@@ -98,7 +97,7 @@ function getListItems(
     const statusStyle = getStatusStyle(
         getStatusColor(
             status.statusValueExpression,
-            status.statusValueRanges,
+            status.valueRanges,
             panelItem.twins
         )
     );
@@ -106,7 +105,6 @@ function getListItems(
     const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
         ariaLabel: element.displayName,
         buttonProps: {
-            customStyles: customButtonStyle,
             onMouseOver: () => onItemHover(element),
             onBlur: () => onItemHover(element)
         },
@@ -126,7 +124,6 @@ function getListItems(
                     panelItem.twins
                 ),
                 buttonProps: {
-                    customStyles: customButtonStyle,
                     onMouseOver: () => onItemHover(element),
                     onBlur: () => onItemHover(element)
                 },
@@ -158,15 +155,6 @@ const getElementListStyles = memoizeFunction(() => {
     });
 });
 
-const getButtonStyle = memoizeFunction(() => {
-    return {
-        root: {
-            background: 'transparent',
-            height: 36
-        }
-    };
-});
-
 const getStatusStyle = memoizeFunction((statusColor: string) => {
     return mergeStyleSets({
         statusLine: {
@@ -194,10 +182,10 @@ const getAlertStyle = memoizeFunction((alertColor: string) => {
     });
 });
 
-const getStatusColor = (statusValueExpression, statusValueRanges, twins) => {
+const getStatusColor = (statusValueExpression, valueRanges, twins) => {
     const value = parseExpression(statusValueExpression, twins);
     return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-        statusValueRanges,
+        valueRanges,
         value
     );
 };

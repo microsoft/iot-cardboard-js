@@ -175,7 +175,7 @@ export const use3DViewerRuntime = (
                                 sceneVisual.twins
                             );
                             const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-                                visual.statusValueRanges,
+                                visual.valueRanges,
                                 value
                             );
                             if (color) {
