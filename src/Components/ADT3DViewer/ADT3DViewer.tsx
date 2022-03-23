@@ -90,7 +90,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     }, []);
 
     useEffect(() => {
-        //TODO when to remove existingColoredMeshItems?
         const newColoredMeshItems = [...coloredMeshItems];
         sceneVisuals.forEach((sceneVisual) => {
             sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
