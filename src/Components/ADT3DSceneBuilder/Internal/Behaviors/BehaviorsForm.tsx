@@ -432,6 +432,7 @@ function _customTabRenderer(
     return (
         <span className={customPivotItemStyles.root}>
             {defaultRenderer({ ...link, itemIcon: undefined })}
+            {/* TODO: Add an aria label of some kind here for screen readers to see this error state */}
             {isValid === false && (
                 <span className={customPivotItemStyles.alert} />
             )}

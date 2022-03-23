@@ -18,11 +18,11 @@ export const customPivotItemStyles = mergeStyleSets({
         classNames.alert,
         {
             backgroundColor: 'var(--cb-color-text-error)',
-            borderRadius: 4,
-            height: 4,
+            borderRadius: 6,
+            height: 6,
             marginLeft: 4,
             marginTop: 2,
-            width: 4
+            width: 6
         } as IStyle
     ]
 });
