@@ -22,12 +22,18 @@ export const useRuntimeSceneData = (
         pollingIntervalMillis: pollingInterval
     });
 
+    /**
+     * After getting ADT3DViewerData (including scene visuals along with 3d model URL) from adapter, parse it to
+     * update the colored meshes ids based on run expressions in behaviors against the returned ADT twin property data
+     *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
             const sceneVisuals = [
                 ...sceneData.adapterResult.result.data.sceneVisuals
             ];
 
+            // for each scene visual retrieve the colored mesh ids and update it in the scene visual
+            // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
                 const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
