@@ -148,6 +148,13 @@ export default class MockAdapter
         }
     }
 
+    async resetSceneConfig() {
+        return new AdapterResult<ADTScenesConfigData>({
+            result: null,
+            errorInfo: null
+        });
+    }
+
     async getKeyValuePairs(
         _id: string,
         properties: string[],

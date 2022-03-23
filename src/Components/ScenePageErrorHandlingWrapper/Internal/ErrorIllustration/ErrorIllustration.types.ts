@@ -3,4 +3,5 @@ export interface ErrorIllustrationProps {
     errorTitle: string;
     errorMessage: string;
     buttonText: string;
+    onClickAction?: () => void;
 }

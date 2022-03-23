@@ -8,7 +8,10 @@ import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
-import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import {
+    validate3DConfigWithSchema,
+    getTimeStamp
+} from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -36,6 +39,42 @@ export default class BlobAdapter implements IBlobAdapter {
         this.blobProxyServerPath = blobProxyServerPath;
     }
 
+    async resetSceneConfig() {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.blobAuthService
+        );
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const copyConfigBlob = async () => {
+                const todayDate = getTimeStamp();
+                await axios({
+                    method: 'put',
+                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/corrupted_${todayDate}.json`,
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'x-ms-version': '2017-11-09',
+                        'Content-Type': 'application/json',
+                        'x-ms-blob-type': 'BlockBlob',
+                        'x-blob-host': this.storageAccountHostUrl,
+                        'x-ms-copy-source': `https://${this.storageAccountHostUrl}${this.blobContainerPath}/${ADT3DSceneConfigFileNameInBlobStore}.json`,
+                        'x-ms-requires-sync': 'true'
+                    }
+                });
+                return new ADTScenesConfigData(null);
+            };
+            try {
+                const corruptedConfig = await copyConfigBlob();
+                await this.putScenesConfig(defaultConfig);
+                return corruptedConfig;
+            } catch (error) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: error
+                });
+            }
+        }, 'storage');
+    }
+
     getBlobContainerURL() {
         return this.storageAccountHostUrl && this.blobContainerPath
             ? `https://${this.storageAccountHostUrl}${this.blobContainerPath}`
@@ -60,7 +99,6 @@ export default class BlobAdapter implements IBlobAdapter {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
-
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const getConfigBlob = async () => {
                 let config: I3DScenesConfig;
@@ -91,7 +129,6 @@ export default class BlobAdapter implements IBlobAdapter {
                     err instanceof ComponentError &&
                     err.type === ComponentErrorType.JsonSchemaError
                 ) {
-                    // If JsonSchemaError - throw to adapter sandbox to classify
                     throw err;
                 }
                 switch (err?.response?.status) {

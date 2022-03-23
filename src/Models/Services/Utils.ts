@@ -203,10 +203,17 @@ export function measureText(str: string, fontSize: number) {
     );
 }
 
-export function parseExpression(
-    expression: string,
-    twins: Record<string, DTwin>
-) {
+export function getTimeStamp() {
+    const d = new Date();
+    const seconds = d.getSeconds();
+    const minutes = d.getMinutes();
+    const hours = d.getHours();
+    const date = encodeURIComponent(d.toLocaleDateString().replace(/\//g, '-'));
+    const timeStamp = `${date}_${hours - 12}:${minutes}:${seconds}`;
+    return timeStamp;
+}
+
+export function parseExpression(expression: string, twins: any) {
     let result: any = '';
     try {
         result = Parser.evaluate(expression, twins) as any;
