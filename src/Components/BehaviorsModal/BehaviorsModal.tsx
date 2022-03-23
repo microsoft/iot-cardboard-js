@@ -1,22 +1,31 @@
-import { getTheme, IconButton, IIconProps } from '@fluentui/react';
+import { getTheme, IconButton, IIconProps, Separator } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import React, { useRef } from 'react';
 import Draggable from 'react-draggable';
 import { DTwin } from '../../Models/Constants';
-import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { getDismissButtonStyles, getStyles } from './PopoverVisual.styles';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    dismissButtonStyles,
+    getSeparatorStyles,
+    getStyles
+} from './BehaviorsModal.styles';
 
-interface IPopoverVisualProps {
+export interface IBehaviorsModalProps {
     onClose: () => any;
-    popoverVisual: IPopoverVisual;
+    element: ITwinToObjectMapping;
+    behaviors: IBehavior[];
     twins: Record<string, DTwin>;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
-const PopoverVisual: React.FC<IPopoverVisualProps> = ({
+const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
-    popoverVisual,
+    behaviors,
+    element,
     twins
 }) => {
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -29,27 +38,28 @@ const PopoverVisual: React.FC<IPopoverVisualProps> = ({
             <Draggable bounds="parent" defaultClassName={styles.draggable}>
                 <div className={styles.modalContainer}>
                     <div className={styles.modalHeader}>
-                        {popoverVisual?.title && (
+                        {element?.displayName && (
                             <span
                                 className={styles.modalTitle}
                                 id={titleId}
-                                title={popoverVisual.title}
+                                title={element.displayName}
                             >
-                                {popoverVisual.title}
+                                {element.displayName}
                             </span>
                         )}
                         <IconButton
-                            styles={getDismissButtonStyles(theme)}
+                            styles={dismissButtonStyles}
                             iconProps={cancelIcon}
                             ariaLabel="Close popup modal"
                             onClick={onClose}
                         />
                     </div>
                     Hello world model contents
+                    <Separator styles={getSeparatorStyles(theme)} />
                 </div>
             </Draggable>
         </div>
     );
 };
 
-export default React.memo(PopoverVisual);
+export default React.memo(BehaviorsModal);

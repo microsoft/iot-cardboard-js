@@ -1,19 +1,21 @@
 import {
     FontWeights,
     IButtonStyles,
+    ISeparatorStyles,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
     Theme
 } from '@fluentui/react';
 
-const classPrefix = 'cb-popover-visual';
+export const behaviorsModalClassPrefix = 'cb-behaviors-modal';
 const classNames = {
-    boundaryLayer: `${classPrefix}-boundary-layer`,
-    draggable: `${classPrefix}-draggable`,
-    modalContainer: `${classPrefix}-modal-container`,
-    modalHeader: `${classPrefix}-modal-header`,
-    modalTitle: `${classPrefix}-modal-title`
+    boundaryLayer: `${behaviorsModalClassPrefix}-boundary-layer`,
+    draggable: `${behaviorsModalClassPrefix}-draggable`,
+    separator: `${behaviorsModalClassPrefix}-separator`,
+    modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
+    modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
+    modalTitle: `${behaviorsModalClassPrefix}-modal-title`
 };
 
 const initialPopoverTopOffset = 60;
@@ -40,6 +42,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 right: initialPopoverRightOffset
             } as IStyle
         ],
+        separator: [classNames.separator, {} as IStyle],
         modalContainer: [
             classNames.modalContainer,
             {
@@ -51,9 +54,8 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
-                border: '1px solid var(--cb-color-input-border)',
+                border: `1px solid ${theme.semanticColors.inputBorder}`,
                 cursor: 'move',
-                padding: '0px 8px 8px 8px',
                 position: 'absolute',
                 pointerEvents: 'auto'
             } as IStyle
@@ -64,7 +66,9 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 flex: '1 1 auto',
                 display: 'flex',
                 alignItems: 'center',
-                fontWeight: FontWeights.semibold
+                fontWeight: FontWeights.semibold,
+                borderBottom: `1px solid ${theme.semanticColors.inputBorder}`,
+                paddingLeft: '8px'
             } as IStyle
         ],
         modalTitle: [
@@ -79,17 +83,23 @@ export const getStyles = memoizeFunction((theme: Theme) => {
     });
 });
 
-export const getDismissButtonStyles = memoizeFunction(
-    (theme: Theme): IButtonStyles => ({
+export const getSeparatorStyles = memoizeFunction(
+    (theme: Theme): Partial<ISeparatorStyles> => ({
         root: {
-            color: theme.palette.white,
-            marginLeft: 'auto',
-            marginTop: '4px',
-            marginRight: '2px',
-            alignSelf: 'flex-end'
-        },
-        rootHovered: {
-            color: theme.palette.white
+            ':before': { backgroundColor: theme.semanticColors.inputBorder }
         }
     })
 );
+
+export const dismissButtonStyles: IButtonStyles = {
+    root: {
+        color: 'var(--cb-color-text-primary)',
+        marginLeft: 'auto',
+        marginTop: '4px',
+        marginRight: '2px',
+        alignSelf: 'flex-end'
+    },
+    rootHovered: {
+        color: 'var(--cb-color-text-primary)'
+    }
+};

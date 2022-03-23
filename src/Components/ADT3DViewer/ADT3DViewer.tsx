@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { RenderModes } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import PopoverVisual from '../PopoverVisual/PopoverVisual';
+import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     adapter,
@@ -229,13 +229,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             }
             adapterResults={[sceneData.adapterResult]}
         >
-            {showPopUp && (
-                <PopoverVisual
+            {/* {showPopUp && (
+                <BehaviorsModal
                     onClose={() => setShowPopUp(false)}
                     popoverVisual={popUpConfig}
                     twins={popUpTwins}
                 />
-            )}
+            )} */}
             <div
                 id={sceneWrapperId}
                 className="cb-adt-3dviewer-wrapper"

@@ -44,7 +44,7 @@ import {
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 
-const mockTwins = [
+export const mockTwins = [
     {
         $dtId: 'PasteurizationMachine_A01',
         $etag: 'PasteurizationMachineTag',
