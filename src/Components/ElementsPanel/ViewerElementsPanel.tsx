@@ -6,6 +6,7 @@ import { ViewerElementsPanelProps } from './ViewerElementsPanel.types';
 import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
+import { performSubstitutions } from '../Widgets/Widget.Utils';
 
 const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
     baseComponentProps,
@@ -32,7 +33,10 @@ const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
                               )
                               .filter(ViewerConfigUtility.isAlertVisual)
                               .filter((alertVisual) =>
-                                  alertVisual.labelExpression
+                                  performSubstitutions(
+                                      alertVisual.labelExpression,
+                                      panelItem.twins
+                                  )
                                       .toLowerCase()
                                       .includes(filterTerm.toLowerCase())
                               ).length
