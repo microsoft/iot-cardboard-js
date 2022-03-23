@@ -3,14 +3,10 @@
 .cb-value-range-builder-container {
     background-color: var(--cb-color-bg-canvas);
     color: var(--cb-color-text-primary);
-    padding: 8px 0;
 }
 .cb-value-range-container {
-    display: flex;
-    &.cb-range-invalid {
-        input {
-            border: 1px solid var(--cb-color-text-danger);
-        }
+    .cb-color-select-button {
+        margin-bottom: 2px;
     }
 }
 .cb-value-range-and-messaging-row-container {
@@ -24,7 +20,6 @@
 .cb-range-boundary {
     display: flex;
     flex-direction: column;
-    margin-right: 8px;
 }
 .cb-range-boundary-label {
     font-size: 14px;
@@ -36,9 +31,11 @@
 .cb-value-range-input {
     background-color: var(--cb-color-bg-canvas);
     border: 1px solid var(--cb-color-input-border);
-    border-radius: 4px;
+    border-radius: 2px;
     color: var(--cb-color-text-primary);
-    height: 24px;
+    font-size: 14px;
+    height: 32px;
+    padding: 0 32px 0 8px;
     padding-right: 32px;
     user-select: text;
     width: 100px;
@@ -53,15 +50,19 @@
     bottom: 0;
     cursor: pointer;
     display: flex;
-    height: 100%;
-    margin-bottom: auto;
-    margin-top: auto;
+    font-size: 14;
+    height: 32px;
+    justify-content: center;
     padding: unset;
     position: absolute;
-    right: 6px;
+    right: 0;
     top: 0;
+    width: 32px;
     path {
         fill: var(--cb-color-theme-primary);
+    }
+    &.cb-value-range-negative-infinity {
+        margin-right: 4px;
     }
     &.cb-value-range-negative-infinity {
         &::before {
@@ -69,7 +70,7 @@
             content: '-';
             cursor: pointer;
             margin-bottom: 4px;
-            margin-right: 2px;
+            margin-right: 4px;
         }
     }
 }
