@@ -4,6 +4,11 @@
     background-color: var(--cb-color-bg-canvas);
     color: var(--cb-color-text-primary);
 }
+.cb-value-range-container {
+    .cb-color-select-button {
+        margin-bottom: 2px;
+    }
+}
 .cb-value-range-and-messaging-row-container {
     margin-bottom: 8px;
 }
