@@ -11,7 +11,10 @@ export interface ElementsPanelProps {
     isLoading?: boolean;
     onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
-        meshIds: Array<string>
+        panelItem: ElementsPanelItem
     ) => void;
-    onItemHover?: (item: ITwinToObjectMapping | IVisual) => void;
+    onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: ElementsPanelItem
+    ) => void;
 }

@@ -46,7 +46,9 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
                 baseComponentProps={{ theme, locale }}
                 isLoading={isLoading}
                 panelItems={panelItems}
-                onItemClick={(item, meshIds) => console.log(item, meshIds)}
+                onItemClick={(item, panelItem) =>
+                    console.log(item, panelItem.meshIds)
+                }
             />
         </div>
     );

@@ -15,14 +15,14 @@ export class SceneVisual {
     meshIds: string[];
     visuals: IVisual[];
     twins: Record<string, DTwin>;
-    coloredMeshItems?: ColoredMeshItem[];
+    coloredMeshItems?: CustomMeshItem[];
 
     constructor(
         element: ITwinToObjectMapping,
         meshIds: string[],
         visuals: IVisual[],
         twins: Record<string, DTwin>,
-        coloredMeshItems?: ColoredMeshItem[]
+        coloredMeshItems?: CustomMeshItem[]
     ) {
         this.element = element;
         this.meshIds = meshIds;

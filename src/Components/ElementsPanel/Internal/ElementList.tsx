@@ -1,6 +1,7 @@
 import { Icon } from '@fluentui/react';
 import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SceneVisual } from '../../../Models/Classes/SceneView.types';
 import { DTwin } from '../../../Models/Constants/Interfaces';
 import {
     getSceneElementStatusColor,
@@ -27,12 +28,16 @@ interface ElementListProps {
     filterTerm?: string;
     onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
-        meshIds: Array<string>
+        panelItem: ElementsPanelItem
     ) => void;
-    onItemHover?: (item: ITwinToObjectMapping | IVisual) => void;
+    onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: ElementsPanelItem
+    ) => void;
 }
 
-export interface ElementsPanelItem {
+// ElementsPanelItem is partial of SceneVisual object
+export interface ElementsPanelItem extends Partial<SceneVisual> {
     element: ITwinToObjectMapping;
     visuals: Array<IVisual>;
     twins: Record<string, DTwin>;
@@ -74,9 +79,12 @@ function getListItems(
     panelItems: Array<ElementsPanelItem>,
     onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
-        meshIds: Array<string>
+        panelItem: ElementsPanelItem
     ) => void,
-    onItemHover?: (item: ITwinToObjectMapping | IVisual) => void
+    onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: ElementsPanelItem
+    ) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
     const buttonStyles = getElementsPanelButtonSyles();
     const listItems: Array<
@@ -104,13 +112,17 @@ function getListItems(
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles,
-                ...(onItemHover && { onMouseOver: () => onItemHover(element) }),
-                ...(onItemHover && { onBlur: () => onItemHover(element) })
+                ...(onItemHover && {
+                    onMouseOver: () => onItemHover(element, panelItem)
+                }),
+                ...(onItemHover && {
+                    onBlur: () => onItemHover(element, panelItem)
+                })
             },
             iconStartName: <div className={statusStyles.statusLine}></div>,
             item: element,
             ...(onItemClick && {
-                onClick: () => onItemClick(element, panelItem.meshIds)
+                onClick: () => onItemClick(element, panelItem)
             }),
             textPrimary: element.displayName,
             hasTopSeparator: idx === 0 ? false : true
@@ -128,10 +140,10 @@ function getListItems(
                     buttonProps: {
                         customStyles: buttonStyles,
                         ...(onItemHover && {
-                            onMouseOver: () => onItemHover(element)
+                            onMouseOver: () => onItemHover(element, panelItem)
                         }),
                         ...(onItemHover && {
-                            onBlur: () => onItemHover(element)
+                            onBlur: () => onItemHover(element, panelItem)
                         })
                     },
                     iconStartName: (
@@ -141,7 +153,7 @@ function getListItems(
                     ),
                     item: alert,
                     ...(onItemClick && {
-                        onClick: () => onItemClick(alert, panelItem.meshIds)
+                        onClick: () => onItemClick(alert, panelItem)
                     }),
                     textPrimary: performSubstitutions(
                         alert.labelExpression,

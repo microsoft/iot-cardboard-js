@@ -7,7 +7,11 @@ import {
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    Marker,
+    SceneVisual
+} from '../../Models/Classes/SceneView.types';
 import Draggable from 'react-draggable';
 import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import { VisualType } from '../../Models/Classes/3DVConfig';
@@ -97,6 +101,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setColoredMeshItems(newColoredMeshItems);
     }, [sceneVisuals]);
 
+    // panel items are partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<ElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
@@ -108,6 +113,36 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [sceneVisuals]
     );
 
+    const showPopover = (
+        sceneVisual: Partial<SceneVisual>,
+        popOverToDisplay?: IPopoverVisual
+    ) => {
+        let popOver = popOverToDisplay;
+
+        if (!popOverToDisplay) {
+            popOver = sceneVisual?.visuals?.find(
+                (visual) => visual.type === VisualType.Popover
+            ) as IPopoverVisual;
+        }
+
+        if (popOver) {
+            const resetPopUpPosition = showPopUp ? false : true;
+
+            setPopUpTwins(sceneVisual.twins);
+            setPopUpConfig(popOver);
+            setShowPopUp(true);
+
+            if (resetPopUpPosition) {
+                const popUp = document.getElementById(popUpId);
+                if (popUp) {
+                    popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
+                    popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
+                }
+            }
+            setConnectionLine();
+        }
+    };
+
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
@@ -117,31 +152,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 (visual) => visual.type === VisualType.Popover
             ) as IPopoverVisual;
 
-            if (sceneVisual && popOver) {
+            if (popOver) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
                 } else {
-                    let resetPopUpPosition = true;
-                    if (showPopUp) {
-                        resetPopUpPosition = false;
-                    }
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
-                    setPopUpTwins(sceneVisual.twins);
-                    setPopUpConfig(popOver);
-                    setShowPopUp(true);
-
-                    if (resetPopUpPosition) {
-                        const popUp = document.getElementById(popUpId);
-                        if (popUp) {
-                            popUpX.current =
-                                popUp.offsetLeft + popUp.offsetWidth / 2;
-                            popUpY.current =
-                                popUp.offsetTop + popUp.offsetHeight / 2;
-                        }
-                    }
-                    setConnectionLine();
+                    showPopover(sceneVisual, popOver);
                 }
             } else {
                 selectedMesh.current = null;
@@ -266,7 +284,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     locale={locale}
                     panelItems={panelItems}
                     isLoading={isLoading}
-                    onItemClick={(item, meshIds) => setZoomToMeshIds(meshIds)}
+                    onItemClick={(item, panelItem) => {
+                        setShowPopUp(false);
+                        setZoomToMeshIds(panelItem.meshIds);
+                        showPopover(panelItem);
+                    }}
                     onItemHover={(item) => item.type}
                 />
                 <SceneViewWrapper
