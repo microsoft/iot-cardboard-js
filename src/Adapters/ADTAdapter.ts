@@ -880,13 +880,22 @@ export default class ADTAdapter implements IADTAdapter {
                                         }
                                     }
 
-                                    const sceneVisual = new SceneVisual(
-                                        element,
-                                        element.objectIDs,
-                                        behavior.visuals,
-                                        twins
+                                    const existingSceneVisual = sceneVisuals.find(
+                                        (sV) => sV.element.id === id
                                     );
-                                    sceneVisuals.push(sceneVisual);
+                                    if (!existingSceneVisual) {
+                                        const sceneVisual = new SceneVisual(
+                                            element,
+                                            element.objectIDs,
+                                            [behavior],
+                                            twins
+                                        );
+                                        sceneVisuals.push(sceneVisual);
+                                    } else {
+                                        existingSceneVisual.behaviors.push(
+                                            behavior
+                                        );
+                                    }
                                 }
                             }
                     }

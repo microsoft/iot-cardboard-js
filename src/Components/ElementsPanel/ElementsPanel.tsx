@@ -32,7 +32,10 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
                           panelItem.element.displayName
                               .toLowerCase()
                               .includes(filterTerm.toLowerCase()) ||
-                          panelItem.visuals
+                          []
+                              .concat(
+                                  ...panelItem.behaviors.map((b) => b.visuals)
+                              )
                               .filter((visual) => visual.type === 'Alert')
                               .filter((alertVisual: IAlertVisual) =>
                                   alertVisual.labelExpression
@@ -49,7 +52,7 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
             <div className={elementsPanelStyles.container}>
                 <div className={elementsPanelStyles.containerBackdrop}></div>
                 <div className={elementsPanelStyles.header}>
-                    <Icon iconName="Ringer" />
+                    <Icon iconName="BulletedTreeList" />
                     <span className={elementsPanelStyles.title}>
                         {t('elementsPanel.title')}
                     </span>

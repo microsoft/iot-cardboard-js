@@ -23,9 +23,9 @@ import { useTranslation } from 'react-i18next';
 import { RenderModes } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import { ElementsPanelItem } from '../ElementsPanel/Internal/ElementList';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
+import { ElementsPanelItem } from '../ElementsPanel/ElementsPanel.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -101,12 +101,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setColoredMeshItems(newColoredMeshItems);
     }, [sceneVisuals]);
 
-    // panel items are partial SceneVisual object with filtered properties needed to render elements panel overlay
+    // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<ElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
-                visuals: sceneVisual.visuals,
+                behaviors: sceneVisual.behaviors,
                 twins: sceneVisual.twins,
                 meshIds: sceneVisual.meshIds
             })),
@@ -120,9 +120,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         let popOver = popOverToDisplay;
 
         if (!popOverToDisplay) {
-            popOver = sceneVisual?.visuals?.find(
-                (visual) => visual.type === VisualType.Popover
-            ) as IPopoverVisual;
+            popOver = []
+                .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                ?.find(
+                    (visual) => visual.type === VisualType.Popover
+                ) as IPopoverVisual;
         }
 
         if (popOver) {
@@ -148,9 +150,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.meshIds.find((id) => id === mesh?.id)
             );
-            const popOver = sceneVisual?.visuals?.find(
-                (visual) => visual.type === VisualType.Popover
-            ) as IPopoverVisual;
+            const popOver = []
+                .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                ?.find(
+                    (visual) => visual.type === VisualType.Popover
+                ) as IPopoverVisual;
 
             if (popOver) {
                 if (selectedMesh.current === mesh) {
@@ -195,9 +199,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             );
             if (
                 sceneVisual &&
-                sceneVisual.visuals.find(
-                    (visual) => visual.type === VisualType.Popover
-                )
+                []
+                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                    .find((visual) => visual.type === VisualType.Popover)
             ) {
                 document.body.style.cursor = 'pointer';
             } else {
@@ -324,6 +328,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             onChange={onRenderModeChange}
                             options={renderModeOptions}
                             styles={{
+                                root: { padding: 12 },
                                 dropdown: { width: 250 }
                             }}
                         />

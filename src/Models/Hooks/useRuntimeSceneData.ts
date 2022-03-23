@@ -30,61 +30,64 @@ export const useRuntimeSceneData = (
 
             sceneVisuals.forEach((sceneVisual) => {
                 const coloredMeshItems: Array<CustomMeshItem> = [];
-                sceneVisual.visuals?.map((visual) => {
-                    switch (visual.type) {
-                        case VisualType.StatusColoring: {
-                            const color = getSceneElementStatusColor(
-                                visual.statusValueExpression,
-                                visual.valueRanges,
-                                sceneVisual.twins
-                            );
-                            if (color) {
-                                sceneVisual.meshIds?.map((meshId) => {
-                                    const coloredMesh: CustomMeshItem = {
-                                        meshId: meshId,
-                                        color: color
-                                    };
-                                    if (
-                                        !coloredMeshItems.find(
-                                            (item) =>
-                                                item.meshId ===
-                                                coloredMesh.meshId
-                                        )
-                                    ) {
-                                        coloredMeshItems.push(coloredMesh);
-                                    }
-                                });
-                            }
-                            break;
-                        }
-                        case VisualType.Alert: {
-                            if (
-                                parseExpression(
-                                    visual.triggerExpression,
+                sceneVisual.behaviors?.forEach((behavior) => {
+                    behavior.visuals?.forEach((visual) => {
+                        switch (visual.type) {
+                            case VisualType.StatusColoring: {
+                                const color = getSceneElementStatusColor(
+                                    visual.statusValueExpression,
+                                    visual.valueRanges,
                                     sceneVisual.twins
-                                )
-                            ) {
-                                const color = visual.color;
-                                sceneVisual.meshIds?.map((meshId) => {
-                                    const coloredMesh: CustomMeshItem = {
-                                        meshId: meshId,
-                                        color: color
-                                    };
-                                    if (
-                                        !coloredMeshItems.find(
-                                            (item) =>
-                                                item.meshId ===
-                                                coloredMesh.meshId
-                                        )
-                                    ) {
-                                        coloredMeshItems.push(coloredMesh);
-                                    }
-                                });
+                                );
+                                if (color) {
+                                    sceneVisual.meshIds?.map((meshId) => {
+                                        const coloredMesh: CustomMeshItem = {
+                                            meshId: meshId,
+                                            color: color
+                                        };
+                                        if (
+                                            !coloredMeshItems.find(
+                                                (item) =>
+                                                    item.meshId ===
+                                                    coloredMesh.meshId
+                                            )
+                                        ) {
+                                            coloredMeshItems.push(coloredMesh);
+                                        }
+                                    });
+                                }
+                                break;
                             }
-                            break;
+                            case VisualType.Alert: {
+                                if (
+                                    parseExpression(
+                                        visual.triggerExpression,
+                                        sceneVisual.twins
+                                    )
+                                ) {
+                                    const color = visual.color;
+                                    sceneVisual.meshIds?.map((meshId) => {
+                                        const coloredMesh: CustomMeshItem = {
+                                            meshId: meshId,
+                                            color: color
+                                        };
+                                        if (
+                                            !coloredMeshItems.find(
+                                                (item) =>
+                                                    item.meshId ===
+                                                    coloredMesh.meshId
+                                            )
+                                        ) {
+                                            coloredMeshItems.push(coloredMesh);
+                                        }
+                                    });
+                                }
+                                break;
+                            }
                         }
-                    }
+                    });
                 });
+
                 sceneVisual.coloredMeshItems = coloredMeshItems;
             });
 

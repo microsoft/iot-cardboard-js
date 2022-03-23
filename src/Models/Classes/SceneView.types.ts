@@ -1,9 +1,9 @@
 import * as BABYLON from 'babylonjs';
 import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import {
+    IBehavior,
     IScene,
-    ITwinToObjectMapping,
-    IVisual
+    ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     DTwin,
@@ -13,21 +13,21 @@ import {
 export class SceneVisual {
     element: ITwinToObjectMapping;
     meshIds: string[];
-    visuals: IVisual[];
+    behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
 
     constructor(
         element: ITwinToObjectMapping,
         meshIds: string[],
-        visuals: IVisual[],
+        behaviors: IBehavior[],
         twins: Record<string, DTwin>,
         coloredMeshItems?: CustomMeshItem[]
     ) {
         this.element = element;
         this.meshIds = meshIds;
         this.coloredMeshItems = coloredMeshItems;
-        this.visuals = visuals;
+        this.behaviors = behaviors;
         this.twins = twins;
     }
 }

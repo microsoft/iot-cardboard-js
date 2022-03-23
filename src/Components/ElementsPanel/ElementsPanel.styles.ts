@@ -73,8 +73,7 @@ export const getElementsPanelStatusStyles = memoizeFunction(
                     width: 5,
                     height: 3,
                     boxShadow: `0px 0px 4px ${statusColor}`,
-                    background: statusColor,
-                    margin: '0px 18px'
+                    background: statusColor
                 } as IStyle
             ]
         });
@@ -104,6 +103,10 @@ export const getElementsPanelAlertStyles = memoizeFunction(
 export const getElementsPanelButtonSyles = memoizeFunction(
     () =>
         ({
-            root: { background: 'transparent', fontWeight: 600 }
+            root: {
+                background: 'transparent',
+                fontWeight: 600,
+                padding: '8px 20px'
+            }
         } as IButtonStyles)
 );

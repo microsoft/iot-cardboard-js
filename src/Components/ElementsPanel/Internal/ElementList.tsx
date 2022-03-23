@@ -1,14 +1,13 @@
 import { Icon } from '@fluentui/react';
 import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SceneVisual } from '../../../Models/Classes/SceneView.types';
-import { DTwin } from '../../../Models/Constants/Interfaces';
 import {
     getSceneElementStatusColor,
     parseExpression
 } from '../../../Models/Services/Utils';
 import {
     IAlertVisual,
+    IBehavior,
     IStatusColoringVisual,
     ITwinToObjectMapping,
     IVisual
@@ -22,26 +21,21 @@ import {
     getElementsPanelStatusStyles,
     getElementsPanelButtonSyles
 } from '../ElementsPanel.styles';
+import { ElementsPanelItem } from '../ElementsPanel.types';
 
 interface ElementListProps {
     panelItems: Array<ElementsPanelItem>;
     filterTerm?: string;
     onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem
+        panelItem: ElementsPanelItem,
+        behavior?: IBehavior
     ) => void;
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem
+        panelItem: ElementsPanelItem,
+        behavior?: IBehavior
     ) => void;
-}
-
-// ElementsPanelItem is partial of SceneVisual object
-export interface ElementsPanelItem extends Partial<SceneVisual> {
-    element: ITwinToObjectMapping;
-    visuals: Array<IVisual>;
-    twins: Record<string, DTwin>;
-    meshIds: Array<string>;
 }
 
 const ElementList: React.FC<ElementListProps> = ({
@@ -79,11 +73,13 @@ function getListItems(
     panelItems: Array<ElementsPanelItem>,
     onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem
+        panelItem: ElementsPanelItem,
+        behavior?: IBehavior
     ) => void,
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem
+        panelItem: ElementsPanelItem,
+        behavior?: IBehavior
     ) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
     const buttonStyles = getElementsPanelButtonSyles();
@@ -93,20 +89,39 @@ function getListItems(
 
     panelItems.map((panelItem, idx) => {
         const element = panelItem.element;
-        const status = panelItem.visuals.find(
-            (v) => v.type === 'StatusColoring'
-        ) as IStatusColoringVisual;
-        const alerts = panelItem.visuals.filter(
-            (v) => v.type === 'Alert'
-        ) as Array<IAlertVisual>;
+        let statuses: Array<{
+            behavior: IBehavior;
+            statusVisual: IStatusColoringVisual;
+        }> = [];
+        let alerts: Array<{
+            behavior: IBehavior;
+            alertVisual: IAlertVisual;
+        }> = [];
 
-        const statusStyles = getElementsPanelStatusStyles(
-            getSceneElementStatusColor(
-                status.statusValueExpression,
-                status.valueRanges,
-                panelItem.twins
-            )
-        );
+        panelItem.behaviors.map((b) => {
+            statuses = statuses.concat(
+                (b.visuals.filter(
+                    (v) => v.type === 'StatusColoring'
+                ) as Array<IStatusColoringVisual>).map(
+                    (statusVisual) =>
+                        ({
+                            behavior: b,
+                            statusVisual: statusVisual
+                        } as any)
+                )
+            );
+            alerts = alerts.concat(
+                (b.visuals.filter(
+                    (v) => v.type === 'Alert'
+                ) as Array<IAlertVisual>).map(
+                    (alertVisual) =>
+                        ({
+                            behavior: b,
+                            alertVisual: alertVisual
+                        } as any)
+                )
+            );
+        });
 
         const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: element.displayName,
@@ -119,7 +134,32 @@ function getListItems(
                     onBlur: () => onItemHover(element, panelItem)
                 })
             },
-            iconStartName: <div className={statusStyles.statusLine}></div>,
+            iconStartName: (
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 40,
+                        overflow: 'hidden'
+                    }}
+                >
+                    {statuses.map((status) => (
+                        <div
+                            className={
+                                getElementsPanelStatusStyles(
+                                    getSceneElementStatusColor(
+                                        status.statusVisual
+                                            .statusValueExpression,
+                                        status.statusVisual.valueRanges,
+                                        panelItem.twins
+                                    )
+                                ).statusLine
+                            }
+                        ></div>
+                    ))}
+                </div>
+            ),
             item: element,
             ...(onItemClick && {
                 onClick: () => onItemClick(element, panelItem)
@@ -130,11 +170,18 @@ function getListItems(
         listItems.push(elementItemWithStatus);
 
         alerts.map((alert) => {
-            const alertStyles = getElementsPanelAlertStyles(alert.color);
-            if (parseExpression(alert.triggerExpression, panelItem.twins)) {
+            const alertStyles = getElementsPanelAlertStyles(
+                alert.alertVisual.color
+            );
+            if (
+                parseExpression(
+                    alert.alertVisual.triggerExpression,
+                    panelItem.twins
+                )
+            ) {
                 const alertItem: ICardboardListItem<IAlertVisual> = {
                     ariaLabel: performSubstitutions(
-                        alert.labelExpression,
+                        alert.alertVisual.labelExpression,
                         panelItem.twins
                     ),
                     buttonProps: {
@@ -148,15 +195,20 @@ function getListItems(
                     },
                     iconStartName: (
                         <span className={alertStyles.alertCircle}>
-                            <Icon iconName={alert.iconName} />
+                            <Icon iconName={alert.alertVisual.iconName} />
                         </span>
                     ),
-                    item: alert,
+                    item: alert.alertVisual,
                     ...(onItemClick && {
-                        onClick: () => onItemClick(alert, panelItem)
+                        onClick: () =>
+                            onItemClick(
+                                alert.alertVisual,
+                                panelItem,
+                                alert.behavior
+                            )
                     }),
                     textPrimary: performSubstitutions(
-                        alert.labelExpression,
+                        alert.alertVisual.labelExpression,
                         panelItem.twins
                     )
                 };

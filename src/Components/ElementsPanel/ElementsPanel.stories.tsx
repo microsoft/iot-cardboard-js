@@ -3,8 +3,8 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import ElementsPanel from './ElementsPanel';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { ElementsPanelItem } from './Internal/ElementList';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
+import { ElementsPanelItem } from './ElementsPanel.types';
 
 const componentStyle = {
     height: '800px',
@@ -33,7 +33,7 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
-                visuals: sceneVisual.visuals,
+                behaviors: sceneVisual.behaviors,
                 twins: sceneVisual.twins,
                 meshIds: sceneVisual.meshIds
             })),
@@ -46,8 +46,8 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
                 baseComponentProps={{ theme, locale }}
                 isLoading={isLoading}
                 panelItems={panelItems}
-                onItemClick={(item, panelItem) =>
-                    console.log(item, panelItem.meshIds)
+                onItemClick={(item, panelItem, behavior) =>
+                    console.log(item, panelItem.meshIds, behavior?.displayName)
                 }
             />
         </div>
