@@ -70,7 +70,8 @@ export const getElementsPanelStatusStyles = memoizeFunction(
                     width: 5,
                     height: 3,
                     boxShadow: `0px 0px 4px ${statusColor}`,
-                    background: statusColor
+                    background: statusColor,
+                    marginRight: 1
                 } as IStyle
             ]
         });

@@ -31,7 +31,7 @@ import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfigurati
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
-import { ElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import { ViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -108,7 +108,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     }, [sceneVisuals]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
-    const panelItems: Array<ElementsPanelItem> = useMemo(
+    const panelItems: Array<ViewerElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
