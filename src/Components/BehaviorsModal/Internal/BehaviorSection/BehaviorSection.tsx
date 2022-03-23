@@ -1,4 +1,4 @@
-import { getTheme, Icon } from '@fluentui/react';
+import { Icon } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
@@ -10,6 +10,7 @@ import {
     IBehavior,
     IStatusColoringVisual
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { getElementsPanelAlertStyles } from '../../../ElementsPanel/ViewerElementsPanel.styles';
 import { performSubstitutions } from '../../../Widgets/Widget.Utils';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import { getStatusBlockStyles, getStyles } from './BehaviorSection.styles';
@@ -19,8 +20,7 @@ export interface IBehaviorsSectionProps {
 }
 
 const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
-    const theme = getTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
 
     const alertVisual = useMemo(
         () =>
@@ -49,13 +49,13 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
     alertVisual
 }) => {
-    const theme = getTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
+    const alertStyles = getElementsPanelAlertStyles(alertVisual.color);
     const { twins } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
-            <div className={styles.infoIconContainer}>
+            <div className={alertStyles.alertCircle}>
                 <Icon iconName={alertVisual.iconName} />
             </div>
             <div className={styles.infoTextContainer}>
@@ -68,8 +68,7 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
 const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     statusVisual
 }) => {
-    const theme = getTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
     const { twins } = useContext(BehaviorsModalContext);
     const { statusValueExpression, valueRanges } = statusVisual;
 

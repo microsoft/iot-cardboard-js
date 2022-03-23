@@ -2,8 +2,7 @@ import {
     FontWeights,
     IStyle,
     memoizeFunction,
-    mergeStyleSets,
-    Theme
+    mergeStyleSets
 } from '@fluentui/react';
 
 import { behaviorsModalClassPrefix } from '../../BehaviorsModal.styles';
@@ -17,7 +16,7 @@ const classNames = {
     statusColorLine: `${behaviorsModalClassPrefix}-status-color-line`
 };
 
-export const getStyles = memoizeFunction((theme: Theme) => {
+export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
         behaviorSection: [
             classNames.behaviorSection,
@@ -38,7 +37,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
             {
                 display: 'flex',
                 flexDirection: 'row',
-                marginBottom: '16px'
+                marginBottom: '8px'
             } as IStyle
         ],
         infoIconContainer: [
@@ -47,7 +46,9 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 32
+                width: 24,
+                height: 24,
+                margin: '0 8px'
             } as IStyle
         ],
         infoTextContainer: [

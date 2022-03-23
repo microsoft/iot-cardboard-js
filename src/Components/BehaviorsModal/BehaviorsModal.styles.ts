@@ -4,8 +4,7 @@ import {
     ISeparatorStyles,
     IStyle,
     memoizeFunction,
-    mergeStyleSets,
-    Theme
+    mergeStyleSets
 } from '@fluentui/react';
 
 export const behaviorsModalClassPrefix = 'cb-behaviors-modal';
