@@ -44,6 +44,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     return (
         <div className={customStyles.gaugeWidgetFormContents}>
             <TextField
+                data-testid={'widget-form-gauge-label-input'}
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
                 onChange={(_ev, newVal) =>
@@ -55,6 +56,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 }
             />
             <TextField
+                data-testid={'widget-form-gauge-units-input'}
                 label={t('3dSceneBuilder.unitOfMeasure')}
                 value={formData.widgetConfiguration.units}
                 onChange={(_ev, newVal) =>

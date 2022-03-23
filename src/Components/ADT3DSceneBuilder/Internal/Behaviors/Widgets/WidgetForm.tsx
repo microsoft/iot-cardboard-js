@@ -174,6 +174,7 @@ const WidgetForm: React.FC = () => {
             </div>
             <PanelFooter>
                 <PrimaryButton
+                    data-testid={'widget-form-primary-button'}
                     onClick={onSaveWidgetForm}
                     text={
                         widgetFormInfo.mode === WidgetFormMode.CreateWidget
@@ -183,6 +184,7 @@ const WidgetForm: React.FC = () => {
                     disabled={!isWidgetConfigValid}
                 />
                 <DefaultButton
+                    data-testid={'widget-form-secondary-button'}
                     text={t('cancel')}
                     onClick={() => {
                         setWidgetFormInfo(null);
