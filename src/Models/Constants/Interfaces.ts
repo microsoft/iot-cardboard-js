@@ -99,6 +99,11 @@ export interface IErrorComponentProps {
     errorType?: ComponentErrorType;
 }
 
+export interface IErrorButtonAction {
+    buttonText: string;
+    buttonAction: () => void;
+}
+
 export interface IOverlayProps {
     children: React.ReactNode;
     onClose?: () => void;
@@ -452,6 +457,7 @@ export interface IBlobAdapter {
         fileTypes?: Array<string>
     ) => AdapterReturnType<BlobsData>;
     putBlob: (file: File) => AdapterReturnType<BlobsData>;
+    resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
