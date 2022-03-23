@@ -17,7 +17,16 @@ const classNames = {
 export const getElementsPanelStyles = () => {
     return mergeStyleSets({
         container: {
+            position: 'relative',
+            background: 'transparent',
+            height: '100%'
+        } as IStyle,
+        containerBackdrop: {
+            position: 'absolute',
+            zIndex: -1,
             background: 'var(--cb-color-overlay-modal-bg)',
+            backdropFilter: 'blur(24px) brightness(150%)',
+            width: '100%',
             height: '100%'
         } as IStyle,
         header: {

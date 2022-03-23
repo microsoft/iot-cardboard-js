@@ -47,6 +47,7 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
     return (
         <BaseComponent {...baseComponentProps}>
             <div className={elementsPanelStyles.container}>
+                <div className={elementsPanelStyles.containerBackdrop}></div>
                 <div className={elementsPanelStyles.header}>
                     <Icon iconName="Ringer" />
                     <span className={elementsPanelStyles.title}>
