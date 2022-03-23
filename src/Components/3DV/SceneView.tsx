@@ -329,12 +329,19 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         }
                     }
 
-                    meshes = meshList;
+                    if (meshList.length) {
+                        meshes = meshList;
+                    }
                 }
 
-                someMeshFromTheArrayOfMeshes.setBoundingInfo(
-                    getBoundingBox(meshes)
-                );
+                let bbox = getBoundingBox(meshes);
+                if (!bbox) {
+                    // Bad meshnames passed
+                    meshes = sceneRef.current.meshes;
+                    bbox = getBoundingBox(meshes);
+                }
+
+                someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
 
                 someMeshFromTheArrayOfMeshes.showBoundingBox = false;
 
