@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import { ComponentErrorType } from '../../Models/Constants';
 import ScenePageErrorHandlingWrapper from './ScenePageErrorHandlingWrapper';
@@ -8,7 +9,8 @@ export default {
     component: ScenePageErrorHandlingWrapper
 };
 
-export const UnauthorizedAccessError = () => {
+export const NonExistentBlob = () => {
+    const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -20,17 +22,30 @@ export const UnauthorizedAccessError = () => {
                     isCatastrophic: true
                 }
             ]}
+            primaryClickAction={{
+                buttonText: t('learnMore'),
+                onClick: () => {
+                    return window.alert('clicked');
+                }
+            }}
         />
     );
 };
 
-export const NonExistentBlob = () => {
+export const UnauthorizedAccessError = () => {
+    const { t } = useTranslation();
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <div>
             <ScenePageErrorHandlingWrapper
+                primaryClickAction={{
+                    buttonText: t('learnMore'),
+                    onClick: () => {
+                        return window.alert('clicked');
+                    }
+                }}
                 errors={[
                     {
                         type: ComponentErrorType.UnauthorizedAccess,
