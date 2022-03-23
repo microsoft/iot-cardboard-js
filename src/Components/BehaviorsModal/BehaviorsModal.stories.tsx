@@ -43,7 +43,7 @@ const Template: BehaviorsModalStory = (args) => {
             <BehaviorsModal
                 {...args}
                 behaviors={mockBehaviors}
-                element={mockElement}
+                title={mockElement.displayName}
                 twins={twins}
             />
         </div>

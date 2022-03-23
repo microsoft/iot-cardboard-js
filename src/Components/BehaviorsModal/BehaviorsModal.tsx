@@ -3,10 +3,7 @@ import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { DTwin } from '../../Models/Constants';
-import {
-    IBehavior,
-    ITwinToObjectMapping
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     dismissButtonStyles,
     getStyles,
@@ -16,7 +13,7 @@ import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
 export interface IBehaviorsModalProps {
     onClose: () => any;
-    element: ITwinToObjectMapping;
+    title: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
 }
@@ -30,7 +27,7 @@ export const BehaviorsModalContext = createContext<{
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
     behaviors,
-    element,
+    title,
     twins
 }) => {
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -43,15 +40,13 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>
                         <div className={styles.modalHeader}>
-                            {element?.displayName && (
-                                <span
-                                    className={styles.modalTitle}
-                                    id={titleId}
-                                    title={element.displayName}
-                                >
-                                    {element.displayName}
-                                </span>
-                            )}
+                            <span
+                                className={styles.modalTitle}
+                                id={titleId}
+                                title={title}
+                            >
+                                {title}
+                            </span>
                             <IconButton
                                 styles={dismissButtonStyles}
                                 iconProps={cancelIcon}
