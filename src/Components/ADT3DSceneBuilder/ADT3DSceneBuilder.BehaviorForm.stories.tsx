@@ -3,7 +3,12 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import { IStoryContext, sleep } from '../../Models/Services/StoryUtilities';
+import {
+    IStoryContext,
+    openDropdownMenu,
+    selectDropDownMenuItem,
+    sleep
+} from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import { deepCopy } from '../../Models/Services/Utils';
 
@@ -84,6 +89,23 @@ NewStateTabWithElements.play = async ({ canvasElement }) => {
     await userEvent.click(tab[1]);
 };
 
+export const NewStateTabWithElementsOpenProperty = Template.bind({});
+NewStateTabWithElementsOpenProperty.play = async ({ canvasElement }) => {
+    await NewStateTabWithElements.play({ canvasElement });
+    const canvas = within(canvasElement);
+    // wait for dropdown to populate
+    await sleep(20);
+    await openDropdownMenu(canvas, 'behavior-form-state-dropdown');
+};
+
+export const NewStateTabWithElementsSelectProperty = Template.bind({});
+NewStateTabWithElementsSelectProperty.play = async ({ canvasElement }) => {
+    await NewStateTabWithElements.play({ canvasElement });
+    const canvas = within(canvasElement);
+    await sleep(20);
+    await selectDropDownMenuItem(canvas, 'behavior-form-state-dropdown', 2);
+};
+
 export const NewAlertsTab = Template.bind({});
 NewAlertsTab.play = async ({ canvasElement }) => {
     await NewElementsTab.play({ canvasElement });
@@ -125,16 +147,6 @@ EditElementsTabSelectItem.play = async ({ canvasElement }) => {
     // click one of the items in the elements list
     const elementListItem = await canvas.findByText('box1');
     await userEvent.click(elementListItem);
-};
-
-export const EditAlertsTab = Template.bind({});
-EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks Alerts
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
 };
 
 export const EditStatusTab = Template.bind({});
@@ -197,6 +209,16 @@ EditStatusTabRemoveRangeSave.play = async ({ canvasElement }) => {
     // Finds the tabs and clicks the Status
     const statusTab = (await canvas.findAllByRole('tab'))[1];
     await userEvent.click(statusTab);
+};
+
+export const EditAlertsTab = Template.bind({});
+EditAlertsTab.play = async ({ canvasElement }) => {
+    await EditElementsTabSelectItem.play({ canvasElement });
+    // click one of the items in the list
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks Alerts
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[2]);
 };
 
 export const EditWidgetsTab = Template.bind({});

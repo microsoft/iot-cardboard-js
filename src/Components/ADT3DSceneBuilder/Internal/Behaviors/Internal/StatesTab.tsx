@@ -139,7 +139,7 @@ const StatesTab: React.FC<IStatesTabProps> = ({
             {showRangeBuilder && (
                 <ValueRangeBuilder
                     initialValueRanges={statusVisualToEdit.valueRanges}
-                    minRanges={0}
+                    minRanges={1}
                     ref={valueRangeRef}
                     setAreRangesValid={setAreValueRangesValid}
                 />

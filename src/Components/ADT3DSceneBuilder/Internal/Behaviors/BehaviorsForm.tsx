@@ -215,7 +215,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         // store the latest ranges from the status
         const rangeValues = getStatusRangeValues();
         const statusVisual = getStatusFromBehavior(behaviorToEdit);
-        if (rangeValues && statusVisual) {
+        if (statusVisual) {
             statusVisual.valueRanges = rangeValues;
         }
 
@@ -242,10 +242,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
     // report out initial state
     useEffect(() => {
-        const isValid =
-            behaviorToEdit.displayName &&
-            getElementsFromBehavior(behaviorToEdit)?.elementIDs.length > 0;
-        onTabValidityChange('Elements', { isValid: isValid });
+        onTabValidityChange('Root', { isValid: !!behaviorToEdit.displayName });
+        const existing = getElementsFromBehavior(behaviorToEdit)?.elementIDs;
+        onTabValidityChange('Elements', {
+            isValid: existing?.length > 0
+        });
     }, []);
     const isFormValid = checkValidityMap(state.validityMap);
 
@@ -283,6 +284,9 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     value={behaviorToEdit.displayName}
                                     required
                                     onChange={(_e, newValue) => {
+                                        onTabValidityChange('Root', {
+                                            isValid: !!newValue
+                                        });
                                         setBehaviorToEdit(
                                             produce((draft: IBehavior) => {
                                                 draft.displayName = newValue;
@@ -304,6 +308,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     }
                                     headerText={t('3dSceneBuilder.elements')}
                                     itemKey={BehaviorPivot.elements}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Elements')
+                                                ?.isValid,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
                                 >
                                     <SceneElements
                                         elements={elements}
@@ -344,6 +359,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     }
                                     headerText={t('3dSceneBuilder.alertsTab')}
                                     itemKey={BehaviorPivot.alerts}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Alerts')
+                                                ?.isValid,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
                                 >
                                     <AlertsTab />
                                 </PivotItem>
@@ -353,6 +379,17 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     }
                                     headerText={t('3dSceneBuilder.widgets')}
                                     itemKey={BehaviorPivot.widgets}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Widgets')
+                                                ?.isValid,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
                                 >
                                     <WidgetsTab />
                                 </PivotItem>
