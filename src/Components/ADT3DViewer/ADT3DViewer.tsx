@@ -229,12 +229,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
             }
             adapterResults={[sceneData.adapterResult]}
         >
-            <PopoverVisual
-                isOpen={showPopUp}
-                onClose={() => setShowPopUp(false)}
-                popoverVisual={popUpConfig}
-                twins={popUpTwins}
-            />
+            {showPopUp && (
+                <PopoverVisual
+                    onClose={() => setShowPopUp(false)}
+                    popoverVisual={popUpConfig}
+                    twins={popUpTwins}
+                />
+            )}
             <div
                 id={sceneWrapperId}
                 className="cb-adt-3dviewer-wrapper"

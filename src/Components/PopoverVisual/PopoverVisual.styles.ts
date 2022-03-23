@@ -9,23 +9,35 @@ import {
 
 const classPrefix = 'cb-popover-visual';
 const classNames = {
-    popoverBoundaryLayer: `${classPrefix}-popover-boundary-layer`,
+    boundaryLayer: `${classPrefix}-boundary-layer`,
+    draggable: `${classPrefix}-draggable`,
     modalContainer: `${classPrefix}-modal-container`,
     modalHeader: `${classPrefix}-modal-header`,
     modalTitle: `${classPrefix}-modal-title`
 };
 
+const initialPopoverTopOffset = 60;
+const initialPopoverRightOffset = 20;
+
 export const getStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
-        popoverBoundaryLayer: [
-            classNames.popoverBoundaryLayer,
+        boundaryLayer: [
+            classNames.boundaryLayer,
             {
-                height: '100%',
+                height: `calc(100% - ${initialPopoverTopOffset}px)`,
                 left: 0,
                 pointerEvents: 'none',
                 position: 'absolute',
+                top: initialPopoverTopOffset,
+                width: '100%',
+                zIndex: 1000
+            } as IStyle
+        ],
+        draggable: [
+            classNames.draggable,
+            {
                 top: 0,
-                width: '100%'
+                right: initialPopoverRightOffset
             } as IStyle
         ],
         modalContainer: [
@@ -34,8 +46,15 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 flexFlow: 'column nowrap',
                 alignItems: 'stretch',
+                minWidth: 288,
                 maxWidth: 400,
-                transform: 'translate(1000px, 0px)'
+                backgroundColor: 'var(--cb-color-bg-canvas)',
+                borderRadius: 2,
+                border: '1px solid var(--cb-color-input-border)',
+                cursor: 'move',
+                padding: '0px 8px 8px 8px',
+                position: 'absolute',
+                pointerEvents: 'auto'
             } as IStyle
         ],
         modalHeader: [
@@ -44,7 +63,6 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 flex: '1 1 auto',
                 display: 'flex',
                 alignItems: 'center',
-                padding: '12px 12px 14px 24px',
                 fontWeight: FontWeights.semibold
             } as IStyle
         ],

@@ -1,18 +1,12 @@
-import {
-    ContextualMenu,
-    getTheme,
-    IconButton,
-    IIconProps,
-    Modal
-} from '@fluentui/react';
+import { getTheme, IconButton, IIconProps } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import React from 'react';
+import React, { useRef } from 'react';
+import Draggable from 'react-draggable';
 import { DTwin } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getDismissButtonStyles, getStyles } from './PopoverVisual.styles';
 
 interface IPopoverVisualProps {
-    isOpen: boolean;
     onClose: () => any;
     popoverVisual: IPopoverVisual;
     twins: Record<string, DTwin>;
@@ -21,45 +15,39 @@ interface IPopoverVisualProps {
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 const PopoverVisual: React.FC<IPopoverVisualProps> = ({
-    isOpen,
     onClose,
     popoverVisual,
     twins
 }) => {
+    const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = getTheme();
     const styles = getStyles(theme);
 
     return (
-        <div className={styles.popoverBoundaryLayer}>
-            <Modal
-                titleAriaId={titleId}
-                onDismiss={onClose}
-                isModeless={true}
-                dragOptions={{
-                    keepInBounds: true,
-                    moveMenuItemText: 'Move',
-                    closeMenuItemText: 'Close',
-                    menu: ContextualMenu
-                }}
-                isOpen={isOpen}
-                containerClassName={styles.modalContainer}
-                isClickableOutsideFocusTrap={true}
-            >
-                <div className={styles.modalHeader}>
-                    {popoverVisual?.title && (
-                        <span className={styles.modalTitle} id={titleId}>
-                            {popoverVisual.title}
-                        </span>
-                    )}
-                    <IconButton
-                        styles={getDismissButtonStyles(theme)}
-                        iconProps={cancelIcon}
-                        ariaLabel="Close popup modal"
-                        onClick={onClose}
-                    />
+        <div ref={boundaryRef} className={styles.boundaryLayer}>
+            <Draggable bounds="parent" defaultClassName={styles.draggable}>
+                <div className={styles.modalContainer}>
+                    <div className={styles.modalHeader}>
+                        {popoverVisual?.title && (
+                            <span
+                                className={styles.modalTitle}
+                                id={titleId}
+                                title={popoverVisual.title}
+                            >
+                                {popoverVisual.title}
+                            </span>
+                        )}
+                        <IconButton
+                            styles={getDismissButtonStyles(theme)}
+                            iconProps={cancelIcon}
+                            ariaLabel="Close popup modal"
+                            onClick={onClose}
+                        />
+                    </div>
+                    Hello world model contents
                 </div>
-            </Modal>
+            </Draggable>
         </div>
     );
 };
