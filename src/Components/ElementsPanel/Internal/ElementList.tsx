@@ -1,4 +1,4 @@
-import { Icon, useTheme } from '@fluentui/react';
+import { Icon } from '@fluentui/react';
 import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTwin } from '../../../Models/Constants/Interfaces';
@@ -25,11 +25,11 @@ import {
 interface ElementListProps {
     panelItems: Array<ElementsPanelItem>;
     filterTerm?: string;
-    onItemClick: (
+    onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
         meshIds: Array<string>
     ) => void;
-    onItemHover: (item: ITwinToObjectMapping | IVisual) => void;
+    onItemHover?: (item: ITwinToObjectMapping | IVisual) => void;
 }
 
 export interface ElementsPanelItem {
@@ -46,8 +46,7 @@ const ElementList: React.FC<ElementListProps> = ({
     onItemHover
 }) => {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const elementsPanelStyles = getElementsPanelStyles(theme);
+    const elementsPanelStyles = getElementsPanelStyles();
 
     const listItems = useMemo(
         () => getListItems(panelItems, onItemClick, onItemHover),
@@ -73,11 +72,11 @@ const ElementList: React.FC<ElementListProps> = ({
 
 function getListItems(
     panelItems: Array<ElementsPanelItem>,
-    onItemClick: (
+    onItemClick?: (
         item: ITwinToObjectMapping | IVisual,
         meshIds: Array<string>
     ) => void,
-    onItemHover: (item: ITwinToObjectMapping | IVisual) => void
+    onItemHover?: (item: ITwinToObjectMapping | IVisual) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
     const buttonStyles = getElementsPanelButtonSyles();
     const listItems: Array<
@@ -105,12 +104,14 @@ function getListItems(
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles,
-                onMouseOver: () => onItemHover(element),
-                onBlur: () => onItemHover(element)
+                ...(onItemHover && { onMouseOver: () => onItemHover(element) }),
+                ...(onItemHover && { onBlur: () => onItemHover(element) })
             },
             iconStartName: <div className={statusStyles.statusLine}></div>,
             item: element,
-            onClick: () => onItemClick(element, panelItem.meshIds),
+            ...(onItemClick && {
+                onClick: () => onItemClick(element, panelItem.meshIds)
+            }),
             textPrimary: element.displayName,
             hasTopSeparator: idx === 0 ? false : true
         };
@@ -126,8 +127,12 @@ function getListItems(
                     ),
                     buttonProps: {
                         customStyles: buttonStyles,
-                        onMouseOver: () => onItemHover(element),
-                        onBlur: () => onItemHover(element)
+                        ...(onItemHover && {
+                            onMouseOver: () => onItemHover(element)
+                        }),
+                        ...(onItemHover && {
+                            onBlur: () => onItemHover(element)
+                        })
                     },
                     iconStartName: (
                         <span className={alertStyles.alertCircle}>
@@ -135,7 +140,9 @@ function getListItems(
                         </span>
                     ),
                     item: alert,
-                    onClick: () => onItemClick(alert, panelItem.meshIds),
+                    ...(onItemClick && {
+                        onClick: () => onItemClick(alert, panelItem.meshIds)
+                    }),
                     textPrimary: performSubstitutions(
                         alert.labelExpression,
                         panelItem.twins

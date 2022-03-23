@@ -21,11 +21,14 @@ import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfigurati
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { ElementsPanelItem } from '../ElementsPanel/Internal/ElementList';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
+import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
-const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
+const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
+    theme,
+    locale,
     adapter,
     sceneId,
-    sceneConfig,
+    scenesConfig,
     pollingInterval,
     connectionLineColor,
     addInProps,
@@ -64,7 +67,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     const { modelUrl, sceneVisuals, isLoading } = useRuntimeSceneData(
         adapter,
         sceneId,
-        sceneConfig,
+        scenesConfig,
         pollingInterval
     );
 
@@ -244,7 +247,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     };
 
     return (
-        <BaseComponent isLoading={isLoading && !sceneVisuals}>
+        <BaseComponent
+            isLoading={isLoading && !sceneVisuals}
+            theme={theme}
+            locale={locale}
+        >
             <div
                 id={sceneWrapperId}
                 className="cb-adt-3dviewer-wrapper"
@@ -255,6 +262,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 }
             >
                 <ElementsPanelModal
+                    theme={theme}
+                    locale={locale}
                     panelItems={panelItems}
                     isLoading={isLoading}
                     onItemClick={(item, meshIds) => setZoomToMeshIds(meshIds)}
@@ -262,7 +271,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                 />
                 <SceneViewWrapper
                     adapter={adapter}
-                    config={sceneConfig}
+                    config={scenesConfig}
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
@@ -314,7 +323,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                             <div id={popUpId} className="cb-adt-3dviewer-popup">
                                 <PopupWidget
                                     config={popUpConfig}
-                                    onClose={() => setShowPopUp(false)}
+                                    onClose={() => {
+                                        setShowPopUp(false);
+                                        setZoomToMeshIds([]);
+                                    }}
                                     twins={popUpTwins}
                                 />
                             </div>

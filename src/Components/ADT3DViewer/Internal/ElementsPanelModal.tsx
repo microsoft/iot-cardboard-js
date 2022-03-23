@@ -5,10 +5,13 @@ import {
     Modal
 } from '@fluentui/react';
 import React, { memo } from 'react';
+import { BaseComponentProps } from '../../BaseComponent/BaseComponent.types';
 import ElementsPanel from '../../ElementsPanel/ElementsPanel';
 import { ElementsPanelProps } from '../../ElementsPanel/ElementsPanel.types';
 
-const ElementsPanelModal: React.FC<ElementsPanelProps> = ({
+const ElementsPanelModal: React.FC<ElementsPanelProps & BaseComponentProps> = ({
+    theme,
+    locale,
     isLoading,
     panelItems,
     onItemClick,
@@ -16,18 +19,18 @@ const ElementsPanelModal: React.FC<ElementsPanelProps> = ({
 }) => {
     const modalStyles: Partial<IModalStyles> = {
         root: {
-            width: 'unset',
             justifyContent: 'start',
-            left: 20,
             '.ms-Dialog-title': { padding: '16px 24px 20px 24px' }
         },
         main: {
+            background: 'transparent',
+            left: 20,
             width: '400px !important',
-            minHeight: '400px !important'
+            minHeight: '400px !important',
+            display: 'flex'
         },
         scrollableContent: {
             width: '100%',
-            height: '100%',
             '.ms-Dialog-inner': { padding: '0px 0px 24px' }
         }
     };
@@ -41,12 +44,12 @@ const ElementsPanelModal: React.FC<ElementsPanelProps> = ({
     return (
         <Modal
             isOpen={true}
-            isBlocking={false}
             isModeless={true}
             styles={modalStyles}
             dragOptions={dragOptions}
         >
             <ElementsPanel
+                baseComponentProps={{ theme, locale }}
                 isLoading={isLoading}
                 panelItems={panelItems}
                 onItemClick={onItemClick}

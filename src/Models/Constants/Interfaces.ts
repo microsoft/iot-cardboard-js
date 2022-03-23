@@ -646,7 +646,7 @@ export interface ISceneViewWrapperProps {
 export interface IADT3DViewerProps {
     adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: I3DScenesConfig;
+    scenesConfig: I3DScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;

@@ -2,8 +2,7 @@ import {
     IButtonStyles,
     IStyle,
     memoizeFunction,
-    mergeStyleSets,
-    Theme
+    mergeStyleSets
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
@@ -15,11 +14,11 @@ const classNames = {
     listItembutton: `${classPrefix}--list-item-button`
 };
 
-export const getElementsPanelStyles = memoizeFunction((theme: Theme) => {
+export const getElementsPanelStyles = () => {
     return mergeStyleSets({
         container: {
-            backgroundColor: theme?.palette.white,
-            paddingBottom: 20
+            background: 'var(--cb-color-overlay-modal-bg)',
+            height: '100%'
         } as IStyle,
         header: {
             display: 'flex',
@@ -30,8 +29,11 @@ export const getElementsPanelStyles = memoizeFunction((theme: Theme) => {
             flexGrow: 1,
             fontSize: 14,
             lineHeight: 20,
-            paddingLeft: 4,
+            paddingLeft: 6,
             fontWeight: 600
+        } as IStyle,
+        separator: {
+            padding: 0
         } as IStyle,
         searchBox: {
             flex: 1,
@@ -41,7 +43,7 @@ export const getElementsPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.list,
             {
                 width: '100%',
-                height: '100%'
+                fontSize: 14
             } as IStyle
         ],
         listItembutton: [
@@ -51,7 +53,7 @@ export const getElementsPanelStyles = memoizeFunction((theme: Theme) => {
             } as IStyle
         ]
     });
-});
+};
 
 export const getElementsPanelStatusStyles = memoizeFunction(
     (statusColor: string) => {
@@ -93,6 +95,6 @@ export const getElementsPanelAlertStyles = memoizeFunction(
 export const getElementsPanelButtonSyles = memoizeFunction(
     () =>
         ({
-            root: { background: 'transparent' }
+            root: { background: 'transparent', fontWeight: 600 }
         } as IButtonStyles)
 );

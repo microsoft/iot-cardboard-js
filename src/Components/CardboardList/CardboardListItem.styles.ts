@@ -68,7 +68,11 @@ export const getStyles = memoizeFunction((theme: Theme) => {
         ],
         separator: [
             classNames.separator,
-            { padding: '1px 0px 0px', height: 1 } as IStyle
+            {
+                backgroundColor: 'transparent',
+                padding: 0,
+                height: 1
+            } as IStyle
         ]
     });
 });

@@ -7,21 +7,21 @@ import {
     SearchBox,
     Separator,
     Spinner,
-    SpinnerSize,
-    useTheme
+    SpinnerSize
 } from '@fluentui/react';
 import { ElementsPanelProps } from './ElementsPanel.types';
 import { getElementsPanelStyles } from './ElementsPanel.styles';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const ElementsPanel: React.FC<ElementsPanelProps> = ({
+    baseComponentProps,
     panelItems,
     isLoading = false,
     onItemClick,
     onItemHover
 }) => {
     const { t } = useTranslation();
-    const theme = useTheme();
-    const elementsPanelStyles = getElementsPanelStyles(theme);
+    const elementsPanelStyles = getElementsPanelStyles();
     const [filterTerm, setFilterTerm] = useState('');
 
     const filteredPanelItems = useMemo(
@@ -45,28 +45,30 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
     );
 
     return (
-        <div className={elementsPanelStyles.container}>
-            <div className={elementsPanelStyles.header}>
-                <Icon iconName="Ringer" />
-                <span className={elementsPanelStyles.title}>
-                    {t('elementsPanel.title')}
-                </span>
-                {isLoading && <Spinner size={SpinnerSize.small} />}
+        <BaseComponent {...baseComponentProps}>
+            <div className={elementsPanelStyles.container}>
+                <div className={elementsPanelStyles.header}>
+                    <Icon iconName="Ringer" />
+                    <span className={elementsPanelStyles.title}>
+                        {t('elementsPanel.title')}
+                    </span>
+                    {isLoading && <Spinner size={SpinnerSize.small} />}
+                </div>
+                <Separator className={elementsPanelStyles.separator} />
+                <SearchBox
+                    placeholder={t('elementsPanel.filter')}
+                    onChange={(_e, value) => setFilterTerm(value)}
+                    value={filterTerm}
+                    className={elementsPanelStyles.searchBox}
+                />
+                <ElementList
+                    panelItems={filteredPanelItems}
+                    onItemClick={onItemClick}
+                    onItemHover={onItemHover}
+                    filterTerm={filterTerm}
+                />
             </div>
-            <Separator />
-            <SearchBox
-                placeholder={t('elementsPanel.filter')}
-                onChange={(_e, value) => setFilterTerm(value)}
-                value={filterTerm}
-                className={elementsPanelStyles.searchBox}
-            />
-            <ElementList
-                panelItems={filteredPanelItems}
-                onItemClick={onItemClick}
-                onItemHover={onItemHover}
-                filterTerm={filterTerm}
-            />
-        </div>
+        </BaseComponent>
     );
 };
 

@@ -13,7 +13,7 @@ export default {
     component: ADT3DViewer
 };
 
-export const Engine = () => {
+export const Engine = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
 
@@ -23,6 +23,8 @@ export const Engine = () => {
         <div style={{ width: '100%', height: '600px' }}>
             <ADT3DViewer
                 title="3D Viewer"
+                theme={theme}
+                locale={locale}
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,
@@ -31,7 +33,7 @@ export const Engine = () => {
                         )
                     )
                 }
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
                 connectionLineColor="#000"
@@ -58,7 +60,7 @@ export const EngineWithHover = () => {
                         )
                     )
                 }
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 showMeshesOnHover={true}
                 pollingInterval={10000}
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
@@ -86,7 +88,7 @@ export const EngineWithShaders = () => {
                         )
                     )
                 }
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
                 connectionLineColor="#000"
@@ -171,7 +173,7 @@ export const AddIn = () => {
                         )
                     )
                 }
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
                 connectionLineColor="#000"
@@ -200,7 +202,7 @@ export const Mock = () => {
             <ADT3DViewer
                 title="3D Viewer (Mock Data)"
                 adapter={new MockAdapter()}
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 connectionLineColor="#000"
@@ -217,7 +219,7 @@ export const MockWithHover = () => {
             <ADT3DViewer
                 title="3D Viewer (Mock Data)"
                 adapter={new MockAdapter()}
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 showMeshesOnHover={true}
@@ -235,7 +237,7 @@ export const MockWithSelection = () => {
             <ADT3DViewer
                 title="3D Viewer (Mock Data)"
                 adapter={new MockAdapter()}
-                sceneConfig={scenesConfig}
+                scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={'58e02362287440d9a5bf3f8d6d6bfcf9'}
                 enableMeshSelection={true}

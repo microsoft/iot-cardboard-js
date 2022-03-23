@@ -9,15 +9,15 @@ import useAdapter from './useAdapter';
 export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,
     sceneId: string,
-    sceneConfig: I3DScenesConfig,
+    scenesConfig: I3DScenesConfig,
     pollingInterval: number
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
 
     const sceneData = useAdapter({
-        adapterMethod: () => adapter.getSceneData(sceneId, sceneConfig),
-        refetchDependencies: [sceneId, sceneConfig],
+        adapterMethod: () => adapter.getSceneData(sceneId, scenesConfig),
+        refetchDependencies: [sceneId, scenesConfig],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
