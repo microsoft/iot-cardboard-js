@@ -8,7 +8,7 @@ import { useAdapter, useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
-    ColoredMeshItem,
+    CustomMeshItem,
     Marker,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
@@ -39,11 +39,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds,
-    hideUnzoomedMeshes
+    unzoomedMeshOpacity
 }) => {
     const { t } = useTranslation();
     const [modelUrl, setModelUrl] = useState('');
-    const [coloredMeshItems, setColoredMeshItems] = useState<ColoredMeshItem[]>(
+    const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
     const [sceneVisuals, setSceneVisuals] = useState<SceneVisual[]>([]);
@@ -96,12 +96,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                                     sceneVisual.twins
                                 );
                                 const color = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-                                    visual.statusValueRanges,
+                                    visual.valueRanges,
                                     value
                                 );
                                 if (color) {
                                     for (const mesh of sceneVisual.meshIds) {
-                                        const coloredMesh: ColoredMeshItem = {
+                                        const coloredMesh: CustomMeshItem = {
                                             meshId: mesh,
                                             color: color
                                         };
@@ -298,7 +298,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
-                        hideUnzoomedMeshes: hideUnzoomedMeshes,
+                        unzoomedMeshOpacity: unzoomedMeshOpacity,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),

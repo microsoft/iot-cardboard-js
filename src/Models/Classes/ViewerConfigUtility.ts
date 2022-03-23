@@ -5,10 +5,12 @@ import {
     IElement,
     IElementTwinToObjectMappingDataSource,
     IScene,
-    IStatusValueRange,
-    ITwinToObjectMapping
+    IValueRange,
+    ITwinToObjectMapping,
+    IPopoverVisual,
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType } from './3DVConfig';
+import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -254,6 +256,10 @@ abstract class ViewerConfigUtility {
         return element.type === ElementType.TwinToObjectMapping;
     }
 
+    static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
+        return visual.type === VisualType.Popover;
+    }
+
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
         sceneId: string,
@@ -378,15 +384,18 @@ abstract class ViewerConfigUtility {
     }
 
     static getColorOrNullFromStatusValueRange(
-        ranges: IStatusValueRange[],
+        ranges: IValueRange[],
         value: number
     ): string | null {
         let color = null;
-        for (const range of ranges) {
-            if (value >= Number(range.min) && value <= Number(range.max)) {
-                color = range.color;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    color = range.color;
+                }
             }
         }
+
         return color;
     }
 

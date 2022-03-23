@@ -10,4 +10,5 @@ export { default as EnvironmentPicker } from './EnvironmentPicker/EnvironmentPic
 export { default as ADT3DGlobe } from './ADT3DGlobe/ADT3DGlobe';
 export { default as ADT3DViewer } from './ADT3DViewer/ADT3DViewer';
 export { default as ADT3DBuilder } from './ADT3DBuilder/ADT3DBuilder';
+export { default as ADT3DSceneBuilder } from './ADT3DSceneBuilder/ADT3DSceneBuilder';
 export { default as SceneView } from './3DV/SceneView';
