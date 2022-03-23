@@ -75,6 +75,7 @@ export interface IValueRangeBuilderAction {
 }
 
 export interface IValueRangeBuilderProps {
+    className?: string;
     initialValueRanges: IValueRange[];
     customSwatchColors?: IColorCellProps[];
     baseComponentProps?: BaseComponentProps;
