@@ -8,7 +8,10 @@ import { ComponentErrorType } from '../Models/Constants/Enums';
 import axios from 'axios';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import { ADT3DSceneConfigFileNameInBlobStore } from '../Models/Constants/Constants';
-import { validate3DConfigWithSchema } from '../Models/Services/Utils';
+import {
+    validate3DConfigWithSchema,
+    getTimeStamp
+} from '../Models/Services/Utils';
 import { XMLParser } from 'fast-xml-parser';
 import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -36,25 +39,13 @@ export default class BlobAdapter implements IBlobAdapter {
         this.blobProxyServerPath = blobProxyServerPath;
     }
 
-    getTimeStamp() {
-        const d = new Date();
-        const seconds = d.getSeconds();
-        const minutes = d.getMinutes();
-        const hours = d.getHours();
-        const date = encodeURIComponent(
-            d.toLocaleDateString().replace(/\//g, '-')
-        );
-        const timeStamp = `${date}_${hours - 12}:${minutes}:${seconds}`;
-        return timeStamp;
-    }
-
     async resetSceneConfig() {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.blobAuthService
         );
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const todayDate = this.getTimeStamp();
             const copyConfigBlob = async () => {
+                const todayDate = getTimeStamp();
                 await axios({
                     method: 'put',
                     url: `${this.blobProxyServerPath}${this.blobContainerPath}/corrupted_${todayDate}.json`,

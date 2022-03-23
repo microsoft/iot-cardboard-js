@@ -22,7 +22,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('nonExistentBlobErrorTitle')}
                     errorMessage={t('nonExistentBlobErrorMessage')}
                     buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.OnClickAction}
+                    onClickAction={primaryClickAction.onClick}
                 ></ErrorIllustration>
             );
             break;
@@ -33,7 +33,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                     errorTitle={t('unauthorizedAccessErrorTitle')}
                     errorMessage={t('unauthorizedAccessErrorMessage')}
                     buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.OnClickAction}
+                    onClickAction={primaryClickAction.onClick}
                 ></ErrorIllustration>
             );
             break;
@@ -62,7 +62,7 @@ const ScenePageErrorHandlingWrapper: React.FC<ScenePageErrorHandlingWrapperProps
                         )
                         .join('\n\n')}
                     buttonText={primaryClickAction.buttonText}
-                    onClickAction={primaryClickAction.OnClickAction}
+                    onClickAction={primaryClickAction.onClick}
                 ></ErrorIllustration>
             );
             break;

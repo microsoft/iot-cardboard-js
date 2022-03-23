@@ -273,7 +273,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         errors={state.errors}
                         primaryClickAction={{
                             buttonText: state?.errorCallback?.buttonText,
-                            OnClickAction: state?.errorCallback?.buttonAction
+                            onClick: state?.errorCallback?.buttonAction
                         }}
                     >
                         {state.currentStep ===

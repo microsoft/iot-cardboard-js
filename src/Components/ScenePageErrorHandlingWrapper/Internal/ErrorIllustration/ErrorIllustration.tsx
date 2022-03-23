@@ -68,7 +68,6 @@ const ErrorIllustration: React.FC<ErrorIllustrationProps> = ({
                         {''}
                     </Text>
                 </div>
-
                 <PrimaryButton
                     text={buttonText}
                     onClick={onClickAction}

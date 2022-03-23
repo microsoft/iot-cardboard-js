@@ -24,7 +24,7 @@ export const NonExistentBlob = () => {
             ]}
             primaryClickAction={{
                 buttonText: t('learnMore'),
-                OnClickAction: () => {
+                onClick: () => {
                     return window.alert('clicked');
                 }
             }}
@@ -42,7 +42,7 @@ export const UnauthorizedAccessError = () => {
             <ScenePageErrorHandlingWrapper
                 primaryClickAction={{
                     buttonText: t('learnMore'),
-                    OnClickAction: () => {
+                    onClick: () => {
                         return window.alert('clicked');
                     }
                 }}
