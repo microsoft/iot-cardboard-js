@@ -96,7 +96,11 @@ export function createCustomMeshItems(meshIds: string[], color: string) {
 
 // Get the total bounding box of an array of meshes
 export function getBoundingBox(meshes: BABYLON.AbstractMesh[]) {
-    let boundingInfo = meshes[0].getBoundingInfo();
+    let boundingInfo = meshes?.[0]?.getBoundingInfo();
+    if (!boundingInfo) {
+        return null;
+    }
+
     let min = boundingInfo.boundingBox.minimumWorld;
     let max = boundingInfo.boundingBox.maximumWorld;
 

@@ -34,7 +34,7 @@ const ColorSelectButton: React.FC<ColorSelectButtonProps> = ({
                 className="cb-color-select-button"
                 onClick={toggleIsRowColorCalloutVisible}
                 id={colorButtonId}
-            ></button>
+            />
             {isRowColorCalloutVisible && (
                 <Callout
                     ariaLabelledBy={labelId}
