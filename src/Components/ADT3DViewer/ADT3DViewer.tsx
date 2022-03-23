@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import {
     DTwin,
     IADT3DViewerProps,
@@ -25,7 +31,7 @@ import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfigurati
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
-import { ElementsPanelItem } from '../ElementsPanel/ElementsPanel.types';
+import { ElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -267,6 +273,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setSelectedRenderMode(item.key as string);
     };
 
+    const onElementPanelItemClicked = useCallback(
+        (_item, panelItem, _behavior) => {
+            setShowPopUp(false);
+            setZoomToMeshIds(panelItem.element.objectIDs);
+            showPopover(panelItem);
+        },
+        []
+    );
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -287,11 +302,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     locale={locale}
                     panelItems={panelItems}
                     isLoading={isLoading}
-                    onItemClick={(item, panelItem) => {
-                        setShowPopUp(false);
-                        setZoomToMeshIds(panelItem.element.objectIDs);
-                        showPopover(panelItem);
-                    }}
+                    onItemClick={onElementPanelItemClicked}
                     onItemHover={(item) => item.type}
                 />
                 <SceneViewWrapper

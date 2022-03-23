@@ -40,7 +40,7 @@ export const useRuntimeSceneData = (
                                     sceneVisual.twins
                                 );
                                 if (color) {
-                                    sceneVisual.element.objectIDs?.map(
+                                    sceneVisual.element.objectIDs?.forEach(
                                         (meshId) => {
                                             const coloredMesh: CustomMeshItem = {
                                                 meshId: meshId,
@@ -70,7 +70,7 @@ export const useRuntimeSceneData = (
                                     )
                                 ) {
                                     const color = visual.color;
-                                    sceneVisual.element.objectIDs?.map(
+                                    sceneVisual.element.objectIDs?.forEach(
                                         (meshId) => {
                                             const coloredMesh: CustomMeshItem = {
                                                 meshId: meshId,

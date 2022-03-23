@@ -1,6 +1,7 @@
 import { Icon } from '@fluentui/react';
 import React, { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
     parseExpression
@@ -20,25 +21,13 @@ import {
     getElementsPanelStyles,
     getElementsPanelStatusStyles,
     getElementsPanelButtonSyles
-} from '../ElementsPanel.styles';
-import { ElementsPanelItem } from '../ElementsPanel.types';
+} from '../ViewerElementsPanel.styles';
+import {
+    ViewerElementsPanelItem,
+    ViewerElementsPanelListProps
+} from '../ViewerElementsPanel.types';
 
-interface ElementListProps {
-    panelItems: Array<ElementsPanelItem>;
-    filterTerm?: string;
-    onItemClick?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
-        behavior?: IBehavior
-    ) => void;
-    onItemHover?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
-        behavior?: IBehavior
-    ) => void;
-}
-
-const ElementList: React.FC<ElementListProps> = ({
+const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     panelItems,
     filterTerm,
     onItemClick,
@@ -55,9 +44,9 @@ const ElementList: React.FC<ElementListProps> = ({
     return (
         <div className={elementsPanelStyles.list}>
             {panelItems.length === 0 ? (
-                <div style={{ padding: '0px 20px' }}>
+                <p style={{ padding: '0px 20px' }}>
                     {t('elementsPanel.noElements')}
-                </div>
+                </p>
             ) : (
                 <CardboardList<ITwinToObjectMapping | IVisual>
                     items={listItems}
@@ -70,15 +59,15 @@ const ElementList: React.FC<ElementListProps> = ({
 };
 
 function getListItems(
-    panelItems: Array<ElementsPanelItem>,
-    onItemClick?: (
+    panelItems: Array<ViewerElementsPanelItem>,
+    onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
+        panelItem: ViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void,
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
+        panelItem: ViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
@@ -87,7 +76,7 @@ function getListItems(
         ICardboardListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
-    panelItems.map((panelItem, idx) => {
+    panelItems.map((panelItem) => {
         const element = panelItem.element;
         let statuses: Array<{
             behavior: IBehavior;
@@ -100,9 +89,7 @@ function getListItems(
 
         panelItem.behaviors.map((b) => {
             statuses = statuses.concat(
-                (b.visuals.filter(
-                    (v) => v.type === 'StatusColoring'
-                ) as Array<IStatusColoringVisual>).map(
+                b.visuals.filter(ViewerConfigUtility.isStatusColorVisual).map(
                     (statusVisual) =>
                         ({
                             behavior: b,
@@ -111,9 +98,7 @@ function getListItems(
                 )
             );
             alerts = alerts.concat(
-                (b.visuals.filter(
-                    (v) => v.type === 'Alert'
-                ) as Array<IAlertVisual>).map(
+                b.visuals.filter(ViewerConfigUtility.isAlertVisual).map(
                     (alertVisual) =>
                         ({
                             behavior: b,
@@ -161,11 +146,8 @@ function getListItems(
                 </div>
             ),
             item: element,
-            ...(onItemClick && {
-                onClick: () => onItemClick(element, panelItem)
-            }),
-            textPrimary: element.displayName,
-            hasTopSeparator: idx === 0 ? false : true
+            onClick: () => onItemClick(element, panelItem),
+            textPrimary: element.displayName
         };
         listItems.push(elementItemWithStatus);
 
@@ -199,14 +181,12 @@ function getListItems(
                         </span>
                     ),
                     item: alert.alertVisual,
-                    ...(onItemClick && {
-                        onClick: () =>
-                            onItemClick(
-                                alert.alertVisual,
-                                panelItem,
-                                alert.behavior
-                            )
-                    }),
+                    onClick: () =>
+                        onItemClick(
+                            alert.alertVisual,
+                            panelItem,
+                            alert.behavior
+                        ),
                     textPrimary: performSubstitutions(
                         alert.alertVisual.labelExpression,
                         panelItem.twins
@@ -220,4 +200,4 @@ function getListItems(
     return listItems;
 }
 
-export default memo(ElementList);
+export default memo(ElementsList);

@@ -32,17 +32,14 @@ export const getElementsPanelStyles = () => {
         header: {
             display: 'flex',
             alignItems: 'center',
-            padding: '16px 20px 0px'
+            padding: '20px'
         } as IStyle,
         title: {
             flexGrow: 1,
             fontSize: 14,
             lineHeight: 20,
-            paddingLeft: 6,
+            paddingLeft: 8,
             fontWeight: 600
-        } as IStyle,
-        separator: {
-            padding: 0
         } as IStyle,
         searchBox: {
             flex: 1,
@@ -106,7 +103,7 @@ export const getElementsPanelButtonSyles = memoizeFunction(
             root: {
                 background: 'transparent',
                 fontWeight: 600,
-                padding: '8px 20px'
+                padding: '12px 20px'
             }
         } as IButtonStyles)
 );

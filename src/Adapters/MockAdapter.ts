@@ -446,7 +446,6 @@ export default class MockAdapter
                                     if (!existingSceneVisual) {
                                         const sceneVisual = new SceneVisual(
                                             element,
-                                            element.objectIDs,
                                             [behavior],
                                             twins
                                         );

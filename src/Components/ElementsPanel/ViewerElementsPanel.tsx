@@ -1,19 +1,13 @@
 import React, { memo, useMemo, useState } from 'react';
-import { IAlertVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import ElementList from './Internal/ElementList';
+import ElementList from './Internal/ElementsList';
 import { useTranslation } from 'react-i18next';
-import {
-    Icon,
-    SearchBox,
-    Separator,
-    Spinner,
-    SpinnerSize
-} from '@fluentui/react';
-import { ElementsPanelProps } from './ElementsPanel.types';
-import { getElementsPanelStyles } from './ElementsPanel.styles';
+import { Icon, SearchBox, Spinner, SpinnerSize } from '@fluentui/react';
+import { ViewerElementsPanelProps } from './ViewerElementsPanel.types';
+import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 
-const ElementsPanel: React.FC<ElementsPanelProps> = ({
+const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
     baseComponentProps,
     panelItems,
     isLoading = false,
@@ -36,8 +30,8 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
                               .concat(
                                   ...panelItem.behaviors.map((b) => b.visuals)
                               )
-                              .filter((visual) => visual.type === 'Alert')
-                              .filter((alertVisual: IAlertVisual) =>
+                              .filter(ViewerConfigUtility.isAlertVisual)
+                              .filter((alertVisual) =>
                                   alertVisual.labelExpression
                                       .toLowerCase()
                                       .includes(filterTerm.toLowerCase())
@@ -52,15 +46,17 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
             <div className={elementsPanelStyles.container}>
                 <div className={elementsPanelStyles.containerBackdrop}></div>
                 <div className={elementsPanelStyles.header}>
-                    <Icon iconName="BulletedTreeList" />
+                    <Icon
+                        iconName="BulletedTreeList"
+                        style={{ fontSize: 16 }}
+                    />
                     <span className={elementsPanelStyles.title}>
                         {t('elementsPanel.title')}
                     </span>
                     {isLoading && <Spinner size={SpinnerSize.small} />}
                 </div>
-                <Separator className={elementsPanelStyles.separator} />
                 <SearchBox
-                    placeholder={t('elementsPanel.filter')}
+                    placeholder={t('elementsPanel.filterPlaceholder')}
                     onChange={(_e, value) => setFilterTerm(value)}
                     value={filterTerm}
                     className={elementsPanelStyles.searchBox}
@@ -76,4 +72,4 @@ const ElementsPanel: React.FC<ElementsPanelProps> = ({
     );
 };
 
-export default memo(ElementsPanel);
+export default memo(ViewerElementsPanel);

@@ -29,8 +29,6 @@ type IListItemBaseProps<T> = {
     textPrimary: string;
     /** secondary text to show below the main text */
     textSecondary?: string;
-    /** separator placed at the top of the list item */
-    hasTopSeparator?: boolean;
 };
 // when NOT provided, click handler required
 type WithOnClickMenuUndefined<T> = {

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
-import ElementsPanel from './ElementsPanel';
+import ElementsPanel from './ViewerElementsPanel';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import { ElementsPanelItem } from './ElementsPanel.types';
+import { ViewerElementsPanelItem } from './ViewerElementsPanel.types';
 
 const componentStyle = {
     height: '800px',
@@ -29,7 +29,7 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
         pollingInterval
     );
 
-    const panelItems: Array<ElementsPanelItem> = useMemo(
+    const panelItems: Array<ViewerElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,

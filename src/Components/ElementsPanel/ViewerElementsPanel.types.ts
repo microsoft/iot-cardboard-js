@@ -7,23 +7,38 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
-export interface ElementsPanelProps {
+export interface ViewerElementsPanelProps {
     baseComponentProps?: BaseComponentProps;
-    panelItems: Array<ElementsPanelItem>;
+    panelItems: Array<ViewerElementsPanelItem>;
     isLoading?: boolean;
-    onItemClick?: (
+    onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
+        panelItem: ViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ElementsPanelItem,
+        panelItem: ViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
 }
 
-export interface ElementsPanelItem extends Partial<SceneVisual> {
+export interface ViewerElementsPanelListProps {
+    panelItems: Array<ViewerElementsPanelItem>;
+    filterTerm?: string;
+    onItemClick: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: ViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
+    onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: ViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
+}
+
+export interface ViewerElementsPanelItem extends Partial<SceneVisual> {
     element: ITwinToObjectMapping;
     behaviors: Array<IBehavior>;
     twins: Record<string, DTwin>;
