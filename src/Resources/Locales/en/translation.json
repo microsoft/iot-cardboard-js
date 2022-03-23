@@ -401,16 +401,6 @@
         "aliasedTwins": "Aliased twins",
         "notImplemented": "Not implemented"
     },
-    "3dSceneViewer": {
-        "renderModes": {
-            "default": "Default render mode",
-            "wireframe": "Wireframe",
-            "red": "Translucent red",
-            "redWireframe": "Translucent red wireframe",
-            "green": "Translucent green",
-            "greenWireframe": "Translucent green wireframe"
-        }
-    },
     "widgets": {
         "trend": {
             "title": "Trend widget",

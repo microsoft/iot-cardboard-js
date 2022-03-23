@@ -8,7 +8,7 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 import { createCustomMeshItems } from '../../../../3DV/SceneView.Utils';
 import { CustomMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { IADT3DViewerRenderMode } from '../../../../../Models/Constants';
+import { IADTObjectColor } from '../../../../../Models/Constants';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
@@ -19,17 +19,19 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         []
     );
 
-    const { setColoredMeshItems, state } = useContext(SceneBuilderContext);
+    const { setColoredMeshItems, objectColor } = useContext(
+        SceneBuilderContext
+    );
 
     // generate the list of items to show
     useEffect(() => {
         const listItems = getListItems(
             elementToEdit.objectIDs,
             setColoredMeshItems,
-            state.renderMode
+            objectColor
         );
         setListItems(listItems);
-    }, [elementToEdit, setColoredMeshItems]);
+    }, [elementToEdit, setColoredMeshItems, objectColor]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
@@ -50,7 +52,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
 function getListItems(
     elementMeshIds: string[],
     setColoredMeshItems: (selectedNames: CustomMeshItem[]) => void,
-    renderMode: IADT3DViewerRenderMode
+    objectColor: IADTObjectColor
 ): ICardboardListItem<string>[] {
     const onMeshItemEnter = (meshId: string) => {
         const coloredMeshItems: CustomMeshItem[] = createCustomMeshItems(
@@ -59,7 +61,7 @@ function getListItems(
         );
         coloredMeshItems.push({
             meshId: meshId,
-            color: renderMode.coloredMeshHoverColor
+            color: objectColor.coloredMeshHoverColor
         });
         setColoredMeshItems(coloredMeshItems);
     };

@@ -21,6 +21,7 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
     SET_ADT_SCENE_CONFIG,
     SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+    SET_ADT_SCENE_OBJECT_COLOR,
     SET_MESH_IDS_TO_OUTLINE,
     SET_REVERT_TO_HOVER_COLOR,
     SET_WIDGET_FORM_INFO,
@@ -50,6 +51,7 @@ import {
     DatasourceType,
     defaultBehavior
 } from '../../Models/Classes/3DVConfig';
+import { IADTObjectColor } from '../../Models/Constants';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -278,7 +280,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 setOutlinedMeshItems(
                     createCustomMeshItems(
                         meshIds,
-                        state.renderMode.outlinedMeshHoverColor
+                        state.objectColor.outlinedMeshHoverColor
                     )
                 );
             } else {
@@ -299,7 +301,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         if (id === mesh.id) {
                             coloredMeshes.push({
                                 meshId: id,
-                                color: state.renderMode.meshHoverColor
+                                color: state.objectColor.meshHoverColor
                             });
                         }
                         // add all element meshes to highlight
@@ -309,7 +311,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     // if mesh is not in an element just color it
                     coloredMeshes.push({
                         meshId: mesh.id,
-                        color: state.renderMode.meshHoverColor
+                        color: state.objectColor.meshHoverColor
                     });
                 }
             }
@@ -320,7 +322,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         setOutlinedMeshItems(
             createCustomMeshItems(
                 meshIds,
-                state.renderMode.outlinedMeshHoverColor
+                state.objectColor.outlinedMeshHoverColor
             )
         );
         setColoredMeshItems(coloredMeshes);
@@ -340,7 +342,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 outlinedElements = outlinedElements.concat(
                     createCustomMeshItems(
                         element.objectIDs,
-                        state.renderMode.outlinedMeshSelectedColor
+                        state.objectColor.outlinedMeshSelectedColor
                     )
                 );
             }
@@ -416,7 +418,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     setOutlinedMeshItems(
                         createCustomMeshItems(
                             ids,
-                            state.renderMode.outlinedMeshHoverColor
+                            state.objectColor.outlinedMeshHoverColor
                         )
                     );
                 },
@@ -476,7 +478,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     setOutlinedMeshItems(
                         createCustomMeshItems(
                             element.objectIDs,
-                            state.renderMode.outlinedMeshHoverColor
+                            state.objectColor.outlinedMeshHoverColor
                         )
                     );
                 },
@@ -537,7 +539,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         setOutlinedMeshItems(
                             createCustomMeshItems(
                                 element.objectIDs,
-                                state.renderMode.outlinedMeshHoverColor
+                                state.objectColor.outlinedMeshHoverColor
                             )
                         );
                     },
@@ -591,6 +593,13 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     };
 
+    const objectColorUpdated = (objectColor: IADTObjectColor) => {
+        dispatch({
+            type: SET_ADT_SCENE_OBJECT_COLOR,
+            payload: objectColor
+        });
+    };
+
     return (
         <SceneBuilderContext.Provider
             value={{
@@ -607,7 +616,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 widgetFormInfo: state.widgetFormInfo,
                 setWidgetFormInfo,
                 dispatch,
-                state
+                state,
+                objectColor: state.objectColor
             }}
         >
             <BaseComponent
@@ -621,6 +631,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 <div className="cb-scene-builder-canvas">
                     {state.config && (
                         <ADT3DBuilder
+                            objectColorUpdated={objectColorUpdated}
                             adapter={adapter as IADTAdapter}
                             modelUrl={
                                 state.config.configuration?.scenes[
@@ -629,7 +640,6 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                     )
                                 ]?.assets[0].url
                             }
-                            renderMode={state.renderMode}
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
                             outlinedMeshItems={state.outlinedMeshItems}
