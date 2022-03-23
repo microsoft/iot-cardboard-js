@@ -886,7 +886,6 @@ export default class ADTAdapter implements IADTAdapter {
                                     if (!existingSceneVisual) {
                                         const sceneVisual = new SceneVisual(
                                             element,
-                                            element.objectIDs,
                                             [behavior],
                                             twins
                                         );

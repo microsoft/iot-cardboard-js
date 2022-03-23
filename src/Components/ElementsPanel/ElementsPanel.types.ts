@@ -27,5 +27,4 @@ export interface ElementsPanelItem extends Partial<SceneVisual> {
     element: ITwinToObjectMapping;
     behaviors: Array<IBehavior>;
     twins: Record<string, DTwin>;
-    meshIds: Array<string>;
 }

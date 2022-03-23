@@ -107,8 +107,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
                 behaviors: sceneVisual.behaviors,
-                twins: sceneVisual.twins,
-                meshIds: sceneVisual.meshIds
+                twins: sceneVisual.twins
             })),
         [sceneVisuals]
     );
@@ -148,7 +147,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const meshClick = (marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
-                sceneVisual.meshIds.find((id) => id === mesh?.id)
+                sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
             const popOver = []
                 .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
@@ -195,7 +194,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const meshHover = (marker: Marker, mesh: any) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
-                sceneVisual.meshIds.find((id) => id === mesh?.id)
+                sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
             if (
                 sceneVisual &&
@@ -290,7 +289,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     isLoading={isLoading}
                     onItemClick={(item, panelItem) => {
                         setShowPopUp(false);
-                        setZoomToMeshIds(panelItem.meshIds);
+                        setZoomToMeshIds(panelItem.element.objectIDs);
                         showPopover(panelItem);
                     }}
                     onItemHover={(item) => item.type}

@@ -40,21 +40,25 @@ export const useRuntimeSceneData = (
                                     sceneVisual.twins
                                 );
                                 if (color) {
-                                    sceneVisual.meshIds?.map((meshId) => {
-                                        const coloredMesh: CustomMeshItem = {
-                                            meshId: meshId,
-                                            color: color
-                                        };
-                                        if (
-                                            !coloredMeshItems.find(
-                                                (item) =>
-                                                    item.meshId ===
-                                                    coloredMesh.meshId
-                                            )
-                                        ) {
-                                            coloredMeshItems.push(coloredMesh);
+                                    sceneVisual.element.objectIDs?.map(
+                                        (meshId) => {
+                                            const coloredMesh: CustomMeshItem = {
+                                                meshId: meshId,
+                                                color: color
+                                            };
+                                            if (
+                                                !coloredMeshItems.find(
+                                                    (item) =>
+                                                        item.meshId ===
+                                                        coloredMesh.meshId
+                                                )
+                                            ) {
+                                                coloredMeshItems.push(
+                                                    coloredMesh
+                                                );
+                                            }
                                         }
-                                    });
+                                    );
                                 }
                                 break;
                             }
@@ -66,21 +70,25 @@ export const useRuntimeSceneData = (
                                     )
                                 ) {
                                     const color = visual.color;
-                                    sceneVisual.meshIds?.map((meshId) => {
-                                        const coloredMesh: CustomMeshItem = {
-                                            meshId: meshId,
-                                            color: color
-                                        };
-                                        if (
-                                            !coloredMeshItems.find(
-                                                (item) =>
-                                                    item.meshId ===
-                                                    coloredMesh.meshId
-                                            )
-                                        ) {
-                                            coloredMeshItems.push(coloredMesh);
+                                    sceneVisual.element.objectIDs?.map(
+                                        (meshId) => {
+                                            const coloredMesh: CustomMeshItem = {
+                                                meshId: meshId,
+                                                color: color
+                                            };
+                                            if (
+                                                !coloredMeshItems.find(
+                                                    (item) =>
+                                                        item.meshId ===
+                                                        coloredMesh.meshId
+                                                )
+                                            ) {
+                                                coloredMeshItems.push(
+                                                    coloredMesh
+                                                );
+                                            }
                                         }
-                                    });
+                                    );
                                 }
                                 break;
                             }

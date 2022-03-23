@@ -34,8 +34,7 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
                 behaviors: sceneVisual.behaviors,
-                twins: sceneVisual.twins,
-                meshIds: sceneVisual.meshIds
+                twins: sceneVisual.twins
             })),
         [sceneVisuals]
     );
@@ -47,7 +46,7 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
                 isLoading={isLoading}
                 panelItems={panelItems}
                 onItemClick={(item, panelItem, behavior) =>
-                    console.log(item, panelItem.meshIds, behavior?.displayName)
+                    console.log(item, panelItem, behavior)
                 }
             />
         </div>

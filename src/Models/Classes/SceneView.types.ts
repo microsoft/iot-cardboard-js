@@ -12,20 +12,17 @@ import {
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
-    meshIds: string[];
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
 
     constructor(
         element: ITwinToObjectMapping,
-        meshIds: string[],
         behaviors: IBehavior[],
         twins: Record<string, DTwin>,
         coloredMeshItems?: CustomMeshItem[]
     ) {
         this.element = element;
-        this.meshIds = meshIds;
         this.coloredMeshItems = coloredMeshItems;
         this.behaviors = behaviors;
         this.twins = twins;

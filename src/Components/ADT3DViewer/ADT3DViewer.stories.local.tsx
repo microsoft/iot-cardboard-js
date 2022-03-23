@@ -124,7 +124,7 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
         const sceneVisuals = data.sceneVisuals;
         const mesh = data.mesh;
         const sceneVisual = sceneVisuals?.find((sceneVisual) =>
-            sceneVisual.meshIds.find((id) => id === mesh?.id)
+            sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
         );
 
         const twins: string[] = [];
