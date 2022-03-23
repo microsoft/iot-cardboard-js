@@ -55,6 +55,7 @@ const ValueRangeRow: React.FC<{
                 }}
             />
             <IconButton
+                data-testid={'range-builder-row-delete'}
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{

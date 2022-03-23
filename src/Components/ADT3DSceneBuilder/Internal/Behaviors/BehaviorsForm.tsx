@@ -361,6 +361,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
                         <PanelFooter>
                             <PrimaryButton
+                                data-testid={'behavior-form-primary-button'}
                                 onClick={onSaveClick}
                                 text={
                                     builderMode ===
@@ -371,6 +372,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 disabled={!isFormValid}
                             />
                             <DefaultButton
+                                data-testid={'behavior-form-secondary-button'}
                                 text={t('cancel')}
                                 onClick={onCancelClick}
                             />

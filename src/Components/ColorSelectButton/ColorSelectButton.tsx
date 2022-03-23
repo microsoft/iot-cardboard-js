@@ -29,6 +29,7 @@ const ColorSelectButton: React.FC<ColorSelectButtonProps> = ({
         <>
             <button
                 aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
+                data-testid={'range-builder-row-color-picker'}
                 style={{ backgroundColor: buttonColor }}
                 className="cb-color-select-button"
                 onClick={toggleIsRowColorCalloutVisible}
