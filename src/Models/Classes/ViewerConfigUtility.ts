@@ -262,14 +262,14 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.Popover;
     }
 
-    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
-        return visual.type === VisualType.Alert;
-    }
-
     static isStatusColorVisual(
         visual: IVisual
     ): visual is IStatusColoringVisual {
         return visual.type === VisualType.StatusColoring;
+    }
+
+    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
+        return visual.type === VisualType.Alert;
     }
 
     static getBehaviorsSegmentedByPresenceInScene(

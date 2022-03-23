@@ -6,7 +6,8 @@ import {
     SET_CURRENT_STEP,
     SET_SELECTED_BLOB_CONTAINER_URL,
     SET_SELECTED_SCENE,
-    SET_ERRORS
+    SET_ERRORS,
+    SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
 import { ADT3DScenePageState } from './ADT3DScenePage.types';
 import {
@@ -20,7 +21,8 @@ export const defaultADT3DScenePageState: ADT3DScenePageState = {
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneLobby,
     errors: [],
-    scenePageMode: ADT3DScenePageModes.BuildScene
+    scenePageMode: ADT3DScenePageModes.BuildScene,
+    errorCallback: null
 };
 
 export const ADT3DScenePageReducer: (
@@ -48,6 +50,9 @@ export const ADT3DScenePageReducer: (
                 break;
             case SET_ADT_SCENE_PAGE_MODE:
                 draft.scenePageMode = payload;
+                break;
+            case SET_ERROR_CALLBACK:
+                draft.errorCallback = payload;
                 break;
             default:
                 break;

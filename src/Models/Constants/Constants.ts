@@ -197,3 +197,5 @@ export const StyleConstants = {
 };
 
 export const intellisenseMultilineBreakpoint = 40;
+
+export const CardboardClassNamePrefix = 'cb';

@@ -8,7 +8,8 @@ import {
     IComponentError,
     IAction,
     IConsumeCompositeCardProps,
-    IADTInstance
+    IADTInstance,
+    IErrorButtonAction
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -55,6 +56,7 @@ export interface ADT3DScenePageState {
     scene?: IScene;
     errors?: Array<IComponentError>;
     scenePageMode: ADT3DScenePageModes;
+    errorCallback: IErrorButtonAction;
 }
 
 export interface ADT3DScenePageState {
