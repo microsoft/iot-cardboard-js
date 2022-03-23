@@ -8,7 +8,9 @@ import {
     IValueRange,
     ITwinToObjectMapping,
     IPopoverVisual,
-    IVisual
+    IVisual,
+    IAlertVisual,
+    IStatusColoringVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
@@ -258,6 +260,16 @@ abstract class ViewerConfigUtility {
 
     static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
         return visual.type === VisualType.Popover;
+    }
+
+    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
+        return visual.type === VisualType.Alert;
+    }
+
+    static isStatusColorVisual(
+        visual: IVisual
+    ): visual is IStatusColoringVisual {
+        return visual.type === VisualType.StatusColoring;
     }
 
     static getBehaviorsSegmentedByPresenceInScene(

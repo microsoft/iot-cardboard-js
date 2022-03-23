@@ -9,6 +9,7 @@ import {
 import { DatasourceType } from '../../Models/Classes/3DVConfig';
 import { mockTwins } from '../../Adapters/MockAdapter';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { linkedTwinName } from '../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -21,7 +22,7 @@ export default {
 type BehaviorsModalStory = ComponentStory<typeof BehaviorsModal>;
 
 const mockElement: ITwinToObjectMapping = mockData.configuration.scenes[0]
-    .elements[0] as ITwinToObjectMapping;
+    .elements[1] as ITwinToObjectMapping;
 const mockBehaviors = mockData.configuration.behaviors.filter((behavior) =>
     behavior.datasources
         .find(
@@ -30,6 +31,11 @@ const mockBehaviors = mockData.configuration.behaviors.filter((behavior) =>
         )
         ?.elementIDs?.includes(mockElement.id)
 ) as IBehavior[];
+const twins = {
+    [linkedTwinName]: mockTwins.find(
+        (twin) => twin.$dtId === mockElement.linkedTwinID
+    )
+};
 
 const Template: BehaviorsModalStory = (args) => {
     return (
@@ -38,11 +44,7 @@ const Template: BehaviorsModalStory = (args) => {
                 {...args}
                 behaviors={mockBehaviors}
                 element={mockElement}
-                twins={{
-                    [mockElement.linkedTwinID]: mockTwins.find(
-                        (twin) => twin.$dtId === mockElement.linkedTwinID
-                    )
-                }}
+                twins={twins}
             />
         </div>
     );

@@ -1,6 +1,6 @@
-import { getTheme, IconButton, IIconProps, Separator } from '@fluentui/react';
+import { IconButton, IIconProps, Separator } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import React, { useRef } from 'react';
+import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { DTwin } from '../../Models/Constants';
 import {
@@ -9,9 +9,10 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     dismissButtonStyles,
-    getSeparatorStyles,
-    getStyles
+    getStyles,
+    separatorStyles
 } from './BehaviorsModal.styles';
+import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
 export interface IBehaviorsModalProps {
     onClose: () => any;
@@ -22,6 +23,10 @@ export interface IBehaviorsModalProps {
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
+export const BehaviorsModalContext = createContext<{
+    twins: Record<string, DTwin>;
+}>(null);
+
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
     behaviors,
@@ -30,35 +35,44 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
 }) => {
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
-    const theme = getTheme();
-    const styles = getStyles(theme);
+    const styles = getStyles();
 
     return (
-        <div ref={boundaryRef} className={styles.boundaryLayer}>
-            <Draggable bounds="parent" defaultClassName={styles.draggable}>
-                <div className={styles.modalContainer}>
-                    <div className={styles.modalHeader}>
-                        {element?.displayName && (
-                            <span
-                                className={styles.modalTitle}
-                                id={titleId}
-                                title={element.displayName}
-                            >
-                                {element.displayName}
-                            </span>
-                        )}
-                        <IconButton
-                            styles={dismissButtonStyles}
-                            iconProps={cancelIcon}
-                            ariaLabel="Close popup modal"
-                            onClick={onClose}
-                        />
+        <BehaviorsModalContext.Provider value={{ twins }}>
+            <div ref={boundaryRef} className={styles.boundaryLayer}>
+                <Draggable bounds="parent" defaultClassName={styles.draggable}>
+                    <div className={styles.modalContainer}>
+                        <div className={styles.modalHeader}>
+                            {element?.displayName && (
+                                <span
+                                    className={styles.modalTitle}
+                                    id={titleId}
+                                    title={element.displayName}
+                                >
+                                    {element.displayName}
+                                </span>
+                            )}
+                            <IconButton
+                                styles={dismissButtonStyles}
+                                iconProps={cancelIcon}
+                                ariaLabel="Close popup modal"
+                                onClick={onClose}
+                            />
+                        </div>
+                        {behaviors.map((behavior, idx) => {
+                            return (
+                                <>
+                                    <BehaviorSection behavior={behavior} />
+                                    {idx < behaviors.length - 1 && (
+                                        <Separator styles={separatorStyles} />
+                                    )}
+                                </>
+                            );
+                        })}
                     </div>
-                    Hello world model contents
-                    <Separator styles={getSeparatorStyles(theme)} />
-                </div>
-            </Draggable>
-        </div>
+                </Draggable>
+            </div>
+        </BehaviorsModalContext.Provider>
     );
 };
 

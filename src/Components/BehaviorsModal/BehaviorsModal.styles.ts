@@ -21,7 +21,9 @@ const classNames = {
 const initialPopoverTopOffset = 60;
 const initialPopoverRightOffset = 20;
 
-export const getStyles = memoizeFunction((theme: Theme) => {
+const modalBorderColor = 'var(--cb-color-modal-border)';
+
+export const getStyles = memoizeFunction(() => {
     return mergeStyleSets({
         boundaryLayer: [
             classNames.boundaryLayer,
@@ -54,7 +56,7 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
+                border: `1px solid ${modalBorderColor}`,
                 cursor: 'move',
                 position: 'absolute',
                 pointerEvents: 'auto'
@@ -67,7 +69,8 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 display: 'flex',
                 alignItems: 'center',
                 fontWeight: FontWeights.semibold,
-                borderBottom: `1px solid ${theme.semanticColors.inputBorder}`,
+                fontSize: '16px',
+                borderBottom: `1px solid ${modalBorderColor}`,
                 paddingLeft: '8px'
             } as IStyle
         ],
@@ -83,13 +86,11 @@ export const getStyles = memoizeFunction((theme: Theme) => {
     });
 });
 
-export const getSeparatorStyles = memoizeFunction(
-    (theme: Theme): Partial<ISeparatorStyles> => ({
-        root: {
-            ':before': { backgroundColor: theme.semanticColors.inputBorder }
-        }
-    })
-);
+export const separatorStyles: Partial<ISeparatorStyles> = {
+    root: {
+        ':before': { backgroundColor: modalBorderColor }
+    }
+};
 
 export const dismissButtonStyles: IButtonStyles = {
     root: {
