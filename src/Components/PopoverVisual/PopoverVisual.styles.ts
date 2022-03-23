@@ -48,7 +48,8 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 alignItems: 'stretch',
                 minWidth: 288,
                 maxWidth: 400,
-                backgroundColor: 'var(--cb-color-bg-canvas)',
+                backgroundColor: 'var(--cb-color-glassy-modal)',
+                backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
                 border: '1px solid var(--cb-color-input-border)',
                 cursor: 'move',
@@ -81,14 +82,14 @@ export const getStyles = memoizeFunction((theme: Theme) => {
 export const getDismissButtonStyles = memoizeFunction(
     (theme: Theme): IButtonStyles => ({
         root: {
-            color: theme.palette.neutralPrimary,
+            color: theme.palette.white,
             marginLeft: 'auto',
             marginTop: '4px',
             marginRight: '2px',
             alignSelf: 'flex-end'
         },
         rootHovered: {
-            color: theme.palette.neutralDark
+            color: theme.palette.white
         }
     })
 );
