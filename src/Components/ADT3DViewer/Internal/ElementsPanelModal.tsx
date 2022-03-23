@@ -20,14 +20,16 @@ const ElementsPanelModal: React.FC<ElementsPanelProps & BaseComponentProps> = ({
     const modalStyles: Partial<IModalStyles> = {
         root: {
             justifyContent: 'start',
-            '.ms-Dialog-title': { padding: '16px 24px 20px 24px' }
+            '.ms-Dialog-title': { padding: '16px 24px 20px 24px' },
+            alignItems: 'flex-start'
         },
         main: {
             background: 'transparent',
             left: 20,
             width: '400px !important',
             minHeight: '400px !important',
-            display: 'flex'
+            display: 'flex',
+            top: 20
         },
         scrollableContent: {
             width: '100%',
@@ -40,7 +42,6 @@ const ElementsPanelModal: React.FC<ElementsPanelProps & BaseComponentProps> = ({
         closeMenuItemText: 'Close',
         menu: ContextualMenu
     };
-
     return (
         <Modal
             isOpen={true}

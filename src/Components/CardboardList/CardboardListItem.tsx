@@ -40,7 +40,7 @@ export const CardboardListItem = <T extends unknown>({
     }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
     const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles(theme, buttonProps.customStyles);
+    const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
     return (
         <>
             {hasTopSeparator && (
