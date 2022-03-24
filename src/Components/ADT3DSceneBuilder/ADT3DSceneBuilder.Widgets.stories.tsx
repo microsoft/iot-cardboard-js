@@ -163,7 +163,7 @@ WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
     const labelInput = await canvas.findByTestId(
         'widget-form-gauge-label-input'
     );
-    await userEvent.type(labelInput, 'my name');
+    await userEvent.type(labelInput, 'my widget');
     const unitsInput = await canvas.findByTestId(
         'widget-form-gauge-units-input'
     );
