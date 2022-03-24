@@ -27,7 +27,7 @@
                         "linkedTwinID": "SaltMachine_C1",
                         "objectIDs": ["tankMesh"],
                         "twinAliases": {
-                            "temperatureTag": "Tag_F2DB"
+                            "temperatureTag": "PasteurizationMachine_A01"
                         },
                         "extensionProperties": {}
                     },
@@ -195,8 +195,8 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "temperatureTag.value > 25",
-                        "labelExpression": "${LinkedTwin.displayName} is too hot!",
+                        "triggerExpression": "temperatureTag.Temperature > 25",
+                        "labelExpression": "${LinkedTwin.$dtId} is too hot!",
                         "iconName": "heart",
                         "color": "#00FF00",
                         "objectIDs": {
