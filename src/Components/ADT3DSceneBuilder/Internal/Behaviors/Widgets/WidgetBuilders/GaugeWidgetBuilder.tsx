@@ -77,7 +77,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
             <TwinPropertyDropown
                 behavior={behaviorToEdit}
                 defaultSelectedKey={formData.valueExpression}
-                dataTestId={'behavior-form-state-property-dropdown'}
+                dataTestId={'widget-form-property-dropdown'}
                 onChange={onPropertyChange}
             />
             <ValueRangeBuilder

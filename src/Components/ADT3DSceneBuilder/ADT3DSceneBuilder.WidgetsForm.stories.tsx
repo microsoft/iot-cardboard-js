@@ -7,7 +7,9 @@ import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
     findOverflowMenuItem,
-    IStoryContext
+    IStoryContext,
+    selectDropDownMenuItem,
+    sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -83,8 +85,10 @@ WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
         'widget-form-gauge-units-input'
     );
     await userEvent.type(unitsInput, 'F');
-    const expressionInput = await canvas.findByTestId('auto-complete-input');
-    await userEvent.type(expressionInput, 'expression here');
+
+    // wait for the dropdown to populate
+    await sleep(1);
+    await selectDropDownMenuItem(canvas, 'widget-form-property-dropdown', 2);
 };
 
 export const WidgetsFormCreateGaugeSave = Template.bind({});
