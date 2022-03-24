@@ -59,7 +59,10 @@
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["5ba433d52b8445979fabc818fd40ae3d"],
+                        "elementIDs": [
+                            "5ba433d52b8445979fabc818fd40ae3d",
+                            "4cb0990d646a4bbea3e1102676e200fe"
+                        ],
                         "extensionProperties": {}
                     }
                 ],
