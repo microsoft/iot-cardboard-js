@@ -1,7 +1,8 @@
 import {
     ContextualMenu,
     ContextualMenuItemType,
-    mergeStyleSets
+    mergeStyleSets,
+    useTheme
 } from '@fluentui/react';
 import React, {
     useCallback,
@@ -73,6 +74,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
     localeStrings
 }) => {
     const { t } = useTranslation();
+    const fluentTheme = useTheme();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
@@ -123,7 +125,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                                 iconName: 'Add',
                                 style: {
                                     fontSize: '14px',
-                                    color: 'var(--cb-color-text-primary)'
+                                    color: fluentTheme.semanticColors.bodyText
                                 }
                             },
                             onClick: () => {
@@ -293,27 +295,34 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         let coloredMeshes = [];
         const meshIds = [];
         if (mesh && !contextualMenuProps.isVisible) {
-            for (const element of state.elements) {
-                // find elements that contain this mesh
-                if (element.objectIDs.includes(mesh.id)) {
-                    for (const id of element.objectIDs) {
-                        // set mesh color for mesh that is hovered
-                        if (id === mesh.id) {
-                            coloredMeshes.push({
-                                meshId: id,
-                                color: state.objectColor.meshHoverColor
-                            });
+            if (state?.elements?.length > 0) {
+                for (const element of state.elements) {
+                    // find elements that contain this mesh
+                    if (element.objectIDs.includes(mesh.id)) {
+                        for (const id of element.objectIDs) {
+                            // set mesh color for mesh that is hovered
+                            if (id === mesh.id) {
+                                coloredMeshes.push({
+                                    meshId: id,
+                                    color: state.objectColor.meshHoverColor
+                                });
+                            }
+                            // add all element meshes to highlight
+                            meshIds.push(id);
                         }
-                        // add all element meshes to highlight
-                        meshIds.push(id);
+                    } else {
+                        // if mesh is not in an element just color it
+                        coloredMeshes.push({
+                            meshId: mesh.id,
+                            color: state.objectColor.meshHoverColor
+                        });
                     }
-                } else {
-                    // if mesh is not in an element just color it
-                    coloredMeshes.push({
-                        meshId: mesh.id,
-                        color: state.objectColor.meshHoverColor
-                    });
                 }
+            } else {
+                coloredMeshes.push({
+                    meshId: mesh.id,
+                    color: state.objectColor.meshHoverColor
+                });
             }
         } else if (contextualMenuProps.isVisible) {
             coloredMeshes = previouslyColoredMeshItems.current;
@@ -378,7 +387,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     iconName: 'Edit',
                     style: {
                         fontSize: '14px',
-                        color: 'var(--cb-color-text-primary)'
+                        color: fluentTheme.semanticColors.bodyText
                     }
                 },
                 onClick: () => {
@@ -446,7 +455,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     iconName: 'Add',
                     style: {
                         fontSize: '14px',
-                        color: 'var(--cb-color-text-primary)'
+                        color: fluentTheme.semanticColors.bodyText
                     }
                 },
                 onClick: () => {
@@ -520,7 +529,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         iconName: 'Edit',
                         style: {
                             fontSize: '14px',
-                            color: 'var(--cb-color-text-primary)'
+                            color: fluentTheme.semanticColors.bodyText
                         }
                     },
                     onClick: () => {

@@ -12,7 +12,7 @@ export default {
 };
 
 const cardStyle = {
-    height: '100%',
+    height: '600px',
     width: '100%'
 };
 

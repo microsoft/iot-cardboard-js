@@ -131,6 +131,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                     ? { background: selectedViewerMode.background }
                     : {}
             }
+            className="cb-adt-3dviewer-wrapper "
         >
             <div className="cb-adt-3dviewer-render-mode-selection">
                 <ModelViewerModePicker
