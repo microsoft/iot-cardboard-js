@@ -1,28 +1,27 @@
 import { IButtonStyles, ITheme } from '@fluentui/react';
 import { Theme } from '../../Models/Constants/Enums';
-import { customOverrides } from '../Palettes';
+import { getPrimaryButtonCustomOverrides } from '../Palettes';
 
 // Overrides PrimaryButton styles
 export const getPrimaryButtonStyles = (
     themeSetting: Theme,
-    _theme: ITheme
+    theme: ITheme
 ): Partial<IButtonStyles> => {
-    // Adds box shadow on light theme
-    const boxShadow =
-        themeSetting === Theme.Light
-            ? `0 1px 3px 0 rgba(0, 0, 0, .12)`
-            : '0 1px 3px 0 rgba(255,255,255,.12)';
+    const customOverrides = getPrimaryButtonCustomOverrides(
+        themeSetting,
+        theme
+    );
 
     return {
         root: {
-            boxShadow,
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            boxShadow: customOverrides.boxShadow,
+            color: customOverrides.primaryButtonTextColor
         },
         rootHovered: {
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            color: customOverrides.primaryButtonTextColor
         },
         rootPressed: {
-            color: customOverrides.primaryButtonTextColor // force in all themes
+            color: customOverrides.primaryButtonTextColor
         },
         rootDisabled: {
             color: customOverrides.primaryButtonTextColorDisabled
