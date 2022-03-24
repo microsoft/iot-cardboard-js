@@ -188,32 +188,36 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
                         </h4>
-                        <SwatchColorPicker
-                            disabled={viewerMode.style === 'default'}
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={colors.length}
-                            defaultSelectedId={colors[0].id}
-                            cellShape={'circle'}
-                            colorCells={colors}
-                            onChange={(e, id, color) =>
-                                updateObjectColor(color)
-                            }
-                        />
+                        <div className={styles.colorPicker}>
+                            <SwatchColorPicker
+                                disabled={viewerMode.style === 'default'}
+                                cellHeight={32}
+                                cellWidth={32}
+                                columnCount={colors.length}
+                                defaultSelectedId={colors[0].id}
+                                cellShape={'circle'}
+                                colorCells={colors}
+                                onChange={(e, id, color) =>
+                                    updateObjectColor(color)
+                                }
+                            />
+                        </div>
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.background')}
                         </h4>
-                        <SwatchColorPicker
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={backgrounds.length}
-                            defaultSelectedId={viewerMode.background}
-                            cellShape={'circle'}
-                            colorCells={backgrounds}
-                            onChange={(e, id, color) =>
-                                updateBackgroundColor(color)
-                            }
-                        />
+                        <div className={styles.colorPicker}>
+                            <SwatchColorPicker
+                                cellHeight={32}
+                                cellWidth={32}
+                                columnCount={backgrounds.length}
+                                defaultSelectedId={viewerMode.background}
+                                cellShape={'circle'}
+                                colorCells={backgrounds}
+                                onChange={(e, id, color) =>
+                                    updateBackgroundColor(color)
+                                }
+                            />
+                        </div>
                     </div>
                 </FocusTrapCallout>
             )}
@@ -242,6 +246,11 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             fontWeight: '500',
             marginTop: '12px',
             marginBottom: '12px'
+        },
+        colorPicker: {
+            height: '45px',
+            display: 'flex',
+            alignItems: 'center'
         }
     });
 });
