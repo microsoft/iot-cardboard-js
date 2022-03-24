@@ -21,6 +21,7 @@ interface ADT3DBuilderProps {
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
+    hideUI?: boolean;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
@@ -32,7 +33,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     coloredMeshItems,
     showHoverOnSelected,
     outlinedMeshItems,
-    objectColorUpdated
+    objectColorUpdated,
+    hideUI
 }) => {
     const meshClick = (
         _marker: Marker,
@@ -61,6 +63,7 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
             <div className="cb-adt3dbuilder-wrapper">
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
+                    hideUI={hideUI}
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,

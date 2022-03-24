@@ -31,7 +31,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds,
-    unzoomedMeshOpacity
+    unzoomedMeshOpacity,
+    hideUI
 }) => {
     const [modelUrl, setModelUrl] = useState('');
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
@@ -251,6 +252,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = ({
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
+                    hideUI={hideUI}
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,

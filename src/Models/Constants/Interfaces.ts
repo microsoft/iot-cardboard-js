@@ -646,6 +646,7 @@ export interface ISceneViewWrapperProps {
     sceneViewProps: ISceneViewProp;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
+    hideUI?: boolean;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
 }
 
@@ -664,6 +665,7 @@ export interface IADT3DViewerProps {
     coloredMeshItems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
+    hideUI?: boolean;
 }
 
 export interface IADT3DViewerMode {
