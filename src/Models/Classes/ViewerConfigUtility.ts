@@ -257,11 +257,11 @@ abstract class ViewerConfigUtility {
     ): element is ITwinToObjectMapping {
         return element.type === ElementType.TwinToObjectMapping;
     }
-    
+
     static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
         return visual.type === VisualType.Popover;
     }
-    
+
     static isStatusColorVisual(
         visual: IVisual
     ): visual is IStatusColoringVisual {
