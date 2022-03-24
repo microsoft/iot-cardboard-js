@@ -5,7 +5,6 @@ const classNames = {
     linkContainer: `${behaviorsModalClassPrefix}-link-widget-container`,
     linkLabel: `${behaviorsModalClassPrefix}-link-widget-label`,
     linkButton: `${behaviorsModalClassPrefix}-link-widget-button`,
-
     linkIcon: `${behaviorsModalClassPrefix}-link-widget-icon`
 };
 

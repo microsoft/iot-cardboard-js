@@ -91,7 +91,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
                 <div className={statusStyles.statusColorLine}></div>
             </div>
             <div className={styles.infoTextContainer}>
-                {statusValueExpression} {statusValue && ` (${statusValue})`}
+                {statusValueExpression} {statusValue && `: ${statusValue}`}
             </div>
         </div>
     );
