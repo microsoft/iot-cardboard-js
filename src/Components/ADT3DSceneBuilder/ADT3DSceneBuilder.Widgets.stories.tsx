@@ -128,14 +128,6 @@ WidgetsListAddDialogShow.play = async ({ canvasElement }) => {
     await userEvent.click(addButton);
 };
 
-export const WidgetsFormEditPanel = Template.bind({});
-WidgetsFormEditPanel.play = async ({ canvasElement }) => {
-    await WidgetsListMore.play({ canvasElement });
-    // click the edit button in the overflow
-    const editButton = await findOverflowMenuItem('editWidgetOverflow');
-    await clickOverFlowMenuItem(editButton);
-};
-
 export const WidgetsFormEditLink = Template.bind({});
 WidgetsFormEditLink.play = async ({ canvasElement }) => {
     await WidgetsListMore.play({ canvasElement, listItemIndex: 2 });
