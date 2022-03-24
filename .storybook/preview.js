@@ -94,7 +94,7 @@ const decoratorWithWrapper = (Story, context) => {
             background = '#222';
             break;
         case 'kraken':
-            background = '#0d1326';
+            background = '#16203c';
             break;
         default:
             background = '';

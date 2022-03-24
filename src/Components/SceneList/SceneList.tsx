@@ -346,7 +346,10 @@ const SceneList: React.FC<SceneListProps> = ({
                             styles={{
                                 root: {
                                     overflowY: 'auto',
-                                    overflowX: 'hidden'
+                                    overflowX: 'hidden',
+                                    '.ms-DetailsHeader': {
+                                        paddingTop: 4
+                                    }
                                 }
                             }}
                         />
