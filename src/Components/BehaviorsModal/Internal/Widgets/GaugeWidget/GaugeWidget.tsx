@@ -29,6 +29,8 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
     const { valueRanges } = widget.widgetConfiguration;
 
     const {
+        domainMin,
+        domainMax,
         percent,
         colors,
         nrOfLevels
@@ -40,8 +42,12 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
         <div className={styles.gaugeInfoContainer}>
             <div className={styles.gaugeInfoLabel}>{label}</div>
             <div className={styles.gaugeInfoValueContainer}>
-                <div className={styles.gaugeInfoValue}>{value}</div>
-                <div className={styles.gaugeInfoUnits}>{units}</div>
+                <div className={styles.gaugeInfoValue} title={String(value)}>
+                    {value}
+                </div>
+                <div className={styles.gaugeInfoUnits} title={String(units)}>
+                    {units}
+                </div>
             </div>
             <GaugeChart
                 id={widget.id}
@@ -54,6 +60,20 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
                 needleColor={'var(--cb-color-text-primary)'}
                 hideText={true}
             />
+            <div className={styles.gaugeLegendContainer}>
+                <div
+                    className={styles.gaugeLegendDomainLabelMin}
+                    title={String(domainMin)}
+                >
+                    {domainMin}
+                </div>
+                <div
+                    className={styles.gaugeLegendDomainLabelMax}
+                    title={String(domainMax)}
+                >
+                    {domainMax}
+                </div>
+            </div>
         </div>
     );
 };

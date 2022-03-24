@@ -112,12 +112,6 @@
                                     "label": "Right",
                                     "valueRanges": [
                                         {
-                                            "id": "0278cd377adbc30253b0fdb6b5fcf178",
-                                            "min": 0,
-                                            "max": 500,
-                                            "color": "#C32F27"
-                                        },
-                                        {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf149",
                                             "min": 700,
                                             "max": 900,

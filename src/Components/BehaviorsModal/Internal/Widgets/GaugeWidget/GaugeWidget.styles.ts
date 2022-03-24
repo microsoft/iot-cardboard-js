@@ -12,7 +12,10 @@ const classNames = {
     gaugeInfoLabel: `${behaviorsModalClassPrefix}-gauge-info-container`,
     gaugeInfoValue: `${behaviorsModalClassPrefix}-gauge-info-container`,
     gaugeInfoUnits: `${behaviorsModalClassPrefix}-gauge-info-container`,
-    gaugeInfoValueContainer: `${behaviorsModalClassPrefix}-gauge-info-value-container`
+    gaugeInfoValueContainer: `${behaviorsModalClassPrefix}-gauge-info-value-container`,
+    gaugeLegendContainer: `${behaviorsModalClassPrefix}-gauge-legend-container`,
+    gaugeLegendDomainLabelMin: `${behaviorsModalClassPrefix}-gauge-legend-domain-label-min`,
+    gaugeLegendDomainLabelMax: `${behaviorsModalClassPrefix}-gauge-legend-domain-label-max`
 };
 
 export const getStyles = memoizeFunction(() =>
@@ -23,7 +26,6 @@ export const getStyles = memoizeFunction(() =>
                 width: '100%',
                 height: '100%',
                 padding: 8,
-                paddingBottom: 0,
                 position: 'relative',
                 overflow: 'hidden'
             } as IStyle
@@ -60,7 +62,41 @@ export const getStyles = memoizeFunction(() =>
                 justifyContent: 'flex-start',
                 width: '100%',
                 height: 26,
-                marginBottom: 16
+                marginBottom: 8
+            } as IStyle
+        ],
+        gaugeLegendContainer: [
+            classNames.gaugeLegendContainer,
+            {
+                position: 'absolute',
+                bottom: 6,
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: 'calc(100% - 16px)'
+            } as IStyle
+        ],
+        gaugeLegendDomainLabelMin: [
+            classNames.gaugeLegendDomainLabelMin,
+            textOverflow,
+            {
+                flex: '1 1 0',
+                fontSize: 12,
+                paddingRight: 2,
+                fontWeight: FontWeights.light,
+                display: 'flex',
+                justifyContent: 'flex-start'
+            } as IStyle
+        ],
+        gaugeLegendDomainLabelMax: [
+            classNames.gaugeLegendDomainLabelMin,
+            textOverflow,
+            {
+                flex: '1 1 0',
+                fontSize: 12,
+                paddingLeft: 2,
+                fontWeight: FontWeights.light,
+                display: 'flex',
+                justifyContent: 'flex-end'
             } as IStyle
         ]
     })
