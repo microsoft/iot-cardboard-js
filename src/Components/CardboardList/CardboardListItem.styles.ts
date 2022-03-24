@@ -1,14 +1,18 @@
 import {
     FontSizes,
     IButtonStyles,
+    IRawStyle,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
     Theme
 } from '@fluentui/react';
-import { StyleConstants } from '../../Models/Constants';
+import {
+    CardboardClassNamePrefix,
+    StyleConstants
+} from '../../Models/Constants';
 
-const classPrefix = 'cardboard-list-item';
+const classPrefix = `${CardboardClassNamePrefix}-list-item`;
 const classNames = {
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
@@ -16,7 +20,8 @@ const classNames = {
     menuIcon: `${classPrefix}-menu-icon`,
     textContainer: `${classPrefix}-text-container`,
     primaryText: `${classPrefix}-primary-text`,
-    secondaryText: `${classPrefix}-secondary-text`
+    secondaryText: `${classPrefix}-secondary-text`,
+    separator: `${classPrefix}-separator`
 };
 export const getStyles = memoizeFunction((theme: Theme) => {
     const ellipseStyles = {
@@ -60,11 +65,19 @@ export const getStyles = memoizeFunction((theme: Theme) => {
                 fontSize: FontSizes.size12,
                 ...ellipseStyles
             } as IStyle
+        ],
+        separator: [
+            classNames.separator,
+            {
+                backgroundColor: 'transparent',
+                padding: 0,
+                height: 1
+            } as IStyle
         ]
     });
 });
 export const getButtonStyles = memoizeFunction(
-    (theme: Theme): IButtonStyles => {
+    (theme: Theme, customStyles?: Partial<IButtonStyles>): IButtonStyles => {
         return {
             root: {
                 alignItems: 'start', // top align everything
@@ -74,16 +87,20 @@ export const getButtonStyles = memoizeFunction(
                     opacity: 1
                 },
                 padding: '8px 12px',
-                width: '100%'
+                width: '100%',
+                ...(customStyles?.root as IRawStyle)
             },
             rootFocused: {
-                backgroundColor: theme.palette.neutralLighter
+                backgroundColor: theme.palette.neutralLighter,
+                ...(customStyles?.rootFocused as IRawStyle)
             },
             rootHovered: {
-                backgroundColor: theme.palette.neutralLighter
+                backgroundColor: theme.palette.neutralLighter,
+                ...(customStyles?.rootHovered as IRawStyle)
             },
             flexContainer: {
-                justifyContent: 'start'
+                justifyContent: 'start',
+                ...(customStyles?.flexContainer as IRawStyle)
             }
         };
     }

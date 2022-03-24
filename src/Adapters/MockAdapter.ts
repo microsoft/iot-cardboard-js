@@ -406,17 +406,17 @@ export default class MockAdapter
                             // cycle through mapping ids to get twins for behavior and scene
                             for (const id of mappingIds) {
                                 const twins = {};
-                                const mapping: ITwinToObjectMapping = scene.elements.find(
+                                const element: ITwinToObjectMapping = scene.elements.find(
                                     (mapping) =>
                                         mapping.type ===
                                             ElementType.TwinToObjectMapping &&
                                         mapping.id === id
                                 ) as ITwinToObjectMapping;
 
-                                if (mapping) {
+                                if (element) {
                                     // get primary twin
                                     twins[linkedTwinName] = mockTwins[
-                                        mapping.linkedTwinID
+                                        element.linkedTwinID
                                     ] || {
                                         $dtId: 'machineID1',
                                         InFlow: 300,
@@ -426,9 +426,9 @@ export default class MockAdapter
                                     };
 
                                     // check for twin aliases and add to twins object
-                                    if (mapping.twinAliases) {
+                                    if (element.twinAliases) {
                                         for (const alias of Object.keys(
-                                            mapping.twinAliases
+                                            element.twinAliases
                                         )) {
                                             twins[alias] = mockTwins[alias] || {
                                                 $dtId: 'machineID2',
@@ -440,12 +440,21 @@ export default class MockAdapter
                                         }
                                     }
 
-                                    const sceneVisual = new SceneVisual(
-                                        mapping.objectIDs,
-                                        behavior.visuals,
-                                        twins
+                                    const existingSceneVisual = sceneVisuals.find(
+                                        (sV) => sV.element.id === id
                                     );
-                                    sceneVisuals.push(sceneVisual);
+                                    if (!existingSceneVisual) {
+                                        const sceneVisual = new SceneVisual(
+                                            element,
+                                            [behavior],
+                                            twins
+                                        );
+                                        sceneVisuals.push(sceneVisual);
+                                    } else {
+                                        existingSceneVisual.behaviors.push(
+                                            behavior
+                                        );
+                                    }
                                 }
                             }
                         }
