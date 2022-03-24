@@ -84,13 +84,19 @@
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
                                             "min": 0,
                                             "max": 200,
-                                            "color": "#FF0000"
+                                            "color": "#C32F27"
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "min": 200,
+                                            "min": 400,
                                             "max": 800,
-                                            "color": "#00FF00"
+                                            "color": "#FEE440"
+                                        },
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf162",
+                                            "min": 800,
+                                            "max": 1000,
+                                            "color": "#26C485"
                                         }
                                     ]
                                 },
@@ -106,10 +112,16 @@
                                     "label": "Right",
                                     "valueRanges": [
                                         {
-                                            "id": "0278cd377adbc30253b0fdb6b5fcf161",
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf178",
                                             "min": 0,
                                             "max": 500,
-                                            "color": "#FF0000"
+                                            "color": "#C32F27"
+                                        },
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf149",
+                                            "min": 700,
+                                            "max": 900,
+                                            "color": "#26C485"
                                         }
                                     ]
                                 }

@@ -411,13 +411,21 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
-    static getGaugeWidgetDomain(
-        ranges: IValueRange[]
-    ): [min: number, max: number] {
+    static getGaugeWidgetConfiguration(
+        ranges: IValueRange[],
+        value: number
+    ): {
+        domainMin: number;
+        domainMax: number;
+        percent: number;
+        colors: string[];
+        nrOfLevels: number;
+    } {
         const defaultMinGaugeDomain = -100;
         const defaultMaxGaugeDomain = 100;
         let domainMin = Number('Infinity');
         let domainMax = Number('-Infinity');
+        let nrOfLevels = ranges.length;
 
         for (const valueRange of ranges) {
             const numericValueRangeMin = Number(valueRange.min);
@@ -444,8 +452,36 @@ abstract class ViewerConfigUtility {
             domainMin = defaultMaxGaugeDomain;
         }
 
-        // Set domain min to smallest finite number
-        return [domainMin, domainMax];
+        let percent = (value - domainMin) / (domainMax - domainMin);
+        if (percent > 1) percent = 1;
+        if (percent < 0) percent = 0;
+
+        const isOutOfValueRange =
+            ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+                ranges,
+                value
+            ) === null;
+
+        const sortedRanges = ranges.sort(
+            (a, b) => Number(a.min) - Number(b.min)
+        );
+        let outOfRangeColorInsertionIndex = sortedRanges.length;
+        const colors = sortedRanges.map((vr) => vr.color);
+        if (isOutOfValueRange) {
+            for (let i = 0; i < sortedRanges.length; i++) {
+                if (value < Number(sortedRanges[i].min)) {
+                    outOfRangeColorInsertionIndex = i;
+                    break;
+                }
+            }
+            colors.splice(
+                outOfRangeColorInsertionIndex,
+                0,
+                'var(--cb-color-bg-canvas-inset)'
+            );
+            nrOfLevels++;
+        }
+        return { domainMin, domainMax, percent, colors, nrOfLevels };
     }
 
     static getMappingIdsForBehavior(behavior: IBehavior) {

@@ -5,7 +5,7 @@ import {
     IPopoverVisual,
     IWidget
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { GaugeWidget } from './GaugeWidget/GaugeWidget';
+import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
 import { getStyles } from './WidgetsContainer.styles';
 

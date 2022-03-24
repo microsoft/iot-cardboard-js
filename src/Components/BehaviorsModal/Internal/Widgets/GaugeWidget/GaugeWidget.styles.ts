@@ -23,6 +23,7 @@ export const getStyles = memoizeFunction(() =>
                 width: '100%',
                 height: '100%',
                 padding: 8,
+                paddingBottom: 0,
                 position: 'relative',
                 overflow: 'hidden'
             } as IStyle
@@ -58,7 +59,8 @@ export const getStyles = memoizeFunction(() =>
                 display: 'flex',
                 justifyContent: 'flex-start',
                 width: '100%',
-                height: 26
+                height: 26,
+                marginBottom: 16
             } as IStyle
         ]
     })
