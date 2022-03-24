@@ -493,15 +493,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         debugLog('Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
-            reflectionTexture.current = currentRenderMode.reflectionTexture
-                ? BABYLON.Texture.CreateFromBase64String(
-                      currentRenderMode.reflectionTexture,
-                      'reflectionTexture',
-                      sceneRef.current
-                  )
-                : null;
-            if (reflectionTexture.current)
+            //Reset the reflection Texture
+            reflectionTexture.current = null;
+            if (currentRenderMode.reflectionTexture) {
+                reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
+                    currentRenderMode.reflectionTexture,
+                    currentRenderMode.id + '_reflectionTexture',
+                    sceneRef.current
+                );
                 reflectionTexture.current.coordinatesMode = 1;
+            }
 
             //Use the matching cached hover material or create a new one, cache it, and use it
             hovMaterial.current =
@@ -691,6 +692,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             materialCacheRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
+            reflectionTexture.current = null;
         };
     }, [modelUrl]);
 

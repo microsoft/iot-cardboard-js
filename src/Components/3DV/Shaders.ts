@@ -162,29 +162,44 @@ export function makeStandardMaterial(
     scene: any,
     baseColor: BABYLON.Color4,
     fresnelColor?: BABYLON.Color4,
-    reflectionTexture?: BABYLON.Texture
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
 ) {
     const material = new BABYLON.StandardMaterial(name, scene);
-
-    //diffuse
-    material.diffuseColor = new BABYLON.Color3(
+    const baseColor3 = new BABYLON.Color3(
         baseColor.r,
         baseColor.g,
         baseColor.b
     );
+    const fresnelColor3 = new BABYLON.Color3(
+        fresnelColor?.r,
+        fresnelColor?.g,
+        fresnelColor?.b
+    );
+    if (!lightingStyle) lightingStyle = 0;
 
-    //Must be a translucent material?
-    if (baseColor.a < 1) {
-        material.specularPower = 0;
+    //diffuse
+    material.diffuseColor = baseColor3;
+
+    //If translucent, set emissive settings
+    if (lightingStyle >= 1) {
         material.disableLighting = true;
-        material.emissiveColor = ToColor3(baseColor);
+        material.specularPower = 0;
+        material.emissiveColor = baseColor3;
+
+        material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        material.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
+        material.emissiveFresnelParameters.rightColor = baseColor3;
     }
 
-    //fresnel
+    //diffuse fresnel
     if (fresnelColor) {
         material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
-        material.diffuseFresnelParameters.leftColor = ToColor3(fresnelColor);
-        material.diffuseFresnelParameters.rightColor = ToColor3(baseColor);
+        material.diffuseFresnelParameters.leftColor = fresnelColor3;
+        material.diffuseFresnelParameters.rightColor = calculateAverageFresnel3(
+            baseColor3,
+            fresnelColor3
+        );
         material.diffuseFresnelParameters.bias = 4.0;
         material.diffuseFresnelParameters.power = 4.5;
     }
@@ -198,17 +213,20 @@ export function makeStandardMaterial(
     if (reflectionTexture) {
         material.reflectionTexture = reflectionTexture;
         material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
-        material.diffuseFresnelParameters.leftColor = BABYLON.Color3.White();
-        material.diffuseFresnelParameters.rightColor = ToColor3(fresnelColor);
-        material.reflectionFresnelParameters.power = 1.0;
+        material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
+        material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+
+        //material.specularTexture = reflectionTexture;
         material.useReflectionFresnelFromSpecular = true;
-        material.roughness = 10;
+        material.roughness = 1;
+        material.specularPower = 10;
     }
 
-    return material;
+function ToColor4(hexInput: string) {
+    return BABYLON.Color4.FromHexString(hexInput);
 }
 
-export function calculateAverageFresnel(
+function calculateAverageFresnel4(
     themeFresnel: BABYLON.Color4,
     baseColor: BABYLON.Color4
 ) {
@@ -217,6 +235,18 @@ export function calculateAverageFresnel(
         (baseColor.g + themeFresnel.g) * 0.5,
         (baseColor.b + themeFresnel.b) * 0.5,
         (baseColor.a + themeFresnel.a) * 0.5
+    );
+
+    return newFresnel;
+}
+function calculateAverageFresnel3(
+    themeFresnel: BABYLON.Color3,
+    baseColor: BABYLON.Color3
+) {
+    const newFresnel = new BABYLON.Color3(
+        (baseColor.r + themeFresnel.r) * 0.5,
+        (baseColor.g + themeFresnel.g) * 0.5,
+        (baseColor.b + themeFresnel.b) * 0.5
     );
 
     return newFresnel;
