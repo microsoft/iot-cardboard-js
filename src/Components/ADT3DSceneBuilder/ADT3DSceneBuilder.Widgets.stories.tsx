@@ -144,8 +144,8 @@ WidgetsFormEditLink.play = async ({ canvasElement }) => {
     await clickOverFlowMenuItem(editButton);
 };
 
-export const WidgetsFormEditGauge = Template.bind({});
-WidgetsFormEditGauge.play = async ({ canvasElement }) => {
+export const WidgetsFormCreateGaugeEmpty = Template.bind({});
+WidgetsFormCreateGaugeEmpty.play = async ({ canvasElement }) => {
     await WidgetsListAddDialogShow.play({ canvasElement });
     // mock data does not have a gauge so we go through the flow to add one
     const gaugeButton = await findCalloutItemByTestId('widget-library-Gauge');
@@ -158,7 +158,7 @@ WidgetsFormEditGauge.play = async ({ canvasElement }) => {
 
 export const WidgetsFormEditGaugeValid = Template.bind({});
 WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
-    await WidgetsFormEditGauge.play({ canvasElement });
+    await WidgetsFormCreateGaugeEmpty.play({ canvasElement });
     const canvas = within(canvasElement);
     const labelInput = await canvas.findByTestId(
         'widget-form-gauge-label-input'

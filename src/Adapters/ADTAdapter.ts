@@ -974,7 +974,7 @@ export default class ADTAdapter implements IADTAdapter {
             .map((x) => {
                 // comes back as LinkedTwin.Alias.PropertyName
                 const sliced = x.split('.');
-                return sliced[sliced.length];
+                return sliced[sliced.length - 1];
             })
             .sort();
         return propertyNames;
