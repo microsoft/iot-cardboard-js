@@ -85,7 +85,20 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
 
         const backgrounds: IColorCellProps[] = [];
         backgroundColors.forEach((background) => {
-            backgrounds.push({ id: background, color: background });
+            // optimistically try to parse a hex from a radial gradient, gracefully degrade if unable
+            let hexBackground = background;
+            if (background.startsWith('radial-gradient')) {
+                try {
+                    hexBackground = background.split('(')[1].split(' ')[0];
+                } catch (error) {
+                    console.debug('failed to parse hex from radial gradient');
+                }
+            }
+
+            backgrounds.push({
+                id: background,
+                color: hexBackground
+            });
         });
 
         setBackgrounds(backgrounds);
@@ -213,9 +226,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                 defaultSelectedId={viewerMode.background}
                                 cellShape={'circle'}
                                 colorCells={backgrounds}
-                                onChange={(e, id, color) =>
-                                    updateBackgroundColor(color)
-                                }
+                                onChange={(e, id) => updateBackgroundColor(id)}
                             />
                         </div>
                     </div>

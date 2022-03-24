@@ -129,8 +129,9 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
 ];
 
 export const ViewerModeBackgroundColors = [
-    '#ffffff',
-    'radial-gradient(#0a0a54, #020024)'
+    'radial-gradient(#2f3c61 0%, #16203c 70%)',
+    'radial-gradient(#333333 0%, #0d0f0e 70%)',
+    'radial-gradient(#dddddd 0%, #ffffff 70%)'
 ];
 
 export const EnvironmentsLocalStorageKey = 'cb-environments';

@@ -33,7 +33,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     sceneVisuals,
     addInProps,
     objectColorUpdated,
-    hideUI
+    hideViewModePickerUI
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -136,7 +136,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             }
             className="cb-adt-3dviewer-wrapper "
         >
-            {!hideUI && (
+            {!hideViewModePickerUI && (
                 <div className="cb-adt-3dviewer-render-mode-selection">
                     <ModelViewerModePicker
                         viewerModeUpdated={onViewerModeUpdated}
