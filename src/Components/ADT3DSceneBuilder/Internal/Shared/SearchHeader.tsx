@@ -8,11 +8,9 @@ import {
     memoizeFunction,
     mergeStyleSets,
     SearchBox,
-    Separator,
     Theme,
     useTheme
 } from '@fluentui/react';
-import { getSeparatorStyles } from './LeftPanel.styles';
 
 interface WithMultiSelect {
     isSelectionEnabled: boolean;
@@ -58,16 +56,23 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
                     />
                 )}
             </div>
-            <Separator styles={getSeparatorStyles(theme)} />
         </>
     );
 };
+const classPrefix = 'search-header';
+const classNames = {
+    root: `${classPrefix}-root`
+};
 const styles = mergeStyleSets({
-    root: {
-        display: 'flex',
-        marginLeft: 4,
-        marginRight: 4
-    } as IStyle
+    root: [
+        classNames.root,
+        {
+            display: 'flex',
+            marginBottom: 8,
+            marginLeft: 4,
+            marginRight: 4
+        } as IStyle
+    ]
 });
 const searchBoxStyles: ISearchBoxStyles = {
     root: {

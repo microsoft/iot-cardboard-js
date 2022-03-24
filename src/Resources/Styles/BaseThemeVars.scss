@@ -18,6 +18,7 @@
     --cb-color-icon-hover-bg: #f3f2f1;
     --cb-color-natural-light: #edebe9;
     --cb-color-input-edited-bg: #f3f2f1;
+    --cb-color-overlay-modal-bg: #f1f1f1bf;
     --fluent-color-text-10: #323130;
     --fluent-color-text-20: #666;
     --fluent-color-text-30: #a6a6a6;
@@ -47,6 +48,7 @@
     --cb-color-icon-hover-bg: #0d0f0e;
     --cb-color-natural-light: #0c0e0d;
     --cb-color-input-edited-bg: #242424;
+    --cb-color-overlay-modal-bg: #2d2d2dbf;
     --fluent-color-text-10: #fff;
     --fluent-color-text-20: #f2f2f2;
     --fluent-color-text-30: #a6a6a6;
@@ -74,6 +76,7 @@
     --cb-color-icon-hover-bg: #0d0f0e;
     --cb-color-natural-light: #2d2d2d;
     --cb-color-input-edited-bg: #2d2d2d;
+    --cb-color-overlay-modal-bg: #1e2c53bf;
     --fluent-color-text-10: #fff;
     --fluent-color-text-20: #f2f2f2;
     --fluent-color-text-30: #a6a6a6;
@@ -101,32 +104,7 @@
     --cb-color-icon-hover-bg: #0d0f0e;
     --cb-color-natural-light: #2d2d2d;
     --cb-color-input-edited-bg: #2d2d2d;
-    --fluent-color-text-10: #fff;
-    --fluent-color-text-20: #f2f2f2;
-    --fluent-color-text-30: #a6a6a6;
-    --fluent-color-white: #000;
-    --fluent-color-grey-10: #292d30;
-    --fluent-color-grey-20: #31373e;
-    --fluent-color-grey-30: #434343;
-    --fluent-color-grey-40: #000;
-}
-
-[cardboard-data-theme='kraken'] {
-    --cb-color-bg-canvas: #16203c;
-    --cb-color-bg-canvas-inset: #4949499e;
-    --cb-color-inactive: #afafaf;
-    --cb-color-text-danger: #f85149;
-    --cb-color-success: #32a852;
-    --cb-color-card-contrast: #232323;
-    --cb-color-input-border: #777;
-    --cb-color-card-border: #434343;
-    --cb-color-text-primary: #fff;
-    --cb-color-text-secondary: #f2f2f2;
-    --cb-color-theme-primary: #60aaff;
-    --cb-color-bg-card: #2c2c2c;
-    --cb-color-icon-hover-bg: #0d0f0e;
-    --cb-color-natural-light: #2d2d2d;
-    --cb-color-input-edited-bg: #2d2d2d;
+    --cb-color-overlay-modal-bg: #1e2c53bf;
     --fluent-color-text-10: #fff;
     --fluent-color-text-20: #f2f2f2;
     --fluent-color-text-30: #a6a6a6;
