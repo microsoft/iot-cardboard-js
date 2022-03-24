@@ -54,16 +54,20 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                 onClick={onClose}
                             />
                         </div>
-                        {behaviors.map((behavior, idx) => {
-                            return (
-                                <div key={behavior.id}>
-                                    <BehaviorSection behavior={behavior} />
-                                    {idx < behaviors.length - 1 && (
-                                        <Separator styles={separatorStyles} />
-                                    )}
-                                </div>
-                            );
-                        })}
+                        <div className={styles.modalContents}>
+                            {behaviors.map((behavior, idx) => {
+                                return (
+                                    <div key={behavior.id}>
+                                        <BehaviorSection behavior={behavior} />
+                                        {idx < behaviors.length - 1 && (
+                                            <Separator
+                                                styles={separatorStyles}
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </Draggable>
             </div>

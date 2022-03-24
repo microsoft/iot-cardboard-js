@@ -14,7 +14,8 @@ const classNames = {
     separator: `${behaviorsModalClassPrefix}-separator`,
     modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
-    modalTitle: `${behaviorsModalClassPrefix}-modal-title`
+    modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
+    modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
 const initialPopoverTopOffset = 60;
@@ -51,7 +52,8 @@ export const getStyles = memoizeFunction(() => {
                 flexFlow: 'column nowrap',
                 alignItems: 'stretch',
                 minWidth: 200,
-                maxWidth: 300,
+                maxWidth: 316,
+                maxHeight: 'calc(100% - 40px)',
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
@@ -80,6 +82,13 @@ export const getStyles = memoizeFunction(() => {
                 whiteSpace: 'nowrap',
                 display: 'block',
                 overflow: 'hidden'
+            } as IStyle
+        ],
+        modalContents: [
+            classNames.modalTitle,
+            {
+                overflowX: 'hidden',
+                overflowY: 'auto'
             } as IStyle
         ]
     });
