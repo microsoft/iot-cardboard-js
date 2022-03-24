@@ -196,7 +196,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const getStatusRangeValues = useCallback(() => {
         return valueRangeRef.current?.getValueRanges() || [];
-    }, []);
+    }, [valueRangeRef]);
     const storeStatusRanges = useCallback(() => {
         const ranges = getStatusRangeValues();
         setBehaviorToEdit(
@@ -209,7 +209,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 }
             })
         );
-    }, []);
+    }, [getStatusRangeValues, setBehaviorToEdit]);
 
     const onSaveClick = useCallback(() => {
         // store the latest ranges from the status
@@ -250,13 +250,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, []);
     const isFormValid = checkValidityMap(state.validityMap);
 
-    console.log(
-        `***Rendering, isValid: ${isFormValid}, Elements: ${
-            state.validityMap?.get('Elements')?.isValid
-        }, Status: ${state.validityMap?.get('Status')?.isValid}, Alerts: ${
-            state.validityMap?.get('Alerts')?.isValid
-        }, Widgets: ${state.validityMap?.get('Widgets')?.isValid}`
-    );
+    // console.log(
+    //     `***Rendering, isValid: ${isFormValid}, Elements: ${
+    //         state.validityMap?.get('Elements')?.isValid
+    //     }, Status: ${state.validityMap?.get('Status')?.isValid}, Alerts: ${
+    //         state.validityMap?.get('Alerts')?.isValid
+    //     }, Widgets: ${state.validityMap?.get('Widgets')?.isValid}`
+    // );
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 92);

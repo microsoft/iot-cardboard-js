@@ -15,11 +15,9 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import produce from 'immer';
 import {
     IBehavior
-    // IStatusColoringVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
-// import { ADT3DSceneBuilderMode } from '../../../../../Models/Constants';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
@@ -115,7 +113,7 @@ const StatesTab: React.FC<IStatesTabProps> = ({
         [setBehaviorToEdit, setSelectedProperty]
     );
 
-    console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
+    // console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
 
     const theme = useTheme();
     const hasProperties = propertyOptions.length > 1; // ignore the default empty item
