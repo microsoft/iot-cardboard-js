@@ -89,6 +89,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 getPropertyNames={getIntellisensePropertyNames}
             />
             <ValueRangeBuilder
+                className={customStyles.rangeBuilderRoot}
                 initialValueRanges={formData.widgetConfiguration.valueRanges}
                 maxRanges={3}
                 minRanges={1}

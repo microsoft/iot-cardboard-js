@@ -639,5 +639,10 @@
         "default": "Default",
         "transparent": "Transparent",
         "wireframe": "Wireframe"
+    },
+    "elementsPanel": {
+        "title": "Elements",
+        "noElements": "No elements to display",
+        "filterPlaceholder": "Type to filter elements or alerts"
     }
 }
