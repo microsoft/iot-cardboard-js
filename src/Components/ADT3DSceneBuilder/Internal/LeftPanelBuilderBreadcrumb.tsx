@@ -119,17 +119,6 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         return [...rootItems, ...activePanelBreadcrumb];
     }, [builderMode, widgetFormInfo, sceneId, config]);
 
-    // const mergedStyleSets = mergeStyleSets({
-    //     homeButton: [
-    //         'cb-left-panel-builder-breadcrumb-home-icon-container',
-    //         {
-    //             ':hover': {
-    //                 background: theme.palette.neutralLighter
-    //             }
-    //         }
-    //     ]
-    // });
-
     const onRenderItem: IRenderFunction<IBreadcrumbItem> = (
         props: IBreadcrumbItem,
         defaultRender?: (props?: IBreadcrumbItem) => JSX.Element

@@ -5,10 +5,7 @@ import {
     IScene,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
-    DTwin,
-    IADT3DViewerRenderMode
-} from '../../Models/Constants/Interfaces';
+import { DTwin, IADTObjectColor } from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -70,6 +67,7 @@ export interface ISceneViewProp {
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
     onCameraMove?: SceneViewEventHandler;
+    isWireframe?: boolean;
     showMeshesOnHover?: boolean;
     getToken?: () => Promise<string>;
     coloredMeshItems?: CustomMeshItem[];
@@ -77,5 +75,5 @@ export interface ISceneViewProp {
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
-    renderMode?: IADT3DViewerRenderMode;
+    objectColors?: IADTObjectColor;
 }

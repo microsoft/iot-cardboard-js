@@ -12,14 +12,14 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_WIDGET_FORM_INFO,
     SET_REVERT_TO_HOVER_COLOR,
-    SET_RENDER_MODE,
-    SET_MESH_IDS_TO_OUTLINE
+    SET_MESH_IDS_TO_OUTLINE,
+    SET_ADT_SCENE_OBJECT_COLOR
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode
 } from '../../Models/Constants/Enums';
-import { RenderModes } from '../..';
+import { DefaultViewerModeObjectColor } from '../../Models/Constants';
 
 export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
@@ -35,7 +35,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     selectedBehavior: null,
     showHoverOnSelected: false,
     enableHoverOnModel: false,
-    renderMode: RenderModes[0]
+    objectColor: DefaultViewerModeObjectColor
 };
 
 export const ADT3DSceneBuilderReducer: (
@@ -67,6 +67,9 @@ export const ADT3DSceneBuilderReducer: (
             case SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS:
                 draft.selectedElements = payload;
                 break;
+            case SET_ADT_SCENE_OBJECT_COLOR:
+                draft.objectColor = payload;
+                break;
             case SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR:
                 draft.selectedBehavior = payload;
                 break;
@@ -75,9 +78,6 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_MESH_IDS_TO_OUTLINE:
                 draft.outlinedMeshItems = payload;
-                break;
-            case SET_RENDER_MODE:
-                draft.renderMode = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_MODE:
                 draft.builderMode = payload;
