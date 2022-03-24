@@ -14,7 +14,9 @@ export const getPrimaryButtonCustomOverrides = (
         primaryButtonTextColor:
             themeSetting === Theme.Kraken ? theme.palette.white : '#F2F3F4',
         primaryButtonTextColorDisabled:
-            themeSetting === Theme.Kraken ? theme.palette.white : '#F2F3F4'
+            themeSetting === Theme.Dark
+                ? '#F2F3F4'
+                : theme.semanticColors.buttonTextDisabled
     };
 };
 
