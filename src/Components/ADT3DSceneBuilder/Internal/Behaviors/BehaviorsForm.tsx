@@ -327,7 +327,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                             localUpdateSelectedElements
                                         }
                                         isEditBehavior={true}
-                                        hideSearch={true}
+                                        hideSearch={false}
                                     />
                                 </PivotItem>
                                 <PivotItem
