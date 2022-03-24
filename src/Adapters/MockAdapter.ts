@@ -81,7 +81,7 @@ export const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 100,
+        InFlow: -100,
         OutFlow: 150
     },
     {

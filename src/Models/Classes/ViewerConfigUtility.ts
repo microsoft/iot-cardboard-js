@@ -411,6 +411,43 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
+    static getGaugeWidgetDomain(
+        ranges: IValueRange[]
+    ): [min: number, max: number] {
+        const defaultMinGaugeDomain = -100;
+        const defaultMaxGaugeDomain = 100;
+        let domainMin = Number('Infinity');
+        let domainMax = Number('-Infinity');
+
+        for (const valueRange of ranges) {
+            const numericValueRangeMin = Number(valueRange.min);
+            const numericValueRangeMax = Number(valueRange.max);
+
+            // Find minimum range value
+            if (numericValueRangeMin < domainMin) {
+                domainMin = numericValueRangeMin;
+            }
+
+            // Find maximum range value
+            if (numericValueRangeMax > domainMax) {
+                domainMax = numericValueRangeMax;
+            }
+        }
+
+        // If minimum is not finite -- snap to default minimum
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMinGaugeDomain;
+        }
+
+        // If maximum is not finite -- snap to default maximum
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMaxGaugeDomain;
+        }
+
+        // Set domain min to smallest finite number
+        return [domainMin, domainMax];
+    }
+
     static getMappingIdsForBehavior(behavior: IBehavior) {
         const mappingIds: string[] = [];
         // cycle through the datasources of behavior

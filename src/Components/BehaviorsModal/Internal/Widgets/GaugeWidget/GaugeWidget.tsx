@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import './GaugeWidget.scss';
+import React from 'react';
 import {
     RadialBarChart,
     RadialBar,
@@ -32,22 +31,17 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
         value = 0;
     }
 
+    // Get active color from value range -- if value not in defined range
+    // snap to default color
     const color =
         ViewerConfigUtility.getColorOrNullFromStatusValueRange(
             widget.widgetConfiguration.valueRanges,
             value
-        ) || '#00ff00';
+        ) || 'var(--cb-color-theme-primary)';
 
-    const maxValue: number = useMemo(() => {
-        let maxValue = Number('-Infinity');
-        widget.widgetConfiguration.valueRanges?.forEach?.((vr) => {
-            const val = Number(vr.max);
-            if (val > maxValue) {
-                maxValue = val;
-            }
-        });
-        return maxValue;
-    }, [widget]);
+    const [domainMin, domainMax] = ViewerConfigUtility.getGaugeWidgetDomain(
+        widget.widgetConfiguration.valueRanges
+    );
 
     const data = [{ value, fill: color }];
     const styles = getStyles();
@@ -65,12 +59,13 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
                     innerRadius="70%"
                     outerRadius="100%"
                     endAngle={0}
-                    barSize={10}
+                    barSize={50}
                     data={data}
+                    margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
                 >
                     <PolarAngleAxis
                         type="number"
-                        domain={[0, maxValue]}
+                        domain={[domainMin, domainMax]}
                         dataKey={'value'}
                         angleAxisId={0}
                         tick={false}
