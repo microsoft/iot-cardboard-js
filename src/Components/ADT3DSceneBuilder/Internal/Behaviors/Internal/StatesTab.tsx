@@ -1,10 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
-    Dropdown,
-    IDropdownOption,
     IStackTokens,
     Separator,
     Stack,
@@ -13,22 +10,19 @@ import {
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
-import {
-    IBehavior
-} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
+import TwinPropertyDropown from './TwinPropertyDropdown';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
 
 const ROOT_LOC = '3dSceneBuilder.behaviorStatusForm';
 const LOC_KEYS = {
-    propertyDropdownLabel: `${ROOT_LOC}.propertyDropdownLabel`,
-    propertyDropdownPlaceholder: `${ROOT_LOC}.propertyDropdownPlaceholder`,
     stateItemLabel: `${ROOT_LOC}.stateItemLabel`,
     notice: `${ROOT_LOC}.notice`,
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`
@@ -43,48 +37,13 @@ const StatesTab: React.FC<IStatesTabProps> = ({
     valueRangeRef
 }) => {
     const { t } = useTranslation();
-    const {
-        config,
-        sceneId,
-        adapter
-        // , state
-    } = useContext(SceneBuilderContext);
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
-    const [isPropertyListLoading, setIsPropertyListLoading] = useState(true);
     const [areValueRangesValid, setAreValueRangesValid] = useState(true);
-    const [propertyOptions, setPropertyOptions] = useState<IDropdownOption[]>(
-        []
-    );
     const statusVisualToEdit =
         getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
-    const [selectedProperty, setSelectedProperty] = useState(
-        statusVisualToEdit.statusValueExpression
-    );
-
-    useEffect(() => {
-        adapter
-            .getTwinPropertiesForBehaviorWithFullName(
-                sceneId,
-                config,
-                behaviorToEdit
-            )
-            .then((properties) => {
-                setIsPropertyListLoading(false);
-                if (properties?.length) {
-                    const options = buildPropertyDropdownOptions(properties);
-                    // add an empty entry to the start of the list
-                    options.unshift({
-                        key: '',
-                        data: '',
-                        text: t(LOC_KEYS.propertyDropdownPlaceholder)
-                    });
-                    setPropertyOptions(options);
-                }
-            });
-    }, [behaviorToEdit, behaviorToEdit.datasources, config, sceneId]);
 
     useEffect(() => {
         onValidityChange('Status', {
@@ -93,45 +52,39 @@ const StatesTab: React.FC<IStatesTabProps> = ({
     }, [areValueRangesValid, behaviorToEdit, onValidityChange]);
 
     const onPropertyChange = useCallback(
-        (_e, option: IDropdownOption) => {
+        (option: string) => {
             setBehaviorToEdit(
                 produce((draft) => {
                     // Assuming only 1 status visual per behavior
                     const stateVisual = getStatusFromBehavior(draft);
                     // Edit flow
                     if (stateVisual) {
-                        stateVisual.statusValueExpression = option.data;
+                        stateVisual.statusValueExpression = option;
                     } else {
                         const statusVisual = deepCopy(defaultStatusColorVisual);
-                        statusVisual.statusValueExpression = option.data;
+                        statusVisual.statusValueExpression = option;
                         draft.visuals.push(statusVisual);
                     }
                 })
             );
-            setSelectedProperty(option.data);
         },
-        [setBehaviorToEdit, setSelectedProperty]
+        [setBehaviorToEdit]
     );
 
     // console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
 
     const theme = useTheme();
-    const hasProperties = propertyOptions.length > 1; // ignore the default empty item
-    const showError = !hasProperties && !isPropertyListLoading;
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
             <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
                 {t(LOC_KEYS.notice)}
             </Text>
-            <Dropdown
-                data-testid={'behavior-form-state-dropdown'}
-                selectedKey={selectedProperty}
-                disabled={!hasProperties}
-                errorMessage={showError && t(LOC_KEYS.noElementsSelected)}
-                label={t(LOC_KEYS.propertyDropdownLabel)}
+            <TwinPropertyDropown
+                behavior={behaviorToEdit}
+                defaultSelectedKey={statusVisualToEdit.statusValueExpression}
+                dataTestId={'behavior-form-state-property-dropdown'}
                 onChange={onPropertyChange}
-                options={propertyOptions}
             />
             {showRangeBuilder && <Separator />}
             {showRangeBuilder && (
@@ -146,13 +99,5 @@ const StatesTab: React.FC<IStatesTabProps> = ({
     );
 };
 const sectionStackTokens: IStackTokens = { childrenGap: 12 };
-function buildPropertyDropdownOptions(properties: string[]): IDropdownOption[] {
-    const entries = properties.map((x) => ({
-        key: x,
-        data: x,
-        text: x
-    }));
-    return entries;
-}
 
 export default StatesTab;

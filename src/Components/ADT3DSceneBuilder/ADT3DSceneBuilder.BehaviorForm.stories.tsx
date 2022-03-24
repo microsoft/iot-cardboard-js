@@ -95,7 +95,7 @@ NewStateTabWithElementsOpenProperty.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // wait for dropdown to populate
     await sleep(20);
-    await openDropdownMenu(canvas, 'behavior-form-state-dropdown');
+    await openDropdownMenu(canvas, 'behavior-form-state-property-dropdown');
 };
 
 export const NewStateTabWithElementsSelectProperty = Template.bind({});
@@ -103,7 +103,11 @@ NewStateTabWithElementsSelectProperty.play = async ({ canvasElement }) => {
     await NewStateTabWithElements.play({ canvasElement });
     const canvas = within(canvasElement);
     await sleep(20);
-    await selectDropDownMenuItem(canvas, 'behavior-form-state-dropdown', 2);
+    await selectDropDownMenuItem(
+        canvas,
+        'behavior-form-state-property-dropdown',
+        2
+    );
 };
 
 export const NewAlertsTab = Template.bind({});

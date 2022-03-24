@@ -1,25 +1,22 @@
 import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    intellisenseMultilineBreakpoint,
-    linkedTwinName
-} from '../../../../../../Models/Constants';
-import { Intellisense } from '../../../../../../Components/AutoComplete/Intellisense';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { getWidgetFormStyles } from '../WidgetForm.styles';
+import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
+import { BehaviorFormContext } from '../../BehaviorsForm';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
     setFormData,
     setIsWidgetConfigValid,
-    valueRangeRef,
-    getIntellisensePropertyNames
+    valueRangeRef
 }) => {
     const { t } = useTranslation();
     const [areValueRangesValid, setAreValueRangesValid] = useState(true);
+    const { behaviorToEdit } = useContext(BehaviorFormContext);
 
     useEffect(() => {
         const {
@@ -38,9 +35,19 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         }
     }, [formData, areValueRangesValid]);
 
+    const onPropertyChange = useCallback(
+        (option: string) => {
+            setFormData(
+                produce((draft) => {
+                    draft.valueExpression = option;
+                })
+            );
+        },
+        [setFormData]
+    );
+
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
-
     return (
         <div className={customStyles.gaugeWidgetFormContents}>
             <TextField
@@ -67,28 +74,11 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     )
                 }
             />
-            <Intellisense
-                autoCompleteProps={{
-                    textFieldProps: {
-                        label: t('3dSceneBuilder.expression'),
-                        placeholder: t(
-                            '3dSceneBuilder.numericExpressionPlaceholder'
-                        ),
-                        multiline:
-                            formData.valueExpression.length >
-                            intellisenseMultilineBreakpoint
-                    }
-                }}
-                defaultValue={formData.valueExpression}
-                onChange={(newVal) => {
-                    setFormData(
-                        produce((draft) => {
-                            draft.valueExpression = newVal;
-                        })
-                    );
-                }}
-                aliasNames={[linkedTwinName]}
-                getPropertyNames={getIntellisensePropertyNames}
+            <TwinPropertyDropown
+                behavior={behaviorToEdit}
+                defaultSelectedKey={formData.valueExpression}
+                dataTestId={'behavior-form-state-property-dropdown'}
+                onChange={onPropertyChange}
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}

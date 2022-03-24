@@ -76,7 +76,6 @@ const WidgetForm: React.FC = () => {
                     <GaugeWidgetBuilder
                         formData={formData as IGaugeWidget}
                         setFormData={setFormData}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                         valueRangeRef={gaugeValueRangeRef}
                     />

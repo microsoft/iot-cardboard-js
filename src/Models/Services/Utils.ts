@@ -19,6 +19,7 @@ import {
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { IDropdownOption } from '@fluentui/react';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -238,6 +239,17 @@ export function getSceneElementStatusColor(
         valueRanges,
         value
     );
+}
+
+export function buildDropdownOptionsFromStrings(
+    properties: string[]
+): IDropdownOption[] {
+    const entries = properties.map((x) => ({
+        key: x,
+        data: x,
+        text: x
+    }));
+    return entries;
 }
 
 /**
