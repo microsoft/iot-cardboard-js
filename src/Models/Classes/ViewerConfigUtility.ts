@@ -415,8 +415,6 @@ abstract class ViewerConfigUtility {
         ranges: IValueRange[],
         value: number
     ): {
-        domainMin: number;
-        domainMax: number;
         percent: number;
         colors: string[];
         nrOfLevels: number;
@@ -481,7 +479,7 @@ abstract class ViewerConfigUtility {
             );
             nrOfLevels++;
         }
-        return { domainMin, domainMax, percent, colors, nrOfLevels };
+        return { percent, colors, nrOfLevels };
     }
 
     static getMappingIdsForBehavior(behavior: IBehavior) {

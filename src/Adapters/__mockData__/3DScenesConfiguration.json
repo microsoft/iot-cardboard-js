@@ -82,13 +82,13 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
-                                            "min": 0,
+                                            "min": "-Infinity",
                                             "max": 200,
                                             "color": "#C32F27"
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "min": 400,
+                                            "min": 500,
                                             "max": 800,
                                             "color": "#FEE440"
                                         },

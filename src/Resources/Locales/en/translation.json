@@ -630,6 +630,9 @@
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
     },
+    "behaviorsModal": {
+        "closeModal": "Close modal"
+    },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
         "imgTag": "SVG icon via img tag src",

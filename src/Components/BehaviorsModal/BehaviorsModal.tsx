@@ -2,6 +2,7 @@ import { IconButton, IIconProps, Separator } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
+import { useTranslation } from 'react-i18next';
 import { DTwin } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
@@ -30,6 +31,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     title,
     twins
 }) => {
+    const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const styles = getStyles();
@@ -50,7 +52,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                             <IconButton
                                 styles={dismissButtonStyles}
                                 iconProps={cancelIcon}
-                                ariaLabel="Close popup modal"
+                                ariaLabel={t('behaviorsModal.closeModal')}
                                 onClick={onClose}
                             />
                         </div>

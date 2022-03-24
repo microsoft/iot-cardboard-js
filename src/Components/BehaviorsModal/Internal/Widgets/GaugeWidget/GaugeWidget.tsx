@@ -29,14 +29,10 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
     const { valueRanges } = widget.widgetConfiguration;
 
     const {
-        domainMin,
-        domainMax,
         percent,
         colors,
         nrOfLevels
     } = ViewerConfigUtility.getGaugeWidgetConfiguration(valueRanges, value);
-
-    console.log({ domainMin, domainMax, value, percent, colors, nrOfLevels });
 
     const styles = getStyles();
 
