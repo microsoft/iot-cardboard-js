@@ -109,7 +109,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                 objectColor = ViewerModeObjectColors.find(
                     (oc) => viewerMode?.objectColor === oc.color
                 );
-            } else {
+            }
+
+            if (!objectColor) {
                 objectColor = DefaultViewerModeObjectColor;
             }
 
