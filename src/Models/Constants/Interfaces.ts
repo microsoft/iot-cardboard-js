@@ -52,7 +52,6 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
-import { ADT3DRenderMode } from '.';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
@@ -660,12 +659,14 @@ export interface IADT3DAddInProps {
 }
 
 export interface ISceneViewWrapperProps {
-    config: I3DScenesConfig;
-    sceneId: string;
-    adapter: IADT3DViewerAdapter;
+    config?: I3DScenesConfig;
+    sceneId?: string;
+    adapter?: IADT3DViewerAdapter;
     sceneViewProps: ISceneViewProp;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
+    hideViewModePickerUI?: boolean;
+    objectColorUpdated?: (objectColor: IADTObjectColor) => void;
 }
 
 export interface IADT3DViewerProps {
@@ -677,23 +678,26 @@ export interface IADT3DViewerProps {
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
-    hideUI?: boolean;
     refetchConfig?: () => any;
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
+    hideViewModePickerUI?: boolean;
 }
 
-export interface IADT3DViewerRenderMode {
-    id: ADT3DRenderMode;
-    text: string;
-    baseColor: string;
-    fresnelColor: string;
-    opacity: number;
+export interface IADT3DViewerMode {
+    objectColor: IADTObjectColor;
     isWireframe: boolean;
     background: string;
+}
+
+export interface IADTObjectColor {
+    color: string;
+    opacity: number;
+    baseColor: string;
+    fresnelColor: string;
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;

@@ -2,3 +2,14 @@
     font-family: 'iconFont';
     src: local('segmdl2'), url('./segmdl2.ttf');
 }
+
+.cb-adt-3dviewer-wrapper {
+    height: 100%;
+}
+
+.cb-adt-3dviewer-render-mode-selection {
+    position: absolute;
+    right: 8px;
+    top: 60px;
+    z-index: 1;
+}

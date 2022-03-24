@@ -47,7 +47,8 @@ const BuilderLeftPanel: React.FC = () => {
         localeStrings,
         adapter,
         state,
-        dispatch
+        dispatch,
+        objectColor
     } = useContext(SceneBuilderContext);
 
     const addBehaviorAdapterData = useAdapter({
@@ -180,7 +181,7 @@ const BuilderLeftPanel: React.FC = () => {
         setOutlinedMeshItems(
             createCustomMeshItems(
                 meshIds,
-                state.renderMode.outlinedMeshSelectedColor
+                objectColor.outlinedMeshSelectedColor
             )
         );
     };

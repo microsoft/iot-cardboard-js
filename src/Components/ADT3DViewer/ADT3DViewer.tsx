@@ -5,11 +5,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import {
-    DTwin,
-    IADT3DViewerProps,
-    IADT3DViewerRenderMode
-} from '../../Models/Constants/Interfaces';
+import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -24,9 +20,6 @@ import { VisualType } from '../../Models/Classes/3DVConfig';
 import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import { Dropdown, IDropdownOption } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { RenderModes } from '../../Models/Constants';
 import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
@@ -42,16 +35,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     pollingInterval,
     connectionLineColor,
     addInProps,
-    hideUI,
     refetchConfig,
     showMeshesOnHover,
     enableMeshSelection,
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds: zoomToMeshIdsProp,
-    unzoomedMeshOpacity
+    unzoomedMeshOpacity,
+    hideViewModePickerUI
 }) => {
-    const { t } = useTranslation();
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
@@ -61,12 +53,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [showPopUp, setShowPopUp] = useState(false);
     const [popUpConfig, setPopUpConfig] = useState<IPopoverVisual>(null);
     const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
-    const [selectedRenderMode, setSelectedRenderMode] = React.useState('');
     const lineId = useGuid();
     const popUpId = useGuid();
     const sceneWrapperId = useGuid();
     const popUpContainerId = useGuid();
-    const [renderMode, setRenderMode] = useState<IADT3DViewerRenderMode>();
 
     const popUpX = useRef<number>(0);
     const popUpY = useRef<number>(0);
@@ -251,27 +241,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setConnectionLine();
     }
 
-    const renderModeOptions: IDropdownOption[] = [];
-    for (const mode of RenderModes) {
-        renderModeOptions.push({ key: mode.id, text: t(mode.text) });
-    }
-
-    if (!selectedRenderMode) {
-        setSelectedRenderMode(renderModeOptions[0].key as string);
-    }
-
-    useEffect(() => {
-        const state = RenderModes.find((m) => m.id === selectedRenderMode);
-        setRenderMode(state);
-    }, [selectedRenderMode]);
-
-    const onRenderModeChange = (
-        _event: React.FormEvent<HTMLDivElement>,
-        item: IDropdownOption
-    ): void => {
-        setSelectedRenderMode(item.key as string);
-    };
-
     const onElementPanelItemClicked = useCallback(
         (_item, panelItem, _behavior) => {
             setShowPopUp(false);
@@ -287,15 +256,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             theme={theme}
             locale={locale}
         >
-            <div
-                id={sceneWrapperId}
-                className="cb-adt-3dviewer-wrapper"
-                style={
-                    renderMode?.background
-                        ? { background: renderMode.background }
-                        : {}
-                }
-            >
+            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 <ElementsPanelModal
                     theme={theme}
                     locale={locale}
@@ -310,10 +271,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
+                    hideViewModePickerUI={hideViewModePickerUI}
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
-                        renderMode: renderMode,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
@@ -330,19 +291,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
-                {!hideUI && (
-                    <div className="cb-adt-3dviewer-render-mode-dropdown">
-                        <Dropdown
-                            selectedKey={selectedRenderMode}
-                            onChange={onRenderModeChange}
-                            options={renderModeOptions}
-                            styles={{
-                                root: { padding: 12 },
-                                dropdown: { width: 250 }
-                            }}
-                        />
-                    </div>
-                )}
                 {showPopUp && (
                     <div
                         id={popUpContainerId}

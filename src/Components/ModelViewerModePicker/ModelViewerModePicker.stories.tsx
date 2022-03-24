@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import {
+    ViewerModeBackgroundColors,
+    ViewerModeObjectColors
+} from '../../Models/Constants';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import ModelViewerModePicker, { ViewerMode } from './ModelViewerModePicker';
 
@@ -27,9 +31,11 @@ export const Picker = (_arg, { globals: { theme } }) => {
                     </div>
                 </div>
                 <ModelViewerModePicker
-                    themeUpdated={(viewerMode) => setViewerMode(viewerMode)}
-                    objectColors={['#50E6FF', '#FFC46B', '#B9B9B9']}
-                    backgroundColors={['#3256FF', '#000000', '#FAF9F6']}
+                    viewerModeUpdated={(viewerMode) =>
+                        setViewerMode(viewerMode)
+                    }
+                    objectColors={ViewerModeObjectColors}
+                    backgroundColors={ViewerModeBackgroundColors}
                 />
             </div>
         </BaseComponent>
