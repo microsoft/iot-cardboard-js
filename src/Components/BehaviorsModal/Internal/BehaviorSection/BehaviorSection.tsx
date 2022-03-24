@@ -3,7 +3,8 @@ import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
-    parseExpression
+    parseExpression,
+    performSubstitutions
 } from '../../../../Models/Services/Utils';
 import {
     IAlertVisual,
@@ -11,8 +12,8 @@ import {
     IStatusColoringVisual
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { getElementsPanelAlertStyles } from '../../../ElementsPanel/ViewerElementsPanel.styles';
-import { performSubstitutions } from '../../../Widgets/Widget.Utils';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
+import WidgetsContainer from '../Widgets/WidgetsContainer';
 import { getStatusBlockStyles, getStyles } from './BehaviorSection.styles';
 
 export interface IBehaviorsSectionProps {
@@ -21,6 +22,7 @@ export interface IBehaviorsSectionProps {
 
 const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     const styles = getStyles();
+    const { twins } = useContext(BehaviorsModalContext);
 
     const alertVisual = useMemo(
         () =>
@@ -35,13 +37,19 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
             )[0] || null,
         [behavior]
     );
+    const popoverVisual = useMemo(
+        () => behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0],
+        [behavior]
+    );
 
     return (
         <div className={styles.behaviorSection}>
             <div className={styles.behaviorHeader}>{behavior.displayName}</div>
             {alertVisual && <AlertBlock alertVisual={alertVisual} />}
             {statusVisual && <StatusBlock statusVisual={statusVisual} />}
-            <div></div>
+            {popoverVisual && (
+                <WidgetsContainer popoverVisual={popoverVisual} twins={twins} />
+            )}
         </div>
     );
 };

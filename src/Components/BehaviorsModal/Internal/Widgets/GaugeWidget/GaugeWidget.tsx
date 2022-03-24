@@ -6,9 +6,9 @@ import {
     ResponsiveContainer,
     PolarAngleAxis
 } from 'recharts';
-import { DTwin } from '../../../Models/Constants/Interfaces';
-import { parseExpression } from '../../../Models/Services/Utils';
-import { IGaugeWidget } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { DTwin } from '../../../../../Models/Constants/Interfaces';
+import { parseExpression } from '../../../../../Models/Services/Utils';
+import { IGaugeWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 interface IProp {
     widget: IGaugeWidget;
     twins: Record<string, DTwin>;
@@ -17,8 +17,6 @@ interface IProp {
 export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
     const expression = widget.valueExpression;
     const label = widget.widgetConfiguration.label;
-    const width = 150;
-    const height = 150;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
     try {
@@ -48,7 +46,7 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
 
     const data = [{ value, fill: color }];
     return (
-        <div style={{ width: width, height: height, position: 'relative' }}>
+        <>
             <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart
                     startAngle={180}
@@ -78,6 +76,6 @@ export const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
                 </div>
                 <div>{label}</div>
             </div>
-        </div>
+        </>
     );
 };
