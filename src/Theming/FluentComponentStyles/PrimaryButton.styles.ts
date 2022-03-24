@@ -6,9 +6,8 @@ export const getPrimaryButtonStyles = (
     themeSetting: Theme,
     theme: ITheme
 ): Partial<IButtonStyles> => {
-    // Adds box shadow on light theme
-
     const customOverrides = {
+        // Adds box shadow on light theme
         boxShadow:
             themeSetting === Theme.Light
                 ? `0 1px 3px 0 rgba(0, 0, 0, .12)`
