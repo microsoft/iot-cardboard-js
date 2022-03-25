@@ -21,7 +21,7 @@ export const getStyles = memoizeFunction(() => {
         behaviorSection: [
             classNames.behaviorSection,
             {
-                padding: 8
+                padding: '8px 20px'
             } as IStyle
         ],
         behaviorHeader: [

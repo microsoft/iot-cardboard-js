@@ -52,7 +52,7 @@ export const getStyles = memoizeFunction(() => {
                 flexFlow: 'column nowrap',
                 alignItems: 'stretch',
                 minWidth: 200,
-                maxWidth: 316,
+                maxWidth: 340,
                 maxHeight: 'calc(100% - 40px)',
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
@@ -72,7 +72,7 @@ export const getStyles = memoizeFunction(() => {
                 fontWeight: FontWeights.semibold,
                 fontSize: '16px',
                 borderBottom: `1px solid ${modalBorderColor}`,
-                paddingLeft: '8px'
+                padding: '0 8px 0 20px'
             } as IStyle
         ],
         modalTitle: [
