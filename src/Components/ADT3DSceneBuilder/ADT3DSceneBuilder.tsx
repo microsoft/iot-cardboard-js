@@ -466,7 +466,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     // memory is updated which causes bugs when creating new behaviors)
                     const newBehavior: IBehavior = {
                         ...JSON.parse(JSON.stringify(defaultBehavior)),
-                        id: createGUID(false)
+                        id: createGUID()
                     };
                     newBehavior.datasources[0] = {
                         type:

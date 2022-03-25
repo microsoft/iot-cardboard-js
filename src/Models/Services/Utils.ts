@@ -40,7 +40,7 @@ export const validate3DConfigWithSchema = (
     }
 };
 
-export const createGUID = (isWithDashes = true) => {
+export const createGUID = (isWithDashes = false) => {
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)

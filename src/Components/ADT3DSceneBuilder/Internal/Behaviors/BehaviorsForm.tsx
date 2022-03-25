@@ -66,7 +66,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(
         !selectedBehavior
-            ? { ...defaultBehavior, id: createGUID(false) }
+            ? { ...defaultBehavior, id: createGUID() }
             : selectedBehavior
     );
 

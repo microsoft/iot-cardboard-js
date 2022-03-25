@@ -111,7 +111,7 @@ function getListItems(
         const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: element.displayName,
             buttonProps: {
-                customStyles: buttonStyles,
+                customStyles: buttonStyles.elementButton,
                 ...(onItemHover && {
                     onMouseOver: () => onItemHover(element, panelItem)
                 }),
@@ -167,7 +167,7 @@ function getListItems(
                         panelItem.twins
                     ),
                     buttonProps: {
-                        customStyles: buttonStyles,
+                        customStyles: buttonStyles.alertButton,
                         ...(onItemHover && {
                             onMouseOver: () => onItemHover(element, panelItem)
                         }),
