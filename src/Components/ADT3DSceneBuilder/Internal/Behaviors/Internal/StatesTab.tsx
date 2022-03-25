@@ -59,7 +59,13 @@ const StatesTab: React.FC<IStatesTabProps> = ({
                     const stateVisual = getStatusFromBehavior(draft);
                     // Edit flow
                     if (stateVisual) {
-                        stateVisual.statusValueExpression = option;
+                        // selected the none option, clear the data
+                        if (!option) {
+                            const index = draft.visuals.indexOf(stateVisual);
+                            draft.visuals.splice(index, 1);
+                        } else {
+                            stateVisual.statusValueExpression = option;
+                        }
                     } else {
                         const statusVisual = deepCopy(defaultStatusColorVisual);
                         statusVisual.statusValueExpression = option;

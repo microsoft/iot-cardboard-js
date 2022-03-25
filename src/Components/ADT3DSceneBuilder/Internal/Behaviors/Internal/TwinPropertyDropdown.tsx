@@ -79,8 +79,8 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
 
     const onPropertyChange = useCallback(
         (_e, option: IDropdownOption) => {
-            setSelectedProperty(option.data);
-            onChange(option.data);
+            setSelectedProperty(option.key as string);
+            onChange(option.key as string);
         },
         [onChange, setSelectedProperty]
     );

@@ -7,7 +7,9 @@ import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
     findOverflowMenuItem,
-    IStoryContext
+    IStoryContext,
+    selectDropDownMenuItem,
+    sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -84,16 +86,14 @@ WidgetsFormEditGaugeValid.play = async ({ canvasElement }) => {
     );
     await userEvent.type(unitsInput, 'F');
 
-    // wait for the dropdown to populate
-    // can't get the item to be selected
-    // await sleep(1);
-    // await selectDropDownMenuItem(canvas, 'widget-form-property-dropdown', 2);
+    await sleep(1);
+    await selectDropDownMenuItem(canvas, 'widget-form-property-dropdown', 2);
 };
 
-// export const WidgetsFormCreateGaugeSave = Template.bind({});
-// WidgetsFormCreateGaugeSave.play = async ({ canvasElement }) => {
-//     await WidgetsFormEditGaugeValid.play({ canvasElement });
-//     const canvas = within(canvasElement);
-//     const saveButton = await canvas.findByTestId('widget-form-primary-button');
-//     await userEvent.click(saveButton);
-// };
+export const WidgetsFormCreateGaugeSave = Template.bind({});
+WidgetsFormCreateGaugeSave.play = async ({ canvasElement }) => {
+    await WidgetsFormEditGaugeValid.play({ canvasElement });
+    const canvas = within(canvasElement);
+    const saveButton = await canvas.findByTestId('widget-form-primary-button');
+    await userEvent.click(saveButton);
+};

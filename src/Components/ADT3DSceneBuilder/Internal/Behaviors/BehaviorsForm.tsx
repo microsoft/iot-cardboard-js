@@ -44,7 +44,8 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
+    IValueRange
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
@@ -199,28 +200,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [setSelectedBehaviorPivotKey, selectedBehaviorPivotKey]
     );
 
-    const getStatusRangeValues = useCallback(() => {
-        return valueRangeRef.current?.getValueRanges() || [];
+    const getStatusRangeValues = useCallback((): IValueRange[] | undefined => {
+        return valueRangeRef.current?.getValueRanges();
     }, [valueRangeRef]);
     const storeStatusRanges = useCallback(() => {
         const ranges = getStatusRangeValues();
-        setBehaviorToEdit(
-            produce((draft) => {
-                // Assuming only 1 status visual per behavior
-                const stateVisual = getStatusFromBehavior(draft);
-                // Edit flow
-                if (stateVisual) {
-                    stateVisual.valueRanges = ranges;
-                }
-            })
-        );
+        if (ranges) {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    // Assuming only 1 status visual per behavior
+                    const stateVisual = getStatusFromBehavior(draft);
+                    // Edit flow
+                    if (stateVisual) {
+                        stateVisual.valueRanges = ranges;
+                    }
+                })
+            );
+        }
     }, [getStatusRangeValues, setBehaviorToEdit]);
 
     const onSaveClick = useCallback(() => {
         // store the latest ranges from the status
         const rangeValues = getStatusRangeValues();
         const statusVisual = getStatusFromBehavior(behaviorToEdit);
-        if (statusVisual) {
+        if (statusVisual && rangeValues) {
             statusVisual.valueRanges = rangeValues;
         }
 
