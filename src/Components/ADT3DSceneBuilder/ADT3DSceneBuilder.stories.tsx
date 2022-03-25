@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof ADT3DSceneBuilder> = (
             theme={theme}
             locale={locale}
             adapter={new MockAdapter()}
-            sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
+            sceneId="f7053e7537048e03be4d1e6f8f93aa8a"
             {..._args}
         />
     </div>

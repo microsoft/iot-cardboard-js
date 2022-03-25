@@ -139,7 +139,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                         data-testid={'range-builder-add'}
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
-                            const id = createGUID(false);
+                            const id = createGUID();
 
                             dispatch({
                                 type:

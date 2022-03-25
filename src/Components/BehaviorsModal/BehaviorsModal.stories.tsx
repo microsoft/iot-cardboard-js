@@ -19,7 +19,7 @@ type BehaviorsModalStory = ComponentStory<typeof BehaviorsModal>;
 
 const Template: BehaviorsModalStory = (args) => {
     const scenesConfig = mockData as I3DScenesConfig;
-    const sceneId = '58e02362287440d9a5bf3f8d6d6bfcf9';
+    const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
     const pollingInterval = 5000;
 

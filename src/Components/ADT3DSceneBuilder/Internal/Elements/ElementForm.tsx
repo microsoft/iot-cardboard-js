@@ -94,10 +94,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         const newElements = existingElements ? [...existingElements] : [];
 
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
-            let newId = createGUID(false);
+            let newId = createGUID();
             const existingIds = existingElements?.map((e) => e.id);
             while (existingIds?.includes(newId)) {
-                newId = createGUID(false);
+                newId = createGUID();
             }
             const newElement = { ...elementToEdit, id: newId };
             newElements.push(newElement);
