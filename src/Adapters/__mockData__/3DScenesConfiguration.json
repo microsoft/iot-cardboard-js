@@ -46,7 +46,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
+                        "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced_AO.glb",
                         "extensionProperties": {}
                     }
                 ]
@@ -163,13 +163,13 @@
                         "valueRanges": [
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                "color": "#FF0000",
+                                "color": "#FF0000FF",
                                 "min": 21,
                                 "max": "Infinity"
                             },
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf163",
-                                "color": "#0000FF",
+                                "color": "#0000FFFF",
                                 "min": "-Infinity",
                                 "max": 20
                             }
@@ -198,13 +198,13 @@
                         "valueRanges": [
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
-                                "color": "#0000FF",
+                                "color": "#0000FFFF",
                                 "min": 100,
                                 "max": "Infinity"
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
-                                "color": "#00FF00",
+                                "color": "#00FF00FF",
                                 "min": "-Infinity",
                                 "max": 100
                             }
@@ -219,7 +219,7 @@
                         "triggerExpression": "temperatureTag.Temperature > 25",
                         "labelExpression": "${LinkedTwin.$dtId} is too hot!",
                         "iconName": "heart",
-                        "color": "#00FF00",
+                        "color": "#00FF00FF",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
