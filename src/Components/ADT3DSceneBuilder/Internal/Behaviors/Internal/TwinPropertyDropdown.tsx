@@ -17,6 +17,7 @@ interface ITwinPropertyDropdownProps {
     dataTestId?: string;
     defaultSelectedKey?: string;
     label?: string;
+    required?: boolean;
     onChange: (value: string) => void;
 }
 /**
@@ -30,24 +31,30 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     dataTestId,
     defaultSelectedKey,
     label,
+    required,
     onChange
 }) => {
     const { t } = useTranslation();
 
+    // get the property list
+    const { options, isLoading } = useBehaviorTwinPropertyNames({
+        behavior: behavior
+    });
+
     const [selectedProperty, setSelectedProperty] = useState(
         defaultSelectedKey
     );
-
-    // get the property list
-    const { options, isLoading } = useBehaviorTwinPropertyNames({
-        behavior: behavior,
-        emptyItemLocKey: LOC_KEYS.noSelectionValue
-    });
     // convert to dropdown items
-    const propertyOptions = useMemo(
-        () => buildDropdownOptionsFromStrings(options),
-        [options]
-    );
+    const propertyOptions = useMemo(() => {
+        const dropdownOptions = buildDropdownOptionsFromStrings(options);
+        // add an empty entry to the start of the list
+        dropdownOptions.unshift({
+            key: '',
+            data: '',
+            text: t(LOC_KEYS.noSelectionValue)
+        });
+        return dropdownOptions;
+    }, [options]);
 
     const onPropertyChange = useCallback(
         (_e, option: IDropdownOption) => {
@@ -68,6 +75,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
             label={label || t(LOC_KEYS.propertyDropdownLabel)}
             onChange={onPropertyChange}
             options={propertyOptions}
+            required={required}
         />
     );
 };

@@ -71,8 +71,6 @@ const StatesTab: React.FC<IStatesTabProps> = ({
         [setBehaviorToEdit]
     );
 
-    // console.log('**Rendering state tab. Visual: ', statusVisualToEdit);
-
     const theme = useTheme();
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (

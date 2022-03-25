@@ -54,6 +54,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 data-testid={'widget-form-gauge-label-input'}
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
+                required
                 onChange={(_ev, newVal) =>
                     setFormData(
                         produce((draft) => {
@@ -79,6 +80,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 defaultSelectedKey={formData.valueExpression}
                 dataTestId={'widget-form-property-dropdown'}
                 onChange={onPropertyChange}
+                required
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}
