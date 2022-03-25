@@ -12,7 +12,7 @@ export default {
     }
 };
 
-const cardStyle = {
+const cardStyle: React.CSSProperties = {
     height: '600px',
     width: '100%'
 };

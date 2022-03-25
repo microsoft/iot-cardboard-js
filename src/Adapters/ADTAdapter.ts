@@ -979,14 +979,7 @@ export default class ADTAdapter implements IADTAdapter {
             config,
             behavior
         );
-        const propertyNames = data
-            .map((x) => {
-                // comes back as LinkedTwin.Alias.PropertyName
-                const sliced = x.split('.');
-                return sliced[sliced.length - 1];
-            })
-            .sort();
-        return propertyNames;
+        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
     }
 
     async getTwinPropertiesForBehaviorWithFullName(
@@ -995,18 +988,7 @@ export default class ADTAdapter implements IADTAdapter {
         behavior: IBehavior
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
-        const properties = new Set<string>();
-        for (const alias in twins) {
-            const twin = twins[alias];
-            const split = alias.split('.');
-            const name = split.length ? split[0] : alias;
-            for (const prop in twin) {
-                if (prop.substring(0, 1) !== '$' || prop === '$dtId') {
-                    properties.add(`${name}.${prop}`);
-                }
-            }
-        }
-        return Array.from(properties.values()).sort();
+        return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
 
     async getADTInstances(tenantId?: string, uniqueObjectId?: string) {
