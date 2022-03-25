@@ -253,7 +253,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             const canvas = document.getElementById(
                 canvasId
             ) as HTMLCanvasElement; // Get the canvas element
-            const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
@@ -276,12 +276,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 blurVerticalSize: 0.5
             });
 
-            new BABYLON.HemisphericLight(
+            const light = new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
                 sc
             );
-
+            light.groundColor = new BABYLON.Color3(0.8, 0.8, 0.8);
             if (modelUrl) {
                 let url = modelUrl;
                 if (url === 'Globe') {
@@ -505,6 +505,24 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
             const currentObjectColorId = currentColorId();
+
+            //Update the highlight layer to use the correct alpha blend mode based on lightingStyle
+            const highlightBlurSize =
+                currentObjectColor.lightingStyle == 0 ? 0.5 : 1.0;
+            const highlightBlendMode =
+                currentObjectColor.lightingStyle == 0
+                    ? BABYLON.Engine.ALPHA_COMBINE
+                    : BABYLON.Engine.ALPHA_ADD;
+            highlightLayer.current?.dispose();
+            highlightLayer.current = new BABYLON.HighlightLayer(
+                'hl1',
+                sceneRef.current,
+                {
+                    blurHorizontalSize: highlightBlurSize,
+                    blurVerticalSize: highlightBlurSize,
+                    alphaBlendingMode: highlightBlendMode
+                }
+            );
 
             //Reset the reflection Texture
             reflectionTexture.current = null;

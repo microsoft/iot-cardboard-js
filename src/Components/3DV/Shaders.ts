@@ -190,6 +190,7 @@ export function makeStandardMaterial(
         material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
         material.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
         material.emissiveFresnelParameters.rightColor = baseColor3;
+        material.useEmissiveAsIllumination = true;
     }
 
     //diffuse fresnel
