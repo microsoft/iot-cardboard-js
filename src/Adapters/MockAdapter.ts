@@ -44,7 +44,7 @@ import {
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
 
-export const mockTwins = [
+const mockTwins = [
     {
         $dtId: 'PasteurizationMachine_A01',
         $etag: 'PasteurizationMachineTag',
@@ -81,8 +81,8 @@ export const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 600,
-        OutFlow: 750
+        InFlow: 1200,
+        OutFlow: 100
     },
     {
         $dtId: 'SaltMachine_C2',

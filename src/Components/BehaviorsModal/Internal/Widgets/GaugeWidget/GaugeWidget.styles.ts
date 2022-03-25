@@ -18,7 +18,7 @@ const classNames = {
     gaugeLegendDomainLabelMax: `${behaviorsModalClassPrefix}-gauge-legend-domain-label-max`
 };
 
-export const getStyles = memoizeFunction(() =>
+export const getStyles = memoizeFunction((_activeColor: string) =>
     mergeStyleSets({
         gaugeInfoContainer: [
             classNames.gaugeInfoContainer,
@@ -42,7 +42,11 @@ export const getStyles = memoizeFunction(() =>
         gaugeInfoValue: [
             classNames.gaugeInfoValue,
             textOverflow,
-            { fontSize: '24px', flex: '3 1 1' } as IStyle
+            {
+                fontSize: '24px',
+                flex: '3 1 1',
+                position: 'relative'
+            } as IStyle
         ],
         gaugeInfoUnits: [
             classNames.gaugeInfoUnits,
@@ -62,41 +66,7 @@ export const getStyles = memoizeFunction(() =>
                 justifyContent: 'flex-start',
                 width: '100%',
                 height: 26,
-                marginBottom: 8
-            } as IStyle
-        ],
-        gaugeLegendContainer: [
-            classNames.gaugeLegendContainer,
-            {
-                position: 'absolute',
-                bottom: 6,
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: 'calc(100% - 16px)'
-            } as IStyle
-        ],
-        gaugeLegendDomainLabelMin: [
-            classNames.gaugeLegendDomainLabelMin,
-            textOverflow,
-            {
-                flex: '1 1 0',
-                fontSize: 12,
-                paddingRight: 2,
-                fontWeight: FontWeights.light,
-                display: 'flex',
-                justifyContent: 'flex-start'
-            } as IStyle
-        ],
-        gaugeLegendDomainLabelMax: [
-            classNames.gaugeLegendDomainLabelMin,
-            textOverflow,
-            {
-                flex: '1 1 0',
-                fontSize: 12,
-                paddingLeft: 2,
-                fontWeight: FontWeights.light,
-                display: 'flex',
-                justifyContent: 'flex-end'
+                marginBottom: 16
             } as IStyle
         ]
     })

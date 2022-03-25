@@ -37,7 +37,7 @@ export const getStyles = memoizeFunction(() => {
             {
                 display: 'flex',
                 flexDirection: 'row',
-                marginBottom: '8px'
+                marginBottom: 8
             } as IStyle
         ],
         infoIconContainer: [

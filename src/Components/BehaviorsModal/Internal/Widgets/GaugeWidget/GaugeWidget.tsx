@@ -28,15 +28,19 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
 
     const { valueRanges } = widget.widgetConfiguration;
 
+    // Get active color from value range -- if value not in defined range
+    const activeColor = ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+        widget.widgetConfiguration.valueRanges,
+        value
+    );
+
     const {
-        domainMin,
-        domainMax,
         percent,
         colors,
         nrOfLevels
     } = ViewerConfigUtility.getGaugeWidgetConfiguration(valueRanges, value);
 
-    const styles = getStyles();
+    const styles = getStyles(activeColor);
 
     return (
         <div className={styles.gaugeInfoContainer}>
@@ -60,20 +64,6 @@ const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
                 needleColor={'var(--cb-color-text-primary)'}
                 hideText={true}
             />
-            <div className={styles.gaugeLegendContainer}>
-                <div
-                    className={styles.gaugeLegendDomainLabelMin}
-                    title={String(domainMin)}
-                >
-                    {domainMin}
-                </div>
-                <div
-                    className={styles.gaugeLegendDomainLabelMax}
-                    title={String(domainMax)}
-                >
-                    {domainMax}
-                </div>
-            </div>
         </div>
     );
 };

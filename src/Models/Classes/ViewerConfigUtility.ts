@@ -411,6 +411,21 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
+    static getMatchingRangeFromValue(
+        ranges: IValueRange[],
+        value: number
+    ): IValueRange | null {
+        let targetRange: IValueRange = null;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    targetRange = range;
+                }
+            }
+        }
+
+        return targetRange;
+    }
     static getGaugeWidgetConfiguration(
         ranges: IValueRange[],
         value: number
@@ -452,21 +467,22 @@ abstract class ViewerConfigUtility {
             domainMin = defaultMaxGaugeDomain;
         }
 
-        let percent = (value - domainMin) / (domainMax - domainMin);
-        if (percent > 1) percent = 1;
-        if (percent < 0) percent = 0;
-
-        const isOutOfValueRange =
-            ViewerConfigUtility.getColorOrNullFromStatusValueRange(
-                ranges,
-                value
-            ) === null;
+        const targetRange = ViewerConfigUtility.getMatchingRangeFromValue(
+            ranges,
+            value
+        );
+        const isOutOfValueRange = targetRange === null;
 
         const sortedRanges = ranges.sort(
             (a, b) => Number(a.min) - Number(b.min)
         );
         let outOfRangeColorInsertionIndex = sortedRanges.length;
-        const colors = sortedRanges.map((vr) => vr.color);
+
+        const gaugeRanges = sortedRanges.map((vr) => ({
+            color: vr.color,
+            id: vr.id
+        }));
+
         if (isOutOfValueRange) {
             for (let i = 0; i < sortedRanges.length; i++) {
                 if (value < Number(sortedRanges[i].min)) {
@@ -474,14 +490,47 @@ abstract class ViewerConfigUtility {
                     break;
                 }
             }
-            colors.splice(
-                outOfRangeColorInsertionIndex,
-                0,
-                'var(--cb-color-bg-canvas-inset)'
-            );
+            gaugeRanges.splice(outOfRangeColorInsertionIndex, 0, {
+                color: 'var(--cb-color-bg-canvas-inset)',
+                id: 'OUT_OF_RANGE_ID'
+            });
             nrOfLevels++;
         }
-        return { domainMin, domainMax, percent, colors, nrOfLevels };
+
+        let percent = (value - domainMin) / (domainMax - domainMin);
+
+        if (percent > 1) {
+            percent = 1;
+        } else if (percent < 0) {
+            percent = 0;
+        } else {
+            const targetId = isOutOfValueRange
+                ? 'OUT_OF_RANGE_ID'
+                : targetRange.id;
+
+            // Find index into gauge colors to target
+            const rangeIdx =
+                gaugeRanges.findIndex((gr) => gr.id === targetId) || 0;
+
+            // Snap percent to center of color range
+            const rangeAnchors = [];
+            const increment = 1 / nrOfLevels;
+            let currentAnchor = increment / 2;
+            while (currentAnchor < 1) {
+                rangeAnchors.push(currentAnchor);
+                currentAnchor += increment;
+            }
+
+            percent = rangeAnchors[rangeIdx];
+        }
+
+        return {
+            domainMin,
+            domainMax,
+            percent,
+            colors: gaugeRanges.map((gr) => gr.color),
+            nrOfLevels
+        };
     }
 
     static getMappingIdsForBehavior(behavior: IBehavior) {
