@@ -120,6 +120,7 @@ export default class MockAdapter
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
+    private scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
