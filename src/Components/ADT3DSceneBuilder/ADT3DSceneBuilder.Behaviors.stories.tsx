@@ -3,7 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
@@ -93,7 +92,9 @@ const mockBehavior: IBehavior = {
     ],
     visuals: []
 };
-const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+const longData = JSON.parse(
+    JSON.stringify(trucksMockVConfig)
+) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],
@@ -150,7 +151,7 @@ Scrolling.parameters = {
     data: longData
 };
 
-const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
+const longDataWithRemoved = JSON.parse(JSON.stringify(trucksMockVConfig));
 longDataWithRemoved.configuration.behaviors = [
     ...longDataWithRemoved.configuration.behaviors,
     {
