@@ -194,7 +194,7 @@ export function makeStandardMaterial(
     }
 
     //diffuse fresnel
-    if (fresnelColor) {
+    if (fresnelColor && lightingStyle == 0) {
         material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
         material.diffuseFresnelParameters.leftColor = fresnelColor3;
         material.diffuseFresnelParameters.rightColor = calculateAverageFresnel3(
@@ -213,12 +213,12 @@ export function makeStandardMaterial(
     //Reflection map
     if (reflectionTexture) {
         material.reflectionTexture = reflectionTexture;
+        material.useReflectionOverAlpha = true;
+
         material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
         material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
         material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
 
-        //material.specularTexture = reflectionTexture;
-        material.useReflectionFresnelFromSpecular = true;
         material.roughness = 1;
         material.specularPower = 10;
     }
@@ -258,6 +258,6 @@ export function selectAlphaMode(alpha: number) {
     return 0;
 }
 
-function ToColor3(input: BABYLON.Color4) {
+export function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
 }

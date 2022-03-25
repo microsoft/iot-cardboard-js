@@ -95,9 +95,9 @@ export const DefaultViewerModeObjectColor: IADTObjectColor = {
     coloredMeshColor: '#00A8F0FF',
     meshHoverColor: '#F3FF14FF',
     coloredMeshHoverColor: '#00EDD9FF',
-    outlinedMeshHoverColor: '#00A8F0',
-    outlinedMeshSelectedColor: '#f06900',
-    outlinedMeshHoverSelectedColor: '#ffb780'
+    outlinedMeshHoverColor: '#00A8F0FF',
+    outlinedMeshSelectedColor: '#f06900FF',
+    outlinedMeshHoverSelectedColor: '#ffb780FF'
 };
 export const ViewerModeObjectColors: IADTObjectColor[] = [
     //Light style
@@ -121,13 +121,12 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
         baseColor: '#368DFF1A',
         fresnelColor: '#1342734D',
         lightingStyle: 1,
-        coloredMeshColor: '#134273FC',
+        coloredMeshColor: '#1342731A',
         meshHoverColor: '#1342734D',
-        coloredMeshHoverColor: '#0059e4FC',
-        outlinedMeshHoverColor: '#333333',
-        outlinedMeshSelectedColor: '#FF0000',
-        outlinedMeshHoverSelectedColor: '#00FF00',
-        reflectionTexture: null
+        coloredMeshHoverColor: '#0059e4FD',
+        outlinedMeshHoverColor: '#FF0000FD',
+        outlinedMeshSelectedColor: '#0000FD',
+        outlinedMeshHoverSelectedColor: '#00FF00FDa'
     },
     //Gold
     {
