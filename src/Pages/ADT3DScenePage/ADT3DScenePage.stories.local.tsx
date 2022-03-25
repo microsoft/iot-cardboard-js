@@ -13,7 +13,7 @@ const cardStyle = {
     height: '100%',
     width: '100%',
     position: 'absolute'
-} as any;
+} as React.CSSProperties;
 
 export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();

@@ -30,6 +30,7 @@ import { CustomMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import PanelFooter from '../Shared/PanelFooter';
 import { IADTObjectColor } from '../../../../Models/Constants';
+import { deepCopy } from '../../../../Models/Services/Utils';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -127,9 +128,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     // sort the list items
     useEffect(() => {
         if (elements) {
-            const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
-                JSON.stringify(elements)
-            );
+            const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
             const sortedElements = elementsCopy.sort((a, b) =>
                 a.displayName > b.displayName ? 1 : -1
             );

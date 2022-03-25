@@ -136,6 +136,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                     )}
                 {!(maxRanges && state.valueRanges.length >= maxRanges) && (
                     <ActionButton
+                        data-testid={'range-builder-add'}
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
                             const id = createGUID();

@@ -19,6 +19,7 @@ import {
 } from '../Models/Constants/Interfaces';
 import {
     AdapterMethodParamsForSearchADTTwins,
+    IADTTwin,
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
@@ -43,6 +44,7 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 
 const mockTwins = [
     {
@@ -126,6 +128,9 @@ export default class MockAdapter
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
     private seededRng = seedRandom('cardboard seed');
+    private mockTwinPropertiesMap: {
+        [id: string]: Record<string, unknown>;
+    } = {};
 
     constructor(mockAdapterArgs?: IMockAdapter) {
         this.mockData = mockAdapterArgs?.mockData;
@@ -140,6 +145,7 @@ export default class MockAdapter
             typeof mockAdapterArgs?.isDataStatic === 'boolean'
                 ? mockAdapterArgs.isDataStatic
                 : true;
+        this.initializeMockTwinProperties();
     }
 
     async mockNetwork() {
@@ -284,20 +290,30 @@ export default class MockAdapter
 
     async getADTTwin(twinId: string) {
         try {
-            const getTwinData = () => {
-                return new ADTTwinData({
-                    $dtId: twinId,
-                    $etag: `${twinId}Tag`,
+            const getTwinData = (id: string) => {
+                const twinData: IADTTwin = {
+                    $dtId: id,
+                    $etag: `${id}Tag`,
                     $metadata: {
-                        $model: `${twinId}Model`
+                        $model: `${id}Model`
                     }
-                });
+                };
+                // add on the mock properties
+                const additionalProperties = this.mockTwinPropertiesMap[id] || {
+                    InFlow: 50,
+                    OutFlow: 30
+                };
+                for (const property of Object.keys(additionalProperties)) {
+                    twinData[property] = additionalProperties[property];
+                }
+                const data = new ADTTwinData(twinData);
+                return data;
             };
 
             await this.mockNetwork();
 
             return new AdapterResult<ADTTwinData>({
-                result: getTwinData(),
+                result: getTwinData(twinId),
                 errorInfo: null
             });
         } catch (err) {
@@ -551,19 +567,75 @@ export default class MockAdapter
     }
 
     async getTwinsForBehavior(
-        _sceneId: string,
-        _config: I3DScenesConfig,
-        _behavior: IBehavior
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
     ): Promise<Record<string, any>> {
-        return null;
+        // get scene based on id
+        const scene = config.configuration?.scenes?.find(
+            (scene) => scene.id === sceneId
+        );
+        // get the element ids
+        const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
+            behavior
+        );
+
+        // TODO get FilteredTwinDatasources
+
+        // cycle through mapping ids to get twins for behavior and scene
+        const twins = {};
+        for (const id of mappingIds) {
+            const element = scene.elements.find(
+                (element) =>
+                    element.type === ElementType.TwinToObjectMapping &&
+                    element.id === id
+            ) as ITwinToObjectMapping;
+
+            // get primary twin
+            try {
+                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
+                twins[`${linkedTwinName}.` + element.linkedTwinID] =
+                    linkedTwin.result?.data;
+            } catch (err) {
+                console.error(err);
+            }
+
+            // check for twin aliases and add to twins object
+            // NOT IN SCOPE YET
+            // if (mapping.twinAliases) {
+            //     for (const alias of Object.keys(mapping.twinAliases)) {
+            //         const twin = await this.getADTTwin(
+            //             mapping.twinAliases[alias]
+            //         );
+            //         pushErrors(twin.getErrors());
+            //         twins[alias] = twin.result?.data;
+            //         console.log(alias);
+            //     }
+            // }
+        }
+        return twins;
     }
 
     async getCommonTwinPropertiesForBehavior(
-        _sceneId: string,
-        _config: I3DScenesConfig,
-        _behavior: IBehavior
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
     ): Promise<string[]> {
-        return ['$dtId', 'InFlow', 'OutFlow'];
+        const data = await this.getTwinPropertiesForBehaviorWithFullName(
+            sceneId,
+            config,
+            behavior
+        );
+        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+    }
+
+    async getTwinPropertiesForBehaviorWithFullName(
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]> {
+        const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
 
     async getContainerBlobs() {
@@ -600,5 +672,15 @@ export default class MockAdapter
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
         }
+    }
+
+    private initializeMockTwinProperties() {
+        this.mockTwinPropertiesMap['SaltMachine_C1'] = {
+            InFlow: 50,
+            OutFlow: 30
+        };
+        this.mockTwinPropertiesMap['BoxA'] = {
+            Volume: 237
+        };
     }
 }
