@@ -378,7 +378,7 @@ abstract class ViewerConfigUtility {
      * @param properties List of properties with the LinkedTwin type prefix
      * @returns list of raw property names
      */
-    static getPropertyNameFromAliasedProperty(properties: string[]){
+    static getPropertyNameFromAliasedProperty(properties: string[]) {
         return properties
             .map((x) => {
                 // comes back as LinkedTwin.Alias.PropertyName

@@ -387,7 +387,8 @@
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
             "noElementsSelected": "No elements selected",
-            "noSelectionValue": "None"
+            "noSelectionValue": "None",
+            "propertyNotFound": "Property not found on the behavior's twins"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",

@@ -246,7 +246,6 @@ export function buildDropdownOptionsFromStrings(
 ): IDropdownOption[] {
     const entries = properties.map((x) => ({
         key: x,
-        data: x,
         text: x
     }));
     return entries;

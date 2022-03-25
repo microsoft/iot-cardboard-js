@@ -182,16 +182,21 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [behaviorToEdit, updateSelectedElements, onTabValidityChange]
     );
     const onPivotItemClick = useCallback(
-        (item) => {
+        (item: PivotItem) => {
+            const selectedPivot = item.props.itemKey as BehaviorPivot;
+            if (selectedPivot == selectedBehaviorPivotKey) {
+                // don't rerender if the pivot key is the same
+                return;
+            }
             setSelectedBehaviorPivotKey((prevValue) => {
                 // if the current pivot is states, then store the data before we move
                 if (prevValue === BehaviorPivot.states) {
                     storeStatusRanges();
                 }
-                return item.props.itemKey as BehaviorPivot;
+                return selectedPivot;
             });
         },
-        [setSelectedBehaviorPivotKey]
+        [setSelectedBehaviorPivotKey, selectedBehaviorPivotKey]
     );
 
     const getStatusRangeValues = useCallback(() => {
