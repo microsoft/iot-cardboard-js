@@ -107,7 +107,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             ] = elementToEdit;
         }
 
-        updateTwinToObjectMappings.callAdapter({
+        await updateTwinToObjectMappings.callAdapter({
             elements: newElements
         });
 
