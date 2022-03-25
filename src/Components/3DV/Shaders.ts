@@ -221,9 +221,7 @@ export function makeStandardMaterial(
         material.roughness = 1;
         material.specularPower = 10;
     }
-
-function ToColor4(hexInput: string) {
-    return BABYLON.Color4.FromHexString(hexInput);
+    return material;
 }
 
 function calculateAverageFresnel4(
@@ -261,8 +259,4 @@ export function selectAlphaMode(alpha: number) {
 
 function ToColor3(input: BABYLON.Color4) {
     return new BABYLON.Color3(input.r, input.g, input.b);
-}
-
-function ToColor4(hexInput: string) {
-    return BABYLON.Color4.FromHexString(hexInput);
 }
