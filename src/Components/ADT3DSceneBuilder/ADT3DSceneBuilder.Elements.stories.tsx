@@ -3,7 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
@@ -17,6 +16,7 @@ import {
     IElement
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
@@ -45,7 +45,7 @@ const Template: SceneBuilderStory = (
                 new MockAdapter({
                     mockData: context.parameters.data
                         ? JSON.parse(JSON.stringify(context.parameters.data))
-                        : undefined
+                        : trucksMockVConfig
                 })
             }
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
@@ -83,7 +83,9 @@ const mockElement: IElement = {
     objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
     extensionProperties: {}
 };
-const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+const longData = JSON.parse(
+    JSON.stringify(trucksMockVConfig)
+) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],

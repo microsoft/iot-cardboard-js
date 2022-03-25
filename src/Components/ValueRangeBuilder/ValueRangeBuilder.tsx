@@ -138,7 +138,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                     <ActionButton
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
-                            const id = createGUID(false);
+                            const id = createGUID();
 
                             dispatch({
                                 type:

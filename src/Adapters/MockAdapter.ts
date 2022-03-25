@@ -52,7 +52,7 @@ const mockTwins = [
             $model: 'PasteurizationMachine'
         },
         InFlow: 100,
-        OutFlow: 150,
+        OutFlow: 250,
         Temperature: 50
     },
     {
@@ -62,8 +62,9 @@ const mockTwins = [
             $model: 'PasteurizationMachine'
         },
         InFlow: 200,
-        OutFlow: 250,
-        Temperature: 150
+        OutFlow: 50,
+        Temperature: 150,
+        PercentFull: 0
     },
     {
         $dtId: 'PasteurizationMachine_A03',
@@ -72,8 +73,19 @@ const mockTwins = [
             $model: 'PasteurizationMachine'
         },
         InFlow: 300,
-        OutFlow: 350,
-        Temperature: 250
+        OutFlow: 150,
+        Temperature: 250,
+        PercentFull: 0.4
+    },
+    {
+        $dtId: 'SaltMachine_C0',
+        $etag: 'SaltMachineTag',
+        $metadata: {
+            $model: 'SaltMachine'
+        },
+        InFlow: 200,
+        OutFlow: 100,
+        Temperature: 0
     },
     {
         $dtId: 'SaltMachine_C1',
@@ -81,8 +93,9 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 1200,
-        OutFlow: 100
+        InFlow: 80,
+        OutFlow: 100,
+        Temperature: 20
     },
     {
         $dtId: 'SaltMachine_C2',
@@ -90,8 +103,9 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 200,
-        OutFlow: 250
+        InFlow: 20,
+        OutFlow: 250,
+        Temperature: 16
     }
 ];
 

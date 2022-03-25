@@ -3,7 +3,6 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findDialogMenuItem,
@@ -12,6 +11,7 @@ import {
     sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import {
     I3DScenesConfig,
     IBehavior
@@ -47,7 +47,7 @@ const Template: SceneBuilderStory = (
                             ? JSON.parse(
                                   JSON.stringify(context.parameters.data)
                               )
-                            : undefined
+                            : trucksMockVConfig
                     })
                 }
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
@@ -92,7 +92,9 @@ const mockBehavior: IBehavior = {
     ],
     visuals: []
 };
-const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+const longData = JSON.parse(
+    JSON.stringify(trucksMockVConfig)
+) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],
@@ -149,7 +151,7 @@ Scrolling.parameters = {
     data: longData
 };
 
-const longDataWithRemoved = JSON.parse(JSON.stringify(mockVConfig));
+const longDataWithRemoved = JSON.parse(JSON.stringify(trucksMockVConfig));
 longDataWithRemoved.configuration.behaviors = [
     ...longDataWithRemoved.configuration.behaviors,
     {
