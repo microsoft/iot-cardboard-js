@@ -147,7 +147,7 @@ Scrolling.parameters = {
     data: longData
 };
 
-const longDataWithRemoved = JSON.parse(JSON.stringify(trucksMockVConfig));
+const longDataWithRemoved = deepCopy(trucksMockVConfig) as I3DScenesConfig;
 longDataWithRemoved.configuration.behaviors = [
     ...longDataWithRemoved.configuration.behaviors,
     {
