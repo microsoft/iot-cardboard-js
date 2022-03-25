@@ -243,8 +243,20 @@
                             {
                                 "color": "#33A1FD",
                                 "min": 0,
-                                "max": "Infinity",
-                                "id": "7f5c0c87-3439-ea6a-6f90-577987afa22c"
+                                "max": 20,
+                                "id": "b511182d-81c0-ea7a-3894-be960a850e9c"
+                            },
+                            {
+                                "color": "#26C485",
+                                "min": 20,
+                                "max": 100,
+                                "id": "bc3cae743ff451d5fdc0f185e629dca8"
+                            },
+                            {
+                                "color": "#d6940f",
+                                "min": 100,
+                                "max": 500,
+                                "id": "7224b620aa83c649888dadc7c8fdf1fb"
                             }
                         ],
                         "objectIDs": {

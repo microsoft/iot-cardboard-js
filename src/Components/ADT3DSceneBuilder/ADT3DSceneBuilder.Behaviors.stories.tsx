@@ -12,6 +12,7 @@ import {
     sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import {
     I3DScenesConfig,
     IBehavior
@@ -47,7 +48,7 @@ const Template: SceneBuilderStory = (
                             ? JSON.parse(
                                   JSON.stringify(context.parameters.data)
                               )
-                            : undefined
+                            : trucksMockVConfig
                     })
                 }
                 sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"

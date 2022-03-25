@@ -83,7 +83,7 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 1200,
+        InFlow: 200,
         OutFlow: 100,
         Temperature: 0
     },
@@ -93,7 +93,7 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 1200,
+        InFlow: 80,
         OutFlow: 100,
         Temperature: 20
     },
@@ -103,7 +103,7 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 200,
+        InFlow: 20,
         OutFlow: 250,
         Temperature: 16
     }
@@ -120,7 +120,6 @@ export default class MockAdapter
     private mockError = null;
     private networkTimeoutMillis;
     private isDataStatic;
-    private scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =

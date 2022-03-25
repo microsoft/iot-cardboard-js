@@ -39,7 +39,7 @@ const modalStyles: Partial<IModalStyles> = {
     main: {
         background: 'transparent',
         left: 20,
-        width: '400px !important',
+        width: '340px !important',
         minHeight: '400px !important',
         display: 'flex',
         top: 20
