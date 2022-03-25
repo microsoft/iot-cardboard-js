@@ -13,10 +13,11 @@ export default {
     }
 };
 
-const cardStyle: React.CSSProperties = {
-    height: '600px',
-    width: '100%'
-};
+const cardStyle = {
+    height: '100%',
+    width: '100%',
+    position: 'absolute'
+} as React.CSSProperties;
 
 export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
     return (
