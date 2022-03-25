@@ -14,6 +14,7 @@ import {
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import { deepCopy } from '../../../../Models/Services/Utils';
 
 import {
     I3DScenesConfig,
@@ -82,12 +83,10 @@ const SceneBehaviors: React.FC<Props> = ({
 
     // add everything to the list on the first pass
     useEffect(() => {
-        setFilteredItemsInScene(JSON.parse(JSON.stringify(behaviorsInScene)));
+        setFilteredItemsInScene(deepCopy(behaviorsInScene));
     }, [behaviorsInScene]);
     useEffect(() => {
-        setFilteredItemsNotInScene(
-            JSON.parse(JSON.stringify(behaviorsNotInScene))
-        );
+        setFilteredItemsNotInScene(deepCopy(behaviorsNotInScene));
     }, [behaviorsNotInScene]);
 
     // Expand behavior library if no behaviors in active scene

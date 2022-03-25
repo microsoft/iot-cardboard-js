@@ -17,6 +17,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
+import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
@@ -44,7 +45,7 @@ const Template: SceneBuilderStory = (
             adapter={
                 new MockAdapter({
                     mockData: context.parameters.data
-                        ? JSON.parse(JSON.stringify(context.parameters.data))
+                        ? deepCopy(context.parameters.data)
                         : trucksMockVConfig
                 })
             }
