@@ -59,7 +59,10 @@
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["5ba433d52b8445979fabc818fd40ae3d"],
+                        "elementIDs": [
+                            "5ba433d52b8445979fabc818fd40ae3d",
+                            "4cb0990d646a4bbea3e1102676e200fe"
+                        ],
                         "extensionProperties": {}
                     }
                 ],
@@ -79,9 +82,21 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
-                                            "min": 0,
-                                            "max": 500,
-                                            "color": "#FF0000"
+                                            "min": "-Infinity",
+                                            "max": 200,
+                                            "color": "#C32F27"
+                                        },
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf161",
+                                            "min": 500,
+                                            "max": 800,
+                                            "color": "#FEE440"
+                                        },
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf162",
+                                            "min": 800,
+                                            "max": 1000,
+                                            "color": "#26C485"
                                         }
                                     ]
                                 },
@@ -97,10 +112,16 @@
                                     "label": "Right",
                                     "valueRanges": [
                                         {
-                                            "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "min": 0,
-                                            "max": 500,
-                                            "color": "#FF0000"
+                                            "id": "0278cd377adbc30253b0fdb6b5fcf149",
+                                            "min": 700,
+                                            "max": 900,
+                                            "color": "#26C485"
+                                        },
+                                        {
+                                            "id": "0278cd377adbc30253b0fdb6b5fc3sak",
+                                            "min": 2000,
+                                            "max": 3000,
+                                            "color": "#26C485"
                                         }
                                     ]
                                 }

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
-    parseExpression
+    parseExpression,
+    performSubstitutions
 } from '../../../Models/Services/Utils';
 import {
     IAlertVisual,
@@ -15,7 +16,6 @@ import {
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
-import { performSubstitutions } from '../../Widgets/Widget.Utils';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,

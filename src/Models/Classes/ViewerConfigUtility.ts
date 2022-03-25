@@ -411,6 +411,128 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
+    static getMatchingRangeFromValue(
+        ranges: IValueRange[],
+        value: number
+    ): IValueRange | null {
+        let targetRange: IValueRange = null;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    targetRange = range;
+                }
+            }
+        }
+
+        return targetRange;
+    }
+    static getGaugeWidgetConfiguration(
+        ranges: IValueRange[],
+        value: number
+    ): {
+        domainMin: number;
+        domainMax: number;
+        percent: number;
+        colors: string[];
+        nrOfLevels: number;
+    } {
+        const defaultMinGaugeDomain = -100;
+        const defaultMaxGaugeDomain = 100;
+        let domainMin = Number('Infinity');
+        let domainMax = Number('-Infinity');
+        let nrOfLevels = ranges.length;
+
+        for (const valueRange of ranges) {
+            const numericValueRangeMin = Number(valueRange.min);
+            const numericValueRangeMax = Number(valueRange.max);
+
+            // Find minimum range value
+            if (numericValueRangeMin < domainMin) {
+                domainMin = numericValueRangeMin;
+            }
+
+            // Find maximum range value
+            if (numericValueRangeMax > domainMax) {
+                domainMax = numericValueRangeMax;
+            }
+        }
+
+        // If minimum is not finite -- snap to default min
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMinGaugeDomain;
+        }
+
+        // If maximum is not finite -- snap to default max
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMaxGaugeDomain;
+        }
+
+        const targetRange = ViewerConfigUtility.getMatchingRangeFromValue(
+            ranges,
+            value
+        );
+        const isOutOfValueRange = targetRange === null;
+
+        const sortedRanges = ranges.sort(
+            (a, b) => Number(a.min) - Number(b.min)
+        );
+        let outOfRangeColorInsertionIndex = sortedRanges.length;
+
+        const gaugeRanges = sortedRanges.map((vr) => ({
+            color: vr.color,
+            id: vr.id
+        }));
+
+        if (isOutOfValueRange) {
+            for (let i = 0; i < sortedRanges.length; i++) {
+                if (value < Number(sortedRanges[i].min)) {
+                    outOfRangeColorInsertionIndex = i;
+                    break;
+                }
+            }
+            gaugeRanges.splice(outOfRangeColorInsertionIndex, 0, {
+                color: 'var(--cb-color-bg-canvas-inset)',
+                id: 'OUT_OF_RANGE_ID'
+            });
+            nrOfLevels++;
+        }
+
+        let percent = (value - domainMin) / (domainMax - domainMin);
+
+        if (percent > 1) {
+            percent = 1;
+        } else if (percent < 0) {
+            percent = 0;
+        } else {
+            const targetId = isOutOfValueRange
+                ? 'OUT_OF_RANGE_ID'
+                : targetRange.id;
+
+            // Find index into gauge colors to target
+            const rangeIdx =
+                gaugeRanges.findIndex((gr) => gr.id === targetId) || 0;
+
+            // Snap percent to center of color range
+            const rangeAnchors = [];
+            const increment = 1 / nrOfLevels;
+            let currentAnchor = increment / 2;
+            while (currentAnchor < 1) {
+                rangeAnchors.push(currentAnchor);
+                currentAnchor += increment;
+            }
+
+            percent = rangeAnchors[rangeIdx];
+        }
+
+        return {
+            domainMin,
+            domainMax,
+            percent,
+            colors: gaugeRanges.map((gr) => gr.color),
+            nrOfLevels
+        };
+    }
+
     static getMappingIdsForBehavior(behavior: IBehavior) {
         const mappingIds: string[] = [];
         // cycle through the datasources of behavior
