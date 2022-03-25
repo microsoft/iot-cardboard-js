@@ -457,12 +457,12 @@ abstract class ViewerConfigUtility {
             }
         }
 
-        // If minimum is not finite -- snap to default minimum
+        // If minimum is not finite -- snap to default min
         if (!isFinite(domainMin)) {
             domainMin = defaultMinGaugeDomain;
         }
 
-        // If maximum is not finite -- snap to default maximum
+        // If maximum is not finite -- snap to default max
         if (!isFinite(domainMin)) {
             domainMin = defaultMaxGaugeDomain;
         }
