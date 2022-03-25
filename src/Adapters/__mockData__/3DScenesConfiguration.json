@@ -214,6 +214,14 @@
                                     ],
                                     "units": "%"
                                 }
+                            },
+                            {
+                                "type": "Link",
+                                "id": "1d60362667067ff5763bb6f7765a9cc8",
+                                "widgetConfiguration": {
+                                    "label": "Power BI",
+                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                }
                             }
                         ],
                         "objectIDs": {
