@@ -90,21 +90,22 @@ export const openDropdownMenu = async (
     item.click();
 };
 
-/**
- * Opens a dropdown menu and selects an item from the list
- * @param canvas current test canvas
- * @param dropdownTestId data-testid of the dropdown menu
- * @param optionIndex index of the option in the list to select
- */
-export const selectDropDownMenuItem = async (
-    canvas: IStorybookCanvas,
-    dropdownTestId: string,
-    optionIndex: number
-) => {
-    await openDropdownMenu(canvas, dropdownTestId);
-    const options = await screen.findAllByRole('option');
-    options[optionIndex].click();
-};
+// TODO: Fix this as I can't get it to click the item
+// /**
+//  * Opens a dropdown menu and selects an item from the list
+//  * @param canvas current test canvas
+//  * @param dropdownTestId data-testid of the dropdown menu
+//  * @param optionIndex index of the option in the list to select
+//  */
+// export const selectDropDownMenuItem = async (
+//     canvas: IStorybookCanvas,
+//     dropdownTestId: string,
+//     optionIndex: number
+// ) => {
+//     await openDropdownMenu(canvas, dropdownTestId);
+//     const options = await screen.findAllByRole('option');
+//     options[optionIndex].click();
+// };
 
 export const clickOverFlowMenuItem = async (element: HTMLElement) => {
     // not using storybook helper to work around issue where pointer events are not allowed

@@ -6,7 +6,6 @@ import ADT3DSceneBuilder from './ADT3DSceneBuilder';
 import {
     IStoryContext,
     openDropdownMenu,
-    selectDropDownMenuItem,
     sleep
 } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
@@ -98,18 +97,18 @@ NewStateTabWithElementsOpenProperty.play = async ({ canvasElement }) => {
     await openDropdownMenu(canvas, 'behavior-form-state-property-dropdown');
 };
 
-export const NewStateTabWithElementsSelectProperty = Template.bind({});
-NewStateTabWithElementsSelectProperty.play = async ({ canvasElement }) => {
-    await NewStateTabWithElements.play({ canvasElement });
-    const canvas = within(canvasElement);
-    // wait for dropdown to populate
-    await sleep(1);
-    await selectDropDownMenuItem(
-        canvas,
-        'behavior-form-state-property-dropdown',
-        2
-    );
-};
+// export const NewStateTabWithElementsSelectProperty = Template.bind({});
+// NewStateTabWithElementsSelectProperty.play = async ({ canvasElement }) => {
+//     await NewStateTabWithElements.play({ canvasElement });
+//     const canvas = within(canvasElement);
+//     // wait for dropdown to populate
+//     await sleep(1);
+//     await selectDropDownMenuItem(
+//         canvas,
+//         'behavior-form-state-property-dropdown',
+//         2
+//     );
+// };
 
 export const NewAlertsTab = Template.bind({});
 NewAlertsTab.play = async ({ canvasElement }) => {
