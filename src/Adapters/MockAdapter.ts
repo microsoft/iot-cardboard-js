@@ -81,8 +81,8 @@ const mockTwins = [
         $metadata: {
             $model: 'SaltMachine'
         },
-        InFlow: 100,
-        OutFlow: 150
+        InFlow: 1200,
+        OutFlow: 100
     },
     {
         $dtId: 'SaltMachine_C2',
@@ -415,9 +415,9 @@ export default class MockAdapter
 
                                 if (element) {
                                     // get primary twin
-                                    twins[linkedTwinName] = mockTwins[
-                                        element.linkedTwinID
-                                    ] || {
+                                    twins[linkedTwinName] = mockTwins.find(
+                                        (t) => t.$dtId === element.linkedTwinID
+                                    ) || {
                                         $dtId: 'machineID1',
                                         InFlow: 300,
                                         OutFlow: 250,
@@ -430,7 +430,11 @@ export default class MockAdapter
                                         for (const alias of Object.keys(
                                             element.twinAliases
                                         )) {
-                                            twins[alias] = mockTwins[alias] || {
+                                            twins[alias] = mockTwins.find(
+                                                (t) =>
+                                                    t.$dtId ===
+                                                    element.twinAliases[alias]
+                                            ) || {
                                                 $dtId: 'machineID2',
                                                 InFlow: 300,
                                                 OutFlow: 250,

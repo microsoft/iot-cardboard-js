@@ -7,7 +7,8 @@ export default {
     title: 'Pages/ADT3DScenePage',
     component: ADT3DScenePage,
     parameters: {
-        noGlobalWrapper: true
+        noGlobalWrapper: true,
+        layout: 'fullscreen'
     }
 };
 

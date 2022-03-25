@@ -6,7 +6,7 @@ import { ViewerElementsPanelProps } from './ViewerElementsPanel.types';
 import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { performSubstitutions } from '../Widgets/Widget.Utils';
+import { performSubstitutions } from '../../Models/Services/Utils';
 
 const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
     baseComponentProps,

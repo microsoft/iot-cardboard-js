@@ -413,7 +413,8 @@
         "link": {
             "title": "Link widget",
             "description": "Reference external content by linking a URL",
-            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+            "openLink": "Open link"
         },
         "panel": {
             "title": "Panel widget",
@@ -618,6 +619,9 @@
             "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
+    },
+    "behaviorsModal": {
+        "closeModal": "Close modal"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",

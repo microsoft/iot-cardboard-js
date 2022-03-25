@@ -14,13 +14,14 @@ import {
     Marker,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
-import Draggable from 'react-draggable';
-import { getMeshCenter } from '../../Components/3DV/SceneView.Utils';
 import { VisualType } from '../../Models/Classes/3DVConfig';
-import { PopupWidget } from '../../Components/Widgets/PopupWidget/PopupWidget';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    IPopoverVisual
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -33,7 +34,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     sceneId,
     scenesConfig,
     pollingInterval,
-    connectionLineColor,
     addInProps,
     refetchConfig,
     showMeshesOnHover,
@@ -51,15 +51,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         zoomToMeshIdsProp || []
     );
     const [showPopUp, setShowPopUp] = useState(false);
-    const [popUpConfig, setPopUpConfig] = useState<IPopoverVisual>(null);
-    const [popUpTwins, setPopUpTwins] = useState<Record<string, DTwin>>(null);
-    const lineId = useGuid();
-    const popUpId = useGuid();
-    const sceneWrapperId = useGuid();
-    const popUpContainerId = useGuid();
+    const [behaviorModalConfig, setBehaviorModalConfig] = useState<{
+        behaviors: IBehavior[];
+        twins: Record<string, DTwin>;
+        title: string;
+    }>(null);
 
-    const popUpX = useRef<number>(0);
-    const popUpY = useRef<number>(0);
+    const sceneWrapperId = useGuid();
 
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
@@ -72,11 +70,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     );
 
     useEffect(() => {
-        window.addEventListener('resize', setConnectionLine);
         refetchConfig && refetchConfig();
-        return () => {
-            window.removeEventListener('resize', setConnectionLine);
-        };
     }, []);
 
     useEffect(() => {
@@ -122,24 +116,16 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
 
         if (popOver) {
-            const resetPopUpPosition = showPopUp ? false : true;
-
-            setPopUpTwins(sceneVisual.twins);
-            setPopUpConfig(popOver);
+            setBehaviorModalConfig({
+                behaviors: sceneVisual?.behaviors || [],
+                twins: sceneVisual?.twins || {},
+                title: sceneVisual?.element?.displayName || ''
+            });
             setShowPopUp(true);
-
-            if (resetPopUpPosition) {
-                const popUp = document.getElementById(popUpId);
-                if (popUp) {
-                    popUpX.current = popUp.offsetLeft + popUp.offsetWidth / 2;
-                    popUpY.current = popUp.offsetTop + popUp.offsetHeight / 2;
-                }
-            }
-            setConnectionLine();
         }
     };
 
-    const meshClick = (marker: Marker, mesh: any, scene: any) => {
+    const meshClick = (_marker: Marker, mesh: any, scene: any) => {
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -204,43 +190,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
-    const cameraMoved = () => {
-        setConnectionLine();
-    };
-
-    function setConnectionLine() {
-        if (selectedMesh.current) {
-            const sceneWrapper = document.getElementById(sceneWrapperId);
-            const position = getMeshCenter(
-                selectedMesh.current,
-                sceneRef.current,
-                sceneWrapper
-            );
-            const container = document.getElementById(popUpContainerId);
-            if (container) {
-                const canvas: HTMLCanvasElement = document.getElementById(
-                    lineId
-                ) as HTMLCanvasElement;
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-                const context = canvas.getContext('2d');
-                context.clearRect(0, 0, canvas.width, canvas.height);
-
-                context.beginPath();
-                context.strokeStyle = connectionLineColor || '#0058cc';
-                context.moveTo(popUpX.current, popUpY.current);
-                context.lineTo(position[0], position[1]);
-                context.stroke();
-            }
-        }
-    }
-
-    function setPopUpPosition(e, data) {
-        popUpX.current += data.deltaX;
-        popUpY.current += data.deltaY;
-        setConnectionLine();
-    }
-
     const onElementPanelItemClicked = useCallback(
         (_item, panelItem, _behavior) => {
             setShowPopUp(false);
@@ -282,7 +231,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),
-                        onCameraMove: () => cameraMoved(),
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
@@ -291,33 +239,18 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
-                {showPopUp && (
-                    <div
-                        id={popUpContainerId}
-                        className="cb-adt-3dviewer-popup-container"
-                    >
-                        <canvas
-                            id={lineId}
-                            className="cb-adt-3dviewer-line-canvas"
-                        />
-                        <Draggable
-                            bounds="parent"
-                            onDrag={(e, data) => setPopUpPosition(e, data)}
-                        >
-                            <div id={popUpId} className="cb-adt-3dviewer-popup">
-                                <PopupWidget
-                                    config={popUpConfig}
-                                    onClose={() => {
-                                        setShowPopUp(false);
-                                        setZoomToMeshIds([]);
-                                    }}
-                                    twins={popUpTwins}
-                                />
-                            </div>
-                        </Draggable>
-                    </div>
-                )}
             </div>
+            {showPopUp && (
+                <BehaviorsModal
+                    onClose={() => {
+                        setShowPopUp(false);
+                        setZoomToMeshIds([]);
+                    }}
+                    twins={behaviorModalConfig.twins}
+                    behaviors={behaviorModalConfig.behaviors}
+                    title={behaviorModalConfig.title}
+                />
+            )}
         </BaseComponent>
     );
 };
