@@ -84,9 +84,7 @@ const mockElement: IElement = {
     objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
     extensionProperties: {}
 };
-const longData = JSON.parse(
-    JSON.stringify(trucksMockVConfig)
-) as I3DScenesConfig;
+const longData = deepCopy(trucksMockVConfig) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],

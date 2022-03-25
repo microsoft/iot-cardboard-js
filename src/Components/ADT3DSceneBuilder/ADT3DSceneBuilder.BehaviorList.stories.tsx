@@ -88,9 +88,7 @@ const mockBehavior: IBehavior = {
     ],
     visuals: []
 };
-const longData = JSON.parse(
-    JSON.stringify(trucksMockVConfig)
-) as I3DScenesConfig;
+const longData = deepCopy(trucksMockVConfig) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],
