@@ -927,6 +927,7 @@ export default class ADTAdapter implements IADTAdapter {
         const scene = config.configuration?.scenes?.find(
             (scene) => scene.id === sceneId
         );
+        // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
         );
@@ -973,30 +974,21 @@ export default class ADTAdapter implements IADTAdapter {
         config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<string[]> {
+        const data = await this.getTwinPropertiesForBehaviorWithFullName(
+            sceneId,
+            config,
+            behavior
+        );
+        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+    }
+
+    async getTwinPropertiesForBehaviorWithFullName(
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
-        let properties: string[] = null;
-        for (const alias in twins) {
-            const twin = twins[alias];
-            const twinProps: string[] = ['$dtId'];
-            for (const prop in twin) {
-                if (prop.substring(0, 1) !== '$') {
-                    twinProps.push(prop);
-                }
-            }
-
-            if (!properties) {
-                properties = twinProps;
-            } else {
-                // Condense to lowest common denominator
-                for (const p of [...properties]) {
-                    if (!twinProps.includes(p)) {
-                        properties.splice(properties.indexOf(p), 1);
-                    }
-                }
-            }
-        }
-
-        return properties;
+        return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
 
     async getADTInstances(tenantId?: string, uniqueObjectId?: string) {

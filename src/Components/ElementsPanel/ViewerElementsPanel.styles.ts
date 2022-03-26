@@ -79,16 +79,16 @@ export const getElementsPanelStatusStyles = memoizeFunction(
 );
 
 export const getElementsPanelAlertStyles = memoizeFunction(
-    (alertColor: string) => {
+    (alertColor: string, isForPopover = false) => {
         return mergeStyleSets({
             alertCircle: [
                 classNames.alertCircle,
                 {
-                    width: 24,
-                    height: 24,
+                    width: 20,
+                    height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
-                    margin: '0 8px',
+                    margin: `0 8px 0 ${isForPopover ? '10px' : '36px'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -98,13 +98,18 @@ export const getElementsPanelAlertStyles = memoizeFunction(
     }
 );
 
-export const getElementsPanelButtonSyles = memoizeFunction(
-    () =>
-        ({
-            root: {
-                background: 'transparent',
-                fontWeight: 600,
-                padding: '12px 20px'
-            }
-        } as IButtonStyles)
-);
+export const getElementsPanelButtonSyles = memoizeFunction(() => ({
+    elementButton: {
+        root: {
+            background: 'transparent',
+            padding: '12px 20px',
+            fontWeight: 500
+        }
+    } as IButtonStyles,
+    alertButton: {
+        root: {
+            background: 'transparent',
+            padding: '8px 20px'
+        }
+    } as IButtonStyles
+}));

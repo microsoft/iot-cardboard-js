@@ -214,6 +214,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     return (
         <>
             <TextField
+                data-testid={'auto-complete-input'}
                 className={className}
                 value={value}
                 onChange={(e, val) => onChanged(val)}

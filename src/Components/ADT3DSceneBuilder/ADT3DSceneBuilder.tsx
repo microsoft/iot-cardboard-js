@@ -47,7 +47,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { createGUID } from '../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../Models/Services/Utils';
 import {
     DatasourceType,
     defaultBehavior
@@ -465,8 +465,8 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                     // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
                     // memory is updated which causes bugs when creating new behaviors)
                     const newBehavior: IBehavior = {
-                        ...JSON.parse(JSON.stringify(defaultBehavior)),
-                        id: createGUID(false)
+                        ...deepCopy(defaultBehavior),
+                        id: createGUID()
                     };
                     newBehavior.datasources[0] = {
                         type:
