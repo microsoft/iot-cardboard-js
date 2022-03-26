@@ -19,7 +19,9 @@ export const getElementsPanelStyles = () => {
         container: {
             position: 'relative',
             background: 'transparent',
-            height: '100%'
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
         } as IStyle,
         containerBackdrop: {
             position: 'absolute',
@@ -49,7 +51,8 @@ export const getElementsPanelStyles = () => {
             classNames.list,
             {
                 width: '100%',
-                fontSize: 14
+                fontSize: 14,
+                overflowY: 'auto'
             } as IStyle
         ],
         listItembutton: [

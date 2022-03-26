@@ -61,18 +61,28 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 const sortPanelItemsForDisplay = (
     panelItems: Array<ViewerElementsPanelItem>
 ) => {
-    const sortedPanelItems: Array<ViewerElementsPanelItem> = [];
-    const panelItemsWithAlerts: Array<ViewerElementsPanelItem> = [];
+    const panelItemsWithAlerts: Array<{
+        activeAlertNumber: number;
+        panelItem: ViewerElementsPanelItem;
+    }> = [];
     const panelItemsWithStatusAndWithoutAlerts: Array<ViewerElementsPanelItem> = [];
     const panelItemsWithoutAlertsAndWithoutStatus: Array<ViewerElementsPanelItem> = [];
 
-    // traverse all the panel items and group them based on if they have alerts, status or nothing
+    // traverse all the panel items and group them based on if they have active alerts, status or nothing
     panelItems.forEach((panelItem) => {
         const flattenedPanelItemVisuals = [].concat(
             ...panelItem.behaviors.map((behavior) => behavior.visuals)
         );
-        if (flattenedPanelItemVisuals.some(ViewerConfigUtility.isAlertVisual)) {
-            panelItemsWithAlerts.push(panelItem);
+        const activeAlertVisuals = flattenedPanelItemVisuals.filter(
+            (visual) =>
+                ViewerConfigUtility.isAlertVisual(visual) &&
+                parseExpression(visual.triggerExpression, panelItem.twins)
+        );
+        if (activeAlertVisuals.length) {
+            panelItemsWithAlerts.push({
+                activeAlertNumber: activeAlertVisuals.length,
+                panelItem
+            });
         } else if (
             flattenedPanelItemVisuals.some(
                 ViewerConfigUtility.isStatusColorVisual
@@ -86,22 +96,16 @@ const sortPanelItemsForDisplay = (
 
     // sort the grouped items by first number of alerts and then element name
     panelItemsWithAlerts.sort((a, b) => {
-        const aPanelItemVisuals = [].concat(
-            ...a.behaviors.map((behavior) => behavior.visuals)
-        );
-        const bPanelItemVisuals = [].concat(
-            ...b.behaviors.map((behavior) => behavior.visuals)
-        );
-        if (aPanelItemVisuals.length === bPanelItemVisuals.length) {
-            return a.element.displayName.localeCompare(
-                b.element.displayName,
+        if (a.activeAlertNumber === b.activeAlertNumber) {
+            return a.panelItem.element.displayName.localeCompare(
+                b.panelItem.element.displayName,
                 undefined,
                 {
                     sensitivity: 'base'
                 }
             );
         }
-        return aPanelItemVisuals.length > bPanelItemVisuals.length ? 1 : -1;
+        return a.activeAlertNumber > b.activeAlertNumber ? -1 : 1;
     });
     panelItemsWithStatusAndWithoutAlerts.sort((a, b) =>
         a.element.displayName.localeCompare(b.element.displayName, undefined, {
@@ -113,10 +117,12 @@ const sortPanelItemsForDisplay = (
             sensitivity: 'base'
         })
     );
-    return sortedPanelItems.concat(
-        panelItemsWithAlerts,
-        panelItemsWithStatusAndWithoutAlerts,
-        panelItemsWithoutAlertsAndWithoutStatus
+    return [].concat(
+        ...panelItemsWithAlerts.map(
+            (panelItemWithAlert) => panelItemWithAlert.panelItem
+        ),
+        ...panelItemsWithStatusAndWithoutAlerts,
+        ...panelItemsWithoutAlertsAndWithoutStatus
     );
 };
 
@@ -162,17 +168,26 @@ function getListItems(
                 )
             );
             alerts = alerts.concat(
-                b.visuals.filter(ViewerConfigUtility.isAlertVisual).map(
-                    (alertVisual) =>
-                        ({
-                            behavior: b,
-                            alertVisual: alertVisual,
-                            alertVisualDisplayTitle: performSubstitutions(
-                                alertVisual.labelExpression,
+                b.visuals
+                    .filter(
+                        (visual) =>
+                            ViewerConfigUtility.isAlertVisual &&
+                            parseExpression(
+                                visual.triggerExpression,
                                 panelItem.twins
                             )
-                        } as any)
-                )
+                    )
+                    .map(
+                        (alertVisual) =>
+                            ({
+                                behavior: b,
+                                alertVisual: alertVisual,
+                                alertVisualDisplayTitle: performSubstitutions(
+                                    alertVisual.labelExpression,
+                                    panelItem.twins
+                                )
+                            } as any)
+                    )
             );
         });
 
@@ -234,39 +249,28 @@ function getListItems(
             const alertStyles = getElementsPanelAlertStyles(
                 alert.alertVisual.color
             );
-            if (
-                parseExpression(
-                    alert.alertVisual.triggerExpression,
-                    panelItem.twins
-                )
-            ) {
-                const alertItem: ICardboardListItem<IAlertVisual> = {
-                    ariaLabel: alert.alertVisualDisplayTitle,
-                    buttonProps: {
-                        customStyles: buttonStyles.alertButton,
-                        ...(onItemHover && {
-                            onMouseOver: () => onItemHover(element, panelItem)
-                        }),
-                        ...(onItemHover && {
-                            onBlur: () => onItemHover(element, panelItem)
-                        })
-                    },
-                    iconStartName: (
-                        <span className={alertStyles.alertCircle}>
-                            <Icon iconName={alert.alertVisual.iconName} />
-                        </span>
-                    ),
-                    item: alert.alertVisual,
-                    onClick: () =>
-                        onItemClick(
-                            alert.alertVisual,
-                            panelItem,
-                            alert.behavior
-                        ),
-                    textPrimary: alert.alertVisualDisplayTitle
-                };
-                listItems.push(alertItem);
-            }
+            const alertItem: ICardboardListItem<IAlertVisual> = {
+                ariaLabel: alert.alertVisualDisplayTitle,
+                buttonProps: {
+                    customStyles: buttonStyles.alertButton,
+                    ...(onItemHover && {
+                        onMouseOver: () => onItemHover(element, panelItem)
+                    }),
+                    ...(onItemHover && {
+                        onBlur: () => onItemHover(element, panelItem)
+                    })
+                },
+                iconStartName: (
+                    <span className={alertStyles.alertCircle}>
+                        <Icon iconName={alert.alertVisual.iconName} />
+                    </span>
+                ),
+                item: alert.alertVisual,
+                onClick: () =>
+                    onItemClick(alert.alertVisual, panelItem, alert.behavior),
+                textPrimary: alert.alertVisualDisplayTitle
+            };
+            listItems.push(alertItem);
         });
     });
 
