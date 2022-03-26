@@ -28,6 +28,7 @@ import {
 } from '../ViewerElementsPanel.types';
 
 const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
+    isLoading,
     panelItems,
     filterTerm,
     onItemClick,
@@ -43,7 +44,9 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 
     return (
         <div className={elementsPanelStyles.list}>
-            {panelItems.length === 0 ? (
+            {isLoading ? (
+                <p style={{ padding: '0px 20px' }}>{t('loading')}</p>
+            ) : panelItems.length === 0 ? (
                 <p style={{ padding: '0px 20px' }}>
                     {t('elementsPanel.noElements')}
                 </p>
