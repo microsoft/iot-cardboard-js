@@ -38,10 +38,10 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     const elementsPanelStyles = getElementsPanelStyles();
 
     // handle only showing "Loading..." on first fetch
-    const hasLoadedInitialData = useRef(false);
+    const isInitialDataLoaded = useRef(false);
     useEffect(() => {
         if (panelItems.length) {
-            hasLoadedInitialData.current = true;
+            isInitialDataLoaded.current = true;
         }
     }, [panelItems]);
 
@@ -52,7 +52,7 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 
     return (
         <div className={elementsPanelStyles.list}>
-            {isLoading && !hasLoadedInitialData.current ? (
+            {isLoading && !isInitialDataLoaded.current ? (
                 <p style={{ padding: '0px 20px' }}>{t('loading')}</p>
             ) : panelItems.length === 0 ? (
                 <p style={{ padding: '0px 20px' }}>
