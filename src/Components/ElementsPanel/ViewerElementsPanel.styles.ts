@@ -87,7 +87,7 @@ export const getElementsPanelAlertStyles = memoizeFunction(
                     height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
-                    margin: `0 8px 0 ${isForPopover ? '10px' : '36px'}`,
+                    margin: `0 8px 0 ${isForPopover ? '10px' : '30px'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -101,7 +101,7 @@ export const getElementsPanelButtonSyles = memoizeFunction(() => ({
     elementButton: {
         root: {
             background: 'transparent',
-            padding: '12px 20px',
+            padding: '12px 20px 12px 10px',
             fontWeight: 500
         }
     } as IButtonStyles,

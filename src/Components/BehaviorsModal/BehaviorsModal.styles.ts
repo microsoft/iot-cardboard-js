@@ -19,7 +19,7 @@ const classNames = {
 };
 
 const initialPopoverTopOffset = 112;
-const initialPopoverRightOffset = 20;
+const initialPopoverRightOffset = 10;
 
 const modalBorderColor = 'var(--cb-color-modal-border)';
 
