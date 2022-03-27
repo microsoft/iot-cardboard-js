@@ -48,7 +48,6 @@ const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
     return (
         <BaseComponent {...baseComponentProps}>
             <div className={elementsPanelStyles.container}>
-                <div className={elementsPanelStyles.containerBackdrop}></div>
                 <div className={elementsPanelStyles.header}>
                     <Icon
                         iconName="BulletedTreeList"
@@ -66,6 +65,7 @@ const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
                     className={elementsPanelStyles.searchBox}
                 />
                 <ElementList
+                    isLoading={isLoading}
                     panelItems={filteredPanelItems}
                     onItemClick={onItemClick}
                     onItemHover={onItemHover}

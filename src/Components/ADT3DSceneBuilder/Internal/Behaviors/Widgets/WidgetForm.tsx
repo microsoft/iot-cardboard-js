@@ -108,7 +108,6 @@ const WidgetForm: React.FC = () => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
-                    draft.id = createGUID();
                     const popOver = draft.visuals?.find(
                         (visual) => visual.type === VisualType.Popover
                     ) as IPopoverVisual;

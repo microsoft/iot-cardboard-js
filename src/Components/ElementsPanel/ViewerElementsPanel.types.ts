@@ -24,6 +24,7 @@ export interface ViewerElementsPanelProps {
 }
 
 export interface ViewerElementsPanelListProps {
+    isLoading: boolean;
     panelItems: Array<ViewerElementsPanelItem>;
     filterTerm?: string;
     onItemClick: (

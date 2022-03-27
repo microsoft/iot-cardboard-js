@@ -169,7 +169,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             styles: getDialogStyles(selected3DFilePivotItem),
             className: 'cb-scene-list-dialog-wrapper'
         }),
-        [getDialogStyles]
+        [getDialogStyles, selected3DFilePivotItem]
     );
 
     useEffect(() => {
