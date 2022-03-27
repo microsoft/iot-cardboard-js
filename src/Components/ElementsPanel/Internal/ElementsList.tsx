@@ -1,5 +1,5 @@
 import { Icon } from '@fluentui/react';
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
@@ -37,6 +37,14 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     const { t } = useTranslation();
     const elementsPanelStyles = getElementsPanelStyles();
 
+    // handle only showing "Loading..." on first fetch
+    const hasLoadedInitialData = useRef(false);
+    useEffect(() => {
+        if (panelItems.length) {
+            hasLoadedInitialData.current = true;
+        }
+    }, [panelItems]);
+
     const listItems = useMemo(
         () => getListItems(panelItems, onItemClick, onItemHover),
         [panelItems]
@@ -44,7 +52,7 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 
     return (
         <div className={elementsPanelStyles.list}>
-            {isLoading ? (
+            {isLoading && !hasLoadedInitialData.current ? (
                 <p style={{ padding: '0px 20px' }}>{t('loading')}</p>
             ) : panelItems.length === 0 ? (
                 <p style={{ padding: '0px 20px' }}>
