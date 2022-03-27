@@ -71,7 +71,8 @@
                 ],
                 "behaviorIDs": [
                     "421cc93046fa4b589bc2ec1dd1009c90",
-                    "d6a2d68bc4007f3fa624eab19105e44b"
+                    "d6a2d68bc4007f3fa624eab19105e44b",
+                    "1e0aa8384c4546c7ae1ca6e6d244922e"
                 ]
             }
         ],
@@ -121,7 +122,7 @@
                 ]
             },
             {
-                "id": "421cc93046fa4b589bc2ec1dd1009c90",
+                "id": "1e0aa8384c4546c7ae1ca6e6d244922e",
                 "displayName": "Pasteurization Machine Temp",
                 "datasources": [
                     {
