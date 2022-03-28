@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
-import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
@@ -28,14 +26,7 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
                 title="3D Viewer"
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockScene}
@@ -57,14 +48,7 @@ export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
                 title="3D Viewer"
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 showMeshesOnHover={true}
                 pollingInterval={10000}
@@ -186,14 +170,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 title="3D Viewer"
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockScene}
@@ -276,14 +253,7 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
                 title="3D Viewer"
                 theme={theme}
                 locale={locale}
-                adapter={
-                    new ADTAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        new MsalAuthService(
-                            authenticationParameters.adt.aadParameters
-                        )
-                    )
-                }
+                adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
                 sceneId={mockScene}
