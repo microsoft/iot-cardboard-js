@@ -27,6 +27,14 @@ import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
+import {
+    DefaultButton,
+    IButtonStyles,
+    memoizeFunction,
+    useTheme
+} from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
+import { useBoolean } from '@fluentui/react-hooks';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -57,14 +65,18 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         zoomToMeshIdsProp || []
     );
     const [showPopUp, setShowPopUp] = useState(false);
+    const [
+        isElementsPanelVisible,
+        { toggle: toggleIsElementsPanelVisible }
+    ] = useBoolean(!hideElementsPanel);
     const [behaviorModalConfig, setBehaviorModalConfig] = useState<{
         behaviors: IBehavior[];
         twins: Record<string, DTwin>;
         title: string;
     }>(null);
 
+    const { t } = useTranslation();
     const sceneWrapperId = useGuid();
-
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
@@ -240,6 +252,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [zoomToMeshIdsProp]);
 
+    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles(
+        useTheme()
+    );
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -247,7 +263,22 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                {!hideElementsPanel && (
+                <DefaultButton
+                    toggle
+                    checked={isElementsPanelVisible}
+                    styles={elementsPanelToggleButtonStyles}
+                    iconProps={{
+                        iconName: 'BulletedTreeList',
+                        styles: { root: { fontSize: 20 } }
+                    }}
+                    ariaLabel={
+                        hideElementsPanel
+                            ? t('elementsPanel.showPanel')
+                            : t('elementsPanel.hidePanel')
+                    }
+                    onClick={toggleIsElementsPanelVisible}
+                />
+                {!isElementsPanelVisible && (
                     <ViewerElementsPanel
                         isLoading={isLoading}
                         panelItems={panelItems}
@@ -297,5 +328,29 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         </BaseComponent>
     );
 };
+
+const toggleElementsPanelStyles = memoizeFunction(
+    (theme) =>
+        ({
+            root: {
+                minWidth: 'unset',
+                width: 64,
+                height: 54,
+                background: 'var(--cb-color-glassy-modal)',
+                border: '1px solid var(--cb-color-modal-border)',
+                borderRadius: 4,
+                backdropFilter: 'blur(50px)',
+                color: theme.palette.neutralPrimary,
+                position: 'absolute',
+                zIndex: 999,
+                left: 20,
+                bottom: 20
+            },
+            rootChecked: {
+                background:
+                    'radial-gradient(100% 100% at 4.55% 0%, #0763B9 0%, #6453E5 100%)'
+            }
+        } as Partial<IButtonStyles>)
+);
 
 export default withErrorBoundary(ADT3DViewer);

@@ -51,7 +51,7 @@ export const getElementsPanelStyles = () => {
                 flexFlow: 'column nowrap',
                 alignItems: 'stretch',
                 width: 340,
-                height: 'calc(100% - 20px)',
+                height: 'calc(100% - 80px)',
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
