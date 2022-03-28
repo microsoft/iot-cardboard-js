@@ -427,6 +427,13 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     ): Promise<string[]>;
 }
 
+export interface IAzureManagementAdapter {
+    getResourceInstances: (
+        tenantId?: string,
+        uniqueObjectId?: string
+    ) => AdapterReturnType<ADTInstancesData>;
+}
+
 export interface IBlobAdapter {
     getBlobContainerURL: () => string;
     setBlobContainerPath: (configBlobPath: string) => void;
