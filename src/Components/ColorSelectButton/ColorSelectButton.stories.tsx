@@ -44,6 +44,9 @@ export const SelectColorButtonCustomized = (args) => {
                     background: 'red',
                     display: 'flex',
                     justifyContent: 'center'
+                },
+                button: {
+                    borderRadius: 0
                 }
             }}
             {...args}

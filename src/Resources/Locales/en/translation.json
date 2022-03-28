@@ -378,7 +378,7 @@
             "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
             "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
             "notificationLabel": "Notification text",
-            "notificationPlaceholder": "None"
+            "notificationPlaceholder": "Text to show with the alert for additional context."
         },
         "behaviorStatusForm": {
             "notice": "Use a single property to recolor this behavior's target elements.",

@@ -1,12 +1,10 @@
 import {
     Callout,
     classNamesFunction,
-    ICalloutContentStyleProps,
-    ICalloutContentStyles,
-    IColorCellProps,
-    IStyleFunctionOrObject,
+    Label,
     styled,
-    SwatchColorPicker
+    SwatchColorPicker,
+    useTheme
 } from '@fluentui/react';
 import React from 'react';
 import { useId, useBoolean } from '@fluentui/react-hooks';
@@ -26,20 +24,14 @@ const getClassNames = classNamesFunction<
 const ColorSelectButton: React.FC<IColorSelectButtonProps> = ({
     buttonColor,
     colorSwatch,
+    label,
     onChangeSwatchColor,
-    styles,
-    theme
+    styles
 }) => {
     const { t } = useTranslation();
-    const classNames = getClassNames(styles!, {
-        theme: theme!
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
     });
-    const calloutStyles = classNames.subComponentStyles
-        ? (classNames.subComponentStyles.callout as IStyleFunctionOrObject<
-              ICalloutContentStyleProps,
-              ICalloutContentStyles
-          >)
-        : undefined;
     const labelId = useId('callout-label');
     const colorButtonId = useId('color-button');
 
@@ -51,8 +43,11 @@ const ColorSelectButton: React.FC<IColorSelectButtonProps> = ({
     return (
         // root node is needed to prevent bouncing when callout opens
         <div className={classNames.root}>
+            {label && <Label>{label}</Label>}
             <button
-                aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
+                aria-label={
+                    label || t('valueRangeBuilder.colorButtonAriaLabel')
+                }
                 data-testid={'range-builder-row-color-picker'}
                 style={{ backgroundColor: buttonColor }}
                 className={classNames.button}
@@ -65,7 +60,7 @@ const ColorSelectButton: React.FC<IColorSelectButtonProps> = ({
                     target={`#${colorButtonId}`}
                     onDismiss={toggleIsRowColorCalloutVisible}
                     setInitialFocus
-                    styles={calloutStyles}
+                    styles={classNames.subComponentStyles.callout}
                 >
                     <SwatchColorPicker
                         columnCount={3}
