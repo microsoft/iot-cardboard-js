@@ -25,7 +25,7 @@ import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
-const debug = true;
+const debug = false;
 
 function debugLog(s: string) {
     if (debug) {
@@ -549,10 +549,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     currentObjectColor.lightingStyle
                 ));
 
-            // hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-            //     currentRenderMode.meshHoverColor
-            // );
-
             //Use the matching cached selected-hover material or create a new one, cache it, and use it
             coloredHovMaterial.current =
                 materialCacheRef.current[
@@ -574,10 +570,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     currentObjectColor.lightingStyle
                 ));
 
-            // coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-            //     currentRenderMode.coloredMeshHoverColor
-            // );
-
             if (
                 (!currentObjectColor.baseColor ||
                     !currentObjectColor.fresnelColor) &&
@@ -595,8 +587,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
-                // hovMaterial.current.alpha = 1;
-                // coloredHovMaterial.current.alpha = 1;
                 hovMaterial.current.wireframe = !!isWireframe;
                 coloredHovMaterial.current.wireframe = !!isWireframe;
                 meshesAreOriginal.current = true;
@@ -643,16 +633,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
-                // if (
-                //     currentObjectColor.baseColor &&
-                //     currentObjectColor.fresnelColor
-                // ) {
-                //     hovMaterial.current.alpha = 0.5;
-                //     coloredHovMaterial.current.alpha = 0.5;
-                // } else {
-                //     hovMaterial.current.alpha = 1;
-                //     coloredHovMaterial.current.alpha = 1;
-                // }
                 hovMaterial.current.wireframe = !!isWireframe;
                 coloredHovMaterial.current.wireframe = !!isWireframe;
             }
@@ -1071,23 +1051,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 reflectionTexture.current,
                 currentObjectColor.lightingStyle
             );
-            // material = new BABYLON.StandardMaterial(
-            //     'coloredMeshMaterial',
-            //     sceneRef.current
-            // );
+
             materialCacheRef.current[materialId] = material;
             debugLog('Creating material for ' + materialId);
         }
 
-        //material.diffuseColor = BABYLON.Color3.FromHexString(col);
         material.wireframe = !!isWireframe;
-
-        // if (currentObjectColor.baseColor && currentObjectColor.fresnelColor) {
-        //     material.alpha = 0.5;
-        // } else {
-        //     material.alpha = 1;
-        // }
-
         mesh.material = material;
         coloredMaterials.current[mesh.id] = material;
     };
