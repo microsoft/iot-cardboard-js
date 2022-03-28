@@ -7,7 +7,7 @@ import {
     ValueRangeBuilderActionType
 } from '../ValueRangeBuilder.types';
 import ValueRangeInput from './ValueRangeInput';
-import { IconButton } from '@fluentui/react';
+import { IconButton, IStackTokens, Stack } from '@fluentui/react';
 import ColorSelectButton from '../../ColorSelectButton/ColorSelectButton';
 
 const ValueRangeRow: React.FC<{
@@ -25,10 +25,12 @@ const ValueRangeRow: React.FC<{
         !validationData.rangeValid;
 
     return (
-        <div
+        <Stack
             className={`cb-value-range-container ${
                 isRangeInvalid ? 'cb-range-invalid' : ''
             }`}
+            horizontal
+            tokens={sectionStackTokens}
         >
             <ValueRangeInput
                 value={String(valueRange.min)}
@@ -55,13 +57,13 @@ const ValueRangeRow: React.FC<{
                 }}
             />
             <IconButton
+                data-testid={'range-builder-row-delete'}
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
                     root: {
                         alignSelf: 'flex-end',
-                        height: '24px',
-                        marginLeft: 4
+                        marginLeft: '4px !important'
                     },
                     rootDisabled: {
                         backgroundColor: 'var(--cb-color-bg-canvas)'
@@ -77,8 +79,9 @@ const ValueRangeRow: React.FC<{
                     })
                 }
             />
-        </div>
+        </Stack>
     );
 };
+const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 
 export default ValueRangeRow;

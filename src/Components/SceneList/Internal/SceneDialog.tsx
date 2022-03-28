@@ -30,6 +30,7 @@ import { Supported3DFileTypes } from '../../../Models/Constants/Enums';
 import { IBlobFile } from '../../../Models/Constants/Interfaces';
 import useAdapter from '../../../Models/Hooks/useAdapter';
 import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
@@ -168,7 +169,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
             styles: getDialogStyles(selected3DFilePivotItem),
             className: 'cb-scene-list-dialog-wrapper'
         }),
-        [getDialogStyles]
+        [getDialogStyles, selected3DFilePivotItem]
     );
 
     useEffect(() => {
@@ -202,9 +203,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleNameChange = useCallback(
         (e) => {
             if (sceneToEdit) {
-                const selectedSceneCopy: IScene = JSON.parse(
-                    JSON.stringify(sceneRef.current)
-                );
+                const selectedSceneCopy: IScene = deepCopy(sceneRef.current);
                 selectedSceneCopy.displayName = e.currentTarget.value;
                 setScene(selectedSceneCopy);
             } else {
@@ -217,9 +216,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
     const handleBlobUrlChange = useCallback(
         (blobUrl: string) => {
             if (sceneToEdit) {
-                const selectedSceneCopy = JSON.parse(
-                    JSON.stringify(sceneRef.current)
-                );
+                const selectedSceneCopy = deepCopy(sceneRef.current);
                 selectedSceneCopy.assets[0].url = blobUrl;
                 setScene(selectedSceneCopy);
             } else {

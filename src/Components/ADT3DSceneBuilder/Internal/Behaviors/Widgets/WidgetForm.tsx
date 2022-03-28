@@ -24,7 +24,7 @@ import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { createGUID } from '../../../../../Models/Services/Utils';
+import { deepCopy } from '../../../../../Models/Services/Utils';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC = () => {
@@ -76,7 +76,6 @@ const WidgetForm: React.FC = () => {
                     <GaugeWidgetBuilder
                         formData={formData as IGaugeWidget}
                         setFormData={setFormData}
-                        getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                         valueRangeRef={gaugeValueRangeRef}
                     />
@@ -100,7 +99,7 @@ const WidgetForm: React.FC = () => {
     };
 
     const onSaveWidgetForm = () => {
-        const formDataToSave = JSON.parse(JSON.stringify(formData));
+        const formDataToSave = deepCopy(formData);
 
         if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
             (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
@@ -109,7 +108,6 @@ const WidgetForm: React.FC = () => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(
                 produce((draft) => {
-                    draft.id = createGUID(false);
                     const popOver = draft.visuals?.find(
                         (visual) => visual.type === VisualType.Popover
                     ) as IPopoverVisual;
@@ -174,6 +172,7 @@ const WidgetForm: React.FC = () => {
             </div>
             <PanelFooter>
                 <PrimaryButton
+                    data-testid={'widget-form-primary-button'}
                     onClick={onSaveWidgetForm}
                     text={
                         widgetFormInfo.mode === WidgetFormMode.CreateWidget
@@ -183,6 +182,7 @@ const WidgetForm: React.FC = () => {
                     disabled={!isWidgetConfigValid}
                 />
                 <DefaultButton
+                    data-testid={'widget-form-secondary-button'}
                     text={t('cancel')}
                     onClick={() => {
                         setWidgetFormInfo(null);

@@ -40,6 +40,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
     IValueRangeBuilderProps
 > = (
     {
+        className,
         initialValueRanges = [],
         customSwatchColors,
         baseComponentProps,
@@ -114,7 +115,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         >
             <BaseComponent
                 {...baseComponentProps}
-                containerClassName="cb-value-range-builder-container"
+                containerClassName={`cb-value-range-builder-container ${
+                    className ? className : ''
+                }`}
             >
                 {state.valueRanges.map((valueRange) => (
                     <div
@@ -133,9 +136,10 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                     )}
                 {!(maxRanges && state.valueRanges.length >= maxRanges) && (
                     <ActionButton
+                        data-testid={'range-builder-add'}
                         iconProps={{ iconName: 'Add' }}
                         onClick={() => {
-                            const id = createGUID(false);
+                            const id = createGUID();
 
                             dispatch({
                                 type:

@@ -1,5 +1,4 @@
-import { IADT3DViewerRenderMode } from '../Constants';
-import { ADT3DRenderMode } from './Enums';
+import { IADTObjectColor } from '../Constants';
 import {
     defaultGaugeWidget,
     defaultLinkWidget,
@@ -89,97 +88,50 @@ export const ValidAdtHostSuffixes = [
 ];
 export const ValidContainerHostSuffixes = ['blob.core.windows.net'];
 
-export const RenderModes: IADT3DViewerRenderMode[] = [
+export const DefaultViewerModeObjectColor: IADTObjectColor = {
+    color: '#00A8F0',
+    opacity: 1,
+    baseColor: null,
+    fresnelColor: null,
+    coloredMeshColor: '#00A8F0',
+    meshHoverColor: '#F3FF14',
+    coloredMeshHoverColor: '#00EDD9',
+    outlinedMeshHoverColor: '#00A8F0',
+    outlinedMeshSelectedColor: '#f06900',
+    outlinedMeshHoverSelectedColor: '#ffb780'
+};
+
+export const ViewerModeObjectColors: IADTObjectColor[] = [
     {
-        id: ADT3DRenderMode.Default,
-        text: '3dSceneViewer.renderModes.default',
-        baseColor: null,
-        fresnelColor: null,
-        opacity: 1,
-        isWireframe: false,
-        coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#F3FF14',
-        coloredMeshHoverColor: '#00EDD9',
-        outlinedMeshHoverColor: '#00A8F0',
-        outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#ffb780',
-        background: null
-    },
-    {
-        id: ADT3DRenderMode.Wireframe,
-        text: '3dSceneViewer.renderModes.wireframe',
-        baseColor: null,
-        fresnelColor: null,
-        opacity: 1,
-        isWireframe: true,
-        coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#ff0000',
-        coloredMeshHoverColor: '#00EDD9',
-        outlinedMeshHoverColor: '#00A8F0',
-        outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#ff9a4d',
-        background: 'radial-gradient(#0a0a54, #020024)'
-    },
-    {
-        id: ADT3DRenderMode.Red,
-        text: '3dSceneViewer.renderModes.red',
+        color: '#FF0000',
+        opacity: 0.5,
         baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
         fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
-        opacity: 0.1, // @coryboyle Doesn't seem to work
-        isWireframe: false,
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#00FF00',
         coloredMeshHoverColor: '#00EDD9',
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        outlinedMeshHoverSelectedColor: '#f06900'
     },
     {
-        id: ADT3DRenderMode.RedWireframe,
-        text: '3dSceneViewer.renderModes.redWireframe',
-        baseColor: '#ff550a', // { r: 1, g: 0.33, b: 0.1, a: 1 },
-        fresnelColor: '#cc000a', //{ r: 0.8, g: 0, b: 0.1, a: 1 },
+        color: '#00FF00',
         opacity: 0.5,
-        isWireframe: true,
-        coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#F3FF14',
-        coloredMeshHoverColor: '#00EDD9',
-        outlinedMeshHoverColor: '#00A8F0',
-        outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
-    },
-    {
-        id: ADT3DRenderMode.Green,
-        text: '3dSceneViewer.renderModes.green',
         baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
         fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
-        opacity: 0.5,
-        isWireframe: false,
         coloredMeshColor: '#00A8F0',
         meshHoverColor: '#F3FF14',
         coloredMeshHoverColor: '#00EDD9',
         outlinedMeshHoverColor: '#00A8F0',
         outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
-    },
-    {
-        id: ADT3DRenderMode.GreenWireframe,
-        text: '3dSceneViewer.renderModes.greenWireframe',
-        baseColor: '#0ae555', // { r: 0.1, g: 0.9, b: 0.3, a: 1 },
-        fresnelColor: '#66ff0a', // { r: 0.4, g: 1, b: 0.1, a: 1 },
-        opacity: 0.5,
-        isWireframe: true,
-        coloredMeshColor: '#00A8F0',
-        meshHoverColor: '#F3FF14',
-        coloredMeshHoverColor: '#00EDD9',
-        outlinedMeshHoverColor: '#00A8F0',
-        outlinedMeshSelectedColor: '#f06900',
-        outlinedMeshHoverSelectedColor: '#f06900',
-        background: 'radial-gradient(#0a0a54, #020024)'
+        outlinedMeshHoverSelectedColor: '#f06900'
     }
+];
+
+export const ViewerModeBackgroundColors = [
+    'radial-gradient(#2f3c61 0%, #16203c 70%)',
+    'radial-gradient(#333333 0%, #0d0f0e 70%)',
+    'radial-gradient(#dddddd 0%, #ffffff 70%)'
 ];
 
 export const EnvironmentsLocalStorageKey = 'cb-environments';
@@ -197,3 +149,5 @@ export const StyleConstants = {
 };
 
 export const intellisenseMultilineBreakpoint = 40;
+
+export const CardboardClassNamePrefix = 'cb';

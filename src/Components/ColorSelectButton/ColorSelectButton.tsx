@@ -26,14 +26,16 @@ const ColorSelectButton: React.FC<ColorSelectButtonProps> = ({
     const { t } = useTranslation();
 
     return (
-        <>
+        // root node is needed to prevent bouncing when callout opens
+        <div className={'cb-color-select-root'}>
             <button
                 aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
+                data-testid={'range-builder-row-color-picker'}
                 style={{ backgroundColor: buttonColor }}
                 className="cb-color-select-button"
                 onClick={toggleIsRowColorCalloutVisible}
                 id={colorButtonId}
-            ></button>
+            />
             {isRowColorCalloutVisible && (
                 <Callout
                     ariaLabelledBy={labelId}
@@ -58,7 +60,7 @@ const ColorSelectButton: React.FC<ColorSelectButtonProps> = ({
                     />
                 </Callout>
             )}
-        </>
+        </div>
     );
 };
 

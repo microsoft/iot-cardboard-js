@@ -1,9 +1,10 @@
 import {
     Breadcrumb,
-    FontIcon,
     IBreadcrumbItem,
     IBreadcrumbStyles,
-    IRenderFunction
+    IconButton,
+    IRenderFunction,
+    useTheme
 } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +23,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     onBehaviorsRootClick,
     onElementsRootClick
 }) => {
+    const theme = useTheme();
     const { t } = useTranslation();
 
     const scenePageContext = useContext(ADT3DScenePageContext);
@@ -123,15 +125,13 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     ) => {
         if (props.key === 'Home') {
             return (
-                <button
-                    className="cb-left-panel-builder-breadcrumb-home-icon-container"
+                <IconButton
+                    iconProps={{ iconName: 'Home' }}
                     onClick={props.onClick}
-                >
-                    <FontIcon
-                        iconName={'Home'}
-                        className={'cb-left-panel-builder-breadcrumb-home-icon'}
-                    />
-                </button>
+                    styles={{
+                        root: { color: `${theme.palette.black} !important` }
+                    }}
+                />
             );
         } else return defaultRender(props);
     };

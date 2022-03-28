@@ -9,7 +9,8 @@ import {
 const classPrefix = 'widget-form';
 const classNames = {
     description: `${classPrefix}-description`,
-    gaugeWidgetFormContents: `${classPrefix}-gauge-widget-form-contents`
+    gaugeWidgetFormContents: `${classPrefix}-gauge-widget-form-contents`,
+    rangeBuilderRoot: `${classPrefix}-gauge-widget-range-builder`
 };
 export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -27,6 +28,12 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
                 overflowX: 'hidden',
                 display: 'flex',
                 flexDirection: 'column'
+            } as IStyle
+        ],
+        rangeBuilderRoot: [
+            classNames.rangeBuilderRoot,
+            {
+                paddingTop: 8
             } as IStyle
         ]
     });

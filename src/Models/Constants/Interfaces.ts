@@ -52,7 +52,6 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
-import { ADT3DRenderMode } from '.';
 import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
 import {
     I3DScenesConfig,
@@ -420,7 +419,26 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         config: I3DScenesConfig,
         behavior: IBehavior
     ): Promise<Record<string, any>>;
+    /**
+     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
+     * The names of the properties come in the format PropertyName
+     * @param sceneId Identifier for the scene
+     * @param config configuration data for the scene
+     * @param behavior behavior to look for the twins
+     */
     getCommonTwinPropertiesForBehavior(
+        sceneId: string,
+        config: I3DScenesConfig,
+        behavior: IBehavior
+    ): Promise<string[]>;
+    /**
+     * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
+     * The names of the properties come in the format LinkedTwin.Alias.PropertyName
+     * @param sceneId Identifier for the scene
+     * @param config configuration data for the scene
+     * @param behavior behavior to look for the twins
+     */
+    getTwinPropertiesForBehaviorWithFullName(
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior
@@ -648,40 +666,46 @@ export interface IADT3DAddInProps {
 }
 
 export interface ISceneViewWrapperProps {
-    config: I3DScenesConfig;
-    sceneId: string;
-    adapter: IADT3DViewerAdapter;
+    config?: I3DScenesConfig;
+    sceneId?: string;
+    adapter?: IADT3DViewerAdapter;
     sceneViewProps: ISceneViewProp;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
+    hideViewModePickerUI?: boolean;
+    objectColorUpdated?: (objectColor: IADTObjectColor) => void;
 }
 
 export interface IADT3DViewerProps {
     adapter: IADT3DViewerAdapter;
     sceneId: string;
-    sceneConfig: I3DScenesConfig;
+    scenesConfig: I3DScenesConfig;
     pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
     addInProps?: IADT3DAddInProps;
-    hideUI?: boolean;
     refetchConfig?: () => any;
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
     zoomToMeshIds?: string[];
     unzoomedMeshOpacity?: number;
+    hideViewModePickerUI?: boolean;
+    hideElementsPanel?: boolean;
 }
 
-export interface IADT3DViewerRenderMode {
-    id: ADT3DRenderMode;
-    text: string;
-    baseColor: string;
-    fresnelColor: string;
-    opacity: number;
+export interface IADT3DViewerMode {
+    objectColor: IADTObjectColor;
     isWireframe: boolean;
     background: string;
+}
+
+export interface IADTObjectColor {
+    color: string;
+    opacity: number;
+    baseColor: string;
+    fresnelColor: string;
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;

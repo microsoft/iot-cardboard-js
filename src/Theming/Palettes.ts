@@ -1,8 +1,23 @@
-import { IColorCellProps, IPalette } from '@fluentui/react';
+import { IColorCellProps, IPalette, ITheme } from '@fluentui/react';
+import { Theme } from '../Models/Constants/Enums';
 
-export const customOverrides = {
-    primaryButtonTextColor: '#F2F3F4',
-    primaryButtonTextColorDisabled: '#A5A5A5'
+export const getPrimaryButtonCustomOverrides = (
+    themeSetting: Theme,
+    theme: ITheme
+) => {
+    return {
+        // Adds box shadow on light theme
+        boxShadow:
+            themeSetting === Theme.Light
+                ? `0 1px 3px 0 rgba(0, 0, 0, .12)`
+                : '0 1px 3px 0 rgba(255,255,255,.12)',
+        primaryButtonTextColor:
+            themeSetting === Theme.Kraken ? theme.palette.white : '#F2F3F4',
+        primaryButtonTextColorDisabled:
+            themeSetting === Theme.Dark
+                ? '#F2F3F4'
+                : theme.semanticColors.buttonTextDisabled
+    };
 };
 
 export const defaultSwatchColors: IColorCellProps[] = [
@@ -91,26 +106,26 @@ export const fluentExplorerThemePalette: Partial<IPalette> = {
 };
 
 export const fluentKrakenThemePalette: Partial<IPalette> = {
-    themePrimary: '#007ef5',
-    themeLighterAlt: '#f4faff',
-    themeLighter: '#d5eafd',
-    themeLight: '#b0d7fc',
-    themeTertiary: '#64b1f9',
-    themeSecondary: '#1e8df6',
-    themeDarkAlt: '#0072dc',
-    themeDark: '#0060ba',
-    themeDarker: '#004789',
-    neutralLighterAlt: '#121930',
-    neutralLighter: '#161e38',
-    neutralLight: '#1e2846',
-    neutralQuaternaryAlt: '#242e4e',
-    neutralQuaternary: '#293355',
-    neutralTertiaryAlt: '#414c72',
+    themePrimary: '#52baed',
+    themeLighterAlt: '#030709',
+    themeLighter: '#0d1e26',
+    themeLight: '#193847',
+    themeTertiary: '#326f8e',
+    themeSecondary: '#49a3d1',
+    themeDarkAlt: '#63c0ef',
+    themeDark: '#7acaf1',
+    themeDarker: '#9cd7f5',
+    neutralLighterAlt: '#1c2746',
+    neutralLighter: '#212c4d',
+    neutralLight: '#293659',
+    neutralQuaternaryAlt: '#2f3c61',
+    neutralQuaternary: '#344267',
+    neutralTertiaryAlt: '#4c5a81',
     neutralTertiary: '#c8c8c8',
     neutralSecondary: '#d0d0d0',
     neutralPrimaryAlt: '#dadada',
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#0d1326'
+    white: '#16203c'
 };

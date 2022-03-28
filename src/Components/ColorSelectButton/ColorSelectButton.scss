@@ -1,8 +1,10 @@
-.cb-color-select-button {
+.cb-color-select-root {
     align-self: flex-end;
+}
+.cb-color-select-button {
     border: 1px solid var(--cb-color-input-border);
     border-radius: 50%;
     cursor: pointer;
-    height: 24px;
-    width: 24px;
+    height: 28px;
+    width: 28px;
 }

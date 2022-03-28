@@ -1,14 +1,14 @@
 import React from 'react';
-import SceneView from '../3DV/SceneView';
 import './ADT3DBuilder.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { CustomMeshItem, Marker } from '../../Models/Classes/SceneView.types';
 import {
-    IADT3DViewerRenderMode,
-    IADTAdapter
+    IADTAdapter,
+    IADTObjectColor
 } from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from 'babylonjs';
+import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
 
 interface ADT3DBuilderProps {
     adapter: IADTAdapter; // for now
@@ -19,8 +19,9 @@ interface ADT3DBuilderProps {
     showMeshesOnHover?: boolean;
     coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
-    renderMode?: IADT3DViewerRenderMode;
     outlinedMeshItems?: CustomMeshItem[];
+    objectColorUpdated?: (objectColor: IADTObjectColor) => void;
+    hideViewModePickerUI?: boolean;
 }
 
 const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
@@ -31,8 +32,9 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     showMeshesOnHover,
     coloredMeshItems,
     showHoverOnSelected,
-    renderMode,
-    outlinedMeshItems
+    outlinedMeshItems,
+    objectColorUpdated,
+    hideViewModePickerUI
 }) => {
     const meshClick = (
         _marker: Marker,
@@ -59,23 +61,24 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     return (
         <BaseComponent>
             <div className="cb-adt3dbuilder-wrapper">
-                <SceneView
-                    modelUrl={modelUrl}
-                    onMeshClick={meshClick}
-                    onMeshHover={meshHover}
-                    coloredMeshItems={coloredMeshItems}
-                    showMeshesOnHover={showMeshesOnHover ?? true}
-                    showHoverOnSelected={showHoverOnSelected}
-                    renderMode={renderMode}
-                    outlinedMeshitems={outlinedMeshItems}
-                    getToken={
-                        (adapter as any).authService
+                <SceneViewWrapper
+                    objectColorUpdated={objectColorUpdated}
+                    hideViewModePickerUI={hideViewModePickerUI}
+                    sceneViewProps={{
+                        modelUrl: modelUrl,
+                        onMeshClick: meshClick,
+                        onMeshHover: meshHover,
+                        coloredMeshItems: coloredMeshItems,
+                        showMeshesOnHover: showMeshesOnHover ?? true,
+                        showHoverOnSelected: showHoverOnSelected,
+                        outlinedMeshitems: outlinedMeshItems,
+                        getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(
                                       'storage'
                                   )
                             : undefined
-                    }
+                    }}
                 />
             </div>
         </BaseComponent>

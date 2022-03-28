@@ -12,6 +12,7 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { deepCopy } from '../../../../../Models/Services/Utils';
 
 export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
@@ -45,12 +46,12 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
                     elementToEdit,
-                    JSON.parse(JSON.stringify(behaviors))
+                    deepCopy(behaviors)
                 );
 
                 draft.availableBehaviors = ViewerConfigUtility.getAvailableBehaviorsForElement(
                     elementToEdit,
-                    JSON.parse(JSON.stringify(behaviors))
+                    deepCopy(behaviors)
                 );
             })
         );
