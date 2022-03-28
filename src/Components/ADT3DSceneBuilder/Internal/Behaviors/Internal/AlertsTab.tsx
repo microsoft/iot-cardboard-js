@@ -130,9 +130,8 @@ const AlertsTab: React.FC = () => {
             <TextField
                 label={t(LOC_KEYS.notificationLabel)}
                 placeholder={t(LOC_KEYS.notificationPlaceholder)}
-                value={colorChangeVisual.labelExpression}
-                onChange={onNoteChange}
                 multiline
+                onChange={onNoteChange}
                 rows={3}
                 styles={{
                     root: {
@@ -140,6 +139,7 @@ const AlertsTab: React.FC = () => {
                         paddingBottom: 4
                     }
                 }}
+                value={colorChangeVisual.labelExpression}
             />
         </Stack>
     );
