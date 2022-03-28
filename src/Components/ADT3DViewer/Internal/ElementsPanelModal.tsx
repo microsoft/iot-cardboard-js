@@ -39,13 +39,15 @@ const modalStyles: Partial<IModalStyles> = {
     main: {
         background: 'transparent',
         left: 20,
-        width: '400px !important',
-        minHeight: '400px !important',
+        width: '340px !important',
         display: 'flex',
-        top: 20
+        maxHeight: 'unset',
+        height: '100%',
+        padding: '20px 0'
     },
     scrollableContent: {
         width: '100%',
+        overflowY: 'hidden',
         '.ms-Dialog-inner': { padding: '0px 0px 24px' }
     }
 };

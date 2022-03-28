@@ -2,6 +2,7 @@ import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DScenePage from './ADT3DScenePage';
 import mockConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
+import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
     title: 'Pages/ADT3DScenePage',
@@ -13,9 +14,10 @@ export default {
 };
 
 const cardStyle = {
-    height: '600px',
-    width: '100%'
-};
+    height: '100%',
+    width: '100%',
+    position: 'absolute'
+} as React.CSSProperties;
 
 export const Mock3DScenePage = (_args, { globals: { theme, locale } }) => {
     return (
@@ -36,7 +38,7 @@ export const Mock3DScenePageSchemaErrors = (
     _args,
     { globals: { theme, locale } }
 ) => {
-    const invalidConfig = JSON.parse(JSON.stringify(mockConfig));
+    const invalidConfig = deepCopy(mockConfig);
     invalidConfig.configuration.scenes[0]['invalidPropTest'] = 'uh oh';
 
     return (

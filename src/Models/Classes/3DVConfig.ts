@@ -3,6 +3,7 @@ import {
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
+    IStatusColoringVisual,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -49,6 +50,15 @@ export const defaultOnClickPopover: IPopoverVisual = {
     widgets: [],
     objectIDs: {
         expression: 'meshIDs'
+    }
+};
+
+export const defaultStatusColorVisual: IStatusColoringVisual = {
+    type: VisualType.StatusColoring,
+    statusValueExpression: '',
+    valueRanges: [],
+    objectIDs: {
+        expression: 'objectIDs'
     }
 };
 

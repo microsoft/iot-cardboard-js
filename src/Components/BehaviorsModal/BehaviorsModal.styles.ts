@@ -18,8 +18,8 @@ const classNames = {
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
-const initialPopoverTopOffset = 60;
-const initialPopoverRightOffset = 20;
+const initialPopoverTopOffset = 112;
+const initialPopoverRightOffset = 10;
 
 const modalBorderColor = 'var(--cb-color-modal-border)';
 

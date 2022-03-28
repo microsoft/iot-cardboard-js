@@ -43,6 +43,11 @@ const ValueRangeInput: React.FC<{
                 <div className="cb-range-boundary-input-container">
                     <input
                         autoComplete="false"
+                        data-testid={
+                            isMin
+                                ? 'range-builder-row-input-min'
+                                : 'range-builder-row-input-max'
+                        }
                         id={guid}
                         value={String(value)}
                         type="string"
@@ -75,10 +80,15 @@ const ValueRangeInput: React.FC<{
                         }
                     />
                     <button
+                        aria-label={infinityIconMessage}
                         className={`cb-value-range-input-infinity-button ${
                             isMin ? 'cb-value-range-negative-infinity' : ''
                         }`}
-                        aria-label={infinityIconMessage}
+                        data-testid={
+                            isMin
+                                ? 'range-builder-row-infinite-min'
+                                : 'range-builder-row-infinite-max'
+                        }
                         title={infinityIconMessage}
                         onClick={() =>
                             dispatch({

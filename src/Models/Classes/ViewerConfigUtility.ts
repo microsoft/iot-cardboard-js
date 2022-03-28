@@ -1,16 +1,16 @@
 import {
     I3DScenesConfig,
+    IAlertVisual,
     IBehavior,
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
-    IScene,
-    IValueRange,
-    ITwinToObjectMapping,
     IPopoverVisual,
-    IVisual,
-    IAlertVisual,
-    IStatusColoringVisual
+    IScene,
+    IStatusColoringVisual,
+    ITwinToObjectMapping,
+    IValueRange,
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
@@ -349,6 +349,43 @@ abstract class ViewerConfigUtility {
         return behavior.datasources.filter(
             ViewerConfigUtility.isElementTwinToObjectMappingDataSource
         );
+    }
+
+    /**
+     * Gets the list of all the active properties from the provided linked twins
+     * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
+     * @param twins List of twins the get the properties from
+     * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
+     */
+    static getPropertyNamesWithAliasFromTwins(twins: Record<string, any>) {
+        const properties = new Set<string>();
+        for (const alias in twins) {
+            const twin = twins[alias];
+            const split = alias.split('.');
+            const name = split.length ? split[0] : alias;
+            for (const prop in twin) {
+                if (prop.substring(0, 1) !== '$' || prop === '$dtId') {
+                    properties.add(`${name}.${prop}`);
+                }
+            }
+        }
+        return Array.from(properties.values()).sort();
+    }
+
+    /**
+     * Takes in the property names that have an alias at the start ex: "LinkedTwin" and splits off that prefix to only have the raw property names.
+     * source of the input is usually `getPropertyNamesWithAliasFromTwins`
+     * @param properties List of properties with the LinkedTwin type prefix
+     * @returns list of raw property names
+     */
+    static getPropertyNameFromAliasedProperty(properties: string[]) {
+        return properties
+            .map((x) => {
+                // comes back as LinkedTwin.Alias.PropertyName
+                const sliced = x.split('.');
+                return sliced[sliced.length - 1];
+            })
+            .sort();
     }
 
     static removeBehaviorFromList(
