@@ -16,7 +16,12 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
-import { makeStandardMaterial, outlineMaterial, ToColor3 } from './Shaders';
+import {
+    makeMaterial,
+    makeStandardMaterial,
+    outlineMaterial,
+    ToColor3
+} from './Shaders';
 import {
     DefaultViewerModeObjectColor,
     ViewerModeObjectColors
@@ -145,7 +150,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const hovMaterial = useRef<any>(null);
     const coloredHovMaterial = useRef<any>(null);
     const coloredMaterials = useRef<any>([]);
-    const shaderMaterial = useRef<BABYLON.StandardMaterial>();
+    const shaderMaterial = useRef<any>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
     const reflectionTexture = useRef<BABYLON.Texture>(null);
@@ -283,7 +288,10 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 new BABYLON.Vector3(1, 1, 0),
                 sc
             );
-            light.groundColor = new BABYLON.Color3(0.8, 0.8, 0.8);
+            light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
+            light.specular = new BABYLON.Color3(1, 1, 1);
+            light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
             if (modelUrl) {
                 let url = modelUrl;
                 if (url === 'Globe') {
@@ -534,7 +542,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 ] ||
                 (materialCacheRef.current[
                     currentObjectColorId + currentObjectColor.meshHoverColor
-                ] = makeStandardMaterial(
+                ] = makeMaterial(
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.meshHoverColor),
@@ -559,7 +567,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 (materialCacheRef.current[
                     currentObjectColorId +
                         currentObjectColor.coloredMeshHoverColor
-                ] = makeStandardMaterial(
+                ] = makeMaterial(
                     'hover',
                     sceneRef.current,
                     hexToColor4(currentObjectColor.coloredMeshHoverColor),
@@ -607,7 +615,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const fresnelColor = hexToColor4(
                     currentObjectColor.fresnelColor
                 );
-                const material = makeStandardMaterial(
+                const material = makeMaterial(
                     'col',
                     sceneRef.current,
                     baseColor,
@@ -1060,7 +1068,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
         let material = materialCacheRef.current[materialId];
         if (!material) {
-            material = makeStandardMaterial(
+            material = makeMaterial(
                 'coloredMeshMaterial',
                 sceneRef.current,
                 hexToColor4(col),

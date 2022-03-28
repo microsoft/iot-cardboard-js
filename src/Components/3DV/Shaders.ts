@@ -1,5 +1,4 @@
 import * as BABYLON from 'babylonjs';
-import { WhiteTexture } from '../../Models/Constants';
 //import { customShaderTag, shaderHasReflection } from '../../Models/Constants';
 
 const customVertex = `
@@ -158,6 +157,34 @@ void main(void) {
 //     return material;
 // }
 
+export function makeMaterial(
+    name: string,
+    scene: any,
+    baseColor: BABYLON.Color4,
+    fresnelColor?: BABYLON.Color4,
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
+) {
+    if (lightingStyle === 0)
+        return makePBRMaterial(
+            name,
+            scene,
+            baseColor,
+            fresnelColor,
+            reflectionTexture,
+            lightingStyle
+        );
+    else
+        return makeStandardMaterial(
+            name,
+            scene,
+            baseColor,
+            fresnelColor,
+            reflectionTexture,
+            lightingStyle
+        );
+}
+
 export function makeStandardMaterial(
     name: string,
     scene: any,
@@ -180,7 +207,7 @@ export function makeStandardMaterial(
     if (!lightingStyle) lightingStyle = 0;
 
     //diffuse
-    material.diffuseColor = BABYLON.Color3.White();
+    material.diffuseColor = baseColor3;
 
     //If translucent, set emissive settings
     if (lightingStyle >= 1) {
@@ -190,7 +217,7 @@ export function makeStandardMaterial(
         material.emissiveColor = BABYLON.Color3.White();
 
         material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-        material.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
+        material.emissiveFresnelParameters.leftColor = fresnelColor3;
         material.emissiveFresnelParameters.rightColor = baseColor3;
         material.emissiveFresnelParameters.power = 2;
         material.emissiveFresnelParameters.bias = 0.2;
@@ -202,10 +229,7 @@ export function makeStandardMaterial(
     if (fresnelColor && lightingStyle == 0) {
         material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
         material.diffuseFresnelParameters.leftColor = fresnelColor3;
-        material.diffuseFresnelParameters.rightColor = calculateAverageFresnel3(
-            baseColor3,
-            fresnelColor3
-        );
+        material.diffuseFresnelParameters.rightColor = baseColor3;
         material.diffuseFresnelParameters.bias = 4.0;
         material.diffuseFresnelParameters.power = 4.5;
     }
@@ -213,23 +237,66 @@ export function makeStandardMaterial(
     //Alpha and alphamode
     material.backFaceCulling = baseColor.a >= 1;
     material.alpha = baseColor.a;
-    //material.ambientColor = BABYLON.Color3.White();
     material.alphaMode = selectAlphaMode(baseColor.a);
 
     //Reflection map
     if (reflectionTexture) {
         material.reflectionTexture = reflectionTexture;
-        material.useReflectionOverAlpha = true;
-
+        material.useReflectionOverAlpha = lightingStyle !== 0;
         material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
         material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
         material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+        material.reflectionFresnelParameters.bias = 0.3;
+        material.reflectionFresnelParameters.power = 0.2;
 
-        material.roughness = 1;
-        material.specularPower = 10;
+        //material.roughness = 100;
+        // material.specularPower = 0.0;
     }
+
     return material;
 }
+
+export function makePBRMaterial(
+    name: string,
+    scene: any,
+    baseColor: BABYLON.Color4,
+    fresnelColor?: BABYLON.Color4,
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
+) {
+    const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
+    const baseColor3 = new BABYLON.Color3(
+        baseColor.r,
+        baseColor.g,
+        baseColor.b
+    );
+    const fresnelColor3 = new BABYLON.Color3(
+        fresnelColor?.r,
+        fresnelColor?.g,
+        fresnelColor?.b
+    );
+    if (!lightingStyle) lightingStyle = 0;
+
+    material.backFaceCulling = false;
+
+    //diffuse
+    material.baseColor = baseColor3;
+    material.metallic = 0.0;
+    material.roughness = 0.7;
+
+    //Alpha and alphamode
+    material.alpha = baseColor.a;
+
+    //Reflection map
+    if (reflectionTexture) {
+        material.environmentTexture = reflectionTexture;
+        material.metallic = 0.05;
+        material.roughness = 1;
+    }
+
+    return material;
+}
+
 export function outlineMaterial(scene: any) {
     const mat = new BABYLON.StandardMaterial('cloneMat', scene);
     mat.alpha = 0.0;
