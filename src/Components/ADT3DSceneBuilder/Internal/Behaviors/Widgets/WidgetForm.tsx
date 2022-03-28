@@ -24,7 +24,7 @@ import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { createGUID, deepCopy } from '../../../../../Models/Services/Utils';
+import { deepCopy } from '../../../../../Models/Services/Utils';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC = () => {

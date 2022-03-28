@@ -234,8 +234,9 @@ function getListItems(
                         overflow: 'hidden'
                     }}
                 >
-                    {statuses.map((status) => (
+                    {statuses.map((status, index) => (
                         <div
+                            key={index}
                             className={
                                 getElementsPanelStatusStyles(
                                     getSceneElementStatusColor(

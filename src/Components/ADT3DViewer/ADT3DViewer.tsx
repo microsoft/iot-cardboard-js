@@ -42,6 +42,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     coloredMeshItems: coloredMeshItemsProp,
     zoomToMeshIds: zoomToMeshIdsProp,
     unzoomedMeshOpacity,
+    hideElementsPanel,
     hideViewModePickerUI
 }) => {
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
@@ -74,21 +75,26 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     }, []);
 
     useEffect(() => {
-        const newColoredMeshItems = [...coloredMeshItems];
-        sceneVisuals.forEach((sceneVisual) => {
-            sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
-                const existingColoredMeshItem = newColoredMeshItems.find(
-                    (nC) => nC.meshId === sceneColoredMeshItem.meshId
-                );
-                if (existingColoredMeshItem) {
-                    existingColoredMeshItem.color = sceneColoredMeshItem.color;
-                } else {
-                    newColoredMeshItems.push(sceneColoredMeshItem);
-                }
+        if (coloredMeshItemsProp) {
+            setColoredMeshItems(coloredMeshItemsProp);
+        } else {
+            const newColoredMeshItems = [...coloredMeshItems];
+            sceneVisuals.forEach((sceneVisual) => {
+                sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
+                    const existingColoredMeshItem = newColoredMeshItems.find(
+                        (nC) => nC.meshId === sceneColoredMeshItem.meshId
+                    );
+                    if (existingColoredMeshItem) {
+                        existingColoredMeshItem.color =
+                            sceneColoredMeshItem.color;
+                    } else {
+                        newColoredMeshItems.push(sceneColoredMeshItem);
+                    }
+                });
             });
-        });
-        setColoredMeshItems(newColoredMeshItems);
-    }, [sceneVisuals]);
+            setColoredMeshItems(newColoredMeshItems);
+        }
+    }, [sceneVisuals, coloredMeshItemsProp]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<ViewerElementsPanelItem> = useMemo(
@@ -107,7 +113,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     ) => {
         let popOver = popOverToDisplay;
 
-        if (!popOverToDisplay) {
+        if (!popOverToDisplay && sceneVisual) {
             popOver = []
                 .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
                 ?.find(
@@ -130,16 +136,20 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
-            const popOver = []
-                .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
-                ?.find(
-                    (visual) => visual.type === VisualType.Popover
-                ) as IPopoverVisual;
+            let popOver: IPopoverVisual = null;
+            if (sceneVisual) {
+                popOver = []
+                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                    ?.find(
+                        (visual) => visual.type === VisualType.Popover
+                    ) as IPopoverVisual;
+            }
 
             if (popOver) {
                 if (selectedMesh.current === mesh) {
                     selectedMesh.current = null;
                     setShowPopUp(false);
+                    setZoomToMeshIds([]);
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
@@ -148,6 +158,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             } else {
                 selectedMesh.current = null;
                 setShowPopUp(false);
+                setZoomToMeshIds([]);
             }
         }
 
@@ -199,6 +210,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         []
     );
 
+    useEffect(() => {
+        if (zoomToMeshIdsProp) {
+            setZoomToMeshIds(zoomToMeshIdsProp);
+        }
+    }, [zoomToMeshIdsProp]);
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -206,14 +223,16 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                <ElementsPanelModal
-                    theme={theme}
-                    locale={locale}
-                    panelItems={panelItems}
-                    isLoading={isLoading}
-                    onItemClick={onElementPanelItemClicked}
-                    onItemHover={(item) => item.type}
-                />
+                {!hideElementsPanel && (
+                    <ElementsPanelModal
+                        theme={theme}
+                        locale={locale}
+                        panelItems={panelItems}
+                        isLoading={isLoading}
+                        onItemClick={onElementPanelItemClicked}
+                        onItemHover={(item) => item.type}
+                    />
+                )}
                 <SceneViewWrapper
                     adapter={adapter}
                     config={scenesConfig}

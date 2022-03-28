@@ -911,7 +911,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         lastMarkerRef.current !== marker
                     ) {
                         debugLog('pointer move');
-                        onMeshHoverRef.current(marker, mesh, scene, e);
+                        try {
+                            onMeshHoverRef.current(marker, mesh, scene, e);
+                        } catch {
+                            console.log('Error calling hover event on scene');
+                        }
                         lastMarkerRef.current = marker;
                         lastMeshRef.current = mesh;
                     }
@@ -958,7 +962,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 }
 
                 if (onMeshClickRef.current) {
-                    onMeshClickRef.current(marker, mesh, scene, e.event);
+                    try {
+                        onMeshClickRef.current(marker, mesh, scene, e.event);
+                    } catch {
+                        console.log('Error calling tap event on scene');
+                    }
                 }
             };
 
