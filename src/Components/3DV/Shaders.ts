@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+import { WhiteTexture } from '../../Models/Constants';
 //import { customShaderTag, shaderHasReflection } from '../../Models/Constants';
 
 const customVertex = `
@@ -179,20 +180,20 @@ export function makeStandardMaterial(
     if (!lightingStyle) lightingStyle = 0;
 
     //diffuse
-    material.diffuseColor = baseColor3;
+    material.diffuseColor = BABYLON.Color3.White();
 
     //If translucent, set emissive settings
     if (lightingStyle >= 1) {
         material.disableLighting = true;
         material.specularPower = 0;
         material.roughness = 100;
-        material.emissiveColor = baseColor3;
+        material.emissiveColor = BABYLON.Color3.White();
 
         material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
         material.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
         material.emissiveFresnelParameters.rightColor = baseColor3;
-        // material.emissiveFresnelParameters.power = 100;
-        // material.emissiveFresnelParameters.bias = 0.5;
+        material.emissiveFresnelParameters.power = 2;
+        material.emissiveFresnelParameters.bias = 0.2;
 
         material.useEmissiveAsIllumination = true;
     }
@@ -212,6 +213,7 @@ export function makeStandardMaterial(
     //Alpha and alphamode
     material.backFaceCulling = baseColor.a >= 1;
     material.alpha = baseColor.a;
+    //material.ambientColor = BABYLON.Color3.White();
     material.alphaMode = selectAlphaMode(baseColor.a);
 
     //Reflection map
@@ -227,6 +229,17 @@ export function makeStandardMaterial(
         material.specularPower = 10;
     }
     return material;
+}
+export function outlineMaterial(scene: any) {
+    const mat = new BABYLON.StandardMaterial('cloneMat', scene);
+    mat.alpha = 0.0;
+    mat.alphaMode = 5;
+
+    mat.disableLighting = true;
+    mat.diffuseColor = BABYLON.Color3.Black();
+    mat.freeze();
+
+    return mat;
 }
 
 function calculateAverageFresnel4(
@@ -258,7 +271,7 @@ function calculateAverageFresnel3(
 export function selectAlphaMode(alpha: number) {
     if (alpha >= 1) return 0;
     if (alpha >= 0.9) return BABYLON.Engine.ALPHA_MAXIMIZED;
-    if (alpha > 0) return BABYLON.Engine.ALPHA_PREMULTIPLIED_PORTERDUFF;
+    if (alpha > 0) return BABYLON.Engine.ALPHA_ADD;
     return 0;
 }
 

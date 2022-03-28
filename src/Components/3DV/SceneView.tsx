@@ -16,7 +16,7 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
-import { makeStandardMaterial, ToColor3 } from './Shaders';
+import { makeStandardMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
     ViewerModeObjectColors
@@ -149,7 +149,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
     const reflectionTexture = useRef<BABYLON.Texture>(null);
-    const outlinedMeshes = useRef<AbstractMesh[]>([]);
+    const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
+    const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -232,6 +233,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
+                sortMeshesOnLoad();
                 setIsLoading(false);
                 engineRef.current.resize();
                 if (onSceneLoaded) {
@@ -297,6 +299,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
         return sceneRef.current;
     }, [canvasId, modelUrl]);
 
+    const sortMeshesOnLoad = () => {
+        for (const mesh of sceneRef.current.meshes) {
+            //Set the alpha index for the meshes for alpha sorting later
+            mesh.alphaIndex = 1;
+        }
+    };
     const createOrZoomCamera = () => {
         const zoomTo = (zoomToMeshIds || []).join(',');
         if (
@@ -494,6 +502,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 }
             } else {
                 for (const mesh of sceneRef.current.meshes) {
+                    //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
+                    if (mesh.alphaIndex > 1) continue;
                     mesh.material = shaderMaterial.current;
                 }
             }
@@ -505,25 +515,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
             const currentObjectColorId = currentColorId();
-
-            //Update the highlight layer to use the correct alpha blend mode based on lightingStyle
-            // const highlightBlurSize =
-            //     currentObjectColor.lightingStyle == 0 ? 0.5 : 1.0;
-            // const highlightBlendMode =
-            //     currentObjectColor.lightingStyle == 0
-            //         ? BABYLON.Engine.ALPHA_COMBINE
-            //         : BABYLON.Engine.ALPHA_COMBINE;
-            // highlightLayer.current?.dispose();
-            // highlightLayer.current = new BABYLON.HighlightLayer(
-            //     'hl1',
-            //     sceneRef.current,
-            //     {
-            //         blurHorizontalSize: highlightBlurSize,
-            //         blurVerticalSize: highlightBlurSize,
-            //         alphaBlendingMode: highlightBlendMode
-            //     }
-            // );
-            // highlightLayer.current.innerGlow = true;
 
             //Reset the reflection Texture
             reflectionTexture.current = null;
@@ -1095,10 +1086,26 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                const meshToOutline: BABYLON.Mesh =
+                let meshToOutline: BABYLON.Mesh =
                     meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
+                        if (currentObjectColor.lightingStyle > 0) {
+                            //Alpha_ADD blended meshes do not work well with highlight layers.
+                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
+                            const clone = meshToOutline.clone(
+                                '',
+                                null,
+                                true,
+                                false
+                            );
+                            clone.material = outlineMaterial(sceneRef.current);
+                            clone.alphaIndex = 2;
+                            clone.isPickable = false;
+                            clonedHighlightMeshes.current.push(clone);
+                            sceneRef.current.meshes.push(clone);
+                            meshToOutline = clone;
+                        }
                         highlightLayer.current.addMesh(
                             meshToOutline,
                             ToColor3(
@@ -1122,6 +1129,20 @@ const SceneView: React.FC<ISceneViewProp> = ({
             debugLog('Outline Mesh cleanup');
             for (const mesh of outlinedMeshes.current) {
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+            }
+            //This array keeps growing in length even though it is completely emptied during cleanup...
+            //Is this best practice for resetting an array?
+            outlinedMeshes.current = [];
+
+            //If we have cloned meshes for highlight, delete them
+            if (clonedHighlightMeshes.current) {
+                for (const mesh of clonedHighlightMeshes.current) {
+                    mesh?.dispose();
+                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
+                    if (sceneRef.current.meshes)
+                        sceneRef.current.meshes.length--;
+                }
+                clonedHighlightMeshes.current = [];
             }
         };
     }, [outlinedMeshitems]);
