@@ -23,9 +23,9 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
-import { ViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -97,7 +97,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     }, [sceneVisuals, coloredMeshItemsProp]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
-    const panelItems: Array<ViewerElementsPanelItem> = useMemo(
+    const panelItems: Array<IViewerElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
@@ -224,11 +224,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
                 {!hideElementsPanel && (
-                    <ElementsPanelModal
-                        theme={theme}
-                        locale={locale}
-                        panelItems={panelItems}
+                    <ViewerElementsPanel
                         isLoading={isLoading}
+                        panelItems={panelItems}
                         onItemClick={onElementPanelItemClicked}
                         onItemHover={(item) => item.type}
                     />

@@ -1,21 +1,21 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useMemo, useRef, useState } from 'react';
 import ElementList from './Internal/ElementsList';
 import { useTranslation } from 'react-i18next';
 import { Icon, SearchBox, Spinner, SpinnerSize } from '@fluentui/react';
-import { ViewerElementsPanelProps } from './ViewerElementsPanel.types';
+import { IViewerElementsPanelProps } from './ViewerElementsPanel.types';
 import { getElementsPanelStyles } from './ViewerElementsPanel.styles';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { performSubstitutions } from '../../Models/Services/Utils';
+import Draggable from 'react-draggable';
 
-const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
-    baseComponentProps,
+const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     panelItems,
     isLoading = false,
     onItemClick,
     onItemHover
 }) => {
     const { t } = useTranslation();
+    const boundaryRef = useRef<HTMLDivElement>(null);
     const elementsPanelStyles = getElementsPanelStyles();
     const [filterTerm, setFilterTerm] = useState('');
 
@@ -46,33 +46,38 @@ const ViewerElementsPanel: React.FC<ViewerElementsPanelProps> = ({
     );
 
     return (
-        <BaseComponent {...baseComponentProps}>
-            <div className={elementsPanelStyles.container}>
-                <div className={elementsPanelStyles.header}>
-                    <Icon
-                        iconName="BulletedTreeList"
-                        style={{ fontSize: 16 }}
+        <div ref={boundaryRef} className={elementsPanelStyles.boundaryLayer}>
+            <Draggable
+                bounds="parent"
+                defaultClassName={elementsPanelStyles.draggable}
+            >
+                <div className={elementsPanelStyles.modalContainer}>
+                    <div className={elementsPanelStyles.header}>
+                        <Icon
+                            iconName="BulletedTreeList"
+                            style={{ fontSize: 16 }}
+                        />
+                        <span className={elementsPanelStyles.title}>
+                            {t('elementsPanel.title')}
+                        </span>
+                        {isLoading && <Spinner size={SpinnerSize.small} />}
+                    </div>
+                    <SearchBox
+                        placeholder={t('elementsPanel.filterPlaceholder')}
+                        onChange={(_e, value) => setFilterTerm(value)}
+                        value={filterTerm}
+                        className={elementsPanelStyles.filterBox}
                     />
-                    <span className={elementsPanelStyles.title}>
-                        {t('elementsPanel.title')}
-                    </span>
-                    {isLoading && <Spinner size={SpinnerSize.small} />}
+                    <ElementList
+                        isLoading={isLoading}
+                        panelItems={filteredPanelItems}
+                        onItemClick={onItemClick}
+                        onItemHover={onItemHover}
+                        filterTerm={filterTerm}
+                    />
                 </div>
-                <SearchBox
-                    placeholder={t('elementsPanel.filterPlaceholder')}
-                    onChange={(_e, value) => setFilterTerm(value)}
-                    value={filterTerm}
-                    className={elementsPanelStyles.searchBox}
-                />
-                <ElementList
-                    isLoading={isLoading}
-                    panelItems={filteredPanelItems}
-                    onItemClick={onItemClick}
-                    onItemHover={onItemHover}
-                    filterTerm={filterTerm}
-                />
-            </div>
-        </BaseComponent>
+            </Draggable>
+        </div>
     );
 };
 

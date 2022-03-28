@@ -23,7 +23,7 @@ import {
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
-    ViewerElementsPanelItem,
+    IViewerElementsPanelItem,
     ViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
 import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
@@ -71,15 +71,15 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 };
 
 function getListItems(
-    panelItems: Array<ViewerElementsPanelItem>,
+    panelItems: Array<IViewerElementsPanelItem>,
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void,
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
