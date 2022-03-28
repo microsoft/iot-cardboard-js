@@ -1,5 +1,4 @@
 import * as BABYLON from 'babylonjs';
-//import { customShaderTag, shaderHasReflection } from '../../Models/Constants';
 
 const customVertex = `
 precision highp float;
@@ -248,9 +247,6 @@ export function makeStandardMaterial(
         material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
         material.reflectionFresnelParameters.bias = 0.3;
         material.reflectionFresnelParameters.power = 0.2;
-
-        //material.roughness = 100;
-        // material.specularPower = 0.0;
     }
 
     return material;
@@ -302,32 +298,6 @@ export function outlineMaterial(scene: any) {
     mat.freeze();
 
     return mat;
-}
-
-function calculateAverageFresnel4(
-    themeFresnel: BABYLON.Color4,
-    baseColor: BABYLON.Color4
-) {
-    const newFresnel = new BABYLON.Color4(
-        (baseColor.r + themeFresnel.r) * 0.5,
-        (baseColor.g + themeFresnel.g) * 0.5,
-        (baseColor.b + themeFresnel.b) * 0.5,
-        (baseColor.a + themeFresnel.a) * 0.5
-    );
-
-    return newFresnel;
-}
-function calculateAverageFresnel3(
-    themeFresnel: BABYLON.Color3,
-    baseColor: BABYLON.Color3
-) {
-    const newFresnel = new BABYLON.Color3(
-        (baseColor.r + themeFresnel.r) * 0.5,
-        (baseColor.g + themeFresnel.g) * 0.5,
-        (baseColor.b + themeFresnel.b) * 0.5
-    );
-
-    return newFresnel;
 }
 
 export function selectAlphaMode(alpha: number) {

@@ -216,12 +216,12 @@
                         "statusValueExpression": "temperatureTag.OutFlow",
                         "statusValueRanges": [
                             {
-                                "color": "#FF0000FF",
+                                "color": "#FF0000",
                                 "min": 100,
                                 "max": "Infinity"
                             },
                             {
-                                "color": "#00FF00FF",
+                                "color": "#00FF00",
                                 "min": "-Infinity",
                                 "max": 100
                             }
@@ -237,7 +237,7 @@
                         "triggerExpression": "temperatureTag.value > 100",
                         "labelExpression": "${LinkedTwin.displayName} is too hot!",
                         "iconName": "heart",
-                        "color": "#00FF00FF",
+                        "color": "#00FF00",
                         "objectIDs": {
                             "expression": "objectIDs"
                         }

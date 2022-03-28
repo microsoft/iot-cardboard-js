@@ -696,13 +696,9 @@ export interface IADT3DViewerMode {
 
 export interface IADTObjectColor {
     color: string;
-    //opacity: number;
     baseColor: string;
     fresnelColor: string;
-    //opacity: number;
-    //isWireframe: boolean;
     lightingStyle: number;
-    //background: string;
     reflectionTexture?: string;
     coloredMeshColor: string;
     meshHoverColor: string;
