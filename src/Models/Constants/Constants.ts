@@ -126,7 +126,8 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
         coloredMeshHoverColor: '#0059e4FD',
         outlinedMeshHoverColor: '#FF0000FD',
         outlinedMeshSelectedColor: '#0000FD',
-        outlinedMeshHoverSelectedColor: '#00FF00FDa'
+        outlinedMeshHoverSelectedColor: '#00FF00FDa',
+        reflectionTexture: null
     },
     //Gold
     {

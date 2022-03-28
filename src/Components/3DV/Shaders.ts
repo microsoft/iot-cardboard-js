@@ -185,11 +185,15 @@ export function makeStandardMaterial(
     if (lightingStyle >= 1) {
         material.disableLighting = true;
         material.specularPower = 0;
+        material.roughness = 100;
         material.emissiveColor = baseColor3;
 
         material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
         material.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
         material.emissiveFresnelParameters.rightColor = baseColor3;
+        // material.emissiveFresnelParameters.power = 100;
+        // material.emissiveFresnelParameters.bias = 0.5;
+
         material.useEmissiveAsIllumination = true;
     }
 
@@ -253,8 +257,8 @@ function calculateAverageFresnel3(
 
 export function selectAlphaMode(alpha: number) {
     if (alpha >= 1) return 0;
-    if (alpha >= 0.9) return 5;
-    if (alpha > 0) return 1;
+    if (alpha >= 0.9) return BABYLON.Engine.ALPHA_MAXIMIZED;
+    if (alpha > 0) return BABYLON.Engine.ALPHA_PREMULTIPLIED_PORTERDUFF;
     return 0;
 }
 

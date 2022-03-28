@@ -1099,21 +1099,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
-                        if (item.color) {
-                            highlightLayer.current.addMesh(
-                                meshToOutline,
-                                ToColor3(hexToColor4(item.color))
-                            );
-                        } else {
-                            highlightLayer.current.addMesh(
-                                meshToOutline,
-                                ToColor3(
-                                    hexToColor4(
-                                        currentObjectColor.outlinedMeshSelectedColor
-                                    )
+                        highlightLayer.current.addMesh(
+                            meshToOutline,
+                            ToColor3(
+                                hexToColor4(
+                                    item.color
+                                        ? item.color
+                                        : currentObjectColor.outlinedMeshSelectedColor
                                 )
-                            );
-                        }
+                            )
+                        );
 
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
