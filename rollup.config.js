@@ -9,6 +9,7 @@ import eslint from '@rollup/plugin-eslint';
 import dts from 'rollup-plugin-dts';
 import url from '@rollup/plugin-url';
 import svgr from '@svgr/rollup';
+import image from '@rollup/plugin-image';
 const parseExportListFromIndex = require('./tools/index-parser');
 
 // Build map of library entry points -- this allows for splitting library into chunks & tree shaking
@@ -58,7 +59,10 @@ const commonPlugins = [
             })
         ]
     }),
-    url(),
+    url({
+        exclude: ['**/*.svg']
+    }),
+    image(),
     svgr()
 ];
 
