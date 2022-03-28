@@ -270,18 +270,13 @@ export function makePBRMaterial(
         baseColor.g,
         baseColor.b
     );
-    const fresnelColor3 = new BABYLON.Color3(
-        fresnelColor?.r,
-        fresnelColor?.g,
-        fresnelColor?.b
-    );
     if (!lightingStyle) lightingStyle = 0;
 
     material.backFaceCulling = false;
 
     //diffuse
     material.baseColor = baseColor3;
-    material.metallic = 0.0;
+    material.metallic = 0.05;
     material.roughness = 0.7;
 
     //Alpha and alphamode
