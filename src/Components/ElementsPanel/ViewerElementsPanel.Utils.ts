@@ -20,9 +20,10 @@ export const sortPanelItemsForDisplay = memoizeFunction(
 
         // traverse all the panel items and group them based on if they have active alerts, status or nothing
         panelItems.forEach((panelItem) => {
-            const flattenedPanelItemVisuals = [].concat(
-                ...panelItem.behaviors.map((behavior) => behavior.visuals)
-            );
+            const behaviorVisuals = panelItem.behaviors
+                ?.filter((behavior) => behavior.visuals)
+                .map((behavior) => behavior.visuals);
+            const flattenedPanelItemVisuals = [].concat(...behaviorVisuals);
             const activeAlertVisuals = flattenedPanelItemVisuals.filter(
                 (visual) =>
                     ViewerConfigUtility.isAlertVisual(visual) &&
