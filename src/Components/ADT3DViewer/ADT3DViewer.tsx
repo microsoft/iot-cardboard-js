@@ -130,7 +130,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
-            let popOver = null;
+            let popOver: IPopoverVisual = null;
             if (sceneVisual) {
                 popOver = []
                     .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
