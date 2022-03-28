@@ -18,7 +18,7 @@ import {
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
 import { makeShaderMaterial } from './Shaders';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
-import { getBoundingBox } from './SceneView.Utils';
+import { createBadge, getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
@@ -118,7 +118,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     coloredMeshItems,
     showHoverOnSelected,
     outlinedMeshitems,
-    isWireframe
+    isWireframe,
+    badges
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -147,6 +148,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const meshesAreOriginal = useRef(true);
     const outlinedMeshes = useRef<AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
+    const badgesRef = useRef<GUI.Button[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
     );
@@ -490,6 +492,28 @@ const SceneView: React.FC<ISceneViewProp> = ({
             }
         }
     };
+
+    useEffect(() => {
+        if (badges && advancedTextureRef.current) {
+            badges.forEach((b) => {
+                const badge = createBadge(b.color, b.icon, b.iconColor, true);
+                advancedTextureRef.current.addControl(badge);
+                const mesh = sceneRef.current.meshes.find(
+                    (m) => m.id === b.meshId
+                );
+                badge.linkWithMesh(mesh);
+                badgesRef.current.push(badge);
+            });
+        }
+
+        return () => {
+            badgesRef.current.forEach((badge) => {
+                advancedTextureRef.current.removeControl(badge);
+            });
+
+            badgesRef.current = [];
+        };
+    }, [badges, isLoading]);
 
     // Update render mode
     useEffect(() => {

@@ -12,6 +12,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     Marker,
+    SceneViewBadge,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
@@ -47,6 +48,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [alertBadges, setAlertBadges] = useState<SceneViewBadge[]>();
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
@@ -87,8 +89,21 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 }
             });
         });
+
+        getAlerts();
         setColoredMeshItems(newColoredMeshItems);
     }, [sceneVisuals]);
+
+    const getAlerts = () => {
+        let newBadges: SceneViewBadge[] = [];
+        if (sceneVisuals) {
+            sceneVisuals.forEach((visual) => {
+                newBadges = newBadges.concat(visual.alertBadges);
+            });
+        }
+
+        setAlertBadges(newBadges);
+    };
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<ViewerElementsPanelItem> = useMemo(
@@ -222,6 +237,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
                     sceneViewProps={{
+                        badges: alertBadges,
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
                         showHoverOnSelected: showHoverOnSelected,

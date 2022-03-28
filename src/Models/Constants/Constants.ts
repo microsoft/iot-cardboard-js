@@ -56,6 +56,11 @@ export enum dtdlPropertyTypesEnum {
     Object = 'Object'
 }
 
+export enum BadgeIcons {
+    cross = '',
+    heart = ''
+}
+
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
 export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';
 

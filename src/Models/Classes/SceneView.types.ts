@@ -12,6 +12,7 @@ export class SceneVisual {
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
+    alertBadges?: SceneViewBadge[];
 
     constructor(
         element: ITwinToObjectMapping,
@@ -53,6 +54,13 @@ export interface CustomMeshItem {
     color?: string;
 }
 
+export interface SceneViewBadge {
+    meshId: string;
+    color?: string;
+    icon?: string;
+    iconColor?: string;
+}
+
 export type SceneViewEventHandler = (
     marker: Marker,
     mesh: AbstractMesh,
@@ -76,4 +84,5 @@ export interface ISceneViewProp {
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
     objectColors?: IADTObjectColor;
+    badges?: SceneViewBadge[];
 }

@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { VisualType } from '../Classes/3DVConfig';
-import { CustomMeshItem, SceneVisual } from '../Classes/SceneView.types';
+import {
+    CustomMeshItem,
+    SceneViewBadge,
+    SceneVisual
+} from '../Classes/SceneView.types';
+import { BadgeIcons } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
 import { getSceneElementStatusColor, parseExpression } from '../Services/Utils';
 import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -36,6 +41,7 @@ export const useRuntimeSceneData = (
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
                 const coloredMeshItems: Array<CustomMeshItem> = [];
+                const alertBadges: Array<SceneViewBadge> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
                     behavior.visuals?.forEach((visual) => {
                         switch (visual.type) {
@@ -76,25 +82,13 @@ export const useRuntimeSceneData = (
                                     )
                                 ) {
                                     const color = visual.color;
-                                    sceneVisual.element.objectIDs?.forEach(
-                                        (meshId) => {
-                                            const coloredMesh: CustomMeshItem = {
-                                                meshId: meshId,
-                                                color: color
-                                            };
-                                            if (
-                                                !coloredMeshItems.find(
-                                                    (item) =>
-                                                        item.meshId ===
-                                                        coloredMesh.meshId
-                                                )
-                                            ) {
-                                                coloredMeshItems.push(
-                                                    coloredMesh
-                                                );
-                                            }
-                                        }
-                                    );
+                                    const meshId =
+                                        sceneVisual.element.objectIDs?.[0];
+                                    alertBadges.push({
+                                        color: color,
+                                        meshId: meshId,
+                                        icon: BadgeIcons.cross
+                                    });
                                 }
                                 break;
                             }
@@ -103,6 +97,7 @@ export const useRuntimeSceneData = (
                 });
 
                 sceneVisual.coloredMeshItems = coloredMeshItems;
+                sceneVisual.alertBadges = alertBadges;
             });
 
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);

@@ -1,6 +1,5 @@
 import * as BABYLON from 'babylonjs';
 import * as GUI from 'babylonjs-gui';
-import { measureText } from '../../Models/Services/Utils';
 import './SceneView.scss';
 
 export function getMeshCenter(
@@ -41,30 +40,35 @@ export function createBadge(
     onClickCallback?: any
 ) {
     const badge = new GUI.Button();
-    badge.width = '40px';
-    badge.height = '40px';
+    badge.widthInPixels = 30;
+    badge.heightInPixels = 30;
     badge.background = 'transparent';
     badge.color = 'transparent';
 
+    const badgeContainer = new GUI.Ellipse();
+    badgeContainer.widthInPixels = 30;
+    badgeContainer.heightInPixels = 30;
+    badgeContainer.paddingTopInPixels = 3;
+    badgeContainer.paddingLeftInPixels = 3;
+    badgeContainer.paddingRightInPixels = 3;
+    badgeContainer.paddingBottomInPixels = 3;
+    badgeContainer.color = '#1E2C5399';
+    badgeContainer.background = '#1E2C5399';
+    badge.addControl(badgeContainer);
+
     const badgeBackground = new GUI.Ellipse();
-    badgeBackground.width = '40px';
-    badgeBackground.height = '40px';
+    badgeBackground.widthInPixels = 20;
+    badgeBackground.heightInPixels = 20;
     badgeBackground.color = badgeColor || '#ffffff';
     badgeBackground.background = badgeColor || '#ffffff';
     badge.addControl(badgeBackground);
 
-    if (text) {
-        const width = measureText(text, 16);
-        if (width > 40) {
-            badge.width = width + 10 + 'px';
-            badgeBackground.width = width + 10 + 'px';
-        }
+    if (isIcon && text) {
         const textBlock = new GUI.TextBlock();
-        if (isIcon) {
-            textBlock.fontFamily = 'iconFont';
-        }
-        textBlock.fontSize = '16px';
-        textBlock.color = textColor || '#000000';
+        textBlock.fontFamily = 'iconFont';
+        textBlock.fontSizeInPixels = 12;
+        textBlock.topInPixels = 2;
+        textBlock.color = textColor || '#ffffff';
         textBlock.text = text;
         badgeBackground.addControl(textBlock);
     }
