@@ -10,7 +10,7 @@ export default {
 export const OATModelList = (_args, { globals: { theme } }) => {
     const [elementHandler, setElementHandler] = useState(elements);
 
-    const handleElementsUpdate = (newElements) => {
+    const onHandleElementsUpdate = (newElements) => {
         setElementHandler(newElements);
     };
 
@@ -19,7 +19,7 @@ export const OATModelList = (_args, { globals: { theme } }) => {
             <OATModelListView
                 elements={elementHandler}
                 theme={theme}
-                handleElementsUpdate={handleElementsUpdate}
+                onHandleElementsUpdate={onHandleElementsUpdate}
             />
         </div>
     );
@@ -28,15 +28,16 @@ export const OATModelList = (_args, { globals: { theme } }) => {
 export const Empty = (_args, { globals: { theme } }) => {
     const [elementHandler, setElementHandler] = useState([]);
 
-    const handleElementsUpdate = (newElements) => {
+    const onHandleElementsUpdate = (newElements) => {
         setElementHandler(newElements);
     };
+
     return (
         <div>
             <OATModelListView
                 elements={elementHandler}
                 theme={theme}
-                handleElementsUpdate={handleElementsUpdate}
+                onHandleElementsUpdate={onHandleElementsUpdate}
             />
         </div>
     );

@@ -640,8 +640,17 @@
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     },
     "OATModel": {
-        "modelsUpperCase": "Models",
-        "modelUperCase": "Model",
-        "Templates": "Templates"
+        "models": "Models",
+        "model": "Model",
+        "templates": "Templates"
+    },
+    "OATHeader": {
+        "title": "Azure Digital Twins Ontology Editor",
+        "searchContent": "Search file, asset, property, or location",
+        "save": "Save",
+        "publish": "Publish",
+        "sync": "sync",
+        "import": "Import",
+        "export": "Export"
     }
 }

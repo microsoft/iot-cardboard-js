@@ -1,0 +1,35 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-ontology-header-container {
+    display: grid;
+    grid-template-columns: 100%;
+    height: 5%;
+
+    .cb-ontology-header-search-component {
+        display: grid;
+        grid-template-columns: 20% 60% 20%;
+        height: 100%;
+        background-color: var(--cb-color-theme-primary);
+
+        .cb-ontology-header-logo {
+            height: 100%;
+            color: var(--cb-color-bg-card);
+            padding: 4%;
+        }
+
+        .cb-ontology-header-search {
+            height: 100%;
+            padding: 1%;
+        }
+
+        .cb-ontology-header-options {
+            height: 100%;
+            padding: 4%;
+        }
+    }
+
+    .cb-ontology-header-menu-component {
+        display: grid;
+        grid-template-columns: 20% 60% 20%;
+    }
+}
