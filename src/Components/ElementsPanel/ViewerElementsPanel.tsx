@@ -12,7 +12,8 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     panelItems,
     isLoading = false,
     onItemClick,
-    onItemHover
+    onItemHover,
+    onItemBlur
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -73,6 +74,7 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                         panelItems={filteredPanelItems}
                         onItemClick={onItemClick}
                         onItemHover={onItemHover}
+                        onItemBlur={onItemBlur}
                         filterTerm={filterTerm}
                     />
                 </div>

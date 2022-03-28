@@ -19,6 +19,11 @@ export interface IViewerElementsPanelProps {
         panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
+    onItemBlur?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
 }
 
 export interface IViewerElementsPanelListProps {
@@ -31,6 +36,11 @@ export interface IViewerElementsPanelListProps {
         behavior?: IBehavior
     ) => void;
     onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
+    onItemBlur?: (
         item: ITwinToObjectMapping | IVisual,
         panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior

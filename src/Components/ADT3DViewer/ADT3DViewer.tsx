@@ -26,6 +26,7 @@ import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
+import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -40,6 +41,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     enableMeshSelection,
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
+    outlinedMeshItems: outlinedMeshItemsProp,
     zoomToMeshIds: zoomToMeshIdsProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
@@ -48,6 +50,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [outlinedMeshItems, setOutlinedMeshItems] = useState<
+        CustomMeshItem[]
+    >(outlinedMeshItemsProp || []);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
@@ -210,6 +215,25 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         []
     );
 
+    const onElementPanelItemHovered = useCallback(
+        (_item, panelItem, _behavior) => {
+            setOutlinedMeshItems(
+                panelItem.element.objectIDs.map((meshId) => ({
+                    meshId,
+                    color: DefaultViewerModeObjectColor.outlinedMeshHoverColor
+                }))
+            );
+        },
+        []
+    );
+
+    const onElementPanelItemBlured = useCallback(
+        (_item, _panelItem, _behavior) => {
+            setOutlinedMeshItems([]);
+        },
+        []
+    );
+
     useEffect(() => {
         if (zoomToMeshIdsProp) {
             setZoomToMeshIds(zoomToMeshIdsProp);
@@ -228,7 +252,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         isLoading={isLoading}
                         panelItems={panelItems}
                         onItemClick={onElementPanelItemClicked}
-                        onItemHover={(item) => item.type}
+                        onItemHover={onElementPanelItemHovered}
+                        onItemBlur={onElementPanelItemBlured}
                     />
                 )}
                 <SceneViewWrapper
@@ -241,6 +266,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     sceneViewProps={{
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
+                        outlinedMeshitems: outlinedMeshItems,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,

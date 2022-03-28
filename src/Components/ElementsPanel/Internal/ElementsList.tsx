@@ -24,16 +24,17 @@ import {
 } from '../ViewerElementsPanel.styles';
 import {
     IViewerElementsPanelItem,
-    ViewerElementsPanelListProps
+    IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
 import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
 
-const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
+const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
     panelItems,
     filterTerm,
     onItemClick,
-    onItemHover
+    onItemHover,
+    onItemBlur
 }) => {
     const { t } = useTranslation();
     const elementsPanelStyles = getElementsPanelStyles();
@@ -47,7 +48,7 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     }, [panelItems]);
 
     const listItems = useMemo(
-        () => getListItems(panelItems, onItemClick, onItemHover),
+        () => getListItems(panelItems, onItemClick, onItemHover, onItemBlur),
         [panelItems]
     );
 
@@ -78,6 +79,11 @@ function getListItems(
         behavior?: IBehavior
     ) => void,
     onItemHover?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void,
+    onItemBlur?: (
         item: ITwinToObjectMapping | IVisual,
         panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
@@ -201,8 +207,8 @@ function getListItems(
                     ...(onItemHover && {
                         onMouseOver: () => onItemHover(element, panelItem)
                     }),
-                    ...(onItemHover && {
-                        onBlur: () => onItemHover(element, panelItem)
+                    ...(onItemBlur && {
+                        onBlur: () => onItemBlur(element, panelItem)
                     })
                 },
                 iconStartName: (
