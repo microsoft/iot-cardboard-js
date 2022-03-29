@@ -12,8 +12,7 @@ import ReactFlow, {
     MiniMap,
     Controls,
     Background,
-    applyNodeChanges,
-    applyEdgeChanges
+    removeElements
 } from 'react-flow-renderer';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
@@ -24,13 +23,13 @@ import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import './OATGraphViewer.scss';
 
 type OATGraphViewerProps = {
-    elements: [];
+    initialElements: [];
     theme?: Theme;
     onHandleElementsUpdate: () => any;
 };
 
 const OATGraphViewer = ({
-    elements,
+    initialElements,
     theme,
     onHandleElementsUpdate
 }: OATGraphViewerProps) => {
@@ -40,20 +39,17 @@ const OATGraphViewer = ({
     const currentNodeId = useRef('');
     const currentHandle = useRef('');
     const reactFlowWrapper = useRef(null);
-    const [elementNodes, setElementNodes] = useState([]);
-    const [elementEdges, setElementEdges] = useState([]);
     const [ordered, setOrdered] = useState(true);
-    const [updatedElements, setUpdatedElements] = useState(elements);
+    const [elements, setElements] = useState([]);
+    const [resultingElements, setResultingElements] = useState;
 
     useEffect(() => {
-        translateInput(elements);
-    }, [elements]);
+        translateInput(initialElements);
+    }, [initialElements]);
 
     useEffect(() => {
-        if (elements !== updatedElements) {
-            onHandleElementsUpdate(updatedElements);
-        }
-    }, [updatedElements]);
+        translateOutput();
+    });
 
     const nodeTypes = useMemo(() => ({ ModelNode: OATGraphCustomNode }), []);
 
@@ -62,15 +58,8 @@ const OATGraphViewer = ({
         []
     );
 
-    const onNodesChange = useCallback(
-        (changes) => setElementNodes((ns) => applyNodeChanges(changes, ns)),
-        []
-    );
-
-    const onEdgesChange = useCallback(
-        (changes) => setElementEdges((es) => applyEdgeChanges(changes, es)),
-        []
-    );
+    const onElementsRemove = (elementsToRemove) =>
+        setElements((els) => removeElements(elementsToRemove, els));
 
     const onConnectStart = (evt, params) => {
         currentNodeId.current = params.nodeId;
@@ -97,7 +86,7 @@ const OATGraphViewer = ({
         }
 
         if (indexId < 0) {
-            const name = `newNode${elementNodes.length}`;
+            const name = `newNode${elements.length}`;
             const id = name;
             const newNode = {
                 id: name,
@@ -114,10 +103,10 @@ const OATGraphViewer = ({
                 }
             };
             params.target = id;
-            setElementNodes((es) => es.concat(newNode));
+            setElements((es) => es.concat(newNode));
         }
         params = newEdge(params);
-        setElementEdges((els) => addEdge(params, els));
+        setElements((els) => addEdge(params, els));
     };
 
     const onLoad = (_reactFlowInstance) => {
@@ -126,8 +115,7 @@ const OATGraphViewer = ({
     };
 
     const translateInput = (inputElements) => {
-        setElementNodes([]);
-        setElementEdges([]);
+        setElements([]);
         let nodes = [];
         const edges = [];
         let initialX = 0;
@@ -207,14 +195,13 @@ const OATGraphViewer = ({
                     initialX = initialX + 200;
                 });
             }
-            setElementNodes([...nodes]);
-            setElementEdges([...edges]);
+            setElements([...nodes, ...edges]);
         }
     };
 
     const translateOutput = () => {
         const nodes = [];
-        elementNodes.map((item) => {
+        elements.map((item) => {
             const node = {
                 '@id': item.id,
                 '@type': 'Interface',
@@ -241,7 +228,6 @@ const OATGraphViewer = ({
             );
             nodes[nodeIndex]['@id'] = item.data.id;
         });
-        setUpdatedElements({ digitalTwinsModels: nodes });
     };
 
     const newEdge = (params) => {
@@ -339,12 +325,10 @@ const OATGraphViewer = ({
                         ref={reactFlowWrapper}
                     >
                         <ReactFlow
-                            nodes={elementNodes}
-                            edges={elementEdges}
+                            elements={elements}
+                            onElementsRemove={onElementsRemove}
                             onConnectStart={onConnectStart}
                             onConnectStop={onConnectStop}
-                            onNodesChange={onNodesChange}
-                            onEdgesChange={onEdgesChange}
                             onLoad={onLoad}
                             snapToGrid={true}
                             snapGrid={[15, 15]}
