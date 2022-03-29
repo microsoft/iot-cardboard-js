@@ -55,6 +55,11 @@ const ValueRangeRow: React.FC<{
                         }
                     });
                 }}
+                styles={{
+                    root: {
+                        alignSelf: 'flex-end'
+                    }
+                }}
             />
             <IconButton
                 data-testid={'range-builder-row-delete'}

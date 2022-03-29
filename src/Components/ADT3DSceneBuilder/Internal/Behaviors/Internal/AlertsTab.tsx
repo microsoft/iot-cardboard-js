@@ -5,7 +5,10 @@ import { Intellisense } from '../../../../AutoComplete/Intellisense';
 import { linkedTwinName } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
-import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IAlertVisual,
+    IBehavior
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
     Stack,
@@ -14,6 +17,10 @@ import {
     useTheme
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import ColorSelectButton from '../../../../ColorSelectButton/ColorSelectButton';
+import { defaultSwatchColors } from '../../../../../Theming/Palettes';
+import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
+import { deepCopy } from '../../../../../Models/Services/Utils';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -49,22 +56,52 @@ const AlertsTab: React.FC = () => {
         return twinId === linkedTwinName ? propertyNames : [];
     }
 
-    const onExpressionChange = useCallback(
-        (newValue) => {
+    const setProperty = useCallback(
+        (propertyName: keyof IAlertVisual, value: string) => {
             setBehaviorToEdit(
                 produce((draft) => {
-                    // Assuming only 1 color change visual per behavior
-                    const colorChangeVisual = getAlertFromBehavior(draft);
-                    colorChangeVisual.triggerExpression = newValue;
+                    // Assuming only 1 alert visual per behavior
+                    const alertVisual = getAlertFromBehavior(draft);
+                    // Edit flow
+                    if (alertVisual) {
+                        alertVisual[propertyName] = value as any;
+                    } else {
+                        const alertVisual = deepCopy(defaultAlertVisual);
+                        alertVisual[propertyName] = value as any;
+                        draft.visuals.push(alertVisual);
+                    }
                 })
             );
         },
         [setBehaviorToEdit]
     );
 
+    const onExpressionChange = useCallback(
+        (newValue: string) => {
+            setProperty('triggerExpression', newValue);
+        },
+        [setProperty]
+    );
+
+    const onColorChange = useCallback(
+        (newValue: string) => {
+            setProperty('color', newValue);
+        },
+        [setProperty]
+    );
+
+    const onNoteChange = useCallback(
+        (_e: any, newValue: string) => {
+            setProperty('labelExpression', newValue);
+        },
+        [setProperty]
+    );
+
     // we only grab the first alert in the collection
-    const colorChangeVisual = getAlertFromBehavior(behaviorToEdit);
-    const expression = colorChangeVisual?.triggerExpression || '';
+    const colorChangeVisual =
+        getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual;
+    const color = colorChangeVisual?.color || defaultSwatchColors[0].color;
+    const expression = colorChangeVisual?.triggerExpression;
     const theme = useTheme();
     return (
         <Stack tokens={sectionStackTokens}>
@@ -84,29 +121,25 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
-            {/* TO DO: Implement for real */}
-            <Text>{t(LOC_KEYS.colorPickerLabel)}</Text>
-            <div
-                style={{
-                    alignItems: 'center',
-                    backgroundColor: '#D42020',
-                    border: `1px solid ${theme.semanticColors.inputBorder}`,
-                    borderRadius: 4,
-                    display: 'flex',
-                    fontSize: 12,
-                    height: 32,
-                    padding: 4,
-                    width: '100%'
-                }}
-            >
-                To be implemented
-            </div>
+            <ColorSelectButton
+                buttonColor={color}
+                colorSwatch={defaultSwatchColors}
+                label={t(LOC_KEYS.colorPickerLabel)}
+                onChangeSwatchColor={onColorChange}
+            />
             <TextField
                 label={t(LOC_KEYS.notificationLabel)}
                 placeholder={t(LOC_KEYS.notificationPlaceholder)}
                 multiline
+                onChange={onNoteChange}
                 rows={3}
-                disabled
+                styles={{
+                    root: {
+                        marginBottom: 4,
+                        paddingBottom: 4
+                    }
+                }}
+                value={colorChangeVisual.labelExpression}
             />
         </Stack>
     );

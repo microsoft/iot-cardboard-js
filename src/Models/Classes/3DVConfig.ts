@@ -1,4 +1,5 @@
 import {
+    IAlertVisual,
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
@@ -57,6 +58,17 @@ export const defaultStatusColorVisual: IStatusColoringVisual = {
     type: VisualType.StatusColoring,
     statusValueExpression: '',
     valueRanges: [],
+    objectIDs: {
+        expression: 'objectIDs'
+    }
+};
+
+export const defaultAlertVisual: IAlertVisual = {
+    type: VisualType.Alert,
+    color: '',
+    iconName: '',
+    labelExpression: '',
+    triggerExpression: '',
     objectIDs: {
         expression: 'objectIDs'
     }

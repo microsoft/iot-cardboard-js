@@ -21,10 +21,35 @@ export const SelectColorButton = (args) => {
 
     return (
         <ColorSelectButton
-            {...args}
             buttonColor={selectedColor}
             colorSwatch={defaultSwatchColors}
             onChangeSwatchColor={setSelectedColor}
+            {...args}
+        />
+    );
+};
+
+export const SelectColorButtonCustomized = (args) => {
+    const [selectedColor, setSelectedColor] = useState(
+        defaultSwatchColors[0].color
+    );
+
+    return (
+        <ColorSelectButton
+            buttonColor={selectedColor}
+            colorSwatch={defaultSwatchColors}
+            onChangeSwatchColor={setSelectedColor}
+            styles={{
+                root: {
+                    background: 'red',
+                    display: 'flex',
+                    justifyContent: 'center'
+                },
+                button: {
+                    borderRadius: 0
+                }
+            }}
+            {...args}
         />
     );
 };
