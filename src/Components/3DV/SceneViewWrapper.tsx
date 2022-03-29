@@ -8,7 +8,10 @@ import React, { useState } from 'react';
 import * as BABYLON from 'babylonjs';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
-import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
+import {
+    ADT3DAddInEventTypes,
+    ViewerModeStyles
+} from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
@@ -118,7 +121,10 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             setSelectedViewerMode({
                 objectColor: objectColor,
                 background: viewerMode.background,
-                isWireframe: viewerMode.style === 'wireframe' ? true : false
+                isWireframe:
+                    viewerMode.style === ViewerModeStyles.Wireframe
+                        ? true
+                        : false
             });
 
             if (objectColorUpdated) {
@@ -139,6 +145,11 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             {!hideViewModePickerUI && (
                 <div className="cb-adt-3dviewer-render-mode-selection">
                     <ModelViewerModePicker
+                        defaultViewerMode={{
+                            objectColor: null,
+                            style: ViewerModeStyles.Default,
+                            background: ViewerModeBackgroundColors[0]
+                        }}
                         viewerModeUpdated={onViewerModeUpdated}
                         objectColors={ViewerModeObjectColors}
                         backgroundColors={ViewerModeBackgroundColors}

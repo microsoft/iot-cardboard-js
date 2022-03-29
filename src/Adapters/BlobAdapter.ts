@@ -48,7 +48,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 const todayDate = getTimeStamp();
                 await axios({
                     method: 'put',
-                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/corrupted_${todayDate}.json`,
+                    url: `${this.blobProxyServerPath}${this.blobContainerPath}/3DScenesConfiguration_corrupted_${todayDate}.json`,
                     headers: {
                         authorization: 'Bearer ' + token,
                         'x-ms-version': '2017-11-09',
