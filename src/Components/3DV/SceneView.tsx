@@ -16,8 +16,11 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
-import { makeShaderMaterial } from './Shaders';
-import { DefaultViewerModeObjectColor } from '../../Models/Constants';
+import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
+import {
+    DefaultViewerModeObjectColor,
+    ViewerModeObjectColors
+} from '../../Models/Constants';
 import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -142,10 +145,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const hovMaterial = useRef<any>(null);
     const coloredHovMaterial = useRef<any>(null);
     const coloredMaterials = useRef<any>([]);
-    const shaderMaterial = useRef<BABYLON.ShaderMaterial>();
+    const shaderMaterial = useRef<any>();
     const originalMaterials = useRef<any>();
     const meshesAreOriginal = useRef(true);
-    const outlinedMeshes = useRef<AbstractMesh[]>([]);
+    const reflectionTexture = useRef<BABYLON.Texture>(null);
+    const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
+    const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
@@ -228,6 +233,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 advancedTextureRef.current = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                     'UI'
                 );
+                sortMeshesOnLoad();
                 setIsLoading(false);
                 engineRef.current.resize();
                 if (onSceneLoaded) {
@@ -249,7 +255,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             const canvas = document.getElementById(
                 canvasId
             ) as HTMLCanvasElement; // Get the canvas element
-            const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+            const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
@@ -272,11 +278,14 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 blurVerticalSize: 0.5
             });
 
-            new BABYLON.HemisphericLight(
+            const light = new BABYLON.HemisphericLight(
                 'light',
                 new BABYLON.Vector3(1, 1, 0),
                 sc
             );
+            light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
+            light.specular = new BABYLON.Color3(1, 1, 1);
+            light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
             if (modelUrl) {
                 let url = modelUrl;
@@ -293,6 +302,12 @@ const SceneView: React.FC<ISceneViewProp> = ({
         return sceneRef.current;
     }, [canvasId, modelUrl]);
 
+    const sortMeshesOnLoad = () => {
+        for (const mesh of sceneRef.current.meshes) {
+            //Set the alpha index for the meshes for alpha sorting later
+            mesh.alphaIndex = 1;
+        }
+    };
     const createOrZoomCamera = () => {
         const zoomTo = (zoomToMeshIds || []).join(',');
         if (
@@ -471,6 +486,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
         return ignore;
     };
 
+    //Get the index of the current objectColor to use as an ID for caching
+    const currentColorId = () => {
+        return ViewerModeObjectColors.indexOf(currentObjectColor);
+    };
+
     useEffect(() => {
         if (objectColors) {
             setCurrentObjectColor(objectColors);
@@ -485,6 +505,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 }
             } else {
                 for (const mesh of sceneRef.current.meshes) {
+                    //Meshes with higher alphaIndex are highlight clones and should not have their material swapped
+                    if (mesh.alphaIndex > 1) continue;
                     mesh.material = shaderMaterial.current;
                 }
             }
@@ -495,13 +517,58 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         debugLog('Render Mode Effect');
         if (sceneRef.current?.meshes?.length) {
-            hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentObjectColor.meshHoverColor
-            );
+            const currentObjectColorId = currentColorId();
 
-            coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
-                currentObjectColor.coloredMeshHoverColor
-            );
+            //Reset the reflection Texture
+            reflectionTexture.current = null;
+            if (currentObjectColor.reflectionTexture) {
+                reflectionTexture.current = BABYLON.Texture.CreateFromBase64String(
+                    currentObjectColor.reflectionTexture,
+                    currentObjectColorId + '_reflectionTexture',
+                    sceneRef.current
+                );
+                reflectionTexture.current.coordinatesMode = 1;
+            }
+
+            //Use the matching cached hover material or create a new one, cache it, and use it
+            hovMaterial.current =
+                materialCacheRef.current[
+                    currentObjectColorId + currentObjectColor.meshHoverColor
+                ] ||
+                (materialCacheRef.current[
+                    currentObjectColorId + currentObjectColor.meshHoverColor
+                ] = makeMaterial(
+                    'hover',
+                    sceneRef.current,
+                    hexToColor4(currentObjectColor.meshHoverColor),
+                    hexToColor4(
+                        currentObjectColor.fresnelColor ||
+                            currentObjectColor.meshHoverColor
+                    ),
+                    reflectionTexture.current,
+                    currentObjectColor.lightingStyle
+                ));
+
+            //Use the matching cached selected-hover material or create a new one, cache it, and use it
+            coloredHovMaterial.current =
+                materialCacheRef.current[
+                    currentObjectColorId +
+                        currentObjectColor.coloredMeshHoverColor
+                ] ||
+                (materialCacheRef.current[
+                    currentObjectColorId +
+                        currentObjectColor.coloredMeshHoverColor
+                ] = makeMaterial(
+                    'hover',
+                    sceneRef.current,
+                    hexToColor4(currentObjectColor.coloredMeshHoverColor),
+                    hexToColor4(
+                        currentObjectColor.fresnelColor ||
+                            currentObjectColor.coloredMeshHoverColor
+                    ),
+                    reflectionTexture.current,
+                    currentObjectColor.lightingStyle
+                ));
 
             if (
                 (!currentObjectColor.baseColor ||
@@ -512,14 +579,14 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     const ignore = shouldIgnore(mesh);
                     if (!ignore) {
                         const material = originalMaterials.current[mesh.id];
+                        mesh.useVertexColors =
+                            currentObjectColor.lightingStyle < 1;
                         if (material) {
                             mesh.material = material;
                         }
                     }
                 }
 
-                hovMaterial.current.alpha = 1;
-                coloredHovMaterial.current.alpha = 1;
                 hovMaterial.current.wireframe = !!isWireframe;
                 coloredHovMaterial.current.wireframe = !!isWireframe;
                 meshesAreOriginal.current = true;
@@ -533,11 +600,13 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const fresnelColor = hexToColor4(
                     currentObjectColor.fresnelColor
                 );
-                const material = makeShaderMaterial(
+                const material = makeMaterial(
+                    'col',
                     sceneRef.current,
                     baseColor,
                     fresnelColor,
-                    currentObjectColor.opacity
+                    reflectionTexture.current,
+                    currentObjectColor.lightingStyle
                 );
 
                 shaderMaterial.current = material;
@@ -555,6 +624,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                                 !ignore
                             ) {
                                 mesh.material = shaderMaterial.current;
+                                mesh.useVertexColors =
+                                    currentObjectColor.lightingStyle < 1;
                                 mesh.material.wireframe = isWireframe || false;
                                 meshesAreOriginal.current = false;
                             }
@@ -562,16 +633,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     }
                 }
 
-                if (
-                    currentObjectColor.baseColor &&
-                    currentObjectColor.fresnelColor
-                ) {
-                    hovMaterial.current.alpha = 0.5;
-                    coloredHovMaterial.current.alpha = 0.5;
-                } else {
-                    hovMaterial.current.alpha = 1;
-                    coloredHovMaterial.current.alpha = 1;
-                }
                 hovMaterial.current.wireframe = !!isWireframe;
                 coloredHovMaterial.current.wireframe = !!isWireframe;
             }
@@ -635,6 +696,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             materialCacheRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
+            reflectionTexture.current = null;
         };
     }, [modelUrl]);
 
@@ -974,26 +1036,27 @@ const SceneView: React.FC<ISceneViewProp> = ({
         }
 
         // Creating materials is VERY expensive, so try and avoid it
-        const col = color || currentObjectColor.coloredMeshColor;
-        let material = materialCacheRef.current[col];
+        const col = color || currentObjectColor?.coloredMeshColor;
+        const fresnelCol = currentObjectColor?.fresnelColor || color;
+
+        const materialId = currentColorId() + col;
+
+        let material = materialCacheRef.current[materialId];
         if (!material) {
-            material = new BABYLON.StandardMaterial(
+            material = makeMaterial(
                 'coloredMeshMaterial',
-                sceneRef.current
+                sceneRef.current,
+                hexToColor4(col),
+                hexToColor4(fresnelCol),
+                reflectionTexture.current,
+                currentObjectColor.lightingStyle
             );
-            materialCacheRef.current[col] = material;
-            debugLog('Creating material for ' + col);
+
+            materialCacheRef.current[materialId] = material;
+            debugLog('Creating material for ' + materialId);
         }
 
-        material.diffuseColor = BABYLON.Color3.FromHexString(col);
         material.wireframe = !!isWireframe;
-
-        if (currentObjectColor.baseColor && currentObjectColor.fresnelColor) {
-            material.alpha = 0.5;
-        } else {
-            material.alpha = 1;
-        }
-
         mesh.material = material;
         coloredMaterials.current[mesh.id] = material;
     };
@@ -1003,22 +1066,36 @@ const SceneView: React.FC<ISceneViewProp> = ({
         debugLog('Outline Mesh effect');
         if (outlinedMeshitems) {
             for (const item of outlinedMeshitems) {
-                const meshToOutline = meshMap.current?.[item.meshId];
+                let meshToOutline: BABYLON.Mesh =
+                    meshMap.current?.[item.meshId];
                 if (meshToOutline) {
                     try {
-                        if (item.color) {
-                            highlightLayer.current.addMesh(
-                                meshToOutline as BABYLON.Mesh,
-                                BABYLON.Color3.FromHexString(item.color)
+                        if (currentObjectColor.lightingStyle > 0) {
+                            //Alpha_ADD blended meshes do not work well with highlight layers.
+                            //If we are alpha blending, we will duplicate the mesh, highlight the duplicate and overlay it to properly layer the highlight
+                            const clone = meshToOutline.clone(
+                                '',
+                                null,
+                                true,
+                                false
                             );
-                        } else {
-                            highlightLayer.current.addMesh(
-                                meshToOutline as BABYLON.Mesh,
-                                BABYLON.Color3.FromHexString(
-                                    currentObjectColor.outlinedMeshSelectedColor
-                                )
-                            );
+                            clone.material = outlineMaterial(sceneRef.current);
+                            clone.alphaIndex = 2;
+                            clone.isPickable = false;
+                            clonedHighlightMeshes.current.push(clone);
+                            sceneRef.current.meshes.push(clone);
+                            meshToOutline = clone;
                         }
+                        highlightLayer.current.addMesh(
+                            meshToOutline,
+                            ToColor3(
+                                hexToColor4(
+                                    item.color
+                                        ? item.color
+                                        : currentObjectColor.outlinedMeshSelectedColor
+                                )
+                            )
+                        );
 
                         outlinedMeshes.current.push(meshToOutline);
                     } catch {
@@ -1032,6 +1109,20 @@ const SceneView: React.FC<ISceneViewProp> = ({
             debugLog('Outline Mesh cleanup');
             for (const mesh of outlinedMeshes.current) {
                 highlightLayer.current.removeMesh(mesh as BABYLON.Mesh);
+            }
+            //This array keeps growing in length even though it is completely emptied during cleanup...
+            //Is this best practice for resetting an array?
+            outlinedMeshes.current = [];
+
+            //If we have cloned meshes for highlight, delete them
+            if (clonedHighlightMeshes.current) {
+                for (const mesh of clonedHighlightMeshes.current) {
+                    mesh?.dispose();
+                    //Assume that all new meshes are highlight clones and decrement the scene mesh array after disposal to prevent overflow
+                    if (sceneRef.current.meshes)
+                        sceneRef.current.meshes.length--;
+                }
+                clonedHighlightMeshes.current = [];
             }
         };
     }, [outlinedMeshitems]);

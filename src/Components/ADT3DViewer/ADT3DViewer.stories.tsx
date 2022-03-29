@@ -6,14 +6,14 @@ import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json'
 import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
-import { Checkbox } from '@fluentui/react';
+import { Checkbox, Dropdown, IDropdownOption } from '@fluentui/react';
 
 export default {
     title: '3DV/ADT3DViewer',
     component: ADT3DViewer
 };
 
-const mockScene = 'f7053e7537048e03be4d1e6f8f93aa8a';
+const mockSceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
 
 export const Engine = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();
@@ -29,7 +29,7 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
         </div>
@@ -52,7 +52,7 @@ export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
                 scenesConfig={scenesConfig}
                 showMeshesOnHover={true}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
         </div>
@@ -69,10 +69,11 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
 
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const scene = scenesConfig.configuration.scenes.find(
-        (s) => s.id === mockScene
+        (s) => s.id === mockSceneId
     );
+    const [selectedScene, setSelectedScene] = useState(scene);
     if (!scene) {
-        throw new Error('Bad scene definition ' + mockScene);
+        throw new Error('Bad scene definition ' + mockSceneId);
     }
 
     const makeMeshItems = (meshIds: string[]) => {
@@ -88,7 +89,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         e.stopPropagation();
         if (index !== hoveredIndex) {
             setHoveredIndex(index);
-            const element = scene.elements[index];
+            const element = selectedScene.elements[index];
             if (element?.objectIDs) {
                 setColoredMeshes(makeMeshItems(element.objectIDs as any));
             } else {
@@ -101,7 +102,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         e.stopPropagation();
         if (clickedIndex !== index) {
             setClickedIndex(index);
-            const element = scene.elements[index];
+            const element = selectedScene.elements[index];
             if (element?.objectIDs) {
                 setZoomedMeshes(element.objectIDs as any);
             } else {
@@ -113,6 +114,16 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
             setColoredMeshes(null);
         }
     };
+
+    const options: IDropdownOption[] = [];
+    for (const s of mockVConfig.configuration.scenes) {
+        options.push({
+            key: s.id,
+            text: s.displayName,
+            data: s,
+            selected: s.id === mockSceneId
+        });
+    }
 
     return !authenticationParameters ? (
         <div></div>
@@ -138,6 +149,12 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                         }
                     />
                 </div>
+                <div style={{ marginBottom: '20px' }}>
+                    <Dropdown
+                        options={options}
+                        onChange={(_e, option) => setSelectedScene(option.data)}
+                    />
+                </div>
                 <div
                     style={{
                         width: '100%',
@@ -149,7 +166,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                     onMouseMove={(e) => onHover(e, -1)}
                     onClick={(e) => onClick(e, -1)}
                 >
-                    {scene.elements.map((element, index) => (
+                    {selectedScene.elements.map((element, index) => (
                         <div
                             key={index}
                             style={{
@@ -173,7 +190,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={selectedScene.id}
                 connectionLineColor="#000"
                 coloredMeshItems={coloredMeshes}
                 zoomToMeshIds={zoomedMeshes}
@@ -256,7 +273,7 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 connectionLineColor="#000"
                 addInProps={addInProps}
             />
@@ -287,7 +304,7 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
         </div>
@@ -306,7 +323,7 @@ export const MockWithHover = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 showMeshesOnHover={true}
                 connectionLineColor="#000"
             />
@@ -326,7 +343,7 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 pollingInterval={10000}
-                sceneId={mockScene}
+                sceneId={mockSceneId}
                 enableMeshSelection={true}
                 showHoverOnSelected={true}
                 showMeshesOnHover={true}
