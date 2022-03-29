@@ -23,17 +23,18 @@ import {
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
-    ViewerElementsPanelItem,
-    ViewerElementsPanelListProps
+    IViewerElementsPanelItem,
+    IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
 import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
 
-const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
+const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
     panelItems,
     filterTerm,
     onItemClick,
-    onItemHover
+    onItemHover,
+    onItemBlur
 }) => {
     const { t } = useTranslation();
     const elementsPanelStyles = getElementsPanelStyles();
@@ -47,7 +48,7 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     }, [panelItems]);
 
     const listItems = useMemo(
-        () => getListItems(panelItems, onItemClick, onItemHover),
+        () => getListItems(panelItems, onItemClick, onItemHover, onItemBlur),
         [panelItems]
     );
 
@@ -71,15 +72,20 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
 };
 
 function getListItems(
-    panelItems: Array<ViewerElementsPanelItem>,
+    panelItems: Array<IViewerElementsPanelItem>,
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void,
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void,
+    onItemBlur?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void
 ): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
@@ -151,10 +157,12 @@ function getListItems(
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
                 ...(onItemHover && {
-                    onMouseOver: () => onItemHover(element, panelItem)
+                    onMouseOver: () => onItemHover(element, panelItem),
+                    onFocus: () => onItemHover(element, panelItem)
                 }),
-                ...(onItemHover && {
-                    onBlur: () => onItemHover(element, panelItem)
+                ...(onItemBlur && {
+                    onMouseLeave: () => onItemBlur(element, panelItem),
+                    onBlur: () => onItemBlur(element, panelItem)
                 })
             },
             iconStartName: (
@@ -199,10 +207,12 @@ function getListItems(
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
                     ...(onItemHover && {
-                        onMouseOver: () => onItemHover(element, panelItem)
+                        onMouseOver: () => onItemHover(element, panelItem),
+                        onFocus: () => onItemHover(element, panelItem)
                     }),
-                    ...(onItemHover && {
-                        onBlur: () => onItemHover(element, panelItem)
+                    ...(onItemBlur && {
+                        onMouseLeave: () => onItemBlur(element, panelItem),
+                        onBlur: () => onItemBlur(element, panelItem)
                     })
                 },
                 iconStartName: (
