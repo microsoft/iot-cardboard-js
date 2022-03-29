@@ -329,8 +329,7 @@ const toggleElementsPanelStyles = memoizeFunction(
                 minWidth: 'unset',
                 width: 64,
                 height: 54,
-                background:
-                    'radial-gradient(100% 100% at 4.55% 0%, var(--cb-color-glassy-modal) 0%, var(--cb-color-modal-border) 100%)',
+                background: 'var(--cb-color-theme-primary)',
                 border: '1px solid var(--cb-color-modal-border)',
                 borderRadius: 4,
                 backdropFilter: 'blur(50px)',
