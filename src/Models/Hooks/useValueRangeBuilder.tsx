@@ -1,5 +1,5 @@
 import { IColorCellProps } from '@fluentui/react';
-import { Dispatch, useMemo, useReducer } from 'react';
+import { Dispatch, useEffect, useMemo, useReducer, useRef } from 'react';
 import { IValueRange } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     valueRangeBuilderReducer,
@@ -34,9 +34,11 @@ const useValueRangeBuilder = ({
         [initialValueRanges]
     );
 
+    const initialValueRangesRef = useRef(initialValueRanges);
+
     const [state, dispatch] = useReducer(valueRangeBuilderReducer, {
         ...defaultValueRangeBuilderState,
-        valueRanges: initialValueRanges.sort(
+        valueRanges: initialValueRangesRef.current.sort(
             (a, b) => Number(a.min) - Number(b.min)
         ),
         validationMap: initialValidationMap,
@@ -50,7 +52,9 @@ const useValueRangeBuilder = ({
             state,
             dispatch
         },
-        state
+        state,
+        resetInitialValueRanges: (valueRanges: IValueRange[]) =>
+            (initialValueRangesRef.current = valueRanges)
     };
 };
 

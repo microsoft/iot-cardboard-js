@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -42,7 +42,8 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
 
     const {
         state: valueRangeBuilderState,
-        valueRangeBuilderReducer
+        valueRangeBuilderReducer,
+        resetInitialValueRanges
     } = useValueRangeBuilder({
         initialValueRanges: statusVisualToEdit.valueRanges,
         minRanges: 1
@@ -76,6 +77,11 @@ const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
                     } else {
                         const statusVisual = deepCopy(defaultStatusColorVisual);
                         statusVisual.statusValueExpression = option;
+                        statusVisual.valueRanges =
+                            valueRangeBuilderState.valueRanges;
+                        resetInitialValueRanges(
+                            valueRangeBuilderState.valueRanges
+                        );
                         draft.visuals.push(statusVisual);
                     }
                 })

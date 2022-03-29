@@ -1,5 +1,5 @@
 import { Icon } from '@fluentui/react';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
@@ -22,22 +22,27 @@ export interface IBehaviorsSectionProps {
 
 const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     const styles = getStyles();
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, isPreview } = useContext(BehaviorsModalContext);
 
-    const alertVisuals = useMemo(
-        () =>
-            behavior.visuals
-                .filter(ViewerConfigUtility.isAlertVisual)
-                .filter((av) => parseExpression(av.triggerExpression, twins)) ||
-            [],
-        [behavior]
-    );
+    const alertVisuals = useMemo(() => {
+        let visibleAlertVisuals =
+            behavior.visuals.filter(ViewerConfigUtility.isAlertVisual) || [];
+
+        if (!isPreview) {
+            visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
+                parseExpression(av.triggerExpression, twins)
+            );
+        }
+        return visibleAlertVisuals;
+    }, [behavior]);
+
     const statusVisuals = useMemo(
         () =>
             behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual) ||
             [],
         [behavior]
     );
+
     const popoverVisual = useMemo(
         () => behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0],
         [behavior]
@@ -64,7 +69,7 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
 }) => {
     const styles = getStyles();
     const alertStyles = getElementsPanelAlertStyles(alertVisual.color, true);
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, isPreview } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
@@ -72,7 +77,9 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
                 <Icon iconName={alertVisual.iconName} />
             </div>
             <div className={styles.infoTextContainer}>
-                {performSubstitutions(alertVisual.labelExpression, twins)}
+                {isPreview
+                    ? alertVisual.labelExpression
+                    : performSubstitutions(alertVisual.labelExpression, twins)}
             </div>
         </div>
     );
@@ -82,21 +89,46 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     statusVisual
 }) => {
     const styles = getStyles();
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, isPreview } = useContext(BehaviorsModalContext);
     const { statusValueExpression, valueRanges } = statusVisual;
+    const isStatusLineVisible = valueRanges.length > 0;
 
-    const statusValue = parseExpression(statusValueExpression, twins);
+    let statusValue = 0;
+    let statusColor;
+    let statusStyles;
 
-    const statusStyles = getStatusBlockStyles(
-        getSceneElementStatusColor(statusValueExpression, valueRanges, twins)
-    );
+    if (isPreview) {
+        if (!isStatusLineVisible) {
+            statusStyles = getStatusBlockStyles(null);
+        } else {
+            const minValueRange = valueRanges
+                .slice(0)
+                .sort((a, b) => Number(a.min) - Number(b.min))[0];
+
+            statusValue = Number(minValueRange.min);
+            statusColor = minValueRange.color;
+            statusStyles = getStatusBlockStyles(statusColor);
+        }
+    } else {
+        statusValue = parseExpression(statusValueExpression, twins);
+        statusColor = getSceneElementStatusColor(
+            statusValueExpression,
+            valueRanges,
+            twins
+        );
+        statusStyles = getStatusBlockStyles(statusColor);
+    }
+
     return (
         <div className={styles.infoContainer}>
             <div className={styles.infoIconContainer}>
-                <div className={statusStyles.statusColorLine}></div>
+                {isStatusLineVisible && (
+                    <div className={statusStyles.statusColorLine}></div>
+                )}
             </div>
             <div className={styles.infoTextContainer}>
-                {statusValueExpression} {statusValue && `: ${statusValue}`}
+                {statusValueExpression}{' '}
+                {typeof statusValue === 'number' && `: ${statusValue}`}
             </div>
         </div>
     );
