@@ -1,4 +1,4 @@
-import { IColorCellProps, IPalette, ITheme } from '@fluentui/react';
+import { IPalette, ITheme } from '@fluentui/react';
 import { IPickerOption } from '../Components/Pickers/Internal/Picker.base.types';
 import { Theme } from '../Models/Constants/Enums';
 

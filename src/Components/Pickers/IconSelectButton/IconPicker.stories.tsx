@@ -1,5 +1,5 @@
 import { ComponentStory } from '@storybook/react';
-import { within, userEvent, screen } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/testing-library';
 import React, { useState } from 'react';
 import {
     findAllCalloutItemsByTestId,

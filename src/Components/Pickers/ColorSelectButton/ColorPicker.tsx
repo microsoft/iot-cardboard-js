@@ -41,6 +41,7 @@ const ColorPicker: React.FC<IColorPickerProps> = (props) => {
             <PickerBase
                 {...rest}
                 items={items || defaultSwatchColors}
+                label={label}
                 onChangeItem={onChangeItem}
                 onRenderButton={onRenderButton}
                 selectedItem={selectedItem}
