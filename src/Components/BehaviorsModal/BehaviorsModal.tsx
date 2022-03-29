@@ -13,7 +13,7 @@ import {
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
 export interface IBehaviorsModalProps {
-    onClose: () => any;
+    onClose?: () => any;
     title: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
@@ -49,12 +49,14 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                             >
                                 {title}
                             </span>
-                            <IconButton
-                                styles={dismissButtonStyles}
-                                iconProps={cancelIcon}
-                                ariaLabel={t('behaviorsModal.closeModal')}
-                                onClick={onClose}
-                            />
+                            {typeof onClose === 'function' && (
+                                <IconButton
+                                    styles={dismissButtonStyles}
+                                    iconProps={cancelIcon}
+                                    ariaLabel={t('behaviorsModal.closeModal')}
+                                    onClick={onClose}
+                                />
+                            )}
                         </div>
                         <div className={styles.modalContents}>
                             {behaviors.map((behavior, idx) => {

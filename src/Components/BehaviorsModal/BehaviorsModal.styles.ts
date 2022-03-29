@@ -72,7 +72,8 @@ export const getStyles = memoizeFunction(() => {
                 fontWeight: FontWeights.semibold,
                 fontSize: '16px',
                 borderBottom: `1px solid ${modalBorderColor}`,
-                padding: '0 8px 0 20px'
+                padding: '0 8px 0 20px',
+                height: 40
             } as IStyle
         ],
         modalTitle: [
@@ -104,8 +105,6 @@ export const dismissButtonStyles: IButtonStyles = {
     root: {
         color: 'var(--cb-color-text-primary)',
         marginLeft: 'auto',
-        marginTop: '4px',
-        marginRight: '2px',
         alignSelf: 'flex-end'
     },
     rootHovered: {

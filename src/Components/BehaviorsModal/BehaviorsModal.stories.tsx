@@ -39,6 +39,7 @@ const Template: BehaviorsModalStory = (args) => {
                 behaviors={behaviors}
                 title={element.displayName}
                 twins={twins}
+                onClose={() => null}
             />
         </div>
     );

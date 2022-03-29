@@ -12,7 +12,8 @@ const classPrefix = 'left-panel';
 const classNames = {
     noDataText: `${classPrefix}-no-data-text`,
     content: `${classPrefix}-content`,
-    formTabContents: `${classPrefix}-form-tab-contents`
+    formTabContents: `${classPrefix}-form-tab-contents`,
+    previewContainer: `${classPrefix}-preview-container`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -39,6 +40,17 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 flexDirection: 'column',
                 flexGrow: 1,
                 overflow: 'auto'
+            } as IStyle
+        ],
+        previewContainer: [
+            classNames.previewContainer,
+            {
+                position: 'fixed',
+                top: 0,
+                left: 376,
+                bottom: 0,
+                right: 16,
+                zIndex: 1000
             } as IStyle
         ]
     });

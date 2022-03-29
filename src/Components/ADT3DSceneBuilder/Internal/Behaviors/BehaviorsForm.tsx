@@ -63,6 +63,7 @@ import {
 } from './BehaviorForm.types';
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import { IValueRangeBuilderHandle } from '../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import BehaviorsModal from '../../../BehaviorsModal/BehaviorsModal';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -275,6 +276,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 setBehaviorToEdit
             }}
         >
+            {state.isPopoverPreviewVisible && (
+                <div className={commonPanelStyles.previewContainer}>
+                    <BehaviorsModal
+                        behaviors={[behaviorToEdit]}
+                        title={'Behavior preview'}
+                        twins={{}}
+                    />
+                </div>
+            )}
             <div className={commonFormStyles.root}>
                 <LeftPanelBuilderHeader
                     headerText={headerText}
