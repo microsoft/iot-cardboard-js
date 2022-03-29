@@ -64,6 +64,10 @@ export const findCalloutItemByTestId = async (testId: string) => {
     return await screen.findByTestId(testId);
 };
 
+export const findAllCalloutItemsByTestId = async (testId: string) => {
+    return await screen.findAllByTestId(testId);
+};
+
 export const findOverflowMenuItem = async (testId: string) => {
     return await screen.findByTestId(testId);
 };

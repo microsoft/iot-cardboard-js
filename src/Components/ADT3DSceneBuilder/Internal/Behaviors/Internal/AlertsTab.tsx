@@ -17,10 +17,15 @@ import {
     useTheme
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import ColorSelectButton from '../../../../ColorSelectButton/ColorSelectButton';
-import { defaultSwatchColors } from '../../../../../Theming/Palettes';
+import {
+    defaultSwatchColors,
+    defaultSwatchIcons
+} from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
 import { deepCopy } from '../../../../../Models/Services/Utils';
+import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
+import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
+import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -30,6 +35,7 @@ const LOC_KEYS = {
     colorPickerLabel: `${ROOT_LOC}.colorPickerLabel`,
     expressionLabel: `${ROOT_LOC}.expressionLabel`,
     expressionPlaceholder: `${ROOT_LOC}.expressionPlaceholder`,
+    iconPickerLabel: `${ROOT_LOC}.iconPickerLabel`,
     notice: `${ROOT_LOC}.notice`,
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
@@ -84,8 +90,15 @@ const AlertsTab: React.FC = () => {
     );
 
     const onColorChange = useCallback(
-        (newValue: string) => {
-            setProperty('color', newValue);
+        (newValue: IPickerOption) => {
+            setProperty('color', newValue.item);
+        },
+        [setProperty]
+    );
+
+    const onIconChange = useCallback(
+        (newValue: IPickerOption) => {
+            setProperty('iconName', newValue.item);
         },
         [setProperty]
     );
@@ -100,7 +113,8 @@ const AlertsTab: React.FC = () => {
     // we only grab the first alert in the collection
     const colorChangeVisual =
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual;
-    const color = colorChangeVisual?.color || defaultSwatchColors[0].color;
+    const color = colorChangeVisual?.color || defaultSwatchColors[0].item;
+    const icon = colorChangeVisual?.iconName || defaultSwatchIcons[0].item;
     const expression = colorChangeVisual?.triggerExpression;
     const theme = useTheme();
     return (
@@ -121,12 +135,20 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
-            <ColorSelectButton
-                buttonColor={color}
-                colorSwatch={defaultSwatchColors}
-                label={t(LOC_KEYS.colorPickerLabel)}
-                onChangeSwatchColor={onColorChange}
-            />
+            <Stack tokens={sectionStackTokens} horizontal>
+                <IconPicker
+                    selectedItem={icon}
+                    items={defaultSwatchIcons}
+                    label={t(LOC_KEYS.iconPickerLabel)}
+                    onChangeItem={onIconChange}
+                />
+                <ColorPicker
+                    selectedItem={color}
+                    items={defaultSwatchColors}
+                    label={t(LOC_KEYS.colorPickerLabel)}
+                    onChangeItem={onColorChange}
+                />
+            </Stack>
             <TextField
                 label={t(LOC_KEYS.notificationLabel)}
                 placeholder={t(LOC_KEYS.notificationPlaceholder)}
