@@ -12,7 +12,8 @@ import {
 import {
     isRangeOverlapFound,
     getRangeValidation,
-    getNextColor
+    getNextColor,
+    cleanValueRange
 } from './ValueRangeBuilder.utils';
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
@@ -23,7 +24,8 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     },
     colorSwatch: defaultSwatchColors,
     minRanges: 0,
-    maxRanges: null
+    maxRanges: null,
+    areRangesValid: false
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
@@ -38,6 +40,10 @@ export const valueRangeBuilderReducer: (
 ) => IValueRangeBuilderState = produce(
     (draft: IValueRangeBuilderState, action: ValueRangeBuilderAction) => {
         switch (action.type) {
+            case ValueRangeBuilderActionType.SET_ARE_RANGES_VALID: {
+                draft.areRangesValid = action.payload;
+                break;
+            }
             case ValueRangeBuilderActionType.ADD_VALUE_RANGE: {
                 const { color, id } = action.payload;
                 addValueRange(draft, id, color);
@@ -142,12 +148,12 @@ const addValueRange = (
         }
     });
 
-    const newValueRange = {
+    const newValueRange = cleanValueRange({
         ...defaultValueRange,
         min: newMin,
         id,
         color
-    };
+    });
 
     draft.valueRanges.push(newValueRange);
 
@@ -188,13 +194,14 @@ const updateValueRange = (
     newValue: string,
     newColor: string
 ) => {
-    const valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
+    let valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
     if (!valueToUpdate) return;
 
     if (typeof newValue === 'string') {
         boundary === Boundary.min
             ? (valueToUpdate.min = newValue as any)
             : (valueToUpdate.max = newValue as any);
+        valueToUpdate = cleanValueRange(valueToUpdate);
     } else if (newColor) {
         valueToUpdate.color = newColor;
     }

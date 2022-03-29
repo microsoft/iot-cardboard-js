@@ -122,6 +122,16 @@ export const getNextColor = (
     return randomColor;
 };
 
+export const cleanValueRange = (valueRange: IValueRange): IValueRange => {
+    const cleanRange = Object.assign({}, valueRange);
+
+    return {
+        ...cleanRange,
+        min: cleanValueOutput(cleanRange.min),
+        max: cleanValueOutput(cleanRange.max)
+    };
+};
+
 export const cleanValueOutput = (value: any): INumericOrInfinityType => {
     if (typeof value === 'number') {
         switch (value) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -11,12 +11,12 @@ import {
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
+import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -29,27 +29,34 @@ const LOC_KEYS = {
 };
 
 interface IStatesTabProps {
-    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
-const StatesTab: React.FC<IStatesTabProps> = ({
-    onValidityChange,
-    valueRangeRef
-}) => {
+const StatesTab: React.FC<IStatesTabProps> = ({ onValidityChange }) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
-    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
     const statusVisualToEdit =
         getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
 
+    const {
+        state: valueRangeBuilderState,
+        valueRangeBuilderReducer
+    } = useValueRangeBuilder({
+        initialValueRanges: statusVisualToEdit.valueRanges,
+        minRanges: 1
+    });
+
     useEffect(() => {
         onValidityChange('Status', {
-            isValid: areValueRangesValid
+            isValid: valueRangeBuilderState.areRangesValid
         });
-    }, [areValueRangesValid, behaviorToEdit, onValidityChange]);
+    }, [
+        valueRangeBuilderState.areRangesValid,
+        behaviorToEdit,
+        onValidityChange
+    ]);
 
     const onPropertyChange = useCallback(
         (option: string) => {
@@ -77,6 +84,20 @@ const StatesTab: React.FC<IStatesTabProps> = ({
         [setBehaviorToEdit]
     );
 
+    // Mirror value ranges in behavior to edit
+    useEffect(() => {
+        setBehaviorToEdit(
+            produce((draft) => {
+                // Assuming only 1 status visual per behavior
+                const stateVisual = getStatusFromBehavior(draft);
+                if (stateVisual) {
+                    stateVisual.valueRanges =
+                        valueRangeBuilderState.valueRanges;
+                }
+            })
+        );
+    }, [valueRangeBuilderState.valueRanges]);
+
     const theme = useTheme();
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
@@ -93,10 +114,7 @@ const StatesTab: React.FC<IStatesTabProps> = ({
             {showRangeBuilder && <Separator />}
             {showRangeBuilder && (
                 <ValueRangeBuilder
-                    initialValueRanges={statusVisualToEdit.valueRanges}
-                    minRanges={1}
-                    ref={valueRangeRef}
-                    setAreRangesValid={setAreValueRangesValid}
+                    valueRangeBuilderReducer={valueRangeBuilderReducer}
                 />
             )}
         </Stack>

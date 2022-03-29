@@ -1,4 +1,5 @@
 import { IColorCellProps } from '@fluentui/react';
+import { Dispatch } from 'react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
@@ -15,7 +16,8 @@ export enum ValueRangeBuilderActionType {
     UPDATE_VALIDATION_MAP,
     UPDATE_VALUE_RANGE_VALIDATION,
     SNAP_VALUE_TO_INFINITY,
-    PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
+    PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED,
+    SET_ARE_RANGES_VALID
 }
 
 export type ValueRangeBuilderAction =
@@ -59,6 +61,10 @@ export type ValueRangeBuilderAction =
               currentValueRange: IValueRange;
               boundary: Boundary;
           };
+      }
+    | {
+          type: ValueRangeBuilderActionType.SET_ARE_RANGES_VALID;
+          payload: boolean;
       };
 
 export interface IValueRangeBuilderState {
@@ -67,6 +73,7 @@ export interface IValueRangeBuilderState {
     colorSwatch: IColorCellProps[];
     minRanges: number;
     maxRanges: number;
+    areRangesValid: boolean;
 }
 
 export interface IValueRangeBuilderAction {
@@ -76,12 +83,11 @@ export interface IValueRangeBuilderAction {
 
 export interface IValueRangeBuilderProps {
     className?: string;
-    initialValueRanges: IValueRange[];
-    customSwatchColors?: IColorCellProps[];
     baseComponentProps?: BaseComponentProps;
-    setAreRangesValid?: React.Dispatch<React.SetStateAction<boolean>>;
-    minRanges?: number;
-    maxRanges?: number;
+    valueRangeBuilderReducer: {
+        state: IValueRangeBuilderState;
+        dispatch: Dispatch<ValueRangeBuilderAction>;
+    };
 }
 
 export interface IValueRangeBuilderContext {
@@ -105,8 +111,4 @@ export interface IValueRangeValidationMap {
     validation: {
         [id: string]: IValueRangeValidation;
     };
-}
-
-export interface IValueRangeBuilderHandle {
-    getValueRanges: () => IValueRange[];
 }

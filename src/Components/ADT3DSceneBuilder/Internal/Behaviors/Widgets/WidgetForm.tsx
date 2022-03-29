@@ -1,6 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -21,7 +21,6 @@ import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
-import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
 import { deepCopy } from '../../../../../Models/Services/Utils';
@@ -47,8 +46,6 @@ const WidgetForm: React.FC = () => {
     };
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
-
-    const gaugeValueRangeRef = useRef<IValueRangeBuilderHandle>(null);
 
     const { t } = useTranslation();
 
@@ -77,7 +74,6 @@ const WidgetForm: React.FC = () => {
                         formData={formData as IGaugeWidget}
                         setFormData={setFormData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
-                        valueRangeRef={gaugeValueRangeRef}
                     />
                 );
             case WidgetType.Link:
@@ -100,10 +96,6 @@ const WidgetForm: React.FC = () => {
 
     const onSaveWidgetForm = () => {
         const formDataToSave = deepCopy(formData);
-
-        if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
-            (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
-        }
 
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             setBehaviorToEdit(

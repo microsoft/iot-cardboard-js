@@ -1,22 +1,30 @@
 import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { getWidgetFormStyles } from '../WidgetForm.styles';
 import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 import { BehaviorFormContext } from '../../BehaviorsForm';
+import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
     setFormData,
-    setIsWidgetConfigValid,
-    valueRangeRef
+    setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
     const { behaviorToEdit } = useContext(BehaviorFormContext);
+
+    const {
+        state: valueRangeBuilderState,
+        valueRangeBuilderReducer
+    } = useValueRangeBuilder({
+        initialValueRanges: formData.widgetConfiguration.valueRanges,
+        minRanges: 1,
+        maxRanges: 3
+    });
 
     useEffect(() => {
         const {
@@ -27,13 +35,22 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         if (
             valueExpression?.length > 0 &&
             label?.length > 0 &&
-            areValueRangesValid
+            valueRangeBuilderState.areRangesValid
         ) {
             setIsWidgetConfigValid(true);
         } else {
             setIsWidgetConfigValid(false);
         }
-    }, [formData, areValueRangesValid]);
+    }, [formData, valueRangeBuilderState.areRangesValid]);
+
+    useEffect(() => {
+        setFormData(
+            produce((draft) => {
+                draft.widgetConfiguration.valueRanges =
+                    valueRangeBuilderState.valueRanges;
+            })
+        );
+    }, [valueRangeBuilderState.valueRanges]);
 
     const onPropertyChange = useCallback(
         (option: string) => {
@@ -84,11 +101,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}
-                initialValueRanges={formData.widgetConfiguration.valueRanges}
-                maxRanges={3}
-                minRanges={1}
-                ref={valueRangeRef}
-                setAreRangesValid={setAreValueRangesValid}
+                valueRangeBuilderReducer={valueRangeBuilderReducer}
             />
         </div>
     );
