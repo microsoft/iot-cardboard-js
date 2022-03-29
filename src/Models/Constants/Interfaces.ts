@@ -686,6 +686,7 @@ export interface IADT3DViewerProps {
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
+    outlinedMeshItems?: CustomMeshItem[];
 }
 
 export interface IADT3DViewerMode {
@@ -696,9 +697,10 @@ export interface IADT3DViewerMode {
 
 export interface IADTObjectColor {
     color: string;
-    opacity: number;
     baseColor: string;
     fresnelColor: string;
+    lightingStyle: number;
+    reflectionTexture?: string;
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
