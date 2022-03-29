@@ -31,11 +31,11 @@ const LOC_KEYS = {
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`
 };
 
-interface IStatesTabProps {
+interface IStatusTabProps {
     valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
-const StatesTab: React.FC<IStatesTabProps> = ({
+const StatusTab: React.FC<IStatusTabProps> = ({
     onValidityChange,
     valueRangeRef
 }) => {
@@ -134,4 +134,4 @@ const StatesTab: React.FC<IStatesTabProps> = ({
 };
 const sectionStackTokens: IStackTokens = { childrenGap: 12 };
 
-export default StatesTab;
+export default StatusTab;

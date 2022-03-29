@@ -50,7 +50,7 @@ import {
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../Models/Services/Utils';
 import AlertsTab from './Internal/AlertsTab';
-import StatesTab from './Internal/StatesTab';
+import StatusTab from './Internal/StatusTab';
 import WidgetsTab from './Internal/WidgetsTab';
 import {
     BehaviorFormReducer,
@@ -356,7 +356,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         )
                                     }
                                 >
-                                    <StatesTab
+                                    <StatusTab
                                         onValidityChange={onTabValidityChange}
                                         valueRangeRef={valueRangeRef}
                                     />
