@@ -633,6 +633,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                             currentObjectColor.lightingStyle < 1;
                         if (material) {
                             mesh.material = material;
+                            mesh.material.wireframe = !!isWireframe;
                         }
                     }
                 }

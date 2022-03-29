@@ -6,6 +6,12 @@ export enum Theme {
     Kraken = 'kraken'
 }
 
+export enum ViewerModeStyles {
+    Default = 'default',
+    Transparent = 'transparent',
+    Wireframe = 'wireframe'
+}
+
 export enum TSIComponentTypes {
     Linechart = 'linechart',
     Barchart = 'barchart'
