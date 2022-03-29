@@ -157,10 +157,12 @@ function getListItems(
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
                 ...(onItemHover && {
-                    onMouseOver: () => onItemHover(element, panelItem)
+                    onMouseOver: () => onItemHover(element, panelItem),
+                    onFocus: () => onItemHover(element, panelItem)
                 }),
-                ...(onItemHover && {
-                    onBlur: () => onItemHover(element, panelItem)
+                ...(onItemBlur && {
+                    onMouseLeave: () => onItemBlur(element, panelItem),
+                    onBlur: () => onItemBlur(element, panelItem)
                 })
             },
             iconStartName: (
@@ -205,9 +207,11 @@ function getListItems(
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
                     ...(onItemHover && {
-                        onMouseOver: () => onItemHover(element, panelItem)
+                        onMouseOver: () => onItemHover(element, panelItem),
+                        onFocus: () => onItemHover(element, panelItem)
                     }),
                     ...(onItemBlur && {
+                        onMouseLeave: () => onItemBlur(element, panelItem),
                         onBlur: () => onItemBlur(element, panelItem)
                     })
                 },

@@ -31,6 +31,7 @@ import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
+import { deepCopy } from '../../Models/Services/Utils';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -57,11 +58,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
+    // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
+    const outlinedMeshItemsRef = useRef(outlinedMeshItems);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
     const [showPopUp, setShowPopUp] = useState(false);
-    const showPopUpRef = useRef(showPopUp);
     const [
         isElementsPanelVisible,
         { toggle: toggleIsElementsPanelVisible }
@@ -143,13 +145,13 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             });
             setShowPopUp(true);
             const meshIds = sceneVisual.element.objectIDs;
-
-            setOutlinedMeshItems(
-                createCustomMeshItems(
-                    meshIds,
-                    DefaultViewerModeObjectColor.outlinedMeshSelectedColor
-                )
+            const outlinedMeshItems = createCustomMeshItems(
+                meshIds,
+                DefaultViewerModeObjectColor.outlinedMeshSelectedColor
             );
+
+            setOutlinedMeshItems(outlinedMeshItems);
+            outlinedMeshItemsRef.current = outlinedMeshItems;
         }
     };
 
@@ -173,6 +175,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     setShowPopUp(false);
                     setZoomToMeshIds([]);
                     setOutlinedMeshItems([]);
+                    outlinedMeshItemsRef.current = [];
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
@@ -183,6 +186,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 setShowPopUp(false);
                 setZoomToMeshIds([]);
                 setOutlinedMeshItems([]);
+                outlinedMeshItemsRef.current = [];
             }
         }
 
@@ -236,24 +240,39 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const onElementPanelItemHovered = useCallback(
         (_item, panelItem, _behavior) => {
-            if (!showPopUpRef.current) {
-                setOutlinedMeshItems(
-                    panelItem.element.objectIDs.map((meshId) => ({
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                if (!currentlyOutlinedMeshIds.includes(meshId)) {
+                    newOutlinedMeshItems.push({
                         meshId,
                         color:
                             DefaultViewerModeObjectColor.outlinedMeshHoverColor
-                    }))
-                );
-            }
+                    });
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
         },
         []
     );
 
     const onElementPanelItemBlured = useCallback(
-        (_item, _panelItem, _behavior) => {
-            if (!showPopUpRef.current) {
-                setOutlinedMeshItems([]);
-            }
+        (_item, panelItem, _behavior) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                const meshIndex = currentlyOutlinedMeshIds.findIndex(
+                    (outlinedMeshId) => outlinedMeshId === meshId
+                );
+                if (meshIndex !== -1) {
+                    newOutlinedMeshItems.splice(meshIndex, 1);
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
         },
         []
     );
@@ -263,10 +282,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             setZoomToMeshIds(zoomToMeshIdsProp);
         }
     }, [zoomToMeshIdsProp]);
-
-    useEffect(() => {
-        showPopUpRef.current = showPopUp;
-    }, [showPopUp]);
 
     const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 
@@ -334,6 +349,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         setShowPopUp(false);
                         setZoomToMeshIds([]);
                         setOutlinedMeshItems([]);
+                        outlinedMeshItemsRef.current = [];
                     }}
                     twins={behaviorModalConfig.twins}
                     behaviors={behaviorModalConfig.behaviors}
