@@ -27,12 +27,7 @@ import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
-import {
-    DefaultButton,
-    IButtonStyles,
-    memoizeFunction,
-    useTheme
-} from '@fluentui/react';
+import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 
@@ -252,9 +247,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [zoomToMeshIdsProp]);
 
-    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles(
-        useTheme()
-    );
+    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 
     return (
         <BaseComponent
@@ -278,7 +271,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     }
                     onClick={toggleIsElementsPanelVisible}
                 />
-                {!isElementsPanelVisible && (
+                {isElementsPanelVisible && (
                     <ViewerElementsPanel
                         isLoading={isLoading}
                         panelItems={panelItems}
@@ -330,25 +323,25 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 };
 
 const toggleElementsPanelStyles = memoizeFunction(
-    (theme) =>
+    () =>
         ({
             root: {
                 minWidth: 'unset',
                 width: 64,
                 height: 54,
-                background: 'var(--cb-color-glassy-modal)',
+                background:
+                    'radial-gradient(100% 100% at 4.55% 0%, var(--cb-color-glassy-modal) 0%, var(--cb-color-modal-border) 100%)',
                 border: '1px solid var(--cb-color-modal-border)',
                 borderRadius: 4,
                 backdropFilter: 'blur(50px)',
-                color: theme.palette.neutralPrimary,
+                color: 'var(--cb-color-text-primary)',
                 position: 'absolute',
                 zIndex: 999,
                 left: 20,
                 bottom: 20
             },
             rootChecked: {
-                background:
-                    'radial-gradient(100% 100% at 4.55% 0%, #0763B9 0%, #6453E5 100%)'
+                background: 'var(--cb-color-glassy-modal)'
             }
         } as Partial<IButtonStyles>)
 );
