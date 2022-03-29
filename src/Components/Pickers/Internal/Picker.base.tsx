@@ -13,8 +13,7 @@ import { getStyles } from './Picker.base.styles';
 import {
     IPickerBaseProps,
     IPickerBaseStyleProps,
-    IPickerBaseStyles,
-    IPickerOption
+    IPickerBaseStyles
 } from './Picker.base.types';
 
 const getClassNames = classNamesFunction<

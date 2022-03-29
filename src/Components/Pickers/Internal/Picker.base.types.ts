@@ -6,8 +6,6 @@ import {
 } from '@fluentui/react';
 
 export interface IPickerBaseProps {
-    // extends React.HTMLAttributes<HTMLDivElement>,
-    //     React.RefAttributes<HTMLDivElement>
     /** currently selected item */
     selectedItem: string;
     /** Items to render in the callout */

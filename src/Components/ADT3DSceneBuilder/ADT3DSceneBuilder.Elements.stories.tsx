@@ -232,6 +232,7 @@ export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
 EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
     // open the add behavior callout
     await EditBehaviorsTabAddSelect.play({ canvasElement });
+    await sleep(1);
 
     // click a list item
     const canvas = within(canvasElement);
