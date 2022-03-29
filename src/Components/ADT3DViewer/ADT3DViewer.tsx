@@ -63,6 +63,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
+    const selectedMeshIdsRef = useRef(zoomToMeshIds);
     const [showPopUp, setShowPopUp] = useState(false);
     const [
         isElementsPanelVisible,
@@ -152,6 +153,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
             setOutlinedMeshItems(outlinedMeshItems);
             outlinedMeshItemsRef.current = outlinedMeshItems;
+            selectedMeshIdsRef.current = meshIds;
         }
     };
 
@@ -176,6 +178,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     setZoomToMeshIds([]);
                     setOutlinedMeshItems([]);
                     outlinedMeshItemsRef.current = [];
+                    selectedMeshIdsRef.current = [];
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
@@ -187,6 +190,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 setZoomToMeshIds([]);
                 setOutlinedMeshItems([]);
                 outlinedMeshItemsRef.current = [];
+                selectedMeshIdsRef.current = [];
             }
         }
 
@@ -268,7 +272,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 const meshIndex = currentlyOutlinedMeshIds.findIndex(
                     (outlinedMeshId) => outlinedMeshId === meshId
                 );
-                if (meshIndex !== -1) {
+                if (
+                    meshIndex !== -1 &&
+                    !selectedMeshIdsRef.current?.includes(meshId)
+                ) {
                     newOutlinedMeshItems.splice(meshIndex, 1);
                 }
             });
@@ -350,6 +357,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         setZoomToMeshIds([]);
                         setOutlinedMeshItems([]);
                         outlinedMeshItemsRef.current = [];
+                        selectedMeshIdsRef.current = [];
                     }}
                     twins={behaviorModalConfig.twins}
                     behaviors={behaviorModalConfig.behaviors}
