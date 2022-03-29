@@ -26,6 +26,7 @@ import {
     ViewerElementsPanelItem,
     ViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
+import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
 
 const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
     isLoading,
@@ -66,74 +67,6 @@ const ElementsList: React.FC<ViewerElementsPanelListProps> = ({
                 />
             )}
         </div>
-    );
-};
-
-const sortPanelItemsForDisplay = (
-    panelItems: Array<ViewerElementsPanelItem>
-) => {
-    const panelItemsWithAlerts: Array<{
-        activeAlertNumber: number;
-        panelItem: ViewerElementsPanelItem;
-    }> = [];
-    const panelItemsWithStatusAndWithoutAlerts: Array<ViewerElementsPanelItem> = [];
-    const panelItemsWithoutAlertsAndWithoutStatus: Array<ViewerElementsPanelItem> = [];
-
-    // traverse all the panel items and group them based on if they have active alerts, status or nothing
-    panelItems.forEach((panelItem) => {
-        const flattenedPanelItemVisuals = [].concat(
-            ...panelItem.behaviors.map((behavior) => behavior.visuals)
-        );
-        const activeAlertVisuals = flattenedPanelItemVisuals.filter(
-            (visual) =>
-                ViewerConfigUtility.isAlertVisual(visual) &&
-                parseExpression(visual.triggerExpression, panelItem.twins)
-        );
-        if (activeAlertVisuals.length) {
-            panelItemsWithAlerts.push({
-                activeAlertNumber: activeAlertVisuals.length,
-                panelItem
-            });
-        } else if (
-            flattenedPanelItemVisuals.some(
-                ViewerConfigUtility.isStatusColorVisual
-            )
-        ) {
-            panelItemsWithStatusAndWithoutAlerts.push(panelItem);
-        } else {
-            panelItemsWithoutAlertsAndWithoutStatus.push(panelItem);
-        }
-    });
-
-    // sort the grouped items by first number of alerts and then element name
-    panelItemsWithAlerts.sort((a, b) => {
-        if (a.activeAlertNumber === b.activeAlertNumber) {
-            return a.panelItem.element.displayName.localeCompare(
-                b.panelItem.element.displayName,
-                undefined,
-                {
-                    sensitivity: 'base'
-                }
-            );
-        }
-        return a.activeAlertNumber > b.activeAlertNumber ? -1 : 1;
-    });
-    panelItemsWithStatusAndWithoutAlerts.sort((a, b) =>
-        a.element.displayName.localeCompare(b.element.displayName, undefined, {
-            sensitivity: 'base'
-        })
-    );
-    panelItemsWithoutAlertsAndWithoutStatus.sort((a, b) =>
-        a.element.displayName.localeCompare(b.element.displayName, undefined, {
-            sensitivity: 'base'
-        })
-    );
-    return [].concat(
-        ...panelItemsWithAlerts.map(
-            (panelItemWithAlert) => panelItemWithAlert.panelItem
-        ),
-        ...panelItemsWithStatusAndWithoutAlerts,
-        ...panelItemsWithoutAlertsAndWithoutStatus
     );
 };
 
@@ -234,8 +167,9 @@ function getListItems(
                         overflow: 'hidden'
                     }}
                 >
-                    {statuses.map((status) => (
+                    {statuses.map((status, index) => (
                         <div
+                            key={index}
                             className={
                                 getElementsPanelStatusStyles(
                                     getSceneElementStatusColor(
