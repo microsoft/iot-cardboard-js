@@ -36,7 +36,7 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
     return (
         <div className={styles.widgetsContainer}>
             {popoverVisual.widgets.map((widget) => (
-                <div className={styles.widgetContainer}>
+                <div key={widget.id} className={styles.widgetContainer}>
                     {makeWidget(widget, twins)}
                 </div>
             ))}

@@ -8,7 +8,7 @@ import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1
 import {
     dismissButtonStyles,
     getStyles,
-    separatorStyles
+    getSeparatorStyles
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
@@ -17,27 +17,30 @@ export interface IBehaviorsModalProps {
     title: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
+    isPreview?: boolean;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
     twins: Record<string, DTwin>;
+    isPreview: boolean;
 }>(null);
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
     behaviors,
     title,
-    twins
+    twins,
+    isPreview = false
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
-    const styles = getStyles();
+    const styles = getStyles(isPreview);
 
     return (
-        <BehaviorsModalContext.Provider value={{ twins }}>
+        <BehaviorsModalContext.Provider value={{ twins, isPreview }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>
@@ -65,7 +68,12 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         <BehaviorSection behavior={behavior} />
                                         {idx < behaviors.length - 1 && (
                                             <Separator
-                                                styles={separatorStyles}
+                                                styles={(props) =>
+                                                    getSeparatorStyles(
+                                                        props,
+                                                        isPreview
+                                                    )
+                                                }
                                             />
                                         )}
                                     </div>

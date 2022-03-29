@@ -1,6 +1,7 @@
 import {
     FontWeights,
     IButtonStyles,
+    ISeparatorStyleProps,
     ISeparatorStyles,
     IStyle,
     memoizeFunction,
@@ -18,12 +19,17 @@ const classNames = {
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
-const initialPopoverTopOffset = 112;
 const initialPopoverRightOffset = 10;
 
-const modalBorderColor = 'var(--cb-color-modal-border)';
+const getModalBorderColor = (isPreview) => {
+    return isPreview
+        ? 'var(--cb-color-text-primary)'
+        : 'var(--cb-color-modal-border)';
+};
 
-export const getStyles = memoizeFunction(() => {
+export const getStyles = memoizeFunction((isPreview: boolean) => {
+    const modalBorderColor = getModalBorderColor(isPreview);
+    const initialPopoverTopOffset = isPreview ? 124 : 112;
     return mergeStyleSets({
         boundaryLayer: [
             classNames.boundaryLayer,
@@ -95,12 +101,14 @@ export const getStyles = memoizeFunction(() => {
     });
 });
 
-export const separatorStyles: Partial<ISeparatorStyles> = {
-    root: {
-        ':before': { backgroundColor: modalBorderColor },
-        padding: 0,
-        height: 1
-    }
+export const getSeparatorStyles = (props: ISeparatorStyleProps, isPreview) => {
+    return {
+        root: {
+            ':before': { backgroundColor: getModalBorderColor(isPreview) },
+            padding: 0,
+            height: 1
+        }
+    };
 };
 
 export const dismissButtonStyles: IButtonStyles = {

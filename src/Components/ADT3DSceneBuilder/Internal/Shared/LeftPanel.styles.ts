@@ -50,7 +50,8 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 left: 376,
                 bottom: 0,
                 right: 16,
-                zIndex: 1000
+                zIndex: 1000,
+                pointerEvents: 'none'
             } as IStyle
         ]
     });

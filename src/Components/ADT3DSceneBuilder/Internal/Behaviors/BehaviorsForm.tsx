@@ -103,6 +103,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             : selectedBehavior
     );
 
+    const behaviorPreview = useMemo(() => [behaviorToEdit], [behaviorToEdit]);
+
     const [
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
@@ -240,9 +242,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             {state.isPopoverPreviewVisible && (
                 <div className={commonPanelStyles.previewContainer}>
                     <BehaviorsModal
-                        behaviors={[behaviorToEdit]}
+                        behaviors={behaviorPreview}
                         title={'Behavior preview'}
-                        twins={{}}
+                        twins={null}
+                        isPreview
                     />
                 </div>
             )}
