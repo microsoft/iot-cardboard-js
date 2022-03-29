@@ -67,7 +67,7 @@ export function createBadge(
         const textBlock = new GUI.TextBlock();
         textBlock.fontFamily = 'iconFont';
         textBlock.fontSizeInPixels = 12;
-        textBlock.topInPixels = 2;
+        textBlock.topInPixels = 3;
         textBlock.color = textColor || '#ffffff';
         textBlock.text = text;
         badgeBackground.addControl(textBlock);
