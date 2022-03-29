@@ -24,17 +24,18 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     const styles = getStyles();
     const { twins } = useContext(BehaviorsModalContext);
 
-    const alertVisual = useMemo(
+    const alertVisuals = useMemo(
         () =>
-            behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] ||
-            null,
+            behavior.visuals
+                .filter(ViewerConfigUtility.isAlertVisual)
+                .filter((av) => parseExpression(av.triggerExpression, twins)) ||
+            [],
         [behavior]
     );
-    const statusVisual = useMemo(
+    const statusVisuals = useMemo(
         () =>
-            behavior.visuals.filter(
-                ViewerConfigUtility.isStatusColorVisual
-            )[0] || null,
+            behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual) ||
+            [],
         [behavior]
     );
     const popoverVisual = useMemo(
@@ -45,8 +46,12 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     return (
         <div className={styles.behaviorSection}>
             <div className={styles.behaviorHeader}>{behavior.displayName}</div>
-            {alertVisual && <AlertBlock alertVisual={alertVisual} />}
-            {statusVisual && <StatusBlock statusVisual={statusVisual} />}
+            {alertVisuals.map((av) => (
+                <AlertBlock alertVisual={av} />
+            ))}
+            {statusVisuals.map((sv) => (
+                <StatusBlock statusVisual={sv} />
+            ))}
             {popoverVisual && (
                 <WidgetsContainer popoverVisual={popoverVisual} twins={twins} />
             )}

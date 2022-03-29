@@ -130,6 +130,33 @@
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
+                    },
+                    {
+                        "type": "StatusColoring",
+                        "statusValueExpression": "LinkedTwin.InFlow",
+                        "valueRanges": [
+                            {
+                                "color": "#33A1FD",
+                                "min": 0,
+                                "max": 100,
+                                "id": "c824b3d6-1780-fb5b-e6e7-82ca733dc393"
+                            },
+                            {
+                                "color": "#26C485",
+                                "min": 100,
+                                "max": 200,
+                                "id": "abf90f4206b683dc2a0eea53ec09c1e1"
+                            },
+                            {
+                                "color": "#FEE440",
+                                "min": 200,
+                                "max": "Infinity",
+                                "id": "d7b6d0f722e873e8904c471ee46a2b72"
+                            }
+                        ],
+                        "objectIDs": {
+                            "expression": "objectIDs"
+                        }
                     }
                 ]
             },
@@ -177,7 +204,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.OutFlow > 120",
+                        "triggerExpression": "LinkedTwin.OutFlow > 0",
                         "labelExpression": "OutFlow rate too high",
                         "iconName": "Squalls",
                         "color": "#a209de",
@@ -187,7 +214,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.PercentFull > 0",
+                        "triggerExpression": "LinkedTwin.InFlow > 0",
                         "labelExpression": "Tank Too Full",
                         "iconName": "CircleHalfFull",
                         "color": "#de3b09",
@@ -202,9 +229,9 @@
                             {
                                 "id": "",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.PercentFull",
+                                "valueExpression": "LinkedTwin.Temperature",
                                 "widgetConfiguration": {
-                                    "label": "Percent Full",
+                                    "label": "Temperature",
                                     "valueRanges": [
                                         {
                                             "color": "#26C485",
@@ -221,11 +248,11 @@
                                         {
                                             "color": "#C32F27",
                                             "min": 60,
-                                            "max": 100,
+                                            "max": 200,
                                             "id": "636d276bd9a04dbd79948538aff4f5e3"
                                         }
                                     ],
-                                    "units": "%"
+                                    "units": "C"
                                 }
                             },
                             {
@@ -286,7 +313,7 @@
                     },
                     {
                         "type": "Alert",
-                        "triggerExpression": "LinkedTwin.Temperature > 15",
+                        "triggerExpression": "LinkedTwin.Temperature > 200",
                         "labelExpression": "Temp too hot",
                         "iconName": "Frigid",
                         "color": "#d6940f",

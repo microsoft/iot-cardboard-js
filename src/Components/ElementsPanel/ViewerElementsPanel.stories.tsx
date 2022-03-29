@@ -4,19 +4,26 @@ import ElementsPanel from './ViewerElementsPanel';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import { ViewerElementsPanelItem } from './ViewerElementsPanel.types';
+import {
+    IViewerElementsPanelItem,
+    IViewerElementsPanelProps
+} from './ViewerElementsPanel.types';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
-const componentStyle = {
-    height: '800px',
-    width: '400px'
+const wrapperStyle = {
+    width: '100%',
+    height: '600px'
 };
 
 export default {
     title: 'Components/ElementsPanel',
-    component: ElementsPanel
+    component: ElementsPanel,
+    decorators: [
+        getDefaultStoryDecorator<IViewerElementsPanelProps>(wrapperStyle)
+    ]
 };
 
-export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
+export const ViewerElementsPanel = () => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
@@ -29,7 +36,7 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
         pollingInterval
     );
 
-    const panelItems: Array<ViewerElementsPanelItem> = useMemo(
+    const panelItems: Array<IViewerElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
@@ -40,9 +47,8 @@ export const ViewerElementsPanel = (args, { globals: { theme, locale } }) => {
     );
 
     return (
-        <div style={componentStyle}>
+        <div style={wrapperStyle}>
             <ElementsPanel
-                baseComponentProps={{ theme, locale }}
                 isLoading={isLoading}
                 panelItems={panelItems}
                 onItemClick={(item, panelItem, behavior) =>

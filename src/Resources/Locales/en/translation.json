@@ -664,6 +664,8 @@
     "elementsPanel": {
         "title": "Elements",
         "noElements": "No elements to display",
-        "filterPlaceholder": "Type to filter elements or alerts"
+        "filterPlaceholder": "Type to filter elements or alerts",
+        "showPanel": "Show elements panel",
+        "hidePanel": "Hide elements panel"
     }
 }
