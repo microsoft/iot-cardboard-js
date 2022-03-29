@@ -3,6 +3,7 @@ import { VisualType } from '../Classes/3DVConfig';
 import {
     CustomMeshItem,
     SceneViewBadge,
+    SceneViewBadgeGroup,
     SceneVisual
 } from '../Classes/SceneView.types';
 import { BadgeIcons } from '../Constants';
@@ -19,6 +20,9 @@ export const useRuntimeSceneData = (
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
+    const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
+        []
+    );
 
     const sceneData = useAdapter({
         adapterMethod: () => adapter.getSceneData(sceneId, scenesConfig),
@@ -36,12 +40,11 @@ export const useRuntimeSceneData = (
             const sceneVisuals = [
                 ...sceneData.adapterResult.result.data.sceneVisuals
             ];
-
+            const alerts: Array<SceneViewBadge> = [];
             // for each scene visual retrieve the colored mesh ids and update it in the scene visual
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
                 const coloredMeshItems: Array<CustomMeshItem> = [];
-                const alertBadges: Array<SceneViewBadge> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
                     behavior.visuals?.forEach((visual) => {
                         switch (visual.type) {
@@ -84,10 +87,12 @@ export const useRuntimeSceneData = (
                                     const color = visual.color;
                                     const meshId =
                                         sceneVisual.element.objectIDs?.[0];
-                                    alertBadges.push({
-                                        color: color,
+                                    const icon = BadgeIcons.cross;
+
+                                    alerts.push({
                                         meshId: meshId,
-                                        icon: BadgeIcons.cross
+                                        color: color,
+                                        icon: icon
                                     });
                                 }
                                 break;
@@ -97,13 +102,42 @@ export const useRuntimeSceneData = (
                 });
 
                 sceneVisual.coloredMeshItems = coloredMeshItems;
-                sceneVisual.alertBadges = alertBadges;
+            });
+
+            const groupedAlerts: SceneViewBadgeGroup[] = [];
+
+            alerts.forEach((alert) => {
+                if (groupedAlerts.length === 0) {
+                    groupedAlerts.push({
+                        meshId: alert.meshId,
+                        badges: [alert]
+                    });
+                } else {
+                    const group = groupedAlerts.find(
+                        (ga) => ga.meshId === alert.meshId
+                    );
+
+                    if (group) {
+                        group.badges.push(alert);
+                    } else {
+                        groupedAlerts.push({
+                            meshId: alert.meshId,
+                            badges: [alert]
+                        });
+                    }
+                }
             });
 
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneVisuals);
+            setSceneAlerts(groupedAlerts);
         }
     }, [sceneData.adapterResult.result]);
 
-    return { modelUrl, sceneVisuals, isLoading: sceneData.isLoading };
+    return {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading: sceneData.isLoading
+    };
 };

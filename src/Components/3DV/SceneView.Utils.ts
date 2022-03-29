@@ -40,21 +40,10 @@ export function createBadge(
     onClickCallback?: any
 ) {
     const badge = new GUI.Button();
-    badge.widthInPixels = 30;
-    badge.heightInPixels = 30;
+    badge.widthInPixels = 20;
+    badge.heightInPixels = 20;
     badge.background = 'transparent';
     badge.color = 'transparent';
-
-    const badgeContainer = new GUI.Ellipse();
-    badgeContainer.widthInPixels = 30;
-    badgeContainer.heightInPixels = 30;
-    badgeContainer.paddingTopInPixels = 3;
-    badgeContainer.paddingLeftInPixels = 3;
-    badgeContainer.paddingRightInPixels = 3;
-    badgeContainer.paddingBottomInPixels = 3;
-    badgeContainer.color = '#1E2C5399';
-    badgeContainer.background = '#1E2C5399';
-    badge.addControl(badgeContainer);
 
     const badgeBackground = new GUI.Ellipse();
     badgeBackground.widthInPixels = 20;
@@ -67,7 +56,7 @@ export function createBadge(
         const textBlock = new GUI.TextBlock();
         textBlock.fontFamily = 'iconFont';
         textBlock.fontSizeInPixels = 12;
-        textBlock.topInPixels = 3;
+        textBlock.topInPixels = 2;
         textBlock.color = textColor || '#ffffff';
         textBlock.text = text;
         badgeBackground.addControl(textBlock);

@@ -12,7 +12,7 @@ export class SceneVisual {
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
-    alertBadges?: SceneViewBadge[];
+    alertBadgeGroup?: SceneViewBadgeGroup[];
 
     constructor(
         element: ITwinToObjectMapping,
@@ -61,6 +61,11 @@ export interface SceneViewBadge {
     iconColor?: string;
 }
 
+export interface SceneViewBadgeGroup {
+    meshId: string;
+    badges: SceneViewBadge[];
+}
+
 export type SceneViewEventHandler = (
     marker: Marker,
     mesh: AbstractMesh,
@@ -84,5 +89,5 @@ export interface ISceneViewProp {
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
     objectColors?: IADTObjectColor;
-    badges?: SceneViewBadge[];
+    badgeGroups?: SceneViewBadgeGroup[];
 }
