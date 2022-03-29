@@ -1,12 +1,19 @@
+import { ComponentStory } from '@storybook/react';
+import { within, screen, userEvent } from '@storybook/testing-library';
 import React, { useState } from 'react';
-import { getDefaultStoryDecorator } from '../../../Models/Services/StoryUtilities';
-import { defaultSwatchColors } from '../../../Theming/Palettes';
+import {
+    getDefaultStoryDecorator,
+    waitForFirstRender
+} from '../../../Models/Services/StoryUtilities';
+import {
+    defaultSwatchColors,
+    defaultSwatchIcons
+} from '../../../Theming/Palettes';
+import IconPicker from '../IconSelectButton/IconPicker';
 import ColorPicker from './ColorPicker';
 
 const cardStyle: React.CSSProperties = {
-    height: '300px',
-    width: '300px',
-    padding: '10px'
+    padding: '20px'
 };
 
 export default {
@@ -15,9 +22,9 @@ export default {
     decorators: [getDefaultStoryDecorator(cardStyle)]
 };
 
-export const SelectColorButton = (args) => {
-    const [selectedColor, setSelectedColor] = useState(defaultSwatchColors[0]);
-
+type TemplateStory = ComponentStory<typeof IconPicker>;
+const Template: TemplateStory = (args) => {
+    const [selectedColor, setSelectedColor] = useState(defaultSwatchIcons[0]);
     return (
         <ColorPicker
             items={defaultSwatchColors}
@@ -28,25 +35,41 @@ export const SelectColorButton = (args) => {
     );
 };
 
-export const SelectColorButtonCustomized = (args) => {
-    const [selectedColor, setSelectedColor] = useState(defaultSwatchColors[0]);
+export const Base = Template.bind({}) as TemplateStory;
 
-    return (
-        <ColorPicker
-            items={defaultSwatchColors}
-            onChangeItem={setSelectedColor}
-            selectedItem={selectedColor.item}
-            styles={{
-                root: {
-                    background: 'red',
-                    display: 'flex',
-                    justifyContent: 'center'
-                },
-                button: {
-                    borderRadius: 0
-                }
-            }}
-            {...args}
-        />
-    );
+export const Opened = Template.bind({}) as TemplateStory;
+Opened.play = async ({ canvasElement }) => {
+    await waitForFirstRender();
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = canvas.getByTestId('color-picker-button');
+    await userEvent.click(button);
+};
+
+export const SelectItem = Template.bind({}) as TemplateStory;
+SelectItem.play = async ({ canvasElement }) => {
+    await waitForFirstRender();
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const menuButton = canvas.getByTestId('color-picker-button');
+    await userEvent.click(menuButton);
+
+    await waitForFirstRender();
+    // Finds the button and clicks it
+    const optionButton = (await screen.findAllByRole('gridcell'))[2];
+    await optionButton.click();
+};
+
+export const Customized = Template.bind({}) as TemplateStory;
+Customized.args = {
+    styles: {
+        root: {
+            background: 'red',
+            display: 'flex',
+            justifyContent: 'center'
+        },
+        button: {
+            borderRadius: 0
+        }
+    }
 };

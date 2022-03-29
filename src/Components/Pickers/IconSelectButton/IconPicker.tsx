@@ -18,6 +18,7 @@ const IconPicker: React.FC<IIconPickerProps> = (props) => {
                 onChangeItem={onChangeItem}
                 onRenderButton={(onClick, buttonId) => (
                     <IconButton
+                        data-testid={'icon-picker-button'}
                         iconProps={{ iconName: selectedItem }}
                         onClick={onClick}
                         id={buttonId}
@@ -26,6 +27,7 @@ const IconPicker: React.FC<IIconPickerProps> = (props) => {
                 onRenderItem={(props) => {
                     return (
                         <IconButton
+                            data-testid={'icon-picker-option'}
                             iconProps={{ iconName: props.item }}
                             onClick={(_e) =>
                                 onChangeItem(

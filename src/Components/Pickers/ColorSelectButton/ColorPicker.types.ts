@@ -14,4 +14,4 @@ export interface IColorPickerProps
     items?: IPickerOption[];
 }
 export type IColorPickerStyleProps = IPickerBaseStyleProps;
-export type IColorPickerStyles = IPickerBaseStyles;
+export type IColorPickerStyles = Partial<IPickerBaseStyles>;

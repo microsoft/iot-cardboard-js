@@ -9,4 +9,4 @@ export type IIconPickerProps = Omit<
     'onRenderButton' | 'onRenderItem'
 >;
 export type IIconPickerStyleProps = IPickerBaseStyleProps;
-export type IIconPickerStyles = IPickerBaseStyles;
+export type IIconPickerStyles = Partial<IPickerBaseStyles>;

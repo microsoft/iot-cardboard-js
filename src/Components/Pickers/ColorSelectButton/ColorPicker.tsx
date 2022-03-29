@@ -27,7 +27,7 @@ const ColorPicker: React.FC<IColorPickerProps> = (props) => {
                 aria-label={
                     label || t('valueRangeBuilder.colorButtonAriaLabel')
                 }
-                data-testid={'range-builder-row-color-picker'}
+                data-testid={'color-picker-button'}
                 style={{ backgroundColor: selectedItem }}
                 className={classNames.button}
                 onClick={onClick}

@@ -20,12 +20,14 @@ export const getStyles = (_props: IPickerBaseStyleProps): IPickerBaseStyles => {
         ],
         subComponentStyles: {
             callout: {
-                root: {
-                    margin: 8
-                },
                 calloutMain: {
+                    // this is not exposed on the styles directly
                     '& .ms-swatchColorPickerBodyContainer': {
                         minWidth: 'unset'
+                    },
+                    // there is no good class to grab here
+                    '& table': {
+                        margin: 8
                     }
                 }
             }
