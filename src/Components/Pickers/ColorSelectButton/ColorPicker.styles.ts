@@ -1,9 +1,8 @@
 import { IColorPickerStyleProps } from '@fluentui/react';
 import { IColorPickerStyles } from './ColorPicker.types';
 
-const classPrefix = 'color-select-button';
+const classPrefix = 'color-picker-button';
 const classNames = {
-    root: `${classPrefix}-root`,
     button: `${classPrefix}-button`
 };
 export const getColorPickerStyles = (
