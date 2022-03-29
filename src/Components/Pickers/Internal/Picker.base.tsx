@@ -13,7 +13,8 @@ import { getStyles } from './Picker.base.styles';
 import {
     IPickerBaseProps,
     IPickerBaseStyleProps,
-    IPickerBaseStyles
+    IPickerBaseStyles,
+    IPickerOption
 } from './Picker.base.types';
 
 const getClassNames = classNamesFunction<
@@ -51,6 +52,22 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
         return converted;
     }, items);
 
+    const handleClick = useCallback(
+        (item: string) => {
+            toggleIsCalloutVisible();
+            onChangeItem(items.find((x) => x.item === item));
+        },
+        [items, onChangeItem, toggleIsCalloutVisible]
+    );
+
+    // map the callback to nicely exposed props in callback
+    const onChange = useCallback(
+        (_e, _id, item: string) => {
+            handleClick(item);
+        },
+        [handleClick]
+    );
+
     // map the callback to nicely exposed props in callback
     const onRenderItemInternal =
         onRenderItem &&
@@ -60,15 +77,12 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
                 _defaultRenderer: (props?: IColorCellProps) => JSX.Element
             ) =>
                 onRenderItem &&
-                onRenderItem(items.find((x) => x.item === props.color)),
-            [items, onRenderItem]
+                onRenderItem(
+                    items.find((x) => x.item === props.color),
+                    handleClick
+                ),
+            [handleClick, items, onChange, onRenderItem]
         );
-    // map the callback to nicely exposed props in callback
-    const onChange = useCallback(
-        (_e, _id, item: string) =>
-            onChangeItem(items.find((x) => x.item === item)),
-        [items, onChangeItem]
-    );
 
     return (
         // root node is needed to prevent bouncing when callout opens

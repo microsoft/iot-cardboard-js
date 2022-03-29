@@ -18,7 +18,10 @@ export interface IPickerBaseProps {
     onChangeItem: (item: IPickerOption) => void;
     onRenderButton: (onClick: () => void, buttonId: string) => JSX.Element;
     /** override for the rendering of the callout items */
-    onRenderItem?: (item: IPickerOption) => JSX.Element;
+    onRenderItem?: (
+        item: IPickerOption,
+        onClick: (item: string) => void
+    ) => JSX.Element;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -59,7 +62,7 @@ export interface IPickerBaseStyles {
     subComponentStyles?: IPickerBaseSubComponentStyles;
 }
 
-interface IPickerBaseSubComponentStyles {
+export interface IPickerBaseSubComponentStyles {
     /** Styles for the callout that hosts the ContextualMenu options. */
     callout?: Partial<ICalloutContentStyles>;
 }
