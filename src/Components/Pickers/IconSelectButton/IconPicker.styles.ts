@@ -12,7 +12,7 @@ export const getStyles = (props: IIconPickerStyleProps): IIconPickerStyles => {
                         borderRadius: '50%'
                     },
                     isItemSelected && {
-                        borderWidth: 5
+                        borderWidth: 3
                     }
                 ],
                 rootHovered: {
