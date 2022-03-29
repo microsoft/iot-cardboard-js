@@ -1,16 +1,11 @@
-import {
-    IColorSelectButtonStyleProps,
-    IColorSelectButtonStyles
-} from './ColorSelectButton.types';
+import { IIconPickerStyleProps, IIconPickerStyles } from './IconPicker.types';
 
 const classPrefix = 'color-select-button';
 const classNames = {
     root: `${classPrefix}-root`,
     button: `${classPrefix}-button`
 };
-export const getStyles = (
-    _props: IColorSelectButtonStyleProps
-): IColorSelectButtonStyles => {
+export const getStyles = (_props: IIconPickerStyleProps): IIconPickerStyles => {
     return {
         root: [classNames.root],
         button: [
@@ -22,9 +17,6 @@ export const getStyles = (
                 height: 28,
                 width: 28
             }
-        ],
-        subComponentStyles: {
-            callout: { root: { width: 100 } }
-        }
+        ]
     };
 };

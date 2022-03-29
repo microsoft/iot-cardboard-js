@@ -1,6 +1,6 @@
-import { IColorCellProps } from '@fluentui/react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
+import { IPickerOption } from '../Pickers/Internal/Picker.base.types';
 
 export enum Boundary {
     min = 'min',
@@ -64,7 +64,7 @@ export type ValueRangeBuilderAction =
 export interface IValueRangeBuilderState {
     valueRanges: IValueRange[];
     validationMap: IValueRangeValidationMap;
-    colorSwatch: IColorCellProps[];
+    colorSwatch: IPickerOption[];
     minRanges: number;
     maxRanges: number;
 }
@@ -77,7 +77,7 @@ export interface IValueRangeBuilderAction {
 export interface IValueRangeBuilderProps {
     className?: string;
     initialValueRanges: IValueRange[];
-    customSwatchColors?: IColorCellProps[];
+    customSwatchColors?: IPickerOption[];
     baseComponentProps?: BaseComponentProps;
     setAreRangesValid?: React.Dispatch<React.SetStateAction<boolean>>;
     minRanges?: number;

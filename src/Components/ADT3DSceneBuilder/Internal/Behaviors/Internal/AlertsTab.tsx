@@ -17,10 +17,11 @@ import {
     useTheme
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import ColorSelectButton from '../../../../ColorSelectButton/ColorSelectButton';
 import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
 import { deepCopy } from '../../../../../Models/Services/Utils';
+import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
+import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -84,8 +85,8 @@ const AlertsTab: React.FC = () => {
     );
 
     const onColorChange = useCallback(
-        (newValue: string) => {
-            setProperty('color', newValue);
+        (newValue: IPickerOption) => {
+            setProperty('color', newValue.item);
         },
         [setProperty]
     );
@@ -100,7 +101,7 @@ const AlertsTab: React.FC = () => {
     // we only grab the first alert in the collection
     const colorChangeVisual =
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual;
-    const color = colorChangeVisual?.color || defaultSwatchColors[0].color;
+    const color = colorChangeVisual?.color || defaultSwatchColors[0].item;
     const expression = colorChangeVisual?.triggerExpression;
     const theme = useTheme();
     return (
@@ -121,11 +122,11 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
-            <ColorSelectButton
-                buttonColor={color}
-                colorSwatch={defaultSwatchColors}
+            <ColorPicker
+                selectedItem={color}
+                items={defaultSwatchColors}
                 label={t(LOC_KEYS.colorPickerLabel)}
-                onChangeSwatchColor={onColorChange}
+                onChangeItem={onColorChange}
             />
             <TextField
                 label={t(LOC_KEYS.notificationLabel)}

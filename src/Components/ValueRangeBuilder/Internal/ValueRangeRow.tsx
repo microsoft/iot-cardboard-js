@@ -8,7 +8,7 @@ import {
 } from '../ValueRangeBuilder.types';
 import ValueRangeInput from './ValueRangeInput';
 import { IconButton, IStackTokens, Stack } from '@fluentui/react';
-import ColorSelectButton from '../../ColorSelectButton/ColorSelectButton';
+import ColorPicker from '../../Pickers/ColorSelectButton/ColorPicker';
 
 const ValueRangeRow: React.FC<{
     valueRange: IValueRange;
@@ -42,15 +42,15 @@ const ValueRangeRow: React.FC<{
                 boundary={Boundary.max}
                 valueRange={valueRange}
             />
-            <ColorSelectButton
-                buttonColor={valueRange.color}
-                colorSwatch={colorSwatch}
-                onChangeSwatchColor={(color) => {
+            <ColorPicker
+                selectedItem={valueRange.color}
+                items={colorSwatch}
+                onChangeItem={(color) => {
                     dispatch({
                         type: ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
                         payload: {
                             boundary: Boundary.max,
-                            newColor: color,
+                            newColor: color.item,
                             id: valueRange.id
                         }
                     });
