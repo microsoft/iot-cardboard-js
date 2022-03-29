@@ -514,6 +514,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         const material = originalMaterials.current[mesh.id];
                         if (material) {
                             mesh.material = material;
+                            mesh.material.wireframe = !!isWireframe;
                         }
                     }
                 }
