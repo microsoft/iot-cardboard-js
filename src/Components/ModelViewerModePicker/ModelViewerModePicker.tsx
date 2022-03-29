@@ -15,6 +15,7 @@ import {
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ViewerModeStyles } from '../../Models/Constants';
 import DefaultStyle from '../../Resources/Static/default.svg';
 import TransparentStyle from '../../Resources/Static/transparent.svg';
 import WireframeStyle from '../../Resources/Static/wireframe.svg';
@@ -28,12 +29,14 @@ export interface ViewerMode {
 interface ModelViewerModePickerProps {
     objectColors: any[];
     backgroundColors: string[];
+    defaultViewerMode?: ViewerMode;
     viewerModeUpdated: (viewerMode: ViewerMode) => void;
 }
 
 const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     objectColors,
     backgroundColors,
+    defaultViewerMode,
     viewerModeUpdated
 }) => {
     const [showPicker, setShowPicker] = useState(false);
@@ -50,28 +53,37 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
 
     const styleOptions: IChoiceGroupOption[] = [
         {
-            key: 'default',
+            key: ViewerModeStyles.Default,
             imageSrc: DefaultStyle,
             imageAlt: t('modelViewerModePicker.default'),
             selectedImageSrc: DefaultStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.default')
+            text: t('modelViewerModePicker.default'),
+            styles: {
+                innerField: { width: 100, padding: 0, justifyContent: 'center' }
+            }
         },
         {
-            key: 'transparent',
+            key: ViewerModeStyles.Transparent,
             imageSrc: TransparentStyle,
             imageAlt: t('modelViewerModePicker.transparent'),
             selectedImageSrc: TransparentStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.transparent')
+            text: t('modelViewerModePicker.transparent'),
+            styles: {
+                innerField: { width: 100, padding: 0, justifyContent: 'center' }
+            }
         },
         {
-            key: 'wireframe',
+            key: ViewerModeStyles.Wireframe,
             imageSrc: WireframeStyle,
             imageAlt: t('modelViewerModePicker.wireframe'),
             selectedImageSrc: WireframeStyle,
             imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.wireframe')
+            text: t('modelViewerModePicker.wireframe'),
+            styles: {
+                innerField: { width: 100, padding: 0, justifyContent: 'center' }
+            }
         }
     ];
 
@@ -102,11 +114,22 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         });
 
         setBackgrounds(backgrounds);
+        setSelectedObjectColor(
+            defaultViewerMode?.objectColor
+                ? defaultViewerMode.objectColor
+                : objectColors[0].color
+        );
 
         setViewerMode({
-            objectColor: null,
-            background: backgroundColors[0],
-            style: styleOptions[0].key
+            objectColor: defaultViewerMode?.objectColor
+                ? defaultViewerMode.objectColor
+                : null,
+            background: defaultViewerMode?.background
+                ? defaultViewerMode.background
+                : backgroundColors[0],
+            style: defaultViewerMode?.style
+                ? defaultViewerMode.style
+                : styleOptions[0].key
         });
     }, []);
 
@@ -117,7 +140,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     const updateStyle = (style: string) => {
         setViewerMode(
             produce((draft) => {
-                if (style === 'default') {
+                if (style === ViewerModeStyles.Default) {
                     draft.objectColor = null;
                 } else {
                     draft.objectColor = selectedObjectColor;
@@ -130,7 +153,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
     const updateObjectColor = (objectColor: string) => {
         setViewerMode(
             produce((draft) => {
-                if (draft.style === 'default') {
+                if (draft.style === ViewerModeStyles.Default) {
                     draft.objectColor = null;
                 } else {
                     draft.objectColor = objectColor;
@@ -153,7 +176,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         <div>
             <DefaultButton
                 iconProps={{ iconName: 'Color' }}
-                onClick={() => setShowPicker(true)}
+                onClick={() => setShowPicker(!showPicker)}
                 id={calloutAnchor}
             >
                 Theme
@@ -203,11 +226,18 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         </h4>
                         <div className={styles.colorPicker}>
                             <SwatchColorPicker
-                                disabled={viewerMode.style === 'default'}
+                                disabled={
+                                    viewerMode.style ===
+                                    ViewerModeStyles.Default
+                                }
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={colors.length}
-                                defaultSelectedId={colors[0].id}
+                                defaultSelectedId={
+                                    viewerMode.objectColor
+                                        ? viewerMode.objectColor
+                                        : selectedObjectColor
+                                }
                                 cellShape={'circle'}
                                 colorCells={colors}
                                 onChange={(e, id, color) =>

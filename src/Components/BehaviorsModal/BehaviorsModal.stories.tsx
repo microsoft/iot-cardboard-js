@@ -1,7 +1,7 @@
 import { ComponentStory } from '@storybook/react';
 import React from 'react';
 import BehaviorsModal, { IBehaviorsModalProps } from './BehaviorsModal';
-import mockData from '../../Adapters/__mockData__/3DScenesConfiguration.json';
+import mockData from './__mockData__/BehaviorsModalMockData.json';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';

@@ -72,8 +72,8 @@ export const getStyles = memoizeFunction(() => {
                 fontWeight: FontWeights.semibold,
                 fontSize: '16px',
                 borderBottom: `1px solid ${modalBorderColor}`,
-                padding: '0 8px 0 20px',
-                height: 40
+                height: 40,
+                padding: '4px 8px 4px 20px'
             } as IStyle
         ],
         modalTitle: [
@@ -97,7 +97,9 @@ export const getStyles = memoizeFunction(() => {
 
 export const separatorStyles: Partial<ISeparatorStyles> = {
     root: {
-        ':before': { backgroundColor: modalBorderColor }
+        ':before': { backgroundColor: modalBorderColor },
+        padding: 0,
+        height: 1
     }
 };
 
