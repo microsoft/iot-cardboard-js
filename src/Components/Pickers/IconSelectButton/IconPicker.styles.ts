@@ -23,7 +23,7 @@ export const getStyles = (props: IIconPickerStyleProps): IIconPickerStyles => {
                 calloutMain: {
                     // there is no good class to grab here
                     '& td': {
-                        padding: 2
+                        padding: 4
                     }
                 }
             }
