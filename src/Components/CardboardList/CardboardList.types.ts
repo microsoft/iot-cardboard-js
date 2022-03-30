@@ -11,8 +11,18 @@ type IIconNames = string | CardboardIconNames;
 type IListItemBaseProps<T> = {
     /** screen reader text to use for the list item */
     ariaLabel: string;
-    /** override props for the root button */
-    buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'> & {
+    /**
+     * override props for the root button.
+     * Hiding mouseOver to prevent perf regressions again. Use MouseEnter instead.
+     */
+    buttonProps?: Omit<
+        IButtonProps,
+        | 'styles'
+        | 'onClick'
+        | 'onKeyPress'
+        | 'onMouseOver'
+        | 'onMouseOverCapture'
+    > & {
         customStyles?: IButtonStyles;
     };
     /** icon to render on the right side of the list item */

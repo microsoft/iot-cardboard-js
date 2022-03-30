@@ -1,4 +1,10 @@
-import { DefaultButton, FontIcon, IconButton, useTheme } from '@fluentui/react';
+import {
+    css,
+    DefaultButton,
+    FontIcon,
+    IconButton,
+    useTheme
+} from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
@@ -42,6 +48,32 @@ export const CardboardListItem = <T extends unknown>(
         onMenuStateChange(true);
     }, [overflowRef, setIsMenuOpen]);
 
+    const onSecondaryAction = useCallback(() => {
+        iconEnd?.onClick?.(item);
+    }, [iconEnd, item]);
+
+    const onButtonClick = useCallback(() => {
+        if (openMenuOnClick) {
+            onMenuClick();
+        } else {
+            onClick(item);
+        }
+    }, [onMenuClick, onClick]);
+    const onButtonKeyPress = useCallback(
+        (event: React.KeyboardEvent<HTMLButtonElement>) => {
+            if (event.code === 'Space') {
+                if (showOverflow) {
+                    // if we are showing the menu, trigger that callback
+                    onMenuClick();
+                } else if (showEndIconButton) {
+                    // if we are showing the end action, trigger that callback
+                    onSecondaryAction();
+                }
+            }
+        },
+        [onMenuClick]
+    );
+
     const theme = useTheme();
     const classNames = getStyles(theme, isMenuOpen);
     const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
@@ -53,18 +85,8 @@ export const CardboardListItem = <T extends unknown>(
                     key={`cardboard-list-item-${listKey}-${index}`}
                     data-testid={`cardboard-list-item-${listKey}-${index}`}
                     styles={buttonStyles}
-                    onClick={() => {
-                        if (openMenuOnClick) {
-                            onMenuClick();
-                        } else {
-                            onClick(item);
-                        }
-                    }}
-                    onKeyPress={(event) => {
-                        if (event.code === 'Space') {
-                            onMenuClick();
-                        }
-                    }}
+                    onClick={onButtonClick}
+                    onKeyPress={onButtonKeyPress}
                 >
                     {showCheckbox && (
                         <>
@@ -116,14 +138,30 @@ export const CardboardListItem = <T extends unknown>(
                 </DefaultButton>
                 {showEndIconButton && (
                     <IconButton
+                        className={classNames.iconButton}
+                        data-is-focusable={false}
                         iconProps={{ iconName: iconEnd.name }}
-                        onClick={() => iconEnd.onClick(item)}
+                        onClick={onSecondaryAction}
+                        styles={{
+                            root: {
+                                color: theme.semanticColors.bodyText
+                            },
+                            rootHovered: {
+                                color: theme.semanticColors.bodyText
+                            },
+                            rootPressed: {
+                                color: theme.semanticColors.bodyText
+                            }
+                        }}
                     />
                 )}
                 {showOverflow && (
                     <OverflowMenu
                         index={index}
-                        className={classNames.menuIcon}
+                        className={css(
+                            classNames.iconButton,
+                            classNames.menuIcon
+                        )}
                         menuKey={listKey}
                         menuRef={overflowRef}
                         menuProps={{

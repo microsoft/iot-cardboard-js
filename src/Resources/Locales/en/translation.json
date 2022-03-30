@@ -368,7 +368,7 @@
         "elementMetaText": "{{numBehaviors}} behaviors",
         "linkedTwin": "Linked twin",
         "linkedTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
-        "noMeshAddedText": "No meshes added yet, pelase select meshes in 3D viewer",
+        "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",

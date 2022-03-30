@@ -34,7 +34,8 @@ const defaultProps: ICardboardListItemPropsInternal<unknown> = {
     index: 0,
     item: { id: 'someid' },
     listKey: 'listItemKey',
-    onClick: (item) => alert(`clicked item ${(item as FakeListItem).id}`),
+    onClick: (item) =>
+        alert(`clicked button with ${(item as FakeListItem).id}`),
     textPrimary: 'primary text'
 };
 
@@ -46,7 +47,7 @@ const defaultMenuItem: IContextualMenuItem = {
     iconProps: {
         iconName: 'Add'
     },
-    onClick: () => alert(`add 1`)
+    onClick: () => alert(`clicked menu item 1`)
 };
 const defaultMenuItems: IContextualMenuItem[] = [defaultMenuItem];
 
@@ -116,7 +117,13 @@ WithStartIcon.args = {
 export const WithEndIcon = Template.bind({}) as TemplateStory;
 WithEndIcon.args = {
     ...defaultProps,
-    iconStart: { name: 'Add' }
+    iconEnd: { name: 'Add' }
+};
+
+export const WithEndIconButton = Template.bind({}) as TemplateStory;
+WithEndIconButton.args = {
+    ...defaultProps,
+    iconEnd: { name: 'Add', onClick: () => alert('clicked icon') }
 };
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
