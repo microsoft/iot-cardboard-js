@@ -48,7 +48,7 @@ export const getStyles = memoizeFunction(
             ],
             menuPlaceholder: [
                 classNames.menuPlaceholder,
-                { width: 32 } as IStyle
+                { minWidth: 32 } as IStyle
             ],
             textContainer: [
                 classNames.textContainer,
