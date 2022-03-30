@@ -9,7 +9,7 @@ import './OATEditorPage.scss';
 const OATEditorPage = () => {
     return (
         <div className="cb-ontology-body-container">
-            <OATHeader></OATHeader>
+            <OATHeader />
             <div className="cb-ontology-body-component">
                 <OATModelList />
                 <OATGraphViewer />

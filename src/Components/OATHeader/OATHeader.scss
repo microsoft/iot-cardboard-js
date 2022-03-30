@@ -1,34 +1,34 @@
 @import '../../Resources/Styles/BaseStyles';
 
-.cb-ontology-header-container {
+.cb-oat-header-container {
     display: grid;
     grid-template-columns: 100%;
     height: 5%;
 
-    .cb-ontology-header-search-component {
+    .cb-oat-header-search-component {
         display: grid;
         grid-template-columns: 20% 60% 20%;
         height: 100%;
         background-color: var(--cb-color-theme-primary);
 
-        .cb-ontology-header-logo {
+        .cb-oat-header-logo {
             height: 100%;
             color: var(--cb-color-bg-card);
             padding: 4%;
         }
 
-        .cb-ontology-header-search {
+        .cb-oat-header-search {
             height: 100%;
             padding: 1%;
         }
 
-        .cb-ontology-header-options {
+        .cb-oat-header-options {
             height: 100%;
             padding: 4%;
         }
     }
 
-    .cb-ontology-header-menu-component {
+    .cb-oat-header-menu-component {
         display: grid;
         grid-template-columns: 20% 60% 20%;
     }

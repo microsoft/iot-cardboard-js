@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Icon, TextField, ActionButton, useTheme } from '@fluentui/react';
+import {
+    Icon,
+    TextField,
+    ActionButton,
+    useTheme,
+    FontSizes
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import './OATHeader.scss';
@@ -10,24 +16,24 @@ const OATHeader = () => {
 
     return (
         <BaseComponent theme={theme}>
-            <div className="cb-ontology-header-container">
-                <div className="cb-ontology-header-search-component">
-                    <div className="cb-ontology-header-logo">
+            <div className="cb-oat-header-container">
+                <div className="cb-oat-header-search-component">
+                    <div className="cb-oat-header-logo">
                         {t('OATHeader.title')}
                     </div>
-                    <div className="cb-ontology-header-search">
+                    <div className="cb-oat-header-search">
                         <TextField
                             placeholder={t('OATHeader.searchContent')}
                         ></TextField>
                     </div>
-                    <div className="cb-ontology-header-options">
+                    <div className="cb-oat-header-options">
                         <Icon
                             iconName="Ringer"
                             styles={{
                                 root: {
-                                    fontSize: 20,
+                                    fontSize: FontSizes.size20,
                                     paddingLeft: '50%',
-                                    color: 'var(--cb-color-bg-card)'
+                                    color: theme.semanticColors.actionLink
                                 }
                             }}
                         />
@@ -35,9 +41,9 @@ const OATHeader = () => {
                             iconName="Settings"
                             styles={{
                                 root: {
-                                    fontSize: 20,
+                                    fontSize: FontSizes.size20,
                                     paddingLeft: '5%',
-                                    color: 'var(--cb-color-bg-card)'
+                                    color: theme.semanticColors.actionLink
                                 }
                             }}
                         />
@@ -45,24 +51,24 @@ const OATHeader = () => {
                             iconName="Help"
                             styles={{
                                 root: {
-                                    fontSize: 20,
+                                    fontSize: FontSizes.size20,
                                     paddingLeft: '5%',
-                                    color: 'var(--cb-color-bg-card)'
+                                    color: theme.semanticColors.actionLink
                                 }
                             }}
                         />
                     </div>
                 </div>
-                <div className="cb-ontology-header-menu-component">
-                    <div className="cb-ontology-header-model"></div>
-                    <div className="cb-ontology-header-menu">
+                <div className="cb-oat-header-menu-component">
+                    <div className="cb-oat-header-model"></div>
+                    <div className="cb-oat-header-menu">
                         <ActionButton>
                             <Icon
                                 iconName="Save"
                                 styles={{
                                     root: {
-                                        fontSize: 15,
-                                        color: 'var(--cb-color-theme-primary)'
+                                        fontSize: FontSizes.size14,
+                                        color: theme.semanticColors.actionLink
                                     }
                                 }}
                             />
@@ -73,8 +79,8 @@ const OATHeader = () => {
                                 iconName="Upload"
                                 styles={{
                                     root: {
-                                        fontSize: 15,
-                                        color: 'var(--cb-color-theme-primary)'
+                                        fontSize: FontSizes.size14,
+                                        color: theme.semanticColors.actionLink
                                     }
                                 }}
                             />
@@ -85,8 +91,8 @@ const OATHeader = () => {
                                 iconName="Sync"
                                 styles={{
                                     root: {
-                                        fontSize: 15,
-                                        color: 'var(--cb-color-theme-primary)'
+                                        fontSize: FontSizes.size14,
+                                        color: theme.semanticColors.actionLink
                                     }
                                 }}
                             />
@@ -97,8 +103,8 @@ const OATHeader = () => {
                                 iconName="Import"
                                 styles={{
                                     root: {
-                                        fontSize: 15,
-                                        color: 'var(--cb-color-theme-primary)'
+                                        fontSize: FontSizes.size14,
+                                        color: theme.semanticColors.actionLink
                                     }
                                 }}
                             />
@@ -109,15 +115,15 @@ const OATHeader = () => {
                                 iconName="Export"
                                 styles={{
                                     root: {
-                                        fontSize: 15,
-                                        color: 'var(--cb-color-theme-primary)'
+                                        fontSize: FontSizes.size14,
+                                        color: theme.semanticColors.actionLink
                                     }
                                 }}
                             />
                             {t('OATHeader.export')}
                         </ActionButton>
                     </div>
-                    <div className="cb-ontology-header-versioning"></div>
+                    <div className="cb-oat-header-versioning"></div>
                 </div>
             </div>
         </BaseComponent>

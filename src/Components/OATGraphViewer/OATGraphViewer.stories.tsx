@@ -1,16 +1,15 @@
 import React from 'react';
-import { default as OATGraphViewerView } from './OATGraphViewer';
+import OATGraphViewer from './OATGraphViewer';
 
 export default {
     title: 'Components/OATGraphViewer',
-    component: OATGraphViewerView
+    component: OATGraphViewer
 };
 
 export const Default = (_args) => {
-
     return (
         <div>
-            <OATGraphViewerView/>
+            <OATGraphViewer />
         </div>
     );
 };

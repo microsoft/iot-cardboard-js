@@ -1,16 +1,15 @@
 import React from 'react';
-import { default as OATModelListView } from './OATModelList';
+import OATModelList from './OATModelList';
 
 export default {
     title: 'Components/OATModelList',
-    component: OATModelListView
+    component: OATModelList
 };
 
 export const Default = (_args) => {
-
     return (
         <div>
-            <OATModelListView/>
+            <OATModelList />
         </div>
     );
 };

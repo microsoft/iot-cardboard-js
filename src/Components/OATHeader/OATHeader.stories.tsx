@@ -1,15 +1,15 @@
 import React from 'react';
-import { default as OATHeaderView } from './OATHeader';
+import OATHeader from './OATHeader';
 
 export default {
     title: 'Components/OATHeader',
-    component: OATHeaderView
+    component: OATHeader
 };
 
 export const Default = (_args) => {
     return (
         <div>
-            <OATHeaderView />
+            <OATHeader />
         </div>
     );
 };

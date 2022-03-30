@@ -1,16 +1,15 @@
 import React from 'react';
-import { default as OATPropertyEditorView } from './OATPropertyEditor';
+import OATPropertyEditor from './OATPropertyEditor';
 
 export default {
     title: 'Components/OATPropertyEditor',
-    component: OATPropertyEditorView
+    component: OATPropertyEditor
 };
 
 export const Default = (_args) => {
-
     return (
         <div>
-            <OATPropertyEditorView/>
+            <OATPropertyEditor />
         </div>
     );
 };
