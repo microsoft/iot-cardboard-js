@@ -1,7 +1,6 @@
 import {
     classNamesFunction,
     IconButton,
-    IStyleFunctionOrObject,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -61,15 +60,6 @@ const IconPicker: React.FC<IIconPickerProps> = (props) => {
         </>
     );
 };
-
-interface ItemButtonProps {
-    testId: string;
-    id?: string;
-    iconName: string;
-    isSelected: boolean;
-    onClick: (item: string) => void;
-    styles: IStyleFunctionOrObject<IIconPickerStyleProps, IIconPickerStyles>;
-}
 
 export default styled<
     IIconPickerProps,
