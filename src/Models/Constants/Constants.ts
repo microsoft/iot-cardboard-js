@@ -57,12 +57,10 @@ export enum dtdlPropertyTypesEnum {
 }
 // placeholder icons based on segmdl2 font
 export const BadgeIcons = {
-    default: '',
-    cross: '',
-    heart: '',
-    squalls: '',
-    frigid: '',
-    circlehalffull: ''
+    default: '\uE7C8',
+    squalls: '\uE945',
+    frigid: '\uEA38',
+    circlehalffull: '\uE93E'
 };
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
