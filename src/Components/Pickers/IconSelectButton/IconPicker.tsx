@@ -70,22 +70,6 @@ interface ItemButtonProps {
     onClick: (item: string) => void;
     styles: IStyleFunctionOrObject<IIconPickerStyleProps, IIconPickerStyles>;
 }
-const ItemButton: React.FC<ItemButtonProps> = (props) => {
-    const { testId, iconName, id, isSelected, onClick, styles } = props;
-    const classNames = getClassNames(styles, {
-        theme: useTheme(),
-        isItemSelected: isSelected
-    });
-    return (
-        <IconButton
-            data-testid={testId}
-            id={id}
-            iconProps={{ iconName: iconName }}
-            onClick={(_e) => onClick(iconName)}
-            styles={classNames.subComponentStyles.button()}
-        />
-    );
-};
 
 export default styled<
     IIconPickerProps,
