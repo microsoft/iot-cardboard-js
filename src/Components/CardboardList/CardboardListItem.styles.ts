@@ -118,14 +118,6 @@ export const getButtonStyles = memoizeFunction(
                 width: '100%',
                 ...(customStyles?.root as IRawStyle)
             },
-            rootFocused: {
-                // backgroundColor: theme.palette.neutralLighter,
-                ...(customStyles?.rootFocused as IRawStyle)
-            },
-            rootHovered: {
-                // backgroundColor: theme.palette.neutralLighter,
-                ...(customStyles?.rootHovered as IRawStyle)
-            },
             flexContainer: {
                 justifyContent: 'start',
                 ...(customStyles?.flexContainer as IRawStyle)
