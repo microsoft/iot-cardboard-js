@@ -1,4 +1,9 @@
-import { IStyle, memoizeFunction, mergeStyleSets } from '@fluentui/react';
+import {
+    FontWeights,
+    IStyle,
+    memoizeFunction,
+    mergeStyleSets
+} from '@fluentui/react';
 import { behaviorsModalClassPrefix } from '../../../BehaviorsModal.styles';
 
 const classNames = {
@@ -23,6 +28,8 @@ export const getStyles = memoizeFunction(() =>
         linkLabel: [
             classNames.linkLabel,
             {
+                fontSize: 12,
+                fontWeight: FontWeights.semibold,
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 display: 'block',
