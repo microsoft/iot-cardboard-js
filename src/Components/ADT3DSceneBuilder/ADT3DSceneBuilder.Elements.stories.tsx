@@ -8,8 +8,7 @@ import {
     findCalloutItemByTestId,
     findOverflowMenuItem as findOverflowMenuItemByTestId,
     IStoryContext,
-    sleep,
-    waitForFirstRender
+    sleep
 } from '../../Models/Services/StoryUtilities';
 import {
     I3DScenesConfig,
