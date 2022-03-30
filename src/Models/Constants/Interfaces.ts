@@ -686,6 +686,7 @@ export interface IADT3DViewerProps {
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
+    outlinedMeshItems?: CustomMeshItem[];
 }
 
 export interface IADT3DViewerMode {

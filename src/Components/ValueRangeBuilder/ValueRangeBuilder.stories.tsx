@@ -75,19 +75,19 @@ InfoFromConsumingComponent.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 1000
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 1001,
             max: 'Infinity'
         }
@@ -101,19 +101,19 @@ ValidRanges.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 1000
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 1001,
             max: 'Infinity'
         }
@@ -125,13 +125,13 @@ InvalidRange.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 300,
             max: 100
         }
@@ -143,13 +143,13 @@ NonNumericValue.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: 'asdf' as any,
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 100,
             max: 300
         }
@@ -161,19 +161,19 @@ RangeOverlap.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 'Infinity'
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 750,
             max: 1500
         }

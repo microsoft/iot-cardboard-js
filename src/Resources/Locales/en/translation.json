@@ -376,9 +376,10 @@
             "colorPickerLabel": "Badge color",
             "expressionLabel": "Trigger expression",
             "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "iconPickerLabel": "Badge icon",
             "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
             "notificationLabel": "Notification text",
-            "notificationPlaceholder": "None"
+            "notificationPlaceholder": "Text to show with the alert for additional context."
         },
         "behaviorStatusForm": {
             "notice": "Use a single property to recolor this behavior's target elements.",
@@ -664,6 +665,8 @@
     "elementsPanel": {
         "title": "Elements",
         "noElements": "No elements to display",
-        "filterPlaceholder": "Type to filter elements or alerts"
+        "filterPlaceholder": "Type to filter elements or alerts",
+        "showPanel": "Show elements panel",
+        "hidePanel": "Hide elements panel"
     }
 }

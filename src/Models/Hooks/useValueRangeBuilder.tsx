@@ -1,5 +1,4 @@
-import { IColorCellProps } from '@fluentui/react';
-import { Dispatch, useEffect, useMemo, useReducer, useRef } from 'react';
+import { Dispatch, useMemo, useReducer, useRef } from 'react';
 import { IValueRange } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     valueRangeBuilderReducer,
@@ -10,10 +9,11 @@ import {
     IValueRangeBuilderState,
     ValueRangeBuilderAction
 } from '../../Components/ValueRangeBuilder/ValueRangeBuilder.types';
+import { IPickerOption } from '../../Components/Pickers/Internal/Picker.base.types';
 
 export interface UseValueRangeBuilderParams {
     initialValueRanges: IValueRange[];
-    customSwatchColors?: IColorCellProps[];
+    customSwatchColors?: IPickerOption[];
     minRanges?: number;
     maxRanges?: number;
 }

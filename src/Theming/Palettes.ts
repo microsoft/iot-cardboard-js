@@ -1,4 +1,5 @@
-import { IColorCellProps, IPalette, ITheme } from '@fluentui/react';
+import { IPalette, ITheme } from '@fluentui/react';
+import { IPickerOption } from '../Components/Pickers/Internal/Picker.base.types';
 import { Theme } from '../Models/Constants/Enums';
 
 export const getPrimaryButtonCustomOverrides = (
@@ -20,13 +21,47 @@ export const getPrimaryButtonCustomOverrides = (
     };
 };
 
-export const defaultSwatchColors: IColorCellProps[] = [
-    { id: 'blue', label: 'blue', color: '#33A1FD' },
-    { id: 'green', label: 'green', color: '#26C485' },
-    { id: 'yellow', label: 'yellow', color: '#FEE440' },
-    { id: 'orange', label: 'orange', color: '#F79824' },
-    { id: 'red', label: 'red', color: '#C32F27' },
-    { id: 'pink', label: 'pink', color: '#EE92C2' }
+export const defaultSwatchColors: IPickerOption[] = [
+    { id: 'blue', label: 'blue', item: '#33A1FD' },
+    { id: 'green', label: 'green', item: '#26C485' },
+    { id: 'yellow', label: 'yellow', item: '#FEE440' },
+    { id: 'orange', label: 'orange', item: '#F79824' },
+    { id: 'red', label: 'red', item: '#C32F27' },
+    { id: 'pink', label: 'pink', item: '#EE92C2' }
+];
+export const defaultSwatchIcons: IPickerOption[] = [
+    {
+        id: 'Running',
+        item: 'Running'
+    },
+    {
+        id: 'Snowflake',
+        item: 'Snowflake'
+    },
+    {
+        id: 'Frigid',
+        item: 'Frigid'
+    },
+    {
+        id: 'BlowingSnow',
+        item: 'BlowingSnow'
+    },
+    {
+        id: 'Ringer',
+        item: 'Ringer'
+    },
+    {
+        id: 'AlarmClock',
+        item: 'AlarmClock'
+    },
+    {
+        id: 'FastMode',
+        item: 'FastMode'
+    },
+    {
+        id: 'ShieldAlert',
+        item: 'ShieldAlert'
+    }
 ];
 
 // Palettes created from https://aka.ms/themedesigner
