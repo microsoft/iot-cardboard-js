@@ -19,8 +19,6 @@ const classNames = {
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
-const initialPopoverRightOffset = 10;
-
 const getModalBorderColor = (isPreview) => {
     return isPreview
         ? 'var(--cb-color-text-primary)'
@@ -30,6 +28,7 @@ const getModalBorderColor = (isPreview) => {
 export const getStyles = memoizeFunction((isPreview: boolean) => {
     const modalBorderColor = getModalBorderColor(isPreview);
     const initialPopoverTopOffset = isPreview ? 124 : 112;
+    const initialPopoverRightOffset = isPreview ? 8 : 10;
     return mergeStyleSets({
         boundaryLayer: [
             classNames.boundaryLayer,
@@ -101,7 +100,7 @@ export const getStyles = memoizeFunction((isPreview: boolean) => {
     });
 });
 
-export const getSeparatorStyles = (props: ISeparatorStyleProps, isPreview) => {
+export const getSeparatorStyles = (_props: ISeparatorStyleProps, isPreview) => {
     return {
         root: {
             ':before': { backgroundColor: getModalBorderColor(isPreview) },
