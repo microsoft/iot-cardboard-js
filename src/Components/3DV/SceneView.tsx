@@ -16,7 +16,7 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
-import { createBadge, getBoundingBox } from './SceneView.Utils';
+import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
@@ -153,7 +153,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
-    const badgeGroupsRef = useRef<GUI.Rectangle[]>([]);
+    const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
     );
@@ -517,40 +517,14 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
     useEffect(() => {
         if (badgeGroups && advancedTextureRef.current) {
-            badgeGroups.forEach((badgeGroup) => {
-                const background = new GUI.Rectangle();
-                background.heightInPixels = 34;
-                background.widthInPixels =
-                    badgeGroup.badges.length > 1 ? 54 : 34;
-                background.paddingBottomInPixels = 4;
-                background.paddingTopInPixels = 4;
-                background.paddingLeftInPixels = 4;
-                background.paddingRightInPixels = 4;
-                background.cornerRadius =
-                    badgeGroup.badges.length > 1 ? 10 : 68;
-                background.color = '#1E2C5399';
-                background.background = '#1E2C5399';
-
-                const badgeContainer = new GUI.StackPanel();
-                badgeContainer.isVertical = false;
-                badgeContainer.heightInPixels = 34;
-
-                background.addControl(badgeContainer);
+            badgeGroups.forEach((bg) => {
+                const badgeGroup = createBadgeGroup(bg);
+                advancedTextureRef.current.addControl(badgeGroup);
                 const mesh = sceneRef.current.meshes.find(
-                    (m) => m.id === badgeGroup.meshId
+                    (m) => m.id === bg.meshId
                 );
-                badgeGroup.badges.forEach((b) => {
-                    const badge = createBadge(
-                        b.color,
-                        b.icon,
-                        b.iconColor,
-                        true
-                    );
-                    badgeContainer.addControl(badge);
-                });
-                advancedTextureRef.current.addControl(background);
-                background.linkWithMesh(mesh);
-                badgeGroupsRef.current.push(background);
+                badgeGroup.linkWithMesh(mesh);
+                badgeGroupsRef.current.push(badgeGroup);
             });
         }
 

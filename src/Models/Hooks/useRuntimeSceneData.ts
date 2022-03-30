@@ -87,7 +87,13 @@ export const useRuntimeSceneData = (
                                     const color = visual.color;
                                     const meshId =
                                         sceneVisual.element.objectIDs?.[0];
-                                    const icon = BadgeIcons.cross;
+                                    const icon = BadgeIcons?.[
+                                        visual.iconName.toLowerCase()
+                                    ]
+                                        ? BadgeIcons[
+                                              visual.iconName.toLowerCase()
+                                          ]
+                                        : BadgeIcons.default;
 
                                     alerts.push({
                                         meshId: meshId,

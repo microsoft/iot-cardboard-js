@@ -55,11 +55,15 @@ export enum dtdlPropertyTypesEnum {
     Map = 'Map',
     Object = 'Object'
 }
-
-export enum BadgeIcons {
-    cross = '',
-    heart = ''
-}
+// placeholder icons based on segmdl2 font
+export const BadgeIcons = {
+    default: '',
+    cross: '',
+    heart: '',
+    squalls: '',
+    frigid: '',
+    circlehalffull: ''
+};
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
 export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';
