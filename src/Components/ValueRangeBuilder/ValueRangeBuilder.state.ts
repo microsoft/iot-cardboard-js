@@ -25,7 +25,7 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
     colorSwatch: defaultSwatchColors,
     minRanges: 0,
     maxRanges: null,
-    areRangesValid: false
+    areRangesValid: true
 };
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
