@@ -5,41 +5,49 @@ import {
     ITwinToObjectMapping,
     IVisual
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
-export interface ViewerElementsPanelProps {
-    baseComponentProps?: BaseComponentProps;
-    panelItems: Array<ViewerElementsPanelItem>;
+export interface IViewerElementsPanelProps {
+    panelItems: Array<IViewerElementsPanelItem>;
     isLoading?: boolean;
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
+    onItemBlur?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
 }
 
-export interface ViewerElementsPanelListProps {
+export interface IViewerElementsPanelListProps {
     isLoading: boolean;
-    panelItems: Array<ViewerElementsPanelItem>;
+    panelItems: Array<IViewerElementsPanelItem>;
     filterTerm?: string;
     onItemClick: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
     onItemHover?: (
         item: ITwinToObjectMapping | IVisual,
-        panelItem: ViewerElementsPanelItem,
+        panelItem: IViewerElementsPanelItem,
+        behavior?: IBehavior
+    ) => void;
+    onItemBlur?: (
+        item: ITwinToObjectMapping | IVisual,
+        panelItem: IViewerElementsPanelItem,
         behavior?: IBehavior
     ) => void;
 }
 
-export interface ViewerElementsPanelItem extends Partial<SceneVisual> {
+export interface IViewerElementsPanelItem extends Partial<SceneVisual> {
     element: ITwinToObjectMapping;
     behaviors: Array<IBehavior>;
     twins: Record<string, DTwin>;

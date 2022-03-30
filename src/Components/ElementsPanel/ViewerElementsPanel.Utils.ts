@@ -4,19 +4,19 @@ import {
     getSceneElementStatusColor,
     parseExpression
 } from '../../Models/Services/Utils';
-import { ViewerElementsPanelItem } from './ViewerElementsPanel.types';
+import { IViewerElementsPanelItem } from './ViewerElementsPanel.types';
 
 export const sortPanelItemsForDisplay = memoizeFunction(
-    (panelItems: Array<ViewerElementsPanelItem>) => {
+    (panelItems: Array<IViewerElementsPanelItem>) => {
         const panelItemsWithAlerts: Array<{
             activeAlertNumber: number;
-            panelItem: ViewerElementsPanelItem;
+            panelItem: IViewerElementsPanelItem;
         }> = [];
         const panelItemsWithStatusAndWithoutAlerts: Array<{
             activeStatusNumber: number;
-            panelItem: ViewerElementsPanelItem;
+            panelItem: IViewerElementsPanelItem;
         }> = [];
-        const panelItemsWithoutAlertsAndWithoutStatus: Array<ViewerElementsPanelItem> = [];
+        const panelItemsWithoutAlertsAndWithoutStatus: Array<IViewerElementsPanelItem> = [];
 
         // traverse all the panel items and group them based on if they have active alerts, status or nothing
         panelItems.forEach((panelItem) => {
