@@ -5,7 +5,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerProps } from '../../Models/Constants/Interfaces';
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -17,10 +17,7 @@ import {
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import {
-    IBehavior,
-    IPopoverVisual
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
@@ -69,11 +66,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         isElementsPanelVisible,
         { toggle: toggleIsElementsPanelVisible }
     ] = useBoolean(!hideElementsPanel);
-    const [behaviorModalConfig, setBehaviorModalConfig] = useState<{
-        behaviors: IBehavior[];
-        twins: Record<string, DTwin>;
-        title: string;
-    }>(null);
+
+    const [
+        behaviorModalSceneVisualElementId,
+        setBehaviorModalSceneVisuaElementlId
+    ] = useState<string>(null);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
@@ -139,11 +136,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
 
         if (popOver) {
-            setBehaviorModalConfig({
-                behaviors: sceneVisual?.behaviors || [],
-                twins: sceneVisual?.twins || {},
-                title: sceneVisual?.element?.displayName || ''
-            });
+            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
             setShowPopUp(true);
             const meshIds = sceneVisual.element.objectIDs;
             const outlinedMeshItems = createCustomMeshItems(
@@ -292,6 +285,10 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
 
     const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
 
+    const behaviorModalSceneVisual = sceneVisuals.find(
+        (sv) => sv.element.id === behaviorModalSceneVisualElementId
+    );
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -359,9 +356,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         outlinedMeshItemsRef.current = [];
                         selectedMeshIdsRef.current = [];
                     }}
-                    twins={behaviorModalConfig.twins}
-                    behaviors={behaviorModalConfig.behaviors}
-                    title={behaviorModalConfig.title}
+                    twins={behaviorModalSceneVisual?.twins}
+                    behaviors={behaviorModalSceneVisual?.behaviors}
+                    title={behaviorModalSceneVisual?.element?.displayName}
                 />
             )}
         </BaseComponent>
