@@ -43,6 +43,15 @@ export const getStyles = memoizeFunction(
         const modalBorderStyle = getBorderStyle(theme, isPreview, 'border');
         const initialPopoverTopOffset = isPreview ? 124 : 112;
         const initialPopoverRightOffset = isPreview ? 8 : 10;
+        const draggablePositionStyle: IStyle = isPreview
+            ? {
+                  top: 8,
+                  left: 20
+              }
+            : {
+                  top: 0,
+                  right: initialPopoverRightOffset
+              };
         return mergeStyleSets({
             boundaryLayer: [
                 classNames.boundaryLayer,
@@ -56,13 +65,7 @@ export const getStyles = memoizeFunction(
                     zIndex: 1000
                 } as IStyle
             ],
-            draggable: [
-                classNames.draggable,
-                {
-                    top: 0,
-                    right: initialPopoverRightOffset
-                } as IStyle
-            ],
+            draggable: [classNames.draggable, draggablePositionStyle],
             separator: [classNames.separator, {} as IStyle],
             modalContainer: [
                 classNames.modalContainer,
