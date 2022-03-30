@@ -1,4 +1,4 @@
-import { DefaultButton, FontIcon, useTheme } from '@fluentui/react';
+import { DefaultButton, FontIcon, IconButton, useTheme } from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
@@ -6,26 +6,30 @@ import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
 import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
-export const CardboardListItem = <T extends unknown>({
-    buttonProps,
-    iconEndName,
-    iconStartName,
-    index,
-    item,
-    isChecked,
-    listKey,
-    openMenuOnClick,
-    overflowMenuItems,
-    textPrimary,
-    textSecondary,
-    textToHighlight,
-    onClick
-}: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
+export const CardboardListItem = <T extends unknown>(
+    props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
+) => {
+    const {
+        buttonProps,
+        iconEnd,
+        iconStart,
+        index,
+        item,
+        isChecked,
+        listKey,
+        openMenuOnClick,
+        overflowMenuItems,
+        textPrimary,
+        textSecondary,
+        textToHighlight,
+        onClick
+    } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
-    const showStartIcon = !!iconStartName;
-    const showEndIcon = !!iconEndName;
+    const showStartIcon = !!iconStart;
+    const showEndIconButton = iconEnd?.name && iconEnd?.onClick;
+    const showEndIcon = iconEnd?.name && !showEndIconButton;
     const showOverflow = !!overflowMenuItems?.length;
     const overflowRef = useRef(null);
     // callback for when the menu opens and closes
@@ -37,6 +41,7 @@ export const CardboardListItem = <T extends unknown>({
         // set state for css
         onMenuStateChange(true);
     }, [overflowRef, setIsMenuOpen]);
+
     const theme = useTheme();
     const classNames = getStyles(theme, isMenuOpen);
     const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
@@ -70,13 +75,13 @@ export const CardboardListItem = <T extends unknown>({
                         </>
                     )}
                     {showStartIcon &&
-                        (typeof iconStartName === 'string' ? (
+                        (typeof iconStart.name === 'string' ? (
                             <FontIcon
-                                iconName={iconStartName}
+                                iconName={iconStart.name}
                                 className={classNames.icon}
                             />
                         ) : (
-                            iconStartName
+                            iconStart.name
                         ))}
                     <div className={classNames.textContainer}>
                         <div
@@ -101,7 +106,7 @@ export const CardboardListItem = <T extends unknown>({
                     </div>
                     {showEndIcon && (
                         <FontIcon
-                            iconName={iconEndName}
+                            iconName={iconEnd.name}
                             className={`${classNames.icon} ${classNames.endIcon}`}
                         />
                     )}
@@ -109,6 +114,12 @@ export const CardboardListItem = <T extends unknown>({
                         <div className={classNames.menuPlaceholder}></div>
                     )}
                 </DefaultButton>
+                {showEndIconButton && (
+                    <IconButton
+                        iconProps={{ iconName: iconEnd.name }}
+                        onClick={() => iconEnd.onClick(item)}
+                    />
+                )}
                 {showOverflow && (
                     <OverflowMenu
                         index={index}

@@ -62,8 +62,8 @@ export const WithAllElements = Template.bind({}) as TemplateStory;
 WithAllElements.args = {
     ...defaultProps,
     textSecondary: 'secondary text',
-    iconStartName: 'Link',
-    iconEndName: 'Shapes',
+    iconStart: { name: 'Link' },
+    iconEnd: { name: 'Shapes' },
     overflowMenuItems: defaultMenuItems,
     isChecked: false
 };
@@ -110,13 +110,13 @@ WithMenuOpenedKraken.parameters = {
 export const WithStartIcon = Template.bind({}) as TemplateStory;
 WithStartIcon.args = {
     ...defaultProps,
-    iconStartName: 'Shapes'
+    iconStart: { name: 'Shapes' }
 };
 
 export const WithEndIcon = Template.bind({}) as TemplateStory;
 WithEndIcon.args = {
     ...defaultProps,
-    iconEndName: 'Add'
+    iconStart: { name: 'Add' }
 };
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
@@ -167,7 +167,7 @@ export const WithLongTextAndIcon = Template.bind({}) as TemplateStory;
 WithLongTextAndIcon.args = {
     ...defaultProps,
     ...WithLongText.args,
-    iconEndName: 'Shapes'
+    iconEnd: { name: 'Shapes' }
 };
 
 export const WithLongTextAndMenu = Template.bind({}) as TemplateStory;

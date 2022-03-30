@@ -74,13 +74,13 @@ function getListItems(
         const viewModel: ICardboardListItem<string> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onMeshItemEnter(item),
+                onMouseEnter: () => onMeshItemEnter(item),
                 onMouseLeave: () => onMeshItemLeave(),
                 onFocus: () => onMeshItemEnter(item),
                 onBlur: () => onMeshItemLeave()
             },
-            iconStartName: 'CubeShape',
-            iconEndName: 'Delete',
+            iconStart: { name: 'CubeShape' },
+            iconEnd: { name: 'Delete' },
             item: item,
             onClick: () => {
                 const currentObjects = [...elementMeshIds];

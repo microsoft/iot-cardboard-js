@@ -16,9 +16,14 @@ type IListItemBaseProps<T> = {
         customStyles?: IButtonStyles;
     };
     /** icon to render on the right side of the list item */
-    iconEndName?: IIconNames;
+    iconEnd?: {
+        name: IIconNames;
+        onClick?: (item: T) => void;
+    };
     /** icon or JSX element to render at the left side of the list item */
-    iconStartName?: IIconNames | JSX.Element;
+    iconStart?: {
+        name: IIconNames | JSX.Element;
+    };
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
     /** the original item to provide back to callbacks */
