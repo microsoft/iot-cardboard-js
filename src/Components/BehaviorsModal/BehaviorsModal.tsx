@@ -1,4 +1,4 @@
-import { IconButton, IIconProps, Separator } from '@fluentui/react';
+import { getTheme, IconButton, IIconProps, Separator } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
@@ -37,7 +37,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
-    const styles = getStyles(isPreview);
+    const theme = getTheme();
+    const styles = getStyles(theme, isPreview);
 
     return (
         <BehaviorsModalContext.Provider value={{ twins, isPreview }}>
@@ -52,7 +53,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     title={title}
                                 >
                                     {isPreview
-                                        ? t('behaviorsModal.elementName')
+                                        ? t('behaviorsModal.behaviorPreview')
                                         : title}
                                 </span>
                                 {typeof onClose === 'function' && (
@@ -66,11 +67,6 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     />
                                 )}
                             </div>
-                            {isPreview && (
-                                <div className={styles.modalSubHeader}>
-                                    {t('behaviorsModal.behaviorPreview')}
-                                </div>
-                            )}
                         </div>
                         <div className={styles.modalContents}>
                             {behaviors.map((behavior, idx) => {

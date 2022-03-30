@@ -3,9 +3,11 @@ import {
     IButtonStyles,
     ISeparatorStyleProps,
     IStyle,
+    ITheme,
     memoizeFunction,
     mergeStyleSets
 } from '@fluentui/react';
+import { getTransparentColor } from '../../Models/Services/Utils';
 
 export const behaviorsModalClassPrefix = 'cb-behaviors-modal';
 const classNames = {
@@ -20,103 +22,119 @@ const classNames = {
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
-export const getBorderColor = (isPreview) => {
-    return isPreview
-        ? 'var(--cb-color-text-primary)'
+export const getBorderStyle = (
+    theme: ITheme,
+    isPreview: boolean,
+    mode: 'border' | 'color' = 'border'
+) => {
+    const color = isPreview
+        ? getTransparentColor(theme.palette.white, '0.3')
         : 'var(--cb-color-modal-border)';
+
+    if (mode === 'color') {
+        return color;
+    } else {
+        return isPreview ? `1px dashed ${color}` : `1px solid ${color}`;
+    }
 };
 
-export const getStyles = memoizeFunction((isPreview: boolean) => {
-    const modalBorderColor = getBorderColor(isPreview);
-    const initialPopoverTopOffset = isPreview ? 124 : 112;
-    const initialPopoverRightOffset = isPreview ? 8 : 10;
-    return mergeStyleSets({
-        boundaryLayer: [
-            classNames.boundaryLayer,
-            {
-                height: `calc(100% - ${initialPopoverTopOffset}px)`,
-                left: 0,
-                pointerEvents: 'none',
-                position: 'absolute',
-                top: initialPopoverTopOffset,
-                width: '100%',
-                zIndex: 1000
-            } as IStyle
-        ],
-        draggable: [
-            classNames.draggable,
-            {
-                top: 0,
-                right: initialPopoverRightOffset
-            } as IStyle
-        ],
-        separator: [classNames.separator, {} as IStyle],
-        modalContainer: [
-            classNames.modalContainer,
-            {
-                display: 'flex',
-                flexFlow: 'column nowrap',
-                alignItems: 'stretch',
-                minWidth: 200,
-                maxWidth: 340,
-                maxHeight: 'calc(100% - 40px)',
-                backgroundColor: 'var(--cb-color-glassy-modal)',
-                backdropFilter: 'blur(24px) brightness(150%)',
-                borderRadius: 2,
-                border: `1px solid ${modalBorderColor}`,
-                cursor: 'move',
-                position: 'absolute',
-                pointerEvents: 'auto'
-            } as IStyle
-        ],
-        modalHeaderContainer: [
-            classNames.modalHeaderContainer,
-            {
-                borderBottom: `1px solid ${modalBorderColor}`,
-                padding: '8px 8px 8px 20px'
-            } as IStyle
-        ],
-        modalHeader: [
-            classNames.modalHeader,
-            {
-                flex: '1 1 auto',
-                display: 'flex',
-                alignItems: 'center',
-                fontWeight: FontWeights.semibold,
-                fontSize: '16px',
-                height: 32
-            } as IStyle
-        ],
-        modalSubHeader: [
-            classNames.modalSubHeader,
-            {
-                fontWeight: FontWeights.regular,
-                fontSize: '14px'
-            } as IStyle
-        ],
-        modalTitle: [
-            classNames.modalTitle,
-            {
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                display: 'block',
-                overflow: 'hidden'
-            } as IStyle
-        ],
-        modalContents: [
-            classNames.modalTitle,
-            {
-                overflowX: 'hidden',
-                overflowY: 'auto'
-            } as IStyle
-        ]
-    });
-});
+export const getStyles = memoizeFunction(
+    (theme: ITheme, isPreview: boolean) => {
+        const modalBorderStyle = getBorderStyle(theme, isPreview, 'border');
+        const initialPopoverTopOffset = isPreview ? 124 : 112;
+        const initialPopoverRightOffset = isPreview ? 8 : 10;
+        return mergeStyleSets({
+            boundaryLayer: [
+                classNames.boundaryLayer,
+                {
+                    height: `calc(100% - ${initialPopoverTopOffset}px)`,
+                    left: 0,
+                    pointerEvents: 'none',
+                    position: 'absolute',
+                    top: initialPopoverTopOffset,
+                    width: '100%',
+                    zIndex: 1000
+                } as IStyle
+            ],
+            draggable: [
+                classNames.draggable,
+                {
+                    top: 0,
+                    right: initialPopoverRightOffset
+                } as IStyle
+            ],
+            separator: [classNames.separator, {} as IStyle],
+            modalContainer: [
+                classNames.modalContainer,
+                {
+                    display: 'flex',
+                    flexFlow: 'column nowrap',
+                    alignItems: 'stretch',
+                    minWidth: 200,
+                    maxWidth: 340,
+                    maxHeight: 'calc(100% - 40px)',
+                    backgroundColor: 'var(--cb-color-glassy-modal)',
+                    backdropFilter: 'blur(24px) brightness(150%)',
+                    borderRadius: 2,
+                    border: modalBorderStyle,
+                    path: 'white',
+                    cursor: 'move',
+                    position: 'absolute',
+                    pointerEvents: 'auto'
+                } as IStyle
+            ],
+            modalHeaderContainer: [
+                classNames.modalHeaderContainer,
+                {
+                    borderBottom: modalBorderStyle,
+                    padding: '8px 8px 8px 20px'
+                } as IStyle
+            ],
+            modalHeader: [
+                classNames.modalHeader,
+                {
+                    flex: '1 1 auto',
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontWeight: FontWeights.semibold,
+                    fontSize: '16px',
+                    height: 32
+                } as IStyle
+            ],
+            modalSubHeader: [
+                classNames.modalSubHeader,
+                {
+                    fontWeight: FontWeights.regular,
+                    fontStyle: 'italic',
+                    fontSize: '14px'
+                } as IStyle
+            ],
+            modalTitle: [
+                classNames.modalTitle,
+                {
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    display: 'block',
+                    overflow: 'hidden'
+                } as IStyle
+            ],
+            modalContents: [
+                classNames.modalTitle,
+                {
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
+                } as IStyle
+            ]
+        });
+    }
+);
 
-export const getSeparatorStyles = (_props: ISeparatorStyleProps, isPreview) => {
+export const getSeparatorStyles = (props: ISeparatorStyleProps, isPreview) => {
     return {
         root: {
-            ':before': { backgroundColor: getBorderColor(isPreview) },
+            ':before': {
+                backgroundColor: getBorderStyle(props.theme, isPreview, 'color')
+            },
             padding: 0,
             height: 1
         }

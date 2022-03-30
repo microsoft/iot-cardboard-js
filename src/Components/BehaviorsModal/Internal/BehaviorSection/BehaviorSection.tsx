@@ -1,5 +1,5 @@
 import { Icon } from '@fluentui/react';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
     getSceneElementStatusColor,
