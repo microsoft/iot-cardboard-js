@@ -1,4 +1,3 @@
-// TODO SCHEMA MIGRATION - update Widgets tab to new schema & types
 import React, {
     useCallback,
     useContext,
@@ -47,8 +46,8 @@ const WidgetsTab: React.FC = () => {
     }, [behaviorToEdit]);
 
     const onEditWidgetStart = useCallback(
-        (index: number) => {
-            const widget = widgets[index];
+        (id: string) => {
+            const widget = widgets.find((w) => w.id === id);
 
             const matchingWidgetLibraryItem = availableWidgets.find(
                 (aW) => aW.data.type === widget.type
@@ -65,7 +64,7 @@ const WidgetsTab: React.FC = () => {
                         data: widget
                     },
                     mode: WidgetFormMode.EditWidget,
-                    widgetIdx: index
+                    widgetId: id
                 });
             }
         },
@@ -73,15 +72,16 @@ const WidgetsTab: React.FC = () => {
     );
 
     const onRemoveWidget = useCallback(
-        (index: number) => {
-            const wids = [...widgets];
-            wids.splice(index, 1);
+        (id: string) => {
             setBehaviorToEdit(
                 produce((draft) => {
                     const popoverDraft = getPopoverFromBehavior(draft);
-                    popoverDraft.widgets = wids;
+                    const indexOfWidgetToRemove = popoverDraft.widgets.findIndex(
+                        (w) => w.id === id
+                    );
+                    popoverDraft.widgets.splice(indexOfWidgetToRemove, 1);
 
-                    if (wids.length === 0) {
+                    if (popoverDraft.widgets.length === 0) {
                         // If removing all widgets, remove popover container
                         const popOverIdx = draft.visuals.findIndex(
                             (v) => v.type === VisualType.Popover
@@ -161,40 +161,37 @@ const WidgetsTab: React.FC = () => {
 };
 function getListItems(
     filteredElements: IWidget[],
-    onEditWidgetStart: (index: number) => void,
-    onRemoveWidget: (index: number) => void,
+    onEditWidgetStart: (id: string) => void,
+    onRemoveWidget: (id: string) => void,
     t: TFunction<string>
 ) {
-    const getMenuItems = (
-        _item: IWidget,
-        index: number
-    ): IContextualMenuItem[] => {
+    const getMenuItems = (item: IWidget): IContextualMenuItem[] => {
         return [
             {
                 key: 'edit',
                 'data-testid': 'editWidgetOverflow',
                 text: t('3dSceneBuilder.editWidget'),
                 iconProps: { iconName: 'Edit' },
-                onClick: () => onEditWidgetStart(index)
+                onClick: () => onEditWidgetStart(item.id)
             },
             {
                 key: 'remove',
                 'data-testid': 'removeWidgetOverflow',
                 text: t('3dSceneBuilder.removeWidget'),
                 iconProps: { iconName: 'Delete' },
-                onClick: () => onRemoveWidget(index)
+                onClick: () => onRemoveWidget(item.id)
             }
         ];
     };
     const getIconName = (widget: IWidget) =>
         availableWidgets.find((w) => w.data.type === widget.type)?.iconName;
-    return filteredElements.map((item, index) => {
+    return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<IWidget> = {
             ariaLabel: '',
             iconStartName: getIconName(item),
             item: item,
             openMenuOnClick: true,
-            overflowMenuItems: getMenuItems(item, index),
+            overflowMenuItems: getMenuItems(item),
             textPrimary: item?.widgetConfiguration?.label || item.type
         };
 

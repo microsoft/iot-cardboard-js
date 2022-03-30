@@ -23,7 +23,7 @@ import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../../../Models/Services/Utils';
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC = () => {
@@ -106,9 +106,15 @@ const WidgetForm: React.FC = () => {
 
                     if (popOver) {
                         const widgets = popOver?.widgets;
+
+                        const newWidget = {
+                            ...formDataToSave,
+                            id: createGUID()
+                        };
+
                         widgets
-                            ? popOver.widgets.push(formDataToSave)
-                            : (popOver.widgets = [formDataToSave]);
+                            ? popOver.widgets.push(newWidget)
+                            : (popOver.widgets = [newWidget]);
                     }
                 })
             );
@@ -122,10 +128,12 @@ const WidgetForm: React.FC = () => {
 
                     if (
                         popOver &&
-                        typeof widgetFormInfo.widgetIdx === 'number'
+                        typeof widgetFormInfo.widgetId === 'string'
                     ) {
-                        const widgets = popOver?.widgets;
-                        widgets[widgetFormInfo.widgetIdx] = formDataToSave;
+                        const widgetToEditIdx = popOver.widgets?.findIndex(
+                            (w) => w.id === widgetFormInfo.widgetId
+                        );
+                        popOver.widgets[widgetToEditIdx] = formDataToSave;
                     }
                 })
             );

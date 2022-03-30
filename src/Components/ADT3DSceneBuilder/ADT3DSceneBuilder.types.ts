@@ -72,7 +72,7 @@ export interface I3DSceneBuilderContext {
 export type WidgetFormInfo = null | {
     widget: IWidgetLibraryItem;
     mode: WidgetFormMode;
-    widgetIdx?: number;
+    widgetId?: string;
 };
 
 export interface IBehaviorFormContext {
