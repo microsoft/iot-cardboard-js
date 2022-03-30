@@ -41,15 +41,13 @@ const OATGraphViewer = ({
     const reactFlowWrapper = useRef(null);
     const [ordered, setOrdered] = useState(true);
     const [elements, setElements] = useState([]);
-    const [resultingElements, setResultingElements] = useState;
+    const [resultingElements, setResultingElements] = useState({});
+    const [updateHandler, setUpdateHandler] = useState(true);
 
     useEffect(() => {
+        setUpdateHandler(false);
         translateInput(initialElements);
     }, [initialElements]);
-
-    useEffect(() => {
-        translateOutput();
-    });
 
     const nodeTypes = useMemo(() => ({ ModelNode: OATGraphCustomNode }), []);
 
@@ -200,34 +198,38 @@ const OATGraphViewer = ({
     };
 
     const translateOutput = () => {
+        const outputObject = elements;
         const nodes = [];
-        elements.map((item) => {
-            const node = {
-                '@id': item.id,
-                '@type': 'Interface',
-                displayName: item.data.name,
-                contents: item.data.content
-            };
-            nodes.push(node);
+        outputObject.map((item) => {
+            if (item.position) {
+                const node = {
+                    '@id': item.id,
+                    '@type': 'Interface',
+                    displayName: item.data.name,
+                    contents: item.data.content
+                };
+                nodes.push(node);
+            } else if (item.source) {
+                const nodeIndex = nodes.findIndex(
+                    (element) => element['@id'] === item.source
+                );
+                const relationship = {
+                    '@type': item.data.type,
+                    name: item.data.name,
+                    target: item.target
+                };
+                nodes[nodeIndex].contents.push(relationship);
+            }
         });
-        elementEdges.map((item) => {
-            const nodeIndex = nodes.findIndex(
-                (element) => element['@id'] === item.source
-            );
-            const relationship = {
-                '@type': item.data.type,
-                name: item.data.name,
-                target: item.target
-            };
-            nodes[nodeIndex].contents.push(relationship);
+        outputObject.map((item) => {
+            if (item.position) {
+                const nodeIndex = nodes.findIndex(
+                    (element) => element['@id'] === item.id
+                );
+                nodes[nodeIndex]['@id'] = item.data.id;
+            }
         });
-
-        elementNodes.map((item) => {
-            const nodeIndex = nodes.findIndex(
-                (element) => element['@id'] === item.id
-            );
-            nodes[nodeIndex]['@id'] = item.data.id;
-        });
+        setResultingElements({ digitalTwinsModels: nodes });
     };
 
     const newEdge = (params) => {

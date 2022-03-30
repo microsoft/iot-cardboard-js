@@ -16,7 +16,7 @@ export const Default = (_args, { globals: { theme } }) => {
     return (
         <div>
             <OATGraphViewerView
-                elements={elementHandler}
+                initialElements={elementHandler}
                 theme={theme}
                 onHandleElementsUpdate={onHandleElementsUpdate}
             />
@@ -55,7 +55,7 @@ export const Examples = (_args, { globals: { theme } }) => {
     return (
         <div>
             <OATGraphViewerView
-                elements={elementHandler}
+                initialElements={elementHandler}
                 theme={theme}
                 onHandleElementsUpdate={onHandleElementsUpdate}
             />

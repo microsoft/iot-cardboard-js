@@ -76,7 +76,7 @@ const OATEditorPage = ({ theme }) => {
                     onHandleElementsUpdate={onHandleElementsUpdate}
                 />
                 <OATGraphViewer
-                    elements={elements}
+                    initialElements={elements}
                     theme={theme}
                     onHandleElementsUpdate={onHandleElementsUpdate}
                 />
