@@ -44,21 +44,32 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>
-                        <div className={styles.modalHeader}>
-                            <span
-                                className={styles.modalTitle}
-                                id={titleId}
-                                title={title}
-                            >
-                                {title}
-                            </span>
-                            {typeof onClose === 'function' && (
-                                <IconButton
-                                    styles={dismissButtonStyles}
-                                    iconProps={cancelIcon}
-                                    ariaLabel={t('behaviorsModal.closeModal')}
-                                    onClick={onClose}
-                                />
+                        <div className={styles.modalHeaderContainer}>
+                            <div className={styles.modalHeader}>
+                                <span
+                                    className={styles.modalTitle}
+                                    id={titleId}
+                                    title={title}
+                                >
+                                    {isPreview
+                                        ? t('behaviorsModal.elementName')
+                                        : title}
+                                </span>
+                                {typeof onClose === 'function' && (
+                                    <IconButton
+                                        styles={dismissButtonStyles}
+                                        iconProps={cancelIcon}
+                                        ariaLabel={t(
+                                            'behaviorsModal.closeModal'
+                                        )}
+                                        onClick={onClose}
+                                    />
+                                )}
+                            </div>
+                            {isPreview && (
+                                <div className={styles.modalSubHeader}>
+                                    {t('behaviorsModal.behaviorPreview')}
+                                </div>
                             )}
                         </div>
                         <div className={styles.modalContents}>

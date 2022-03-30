@@ -1,17 +1,17 @@
-import React from 'react';
-import { DTwin } from '../../../../../Models/Constants/Interfaces';
+import React, { useContext } from 'react';
 import { parseExpression } from '../../../../../Models/Services/Utils';
 import { IGaugeWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { getStyles } from './GaugeWidget.styles';
 import GaugeChart from 'react-gauge-chart';
+import { BehaviorsModalContext } from '../../../BehaviorsModal';
 
 interface IProp {
     widget: IGaugeWidget;
-    twins: Record<string, DTwin>;
 }
 
-const GaugeWidget: React.FC<IProp> = ({ widget, twins }) => {
+const GaugeWidget: React.FC<IProp> = ({ widget }) => {
+    const { twins } = useContext(BehaviorsModalContext);
     const expression = widget.valueExpression;
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';

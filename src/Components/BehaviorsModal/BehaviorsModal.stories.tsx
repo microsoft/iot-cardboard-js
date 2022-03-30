@@ -36,13 +36,20 @@ const Template: BehaviorsModalStory = (args) => {
         <div style={wrapperStyle}>
             <BehaviorsModal
                 {...args}
-                behaviors={behaviors}
+                behaviors={args.isPreview ? [behaviors[1]] : behaviors}
                 title={element.displayName}
                 twins={twins}
-                onClose={() => null}
             />
         </div>
     );
 };
 
-export const MockBehaviorsModal = Template.bind({});
+export const MultipleBehaviors = Template.bind({}) as BehaviorsModalStory;
+MultipleBehaviors.args = {
+    onClose: () => null
+};
+
+export const PreviewMode = Template.bind({}) as BehaviorsModalStory;
+PreviewMode.args = {
+    isPreview: true
+};

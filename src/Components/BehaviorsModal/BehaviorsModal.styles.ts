@@ -2,7 +2,6 @@ import {
     FontWeights,
     IButtonStyles,
     ISeparatorStyleProps,
-    ISeparatorStyles,
     IStyle,
     memoizeFunction,
     mergeStyleSets
@@ -14,19 +13,21 @@ const classNames = {
     draggable: `${behaviorsModalClassPrefix}-draggable`,
     separator: `${behaviorsModalClassPrefix}-separator`,
     modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
+    modalHeaderContainer: `${behaviorsModalClassPrefix}-modal-header-container`,
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
+    modalSubHeader: `${behaviorsModalClassPrefix}-modal-sub-header`,
     modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
 
-const getModalBorderColor = (isPreview) => {
+export const getBorderColor = (isPreview) => {
     return isPreview
         ? 'var(--cb-color-text-primary)'
         : 'var(--cb-color-modal-border)';
 };
 
 export const getStyles = memoizeFunction((isPreview: boolean) => {
-    const modalBorderColor = getModalBorderColor(isPreview);
+    const modalBorderColor = getBorderColor(isPreview);
     const initialPopoverTopOffset = isPreview ? 124 : 112;
     const initialPopoverRightOffset = isPreview ? 8 : 10;
     return mergeStyleSets({
@@ -68,6 +69,13 @@ export const getStyles = memoizeFunction((isPreview: boolean) => {
                 pointerEvents: 'auto'
             } as IStyle
         ],
+        modalHeaderContainer: [
+            classNames.modalHeaderContainer,
+            {
+                borderBottom: `1px solid ${modalBorderColor}`,
+                padding: '8px 8px 8px 20px'
+            } as IStyle
+        ],
         modalHeader: [
             classNames.modalHeader,
             {
@@ -76,9 +84,14 @@ export const getStyles = memoizeFunction((isPreview: boolean) => {
                 alignItems: 'center',
                 fontWeight: FontWeights.semibold,
                 fontSize: '16px',
-                borderBottom: `1px solid ${modalBorderColor}`,
-                height: 40,
-                padding: '4px 8px 4px 20px'
+                height: 32
+            } as IStyle
+        ],
+        modalSubHeader: [
+            classNames.modalSubHeader,
+            {
+                fontWeight: FontWeights.regular,
+                fontSize: '14px'
             } as IStyle
         ],
         modalTitle: [
@@ -103,7 +116,7 @@ export const getStyles = memoizeFunction((isPreview: boolean) => {
 export const getSeparatorStyles = (_props: ISeparatorStyleProps, isPreview) => {
     return {
         root: {
-            ':before': { backgroundColor: getModalBorderColor(isPreview) },
+            ':before': { backgroundColor: getBorderColor(isPreview) },
             padding: 0,
             height: 1
         }

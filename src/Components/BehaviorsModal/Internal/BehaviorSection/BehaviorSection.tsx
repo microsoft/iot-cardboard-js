@@ -58,7 +58,7 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
                 <StatusBlock statusVisual={sv} key={idx} />
             ))}
             {popoverVisual && (
-                <WidgetsContainer popoverVisual={popoverVisual} twins={twins} />
+                <WidgetsContainer popoverVisual={popoverVisual} />
             )}
         </div>
     );
