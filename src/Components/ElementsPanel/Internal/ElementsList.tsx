@@ -121,14 +121,14 @@ function getListItems(
                 b.visuals
                     .filter(
                         (visual) =>
-                            ViewerConfigUtility.isAlertVisual &&
+                            ViewerConfigUtility.isAlertVisual(visual) &&
                             parseExpression(
                                 visual.triggerExpression,
                                 panelItem.twins
                             )
                     )
                     .map(
-                        (alertVisual) =>
+                        (alertVisual: IAlertVisual) =>
                             ({
                                 behavior: b,
                                 alertVisual: alertVisual,
@@ -157,7 +157,7 @@ function getListItems(
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
                 ...(onItemHover && {
-                    onMouseOver: () => onItemHover(element, panelItem),
+                    onMouseEnter: () => onItemHover(element, panelItem),
                     onFocus: () => onItemHover(element, panelItem)
                 }),
                 ...(onItemBlur && {
@@ -165,33 +165,11 @@ function getListItems(
                     onBlur: () => onItemBlur(element, panelItem)
                 })
             },
-            iconStartName: (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 40,
-                        overflow: 'hidden'
-                    }}
-                >
-                    {statuses.map((status, index) => (
-                        <div
-                            key={index}
-                            className={
-                                getElementsPanelStatusStyles(
-                                    getSceneElementStatusColor(
-                                        status.statusVisual
-                                            .statusValueExpression,
-                                        status.statusVisual.valueRanges,
-                                        panelItem.twins
-                                    )
-                                ).statusLine
-                            }
-                        ></div>
-                    ))}
-                </div>
-            ),
+            iconStart: {
+                name: (
+                    <ElementStatus statuses={statuses} panelItem={panelItem} />
+                )
+            },
             item: element,
             onClick: () => onItemClick(element, panelItem),
             textPrimary: element.displayName
@@ -207,7 +185,7 @@ function getListItems(
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
                     ...(onItemHover && {
-                        onMouseOver: () => onItemHover(element, panelItem),
+                        onMouseEnter: () => onItemHover(element, panelItem),
                         onFocus: () => onItemHover(element, panelItem)
                     }),
                     ...(onItemBlur && {
@@ -215,11 +193,13 @@ function getListItems(
                         onBlur: () => onItemBlur(element, panelItem)
                     })
                 },
-                iconStartName: (
-                    <span className={alertStyles.alertCircle}>
-                        <Icon iconName={alert.alertVisual.iconName} />
-                    </span>
-                ),
+                iconStart: {
+                    name: (
+                        <span className={alertStyles.alertCircle}>
+                            <Icon iconName={alert.alertVisual.iconName} />
+                        </span>
+                    )
+                },
                 item: alert.alertVisual,
                 onClick: () =>
                     onItemClick(alert.alertVisual, panelItem, alert.behavior),
@@ -231,5 +211,42 @@ function getListItems(
 
     return listItems;
 }
+
+interface IElementStatusProps {
+    statuses: {
+        behavior: IBehavior;
+        statusVisual: IStatusColoringVisual;
+    }[];
+    panelItem: IViewerElementsPanelItem;
+}
+const ElementStatus: React.FC<IElementStatusProps> = (props) => {
+    const { statuses, panelItem } = props;
+    return (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 40,
+                overflow: 'hidden'
+            }}
+        >
+            {statuses.map((status, index) => (
+                <div
+                    key={index}
+                    className={
+                        getElementsPanelStatusStyles(
+                            getSceneElementStatusColor(
+                                status.statusVisual.statusValueExpression,
+                                status.statusVisual.valueRanges,
+                                panelItem.twins
+                            )
+                        ).statusLine
+                    }
+                ></div>
+            ))}
+        </div>
+    );
+};
 
 export default memo(ElementsList);

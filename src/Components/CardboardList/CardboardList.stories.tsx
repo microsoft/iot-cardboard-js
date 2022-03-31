@@ -78,8 +78,8 @@ const getListItem = (
     return {
         ariaLabel: '',
         isChecked: item.isChecked,
-        iconStartName: index % 3 == 0 ? 'Shapes' : undefined,
-        iconEndName: index % 4 == 0 ? 'Link' : undefined,
+        iconStart: index % 3 == 0 ? { name: 'Shapes' } : undefined,
+        iconEnd: index % 4 == 0 ? { name: 'Link' } : undefined,
         item: item,
         onClick: defaultOnClickHandler,
         overflowMenuItems: index % 2 ? getDefaultMenuItems(item) : [],
@@ -122,8 +122,8 @@ WithAllElements.args = {
             ({
                 textPrimary: item.item.itemId,
                 textSecondary: item.item.itemDescription,
-                iconStartName: 'Link',
-                iconEndName: 'Shapes',
+                iconStart: { name: 'Link' },
+                iconEnd: { name: 'Shapes' },
                 item: item,
                 onClick: defaultOnClickHandler,
                 overflowMenuItems: [
@@ -186,8 +186,8 @@ WithStartAndEndIcon.args = {
     items: getDefaultItems().map(
         (item, index) =>
             ({
-                iconStartName: 'Link',
-                iconEndName: 'Shapes',
+                iconStart: { name: 'Link' },
+                iconEnd: { name: 'Shapes' },
                 item: item,
                 onClick: defaultOnClickHandler,
                 overflowMenuItems: undefined,
@@ -202,7 +202,7 @@ WithStartIconAndMenu.args = {
     items: getDefaultItems().map(
         (item, index) =>
             ({
-                iconStartName: 'Link',
+                iconStart: { name: 'Link' },
                 item: item,
                 textPrimary: `List item ${index}`,
                 onClick: defaultOnClickHandler,
@@ -240,7 +240,7 @@ WithHighlightedText.args = {
     items: customItems.map(
         (item) =>
             ({
-                iconStartName: 'Shapes',
+                iconStart: { name: 'Shapes' },
                 onClick: defaultOnClickHandler,
                 textPrimary: item.itemId,
                 textSecondary: item.itemDescription
