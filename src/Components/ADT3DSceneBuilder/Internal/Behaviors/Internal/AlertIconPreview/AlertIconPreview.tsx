@@ -20,7 +20,7 @@ const AlertIconPreview: React.FC<IAlertIconPreviewProps> = (props) => {
         theme: theme
     });
     return (
-        <div className={classNames.root}>
+        <div className={classNames.root} aria-hidden={true}>
             <AlertIcon
                 icon={icon}
                 color={color}

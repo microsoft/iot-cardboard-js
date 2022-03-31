@@ -141,6 +141,20 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
+            <TextField
+                label={t(LOC_KEYS.notificationLabel)}
+                placeholder={t(LOC_KEYS.notificationPlaceholder)}
+                multiline
+                onChange={onNoteChange}
+                rows={3}
+                styles={{
+                    root: {
+                        marginBottom: 4,
+                        paddingBottom: 4
+                    }
+                }}
+                value={colorChangeVisual.labelExpression}
+            />
             <Label>{t(LOC_KEYS.badgeSectionLabel)}</Label>
             <Stack tokens={iconSectionStackTokens} horizontal>
                 <AlertIconPreview icon={icon} color={color} />
@@ -159,20 +173,6 @@ const AlertsTab: React.FC = () => {
                     styles={pickerStyles}
                 />
             </Stack>
-            <TextField
-                label={t(LOC_KEYS.notificationLabel)}
-                placeholder={t(LOC_KEYS.notificationPlaceholder)}
-                multiline
-                onChange={onNoteChange}
-                rows={3}
-                styles={{
-                    root: {
-                        marginBottom: 4,
-                        paddingBottom: 4
-                    }
-                }}
-                value={colorChangeVisual.labelExpression}
-            />
         </Stack>
     );
 };
