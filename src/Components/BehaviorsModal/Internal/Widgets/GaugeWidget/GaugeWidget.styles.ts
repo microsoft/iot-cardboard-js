@@ -45,7 +45,6 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
             {
                 fontSize: '24px',
                 flex: '3 3 3',
-                minWidth: '60%',
                 position: 'relative'
             } as IStyle
         ],
@@ -57,6 +56,7 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
                 flex: '1 1 1',
                 display: 'inline-block',
                 alignSelf: 'flex-end',
+                maxWidth: '40%',
                 marginLeft: 2
             } as IStyle
         ],
