@@ -1,0 +1,17 @@
+@import '../../Resources/Styles/BaseStyles';
+
+.cb-oat-graph-viewer-container {
+    height: 80vh;
+}
+
+.cb-oat-graph-viewer-button {
+    z-index: 100;
+}
+
+.react-flow__node-Interface {
+    font-size: 12px;
+    background: #eee;
+    border: 1px solid #555;
+    border-radius: 5px;
+    text-align: center;
+}

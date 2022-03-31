@@ -647,5 +647,8 @@
         "sync": "sync",
         "import": "Import",
         "export": "Export"
+    },
+    "OATGraphViewer": {
+        "newModel": "New Model"
     }
 }
