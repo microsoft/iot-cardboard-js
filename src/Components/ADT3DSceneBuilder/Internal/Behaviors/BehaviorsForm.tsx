@@ -4,6 +4,7 @@ import React, {
     useEffect,
     useMemo,
     useReducer,
+    useRef,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,10 @@ import {
     DatasourceType,
     defaultBehavior
 } from '../../../../Models/Classes/3DVConfig';
-import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
+import {
+    ADT3DSceneBuilderMode,
+    WidgetFormMode
+} from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
     IADT3DSceneBuilderBehaviorFormProps,
@@ -103,6 +107,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             : selectedBehavior
     );
 
+    const behaviorDraftWidgetBackup = useRef<IBehavior>(null);
+
     const behaviorPreview = useMemo(() => [behaviorToEdit], [behaviorToEdit]);
 
     const [
@@ -126,6 +132,27 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             setSelectedElements(selectedElements);
         }
     }, []);
+
+    // Prior to entering widget form -- freeze copy of draft behavior
+    useEffect(() => {
+        // Backup draft if opening widget form
+        if (
+            (widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+                widgetFormInfo.mode === WidgetFormMode.EditWidget) &&
+            !behaviorDraftWidgetBackup.current
+        ) {
+            behaviorDraftWidgetBackup.current = behaviorToEdit;
+        }
+
+        // If widget form is cancelled, restore backup
+        if (
+            widgetFormInfo.mode === WidgetFormMode.Cancelled &&
+            behaviorDraftWidgetBackup.current
+        ) {
+            setBehaviorToEdit(behaviorDraftWidgetBackup.current);
+            behaviorDraftWidgetBackup.current = null;
+        }
+    }, [widgetFormInfo]);
 
     useEffect(() => {
         const elementIds = [];
@@ -255,7 +282,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     subHeaderText={subHeaderText}
                     iconName={iconName}
                 />
-                {widgetFormInfo ? (
+                {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+                widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
                     <WidgetForm />
                 ) : (
                     <>

@@ -18,7 +18,10 @@ export const getLeftPanelBuilderHeaderParams = (
         subHeaderText = '',
         iconName = 'Ringer';
 
-    if (widgetFormInfo) {
+    if (
+        widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+        widgetFormInfo.mode === WidgetFormMode.EditWidget
+    ) {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             headerText = i18n.t('3dSceneBuilder.newWidget');
         } else {

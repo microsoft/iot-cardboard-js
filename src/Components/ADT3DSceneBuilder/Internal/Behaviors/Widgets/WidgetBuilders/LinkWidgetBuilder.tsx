@@ -35,7 +35,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 value={formData.widgetConfiguration.label}
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce((draft) => {
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
                     )
@@ -54,7 +54,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 defaultValue={formData.widgetConfiguration.linkExpression}
                 onChange={(newVal) => {
                     setFormData(
-                        produce((draft) => {
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.linkExpression = newVal;
                         })
                     );

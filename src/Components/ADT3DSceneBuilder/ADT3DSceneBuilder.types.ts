@@ -69,8 +69,8 @@ export interface I3DSceneBuilderContext {
     objectColor: IADTObjectColor;
 }
 
-export type WidgetFormInfo = null | {
-    widget: IWidgetLibraryItem;
+export type WidgetFormInfo = {
+    widget?: IWidgetLibraryItem;
     mode: WidgetFormMode;
     widgetId?: string;
 };
@@ -175,12 +175,12 @@ export interface IWidgetBuilderFormDataProps {
 
 export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: ILinkWidget;
-    setFormData: React.Dispatch<React.SetStateAction<ILinkWidget>>;
+    setFormData: (widgetData: ILinkWidget) => void;
 }
 
 export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IGaugeWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
+    setFormData: (widgetData: IGaugeWidget) => void;
 }
 
 export interface BehaviorState {

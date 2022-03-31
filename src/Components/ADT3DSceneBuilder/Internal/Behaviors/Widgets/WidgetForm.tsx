@@ -10,6 +10,7 @@ import {
 } from '../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../Models/Constants/Enums';
 import {
+    IBehavior,
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
@@ -23,7 +24,42 @@ import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { createGUID, deepCopy } from '../../../../../Models/Services/Utils';
+import { createGUID } from '../../../../../Models/Services/Utils';
+import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+
+const createWidget = (draft, widgetFormInfo: WidgetFormInfo, id: string) => {
+    const popOver = draft.visuals?.find(
+        (visual) => visual.type === VisualType.Popover
+    ) as IPopoverVisual;
+
+    if (popOver) {
+        const widgets = popOver?.widgets;
+
+        const newWidget = {
+            ...getDefaultFormData(widgetFormInfo),
+            id
+        };
+
+        widgets
+            ? popOver.widgets.push(newWidget)
+            : (popOver.widgets = [newWidget]);
+    }
+};
+
+const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
+    switch (widgetFormInfo.widget.data.type) {
+        case WidgetType.Gauge:
+            return defaultGaugeWidget;
+        case WidgetType.Link:
+            return defaultLinkWidget;
+        default:
+            return null;
+    }
+};
+
+const getWidgets = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0].widgets;
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC = () => {
@@ -49,38 +85,54 @@ const WidgetForm: React.FC = () => {
 
     const { t } = useTranslation();
 
-    const getDefaultFormData = () => {
-        switch (widgetFormInfo.widget.data.type) {
-            case WidgetType.Gauge:
-                return defaultGaugeWidget;
-            case WidgetType.Link:
-                return defaultLinkWidget;
-            default:
-                return null;
+    const [activeWidgetId, setActiveWidgetId] = useState<string>(null);
+
+    // On mount, create or locate widget
+    useEffect(() => {
+        if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
+            const newWidgetId = createGUID();
+            setBehaviorToEdit(
+                produce((draft) => {
+                    createWidget(draft, widgetFormInfo, newWidgetId);
+                })
+            );
+            setActiveWidgetId(newWidgetId);
+        } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
+            setActiveWidgetId(widgetFormInfo.widgetId);
         }
+    }, []);
+
+    const updateWidgetData = (widgetData: IWidget) => {
+        setBehaviorToEdit(
+            produce((draft) => {
+                const widgets = getWidgets(draft);
+                const widgetToUpdateIdx = widgets.findIndex(
+                    (w) => w.id === activeWidgetId
+                );
+                widgets[widgetToUpdateIdx] = widgetData;
+            })
+        );
     };
 
-    const [formData, setFormData] = useState<IWidget>(
-        widgetFormInfo.mode === WidgetFormMode.CreateWidget
-            ? getDefaultFormData()
-            : widgetFormInfo.widget.data
-    );
-
     const getWidgetBuilder = () => {
+        const widgetData = getWidgets(behaviorToEdit).find(
+            (w) => w.id === activeWidgetId
+        );
+
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
                 return (
                     <GaugeWidgetBuilder
-                        formData={formData as IGaugeWidget}
-                        setFormData={setFormData}
+                        formData={widgetData as IGaugeWidget}
+                        setFormData={updateWidgetData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
             case WidgetType.Link:
                 return (
                     <LinkWidgetBuilder
-                        formData={formData as ILinkWidget}
-                        setFormData={setFormData}
+                        formData={widgetData as ILinkWidget}
+                        setFormData={updateWidgetData}
                         getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
@@ -92,55 +144,6 @@ const WidgetForm: React.FC = () => {
                     </div>
                 );
         }
-    };
-
-    const onSaveWidgetForm = () => {
-        const formDataToSave = deepCopy(formData);
-
-        if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.Popover
-                    ) as IPopoverVisual;
-
-                    if (popOver) {
-                        const widgets = popOver?.widgets;
-
-                        const newWidget = {
-                            ...formDataToSave,
-                            id: createGUID()
-                        };
-
-                        widgets
-                            ? popOver.widgets.push(newWidget)
-                            : (popOver.widgets = [newWidget]);
-                    }
-                })
-            );
-        }
-        if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const popOver = draft.visuals?.find(
-                        (visual) => visual.type === VisualType.Popover
-                    ) as IPopoverVisual;
-
-                    if (
-                        popOver &&
-                        typeof widgetFormInfo.widgetId === 'string'
-                    ) {
-                        const widgetToEditIdx = popOver.widgets?.findIndex(
-                            (w) => w.id === widgetFormInfo.widgetId
-                        );
-                        popOver.widgets[widgetToEditIdx] = formDataToSave;
-                    }
-                })
-            );
-        }
-
-        setWidgetFormInfo(null);
-        setFormData(null);
     };
 
     useEffect(() => {
@@ -160,6 +163,8 @@ const WidgetForm: React.FC = () => {
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
+
+    if (!activeWidgetId) return null;
     return (
         <>
             <div className={commonFormStyles.content}>
@@ -173,7 +178,9 @@ const WidgetForm: React.FC = () => {
             <PanelFooter>
                 <PrimaryButton
                     data-testid={'widget-form-primary-button'}
-                    onClick={onSaveWidgetForm}
+                    onClick={() =>
+                        setWidgetFormInfo({ mode: WidgetFormMode.Committed })
+                    }
                     text={
                         widgetFormInfo.mode === WidgetFormMode.CreateWidget
                             ? t('3dSceneBuilder.createWidget')
@@ -185,8 +192,7 @@ const WidgetForm: React.FC = () => {
                     data-testid={'widget-form-secondary-button'}
                     text={t('cancel')}
                     onClick={() => {
-                        setWidgetFormInfo(null);
-                        setFormData(null);
+                        setWidgetFormInfo({ mode: WidgetFormMode.Cancelled });
                     }}
                 />
             </PanelFooter>

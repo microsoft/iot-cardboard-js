@@ -45,7 +45,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
 
     useEffect(() => {
         setFormData(
-            produce((draft) => {
+            produce(formData, (draft) => {
                 draft.widgetConfiguration.valueRanges =
                     valueRangeBuilderState.valueRanges;
             })
@@ -55,7 +55,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     const onPropertyChange = useCallback(
         (option: string) => {
             setFormData(
-                produce((draft) => {
+                produce(formData, (draft) => {
                     draft.valueExpression = option;
                 })
             );
@@ -74,7 +74,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 required
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce((draft) => {
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
                     )
@@ -86,7 +86,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 value={formData.widgetConfiguration.units}
                 onChange={(_ev, newVal) =>
                     setFormData(
-                        produce((draft) => {
+                        produce(formData, (draft) => {
                             draft.widgetConfiguration.units = newVal;
                         })
                     )
