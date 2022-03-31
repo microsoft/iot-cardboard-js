@@ -1,4 +1,5 @@
 import {
+    FontWeights,
     IButtonStyles,
     IStyle,
     memoizeFunction,
@@ -145,7 +146,7 @@ export const getElementsPanelButtonSyles = memoizeFunction(() => ({
     elementButton: {
         root: {
             background: 'transparent',
-            fontWeight: 500
+            fontWeight: FontWeights.semibold
         }
     } as IButtonStyles,
     alertButton: {
