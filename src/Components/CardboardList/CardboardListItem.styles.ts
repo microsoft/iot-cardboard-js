@@ -84,7 +84,8 @@ export const getStyles = memoizeFunction(
                     flexDirection: 'horizontal',
                     ':hover .cb-list-item-menu-icon, :focus-within .cb-list-item-menu-icon': {
                         opacity: 1
-                    }
+                    },
+                    position: 'relative'
                 } as IStyle,
                 // force the menu icon to show up when the menu is open since it's no longer hovered/focused
                 isMenuOpen && {
