@@ -8,8 +8,7 @@ import {
     findCalloutItemByTestId,
     findOverflowMenuItem as findOverflowMenuItemByTestId,
     IStoryContext,
-    sleep,
-    waitForFirstRender
+    sleep
 } from '../../Models/Services/StoryUtilities';
 import {
     I3DScenesConfig,
@@ -23,7 +22,7 @@ export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
     parameters: {
         // delay for the menus showing up
-        chromatic: { delay: 1000 }
+        chromatic: { delay: 2000 }
     }
 };
 
@@ -57,24 +56,24 @@ const Template: SceneBuilderStory = (
 
 export const ElementsTab = Template.bind({});
 ElementsTab.play = async ({ canvasElement }) => {
-    await waitForFirstRender();
+    await sleep(1);
+    await sleep(1);
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tabButton = canvas.getAllByRole('tab');
     await userEvent.click(tabButton[0]);
 };
 
-// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
-// export const Search = Template.bind({});
-// Search.play = async ({ canvasElement }) => {
-//     // switch to the behaviors tab
-//     await ElementsTab.play({ canvasElement });
+export const Search = Template.bind({});
+Search.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await ElementsTab.play({ canvasElement });
 
-//     const canvas = within(canvasElement);
-//     // type in the search box
-//     const searchBox = canvas.getByTestId('search-header-search-box');
-//     await userEvent.type(searchBox, 'box');
-// };
+    const canvas = within(canvasElement);
+    // type in the search box
+    const searchBox = canvas.getByTestId('search-header-search-box');
+    await userEvent.type(searchBox, 'box');
+};
 
 const mockElement: IElement = {
     type: 'TwinToObjectMapping',
@@ -232,6 +231,7 @@ export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
 EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
     // open the add behavior callout
     await EditBehaviorsTabAddSelect.play({ canvasElement });
+    await sleep(1);
 
     // click a list item
     const canvas = within(canvasElement);

@@ -38,79 +38,81 @@ export const CardboardListItem = <T extends unknown>({
         onMenuStateChange(true);
     }, [overflowRef, setIsMenuOpen]);
     const theme = useTheme();
-    const customStyles = getStyles(theme);
+    const classNames = getStyles(theme, isMenuOpen);
     const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
     return (
         <>
-            <DefaultButton
-                {...buttonProps}
-                key={`cardboard-list-item-${listKey}-${index}`}
-                data-testid={`cardboard-list-item-${listKey}-${index}`}
-                styles={buttonStyles}
-                onClick={() => {
-                    if (openMenuOnClick) {
-                        onMenuClick();
-                    } else {
-                        onClick(item);
-                    }
-                }}
-                onKeyPress={(event) => {
-                    if (event.code === 'Space') {
-                        onMenuClick();
-                    }
-                }}
-            >
-                {showCheckbox && (
-                    <>
-                        <CheckboxRenderer
-                            isChecked={isChecked}
-                            className={customStyles.checkbox}
-                        />
-                    </>
-                )}
-                {showStartIcon &&
-                    (typeof iconStartName === 'string' ? (
-                        <FontIcon
-                            iconName={iconStartName}
-                            className={customStyles.icon}
-                        />
-                    ) : (
-                        iconStartName
-                    ))}
-                <div className={customStyles.textContainer}>
-                    <div
-                        className={customStyles.primaryText}
-                        title={textPrimary}
-                    >
-                        {textToHighlight
-                            ? Utils.getMarkedHtmlBySearch(
-                                  textPrimary,
-                                  textToHighlight
-                              )
-                            : textPrimary}
-                    </div>
-                    {showSecondaryText && (
-                        <div
-                            className={customStyles.secondaryText}
-                            title={textSecondary}
-                        >
-                            {textSecondary}
-                        </div>
+            <span className={classNames.root}>
+                <DefaultButton
+                    {...buttonProps}
+                    key={`cardboard-list-item-${listKey}-${index}`}
+                    data-testid={`cardboard-list-item-${listKey}-${index}`}
+                    styles={buttonStyles}
+                    onClick={() => {
+                        if (openMenuOnClick) {
+                            onMenuClick();
+                        } else {
+                            onClick(item);
+                        }
+                    }}
+                    onKeyPress={(event) => {
+                        if (event.code === 'Space') {
+                            onMenuClick();
+                        }
+                    }}
+                >
+                    {showCheckbox && (
+                        <>
+                            <CheckboxRenderer
+                                isChecked={isChecked}
+                                className={classNames.checkbox}
+                            />
+                        </>
                     )}
-                </div>
-                {showEndIcon && (
-                    <FontIcon
-                        iconName={iconEndName}
-                        className={`${customStyles.icon} ${customStyles.endIcon}`}
-                    />
-                )}
+                    {showStartIcon &&
+                        (typeof iconStartName === 'string' ? (
+                            <FontIcon
+                                iconName={iconStartName}
+                                className={classNames.icon}
+                            />
+                        ) : (
+                            iconStartName
+                        ))}
+                    <div className={classNames.textContainer}>
+                        <div
+                            className={classNames.primaryText}
+                            title={textPrimary}
+                        >
+                            {textToHighlight
+                                ? Utils.getMarkedHtmlBySearch(
+                                      textPrimary,
+                                      textToHighlight
+                                  )
+                                : textPrimary}
+                        </div>
+                        {showSecondaryText && (
+                            <div
+                                className={classNames.secondaryText}
+                                title={textSecondary}
+                            >
+                                {textSecondary}
+                            </div>
+                        )}
+                    </div>
+                    {showEndIcon && (
+                        <FontIcon
+                            iconName={iconEndName}
+                            className={`${classNames.icon} ${classNames.endIcon}`}
+                        />
+                    )}
+                    {showOverflow && (
+                        <div className={classNames.menuPlaceholder}></div>
+                    )}
+                </DefaultButton>
                 {showOverflow && (
                     <OverflowMenu
                         index={index}
-                        // force the menu icon to show up when the menu is open since it's no longer hovered/focused
-                        className={`${getStyles(theme).menuIcon} cb-more-menu ${
-                            isMenuOpen ? 'cb-more-menu-visible' : ''
-                        }`}
+                        className={classNames.menuIcon}
                         menuKey={listKey}
                         menuRef={overflowRef}
                         menuProps={{
@@ -120,7 +122,7 @@ export const CardboardListItem = <T extends unknown>({
                         }}
                     />
                 )}
-            </DefaultButton>
+            </span>
         </>
     );
 };

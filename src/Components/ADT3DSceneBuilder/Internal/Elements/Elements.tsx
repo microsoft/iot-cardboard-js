@@ -411,7 +411,7 @@ function getListItems(
         const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onElementEnter(item),
+                onMouseEnter: () => onElementEnter(item),
                 onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
                 onBlur: onElementLeave
