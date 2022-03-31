@@ -39,7 +39,7 @@ type IListItemBaseProps<T> = {
     isChecked?: boolean;
     /** the original item to provide back to callbacks */
     item: T;
-    /**  */
+    /** type of item when rendering a grouped list. Headers have dividers and items have indentation */
     itemType?: CardboardGroupedListItemType;
     /** List items to show in the overflow set */
     overflowMenuItems?: IContextualMenuItem[];
