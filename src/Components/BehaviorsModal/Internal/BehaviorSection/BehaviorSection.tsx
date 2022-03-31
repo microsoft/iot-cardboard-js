@@ -63,7 +63,7 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
     alertVisual
 }) => {
     const styles = getStyles();
-    const alertStyles = getElementsPanelAlertStyles(alertVisual.color, true);
+    const alertStyles = getElementsPanelAlertStyles(alertVisual.color);
     const { twins } = useContext(BehaviorsModalContext);
 
     return (
