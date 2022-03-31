@@ -44,7 +44,8 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
             textOverflow,
             {
                 fontSize: '24px',
-                flex: '3 1 1',
+                flex: '3 3 3',
+                minWidth: '60%',
                 position: 'relative'
             } as IStyle
         ],
@@ -65,7 +66,7 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
                 display: 'flex',
                 justifyContent: 'flex-start',
                 width: '100%',
-                height: 26,
+                height: 32,
                 marginBottom: 16
             } as IStyle
         ]

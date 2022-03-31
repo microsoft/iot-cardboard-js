@@ -11,17 +11,26 @@ interface IProp {
 }
 
 const GaugeWidget: React.FC<IProp> = ({ widget }) => {
-    const { twins } = useContext(BehaviorsModalContext);
+    const { twins, isPreview } = useContext(BehaviorsModalContext);
     const expression = widget.valueExpression;
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
     try {
-        value = parseExpression(expression, twins);
-        if (!value) {
-            value = 0;
+        if (isPreview) {
+            // In preview mode, gauge uses min value range as value
+            value = Number(
+                widget.widgetConfiguration.valueRanges
+                    .slice(0)
+                    .sort((a, b) => Number(a.min) - Number(b.min))[0].min
+            );
+        } else {
+            value = parseExpression(expression, twins);
+            if (!value) {
+                value = 0;
+            }
+            value = Math.floor(value);
         }
-        value = Math.floor(value);
     } catch {
         value = 0;
     }
