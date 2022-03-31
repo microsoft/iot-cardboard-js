@@ -20,6 +20,7 @@ import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfi
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -107,13 +108,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         [setProperty]
     );
 
-    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
         <Stack tokens={sectionStackTokens}>
-            <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
-                {t(LOC_KEYS.notice)}
-            </Text>
+            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <TwinPropertyDropown
                 behavior={behaviorToEdit}
                 defaultSelectedKey={statusVisualToEdit.statusValueExpression}

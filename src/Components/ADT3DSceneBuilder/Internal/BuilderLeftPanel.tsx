@@ -443,6 +443,8 @@ const BuilderLeftPanel: React.FC = () => {
                     selectedElements={state.selectedElements}
                     setSelectedElements={setSelectedElements}
                     updateSelectedElements={updateSelectedElements}
+                    onRemoveElement={onRemoveElement}
+                    onElementClick={onElementClick}
                 />
             )}
         </BaseComponent>

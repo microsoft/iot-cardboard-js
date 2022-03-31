@@ -7,12 +7,16 @@ import {
     IPivotStyles,
     ISeparatorStyles
 } from '@fluentui/react';
+import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 
-const classPrefix = 'left-panel';
+const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
     noDataText: `${classPrefix}-no-data-text`,
     content: `${classPrefix}-content`,
-    formTabContents: `${classPrefix}-form-tab-contents`
+    formTabContents: `${classPrefix}-form-tab-contents`,
+    actionButton: `${classPrefix}-action-button`,
+    text: `${classPrefix}-text`,
+    section: `${classPrefix}-section`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -20,7 +24,8 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.noDataText,
             {
                 fontSize: FontSizes.size12,
-                color: theme.palette.neutralSecondary
+                color: theme.palette.neutralSecondary,
+                marginTop: 8
             } as IStyle
         ],
         content: [
@@ -39,6 +44,29 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 flexDirection: 'column',
                 flexGrow: 1,
                 overflow: 'auto'
+            } as IStyle
+        ],
+        actionButton: [
+            classNames.actionButton,
+            {
+                fontSize: FontSizes.size14,
+                color: 'var(--cb-color-theme-primary)',
+                paddingLeft: 0,
+                span: { margin: 0 }
+            } as IStyle
+        ],
+        text: [
+            classNames.text,
+            {
+                color: theme.palette.neutralSecondary,
+                padding: '8px 0',
+                display: 'block'
+            } as IStyle
+        ],
+        section: [
+            classNames.section,
+            {
+                '.ms-layer': { margin: 0 }
             } as IStyle
         ]
     });

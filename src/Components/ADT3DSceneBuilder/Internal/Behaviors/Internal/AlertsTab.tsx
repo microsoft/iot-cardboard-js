@@ -21,6 +21,7 @@ import ColorSelectButton from '../../../../ColorSelectButton/ColorSelectButton';
 import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { defaultAlertVisual } from '../../../../../Models/Classes/3DVConfig';
 import { deepCopy } from '../../../../../Models/Services/Utils';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -102,12 +103,10 @@ const AlertsTab: React.FC = () => {
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual;
     const color = colorChangeVisual?.color || defaultSwatchColors[0].color;
     const expression = colorChangeVisual?.triggerExpression;
-    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <Stack tokens={sectionStackTokens}>
-            <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
-                {t(LOC_KEYS.notice)}
-            </Text>
+            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <Intellisense
                 autoCompleteProps={{
                     textFieldProps: {

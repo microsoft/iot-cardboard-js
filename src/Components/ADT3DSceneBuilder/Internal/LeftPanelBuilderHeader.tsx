@@ -2,7 +2,8 @@ import { FontIcon, Separator } from '@fluentui/react';
 import React from 'react';
 import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../..';
 import i18n from '../../../i18n';
-import { WidgetFormInfo } from '../ADT3DSceneBuilder.types';
+import { TwinAliasFormMode } from '../../../Models/Constants';
+import { TwinAliasFormInfo, WidgetFormInfo } from '../ADT3DSceneBuilder.types';
 
 interface Props {
     headerText: string;
@@ -12,6 +13,7 @@ interface Props {
 
 export const getLeftPanelBuilderHeaderParams = (
     widgetFormInfo: WidgetFormInfo,
+    twinAliasFormInfo: TwinAliasFormInfo,
     builderMode: ADT3DSceneBuilderMode
 ) => {
     let headerText = '',
@@ -24,8 +26,16 @@ export const getLeftPanelBuilderHeaderParams = (
         } else {
             headerText = i18n.t('3dSceneBuilder.editWidget');
         }
-        iconName = widgetFormInfo.widget.iconName;
+        iconName = '';
         subHeaderText = widgetFormInfo.widget.title;
+    } else if (twinAliasFormInfo) {
+        if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
+            headerText = i18n.t('3dSceneBuilder.newTwinAlias');
+        } else {
+            headerText = i18n.t('3dSceneBuilder.editTwinAlias');
+        }
+        iconName = twinAliasFormInfo.twinAlias?.alias ? 'DuplicateRow' : '';
+        subHeaderText = twinAliasFormInfo.twinAlias?.alias;
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
             headerText = i18n.t('3dSceneBuilder.newBehavior');

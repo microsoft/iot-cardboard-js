@@ -140,7 +140,7 @@ const WidgetsTab: React.FC = () => {
                     />
                 )}
                 <ActionButton
-                    className="cb-widget-panel-action-button"
+                    className={commonPanelStyles.actionButton}
                     text={t('3dSceneBuilder.addWidget')}
                     data-testid={'widgetForm-addWidget'}
                     onClick={() => {

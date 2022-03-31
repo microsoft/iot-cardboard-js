@@ -63,6 +63,8 @@ import {
 } from './BehaviorForm.types';
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import { IValueRangeBuilderHandle } from '../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import TwinsTab from './Internal/TwinsTab';
+import TwinAliasForm from './Internal/TwinAliasForm';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null
@@ -91,11 +93,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
-    updateSelectedElements
+    updateSelectedElements,
+    onElementClick,
+    onRemoveElement
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo } = useContext(SceneBuilderContext);
+    const { widgetFormInfo, twinAliasFormInfo } = useContext(
+        SceneBuilderContext
+    );
 
     const [state, dispatch] = useReducer(
         BehaviorFormReducer,
@@ -245,8 +251,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     }, [onBehaviorBackClick, setSelectedElements]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
-        () => getLeftPanelBuilderHeaderParams(widgetFormInfo, builderMode),
-        [widgetFormInfo, builderMode]
+        () =>
+            getLeftPanelBuilderHeaderParams(
+                widgetFormInfo,
+                twinAliasFormInfo,
+                builderMode
+            ),
+        [widgetFormInfo, twinAliasFormInfo, builderMode]
     );
     // report out initial state
     useEffect(() => {
@@ -283,6 +294,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 />
                 {widgetFormInfo ? (
                     <WidgetForm />
+                ) : twinAliasFormInfo ? (
+                    <TwinAliasForm />
                 ) : (
                     <>
                         <div className={commonFormStyles.content}>
@@ -336,7 +349,29 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         }
                                         isEditBehavior={true}
                                         hideSearch={false}
+                                        onElementClick={onElementClick}
+                                        onRemoveElement={onRemoveElement}
                                     />
+                                </PivotItem>
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.twinsTab')}
+                                    itemKey={BehaviorPivot.twins}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        _customTabRenderer(
+                                            state.validityMap?.get('Twins')
+                                                ?.isValid,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
+                                >
+                                    <TwinsTab elements={elements} />
                                 </PivotItem>
                                 <PivotItem
                                     className={
