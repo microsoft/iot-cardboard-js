@@ -91,7 +91,7 @@ const WidgetsTab: React.FC = () => {
                 })
             );
         },
-        [setBehaviorToEdit]
+        [setBehaviorToEdit, getPopoverFromBehavior]
     );
 
     const onWidgetAdd = useCallback(
@@ -103,6 +103,7 @@ const WidgetsTab: React.FC = () => {
 
             // Add popover visual if not already present
             const popOver = getPopoverFromBehavior(behaviorToEdit);
+
             if (!popOver) {
                 setBehaviorToEdit(
                     produce((draft) => {
@@ -111,7 +112,12 @@ const WidgetsTab: React.FC = () => {
                 );
             }
         },
-        [setWidgetFormInfo, setBehaviorToEdit]
+        [
+            setWidgetFormInfo,
+            setBehaviorToEdit,
+            behaviorToEdit,
+            getPopoverFromBehavior
+        ]
     );
 
     // generate the list of items to show

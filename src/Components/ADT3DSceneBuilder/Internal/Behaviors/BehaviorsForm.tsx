@@ -143,13 +143,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         ) {
             behaviorDraftWidgetBackup.current = behaviorToEdit;
         }
-
         // If widget form is cancelled, restore backup
-        if (
+        else if (
             widgetFormInfo.mode === WidgetFormMode.Cancelled &&
             behaviorDraftWidgetBackup.current
         ) {
             setBehaviorToEdit(behaviorDraftWidgetBackup.current);
+            behaviorDraftWidgetBackup.current = null;
+        }
+        // If changes committed, clear backup
+        else if (widgetFormInfo.mode === WidgetFormMode.Committed) {
             behaviorDraftWidgetBackup.current = null;
         }
     }, [widgetFormInfo]);
