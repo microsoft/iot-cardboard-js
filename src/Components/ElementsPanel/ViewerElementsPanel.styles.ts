@@ -122,7 +122,7 @@ export const getElementsPanelStatusStyles = memoizeFunction(
 );
 
 export const getElementsPanelAlertStyles = memoizeFunction(
-    (alertColor: string, isForPopover = false) => {
+    (alertColor: string) => {
         return mergeStyleSets({
             alertCircle: [
                 classNames.alertCircle,
@@ -131,7 +131,7 @@ export const getElementsPanelAlertStyles = memoizeFunction(
                     height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
-                    margin: `0 8px 0 ${isForPopover ? '10px' : '30px'}`,
+                    margin: `0 8px 0 10px`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
