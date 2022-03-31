@@ -31,7 +31,7 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
     color: defaultValueRangeColor,
-    min: '-Infinity',
+    min: 0,
     max: 'Infinity'
 };
 
@@ -136,6 +136,11 @@ const addValueRange = (
             newMin = Number(vr.max);
         }
     });
+
+    // If adding first value range -- set min to 0
+    if (draft.valueRanges.length === 0) {
+        newMin = 0;
+    }
 
     const newValueRange = cleanValueRange({
         ...defaultValueRange,
