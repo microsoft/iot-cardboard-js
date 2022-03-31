@@ -52,11 +52,13 @@ export const getPanelFormStyles = memoizeFunction(
         });
     }
 );
-const pivotTabsHeight = 36;
+const pivotTabsHeight = 44;
 export const panelFormPivotStyles: Partial<IPivotStyles> = {
     root: leftPanelPivotStyles.root,
     itemContainer: {
         height: `calc(100% - ${pivotTabsHeight}px)`,
-        overflow: 'auto'
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column'
     }
 };
