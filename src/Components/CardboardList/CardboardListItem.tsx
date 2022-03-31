@@ -146,7 +146,7 @@ export const CardboardListItem = <T extends unknown>(
                             className={`${classNames.icon} ${classNames.endIcon}`}
                         />
                     )}
-                    {showOverflow && (
+                    {(showOverflow || showEndIconButton) && (
                         <div className={classNames.menuPlaceholder}></div>
                     )}
                 </DefaultButton>
