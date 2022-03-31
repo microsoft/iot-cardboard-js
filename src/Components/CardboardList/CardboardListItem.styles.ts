@@ -2,6 +2,7 @@ import {
     FontSizes,
     IButtonStyles,
     IRawStyle,
+    ISeparatorStyles,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
@@ -11,6 +12,7 @@ import {
     CardboardClassNamePrefix,
     StyleConstants
 } from '../../Models/Constants';
+import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
 const classNames = {
@@ -111,19 +113,28 @@ export const getStyles = memoizeFunction(
     }
 );
 export const getButtonStyles = memoizeFunction(
-    (theme: Theme, customStyles?: Partial<IButtonStyles>): IButtonStyles => {
+    (
+        itemType: CardboardGroupedListItemType | undefined,
+        theme: Theme,
+        customStyles: Partial<IButtonStyles> | undefined
+    ): IButtonStyles => {
         return {
-            root: {
-                alignItems: 'start', // top align everything
-                border: 0,
-                height: 'auto',
-                ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
-                    opacity: 1
+            root: [
+                {
+                    alignItems: 'start', // top align everything
+                    border: 0,
+                    height: 'auto',
+                    ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
+                        opacity: 1
+                    },
+                    padding: '8px 12px',
+                    width: '100%',
+                    ...(customStyles?.root as IRawStyle)
                 },
-                padding: '8px 12px',
-                width: '100%',
-                ...(customStyles?.root as IRawStyle)
-            },
+                itemType === 'item' && {
+                    paddingLeft: 40
+                }
+            ],
             flexContainer: {
                 justifyContent: 'start',
                 ...(customStyles?.flexContainer as IRawStyle)
@@ -131,3 +142,10 @@ export const getButtonStyles = memoizeFunction(
         };
     }
 );
+
+export const sectionSeparatorStyles: Partial<ISeparatorStyles> = {
+    root: {
+        height: 8,
+        padding: 0
+    }
+};

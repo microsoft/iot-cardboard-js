@@ -3,6 +3,7 @@ import {
     DefaultButton,
     FontIcon,
     IconButton,
+    Separator,
     useTheme
 } from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
@@ -10,7 +11,11 @@ import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
 import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
-import { getStyles, getButtonStyles } from './CardboardListItem.styles';
+import {
+    getStyles,
+    getButtonStyles,
+    sectionSeparatorStyles
+} from './CardboardListItem.styles';
 
 export const CardboardListItem = <T extends unknown>(
     props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
@@ -21,6 +26,7 @@ export const CardboardListItem = <T extends unknown>(
         iconStart,
         index,
         item,
+        itemType,
         isChecked,
         listKey,
         openMenuOnClick,
@@ -37,6 +43,7 @@ export const CardboardListItem = <T extends unknown>(
     const showEndIconButton = iconEnd?.name && iconEnd?.onClick;
     const showEndIcon = iconEnd?.name && !showEndIconButton;
     const showOverflow = !!overflowMenuItems?.length;
+
     const overflowRef = useRef(null);
     // callback for when the menu opens and closes
     const onMenuStateChange = useCallback((state) => {
@@ -76,9 +83,16 @@ export const CardboardListItem = <T extends unknown>(
 
     const theme = useTheme();
     const classNames = getStyles(theme, isMenuOpen);
-    const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
+    const buttonStyles = getButtonStyles(
+        itemType,
+        theme,
+        buttonProps?.customStyles
+    );
     return (
         <>
+            {itemType === 'header' && (
+                <Separator styles={sectionSeparatorStyles} />
+            )}
             <span className={classNames.root}>
                 <DefaultButton
                     {...buttonProps}

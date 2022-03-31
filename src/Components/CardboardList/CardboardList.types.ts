@@ -6,6 +6,7 @@ import {
     IListProps
 } from '@fluentui/react';
 import { CardboardIconNames } from '../../Models/Constants';
+import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 type IIconNames = string | CardboardIconNames;
 type IListItemBaseProps<T> = {
@@ -38,6 +39,8 @@ type IListItemBaseProps<T> = {
     isChecked?: boolean;
     /** the original item to provide back to callbacks */
     item: T;
+    /**  */
+    itemType?: CardboardGroupedListItemType;
     /** List items to show in the overflow set */
     overflowMenuItems?: IContextualMenuItem[];
     /** primary text to show */
@@ -76,6 +79,8 @@ export type ICardboardListItemPropsInternal<T> = {
 export interface ICardboardListProps<T> {
     /** name of the class to put on the root node */
     className?: string;
+    /** whether to expect header and normal items in the collect of items */
+    isGrouped?: boolean;
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */
