@@ -152,6 +152,10 @@ const WidgetsTab: React.FC = () => {
                     onClick={() => {
                         setIsLibraryDialogOpen(true);
                     }}
+                    styles={{
+                        root: { height: 32 },
+                        flexContainer: { height: 32 }
+                    }}
                 />
             </div>
             {isLibraryDialogOpen && (

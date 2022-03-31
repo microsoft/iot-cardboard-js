@@ -13,7 +13,8 @@ import {
     isRangeOverlapFound,
     getRangeValidation,
     getNextColor,
-    cleanValueRange
+    cleanValueRange,
+    cleanValueOutput
 } from './ValueRangeBuilder.utils';
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
@@ -30,8 +31,8 @@ export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
 
 const defaultValueRange: Omit<IValueRange, 'id'> = {
     color: defaultValueRangeColor,
-    min: Number('-Infinity'),
-    max: Number('Infinity')
+    min: '-Infinity',
+    max: 'Infinity'
 };
 
 export const valueRangeBuilderReducer: (
@@ -86,24 +87,12 @@ export const valueRangeBuilderReducer: (
             }
             case ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION: {
                 const { newValue, currentValueRange, isMin } = action.payload;
-                const validation = updateValueRangeValidation(
+                updateValueRangeValidation(
                     draft,
                     currentValueRange,
                     newValue,
                     isMin
                 );
-
-                // If newValue is valid numeric type -- parse to number internally
-                const valueToUpdate = draft.valueRanges.find(
-                    (vr) => vr.id === currentValueRange.id
-                );
-                if (!valueToUpdate) return;
-
-                if (isMin && validation.minValid) {
-                    valueToUpdate.min = Number(newValue);
-                } else if (!isMin && validation.maxValid) {
-                    valueToUpdate.max = Number(newValue);
-                }
 
                 break;
             }
@@ -194,16 +183,16 @@ const updateValueRange = (
     newValue: string,
     newColor: string
 ) => {
-    let valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
+    const valueToUpdate = draft.valueRanges.find((vr) => vr.id === id);
     if (!valueToUpdate) return;
 
-    if (typeof newValue === 'string') {
-        boundary === Boundary.min
-            ? (valueToUpdate.min = newValue as any)
-            : (valueToUpdate.max = newValue as any);
-        valueToUpdate = cleanValueRange(valueToUpdate);
-    } else if (newColor) {
+    if (newColor) {
         valueToUpdate.color = newColor;
+    } else {
+        const cleanValue = cleanValueOutput(newValue);
+        boundary === Boundary.min
+            ? (valueToUpdate.min = cleanValue)
+            : (valueToUpdate.max = cleanValue);
     }
 };
 

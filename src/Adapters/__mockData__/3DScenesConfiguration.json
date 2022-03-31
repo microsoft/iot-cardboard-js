@@ -186,16 +186,6 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.PercentFull > 0",
-                        "labelExpression": "Tank Too Full",
-                        "iconName": "CircleHalfFull",
-                        "color": "#de3b09",
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
                         "type": "Popover",
                         "title": "",
                         "widgets": [

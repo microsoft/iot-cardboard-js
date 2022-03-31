@@ -20,6 +20,7 @@ import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
+import { stackStyles } from './BehaviorTab.styles';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -137,7 +138,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const theme = useTheme();
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
     return (
-        <Stack tokens={sectionStackTokens}>
+        <Stack tokens={sectionStackTokens} styles={stackStyles}>
             <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
                 {t(LOC_KEYS.notice)}
             </Text>
