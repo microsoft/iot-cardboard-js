@@ -52,56 +52,49 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
         minRanges: 1
     });
 
-    const validateForm = useCallback(
-        (visual: IStatusColoringVisual) => {
-            let isValid = true;
-            if (visual) {
-                isValid = isValid && !!visual.statusValueExpression;
-                // only look at the ranges when the expression is populated
-                if (visual.statusValueExpression) {
-                    isValid = isValid && valueRangeBuilderState.areRangesValid;
-                }
+    const validateForm = (visual: IStatusColoringVisual) => {
+        let isValid = true;
+        if (visual) {
+            // only look at the ranges when the expression is populated
+            if (visual.statusValueExpression) {
+                isValid = isValid && valueRangeBuilderState.areRangesValid;
             }
+        }
 
-            onValidityChange('Status', {
-                isValid: isValid
-            });
-        },
-        [valueRangeBuilderState.areRangesValid, onValidityChange]
-    );
+        onValidityChange('Status', {
+            isValid: isValid
+        });
+    };
 
-    const setProperty = useCallback(
-        (propertyName: keyof IStatusColoringVisual, value: string) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    // Assuming only 1 alert visual per behavior
-                    let statusVisual = getStatusFromBehavior(draft);
-                    // Edit flow
-                    if (statusVisual) {
-                        // selected the none option, clear the data
-                        if (!value) {
-                            const index = draft.visuals.indexOf(statusVisual);
-                            draft.visuals.splice(index, 1);
-                        } else {
-                            statusVisual[propertyName] = value as any;
-                        }
-                    } else {
-                        statusVisual = deepCopy(defaultStatusColorVisual);
-                        statusVisual[propertyName] = value as any;
-                        statusVisual.valueRanges =
-                            valueRangeBuilderState.valueRanges;
-                        resetInitialValueRanges(
-                            valueRangeBuilderState.valueRanges
-                        );
-                        draft.visuals.push(statusVisual);
+    const setProperty = (
+        propertyName: keyof IStatusColoringVisual,
+        value: string
+    ) => {
+        setBehaviorToEdit(
+            produce((draft) => {
+                // Assuming only 1 alert visual per behavior
+                let statusVisual = getStatusFromBehavior(draft);
+                // Edit flow
+                if (statusVisual) {
+                    // selected the none option, clear the data
+                    if (!value) {
+                        const index = draft.visuals.indexOf(statusVisual);
+                        draft.visuals.splice(index, 1);
                     }
-                    // check form validity
-                    validateForm(statusVisual);
-                })
-            );
-        },
-        [setBehaviorToEdit]
-    );
+                    statusVisual[propertyName] = value as any;
+                } else {
+                    statusVisual = deepCopy(defaultStatusColorVisual);
+                    statusVisual[propertyName] = value as any;
+                    statusVisual.valueRanges =
+                        valueRangeBuilderState.valueRanges;
+                    resetInitialValueRanges(valueRangeBuilderState.valueRanges);
+                    draft.visuals.push(statusVisual);
+                }
+                // check form validity
+                validateForm(statusVisual);
+            })
+        );
+    };
 
     // Mirror value ranges in behavior to edit
     useEffect(() => {
@@ -120,14 +113,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     // update validity when range validity changes
     useEffect(() => {
         validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [valueRangeBuilderState.areRangesValid, validateForm]);
+    }, [valueRangeBuilderState.areRangesValid]);
 
-    const onPropertyChange = useCallback(
-        (option: string) => {
-            setProperty('statusValueExpression', option);
-        },
-        [setProperty]
-    );
+    const onPropertyChange = (option: string) => {
+        setProperty('statusValueExpression', option);
+    };
 
     const theme = useTheme();
     const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
