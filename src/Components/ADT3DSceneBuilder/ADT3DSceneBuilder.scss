@@ -20,6 +20,7 @@
 
 .cb-scene-builder-left-panel {
     background-color: var(--cb-color-bg-canvas);
+    border: 1px solid var(--cb-color-modal-border);
     display: flex;
     flex-direction: column;
     height: 100%;
