@@ -15,8 +15,8 @@ export const getColorPickerStyles = (
                 border: '1px solid var(--cb-color-input-border)',
                 borderRadius: '50%',
                 cursor: 'pointer',
-                height: 28,
-                width: 28
+                height: 32,
+                width: 32
             }
         ]
     };

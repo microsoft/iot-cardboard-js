@@ -2,7 +2,8 @@ import {
     IStyle,
     IStyleFunctionOrObject,
     ITheme,
-    ICalloutContentStyles
+    ICalloutContentStyles,
+    ILabelStyles
 } from '@fluentui/react';
 
 export interface IPickerBaseProps {
@@ -63,4 +64,5 @@ export interface IPickerBaseStyles {
 export interface IPickerBaseSubComponentStyles {
     /** Styles for the callout that hosts the ContextualMenu options. */
     callout?: Partial<ICalloutContentStyles>;
+    label?: Partial<ILabelStyles>;
 }

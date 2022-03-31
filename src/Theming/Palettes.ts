@@ -22,33 +22,56 @@ export const getPrimaryButtonCustomOverrides = (
 };
 
 export const defaultSwatchColors: IPickerOption[] = [
-    { id: 'blue', label: 'blue', item: '#33A1FD' },
-    { id: 'green', label: 'green', item: '#26C485' },
-    { id: 'yellow', label: 'yellow', item: '#FEE440' },
-    { id: 'orange', label: 'orange', item: '#F79824' },
-    { id: 'red', label: 'red', item: '#C32F27' },
-    { id: 'pink', label: 'pink', item: '#EE92C2' }
+    { id: 'red', label: 'red', item: '#D60015' },
+    { id: 'orange', label: 'orange', item: '#F08620' },
+    { id: 'yellow', label: 'yellow', item: '#F5BB41' },
+    { id: 'green', label: 'green', item: '#31D15C' },
+    { id: 'blue', label: 'blue', item: '#52BAED' },
+    { id: 'purple', label: 'purple', item: '#A52799' },
+    { id: 'brown', label: 'brown', item: '#973131' },
+    { id: 'gray', label: 'gray', item: '#727D87' },
+    { id: 'black', label: 'black', item: '#1C1C1C' }
 ];
 export const defaultSwatchIcons: IPickerOption[] = [
     {
-        id: 'Running',
-        item: 'Running'
+        id: '',
+        item: ''
     },
     {
-        id: 'Snowflake',
-        item: 'Snowflake'
+        id: 'Warning',
+        item: 'Warning'
+    },
+    {
+        id: 'Flag',
+        item: 'Flag'
+    },
+    {
+        id: 'Info',
+        item: 'Info'
+    },
+    {
+        id: 'HandsFree',
+        item: 'HandsFree'
+    },
+    {
+        id: 'Repair',
+        item: 'Repair'
+    },
+    {
+        id: 'Ringer',
+        item: 'Ringer'
     },
     {
         id: 'Frigid',
         item: 'Frigid'
     },
     {
-        id: 'BlowingSnow',
-        item: 'BlowingSnow'
+        id: 'Heart',
+        item: 'Heart'
     },
     {
-        id: 'Ringer',
-        item: 'Ringer'
+        id: 'Clock',
+        item: 'Clock'
     },
     {
         id: 'AlarmClock',
@@ -57,10 +80,6 @@ export const defaultSwatchIcons: IPickerOption[] = [
     {
         id: 'FastMode',
         item: 'FastMode'
-    },
-    {
-        id: 'ShieldAlert',
-        item: 'ShieldAlert'
     }
 ];
 

@@ -219,9 +219,18 @@ EditStatusTabRemoveRangeSave.play = async ({ canvasElement }) => {
 
 export const EditAlertsTab = Template.bind({});
 EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    // click one of the items in the list
     const canvas = within(canvasElement);
+
+    // Finds the tabs and clicks Behaviors
+    const behaviorsTabButton = await canvas.findAllByRole('tab');
+    await userEvent.click(behaviorsTabButton[1]);
+
+    // click the behavior
+    const listItem = await canvas.findByTestId(
+        'cardboard-list-item-behaviors-in-scene-1'
+    );
+    await userEvent.click(listItem);
+
     // Finds the tabs and clicks Alerts
     const tab = await canvas.findAllByRole('tab');
     await userEvent.click(tab[2]);

@@ -86,7 +86,11 @@ const PickerBase: React.FC<IPickerBaseProps> = ({
     return (
         // root node is needed to prevent bouncing when callout opens
         <div className={classNames.root}>
-            {label && <Label>{label}</Label>}
+            {label && (
+                <Label styles={classNames.subComponentStyles.label}>
+                    {label}
+                </Label>
+            )}
             {onRenderButton(toggleIsCalloutVisible, buttonId)}
             {isCalloutVisible && (
                 <Callout

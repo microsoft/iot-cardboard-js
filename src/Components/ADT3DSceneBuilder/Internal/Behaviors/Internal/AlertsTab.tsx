@@ -10,7 +10,9 @@ import {
     IBehavior
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
+    FontWeights,
     IStackTokens,
+    Label,
     Stack,
     Text,
     TextField,
@@ -26,6 +28,9 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
+import AlertIconPreview from './AlertIconPreview/AlertIconPreview';
+import { IColorPickerStyles } from '../../../../Pickers/ColorSelectButton/ColorPicker.types';
+import { IIconPickerStyles } from '../../../../Pickers/IconSelectButton/IconPicker.types';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -35,6 +40,7 @@ const LOC_KEYS = {
     colorPickerLabel: `${ROOT_LOC}.colorPickerLabel`,
     expressionLabel: `${ROOT_LOC}.expressionLabel`,
     expressionPlaceholder: `${ROOT_LOC}.expressionPlaceholder`,
+    badgeSectionLabel: `${ROOT_LOC}.badgeLabel`,
     iconPickerLabel: `${ROOT_LOC}.iconPickerLabel`,
     notice: `${ROOT_LOC}.notice`,
     notificationLabel: `${ROOT_LOC}.notificationLabel`,
@@ -135,18 +141,22 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
-            <Stack tokens={sectionStackTokens} horizontal>
+            <Label>{t(LOC_KEYS.badgeSectionLabel)}</Label>
+            <Stack tokens={iconSectionStackTokens} horizontal>
+                <AlertIconPreview icon={icon} color={color} />
                 <IconPicker
-                    selectedItem={icon}
                     items={defaultSwatchIcons}
                     label={t(LOC_KEYS.iconPickerLabel)}
                     onChangeItem={onIconChange}
+                    selectedItem={icon}
+                    styles={pickerStyles}
                 />
                 <ColorPicker
-                    selectedItem={color}
                     items={defaultSwatchColors}
                     label={t(LOC_KEYS.colorPickerLabel)}
                     onChangeItem={onColorChange}
+                    selectedItem={color}
+                    styles={pickerStyles}
                 />
             </Stack>
             <TextField
@@ -167,5 +177,21 @@ const AlertsTab: React.FC = () => {
     );
 };
 const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+const iconSectionStackTokens: IStackTokens = { childrenGap: 32 };
+
+const pickerStyles: IColorPickerStyles | IIconPickerStyles = {
+    root: {
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    subComponentStyles: {
+        label: {
+            root: {
+                fontWeight: FontWeights.regular
+            }
+        }
+    }
+};
 
 export default AlertsTab;

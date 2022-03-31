@@ -373,10 +373,11 @@
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
         "behaviorAlertForm": {
-            "colorPickerLabel": "Badge color",
+            "badgeLabel": "Badge",
+            "colorPickerLabel": "Color",
             "expressionLabel": "Trigger expression",
             "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
-            "iconPickerLabel": "Badge icon",
+            "iconPickerLabel": "Icon",
             "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
             "notificationLabel": "Notification text",
             "notificationPlaceholder": "Text to show with the alert for additional context."
