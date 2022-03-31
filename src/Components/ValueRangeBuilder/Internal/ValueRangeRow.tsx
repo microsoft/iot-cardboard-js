@@ -58,10 +58,6 @@ const ValueRangeRow: React.FC<{
                 styles={{
                     root: {
                         alignSelf: 'flex-end'
-                    },
-                    button: {
-                        height: 28,
-                        width: 28
                     }
                 }}
             />

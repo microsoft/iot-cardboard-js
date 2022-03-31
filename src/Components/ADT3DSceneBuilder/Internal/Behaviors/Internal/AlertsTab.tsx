@@ -185,6 +185,10 @@ const pickerStyles: IColorPickerStyles | IIconPickerStyles = {
         display: 'flex',
         flexDirection: 'column'
     },
+    button: {
+        height: 32,
+        width: 32
+    },
     subComponentStyles: {
         label: {
             root: {
