@@ -170,18 +170,18 @@ function getListItems(
             const alertStyles = getElementsPanelAlertStyles(
                 alert.alertVisual.color
             );
+            const onEnter =
+                onItemHover && (() => onItemHover(element, panelItem));
+            const onLeave =
+                onItemBlur && (() => onItemBlur(element, panelItem));
             const alertItem: ICardboardGroupedListItem<IAlertVisual> = {
                 ariaLabel: alert.alertVisualDisplayTitle,
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
-                    ...(onItemHover && {
-                        onMouseEnter: () => onItemHover(element, panelItem),
-                        onFocus: () => onItemHover(element, panelItem)
-                    }),
-                    ...(onItemBlur && {
-                        onMouseLeave: () => onItemBlur(element, panelItem),
-                        onBlur: () => onItemBlur(element, panelItem)
-                    })
+                    onMouseEnter: onEnter,
+                    onFocus: onEnter,
+                    onMouseLeave: onLeave,
+                    onBlur: onLeave
                 },
                 iconStart: {
                     name: (
