@@ -140,6 +140,7 @@ export const CardboardListItem = <T extends unknown>(
                     <IconButton
                         className={classNames.iconButton}
                         data-is-focusable={false}
+                        data-testid={`cardboard-list-item-secondary-action-${index}`}
                         iconProps={{ iconName: iconEnd.name }}
                         onClick={onSecondaryAction}
                         styles={{

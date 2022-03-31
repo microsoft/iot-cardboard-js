@@ -175,7 +175,7 @@ EditMeshTabDelete.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-mesh-list-0'
+        'cardboard-list-item-secondary-action-0'
     );
     await userEvent.click(listItem);
 };
