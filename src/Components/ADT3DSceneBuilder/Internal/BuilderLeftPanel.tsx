@@ -433,6 +433,7 @@ const BuilderLeftPanel: React.FC = () => {
             {(state.builderMode === ADT3DSceneBuilderMode.CreateBehavior ||
                 state.builderMode === ADT3DSceneBuilderMode.EditBehavior) && (
                 <SceneBehaviorsForm
+                    behaviors={behaviors}
                     elements={state.elements}
                     builderMode={state.builderMode}
                     onBehaviorBackClick={() =>

@@ -86,6 +86,7 @@ enum BehaviorPivot {
 }
 
 const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
+    behaviors,
     elements,
     builderMode,
     selectedBehavior,
@@ -295,7 +296,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 {widgetFormInfo ? (
                     <WidgetForm />
                 ) : twinAliasFormInfo ? (
-                    <TwinAliasForm />
+                    <TwinAliasForm
+                        selectedElements={selectedElements}
+                        setSelectedElements={setSelectedElements}
+                    />
                 ) : (
                     <>
                         <div className={commonFormStyles.content}>
@@ -371,7 +375,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         )
                                     }
                                 >
-                                    <TwinsTab elements={elements} />
+                                    <TwinsTab
+                                        behaviors={behaviors}
+                                        selectedElements={selectedElements}
+                                    />
                                 </PivotItem>
                                 <PivotItem
                                     className={

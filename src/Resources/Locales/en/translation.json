@@ -427,7 +427,12 @@
         "newTwinAlias": "New twin alias",
         "editTwinAlias": "Edit twin alias",
         "createTwinAlias": "Create twin alias",
-        "updateTwinAlias": "Update twin alias"
+        "updateTwinAlias": "Update twin alias",
+        "modifyTwinAlias": "Modify twin alias",
+        "removeTwinAliasFromBehavior": "Remove twin alias from behavior",
+        "searchTwinAliases": "Search twin aliases",
+        "noAvailableTwinAliases": "No available twin aliases",
+        "elementTwinMappings": "Element twin mappings"
     },
     "widgets": {
         "trend": {

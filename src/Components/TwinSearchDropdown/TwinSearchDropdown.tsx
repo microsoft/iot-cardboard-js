@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Text } from '@fluentui/react';
+import { Icon, Label, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -12,18 +12,24 @@ import { ADTAdapter, MockAdapter } from '../../Adapters';
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
     label?: string;
+    labelIconName?: string;
     isLabelHidden?: boolean;
+    isDescriptionHidden?: boolean;
     selectedTwinId?: string;
     onTwinIdSelect?: (selectedTwinId: string) => void;
+    styles?: IStyle;
 }
 
 const SuggestionListScrollThresholdFactor = 40;
 const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     adapter,
     label,
+    labelIconName,
     isLabelHidden = false,
+    isDescriptionHidden = false,
     selectedTwinId,
-    onTwinIdSelect
+    onTwinIdSelect,
+    styles
 }) => {
     const { t } = useTranslation();
     const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
@@ -153,9 +159,16 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     };
 
     return (
-        <div>
+        <div style={styles}>
             {!isLabelHidden && (
-                <Label className="cb-required-icon">
+                <Label className="cb-label cb-required-icon">
+                    {labelIconName && (
+                        <Icon
+                            styles={{ root: { paddingRight: 4 } }}
+                            iconName={labelIconName}
+                            aria-hidden="true"
+                        />
+                    )}
                     {label ?? t('board.twinID')}
                 </Label>
             )}
@@ -226,9 +239,14 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 isSearchable
                 isClearable
             />
-            <Text className="cb-search-autocomplete-desc" variant={'xSmall'}>
-                {t('3dSceneBuilder.linkedTwinInputInfo')}
-            </Text>
+            {!isDescriptionHidden && (
+                <Text
+                    className="cb-search-autocomplete-desc"
+                    variant={'xSmall'}
+                >
+                    {t('3dSceneBuilder.linkedTwinInputInfo')}
+                </Text>
+            )}
         </div>
     );
 };

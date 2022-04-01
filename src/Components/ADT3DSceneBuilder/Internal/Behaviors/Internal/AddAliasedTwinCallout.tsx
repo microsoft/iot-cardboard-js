@@ -8,50 +8,44 @@ import {
     FocusTrapCallout,
     useTheme
 } from '@fluentui/react';
-import { IADT3DSceneBuilderAddBehaviorCalloutProps } from '../../../ADT3DSceneBuilder.types';
+import { IADT3DSceneBuilderAddAliasedTwinCalloutProps } from '../../../ADT3DSceneBuilder.types';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 
-const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = ({
-    availableBehaviors,
+const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutProps> = ({
+    availableTwinAliases,
     calloutTarget,
-    onAddBehavior,
-    onCreateBehaviorWithElements,
+    onAddTwinAlias,
+    onCreateTwinAlias,
     hideCallout
 }) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
-    const [
-        filteredAvailableBehaviors,
-        setFilteredAvailableBehaviors
-    ] = useState<Array<IBehavior>>([]);
-    const [listItems, setListItems] = useState<ICardboardListItem<IBehavior>[]>(
-        []
-    );
+    const [filteredTwinAlises, setFilteredTwinAlises] = useState<
+        Array<ITwinAliasItem>
+    >([]);
+    const [listItems, setListItems] = useState<
+        ICardboardListItem<ITwinAliasItem>[]
+    >([]);
 
     useEffect(() => {
-        setFilteredAvailableBehaviors(availableBehaviors);
-    }, [availableBehaviors]);
+        setFilteredTwinAlises(availableTwinAliases);
+    }, [availableTwinAliases]);
 
-    const searchBehaviors = (searchTerm: string) => {
-        setFilteredAvailableBehaviors(
-            availableBehaviors.filter((behavior) =>
-                behavior.displayName
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
+    const searchTwinAliases = (searchTerm: string) => {
+        setFilteredTwinAlises(
+            availableTwinAliases.filter((twinAlias) =>
+                twinAlias.alias.toLowerCase().includes(searchTerm.toLowerCase())
             )
         );
     };
 
     // generate the list of items to show
     useEffect(() => {
-        const listItems = getListItems(
-            filteredAvailableBehaviors,
-            onAddBehavior
-        );
+        const listItems = getListItems(filteredTwinAlises, onAddTwinAlias);
         setListItems(listItems);
-    }, [filteredAvailableBehaviors, onAddBehavior]);
+    }, [filteredTwinAlises, onAddTwinAlias]);
 
     const theme = useTheme();
     return (
@@ -77,27 +71,29 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
         >
             <div>
                 <h4 className={styles.title}>
-                    {t('3dSceneBuilder.addBehavior')}
+                    {t('3dSceneBuilder.addTwinAlias')}
                 </h4>
-                <div>
-                    <SearchBox
-                        data-testid={'behavior-callout-search'}
-                        placeholder={t('3dSceneBuilder.searchBehaviors')}
-                        onChange={(_event, value) => {
-                            setSearchText(value);
-                            searchBehaviors(value);
-                        }}
-                    />
-                </div>
+                {listItems?.length > 0 && (
+                    <div>
+                        <SearchBox
+                            data-testid={'twin-alias-callout-search'}
+                            placeholder={t('3dSceneBuilder.searchTwinAliases')}
+                            onChange={(_event, value) => {
+                                setSearchText(value);
+                                searchTwinAliases(value);
+                            }}
+                        />
+                    </div>
+                )}
                 <div className={styles.listRoot}>
                     {listItems?.length === 0 ? (
                         <div className={styles.resultText}>
-                            {t('3dSceneBuilder.noAvailableBehaviors')}
+                            {t('3dSceneBuilder.noAvailableTwinAliases')}
                         </div>
                     ) : (
-                        <CardboardList<IBehavior>
+                        <CardboardList<ITwinAliasItem>
                             items={listItems}
-                            listKey={`behavior-callout-list`}
+                            listKey={`twin-aslias-callout-list`}
                             textToHighlight={searchText}
                         />
                     )}
@@ -108,9 +104,9 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                             marginTop: '16px'
                         }
                     }}
-                    onClick={onCreateBehaviorWithElements}
+                    onClick={onCreateTwinAlias}
                 >
-                    {t('3dSceneBuilder.createBehavior')}
+                    {t('3dSceneBuilder.createTwinAlias')}
                 </PrimaryButton>
             </div>
         </FocusTrapCallout>
@@ -118,21 +114,23 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
 };
 
 function getListItems(
-    filteredElements: IBehavior[],
-    onAddBehavior: (item: IBehavior) => void
+    filteredTwinAlises: ITwinAliasItem[],
+    onAddTwinAlias: (item: ITwinAliasItem) => void
 ) {
-    return filteredElements.map((item) => {
-        const viewModel: ICardboardListItem<IBehavior> = {
-            ariaLabel: '',
-            iconStartName: 'Ringer',
-            iconEndName: 'Add',
-            item: item,
-            onClick: onAddBehavior,
-            textPrimary: item.displayName
-        };
+    return (
+        filteredTwinAlises?.map((item) => {
+            const viewModel: ICardboardListItem<ITwinAliasItem> = {
+                ariaLabel: '',
+                iconStartName: 'LinkedDatabase',
+                iconEndName: 'Add',
+                item: item,
+                onClick: onAddTwinAlias,
+                textPrimary: item.alias
+            };
 
-        return viewModel;
-    });
+            return viewModel;
+        }) ?? []
+    );
 }
 
 const styles = mergeStyleSets({
@@ -170,4 +168,4 @@ const styles = mergeStyleSets({
     }
 });
 
-export default AddBehaviorCallout;
+export default AddAliasedTwinCallout;

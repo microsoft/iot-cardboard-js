@@ -125,6 +125,14 @@ export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     hideCallout: () => void;
 }
 
+export interface IADT3DSceneBuilderAddAliasedTwinCalloutProps {
+    availableTwinAliases: Array<ITwinAliasItem>;
+    calloutTarget: string;
+    onAddTwinAlias: (twinAlias: ITwinAliasItem) => void;
+    onCreateTwinAlias: () => void;
+    hideCallout: () => void;
+}
+
 export type BehaviorSaveMode =
     | ADT3DSceneBuilderMode.EditBehavior
     | ADT3DSceneBuilderMode.CreateBehavior;
@@ -136,6 +144,7 @@ export type OnBehaviorSave = (
 
 export interface IADT3DSceneBuilderBehaviorFormProps {
     builderMode: ADT3DSceneBuilderMode;
+    behaviors: Array<IBehavior>;
     selectedBehavior: IBehavior;
     elements: Array<ITwinToObjectMapping>;
     selectedElements: Array<ITwinToObjectMapping>;

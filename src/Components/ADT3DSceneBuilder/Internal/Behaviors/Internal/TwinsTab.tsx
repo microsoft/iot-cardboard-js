@@ -10,6 +10,7 @@ import {
     ActionButton,
     Callout,
     DirectionalHint,
+    IContextualMenuItem,
     IStackTokens,
     Label,
     Stack,
@@ -19,7 +20,10 @@ import {
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import { TFunction, useTranslation } from 'react-i18next';
 import { BehaviorFormContext } from '../BehaviorsForm';
-import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
@@ -27,14 +31,23 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
+import AddAliasedTwinCallout from './AddAliasedTwinCallout';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import produce from 'immer';
 
 interface ITwinsTabProps {
-    elements: Array<ITwinToObjectMapping>;
+    selectedElements: Array<ITwinToObjectMapping>;
+    behaviors: Array<IBehavior>;
 }
 
-const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
+const TwinsTab: React.FC<ITwinsTabProps> = ({
+    selectedElements,
+    behaviors
+}) => {
     const { t } = useTranslation();
-    const { behaviorToEdit } = useContext(BehaviorFormContext);
+    const { behaviorToEdit, setBehaviorToEdit } = useContext(
+        BehaviorFormContext
+    );
     const { config, sceneId, adapter, setTwinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
@@ -45,10 +58,18 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
     const commonLinkedTwinPropertiesRef = useRef([]);
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
+    const [availableTwinAliases, setAvailableTwinAliases] = useState<
+        Array<ITwinAliasItem>
+    >([]);
     const linkedTwinPropertiesId = useId('linkedTwinProperties-callout');
+    const addAliasCalloutTargetId = useId('addAlias-callout');
     const [
         isLinkedTwinPropertiesCalloutVisible,
         { toggle: toggleIsLinkedTwinPropertiesCalloutVisible }
+    ] = useBoolean(false);
+    const [
+        isAddTwinAliasCalloutVisible,
+        { toggle: toggleIsAddTwinAliasCalloutVisible }
     ] = useBoolean(false);
     const commonPanelStyles = getLeftPanelStyles(useTheme());
 
@@ -68,18 +89,80 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
             )
         );
 
-        const twinAliases = getTwinAliases(elements);
-        setTwinAliasList(getTwinAliasListItems(twinAliases));
-    }, [behaviorToEdit, elements]);
+        const twinAliases = getTwinAliasesFromBehavior(
+            behaviorToEdit,
+            selectedElements
+        );
+        setTwinAliasList(
+            getTwinAliasListItems(
+                twinAliases,
+                onTwinAliasClick,
+                onTwinAliasRemoveFromBehavior,
+                t
+            )
+        );
+    }, [behaviorToEdit, selectedElements]);
 
-    const onAddTwinAliasClick = useCallback(() => {
+    useEffect(() => {
+        const twinAliases: Array<ITwinAliasItem> = [];
+        const [
+            behaviorsInScene
+        ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+            config,
+            sceneId,
+            behaviors
+        );
+        behaviorsInScene.forEach((behaviorInScene) => {
+            const twinAliasesFromBehavior = getTwinAliasesFromBehavior(
+                behaviorInScene,
+                selectedElements
+            );
+            twinAliasesFromBehavior.forEach((twinAliasFromBehavior) => {
+                if (
+                    !twinAliases.find(
+                        (twinAlias) =>
+                            twinAlias.alias === twinAliasFromBehavior.alias
+                    )
+                ) {
+                    twinAliases.push(twinAliasFromBehavior);
+                }
+            });
+        });
+        const twinAliasesInBehavior = getTwinAliasesFromBehavior(
+            behaviorToEdit,
+            selectedElements
+        );
+        setAvailableTwinAliases(
+            twinAliases.filter(
+                (availableTwinAlias) =>
+                    twinAliasesInBehavior.findIndex(
+                        (twinAlias) =>
+                            twinAlias.alias === availableTwinAlias.alias
+                    ) === -1
+            )
+        );
+    }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
+
+    const onAddTwinAlias = useCallback((twinAlias: ITwinAliasItem) => {
+        setBehaviorToEdit(
+            produce((draft) => {
+                if (draft.twinAliases) {
+                    draft.twinAliases.concat(twinAlias.alias);
+                } else {
+                    draft.twinAliases = [twinAlias.alias];
+                }
+            })
+        );
+    }, []);
+
+    const onCreateTwinAlias = useCallback(() => {
         setTwinAliasFormInfo({
             twinAlias: null,
             mode: TwinAliasFormMode.CreateTwinAlias
         });
     }, [setTwinAliasFormInfo]);
 
-    const onEditTwinAliasClick = useCallback(
+    const onTwinAliasClick = useCallback(
         (twinAliasItem: ITwinAliasItem) => {
             setTwinAliasFormInfo({
                 twinAlias: twinAliasItem,
@@ -87,6 +170,22 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
             });
         },
         [setTwinAliasFormInfo]
+    );
+
+    const onTwinAliasRemoveFromBehavior = useCallback(
+        (twinAliasItem: ITwinAliasItem) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    draft.twinAliases.splice(
+                        draft.twinAliases.findIndex(
+                            (tA) => tA === twinAliasItem.alias
+                        ),
+                        1
+                    );
+                })
+            );
+        },
+        []
     );
 
     return (
@@ -119,7 +218,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
                     </Callout>
                 )}
                 {linkedTwinList.length > 0 && (
-                    <CardboardList<string>
+                    <CardboardList<ITwinAliasItem>
                         items={linkedTwinList}
                         listKey={`behavior-linked-twin-list`}
                     />
@@ -131,33 +230,46 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({ elements }) => {
                     {t('3dSceneBuilder.noTwinAliases')}
                 </div>
             ) : (
-                <CardboardList<string>
+                <CardboardList<ITwinAliasItem>
                     items={twinAliasList}
                     listKey={`behavior-aliased-twin-list`}
                 />
             )}
             <ActionButton
+                id={addAliasCalloutTargetId}
                 className={commonPanelStyles.actionButton}
                 text={t('3dSceneBuilder.addTwinAlias')}
                 data-testid={'widgetForm-addTwinAlias'}
-                onClick={onAddTwinAliasClick}
+                onClick={toggleIsAddTwinAliasCalloutVisible}
             />
+            {isAddTwinAliasCalloutVisible && (
+                <AddAliasedTwinCallout
+                    calloutTarget={addAliasCalloutTargetId}
+                    availableTwinAliases={availableTwinAliases}
+                    hideCallout={toggleIsAddTwinAliasCalloutVisible}
+                    onAddTwinAlias={onAddTwinAlias}
+                    onCreateTwinAlias={onCreateTwinAlias}
+                />
+            )}
         </Stack>
     );
 };
 
-const getTwinAliases = (elements: Array<ITwinToObjectMapping>) => {
+const getTwinAliasesFromBehavior = (
+    behavior: IBehavior,
+    selectedElements: Array<ITwinToObjectMapping>
+) => {
     const twinAliases: Array<ITwinAliasItem> = [];
-    elements.forEach((element) => {
-        if (element.twinAliases) {
-            Object.keys(element.twinAliases).forEach((alias) => {
-                const aliasedTwinId = element.twinAliases[alias];
+    behavior.twinAliases?.forEach((behaviorTwinAlias) => {
+        selectedElements.forEach((element) => {
+            if (element.twinAliases?.[behaviorTwinAlias]) {
+                const aliasedTwinId = element.twinAliases?.[behaviorTwinAlias];
                 const existingTwinAlias = twinAliases.find(
-                    (tA) => tA.alias === alias
+                    (tA) => tA.alias === behaviorTwinAlias
                 );
                 if (!existingTwinAlias) {
                     twinAliases.push({
-                        alias,
+                        alias: behaviorTwinAlias,
                         elementToTwinMappings: [
                             {
                                 twinId: aliasedTwinId,
@@ -171,8 +283,8 @@ const getTwinAliases = (elements: Array<ITwinToObjectMapping>) => {
                         elementId: element.id
                     });
                 }
-            });
-        }
+            }
+        });
     });
     return twinAliases;
 };
@@ -198,27 +310,44 @@ function getLinkedTwinItems(
 }
 
 function getTwinAliasListItems(
-    twinAliases: Array<ITwinAliasItem>
+    twinAliases: Array<ITwinAliasItem>,
+    onTwinAliasClick: (item: ITwinAliasItem) => void,
+    onTwinAliasRemove: (item: ITwinAliasItem) => void,
+    t: TFunction<string>
 ): ICardboardListItem<ITwinAliasItem>[] {
-    const onTwinAliasItemEnter = (twinAlias: ITwinAliasItem) => {
-        console.log(twinAlias.alias);
+    const getMenuItems = (item: ITwinAliasItem): IContextualMenuItem[] => {
+        return [
+            {
+                'data-testid': 'modifyOverflow',
+                key: 'modify',
+                iconProps: { iconName: 'Edit' },
+                text: t('3dSceneBuilder.modifyTwinAlias'),
+                onClick: () => {
+                    onTwinAliasClick(item);
+                }
+            },
+            {
+                'data-testid': 'removeOverflow',
+                key: 'remove',
+                iconProps: {
+                    iconName: 'Delete'
+                },
+                text: t('3dSceneBuilder.removeTwinAliasFromBehavior'),
+                onClick: () => {
+                    onTwinAliasRemove(item);
+                }
+            }
+        ];
     };
+
     return twinAliases.map((twinAlias) => {
         const listItem: ICardboardListItem<ITwinAliasItem> = {
             ariaLabel: twinAlias.alias,
-            buttonProps: {
-                onMouseOver: () => onTwinAliasItemEnter(twinAlias),
-                onMouseLeave: () => onTwinAliasItemEnter(twinAlias),
-                onFocus: () => onTwinAliasItemEnter(twinAlias),
-                onBlur: () => onTwinAliasItemEnter(twinAlias)
-            },
             iconStartName: 'LinkedDatabase',
-            iconEndName: 'RedEye',
             item: twinAlias,
-            onClick: () => {
-                console.log(twinAlias.alias);
-            },
-            textPrimary: twinAlias.alias
+            onClick: onTwinAliasClick,
+            textPrimary: twinAlias.alias,
+            overflowMenuItems: getMenuItems(twinAlias)
         };
 
         return listItem;
