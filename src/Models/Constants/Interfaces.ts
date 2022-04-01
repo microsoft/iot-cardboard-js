@@ -692,7 +692,7 @@ export interface IADT3DViewerProps {
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
-    background: string;
+    background: IADTBackgroundColor;
 }
 
 export interface IADTObjectColor {
@@ -707,6 +707,15 @@ export interface IADTObjectColor {
     outlinedMeshHoverColor: string;
     outlinedMeshSelectedColor: string;
     outlinedMeshHoverSelectedColor: string;
+}
+
+export interface IADTBackgroundColor {
+    color: string;
+    badgeColor: string;
+    defaultBadgeColor: string;
+    defaultBadgeTextColor: string;
+    aggregateBadgeColor: string;
+    aggregateBadgeTextColor: string;
 }
 
 export interface IBlobFile {
