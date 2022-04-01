@@ -6,14 +6,14 @@
     height: 5%;
 
     .cb-oat-header-search-component {
+        background-color: var(--cb-color-theme-primary);
         display: grid;
         grid-template-columns: 20% 60% 20%;
         height: 100%;
-        background-color: var(--cb-color-theme-primary);
 
         .cb-oat-header-logo {
-            height: 100%;
             color: var(--cb-color-bg-card);
+            height: 100%;
             padding: 4%;
         }
 

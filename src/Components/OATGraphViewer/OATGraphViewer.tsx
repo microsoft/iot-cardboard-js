@@ -1,20 +1,12 @@
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    useMemo,
-    createContext,
-    useCallback
-} from 'react';
-import { useTheme, PrimaryButton, Icon, FontSizes } from '@fluentui/react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useTheme, PrimaryButton } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
     MiniMap,
     Controls,
     Background,
-    removeElements,
-    getNode
+    removeElements
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -27,13 +19,13 @@ const OATGraphViewer = () => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapper = useRef(null);
-    const [storedElements, setStoredElements] = useState(
+    const [storedElements] = useState(
         JSON.parse(localStorage.getItem('elements'))
     );
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const [idClass, setIdClass] = useState('dtmi:com:example:');
+    const [idClass] = useState('dtmi:com:example:');
     const [newModelId, setNewModelId] = useState(0);
 
     useEffect(() => {
@@ -50,18 +42,25 @@ const OATGraphViewer = () => {
         }
         elements.map((item) => {
             item.data['onDeleteNode'] = { onDeleteNode };
+            item.data['onUpdateNode'] = { onUpdateNode };
         });
         localStorage.setItem('elements', JSON.stringify(elements));
     }, [elements]);
 
     const onDeleteNode = (id) => {
-        debugger; //eslint-disable-line
         const elementsToRemove = [
             {
                 id: id
             }
         ];
         setElements((els) => removeElements(elementsToRemove, els));
+    };
+
+    const onUpdateNode = (prevId, id) => {
+        debugger; //eslint-disable-line
+        const index = elements.findIndex((element) => element.id === prevId);
+        elements[index].id = id;
+        localStorage.setItem('elements', JSON.stringify(elements));
     };
 
     const onConnect = (evt) => {
@@ -112,6 +111,7 @@ const OATGraphViewer = () => {
     const onNodeDragStop = (evt, node) => {
         const index = elements.findIndex((element) => element.id === node.id);
         elements[index].position = node.position;
+        localStorage.setItem('elements', JSON.stringify(elements));
     };
 
     return (

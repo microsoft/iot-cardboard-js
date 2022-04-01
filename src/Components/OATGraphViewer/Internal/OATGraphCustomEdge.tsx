@@ -23,11 +23,11 @@ export default function OATGraphCustomEdge({
         setNameText(evt.target.value);
     }, []);
 
-    const onNameClick = useCallback((evt) => {
+    const onNameClick = useCallback(() => {
         setNameEditor(true);
     }, []);
 
-    const onNameBlur = useCallback((evt) => {
+    const onNameBlur = useCallback(() => {
         setNameEditor(false);
     }, []);
 

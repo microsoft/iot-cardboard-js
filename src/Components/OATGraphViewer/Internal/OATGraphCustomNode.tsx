@@ -21,11 +21,14 @@ export default memo(({ data, isConnectable }) => {
 
     const onNameBlur = useCallback(() => {
         setNameEditor(false);
+        data.onUpdateNode.onUpdateNode(data.id, data.id);
     }, []);
 
     const onIdChange = useCallback((evt) => {
+        const prevId = data.id;
         data.id = evt.target.value;
         setIdText(evt.target.value);
+        data.onUpdateNode.onUpdateNode(prevId, evt.target.value);
     }, []);
 
     const onIdClick = useCallback(() => {
@@ -44,7 +47,7 @@ export default memo(({ data, isConnectable }) => {
                 style={{ background: theme.semanticColors.variantBorder }}
                 isConnectable={isConnectable}
             />
-            <div>
+            <div className="cb-oat-graph-viewer-node">
                 <ActionButton
                     className="cb-oat-graph-viewer-node-cancel"
                     onClick={() =>
