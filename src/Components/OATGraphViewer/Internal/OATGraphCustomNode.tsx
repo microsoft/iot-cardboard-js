@@ -1,9 +1,14 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
-
 import { Handle } from 'react-flow-renderer';
+import { useTranslation } from 'react-i18next';
+import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 
-export default memo(({ data, isConnectable }) => {
+const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
+    data,
+    isConnectable
+}) => {
+    const { t } = useTranslation();
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
     const [idEditor, setIdEditor] = useState(false);
@@ -65,7 +70,7 @@ export default memo(({ data, isConnectable }) => {
                     />
                 </ActionButton>
                 <div>
-                    Name:{' '}
+                    {t('OATGraphViewer.name')}:
                     {!nameEditor && (
                         <strong onClick={onNameClick}>{data.name}</strong>
                     )}
@@ -81,7 +86,7 @@ export default memo(({ data, isConnectable }) => {
                     )}
                 </div>
                 <div>
-                    Id:{' '}
+                    {t('OATGraphViewer.id')}:
                     {!idEditor && (
                         <strong onClick={onIdClick}>{data.id}</strong>
                     )}
@@ -97,7 +102,7 @@ export default memo(({ data, isConnectable }) => {
                     )}
                 </div>
                 <div>
-                    Type:<strong>{data.type}</strong>
+                    {t('OATGraphViewer.type')}:<strong>{data.type}</strong>
                 </div>
             </div>
             <Handle
@@ -111,4 +116,6 @@ export default memo(({ data, isConnectable }) => {
             />
         </>
     );
-});
+};
+
+export default OATGraphCustomNode;

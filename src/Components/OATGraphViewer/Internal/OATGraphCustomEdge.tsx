@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
-
+import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
 const foreignObjectSize = 180;
 
-export default function OATGraphCustomEdge({
+const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     id,
     sourceX,
     sourceY,
@@ -14,7 +14,7 @@ export default function OATGraphCustomEdge({
     style = {},
     data,
     markerEnd
-}) {
+}) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
 
@@ -100,4 +100,6 @@ export default function OATGraphCustomEdge({
             />
         </>
     );
-}
+};
+
+export default OATGraphCustomEdge;
