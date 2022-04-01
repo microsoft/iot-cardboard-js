@@ -346,7 +346,10 @@ const SceneList: React.FC<SceneListProps> = ({
                             styles={{
                                 root: {
                                     overflowY: 'auto',
-                                    overflowX: 'hidden'
+                                    overflowX: 'hidden',
+                                    '.ms-DetailsHeader': {
+                                        paddingTop: 4
+                                    }
                                 }
                             }}
                         />
@@ -408,10 +411,10 @@ const SceneList: React.FC<SceneListProps> = ({
                     });
                 }}
                 onAddScene={(newScene) => {
-                    let newId = createGUID(false);
+                    let newId = createGUID();
                     const existingIds = sceneList.map((s) => s.id);
                     while (existingIds.includes(newId)) {
-                        newId = createGUID(false);
+                        newId = createGUID();
                     }
                     addScene.callAdapter({
                         config: config,

@@ -1,4 +1,3 @@
-
 import React, { CSSProperties } from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
@@ -13,7 +12,7 @@ export const globalTypes = {
     theme: {
         name: 'Theme',
         description: 'Global theme for components',
-        defaultValue: 'light',
+        defaultValue: 'kraken',
         toolbar: {
             icon: 'circlehollow',
             items: ['light', 'dark', 'explorer', 'kraken'],
@@ -54,7 +53,8 @@ export const parameters = {
             order: ['Pages', 'Components', '3DV', 'Test Stories'],
             method: 'Alphabetical'
         }
-    }
+    },
+    layout: 'fullscreen'
 };
 
 // Wrap stories with stable GUID provider
@@ -73,10 +73,11 @@ setConsoleOptions({
 });
 
 //add decorators here
-const decoratorWithConsole = (storyFn, context) => withConsole()(storyFn)(context);
+const decoratorWithConsole = (storyFn, context) =>
+    withConsole()(storyFn)(context);
 const decoratorWithWrapper = (Story, context) => {
     if (context.parameters.noGlobalWrapper) {
-        return <Story {...context} />
+        return <Story {...context} />;
     }
 
     let background = '';
@@ -93,17 +94,17 @@ const decoratorWithWrapper = (Story, context) => {
             background = '#222';
             break;
         case 'kraken':
-            background = '#0d1326';
+            background = '#16203c';
             break;
         default:
             background = '';
             break;
     }
     return (
-        <div style={{ padding: 8, backgroundColor: background }}>
+        <div style={{ backgroundColor: background }}>
             <Story {...context} />
-        </div >
-    )
+        </div>
+    );
 };
 addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);

@@ -36,7 +36,7 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
                         adapter={adapter}
                         pollingInterval={10000}
                         sceneId={scene.id}
-                        sceneConfig={scenesConfig}
+                        scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}
                     />
                 </div>

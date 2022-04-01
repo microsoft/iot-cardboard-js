@@ -1,5 +1,6 @@
 import {
     IButtonProps,
+    IButtonStyles,
     IContextualMenuItem,
     IFocusZoneProps,
     IListProps
@@ -10,14 +11,29 @@ type IIconNames = string | CardboardIconNames;
 type IListItemBaseProps<T> = {
     /** screen reader text to use for the list item */
     ariaLabel: string;
-    /** override props for the root button */
-    buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'>;
+    /**
+     * override props for the root button.
+     * Hiding mouseOver to prevent perf regressions again. Use MouseEnter instead.
+     */
+    buttonProps?: Omit<
+        IButtonProps,
+        | 'styles'
+        | 'onClick'
+        | 'onKeyPress'
+        | 'onMouseOver'
+        | 'onMouseOverCapture'
+    > & {
+        customStyles?: IButtonStyles;
+    };
     /** icon to render on the right side of the list item */
-    iconEndName?: IIconNames;
-    /** callback when end icon is clicked */
-    onIconEndClick?: (item: T) => void;
-    /** icon to render at the left side of the list item */
-    iconStartName?: IIconNames;
+    iconEnd?: {
+        name: IIconNames;
+        onClick?: (item: T) => void;
+    };
+    /** icon or JSX element to render at the left side of the list item */
+    iconStart?: {
+        name: IIconNames | JSX.Element;
+    };
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
     /** the original item to provide back to callbacks */

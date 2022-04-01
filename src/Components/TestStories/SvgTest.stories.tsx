@@ -4,9 +4,13 @@ import { ReactComponent as AccessRestrictedComponent } from '../../Resources/Sta
 import Error from '../../Resources/Static/error.svg';
 import { Image } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+
+const wrapperStyle = { width: '100%' };
 
 export default {
-    title: 'Test stories/SvgTest'
+    title: 'Test stories/SvgTest',
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
 const SvgTest = () => {

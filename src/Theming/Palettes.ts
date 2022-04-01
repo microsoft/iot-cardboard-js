@@ -1,16 +1,67 @@
-import { IColorCellProps, IPalette } from '@fluentui/react';
+import { IPalette, ITheme } from '@fluentui/react';
+import { IPickerOption } from '../Components/Pickers/Internal/Picker.base.types';
+import { Theme } from '../Models/Constants/Enums';
 
-export const customOverrides = {
-    primaryButtonTextColor: '#F2F3F4',
-    primaryButtonTextColorDisabled: '#A5A5A5'
+export const getPrimaryButtonCustomOverrides = (
+    themeSetting: Theme,
+    theme: ITheme
+) => {
+    return {
+        // Adds box shadow on light theme
+        boxShadow:
+            themeSetting === Theme.Light
+                ? `0 1px 3px 0 rgba(0, 0, 0, .12)`
+                : '0 1px 3px 0 rgba(255,255,255,.12)',
+        primaryButtonTextColor:
+            themeSetting === Theme.Kraken ? theme.palette.white : '#F2F3F4',
+        primaryButtonTextColorDisabled:
+            themeSetting === Theme.Dark
+                ? '#F2F3F4'
+                : theme.semanticColors.buttonTextDisabled
+    };
 };
 
-export const defaultSwatchColors: IColorCellProps[] = [
-    { id: 'green', label: 'green', color: '#7DDF64' },
-    { id: 'purple', label: 'purple', color: '#7A306C' },
-    { id: 'yellow', label: 'yellow', color: '#E8AE68' },
-    { id: 'blue', label: 'blue', color: '#3AAED8' },
-    { id: 'red', label: 'red', color: '#E84855' }
+export const defaultSwatchColors: IPickerOption[] = [
+    { id: 'blue', label: 'blue', item: '#33A1FD' },
+    { id: 'green', label: 'green', item: '#26C485' },
+    { id: 'yellow', label: 'yellow', item: '#FEE440' },
+    { id: 'orange', label: 'orange', item: '#F79824' },
+    { id: 'red', label: 'red', item: '#C32F27' },
+    { id: 'pink', label: 'pink', item: '#EE92C2' }
+];
+export const defaultSwatchIcons: IPickerOption[] = [
+    {
+        id: 'Running',
+        item: 'Running'
+    },
+    {
+        id: 'Snowflake',
+        item: 'Snowflake'
+    },
+    {
+        id: 'Frigid',
+        item: 'Frigid'
+    },
+    {
+        id: 'BlowingSnow',
+        item: 'BlowingSnow'
+    },
+    {
+        id: 'Ringer',
+        item: 'Ringer'
+    },
+    {
+        id: 'AlarmClock',
+        item: 'AlarmClock'
+    },
+    {
+        id: 'FastMode',
+        item: 'FastMode'
+    },
+    {
+        id: 'ShieldAlert',
+        item: 'ShieldAlert'
+    }
 ];
 
 // Palettes created from https://aka.ms/themedesigner
@@ -90,26 +141,26 @@ export const fluentExplorerThemePalette: Partial<IPalette> = {
 };
 
 export const fluentKrakenThemePalette: Partial<IPalette> = {
-    themePrimary: '#007ef5',
-    themeLighterAlt: '#f4faff',
-    themeLighter: '#d5eafd',
-    themeLight: '#b0d7fc',
-    themeTertiary: '#64b1f9',
-    themeSecondary: '#1e8df6',
-    themeDarkAlt: '#0072dc',
-    themeDark: '#0060ba',
-    themeDarker: '#004789',
-    neutralLighterAlt: '#121930',
-    neutralLighter: '#161e38',
-    neutralLight: '#1e2846',
-    neutralQuaternaryAlt: '#242e4e',
-    neutralQuaternary: '#293355',
-    neutralTertiaryAlt: '#414c72',
+    themePrimary: '#52baed',
+    themeLighterAlt: '#030709',
+    themeLighter: '#0d1e26',
+    themeLight: '#193847',
+    themeTertiary: '#326f8e',
+    themeSecondary: '#49a3d1',
+    themeDarkAlt: '#63c0ef',
+    themeDark: '#7acaf1',
+    themeDarker: '#9cd7f5',
+    neutralLighterAlt: '#1c2746',
+    neutralLighter: '#212c4d',
+    neutralLight: '#293659',
+    neutralQuaternaryAlt: '#2f3c61',
+    neutralQuaternary: '#344267',
+    neutralTertiaryAlt: '#4c5a81',
     neutralTertiary: '#c8c8c8',
     neutralSecondary: '#d0d0d0',
     neutralPrimaryAlt: '#dadada',
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#0d1326'
+    white: '#16203c'
 };

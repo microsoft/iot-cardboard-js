@@ -136,6 +136,7 @@ export interface IPopoverVisual {
  */
 export interface IGaugeWidget {
     type: 'Gauge';
+    id: string;
     groupID?: IGroupID;
     valueExpression: IValueExpression;
     widgetConfiguration: IGaugeWidgetConfiguration;
@@ -146,8 +147,8 @@ export interface IGaugeWidget {
  */
 export interface IGaugeWidgetConfiguration {
     units?: string;
-    label?: string;
-    valueRanges?: IValueRange[];
+    label: string;
+    valueRanges: IValueRange[];
 }
 /**
  * Numeric range to trigger coloring
@@ -163,6 +164,7 @@ export interface IValueRange {
  */
 export interface ILinkWidget {
     type: 'Link';
+    id: string;
     groupID?: IGroupID;
     widgetConfiguration: ILinkWidgetConfiguration;
     extensionProperties?: IExtensionProperties;
@@ -171,10 +173,11 @@ export interface ILinkWidget {
  * Widget configuration specifies widget specific properties that are used for rendering this Link
  */
 export interface ILinkWidgetConfiguration {
+    label: string;
     /**
      * Template string which evalues to http link
      */
-    linkExpression?: string;
+    linkExpression: string;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

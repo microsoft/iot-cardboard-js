@@ -10,9 +10,10 @@ export default {
 };
 
 const cardStyle = {
-    height: '600px',
-    width: '100%'
-};
+    height: '100%',
+    width: '100%',
+    position: 'absolute'
+} as React.CSSProperties;
 
 export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
     const authenticationParameters = useAuthParams();

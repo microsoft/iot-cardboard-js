@@ -1,5 +1,4 @@
 // TODO SCHEMA MIGRATION - update Widgets tab to new schema & types
-/*
 import React, {
     useCallback,
     useContext,
@@ -10,12 +9,6 @@ import React, {
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import produce from 'immer';
 import { TFunction, useTranslation } from 'react-i18next';
-import {
-    VisualType,
-    IWidgetLibraryItem,
-    defaultOnClickPopover,
-    IWidget
-} from '../../../../../Models/Classes/3DVConfig';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
@@ -24,6 +17,19 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { CardboardList } from '../../../../CardboardList';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import {
+    IBehavior,
+    IWidget
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    defaultOnClickPopover,
+    IWidgetLibraryItem,
+    VisualType
+} from '../../../../../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+
+const getPopoverFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;
 
 const WidgetsTab: React.FC = () => {
     const { t } = useTranslation();
@@ -37,11 +43,7 @@ const WidgetsTab: React.FC = () => {
     );
 
     const widgets = useMemo(() => {
-        return (
-            behaviorToEdit?.visuals?.find(
-                (visual) => visual.type === VisualType.OnClickPopover
-            )?.widgets || []
-        );
+        return getPopoverFromBehavior(behaviorToEdit)?.widgets || [];
     }, [behaviorToEdit]);
 
     const onEditWidgetStart = useCallback(
@@ -76,15 +78,13 @@ const WidgetsTab: React.FC = () => {
             wids.splice(index, 1);
             setBehaviorToEdit(
                 produce((draft) => {
-                    const popOver = draft?.visuals?.find(
-                        (visual) => visual.type === VisualType.OnClickPopover
-                    );
-                    popOver.widgets = wids;
+                    const popoverDraft = getPopoverFromBehavior(draft);
+                    popoverDraft.widgets = wids;
 
-                    if (wids.length === 0 && popOver) {
+                    if (wids.length === 0) {
                         // If removing all widgets, remove popover container
                         const popOverIdx = draft.visuals.findIndex(
-                            (v) => v.type === VisualType.OnClickPopover
+                            (v) => v.type === VisualType.Popover
                         );
                         draft.visuals.splice(popOverIdx, 1);
                     }
@@ -102,9 +102,7 @@ const WidgetsTab: React.FC = () => {
             });
 
             // Add popover visual if not already present
-            const popOver = behaviorToEdit.visuals?.find(
-                (v) => v.type === VisualType.OnClickPopover
-            );
+            const popOver = getPopoverFromBehavior(behaviorToEdit);
             if (!popOver) {
                 setBehaviorToEdit(
                     produce((draft) => {
@@ -193,11 +191,11 @@ function getListItems(
     return filteredElements.map((item, index) => {
         const viewModel: ICardboardListItem<IWidget> = {
             ariaLabel: '',
-            iconStartName: getIconName(item),
+            iconStart: { name: getIconName(item) },
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item, index),
-            textPrimary: item.type
+            textPrimary: item?.widgetConfiguration?.label || item.type
         };
 
         return viewModel;
@@ -205,4 +203,3 @@ function getListItems(
 }
 
 export default WidgetsTab;
-*/

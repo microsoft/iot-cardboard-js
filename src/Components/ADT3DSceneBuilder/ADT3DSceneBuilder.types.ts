@@ -12,15 +12,17 @@ import {
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import {
-    IConsumeCompositeCardProps,
-    IADT3DViewerRenderMode
+    IADTObjectColor,
+    IConsumeCompositeCardProps
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
     IBehavior,
-    ITwinToObjectMapping,
-    IWidget
+    IGaugeWidget,
+    ILinkWidget,
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IValueRangeBuilderHandle } from '../ValueRangeBuilder/ValueRangeBuilder.types';
 
 // START of Actions
 export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
@@ -40,7 +42,7 @@ export const SET_ADT_SCENE_BUILDER_COLORED_MESH_ITEMS =
 export const SET_ADT_SCENE_BUILDER_MODE = 'SET_ADT_SCENE_BUILDER_MODE';
 export const SET_WIDGET_FORM_INFO = 'SET_WIDGET_FORM_INFO';
 export const SET_REVERT_TO_HOVER_COLOR = 'SET_REVERT_TO_HOVER_COLOR';
-export const SET_RENDER_MODE = 'SET_RENDER_MODE';
+export const SET_ADT_SCENE_OBJECT_COLOR = 'SET_ADT_SCENE_OBJECT_COLOR';
 export const SET_MESH_IDS_TO_OUTLINE = 'SET_MESH_IDS_TO_OUTLINE';
 // END of Actions
 
@@ -65,6 +67,7 @@ export interface I3DSceneBuilderContext {
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     dispatch: React.Dispatch<{ type: string; payload: any }>;
     state: ADT3DSceneBuilderState;
+    objectColor: IADTObjectColor;
 }
 
 export type WidgetFormInfo = null | {
@@ -163,14 +166,25 @@ export interface ADT3DSceneBuilderState {
     selectedBehavior: IBehavior;
     showHoverOnSelected: boolean;
     enableHoverOnModel: boolean;
-    renderMode: IADT3DViewerRenderMode;
+    objectColor: IADTObjectColor;
 }
 
 export interface IWidgetBuilderFormDataProps {
-    formData: IWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IWidget>>;
-    behaviorToEdit?: IBehavior;
+    getIntellisensePropertyNames?: (twinId: string) => string[];
+    setIsWidgetConfigValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: ILinkWidget;
+    setFormData: React.Dispatch<React.SetStateAction<ILinkWidget>>;
+}
+
+export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
+    formData: IGaugeWidget;
+    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
+    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
+}
+
 export interface BehaviorState {
     behaviorToEdit: IBehavior;
     behaviorsOnElement: Array<IBehavior>;
