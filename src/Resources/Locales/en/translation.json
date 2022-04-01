@@ -668,5 +668,14 @@
         "filterPlaceholder": "Type to filter elements or alerts",
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
+    },
+    "OATHeader": {
+        "title": "Azure Digital Twins Ontology Editor",
+        "searchContent": "Search file, asset, property, or location",
+        "save": "Save",
+        "publish": "Publish",
+        "sync": "sync",
+        "import": "Import",
+        "export": "Export"
     }
 }
