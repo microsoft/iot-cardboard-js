@@ -20,6 +20,7 @@ import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
+    TransparentTexture,
     ViewerModeObjectColors
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
@@ -263,6 +264,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+            //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
+            //The texture is 99% transparent but forces the engine to blend the colors.
+            const layer = new BABYLON.Layer('', '', sceneRef.current, true);
+            layer.texture = BABYLON.Texture.CreateFromBase64String(
+                TransparentTexture,
+                'layerImg',
+                sceneRef.current
+            );
+
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 currentObjectColor.meshHoverColor

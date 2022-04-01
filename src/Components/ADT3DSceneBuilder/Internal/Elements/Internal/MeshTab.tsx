@@ -70,25 +70,29 @@ function getListItems(
         setColoredMeshItems(createCustomMeshItems(elementMeshIds, null));
     };
 
+    const onLeave = () => onMeshItemLeave();
     return elementMeshIds.sort().map((item) => {
         const viewModel: ICardboardListItem<string> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onMeshItemEnter(item),
-                onMouseLeave: () => onMeshItemLeave(),
+                onMouseEnter: () => onMeshItemEnter(item),
+                onMouseLeave: onLeave,
                 onFocus: () => onMeshItemEnter(item),
-                onBlur: () => onMeshItemLeave()
+                onBlur: onLeave
             },
-            iconStartName: 'CubeShape',
-            iconEndName: 'Delete',
+            iconStart: { name: 'CubeShape' },
+            iconEnd: {
+                name: 'Delete',
+                onClick: () => {
+                    const currentObjects = [...elementMeshIds];
+                    currentObjects.splice(currentObjects.indexOf(item), 1);
+                    setColoredMeshItems(
+                        createCustomMeshItems(currentObjects, null)
+                    );
+                }
+            },
             item: item,
-            onClick: () => {
-                const currentObjects = [...elementMeshIds];
-                currentObjects.splice(currentObjects.indexOf(item), 1);
-                setColoredMeshItems(
-                    createCustomMeshItems(currentObjects, null)
-                );
-            },
+            onClick: () => undefined,
             textPrimary: item
         };
 

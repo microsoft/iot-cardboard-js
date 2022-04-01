@@ -191,7 +191,7 @@ function getListItems(
     return filteredElements.map((item, index) => {
         const viewModel: ICardboardListItem<IWidget> = {
             ariaLabel: '',
-            iconStartName: getIconName(item),
+            iconStart: { name: getIconName(item) },
             item: item,
             openMenuOnClick: true,
             overflowMenuItems: getMenuItems(item, index),
