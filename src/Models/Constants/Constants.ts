@@ -1,4 +1,4 @@
-import { IADTObjectColor } from '../Constants';
+import { IADTBackgroundColor, IADTObjectColor } from '../Constants';
 import {
     defaultGaugeWidget,
     defaultLinkWidget,
@@ -156,10 +156,31 @@ export const ViewerModeObjectColors: IADTObjectColor[] = [
 export const TransparentTexture =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACEAYAAAAiJtFnAAAACXBIWXMAAC4jAAAuIwF4pT92AAAGv2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDYgNzkuZGFiYWNiYiwgMjAyMS8wNC8xNC0wMDozOTo0NCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjQgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAyMi0wMy0zMVQxMTo0MDo0Ni0wNDowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMi0wMy0zMVQxMjowNDozMS0wNDowMCIgeG1wOk1vZGlmeURhdGU9IjIwMjItMDMtMzFUMTI6MDQ6MzEtMDQ6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBiOTc0ODZjLTVjZDAtNmM0NC04MmQyLTAyYjhhYmQwYTNiNyIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjJhN2NiYzZlLTU1ZmUtN2I0Ni1iNGY3LTUyNGI5MWI2NDUyNCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjY0MDAyNjE4LTE3MmYtN2Q0My1hNzAwLTgzYjFmYzViYzdlMyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo2NDAwMjYxOC0xNzJmLTdkNDMtYTcwMC04M2IxZmM1YmM3ZTMiIHN0RXZ0OndoZW49IjIwMjItMDMtMzFUMTE6NDA6NDYtMDQ6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMi40IChXaW5kb3dzKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NTFmYjc2ZTQtYmQ2ZS01ZTRiLWFlYTYtOGJlOTJhZjMzMjc5IiBzdEV2dDp3aGVuPSIyMDIyLTAzLTMxVDEyOjA0OjMxLTA0OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgMjIuNCAoV2luZG93cykiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjBiOTc0ODZjLTVjZDAtNmM0NC04MmQyLTAyYjhhYmQwYTNiNyIgc3RFdnQ6d2hlbj0iMjAyMi0wMy0zMVQxMjowNDozMS0wNDowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIyLjQgKFdpbmRvd3MpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgHULycAAAARSURBVAgdY2AAA2YWVBpJAAABqAAdXZ84SgAAAABJRU5ErkJggg==';
 
-export const ViewerModeBackgroundColors = [
-    'radial-gradient(#2f3c61 0%, #16203c 70%)',
-    'radial-gradient(#333333 0%, #0d0f0e 70%)',
-    'radial-gradient(#dddddd 0%, #ffffff 70%)'
+export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
+    {
+        color: 'radial-gradient(#2f3c61 0%, #16203c 70%)',
+        badgeColor: '#2f3c61',
+        defaultBadgeColor: '#000000',
+        defaultBadgeTextColor: '#ffffff',
+        aggregateBadgeColor: '#ffffff',
+        aggregateBadgeTextColor: '#000000'
+    },
+    {
+        color: 'radial-gradient(#333333 0%, #0d0f0e 70%)',
+        badgeColor: '#333333',
+        defaultBadgeColor: '#000000',
+        defaultBadgeTextColor: '#ffffff',
+        aggregateBadgeColor: '#ffffff',
+        aggregateBadgeTextColor: '#000000'
+    },
+    {
+        color: 'radial-gradient(#dddddd 0%, #ffffff 70%)',
+        badgeColor: '#dddddd',
+        defaultBadgeColor: '#000000',
+        defaultBadgeTextColor: '#ffffff',
+        aggregateBadgeColor: '#ffffff',
+        aggregateBadgeTextColor: '#000000'
+    }
 ];
 
 export const EnvironmentsLocalStorageKey = 'cb-environments';

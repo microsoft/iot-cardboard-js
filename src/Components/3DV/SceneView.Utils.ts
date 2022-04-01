@@ -1,6 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import * as GUI from 'babylonjs-gui';
 import { SceneViewBadgeGroup } from '../../Models/Classes/SceneView.types';
+import { IADTBackgroundColor } from '../../Models/Constants';
 import './SceneView.scss';
 
 export function getMeshCenter(
@@ -34,6 +35,7 @@ export function getMeshCenter(
 }
 
 export function createBadge(
+    backgroundColor: IADTBackgroundColor,
     badgeColor?: string,
     text?: string,
     textColor?: string,
@@ -49,14 +51,15 @@ export function createBadge(
     const badgeBackground = new GUI.Ellipse();
     badgeBackground.widthInPixels = 20;
     badgeBackground.heightInPixels = 20;
-    badgeBackground.color = badgeColor || '#ffffff';
-    badgeBackground.background = badgeColor || '#ffffff';
+    badgeBackground.color = badgeColor || backgroundColor.defaultBadgeColor;
+    badgeBackground.background =
+        badgeColor || backgroundColor.defaultBadgeColor;
     badge.addControl(badgeBackground);
 
     if (text) {
         const textBlock = new GUI.TextBlock();
         textBlock.fontSizeInPixels = 12;
-        textBlock.color = textColor || '#ffffff';
+        textBlock.color = textColor || backgroundColor.defaultBadgeTextColor;
         textBlock.text = text;
         if (isIcon) {
             textBlock.topInPixels = 3;
@@ -82,7 +85,10 @@ export function createBadge(
     return badge;
 }
 
-export function createBadgeGroup(badgeGroup: SceneViewBadgeGroup) {
+export function createBadgeGroup(
+    badgeGroup: SceneViewBadgeGroup,
+    backgroundColor: IADTBackgroundColor
+) {
     let background;
     const rows = Math.ceil(badgeGroup.badges.length / 2);
     // create a round badge if there is only more or more than 5
@@ -104,8 +110,9 @@ export function createBadgeGroup(badgeGroup: SceneViewBadgeGroup) {
     background.paddingTopInPixels = 4;
     background.paddingLeftInPixels = 4;
     background.paddingRightInPixels = 4;
-    background.color = '#1E2C5399';
-    background.background = '#1E2C5399';
+
+    background.color = backgroundColor.badgeColor + '99';
+    background.background = backgroundColor.badgeColor + '99';
 
     if (badgeGroup.badges.length < 5) {
         const badgeContainer = new GUI.StackPanel();
@@ -130,6 +137,7 @@ export function createBadgeGroup(badgeGroup: SceneViewBadgeGroup) {
             for (let b = 0; b < 2; b++) {
                 if (badgeGroup.badges?.[currentBadgeIndex]) {
                     const badge = createBadge(
+                        backgroundColor,
                         badgeGroup.badges[currentBadgeIndex].color,
                         badgeGroup.badges[currentBadgeIndex].icon,
                         null,
@@ -151,9 +159,10 @@ export function createBadgeGroup(badgeGroup: SceneViewBadgeGroup) {
         }
     } else {
         const badge = createBadge(
-            '#ffffff',
+            backgroundColor,
+            backgroundColor.aggregateBadgeColor,
             badgeGroup.badges.length.toString(),
-            '#000000',
+            backgroundColor.aggregateBadgeTextColor,
             false
         );
 

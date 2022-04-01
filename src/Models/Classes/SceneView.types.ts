@@ -5,7 +5,11 @@ import {
     IScene,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DTwin, IADTObjectColor } from '../../Models/Constants/Interfaces';
+import {
+    DTwin,
+    IADTBackgroundColor,
+    IADTObjectColor
+} from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -91,4 +95,5 @@ export interface ISceneViewProp {
     showHoverOnSelected?: boolean;
     objectColors?: IADTObjectColor;
     badgeGroups?: SceneViewBadgeGroup[];
+    backgroundColor?: IADTBackgroundColor;
 }

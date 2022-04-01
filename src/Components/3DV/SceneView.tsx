@@ -20,6 +20,7 @@ import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
+    IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors
 } from '../../Models/Constants';
@@ -124,7 +125,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     showHoverOnSelected,
     outlinedMeshitems,
     isWireframe,
-    badgeGroups
+    badgeGroups,
+    backgroundColor
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -159,6 +161,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
     );
+    const backgroundColorRef = useRef<IADTBackgroundColor>(null);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
     const prevHideUnzoomedRef = useRef<number>(undefined);
@@ -528,6 +531,41 @@ const SceneView: React.FC<ISceneViewProp> = ({
     };
 
     useEffect(() => {
+        createBadgeGroups();
+        return () => {
+            clearBadgeGroups(false);
+        };
+    }, [badgeGroups, isLoading]);
+
+    useEffect(() => {
+        if (backgroundColor !== backgroundColorRef?.current) {
+            backgroundColorRef.current = backgroundColor;
+            clearBadgeGroups(true);
+            createBadgeGroups();
+        }
+    }, [backgroundColor]);
+
+    const clearBadgeGroups = (force: boolean) => {
+        const groupsToRemove = [];
+        badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+            // remove badge if group is no longer in prop
+            if (
+                !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
+                force
+            ) {
+                debugLog('removing badge');
+                advancedTextureRef.current.removeControl(badgeGroupRef);
+                groupsToRemove.push(badgeGroupRef);
+            }
+        });
+        groupsToRemove?.forEach((group) => {
+            badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                (bg) => bg.name !== group.name
+            );
+        });
+    };
+
+    const createBadgeGroups = () => {
         if (badgeGroups && advancedTextureRef.current) {
             badgeGroups.forEach((bg) => {
                 // only add badge group if not already present
@@ -536,8 +574,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         (badgeGroupRef) => badgeGroupRef.name === bg.id
                     )
                 ) {
-                    debugLog('adding badge');
-                    const badgeGroup = createBadgeGroup(bg);
+                    debugLog('adding badge group');
+                    const badgeGroup = createBadgeGroup(bg, backgroundColor);
                     advancedTextureRef.current.addControl(badgeGroup);
                     const mesh = sceneRef.current.meshes.find(
                         (m) => m.id === bg.meshId
@@ -547,7 +585,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     // badges can only be linked to meshes after being added to the scene
                     // so adding a delay in making it visible so it doesn't jump
                     const waitUntilPostioned = async () => {
-                        await sleep(10);
+                        await sleep(1);
                         badgeGroup.isVisible = true;
                     };
                     waitUntilPostioned();
@@ -555,24 +593,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 }
             });
         }
-
-        return () => {
-            const groupsToRemove = [];
-            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
-                // remove badge if group is no longer in prop
-                if (!badgeGroups?.find((bg) => bg.id === badgeGroupRef.name)) {
-                    debugLog('removing badge');
-                    advancedTextureRef.current.removeControl(badgeGroupRef);
-                    groupsToRemove.push(badgeGroupRef);
-                }
-            });
-            groupsToRemove?.forEach((group) => {
-                badgeGroupsRef.current = badgeGroupsRef.current.filter(
-                    (bg) => bg.name !== group.name
-                );
-            });
-        };
-    }, [badgeGroups, isLoading]);
+    };
 
     // Update render mode
     useEffect(() => {
