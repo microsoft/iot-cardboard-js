@@ -28,8 +28,9 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../../../Models/Classes/SceneView.types';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
-import { IADT3DViewerRenderMode } from '../../../..';
 import PanelFooter from '../Shared/PanelFooter';
+import { IADTObjectColor } from '../../../../Models/Constants';
+import { deepCopy } from '../../../../Models/Services/Utils';
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -54,8 +55,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         adapter,
         config,
         sceneId,
-        state,
-        setOutlinedMeshItems
+        setOutlinedMeshItems,
+        objectColor
     } = useContext(SceneBuilderContext);
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
@@ -108,7 +109,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 outlinedMeshes = outlinedMeshes.concat(
                     createCustomMeshItems(
                         selectedElement.objectIDs,
-                        state.renderMode.outlinedMeshSelectedColor
+                        objectColor.outlinedMeshSelectedColor
                     )
                 );
             }
@@ -127,9 +128,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     // sort the list items
     useEffect(() => {
         if (elements) {
-            const elementsCopy: ITwinToObjectMapping[] = JSON.parse(
-                JSON.stringify(elements)
-            );
+            const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
             const sortedElements = elementsCopy.sort((a, b) =>
                 a.displayName > b.displayName ? 1 : -1
             );
@@ -190,8 +189,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             selectedElements,
             setElementToDelete,
             setIsDeleteDialogOpen,
-            state.renderMode,
             setOutlinedMeshItems,
+            objectColor,
             t
         );
         setListItems(elementsList);
@@ -205,7 +204,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         selectedElements,
         setElementToDelete,
         setIsDeleteDialogOpen,
-        setOutlinedMeshItems
+        setOutlinedMeshItems,
+        objectColor
     ]);
 
     const theme = useTheme();
@@ -303,8 +303,8 @@ function getListItems(
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    renderMode: IADT3DViewerRenderMode,
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void,
+    objectColor: IADTObjectColor,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
     const onListItemClick = (element: ITwinToObjectMapping) => {
@@ -351,7 +351,7 @@ function getListItems(
                     highlightedElements = highlightedElements.concat(
                         createCustomMeshItems(
                             selectedElement.objectIDs,
-                            renderMode.outlinedMeshHoverSelectedColor
+                            objectColor.outlinedMeshHoverSelectedColor
                         )
                     );
                 } else {
@@ -359,7 +359,7 @@ function getListItems(
                     highlightedElements = highlightedElements.concat(
                         createCustomMeshItems(
                             selectedElement.objectIDs,
-                            renderMode.outlinedMeshSelectedColor
+                            objectColor.outlinedMeshSelectedColor
                         )
                     );
                 }
@@ -370,7 +370,7 @@ function getListItems(
                 highlightedElements = highlightedElements.concat(
                     createCustomMeshItems(
                         element?.objectIDs,
-                        renderMode.outlinedMeshHoverColor
+                        objectColor.outlinedMeshHoverColor
                     )
                 );
             }
@@ -379,7 +379,7 @@ function getListItems(
             setOutlinedMeshItems(
                 createCustomMeshItems(
                     element?.objectIDs,
-                    renderMode.outlinedMeshHoverColor
+                    objectColor.outlinedMeshHoverColor
                 )
             );
         }
@@ -396,7 +396,7 @@ function getListItems(
             setOutlinedMeshItems(
                 createCustomMeshItems(
                     meshIds,
-                    renderMode.outlinedMeshSelectedColor
+                    objectColor.outlinedMeshSelectedColor
                 )
             );
         } else {
@@ -411,12 +411,12 @@ function getListItems(
         const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onElementEnter(item),
+                onMouseEnter: () => onElementEnter(item),
                 onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
                 onBlur: onElementLeave
             },
-            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            iconStart: !isEditBehavior ? { name: 'Shapes' } : undefined,
             item: item,
             onClick: onListItemClick,
             overflowMenuItems: getOverflowMenuItems(item),

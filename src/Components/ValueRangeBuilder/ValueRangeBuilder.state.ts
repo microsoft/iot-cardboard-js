@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { defaultValueRangeColor } from '../../Models/Constants';
+import { createGUID } from '../../Models/Services/Utils';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { defaultSwatchColors } from '../../Theming/Palettes';
 import {
@@ -10,7 +11,8 @@ import {
 } from './ValueRangeBuilder.types';
 import {
     isRangeOverlapFound,
-    getRangeValidation
+    getRangeValidation,
+    getNextColor
 } from './ValueRangeBuilder.utils';
 
 export const defaultValueRangeBuilderState: IValueRangeBuilderState = {
@@ -37,54 +39,22 @@ export const valueRangeBuilderReducer: (
     (draft: IValueRangeBuilderState, action: ValueRangeBuilderAction) => {
         switch (action.type) {
             case ValueRangeBuilderActionType.ADD_VALUE_RANGE: {
-                // Add value range
                 const { color, id } = action.payload;
-                let newMin = Number('-Infinity');
-                draft.valueRanges.forEach((vr) => {
-                    if (!isNaN(Number(vr.max)) && vr.max > newMin) {
-                        newMin = Number(vr.max);
-                    }
-                });
-
-                const newValueRange = {
-                    ...defaultValueRange,
-                    min: newMin,
-                    id,
-                    color
-                };
-
-                draft.valueRanges.push(newValueRange);
-
-                // Add validation entry
-                draft.validationMap.validation[id] = {
-                    minValid: true,
-                    maxValid: true,
-                    rangeValid: true
-                };
-
-                // Update min validation
-                updateValueRangeValidation(
-                    draft,
-                    newValueRange,
-                    String(newValueRange.min),
-                    true
-                );
-
-                // Update max validation
-                updateValueRangeValidation(
-                    draft,
-                    newValueRange,
-                    String(newValueRange.max),
-                    false
-                );
-
-                // Update overlapping IDs
-                draft.validationMap.overlapFound = isRangeOverlapFound(
-                    draft.valueRanges,
-                    draft.validationMap
-                );
+                addValueRange(draft, id, color);
                 break;
             }
+            case ValueRangeBuilderActionType.PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED: {
+                while (draft.valueRanges.length < draft.minRanges) {
+                    const newId = createGUID();
+                    const newColor = getNextColor(
+                        draft.valueRanges,
+                        draft.colorSwatch
+                    );
+                    addValueRange(draft, newId, newColor);
+                }
+                break;
+            }
+
             case ValueRangeBuilderActionType.UPDATE_VALUE_RANGE: {
                 const { boundary, id, newColor, newValue } = action.payload;
                 updateValueRange(draft, id, boundary, newValue, newColor);
@@ -158,6 +128,58 @@ export const valueRangeBuilderReducer: (
     },
     defaultValueRangeBuilderState
 );
+
+const addValueRange = (
+    draft: IValueRangeBuilderState,
+    id: string,
+    color: string
+) => {
+    // Add value range
+    let newMin = Number('-Infinity');
+    draft.valueRanges.forEach((vr) => {
+        if (!isNaN(Number(vr.max)) && vr.max > newMin) {
+            newMin = Number(vr.max);
+        }
+    });
+
+    const newValueRange = {
+        ...defaultValueRange,
+        min: newMin,
+        id,
+        color
+    };
+
+    draft.valueRanges.push(newValueRange);
+
+    // Add validation entry
+    draft.validationMap.validation[id] = {
+        minValid: true,
+        maxValid: true,
+        rangeValid: true
+    };
+
+    // Update min validation
+    updateValueRangeValidation(
+        draft,
+        newValueRange,
+        String(newValueRange.min),
+        true
+    );
+
+    // Update max validation
+    updateValueRangeValidation(
+        draft,
+        newValueRange,
+        String(newValueRange.max),
+        false
+    );
+
+    // Update overlapping IDs
+    draft.validationMap.overlapFound = isRangeOverlapFound(
+        draft.valueRanges,
+        draft.validationMap
+    );
+};
 
 const updateValueRange = (
     draft: IValueRangeBuilderState,

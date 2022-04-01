@@ -6,23 +6,15 @@ import {
     Boundary,
     ValueRangeBuilderActionType
 } from '../ValueRangeBuilder.types';
-import { useId, useBoolean } from '@fluentui/react-hooks';
 import ValueRangeInput from './ValueRangeInput';
-import { Callout, IconButton, SwatchColorPicker } from '@fluentui/react';
+import { IconButton, IStackTokens, Stack } from '@fluentui/react';
+import ColorPicker from '../../Pickers/ColorSelectButton/ColorPicker';
 
 const ValueRangeRow: React.FC<{
     valueRange: IValueRange;
 }> = ({ valueRange }) => {
     const { t } = useTranslation();
     const { state, dispatch } = useContext(ValueRangeBuilderContext);
-
-    const labelId = useId('callout-label');
-    const colorButtonId = useId('color-button');
-
-    const [
-        isRowColorCalloutVisible,
-        { toggle: toggleIsRowColorCalloutVisible }
-    ] = useBoolean(false);
 
     const { validationMap, colorSwatch, minRanges, valueRanges } = state;
 
@@ -33,10 +25,12 @@ const ValueRangeRow: React.FC<{
         !validationData.rangeValid;
 
     return (
-        <div
+        <Stack
             className={`cb-value-range-container ${
                 isRangeInvalid ? 'cb-range-invalid' : ''
             }`}
+            horizontal
+            tokens={sectionStackTokens}
         >
             <ValueRangeInput
                 value={String(valueRange.min)}
@@ -48,51 +42,37 @@ const ValueRangeRow: React.FC<{
                 boundary={Boundary.max}
                 valueRange={valueRange}
             />
-            <button
-                aria-label={t('valueRangeBuilder.colorButtonAriaLabel')}
-                style={{ backgroundColor: valueRange.color }}
-                className="cb-value-range-color-button"
-                onClick={toggleIsRowColorCalloutVisible}
-                id={colorButtonId}
-            ></button>
-            {isRowColorCalloutVisible && (
-                <Callout
-                    ariaLabelledBy={labelId}
-                    target={`#${colorButtonId}`}
-                    onDismiss={toggleIsRowColorCalloutVisible}
-                    setInitialFocus
-                    styles={{ root: { width: 100 } }}
-                >
-                    <SwatchColorPicker
-                        columnCount={3}
-                        cellShape={'square'}
-                        colorCells={colorSwatch}
-                        aria-labelledby={labelId}
-                        onChange={(_e, _id, color) =>
-                            dispatch({
-                                type:
-                                    ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
-                                payload: {
-                                    boundary: Boundary.max,
-                                    newColor: color,
-                                    id: valueRange.id
-                                }
-                            })
+            <ColorPicker
+                selectedItem={valueRange.color}
+                items={colorSwatch}
+                onChangeItem={(color) => {
+                    dispatch({
+                        type: ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
+                        payload: {
+                            boundary: Boundary.max,
+                            newColor: color.item,
+                            id: valueRange.id
                         }
-                        selectedId={
-                            colorSwatch.find(
-                                (color) => color.color === valueRange.color
-                            )?.id
-                        }
-                    />
-                </Callout>
-            )}
-
+                    });
+                }}
+                styles={{
+                    root: {
+                        alignSelf: 'flex-end'
+                    }
+                }}
+            />
             <IconButton
+                data-testid={'range-builder-row-delete'}
                 iconProps={{ iconName: 'Delete' }}
                 title={t('valueRangeBuilder.deleteValueRangeTitle')}
                 styles={{
-                    root: { alignSelf: 'flex-end', height: '24px' }
+                    root: {
+                        alignSelf: 'flex-end',
+                        marginLeft: '4px !important'
+                    },
+                    rootDisabled: {
+                        backgroundColor: 'var(--cb-color-bg-canvas)'
+                    }
                 }}
                 disabled={valueRanges.length <= minRanges}
                 onClick={() =>
@@ -104,8 +84,9 @@ const ValueRangeRow: React.FC<{
                     })
                 }
             />
-        </div>
+        </Stack>
     );
 };
+const sectionStackTokens: IStackTokens = { childrenGap: 8 };
 
 export default ValueRangeRow;

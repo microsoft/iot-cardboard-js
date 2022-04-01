@@ -5,7 +5,8 @@ import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
-    ComponentErrorType
+    ComponentErrorType,
+    DTwin
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -13,7 +14,12 @@ import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
 import { ComponentError } from '../Classes/Errors';
-import { I3DScenesConfig } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    I3DScenesConfig,
+    IValueRange
+} from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { IDropdownOption } from '@fluentui/react';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -35,7 +41,7 @@ export const validate3DConfigWithSchema = (
     }
 };
 
-export const createGUID = (isWithDashes = true) => {
+export const createGUID = (isWithDashes = false) => {
     const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
@@ -198,6 +204,16 @@ export function measureText(str: string, fontSize: number) {
     );
 }
 
+export function getTimeStamp() {
+    const d = new Date();
+    const seconds = d.getSeconds();
+    const minutes = d.getMinutes();
+    const hours = d.getHours();
+    const date = encodeURIComponent(d.toLocaleDateString().replace(/\//g, '-'));
+    const timeStamp = `${date}_${hours - 12}:${minutes}:${seconds}`;
+    return timeStamp;
+}
+
 export function parseExpression(expression: string, twins: any) {
     let result: any = '';
     try {
@@ -207,6 +223,32 @@ export function parseExpression(expression: string, twins: any) {
     }
 
     return result;
+}
+
+export function deepCopy<T>(object: T): T {
+    return JSON.parse(JSON.stringify(object)) as T;
+}
+
+export function getSceneElementStatusColor(
+    statusValueExpression: string,
+    valueRanges: IValueRange[],
+    twins: Record<string, DTwin>
+) {
+    const value = parseExpression(statusValueExpression, twins);
+    return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
+        valueRanges,
+        value
+    );
+}
+
+export function buildDropdownOptionsFromStrings(
+    properties: string[]
+): IDropdownOption[] {
+    const entries = properties.map((x) => ({
+        key: x,
+        text: x
+    }));
+    return entries;
 }
 
 /**
@@ -250,4 +292,28 @@ export function getTransparentColor(
         | '0.9'
 ): string {
     return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
+}
+
+export function performSubstitutions(
+    expression: string,
+    twins: Record<string, DTwin>
+) {
+    while (expression) {
+        const n = expression.indexOf('${');
+        if (n < 0) {
+            break;
+        }
+
+        const m = expression.indexOf('}', n + 1);
+        if (m < 0) {
+            break;
+        }
+
+        const sub = expression.substring(n + 2, m);
+        const target = parseExpression(sub, twins);
+        expression =
+            expression.substring(0, n) + target + expression.substring(m + 1);
+    }
+
+    return expression;
 }

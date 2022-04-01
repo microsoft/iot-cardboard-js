@@ -64,12 +64,50 @@ export const findCalloutItemByTestId = async (testId: string) => {
     return await screen.findByTestId(testId);
 };
 
+export const findAllCalloutItemsByTestId = async (testId: string) => {
+    return await screen.findAllByTestId(testId);
+};
+
 export const findOverflowMenuItem = async (testId: string) => {
     return await screen.findByTestId(testId);
 };
 
 export const findDialogMenuItem = async (testId: string) => {
     return await findOverflowMenuItem(testId);
+};
+
+interface IStorybookCanvas {
+    findByTestId: (testId: string) => Promise<HTMLElement>;
+}
+
+/**
+ * Opens a dropdown menu
+ * @param canvas current test canvas
+ * @param testId data-testid of the dropdown menu
+ */
+export const openDropdownMenu = async (
+    canvas: IStorybookCanvas,
+    testId: string
+) => {
+    const dropdown = await canvas.findByTestId(testId);
+    const item = document.getElementById(dropdown.id);
+    item.click();
+};
+
+/**
+ * Opens a dropdown menu and selects an item from the list
+ * @param canvas current test canvas
+ * @param dropdownTestId data-testid of the dropdown menu
+ * @param optionIndex index of the option in the list to select
+ */
+export const selectDropDownMenuItem = async (
+    canvas: IStorybookCanvas,
+    dropdownTestId: string,
+    optionIndex: number
+) => {
+    await openDropdownMenu(canvas, dropdownTestId);
+    const options = await screen.findAllByRole('option');
+    options[optionIndex].click();
 };
 
 export const clickOverFlowMenuItem = async (element: HTMLElement) => {

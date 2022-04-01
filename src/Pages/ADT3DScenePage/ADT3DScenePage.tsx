@@ -2,7 +2,8 @@ import React, { createContext, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
-    ADT3DScenePageSteps
+    ADT3DScenePageSteps,
+    ComponentErrorType
 } from '../../Models/Constants/Enums';
 import SceneList from '../../Components/SceneList/SceneList';
 import {
@@ -21,7 +22,8 @@ import {
     SET_CURRENT_STEP,
     SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
-    SET_SELECTED_SCENE
+    SET_SELECTED_SCENE,
+    SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
 import ADT3DGlobe from '../../Components/ADT3DGlobe/ADT3DGlobe';
 import {
@@ -57,7 +59,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         defaultADT3DScenePageState
     );
     const { t } = useTranslation();
-
     const scenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [
@@ -65,6 +66,12 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
             state.selectedBlobContainerURL,
             state.selectedScene
         ]
+    });
+
+    const resetConfig = useAdapter({
+        adapterMethod: () => adapter.resetSceneConfig(),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: []
     });
 
     const handleOnHomeClick = () => {
@@ -161,6 +168,39 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         });
     }, []);
 
+    useEffect(() => {
+        if (
+            state?.errors?.[0]?.type ===
+                ComponentErrorType.UnauthorizedAccess ||
+            state?.errors?.[0]?.type === ComponentErrorType.NonExistentBlob
+        ) {
+            dispatch({
+                type: SET_ERROR_CALLBACK,
+                payload: {
+                    buttonText: t('learnMore'),
+                    buttonAction: () => {
+                        window.open(
+                            'https://docs.microsoft.com/azure/digital-twins/'
+                        );
+                    }
+                }
+            });
+        } else if (
+            state?.errors?.[0]?.type === ComponentErrorType.JsonSchemaError
+        ) {
+            dispatch({
+                type: SET_ERROR_CALLBACK,
+                payload: {
+                    buttonText: 'Reset Configuration File',
+                    buttonAction: async () => {
+                        await resetConfig.callAdapter();
+                        await scenesConfig.callAdapter();
+                    }
+                }
+            });
+        }
+    }, [state.errors]);
+
     return (
         <ADT3DScenePageContext.Provider
             value={{ state, dispatch, handleOnHomeClick }}
@@ -229,7 +269,13 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                         </>
                     )}
 
-                    <ScenePageErrorHandlingWrapper errors={state.errors}>
+                    <ScenePageErrorHandlingWrapper
+                        errors={state.errors}
+                        primaryClickAction={{
+                            buttonText: state?.errorCallback?.buttonText,
+                            onClick: state?.errorCallback?.buttonAction
+                        }}
+                    >
                         {state.currentStep ===
                             ADT3DScenePageSteps.SceneLobby && (
                             <div className="cb-scene-page-scene-list-container">

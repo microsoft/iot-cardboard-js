@@ -324,18 +324,23 @@
                         "$ref": "#/$defs/IValueRange"
                     }
                 }
-            }
+            },
+            "required": ["label", "valueRanges"]
         },
         "ILinkWidgetConfiguration": {
             "type": "object",
             "additionalProperties": false,
             "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
             "properties": {
+                "label": {
+                    "type": "string"
+                },
                 "linkExpression": {
                     "type": "string",
                     "description": "Template string which evalues to http link"
                 }
-            }
+            },
+            "required": ["label", "linkExpression"]
         },
         "IGaugeWidget": {
             "type": "object",
@@ -344,6 +349,9 @@
             "properties": {
                 "type": {
                     "const": "Gauge"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "groupID": {
                     "$ref": "#/$defs/IGroupID"
@@ -358,7 +366,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "valueExpression", "widgetConfiguration"]
+            "required": ["type", "id", "valueExpression", "widgetConfiguration"]
         },
         "ILinkWidget": {
             "type": "object",
@@ -367,6 +375,9 @@
             "properties": {
                 "type": {
                     "const": "Link"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "groupID": {
                     "$ref": "#/$defs/IGroupID"
@@ -378,7 +389,7 @@
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": ["type", "widgetConfiguration"]
+            "required": ["type", "id", "widgetConfiguration"]
         },
         "IWidget": {
             "anyOf": [
