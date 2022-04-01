@@ -62,7 +62,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 })
             );
         },
-        [updateWidgetData]
+        [updateWidgetData, formData]
     );
 
     const theme = useTheme();
