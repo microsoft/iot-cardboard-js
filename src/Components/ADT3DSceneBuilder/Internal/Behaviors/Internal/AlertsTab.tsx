@@ -26,7 +26,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
-import { stackStyles } from './BehaviorTab.styles';
+import { stackStyles } from '../../Shared/LeftPanel.styles';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -42,14 +42,6 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
-const defaultColor: string = defaultSwatchColors[0].item;
-const defaultIcon: string = defaultSwatchIcons[0].item;
-const defaultAlert: IAlertVisual = {
-    ...defaultAlertVisual,
-    iconName: defaultIcon,
-    color: defaultColor
-};
-
 const AlertsTab: React.FC = () => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
@@ -57,7 +49,7 @@ const AlertsTab: React.FC = () => {
     );
     const [propertyNames, setPropertyNames] = useState<string[]>(null);
     const alertVisualStateRef = useRef<IAlertVisual>(
-        getAlertFromBehavior(behaviorToEdit) || defaultAlert
+        getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
     );
 
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
@@ -105,7 +97,7 @@ const AlertsTab: React.FC = () => {
                 })
             );
         },
-        [setBehaviorToEdit, alertVisualStateRef.current, getAlertFromBehavior]
+        [setBehaviorToEdit, alertVisualStateRef.current]
     );
 
     const onExpressionChange = useCallback(
@@ -137,10 +129,10 @@ const AlertsTab: React.FC = () => {
     );
 
     // we only grab the first alert in the collection
-    const alertChangeVisual = getAlertFromBehavior(behaviorToEdit);
-    const color = alertChangeVisual?.color;
-    const icon = alertChangeVisual?.iconName;
-    const expression = alertChangeVisual?.triggerExpression;
+    const alertVisual = getAlertFromBehavior(behaviorToEdit);
+    const color = alertVisual?.color;
+    const icon = alertVisual?.iconName;
+    const expression = alertVisual?.triggerExpression;
     const theme = useTheme();
     return (
         <Stack tokens={sectionStackTokens} styles={stackStyles}>
@@ -160,7 +152,7 @@ const AlertsTab: React.FC = () => {
                 aliasNames={[linkedTwinName]}
                 getPropertyNames={getPropertyNames}
             />
-            {alertChangeVisual && (
+            {alertVisual && (
                 <>
                     <Stack tokens={sectionStackTokens} horizontal>
                         <IconPicker
@@ -188,7 +180,7 @@ const AlertsTab: React.FC = () => {
                                 paddingBottom: 4
                             }
                         }}
-                        value={alertChangeVisual.labelExpression}
+                        value={alertVisual.labelExpression}
                     />
                 </>
             )}

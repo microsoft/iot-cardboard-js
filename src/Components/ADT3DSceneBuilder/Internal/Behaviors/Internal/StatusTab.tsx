@@ -20,7 +20,7 @@ import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
-import { stackStyles } from './BehaviorTab.styles';
+import { stackStyles } from '../../Shared/LeftPanel.styles';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -67,7 +67,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
                 isValid: isValid
             });
         },
-        [valueRangeBuilderState, onValidityChange]
+        [valueRangeBuilderState.areRangesValid, onValidityChange]
     );
 
     const setProperty = useCallback(

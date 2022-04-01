@@ -5,7 +5,8 @@ import {
     IStyle,
     Theme,
     IPivotStyles,
-    ISeparatorStyles
+    ISeparatorStyles,
+    IStackStyles
 } from '@fluentui/react';
 
 const classPrefix = 'left-panel';
@@ -69,5 +70,10 @@ export const leftPanelPivotStyles: Partial<IPivotStyles> = {
     root: {
         marginLeft: -8,
         marginBottom: 8
+    }
+};
+export const stackStyles: IStackStyles = {
+    root: {
+        paddingRight: 16
     }
 };
