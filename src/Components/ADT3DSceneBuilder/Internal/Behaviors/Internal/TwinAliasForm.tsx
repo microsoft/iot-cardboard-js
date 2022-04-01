@@ -6,13 +6,12 @@ import {
     useTheme
 } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     defaultTwinAlias,
     ITwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';

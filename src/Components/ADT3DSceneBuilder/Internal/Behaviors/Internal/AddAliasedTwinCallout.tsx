@@ -53,7 +53,6 @@ const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutPro
             focusTrapProps={{
                 isClickableOutsideFocusTrap: true
             }}
-            className={styles.callout}
             target={`#${calloutTarget}`}
             isBeakVisible={false}
             directionalHint={DirectionalHint.bottomLeftEdge}
@@ -134,10 +133,6 @@ function getListItems(
 }
 
 const styles = mergeStyleSets({
-    callout: {
-        // padding: '15px',
-        // width: '300px'
-    },
     title: {
         marginTop: '0px'
     },

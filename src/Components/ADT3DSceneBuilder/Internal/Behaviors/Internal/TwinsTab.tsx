@@ -1,4 +1,3 @@
-// TODO SCHEMA MIGRATION - update Widgets tab to new schema & types
 import React, {
     useCallback,
     useContext,
