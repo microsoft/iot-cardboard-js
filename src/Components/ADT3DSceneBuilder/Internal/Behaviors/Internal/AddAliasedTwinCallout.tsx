@@ -122,7 +122,7 @@ function getListItems(
                 iconStart: { name: 'LinkedDatabase' },
                 iconEnd: { name: 'Add' },
                 item: item,
-                onClick: onAddTwinAlias,
+                onClick: () => onAddTwinAlias(item),
                 textPrimary: item.alias
             };
 
