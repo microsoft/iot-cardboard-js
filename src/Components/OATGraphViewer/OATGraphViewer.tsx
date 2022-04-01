@@ -1,12 +1,20 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useTheme, PrimaryButton } from '@fluentui/react';
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useMemo,
+    createContext,
+    useCallback
+} from 'react';
+import { useTheme, PrimaryButton, Icon, FontSizes } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
     MiniMap,
     Controls,
     Background,
-    removeElements
+    removeElements,
+    getNode
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -40,8 +48,21 @@ const OATGraphViewer = () => {
             }
             nextModelId++;
         }
+        elements.map((item) => {
+            item.data['onDeleteNode'] = { onDeleteNode };
+        });
         localStorage.setItem('elements', JSON.stringify(elements));
     }, [elements]);
+
+    const onDeleteNode = (id) => {
+        debugger; //eslint-disable-line
+        const elementsToRemove = [
+            {
+                id: id
+            }
+        ];
+        setElements((els) => removeElements(elementsToRemove, els));
+    };
 
     const onConnect = (evt) => {
         const params = {
@@ -88,6 +109,11 @@ const OATGraphViewer = () => {
         setElements((es) => es.concat(newNode));
     };
 
+    const onNodeDragStop = (evt, node) => {
+        const index = elements.findIndex((element) => element.id === node.id);
+        elements[index].position = node.position;
+    };
+
     return (
         <BaseComponent theme={theme}>
             <div>
@@ -105,6 +131,7 @@ const OATGraphViewer = () => {
                             snapGrid={[15, 15]}
                             nodeTypes={nodeTypes}
                             edgeTypes={edgeTypes}
+                            onNodeDragStop={onNodeDragStop}
                         >
                             <PrimaryButton
                                 className="cb-oat-graph-viewer-button"

@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
-import { useTheme, Separator } from '@fluentui/react';
+import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
 
 import { Handle } from 'react-flow-renderer';
 
@@ -45,6 +45,22 @@ export default memo(({ data, isConnectable }) => {
                 isConnectable={isConnectable}
             />
             <div>
+                <ActionButton
+                    className="cb-oat-graph-viewer-node-cancel"
+                    onClick={() =>
+                        data.onDeleteNode.onDeleteNode(data.id).bind()
+                    }
+                >
+                    <Icon
+                        iconName="Cancel"
+                        styles={{
+                            root: {
+                                fontSize: FontSizes.size10,
+                                color: theme.semanticColors.actionLink
+                            }
+                        }}
+                    />
+                </ActionButton>
                 <div>
                     Name:{' '}
                     {!nameEditor && (
