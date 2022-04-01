@@ -1,123 +1,156 @@
 import * as BABYLON from 'babylonjs';
 
-const customVertex = `
-precision highp float;
-
-// Attributes
-attribute vec3 position;
-attribute vec3 normal;
-uniform vec4 baseColor;
-uniform vec4 fresnelColor;
-#ifdef VERTEXCOLOR
-attribute vec4 color;
-#endif
-
-
-// Uniforms
-uniform mat4 world;
-uniform mat4 worldViewProjection;
-
-// Varying
-varying vec3 vPositionW;
-varying vec3 vNormalW;
-varying vec4 vBaseColor;
-varying vec4 vFresnelColor;
-#ifdef VERTEXCOLOR
-varying vec4 vColor;
-#endif
-
-void main(void) {
-    vec4 outPosition = worldViewProjection * vec4(position, 1.0);
-    gl_Position = outPosition;
-    
-    vPositionW = vec3(world * vec4(position, 1.0));
-    vNormalW = normalize(vec3(world * vec4(normal, 0.0)));
-
-    vBaseColor = baseColor;
-    vFresnelColor = fresnelColor;
-    #ifdef VERTEXCOLOR
-	// Vertex color
-	vColor = color;
-    #endif
-}`;
-
-const customFragment = `
-precision highp float;
-
-// Lights
-varying vec3 vPositionW;
-varying vec3 vNormalW;
-varying vec4 vBaseColor;
-varying vec4 vFresnelColor;
-#ifdef VERTEXCOLOR
-varying vec4 vColor;
-#endif
-
-// Refs
-uniform vec3 cameraPosition;
-uniform sampler2D textureSampler;
-
-void main(void) {
-	vec4 _baseColor = vBaseColor;
-    vec4 _fresnelColor = vFresnelColor;
-    #ifdef VERTEXCOLOR
-	_baseColor.rgb *= vColor.rgb;
-    #endif
-
-    vec3 viewDirectionW = normalize(cameraPosition - vPositionW);
-
-    // Fresnel
-	float fresnelTerm = dot(viewDirectionW, vNormalW);
-	fresnelTerm = clamp(1.0 - fresnelTerm, 0., 1.);
-    
-    vec4 _blendedColor = normalize(_baseColor + (_fresnelColor * fresnelTerm));
-    _blendedColor.w = _baseColor.w;
-
-    gl_FragColor = _blendedColor;
-}
-`;
-
-//Compile shader
-export function makeShaderMaterial(
+export function makeMaterial(
+    name: string,
     scene: any,
     baseColor: BABYLON.Color4,
-    fresnelColor: BABYLON.Color4,
-    opacity: number
+    fresnelColor?: BABYLON.Color4,
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
 ) {
-    BABYLON.Effect.ShadersStore['customVertexShader'] = customVertex;
-    BABYLON.Effect.ShadersStore['customFragmentShader'] = customFragment;
-    const material = new BABYLON.ShaderMaterial(
-        'shader',
-        scene,
-        {
-            vertex: 'custom',
-            fragment: 'custom'
-        },
-        {
-            attributes: [
-                'position',
-                'normal',
-                'uv',
-                'baseColor',
-                'fresnelColor'
-            ],
-            uniforms: [
-                'world',
-                'worldView',
-                'worldViewProjection',
-                'view',
-                'projection'
-            ]
-        }
-    );
+    if (lightingStyle === 0)
+        return makePBRMaterial(
+            name,
+            scene,
+            baseColor,
+            fresnelColor,
+            reflectionTexture,
+            lightingStyle
+        );
+    else
+        return makeStandardMaterial(
+            name,
+            scene,
+            baseColor,
+            fresnelColor,
+            reflectionTexture,
+            lightingStyle
+        );
+}
 
-    material.setColor4('baseColor', baseColor);
-    material.setColor4('fresnelColor', fresnelColor);
-    material.setFloat('time', 0);
-    material.setVector3('cameraPosition', BABYLON.Vector3.Zero());
-    material.backFaceCulling = false;
-    material.alpha = opacity;
-    material.alphaMode = 5;
+export function makeStandardMaterial(
+    name: string,
+    scene: any,
+    baseColor: BABYLON.Color4,
+    fresnelColor?: BABYLON.Color4,
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
+) {
+    const material = new BABYLON.StandardMaterial(name, scene);
+    const baseColor3 = new BABYLON.Color3(
+        baseColor.r,
+        baseColor.g,
+        baseColor.b
+    );
+    const fresnelColor3 = new BABYLON.Color3(
+        fresnelColor?.r,
+        fresnelColor?.g,
+        fresnelColor?.b
+    );
+    if (!lightingStyle) lightingStyle = 0;
+
+    //diffuse
+    material.diffuseColor = baseColor3;
+
+    //If translucent, set emissive settings
+    if (lightingStyle >= 1) {
+        material.disableLighting = true;
+        material.specularPower = 0;
+        material.roughness = 100;
+        material.emissiveColor = BABYLON.Color3.White();
+
+        material.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        material.emissiveFresnelParameters.leftColor = fresnelColor3;
+        material.emissiveFresnelParameters.rightColor = baseColor3;
+        material.emissiveFresnelParameters.power = 2;
+        material.emissiveFresnelParameters.bias = 0.2;
+
+        material.useEmissiveAsIllumination = true;
+    }
+
+    //diffuse fresnel
+    if (fresnelColor && lightingStyle == 0) {
+        material.diffuseFresnelParameters = new BABYLON.FresnelParameters();
+        material.diffuseFresnelParameters.leftColor = fresnelColor3;
+        material.diffuseFresnelParameters.rightColor = baseColor3;
+        material.diffuseFresnelParameters.bias = 4.0;
+        material.diffuseFresnelParameters.power = 4.5;
+    }
+
+    //Alpha and alphamode
+    material.backFaceCulling = baseColor.a >= 1;
+    material.alpha = baseColor.a;
+    material.alphaMode = selectAlphaMode(baseColor.a);
+
+    //Reflection map
+    if (reflectionTexture) {
+        material.reflectionTexture = reflectionTexture;
+        material.useReflectionOverAlpha = lightingStyle !== 0;
+        material.reflectionFresnelParameters = new BABYLON.FresnelParameters();
+        material.reflectionFresnelParameters.leftColor = BABYLON.Color3.White();
+        material.reflectionFresnelParameters.rightColor = BABYLON.Color3.Black();
+        material.reflectionFresnelParameters.bias = 0.3;
+        material.reflectionFresnelParameters.power = 0.2;
+    }
 
     return material;
+}
+
+export function makePBRMaterial(
+    name: string,
+    scene: any,
+    baseColor: BABYLON.Color4,
+    fresnelColor?: BABYLON.Color4,
+    reflectionTexture?: BABYLON.Texture,
+    lightingStyle?: number
+) {
+    const material = new BABYLON.PBRMetallicRoughnessMaterial(name, scene);
+    const baseColor3 = new BABYLON.Color3(
+        baseColor.r,
+        baseColor.g,
+        baseColor.b
+    );
+    if (!lightingStyle) lightingStyle = 0;
+
+    material.backFaceCulling = false;
+
+    //diffuse
+    material.baseColor = baseColor3;
+    material.metallic = 0.05;
+    material.roughness = 0.7;
+
+    //Alpha and alphamode
+    material.alpha = baseColor.a;
+
+    //Reflection map
+    if (reflectionTexture) {
+        material.environmentTexture = reflectionTexture;
+        material.metallic = 0.05;
+        material.roughness = 1;
+    }
+
+    return material;
+}
+
+export function outlineMaterial(scene: any) {
+    const mat = new BABYLON.StandardMaterial('cloneMat', scene);
+    mat.alpha = 0.0;
+    mat.alphaMode = 5;
+
+    mat.disableLighting = true;
+    mat.diffuseColor = BABYLON.Color3.Black();
+    mat.freeze();
+
+    return mat;
+}
+
+export function selectAlphaMode(alpha: number) {
+    if (alpha >= 1) return 0;
+    if (alpha >= 0.9) return BABYLON.Engine.ALPHA_MAXIMIZED;
+    if (alpha > 0) return BABYLON.Engine.ALPHA_ADD;
+    return 0;
+}
+
+export function ToColor3(input: BABYLON.Color4) {
+    return new BABYLON.Color3(input.r, input.g, input.b);
 }

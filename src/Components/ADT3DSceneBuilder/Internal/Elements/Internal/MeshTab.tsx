@@ -8,7 +8,7 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 import { createCustomMeshItems } from '../../../../3DV/SceneView.Utils';
 import { CustomMeshItem } from '../../../../../Models/Classes/SceneView.types';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { IADT3DViewerRenderMode } from '../../../../../Models/Constants';
+import { IADTObjectColor } from '../../../../../Models/Constants';
 
 interface MeshTabProps {
     elementToEdit: ITwinToObjectMapping;
@@ -19,17 +19,19 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         []
     );
 
-    const { setColoredMeshItems, state } = useContext(SceneBuilderContext);
+    const { setColoredMeshItems, objectColor } = useContext(
+        SceneBuilderContext
+    );
 
     // generate the list of items to show
     useEffect(() => {
         const listItems = getListItems(
             elementToEdit.objectIDs,
             setColoredMeshItems,
-            state.renderMode
+            objectColor
         );
         setListItems(listItems);
-    }, [elementToEdit, setColoredMeshItems]);
+    }, [elementToEdit, setColoredMeshItems, objectColor]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
@@ -50,7 +52,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
 function getListItems(
     elementMeshIds: string[],
     setColoredMeshItems: (selectedNames: CustomMeshItem[]) => void,
-    renderMode: IADT3DViewerRenderMode
+    objectColor: IADTObjectColor
 ): ICardboardListItem<string>[] {
     const onMeshItemEnter = (meshId: string) => {
         const coloredMeshItems: CustomMeshItem[] = createCustomMeshItems(
@@ -59,7 +61,7 @@ function getListItems(
         );
         coloredMeshItems.push({
             meshId: meshId,
-            color: renderMode.coloredMeshHoverColor
+            color: objectColor.coloredMeshHoverColor
         });
         setColoredMeshItems(coloredMeshItems);
     };
@@ -68,25 +70,29 @@ function getListItems(
         setColoredMeshItems(createCustomMeshItems(elementMeshIds, null));
     };
 
+    const onLeave = () => onMeshItemLeave();
     return elementMeshIds.sort().map((item) => {
         const viewModel: ICardboardListItem<string> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onMeshItemEnter(item),
-                onMouseLeave: () => onMeshItemLeave(),
+                onMouseEnter: () => onMeshItemEnter(item),
+                onMouseLeave: onLeave,
                 onFocus: () => onMeshItemEnter(item),
-                onBlur: () => onMeshItemLeave()
+                onBlur: onLeave
             },
-            iconStartName: 'CubeShape',
-            iconEndName: 'Delete',
+            iconStart: { name: 'CubeShape' },
+            iconEnd: {
+                name: 'Delete',
+                onClick: () => {
+                    const currentObjects = [...elementMeshIds];
+                    currentObjects.splice(currentObjects.indexOf(item), 1);
+                    setColoredMeshItems(
+                        createCustomMeshItems(currentObjects, null)
+                    );
+                }
+            },
             item: item,
-            onClick: () => {
-                const currentObjects = [...elementMeshIds];
-                currentObjects.splice(currentObjects.indexOf(item), 1);
-                setColoredMeshItems(
-                    createCustomMeshItems(currentObjects, null)
-                );
-            },
+            onClick: () => undefined,
             textPrimary: item
         };
 

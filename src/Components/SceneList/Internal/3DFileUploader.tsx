@@ -64,10 +64,10 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                 <CardboardList<File>
                     items={[
                         {
-                            iconStartName: 'OpenFile',
+                            iconEnd: { name: 'Cancel' },
+                            iconStart: { name: 'OpenFile' },
                             textPrimary: selectedFile.name,
                             textSecondary: prettyBytes(selectedFile.size),
-                            iconEndName: 'Cancel',
                             onClick: () => {
                                 setSelectedFile(null);
                                 onFileChange(null);
@@ -141,6 +141,8 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                     <Image
                         shouldStartVisible={true}
                         src={DropFileIcon}
+                        width={120}
+                        height={120}
                         className="cb-scene-list-form-dialog-3d-file-dropzone-icon"
                     />
                     <div className="cb-scene-list-form-dialog-3d-file-dropzone-text">

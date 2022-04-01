@@ -20,7 +20,8 @@ import {
     getValidationMapFromValueRanges,
     areDistinctValueRangesValid,
     getNextColor,
-    isRangeOverlapFound
+    isRangeOverlapFound,
+    cleanValueOutput
 } from './ValueRangeBuilder.utils';
 import {
     defaultValueRangeBuilderState,
@@ -39,6 +40,7 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
     IValueRangeBuilderProps
 > = (
     {
+        className,
         initialValueRanges = [],
         customSwatchColors,
         baseComponentProps,
@@ -68,6 +70,16 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
 
     const { validationMap } = state;
 
+    // On mount, pre-fill value ranges to min required
+    useEffect(() => {
+        if (state.valueRanges.length < minRanges) {
+            dispatch({
+                type:
+                    ValueRangeBuilderActionType.PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
+            });
+        }
+    }, []);
+
     // Update consumer when validation map changes
     useEffect(() => {
         if (typeof setAreRangesValid === 'function') {
@@ -88,8 +100,8 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         getValueRanges: () => {
             return state.valueRanges.map((vr) => ({
                 ...vr,
-                min: Number(vr.min),
-                max: Number(vr.max)
+                min: cleanValueOutput(vr.min),
+                max: cleanValueOutput(vr.max)
             }));
         }
     }));
@@ -103,7 +115,9 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
         >
             <BaseComponent
                 {...baseComponentProps}
-                containerClassName="cb-value-range-builder-container"
+                containerClassName={`cb-value-range-builder-container ${
+                    className ? className : ''
+                }`}
             >
                 {state.valueRanges.map((valueRange) => (
                     <div
@@ -120,29 +134,32 @@ const ValueRangeBuilder: React.ForwardRefRenderFunction<
                             {t('valueRangeBuilder.overlapDetectedMessage')}
                         </div>
                     )}
-                <ActionButton
-                    iconProps={{ iconName: 'Add' }}
-                    onClick={() => {
-                        const id = createGUID(false);
+                {!(maxRanges && state.valueRanges.length >= maxRanges) && (
+                    <ActionButton
+                        data-testid={'range-builder-add'}
+                        iconProps={{ iconName: 'Add' }}
+                        onClick={() => {
+                            const id = createGUID();
 
-                        dispatch({
-                            type: ValueRangeBuilderActionType.ADD_VALUE_RANGE,
-                            payload: {
-                                id,
-                                color: getNextColor(
-                                    state.valueRanges,
-                                    state.colorSwatch
-                                )
-                            }
-                        });
-                    }}
-                    ariaLabel={t('valueRangeBuilder.addValueRangeButtonText')}
-                    disabled={
-                        maxRanges && state.valueRanges.length >= maxRanges
-                    }
-                >
-                    {t('valueRangeBuilder.addValueRangeButtonText')}
-                </ActionButton>
+                            dispatch({
+                                type:
+                                    ValueRangeBuilderActionType.ADD_VALUE_RANGE,
+                                payload: {
+                                    id,
+                                    color: getNextColor(
+                                        state.valueRanges,
+                                        state.colorSwatch
+                                    )
+                                }
+                            });
+                        }}
+                        ariaLabel={t(
+                            'valueRangeBuilder.addValueRangeButtonText'
+                        )}
+                    >
+                        {t('valueRangeBuilder.addValueRangeButtonText')}
+                    </ActionButton>
+                )}
             </BaseComponent>
         </ValueRangeBuilderContext.Provider>
     );

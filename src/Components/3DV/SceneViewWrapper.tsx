@@ -4,15 +4,29 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 */
 
-import React from 'react';
+import React, { useState } from 'react';
 import * as BABYLON from 'babylonjs';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
-import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
+import {
+    ADT3DAddInEventTypes,
+    ViewerModeStyles
+} from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
 } from '../../Models/Constants/Interfaces';
+import ModelViewerModePicker, {
+    ViewerMode
+} from '../ModelViewerModePicker/ModelViewerModePicker';
+import './SceneView.scss';
+import {
+    DefaultViewerModeObjectColor,
+    IADT3DViewerMode,
+    IADTObjectColor,
+    ViewerModeBackgroundColors,
+    ViewerModeObjectColors
+} from '../../Models/Constants';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -20,7 +34,9 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     adapter,
     sceneViewProps,
     sceneVisuals,
-    addInProps
+    addInProps,
+    objectColorUpdated,
+    hideViewModePickerUI
 }) => {
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -29,6 +45,10 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     data.config = config;
     data.sceneId = sceneId;
     data.sceneVisuals = sceneVisuals;
+    const [
+        selectedViewerMode,
+        setSelectedViewerMode
+    ] = useState<IADT3DViewerMode>(null);
 
     const sceneLoaded = (scene: BABYLON.Scene) => {
         data.eventType = ADT3DAddInEventTypes.SceneLoaded;
@@ -85,12 +105,65 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         }
     };
 
+    const onViewerModeUpdated = (viewerMode: ViewerMode) => {
+        if (viewerMode) {
+            let objectColor: IADTObjectColor = null;
+            if (viewerMode.objectColor) {
+                objectColor = ViewerModeObjectColors.find(
+                    (oc) => viewerMode?.objectColor === oc.color
+                );
+            }
+
+            if (!objectColor) {
+                objectColor = DefaultViewerModeObjectColor;
+            }
+
+            setSelectedViewerMode({
+                objectColor: objectColor,
+                background: viewerMode.background,
+                isWireframe:
+                    viewerMode.style === ViewerModeStyles.Wireframe
+                        ? true
+                        : false
+            });
+
+            if (objectColorUpdated) {
+                objectColorUpdated(objectColor);
+            }
+        }
+    };
+
     return (
-        <SceneView
-            {...svp}
-            onMeshHover={meshHover}
-            onMeshClick={meshClick}
-            onSceneLoaded={sceneLoaded}
-        />
+        <div
+            style={
+                selectedViewerMode?.background
+                    ? { background: selectedViewerMode.background }
+                    : {}
+            }
+            className="cb-adt-3dviewer-wrapper "
+        >
+            {!hideViewModePickerUI && (
+                <div className="cb-adt-3dviewer-render-mode-selection">
+                    <ModelViewerModePicker
+                        defaultViewerMode={{
+                            objectColor: null,
+                            style: ViewerModeStyles.Default,
+                            background: ViewerModeBackgroundColors[0]
+                        }}
+                        viewerModeUpdated={onViewerModeUpdated}
+                        objectColors={ViewerModeObjectColors}
+                        backgroundColors={ViewerModeBackgroundColors}
+                    />
+                </div>
+            )}
+            <SceneView
+                isWireframe={selectedViewerMode?.isWireframe}
+                objectColors={selectedViewerMode?.objectColor}
+                {...svp}
+                onMeshHover={meshHover}
+                onMeshClick={meshClick}
+                onSceneLoaded={sceneLoaded}
+            />
+        </div>
     );
 };

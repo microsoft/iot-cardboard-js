@@ -1,14 +1,18 @@
 import {
     I3DScenesConfig,
+    IAlertVisual,
     IBehavior,
     IDataSource,
     IElement,
     IElementTwinToObjectMappingDataSource,
+    IPopoverVisual,
     IScene,
+    IStatusColoringVisual,
+    ITwinToObjectMapping,
     IValueRange,
-    ITwinToObjectMapping
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType } from './3DVConfig';
+import { DatasourceType, ElementType, VisualType } from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -254,6 +258,20 @@ abstract class ViewerConfigUtility {
         return element.type === ElementType.TwinToObjectMapping;
     }
 
+    static isPopoverVisual(visual: IVisual): visual is IPopoverVisual {
+        return visual.type === VisualType.Popover;
+    }
+
+    static isStatusColorVisual(
+        visual: IVisual
+    ): visual is IStatusColoringVisual {
+        return visual.type === VisualType.StatusColoring;
+    }
+
+    static isAlertVisual(visual: IVisual): visual is IAlertVisual {
+        return visual.type === VisualType.Alert;
+    }
+
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
         sceneId: string,
@@ -333,6 +351,43 @@ abstract class ViewerConfigUtility {
         );
     }
 
+    /**
+     * Gets the list of all the active properties from the provided linked twins
+     * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
+     * @param twins List of twins the get the properties from
+     * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
+     */
+    static getPropertyNamesWithAliasFromTwins(twins: Record<string, any>) {
+        const properties = new Set<string>();
+        for (const alias in twins) {
+            const twin = twins[alias];
+            const split = alias.split('.');
+            const name = split.length ? split[0] : alias;
+            for (const prop in twin) {
+                if (prop.substring(0, 1) !== '$' || prop === '$dtId') {
+                    properties.add(`${name}.${prop}`);
+                }
+            }
+        }
+        return Array.from(properties.values()).sort();
+    }
+
+    /**
+     * Takes in the property names that have an alias at the start ex: "LinkedTwin" and splits off that prefix to only have the raw property names.
+     * source of the input is usually `getPropertyNamesWithAliasFromTwins`
+     * @param properties List of properties with the LinkedTwin type prefix
+     * @returns list of raw property names
+     */
+    static getPropertyNameFromAliasedProperty(properties: string[]) {
+        return properties
+            .map((x) => {
+                // comes back as LinkedTwin.Alias.PropertyName
+                const sliced = x.split('.');
+                return sliced[sliced.length - 1];
+            })
+            .sort();
+    }
+
     static removeBehaviorFromList(
         behaviors: Array<IBehavior>,
         behaviorToRemove: IBehavior
@@ -391,6 +446,128 @@ abstract class ViewerConfigUtility {
         }
 
         return color;
+    }
+
+    static getMatchingRangeFromValue(
+        ranges: IValueRange[],
+        value: number
+    ): IValueRange | null {
+        let targetRange: IValueRange = null;
+        if (ranges) {
+            for (const range of ranges) {
+                if (value >= Number(range.min) && value < Number(range.max)) {
+                    targetRange = range;
+                }
+            }
+        }
+
+        return targetRange;
+    }
+    static getGaugeWidgetConfiguration(
+        ranges: IValueRange[],
+        value: number
+    ): {
+        domainMin: number;
+        domainMax: number;
+        percent: number;
+        colors: string[];
+        nrOfLevels: number;
+    } {
+        const defaultMinGaugeDomain = -100;
+        const defaultMaxGaugeDomain = 100;
+        let domainMin = Number('Infinity');
+        let domainMax = Number('-Infinity');
+        let nrOfLevels = ranges.length;
+
+        for (const valueRange of ranges) {
+            const numericValueRangeMin = Number(valueRange.min);
+            const numericValueRangeMax = Number(valueRange.max);
+
+            // Find minimum range value
+            if (numericValueRangeMin < domainMin) {
+                domainMin = numericValueRangeMin;
+            }
+
+            // Find maximum range value
+            if (numericValueRangeMax > domainMax) {
+                domainMax = numericValueRangeMax;
+            }
+        }
+
+        // If minimum is not finite -- snap to default min
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMinGaugeDomain;
+        }
+
+        // If maximum is not finite -- snap to default max
+        if (!isFinite(domainMin)) {
+            domainMin = defaultMaxGaugeDomain;
+        }
+
+        const targetRange = ViewerConfigUtility.getMatchingRangeFromValue(
+            ranges,
+            value
+        );
+        const isOutOfValueRange = targetRange === null;
+
+        const sortedRanges = ranges.sort(
+            (a, b) => Number(a.min) - Number(b.min)
+        );
+        let outOfRangeColorInsertionIndex = sortedRanges.length;
+
+        const gaugeRanges = sortedRanges.map((vr) => ({
+            color: vr.color,
+            id: vr.id
+        }));
+
+        if (isOutOfValueRange) {
+            for (let i = 0; i < sortedRanges.length; i++) {
+                if (value < Number(sortedRanges[i].min)) {
+                    outOfRangeColorInsertionIndex = i;
+                    break;
+                }
+            }
+            gaugeRanges.splice(outOfRangeColorInsertionIndex, 0, {
+                color: 'var(--cb-color-bg-canvas-inset)',
+                id: 'OUT_OF_RANGE_ID'
+            });
+            nrOfLevels++;
+        }
+
+        let percent = (value - domainMin) / (domainMax - domainMin);
+
+        if (percent > 1) {
+            percent = 1;
+        } else if (percent < 0) {
+            percent = 0;
+        } else {
+            const targetId = isOutOfValueRange
+                ? 'OUT_OF_RANGE_ID'
+                : targetRange.id;
+
+            // Find index into gauge colors to target
+            const rangeIdx =
+                gaugeRanges.findIndex((gr) => gr.id === targetId) || 0;
+
+            // Snap percent to center of color range
+            const rangeAnchors = [];
+            const increment = 1 / nrOfLevels;
+            let currentAnchor = increment / 2;
+            while (currentAnchor < 1) {
+                rangeAnchors.push(currentAnchor);
+                currentAnchor += increment;
+            }
+
+            percent = rangeAnchors[rangeIdx];
+        }
+
+        return {
+            domainMin,
+            domainMax,
+            percent,
+            colors: gaugeRanges.map((gr) => gr.color),
+            nrOfLevels
+        };
     }
 
     static getMappingIdsForBehavior(behavior: IBehavior) {

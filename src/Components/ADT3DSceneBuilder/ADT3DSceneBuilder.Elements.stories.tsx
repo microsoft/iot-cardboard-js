@@ -3,26 +3,26 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import {
     clickOverFlowMenuItem,
     findCalloutItemByTestId,
     findOverflowMenuItem as findOverflowMenuItemByTestId,
     IStoryContext,
-    sleep,
-    waitForFirstRender
+    sleep
 } from '../../Models/Services/StoryUtilities';
 import {
     I3DScenesConfig,
     IElement
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
+import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
+import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/Elements',
     parameters: {
         // delay for the menus showing up
-        chromatic: { delay: 1000 }
+        chromatic: { delay: 2000 }
     }
 };
 
@@ -44,8 +44,8 @@ const Template: SceneBuilderStory = (
             adapter={
                 new MockAdapter({
                     mockData: context.parameters.data
-                        ? JSON.parse(JSON.stringify(context.parameters.data))
-                        : undefined
+                        ? deepCopy(context.parameters.data)
+                        : trucksMockVConfig
                 })
             }
             sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
@@ -56,24 +56,24 @@ const Template: SceneBuilderStory = (
 
 export const ElementsTab = Template.bind({});
 ElementsTab.play = async ({ canvasElement }) => {
-    await waitForFirstRender();
+    await sleep(1);
+    await sleep(1);
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tabButton = canvas.getAllByRole('tab');
     await userEvent.click(tabButton[0]);
 };
 
-// TODO SCHEMA MIGRATION - alerts and widgets awaiting schema v2 support
-// export const Search = Template.bind({});
-// Search.play = async ({ canvasElement }) => {
-//     // switch to the behaviors tab
-//     await ElementsTab.play({ canvasElement });
+export const Search = Template.bind({});
+Search.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await ElementsTab.play({ canvasElement });
 
-//     const canvas = within(canvasElement);
-//     // type in the search box
-//     const searchBox = canvas.getByTestId('search-header-search-box');
-//     await userEvent.type(searchBox, 'box');
-// };
+    const canvas = within(canvasElement);
+    // type in the search box
+    const searchBox = canvas.getByTestId('search-header-search-box');
+    await userEvent.type(searchBox, 'box');
+};
 
 const mockElement: IElement = {
     type: 'TwinToObjectMapping',
@@ -83,7 +83,7 @@ const mockElement: IElement = {
     objectIDs: ['wheel1Mesh_primitive0', 'wheel2Mesh_primitive0'],
     extensionProperties: {}
 };
-const longData = JSON.parse(JSON.stringify(mockVConfig)) as I3DScenesConfig;
+const longData = deepCopy(trucksMockVConfig) as I3DScenesConfig;
 longData.configuration.scenes = [
     {
         ...longData.configuration.scenes[0],
@@ -117,7 +117,6 @@ longData.configuration.scenes = [
         ]
     }
 ];
-console.log(`**Long data`, longData);
 export const Scrolling = Template.bind({});
 Scrolling.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
@@ -176,7 +175,7 @@ EditMeshTabDelete.play = async ({ canvasElement }) => {
     // click a list item
     const canvas = within(canvasElement);
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-mesh-list-0'
+        'cardboard-list-item-secondary-action-0'
     );
     await userEvent.click(listItem);
 };
@@ -232,6 +231,7 @@ export const EditBehaviorsTabAddThenOpenMenu = Template.bind({});
 EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
     // open the add behavior callout
     await EditBehaviorsTabAddSelect.play({ canvasElement });
+    await sleep(1);
 
     // click a list item
     const canvas = within(canvasElement);

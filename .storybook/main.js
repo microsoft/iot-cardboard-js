@@ -14,6 +14,10 @@ module.exports = {
         '@storybook/addon-interactions',
         '@storybook/addon-a11y'
     ],
+    typescript: {
+        check: false,
+        reactDocgen: false
+    },
     webpackFinal: async (config) => {
         // Disable the Storybook internal-`.svg`-rule for components loaded from our app.
         const svgRule = config.module.rules.find((rule) =>

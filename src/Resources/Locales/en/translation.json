@@ -313,7 +313,8 @@
     "3dSceneBuilder": {
         "elements": "Elements",
         "element": "Element",
-        "alerts": "Alerts",
+        "alertsTab": "Alerts",
+        "statesTab": "Status",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -367,12 +368,30 @@
         "elementMetaText": "{{numBehaviors}} behaviors",
         "linkedTwin": "Linked twin",
         "linkedTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
-        "noMeshAddedText": "No meshes added yet, pelase select meshes in 3D viewer",
+        "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
-        "behaviorTriggerLabel": "Trigger expression",
-        "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+        "behaviorAlertForm": {
+            "colorPickerLabel": "Badge color",
+            "expressionLabel": "Trigger expression",
+            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
+            "iconPickerLabel": "Badge icon",
+            "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
+            "notificationLabel": "Notification text",
+            "notificationPlaceholder": "Text to show with the alert for additional context."
+        },
+        "behaviorStatusForm": {
+            "notice": "Use a single property to recolor this behavior's target elements.",
+            "stateItemLabel": "State {{index}}"
+        },
+        "twinPropertyDropdown": {
+            "propertyDropdownLabel": "Property",
+            "noElementsSelected": "No elements selected",
+            "noSelectionValue": "None",
+            "propertyNotFound": "Property not found on the behavior's twins"
+        },
+        "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
         "widgetLibrary": "Widget library",
         "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
@@ -400,16 +419,6 @@
         "aliasedTwins": "Aliased twins",
         "notImplemented": "Not implemented"
     },
-    "3dSceneViewer": {
-        "renderModes": {
-            "default": "Default render mode",
-            "wireframe": "Wireframe",
-            "red": "Translucent red",
-            "redWireframe": "Translucent red wireframe",
-            "green": "Translucent green",
-            "greenWireframe": "Translucent green wireframe"
-        }
-    },
     "widgets": {
         "trend": {
             "title": "Trend widget",
@@ -421,7 +430,9 @@
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL"
+            "description": "Reference external content by linking a URL",
+            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+            "openLink": "Open link"
         },
         "panel": {
             "title": "Panel widget",
@@ -627,6 +638,9 @@
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
         }
     },
+    "behaviorsModal": {
+        "closeModal": "Close modal"
+    },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
         "imgTag": "SVG icon via img tag src",
@@ -638,6 +652,22 @@
         "loading3DFiles": "Loading files...",
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
+    },
+    "modelViewerModePicker": {
+        "title": "Viewer Theme",
+        "style": "Style",
+        "objectColors": "Object color",
+        "background": "Background",
+        "default": "Default",
+        "transparent": "Transparent",
+        "wireframe": "Wireframe"
+    },
+    "elementsPanel": {
+        "title": "Elements",
+        "noElements": "No elements to display",
+        "filterPlaceholder": "Type to filter elements or alerts",
+        "showPanel": "Show elements panel",
+        "hidePanel": "Hide elements panel"
     },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",

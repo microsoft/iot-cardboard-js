@@ -1,8 +1,10 @@
 import {
+    IAlertVisual,
     IBehavior,
     IGaugeWidget,
     ILinkWidget,
     IPopoverVisual,
+    IStatusColoringVisual,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
@@ -52,17 +54,41 @@ export const defaultOnClickPopover: IPopoverVisual = {
     }
 };
 
+export const defaultStatusColorVisual: IStatusColoringVisual = {
+    type: VisualType.StatusColoring,
+    statusValueExpression: '',
+    valueRanges: [],
+    objectIDs: {
+        expression: 'objectIDs'
+    }
+};
+
+export const defaultAlertVisual: IAlertVisual = {
+    type: VisualType.Alert,
+    color: '',
+    iconName: '',
+    labelExpression: '',
+    triggerExpression: '',
+    objectIDs: {
+        expression: 'objectIDs'
+    }
+};
+
 export const defaultGaugeWidget: IGaugeWidget = {
+    id: '',
     type: WidgetType.Gauge,
     valueExpression: '',
     widgetConfiguration: {
-        label: ''
+        label: '',
+        valueRanges: []
     }
 };
 
 export const defaultLinkWidget: ILinkWidget = {
+    id: '',
     type: WidgetType.Link,
     widgetConfiguration: {
+        label: '',
         linkExpression: ''
     }
 };
