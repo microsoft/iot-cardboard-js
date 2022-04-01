@@ -57,7 +57,6 @@ const OATGraphViewer = () => {
     };
 
     const onUpdateNode = (prevId, id) => {
-        debugger; //eslint-disable-line
         const index = elements.findIndex((element) => element.id === prevId);
         elements[index].id = id;
         localStorage.setItem('elements', JSON.stringify(elements));
