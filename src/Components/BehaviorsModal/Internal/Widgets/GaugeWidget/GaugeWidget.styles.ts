@@ -1,4 +1,5 @@
 import {
+    FontSizes,
     FontWeights,
     IStyle,
     memoizeFunction,
@@ -34,7 +35,7 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
             classNames.gaugeInfoLabel,
             textOverflow,
             {
-                fontSize: '12px',
+                fontSize: FontSizes.size12,
                 minHeight: '16px',
                 fontWeight: FontWeights.semibold
             } as IStyle
@@ -43,7 +44,7 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
             classNames.gaugeInfoValue,
             textOverflow,
             {
-                fontSize: '24px',
+                fontSize: FontSizes.size24,
                 flex: '3 3 3',
                 position: 'relative'
             } as IStyle
@@ -52,7 +53,7 @@ export const getStyles = memoizeFunction((_activeColor: string) =>
             classNames.gaugeInfoUnits,
             textOverflow,
             {
-                fontSize: '10px',
+                fontSize: FontSizes.size10,
                 flex: '1 1 1',
                 display: 'inline-block',
                 alignSelf: 'flex-end',

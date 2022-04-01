@@ -5,19 +5,20 @@ import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtili
 import { getStyles } from './GaugeWidget.styles';
 import GaugeChart from 'react-gauge-chart';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
+import { BehaviorModalMode } from '../../../../../Models/Constants';
 
 interface IProp {
     widget: IGaugeWidget;
 }
 
 const GaugeWidget: React.FC<IProp> = ({ widget }) => {
-    const { twins, isPreview } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
     const expression = widget.valueExpression;
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
     try {
-        if (isPreview) {
+        if (mode === BehaviorModalMode.preview) {
             // In preview mode, gauge uses min value range as value
             value = Number(
                 widget.widgetConfiguration.valueRanges

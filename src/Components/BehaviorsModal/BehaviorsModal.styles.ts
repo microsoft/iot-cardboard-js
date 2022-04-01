@@ -1,4 +1,5 @@
 import {
+    FontSizes,
     FontWeights,
     IButtonStyles,
     ISeparatorStyleProps,
@@ -7,6 +8,7 @@ import {
     memoizeFunction,
     mergeStyleSets
 } from '@fluentui/react';
+import { BehaviorModalMode } from '../../Models/Constants';
 import { getTransparentColor } from '../../Models/Services/Utils';
 
 export const behaviorsModalClassPrefix = 'cb-behaviors-modal';
@@ -24,23 +26,27 @@ const classNames = {
 
 export const getBorderStyle = (
     theme: ITheme,
-    isPreview: boolean,
-    mode: 'border' | 'color' = 'border'
+    mode: BehaviorModalMode,
+    styleTarget: 'border' | 'color' = 'border'
 ) => {
-    const color = isPreview
-        ? getTransparentColor(theme.palette.white, '0.3')
-        : 'var(--cb-color-modal-border)';
+    const color =
+        mode === BehaviorModalMode.preview
+            ? getTransparentColor(theme.palette.white, '0.3')
+            : 'var(--cb-color-modal-border)';
 
-    if (mode === 'color') {
+    if (styleTarget === 'color') {
         return color;
     } else {
-        return isPreview ? `1px dashed ${color}` : `1px solid ${color}`;
+        return mode === BehaviorModalMode.preview
+            ? `1px dashed ${color}`
+            : `1px solid ${color}`;
     }
 };
 
 export const getStyles = memoizeFunction(
-    (theme: ITheme, isPreview: boolean) => {
-        const modalBorderStyle = getBorderStyle(theme, isPreview, 'border');
+    (theme: ITheme, mode: BehaviorModalMode) => {
+        const modalBorderStyle = getBorderStyle(theme, mode, 'border');
+        const isPreview = mode === BehaviorModalMode.preview;
         const initialPopoverTopOffset = isPreview ? 124 : 112;
         const initialPopoverRightOffset = isPreview ? 8 : 10;
         const draggablePositionStyle: IStyle = isPreview
@@ -100,7 +106,7 @@ export const getStyles = memoizeFunction(
                     display: 'flex',
                     alignItems: 'center',
                     fontWeight: FontWeights.semibold,
-                    fontSize: '16px',
+                    fontSize: FontSizes.size16,
                     height: 32
                 } as IStyle
             ],
@@ -109,7 +115,7 @@ export const getStyles = memoizeFunction(
                 {
                     fontWeight: FontWeights.regular,
                     fontStyle: 'italic',
-                    fontSize: '14px'
+                    fontSize: FontSizes.size14
                 } as IStyle
             ],
             modalTitle: [
@@ -132,11 +138,14 @@ export const getStyles = memoizeFunction(
     }
 );
 
-export const getSeparatorStyles = (props: ISeparatorStyleProps, isPreview) => {
+export const getSeparatorStyles = (
+    props: ISeparatorStyleProps,
+    mode: BehaviorModalMode
+) => {
     return {
         root: {
             ':before': {
-                backgroundColor: getBorderStyle(props.theme, isPreview, 'color')
+                backgroundColor: getBorderStyle(props.theme, mode, 'color')
             },
             padding: 0,
             height: 1

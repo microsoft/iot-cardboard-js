@@ -28,9 +28,9 @@ const makeWidget = (widget: IWidget) => {
 const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
     popoverVisual
 }) => {
-    const { isPreview } = useContext(BehaviorsModalContext);
+    const { mode } = useContext(BehaviorsModalContext);
     const theme = getTheme();
-    const styles = getStyles(theme, isPreview);
+    const styles = getStyles(theme, mode);
 
     return (
         <div className={styles.widgetsContainer}>

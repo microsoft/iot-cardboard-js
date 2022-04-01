@@ -1,4 +1,5 @@
 import {
+    FontSizes,
     FontWeights,
     IStyle,
     memoizeFunction,
@@ -28,7 +29,7 @@ export const getStyles = memoizeFunction(() =>
         linkLabel: [
             classNames.linkLabel,
             {
-                fontSize: 12,
+                fontSize: FontSizes.size12,
                 fontWeight: FontWeights.semibold,
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',

@@ -1,6 +1,7 @@
 import { Icon } from '@fluentui/react';
 import React, { useContext, useMemo } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
+import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
     getSceneElementStatusColor,
     parseExpression,
@@ -22,13 +23,13 @@ export interface IBehaviorsSectionProps {
 
 const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     const styles = getStyles();
-    const { twins, isPreview } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
 
     const alertVisuals = useMemo(() => {
         let visibleAlertVisuals =
             behavior.visuals.filter(ViewerConfigUtility.isAlertVisual) || [];
 
-        if (!isPreview) {
+        if (mode !== BehaviorModalMode.preview) {
             visibleAlertVisuals = visibleAlertVisuals.filter((av) =>
                 parseExpression(av.triggerExpression, twins)
             );
@@ -52,10 +53,10 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
         <div className={styles.behaviorSection}>
             <div className={styles.behaviorHeader}>{behavior.displayName}</div>
             {alertVisuals.map((av, idx) => (
-                <AlertBlock alertVisual={av} key={idx} />
+                <AlertBlock alertVisual={av} key={`${av.type}-${idx}`} />
             ))}
             {statusVisuals.map((sv, idx) => (
-                <StatusBlock statusVisual={sv} key={idx} />
+                <StatusBlock statusVisual={sv} key={`${sv.type}-${idx}`} />
             ))}
             {popoverVisual && (
                 <WidgetsContainer popoverVisual={popoverVisual} />
@@ -69,7 +70,7 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
 }) => {
     const styles = getStyles();
     const alertStyles = getElementsPanelAlertStyles(alertVisual.color, true);
-    const { twins, isPreview } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
 
     return (
         <div className={styles.infoContainer}>
@@ -77,7 +78,7 @@ const AlertBlock: React.FC<{ alertVisual: IAlertVisual }> = ({
                 <Icon iconName={alertVisual.iconName} />
             </div>
             <div className={styles.infoTextContainer}>
-                {isPreview
+                {mode === BehaviorModalMode.preview
                     ? alertVisual.labelExpression
                     : performSubstitutions(alertVisual.labelExpression, twins)}
             </div>
@@ -89,7 +90,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     statusVisual
 }) => {
     const styles = getStyles();
-    const { twins, isPreview } = useContext(BehaviorsModalContext);
+    const { twins, mode } = useContext(BehaviorsModalContext);
     const { statusValueExpression, valueRanges } = statusVisual;
     const isStatusLineVisible = valueRanges.length > 0;
 
@@ -97,7 +98,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     let statusColor;
     let statusStyles;
 
-    if (isPreview) {
+    if (mode === BehaviorModalMode.preview) {
         if (!isStatusLineVisible) {
             statusStyles = getStatusBlockStyles(null);
         } else {

@@ -3,7 +3,7 @@ import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
-import { DTwin } from '../../Models/Constants';
+import { BehaviorModalMode, DTwin } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     dismissButtonStyles,
@@ -17,14 +17,14 @@ export interface IBehaviorsModalProps {
     title?: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
-    isPreview?: boolean;
+    mode?: BehaviorModalMode;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
     twins: Record<string, DTwin>;
-    isPreview: boolean;
+    mode: BehaviorModalMode;
 }>(null);
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
@@ -32,16 +32,16 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     behaviors,
     title,
     twins,
-    isPreview = false
+    mode = BehaviorModalMode.viewer
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = getTheme();
-    const styles = getStyles(theme, isPreview);
+    const styles = getStyles(theme, mode);
 
     return (
-        <BehaviorsModalContext.Provider value={{ twins, isPreview }}>
+        <BehaviorsModalContext.Provider value={{ twins, mode }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>
@@ -52,7 +52,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     id={titleId}
                                     title={title}
                                 >
-                                    {isPreview
+                                    {mode === BehaviorModalMode.preview
                                         ? t('behaviorsModal.behaviorPreview')
                                         : title}
                                 </span>
@@ -78,7 +78,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                                 styles={(props) =>
                                                     getSeparatorStyles(
                                                         props,
-                                                        isPreview
+                                                        mode
                                                     )
                                                 }
                                             />

@@ -14,6 +14,7 @@ import {
 } from '../../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
+    BehaviorModalMode,
     WidgetFormMode
 } from '../../../../Models/Constants/Enums';
 import {
@@ -424,7 +425,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     <BehaviorsModal
                         behaviors={behaviorPreview}
                         twins={null}
-                        isPreview
+                        mode={BehaviorModalMode.preview}
                     />
                 </div>
             )}

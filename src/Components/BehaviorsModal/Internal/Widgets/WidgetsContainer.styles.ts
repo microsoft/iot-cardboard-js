@@ -4,6 +4,7 @@ import {
     memoizeFunction,
     mergeStyleSets
 } from '@fluentui/react';
+import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
     behaviorsModalClassPrefix,
     getBorderStyle
@@ -15,8 +16,8 @@ const classNames = {
 };
 
 export const getStyles = memoizeFunction(
-    (theme: ITheme, isPreview: boolean) => {
-        const borderStyle = getBorderStyle(theme, isPreview, 'border');
+    (theme: ITheme, mode: BehaviorModalMode) => {
+        const borderStyle = getBorderStyle(theme, mode, 'border');
         return mergeStyleSets({
             widgetsContainer: [
                 classNames.widgetsContainer,

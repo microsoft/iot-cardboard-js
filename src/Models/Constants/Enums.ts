@@ -183,3 +183,8 @@ export enum SupportedBlobFileTypes {
     GLTransmissionFormat = 'gltf',
     GLTransmissionFormatBinary = 'glb'
 }
+
+export enum BehaviorModalMode {
+    viewer = 'viewer',
+    preview = 'preview'
+}
