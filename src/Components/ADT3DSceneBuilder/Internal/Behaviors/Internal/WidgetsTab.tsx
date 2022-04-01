@@ -26,6 +26,7 @@ import {
     VisualType
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { createGUID } from '../../../../../Models/Services/Utils';
 
 const getPopoverFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;
@@ -98,7 +99,8 @@ const WidgetsTab: React.FC = () => {
         (libraryItem: IWidgetLibraryItem) => {
             setWidgetFormInfo({
                 widget: libraryItem,
-                mode: WidgetFormMode.CreateWidget
+                mode: WidgetFormMode.CreateWidget,
+                widgetId: createGUID()
             });
 
             // Add popover visual if not already present

@@ -8,7 +8,10 @@ import {
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
-import { getStyles } from './WidgetsContainer.styles';
+import {
+    getWidgetClassNames,
+    widgetContainerClassNames
+} from './WidgetsContainer.styles';
 
 interface IWidgetContainerProps {
     popoverVisual: IPopoverVisual;
@@ -28,14 +31,22 @@ const makeWidget = (widget: IWidget) => {
 const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
     popoverVisual
 }) => {
-    const { mode } = useContext(BehaviorsModalContext);
+    const { mode, activeWidgetId } = useContext(BehaviorsModalContext);
     const theme = useTheme();
-    const styles = getStyles(theme, mode);
 
     return (
-        <div className={styles.widgetsContainer}>
+        <div className={widgetContainerClassNames.widgetsContainer}>
             {popoverVisual.widgets.map((widget) => (
-                <div key={widget.id} className={styles.widgetContainer}>
+                <div
+                    key={widget.id}
+                    className={
+                        getWidgetClassNames(
+                            theme,
+                            mode,
+                            activeWidgetId === widget.id
+                        ).widget
+                    }
+                >
                     {makeWidget(widget)}
                 </div>
             ))}

@@ -2,7 +2,6 @@ import {
     FontSizes,
     FontWeights,
     IButtonStyles,
-    ISeparatorStyleProps,
     IStyle,
     ITheme,
     memoizeFunction,
@@ -26,9 +25,9 @@ const classNames = {
 export const getBorderStyle = (
     theme: ITheme,
     mode: BehaviorModalMode,
-    styleTarget: 'border' | 'color' = 'border'
+    styleTarget: 'border' | 'color' = 'border',
+    isActive?: boolean
 ) => {
-    console.log(theme);
     const color =
         mode === BehaviorModalMode.preview
             ? getTransparentColor(theme.palette.black, '0.3')
@@ -36,6 +35,8 @@ export const getBorderStyle = (
 
     if (styleTarget === 'color') {
         return color;
+    } else if (isActive && mode === BehaviorModalMode.preview) {
+        return `2px solid ${theme.palette.themePrimary}`;
     } else {
         return mode === BehaviorModalMode.preview
             ? `1px dashed ${color}`

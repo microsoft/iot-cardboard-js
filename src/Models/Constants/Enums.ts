@@ -139,10 +139,10 @@ export enum ADT3DSceneBuilderMode {
 }
 
 export enum WidgetFormMode {
-    CreateWidget,
-    EditWidget,
-    Cancelled,
-    Committed
+    CreateWidget = 'CreateWidget',
+    EditWidget = 'EditWidget',
+    Cancelled = 'Cancelled',
+    Committed = 'Committed'
 }
 
 export enum ADT3DSceneTwinBindingsMode {

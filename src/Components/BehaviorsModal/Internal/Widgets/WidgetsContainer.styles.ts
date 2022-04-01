@@ -12,24 +12,27 @@ import {
 
 const classNames = {
     widgetsContainer: `${behaviorsModalClassPrefix}-widgets-container`,
-    widgetContainer: `${behaviorsModalClassPrefix}-widget-container`
+    widget: `${behaviorsModalClassPrefix}-widget`
 };
 
-export const getStyles = memoizeFunction(
-    (theme: ITheme, mode: BehaviorModalMode) => {
-        const borderStyle = getBorderStyle(theme, mode, 'border');
+export const widgetContainerClassNames = mergeStyleSets({
+    widgetsContainer: [
+        classNames.widgetsContainer,
+        {
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap'
+        } as IStyle
+    ]
+});
+
+export const getWidgetClassNames = memoizeFunction(
+    (theme: ITheme, mode: BehaviorModalMode, isActive: boolean) => {
+        const borderStyle = getBorderStyle(theme, mode, 'border', isActive);
         return mergeStyleSets({
-            widgetsContainer: [
-                classNames.widgetsContainer,
-                {
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    flexWrap: 'wrap'
-                } as IStyle
-            ],
-            widgetContainer: [
-                classNames.widgetsContainer,
+            widget: [
+                classNames.widget,
                 {
                     display: 'flex',
                     justifyContent: 'center',

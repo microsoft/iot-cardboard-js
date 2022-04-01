@@ -98,6 +98,7 @@ const StatusBlock: React.FC<{ statusVisual: IStatusColoringVisual }> = ({
     let statusColor;
     let statusStyles;
 
+    // In preview mode, select min value range to display
     if (mode === BehaviorModalMode.preview) {
         if (!isStatusLineVisible) {
             statusStyles = getStatusBlockStyles(null);

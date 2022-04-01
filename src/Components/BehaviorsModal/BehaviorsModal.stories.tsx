@@ -37,7 +37,11 @@ const Template: BehaviorsModalStory = (args) => {
         <div style={wrapperStyle}>
             <BehaviorsModal
                 {...args}
-                behaviors={args.mode ? [behaviors[1]] : behaviors}
+                behaviors={
+                    args.mode === BehaviorModalMode.preview
+                        ? [behaviors[1]]
+                        : behaviors
+                }
                 title={element.displayName}
                 twins={twins}
             />
@@ -45,12 +49,22 @@ const Template: BehaviorsModalStory = (args) => {
     );
 };
 
-export const MultipleBehaviors = Template.bind({}) as BehaviorsModalStory;
-MultipleBehaviors.args = {
+export const ViewerModeMultipleBehaviors = Template.bind(
+    {}
+) as BehaviorsModalStory;
+ViewerModeMultipleBehaviors.args = {
     onClose: () => null
 };
 
 export const PreviewMode = Template.bind({}) as BehaviorsModalStory;
 PreviewMode.args = {
     mode: BehaviorModalMode.preview
+};
+
+export const PreviewModeWithActiveWidget = Template.bind(
+    {}
+) as BehaviorsModalStory;
+PreviewModeWithActiveWidget.args = {
+    mode: BehaviorModalMode.preview,
+    activeWidgetId: '740385bb6f8f235e5071ebca5ae0da89'
 };

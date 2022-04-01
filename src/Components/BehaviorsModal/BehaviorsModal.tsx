@@ -18,6 +18,7 @@ export interface IBehaviorsModalProps {
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     mode?: BehaviorModalMode;
+    activeWidgetId?: string;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -25,6 +26,7 @@ const cancelIcon: IIconProps = { iconName: 'Cancel' };
 export const BehaviorsModalContext = createContext<{
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
+    activeWidgetId: string | null;
 }>(null);
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
@@ -32,7 +34,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     behaviors,
     title,
     twins,
-    mode = BehaviorModalMode.viewer
+    mode = BehaviorModalMode.viewer,
+    activeWidgetId
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -41,7 +44,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const styles = getStyles(theme, mode);
 
     return (
-        <BehaviorsModalContext.Provider value={{ twins, mode }}>
+        <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>

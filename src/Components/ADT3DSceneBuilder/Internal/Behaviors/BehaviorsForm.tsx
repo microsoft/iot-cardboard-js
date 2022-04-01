@@ -263,6 +263,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 92);
+
     return (
         <BehaviorFormContext.Provider
             value={{
@@ -426,6 +427,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         behaviors={behaviorPreview}
                         twins={null}
                         mode={BehaviorModalMode.preview}
+                        activeWidgetId={widgetFormInfo.widgetId}
                     />
                 </div>
             )}

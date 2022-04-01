@@ -24,7 +24,6 @@ import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { createGUID } from '../../../../../Models/Services/Utils';
 import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
@@ -93,7 +92,7 @@ const WidgetForm: React.FC = () => {
     // On initial render - create or locate widget
     const [activeWidgetId] = useState<string>(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
-            const newWidgetId = createGUID();
+            const newWidgetId = widgetFormInfo.widgetId;
             setBehaviorToEdit(
                 produce((draft) => {
                     createWidget(draft, widgetFormInfo, newWidgetId);
