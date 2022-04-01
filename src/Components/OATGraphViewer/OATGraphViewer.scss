@@ -8,10 +8,10 @@
     z-index: 100;
 }
 
-.react-flow__node-Interface {
-    font-size: 12px;
-    background: #eee;
-    border: 1px solid #555;
+.cb-oat-graph-viewer-node {
+    background: var(--cb-color-natural-light);
+    border: 1px solid var(--cb-color-input-border);
     border-radius: 5px;
+    font-size: 12px;
     text-align: center;
 }

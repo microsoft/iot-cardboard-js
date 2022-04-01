@@ -720,3 +720,21 @@ export interface IBlobFile {
     Path: string;
     Properties: Record<string, any>;
 }
+
+export interface IOATGraphCustomNodeProps {
+    data: any;
+    isConnectable: boolean;
+}
+
+export interface IOATGraphCustomEdgeProps {
+    id: string;
+    sourceX: string;
+    sourceY: string;
+    targetX: string;
+    targetY: string;
+    sourcePosition: number;
+    targetPosition: number;
+    style: any;
+    data: any;
+    markerEnd: string;
+}

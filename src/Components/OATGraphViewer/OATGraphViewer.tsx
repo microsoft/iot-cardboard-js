@@ -12,20 +12,21 @@ import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
+import { ElementsLocalStorageKey } from '../../Models/Constants/Constants';
 
 import './OATGraphViewer.scss';
 
 const OATGraphViewer = () => {
     const { t } = useTranslation();
     const theme = useTheme();
-    const reactFlowWrapper = useRef(null);
-    const [storedElements, setStoredElements] = useState(
-        JSON.parse(localStorage.getItem('elements'))
+    const reactFlowWrapperRef = useRef(null);
+    const storedElements = JSON.parse(
+        localStorage.getItem(ElementsLocalStorageKey)
     );
     const [elements, setElements] = useState(
         storedElements === null ? [] : storedElements
     );
-    const [idClass, setIdClass] = useState('dtmi:com:example:');
+    const idClass = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const OATGraphViewer = () => {
             }
             nextModelId++;
         }
-        localStorage.setItem('elements', JSON.stringify(elements));
+        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     }, [elements]);
 
     const onConnect = (evt) => {
@@ -49,7 +50,7 @@ const OATGraphViewer = () => {
             target: evt.target,
             label: '',
             arrowHeadType: 'arrowclosed',
-            type: 'RelationShipEdge',
+            type: 'RelationshipEdge',
             data: {
                 name: ''
             }
@@ -60,16 +61,14 @@ const OATGraphViewer = () => {
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
     const edgeTypes = useMemo(
-        () => ({ RelationShipEdge: OATGraphCustomEdge }),
+        () => ({ RelationshipEdge: OATGraphCustomEdge }),
         []
     );
 
     const onElementsRemove = (elementsToRemove) =>
         setElements((els) => removeElements(elementsToRemove, els));
 
-    const onLoad = (_reactFlowInstance) => {
-        _reactFlowInstance.fitView();
-    };
+    const onLoad = (_reactFlowInstance) => _reactFlowInstance.fitView();
 
     const onNewModelClick = () => {
         const name = `Model${newModelId}`;
@@ -94,7 +93,7 @@ const OATGraphViewer = () => {
                 <ReactFlowProvider>
                     <div
                         className="cb-oat-graph-viewer-container"
-                        ref={reactFlowWrapper}
+                        ref={reactFlowWrapperRef}
                     >
                         <ReactFlow
                             elements={elements}

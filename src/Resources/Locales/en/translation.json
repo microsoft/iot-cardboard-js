@@ -679,6 +679,9 @@
         "export": "Export"
     },
     "OATGraphViewer": {
-        "newModel": "New Model"
+        "newModel": "New Model",
+        "name": "Name",
+        "id": "Id",
+        "type": "Type"
     }
 }
