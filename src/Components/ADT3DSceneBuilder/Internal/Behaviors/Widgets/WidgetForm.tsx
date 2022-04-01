@@ -1,6 +1,6 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -24,26 +24,28 @@ import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants';
-import { createGUID, deepCopy } from '../../../../../Models/Services/Utils';
+import { createGUID } from '../../../../../Models/Services/Utils';
 import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
-const createWidget = (draft, widgetFormInfo: WidgetFormInfo, id: string) => {
+const createWidget = (
+    draft: IBehavior,
+    widgetFormInfo: WidgetFormInfo,
+    id: string
+) => {
     const popOver = draft.visuals?.find(
         (visual) => visual.type === VisualType.Popover
     ) as IPopoverVisual;
 
     if (popOver) {
-        const widgets = popOver?.widgets;
+        let widgets = popOver?.widgets;
 
         const newWidget = {
             ...getDefaultFormData(widgetFormInfo),
             id
         };
 
-        widgets
-            ? popOver.widgets.push(newWidget)
-            : (popOver.widgets = [newWidget]);
+        widgets ? widgets.push(newWidget) : (widgets = [newWidget]);
     }
 };
 
@@ -60,6 +62,9 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
 
 const getWidgets = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0].widgets;
+
+const getActiveWidget = (activeWidgetId: string, behavior: IBehavior) =>
+    getWidgets(behavior).find((w) => w.id === activeWidgetId);
 
 // Note, this widget form does not currently support panels
 const WidgetForm: React.FC = () => {
@@ -85,10 +90,8 @@ const WidgetForm: React.FC = () => {
 
     const { t } = useTranslation();
 
-    const [activeWidgetId, setActiveWidgetId] = useState<string>(null);
-
-    // On mount, create or locate widget
-    useEffect(() => {
+    // On initial render - create or locate widget
+    const [activeWidgetId] = useState<string>(() => {
         if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
             const newWidgetId = createGUID();
             setBehaviorToEdit(
@@ -96,36 +99,36 @@ const WidgetForm: React.FC = () => {
                     createWidget(draft, widgetFormInfo, newWidgetId);
                 })
             );
-            setActiveWidgetId(newWidgetId);
+            return newWidgetId;
         } else if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-            setActiveWidgetId(widgetFormInfo.widgetId);
+            return widgetFormInfo.widgetId;
         }
-    }, []);
+    });
 
-    const updateWidgetData = (widgetData: IWidget) => {
-        const dataClone = deepCopy(widgetData);
-        setBehaviorToEdit(
-            produce((draft) => {
-                const widgets = getWidgets(draft);
-                const widgetToUpdateIdx = widgets.findIndex(
-                    (w) => w.id === activeWidgetId
-                );
-                widgets[widgetToUpdateIdx] = dataClone;
-            })
-        );
-    };
+    const updateWidgetData = useCallback(
+        (widgetData: IWidget) => {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    const widgets = getWidgets(draft);
+                    const widgetToUpdateIdx = widgets.findIndex(
+                        (w) => w.id === activeWidgetId
+                    );
+                    widgets[widgetToUpdateIdx] = widgetData;
+                })
+            );
+        },
+        [setBehaviorToEdit]
+    );
 
     const getWidgetBuilder = () => {
-        const widgetData = getWidgets(behaviorToEdit).find(
-            (w) => w.id === activeWidgetId
-        );
+        const widgetData = getActiveWidget(activeWidgetId, behaviorToEdit);
 
         switch (widgetFormInfo.widget.data.type) {
             case WidgetType.Gauge:
                 return (
                     <GaugeWidgetBuilder
                         formData={widgetData as IGaugeWidget}
-                        setFormData={updateWidgetData}
+                        updateWidgetData={updateWidgetData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
                 );
@@ -133,7 +136,7 @@ const WidgetForm: React.FC = () => {
                 return (
                     <LinkWidgetBuilder
                         formData={widgetData as ILinkWidget}
-                        setFormData={updateWidgetData}
+                        updateWidgetData={updateWidgetData}
                         getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
@@ -165,7 +168,7 @@ const WidgetForm: React.FC = () => {
     const customStyles = getWidgetFormStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 0);
 
-    if (!activeWidgetId) return null;
+    if (!getActiveWidget(activeWidgetId, behaviorToEdit)) return null;
     return (
         <>
             <div className={commonFormStyles.content}>

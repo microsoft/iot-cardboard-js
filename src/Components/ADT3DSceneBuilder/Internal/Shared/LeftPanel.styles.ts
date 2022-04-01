@@ -8,6 +8,7 @@ import {
     ISeparatorStyles,
     IStackStyles
 } from '@fluentui/react';
+import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
 const classPrefix = 'left-panel';
 const classNames = {
@@ -48,7 +49,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             {
                 position: 'fixed',
                 top: 0,
-                left: 376,
+                left: behaviorsModalPreviewContainerLeftOffset,
                 bottom: 0,
                 right: 16,
                 zIndex: 1000,

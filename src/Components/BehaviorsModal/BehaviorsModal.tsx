@@ -14,7 +14,7 @@ import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
 export interface IBehaviorsModalProps {
     onClose?: () => any;
-    title: string;
+    title?: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     isPreview?: boolean;

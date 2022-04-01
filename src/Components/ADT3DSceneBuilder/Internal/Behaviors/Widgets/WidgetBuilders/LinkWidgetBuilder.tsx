@@ -13,7 +13,7 @@ import { ILinkWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 
 const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
     formData,
-    setFormData,
+    updateWidgetData,
     setIsWidgetConfigValid,
     getIntellisensePropertyNames
 }) => {
@@ -34,7 +34,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 label={t('label')}
                 value={formData.widgetConfiguration.label}
                 onChange={(_ev, newVal) =>
-                    setFormData(
+                    updateWidgetData(
                         produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
@@ -53,7 +53,7 @@ const LinkWidgetBuilder: React.FC<ILinkWidgetBuilderProps> = ({
                 }}
                 defaultValue={formData.widgetConfiguration.linkExpression}
                 onChange={(newVal) => {
-                    setFormData(
+                    updateWidgetData(
                         produce(formData, (draft) => {
                             draft.widgetConfiguration.linkExpression = newVal;
                         })

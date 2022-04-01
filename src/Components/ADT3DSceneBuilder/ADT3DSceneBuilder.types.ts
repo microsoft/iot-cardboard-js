@@ -175,12 +175,12 @@ export interface IWidgetBuilderFormDataProps {
 
 export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: ILinkWidget;
-    setFormData: (widgetData: ILinkWidget) => void;
+    updateWidgetData: (widgetData: ILinkWidget) => void;
 }
 
 export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IGaugeWidget;
-    setFormData: (widgetData: IGaugeWidget) => void;
+    updateWidgetData: (widgetData: IGaugeWidget) => void;
 }
 
 export interface BehaviorState {

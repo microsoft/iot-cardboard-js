@@ -269,16 +269,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 setBehaviorToEdit
             }}
         >
-            {state.isPopoverPreviewVisible && (
-                <div className={commonPanelStyles.previewContainer}>
-                    <BehaviorsModal
-                        behaviors={behaviorPreview}
-                        title={'Behavior preview'}
-                        twins={null}
-                        isPreview
-                    />
-                </div>
-            )}
             <div className={commonFormStyles.root}>
                 <LeftPanelBuilderHeader
                     headerText={headerText}
@@ -429,6 +419,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     </>
                 )}
             </div>
+            {state.isPopoverPreviewVisible && (
+                <div className={commonPanelStyles.previewContainer}>
+                    <BehaviorsModal
+                        behaviors={behaviorPreview}
+                        twins={null}
+                        isPreview
+                    />
+                </div>
+            )}
         </BehaviorFormContext.Provider>
     );
 };

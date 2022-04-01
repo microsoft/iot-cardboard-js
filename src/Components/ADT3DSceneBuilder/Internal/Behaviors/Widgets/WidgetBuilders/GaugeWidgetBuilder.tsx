@@ -8,10 +8,11 @@ import { getWidgetFormStyles } from '../WidgetForm.styles';
 import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 import { BehaviorFormContext } from '../../BehaviorsForm';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
+import { deepCopy } from '../../../../../../Models/Services/Utils';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
-    setFormData,
+    updateWidgetData,
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
@@ -44,23 +45,24 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     }, [formData, valueRangeBuilderState.areRangesValid]);
 
     useEffect(() => {
-        setFormData(
+        updateWidgetData(
             produce(formData, (draft) => {
-                draft.widgetConfiguration.valueRanges =
-                    valueRangeBuilderState.valueRanges;
+                draft.widgetConfiguration.valueRanges = deepCopy(
+                    valueRangeBuilderState.valueRanges
+                );
             })
         );
     }, [valueRangeBuilderState.valueRanges]);
 
     const onPropertyChange = useCallback(
         (option: string) => {
-            setFormData(
+            updateWidgetData(
                 produce(formData, (draft) => {
                     draft.valueExpression = option;
                 })
             );
         },
-        [setFormData]
+        [updateWidgetData]
     );
 
     const theme = useTheme();
@@ -73,7 +75,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 value={formData.widgetConfiguration.label}
                 required
                 onChange={(_ev, newVal) =>
-                    setFormData(
+                    updateWidgetData(
                         produce(formData, (draft) => {
                             draft.widgetConfiguration.label = newVal;
                         })
@@ -85,7 +87,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                 label={t('3dSceneBuilder.unitOfMeasure')}
                 value={formData.widgetConfiguration.units}
                 onChange={(_ev, newVal) =>
-                    setFormData(
+                    updateWidgetData(
                         produce(formData, (draft) => {
                             draft.widgetConfiguration.units = newVal;
                         })
