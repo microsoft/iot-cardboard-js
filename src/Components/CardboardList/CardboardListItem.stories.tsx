@@ -34,7 +34,8 @@ const defaultProps: ICardboardListItemPropsInternal<unknown> = {
     index: 0,
     item: { id: 'someid' },
     listKey: 'listItemKey',
-    onClick: (item) => alert(`clicked item ${(item as FakeListItem).id}`),
+    onClick: (item) =>
+        alert(`clicked button with ${(item as FakeListItem).id}`),
     textPrimary: 'primary text'
 };
 
@@ -46,7 +47,7 @@ const defaultMenuItem: IContextualMenuItem = {
     iconProps: {
         iconName: 'Add'
     },
-    onClick: () => alert(`add 1`)
+    onClick: () => alert(`clicked menu item 1`)
 };
 const defaultMenuItems: IContextualMenuItem[] = [defaultMenuItem];
 
@@ -62,8 +63,8 @@ export const WithAllElements = Template.bind({}) as TemplateStory;
 WithAllElements.args = {
     ...defaultProps,
     textSecondary: 'secondary text',
-    iconStartName: 'Link',
-    iconEndName: 'Shapes',
+    iconStart: { name: 'Link' },
+    iconEnd: { name: 'Shapes' },
     overflowMenuItems: defaultMenuItems,
     isChecked: false
 };
@@ -110,13 +111,19 @@ WithMenuOpenedKraken.parameters = {
 export const WithStartIcon = Template.bind({}) as TemplateStory;
 WithStartIcon.args = {
     ...defaultProps,
-    iconStartName: 'Shapes'
+    iconStart: { name: 'Shapes' }
 };
 
 export const WithEndIcon = Template.bind({}) as TemplateStory;
 WithEndIcon.args = {
     ...defaultProps,
-    iconEndName: 'Add'
+    iconEnd: { name: 'Add' }
+};
+
+export const WithEndIconButton = Template.bind({}) as TemplateStory;
+WithEndIconButton.args = {
+    ...defaultProps,
+    iconEnd: { name: 'Add', onClick: () => alert('clicked icon') }
 };
 
 export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
@@ -167,7 +174,7 @@ export const WithLongTextAndIcon = Template.bind({}) as TemplateStory;
 WithLongTextAndIcon.args = {
     ...defaultProps,
     ...WithLongText.args,
-    iconEndName: 'Shapes'
+    iconEnd: { name: 'Shapes' }
 };
 
 export const WithLongTextAndMenu = Template.bind({}) as TemplateStory;

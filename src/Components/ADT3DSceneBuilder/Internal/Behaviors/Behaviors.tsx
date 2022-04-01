@@ -420,7 +420,7 @@ function getListItems(
         if (listType === 'InScene') {
             viewModel = {
                 ariaLabel: '',
-                iconStartName: 'Ringer',
+                iconStart: { name: 'Ringer' },
                 item: item,
                 onClick: onListItemClick,
                 overflowMenuItems: getMenuItems(listType, item),
@@ -433,7 +433,7 @@ function getListItems(
         } else {
             viewModel = {
                 ariaLabel: '',
-                iconStartName: 'Ringer',
+                iconStart: { name: 'Ringer' },
                 item: item,
                 openMenuOnClick: true,
                 overflowMenuItems: getMenuItems(listType, item),

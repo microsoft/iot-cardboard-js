@@ -1,6 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import * as GUI from 'babylonjs-gui';
-import { measureText } from '../../Models/Services/Utils';
+import { SceneViewBadgeGroup } from '../../Models/Classes/SceneView.types';
+import { IADTBackgroundColor } from '../../Models/Constants';
 import './SceneView.scss';
 
 export function getMeshCenter(
@@ -34,6 +35,7 @@ export function getMeshCenter(
 }
 
 export function createBadge(
+    backgroundColor: IADTBackgroundColor,
     badgeColor?: string,
     text?: string,
     textColor?: string,
@@ -41,31 +43,28 @@ export function createBadge(
     onClickCallback?: any
 ) {
     const badge = new GUI.Button();
-    badge.width = '40px';
-    badge.height = '40px';
+    badge.widthInPixels = 20;
+    badge.heightInPixels = 20;
     badge.background = 'transparent';
     badge.color = 'transparent';
 
     const badgeBackground = new GUI.Ellipse();
-    badgeBackground.width = '40px';
-    badgeBackground.height = '40px';
-    badgeBackground.color = badgeColor || '#ffffff';
-    badgeBackground.background = badgeColor || '#ffffff';
+    badgeBackground.widthInPixels = 20;
+    badgeBackground.heightInPixels = 20;
+    badgeBackground.color = badgeColor || backgroundColor.defaultBadgeColor;
+    badgeBackground.background =
+        badgeColor || backgroundColor.defaultBadgeColor;
     badge.addControl(badgeBackground);
 
     if (text) {
-        const width = measureText(text, 16);
-        if (width > 40) {
-            badge.width = width + 10 + 'px';
-            badgeBackground.width = width + 10 + 'px';
-        }
         const textBlock = new GUI.TextBlock();
+        textBlock.fontSizeInPixels = 12;
+        textBlock.color = textColor || backgroundColor.defaultBadgeTextColor;
+        textBlock.text = text;
         if (isIcon) {
+            textBlock.topInPixels = 3;
             textBlock.fontFamily = 'iconFont';
         }
-        textBlock.fontSize = '16px';
-        textBlock.color = textColor || '#000000';
-        textBlock.text = text;
         badgeBackground.addControl(textBlock);
     }
 
@@ -84,6 +83,93 @@ export function createBadge(
     });
 
     return badge;
+}
+
+export function createBadgeGroup(
+    badgeGroup: SceneViewBadgeGroup,
+    backgroundColor: IADTBackgroundColor
+) {
+    let background;
+    const rows = Math.ceil(badgeGroup.badges.length / 2);
+    // create a round badge if there is only more or more than 5
+    if (badgeGroup.badges.length === 1 || badgeGroup.badges.length > 4) {
+        background = new GUI.Ellipse();
+        background.heightInPixels = 34;
+        background.widthInPixels = 34;
+    } else {
+        // if there are between 2 and 4 badges create a group with the correct number rows
+        background = new GUI.Rectangle();
+        background.heightInPixels = 20 * rows + 10 + rows * 4;
+        background.widthInPixels = 58;
+        background.cornerRadius = 10;
+    }
+
+    background.name = badgeGroup.id;
+    background.isVisible = false;
+    background.paddingBottomInPixels = 4;
+    background.paddingTopInPixels = 4;
+    background.paddingLeftInPixels = 4;
+    background.paddingRightInPixels = 4;
+
+    background.color = backgroundColor.badgeColor + '99';
+    background.background = backgroundColor.badgeColor + '99';
+
+    if (badgeGroup.badges.length < 5) {
+        const badgeContainer = new GUI.StackPanel();
+        background.addControl(badgeContainer);
+        let currentBadgeIndex = 0;
+        for (let i = 0; i < rows; i++) {
+            const row = new GUI.StackPanel();
+            row.isVertical = false;
+            row.heightInPixels = 20;
+            badgeContainer.addControl(row);
+            // add spacer if more than 1 row and not on the last row
+            if (rows > 1 && i < rows - 1) {
+                const spacer = new GUI.Rectangle();
+                spacer.widthInPixels = 4;
+                spacer.heightInPixels = 4;
+                spacer.color = 'transparent';
+                spacer.background = 'transparent';
+                badgeContainer.addControl(spacer);
+            }
+
+            // only add 2 badges per row
+            for (let b = 0; b < 2; b++) {
+                if (badgeGroup.badges?.[currentBadgeIndex]) {
+                    const badge = createBadge(
+                        backgroundColor,
+                        badgeGroup.badges[currentBadgeIndex].color,
+                        badgeGroup.badges[currentBadgeIndex].icon,
+                        null,
+                        true
+                    );
+                    // add spacer after first badge
+                    if (b === 1) {
+                        const spacer = new GUI.Rectangle();
+                        spacer.widthInPixels = 4;
+                        spacer.heightInPixels = 4;
+                        spacer.color = 'transparent';
+                        spacer.background = 'transparent';
+                        row.addControl(spacer);
+                    }
+                    row.addControl(badge);
+                    currentBadgeIndex++;
+                }
+            }
+        }
+    } else {
+        const badge = createBadge(
+            backgroundColor,
+            backgroundColor.aggregateBadgeColor,
+            badgeGroup.badges.length.toString(),
+            backgroundColor.aggregateBadgeTextColor,
+            false
+        );
+
+        background.addControl(badge);
+    }
+
+    return background;
 }
 
 export function createCustomMeshItems(meshIds: string[], color: string) {

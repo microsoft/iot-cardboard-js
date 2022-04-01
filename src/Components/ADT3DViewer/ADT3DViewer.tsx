@@ -12,6 +12,7 @@ import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     Marker,
+    SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
@@ -55,6 +56,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
@@ -80,12 +82,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const { modelUrl, sceneVisuals, isLoading } = useRuntimeSceneData(
-        adapter,
-        sceneId,
-        scenesConfig,
-        pollingInterval
-    );
+    const {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading
+    } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
 
     useEffect(() => {
         refetchConfig && refetchConfig();
@@ -109,6 +111,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     }
                 });
             });
+
+            setAlertBadges(sceneAlerts);
             setColoredMeshItems(newColoredMeshItems);
         }
     }, [sceneVisuals, coloredMeshItemsProp]);
@@ -331,6 +335,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
                     sceneViewProps={{
+                        badgeGroups: alertBadges,
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
                         outlinedMeshitems: outlinedMeshItems,

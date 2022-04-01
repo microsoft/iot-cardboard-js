@@ -17,6 +17,7 @@ const classNames = {
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
     icon: `${classPrefix}-icon`,
+    iconButton: `${classPrefix}-icon-button`,
     menuIcon: `${classPrefix}-menu-icon`,
     menuPlaceholder: `${classPrefix}-menu-placeholder`,
     textContainer: `${classPrefix}-text-container`,
@@ -42,10 +43,15 @@ export const getStyles = memoizeFunction(
                     fontSize: StyleConstants.icons.size16
                 } as IStyle
             ],
-            menuIcon: [
+            iconButton: [
                 classNames.menuIcon,
-                { opacity: 0, position: 'absolute', right: 12 } as IStyle
+                {
+                    color: theme.semanticColors.bodyText,
+                    position: 'absolute',
+                    right: 12
+                } as IStyle
             ],
+            menuIcon: [classNames.menuIcon, { opacity: 0 } as IStyle],
             menuPlaceholder: [
                 classNames.menuPlaceholder,
                 { minWidth: 32 } as IStyle

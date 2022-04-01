@@ -124,8 +124,8 @@ function getListItems(
     return filteredElements.map((item) => {
         const viewModel: ICardboardListItem<IBehavior> = {
             ariaLabel: '',
-            iconStartName: 'Ringer',
-            iconEndName: 'Add',
+            iconStart: { name: 'Ringer' },
+            iconEnd: { name: 'Add' },
             item: item,
             onClick: onAddBehavior,
             textPrimary: item.displayName

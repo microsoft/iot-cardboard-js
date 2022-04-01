@@ -5,13 +5,18 @@ import {
     IScene,
     ITwinToObjectMapping
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DTwin, IADTObjectColor } from '../../Models/Constants/Interfaces';
+import {
+    DTwin,
+    IADTBackgroundColor,
+    IADTObjectColor
+} from '../../Models/Constants/Interfaces';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
+    alertBadgeGroup?: SceneViewBadgeGroup[];
 
     constructor(
         element: ITwinToObjectMapping,
@@ -53,6 +58,19 @@ export interface CustomMeshItem {
     color?: string;
 }
 
+export interface SceneViewBadge {
+    id: string;
+    meshId: string;
+    color?: string;
+    icon?: string;
+}
+
+export interface SceneViewBadgeGroup {
+    id: string;
+    meshId: string;
+    badges: SceneViewBadge[];
+}
+
 export type SceneViewEventHandler = (
     marker: Marker,
     mesh: AbstractMesh,
@@ -76,4 +94,6 @@ export interface ISceneViewProp {
     unzoomedMeshOpacity?: number;
     showHoverOnSelected?: boolean;
     objectColors?: IADTObjectColor;
+    badgeGroups?: SceneViewBadgeGroup[];
+    backgroundColor?: IADTBackgroundColor;
 }
