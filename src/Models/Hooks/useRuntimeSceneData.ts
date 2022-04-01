@@ -96,6 +96,7 @@ export const useRuntimeSceneData = (
                                         : BadgeIcons.default;
 
                                     alerts.push({
+                                        id: behavior.id,
                                         meshId: meshId,
                                         color: color,
                                         icon: icon
@@ -113,8 +114,10 @@ export const useRuntimeSceneData = (
             const groupedAlerts: SceneViewBadgeGroup[] = [];
 
             alerts.forEach((alert) => {
+                // create first group
                 if (groupedAlerts.length === 0) {
                     groupedAlerts.push({
+                        id: alert.meshId + alert.id,
                         meshId: alert.meshId,
                         badges: [alert]
                     });
@@ -123,10 +126,14 @@ export const useRuntimeSceneData = (
                         (ga) => ga.meshId === alert.meshId
                     );
 
+                    // add to exsiting group
                     if (group) {
+                        group.id += alert.id;
                         group.badges.push(alert);
                     } else {
+                        // create new group
                         groupedAlerts.push({
+                            id: alert.meshId + alert.id,
                             meshId: alert.meshId,
                             badges: [alert]
                         });

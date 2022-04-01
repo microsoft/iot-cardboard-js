@@ -24,6 +24,7 @@ import {
 } from '../../Models/Constants';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
+import { sleep } from '../AutoComplete/AutoComplete';
 
 const debug = false;
 
@@ -518,22 +519,47 @@ const SceneView: React.FC<ISceneViewProp> = ({
     useEffect(() => {
         if (badgeGroups && advancedTextureRef.current) {
             badgeGroups.forEach((bg) => {
-                const badgeGroup = createBadgeGroup(bg);
-                advancedTextureRef.current.addControl(badgeGroup);
-                const mesh = sceneRef.current.meshes.find(
-                    (m) => m.id === bg.meshId
-                );
-                badgeGroup.linkWithMesh(mesh);
-                badgeGroupsRef.current.push(badgeGroup);
+                // only add badge group if not already present
+                if (
+                    !badgeGroupsRef.current.find(
+                        (badgeGroupRef) => badgeGroupRef.name === bg.id
+                    )
+                ) {
+                    debugLog('adding badge');
+                    const badgeGroup = createBadgeGroup(bg);
+                    advancedTextureRef.current.addControl(badgeGroup);
+                    const mesh = sceneRef.current.meshes.find(
+                        (m) => m.id === bg.meshId
+                    );
+                    badgeGroup.linkWithMesh(mesh);
+
+                    // badges can only be linked to meshes after being added to the scene
+                    // so adding a delay in making it visible so it doesn't jump
+                    const waitUntilPostioned = async () => {
+                        await sleep(10);
+                        badgeGroup.isVisible = true;
+                    };
+                    waitUntilPostioned();
+                    badgeGroupsRef.current.push(badgeGroup);
+                }
             });
         }
 
         return () => {
-            badgeGroupsRef.current.forEach((badgeGroup) => {
-                advancedTextureRef.current.removeControl(badgeGroup);
+            const groupsToRemove = [];
+            badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+                // remove badge if group is no longer in prop
+                if (!badgeGroups?.find((bg) => bg.id === badgeGroupRef.name)) {
+                    debugLog('removing badge');
+                    advancedTextureRef.current.removeControl(badgeGroupRef);
+                    groupsToRemove.push(badgeGroupRef);
+                }
             });
-
-            badgeGroupsRef.current = [];
+            groupsToRemove?.forEach((group) => {
+                badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                    (bg) => bg.name !== group.name
+                );
+            });
         };
     }, [badgeGroups, isLoading]);
 

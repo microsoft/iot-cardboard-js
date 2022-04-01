@@ -55,13 +55,14 @@ export interface CustomMeshItem {
 }
 
 export interface SceneViewBadge {
+    id: string;
     meshId: string;
     color?: string;
     icon?: string;
-    iconColor?: string;
 }
 
 export interface SceneViewBadgeGroup {
+    id: string;
     meshId: string;
     badges: SceneViewBadge[];
 }
