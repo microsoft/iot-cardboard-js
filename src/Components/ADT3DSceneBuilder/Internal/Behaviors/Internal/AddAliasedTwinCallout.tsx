@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DirectionalHint,
@@ -24,28 +24,29 @@ const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutPro
     const [searchText, setSearchText] = useState('');
     const [filteredTwinAlises, setFilteredTwinAlises] = useState<
         Array<ITwinAliasItem>
-    >([]);
-    const [listItems, setListItems] = useState<
-        ICardboardListItem<ITwinAliasItem>[]
-    >([]);
+    >(availableTwinAliases);
+
+    const searchTwinAliases = useCallback(
+        (searchTerm: string) => {
+            setFilteredTwinAlises(
+                availableTwinAliases.filter((twinAlias) =>
+                    twinAlias.alias
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                )
+            );
+        },
+        [availableTwinAliases]
+    );
+
+    const listItems = useMemo(
+        () => getListItems(filteredTwinAlises, onAddTwinAlias),
+        [filteredTwinAlises, onAddTwinAlias]
+    );
 
     useEffect(() => {
         setFilteredTwinAlises(availableTwinAliases);
     }, [availableTwinAliases]);
-
-    const searchTwinAliases = (searchTerm: string) => {
-        setFilteredTwinAlises(
-            availableTwinAliases.filter((twinAlias) =>
-                twinAlias.alias.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
-    };
-
-    // generate the list of items to show
-    useEffect(() => {
-        const listItems = getListItems(filteredTwinAlises, onAddTwinAlias);
-        setListItems(listItems);
-    }, [filteredTwinAlises, onAddTwinAlias]);
 
     const theme = useTheme();
     return (
@@ -72,18 +73,16 @@ const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutPro
                 <h4 className={styles.title}>
                     {t('3dSceneBuilder.addTwinAlias')}
                 </h4>
-                {listItems?.length > 0 && (
-                    <div>
-                        <SearchBox
-                            data-testid={'twin-alias-callout-search'}
-                            placeholder={t('3dSceneBuilder.searchTwinAliases')}
-                            onChange={(_event, value) => {
-                                setSearchText(value);
-                                searchTwinAliases(value);
-                            }}
-                        />
-                    </div>
-                )}
+                <div>
+                    <SearchBox
+                        data-testid={'twin-alias-callout-search'}
+                        placeholder={t('3dSceneBuilder.searchTwinAliases')}
+                        onChange={(_event, value) => {
+                            setSearchText(value);
+                            searchTwinAliases(value);
+                        }}
+                    />
+                </div>
                 <div className={styles.listRoot}>
                     {listItems?.length === 0 ? (
                         <div className={styles.resultText}>
@@ -120,8 +119,8 @@ function getListItems(
         filteredTwinAlises?.map((item) => {
             const viewModel: ICardboardListItem<ITwinAliasItem> = {
                 ariaLabel: '',
-                iconStartName: 'LinkedDatabase',
-                iconEndName: 'Add',
+                iconStart: { name: 'LinkedDatabase' },
+                iconEnd: { name: 'Add' },
                 item: item,
                 onClick: onAddTwinAlias,
                 textPrimary: item.alias

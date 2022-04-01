@@ -29,9 +29,7 @@ const TwinAliasForm: React.FC<{
     const { t } = useTranslation();
     const theme = useTheme();
     const commonFormStyles = getPanelFormStyles(theme, 0);
-    const { behaviorToEdit, setBehaviorToEdit } = useContext(
-        BehaviorFormContext
-    );
+    const { setBehaviorToEdit } = useContext(BehaviorFormContext);
     const { adapter, twinAliasFormInfo, setTwinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
@@ -77,7 +75,7 @@ const TwinAliasForm: React.FC<{
             })
         );
         const newSelectedElements = deepCopy(selectedElements);
-        newSelectedElements.forEach((selectedElement) => {
+        newSelectedElements?.forEach((selectedElement) => {
             const aliasedTwinId = formData.elementToTwinMappings.find(
                 (mapping) => mapping.elementId === selectedElement.id
             ).twinId;
@@ -90,46 +88,6 @@ const TwinAliasForm: React.FC<{
             }
         });
         setSelectedElements(newSelectedElements);
-        // const formDataToSave = deepCopy(formData);
-
-        // if (widgetFormInfo.widget.data.type === WidgetType.Gauge) {
-        //     (formDataToSave as IGaugeWidget).widgetConfiguration.valueRanges = gaugeValueRangeRef.current.getValueRanges();
-        // }
-
-        // if (widgetFormInfo.mode === WidgetFormMode.CreateWidget) {
-        //     setBehaviorToEdit(
-        //         produce((draft) => {
-        //             const popOver = draft.visuals?.find(
-        //                 (visual) => visual.type === VisualType.Popover
-        //             ) as IPopoverVisual;
-
-        //             if (popOver) {
-        //                 const widgets = popOver?.widgets;
-        //                 widgets
-        //                     ? popOver.widgets.push(formDataToSave)
-        //                     : (popOver.widgets = [formDataToSave]);
-        //             }
-        //         })
-        //     );
-        // }
-        // if (widgetFormInfo.mode === WidgetFormMode.EditWidget) {
-        //     setBehaviorToEdit(
-        //         produce((draft) => {
-        //             const popOver = draft.visuals?.find(
-        //                 (visual) => visual.type === VisualType.Popover
-        //             ) as IPopoverVisual;
-
-        //             if (
-        //                 popOver &&
-        //                 typeof widgetFormInfo.widgetIdx === 'number'
-        //             ) {
-        //                 const widgets = popOver?.widgets;
-        //                 widgets[widgetFormInfo.widgetIdx] = formDataToSave;
-        //             }
-        //         })
-        //     );
-        // }
-
         setTwinAliasFormInfo(null);
         setFormData(null);
     };
@@ -177,7 +135,7 @@ const TwinAliasForm: React.FC<{
                             ? t('3dSceneBuilder.createTwinAlias')
                             : t('3dSceneBuilder.updateTwinAlias')
                     }
-                    // disabled={!isWidgetConfigValid}
+                    // disabled TODO: do validation check to disable the button
                 />
                 <DefaultButton
                     data-testid={'twin-alias-form-secondary-button'}

@@ -104,6 +104,19 @@ const BuilderLeftPanel: React.FC = () => {
         isAdapterCalledOnMount: false
     });
 
+    const editElementsAdapterData = useAdapter({
+        adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) =>
+            adapter.putScenesConfig(
+                ViewerConfigUtility.editElements(
+                    config,
+                    sceneId,
+                    params.elements
+                )
+            ),
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
+
     // START of scene element related callbacks
     const onCreateElementClick = () => {
         dispatch({
@@ -269,7 +282,11 @@ const BuilderLeftPanel: React.FC = () => {
         setColoredMeshItems([]);
     };
 
-    const onBehaviorSave: OnBehaviorSave = async (behavior, mode) => {
+    const onBehaviorSave: OnBehaviorSave = async (
+        behavior,
+        mode,
+        selectedElements // for updated twin aliases
+    ) => {
         if (mode === ADT3DSceneBuilderMode.CreateBehavior) {
             await addBehaviorAdapterData.callAdapter({
                 behavior
@@ -278,6 +295,11 @@ const BuilderLeftPanel: React.FC = () => {
         if (mode === ADT3DSceneBuilderMode.EditBehavior) {
             await editBehaviorAdapterData.callAdapter({
                 behavior
+            });
+        }
+        if (selectedElements) {
+            await editElementsAdapterData.callAdapter({
+                elements: selectedElements
             });
         }
         getConfig();

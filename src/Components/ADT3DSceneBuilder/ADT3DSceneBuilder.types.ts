@@ -139,7 +139,8 @@ export type BehaviorSaveMode =
 
 export type OnBehaviorSave = (
     behavior: IBehavior,
-    mode: BehaviorSaveMode
+    mode: BehaviorSaveMode,
+    selectedElements?: Array<ITwinToObjectMapping>
 ) => void;
 
 export interface IADT3DSceneBuilderBehaviorFormProps {

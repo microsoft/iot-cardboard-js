@@ -166,6 +166,32 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
+    // Update only the passed elements in a scene
+    static editElements(
+        config: I3DScenesConfig,
+        sceneId: string,
+        elements: Array<ITwinToObjectMapping>
+    ): I3DScenesConfig {
+        const updatedConfig = { ...config };
+        const updatedElementIds = elements.map((e) => e.id);
+        const activeSceneIdx = updatedConfig.configuration.scenes.findIndex(
+            (scene) => scene.id === sceneId
+        );
+        const unchangedSceneElements = config.configuration.scenes[
+            activeSceneIdx
+        ]?.elements?.filter(
+            (e) =>
+                ViewerConfigUtility.isTwinToObjectMappingElement(e) &&
+                !updatedElementIds.includes(e.id)
+        );
+        updatedConfig.configuration.scenes[activeSceneIdx].elements = [
+            ...unchangedSceneElements,
+            ...elements
+        ];
+
+        return updatedConfig;
+    }
+
     static getBehaviorElementIds(behavior: IBehavior): string[] {
         return (
             (behavior.datasources.find(

@@ -235,7 +235,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         }
 
         // behaviorToEdit.
-        onBehaviorSave(behaviorToEdit, builderMode as BehaviorSaveMode);
+        onBehaviorSave(
+            behaviorToEdit,
+            builderMode as BehaviorSaveMode,
+            selectedElements // TODO: pass this only when twin aliases changed in TwinsTab
+        );
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [

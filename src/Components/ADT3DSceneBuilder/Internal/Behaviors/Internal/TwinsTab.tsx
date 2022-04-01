@@ -53,7 +53,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const [
         commonLinkedTwinProperties,
         setCommonLinkedTwinProperties
-    ] = useState([]);
+    ] = useState([]); // TODO update this part as necessary
     const commonLinkedTwinPropertiesRef = useRef([]);
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
@@ -78,7 +78,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             .then((properties) => {
                 setCommonLinkedTwinProperties(properties);
                 commonLinkedTwinPropertiesRef.current = properties;
-            });
+            }); // TODO change this common properties UI as necessary
 
         setLinkedTwinList(
             getLinkedTwinItems(
@@ -146,7 +146,9 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         setBehaviorToEdit(
             produce((draft) => {
                 if (draft.twinAliases) {
-                    draft.twinAliases.concat(twinAlias.alias);
+                    draft.twinAliases = draft.twinAliases.concat(
+                        twinAlias.alias
+                    );
                 } else {
                     draft.twinAliases = [twinAlias.alias];
                 }
@@ -259,29 +261,21 @@ const getTwinAliasesFromBehavior = (
     selectedElements: Array<ITwinToObjectMapping>
 ) => {
     const twinAliases: Array<ITwinAliasItem> = [];
-    behavior.twinAliases?.forEach((behaviorTwinAlias) => {
-        selectedElements.forEach((element) => {
-            if (element.twinAliases?.[behaviorTwinAlias]) {
-                const aliasedTwinId = element.twinAliases?.[behaviorTwinAlias];
-                const existingTwinAlias = twinAliases.find(
-                    (tA) => tA.alias === behaviorTwinAlias
-                );
-                if (!existingTwinAlias) {
-                    twinAliases.push({
-                        alias: behaviorTwinAlias,
-                        elementToTwinMappings: [
-                            {
-                                twinId: aliasedTwinId,
-                                elementId: element.id
-                            }
-                        ]
-                    });
-                } else {
-                    existingTwinAlias.elementToTwinMappings.push({
-                        twinId: aliasedTwinId,
-                        elementId: element.id
-                    });
-                }
+    behavior.twinAliases?.map((behaviorTwinAlias) => {
+        twinAliases.push({
+            alias: behaviorTwinAlias,
+            elementToTwinMappings: []
+        });
+    });
+    twinAliases?.forEach((twinAlias) => {
+        selectedElements?.forEach((element) => {
+            if (element.twinAliases?.[twinAlias.alias]) {
+                const aliasedTwinId = element.twinAliases?.[twinAlias.alias];
+
+                twinAlias.elementToTwinMappings.push({
+                    twinId: aliasedTwinId,
+                    elementId: element.id
+                });
             }
         });
     });
@@ -295,8 +289,8 @@ function getLinkedTwinItems(
 ): ICardboardListItem<string>[] {
     const listItem: ICardboardListItem<string> = {
         ariaLabel: t('3dSceneBuilder.linkedTwin'),
-        iconStartName: 'LinkedDatabase',
-        iconEndName: 'RedEye',
+        iconStart: { name: 'LinkedDatabase' },
+        iconEnd: { name: 'RedEye' },
         item: linkedTwinName,
         onClick: onLinkedTwinClick,
         textPrimary: linkedTwinName,
@@ -342,7 +336,7 @@ function getTwinAliasListItems(
     return twinAliases.map((twinAlias) => {
         const listItem: ICardboardListItem<ITwinAliasItem> = {
             ariaLabel: twinAlias.alias,
-            iconStartName: 'LinkedDatabase',
+            iconStart: { name: 'LinkedDatabase' },
             item: twinAlias,
             onClick: onTwinAliasClick,
             textPrimary: twinAlias.alias,
