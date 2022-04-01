@@ -48,9 +48,9 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.previewContainer,
             {
                 position: 'fixed',
-                top: 0,
+                top: 16,
                 left: behaviorsModalPreviewContainerLeftOffset,
-                bottom: 0,
+                bottom: 16,
                 right: 16,
                 zIndex: 1000,
                 pointerEvents: 'none'

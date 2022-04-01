@@ -1,4 +1,4 @@
-import { getTheme, IconButton, IIconProps, Separator } from '@fluentui/react';
+import { IconButton, IIconProps, Separator, useTheme } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef } from 'react';
 import Draggable from 'react-draggable';
@@ -37,7 +37,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
-    const theme = getTheme();
+    const theme = useTheme();
     const styles = getStyles(theme, mode);
 
     return (
@@ -56,7 +56,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         ? t('behaviorsModal.behaviorPreview')
                                         : title}
                                 </span>
-                                {typeof onClose === 'function' && (
+                                {onClose && (
                                     <IconButton
                                         styles={dismissButtonStyles}
                                         iconProps={cancelIcon}
@@ -77,7 +77,7 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                             <Separator
                                                 styles={(props) =>
                                                     getSeparatorStyles(
-                                                        props,
+                                                        props.theme,
                                                         mode
                                                     )
                                                 }

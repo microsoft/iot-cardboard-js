@@ -19,7 +19,6 @@ const classNames = {
     modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
     modalHeaderContainer: `${behaviorsModalClassPrefix}-modal-header-container`,
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
-    modalSubHeader: `${behaviorsModalClassPrefix}-modal-sub-header`,
     modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
@@ -29,9 +28,10 @@ export const getBorderStyle = (
     mode: BehaviorModalMode,
     styleTarget: 'border' | 'color' = 'border'
 ) => {
+    console.log(theme);
     const color =
         mode === BehaviorModalMode.preview
-            ? getTransparentColor(theme.palette.white, '0.3')
+            ? getTransparentColor(theme.palette.black, '0.3')
             : 'var(--cb-color-modal-border)';
 
     if (styleTarget === 'color') {
@@ -47,12 +47,20 @@ export const getStyles = memoizeFunction(
     (theme: ITheme, mode: BehaviorModalMode) => {
         const modalBorderStyle = getBorderStyle(theme, mode, 'border');
         const isPreview = mode === BehaviorModalMode.preview;
-        const initialPopoverTopOffset = isPreview ? 124 : 112;
-        const initialPopoverRightOffset = isPreview ? 8 : 10;
+
+        // Offset preview modal based on height of left panel header
+        const boundaryLayerTopOffset = 114;
+
+        // Pad modal with viewer padding
+        const initialPopoverRightOffset = 8;
+
+        /** In preview mode, position draggable modal just offset from left builder panel
+         *  In viewer mode, position draggable modal slightly padded of right screen boundary
+         */
         const draggablePositionStyle: IStyle = isPreview
             ? {
-                  top: 8,
-                  left: 20
+                  top: 0,
+                  left: 0
               }
             : {
                   top: 0,
@@ -62,11 +70,11 @@ export const getStyles = memoizeFunction(
             boundaryLayer: [
                 classNames.boundaryLayer,
                 {
-                    height: `calc(100% - ${initialPopoverTopOffset}px)`,
+                    height: `calc(100% - ${boundaryLayerTopOffset}px)`,
                     left: 0,
                     pointerEvents: 'none',
                     position: 'absolute',
-                    top: initialPopoverTopOffset,
+                    top: boundaryLayerTopOffset,
                     width: '100%',
                     zIndex: 1000
                 } as IStyle
@@ -86,7 +94,6 @@ export const getStyles = memoizeFunction(
                     backdropFilter: 'blur(24px) brightness(150%)',
                     borderRadius: 2,
                     border: modalBorderStyle,
-                    path: 'white',
                     cursor: 'move',
                     position: 'absolute',
                     pointerEvents: 'auto'
@@ -110,14 +117,6 @@ export const getStyles = memoizeFunction(
                     height: 32
                 } as IStyle
             ],
-            modalSubHeader: [
-                classNames.modalSubHeader,
-                {
-                    fontWeight: FontWeights.regular,
-                    fontStyle: 'italic',
-                    fontSize: FontSizes.size14
-                } as IStyle
-            ],
             modalTitle: [
                 classNames.modalTitle,
                 {
@@ -138,14 +137,11 @@ export const getStyles = memoizeFunction(
     }
 );
 
-export const getSeparatorStyles = (
-    props: ISeparatorStyleProps,
-    mode: BehaviorModalMode
-) => {
+export const getSeparatorStyles = (theme: ITheme, mode: BehaviorModalMode) => {
     return {
         root: {
             ':before': {
-                backgroundColor: getBorderStyle(props.theme, mode, 'color')
+                backgroundColor: getBorderStyle(theme, mode, 'color')
             },
             padding: 0,
             height: 1

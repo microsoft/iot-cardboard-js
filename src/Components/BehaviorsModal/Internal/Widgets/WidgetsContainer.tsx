@@ -1,4 +1,4 @@
-import { getTheme } from '@fluentui/react';
+import { useTheme } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { WidgetType } from '../../../../Models/Classes/3DVConfig';
 import {
@@ -29,7 +29,7 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
     popoverVisual
 }) => {
     const { mode } = useContext(BehaviorsModalContext);
-    const theme = getTheme();
+    const theme = useTheme();
     const styles = getStyles(theme, mode);
 
     return (
