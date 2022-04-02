@@ -111,6 +111,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             sceneId,
             behaviors
         );
+        // get twin aliases defined in all behaviors in the scene
         behaviorsInScene.forEach((behaviorInScene) => {
             // TODO: move this viewer config utils
             const twinAliasesFromBehavior = getTwinAliasesFromBehavior(
@@ -128,6 +129,60 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 }
             });
         });
+
+        // merge it with the twin aliases defined in all the elements added to the current behavior
+        selectedElements.forEach((element) => {
+            if (element.twinAliases) {
+                Object.keys(element.twinAliases).forEach(
+                    (twinAliasInElement) => {
+                        if (
+                            twinAliases.findIndex(
+                                (twinAlias) =>
+                                    twinAlias.alias === twinAliasInElement
+                            ) === -1
+                        ) {
+                            twinAliases.push({
+                                alias: twinAliasInElement,
+                                elementToTwinMappings: [
+                                    {
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    }
+                                ]
+                            });
+                        } else {
+                            const elementIdsForThisAlias = twinAliases
+                                .find(
+                                    (twinAlias) =>
+                                        twinAlias.alias === twinAliasInElement
+                                )
+                                .elementToTwinMappings.map(
+                                    (mapping) => mapping.elementId
+                                );
+                            if (!elementIdsForThisAlias.includes(element.id)) {
+                                twinAliases
+                                    .find(
+                                        (twinAlias) =>
+                                            twinAlias.alias ===
+                                            twinAliasInElement
+                                    )
+                                    .elementToTwinMappings.push({
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    });
+                            }
+                        }
+                    }
+                );
+            }
+        });
+
         const twinAliasesInBehavior = getTwinAliasesFromBehavior(
             behaviorToEdit,
             selectedElements
