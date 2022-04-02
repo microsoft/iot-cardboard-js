@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, IStyle, Label, Text } from '@fluentui/react';
+import { Icon, Label, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -17,7 +17,7 @@ interface IADTTwinSearchProps {
     isDescriptionHidden?: boolean;
     selectedTwinId?: string;
     onTwinIdSelect?: (selectedTwinId: string) => void;
-    styles?: IStyle;
+    styles?: CSSProperties;
 }
 
 const SuggestionListScrollThresholdFactor = 40;

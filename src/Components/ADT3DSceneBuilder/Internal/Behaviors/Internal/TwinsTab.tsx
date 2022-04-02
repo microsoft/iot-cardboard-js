@@ -30,7 +30,7 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
-import AddAliasedTwinCallout from './AddAliasedTwinCallout';
+import AddTwinAliasCallout from './AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 
@@ -112,6 +112,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             behaviors
         );
         behaviorsInScene.forEach((behaviorInScene) => {
+            // TODO: move this viewer config utils
             const twinAliasesFromBehavior = getTwinAliasesFromBehavior(
                 behaviorInScene,
                 selectedElements
@@ -244,7 +245,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 onClick={toggleIsAddTwinAliasCalloutVisible}
             />
             {isAddTwinAliasCalloutVisible && (
-                <AddAliasedTwinCallout
+                <AddTwinAliasCallout
                     calloutTarget={addAliasCalloutTargetId}
                     availableTwinAliases={availableTwinAliases}
                     hideCallout={toggleIsAddTwinAliasCalloutVisible}
@@ -257,6 +258,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
 };
 
 const getTwinAliasesFromBehavior = (
+    // TODO: move this method to viewer config utils
     behavior: IBehavior,
     selectedElements: Array<ITwinToObjectMapping>
 ) => {

@@ -125,7 +125,7 @@ export interface IADT3DSceneBuilderAddBehaviorCalloutProps {
     hideCallout: () => void;
 }
 
-export interface IADT3DSceneBuilderAddAliasedTwinCalloutProps {
+export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     availableTwinAliases: Array<ITwinAliasItem>;
     calloutTarget: string;
     onAddTwinAlias: (twinAlias: ITwinAliasItem) => void;

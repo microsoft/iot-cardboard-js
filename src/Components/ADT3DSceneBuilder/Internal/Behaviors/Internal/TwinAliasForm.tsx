@@ -76,6 +76,7 @@ const TwinAliasForm: React.FC<{
         );
         const newSelectedElements = deepCopy(selectedElements);
         newSelectedElements?.forEach((selectedElement) => {
+            // TODO: move this to viewer config utils
             const aliasedTwinId = formData.elementToTwinMappings.find(
                 (mapping) => mapping.elementId === selectedElement.id
             ).twinId;
@@ -135,7 +136,7 @@ const TwinAliasForm: React.FC<{
                             ? t('3dSceneBuilder.createTwinAlias')
                             : t('3dSceneBuilder.updateTwinAlias')
                     }
-                    // disabled TODO: do validation check to disable the button
+                    // disabled TODO: implement validations/error check to disable the button
                 />
                 <DefaultButton
                     data-testid={'twin-alias-form-secondary-button'}

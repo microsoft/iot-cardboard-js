@@ -8,12 +8,12 @@ import {
     FocusTrapCallout,
     useTheme
 } from '@fluentui/react';
-import { IADT3DSceneBuilderAddAliasedTwinCalloutProps } from '../../../ADT3DSceneBuilder.types';
+import { IADT3DSceneBuilderAddTwinAliasCalloutProps } from '../../../ADT3DSceneBuilder.types';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 
-const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutProps> = ({
+const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> = ({
     availableTwinAliases,
     calloutTarget,
     onAddTwinAlias,
@@ -50,7 +50,7 @@ const AddAliasedTwinCallout: React.FC<IADT3DSceneBuilderAddAliasedTwinCalloutPro
 
     const theme = useTheme();
     return (
-        <FocusTrapCallout
+        <FocusTrapCallout // TODO: make this callout reusable component since many subcomponents are using it
             focusTrapProps={{
                 isClickableOutsideFocusTrap: true
             }}
@@ -162,4 +162,4 @@ const styles = mergeStyleSets({
     }
 });
 
-export default AddAliasedTwinCallout;
+export default AddTwinAliasCallout;
