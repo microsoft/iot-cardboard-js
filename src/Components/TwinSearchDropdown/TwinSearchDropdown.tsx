@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Label, Text } from '@fluentui/react';
+import { Icon, IStyle, Label, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
