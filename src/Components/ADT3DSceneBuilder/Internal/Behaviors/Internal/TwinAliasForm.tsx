@@ -93,6 +93,8 @@ const TwinAliasForm: React.FC<{
             if (aliasedTwinId) {
                 if (selectedElement.twinAliases) {
                     if (
+                        twinAliasFormInfo.mode ===
+                            TwinAliasFormMode.EditTwinAlias &&
                         selectedElement.twinAliases?.[
                             twinAliasFormInfo.twinAlias.alias
                         ]
