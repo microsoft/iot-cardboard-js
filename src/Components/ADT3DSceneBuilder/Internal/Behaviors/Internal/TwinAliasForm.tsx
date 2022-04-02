@@ -65,27 +65,48 @@ const TwinAliasForm: React.FC<{
     );
 
     const onSaveTwinAliasForm = () => {
-        setBehaviorToEdit(
-            produce((draft) => {
-                if (!draft.twinAliases) {
-                    draft.twinAliases = [formData.alias];
-                } else if (!draft.twinAliases.includes(formData.alias)) {
-                    draft.twinAliases.push(formData.alias);
-                }
-            })
-        );
+        if (twinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias) {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    draft.twinAliases[twinAliasFormInfo.twinAliasIdx] =
+                        formData.alias;
+                })
+            );
+        }
+        if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
+            setBehaviorToEdit(
+                produce((draft) => {
+                    if (!draft.twinAliases) {
+                        draft.twinAliases = [formData.alias];
+                    } else if (!draft.twinAliases.includes(formData.alias)) {
+                        draft.twinAliases.push(formData.alias);
+                    }
+                })
+            );
+        }
         const newSelectedElements = deepCopy(selectedElements);
         newSelectedElements?.forEach((selectedElement) => {
             // TODO: move this to viewer config utils
             const aliasedTwinId = formData.elementToTwinMappings.find(
                 (mapping) => mapping.elementId === selectedElement.id
-            ).twinId;
-            if (selectedElement.twinAliases) {
-                selectedElement.twinAliases[formData.alias] = aliasedTwinId;
-            } else {
-                selectedElement.twinAliases = {
-                    [formData.alias]: aliasedTwinId
-                };
+            )?.twinId;
+            if (aliasedTwinId) {
+                if (selectedElement.twinAliases) {
+                    if (
+                        selectedElement.twinAliases?.[
+                            twinAliasFormInfo.twinAlias.alias
+                        ]
+                    ) {
+                        delete selectedElement.twinAliases?.[
+                            twinAliasFormInfo.twinAlias.alias
+                        ];
+                    }
+                    selectedElement.twinAliases[formData.alias] = aliasedTwinId;
+                } else {
+                    selectedElement.twinAliases = {
+                        [formData.alias]: aliasedTwinId
+                    };
+                }
             }
         });
         setSelectedElements(newSelectedElements);

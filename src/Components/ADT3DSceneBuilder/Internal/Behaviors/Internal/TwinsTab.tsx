@@ -220,10 +220,11 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     }, [setTwinAliasFormInfo]);
 
     const onTwinAliasClick = useCallback(
-        (twinAliasItem: ITwinAliasItem) => {
+        (twinAliasItem: ITwinAliasItem, idx: number) => {
             setTwinAliasFormInfo({
                 twinAlias: twinAliasItem,
-                mode: TwinAliasFormMode.EditTwinAlias
+                mode: TwinAliasFormMode.EditTwinAlias,
+                twinAliasIdx: idx
             });
         },
         [setTwinAliasFormInfo]
@@ -361,11 +362,14 @@ function getLinkedTwinItems(
 
 function getTwinAliasListItems(
     twinAliases: Array<ITwinAliasItem>,
-    onTwinAliasClick: (item: ITwinAliasItem) => void,
+    onTwinAliasClick: (item: ITwinAliasItem, idx: number) => void,
     onTwinAliasRemove: (item: ITwinAliasItem) => void,
     t: TFunction<string>
 ): ICardboardListItem<ITwinAliasItem>[] {
-    const getMenuItems = (item: ITwinAliasItem): IContextualMenuItem[] => {
+    const getMenuItems = (
+        item: ITwinAliasItem,
+        idx: number
+    ): IContextualMenuItem[] => {
         return [
             {
                 'data-testid': 'modifyOverflow',
@@ -373,7 +377,7 @@ function getTwinAliasListItems(
                 iconProps: { iconName: 'Edit' },
                 text: t('3dSceneBuilder.modifyTwinAlias'),
                 onClick: () => {
-                    onTwinAliasClick(item);
+                    onTwinAliasClick(item, idx);
                 }
             },
             {
@@ -390,14 +394,14 @@ function getTwinAliasListItems(
         ];
     };
 
-    return twinAliases.map((twinAlias) => {
+    return twinAliases.map((twinAlias, idx) => {
         const listItem: ICardboardListItem<ITwinAliasItem> = {
             ariaLabel: twinAlias.alias,
             iconStart: { name: 'LinkedDatabase' },
             item: twinAlias,
-            onClick: onTwinAliasClick,
+            onClick: () => onTwinAliasClick(twinAlias, idx),
             textPrimary: twinAlias.alias,
-            overflowMenuItems: getMenuItems(twinAlias)
+            overflowMenuItems: getMenuItems(twinAlias, idx)
         };
 
         return listItem;
