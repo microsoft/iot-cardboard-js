@@ -34,7 +34,7 @@ export const getLeftPanelBuilderHeaderParams = (
         } else {
             headerText = i18n.t('3dSceneBuilder.editTwinAlias');
         }
-        iconName = twinAliasFormInfo.twinAlias?.alias ? 'DuplicateRow' : '';
+        iconName = twinAliasFormInfo.twinAlias?.alias ? 'LinkedDatabase' : '';
         subHeaderText = twinAliasFormInfo.twinAlias?.alias;
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
