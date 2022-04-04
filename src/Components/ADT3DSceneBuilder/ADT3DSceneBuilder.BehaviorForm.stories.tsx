@@ -67,7 +67,7 @@ NewStateTabNoElements.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
+    await userEvent.click(tab[2]);
 };
 
 export const NewStateTabWithElements = Template.bind({});
@@ -127,7 +127,7 @@ NewWidgetsTab.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[3]);
+    await userEvent.click(tab[4]);
 };
 
 export const EditElementsTab = Template.bind({});
@@ -161,7 +161,7 @@ EditStatusTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks Status
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
+    await userEvent.click(tab[2]);
 };
 
 export const EditStatusTabError = Template.bind({});
@@ -183,7 +183,7 @@ EditStatusTabSwitchTabs.play = async ({ canvasElement }) => {
     const elementsTab = (await canvas.findAllByRole('tab'))[0];
     await userEvent.click(elementsTab);
     // Finds the tabs and clicks the Status
-    const statusTab = (await canvas.findAllByRole('tab'))[1];
+    const statusTab = (await canvas.findAllByRole('tab'))[2];
     await userEvent.click(statusTab);
 };
 
@@ -213,7 +213,7 @@ EditStatusTabRemoveRangeSave.play = async ({ canvasElement }) => {
     // navigate back to editing the same item and go to the status tab
     await EditElementsTab.play({ canvasElement });
     // Finds the tabs and clicks the Status
-    const statusTab = (await canvas.findAllByRole('tab'))[1];
+    const statusTab = (await canvas.findAllByRole('tab'))[2];
     await userEvent.click(statusTab);
 };
 
@@ -224,7 +224,7 @@ EditAlertsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks Alerts
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
+    await userEvent.click(tab[3]);
 };
 
 export const EditWidgetsTab = Template.bind({});
@@ -234,5 +234,5 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[3]);
+    await userEvent.click(tab[4]);
 };
