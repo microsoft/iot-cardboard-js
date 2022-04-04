@@ -87,7 +87,7 @@ NewStateTabWithElements.play = async ({ canvasElement }) => {
 
     // switch tabs
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[1]);
+    await userEvent.click(tab[2]);
 };
 
 export const NewStateTabWithElementsOpenProperty = Template.bind({});
