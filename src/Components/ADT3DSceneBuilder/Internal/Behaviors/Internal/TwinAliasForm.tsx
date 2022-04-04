@@ -130,6 +130,13 @@ const TwinAliasForm: React.FC<{
                             })
                         )
                     }
+                    disabled={
+                        twinAliasFormInfo.mode ===
+                        TwinAliasFormMode.EditTwinAlias
+                    }
+                    description={t(
+                        '3dSceneBuilder.twinAliasNameChangeNotAllowed'
+                    )}
                 />
                 <Label styles={{ root: { paddingTop: 16 } }}>
                     {t('3dSceneBuilder.elementTwinMappings')}

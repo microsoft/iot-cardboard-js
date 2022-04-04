@@ -432,7 +432,8 @@
         "removeTwinAliasFromBehavior": "Remove twin alias from behavior",
         "searchTwinAliases": "Search twin aliases",
         "noAvailableTwinAliases": "No available twin aliases",
-        "elementTwinMappings": "Element twin mappings"
+        "elementTwinMappings": "Element twin mappings",
+        "twinAliasNameChangeNotAllowed": "Alias change is not allowed after creation, you can configure it in your config file."
     },
     "widgets": {
         "trend": {
