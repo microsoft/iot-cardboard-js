@@ -3,7 +3,6 @@ import {
     DefaultButton,
     FontIcon,
     IconButton,
-    Separator,
     useTheme
 } from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
@@ -11,11 +10,7 @@ import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
 import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
-import {
-    getStyles,
-    getButtonStyles,
-    sectionSeparatorStyles
-} from './CardboardListItem.styles';
+import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
 export const CardboardListItem = <T extends unknown>(
     props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
@@ -90,9 +85,6 @@ export const CardboardListItem = <T extends unknown>(
     );
     return (
         <>
-            {itemType === 'header' && (
-                <Separator styles={sectionSeparatorStyles} />
-            )}
             <span className={classNames.root}>
                 <DefaultButton
                     {...buttonProps}

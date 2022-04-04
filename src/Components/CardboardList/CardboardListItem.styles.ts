@@ -2,7 +2,6 @@ import {
     FontSizes,
     IButtonStyles,
     IRawStyle,
-    ISeparatorStyles,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
@@ -134,6 +133,9 @@ export const getButtonStyles = memoizeFunction(
                 },
                 itemType === 'item' && {
                     paddingLeft: 40
+                },
+                itemType === 'header' && {
+                    borderTop: `1px solid ${theme.palette.neutralLight}`
                 }
             ],
             flexContainer: {
@@ -143,10 +145,3 @@ export const getButtonStyles = memoizeFunction(
         };
     }
 );
-
-export const sectionSeparatorStyles: Partial<ISeparatorStyles> = {
-    root: {
-        height: 8,
-        padding: 0
-    }
-};
