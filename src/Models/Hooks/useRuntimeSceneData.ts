@@ -99,7 +99,8 @@ export const useRuntimeSceneData = (
                                         id: behavior.id,
                                         meshId: meshId,
                                         color: color,
-                                        icon: icon
+                                        icon: icon,
+                                        sceneVisual: sceneVisual
                                     });
                                 }
                                 break;
@@ -118,6 +119,7 @@ export const useRuntimeSceneData = (
                 if (groupedAlerts.length === 0) {
                     groupedAlerts.push({
                         id: alert.meshId + alert.id,
+                        sceneVisual: alert.sceneVisual,
                         meshId: alert.meshId,
                         badges: [alert]
                     });
@@ -134,6 +136,7 @@ export const useRuntimeSceneData = (
                         // create new group
                         groupedAlerts.push({
                             id: alert.meshId + alert.id,
+                            sceneVisual: alert.sceneVisual,
                             meshId: alert.meshId,
                             badges: [alert]
                         });
