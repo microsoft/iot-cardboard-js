@@ -14,8 +14,8 @@ import {
     ITwinToObjectMapping,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
-import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,
@@ -23,6 +23,7 @@ import {
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
+    ElementsPanelCallback,
     IViewerElementsPanelItem,
     IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
@@ -49,7 +50,7 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
 
     const listItems = useMemo(
         () => getListItems(panelItems, onItemClick, onItemHover, onItemBlur),
-        [panelItems]
+        [panelItems, onItemClick, onItemHover, onItemBlur]
     );
 
     return (
@@ -73,26 +74,14 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
 
 function getListItems(
     panelItems: Array<IViewerElementsPanelItem>,
-    onItemClick: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void,
-    onItemHover?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void,
-    onItemBlur?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void
-): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
+    onItemClick: ElementsPanelCallback,
+    onItemHover?: ElementsPanelCallback,
+    onItemBlur?: ElementsPanelCallback
+): Array<ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>> {
     const sortedPanelItems = sortPanelItemsForDisplay(panelItems);
     const buttonStyles = getElementsPanelButtonSyles();
     const listItems: Array<
-        ICardboardListItem<ITwinToObjectMapping | IVisual>
+        ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
     sortedPanelItems.map((panelItem) => {
@@ -121,14 +110,14 @@ function getListItems(
                 b.visuals
                     .filter(
                         (visual) =>
-                            ViewerConfigUtility.isAlertVisual &&
+                            ViewerConfigUtility.isAlertVisual(visual) &&
                             parseExpression(
                                 visual.triggerExpression,
                                 panelItem.twins
                             )
                     )
                     .map(
-                        (alertVisual) =>
+                        (alertVisual: IAlertVisual) =>
                             ({
                                 behavior: b,
                                 alertVisual: alertVisual,
@@ -152,12 +141,12 @@ function getListItems(
             )
         );
 
-        const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
+        const elementItemWithStatus: ICardboardGroupedListItem<ITwinToObjectMapping> = {
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
                 ...(onItemHover && {
-                    onMouseOver: () => onItemHover(element, panelItem),
+                    onMouseEnter: () => onItemHover(element, panelItem),
                     onFocus: () => onItemHover(element, panelItem)
                 }),
                 ...(onItemBlur && {
@@ -165,34 +154,13 @@ function getListItems(
                     onBlur: () => onItemBlur(element, panelItem)
                 })
             },
-            iconStartName: (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 40,
-                        overflow: 'hidden'
-                    }}
-                >
-                    {statuses.map((status, index) => (
-                        <div
-                            key={index}
-                            className={
-                                getElementsPanelStatusStyles(
-                                    getSceneElementStatusColor(
-                                        status.statusVisual
-                                            .statusValueExpression,
-                                        status.statusVisual.valueRanges,
-                                        panelItem.twins
-                                    )
-                                ).statusLine
-                            }
-                        ></div>
-                    ))}
-                </div>
-            ),
+            iconStart: {
+                name: (
+                    <ElementStatus statuses={statuses} panelItem={panelItem} />
+                )
+            },
             item: element,
+            itemType: 'header',
             onClick: () => onItemClick(element, panelItem),
             textPrimary: element.displayName
         };
@@ -202,25 +170,28 @@ function getListItems(
             const alertStyles = getElementsPanelAlertStyles(
                 alert.alertVisual.color
             );
-            const alertItem: ICardboardListItem<IAlertVisual> = {
+            const onEnter =
+                onItemHover && (() => onItemHover(element, panelItem));
+            const onLeave =
+                onItemBlur && (() => onItemBlur(element, panelItem));
+            const alertItem: ICardboardGroupedListItem<IAlertVisual> = {
                 ariaLabel: alert.alertVisualDisplayTitle,
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
-                    ...(onItemHover && {
-                        onMouseOver: () => onItemHover(element, panelItem),
-                        onFocus: () => onItemHover(element, panelItem)
-                    }),
-                    ...(onItemBlur && {
-                        onMouseLeave: () => onItemBlur(element, panelItem),
-                        onBlur: () => onItemBlur(element, panelItem)
-                    })
+                    onMouseEnter: onEnter,
+                    onFocus: onEnter,
+                    onMouseLeave: onLeave,
+                    onBlur: onLeave
                 },
-                iconStartName: (
-                    <span className={alertStyles.alertCircle}>
-                        <Icon iconName={alert.alertVisual.iconName} />
-                    </span>
-                ),
+                iconStart: {
+                    name: (
+                        <span className={alertStyles.alertCircle}>
+                            <Icon iconName={alert.alertVisual.iconName} />
+                        </span>
+                    )
+                },
                 item: alert.alertVisual,
+                itemType: 'item',
                 onClick: () =>
                     onItemClick(alert.alertVisual, panelItem, alert.behavior),
                 textPrimary: alert.alertVisualDisplayTitle
@@ -231,5 +202,42 @@ function getListItems(
 
     return listItems;
 }
+
+interface IElementStatusProps {
+    statuses: {
+        behavior: IBehavior;
+        statusVisual: IStatusColoringVisual;
+    }[];
+    panelItem: IViewerElementsPanelItem;
+}
+const ElementStatus: React.FC<IElementStatusProps> = (props) => {
+    const { statuses, panelItem } = props;
+    return (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 40,
+                overflow: 'hidden'
+            }}
+        >
+            {statuses.map((status, index) => (
+                <div
+                    key={index}
+                    className={
+                        getElementsPanelStatusStyles(
+                            getSceneElementStatusColor(
+                                status.statusVisual.statusValueExpression,
+                                status.statusVisual.valueRanges,
+                                panelItem.twins
+                            )
+                        ).statusLine
+                    }
+                ></div>
+            ))}
+        </div>
+    );
+};
 
 export default memo(ElementsList);

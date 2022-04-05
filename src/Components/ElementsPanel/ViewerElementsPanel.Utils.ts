@@ -7,7 +7,9 @@ import {
 import { IViewerElementsPanelItem } from './ViewerElementsPanel.types';
 
 export const sortPanelItemsForDisplay = memoizeFunction(
-    (panelItems: Array<IViewerElementsPanelItem>) => {
+    (
+        panelItems: Array<IViewerElementsPanelItem>
+    ): IViewerElementsPanelItem[] => {
         const panelItemsWithAlerts: Array<{
             activeAlertNumber: number;
             panelItem: IViewerElementsPanelItem;

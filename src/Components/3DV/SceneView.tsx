@@ -16,14 +16,17 @@ import {
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
 import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
+import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
+    IADTBackgroundColor,
+    TransparentTexture,
     ViewerModeObjectColors
 } from '../../Models/Constants';
-import { getBoundingBox } from './SceneView.Utils';
 import { getProgressStyles, getSceneViewStyles } from './SceneView.styles';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
+import { sleep } from '../AutoComplete/AutoComplete';
 
 const debug = false;
 
@@ -121,7 +124,9 @@ const SceneView: React.FC<ISceneViewProp> = ({
     coloredMeshItems,
     showHoverOnSelected,
     outlinedMeshitems,
-    isWireframe
+    isWireframe,
+    badgeGroups,
+    backgroundColor
 }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
@@ -152,9 +157,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const outlinedMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const clonedHighlightMeshes = useRef<BABYLON.AbstractMesh[]>([]);
     const highlightLayer = useRef<HighlightLayer>(null);
+    const badgeGroupsRef = useRef<any[]>([]);
     const [currentObjectColor, setCurrentObjectColor] = useState(
         DefaultViewerModeObjectColor
     );
+    const backgroundColorRef = useRef<IADTBackgroundColor>(null);
     const meshMap = useRef<any>(null);
     const prevZoomToIds = useRef('');
     const prevHideUnzoomedRef = useRef<number>(undefined);
@@ -260,6 +267,16 @@ const SceneView: React.FC<ISceneViewProp> = ({
             const sc = new BABYLON.Scene(engine);
             sceneRef.current = sc;
             sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+            //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
+            //The texture is 99% transparent but forces the engine to blend the colors.
+            const layer = new BABYLON.Layer('', '', sceneRef.current, true);
+            layer.texture = BABYLON.Texture.CreateFromBase64String(
+                TransparentTexture,
+                'layerImg',
+                sceneRef.current
+            );
+
             hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
             hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                 currentObjectColor.meshHoverColor
@@ -510,6 +527,71 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     mesh.material = shaderMaterial.current;
                 }
             }
+        }
+    };
+
+    useEffect(() => {
+        createBadgeGroups();
+        return () => {
+            clearBadgeGroups(false);
+        };
+    }, [badgeGroups, isLoading]);
+
+    useEffect(() => {
+        if (backgroundColor !== backgroundColorRef?.current) {
+            backgroundColorRef.current = backgroundColor;
+            clearBadgeGroups(true);
+            createBadgeGroups();
+        }
+    }, [backgroundColor]);
+
+    const clearBadgeGroups = (force: boolean) => {
+        const groupsToRemove = [];
+        badgeGroupsRef?.current.forEach((badgeGroupRef) => {
+            // remove badge if group is no longer in prop
+            if (
+                !badgeGroups?.find((bg) => bg.id === badgeGroupRef.name) ||
+                force
+            ) {
+                debugLog('removing badge');
+                advancedTextureRef.current.removeControl(badgeGroupRef);
+                groupsToRemove.push(badgeGroupRef);
+            }
+        });
+        groupsToRemove?.forEach((group) => {
+            badgeGroupsRef.current = badgeGroupsRef.current.filter(
+                (bg) => bg.name !== group.name
+            );
+        });
+    };
+
+    const createBadgeGroups = () => {
+        if (badgeGroups && advancedTextureRef.current) {
+            badgeGroups.forEach((bg) => {
+                // only add badge group if not already present
+                if (
+                    !badgeGroupsRef.current.find(
+                        (badgeGroupRef) => badgeGroupRef.name === bg.id
+                    )
+                ) {
+                    debugLog('adding badge group');
+                    const badgeGroup = createBadgeGroup(bg, backgroundColor);
+                    advancedTextureRef.current.addControl(badgeGroup);
+                    const mesh = sceneRef.current.meshes.find(
+                        (m) => m.id === bg.meshId
+                    );
+                    badgeGroup.linkWithMesh(mesh);
+
+                    // badges can only be linked to meshes after being added to the scene
+                    // so adding a delay in making it visible so it doesn't jump
+                    const waitUntilPostioned = async () => {
+                        await sleep(1);
+                        badgeGroup.isVisible = true;
+                    };
+                    waitUntilPostioned();
+                    badgeGroupsRef.current.push(badgeGroup);
+                }
+            });
         }
     };
 

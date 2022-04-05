@@ -416,7 +416,7 @@ function getListItems(
                 onFocus: () => onElementEnter(item),
                 onBlur: onElementLeave
             },
-            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            iconStart: !isEditBehavior ? { name: 'Shapes' } : undefined,
             item: item,
             onClick: onListItemClick,
             overflowMenuItems: getOverflowMenuItems(item),
