@@ -9,14 +9,28 @@ import {
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DSceneBuilderMode } from '../../..';
+import { WidgetFormMode } from '../../../Models/Constants';
 import { ADT3DScenePageContext } from '../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder';
+import { WidgetFormInfo } from '../ADT3DSceneBuilder.types';
 
 interface Props {
     builderMode: ADT3DSceneBuilderMode;
     onBehaviorsRootClick: () => void;
     onElementsRootClick: () => void;
 }
+
+const cancelWidgetForm = (
+    widgetFormInfo: WidgetFormInfo,
+    setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void
+) => {
+    if (
+        widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+        WidgetFormMode.EditWidget
+    ) {
+        setWidgetFormInfo({ mode: WidgetFormMode.Cancelled });
+    }
+};
 
 const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
     builderMode,
@@ -47,7 +61,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                 ...(scenePageContext && {
                     onClick: () => {
                         scenePageContext.handleOnHomeClick();
-                        setWidgetFormInfo(null);
+                        cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     }
                 })
             },
@@ -64,7 +78,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
                             onElementsRootClick();
                         } else {
                             onBehaviorsRootClick();
-                            setWidgetFormInfo(null);
+                            cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                         }
                     }
                 })
@@ -74,11 +88,12 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         const behaviorsRoot: IBreadcrumbItem = {
             text: t('3dSceneBuilder.behavior'),
             key: 'behaviorRoot',
-            ...((widgetFormInfo ||
+            ...((widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+                widgetFormInfo.mode === WidgetFormMode.EditWidget ||
                 (builderMode !== ADT3DSceneBuilderMode.CreateBehavior &&
                     builderMode !== ADT3DSceneBuilderMode.EditBehavior)) && {
                 onClick: () => {
-                    setWidgetFormInfo(null);
+                    cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                 }
             })
         };
@@ -99,7 +114,10 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
 
         let activePanelBreadcrumb: Array<IBreadcrumbItem> = [];
 
-        if (widgetFormInfo) {
+        if (
+            widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+            widgetFormInfo.mode === WidgetFormMode.EditWidget
+        ) {
             activePanelBreadcrumb = [behaviorsRoot, widgetsRoot];
         } else {
             switch (builderMode) {

@@ -5,14 +5,17 @@ import {
     IStyle,
     Theme,
     IPivotStyles,
-    ISeparatorStyles
+    ISeparatorStyles,
+    IStackStyles
 } from '@fluentui/react';
+import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
 const classPrefix = 'left-panel';
 const classNames = {
     noDataText: `${classPrefix}-no-data-text`,
     content: `${classPrefix}-content`,
-    formTabContents: `${classPrefix}-form-tab-contents`
+    formTabContents: `${classPrefix}-form-tab-contents`,
+    previewContainer: `${classPrefix}-preview-container`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -39,6 +42,18 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 flexDirection: 'column',
                 flexGrow: 1,
                 overflow: 'auto'
+            } as IStyle
+        ],
+        previewContainer: [
+            classNames.previewContainer,
+            {
+                position: 'fixed',
+                top: 16,
+                left: behaviorsModalPreviewContainerLeftOffset,
+                bottom: 16,
+                right: 16,
+                zIndex: 1000,
+                pointerEvents: 'none'
             } as IStyle
         ]
     });

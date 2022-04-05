@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -14,12 +14,12 @@ import {
     IBehavior,
     IStatusColoringVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IValueRangeBuilderHandle } from '../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import TwinPropertyDropown from './TwinPropertyDropdown';
+import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -32,31 +32,33 @@ const LOC_KEYS = {
 };
 
 interface IStatusTabProps {
-    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
 }
-const StatusTab: React.FC<IStatusTabProps> = ({
-    onValidityChange,
-    valueRangeRef
-}) => {
+const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
 
-    const [areValueRangesValid, setAreValueRangesValid] = useState(true);
-
     const statusVisualToEdit =
         getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
+
+    const {
+        valueRangeBuilderState,
+        valueRangeBuilderReducer,
+        resetInitialValueRanges
+    } = useValueRangeBuilder({
+        initialValueRanges: statusVisualToEdit.valueRanges,
+        minRanges: 1
+    });
 
     const validateForm = useCallback(
         (visual: IStatusColoringVisual) => {
             let isValid = true;
             if (visual) {
-                isValid = isValid && !!visual.statusValueExpression;
                 // only look at the ranges when the expression is populated
                 if (visual.statusValueExpression) {
-                    isValid = isValid && areValueRangesValid;
+                    isValid = isValid && valueRangeBuilderState.areRangesValid;
                 }
             }
 
@@ -64,7 +66,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({
                 isValid: isValid
             });
         },
-        [areValueRangesValid, onValidityChange]
+        [valueRangeBuilderState.areRangesValid, onValidityChange]
     );
 
     const setProperty = useCallback(
@@ -79,12 +81,16 @@ const StatusTab: React.FC<IStatusTabProps> = ({
                         if (!value) {
                             const index = draft.visuals.indexOf(statusVisual);
                             draft.visuals.splice(index, 1);
-                        } else {
-                            statusVisual[propertyName] = value as any;
                         }
+                        statusVisual[propertyName] = value as any;
                     } else {
                         statusVisual = deepCopy(defaultStatusColorVisual);
                         statusVisual[propertyName] = value as any;
+                        statusVisual.valueRanges =
+                            valueRangeBuilderState.valueRanges;
+                        resetInitialValueRanges(
+                            valueRangeBuilderState.valueRanges
+                        );
                         draft.visuals.push(statusVisual);
                     }
                     // check form validity
@@ -92,13 +98,34 @@ const StatusTab: React.FC<IStatusTabProps> = ({
                 })
             );
         },
-        [setBehaviorToEdit]
+        [
+            setBehaviorToEdit,
+            getStatusFromBehavior,
+            deepCopy,
+            valueRangeBuilderState,
+            resetInitialValueRanges,
+            validateForm
+        ]
     );
+
+    // Mirror value ranges in behavior to edit
+    useEffect(() => {
+        setBehaviorToEdit(
+            produce((draft) => {
+                // Assuming only 1 status visual per behavior
+                const stateVisual = getStatusFromBehavior(draft);
+                if (stateVisual) {
+                    stateVisual.valueRanges =
+                        valueRangeBuilderState.valueRanges;
+                }
+            })
+        );
+    }, [valueRangeBuilderState.valueRanges]);
 
     // update validity when range validity changes
     useEffect(() => {
         validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [areValueRangesValid, validateForm]);
+    }, [valueRangeBuilderState.areRangesValid]);
 
     const onPropertyChange = useCallback(
         (option: string) => {
@@ -123,10 +150,7 @@ const StatusTab: React.FC<IStatusTabProps> = ({
             {showRangeBuilder && <Separator />}
             {showRangeBuilder && (
                 <ValueRangeBuilder
-                    initialValueRanges={statusVisualToEdit.valueRanges}
-                    minRanges={1}
-                    ref={valueRangeRef}
-                    setAreRangesValid={setAreValueRangesValid}
+                    valueRangeBuilderReducer={valueRangeBuilderReducer}
                 />
             )}
         </Stack>

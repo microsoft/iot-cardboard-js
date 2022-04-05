@@ -22,7 +22,6 @@ import {
     ILinkWidget,
     ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { IValueRangeBuilderHandle } from '../ValueRangeBuilder/ValueRangeBuilder.types';
 
 // START of Actions
 export const SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG';
@@ -70,10 +69,10 @@ export interface I3DSceneBuilderContext {
     objectColor: IADTObjectColor;
 }
 
-export type WidgetFormInfo = null | {
-    widget: IWidgetLibraryItem;
+export type WidgetFormInfo = {
+    widget?: IWidgetLibraryItem;
     mode: WidgetFormMode;
-    widgetIdx?: number;
+    widgetId?: string;
 };
 
 export interface IBehaviorFormContext {
@@ -176,13 +175,12 @@ export interface IWidgetBuilderFormDataProps {
 
 export interface ILinkWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: ILinkWidget;
-    setFormData: React.Dispatch<React.SetStateAction<ILinkWidget>>;
+    updateWidgetData: (widgetData: ILinkWidget) => void;
 }
 
 export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IGaugeWidget;
-    setFormData: React.Dispatch<React.SetStateAction<IGaugeWidget>>;
-    valueRangeRef: React.MutableRefObject<IValueRangeBuilderHandle>;
+    updateWidgetData: (widgetData: IGaugeWidget) => void;
 }
 
 export interface BehaviorState {

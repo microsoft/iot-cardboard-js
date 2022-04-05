@@ -642,7 +642,8 @@
         "closeModal": "Close modal",
         "behaviorPopoverMode": "Behavior popover mode",
         "state": "State",
-        "allProperties": "All properties"
+        "allProperties": "All properties",
+        "behaviorPreview": "Preview"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",

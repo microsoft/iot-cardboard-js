@@ -3,33 +3,38 @@ import {
     IIconProps,
     Pivot,
     PivotItem,
-    Separator
+    Separator,
+    useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
-import { DTwin } from '../../Models/Constants';
+import { BehaviorModalMode, DTwin } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     dismissButtonStyles,
     getStyles,
     pivotStyles,
-    separatorStyles
+    getSeparatorStyles
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
 export interface IBehaviorsModalProps {
-    onClose: () => any;
-    title: string;
+    onClose?: () => any;
+    title?: string;
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
+    mode?: BehaviorModalMode;
+    activeWidgetId?: string;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
     twins: Record<string, DTwin>;
+    mode: BehaviorModalMode;
+    activeWidgetId: string | null;
 }>(null);
 
 enum BehaviorModalPivotKey {
@@ -41,19 +46,22 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     onClose,
     behaviors,
     title,
-    twins
+    twins,
+    mode = BehaviorModalMode.viewer,
+    activeWidgetId
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
-    const styles = getStyles();
+    const theme = useTheme();
+    const styles = getStyles(theme, mode);
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.state
     );
 
     return (
-        <BehaviorsModalContext.Provider value={{ twins }}>
+        <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable bounds="parent" defaultClassName={styles.draggable}>
                     <div className={styles.modalContainer}>
@@ -64,14 +72,20 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     id={titleId}
                                     title={title}
                                 >
-                                    {title}
+                                    {mode === BehaviorModalMode.preview
+                                        ? t('behaviorsModal.behaviorPreview')
+                                        : title}
                                 </span>
-                                <IconButton
-                                    styles={dismissButtonStyles}
-                                    iconProps={cancelIcon}
-                                    ariaLabel={t('behaviorsModal.closeModal')}
-                                    onClick={onClose}
-                                />
+                                {onClose && (
+                                    <IconButton
+                                        styles={dismissButtonStyles}
+                                        iconProps={cancelIcon}
+                                        ariaLabel={t(
+                                            'behaviorsModal.closeModal'
+                                        )}
+                                        onClick={onClose}
+                                    />
+                                )}
                             </div>
                             <div className={styles.modalSubHeaderPivot}>
                                 <Pivot
@@ -103,21 +117,23 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                             </div>
                         </div>
                         <div className={styles.modalContents}>
-                            {activePivot === BehaviorModalPivotKey.state &&
-                                behaviors.map((behavior, idx) => {
-                                    return (
-                                        <div key={behavior.id}>
-                                            <BehaviorSection
-                                                behavior={behavior}
+                            {behaviors.map((behavior, idx) => {
+                                return (
+                                    <div key={behavior.id}>
+                                        <BehaviorSection behavior={behavior} />
+                                        {idx < behaviors.length - 1 && (
+                                            <Separator
+                                                styles={(props) =>
+                                                    getSeparatorStyles(
+                                                        props.theme,
+                                                        mode
+                                                    )
+                                                }
                                             />
-                                            {idx < behaviors.length - 1 && (
-                                                <Separator
-                                                    styles={separatorStyles}
-                                                />
-                                            )}
-                                        </div>
-                                    );
-                                })}
+                                        )}
+                                    </div>
+                                );
+                            })}
                             {activePivot ===
                                 BehaviorModalPivotKey.properties && (
                                 <div>weooo</div>
