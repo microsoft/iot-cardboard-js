@@ -87,53 +87,62 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                     />
                                 )}
                             </div>
-                            <div className={styles.modalSubHeaderPivot}>
-                                <Pivot
-                                    aria-label={t(
-                                        'behaviorsModal.behaviorPopoverMode'
-                                    )}
-                                    selectedKey={activePivot}
-                                    onLinkClick={(item) =>
-                                        setActivePivot(
-                                            item.props
-                                                .itemKey as BehaviorModalPivotKey
-                                        )
-                                    }
-                                    styles={pivotStyles}
-                                >
-                                    <PivotItem
-                                        headerText={t('behaviorsModal.state')}
-                                        itemKey={BehaviorModalPivotKey.state}
-                                    ></PivotItem>
-                                    <PivotItem
-                                        headerText={t(
-                                            'behaviorsModal.allProperties'
+                            {mode === BehaviorModalMode.viewer && (
+                                <div className={styles.modalSubHeaderPivot}>
+                                    <Pivot
+                                        aria-label={t(
+                                            'behaviorsModal.behaviorPopoverMode'
                                         )}
-                                        itemKey={
-                                            BehaviorModalPivotKey.properties
+                                        selectedKey={activePivot}
+                                        onLinkClick={(item) =>
+                                            setActivePivot(
+                                                item.props
+                                                    .itemKey as BehaviorModalPivotKey
+                                            )
                                         }
-                                    ></PivotItem>
-                                </Pivot>
-                            </div>
+                                        styles={pivotStyles}
+                                    >
+                                        <PivotItem
+                                            headerText={t(
+                                                'behaviorsModal.state'
+                                            )}
+                                            itemKey={
+                                                BehaviorModalPivotKey.state
+                                            }
+                                        ></PivotItem>
+                                        <PivotItem
+                                            headerText={t(
+                                                'behaviorsModal.allProperties'
+                                            )}
+                                            itemKey={
+                                                BehaviorModalPivotKey.properties
+                                            }
+                                        ></PivotItem>
+                                    </Pivot>
+                                </div>
+                            )}
                         </div>
                         <div className={styles.modalContents}>
-                            {behaviors.map((behavior, idx) => {
-                                return (
-                                    <div key={behavior.id}>
-                                        <BehaviorSection behavior={behavior} />
-                                        {idx < behaviors.length - 1 && (
-                                            <Separator
-                                                styles={(props) =>
-                                                    getSeparatorStyles(
-                                                        props.theme,
-                                                        mode
-                                                    )
-                                                }
+                            {activePivot === BehaviorModalPivotKey.state &&
+                                behaviors.map((behavior, idx) => {
+                                    return (
+                                        <div key={behavior.id}>
+                                            <BehaviorSection
+                                                behavior={behavior}
                                             />
-                                        )}
-                                    </div>
-                                );
-                            })}
+                                            {idx < behaviors.length - 1 && (
+                                                <Separator
+                                                    styles={(props) =>
+                                                        getSeparatorStyles(
+                                                            props.theme,
+                                                            mode
+                                                        )
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             {activePivot ===
                                 BehaviorModalPivotKey.properties && (
                                 <div>weooo</div>

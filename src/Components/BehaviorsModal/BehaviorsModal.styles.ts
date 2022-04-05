@@ -170,7 +170,7 @@ export const dismissButtonStyles: IButtonStyles = {
 
 export const pivotStyles: Partial<IPivotStyles> = {
     root: {
-        // marginBottom: 8,
+        marginBottom: 4,
         marginLeft: -8
     }
 };
