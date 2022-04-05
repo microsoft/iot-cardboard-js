@@ -19,7 +19,7 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     const { behaviorToEdit } = useContext(BehaviorFormContext);
 
     const {
-        state: valueRangeBuilderState,
+        valueRangeBuilderState,
         valueRangeBuilderReducer
     } = useValueRangeBuilder({
         initialValueRanges: formData.widgetConfiguration.valueRanges,

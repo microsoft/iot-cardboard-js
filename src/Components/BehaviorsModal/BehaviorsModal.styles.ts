@@ -2,6 +2,7 @@ import {
     FontSizes,
     FontWeights,
     IButtonStyles,
+    ISeparatorStyles,
     IStyle,
     ITheme,
     memoizeFunction,
@@ -138,7 +139,10 @@ export const getStyles = memoizeFunction(
     }
 );
 
-export const getSeparatorStyles = (theme: ITheme, mode: BehaviorModalMode) => {
+export const getSeparatorStyles = (
+    theme: ITheme,
+    mode: BehaviorModalMode
+): Partial<ISeparatorStyles> => {
     return {
         root: {
             ':before': {

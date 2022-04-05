@@ -19,8 +19,12 @@ export interface UseValueRangeBuilderParams {
 }
 
 export interface IValueRangeBuilderReducer {
-    state: IValueRangeBuilderState;
-    dispatch: Dispatch<ValueRangeBuilderAction>;
+    valueRangeBuilderReducer: {
+        state: IValueRangeBuilderState;
+        dispatch: Dispatch<ValueRangeBuilderAction>;
+    };
+    valueRangeBuilderState: IValueRangeBuilderState;
+    resetInitialValueRanges: (valueRanges: IValueRange[]) => IValueRange[];
 }
 
 const useValueRangeBuilder = ({
@@ -28,7 +32,7 @@ const useValueRangeBuilder = ({
     customSwatchColors,
     minRanges,
     maxRanges
-}: UseValueRangeBuilderParams) => {
+}: UseValueRangeBuilderParams): IValueRangeBuilderReducer => {
     const initialValidationMap = useMemo(
         () => getValidationMapFromValueRanges(initialValueRanges),
         [initialValueRanges]
@@ -52,7 +56,7 @@ const useValueRangeBuilder = ({
             state,
             dispatch
         },
-        state,
+        valueRangeBuilderState: state,
         resetInitialValueRanges: (valueRanges: IValueRange[]) =>
             (initialValueRangesRef.current = valueRanges)
     };

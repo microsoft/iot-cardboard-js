@@ -73,8 +73,3 @@ export const leftPanelPivotStyles: Partial<IPivotStyles> = {
         marginBottom: 8
     }
 };
-export const stackStyles: IStackStyles = {
-    root: {
-        paddingRight: 16
-    }
-};

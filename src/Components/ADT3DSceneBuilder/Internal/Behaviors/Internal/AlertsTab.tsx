@@ -26,7 +26,6 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
-import { stackStyles } from '../../Shared/LeftPanel.styles';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -135,7 +134,7 @@ const AlertsTab: React.FC = () => {
     const expression = alertVisual?.triggerExpression;
     const theme = useTheme();
     return (
-        <Stack tokens={sectionStackTokens} styles={stackStyles}>
+        <Stack tokens={sectionStackTokens}>
             <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
                 {t(LOC_KEYS.notice)}
             </Text>

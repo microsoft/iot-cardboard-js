@@ -33,7 +33,10 @@ const Template = (args, { globals: { theme, locale } }) => {
 };
 
 const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
-    const { state, valueRangeBuilderReducer } = useValueRangeBuilder({
+    const {
+        valueRangeBuilderState,
+        valueRangeBuilderReducer
+    } = useValueRangeBuilder({
         initialValueRanges: args.initialValueRanges,
         minRanges: args.minRanges,
         maxRanges: args.maxRanges
@@ -43,12 +46,12 @@ const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
         <>
             <div>
                 Consuming component - ranges are valid:{' '}
-                {state.areRangesValid ? '✅' : '❌'}
+                {valueRangeBuilderState.areRangesValid ? '✅' : '❌'}
             </div>
             <div style={{ margin: '20px 0px' }}>
                 <DefaultButton
                     onClick={() => {
-                        const valueRanges = state.valueRanges;
+                        const valueRanges = valueRangeBuilderState.valueRanges;
                         alert(
                             `${valueRanges.length} value ranges were retrieved from this consuming component.  Details have been logged in the console`
                         );
