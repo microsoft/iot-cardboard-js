@@ -46,11 +46,11 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
     return (
         <div className={styles.behaviorSection}>
             <div className={styles.behaviorHeader}>{behavior.displayName}</div>
-            {alertVisuals.map((av) => (
-                <AlertBlock alertVisual={av} />
+            {alertVisuals.map((av, idx) => (
+                <AlertBlock alertVisual={av} key={idx} />
             ))}
-            {statusVisuals.map((sv) => (
-                <StatusBlock statusVisual={sv} />
+            {statusVisuals.map((sv, idx) => (
+                <StatusBlock statusVisual={sv} key={idx} />
             ))}
             {popoverVisual && (
                 <WidgetsContainer popoverVisual={popoverVisual} twins={twins} />
