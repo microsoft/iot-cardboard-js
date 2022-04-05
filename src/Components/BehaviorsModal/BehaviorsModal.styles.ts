@@ -1,6 +1,7 @@
 import {
     FontWeights,
     IButtonStyles,
+    IPivotStyles,
     ISeparatorStyles,
     IStyle,
     memoizeFunction,
@@ -13,7 +14,9 @@ const classNames = {
     draggable: `${behaviorsModalClassPrefix}-draggable`,
     separator: `${behaviorsModalClassPrefix}-separator`,
     modalContainer: `${behaviorsModalClassPrefix}-modal-container`,
+    modalHeaderContainer: `${behaviorsModalClassPrefix}-modal-header-container`,
     modalHeader: `${behaviorsModalClassPrefix}-modal-header`,
+    modalSubHeaderPivot: `${behaviorsModalClassPrefix}-modal-sub-header-pivor`,
     modalTitle: `${behaviorsModalClassPrefix}-modal-title`,
     modalContents: `${behaviorsModalClassPrefix}-modal-contents`
 };
@@ -63,6 +66,13 @@ export const getStyles = memoizeFunction(() => {
                 pointerEvents: 'auto'
             } as IStyle
         ],
+        modalHeaderContainer: [
+            classNames.modalHeaderContainer,
+            {
+                // borderBottom: `1px solid ${modalBorderColor}`,
+                padding: '4px 8px 4px 20px'
+            } as IStyle
+        ],
         modalHeader: [
             classNames.modalHeader,
             {
@@ -70,11 +80,10 @@ export const getStyles = memoizeFunction(() => {
                 display: 'flex',
                 alignItems: 'center',
                 fontWeight: FontWeights.semibold,
-                fontSize: '16px',
-                borderBottom: `1px solid ${modalBorderColor}`,
-                padding: '4px 8px 4px 20px'
+                fontSize: '16px'
             } as IStyle
         ],
+        modalSubHeaderPivot: [classNames.modalSubHeaderPivot, {} as IStyle],
         modalTitle: [
             classNames.modalTitle,
             {
@@ -112,5 +121,12 @@ export const dismissButtonStyles: IButtonStyles = {
     },
     rootHovered: {
         color: 'var(--cb-color-text-primary)'
+    }
+};
+
+export const pivotStyles: Partial<IPivotStyles> = {
+    root: {
+        // marginBottom: 8,
+        marginLeft: -8
     }
 };
