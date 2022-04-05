@@ -639,7 +639,8 @@
         }
     },
     "behaviorsModal": {
-        "closeModal": "Close modal"
+        "closeModal": "Close modal",
+        "behaviorPreview": "Preview"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",

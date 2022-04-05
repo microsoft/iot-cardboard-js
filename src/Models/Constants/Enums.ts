@@ -139,8 +139,10 @@ export enum ADT3DSceneBuilderMode {
 }
 
 export enum WidgetFormMode {
-    CreateWidget,
-    EditWidget
+    CreateWidget = 'CreateWidget',
+    EditWidget = 'EditWidget',
+    Cancelled = 'Cancelled',
+    Committed = 'Committed'
 }
 
 export enum ADT3DSceneTwinBindingsMode {
@@ -180,4 +182,9 @@ export enum SupportedBlobFileTypes {
     JavaScriptObjectNotation = 'json',
     GLTransmissionFormat = 'gltf',
     GLTransmissionFormatBinary = 'glb'
+}
+
+export enum BehaviorModalMode {
+    viewer = 'viewer',
+    preview = 'preview'
 }

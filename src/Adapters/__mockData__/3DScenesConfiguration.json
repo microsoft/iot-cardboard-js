@@ -186,21 +186,11 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.PercentFull > 0",
-                        "labelExpression": "Tank Too Full",
-                        "iconName": "CircleHalfFull",
-                        "color": "#de3b09",
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
                         "type": "Popover",
                         "title": "",
                         "widgets": [
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gc31",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.PercentFull",
                                 "widgetConfiguration": {
@@ -299,7 +289,7 @@
                         "title": "",
                         "widgets": [
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gc85",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.InFlow",
                                 "widgetConfiguration": {
@@ -328,7 +318,7 @@
                                 }
                             },
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gcm9",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.OutFlow",
                                 "widgetConfiguration": {

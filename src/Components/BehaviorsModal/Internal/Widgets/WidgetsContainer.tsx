@@ -1,43 +1,53 @@
-import React from 'react';
+import { useTheme } from '@fluentui/react';
+import React, { useContext } from 'react';
 import { WidgetType } from '../../../../Models/Classes/3DVConfig';
-import { DTwin } from '../../../../Models/Constants';
 import {
     IPopoverVisual,
     IWidget
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { BehaviorsModalContext } from '../../BehaviorsModal';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
-import { getStyles } from './WidgetsContainer.styles';
+import {
+    getWidgetClassNames,
+    widgetContainerClassNames
+} from './WidgetsContainer.styles';
 
 interface IWidgetContainerProps {
     popoverVisual: IPopoverVisual;
-    twins: Record<string, DTwin>;
 }
 
-const makeWidget = (widget: IWidget, twins: Record<string, DTwin>) => {
+const makeWidget = (widget: IWidget) => {
     switch (widget.type) {
         case WidgetType.Link:
-            return <LinkWidget key={widget.id} widget={widget} twins={twins} />;
+            return <LinkWidget key={widget.id} widget={widget} />;
         case WidgetType.Gauge:
-            return (
-                <GaugeWidget key={widget.id} widget={widget} twins={twins} />
-            );
+            return <GaugeWidget key={widget.id} widget={widget} />;
         default:
             return null;
     }
 };
 
 const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
-    popoverVisual,
-    twins
+    popoverVisual
 }) => {
-    const styles = getStyles();
+    const { mode, activeWidgetId } = useContext(BehaviorsModalContext);
+    const theme = useTheme();
 
     return (
-        <div className={styles.widgetsContainer}>
+        <div className={widgetContainerClassNames.widgetsContainer}>
             {popoverVisual.widgets.map((widget) => (
-                <div className={styles.widgetContainer}>
-                    {makeWidget(widget, twins)}
+                <div
+                    key={widget.id}
+                    className={
+                        getWidgetClassNames(
+                            theme,
+                            mode,
+                            activeWidgetId === widget.id
+                        ).widget
+                    }
+                >
+                    {makeWidget(widget)}
                 </div>
             ))}
         </div>
