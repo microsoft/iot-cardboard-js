@@ -236,7 +236,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         </div>
                     </PivotItem>
                     <PivotItem
-                        headerText={t('3dSceneBuilder.aliasedTwins')}
+                        headerText={t('3dSceneBuilder.twinAlias.aliasedTwins')}
                         className={commonPanelStyles.formTabContents}
                     >
                         <div className={commonPanelStyles.formTabContents}>

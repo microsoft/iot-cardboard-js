@@ -71,12 +71,12 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
         >
             <div>
                 <h4 className={styles.title}>
-                    {t('3dSceneBuilder.addTwinAlias')}
+                    {t('3dSceneBuilder.twinAlias.add')}
                 </h4>
                 <div>
                     <SearchBox
                         data-testid={'twin-alias-callout-search'}
-                        placeholder={t('3dSceneBuilder.searchTwinAliases')}
+                        placeholder={t('3dSceneBuilder.twinAlias.search')}
                         onChange={(_event, value) => {
                             setSearchText(value);
                             searchTwinAliases(value);
@@ -86,7 +86,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                 <div className={styles.listRoot}>
                     {listItems?.length === 0 ? (
                         <div className={styles.resultText}>
-                            {t('3dSceneBuilder.noAvailableTwinAliases')}
+                            {t('3dSceneBuilder.twinAlias.noTwinAliasesToAdd')}
                         </div>
                     ) : (
                         <CardboardList<ITwinAliasItem>
@@ -104,7 +104,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                     }}
                     onClick={onCreateTwinAlias}
                 >
-                    {t('3dSceneBuilder.createTwinAlias')}
+                    {t('3dSceneBuilder.twinAlias.create')}
                 </PrimaryButton>
             </div>
         </FocusTrapCallout>

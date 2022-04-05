@@ -75,8 +75,7 @@ const SceneBehaviors: React.FC<Props> = ({
         () =>
             ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
                 config,
-                sceneId,
-                behaviors
+                sceneId
             ),
         [config, sceneId, behaviors]
     );

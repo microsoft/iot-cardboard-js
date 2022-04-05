@@ -30,9 +30,9 @@ export const getLeftPanelBuilderHeaderParams = (
         subHeaderText = widgetFormInfo.widget.title;
     } else if (twinAliasFormInfo) {
         if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
-            headerText = i18n.t('3dSceneBuilder.newTwinAlias');
+            headerText = i18n.t('3dSceneBuilder.twinAlias.new');
         } else {
-            headerText = i18n.t('3dSceneBuilder.editTwinAlias');
+            headerText = i18n.t('3dSceneBuilder.twinAlias.edit');
         }
         iconName = twinAliasFormInfo.twinAlias?.alias ? 'LinkedDatabase' : '';
         subHeaderText = twinAliasFormInfo.twinAlias?.alias;

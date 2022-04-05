@@ -12,7 +12,12 @@ import {
     IValueRange,
     IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { DatasourceType, ElementType, VisualType } from './3DVConfig';
+import {
+    DatasourceType,
+    ElementType,
+    ITwinAliasItem,
+    VisualType
+} from './3DVConfig';
 
 /** Static utilty methods for operations on the configuration file. */
 abstract class ViewerConfigUtility {
@@ -300,12 +305,12 @@ abstract class ViewerConfigUtility {
 
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
-        sceneId: string,
-        behaviors: Array<IBehavior>
+        sceneId: string
     ): [
         behaviorsInScene: Array<IBehavior>,
         behaviorsNotInScene: Array<IBehavior>
     ] {
+        const behaviors = config?.configuration?.behaviors ?? [];
         const behaviorsInScene = [];
         const behaviorsNotInScene = [];
 
@@ -378,7 +383,7 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Gets the list of all the active properties from the provided linked twins
+     * Gets the list of all (union of) the active properties from the provided linked twins
      * Returns them with the Alias as a prefix. ex: LinkedTwin.MyProperty
      * @param twins List of twins the get the properties from
      * @returns list of properties with the alias prefixed (ex: LinkedTwin.MyProperty)
@@ -613,6 +618,145 @@ abstract class ViewerConfigUtility {
 
         return mappingIds;
     }
+
+    static addTwinAliasToElement(
+        element: ITwinToObjectMapping,
+        alias: string,
+        aliasedTwinId: string
+    ): void {
+        if (aliasedTwinId) {
+            if (element.twinAliases) {
+                element.twinAliases[alias] = aliasedTwinId;
+            } else {
+                element.twinAliases = {
+                    [alias]: aliasedTwinId
+                };
+            }
+        }
+    }
+
+    static getTwinAliasItemsFromBehaviorAndElements = (
+        behavior: IBehavior,
+        selectedElementsForBehavior: Array<ITwinToObjectMapping>
+    ): Array<ITwinAliasItem> => {
+        const twinAliases: Array<ITwinAliasItem> = [];
+        behavior.twinAliases?.map((behaviorTwinAlias) => {
+            twinAliases.push({
+                alias: behaviorTwinAlias,
+                elementToTwinMappings: []
+            });
+        });
+        twinAliases?.forEach((twinAlias) => {
+            selectedElementsForBehavior?.forEach((element) => {
+                if (element.twinAliases?.[twinAlias.alias]) {
+                    const aliasedTwinId =
+                        element.twinAliases?.[twinAlias.alias];
+
+                    twinAlias.elementToTwinMappings.push({
+                        twinId: aliasedTwinId,
+                        elementId: element.id
+                    });
+                }
+            });
+        });
+        return twinAliases;
+    };
+
+    /**
+     * Gets config, sceneId and selected elements in a behavior
+     * Returns twin alias items available for a behavior to add which is
+     * a union of twin aliases from behaviors in the scene and
+     * selected elements in the scene
+     * @param config
+     * @param sceneId
+     * @param selectedElements list of elements existing/selected in a behavior from scene
+     * @returns list of twin alias items available to add to a behavior
+     */
+    static getAvailableTwinAliasItemsFromSceneForBehavior = (
+        config,
+        sceneId,
+        selectedElements
+    ): Array<ITwinAliasItem> => {
+        const twinAliases: Array<ITwinAliasItem> = [];
+        const [
+            behaviorsInScene
+        ] = ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
+            config,
+            sceneId
+        );
+        // get twin aliases defined in all behaviors in the current scene
+        behaviorsInScene.forEach((behaviorInScene) => {
+            const twinAliasesFromBehavior = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
+                behaviorInScene,
+                selectedElements
+            );
+            twinAliasesFromBehavior.forEach((twinAliasFromBehavior) => {
+                if (
+                    !twinAliases.find(
+                        (twinAlias) =>
+                            twinAlias.alias === twinAliasFromBehavior.alias
+                    )
+                ) {
+                    twinAliases.push(twinAliasFromBehavior);
+                }
+            });
+        });
+
+        // merge it with the twin aliases defined in all the elements added to the current behavior
+        selectedElements.forEach((element) => {
+            if (element.twinAliases) {
+                Object.keys(element.twinAliases).forEach(
+                    (twinAliasInElement) => {
+                        if (
+                            twinAliases.findIndex(
+                                (twinAlias) =>
+                                    twinAlias.alias === twinAliasInElement
+                            ) === -1
+                        ) {
+                            twinAliases.push({
+                                alias: twinAliasInElement,
+                                elementToTwinMappings: [
+                                    {
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    }
+                                ]
+                            });
+                        } else {
+                            const elementIdsForThisAlias = twinAliases
+                                .find(
+                                    (twinAlias) =>
+                                        twinAlias.alias === twinAliasInElement
+                                )
+                                .elementToTwinMappings.map(
+                                    (mapping) => mapping.elementId
+                                );
+                            if (!elementIdsForThisAlias.includes(element.id)) {
+                                twinAliases
+                                    .find(
+                                        (twinAlias) =>
+                                            twinAlias.alias ===
+                                            twinAliasInElement
+                                    )
+                                    .elementToTwinMappings.push({
+                                        elementId: element.id,
+                                        twinId:
+                                            element.twinAliases[
+                                                twinAliasInElement
+                                            ]
+                                    });
+                            }
+                        }
+                    }
+                );
+            }
+        });
+
+        return twinAliases;
+    };
 }
 
 export default ViewerConfigUtility;

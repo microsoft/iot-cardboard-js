@@ -417,23 +417,32 @@
             "alertBehavior": "Alert behavior",
             "statusBehavior": "Status behavior"
         },
-        "alias": "Alias",
-        "aliasedTwins": "Aliased twins",
-        "addTwinAlias": "Add twin alias",
-        "twinAlias": "Twin alias",
-        "twinAliases": "Twin aliases",
         "notImplemented": "Not implemented",
-        "noTwinAliases": "No twin aliases found",
-        "newTwinAlias": "New twin alias",
-        "editTwinAlias": "Edit twin alias",
-        "createTwinAlias": "Create twin alias",
-        "updateTwinAlias": "Update twin alias",
-        "modifyTwinAlias": "Modify twin alias",
-        "removeTwinAliasFromBehavior": "Remove twin alias from behavior",
-        "searchTwinAliases": "Search twin aliases",
-        "noAvailableTwinAliases": "No available twin aliases",
-        "elementTwinMappings": "Element twin mappings",
-        "twinAliasNameChangeNotAllowed": "Alias change is not allowed after creation, you can configure it in your config file."
+        "twinAlias": {
+            "title": "Twin alias",
+            "titlePlural": "Twin aliases",
+            "aliasedTwins": "Aliased twins",
+            "add": "Add twin alias",
+            "noTwinAliasesAdded": "No twin aliases added yet",
+            "new": "New twin alias",
+            "edit": "Edit twin alias",
+            "create": "Create twin alias",
+            "update": "Update twin alias",
+            "modify": "Modify twin alias",
+            "search": "Search twin aliases",
+            "noTwinAliasesToAdd": "No twin aliases to add",
+            "removeFromBehavior": "Remove twin alias from behavior",
+            "commonProperties": "Common properties",
+            "twinAliasForm": {
+                "alias": "Alias",
+                "elementTwinMappings": "Element twin mappings"
+            },
+            "descriptions": {
+                "twins": "Twins give you access to properties which can be used in expressions.",
+                "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
+                "aliasChangeNotAllowed": "Alias change is not allowed after creation, you can configure it in your config file."
+            }
+        }
     },
     "widgets": {
         "trend": {

@@ -107,7 +107,7 @@ const LeftPanelBuilderBreadcrumb: React.FC<Props> = ({
         };
 
         const twinAliasRoot: IBreadcrumbItem = {
-            text: t('3dSceneBuilder.twinAlias'),
+            text: t('3dSceneBuilder.twinAlias.title'),
             key: 'twinAliasRoot'
         };
 

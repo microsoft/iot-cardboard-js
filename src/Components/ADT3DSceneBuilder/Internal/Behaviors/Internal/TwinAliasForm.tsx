@@ -6,12 +6,13 @@ import {
     useTheme
 } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     defaultTwinAlias,
     ITwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -39,6 +40,7 @@ const TwinAliasForm: React.FC<{
             ? defaultTwinAlias
             : twinAliasFormInfo.twinAlias
     );
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const handleTwinSelect = useCallback(
         (elementId: string, twinId: string) => {
@@ -84,43 +86,37 @@ const TwinAliasForm: React.FC<{
                 })
             );
         }
+
+        // update the twinAliases in selected elements
         const newSelectedElements = deepCopy(selectedElements);
         newSelectedElements?.forEach((selectedElement) => {
-            // TODO: move this to viewer config utils
             const aliasedTwinId = formData.elementToTwinMappings.find(
                 (mapping) => mapping.elementId === selectedElement.id
             )?.twinId;
-            if (aliasedTwinId) {
-                if (selectedElement.twinAliases) {
-                    if (
-                        twinAliasFormInfo.mode ===
-                            TwinAliasFormMode.EditTwinAlias &&
-                        selectedElement.twinAliases?.[
-                            twinAliasFormInfo.twinAlias.alias
-                        ]
-                    ) {
-                        delete selectedElement.twinAliases?.[
-                            twinAliasFormInfo.twinAlias.alias
-                        ];
-                    }
-                    selectedElement.twinAliases[formData.alias] = aliasedTwinId;
-                } else {
-                    selectedElement.twinAliases = {
-                        [formData.alias]: aliasedTwinId
-                    };
-                }
-            }
+            ViewerConfigUtility.addTwinAliasToElement(
+                selectedElement,
+                formData.alias,
+                aliasedTwinId
+            );
         });
         setSelectedElements(newSelectedElements);
         setTwinAliasFormInfo(null);
         setFormData(null);
     };
 
+    useEffect(() => {
+        const isValid =
+            formData.alias &&
+            formData.elementToTwinMappings.length === selectedElements.length &&
+            !formData.elementToTwinMappings.some((mapping) => !mapping.twinId);
+        setIsFormValid(isValid);
+    }, [formData, selectedElements]);
+
     return (
         <>
             <div className={commonFormStyles.content}>
                 <TextField
-                    label={t('3dSceneBuilder.alias')}
+                    label={t('3dSceneBuilder.twinAlias.twinAliasForm.alias')}
                     value={formData.alias}
                     required
                     onChange={(_ev, newVal) =>
@@ -135,11 +131,13 @@ const TwinAliasForm: React.FC<{
                         TwinAliasFormMode.EditTwinAlias
                     }
                     description={t(
-                        '3dSceneBuilder.twinAliasNameChangeNotAllowed'
+                        '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
                     )}
                 />
                 <Label styles={{ root: { paddingTop: 16 } }}>
-                    {t('3dSceneBuilder.elementTwinMappings')}
+                    {t(
+                        '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappings'
+                    )}
                 </Label>
                 {selectedElements?.map((element, idx) => (
                     <TwinSearchDropdown
@@ -163,10 +161,10 @@ const TwinAliasForm: React.FC<{
                     text={
                         twinAliasFormInfo.mode ===
                         TwinAliasFormMode.CreateTwinAlias
-                            ? t('3dSceneBuilder.createTwinAlias')
-                            : t('3dSceneBuilder.updateTwinAlias')
+                            ? t('3dSceneBuilder.twinAlias.create')
+                            : t('3dSceneBuilder.twinAlias.update')
                     }
-                    // disabled TODO: implement validations/error check to disable the button
+                    disabled={!isFormValid}
                 />
                 <DefaultButton
                     data-testid={'twin-alias-form-secondary-button'}
