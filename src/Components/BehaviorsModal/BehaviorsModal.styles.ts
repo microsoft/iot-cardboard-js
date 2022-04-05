@@ -36,7 +36,7 @@ export const getBorderStyle = (
     if (styleTarget === 'color') {
         return color;
     } else if (isActive && mode === BehaviorModalMode.preview) {
-        return `2px solid ${theme.palette.themePrimary}`;
+        return `2px dashed ${theme.palette.themePrimary}`;
     } else {
         return mode === BehaviorModalMode.preview
             ? `1px dashed ${color}`
