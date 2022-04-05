@@ -35,7 +35,7 @@ const AlertElementsPanel: React.FC<IAlertElementsListProps> = ({
     return (
         <ElementList
             isLoading={false}
-            panelItems={[alerts]}
+            panelItems={alerts.element ? [alerts] : []}
             onItemClick={onItemClick}
             onItemHover={onItemHover}
             onItemBlur={onItemBlur}

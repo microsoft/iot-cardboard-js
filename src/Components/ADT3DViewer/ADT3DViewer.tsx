@@ -254,13 +254,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         left: number,
         top: number
     ) => {
-        setAlertPanelItems({
-            element: badgeGroup.sceneVisual.element,
-            behaviors: badgeGroup.sceneVisual.behaviors,
-            twins: badgeGroup.sceneVisual.twins
-        });
-        setAlertPopoverPosition({ left, top });
-        setIsAlertPopoverVisible(true);
+        if (!isAlertPopoverVisible) {
+            setAlertPanelItems({
+                element: badgeGroup.sceneVisual.element,
+                behaviors: badgeGroup.sceneVisual.behaviors,
+                twins: badgeGroup.sceneVisual.twins
+            });
+            setAlertPopoverPosition({ left: left - 50, top: top - 30 });
+            setIsAlertPopoverVisible(true);
+        }
     };
 
     const onElementPanelItemClicked = useCallback(

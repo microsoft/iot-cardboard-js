@@ -148,12 +148,8 @@ export function createBadgeGroup(
         background.addControl(badge);
     }
 
-    background.onPointerEnterObservable.add((element) => {
-        onBadgeGroupHover(
-            badgeGroup,
-            element.leftInPixels,
-            element.topInPixels
-        );
+    background.onPointerMoveObservable.add((position) => {
+        onBadgeGroupHover(badgeGroup, position.x, position.y);
     });
 
     return background;
