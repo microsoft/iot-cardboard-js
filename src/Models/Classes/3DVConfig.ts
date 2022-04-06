@@ -1,4 +1,8 @@
 import {
+    defaultSwatchColors,
+    defaultSwatchIcons
+} from '../../Theming/Palettes';
+import {
     IAlertVisual,
     IBehavior,
     IGaugeWidget,
@@ -70,8 +74,8 @@ export const defaultStatusColorVisual: IStatusColoringVisual = {
 
 export const defaultAlertVisual: IAlertVisual = {
     type: VisualType.Alert,
-    color: '',
-    iconName: '',
+    color: defaultSwatchColors[0].item,
+    iconName: defaultSwatchIcons[0].item,
     labelExpression: '',
     triggerExpression: '',
     objectIDs: {

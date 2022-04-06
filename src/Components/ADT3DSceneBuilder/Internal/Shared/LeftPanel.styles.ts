@@ -8,6 +8,7 @@ import {
     ISeparatorStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
+import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
 const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
@@ -16,7 +17,8 @@ const classNames = {
     formTabContents: `${classPrefix}-form-tab-contents`,
     actionButton: `${classPrefix}-action-button`,
     text: `${classPrefix}-text`,
-    section: `${classPrefix}-section`
+    section: `${classPrefix}-section`,
+    previewContainer: `${classPrefix}-preview-container`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -44,6 +46,18 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 flexDirection: 'column',
                 flexGrow: 1,
                 overflow: 'auto'
+            } as IStyle
+        ],
+        previewContainer: [
+            classNames.previewContainer,
+            {
+                position: 'fixed',
+                top: 16,
+                left: behaviorsModalPreviewContainerLeftOffset,
+                bottom: 16,
+                right: 16,
+                zIndex: 1000,
+                pointerEvents: 'none'
             } as IStyle
         ],
         actionButton: [

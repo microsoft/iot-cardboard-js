@@ -14,8 +14,8 @@ import {
     ITwinToObjectMapping,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
-import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,
@@ -23,6 +23,7 @@ import {
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
+    ElementsPanelCallback,
     IViewerElementsPanelItem,
     IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
@@ -49,7 +50,7 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
 
     const listItems = useMemo(
         () => getListItems(panelItems, onItemClick, onItemHover, onItemBlur),
-        [panelItems]
+        [panelItems, onItemClick, onItemHover, onItemBlur]
     );
 
     return (
@@ -73,26 +74,14 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
 
 function getListItems(
     panelItems: Array<IViewerElementsPanelItem>,
-    onItemClick: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void,
-    onItemHover?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void,
-    onItemBlur?: (
-        item: ITwinToObjectMapping | IVisual,
-        panelItem: IViewerElementsPanelItem,
-        behavior?: IBehavior
-    ) => void
-): Array<ICardboardListItem<ITwinToObjectMapping | IVisual>> {
+    onItemClick: ElementsPanelCallback,
+    onItemHover?: ElementsPanelCallback,
+    onItemBlur?: ElementsPanelCallback
+): Array<ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>> {
     const sortedPanelItems = sortPanelItemsForDisplay(panelItems);
     const buttonStyles = getElementsPanelButtonSyles();
     const listItems: Array<
-        ICardboardListItem<ITwinToObjectMapping | IVisual>
+        ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
     sortedPanelItems.map((panelItem) => {
@@ -152,7 +141,7 @@ function getListItems(
             )
         );
 
-        const elementItemWithStatus: ICardboardListItem<ITwinToObjectMapping> = {
+        const elementItemWithStatus: ICardboardGroupedListItem<ITwinToObjectMapping> = {
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
@@ -171,6 +160,7 @@ function getListItems(
                 )
             },
             item: element,
+            itemType: 'header',
             onClick: () => onItemClick(element, panelItem),
             textPrimary: element.displayName
         };
@@ -180,18 +170,18 @@ function getListItems(
             const alertStyles = getElementsPanelAlertStyles(
                 alert.alertVisual.color
             );
-            const alertItem: ICardboardListItem<IAlertVisual> = {
+            const onEnter =
+                onItemHover && (() => onItemHover(element, panelItem));
+            const onLeave =
+                onItemBlur && (() => onItemBlur(element, panelItem));
+            const alertItem: ICardboardGroupedListItem<IAlertVisual> = {
                 ariaLabel: alert.alertVisualDisplayTitle,
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
-                    ...(onItemHover && {
-                        onMouseEnter: () => onItemHover(element, panelItem),
-                        onFocus: () => onItemHover(element, panelItem)
-                    }),
-                    ...(onItemBlur && {
-                        onMouseLeave: () => onItemBlur(element, panelItem),
-                        onBlur: () => onItemBlur(element, panelItem)
-                    })
+                    onMouseEnter: onEnter,
+                    onFocus: onEnter,
+                    onMouseLeave: onLeave,
+                    onBlur: onLeave
                 },
                 iconStart: {
                     name: (
@@ -201,6 +191,7 @@ function getListItems(
                     )
                 },
                 item: alert.alertVisual,
+                itemType: 'item',
                 onClick: () =>
                     onItemClick(alert.alertVisual, panelItem, alert.behavior),
                 textPrimary: alert.alertVisualDisplayTitle
