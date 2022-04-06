@@ -278,7 +278,7 @@ function getTwinAliasListItems(
                 }
             },
             {
-                'data-testid': 'removeOverflow',
+                'data-testid': 'twinalias-removeOverflow',
                 key: 'remove',
                 iconProps: {
                     iconName: 'Delete'
