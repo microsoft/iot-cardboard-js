@@ -1,0 +1,114 @@
+[
+    {
+        "@id": "dtmi:assetGen:PasteurizationMachine;1",
+        "@type": "Interface",
+        "@context": ["dtmi:dtdl:context;2"],
+        "displayName": "PasteurizationMachine",
+        "contents": [
+            { "@type": "Property", "name": "InFlow", "schema": "double" },
+            { "@type": "Property", "name": "OutFlow", "schema": "double" },
+            {
+                "@type": "Property",
+                "name": "Temperature",
+                "schema": "double"
+            },
+            {
+                "@type": "Property",
+                "name": "PercentFull",
+                "schema": "double"
+            },
+            {
+                "@type": "Relationship",
+                "name": "feeds",
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "targetModel",
+                        "schema": "string"
+                    }
+                ],
+                "target": "dtmi:assetGen:SaltMachine;1"
+            }
+        ]
+    },
+    {
+        "@id": "dtmi:assetGen:SaltMachine;1",
+        "@type": "Interface",
+        "@context": ["dtmi:dtdl:context;2"],
+        "displayName": "SaltMachine",
+        "contents": [
+            { "@type": "Property", "name": "InFlow", "schema": "double" },
+            { "@type": "Property", "name": "OutFlow", "schema": "double" }
+        ]
+    },
+    {
+        "@id": "dtmi:assetGen:MaintenancePersonnel;1",
+        "@type": "Interface",
+        "@context": ["dtmi:dtdl:context;2"],
+        "displayName": "MaintenancePersonnel",
+        "contents": [
+            {
+                "@type": "Relationship",
+                "name": "maintains",
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "targetModel",
+                        "schema": "string"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "@id": "dtmi:assetGen:Factory;1",
+        "@type": "Interface",
+        "@context": ["dtmi:dtdl:context;2"],
+        "displayName": "Factory",
+        "contents": [
+            {
+                "@type": "Relationship",
+                "name": "contains",
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "targetModel",
+                        "schema": "string"
+                    }
+                ]
+            },
+            {
+                "@type": "Relationship",
+                "name": "employs",
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "targetModel",
+                        "schema": "string"
+                    }
+                ],
+                "target": "dtmi:assetGen:MaintenancePersonnel;1"
+            }
+        ]
+    },
+    {
+        "@id": "dtmi:assetGen:Country;1",
+        "@type": "Interface",
+        "@context": ["dtmi:dtdl:context;2"],
+        "displayName": "Country",
+        "contents": [
+            {
+                "@type": "Relationship",
+                "name": "contains",
+                "properties": [
+                    {
+                        "@type": "Property",
+                        "name": "targetModel",
+                        "schema": "string"
+                    }
+                ],
+                "target": "dtmi:assetGen:Factory;1"
+            }
+        ]
+    }
+]

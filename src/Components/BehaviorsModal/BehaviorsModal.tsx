@@ -10,8 +10,14 @@ import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
-import { BehaviorModalMode, DTwin } from '../../Models/Constants';
+import {
+    BehaviorModalMode,
+    DTwin,
+    IPropertyInspectorAdapter,
+    linkedTwinName
+} from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import PropertyInspector from '../PropertyInspector/PropertyInspector';
 import {
     dismissButtonStyles,
     getStyles,
@@ -27,6 +33,7 @@ export interface IBehaviorsModalProps {
     twins: Record<string, DTwin>;
     mode?: BehaviorModalMode;
     activeWidgetId?: string;
+    adapter?: IPropertyInspectorAdapter;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -48,7 +55,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     title,
     twins,
     mode = BehaviorModalMode.viewer,
-    activeWidgetId
+    activeWidgetId,
+    adapter
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -143,10 +151,13 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         </div>
                                     );
                                 })}
-                            {activePivot ===
-                                BehaviorModalPivotKey.properties && (
-                                <div>weooo</div>
-                            )}
+                            {activePivot === BehaviorModalPivotKey.properties &&
+                                adapter && (
+                                    <PropertyInspector
+                                        adapter={adapter}
+                                        twinId={twins[linkedTwinName].$dtId}
+                                    />
+                                )}
                         </div>
                     </div>
                 </Draggable>

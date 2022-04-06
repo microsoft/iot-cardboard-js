@@ -5,7 +5,11 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { IADT3DViewerProps } from '../../Models/Constants/Interfaces';
+import {
+    IADT3DViewerAdapter,
+    IADT3DViewerProps,
+    IPropertyInspectorAdapter
+} from '../../Models/Constants/Interfaces';
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
@@ -364,11 +368,22 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     twins={behaviorModalSceneVisual?.twins}
                     behaviors={behaviorModalSceneVisual?.behaviors}
                     title={behaviorModalSceneVisual?.element?.displayName}
+                    adapter={
+                        hasPropertyInspectorAdapter(adapter) ? adapter : null
+                    }
                 />
             )}
         </BaseComponent>
     );
 };
+
+const hasPropertyInspectorAdapter = (
+    adapter:
+        | IADT3DViewerAdapter
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter)
+): adapter is IADT3DViewerAdapter & IPropertyInspectorAdapter =>
+    !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
+    !!(adapter as IADT3DViewerAdapter).getSceneData;
 
 const toggleElementsPanelStyles = memoizeFunction(
     () =>

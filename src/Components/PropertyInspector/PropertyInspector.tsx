@@ -11,9 +11,9 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     ADTPatch,
-    IADTAdapter,
     IADTRelationship,
-    IADTTwin
+    IADTTwin,
+    IPropertyInspectorAdapter
 } from '../../Models/Constants/Interfaces';
 import { useAdapter } from '../../Models/Hooks';
 import { getModelContentType } from '../../Models/Services/Utils';
@@ -27,7 +27,7 @@ import './PropertyInspector.scss';
 
 type TwinPropertyInspectorProps = {
     twinId: string;
-    adapter: IADTAdapter;
+    adapter: IPropertyInspectorAdapter;
     relationshipId?: never;
     resolvedTwin?: IADTTwin;
     resolvedRelationship?: never;
@@ -35,7 +35,7 @@ type TwinPropertyInspectorProps = {
 
 type RelationshipPropertyInspectorProps = {
     relationshipId: string;
-    adapter: IADTAdapter;
+    adapter: IPropertyInspectorAdapter;
     twinId: string;
     resolvedRelationship?: IADTRelationship;
     resolvedTwin?: IADTTwin;
