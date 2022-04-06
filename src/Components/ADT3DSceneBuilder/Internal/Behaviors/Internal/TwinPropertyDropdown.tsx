@@ -64,7 +64,9 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
             options.sort();
             addedCustom = true;
         }
-        const dropdownOptions = buildDropdownOptionsFromStrings(options);
+        const dropdownOptions = buildDropdownOptionsFromStrings(
+            options as string[]
+        );
         if (addedCustom) {
             // add the icon to the item so they know it's not in the data set
             dropdownOptions.find((x) => x.key === defaultSelectedKey).data = {
