@@ -607,9 +607,12 @@ export default class MockAdapter
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
-                                element.twinAliases?.[twinAliasInBehavior]
+                                element.twinAliases[twinAliasInBehavior]
                             );
-                            twins[twinAliasInBehavior] = twin.result?.data;
+                            twins[
+                                `${twinAliasInBehavior}.` +
+                                    element.twinAliases[twinAliasInBehavior]
+                            ] = twin.result?.data;
                             console.log(twinAliasInBehavior);
                         } catch (err) {
                             console.error(err);
@@ -625,7 +628,7 @@ export default class MockAdapter
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = true
+        isTwinAliasesIncluded = false
     ): Promise<string[]> {
         const data = await this.getTwinPropertiesForBehaviorWithFullName(
             sceneId,

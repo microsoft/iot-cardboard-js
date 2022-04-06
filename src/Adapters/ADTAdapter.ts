@@ -960,11 +960,13 @@ export default class ADTAdapter implements IADTAdapter {
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
-                                element.twinAliases?.[twinAliasInBehavior]
+                                element.twinAliases[twinAliasInBehavior]
                             );
                             pushErrors(twin.getErrors());
-                            twins[twinAliasInBehavior] = twin.result?.data;
-                            console.log(twinAliasInBehavior);
+                            twins[
+                                `${twinAliasInBehavior}.` +
+                                    element.twinAliases[twinAliasInBehavior]
+                            ] = twin.result?.data;
                         } catch (err) {
                             console.error(err);
                         }
@@ -979,8 +981,8 @@ export default class ADTAdapter implements IADTAdapter {
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = true
-    ): Promise<string[]> {
+        isTwinAliasesIncluded = false
+    ): Promise<Array<string>> {
         const data = await this.getTwinPropertiesForBehaviorWithFullName(
             sceneId,
             config,
