@@ -134,6 +134,13 @@ export interface IADT3DSceneBuilderAddTwinAliasCalloutProps {
     hideCallout: () => void;
 }
 
+export interface IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps {
+    commonLinkedTwinProperties: Array<string>;
+    isLoading: boolean;
+    calloutTarget: string;
+    hideCallout: () => void;
+}
+
 export type BehaviorSaveMode =
     | ADT3DSceneBuilderMode.EditBehavior
     | ADT3DSceneBuilderMode.CreateBehavior;

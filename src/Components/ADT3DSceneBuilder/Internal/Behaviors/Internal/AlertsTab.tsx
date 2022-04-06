@@ -53,7 +53,7 @@ const AlertsTab: React.FC = () => {
 
     if (!propertyNames) {
         adapter
-            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .getTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
             .then((properties) => {
                 setPropertyNames(properties);
             });

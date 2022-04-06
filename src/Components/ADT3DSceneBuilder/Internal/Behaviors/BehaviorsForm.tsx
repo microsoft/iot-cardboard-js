@@ -64,7 +64,7 @@ import {
 import { customPivotItemStyles } from './BehaviorsForm.styles';
 import { IValueRangeBuilderHandle } from '../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import TwinsTab from './Internal/TwinsTab';
-import TwinAliasForm from './Internal/TwinAliasForm';
+import TwinAliasForm from './Twins/TwinAliasForm';
 
 export const BehaviorFormContext = React.createContext<IBehaviorFormContext>(
     null

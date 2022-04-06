@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
     ActionButton,
-    Callout,
-    DirectionalHint,
     IContextualMenuItem,
     IStackTokens,
     Label,
@@ -24,9 +22,11 @@ import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
-import AddTwinAliasCallout from './AddTwinAliasCallout';
+import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
+import LinkedTwinPropertiesCallout from '../Twins/LinkedTwinPropertiesCallout';
+import useBehaviorTwinPropertyNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyNames';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -41,19 +41,15 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const { config, sceneId, adapter, setTwinAliasFormInfo } = useContext(
+    const { config, sceneId, setTwinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
-    const [
-        commonLinkedTwinProperties,
-        setCommonLinkedTwinProperties
-    ] = useState([]);
     const [linkedTwinList, setLinkedTwinList] = useState([]);
     const [twinAliasList, setTwinAliasList] = useState([]);
     const [availableTwinAliases, setAvailableTwinAliases] = useState<
         Array<ITwinAliasItem>
     >([]);
-    const linkedTwinPropertiesId = useId('linkedTwinProperties-callout');
+    const linkedTwinPropertiesTargetId = useId('linkedTwinProperties-callout');
     const addAliasCalloutTargetId = useId('addAlias-callout');
     const [
         isLinkedTwinPropertiesCalloutVisible,
@@ -63,20 +59,23 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         isAddTwinAliasCalloutVisible,
         { toggle: toggleIsAddTwinAliasCalloutVisible }
     ] = useBoolean(false);
+
+    const {
+        options: commonLinkedTwinProperties,
+        isLoading: isCommonLinkedTwinPropertiesLoading
+    } = useBehaviorTwinPropertyNames({
+        behavior: behaviorToEdit,
+        isFullName: false,
+        isTwinAliasesIncluded: false
+    });
     const commonPanelStyles = getLeftPanelStyles(useTheme());
 
     useEffect(() => {
-        adapter
-            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit) // TODO: change this to use useAdapter hook
-            .then((properties) => {
-                setCommonLinkedTwinProperties(properties);
-            }); // TODO change this common properties UI and union/intersection as necessary
-
         setLinkedTwinList(
             getLinkedTwinListItems(
                 t,
                 toggleIsLinkedTwinPropertiesCalloutVisible,
-                linkedTwinPropertiesId
+                linkedTwinPropertiesTargetId
             )
         );
 
@@ -176,23 +175,14 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     {t('3dSceneBuilder.twinAlias.descriptions.linkedTwin')}
                 </Text>
                 {isLinkedTwinPropertiesCalloutVisible && (
-                    <Callout
-                        onDismiss={toggleIsLinkedTwinPropertiesCalloutVisible}
-                        gapSpace={0}
-                        target={`#${linkedTwinPropertiesId}`}
-                        setInitialFocus
-                        directionalHint={DirectionalHint.rightTopEdge}
-                        styles={{ calloutMain: { padding: 20 } }}
-                    >
-                        <h4 style={{ marginTop: 0 }}>
-                            {t('3dSceneBuilder.twinAlias.commonProperties')}
-                        </h4>
-                        <div>
-                            {commonLinkedTwinProperties?.map((prop) => (
-                                <div style={{ padding: '6px 0px' }}>{prop}</div>
-                            ))}
-                        </div>
-                    </Callout>
+                    <LinkedTwinPropertiesCallout
+                        calloutTarget={linkedTwinPropertiesTargetId}
+                        commonLinkedTwinProperties={ViewerConfigUtility.getPropertyNameFromAliasedProperty(
+                            commonLinkedTwinProperties
+                        )}
+                        isLoading={isCommonLinkedTwinPropertiesLoading}
+                        hideCallout={toggleIsLinkedTwinPropertiesCalloutVisible}
+                    />
                 )}
                 {linkedTwinList.length > 0 && (
                     <CardboardList<ITwinAliasItem>

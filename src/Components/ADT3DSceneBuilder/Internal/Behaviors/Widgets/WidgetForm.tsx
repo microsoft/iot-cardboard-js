@@ -146,11 +146,7 @@ const WidgetForm: React.FC = () => {
     useEffect(() => {
         if (!propertyNames) {
             adapter
-                .getCommonTwinPropertiesForBehavior(
-                    sceneId,
-                    config,
-                    behaviorToEdit
-                )
+                .getTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
                 .then((properties) => {
                     setPropertyNames(properties);
                 });

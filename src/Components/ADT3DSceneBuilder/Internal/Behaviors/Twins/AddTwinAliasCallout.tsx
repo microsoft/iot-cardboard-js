@@ -91,7 +91,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                     ) : (
                         <CardboardList<ITwinAliasItem>
                             items={listItems}
-                            listKey={`twin-aslias-callout-list`}
+                            listKey={`twin-alias-callout-list`}
                             textToHighlight={searchText}
                         />
                     )}
@@ -99,7 +99,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                 <PrimaryButton
                     styles={{
                         root: {
-                            marginTop: '16px'
+                            marginTop: 16
                         }
                     }}
                     onClick={onCreateTwinAlias}
@@ -142,23 +142,6 @@ const styles = mergeStyleSets({
         fontSize: '12px',
         marginTop: '5px',
         opacity: '0.6'
-    },
-    item: {
-        alignItems: 'center',
-        display: 'flex',
-        marginTop: '15px',
-        width: '100%',
-        height: 'auto'
-    },
-    icon: {
-        display: 'inline-block',
-        fontSize: '16px'
-    },
-    name: {
-        flex: '1',
-        fontSize: '14px',
-        paddingLeft: '8px',
-        textAlign: 'start'
     }
 });
 

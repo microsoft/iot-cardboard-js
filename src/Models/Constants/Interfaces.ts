@@ -426,7 +426,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
      * @param config configuration data for the scene
      * @param behavior behavior to look for the twins
      */
-    getCommonTwinPropertiesForBehavior(
+    getTwinPropertiesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior

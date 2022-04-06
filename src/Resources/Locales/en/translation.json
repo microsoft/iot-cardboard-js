@@ -430,6 +430,7 @@
             "update": "Update twin alias",
             "modify": "Modify twin alias",
             "search": "Search twin aliases",
+            "searchProperties": "Search properties",
             "noTwinAliasesToAdd": "No twin aliases to add",
             "removeFromBehavior": "Remove twin alias from behavior",
             "commonProperties": "Common properties",
@@ -440,7 +441,8 @@
             "descriptions": {
                 "twins": "Twins give you access to properties which can be used in expressions.",
                 "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
-                "aliasChangeNotAllowed": "Alias change is not allowed after creation, you can configure it in your config file."
+                "aliasChangeNotAllowed": "Alias change is not allowed after creation, you can configure it in your config file.",
+                "commonProperties": "The union of linked twin properties of selected elements"
             }
         }
     },

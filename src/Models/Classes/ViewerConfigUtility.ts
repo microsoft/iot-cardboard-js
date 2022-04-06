@@ -412,7 +412,7 @@ abstract class ViewerConfigUtility {
     static getPropertyNameFromAliasedProperty(properties: string[]) {
         return properties
             .map((x) => {
-                // comes back as LinkedTwin.Alias.PropertyName
+                // comes back as LinkedTwin.PropertyName
                 const sliced = x.split('.');
                 return sliced[sliced.length - 1];
             })

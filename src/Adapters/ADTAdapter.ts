@@ -908,7 +908,8 @@ export default class ADTAdapter implements IADTAdapter {
     async getTwinsForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        isTwinAliasesIncluded = true
     ): Promise<Record<string, any>> {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         function pushErrors(errors: IComponentError[]) {
@@ -953,31 +954,38 @@ export default class ADTAdapter implements IADTAdapter {
                 console.error(err);
             }
 
-            // check for twin aliases and add to twins object
-            // NOT IN SCOPE YET
-            // if (mapping.twinAliases) {
-            //     for (const alias of Object.keys(mapping.twinAliases)) {
-            //         const twin = await this.getADTTwin(
-            //             mapping.twinAliases[alias]
-            //         );
-            //         pushErrors(twin.getErrors());
-            //         twins[alias] = twin.result?.data;
-            //         console.log(alias);
-            //     }
-            // }
+            if (isTwinAliasesIncluded) {
+                // get aliased twins if exist
+                behavior.twinAliases?.forEach(async (twinAliasInBehavior) => {
+                    if (element.twinAliases?.[twinAliasInBehavior]) {
+                        try {
+                            const twin = await this.getADTTwin(
+                                element.twinAliases?.[twinAliasInBehavior]
+                            );
+                            pushErrors(twin.getErrors());
+                            twins[twinAliasInBehavior] = twin.result?.data;
+                            console.log(twinAliasInBehavior);
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            }
         }
         return twins;
     }
 
-    async getCommonTwinPropertiesForBehavior(
+    async getTwinPropertiesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        isTwinAliasesIncluded = true
     ): Promise<string[]> {
         const data = await this.getTwinPropertiesForBehaviorWithFullName(
             sceneId,
             config,
-            behavior
+            behavior,
+            isTwinAliasesIncluded
         );
         return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
     }
@@ -985,9 +993,15 @@ export default class ADTAdapter implements IADTAdapter {
     async getTwinPropertiesForBehaviorWithFullName(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
+        behavior: IBehavior,
+        isTwinAliasesIncluded = true
     ): Promise<string[]> {
-        const twins = await this.getTwinsForBehavior(sceneId, config, behavior);
+        const twins = await this.getTwinsForBehavior(
+            sceneId,
+            config,
+            behavior,
+            isTwinAliasesIncluded
+        );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
     }
 
