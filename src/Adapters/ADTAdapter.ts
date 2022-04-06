@@ -955,9 +955,10 @@ export default class ADTAdapter implements IADTAdapter {
                 console.error(err);
             }
 
-            if (isTwinAliasesIncluded) {
+            if (isTwinAliasesIncluded && behavior.twinAliases) {
                 // get aliased twins if exist
-                behavior.twinAliases?.forEach(async (twinAliasInBehavior) => {
+                for (let i = 0; i < behavior.twinAliases.length; i++) {
+                    const twinAliasInBehavior = behavior.twinAliases[i];
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
@@ -972,7 +973,7 @@ export default class ADTAdapter implements IADTAdapter {
                             console.error(err);
                         }
                     }
-                });
+                }
             }
         }
         return twins;
