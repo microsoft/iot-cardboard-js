@@ -1,8 +1,14 @@
 import produce from 'immer';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { linkedTwinName } from '../../../../../Models/Constants';
+import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -47,23 +53,27 @@ const AlertsTab: React.FC = () => {
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+    const [aliasedProperties, setAliasedProperties] = useState<
+        IAliasedTwinProperty[]
+    >(null);
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
     );
 
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
-    if (!propertyNames) {
+    if (!aliasedProperties) {
         adapter
-            .getTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .getTwinPropertiesForBehavior(sceneId, config, behaviorToEdit, true)
             .then((properties) => {
-                setPropertyNames(properties);
+                setAliasedProperties(properties);
             });
     }
 
-    function getPropertyNames(twinId: string) {
-        return twinId === linkedTwinName ? propertyNames : [];
+    function getPropertyNames(twinAlias: string) {
+        return aliasedProperties
+            .filter((aP) => aP.alias === twinAlias)
+            .map((aP) => aP.property);
     }
 
     const setProperty = useCallback(
@@ -128,6 +138,16 @@ const AlertsTab: React.FC = () => {
         [setProperty]
     );
 
+    const aliasNames = useMemo(() => {
+        const aliases = [];
+        aliasedProperties?.forEach((aP) => {
+            if (!aliases.includes(aP.alias)) {
+                aliases.push(aP.alias);
+            }
+        });
+        return aliases;
+    }, [aliasedProperties]);
+
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
     const color = alertVisual?.color;
@@ -149,7 +169,7 @@ const AlertsTab: React.FC = () => {
                 }}
                 onChange={onExpressionChange}
                 defaultValue={expression}
-                aliasNames={[linkedTwinName]}
+                aliasNames={aliasNames}
                 getPropertyNames={getPropertyNames}
             />
             {alertVisual && (

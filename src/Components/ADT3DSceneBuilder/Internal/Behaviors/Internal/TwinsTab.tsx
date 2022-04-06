@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import {
     ActionButton,
     IContextualMenuItem,
@@ -20,7 +26,10 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants/Constants';
-import { TwinAliasFormMode } from '../../../../../Models/Constants';
+import {
+    IAliasedTwinProperty,
+    TwinAliasFormMode
+} from '../../../../../Models/Constants';
 import { ITwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
@@ -164,6 +173,14 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         []
     );
 
+    const linkedTwinProperties = useMemo(
+        () =>
+            commonLinkedTwinProperties.map(
+                (lP: IAliasedTwinProperty) => lP.property
+            ),
+        [commonLinkedTwinProperties]
+    );
+
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>
@@ -177,9 +194,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 {isLinkedTwinPropertiesCalloutVisible && (
                     <LinkedTwinPropertiesCallout
                         calloutTarget={linkedTwinPropertiesTargetId}
-                        commonLinkedTwinProperties={ViewerConfigUtility.getPropertyNameFromAliasedProperty(
-                            commonLinkedTwinProperties
-                        )}
+                        commonLinkedTwinProperties={linkedTwinProperties}
                         isLoading={isCommonLinkedTwinPropertiesLoading}
                         hideCallout={toggleIsLinkedTwinPropertiesCalloutVisible}
                     />

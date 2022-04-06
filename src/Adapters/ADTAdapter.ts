@@ -30,7 +30,8 @@ import {
     KeyValuePairData,
     DTwinUpdateEvent,
     IComponentError,
-    linkedTwinName
+    linkedTwinName,
+    IAliasedTwinProperty
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
@@ -982,14 +983,17 @@ export default class ADTAdapter implements IADTAdapter {
         config: I3DScenesConfig,
         behavior: IBehavior,
         isTwinAliasesIncluded = false
-    ): Promise<Array<string>> {
-        const data = await this.getTwinPropertiesForBehaviorWithFullName(
+    ): Promise<Array<IAliasedTwinProperty>> {
+        const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
             sceneId,
             config,
             behavior,
             isTwinAliasesIncluded
         );
-        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+        return propertiesWithAlias.map((properyWithAlias) => {
+            const splitted = properyWithAlias.split('.');
+            return { alias: splitted[0], property: splitted[1] };
+        });
     }
 
     async getTwinPropertiesForBehaviorWithFullName(

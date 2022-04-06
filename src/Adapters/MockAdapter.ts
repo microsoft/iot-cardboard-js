@@ -20,6 +20,7 @@ import {
 import {
     AdapterMethodParamsForSearchADTTwins,
     IADTTwin,
+    IAliasedTwinProperty,
     IBlobAdapter,
     IBlobFile,
     IGetKeyValuePairsAdditionalParameters,
@@ -629,14 +630,17 @@ export default class MockAdapter
         config: I3DScenesConfig,
         behavior: IBehavior,
         isTwinAliasesIncluded = false
-    ): Promise<string[]> {
-        const data = await this.getTwinPropertiesForBehaviorWithFullName(
+    ): Promise<IAliasedTwinProperty[]> {
+        const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
             sceneId,
             config,
             behavior,
             isTwinAliasesIncluded
         );
-        return ViewerConfigUtility.getPropertyNameFromAliasedProperty(data);
+        return propertiesWithAlias.map((properyWithAlias) => {
+            const splitted = properyWithAlias.split('.');
+            return { alias: splitted[0], property: splitted[1] };
+        });
     }
 
     async getTwinPropertiesForBehaviorWithFullName(

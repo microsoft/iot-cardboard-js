@@ -43,7 +43,9 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
 
     // get the property list
     const { options, isLoading } = useBehaviorTwinPropertyNames({
-        behavior: behavior
+        behavior: behavior,
+        isFullName: true,
+        isTwinAliasesIncluded: true
     });
 
     const [selectedProperty, setSelectedProperty] = useState(

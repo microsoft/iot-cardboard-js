@@ -431,7 +431,7 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
         config: I3DScenesConfig,
         behavior: IBehavior,
         isTwinAliasesIncluded?: boolean
-    ): Promise<string[]>;
+    ): Promise<IAliasedTwinProperty[]>;
     /**
      * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
      * The names of the properties come in the format LinkedTwin.Alias.PropertyName
@@ -729,4 +729,9 @@ export interface IBlobFile {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
+}
+
+export interface IAliasedTwinProperty {
+    alias: 'LinkedTwin' | string;
+    property: string;
 }

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { SceneBuilderContext } from '../../Components/ADT3DSceneBuilder/ADT3DSceneBuilder';
+import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { IBehavior } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface IUseBehaviorTwinPropertyNamesParams {
@@ -13,7 +14,9 @@ const useBehaviorTwinPropertyNames = ({
     isTwinAliasesIncluded = true
 }: IUseBehaviorTwinPropertyNamesParams) => {
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
-    const [options, setOptions] = useState<string[]>([]);
+    const [options, setOptions] = useState<
+        Array<string | IAliasedTwinProperty>
+    >([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setIsLoading(true);
