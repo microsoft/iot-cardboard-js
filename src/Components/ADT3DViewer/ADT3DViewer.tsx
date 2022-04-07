@@ -256,9 +256,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     ) => {
         if (!isAlertPopoverVisible) {
             setAlertPanelItems({
-                element: badgeGroup.sceneVisual.element,
-                behaviors: badgeGroup.sceneVisual.behaviors,
-                twins: badgeGroup.sceneVisual.twins
+                element: badgeGroup.element,
+                behaviors: badgeGroup.behaviors,
+                twins: badgeGroup.twins
             });
             // Adding offsets to ensure the popover covers the alerts badges as per the designs
             setAlertPopoverPosition({ left: left - 50, top: top - 30 });

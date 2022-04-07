@@ -63,14 +63,15 @@ export interface SceneViewBadge {
     meshId: string;
     color?: string;
     icon?: string;
-    sceneVisual: SceneVisual;
 }
 
 export interface SceneViewBadgeGroup {
     id: string;
     meshId: string;
-    sceneVisual: SceneVisual;
     badges: SceneViewBadge[];
+    element: ITwinToObjectMapping;
+    behaviors: IBehavior[];
+    twins: Record<string, DTwin>;
 }
 
 export type SceneViewEventHandler = (
