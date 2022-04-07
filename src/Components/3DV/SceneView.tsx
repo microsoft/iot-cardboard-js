@@ -567,7 +567,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     };
 
     const createBadgeGroups = () => {
-        if (badgeGroups && advancedTextureRef.current) {
+        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
             badgeGroups.forEach((bg) => {
                 // only add badge group if not already present
                 if (
@@ -782,6 +782,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             originalMaterials.current = null;
             meshMap.current = null;
             materialCacheRef.current = [];
+            badgeGroupsRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
             reflectionTexture.current = null;

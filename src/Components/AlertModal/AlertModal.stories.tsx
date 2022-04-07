@@ -30,9 +30,9 @@ export const SingleAlert = () => {
 
     const panelItems: IViewerElementsPanelItem = useMemo(
         () => ({
-            element: sceneAlerts[0]?.sceneVisual?.element,
-            behaviors: sceneAlerts[0]?.sceneVisual?.behaviors,
-            twins: sceneAlerts[0]?.sceneVisual?.twins
+            element: sceneAlerts[0]?.element,
+            behaviors: sceneAlerts[0]?.behaviors,
+            twins: sceneAlerts[0]?.twins
         }),
         [sceneAlerts]
     );
@@ -66,9 +66,9 @@ export const MultipleAlerts = () => {
 
     const panelItems: IViewerElementsPanelItem = useMemo(
         () => ({
-            element: sceneAlerts[1]?.sceneVisual?.element,
-            behaviors: sceneAlerts[1]?.sceneVisual?.behaviors,
-            twins: sceneAlerts[1]?.sceneVisual?.twins
+            element: sceneAlerts[1]?.element,
+            behaviors: sceneAlerts[1]?.behaviors,
+            twins: sceneAlerts[1]?.twins
         }),
         [sceneAlerts]
     );
