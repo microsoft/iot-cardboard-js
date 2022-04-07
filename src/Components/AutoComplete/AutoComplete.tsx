@@ -275,12 +275,12 @@ const getStyles = memoizeFunction((theme: Theme) => {
             padding: 10,
             selectors: {
                 ':hover': {
-                    backgroundColor: theme.semanticColors.bodyBackgroundHovered
+                    backgroundColor: theme.palette.neutralLight
                 }
             }
         },
         autoCompleteItemSelected: {
-            backgroundColor: theme.semanticColors.bodyBackgroundHovered
+            backgroundColor: theme.palette.neutralLighter
         }
     });
 });
