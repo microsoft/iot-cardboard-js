@@ -4,6 +4,7 @@ import { Handle } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
 import { ElementsContext } from '../OATGraphViewer';
+import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -16,6 +17,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
     const { elements, setElements, onDeleteNode } = useContext(ElementsContext);
+    const graphViewerStyles = getGraphViewerStyles();
 
     const onNameChange = (evt) => {
         setNameText(evt.target.value);
@@ -83,12 +85,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             <Handle
                 type="target"
                 position="top"
-                style={{ background: theme.semanticColors.variantBorder }}
+                className={graphViewerStyles.handle}
                 isConnectable={isConnectable}
             />
-            <div className="cb-oat-graph-viewer-node">
+            <div className={graphViewerStyles.node}>
                 <ActionButton
-                    className="cb-oat-graph-viewer-node-cancel"
+                    className={graphViewerStyles.nodeCancel}
                     onClick={onDelete}
                 >
                     <Icon
@@ -141,9 +143,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type="source"
                 position="bottom"
                 id="Relationship"
-                style={{
-                    background: theme.semanticColors.variantBorder
-                }}
+                className={graphViewerStyles.handle}
                 isConnectable={isConnectable}
             />
         </>
