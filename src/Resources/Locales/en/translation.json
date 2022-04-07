@@ -677,5 +677,23 @@
         "sync": "sync",
         "import": "Import",
         "export": "Export"
+    },
+    "OATPropertyEditor": {
+        "displayName": "Display Name",
+        "general": "General",
+        "assetId": "Asset ID",
+        "type": "Type",
+        "properties": "Properties",
+        "viewTemplates": "View Templates",
+        "name": "Name",
+        "schemaType": "Schema Type",
+        "addProperty": "Add property",
+        "comment": "Comment",
+        "description": "Description",
+        "writable": "Writable",
+        "semanticType": "semanticType",
+        "unit": "Unit",
+        "id": "Id",
+        "update": "Update"
     }
 }
