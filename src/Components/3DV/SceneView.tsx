@@ -127,6 +127,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     onMeshClick,
     onMeshHover,
     onCameraMove,
+    onBadgeGroupHover,
     showMeshesOnHover,
     objectColors,
     zoomToMeshIds,
@@ -615,7 +616,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     )
                 ) {
                     debugLog('adding badge group');
-                    const badgeGroup = createBadgeGroup(bg, backgroundColor);
+                    const badgeGroup = createBadgeGroup(
+                        bg,
+                        backgroundColor,
+                        onBadgeGroupHover
+                    );
                     advancedTextureRef.current.addControl(badgeGroup);
                     const mesh = sceneRef.current.meshes.find(
                         (m) => m.id === bg.meshId
