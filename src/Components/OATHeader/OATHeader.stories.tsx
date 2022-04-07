@@ -6,7 +6,7 @@ export default {
     component: OATHeader
 };
 
-export const Default = (_args) => {
+export const Default = () => {
     return (
         <div>
             <OATHeader />
