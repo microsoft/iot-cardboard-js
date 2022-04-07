@@ -15,7 +15,7 @@ const PropertySelector = ({
     return (
         <Stack className={propertyInspectorStyles.propertySelector}>
             <Stack className={propertyInspectorStyles.propertySelectorHeader}>
-                <Text>Primitive</Text>
+                <Text>{t('OATPropertyEditor.primitive')}</Text>
                 <ActionButton
                     onClick={() => setPropertySelectorVisible(false)}
                     className={

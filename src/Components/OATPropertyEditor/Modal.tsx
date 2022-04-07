@@ -122,7 +122,7 @@ export const Modal = ({
                 <Toggle
                     className={propertyInspectorStyles.modalColumnLeftItem}
                     defaultChecked={writable}
-                    onChange={(e) => {
+                    onChange={() => {
                         setWritable(!writable);
                     }}
                 />

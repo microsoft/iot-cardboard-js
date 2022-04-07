@@ -694,6 +694,7 @@
         "semanticType": "semanticType",
         "unit": "Unit",
         "id": "Id",
-        "update": "Update"
+        "update": "Update",
+        "primitive": "Primitive"
     }
 }
