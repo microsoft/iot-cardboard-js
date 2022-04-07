@@ -3,11 +3,14 @@ import {
     DirectionalHint,
     ICalloutProps,
     ITextFieldProps,
-    TextField
+    memoizeFunction,
+    mergeStyleSets,
+    TextField,
+    Theme,
+    useTheme
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
 import React, { useRef, useState } from 'react';
-import './AutoComplete.scss';
 import CaretCoordinates from './CaretCoordinates';
 
 export interface IAutoCompleteProps {
@@ -57,11 +60,12 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     const caretRef = useRef<any>(null);
     const gapRef = useRef(0);
     const topRef = useRef(0);
-    itemContainerClassName =
-        itemContainerClassName || 'cb-autocomplete-container';
-    itemClassName = itemClassName || 'cb-autocomplete-item';
+    const theme = useTheme();
+    const styles = getStyles(theme);
+    itemContainerClassName = itemContainerClassName || styles.container;
+    itemClassName = itemClassName || styles.autoCompleteItem;
     selectedItemClassName =
-        selectedItemClassName || 'cb-autocomplete-item-selected';
+        selectedItemClassName || styles.autoCompleteItemSelected;
 
     const textField = document.getElementById(textFieldId) as HTMLInputElement;
 
@@ -256,3 +260,27 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
         </>
     );
 };
+
+const getStyles = memoizeFunction((theme: Theme) => {
+    return mergeStyleSets({
+        container: {
+            border: `1px solid ${theme.semanticColors.inputBorder}`,
+            borderRadius: 2,
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        autoCompleteItem: {
+            color: theme.semanticColors.bodyText,
+            cursor: 'pointer',
+            padding: 10,
+            selectors: {
+                ':hover': {
+                    backgroundColor: theme.semanticColors.bodyBackgroundHovered
+                }
+            }
+        },
+        autoCompleteItemSelected: {
+            backgroundColor: theme.semanticColors.bodyBackgroundHovered
+        }
+    });
+});
