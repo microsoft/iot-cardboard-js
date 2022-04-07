@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
-import { Handle } from 'react-flow-renderer';
+import { Handle, removeElements } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
-import { ElementsContext } from '../OATGraphViewer';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import { ElementsContext } from './OATContext';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -16,7 +16,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
-    const { elements, setElements, onDeleteNode } = useContext(ElementsContext);
+    const { elements, setElements } = useContext(ElementsContext);
     const graphViewerStyles = getGraphViewerStyles();
 
     const onNameChange = (evt) => {
@@ -30,10 +30,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const onNameBlur = () => {
         setNameEditor(false);
         if (data.name !== nameText) {
-            const index = elements.findIndex(
+            elements.find(
                 (element) => element.id === data.id
-            );
-            elements[index].data.name = nameText;
+            ).data.name = nameText;
             setElements([...elements]);
         }
     };
@@ -48,36 +47,27 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onIdBlur = () => {
         setIdEditor(false);
+        const prevId = data.id;
         if (data.id !== idText) {
-            let sourceElements = elements.findIndex(
-                (element) => element.source === data.id
-            );
-            while (sourceElements !== -1) {
-                elements[sourceElements].source = idText;
-                sourceElements = elements.findIndex(
-                    (element) => element.source === data.id
-                );
-            }
-            let targetElements = elements.findIndex(
-                (element) => element.target === data.id
-            );
-            while (targetElements !== -1) {
-                elements[targetElements].target = idText;
-                targetElements = elements.findIndex(
-                    (element) => element.target === data.id
-                );
-            }
-            const index = elements.findIndex(
-                (element) => element.id === data.id
-            );
-            elements[index].data.id = idText;
-            elements[index].id = idText;
+            elements
+                .filter((x) => x.source === data.id)
+                .forEach((x) => (x.source = idText));
+            elements
+                .filter((x) => x.target === data.id)
+                .forEach((x) => (x.target = idText));
+            elements.find((element) => element.id === prevId).data.id = idText;
+            elements.find((element) => element.id === prevId).id = idText;
             setElements([...elements]);
         }
     };
 
     const onDelete = () => {
-        onDeleteNode(data.id);
+        const elementsToRemove = [
+            {
+                id: data.id
+            }
+        ];
+        setElements((els) => removeElements(elementsToRemove, els));
     };
 
     return (

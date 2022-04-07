@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
-import { ElementsContext } from '../OATGraphViewer';
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+import { ElementsContext } from './OATContext';
 
 const foreignObjectSize = 180;
 
