@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useMemo,
+    createContext
+} from 'react';
 import { useTheme, PrimaryButton } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
@@ -41,10 +47,6 @@ const OATGraphViewer = () => {
             }
             nextModelId++;
         }
-        elements.map((item) => {
-            item.data['onDeleteNode'] = { onDeleteNode };
-            item.data['onUpdateNode'] = { onUpdateNode };
-        });
         localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     }, [elements]);
 
@@ -57,12 +59,6 @@ const OATGraphViewer = () => {
         setElements((els) => removeElements(elementsToRemove, els));
     };
 
-    const onUpdateNode = (prevId, id) => {
-        const index = elements.findIndex((element) => element.id === prevId);
-        elements[index].id = id;
-        localStorage.setItem('elements', JSON.stringify(elements));
-    };
-
     const onConnect = (evt) => {
         const params = {
             source: evt.source,
@@ -71,11 +67,18 @@ const OATGraphViewer = () => {
             arrowHeadType: 'arrowclosed',
             type: 'RelationshipEdge',
             data: {
-                name: ''
+                name: '',
+                id: `${evt.source}${evt.target}RelationshipEdge`,
+                type: 'RelationshipEdge'
             }
         };
         setElements((els) => addEdge(params, els));
     };
+
+    const providerVal = useMemo(
+        () => ({ elements, setElements, onDeleteNode }),
+        [elements, setElements, onDeleteNode]
+    );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
@@ -109,7 +112,7 @@ const OATGraphViewer = () => {
     const onNodeDragStop = (evt, node) => {
         const index = elements.findIndex((element) => element.id === node.id);
         elements[index].position = node.position;
-        localStorage.setItem('elements', JSON.stringify(elements));
+        setElements([...elements]);
     };
 
     return (
@@ -120,29 +123,31 @@ const OATGraphViewer = () => {
                         className="cb-oat-graph-viewer-container"
                         ref={reactFlowWrapperRef}
                     >
-                        <ReactFlow
-                            elements={elements}
-                            onElementsRemove={onElementsRemove}
-                            onConnect={onConnect}
-                            onLoad={onLoad}
-                            snapToGrid={true}
-                            snapGrid={[15, 15]}
-                            nodeTypes={nodeTypes}
-                            edgeTypes={edgeTypes}
-                            onNodeDragStop={onNodeDragStop}
-                        >
-                            <PrimaryButton
-                                className="cb-oat-graph-viewer-button"
-                                onClick={onNewModelClick}
-                                text={t('OATGraphViewer.newModel')}
-                            />
-                            <MiniMap />
-                            <Controls />
-                            <Background
-                                color={theme.semanticColors.bodyBackground}
-                                gap={16}
-                            />
-                        </ReactFlow>
+                        <ElementsContext.Provider value={providerVal}>
+                            <ReactFlow
+                                elements={elements}
+                                onElementsRemove={onElementsRemove}
+                                onConnect={onConnect}
+                                onLoad={onLoad}
+                                snapToGrid={true}
+                                snapGrid={[15, 15]}
+                                nodeTypes={nodeTypes}
+                                edgeTypes={edgeTypes}
+                                onNodeDragStop={onNodeDragStop}
+                            >
+                                <PrimaryButton
+                                    className="cb-oat-graph-viewer-button"
+                                    onClick={onNewModelClick}
+                                    text={t('OATGraphViewer.newModel')}
+                                />
+                                <MiniMap />
+                                <Controls />
+                                <Background
+                                    color={theme.semanticColors.bodyBackground}
+                                    gap={16}
+                                />
+                            </ReactFlow>
+                        </ElementsContext.Provider>
                     </div>
                 </ReactFlowProvider>
             </div>
@@ -151,3 +156,4 @@ const OATGraphViewer = () => {
 };
 
 export default OATGraphViewer;
+export const ElementsContext = createContext(null);

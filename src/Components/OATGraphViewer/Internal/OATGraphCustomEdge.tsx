@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useContext, useState } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
+import { ElementsContext } from '../OATGraphViewer';
 const foreignObjectSize = 180;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
@@ -17,19 +18,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
+    const { elements, setElements } = useContext(ElementsContext);
 
-    const onNameChange = useCallback((evt) => {
-        data.name = evt.target.value;
+    const onNameChange = (evt) => {
         setNameText(evt.target.value);
-    }, []);
+    };
 
-    const onNameClick = useCallback(() => {
+    const onNameClick = () => {
         setNameEditor(true);
-    }, []);
+    };
 
-    const onNameBlur = useCallback(() => {
+    const onNameBlur = () => {
         setNameEditor(false);
-    }, []);
+        if (data.name !== nameText) {
+            const index = elements.findIndex(
+                (element) => element.data.id === data.id
+            );
+            elements[index].data.name = nameText;
+            setElements([...elements]);
+        }
+    };
 
     const edgePath = getBezierPath({
         sourceX,
