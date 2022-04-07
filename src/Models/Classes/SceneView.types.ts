@@ -79,7 +79,7 @@ export type SceneViewEventHandler = (
 ) => void;
 
 export interface ISceneViewProp {
-    modelUrl: string;
+    modelUrl: string | 'Globe';
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
