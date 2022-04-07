@@ -270,7 +270,8 @@ const getStyles = memoizeFunction((theme: Theme) => {
             border: `1px solid ${theme.semanticColors.inputBorder}`,
             borderRadius: 2,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            minWidth: 120
         },
         autoCompleteItem: {
             color: theme.semanticColors.bodyText,
