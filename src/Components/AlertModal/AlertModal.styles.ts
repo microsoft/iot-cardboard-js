@@ -13,14 +13,9 @@ export const getStyles = memoizeFunction(() => {
         boundaryLayer: [
             classNames.boundaryLayer,
             {
-                pointerEvents: 'none',
+                pointerEvents: 'auto',
                 position: 'absolute',
-                zIndex: 1000
-            } as IStyle
-        ],
-        modalContainer: [
-            classNames.modalContainer,
-            {
+                zIndex: 1000,
                 display: 'flex',
                 flexFlow: 'column nowrap',
                 alignItems: 'stretch',
@@ -28,9 +23,7 @@ export const getStyles = memoizeFunction(() => {
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
-                border: `1px solid ${modalBorderColor}`,
-                position: 'absolute',
-                pointerEvents: 'auto'
+                border: `1px solid ${modalBorderColor}`
             } as IStyle
         ]
     });

@@ -3,25 +3,23 @@ import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfigurat
 import MockAdapter from '../../Adapters/MockAdapter';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
-import AlertElementsPanel from './AlertElementsPanel';
-import { IViewerElementsPanelItem } from './ViewerElementsPanel.types';
-import BaseComponent from '../BaseComponent/BaseComponent';
+import AlertModal from './AlertModal';
+import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+
+const wrapperStyle = { width: 'auto', height: 'auto' };
 
 export default {
-    title: 'Components/ElementsPanel',
-    component: AlertElementsPanel
+    title: 'Components/AlertModal',
+    component: AlertModal,
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-export const AlertPanel = (_arg, { globals: { theme } }) => {
+export const Alert = () => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
     const pollingInterval = 5000;
-
-    const wrapperStyle = {
-        width: '300px',
-        height: '200px'
-    };
 
     const { sceneAlerts } = useRuntimeSceneData(
         adapter,
@@ -40,15 +38,15 @@ export const AlertPanel = (_arg, { globals: { theme } }) => {
     );
 
     return (
-        <BaseComponent theme={theme}>
-            <div style={wrapperStyle}>
-                <AlertElementsPanel
-                    alerts={panelItems}
-                    onItemClick={null}
-                    onItemHover={null}
-                    onItemBlur={null}
-                />
-            </div>
-        </BaseComponent>
+        <div style={wrapperStyle}>
+            <AlertModal
+                alerts={panelItems}
+                position={{ left: 50, top: 50 }}
+                onClose={null}
+                onItemClick={null}
+                onItemHover={null}
+                onItemBlur={null}
+            />
+        </div>
     );
 };

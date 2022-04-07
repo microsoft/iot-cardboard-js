@@ -148,6 +148,8 @@ export function createBadgeGroup(
         background.addControl(badge);
     }
 
+    // Using on pointer move on the badge for firing the hover event because
+    // on pointer enter was not providing a consistant enough interaction
     background.onPointerMoveObservable.add((position) => {
         onBadgeGroupHover(badgeGroup, position.x, position.y);
     });

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
     IBehavior,
     ITwinToObjectMapping,
     IVisual
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import AlertElementsPanel from '../ElementsPanel/AlertElementsPanel';
+import ElementsList from '../ElementsPanel/Internal/ElementsList';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import { getStyles } from './AlertModal.styles';
 
@@ -42,17 +42,16 @@ const AlertModal: React.FC<IAlertModalProps> = ({
     return (
         <div
             style={{ top: position.top, left: position.left }}
-            className={styles.boundaryLayer}
+            className={styles.boundaryLayer + ' cb-base-fade-in'}
             onMouseLeave={onClose}
         >
-            <div className={styles.modalContainer}>
-                <AlertElementsPanel
-                    alerts={alerts}
-                    onItemClick={onItemClick}
-                    onItemBlur={onItemBlur}
-                    onItemHover={onItemHover}
-                />
-            </div>
+            <ElementsList
+                isLoading={false}
+                panelItems={alerts.element ? [alerts] : []}
+                onItemClick={onItemClick}
+                onItemBlur={onItemBlur}
+                onItemHover={onItemHover}
+            />
         </div>
     );
 };

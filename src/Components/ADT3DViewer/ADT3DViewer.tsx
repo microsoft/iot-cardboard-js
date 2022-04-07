@@ -33,7 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
-import AlertModal from '../AlertsModal/AlertModal';
+import AlertModal from '../AlertModal/AlertModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -260,6 +260,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 behaviors: badgeGroup.sceneVisual.behaviors,
                 twins: badgeGroup.sceneVisual.twins
             });
+            // Adding offsets to ensure the popover covers the alerts badges as per the designs
             setAlertPopoverPosition({ left: left - 50, top: top - 30 });
             setIsAlertPopoverVisible(true);
         }
