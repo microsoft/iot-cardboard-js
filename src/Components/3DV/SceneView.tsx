@@ -115,6 +115,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     onMeshClick,
     onMeshHover,
     onCameraMove,
+    onBadgeGroupHover,
     showMeshesOnHover,
     objectColors,
     zoomToMeshIds,
@@ -566,7 +567,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     };
 
     const createBadgeGroups = () => {
-        if (badgeGroups && advancedTextureRef.current) {
+        if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
             badgeGroups.forEach((bg) => {
                 // only add badge group if not already present
                 if (
@@ -575,7 +576,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     )
                 ) {
                     debugLog('adding badge group');
-                    const badgeGroup = createBadgeGroup(bg, backgroundColor);
+                    const badgeGroup = createBadgeGroup(
+                        bg,
+                        backgroundColor,
+                        onBadgeGroupHover
+                    );
                     advancedTextureRef.current.addControl(badgeGroup);
                     const mesh = sceneRef.current.meshes.find(
                         (m) => m.id === bg.meshId
@@ -777,6 +782,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
             originalMaterials.current = null;
             meshMap.current = null;
             materialCacheRef.current = [];
+            badgeGroupsRef.current = [];
             sceneRef.current = null;
             cameraRef.current = null;
             reflectionTexture.current = null;
