@@ -1,10 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    useMemo,
-    createContext
-} from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useTheme, PrimaryButton } from '@fluentui/react';
 import ReactFlow, {
     ReactFlowProvider,
@@ -20,6 +14,7 @@ import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import { ElementsLocalStorageKey } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
+import { ElementsContext } from './Internal/OATContext';
 
 const OATGraphViewer = () => {
     const { t } = useTranslation();
@@ -50,15 +45,6 @@ const OATGraphViewer = () => {
         localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     }, [elements]);
 
-    const onDeleteNode = (id) => {
-        const elementsToRemove = [
-            {
-                id: id
-            }
-        ];
-        setElements((els) => removeElements(elementsToRemove, els));
-    };
-
     const onConnect = (evt) => {
         const params = {
             source: evt.source,
@@ -75,10 +61,10 @@ const OATGraphViewer = () => {
         setElements((els) => addEdge(params, els));
     };
 
-    const providerVal = useMemo(
-        () => ({ elements, setElements, onDeleteNode }),
-        [elements, setElements, onDeleteNode]
-    );
+    const providerVal = useMemo(() => ({ elements, setElements }), [
+        elements,
+        setElements
+    ]);
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
@@ -156,4 +142,3 @@ const OATGraphViewer = () => {
 };
 
 export default OATGraphViewer;
-export const ElementsContext = createContext(null);
