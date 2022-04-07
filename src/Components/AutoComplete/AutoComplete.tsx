@@ -1,5 +1,6 @@
 import {
     Callout,
+    css,
     DirectionalHint,
     ICalloutProps,
     ITextFieldProps,
@@ -62,10 +63,12 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     const topRef = useRef(0);
     const theme = useTheme();
     const styles = getStyles(theme);
-    itemContainerClassName = itemContainerClassName || styles.container;
-    itemClassName = itemClassName || styles.autoCompleteItem;
-    selectedItemClassName =
-        selectedItemClassName || styles.autoCompleteItemSelected;
+    itemContainerClassName = css(itemContainerClassName, styles.container);
+    itemClassName = css(itemClassName, styles.autoCompleteItem);
+    selectedItemClassName = css(
+        selectedItemClassName,
+        styles.autoCompleteItemSelected
+    );
 
     const textField = document.getElementById(textFieldId) as HTMLInputElement;
 
