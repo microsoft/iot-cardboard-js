@@ -29,6 +29,7 @@ export const Modal = ({
     const [semanticType, setSemanticType] = useState(null);
     const [unit, setUnit] = useState(null);
     const [id, setId] = useState(null);
+    const [error, setError] = useState(null);
 
     const handleUpdateProperty = () => {
         const activeProperty = model.contents[currentPropertyIndex];
@@ -55,6 +56,12 @@ export const Modal = ({
 
         if (!find && value !== '') {
             setDisplayName(value);
+        }
+
+        if (find) {
+            setError(true);
+        } else {
+            setError(false);
         }
 
         return find ? `A property with the same name already exists` : '';
@@ -164,6 +171,7 @@ export const Modal = ({
                 text={t('OATPropertyEditor.update')}
                 allowDisabledFocus
                 onClick={handleUpdateProperty}
+                disabled={error}
             />
         </FluentModal>
     );
