@@ -14,10 +14,12 @@ import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     ElementsLocalStorageKey,
-    TwinsLocalStorageKey
+    TwinsLocalStorageKey,
+    PositionsLocalStorageKey
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
+import { E } from 'tsiclient/EllipsisMenu-9ca7bfca';
 
 type OATGraphProps = {
     onHandleElementsUpdate: () => any;
@@ -50,7 +52,7 @@ const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
             }
             nextModelId++;
         }
-        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
+        storeElements();
         translateOutput();
     }, [elements]);
 
@@ -128,6 +130,23 @@ const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
             ];
             setElements([...elements]);
         }
+    };
+
+    const storeElements = () => {
+        const nodePositions = [];
+        elements.forEach((element) => {
+            if (!element.source) {
+                nodePositions.push({
+                    id: element.id,
+                    position: element.position
+                });
+            }
+        });
+        localStorage.setItem(
+            PositionsLocalStorageKey,
+            JSON.stringify({ nodePositions })
+        );
+        localStorage.setItem(ElementsLocalStorageKey, JSON.stringify(elements));
     };
 
     const translateOutput = () => {
