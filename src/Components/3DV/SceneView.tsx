@@ -21,6 +21,7 @@ import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
     DefaultViewerModeObjectColor,
+    globeUrl,
     IADTBackgroundColor,
     TransparentTexture,
     ViewerModeObjectColors
@@ -79,22 +80,22 @@ async function loadPromise(
     root: string,
     filename: string,
     engine: BABYLON.Engine,
-    onProgress: any,
-    onError: any
+    onProgress: (event: BABYLON.ISceneLoaderProgressEvent) => void,
+    onError: (scene: BABYLON.Scene, message: string, exception?: any) => void
 ): Promise<BABYLON.Scene> {
-    let r = root;
-    let f: string | File = filename;
+    let tempRoot = root;
+    let tempFile: string | File = filename;
     const model: File = modelCache[root + filename];
     if (model) {
-        r = '';
-        f = model;
+        tempRoot = '';
+        tempFile = model;
     }
 
     return new Promise((resolve) => {
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         BABYLON.SceneLoader.Load(
-            r,
-            f,
+            tempRoot,
+            tempFile,
             engine,
             (scene) => {
                 resolve(scene);
@@ -207,8 +208,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     debugLog('SceneView Render');
     let url = modelUrl;
     if (url === 'Globe') {
-        url =
-            'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
+        url = globeUrl;
     }
 
     // INITIALIZE AND LOAD SCENE
@@ -259,6 +259,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     'UI'
                 );
                 sortMeshesOnLoad();
+
+                // Scene has been created and loaded, export the scene for the cache before anyone changes it
                 if (!modelCache[url]) {
                     sceneRef.current.render();
                     const filename = createGUID();
@@ -268,7 +270,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         filename
                     );
                     setIsSerializing(false);
-                    // glb.downloadFiles();
+                    // glb.downloadFiles();     // Uncomment this for debug to get the GLB surfaced in your browser downloads
                     modelCache[url] = new File(
                         [glb.glTFFiles[filename + '.glb']],
                         filename + '.glb'
