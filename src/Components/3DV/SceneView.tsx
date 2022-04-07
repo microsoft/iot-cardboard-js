@@ -264,7 +264,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 if (!modelCache[url]) {
                     sceneRef.current.render();
                     const filename = createGUID();
-                    setIsSerializing(sc.meshes.length > 500); // This may take a while
+                    setIsSerializing(sceneRef.current.meshes.length > 500); // This may take a while
                     const glb = await SERIALIZE.GLTF2Export.GLBAsync(
                         sceneRef.current,
                         filename
