@@ -21,7 +21,7 @@ export const getHeaderStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '5px'
+                height: '5%'
             } as IStyle
         ],
         searchComponent: [

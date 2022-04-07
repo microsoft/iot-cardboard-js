@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import OATGraphViewer from './OATGraphViewer';
 
 export default {
@@ -7,9 +7,14 @@ export default {
 };
 
 export const Default = (_args) => {
+    const [elementHandler, setElementHandler] = useState([]);
+
+    const onHandleElementsUpdate = (newElements) => {
+        setElementHandler(newElements);
+    };
     return (
         <div>
-            <OATGraphViewer />
+            <OATGraphViewer onHandleElementsUpdate={onHandleElementsUpdate} />
         </div>
     );
 };

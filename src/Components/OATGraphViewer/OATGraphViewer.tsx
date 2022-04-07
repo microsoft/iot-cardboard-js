@@ -19,7 +19,11 @@ import {
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
 
-const OATGraphViewer = () => {
+type OATGraphProps = {
+    onHandleElementsUpdate: () => any;
+};
+
+const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -159,6 +163,7 @@ const OATGraphViewer = () => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
+        onHandleElementsUpdate({ digitalTwinsModels: nodes });
     };
 
     return (

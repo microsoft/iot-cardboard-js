@@ -2,10 +2,19 @@ import React from 'react';
 import { FontIcon, TextField, ActionButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles } from './OATHeader.styles';
+import { downloadText } from '../../Models/Services/Utils';
 
-const OATHeader = () => {
+type OATHeaderProps = {
+    elements: [];
+};
+
+const OATHeader = ({ elements }: OATHeaderProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
+
+    const onDowloadClick = () => {
+        downloadText(JSON.stringify(elements), 'digitalTwinsModels.json');
+    };
 
     return (
         <div className={headerStyles.container}>
@@ -62,7 +71,7 @@ const OATHeader = () => {
                         />
                         {t('OATHeader.import')}
                     </ActionButton>
-                    <ActionButton>
+                    <ActionButton onClick={onDowloadClick}>
                         <FontIcon
                             iconName={'Export'}
                             className={headerStyles.menuIcon}
