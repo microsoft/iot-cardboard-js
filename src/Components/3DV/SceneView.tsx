@@ -207,10 +207,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
     }
 
     debugLog('SceneView Render');
-    let url = modelUrl;
-    if (url === 'Globe') {
-        url = globeUrl;
-    }
+    const url = modelUrl === 'Globe' ? globeUrl : modelUrl;
 
     // INITIALIZE AND LOAD SCENE
     const init = useCallback(() => {
@@ -609,11 +606,15 @@ const SceneView: React.FC<ISceneViewProp> = ({
         if (badgeGroups && advancedTextureRef.current && sceneRef.current) {
             debugLog('createBadgeGroups');
             badgeGroups.forEach((bg) => {
-                // only add badge group if not already present
+                const mesh = sceneRef.current.meshes.find(
+                    (m) => m.id === bg.meshId
+                );
+                // only add badge group if not already present and mesh exists
                 if (
                     !badgeGroupsRef.current.find(
                         (badgeGroupRef) => badgeGroupRef.name === bg.id
-                    )
+                    ) &&
+                    mesh
                 ) {
                     debugLog('adding badge group');
                     const badgeGroup = createBadgeGroup(
@@ -622,9 +623,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
                         onBadgeGroupHover
                     );
                     advancedTextureRef.current.addControl(badgeGroup);
-                    const mesh = sceneRef.current.meshes.find(
-                        (m) => m.id === bg.meshId
-                    );
                     badgeGroup.linkWithMesh(mesh);
 
                     // badges can only be linked to meshes after being added to the scene
