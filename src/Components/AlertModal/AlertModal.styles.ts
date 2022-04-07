@@ -23,7 +23,8 @@ export const getStyles = memoizeFunction(() => {
                 backgroundColor: 'var(--cb-color-glassy-modal)',
                 backdropFilter: 'blur(24px) brightness(150%)',
                 borderRadius: 2,
-                border: `1px solid ${modalBorderColor}`
+                border: `1px solid ${modalBorderColor}`,
+                borderTop: '0px'
             } as IStyle
         ]
     });
