@@ -15,7 +15,7 @@ export default {
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-export const Alert = () => {
+export const SingleAlert = () => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
@@ -41,6 +41,57 @@ export const Alert = () => {
         <div style={wrapperStyle}>
             <AlertModal
                 alerts={panelItems}
+                position={{ left: 50, top: 50 }}
+                onClose={null}
+                onItemClick={null}
+                onItemHover={null}
+                onItemBlur={null}
+            />
+        </div>
+    );
+};
+
+export const MultipleAlerts = () => {
+    const scenesConfig = mockVConfig as I3DScenesConfig;
+    const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
+    const adapter = new MockAdapter();
+    const pollingInterval = 5000;
+
+    const { sceneAlerts } = useRuntimeSceneData(
+        adapter,
+        sceneId,
+        scenesConfig,
+        pollingInterval
+    );
+
+    const panelItems: IViewerElementsPanelItem = useMemo(
+        () => ({
+            element: sceneAlerts[1]?.sceneVisual?.element,
+            behaviors: sceneAlerts[1]?.sceneVisual?.behaviors,
+            twins: sceneAlerts[1]?.sceneVisual?.twins
+        }),
+        [sceneAlerts]
+    );
+
+    return (
+        <div style={wrapperStyle}>
+            <AlertModal
+                alerts={panelItems}
+                position={{ left: 50, top: 50 }}
+                onClose={null}
+                onItemClick={null}
+                onItemHover={null}
+                onItemBlur={null}
+            />
+        </div>
+    );
+};
+
+export const NoAlerts = () => {
+    return (
+        <div style={wrapperStyle}>
+            <AlertModal
+                alerts={null}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
                 onItemClick={null}

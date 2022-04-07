@@ -47,7 +47,7 @@ const AlertModal: React.FC<IAlertModalProps> = ({
         >
             <ElementsList
                 isLoading={false}
-                panelItems={alerts.element ? [alerts] : []}
+                panelItems={alerts?.element ? [alerts] : []}
                 onItemClick={onItemClick}
                 onItemBlur={onItemBlur}
                 onItemHover={onItemHover}
