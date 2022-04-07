@@ -260,11 +260,11 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 );
                 sortMeshesOnLoad();
                 if (!modelCache[url]) {
-                    sc.render();
+                    sceneRef.current.render();
                     const filename = createGUID();
                     setIsSerializing(sc.meshes.length > 500); // This may take a while
                     const glb = await SERIALIZE.GLTF2Export.GLBAsync(
-                        sc,
+                        sceneRef.current,
                         filename
                     );
                     setIsSerializing(false);
@@ -275,25 +275,28 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     );
                 }
 
-                sc.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+                sceneRef.current.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
                 //This layer is a bug fix for transparency not blending with background html on certain graphic cards like in macs.
                 //The texture is 99% transparent but forces the engine to blend the colors.
-                const layer = new BABYLON.Layer('', '', sc, true);
+                const layer = new BABYLON.Layer('', '', sceneRef.current, true);
                 layer.texture = BABYLON.Texture.CreateFromBase64String(
                     TransparentTexture,
                     'layerImg',
-                    sc
+                    sceneRef.current
                 );
 
-                hovMaterial.current = new BABYLON.StandardMaterial('hover', sc);
+                hovMaterial.current = new BABYLON.StandardMaterial(
+                    'hover',
+                    sceneRef.current
+                );
                 hovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                     currentObjectColor.meshHoverColor
                 );
 
                 coloredHovMaterial.current = new BABYLON.StandardMaterial(
                     'colHov',
-                    sc
+                    sceneRef.current
                 );
                 coloredHovMaterial.current.diffuseColor = BABYLON.Color3.FromHexString(
                     currentObjectColor.coloredMeshHoverColor
@@ -301,7 +304,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                 highlightLayer.current = new BABYLON.HighlightLayer(
                     'hl1',
-                    scene,
+                    sceneRef.current,
                     {
                         blurHorizontalSize: 0.5,
                         blurVerticalSize: 0.5
@@ -311,17 +314,17 @@ const SceneView: React.FC<ISceneViewProp> = ({
                 const light = new BABYLON.HemisphericLight(
                     'light',
                     new BABYLON.Vector3(1, 1, 0),
-                    sc
+                    sceneRef.current
                 );
                 light.diffuse = new BABYLON.Color3(0.8, 0.8, 0.8);
                 light.specular = new BABYLON.Color3(1, 1, 1);
                 light.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
-                setScene(sc);
+                setScene(sceneRef.current);
                 setIsLoading(false);
                 engineRef.current.resize();
                 if (onSceneLoaded) {
-                    onSceneLoaded(sc);
+                    onSceneLoaded(sceneRef.current);
                 }
             }
         }
