@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { getBezierPath, getEdgeCenter } from 'react-flow-renderer';
 import { IOATGraphCustomEdgeProps } from '../../Models/Constants/Interfaces';
+import { getGraphViewerStyles } from '../OATGraphViewer.styles';
+
 const foreignObjectSize = 180;
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
@@ -17,6 +19,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 }) => {
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(data.name);
+    const graphViewerStyles = getGraphViewerStyles();
 
     const onNameChange = useCallback((evt) => {
         data.name = evt.target.value;
@@ -51,7 +54,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             <path
                 id={id}
                 style={style}
-                className="react-flow__edge-path"
+                className={graphViewerStyles.edgePath}
                 d={edgePath}
                 markerEnd={markerEnd}
                 onClick={onNameClick}
@@ -81,6 +84,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                     <textPath
                         href={`#${id}`}
                         style={{ fontSize: '12px' }}
+                        className={graphViewerStyles.textPath}
                         startOffset="50%"
                         textAnchor="middle"
                         onClick={onNameClick}

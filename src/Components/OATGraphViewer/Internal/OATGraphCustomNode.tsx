@@ -3,6 +3,7 @@ import { useTheme } from '@fluentui/react';
 import { Handle } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../Models/Constants/Interfaces';
+import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
@@ -14,6 +15,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data.id);
     const theme = useTheme();
+    const graphViewerStyles = getGraphViewerStyles();
 
     const onNameChange = useCallback((evt) => {
         data.name = evt.target.value;
@@ -46,10 +48,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             <Handle
                 type="target"
                 position="top"
-                style={{ background: theme.semanticColors.variantBorder }}
+                className={graphViewerStyles.handle}
                 isConnectable={isConnectable}
             />
-            <div className="cb-oat-graph-viewer-node">
+            <div className={graphViewerStyles.node}>
                 <div>
                     {t('OATGraphViewer.name')}:
                     {!nameEditor && (
@@ -90,9 +92,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type="source"
                 position="bottom"
                 id="Relationship"
-                style={{
-                    background: theme.semanticColors.variantBorder
-                }}
+                className={graphViewerStyles.handle}
                 isConnectable={isConnectable}
             />
         </>

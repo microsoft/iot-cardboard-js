@@ -13,8 +13,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import { ElementsLocalStorageKey } from '../../Models/Constants/Constants';
-
-import './OATGraphViewer.scss';
+import { getGraphViewerStyles } from './OATGraphViewer.styles';
 
 const OATGraphViewer = () => {
     const { t } = useTranslation();
@@ -28,6 +27,7 @@ const OATGraphViewer = () => {
     );
     const idClass = 'dtmi:com:example:';
     const [newModelId, setNewModelId] = useState(0);
+    const graphViewerStyles = getGraphViewerStyles();
 
     useEffect(() => {
         let nextModelId = newModelId;
@@ -92,7 +92,7 @@ const OATGraphViewer = () => {
             <div>
                 <ReactFlowProvider>
                     <div
-                        className="cb-oat-graph-viewer-container"
+                        className={graphViewerStyles.container}
                         ref={reactFlowWrapperRef}
                     >
                         <ReactFlow
@@ -106,7 +106,7 @@ const OATGraphViewer = () => {
                             edgeTypes={edgeTypes}
                         >
                             <PrimaryButton
-                                className="cb-oat-graph-viewer-button"
+                                className={graphViewerStyles.button}
                                 onClick={onNewModelClick}
                                 text={t('OATGraphViewer.newModel')}
                             />
