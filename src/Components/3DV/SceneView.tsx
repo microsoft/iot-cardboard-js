@@ -96,8 +96,8 @@ async function loadPromise(
             r,
             f,
             engine,
-            (container) => {
-                resolve(container);
+            (scene) => {
+                resolve(scene);
             },
             (e) => onProgress(e),
             (s, m, e) => onError(s, m, e)
@@ -341,7 +341,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
             ) as HTMLCanvasElement; // Get the canvas element
             const engine = new BABYLON.Engine(canvas, true, { stencil: true }); // Generate the BABYLON 3D engine
             engineRef.current = engine;
-            // const sc = new BABYLON.Scene(engine);
             if (modelUrl) {
                 const n = url.lastIndexOf('/') + 1;
                 load(getToken, url.substring(0, n), url.substring(n));
