@@ -1,6 +1,7 @@
 import {
     DefaultButton,
     Label,
+    mergeStyleSets,
     PrimaryButton,
     TextField,
     useTheme
@@ -66,7 +67,7 @@ const TwinAliasForm: React.FC<{
         [formData, setFormData]
     );
 
-    const onSaveTwinAliasForm = () => {
+    const onSaveTwinAliasForm = useCallback(() => {
         if (twinAliasFormInfo.mode === TwinAliasFormMode.EditTwinAlias) {
             setBehaviorToEdit(
                 produce((draft) => {
@@ -102,7 +103,7 @@ const TwinAliasForm: React.FC<{
         setSelectedElements(newSelectedElements);
         setTwinAliasFormInfo(null);
         setFormData(null);
-    };
+    }, [twinAliasFormInfo, formData, selectedElements]);
 
     useEffect(() => {
         const isValid =
@@ -134,25 +135,34 @@ const TwinAliasForm: React.FC<{
                         '3dSceneBuilder.twinAlias.descriptions.aliasChangeNotAllowed'
                     )}
                 />
-                <Label styles={{ root: { paddingTop: 16 } }}>
-                    {t(
-                        '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappings'
-                    )}
-                </Label>
-                {selectedElements?.map((element, idx) => (
-                    <TwinSearchDropdown
-                        key={`aliased-twin-${idx}`}
-                        styles={{ paddingBottom: 16 }}
-                        adapter={adapter}
-                        label={element.displayName}
-                        labelIconName="Shapes"
-                        selectedTwinId={element.twinAliases?.[formData.alias]}
-                        onTwinIdSelect={(selectedTwinId: string) => {
-                            handleTwinSelect(element.id, selectedTwinId);
-                        }}
-                        isDescriptionHidden={true}
-                    />
-                ))}
+                <div className={styles.elementTwinMappingsSection}>
+                    <Label>
+                        {t(
+                            '3dSceneBuilder.twinAlias.twinAliasForm.elementTwinMappings'
+                        )}
+                    </Label>
+                    <div className={styles.elementTwinMappingsWrapper}>
+                        {selectedElements?.map((element, idx) => (
+                            <TwinSearchDropdown
+                                key={`aliased-twin-${idx}`}
+                                styles={{ paddingBottom: 16 }}
+                                adapter={adapter}
+                                label={element.displayName}
+                                labelIconName="Shapes"
+                                selectedTwinId={
+                                    element.twinAliases?.[formData.alias]
+                                }
+                                onTwinIdSelect={(selectedTwinId: string) => {
+                                    handleTwinSelect(
+                                        element.id,
+                                        selectedTwinId
+                                    );
+                                }}
+                                isDescriptionHidden={true}
+                            />
+                        ))}
+                    </div>
+                </div>
             </div>
             <PanelFooter>
                 <PrimaryButton
@@ -178,5 +188,19 @@ const TwinAliasForm: React.FC<{
         </>
     );
 };
+
+const styles = mergeStyleSets({
+    elementTwinMappingsSection: {
+        paddingTop: 16,
+        overflow: 'auto'
+    },
+    elementTwinMappingsWrapper: {
+        overflowX: 'hidden',
+        overflowY: 'auto',
+        '.cb-search-autocomplete-container': {
+            position: 'unset !important'
+        }
+    }
+});
 
 export default TwinAliasForm;

@@ -40,7 +40,6 @@ export const getPanelFormStyles = memoizeFunction(
             header: [
                 classNames.header,
                 {
-                    overflow: 'hidden',
                     padding: '0 0 4px'
                 } as IStyle
             ],

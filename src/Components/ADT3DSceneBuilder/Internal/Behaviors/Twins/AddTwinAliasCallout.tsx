@@ -91,6 +91,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                 ) : (
                     <div className={styles.listRoot}>
                         <CardboardList<ITwinAliasItem>
+                            listProps={{ className: styles.list }}
                             items={listItems}
                             listKey={`twin-alias-callout-list`}
                             textToHighlight={searchText}
@@ -139,6 +140,13 @@ const styles = mergeStyleSets({
     },
     listRoot: {
         paddingTop: 8
+    },
+    list: {
+        '.ms-List-surface': {
+            maxHeight: 200,
+            overflowX: 'hidden',
+            overflowY: 'auto'
+        }
     },
     resultText: {
         fontSize: '12px',
