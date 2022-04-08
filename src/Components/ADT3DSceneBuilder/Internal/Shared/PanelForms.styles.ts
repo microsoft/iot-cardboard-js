@@ -34,8 +34,7 @@ export const getPanelFormStyles = memoizeFunction(
                     display: 'flex',
                     flex: 1,
                     flexDirection: 'column',
-                    overflow: 'hidden',
-                    position: 'relative'
+                    overflow: 'hidden'
                 } as IStyle
             ],
             header: [

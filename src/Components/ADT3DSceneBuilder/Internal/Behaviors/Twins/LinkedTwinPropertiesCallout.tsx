@@ -7,12 +7,14 @@ import {
     Text,
     useTheme,
     Spinner,
-    SpinnerSize
+    SpinnerSize,
+    memoizeFunction,
+    mergeStyleSets,
+    IStyle
 } from '@fluentui/react';
 import { IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps } from '../../../ADT3DSceneBuilder.types';
-import { CardboardList } from '../../../../CardboardList';
-import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import { CardboardBasicList } from '../../../../CardboardBasicList/CardboardBasicList';
 
 const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinPropertiesCalloutProps> = ({
     commonLinkedTwinProperties,
@@ -36,10 +38,6 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
         },
         [commonLinkedTwinProperties]
     );
-
-    const listItems = useMemo(() => getListItems(filteredProperties), [
-        filteredProperties
-    ]);
 
     useEffect(() => {
         setFilteredProperties(commonLinkedTwinProperties);
@@ -76,8 +74,9 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
             {isLoading ? (
                 <Spinner size={SpinnerSize.xSmall} />
             ) : (
-                <CardboardList<string>
-                    items={listItems}
+                <CardboardBasicList
+                    className={getListStyle.root}
+                    items={filteredProperties}
                     listKey={`common-properties-callout-list`}
                     textToHighlight={searchText}
                 />
@@ -86,19 +85,12 @@ const LinkedTwinPropertiesCallout: React.FC<IADT3DSceneBuilderLinkedTwinProperti
     );
 };
 
-function getListItems(filteredProperties: Array<string>) {
-    return (
-        filteredProperties?.map((item) => {
-            const viewModel: ICardboardListItem<string> = {
-                ariaLabel: '',
-                item: item,
-                openMenuOnClick: true,
-                textPrimary: item
-            };
-
-            return viewModel;
-        }) ?? []
-    );
-}
+const getListStyle = mergeStyleSets({
+    root: {
+        '.cb-basic-list-item-root': {
+            padding: '8px 12px 8px 0'
+        } as IStyle
+    }
+});
 
 export default LinkedTwinPropertiesCallout;

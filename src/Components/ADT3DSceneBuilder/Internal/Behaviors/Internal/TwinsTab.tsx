@@ -186,7 +186,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
             <Text className={commonPanelStyles.text}>
                 {t('3dSceneBuilder.twinAlias.descriptions.twins')}
             </Text>
-            <div className={commonPanelStyles.section}>
+            <div>
                 <Label>{t('3dSceneBuilder.linkedTwin')}</Label>
                 <Text className={commonPanelStyles.text}>
                     {t('3dSceneBuilder.twinAlias.descriptions.linkedTwin')}
@@ -206,24 +206,26 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     />
                 )}
             </div>
-            <Label>{t('3dSceneBuilder.twinAlias.titlePlural')}</Label>
-            {twinAliasList.length === 0 ? (
-                <div className={commonPanelStyles.noDataText}>
-                    {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
-                </div>
-            ) : (
-                <CardboardList<ITwinAliasItem>
-                    items={twinAliasList}
-                    listKey={`behavior-aliased-twin-list`}
+            <div>
+                <Label>{t('3dSceneBuilder.twinAlias.titlePlural')}</Label>
+                {twinAliasList.length === 0 ? (
+                    <div className={commonPanelStyles.noDataText}>
+                        {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
+                    </div>
+                ) : (
+                    <CardboardList<ITwinAliasItem>
+                        items={twinAliasList}
+                        listKey={`behavior-aliased-twin-list`}
+                    />
+                )}
+                <ActionButton
+                    id={addAliasCalloutTargetId}
+                    className={commonPanelStyles.actionButton}
+                    text={t('3dSceneBuilder.twinAlias.add')}
+                    data-testid={'widgetForm-addTwinAlias'}
+                    onClick={toggleIsAddTwinAliasCalloutVisible}
                 />
-            )}
-            <ActionButton
-                id={addAliasCalloutTargetId}
-                className={commonPanelStyles.actionButton}
-                text={t('3dSceneBuilder.twinAlias.add')}
-                data-testid={'widgetForm-addTwinAlias'}
-                onClick={toggleIsAddTwinAliasCalloutVisible}
-            />
+            </div>
             {isAddTwinAliasCalloutVisible && (
                 <AddTwinAliasCallout
                     calloutTarget={addAliasCalloutTargetId}

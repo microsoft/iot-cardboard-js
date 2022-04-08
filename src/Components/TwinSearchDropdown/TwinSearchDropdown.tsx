@@ -238,6 +238,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 }
                 isSearchable
                 isClearable
+                menuIsOpen
             />
             {!isDescriptionHidden && (
                 <Text

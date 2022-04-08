@@ -50,7 +50,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
 
     const theme = useTheme();
     return (
-        <FocusTrapCallout // TODO: make this callout reusable component since many subcomponents are using it
+        <FocusTrapCallout
             focusTrapProps={{
                 isClickableOutsideFocusTrap: true
             }}
@@ -73,7 +73,7 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                 <h4 className={styles.title}>
                     {t('3dSceneBuilder.twinAlias.add')}
                 </h4>
-                <div>
+                {availableTwinAliases.length > 0 && (
                     <SearchBox
                         data-testid={'twin-alias-callout-search'}
                         placeholder={t('3dSceneBuilder.twinAlias.search')}
@@ -82,20 +82,22 @@ const AddTwinAliasCallout: React.FC<IADT3DSceneBuilderAddTwinAliasCalloutProps> 
                             searchTwinAliases(value);
                         }}
                     />
-                </div>
-                <div className={styles.listRoot}>
-                    {listItems?.length === 0 ? (
-                        <div className={styles.resultText}>
-                            {t('3dSceneBuilder.twinAlias.noTwinAliasesToAdd')}
-                        </div>
-                    ) : (
+                )}
+
+                {listItems?.length === 0 ? (
+                    <div className={styles.resultText}>
+                        {t('3dSceneBuilder.twinAlias.noTwinAliasesToAdd')}
+                    </div>
+                ) : (
+                    <div className={styles.listRoot}>
                         <CardboardList<ITwinAliasItem>
                             items={listItems}
                             listKey={`twin-alias-callout-list`}
                             textToHighlight={searchText}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
+
                 <PrimaryButton
                     styles={{
                         root: {
