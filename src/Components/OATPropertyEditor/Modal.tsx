@@ -58,13 +58,11 @@ export const Modal = ({
             setDisplayName(value);
         }
 
-        if (find) {
-            setError(true);
-        } else {
-            setError(false);
-        }
+        setError(!!find);
 
-        return find ? `A property with the same name already exists` : '';
+        return find
+            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+            : '';
     };
 
     return (
@@ -138,7 +136,7 @@ export const Modal = ({
 
             <Stack className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Text className={propertyInspectorStyles.modalColumnLeftItem}>
-                    Semantic Type
+                    {t('OATPropertyEditor.semanticType')}
                 </Text>
                 <TextField
                     placeholder="current..."

@@ -54,7 +54,9 @@ const OATPropertyEditor = ({
             handlePropertyNameChange(value);
         }
 
-        return find ? `A property with the same name already exists` : '';
+        return find
+            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
+            : '';
     };
 
     return (
@@ -78,8 +80,10 @@ const OATPropertyEditor = ({
                                 borderless
                                 placeholder={model.displayName}
                                 onChange={(_ev, value) => {
-                                    const modelCopy = Object.assign({}, model);
-                                    modelCopy.displayName = value;
+                                    const modelCopy = {
+                                        ...model,
+                                        displayName: value
+                                    };
                                     setModel(modelCopy);
                                 }}
                             />
@@ -93,8 +97,10 @@ const OATPropertyEditor = ({
                                 borderless
                                 placeholder={model['@id']}
                                 onChange={(_ev, value) => {
-                                    const modelCopy = Object.assign({}, model);
-                                    modelCopy['@id'] = value;
+                                    const modelCopy = {
+                                        ...model,
+                                        '@id': value
+                                    };
                                     setModel(modelCopy);
                                 }}
                             />
@@ -108,8 +114,10 @@ const OATPropertyEditor = ({
                                 borderless
                                 placeholder={model['@type']}
                                 onChange={(_ev, value) => {
-                                    const modelCopy = Object.assign({}, model);
-                                    modelCopy['@type'] = value;
+                                    const modelCopy = {
+                                        ...model,
+                                        '@type': value
+                                    };
                                     setModel(modelCopy);
                                 }}
                             />

@@ -691,10 +691,11 @@
         "comment": "Comment",
         "description": "Description",
         "writable": "Writable",
-        "semanticType": "semanticType",
+        "semanticType": "Semantic Type",
         "unit": "Unit",
         "id": "Id",
         "update": "Update",
-        "primitive": "Primitive"
+        "primitive": "Primitive",
+        "errorRepeatedPropertyName": "A property with the same name already exists"
     }
 }
