@@ -9,18 +9,12 @@ const OATEditorPage = () => {
     const [elementHandler, setElementHandler] = useState([]);
     const EditorPageStyles = getEditorPageStyles();
 
-    const onHandleElementsUpdate = (newElements) => {
-        setElementHandler(newElements);
-    };
-
     return (
         <div className={EditorPageStyles.container}>
             <OATHeader elements={elementHandler} />
             <div className={EditorPageStyles.component}>
                 <OATModelList />
-                <OATGraphViewer
-                    onHandleElementsUpdate={onHandleElementsUpdate}
-                />
+                <OATGraphViewer setElementHandler={setElementHandler} />
                 <OATPropertyEditor />
             </div>
         </div>

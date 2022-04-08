@@ -22,10 +22,10 @@ import { ElementsContext } from './Internal/OATContext';
 import { E } from 'tsiclient/EllipsisMenu-9ca7bfca';
 
 type OATGraphProps = {
-    onHandleElementsUpdate: () => any;
+    setElementHandler: () => any;
 };
 
-const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
+const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef(null);
@@ -134,7 +134,13 @@ const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
 
     const storeElements = () => {
         const nodePositions = [];
-        elements.forEach((element) => {
+        elements.reduce((initial, element) => {
+            if (initial) {
+                nodePositions.push({
+                    id: initial.id,
+                    position: initial.position
+                });
+            }
             if (!element.source) {
                 nodePositions.push({
                     id: element.id,
@@ -182,7 +188,7 @@ const OATGraphViewer = ({ onHandleElementsUpdate }: OATGraphProps) => {
             TwinsLocalStorageKey,
             JSON.stringify({ digitalTwinsModels: nodes })
         );
-        onHandleElementsUpdate({ digitalTwinsModels: nodes });
+        setElementHandler({ digitalTwinsModels: nodes });
     };
 
     return (
