@@ -625,7 +625,7 @@ export default class MockAdapter
         return twins;
     }
 
-    async getTwinPropertiesForBehavior(
+    async getTwinPropertiesWithAliasesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior,

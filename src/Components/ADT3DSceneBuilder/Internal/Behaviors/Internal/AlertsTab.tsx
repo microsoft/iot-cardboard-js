@@ -64,7 +64,12 @@ const AlertsTab: React.FC = () => {
 
     if (!aliasedProperties) {
         adapter
-            .getTwinPropertiesForBehavior(sceneId, config, behaviorToEdit, true)
+            .getTwinPropertiesWithAliasesForBehavior(
+                sceneId,
+                config,
+                behaviorToEdit,
+                true
+            )
             .then((properties) => {
                 setAliasedProperties(properties);
             });

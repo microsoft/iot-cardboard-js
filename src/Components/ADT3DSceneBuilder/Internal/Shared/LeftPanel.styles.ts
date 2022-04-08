@@ -64,7 +64,7 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.actionButton,
             {
                 fontSize: FontSizes.size14,
-                color: 'var(--cb-color-theme-primary)',
+                color: theme.palette.themePrimary,
                 paddingLeft: 0,
                 span: { margin: 0 }
             } as IStyle
@@ -72,7 +72,6 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
         text: [
             classNames.text,
             {
-                color: theme.palette.neutralSecondary,
                 padding: '4px 0',
                 display: 'block'
             } as IStyle

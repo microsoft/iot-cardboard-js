@@ -1,3 +1,4 @@
+import { deepCopy } from '../Services/Utils';
 import {
     I3DScenesConfig,
     IAlertVisual,
@@ -23,7 +24,7 @@ import {
 abstract class ViewerConfigUtility {
     /** Add new scene to config file */
     static addScene(config: I3DScenesConfig, scene: IScene): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.push(scene);
         return updatedConfig;
     }
@@ -37,7 +38,7 @@ abstract class ViewerConfigUtility {
         const sceneIndex: number = config.configuration.scenes.findIndex(
             (s) => s.id === sceneId
         );
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes[sceneIndex] = scene;
 
         return updatedConfig;
@@ -51,7 +52,7 @@ abstract class ViewerConfigUtility {
         const sceneIndex: number = config.configuration.scenes.findIndex(
             (s) => s.id === sceneId
         );
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
         return updatedConfig;
     }
@@ -62,7 +63,7 @@ abstract class ViewerConfigUtility {
         sceneId: string,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.behaviors.push(behavior);
         updatedConfig.configuration.scenes
             .find((scene) => scene.id === sceneId)
@@ -77,7 +78,7 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
 
         // Update modified behavior
         const behaviorIdx = updatedConfig.configuration.behaviors.findIndex(
@@ -94,7 +95,7 @@ abstract class ViewerConfigUtility {
         sceneId: string,
         behavior: IBehavior
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes
             .find((scene) => scene.id === sceneId)
             ?.behaviorIDs?.push(behavior.id);
@@ -110,7 +111,7 @@ abstract class ViewerConfigUtility {
         behaviorId: string,
         removeFromAllScenes?: boolean
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
+        const updatedConfig = deepCopy(config);
 
         // Remove behavior from active scene
         const activeScene = updatedConfig.configuration.scenes.find(
@@ -171,14 +172,19 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
-    // Update only the passed elements in a scene
+    /**
+     * Update only passed list of elements in a scene in config
+     * @param config the config to edit
+     * @param sceneId the scene Id where the elements to be updated are in
+     * @returns the updated config
+     */
     static editElements(
         config: I3DScenesConfig,
         sceneId: string,
-        elements: Array<ITwinToObjectMapping>
+        updatedElements: Array<ITwinToObjectMapping>
     ): I3DScenesConfig {
-        const updatedConfig = { ...config };
-        const updatedElementIds = elements.map((e) => e.id);
+        const updatedConfig = deepCopy(config);
+        const updatedElementIds = updatedElements.map((e) => e.id);
         const activeSceneIdx = updatedConfig.configuration.scenes.findIndex(
             (scene) => scene.id === sceneId
         );
@@ -191,7 +197,7 @@ abstract class ViewerConfigUtility {
         );
         updatedConfig.configuration.scenes[activeSceneIdx].elements = [
             ...unchangedSceneElements,
-            ...elements
+            ...updatedElements
         ];
 
         return updatedConfig;
@@ -624,7 +630,7 @@ abstract class ViewerConfigUtility {
         alias: string,
         aliasedTwinId: string
     ): void {
-        if (aliasedTwinId) {
+        if (element && alias && aliasedTwinId) {
             if (element.twinAliases) {
                 element.twinAliases[alias] = aliasedTwinId;
             } else {
@@ -672,7 +678,7 @@ abstract class ViewerConfigUtility {
      * @param selectedElements list of elements existing/selected in a behavior from scene
      * @returns list of twin alias items available to add to a behavior
      */
-    static getAvailableTwinAliasItemsFromSceneForBehavior = (
+    static getAvailableTwinAliasItemsBySceneAndElements = (
         config,
         sceneId,
         selectedElements

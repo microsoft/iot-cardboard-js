@@ -979,7 +979,7 @@ export default class ADTAdapter implements IADTAdapter {
         return twins;
     }
 
-    async getTwinPropertiesForBehavior(
+    async getTwinPropertiesWithAliasesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
         behavior: IBehavior,

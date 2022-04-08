@@ -173,7 +173,7 @@ const WidgetForm: React.FC = () => {
     useEffect(() => {
         if (!aliasedProperties) {
             adapter
-                .getTwinPropertiesForBehavior(
+                .getTwinPropertiesWithAliasesForBehavior(
                     sceneId,
                     config,
                     behaviorToEdit,

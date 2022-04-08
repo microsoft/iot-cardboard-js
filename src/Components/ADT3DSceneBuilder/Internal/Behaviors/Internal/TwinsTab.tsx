@@ -77,7 +77,6 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         isFullName: false,
         isTwinAliasesIncluded: false
     });
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
 
     useEffect(() => {
         setLinkedTwinList(
@@ -103,7 +102,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     }, [behaviorToEdit, selectedElements]);
 
     useEffect(() => {
-        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableTwinAliasItemsFromSceneForBehavior(
+        const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableTwinAliasItemsBySceneAndElements(
             config,
             sceneId,
             selectedElements
@@ -181,6 +180,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         [commonLinkedTwinProperties]
     );
 
+    const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>

@@ -5,13 +5,13 @@ import { IBehavior } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 interface IUseBehaviorTwinPropertyNamesParams {
     behavior: IBehavior;
-    isFullName?: boolean; // if the property name in return should be prefixed by its alias, e.g "LinkedTwin.Temperature" or "SpeedTag.Speed" if it is from twin alias as opposed to "Temperature" or "Speed" alone
-    isTwinAliasesIncluded?: boolean;
+    isFullName: boolean; // if the property name in return should be prefixed by its alias, e.g "LinkedTwin.Temperature" or "SpeedTag.Speed" if it is from twin alias as opposed to "Temperature" or "Speed" alone
+    isTwinAliasesIncluded: boolean;
 }
 const useBehaviorTwinPropertyNames = ({
     behavior,
-    isFullName = true,
-    isTwinAliasesIncluded = true
+    isFullName,
+    isTwinAliasesIncluded
 }: IUseBehaviorTwinPropertyNamesParams) => {
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
     const [options, setOptions] = useState<
@@ -27,7 +27,7 @@ const useBehaviorTwinPropertyNames = ({
                   behavior,
                   isTwinAliasesIncluded
               )
-            : adapter.getTwinPropertiesForBehavior(
+            : adapter.getTwinPropertiesWithAliasesForBehavior(
                   sceneId,
                   config,
                   behavior,
