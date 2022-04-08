@@ -48,6 +48,7 @@
         "@babylonjs/core": "^5.1.0",
         "@babylonjs/gui": "^5.1.0",
         "@babylonjs/loaders": "^5.1.0",
+        "@babylonjs/serializers": "^5.1.0",
         "@rollup/plugin-commonjs": "^17.0.0",
         "@rollup/plugin-eslint": "^8.0.1",
         "@rollup/plugin-image": "^2.1.1",
