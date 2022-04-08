@@ -42,7 +42,7 @@ export const Modal = ({
                 ? [...activeProperty['@type'], ...[semanticType]]
                 : activeProperty['@type'],
             unit: unit ? unit : activeProperty.unit,
-            '@id': id ? id : activeProperty.unit
+            '@id': id ? id : activeProperty['@id']
         };
 
         const modelCopy = Object.assign({}, model);

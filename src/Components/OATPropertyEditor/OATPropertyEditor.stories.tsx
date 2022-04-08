@@ -6,7 +6,7 @@ export default {
     component: OATPropertyEditor
 };
 
-export const Default = () => {
+export const Default = (_args, { globals: { theme } }) => {
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
         '@type': 'Interface',
@@ -34,6 +34,7 @@ export const Default = () => {
                 setModel={setModel}
                 currentPropertyIndex={currentPropertyIndex}
                 setCurrentPropertyIndex={setCurrentPropertyIndex}
+                theme={theme}
             />
         </div>
     );
