@@ -162,6 +162,9 @@ export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 export const ElementsLocalStorageKey = 'oat-elements';
 export const TwinsLocalStorageKey = 'oat-twins';
 export const PositionsLocalStorageKey = 'oat-positions';
+export const RelationshipHandleName = 'Relationship';
+export const ComponentHandleName = 'Component';
+export const ExtendHandleName = 'Extend';
 
 export const defaultValueRangeColor = '#FF0000';
 

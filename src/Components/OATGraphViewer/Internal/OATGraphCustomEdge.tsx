@@ -64,8 +64,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 style={style}
                 className={graphViewerStyles.edgePath}
                 d={edgePath}
-                markerEnd={markerEnd}
                 onClick={onNameClick}
+                markerEnd={markerEnd}
             />
             {nameEditor && (
                 <foreignObject

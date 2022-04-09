@@ -7,6 +7,9 @@ const classNames = {
     button: `${classPrefix}-button`,
     node: `${classPrefix}-node`,
     handle: `${classPrefix}-handle`,
+    componentHandle: `${classPrefix}-component-handle`,
+    relationshipHandle: `${classPrefix}-relationship-handle`,
+    extendHandle: `${classPrefix}-extend-handle`,
     edgePath: `${classPrefix}-edge-path`,
     textPath: `${classPrefix}-text-path`,
     nodeCancel: `${classPrefix}-node-cancel`
@@ -40,6 +43,26 @@ export const getGraphViewerStyles = () => {
         handle: [
             classNames.handle,
             {
+                background: theme.semanticColors.variantBorder
+            } as IStyle
+        ],
+        componentHandle: [
+            classNames.componentHandle,
+            {
+                left: '25% !Important',
+                background: theme.semanticColors.variantBorder
+            } as IStyle
+        ],
+        relationshipHandle: [
+            classNames.relationshipHandle,
+            {
+                background: theme.semanticColors.variantBorder
+            } as IStyle
+        ],
+        extendHandle: [
+            classNames.extendHandle,
+            {
+                left: '75% !Important',
                 background: theme.semanticColors.variantBorder
             } as IStyle
         ],

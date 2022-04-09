@@ -15,7 +15,10 @@ import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
     ElementsLocalStorageKey,
     TwinsLocalStorageKey,
-    PositionsLocalStorageKey
+    PositionsLocalStorageKey,
+    RelationshipHandleName,
+    ComponentHandleName,
+    ExtendHandleName
 } from '../../Models/Constants/Constants';
 import { getGraphViewerStyles } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
@@ -39,6 +42,7 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
     const [newModelId, setNewModelId] = useState(0);
     const graphViewerStyles = getGraphViewerStyles();
     const currentNodeId = useRef('');
+    const currentHandleId = useRef('');
 
     useEffect(() => {
         let nextModelId = newModelId;
@@ -88,66 +92,159 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
     };
 
     const onNodeDragStop = (evt, node) => {
+        let targetId = '';
+        elements.map((element) => {
+            if (element.id !== node.id && !element.source) {
+                if (
+                    node.position.x - 60 < element.position.x &&
+                    element.position.x < node.position.x + 60 &&
+                    node.position.y - 30 < element.position.y &&
+                    element.position.y < node.position.y + 30
+                )
+                    targetId = element.id;
+            }
+        });
+        const targetIndex = elements.findIndex(
+            (element) => element.id === targetId
+        );
         const index = elements.findIndex((element) => element.id === node.id);
-        elements[index].position = node.position;
-        setElements([...elements]);
+        if (targetIndex >= 0) {
+            const id = node.id;
+            if (node.data.type === elements[targetIndex].data.type) {
+                const params = {
+                    source: node.id,
+                    sourceHandle: ExtendHandleName,
+                    target: targetId,
+                    label: '',
+                    markerEnd: 'arrow',
+                    type: ExtendHandleName,
+                    data: {
+                        name: '',
+                        displayName: '',
+                        id: `${node.id}${ExtendHandleName}`,
+                        type: ExtendHandleName
+                    }
+                };
+                setElements((es) => addEdge(params, es));
+            } else {
+                let sourceId = '';
+                if (node.data.type === ComponentHandleName) {
+                    sourceId = targetId;
+                    targetId = node.id;
+                } else {
+                    sourceId = node.id;
+                }
+                const params = {
+                    source: sourceId,
+                    sourceHandle: ComponentHandleName,
+                    target: targetId,
+                    label: '',
+                    markerEnd: 'arrow',
+                    type: ComponentHandleName,
+                    data: {
+                        name: '',
+                        displayName: '',
+                        id: `${sourceId}${ComponentHandleName}`,
+                        type: ComponentHandleName
+                    }
+                };
+                setElements((es) => addEdge(params, es));
+            }
+            node.id = id;
+        } else {
+            elements[index].position = node.position;
+            setElements([...elements]);
+        }
     };
 
     const onConnectStart = (evt, params) => {
         currentNodeId.current = params.nodeId;
+        currentHandleId.current = params.handleId;
     };
 
     const onConnectStop = (evt) => {
         const params = {
             source: currentNodeId.current,
+            sourceHandle: currentHandleId.current,
             label: '',
-            arrowHeadType: 'arrowclosed',
-            type: 'Relationship',
+            markerEnd: 'arrow',
+            type: currentHandleId.current,
             data: {
                 name: '',
                 displayName: '',
-                id: `${currentNodeId.current}Relationship`,
-                type: 'Relationship'
+                id: `${currentNodeId.current}${currentHandleId.current}`,
+                type: currentHandleId.current
             }
         };
         try {
             const indexId = evt.path.findIndex((element) => element.dataset.id);
             params.target = evt.path[indexId].dataset.id;
-            setElements((els) => addEdge(params, els));
+            const targetType = elements.find(
+                (element) => element.id === params.target
+            ).data.type;
+            if (currentHandleId.current === targetType) {
+                setElements((els) => addEdge(params, els));
+            } else if (currentHandleId.current !== ComponentHandleName) {
+                setElements((els) => addEdge(params, els));
+            }
         } catch (error) {
             const nodeIndex = elements.findIndex(
                 (element) => element.id === currentNodeId.current
             );
-            const untargetedRelationship = {
-                '@type': 'Relationship',
-                '@id': `${currentNodeId.current}Relationship`,
-                name: '',
-                displayName: ''
-            };
-            elements[nodeIndex].data['content'] = [
-                ...elements[nodeIndex].data['content'],
-                untargetedRelationship
-            ];
-            setElements([...elements]);
+            if (currentHandleId.current === RelationshipHandleName) {
+                const untargetedRelationship = {
+                    '@type': currentHandleId.current,
+                    '@id': `${currentNodeId.current}${RelationshipHandleName}`,
+                    name: '',
+                    displayName: ''
+                };
+                elements[nodeIndex].data['content'] = [
+                    ...elements[nodeIndex].data['content'],
+                    untargetedRelationship
+                ];
+                setElements([...elements]);
+            } else if (currentHandleId.current === ComponentHandleName) {
+                const name = `${elements[nodeIndex].data.name}:${ComponentHandleName}`;
+                const id = `${elements[nodeIndex].id}:${ComponentHandleName}`;
+                const newNode = {
+                    id: id,
+                    type: 'Interface',
+                    position: {
+                        x: elements[nodeIndex].position.x - 120,
+                        y: elements[nodeIndex].position.y + 120
+                    },
+                    data: {
+                        name: name,
+                        type: ComponentHandleName,
+                        id: id,
+                        content: []
+                    }
+                };
+                params.target = id;
+                setElements((es) => es.concat(newNode));
+                setElements((es) => addEdge(params, es));
+            }
         }
     };
 
     const storeElements = () => {
         const nodePositions = [];
-        elements.reduce((initial, element) => {
-            if (initial) {
-                nodePositions.push({
-                    id: initial.id,
-                    position: initial.position
-                });
-            }
-            if (!element.source) {
-                nodePositions.push({
-                    id: element.id,
-                    position: element.position
-                });
-            }
-        });
+        if (elements.length > 0) {
+            elements.reduce((initial, element) => {
+                if (initial) {
+                    nodePositions.push({
+                        id: initial.id,
+                        position: initial.position
+                    });
+                }
+                if (!element.source) {
+                    nodePositions.push({
+                        id: element.id,
+                        position: element.position
+                    });
+                }
+            });
+        }
         localStorage.setItem(
             PositionsLocalStorageKey,
             JSON.stringify({ nodePositions })
@@ -168,20 +265,37 @@ const OATGraphViewer = ({ setElementHandler }: OATGraphProps) => {
                 };
                 nodes.push(node);
             } else if (item.source) {
-                const nodeIndex = nodes.findIndex(
+                const sourceNodeIndex = nodes.findIndex(
                     (element) => element['@id'] === item.source
                 );
-                const relationship = {
-                    '@type': item.data.type,
-                    '@id': item.data.id,
-                    name: item.data.name,
-                    displayName: item.data.displayName,
-                    target: item.target
-                };
-                nodes[nodeIndex].contents = [
-                    ...nodes[nodeIndex].contents,
-                    relationship
-                ];
+                const targetNodeIndex = nodes.findIndex(
+                    (element) => element['@id'] === item.target
+                );
+                if (item.sourceHandle === RelationshipHandleName) {
+                    const relationship = {
+                        '@type': item.data.type,
+                        '@id': item.data.id,
+                        name: item.data.name,
+                        displayName: item.data.displayName,
+                        target: item.target
+                    };
+                    nodes[sourceNodeIndex].contents = [
+                        ...nodes[sourceNodeIndex].contents,
+                        relationship
+                    ];
+                } else if (item.sourceHandle === ComponentHandleName) {
+                    const component = {
+                        '@type': item.data.type,
+                        name: nodes[targetNodeIndex].displayName,
+                        schema: item.target
+                    };
+                    nodes[sourceNodeIndex].contents = [
+                        ...nodes[sourceNodeIndex].contents,
+                        component
+                    ];
+                } else if (item.sourceHandle === ExtendHandleName) {
+                    nodes[sourceNodeIndex].extends = item.target;
+                }
             }
         });
         localStorage.setItem(
