@@ -23,7 +23,10 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import {
+    getActionButtonStyles,
+    getLeftPanelStyles
+} from '../../Shared/LeftPanel.styles';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { linkedTwinName } from '../../../../../Models/Constants/Constants';
 import {
@@ -69,6 +72,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         { toggle: toggleIsAddTwinAliasCalloutVisible }
     ] = useBoolean(false);
 
+    // get the property names to show the common properties in linked twins in the elements of the behavior
     const {
         options: commonLinkedTwinProperties,
         isLoading: isCommonLinkedTwinPropertiesLoading
@@ -78,6 +82,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         isTwinAliasesIncluded: false
     });
 
+    // set the single item linked twin list on mount
     useEffect(() => {
         setLinkedTwinList(
             getLinkedTwinListItems(
@@ -86,7 +91,10 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 linkedTwinPropertiesTargetId
             )
         );
+    }, []);
 
+    // when behavior to edit or selected elements (to keep track of element to twin id mappings) changes in Elements tab, update the twin alias list
+    useEffect(() => {
         const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromBehaviorAndElements(
             behaviorToEdit,
             selectedElements
@@ -101,6 +109,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         );
     }, [behaviorToEdit, selectedElements]);
 
+    // when any of the dependency changes, update the list of available twin aliases to sho in the add twin alias callout for behavior
     useEffect(() => {
         const availableTwinAliasesForBehavior = ViewerConfigUtility.getAvailableTwinAliasItemsBySceneAndElements(
             config,
@@ -124,6 +133,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         );
     }, [behaviors, config, sceneId, selectedElements, behaviorToEdit]);
 
+    // when adding a twin alias from available list, just update the twinAliases field in edited behavior to be reflected in config changes
     const onAddTwinAlias = useCallback((twinAlias: ITwinAliasItem) => {
         setBehaviorToEdit(
             produce((draft) => {
@@ -156,6 +166,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         [setTwinAliasFormInfo]
     );
 
+    // when removing a twin alias from behavior, just update the twinAliases field in edited behavior to be reflected in config changes
     const onTwinAliasRemoveFromBehavior = useCallback(
         (twinAliasItem: ITwinAliasItem) => {
             setBehaviorToEdit(
@@ -180,7 +191,9 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
         [commonLinkedTwinProperties]
     );
 
-    const commonPanelStyles = getLeftPanelStyles(useTheme());
+    const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+    const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <Stack tokens={sectionStackTokens}>
             <Text className={commonPanelStyles.text}>
@@ -220,7 +233,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                 )}
                 <ActionButton
                     id={addAliasCalloutTargetId}
-                    className={commonPanelStyles.actionButton}
+                    styles={actionButtonStyles}
                     text={t('3dSceneBuilder.twinAlias.add')}
                     data-testid={'widgetForm-addTwinAlias'}
                     onClick={toggleIsAddTwinAliasCalloutVisible}

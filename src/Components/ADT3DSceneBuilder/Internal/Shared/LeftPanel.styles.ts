@@ -5,7 +5,8 @@ import {
     IStyle,
     Theme,
     IPivotStyles,
-    ISeparatorStyles
+    ISeparatorStyles,
+    IButtonStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
@@ -60,15 +61,6 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 pointerEvents: 'none'
             } as IStyle
         ],
-        actionButton: [
-            classNames.actionButton,
-            {
-                fontSize: FontSizes.size14,
-                color: theme.palette.themePrimary,
-                paddingLeft: 0,
-                span: { margin: 0 }
-            } as IStyle
-        ],
         text: [
             classNames.text,
             {
@@ -93,3 +85,16 @@ export const leftPanelPivotStyles: Partial<IPivotStyles> = {
         marginBottom: 8
     }
 };
+export const getActionButtonStyles = memoizeFunction(
+    (theme: Theme): Partial<IButtonStyles> => ({
+        root: {
+            color: theme.palette.themePrimary,
+            height: 32,
+            paddingLeft: 0
+        },
+        flexContainer: { height: 32 },
+        label: {
+            margin: 0
+        }
+    })
+);

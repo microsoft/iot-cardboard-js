@@ -602,9 +602,10 @@ export default class MockAdapter
                 console.error(err);
             }
 
-            if (isTwinAliasesIncluded) {
+            if (isTwinAliasesIncluded && behavior.twinAliases) {
                 // get aliased twins if exist
-                behavior.twinAliases?.forEach(async (twinAliasInBehavior) => {
+                for (let i = 0; i < behavior.twinAliases.length; i++) {
+                    const twinAliasInBehavior = behavior.twinAliases[i];
                     if (element.twinAliases?.[twinAliasInBehavior]) {
                         try {
                             const twin = await this.getADTTwin(
@@ -614,12 +615,11 @@ export default class MockAdapter
                                 `${twinAliasInBehavior}.` +
                                     element.twinAliases[twinAliasInBehavior]
                             ] = twin.result?.data;
-                            console.log(twinAliasInBehavior);
                         } catch (err) {
                             console.error(err);
                         }
                     }
-                });
+                }
             }
         }
         return twins;

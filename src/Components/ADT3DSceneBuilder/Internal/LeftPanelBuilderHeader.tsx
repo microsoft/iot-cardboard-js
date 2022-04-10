@@ -2,7 +2,10 @@ import { FontIcon, Separator } from '@fluentui/react';
 import React from 'react';
 import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../..';
 import i18n from '../../../i18n';
-import { TwinAliasFormMode } from '../../../Models/Constants';
+import {
+    CardboardIconNames,
+    TwinAliasFormMode
+} from '../../../Models/Constants';
 import { TwinAliasFormInfo, WidgetFormInfo } from '../ADT3DSceneBuilder.types';
 
 interface Props {
@@ -18,7 +21,7 @@ export const getLeftPanelBuilderHeaderParams = (
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName = 'Ringer';
+        iconName: '' | CardboardIconNames = 'Ringer';
 
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
