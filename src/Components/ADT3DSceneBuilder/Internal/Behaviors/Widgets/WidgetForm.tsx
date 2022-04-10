@@ -89,21 +89,22 @@ const WidgetForm: React.FC = () => {
         IAliasedTwinProperty[]
     >(null);
 
-    const getPropertyNames = (twinAlias: string) => {
-        return aliasedProperties
-            .filter((aP) => aP.alias === twinAlias)
-            .map((aP) => aP.property);
-    };
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
-    const propertyAliases = useMemo(() => {
-        const aliases = [];
-        aliasedProperties?.forEach((aP) => {
-            if (!aliases.includes(aP.alias)) {
-                aliases.push(aP.alias);
-            }
-        });
-        return aliases;
-    }, [aliasedProperties]);
+    const propertyAliases = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
 

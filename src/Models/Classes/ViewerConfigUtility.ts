@@ -1,3 +1,4 @@
+import { IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy } from '../Services/Utils';
 import {
     I3DScenesConfig,
@@ -762,6 +763,40 @@ abstract class ViewerConfigUtility {
         });
 
         return twinAliases;
+    };
+
+    /**
+     * Gets an alias and list of aliased properties
+     * Returns the name of the properties having that alias
+     * @param alias
+     * @param aliasedProperties
+     * @returns string list of property names
+     */
+    static getPropertyNamesFromAliasedPropertiesByAlias = (
+        alias: string,
+        aliasedProperties: Array<IAliasedTwinProperty>
+    ): Array<string> => {
+        return aliasedProperties
+            .filter((aP) => aP.alias === alias)
+            .map((aP) => aP.property);
+    };
+
+    /**
+     * Gets an list of aliased properties
+     * Returns list of unique aliases
+     * @param aliasedProperties
+     * @returns string list of aliases
+     */
+    static getUniqueAliasNamesFromAliasedProperties = (
+        aliasedProperties: Array<IAliasedTwinProperty>
+    ): Array<string> => {
+        const aliases = [];
+        aliasedProperties?.forEach((aP) => {
+            if (!aliases.includes(aP.alias)) {
+                aliases.push(aP.alias);
+            }
+        });
+        return aliases;
     };
 }
 

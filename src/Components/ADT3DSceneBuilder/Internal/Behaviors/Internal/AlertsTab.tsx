@@ -75,11 +75,14 @@ const AlertsTab: React.FC = () => {
             });
     }
 
-    function getPropertyNames(twinAlias: string) {
-        return aliasedProperties
-            .filter((aP) => aP.alias === twinAlias)
-            .map((aP) => aP.property);
-    }
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     const setProperty = useCallback(
         (propertyName: keyof IAlertVisual, value: string) => {
@@ -143,15 +146,13 @@ const AlertsTab: React.FC = () => {
         [setProperty]
     );
 
-    const aliasNames = useMemo(() => {
-        const aliases = [];
-        aliasedProperties?.forEach((aP) => {
-            if (!aliases.includes(aP.alias)) {
-                aliases.push(aP.alias);
-            }
-        });
-        return aliases;
-    }, [aliasedProperties]);
+    const aliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
