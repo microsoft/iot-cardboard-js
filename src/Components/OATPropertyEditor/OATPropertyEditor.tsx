@@ -1,36 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     FontIcon,
-    TextField,
-    ActionButton,
     Stack,
     Pivot,
     PivotItem,
     Label,
-    Text
+    Text,
+    ActionButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import PropertySelector from './PropertySelector';
+import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
-
-const data = {
-    propertyTags: {
-        primitive: [
-            'boolean',
-            'data',
-            'dataTime',
-            'double',
-            'duration',
-            'float',
-            'integer',
-            'long',
-            'string',
-            'time'
-        ]
-    }
-};
+import TemplateColumn from './TemplateColumn';
+import PropertiesModelSummary from './PropertiesModelSummary';
 
 const OATPropertyEditor = ({
     model,
@@ -38,13 +22,22 @@ const OATPropertyEditor = ({
     setModalOpen,
     currentPropertyIndex,
     setCurrentPropertyIndex,
-    theme
+    theme,
+    templates,
+    setTemplates
 }) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
+    const [templatesActive, setTemplatesActive] = useState(false);
+    const [draggingTemplate, setDraggingTemplate] = useState(false);
+    const [draggingProperty, setDraggingProperty] = useState(false);
+    const draggedTemplateItem = useRef(null);
+    const draggedPropertyItem = useRef(null);
+    const enteredTemplate = useRef(null);
+    const enteredProperty = useRef(null);
 
     const handlePropertyNameChange = (value) => {
         model.contents[currentPropertyIndex].name = value;
@@ -66,70 +59,15 @@ const OATPropertyEditor = ({
         <BaseComponent theme={theme}>
             <Stack className={propertyInspectorStyles.container}>
                 <Pivot
+                    className={propertyInspectorStyles.pivot}
                     aria-label="Large Link Size Pivot Example"
                     linkSize="large"
                 >
                     <PivotItem headerText="Properties">
-                        <Stack
-                            className={
-                                propertyInspectorStyles.gridGeneralPropertiesWrap
-                            }
-                        >
-                            <Label>{`${t(
-                                'OATPropertyEditor.displayName'
-                            )} (3)`}</Label>
-                            <Stack className={propertyInspectorStyles.gridRow}>
-                                <Text>{t('OATPropertyEditor.general')}</Text>
-                                <TextField
-                                    className={
-                                        propertyInspectorStyles.propertyItemTextField
-                                    }
-                                    borderless
-                                    placeholder={model.displayName}
-                                    onChange={(_ev, value) => {
-                                        const modelCopy = {
-                                            ...model,
-                                            displayName: value
-                                        };
-                                        setModel(modelCopy);
-                                    }}
-                                />
-                            </Stack>
-                            <Stack className={propertyInspectorStyles.gridRow}>
-                                <Text>{t('OATPropertyEditor.assetId')}</Text>
-                                <TextField
-                                    className={
-                                        propertyInspectorStyles.propertyItemTextField
-                                    }
-                                    borderless
-                                    placeholder={model['@id']}
-                                    onChange={(_ev, value) => {
-                                        const modelCopy = {
-                                            ...model,
-                                            '@id': value
-                                        };
-                                        setModel(modelCopy);
-                                    }}
-                                />
-                            </Stack>
-                            <Stack className={propertyInspectorStyles.gridRow}>
-                                <Text>{t('OATPropertyEditor.type')}</Text>
-                                <TextField
-                                    className={
-                                        propertyInspectorStyles.propertyItemTextField
-                                    }
-                                    borderless
-                                    placeholder={model['@type']}
-                                    onChange={(_ev, value) => {
-                                        const modelCopy = {
-                                            ...model,
-                                            '@type': value
-                                        };
-                                        setModel(modelCopy);
-                                    }}
-                                />
-                            </Stack>
-                        </Stack>
+                        <PropertiesModelSummary
+                            model={model}
+                            setModel={setModel}
+                        />
                         <Stack>
                             <Stack
                                 className={propertyInspectorStyles.paddingWrap}
@@ -142,8 +80,11 @@ const OATPropertyEditor = ({
                                     <Label>
                                         {t('OATPropertyEditor.properties')}
                                     </Label>
-                                    <Stack
-                                        className={propertyInspectorStyles.row}
+                                    <ActionButton
+                                        onClick={() => setTemplatesActive(true)}
+                                        className={
+                                            propertyInspectorStyles.viewTemplatesCta
+                                        }
                                     >
                                         <FontIcon
                                             className={
@@ -156,7 +97,7 @@ const OATPropertyEditor = ({
                                                 'OATPropertyEditor.viewTemplates'
                                             )}
                                         </Text>
-                                    </Stack>
+                                    </ActionButton>
                                 </Stack>
                             </Stack>
                             <Stack
@@ -186,110 +127,25 @@ const OATPropertyEditor = ({
                                 </Stack>
                             </Stack>
                         </Stack>
-                        <Stack
-                            className={propertyInspectorStyles.propertiesWrap}
-                        >
-                            {propertySelectorVisible && (
-                                <PropertySelector
-                                    data={data}
-                                    setPropertySelectorVisible={
-                                        setPropertySelectorVisible
-                                    }
-                                    model={model}
-                                    setModel={setModel}
-                                />
-                            )}
-                            {!propertySelectorVisible &&
-                                model.contents.length === 0 && (
-                                    <ActionButton
-                                        onClick={() =>
-                                            setPropertySelectorVisible(true)
-                                        }
-                                    >
-                                        <FontIcon
-                                            iconName={'CirclePlus'}
-                                            className={
-                                                propertyInspectorStyles.iconAddProperty
-                                            }
-                                        />
-                                        <Text>
-                                            {t('OATPropertyEditor.addProperty')}
-                                        </Text>
-                                    </ActionButton>
-                                )}
-                            {model.contents.length > 0 &&
-                                model.contents.map((item, i) => (
-                                    <Stack
-                                        key={i}
-                                        className={
-                                            propertyInspectorStyles.propertyItem
-                                        }
-                                    >
-                                        <TextField
-                                            className={
-                                                propertyInspectorStyles.propertyItemTextField
-                                            }
-                                            borderless
-                                            placeholder={item.name}
-                                            validateOnFocusOut
-                                            onChange={() => {
-                                                setCurrentPropertyIndex(i);
-                                            }}
-                                            onGetErrorMessage={getErrorMessage}
-                                        />
-                                        <Text>{item.schema}</Text>
-                                        <ActionButton
-                                            className={
-                                                propertyInspectorStyles.propertyItemIconWrap
-                                            }
-                                            onClick={() => {
-                                                setCurrentPropertyIndex(i);
-                                                setModalOpen(true);
-                                            }}
-                                        >
-                                            <FontIcon
-                                                iconName={'Info'}
-                                                className={
-                                                    propertyInspectorStyles.propertyItemIcon
-                                                }
-                                            />
-                                        </ActionButton>
-                                        <ActionButton
-                                            className={
-                                                propertyInspectorStyles.propertyItemIconWrap
-                                            }
-                                        >
-                                            <FontIcon
-                                                iconName={'More'}
-                                                className={
-                                                    propertyInspectorStyles.propertyItemIcon
-                                                }
-                                            />
-                                        </ActionButton>
-                                    </Stack>
-                                ))}
 
-                            {model.contents.length > 0 && (
-                                <Stack
-                                    className={
-                                        propertyInspectorStyles.addPropertyBar
-                                    }
-                                >
-                                    <ActionButton
-                                        onClick={() =>
-                                            setPropertySelectorVisible(true)
-                                        }
-                                    >
-                                        <FontIcon
-                                            iconName={'CirclePlus'}
-                                            className={
-                                                propertyInspectorStyles.addPropertyBarIcon
-                                            }
-                                        />
-                                    </ActionButton>
-                                </Stack>
-                            )}
-                        </Stack>
+                        <PropertyList
+                            propertySelectorVisible={propertySelectorVisible}
+                            setPropertySelectorVisible={
+                                setPropertySelectorVisible
+                            }
+                            model={model}
+                            setModel={setModel}
+                            setCurrentPropertyIndex={setCurrentPropertyIndex}
+                            setModalOpen={setModalOpen}
+                            getErrorMessage={getErrorMessage}
+                            setTemplates={setTemplates}
+                            enteredProperty={enteredProperty}
+                            draggingTemplate={draggingTemplate}
+                            enteredTemplate={enteredTemplate}
+                            draggedPropertyItem={draggedPropertyItem}
+                            draggingProperty={draggingProperty}
+                            setDraggingProperty={setDraggingProperty}
+                        />
                     </PivotItem>
                     <PivotItem headerText="Json">
                         <JSONEditor
@@ -299,6 +155,21 @@ const OATPropertyEditor = ({
                         />
                     </PivotItem>
                 </Pivot>
+                {templatesActive && (
+                    <TemplateColumn
+                        setTemplatesActive={setTemplatesActive}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        draggedTemplateItem={draggedTemplateItem}
+                        enteredProperty={enteredProperty}
+                        model={model}
+                        setModel={setModel}
+                        draggingTemplate={draggingTemplate}
+                        setDraggingTemplate={setDraggingTemplate}
+                        draggingProperty={draggingProperty}
+                        enteredTemplate={enteredTemplate}
+                    />
+                )}
             </Stack>
         </BaseComponent>
     );

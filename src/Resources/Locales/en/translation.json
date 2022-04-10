@@ -696,6 +696,8 @@
         "id": "Id",
         "update": "Update",
         "primitive": "Primitive",
-        "errorRepeatedPropertyName": "A property with the same name already exists"
+        "errorRepeatedPropertyName": "A property with the same name already exists",
+        "templates": "Templates",
+        "templateSearchPlaceholder": "Search name, id, property"
     }
 }

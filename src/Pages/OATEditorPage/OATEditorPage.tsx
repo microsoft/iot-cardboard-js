@@ -26,6 +26,28 @@ const OATEditorPage = () => {
             }
         ]
     });
+    const [templates, setTemplates] = useState([
+        {
+            '@id': 'dtmi:com:adt:model1:prop_template_0',
+            '@type': ['Property'],
+            name: 'prop_template_0',
+            schema: 'string',
+            writable: true,
+            comment: 'default comment',
+            description: 'default description',
+            unit: 'default unit'
+        },
+        {
+            '@id': 'dtmi:com:adt:model1:prop_template_1',
+            '@type': ['Property'],
+            name: 'prop_template_1',
+            schema: 'string',
+            writable: true,
+            comment: 'default comment',
+            description: 'default description',
+            unit: 'default unit'
+        }
+    ]);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
 
@@ -48,6 +70,9 @@ const OATEditorPage = () => {
                     setModalOpen={setModalOpen}
                     currentPropertyIndex={currentPropertyIndex}
                     setCurrentPropertyIndex={setCurrentPropertyIndex}
+                    templates={templates}
+                    setTemplates={setTemplates}
+                    theme="light"
                 />
             </div>
         </div>

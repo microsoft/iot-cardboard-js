@@ -4,9 +4,12 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
     container: `${classPrefix}-container`,
+    pivot: `${classPrefix}-pivot`,
+    templateColumn: `${classPrefix}-templates-column`,
     pivotContentWrap: `${classPrefix}-pivot-content-wrap`,
     gridGeneralPropertiesWrap: `${classPrefix}-general-properties-wrap`,
     row: `${classPrefix}-row`,
+    viewTemplatesCta: `${classPrefix}-view-templates-cta`,
     gridRow: `${classPrefix}-grid-row`,
     gridRowPropertyHeading: `${classPrefix}-grid-row-property-heading`,
     propertyHeadingIcon: `${classPrefix}-property-heading-icon`,
@@ -21,7 +24,12 @@ const classNames = {
     propertyTag: `${classPrefix}-property-tag`,
     separator: `${classPrefix}-separator`,
     iconAddProperty: `${classPrefix}-icon-add-property`,
+    templateItem: `${classPrefix}-template-item`,
+    templateItemEntered: `${classPrefix}-template-item-entered`,
+    templateItemDragging: `${classPrefix}-template-item-dragging`,
     propertyItem: `${classPrefix}-property-item`,
+    propertyItemEntered: `${classPrefix}-property-item-entered`,
+    propertyItemDragging: `${classPrefix}-property-item-dragging`,
     propertyItemIconWrap: `${classPrefix}-property-item-icon-wrap`,
     propertyItemIcon: `${classPrefix}-property-item-icon`,
     addPropertyBar: `${classPrefix}-property-bar`,
@@ -39,11 +47,26 @@ export const getPropertyInspectorStyles = () => {
         container: [
             classNames.container,
             {
-                width: '440px',
                 height: '100%',
                 position: 'fixed',
                 right: 0,
+                display: 'flex',
+                flexDirection: 'row'
+            } as IStyle
+        ],
+        pivot: [
+            classNames.pivot,
+            {
+                width: '440px',
                 backgroundColor: theme.semanticColors.listBackground
+            } as IStyle
+        ],
+        templateColumn: [
+            classNames.templateColumn,
+            {
+                width: '305px',
+                height: '100%',
+                backgroundColor: '#eef0f2'
             } as IStyle
         ],
         row: [
@@ -52,6 +75,17 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center'
+            } as IStyle
+        ],
+        viewTemplatesCta: [
+            classNames.viewTemplatesCta,
+            {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                ':hover': {
+                    backgroundColor: '#eaeced'
+                }
             } as IStyle
         ],
         gridGeneralPropertiesWrap: [
@@ -182,6 +216,48 @@ export const getPropertyInspectorStyles = () => {
                 marginRight: '10px'
             } as IStyle
         ],
+        templateItem: [
+            classNames.templateItem,
+            {
+                display: 'grid',
+                gridTemplateColumns: '60% 30% 10%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: '1px solid #e5ecf1',
+                cursor: 'grab',
+                ':active': {
+                    cursor: 'grabbing'
+                },
+                ':hover': {
+                    backgroundColor: '#eaeced'
+                }
+            } as IStyle
+        ],
+        templateItemEntered: [
+            classNames.templateItemEntered,
+            {
+                display: 'grid',
+                gridTemplateColumns: '60% 30% 10%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                cursor: 'grab',
+                borderBottom: `1px solid ${theme.semanticColors.menuIcon}`
+            } as IStyle
+        ],
+        templateItemDragging: [
+            classNames.templateItemDragging,
+            {
+                display: 'grid',
+                gridTemplateColumns: '60% 30% 10%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                cursor: 'grab',
+                borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
+                '& *': {
+                    opacity: 0
+                }
+            } as IStyle
+        ],
         propertyItem: [
             classNames.propertyItem,
             {
@@ -189,7 +265,34 @@ export const getPropertyInspectorStyles = () => {
                 gridTemplateColumns: '50% 30% 10% 10%',
                 alignItems: 'center',
                 padding: '12px 8px',
-                borderBottom: '1px solid #e5ecf1'
+                borderBottom: '1px solid #e5ecf1',
+                cursor: 'grab',
+                ':active': {
+                    cursor: 'grabbing'
+                }
+            } as IStyle
+        ],
+        propertyItemEntered: [
+            classNames.propertyItemEntered,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 30% 10% 10%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: `1px solid ${theme.semanticColors.menuIcon}`
+            } as IStyle
+        ],
+        propertyItemDragging: [
+            classNames.propertyItemDragging,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 30% 10% 10%',
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
+                '& *': {
+                    opacity: 0
+                }
             } as IStyle
         ],
         propertyItemIconWrap: [
