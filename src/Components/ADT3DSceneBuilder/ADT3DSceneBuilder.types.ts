@@ -145,6 +145,7 @@ export type BehaviorSaveMode =
     | ADT3DSceneBuilderMode.CreateBehavior;
 
 export type OnBehaviorSave = (
+    config: I3DScenesConfig,
     behavior: IBehavior,
     mode: BehaviorSaveMode,
     selectedElements?: Array<ITwinToObjectMapping>

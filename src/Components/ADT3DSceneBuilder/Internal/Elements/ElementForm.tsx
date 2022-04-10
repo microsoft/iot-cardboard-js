@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -12,7 +12,7 @@ import {
 import { IADT3DSceneBuilderElementFormProps } from '../../ADT3DSceneBuilder.types';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
-import { createGUID } from '../../../../Models/Services/Utils';
+import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader from '../LeftPanelBuilderHeader';
@@ -67,20 +67,24 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         coloredMeshItems,
         setColoredMeshItems
     } = useContext(SceneBuilderContext);
+    const configRef = useRef(config);
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
-            const sceneToUpdate: IScene = {
-                ...config.configuration.scenes[
+            const sceneToUpdate: IScene = deepCopy(
+                config.configuration.scenes[
                     config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
-            };
-            sceneToUpdate.elements = params.elements;
-            return adapter.putScenesConfig(
-                ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
             );
+            sceneToUpdate.elements = params.elements;
+            configRef.current = ViewerConfigUtility.editScene(
+                config,
+                sceneId,
+                sceneToUpdate
+            );
+            return adapter.putScenesConfig(configRef.current);
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
@@ -112,7 +116,11 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
 
         for (const behavior of behaviorsToEdit) {
-            await onBehaviorSave(behavior, ADT3DSceneBuilderMode.EditBehavior);
+            await onBehaviorSave(
+                configRef.current,
+                behavior,
+                ADT3DSceneBuilderMode.EditBehavior
+            );
         }
 
         onElementSave(newElements);
@@ -166,6 +174,10 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             getConfig();
         }
     }, [updateTwinToObjectMappings?.adapterResult]);
+
+    useEffect(() => {
+        configRef.current = config;
+    }, [config]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);

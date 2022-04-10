@@ -100,7 +100,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { widgetFormInfo, twinAliasFormInfo } = useContext(
+    const { config, widgetFormInfo, twinAliasFormInfo } = useContext(
         SceneBuilderContext
     );
 
@@ -230,8 +230,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     const onSaveClick = useCallback(async () => {
-        // behaviorToEdit.
         await onBehaviorSave(
+            config,
             behaviorToEdit,
             builderMode as BehaviorSaveMode,
             selectedElements
@@ -239,6 +239,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
+        config,
         behaviorToEdit,
         builderMode,
         onBehaviorBackClick,
