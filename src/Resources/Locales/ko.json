@@ -685,8 +685,22 @@
     "title": " Azure Digital Twins Ontology Editor",
     "style": " 파일, 자산, 속성 또는 위치 검색",
     "objectColors": " 저장",
-    "background": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+    "background": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출",
+    "default": "기본값",
+    "transparent": " 투명",
+    "wireframe": " 와이어프레임"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": " 요소",
+    "noElements": " 표시할 요소가 없",
+    "filterPlaceholder": " 요소 또는 경고를 필터링하려면 입력합",
+    "showPanel": " 요소 패널 표시",
+    "hidePanel": " 요소 패널 숨기기"
+  },
+  "OATHeader": {
+    "title": " Azure Digital Twins Ontology Editor",
+    "searchContent": " 파일, 자산, 속성 또는 위치 검색",
+    "save": " 저장",
+    "publish": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+  }
 }

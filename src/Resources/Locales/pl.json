@@ -698,6 +698,12 @@
     "hidePanel": " Import"
   },
   "OATHeader": {
-    "title": " Eksport"
+    "title": " Eksport",
+    "searchContent": "Wyszukiwanie pliku, zasobu, właściwości lub lokalizacji",
+    "save": " Zapisz",
+    "publish": " Publikowanie",
+    "sync": "synchronizowanie",
+    "import": " Import",
+    "export": " Eksport"
   }
 }

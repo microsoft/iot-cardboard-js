@@ -703,6 +703,7 @@
     "save": " Publiceren",
     "publish": "sync",
     "sync": " Importeren",
-    "import": " Exporteren"
+    "import": " Exporteren",
+    "export": "Exporteren"
   }
 }
