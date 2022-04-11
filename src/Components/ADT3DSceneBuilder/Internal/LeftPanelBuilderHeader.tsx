@@ -2,7 +2,11 @@ import { FontIcon, Separator } from '@fluentui/react';
 import React from 'react';
 import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../..';
 import i18n from '../../../i18n';
-import { WidgetFormInfo } from '../ADT3DSceneBuilder.types';
+import {
+    CardboardIconNames,
+    TwinAliasFormMode
+} from '../../../Models/Constants';
+import { TwinAliasFormInfo, WidgetFormInfo } from '../ADT3DSceneBuilder.types';
 
 interface Props {
     headerText: string;
@@ -12,11 +16,12 @@ interface Props {
 
 export const getLeftPanelBuilderHeaderParams = (
     widgetFormInfo: WidgetFormInfo,
+    twinAliasFormInfo: TwinAliasFormInfo,
     builderMode: ADT3DSceneBuilderMode
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName = 'Ringer';
+        iconName: '' | CardboardIconNames = 'Ringer';
 
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
@@ -27,8 +32,16 @@ export const getLeftPanelBuilderHeaderParams = (
         } else {
             headerText = i18n.t('3dSceneBuilder.editWidget');
         }
-        iconName = widgetFormInfo.widget.iconName;
+        iconName = widgetFormInfo.widget.iconName as CardboardIconNames;
         subHeaderText = widgetFormInfo.widget.title;
+    } else if (twinAliasFormInfo) {
+        if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
+            headerText = i18n.t('3dSceneBuilder.twinAlias.new');
+        } else {
+            headerText = i18n.t('3dSceneBuilder.twinAlias.edit');
+        }
+        iconName = twinAliasFormInfo.twinAlias?.alias ? 'LinkedDatabase' : '';
+        subHeaderText = twinAliasFormInfo.twinAlias?.alias;
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {
             headerText = i18n.t('3dSceneBuilder.newBehavior');

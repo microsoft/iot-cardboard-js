@@ -69,7 +69,6 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
                     padding: 15,
                     width: 300,
                     backgroundColor: theme.semanticColors.bodyBackground
-                    // boxShadow:
                 },
                 calloutMain: {
                     backgroundColor: 'unset'

@@ -1,8 +1,14 @@
 import produce from 'immer';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { linkedTwinName } from '../../../../../Models/Constants';
+import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -26,6 +32,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -46,24 +53,36 @@ const AlertsTab: React.FC = () => {
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+    const [aliasedProperties, setAliasedProperties] = useState<
+        IAliasedTwinProperty[]
+    >(null);
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
     );
 
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
-    if (!propertyNames) {
+    if (!aliasedProperties) {
         adapter
-            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .getTwinPropertiesWithAliasesForBehavior(
+                sceneId,
+                config,
+                behaviorToEdit,
+                true
+            )
             .then((properties) => {
-                setPropertyNames(properties);
+                setAliasedProperties(properties);
             });
     }
 
-    function getPropertyNames(twinId: string) {
-        return twinId === linkedTwinName ? propertyNames : [];
-    }
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     const setProperty = useCallback(
         (propertyName: keyof IAlertVisual, value: string) => {
@@ -127,17 +146,25 @@ const AlertsTab: React.FC = () => {
         [setProperty]
     );
 
+    const aliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
     // we only grab the first alert in the collection
     const alertVisual = getAlertFromBehavior(behaviorToEdit);
     const color = alertVisual?.color;
     const icon = alertVisual?.iconName;
     const expression = alertVisual?.triggerExpression;
     const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+
     return (
         <Stack tokens={sectionStackTokens}>
-            <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
-                {t(LOC_KEYS.notice)}
-            </Text>
+            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <Intellisense
                 autoCompleteProps={{
                     textFieldProps: {
@@ -148,7 +175,7 @@ const AlertsTab: React.FC = () => {
                 }}
                 onChange={onExpressionChange}
                 defaultValue={expression}
-                aliasNames={[linkedTwinName]}
+                aliasNames={aliasNames}
                 getPropertyNames={getPropertyNames}
             />
             {alertVisual && (

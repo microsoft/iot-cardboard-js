@@ -13,7 +13,8 @@ import {
     SET_WIDGET_FORM_INFO,
     SET_REVERT_TO_HOVER_COLOR,
     SET_MESH_IDS_TO_OUTLINE,
-    SET_ADT_SCENE_OBJECT_COLOR
+    SET_ADT_SCENE_OBJECT_COLOR,
+    SET_TWIN_ALIAS_FORM_INFO
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
@@ -27,6 +28,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     coloredMeshItems: [],
     outlinedMeshItems: [],
     widgetFormInfo: { mode: WidgetFormMode.Cancelled },
+    twinAliasFormInfo: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
     elements: [],
@@ -55,6 +57,9 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_WIDGET_FORM_INFO:
                 draft.widgetFormInfo = payload;
+                break;
+            case SET_TWIN_ALIAS_FORM_INFO:
+                draft.twinAliasFormInfo = payload;
                 break;
             case SET_ADT_SCENE_BUILDER_ELEMENTS:
                 draft.elements = payload;

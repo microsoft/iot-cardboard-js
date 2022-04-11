@@ -6,15 +6,19 @@ import {
     Theme,
     IPivotStyles,
     ISeparatorStyles,
-    IStackStyles
+    IButtonStyles
 } from '@fluentui/react';
+import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 import { behaviorsModalPreviewContainerLeftOffset } from '../../../../Models/Constants/StyleConstants';
 
-const classPrefix = 'left-panel';
+const classPrefix = CardboardClassNamePrefix + '-left-panel';
 const classNames = {
     noDataText: `${classPrefix}-no-data-text`,
     content: `${classPrefix}-content`,
     formTabContents: `${classPrefix}-form-tab-contents`,
+    actionButton: `${classPrefix}-action-button`,
+    text: `${classPrefix}-text`,
+    section: `${classPrefix}-section`,
     previewContainer: `${classPrefix}-preview-container`
 };
 export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
@@ -23,7 +27,8 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
             classNames.noDataText,
             {
                 fontSize: FontSizes.size12,
-                color: theme.palette.neutralSecondary
+                color: theme.palette.neutralSecondary,
+                marginTop: 8
             } as IStyle
         ],
         content: [
@@ -55,6 +60,13 @@ export const getLeftPanelStyles = memoizeFunction((theme: Theme) => {
                 zIndex: 1000,
                 pointerEvents: 'none'
             } as IStyle
+        ],
+        text: [
+            classNames.text,
+            {
+                padding: '4px 0',
+                display: 'block'
+            } as IStyle
         ]
     });
 });
@@ -73,3 +85,16 @@ export const leftPanelPivotStyles: Partial<IPivotStyles> = {
         marginBottom: 8
     }
 };
+export const getActionButtonStyles = memoizeFunction(
+    (theme: Theme): Partial<IButtonStyles> => ({
+        root: {
+            color: theme.palette.themePrimary,
+            height: 32,
+            paddingLeft: 0
+        },
+        flexContainer: { height: 32 },
+        label: {
+            margin: 0
+        }
+    })
+);
