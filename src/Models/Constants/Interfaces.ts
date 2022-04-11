@@ -426,11 +426,12 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
      * @param config configuration data for the scene
      * @param behavior behavior to look for the twins
      */
-    getCommonTwinPropertiesForBehavior(
+    getTwinPropertiesWithAliasesForBehavior(
         sceneId: string,
         config: I3DScenesConfig,
-        behavior: IBehavior
-    ): Promise<string[]>;
+        behavior: IBehavior,
+        isTwinAliasesIncluded?: boolean
+    ): Promise<IAliasedTwinProperty[]>;
     /**
      * Gets the list of all the twin properties that are exposed for all twins linked to a behavior.
      * The names of the properties come in the format LinkedTwin.Alias.PropertyName
@@ -728,4 +729,9 @@ export interface IBlobFile {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
+}
+
+export interface IAliasedTwinProperty {
+    alias: 'LinkedTwin' | string;
+    property: string;
 }
