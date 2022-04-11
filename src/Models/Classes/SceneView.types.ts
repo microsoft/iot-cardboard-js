@@ -69,6 +69,9 @@ export interface SceneViewBadgeGroup {
     id: string;
     meshId: string;
     badges: SceneViewBadge[];
+    element: ITwinToObjectMapping;
+    behaviors: IBehavior[];
+    twins: Record<string, DTwin>;
 }
 
 export type SceneViewEventHandler = (
@@ -84,6 +87,11 @@ export interface ISceneViewProp {
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
+    onBadgeGroupHover?: (
+        alert: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void;
     onCameraMove?: SceneViewEventHandler;
     isWireframe?: boolean;
     showMeshesOnHover?: boolean;

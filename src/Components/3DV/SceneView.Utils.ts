@@ -37,57 +37,37 @@ export function getMeshCenter(
 export function createBadge(
     backgroundColor: IADTBackgroundColor,
     badgeColor?: string,
-    text?: string,
     textColor?: string,
-    isIcon?: boolean,
-    onClickCallback?: any
+    text?: string,
+    isIcon?: boolean
 ) {
-    const badge = new GUI.Button();
+    const badge = new GUI.Ellipse();
     badge.widthInPixels = 20;
     badge.heightInPixels = 20;
-    badge.background = 'transparent';
-    badge.color = 'transparent';
+    badge.color = badgeColor || backgroundColor.defaultBadgeColor;
+    badge.background = badgeColor || backgroundColor.defaultBadgeColor;
 
-    const badgeBackground = new GUI.Ellipse();
-    badgeBackground.widthInPixels = 20;
-    badgeBackground.heightInPixels = 20;
-    badgeBackground.color = badgeColor || backgroundColor.defaultBadgeColor;
-    badgeBackground.background =
-        badgeColor || backgroundColor.defaultBadgeColor;
-    badge.addControl(badgeBackground);
-
-    if (text) {
-        const textBlock = new GUI.TextBlock();
-        textBlock.fontSizeInPixels = 12;
-        textBlock.color = textColor || backgroundColor.defaultBadgeTextColor;
-        textBlock.text = text;
-        if (isIcon) {
-            textBlock.topInPixels = 3;
-            textBlock.fontFamily = 'iconFont';
-        }
-        badgeBackground.addControl(textBlock);
+    const textBlock = new GUI.TextBlock();
+    textBlock.fontSizeInPixels = 12;
+    textBlock.color = textColor || backgroundColor.defaultBadgeTextColor;
+    textBlock.text = text;
+    if (isIcon) {
+        textBlock.topInPixels = 3;
+        textBlock.fontFamily = 'iconFont';
     }
-
-    badge.onPointerEnterObservable.add(() => {
-        document.body.style.cursor = 'pointer';
-    });
-
-    badge.onPointerOutObservable.add(() => {
-        document.body.style.cursor = '';
-    });
-
-    badge.onPointerClickObservable.add(() => {
-        if (onClickCallback) {
-            onClickCallback();
-        }
-    });
+    badge.addControl(textBlock);
 
     return badge;
 }
 
 export function createBadgeGroup(
     badgeGroup: SceneViewBadgeGroup,
-    backgroundColor: IADTBackgroundColor
+    backgroundColor: IADTBackgroundColor,
+    onBadgeGroupHover: (
+        badgeGroup: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void
 ) {
     let background;
     const rows = Math.ceil(badgeGroup.badges.length / 2);
@@ -139,8 +119,8 @@ export function createBadgeGroup(
                     const badge = createBadge(
                         backgroundColor,
                         badgeGroup.badges[currentBadgeIndex].color,
-                        badgeGroup.badges[currentBadgeIndex].icon,
                         null,
+                        badgeGroup.badges[currentBadgeIndex].icon,
                         true
                     );
                     // add spacer after first badge
@@ -161,13 +141,18 @@ export function createBadgeGroup(
         const badge = createBadge(
             backgroundColor,
             backgroundColor.aggregateBadgeColor,
-            badgeGroup.badges.length.toString(),
             backgroundColor.aggregateBadgeTextColor,
+            badgeGroup.badges.length.toString(),
             false
         );
-
         background.addControl(badge);
     }
+
+    // Using on pointer move on the badge for firing the hover event because
+    // on pointer enter was not providing a consistant enough interaction
+    background.onPointerMoveObservable.add((position) => {
+        onBadgeGroupHover(badgeGroup, position.x, position.y);
+    });
 
     return background;
 }
