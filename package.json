@@ -140,6 +140,7 @@
         "test": "jest",
         "test:ci": "node --max_old_space_size=8192 node_modules/.bin/jest --config jest.config.js --maxWorkers=2",
         "test:watch": "jest --watch",
+        "translate": "i18n-auto-translation",
         "prettier:fix": "prettier --write src/**/*.{js,ts,tsx,scss}",
         "prettier:check": "prettier --check src/**/*.{js,ts,tsx,scss}",
         "eslint:fix": "eslint --cache --fix",

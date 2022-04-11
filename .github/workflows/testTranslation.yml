@@ -16,6 +16,7 @@ jobs:
 
             - name: Install dependencies
               run: npm install
+
             - name: Translate files
               id: translate
               uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.3
@@ -27,9 +28,10 @@ jobs:
                   from: 'en'
                   to: 'de'
                   debug: true
-            - name: Get the output time
-              # run: echo "The time was ${{ steps.hello.outputs.time }}"
-              run: echo Finished
+
+            # - name: Get the output time
+            #   # run: echo "The time was ${{ steps.hello.outputs.time }}"
+            #   run: echo Finished
     # translation_job:
     #     runs-on: ubuntu-latest
     #     name: Translate localization files
