@@ -7,7 +7,7 @@ jobs:
         steps:
             - name: Translation step
               id: translate
-              uses: msnyder-msft/i18n-auto-translation-action
+              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha
               with:
                   provider: 'azure-official'
                   subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
