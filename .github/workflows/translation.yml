@@ -22,7 +22,7 @@ jobs:
               uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.7
               with:
                   provider: 'azure-official'
-                  subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
+                  subscriptionKey: '${{ secrets.TRANSLATOR_SUBSCRIPTION_KEY }}'
                   location: 'westus2'
                   filePath: './src/Resources/Locales/en.json'
                   from: 'en'
