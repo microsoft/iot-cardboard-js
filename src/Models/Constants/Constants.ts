@@ -200,3 +200,6 @@ export const StyleConstants = {
 export const intellisenseMultilineBreakpoint = 40;
 
 export const CardboardClassNamePrefix = 'cb';
+
+export const globeUrl =
+    'https://3dvstoragecontainer.blob.core.windows.net/3dvblobcontainer/world/World3.gltf';
