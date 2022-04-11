@@ -40,7 +40,10 @@ export const useRuntimeSceneData = (
             const sceneVisuals = [
                 ...sceneData.adapterResult.result.data.sceneVisuals
             ];
-            const alerts: Array<SceneViewBadge> = [];
+            const alerts: Array<{
+                sceneVisual: SceneVisual;
+                sceneViewBadge: SceneViewBadge;
+            }> = [];
             // for each scene visual retrieve the colored mesh ids and update it in the scene visual
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
@@ -96,10 +99,13 @@ export const useRuntimeSceneData = (
                                         : BadgeIcons.default;
 
                                     alerts.push({
-                                        id: behavior.id,
-                                        meshId: meshId,
-                                        color: color,
-                                        icon: icon
+                                        sceneVisual: sceneVisual,
+                                        sceneViewBadge: {
+                                            id: behavior.id,
+                                            meshId: meshId,
+                                            color: color,
+                                            icon: icon
+                                        }
                                     });
                                 }
                                 break;
@@ -117,25 +123,35 @@ export const useRuntimeSceneData = (
                 // create first group
                 if (groupedAlerts.length === 0) {
                     groupedAlerts.push({
-                        id: alert.meshId + alert.id,
-                        meshId: alert.meshId,
-                        badges: [alert]
+                        id:
+                            alert.sceneViewBadge.meshId +
+                            alert.sceneViewBadge.id,
+                        element: alert.sceneVisual.element,
+                        behaviors: alert.sceneVisual.behaviors,
+                        twins: alert.sceneVisual.twins,
+                        meshId: alert.sceneViewBadge.meshId,
+                        badges: [alert.sceneViewBadge]
                     });
                 } else {
                     const group = groupedAlerts.find(
-                        (ga) => ga.meshId === alert.meshId
+                        (ga) => ga.meshId === alert.sceneViewBadge.meshId
                     );
 
                     // add to exsiting group
                     if (group) {
-                        group.id += alert.id;
-                        group.badges.push(alert);
+                        group.id += alert.sceneViewBadge.id;
+                        group.badges.push(alert.sceneViewBadge);
                     } else {
                         // create new group
                         groupedAlerts.push({
-                            id: alert.meshId + alert.id,
-                            meshId: alert.meshId,
-                            badges: [alert]
+                            id:
+                                alert.sceneViewBadge.meshId +
+                                alert.sceneViewBadge.id,
+                            element: alert.sceneVisual.element,
+                            behaviors: alert.sceneVisual.behaviors,
+                            twins: alert.sceneVisual.twins,
+                            meshId: alert.sceneViewBadge.meshId,
+                            badges: [alert.sceneViewBadge]
                         });
                     }
                 }

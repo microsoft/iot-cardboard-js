@@ -32,7 +32,7 @@ export const getLeftPanelBuilderHeaderParams = (
         } else {
             headerText = i18n.t('3dSceneBuilder.editWidget');
         }
-        iconName = '';
+        iconName = widgetFormInfo.widget.iconName as CardboardIconNames;
         subHeaderText = widgetFormInfo.widget.title;
     } else if (twinAliasFormInfo) {
         if (twinAliasFormInfo.mode === TwinAliasFormMode.CreateTwinAlias) {
