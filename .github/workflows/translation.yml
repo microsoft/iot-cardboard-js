@@ -31,7 +31,8 @@ jobs:
                   from: 'en'
                   to: 'de'
                   debug: true
-
+            - name: Get current branch name
+              uses: nelonoel/branch-name@v1
             - name: Commit changes
               uses: devops-infra/action-commit-push@master
               with:
@@ -39,7 +40,7 @@ jobs:
                   commit_prefix: '[Update Translations]'
                   commit_message: 'Adding updated localization files'
                   force: false
-                  target_branch: $GITHUB_REF_NAME
+                  target_branch: ${BRANCH_NAME}
     # translate-files:
     #     name: translate-localization-files
     #     runs-on: ubuntu-latest
