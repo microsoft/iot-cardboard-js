@@ -701,6 +701,7 @@
     "title": " Azure Digital Twins Ontology Editor",
     "searchContent": " 파일, 자산, 속성 또는 위치 검색",
     "save": " 저장",
-    "publish": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+    "publish": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출",
+    "sync": "동기화 | * | 가져 오기 | * | 수출"
   }
 }
