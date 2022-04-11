@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import enTranslation from './Resources/Locales/en.json';
 import deTranslation from './Resources/Locales/de.json';
-d;
+
 const resources = {
     en: {
         translation: enTranslation
