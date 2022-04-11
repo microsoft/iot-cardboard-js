@@ -560,29 +560,133 @@
     "Hierarchy list": " Publikovat",
     "Looking for": "sync",
     "Hierarchy error": " Import",
-    "Failed to get token": " Vývoz"
+    "Failed to get token": " Vývoz",
+    "Error in hierarchy navigation": "Chyba v navigaci v hierarchii",
+    "Failed to load types for navigation": " Nepodařilo se načíst typy pro navigaci| * | Nepodařilo se načíst hierarchie pro navigaci",
+    "Failed to load hierarchies for navigation": " Hledání se nepodařilo dokončit",
+    "Failed to complete search": " Nepodařilo se získat podrobnosti o instanci",
+    "Failed to get instance details": " Přidat",
+    "Add": " Hledat",
+    "Search": " Datum/čas",
+    "Date/Time": " Rozbalte uzel"
   },
   "propertyInspector": {
-    "propertyTypes": {},
-    "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+    "propertyTypes": {
+      "boolean": " Dvoulůžkový",
+      "date": " Plovák|* | Dlouhé",
+      "dateTime": " Doba trvání|* | Celé číslo",
+      "double": " Řetězec",
+      "float": " Čas",
+      "long": " Výčet",
+      "duration": " Mapa",
+      "integer": " Pole",
+      "string": " Objekt",
+      "time": " Zadejte hodnotu data ve formátu RRRR-MM-DD",
+      "enum": " Zadejte hodnotu data ve formátu RRRR-MM-DD",
+      "map": " Zadejte hodnotu ve formátu data a času <DocLink>RFC 3339</DocLink>, například: 2007-04-05T14:30:15-08:00",
+      "array": " Zadejte hodnotu ve formátu data a času RFC 3339, například: 2007-04-05T14:30:15-08:00",
+      "object": " Zadejte hodnotu trvání ve formátu ISO-8601, kde n je číslo: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "schemaInfo": {
+      "date": {
+        "text": " Zadejte hodnotu trvání ve formátu ISO-8601, kde n je číslo: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": " Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 4 bajtů) "
+      },
+      "dateTime": {
+        "text": " Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 4 bajtů) ",
+        "ariaLabel": " Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 8 bajtů) "
+      },
+      "duration": {
+        "text": " Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 8 bajtů) ",
+        "ariaLabel": " Zadejte hodnotu do formátu <DocLink>RFC 3339 na plný úvazek</DocLink>, například: 14:22:33−08:00"
+      },
+      "integer": {
+        "text": " Zadejte hodnotu v celodobém formátu RFC 3339, například: 14:22:33−08:00",
+        "ariaLabel": " Klíč <DocLink>map</DocLink> používá řetězec k popisu klíče v mapě.  Použijte následující znaky: a-z, A-Z, 0-9 a underscore.| *| Klíč mapy používá řetězec k popisu klíče v mapě.  Použijte následující znaky: a-z, A-Z, 0-9 a underscore.| *| Resetujte všechny úpravy"
+      },
+      "long": {
+        "text": " Rozbalit strom",
+        "ariaLabel": " Sbalit strom"
+      },
+      "time": {
+        "text": " Uložit změny",
+        "ariaLabel": " Výběr data"
+      },
+      "map": {
+        "text": " Výběr času a data",
+        "ariaLabel": " Výběr času"
+      }
+    },
+    "commandBar": {
+      "undoAll": " Zadávání prostého textu",
+      "expandTree": " Adresa URL prostředí",
+      "collapseTree": " Adresa URL kontejneru",
+      "save": "např. https://example.api.wus2.digitaltwins.azure.net"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "např. https://example.blob.core.windows.net/example",
+      "dateTimePickerTitle": " Upravit prostředí",
+      "timePickerTitle": " Připojte své prostředí a zobrazte své assets.| *| Propojte své prostředí a adresu URL kontejneru úložiště a zobrazte své scény.| *| Konfigurační data jsou uložena v místním úložišti.| *| Vyberte adresu URL kontejneru úložiště",
+      "plainTextInput": " Nebylo přidáno žádné prostředí"
+    },
+    "chevronExpand": " Sbalit uzel",
+    "chevronCollapse": " Jeden nebo více modelů používaných tímto {{piMode}} chybí. Do tohoto prostředí přidejte následující chybějící modely:",
+    "modelNotFound": " Vlastnosti, ve kterých chybí model, označené ikonou upozornění, budou odebrány při další události aktualizace. Chcete-li tyto vlastnosti zachovat, přidejte jejich model do prostředí před aktualizací tohoto {{piMode}}.| *| Pro toto ubytování nebyl nalezen žádný model",
+    "unmodelledPropertyWarning": " VLASTNOSTI DVOJČAT",
+    "unmodelledProperty": " VLASTNOSTI RELACE",
+    "commandBarTitleTwin": " Přidat vlastnost",
+    "commandBarTitleRelationship": " Zrušit nastavení vlastnosti",
+    "addProperty": "nenastaveno",
+    "unsetProperty": " Nemovitost",
+    "notSet": " Komponenta| * | Nebylo nalezeno žádné dvojče",
+    "property": " Nebyl nalezen žádný vztah",
+    "component": " Zadejte nový mapový klíč",
+    "noTwinFound": " Přidat hodnotu mapy",
+    "noRelationshipFound": " Odebrat hodnotu mapy",
+    "mapKeyPlaceholder": " Logická hodnota",
+    "addMapIconTitle": " Datum",
+    "removeMapValueIconTitle": " Datum a čas"
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Podporované typy souborů jsou {{fileTypes}}.| *| Motiv prohlížeče",
+      "invalidContainerUrl": " Styl|* | Barva objektu"
+    },
+    "environmentUrl": " Nebyl přidán žádný kontejner",
+    "containerUrl": " Odstranit ze seznamu",
+    "enterEnvironmentUrl": " Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "enterContainerUrl": " Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "editEnvironment": " Zavřít modální",
+    "descriptionForEnvironment": " Náhled",
+    "descriptionForEnvAndCont": " Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
+    "descriptionForLocalStorage": " SVG ikona přes img tag src",
+    "selectContainerUrl": " SVG ilustrace pomocí syntaxe komponenty React",
+    "noEnvironment": " Vyberte soubor nebo zadejte url objektu BLOB",
+    "noContainer": "3D soubor v kontejneru",
+    "removeFromList": " Načítání souborů...| *| Toto není podporovaná adresa URL objektu BLOB (např. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
+  "behaviorsModal": {
+    "closeModal": " Pozadí",
+    "behaviorPreview": " Výchozí"
+  },
+  "svgTests": {
+    "fluentUI": " Transparentní|* | Drátěný model",
+    "imgTag": " Prvky",
+    "reactComponent": " Žádné prvky k zobrazení|* | Zadejte filtraci prvků nebo výstrah"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Zobrazit panel prvků",
+    "3dFileFromContainer": " Panel Skrýt prvky",
+    "loading3DFiles": " Azure Digital Twins Ontology Editor",
+    "invalidBlobUrlPath": " Vyhledejte soubor, datový zdroj, majetek nebo umístění",
+    "supportedFileTypes": " Uložit"
+  },
+  "modelViewerModePicker": {
+    "title": " Publikovat",
+    "style": "sync",
+    "objectColors": " Import",
+    "background": " Vývoz"
+  },
   "elementsPanel": {},
   "OATHeader": {}
 }

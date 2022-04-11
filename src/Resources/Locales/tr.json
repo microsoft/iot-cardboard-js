@@ -618,22 +618,83 @@
         "ariaLabel": " İçe Aktar"
       },
       "integer": {
-        "text": " Ihracat"
+        "text": " Ihracat",
+        "ariaLabel": "Ondalık olmayan sayısal bir değer girin (imzalı 4 baytlık tamsayı)"
       },
-      "long": {},
-      "time": {},
-      "map": {}
+      "long": {
+        "text": " Ondalık olmayan sayısal bir değer girin (imzalı 8 baytlık tamsayı)",
+        "ariaLabel": " Ondalık olmayan sayısal bir değer girin (imzalı 8 baytlık tamsayı)"
+      },
+      "time": {
+        "text": " <DocLink>RFC 3339 tam zamanlı biçimde</DocLink> biçiminde bir değer girin, örneğin: 14:22:33−08:00",
+        "ariaLabel": " RFC 3339 tam zamanlı biçiminde bir değer girin, örneğin: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " <DocLink>map anahtarı</DocLink>, haritadaki anahtarı tanımlamak için bir dize kullanır.  Şu karakterleri kullanın: a-z, A-Z, 0-9 ve alt çizgi.| *| Harita anahtarı, haritadaki anahtarı açıklamak için bir dize kullanır.  Şu karakterleri kullanın: a-z, A-Z, 0-9 ve alt çizgi.| *| Tüm düzenlemeleri sıfırla",
+        "ariaLabel": " Ağacı genişlet"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Ağacı daralt",
+      "expandTree": " Değişiklikleri kaydetme",
+      "collapseTree": " Tarih seçici",
+      "save": " Tarih saati seçici"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Zaman seçici",
+      "dateTimePickerTitle": " Düz metin girişi",
+      "timePickerTitle": " Ortam URL'si",
+      "plainTextInput": " Kapsayıcı URL'si"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " img etiketi src",
+      "invalidContainerUrl": " aracılığıyla SVG simgesi React bileşeni sözdizimi aracılığıyla SVG illüstrasyonu"
+    },
+    "environmentUrl": "ör. https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "ör. https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Ortamı düzenleme",
+    "enterContainerUrl": " Varlıklarınızı listelemek için ortamınızı bağlayın.| *| Sahnelerinizi listelemek için ortamınızı ve depolama kapsayıcısı URL'nizi bağlayın.| *| Yapılandırma verileri yerel depolamaya kaydedilir.| *| Depolama kapsayıcısı URL'si ",
+    "editEnvironment": " Hiçbir ortam eklenmedi",
+    "descriptionForEnvironment": " Kapsayıcı eklenmedi",
+    "descriptionForEnvAndCont": " Listeden kaldır",
+    "descriptionForLocalStorage": " Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)",
+    "noEnvironment": " Modal",
+    "noContainer": " Önizleme",
+    "removeFromList": " Akıcı Görüntü bileşeni aracılığıyla SVG yükleme (önerilen desen)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Dosya seçin veya blob URL'sini girin",
+    "behaviorPreview": "3B dosyayı kapsayıcıya"
+  },
+  "svgTests": {
+    "fluentUI": " Dosya yükleniyor...| *| Bu desteklenen bir blob URL'si değildir (ör. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Desteklenen dosya türleri şunlardır: {{fileTypes}}.| *| Görüntüleyici Teması| *| Stil",
+    "reactComponent": " Nesne rengi"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Arka plan",
+    "3dFileFromContainer": " Varsayılan",
+    "loading3DFiles": " Şeffaf",
+    "invalidBlobUrlPath": " Tel kafes",
+    "supportedFileTypes": " Elemanlar"
+  },
+  "modelViewerModePicker": {
+    "title": " Görüntülenecek öğe yok",
+    "style": " Öğeleri veya uyarıları filtrelemek için yazın",
+    "objectColors": " Öğeler panelini göster",
+    "background": " Öğeleri gizle paneli",
+    "default": " Azure Digital Twins Ontoloji Düzenleyicisi",
+    "transparent": " Dosya, varlık, mülk veya konum arayın",
+    "wireframe": " Kaydet"
+  },
+  "elementsPanel": {
+    "title": " Yayınla",
+    "noElements": "sync",
+    "filterPlaceholder": " İçe Aktar",
+    "showPanel": " Ihracat"
+  },
   "OATHeader": {}
 }

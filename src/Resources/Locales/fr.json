@@ -614,23 +614,88 @@
         "ariaLabel": " Importation"
       },
       "duration": {
-        "text": " Exportation"
+        "text": " Exportation",
+        "ariaLabel": "Entrez une valeur de durée au format ISO-8601, où n est un nombre : P(n)Y(n)M(n)DT(n)H(n)M(n)S"
       },
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "integer": {
+        "text": " Entrez une valeur numérique non décimale (entier signé de 4 octets)",
+        "ariaLabel": " Entrez une valeur numérique non décimale (entier signé de 4 octets)"
+      },
+      "long": {
+        "text": " Entrez une valeur numérique non décimale (entier signé de 8 octets)",
+        "ariaLabel": " Entrez une valeur numérique non décimale (entier signé de 8 octets)"
+      },
+      "time": {
+        "text": " Entrez une valeur au format temps plein <DocLink>RFC 3339</DocLink>, par exemple : 14:22:33−08:00",
+        "ariaLabel": " Entrez une valeur au format temps plein RFC 3339, par exemple : 14:22:33−08:00"
+      },
+      "map": {
+        "text": " Une < Clé DocLink>map</DocLink> utilise une chaîne pour décrire la clé dans une carte.  Utilisez les caractères suivants : a-z, A-Z, 0-9 et underscore.| *| Une clé de carte utilise une chaîne pour décrire la clé d’une carte.  Utilisez les caractères suivants : a-z, A-Z, 0-9 et underscore.| *| Réinitialisez toutes les modifications",
+        "ariaLabel": " Développer l’arborescence"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Réduire l’arbre",
+      "expandTree": " Enregistrer les modifications",
+      "collapseTree": " Sélecteur de dates",
+      "save": " Sélecteur date-heure"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Sélecteur de temps",
+      "dateTimePickerTitle": " Saisie de texte brut",
+      "timePickerTitle": " URL de l’environnement ",
+      "plainTextInput": " URL du conteneur "
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Icône SVG via la balise img src",
+      "invalidContainerUrl": " Illustration SVG via la syntaxe du composant React"
+    },
+    "environmentUrl": "par exemple https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "par exemple https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Modifier l’environnement",
+    "enterContainerUrl": " Connectez votre environnement pour répertorier vos actifs.| *| Connectez l’URL de votre environnement et de votre conteneur de stockage pour répertorier vos scènes.| *| Les données de configuration sont enregistrées dans le stockage local.| *| Sélectionnez l’URL du conteneur de stockage ",
+    "editEnvironment": " Aucun environnement ajouté",
+    "descriptionForEnvironment": " Aucun conteneur ajouté",
+    "descriptionForEnvAndCont": " Supprimer de la liste",
+    "descriptionForLocalStorage": " Il ne s’agit pas d’une URL valide (par exemple, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " Fermer modal",
+    "noContainer": " Aperçu ",
+    "removeFromList": " Chargement SVG via le composant Fluent Image (modèle recommandé)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Sélectionnez un fichier ou entrez l’URL de l’objet blob",
+    "behaviorPreview": "3D dans le conteneur"
+  },
+  "svgTests": {
+    "fluentUI": " Chargement de fichiers...| *| Il ne s’agit pas d’une URL d’objet blob prise en charge (par exemple, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Les types de fichiers pris en charge sont {{fileTypes}}.| *| Thème du spectateur",
+    "reactComponent": " Style"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Couleur de l’objet ",
+    "3dFileFromContainer": " Contexte ",
+    "loading3DFiles": " Valeur par défaut ",
+    "invalidBlobUrlPath": " Transparent",
+    "supportedFileTypes": " Filaire"
+  },
+  "modelViewerModePicker": {
+    "title": " Éléments",
+    "style": " Aucun élément à afficher",
+    "objectColors": " Tapez pour filtrer des éléments ou des alertes",
+    "background": " Afficher le panneau des éléments",
+    "default": " Panneau Masquer les éléments",
+    "transparent": " Éditeur d’ontologie Azure Digital Twins",
+    "wireframe": " Rechercher un fichier, un actif, une propriété ou un emplacement"
+  },
+  "elementsPanel": {
+    "title": " Enregistrer",
+    "noElements": " Publier",
+    "filterPlaceholder": "sync",
+    "showPanel": " Importation",
+    "hidePanel": " Exportation"
+  },
   "OATHeader": {}
 }

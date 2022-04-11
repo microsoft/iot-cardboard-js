@@ -630,19 +630,74 @@
         "ariaLabel": " Importieren"
       },
       "map": {
-        "text": " Exportieren"
+        "text": " Exportieren",
+        "ariaLabel": "Ein Zuordnungsschlüssel verwendet eine Zeichenfolge, um den Schlüssel in einer Karte zu beschreiben.  Verwenden Sie die folgenden Zeichen: a-z, A-Z, 0-9 und Unterstrich.| *| Alle Bearbeitungen zurücksetzen"
       }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Baum erweitern",
+      "expandTree": " Baum ausblenden",
+      "collapseTree": " Änderungen speichern",
+      "save": " Datumsauswahl"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Datetime-Auswahl",
+      "dateTimePickerTitle": " Zeitauswahl",
+      "timePickerTitle": " Nur-Text-Eingabe",
+      "plainTextInput": " Umgebungs-URL"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",
+      "invalidContainerUrl": " SVG-Symbol über img-Tag src"
+    },
+    "environmentUrl": " Container-URL",
+    "containerUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
+    "enterEnvironmentUrl": "z.B. https://example.blob.core.windows.net/example",
+    "enterContainerUrl": " Umgebung bearbeiten",
+    "editEnvironment": " Verbinden Sie Ihre Umgebung, um Ihre Assets aufzulisten.| *| Verbinden Sie Ihre Umgebung und die Speichercontainer-URL, um Ihre Szenen aufzulisten.| *| Die Konfigurationsdaten werden im lokalen Speicher gespeichert.| *| Wählen Sie die URL des Speichercontainers",
+    "descriptionForEnvironment": " Keine Umgebung hinzugefügt",
+    "descriptionForEnvAndCont": " Kein Container hinzugefügt",
+    "descriptionForLocalStorage": " Aus Liste entfernen",
+    "selectContainerUrl": " Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "noEnvironment": " Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noContainer": " Modal schließen",
+    "removeFromList": " Vorschau"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": " SVG-Darstellung über React-Komponentensyntax",
+    "behaviorPreview": " Wählen Sie die Datei aus oder geben Sie die Blob-URL"
+  },
+  "svgTests": {
+    "fluentUI": "3D-Datei in den Container ein",
+    "imgTag": " Dateien werden geladen...| *| Dies ist keine unterstützte Blob-URL (z. B. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "reactComponent": " Unterstützte Dateitypen sind {{fileTypes}}.| *| Viewer-Design"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Stil",
+    "3dFileFromContainer": " Objektfarbe",
+    "loading3DFiles": " Hintergrund",
+    "invalidBlobUrlPath": " Standard",
+    "supportedFileTypes": " Transparent"
+  },
+  "modelViewerModePicker": {
+    "title": " Drahtmodell",
+    "style": " Elemente",
+    "objectColors": " Keine anzuzeigenden Elemente",
+    "background": " Geben Sie ein, um Elemente oder Warnungen zu filtern",
+    "default": " Bedienfeld \"Elemente anzeigen",
+    "transparent": " Bedienfeld \"Elemente ausblenden",
+    "wireframe": " Azure Digital Twins Ontology Editor"
+  },
+  "elementsPanel": {
+    "title": " Datei, Asset, Property oder Speicherort durchsuchen",
+    "noElements": " Speichern",
+    "filterPlaceholder": " Veröffentlichen",
+    "showPanel": "sync",
+    "hidePanel": " Importieren"
+  },
+  "OATHeader": {
+    "title": " Exportieren"
+  }
 }

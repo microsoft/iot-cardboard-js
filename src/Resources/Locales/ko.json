@@ -508,24 +508,148 @@
     "No results": " Azure Digital Twins Ontology Editor",
     "No instances": " 파일, 자산, 속성 또는 위치 검색",
     "No search result": " 저장",
-    "Instance not found": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+    "Instance not found": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출",
+    "Dismiss": "기각",
+    "Show more": " 더 보기",
+    "No description": " 설명 없음",
+    "Time Series ID": " 시계열 ID",
+    "Currently displayed time is": " 현재 표시된 시간은 다음과 같습",
+    "Left arrow to go back in time": " 시간을 거슬러 올라가는 왼쪽 화살표|*앞으로 이동하는 |오른쪽 화살표",
+    "right arrow to go forward": " 현지",
+    "Local": " 디스플레이 그리드 | * | 전월",
+    "Display Grid": " 다음 달",
+    "Previous Month": " 모든 계층",
+    "Next Month": " 할당되지 않은 시계열 인스턴스",
+    "All hierarchies": " 전 세계 검색",
+    "Unassigned Time Series Instances": " 전 세계 조회",
+    "Search globally": " 더 많은 인스턴스 표시",
+    "Lookup globally": " 더 많은 계층 구조 표시",
+    "Show More Instances": " 필터 경로에 추가",
+    "Show More Hierarchies": " 비어 있음|*날짜 및 시간",
+    "Add to Filter Path": "show 시리즈",
+    "Empty": "시리즈 숨기기|*그룹||그룹|*표시 그룹",
+    "date and time": "그룹 숨기기",
+    "show series": "| 화살표 키를 사용하여 각 셀의 값을 탐색합",
+    "hide series": " 값의 격자",
+    "in group": "닫기 격자",
+    "show group": "열 머리글에 대한 날짜",
+    "hide group": "행 머리글",
+    "Use the arrow keys to navigate the values of each cell": "셀에 대한 값",
+    "A grid of values": "셀에 대한 값",
+    "close grid": "및*||are",
+    "column header for date": "시간대 선택",
+    "row header for": " 시작 시간 입력 | * | 종료 시간 입력",
+    "values for cell at": "최신 종료 시간 스냅",
+    "no values at": "확대|*축소",
+    "and": "|시간 선택 제어 대화 상자|의 빠른 시간 선택",
+    "are": " *| 색깔 없음",
+    "timezone selection": " y 축 유형 변경 | * | 값 표시/숨기기",
+    "Start time input": " 색상 선택 | * | 자동 완성 결과를 사용할 수 있는 경우 위쪽 및 아래쪽 화살표를 사용하여 검토하고 입력하여 선택합",
+    "End time input": " 사용 가능한 결과, 키보드 사용자는 위쪽 및 아래쪽 화살표를 사용하여 검토하고 입력하여 선택합니다.| *| 계층 목록 | * | 찾고 계신",
+    "snap end time to latest": " 오류가 발생했습니다! 계층 구조 새로 고침...| *| 토큰을 가져오지 못했",
+    "zoom in": " 계층 구조 탐색 오류",
+    "zoom out": " 탐색을 위한 유형을 로드하지 못했",
+    "select quick time of": " 탐색을 위해 계층을 로드하지 못했",
+    "a time selection control dialog": " 검색을 완료하지 못했",
+    "No color": " 인스턴스 세부 정보를 가져오지 못했",
+    "Change y-axis type": " 추가",
+    "Show/Hide values": " 검색",
+    "Select color": " 날짜/시간",
+    "Search suggestion instruction": " 노드 확장",
+    "Search suggestions available": " 노드 축소",
+    "Hierarchy list": " 이 {{piMode}}에서 사용하는 하나 이상의 모델이 누락되었습니다. 이 환경에 다음과 같은 누락된 모델을 추가하십시오.",
+    "Looking for": " 경고 아이콘으로 표시된 모델이 누락된 속성은 다음 업데이트 이벤트에서 제거됩니다. 이러한 속성을 유지하려면 {{piMode}}를 업데이트하기 전에 해당 모델을 환경에 추가하십시오.| *| 이 속성에 대한 모델을 찾을 수 없",
+    "Hierarchy error": " 트윈 속성",
+    "Failed to get token": " 관계 속성",
+    "Error in hierarchy navigation": " 속성 추가",
+    "Failed to load types for navigation": " 설정 해제 속성",
+    "Failed to load hierarchies for navigation": "설정되지 않음",
+    "Failed to complete search": " 재산 | * | 구성 요소 | * | 트윈을 찾을 수 없습",
+    "Failed to get instance details": " 관계를 찾을 수 없습",
+    "Add": " 새 맵 키 입력",
+    "Search": " 맵 값 추가",
+    "Date/Time": " 맵 값 제거"
   },
   "propertyInspector": {
-    "propertyTypes": {},
-    "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+    "propertyTypes": {
+      "boolean": " RFC 3339 풀 타임 형식으로 값을 입력합니다(예: 14:22:33-08:00",
+      "date": " <DocLink>map 키</DocLink>는 문자열을 사용하여 맵의 키를 설명합니다.  a-z, A-Z, 0-9 및 밑줄을 사용합니다.| *| map 키는 문자열을 사용하여 맵의 키를 설명합니다.  a-z, A-Z, 0-9 및 밑줄을 사용합니다.| *| 모든 편집 내용을 재설정합",
+      "dateTime": " 트리 확장",
+      "double": " 트리 축소",
+      "float": " 변경 사항 저장",
+      "long": " 날짜 선택기",
+      "duration": " 날짜 시간 선택기",
+      "integer": " 시간 선택기",
+      "string": " 일반 텍스트 입력",
+      "time": " 환경 URL",
+      "enum": " 컨테이너 URL | * |예 : https://example.api.wus2.digitaltwins.azure.net| * |예 : https://example.blob.core.windows.net/example| *| 환경 편집",
+      "map": " 환경을 연결하여 자산을 나열하십시오.| *| 환경과 스토리지 컨테이너 URL을 연결하여 장면을 나열합니다.| *| 구성 데이터는 로컬 저장소에 저장됩니다.| *| 스토리지 컨테이너 URL 선택",
+      "array": " 환경이 추가되지 않았",
+      "object": " 컨테이너가 추가되지 않았"
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "schemaInfo": {
+      "date": {
+        "text": " 목록에서 제거",
+        "ariaLabel": " 유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙"
+      },
+      "dateTime": {
+        "text": " 유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙",
+        "ariaLabel": " 모달 닫기"
+      },
+      "duration": {
+        "text": " 미리보기 | * | 유창한 이미지 구성 요소를 통한 SVG 로딩 (권장 패턴)| * | img 태그 src를 통해 SVG 아이콘",
+        "ariaLabel": " React 구성 요소 구문을 통한 SVG 그림"
+      },
+      "integer": {
+        "text": " 파일을 선택하거나 컨테이너에 blob URL",
+        "ariaLabel": "3D 파일을 입력합"
+      },
+      "long": {
+        "text": " 파일 로드 중...| *| 지원되는 Blob URL(예: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)이 아닙",
+        "ariaLabel": " 지원되는 파일 형식은 {{fileTypes}}입니다.| *| 뷰어 테마"
+      },
+      "time": {
+        "text": " 스타일 | * | 개체 색상 | * | 배경",
+        "ariaLabel": " 기본값"
+      },
+      "map": {
+        "text": " 투명",
+        "ariaLabel": " 와이어프레임"
+      }
+    },
+    "commandBar": {
+      "undoAll": " 요소",
+      "expandTree": " 표시할 요소가 없",
+      "collapseTree": " 요소 또는 경고를 필터링하려면 입력합",
+      "save": " 요소 패널 표시"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " 요소 패널 숨기기",
+      "dateTimePickerTitle": " Azure Digital Twins Ontology Editor",
+      "timePickerTitle": " 파일, 자산, 속성 또는 위치 검색",
+      "plainTextInput": " 저장"
+    },
+    "chevronExpand": " 부울",
+    "chevronCollapse": " 날짜",
+    "modelNotFound": " 날짜-시간",
+    "unmodelledPropertyWarning": " 더블 | * | 플로트 | * | 긴",
+    "unmodelledProperty": " 기간",
+    "commandBarTitleTwin": " 정수 | * | 문자열",
+    "commandBarTitleRelationship": " 시간",
+    "addProperty": " 열거형",
+    "unsetProperty": " 지도",
+    "notSet": " 배열 | * | 개체",
+    "property": " 날짜 값을 YYYY-MM-DD 형식으로 입력합",
+    "component": " 날짜 값을 YYYY-MM-DD 형식으로 입력합",
+    "noTwinFound": " <DocLink>RFC 3339 날짜-시간 형식</DocLink>의 값을 입력합니다(예: 2007-04-05T14:30:15-08:00",
+    "noRelationshipFound": " RFC 3339 날짜-시간 형식의 값을 입력합니다(예: 2007-04-05T14:30:15-08:00",
+    "mapKeyPlaceholder": " ISO-8601 형식으로 기간 값을 입력합니다. 여기서 n은 숫자입니다. P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+    "addMapIconTitle": " ISO-8601 형식으로 기간 값을 입력합니다. 여기서 n은 숫자입니다. P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+    "removeMapValueIconTitle": " 십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| <DocLink>RFC 3339 풀 타임 형식</DocLink>의 값을 입력합니다(예: 14:22:33-08:00"
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {},
+    "environmentUrl": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
   },
   "behaviorsModal": {},
   "svgTests": {},

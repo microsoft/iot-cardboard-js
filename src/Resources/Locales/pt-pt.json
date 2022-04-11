@@ -579,26 +579,119 @@
     "commandBarTitleTwin": "sync",
     "commandBarTitleRelationship": " Importação",
     "addProperty": " Exportação",
-    "propertyTypes": {},
-    "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+    "propertyTypes": {
+      "boolean": " Data",
+      "date": " Data",
+      "dateTime": " Duplo|| Float",
+      "double": " | | longo Duração",
+      "float": " Inteiro",
+      "long": " String",
+      "duration": " Tempo",
+      "integer": " Enum",
+      "string": " Mapa",
+      "time": " Matriz",
+      "enum": " Objeto",
+      "map": " Introduza um valor de data no formato YYYY-MM-DD",
+      "array": " Introduza um valor de data no formato YYYY-MM-DD",
+      "object": " Introduza um valor no formato <DocLink>RFC 3339 data-time</DocLink>, por exemplo: 2007-04-05T14:30:15-08:00"
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "schemaInfo": {
+      "date": {
+        "text": " Introduza um valor no formato de data-hora RFC 3339, por exemplo: 2007-04-05T14:30:15-08:00",
+        "ariaLabel": " Introduza um valor de duração no formato ISO-8601, onde n é um número: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "dateTime": {
+        "text": " Introduza um valor de duração no formato ISO-8601, onde n é um número: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": " Introduza um valor numérico não decimal (contratado 4-byte inteiro)"
+      },
+      "duration": {
+        "text": " Introduza um valor numérico não decimal (contratado 4-byte inteiro)",
+        "ariaLabel": " Introduza um valor numérico não decimal (subalterto assinado de 8 byte)"
+      },
+      "integer": {
+        "text": " Introduza um valor numérico não decimal (subalterto assinado de 8 byte)",
+        "ariaLabel": " Introduza um valor em <DocLink>RFC 3339 formato a tempo inteiro</DocLink>, por exemplo: 14:22:33-08:00"
+      },
+      "long": {
+        "text": " Introduza um valor no formato RFC 3339 a tempo inteiro, por exemplo: 14:22:33-08:00",
+        "ariaLabel": " Uma chave <DocLink>map</DocLink> usa uma corda para descrever a chave num mapa.  Utilize os seguintes caracteres: a-z, A-Z, 0-9 e underscore.| *| Uma chave de mapa usa uma corda para descrever a chave num mapa.  Utilize os seguintes caracteres: a-z, A-Z, 0-9 e underscore.| *| Repor todas as edições"
+      },
+      "time": {
+        "text": " Expandir | | árvore Árvore de colapso",
+        "ariaLabel": " Guardar alterações"
+      },
+      "map": {
+        "text": " Selecionador de encontros",
+        "ariaLabel": " Selecionador de datas"
+      }
+    },
+    "commandBar": {
+      "undoAll": " Apanhador de tempo",
+      "expandTree": " Entrada de texto simples",
+      "collapseTree": " URL ambiente",
+      "save": " URL do contentor"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+      "dateTimePickerTitle": "e.g. https://example.blob.core.windows.net/example",
+      "timePickerTitle": " Editar ambiente",
+      "plainTextInput": " Conecte o seu ambiente para listar os seus ativos.| *| Ligue o seu URL de ambiente e recipiente de armazenamento para listar as suas cenas.| *| Os dados de configuração são guardados em storage.| *| Selecione URL do recipiente de armazenamento"
+    },
+    "unsetProperty": "Propriedade desaparato|*não | definida",
+    "notSet": " Propriedade",
+    "property": " Componente",
+    "component": " Nenhuma gémea encontrou",
+    "noTwinFound": " Nenhuma relação encontrada",
+    "noRelationshipFound": " Introduza a nova chave do mapa",
+    "mapKeyPlaceholder": " Adicione o valor do mapa",
+    "addMapIconTitle": " Remova o valor do mapa",
+    "removeMapValueIconTitle": " Boolean"
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Carregar ficheiros...| *| Este não é um URL blob suportado (por exemplo, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+      "invalidContainerUrl": " Os tipos de ficheiros suportados são {{fileTypes}}.| *| Tema do Espectador"
+    },
+    "environmentUrl": " Sem ambiente adicionado",
+    "containerUrl": " Nenhum recipiente adicionado",
+    "enterEnvironmentUrl": " Retire da lista",
+    "enterContainerUrl": " Este não é um URL válido (por exemplo, https://<ourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "editEnvironment": " Este não é um URL válido (por exemplo, https://<ourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "descriptionForEnvironment": " Feche modal",
+    "descriptionForEnvAndCont": " Pré-visualização",
+    "descriptionForLocalStorage": " Carregamento SVG através de componente de imagem fluente (padrão recomendado)",
+    "selectContainerUrl": " Ícone SVG via img tag src",
+    "noEnvironment": " Ilustração SVG via Sintaxe componente react",
+    "noContainer": " Selecione o ficheiro URL",
+    "removeFromList": "3D em recipiente"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Estilo",
+    "behaviorPreview": " Cor do objeto"
+  },
+  "svgTests": {
+    "fluentUI": " Fundo",
+    "imgTag": " Predefinido",
+    "reactComponent": " Transparente"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Wireframe",
+    "3dFileFromContainer": " Elementos",
+    "loading3DFiles": " Nenhum elemento para exibir",
+    "invalidBlobUrlPath": " Digite para filtrar elementos ou alertas",
+    "supportedFileTypes": " Mostrar painel de elementos"
+  },
+  "modelViewerModePicker": {
+    "title": " Painel de elementos de ocultação",
+    "style": " Azure Digital Twins Onlogy Editor",
+    "objectColors": " Procure ficheiro, ativo, propriedade ou localização",
+    "background": " Salve",
+    "default": " Publicar",
+    "transparent": "sync",
+    "wireframe": " Importação"
+  },
+  "elementsPanel": {
+    "title": " Exportação"
+  },
   "OATHeader": {}
 }
