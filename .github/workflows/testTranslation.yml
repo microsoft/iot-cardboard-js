@@ -3,13 +3,25 @@ name: 'Localization'
 on: [push]
 
 jobs:
+    dependencies:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '14'
+                  cache: 'npm'
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+              run: npm install
     translation_job:
         runs-on: ubuntu-latest
         name: Translate localization files
         steps:
             - name: Translation step
               id: translate
-              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.2
+              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.3
               with:
                   provider: 'azure-official'
                   subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
