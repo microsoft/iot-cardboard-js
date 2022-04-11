@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
     dependencies:
+        name: Install dependencies
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -15,11 +16,7 @@ jobs:
 
             - name: Install dependencies
               run: npm install
-    translation_job:
-        runs-on: ubuntu-latest
-        name: Translate localization files
-        steps:
-            - name: Translation step
+            - name: Translate files
               id: translate
               uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.3
               with:
@@ -33,3 +30,21 @@ jobs:
             - name: Get the output time
               # run: echo "The time was ${{ steps.hello.outputs.time }}"
               run: echo Finished
+    # translation_job:
+    #     runs-on: ubuntu-latest
+    #     name: Translate localization files
+    #     steps:
+    #         - name: Translation step
+    #           id: translate
+    #           uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.3
+    #           with:
+    #               provider: 'azure-official'
+    #               subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
+    #               location: 'westus2'
+    #               filePath: 'src\Resources\Locales\en\translation.json'
+    #               from: 'en'
+    #               to: 'de'
+    #               debug: true
+    #         - name: Get the output time
+    #           # run: echo "The time was ${{ steps.hello.outputs.time }}"
+    #           run: echo Finished
