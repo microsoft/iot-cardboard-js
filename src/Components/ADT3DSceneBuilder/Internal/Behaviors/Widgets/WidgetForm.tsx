@@ -1,6 +1,12 @@
 import { DefaultButton, PrimaryButton, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     WidgetType,
@@ -23,7 +29,7 @@ import { BehaviorFormContext } from '../BehaviorsForm';
 import { getWidgetFormStyles } from './WidgetForm.styles';
 import GaugeWidgetBuilder from './WidgetBuilders/GaugeWidgetBuilder';
 import LinkWidgetBuilder from './WidgetBuilders/LinkWidgetBuilder';
-import { linkedTwinName } from '../../../../../Models/Constants';
+import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { WidgetFormInfo } from '../../../ADT3DSceneBuilder.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 
@@ -79,11 +85,26 @@ const WidgetForm: React.FC = () => {
         BehaviorFormContext
     );
 
-    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+    const [aliasedProperties, setAliasedProperties] = useState<
+        IAliasedTwinProperty[]
+    >(null);
 
-    const getPropertyNames = (twinId: string) => {
-        return twinId === linkedTwinName ? propertyNames : [];
-    };
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
+    const propertyAliases = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     const [isWidgetConfigValid, setIsWidgetConfigValid] = useState(true);
 
@@ -136,6 +157,7 @@ const WidgetForm: React.FC = () => {
                     <LinkWidgetBuilder
                         formData={widgetData as ILinkWidget}
                         updateWidgetData={updateWidgetData}
+                        intellisenseAliasNames={propertyAliases}
                         getIntellisensePropertyNames={getPropertyNames}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />
@@ -150,15 +172,16 @@ const WidgetForm: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!propertyNames) {
+        if (!aliasedProperties) {
             adapter
-                .getCommonTwinPropertiesForBehavior(
+                .getTwinPropertiesWithAliasesForBehavior(
                     sceneId,
                     config,
-                    behaviorToEdit
+                    behaviorToEdit,
+                    true
                 )
                 .then((properties) => {
-                    setPropertyNames(properties);
+                    setAliasedProperties(properties);
                 });
         }
     }, [sceneId, config, behaviorToEdit]);

@@ -145,6 +145,11 @@ export enum WidgetFormMode {
     Committed = 'Committed'
 }
 
+export enum TwinAliasFormMode {
+    CreateTwinAlias,
+    EditTwinAlias
+}
+
 export enum ADT3DSceneTwinBindingsMode {
     Elements = 'elements',
     Behaviors = 'behaviors'
