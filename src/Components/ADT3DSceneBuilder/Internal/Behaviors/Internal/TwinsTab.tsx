@@ -234,7 +234,7 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
                     id={addAliasCalloutTargetId}
                     styles={actionButtonStyles}
                     text={t('3dSceneBuilder.twinAlias.add')}
-                    data-testid={'widgetForm-addTwinAlias'}
+                    data-testid={'twinsTab-addTwinAlias'}
                     onClick={toggleIsAddTwinAliasCalloutVisible}
                 />
             </div>

@@ -155,6 +155,25 @@ EditElementsTabSelectItem.play = async ({ canvasElement }) => {
     await userEvent.click(elementListItem);
 };
 
+export const EditTwinsTab = Template.bind({});
+EditTwinsTab.play = async ({ canvasElement }) => {
+    await EditElementsTabSelectItem.play({ canvasElement });
+    const canvas = within(canvasElement);
+    // Finds the tabs and clicks Twins
+    const tab = await canvas.findAllByRole('tab');
+    await userEvent.click(tab[1]);
+};
+
+export const EditTwinsTabAddAlias = Template.bind({});
+EditTwinsTabAddAlias.play = async ({ canvasElement }) => {
+    await EditTwinsTab.play({ canvasElement });
+    const canvas = within(canvasElement);
+    const addTwinAliasButton = await canvas.findByTestId(
+        'twinsTab-addTwinAlias'
+    );
+    await userEvent.click(addTwinAliasButton);
+};
+
 export const EditStatusTab = Template.bind({});
 EditStatusTab.play = async ({ canvasElement }) => {
     await EditElementsTabSelectItem.play({ canvasElement });
