@@ -22,7 +22,7 @@ jobs:
 
             - name: Translate files
               id: translate
-              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.4
+              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.5
               with:
                   provider: 'azure-official'
                   subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
@@ -30,7 +30,7 @@ jobs:
                   filePath: 'src\Resources\Locales\en\translation.json'
                   from: 'en'
                   to: 'de'
-                  debug: true
+                  debug: false
 
             - name: Commit changes
               uses: devops-infra/action-commit-push@master
