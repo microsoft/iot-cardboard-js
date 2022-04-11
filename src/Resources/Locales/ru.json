@@ -626,20 +626,76 @@
         "ariaLabel": " Импорт"
       },
       "time": {
-        "text": " Экспорт"
+        "text": " Экспорт",
+        "ariaLabel": "Введите значение в формате RFC 3339 full-time, например: 14:22:33−08:00"
       },
-      "map": {}
+      "map": {
+        "text": " Ключ <DocLink>map</DocLink> использует строку для описания ключа на карте.  Используйте следующие символы: a-z, A-Z, 0-9 и underscore.| *| Ключ карты использует строку для описания ключа на карте.  Используйте следующие символы: a-z, A-Z, 0-9 и underscore.| *| Сброс всех изменений",
+        "ariaLabel": " Развернуть дерево"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Свернуть дерево",
+      "expandTree": " Сохранить изменения",
+      "collapseTree": " Выбор даты",
+      "save": " Средство выбора даты и времени"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Выбор времени",
+      "dateTimePickerTitle": " Ввод обычного текста",
+      "timePickerTitle": " URL-адрес среды",
+      "plainTextInput": " URL-адрес контейнера"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Значок SVG через тег img src",
+      "invalidContainerUrl": " Иллюстрация SVG с помощью синтаксиса компонента React"
+    },
+    "environmentUrl": "например, https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "например, https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Среда редактирования",
+    "enterContainerUrl": " Подключите среду к списку ресурсов.| *| Подключите URL-адрес среды и контейнера хранилища, чтобы вывести список сцен.| *| Данные конфигурации сохраняются в локальном хранилище.| *| Выберите URL-адрес контейнера хранилища",
+    "editEnvironment": " Среда не добавлена",
+    "descriptionForEnvironment": " Контейнер не добавлен",
+    "descriptionForEnvAndCont": " Удалить из списка",
+    "descriptionForLocalStorage": " Это недопустимый URL-адрес (например, https://<ваш ADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " Закрыть модальный",
+    "noContainer": " Предварительный просмотр",
+    "removeFromList": " Загрузка SVG через компонент Fluent Image (рекомендуемый шаблон)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Выберите файл или введите URL-адрес большого двоичного объекта",
+    "behaviorPreview": "3D-файл в контейнере"
+  },
+  "svgTests": {
+    "fluentUI": " Загрузка файлов...| *| Это не поддерживаемый URL-адрес большого двоичного объекта (например, https://<>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Поддерживаются типы файлов {{fileTypes}}.| *| Тема средства просмотра",
+    "reactComponent": " Стиль"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Цвет объекта",
+    "3dFileFromContainer": " Справочная информация",
+    "loading3DFiles": " По умолчанию",
+    "invalidBlobUrlPath": " Прозрачный",
+    "supportedFileTypes": " Каркас"
+  },
+  "modelViewerModePicker": {
+    "title": " Элементы",
+    "style": " Нет отображаемых элементов",
+    "objectColors": " Введите фильтрующие элементы или оповещения",
+    "background": " Панель \"Показать элементы",
+    "default": " Панель «Скрыть элементы",
+    "transparent": " Azure Digital Twins Ontology Editor",
+    "wireframe": " Поиск файла, ресурса, свойства или местоположения"
+  },
+  "elementsPanel": {
+    "title": " Сохранить",
+    "noElements": " Публикация",
+    "filterPlaceholder": "синхронизация",
+    "showPanel": " Импорт",
+    "hidePanel": " Экспорт"
+  },
   "OATHeader": {}
 }

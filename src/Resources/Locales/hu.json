@@ -625,19 +625,76 @@
         "text": " Importálás",
         "ariaLabel": " Kivitel"
       },
-      "time": {},
-      "map": {}
+      "time": {
+        "text": "Írjon be egy értéket <DocLink>RFC 3339 teljes munkaidős formátumban</DocLink>, például: 14:22:33−08:00",
+        "ariaLabel": " Adjon meg egy értéket RFC 3339 teljes munkaidős formátumban, például: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " A <DocLink>map kulcs</DocLink> karakterláncot használ a kulcs leírására a térképen.  Használja a következő karaktereket: a-z, A-Z, 0-9 és underscore.| *| A térképkulcs karakterláncot használ a térkép kulcsának leírására.  Használja a következő karaktereket: a-z, A-Z, 0-9 és underscore.| *| Az összes szerkesztés alaphelyzetbe állítása",
+        "ariaLabel": " Fa kibontása"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Fa összecsukása",
+      "expandTree": " Módosítások mentése",
+      "collapseTree": " Dátumválasztó",
+      "save": " Datetime picker"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Időválasztó",
+      "dateTimePickerTitle": " Egyszerű szövegbevitel",
+      "timePickerTitle": " Környezeti URL",
+      "plainTextInput": " Tároló URL"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " SVG ikon keresztül img tag src| * | SVG illusztráció a React komponens szintaxisán keresztül",
+      "invalidContainerUrl": " Válassza ki a fájlt, vagy írja be a blob URL"
+    },
+    "environmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "e.g. https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Környezet szerkesztése",
+    "enterContainerUrl": " A környezet összekapcsolása az eszközök listázásához.| *| Csatlakoztassa a környezet és a tároló tároló URL-címét a jelenetek listához.| *| A konfigurációs adatok mentése a helyi tárolóba történik.| *| Tároló URL-címének kiválasztása",
+    "editEnvironment": " Nincs hozzáadott környezet",
+    "descriptionForEnvironment": " Nincs hozzáadott tároló",
+    "descriptionForEnvAndCont": " Eltávolítás a listából",
+    "descriptionForLocalStorage": " Ez nem érvényes URL (pl. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Ez nem érvényes URL (pl. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " A módozat bezárása",
+    "noContainer": " Előnézet",
+    "removeFromList": " SVG betöltése Fluent Image komponensen keresztül (ajánlott minta)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": "3D fájlt a tárolóba",
+    "behaviorPreview": " Fájlok betöltése...| *| Ez nem támogatott blob URL -https://<(pl. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)"
+  },
+  "svgTests": {
+    "fluentUI": " A támogatott fájltípusok a következők: {{fileTypes}}.| *| Nézői téma",
+    "imgTag": " Stílus",
+    "reactComponent": " Objektum színe"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Háttér",
+    "3dFileFromContainer": " Alapértelmezett",
+    "loading3DFiles": " Átlátszó",
+    "invalidBlobUrlPath": " Drótváz",
+    "supportedFileTypes": " Elemek"
+  },
+  "modelViewerModePicker": {
+    "title": " Nincsenek megjeleníthető elemek",
+    "style": " Írja be az elemek vagy riasztások szűréséhez",
+    "objectColors": " Elemek panel megjelenítése",
+    "background": " Elemek elrejtése panel",
+    "default": " Azure Digital Twins Ontology Editor",
+    "transparent": " Keresés fájlban, eszközben, tulajdonságban vagy helyen",
+    "wireframe": " Mentés"
+  },
+  "elementsPanel": {
+    "title": " Közzététel",
+    "noElements": "szinkron",
+    "filterPlaceholder": " Importálás",
+    "showPanel": " Kivitel"
+  },
   "OATHeader": {}
 }

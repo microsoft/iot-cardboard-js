@@ -629,18 +629,73 @@
         "text": " Importação",
         "ariaLabel": " Exportação"
       },
-      "map": {}
+      "map": {
+        "text": "Uma chave <DocLink>mamas</DocLink> usa uma string para descrever a chave em um mapa.  Use os seguintes caracteres: a-z, A-Z, 0-9 e sublinhar.| *| Uma chave de mapa usa uma sequência para descrever a chave em um mapa.  Use os seguintes caracteres: a-z, A-Z, 0-9 e sublinhar.| *| Redefinir todas as edições",
+        "ariaLabel": " Expandir árvore"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Árvore de colapso",
+      "expandTree": " Salvar alterações",
+      "collapseTree": " Colhedor de data",
+      "save": " Picker datatime"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Catador de tempo",
+      "dateTimePickerTitle": " Entrada de texto simples",
+      "timePickerTitle": " URL do ambiente",
+      "plainTextInput": " URL do contêiner"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Ícone SVG via img tag src",
+      "invalidContainerUrl": " Ilustração SVG via Sintaxe de componente React"
+    },
+    "environmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "e.g. https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Editar ambiente",
+    "enterContainerUrl": " Conecte seu ambiente para listar seus ativos.| *| Conecte seu ambiente e a URL do contêiner de armazenamento para listar suas cenas.| *| Os dados de configuração são salvos em armazenamento local.| *| Selecione URL do contêiner de armazenamento",
+    "editEnvironment": " Nenhum ambiente adicionado",
+    "descriptionForEnvironment": " Nenhum contêiner adicionado",
+    "descriptionForEnvAndCont": " Remover da lista",
+    "descriptionForLocalStorage": " Esta não é uma URL válida (por exemplo, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " Fechar modal",
+    "noContainer": " Pré-visualização",
+    "removeFromList": " Carregamento SVG via componente de imagem fluente (padrão recomendado)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Selecione arquivo ou digite arquivo BLOB URL",
+    "behaviorPreview": "3D em recipiente"
+  },
+  "svgTests": {
+    "fluentUI": " Carregando arquivos...| *| Este não é um URL blob suportado (por exemplo, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Os tipos de arquivos suportados estão {{fileTypes}}.| *| Tema do espectador",
+    "reactComponent": " Estilo"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Cor do objeto",
+    "3dFileFromContainer": " Fundo",
+    "loading3DFiles": " Padrão",
+    "invalidBlobUrlPath": " Transparente",
+    "supportedFileTypes": " Wireframe"
+  },
+  "modelViewerModePicker": {
+    "title": " Elementos",
+    "style": " Sem elementos para exibir",
+    "objectColors": " Digite elementos ou alertas de filtro",
+    "background": " Painel de elementos de show",
+    "default": " Painel de elementos de ocultação",
+    "transparent": " Azure Digital Twins Onlogy Editor",
+    "wireframe": " Arquivo de pesquisa, ativo, propriedade ou localização"
+  },
+  "elementsPanel": {
+    "title": " Salve",
+    "noElements": " Publicar",
+    "filterPlaceholder": "sync",
+    "showPanel": " Importação",
+    "hidePanel": " Exportação"
+  },
   "OATHeader": {}
 }

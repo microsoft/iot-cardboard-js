@@ -589,27 +589,110 @@
     "addMapIconTitle": "sync",
     "removeMapValueIconTitle": " Importazione",
     "propertyTypes": {
-      "boolean": " Esportazione"
+      "boolean": " Esportazione",
+      "date": "Data",
+      "dateTime": " Data-ora",
+      "double": " Doppia",
+      "float": " Galleggiante",
+      "long": " Lungo",
+      "duration": " Durata",
+      "integer": " Intero",
+      "string": " Stringa",
+      "time": " Tempo",
+      "enum": " Enum",
+      "map": " Mappa",
+      "array": " Matrice",
+      "object": " Oggetto"
     },
     "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "date": {
+        "text": " Immettere un valore di data nel formato AAAA-MM-GG",
+        "ariaLabel": " Immettere un valore di data nel formato AAAA-MM-GG"
+      },
+      "dateTime": {
+        "text": " Immettere un valore nel formato data-ora <DocLink>RFC 3339</DocLink>, ad esempio: 2007-04-05T14:30:15-08:00",
+        "ariaLabel": " Immettere un valore nel formato data-ora RFC 3339, ad esempio: 2007-04-05T14:30:15-08:00"
+      },
+      "duration": {
+        "text": " Immettere un valore di durata in formato ISO-8601, dove n è un numero: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": " Immettere un valore di durata in formato ISO-8601, dove n è un numero: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "integer": {
+        "text": " Immettere un valore numerico non decimale (numero intero firmato a 4 byte)",
+        "ariaLabel": " Immettere un valore numerico non decimale (numero intero firmato a 4 byte)"
+      },
+      "long": {
+        "text": " Immettere un valore numerico non decimale (numero intero firmato a 8 byte)",
+        "ariaLabel": " Immettere un valore numerico non decimale (numero intero firmato a 8 byte)"
+      },
+      "time": {
+        "text": " Immettere un valore nel formato a tempo pieno <DocLink>RFC 3339</DocLink>, ad esempio: 14:22:33−08:00",
+        "ariaLabel": " Immettere un valore nel formato a tempo pieno RFC 3339, ad esempio: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " Una chiave <DocLink>map</DocLink> utilizza una stringa per descrivere la chiave in una mappa.  Utilizzare i seguenti caratteri: a-z, A-Z, 0-9 e underscore.| *| Una chiave mappa utilizza una stringa per descrivere la chiave in una mappa.  Utilizzare i seguenti caratteri: a-z, A-Z, 0-9 e underscore.| *| Ripristina tutte le modifiche",
+        "ariaLabel": " Espandi albero"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Comprimi albero",
+      "expandTree": " Salva le modifiche",
+      "collapseTree": " Selezione data",
+      "save": " Selezione data"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Selezione dell'ora| * | Input di testo normale| * | URL ambiente",
+      "dateTimePickerTitle": " URL contenitore",
+      "timePickerTitle": "ad esempio https://example.api.wus2.digitaltwins.azure.net",
+      "plainTextInput": "ad esempio https://example.blob.core.windows.net/example"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Selezionare il file o immettere il file URL BLOB",
+      "invalidContainerUrl": "3D nel contenitore"
+    },
+    "environmentUrl": " Modifica ambiente",
+    "containerUrl": " Connetti il tuo ambiente per elencare le tue risorse.| *| Connettere l'ambiente e l'URL del contenitore di archiviazione per elencare le scene.| *| I dati di configurazione vengono salvati in storage.| locale *| Selezionare l'URL del contenitore di archiviazione",
+    "enterEnvironmentUrl": " Nessun ambiente aggiunto",
+    "enterContainerUrl": " Nessun contenitore aggiunto",
+    "editEnvironment": " Rimuovi dalla lista",
+    "descriptionForEnvironment": " Questo non è un URL valido (ad esempio https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "descriptionForEnvAndCont": " Questo non è un URL valido (ad esempio https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "descriptionForLocalStorage": " Chiudi modale",
+    "selectContainerUrl": " Anteprima",
+    "noEnvironment": " Caricamento SVG tramite il componente Fluent Image (modello consigliato)",
+    "noContainer": " Icona SVG tramite tag img src",
+    "removeFromList": " Illustrazione SVG tramite la sintassi del componente React"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Caricamento di file...| *| Non si tratta di un URL BLOB supportato (ad esempio https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "behaviorPreview": " I tipi di file supportati sono {{fileTypes}}.| *| Tema del visualizzatore"
+  },
+  "svgTests": {
+    "fluentUI": " Stile",
+    "imgTag": " Colore dell'oggetto",
+    "reactComponent": " Sfondo"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Valore predefinito",
+    "3dFileFromContainer": " Trasparente",
+    "loading3DFiles": " Wireframe| * | Elementi",
+    "invalidBlobUrlPath": " Nessun elemento da visualizzare",
+    "supportedFileTypes": " Digitare per filtrare elementi o avvisi"
+  },
+  "modelViewerModePicker": {
+    "title": " Pannello Mostra elementi",
+    "style": " Pannello Nascondi elementi",
+    "objectColors": " Editor di ontologia di Gemelli digitali di Azure",
+    "background": " Cerca file, asset, proprietà o posizione",
+    "default": " Risparmio",
+    "transparent": " Pubblica",
+    "wireframe": "sync"
+  },
+  "elementsPanel": {
+    "title": " Importazione",
+    "noElements": " Esportazione"
+  },
   "OATHeader": {}
 }

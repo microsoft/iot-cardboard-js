@@ -614,23 +614,87 @@
         "ariaLabel": " Importera"
       },
       "duration": {
-        "text": " Export"
+        "text": " Export",
+        "ariaLabel": "Ange ett varaktighetsvärde i ISO-8601-format, där n är ett tal: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
       },
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "integer": {
+        "text": " Ange ett numeriskt värde som inte är decimalt (signerat 4-byte heltal)",
+        "ariaLabel": " Ange ett numeriskt värde som inte är decimalt (signerat 4-byte heltal)"
+      },
+      "long": {
+        "text": " Ange ett numeriskt värde som inte är decimalt (signerat 8-byte heltal)",
+        "ariaLabel": " Ange ett numeriskt värde som inte är decimalt (signerat 8-byte heltal)"
+      },
+      "time": {
+        "text": " Ange ett värde i <DocLink>RFC 3339 heltidsformat</DocLink>, till exempel: 14:22:33−08:00",
+        "ariaLabel": " Ange ett värde i RFC 3339 heltidsformat, till exempel: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " En <DocLink>mappsnyckel</DocLink> använder en sträng för att beskriva nyckeln i en karta.  Använd följande tecken: a-z, A-Z, 0-9 och underscore.| *| En kartnyckel använder en sträng för att beskriva nyckeln i en karta.  Använd följande tecken: a-z, A-Z, 0-9 och underscore.| *| Återställ alla redigeringar",
+        "ariaLabel": " Expandera träd"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Komprimera träd",
+      "expandTree": " Spara ändringar",
+      "collapseTree": " Datumväljare",
+      "save": " Datetime picker"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Tidsplockare",
+      "dateTimePickerTitle": " Inmatning i oformaterad text",
+      "timePickerTitle": " URL för miljö",
+      "plainTextInput": " Url till behållare"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " SVG illustration via React komponent syntax",
+      "invalidContainerUrl": " Markera fil eller ange BLOB URL"
+    },
+    "environmentUrl": ".ex. https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "t.g. https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Redigera miljö",
+    "enterContainerUrl": " Anslut din miljö för att lista dina tillgångar.| *| Anslut webbadressen till din miljö- och lagringsbehållare för att lista dina scenes.| *| Konfigurationsdata sparas i lokal storage.| *| Välj URL för lagringsbehållare",
+    "editEnvironment": " Ingen miljö har lagts till",
+    "descriptionForEnvironment": " Ingen behållare har lagts till",
+    "descriptionForEnvAndCont": " Ta bort från listan",
+    "descriptionForLocalStorage": " Detta är inte en giltig URL (t.ex. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Detta är inte en giltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " Stäng modal|* | Förhandsgranskning",
+    "noContainer": " SVG-inläsning via fluentbildkomponent (rekommenderat mönster) ",
+    "removeFromList": " SVG-ikon via img tag src"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": "3D-fil i behållare",
+    "behaviorPreview": " Läser in filer...| *| Detta är inte en blob-URL som stöds (t.ex. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)"
+  },
+  "svgTests": {
+    "fluentUI": " Filtyper som stöds är {{fileTypes}}.| *| Temat visningsbild",
+    "imgTag": " Stil",
+    "reactComponent": " Objektfärg"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Bakgrund",
+    "3dFileFromContainer": " Standard",
+    "loading3DFiles": " Transparent",
+    "invalidBlobUrlPath": " Wireframe",
+    "supportedFileTypes": " Element"
+  },
+  "modelViewerModePicker": {
+    "title": " Inga element att visa",
+    "style": " Skriv om du vill filtrera element eller aviseringar",
+    "objectColors": " Visa panelen Element",
+    "background": " Dölj panelen Dölj element",
+    "default": " Azure Digital Twins Ontology Editor",
+    "transparent": " Sök efter fil, tillgång, egenskap eller plats",
+    "wireframe": " Spara"
+  },
+  "elementsPanel": {
+    "title": " Publicera",
+    "noElements": "sync",
+    "filterPlaceholder": " Importera",
+    "showPanel": " Export"
+  },
   "OATHeader": {}
 }

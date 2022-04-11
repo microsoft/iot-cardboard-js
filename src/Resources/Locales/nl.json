@@ -590,27 +590,103 @@
     "removeMapValueIconTitle": "sync",
     "propertyTypes": {
       "boolean": " Importeren",
-      "date": " Exporteren"
+      "date": " Exporteren",
+      "dateTime": "Datum-tijd",
+      "double": " Dubbel",
+      "float": " Vlotter|* | Lang",
+      "long": " Duur",
+      "duration": " Geheel getal",
+      "integer": " String|* | Tijd",
+      "string": " Enum",
+      "time": " Kaart",
+      "enum": " Array| * | Object",
+      "map": " Voer een datumwaarde in de notatie JJJJ-MM-DD in",
+      "array": " Voer een datumwaarde in de notatie JJJJ-MM-DD in",
+      "object": " Voer een waarde in <DocLink>RFC 3339 datum-tijd notatie</DocLink>, bijvoorbeeld: 2007-04-05T14:30:15-08:00"
     },
     "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "date": {
+        "text": " Voer een waarde in rfc 3339 datum-tijd notatie, bijvoorbeeld: 2007-04-05T14:30:15-08:00",
+        "ariaLabel": " Voer een duurwaarde in ISO-8601-notatie in, waarbij n een getal is: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "dateTime": {
+        "text": " Voer een duurwaarde in ISO-8601-notatie in, waarbij n een getal is: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": " Voer een niet-decimale numerieke waarde in (ondertekend geheel getal van 4 bytes) "
+      },
+      "duration": {
+        "text": " Voer een niet-decimale numerieke waarde in (ondertekend geheel getal van 4 bytes) ",
+        "ariaLabel": " Voer een niet-decimale numerieke waarde in (ondertekend geheel getal van 8 bytes)"
+      },
+      "integer": {
+        "text": " Voer een niet-decimale numerieke waarde in (ondertekend geheel getal van 8 bytes)",
+        "ariaLabel": " Voer een waarde in <KinLink>RFC 3339 full-time format</DocLink> in, bijvoorbeeld: 14:22:33−08:00"
+      },
+      "long": {
+        "text": " Voer een waarde in de voltijdnotatie RFC 3339 in, bijvoorbeeld: 14:22:33−08:00",
+        "ariaLabel": " Een <DocLink>mapsleutel</DocLink> gebruikt een tekenreeks om de sleutel in een kaart te beschrijven.  Gebruik de volgende tekens: a-z, A-Z, 0-9 en underscore.| *| Een kaartsleutel gebruikt een tekenreeks om de sleutel in een kaart te beschrijven.  Gebruik de volgende tekens: a-z, A-Z, 0-9 en underscore.| *| Reset alle bewerkingen"
+      },
+      "time": {
+        "text": " Boomstructuur uitvouwen",
+        "ariaLabel": " Boom instorten"
+      },
+      "map": {
+        "text": " Wijzigingen opslaan",
+        "ariaLabel": " Datumkiezer"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Datumkiezer",
+      "expandTree": " Tijdkiezer",
+      "collapseTree": " Tekstinvoer zonder opmaak|* | Omgevings-URL",
+      "save": " Container-URL"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "bijvoorbeeld https://example.api.wus2.digitaltwins.azure.net",
+      "dateTimePickerTitle": "bijv. https://example.blob.core.windows.net/example",
+      "timePickerTitle": " Omgeving bewerken",
+      "plainTextInput": " Verbind uw omgeving om uw assets te vermelden.| *| Verbind de URL van uw omgeving en opslagcontainer om uw scenes.| *| Configuratiegegevens worden opgeslagen in lokale storage.| *| Selecteer de URL van de opslagcontainer"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Ondersteunde bestandstypen zijn {{fileTypes}}.| *| Viewer Thema|* | Stijl",
+      "invalidContainerUrl": " Object kleur|* | Achtergrond"
+    },
+    "environmentUrl": " Geen omgeving toegevoegd",
+    "containerUrl": " Geen container toegevoegd",
+    "enterEnvironmentUrl": " Verwijderen uit lijst",
+    "enterContainerUrl": " Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "editEnvironment": " Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "descriptionForEnvironment": " Sluit modal",
+    "descriptionForEnvAndCont": " Voorbeeld",
+    "descriptionForLocalStorage": " SVG laden via Fluent Image component (aanbevolen patroon)",
+    "selectContainerUrl": " SVG-pictogram via img-tag src| * | SVG-illustratie via de syntaxis van de component React",
+    "noEnvironment": " Selecteer bestand of voer blob-URL",
+    "noContainer": "3D-bestand in container in",
+    "removeFromList": " Bestanden laden...| *| Dit is geen ondersteunde blob-URL (bijv. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
+  "behaviorsModal": {
+    "closeModal": " Standaard",
+    "behaviorPreview": " Transparant"
+  },
+  "svgTests": {
+    "fluentUI": " Wireframe| * | Elementen",
+    "imgTag": " Geen elementen om weer te geven",
+    "reactComponent": " Typ om elementen of waarschuwingen te filteren"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Deelvenster Elementen weergeven",
+    "3dFileFromContainer": " Deelvenster Elementen verbergen",
+    "loading3DFiles": " Azure Digital Twins Ontology Editor",
+    "invalidBlobUrlPath": " Zoeken in bestand, middel, eigendom of locatie",
+    "supportedFileTypes": " Opslaan"
+  },
+  "modelViewerModePicker": {
+    "title": " Publiceren",
+    "style": "sync",
+    "objectColors": " Importeren",
+    "background": " Exporteren"
+  },
   "elementsPanel": {},
   "OATHeader": {}
 }

@@ -690,6 +690,20 @@
     "transparent": "进口",
     "wireframe": "出口"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "元素",
+    "noElements": "没有要显示的元素",
+    "filterPlaceholder": "键入以筛选元素或警报",
+    "showPanel": "“显示元素”面板",
+    "hidePanel": "“隐藏元素”面板"
+  },
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontology Editor",
+    "searchContent": "搜索文件、资产、属性或位置",
+    "save": "节省",
+    "publish": "发布",
+    "sync": "同步",
+    "import": "进口",
+    "export": "出口"
+  }
 }

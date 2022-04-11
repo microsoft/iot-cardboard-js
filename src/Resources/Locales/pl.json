@@ -547,27 +547,133 @@
     "Start time input": " Publikowanie",
     "End time input": "synchronizowanie",
     "snap end time to latest": " Import",
-    "zoom in": " Eksport"
+    "zoom in": " Eksport",
+    "zoom out": "pomniejsz |* | wybierz okno dialogowe szybkiego wyboru czasu| * |a wyboru czasu.| *| Brak koloru| * | Zmiana typu osi y",
+    "select quick time of": " Pokaż/Ukryj wartości",
+    "a time selection control dialog": " Wybierz kolor",
+    "No color": " Gdy wyniki autouzupełniania są dostępne, użyj strzałek w górę i w dół, aby przejrzeć i wprowadzić, aby wybrać",
+    "Change y-axis type": " dostępne wyniki, użytkownicy klawiatury, użyj strzałek w górę i w dół, aby przejrzeć i wprowadzić do select.| *| Lista hierarchii",
+    "Show/Hide values": " Szukam",
+    "Select color": " Błąd! Odświeżająca hierarchia...| *| Nie udało się uzyskać tokena",
+    "Search suggestion instruction": " Błąd w nawigacji hierarchicznej",
+    "Search suggestions available": " Nie można załadować typów do nawigacji",
+    "Hierarchy list": " Nie można załadować hierarchii nawigacji",
+    "Looking for": " Nie udało się ukończyć wyszukiwania",
+    "Hierarchy error": " Nie udało się uzyskać szczegółowych informacji o wystąpieniu",
+    "Failed to get token": " Dodaj",
+    "Error in hierarchy navigation": " Szukaj",
+    "Failed to load types for navigation": " Data/godzina",
+    "Failed to load hierarchies for navigation": " Rozwiń węzeł",
+    "Failed to complete search": " Zwiń węzeł",
+    "Failed to get instance details": " Brakuje jednego lub wielu modeli używanych przez ten {{piMode}}. Dodaj następujące brakujące modele do tego środowiska:",
+    "Add": " Właściwości brakujące w modelu, oznaczone ikoną ostrzeżenia, zostaną usunięte przy następnym zdarzeniu aktualizacji. Aby zachować te właściwości, dodaj ich model do środowiska przed zaktualizowaniem tego {{piMode}}.| *| Nie znaleziono modelu modelu dla tej nieruchomości",
+    "Search": " WŁAŚCIWOŚCI BLIŹNIĄT| * | WŁAŚCIWOŚCI RELACJI",
+    "Date/Time": " Dodaj właściwość"
   },
   "propertyInspector": {
-    "propertyTypes": {},
-    "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+    "propertyTypes": {
+      "boolean": " Tablica",
+      "date": " Obiekt",
+      "dateTime": " Wprowadź wartość daty w formacie RRRR-MM-DD",
+      "double": " Wprowadź wartość daty w formacie RRRR-MM-DD",
+      "float": " Wprowadź wartość w formacie daty-godziny <DocLink>RFC 3339</DocLink>, na przykład: 2007-04-05T14:30:15-08:00",
+      "long": " Wprowadź wartość w formacie daty-godziny RFC 3339, na przykład: 2007-04-05T14:30:15-08:00",
+      "duration": " Wprowadź wartość czasu trwania w formacie ISO-8601, gdzie n jest liczbą: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+      "integer": " Wprowadź wartość czasu trwania w formacie ISO-8601, gdzie n jest liczbą: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+      "string": " Wprowadź niedziemną wartość liczbową (podpisana 4-bajtowa liczba całkowita)",
+      "time": " Wprowadź niedziemną wartość liczbową (podpisana 4-bajtowa liczba całkowita)",
+      "enum": " Wprowadź niedziesiętną wartość liczbową (podpisana 8-bajtowa liczba całkowita)",
+      "map": " Wprowadź niedziesiętną wartość liczbową (podpisana 8-bajtowa liczba całkowita)",
+      "array": " Wprowadź wartość w formacie <DocLink>RFC 3339 w pełnym wymiarze godzin</DocLink>, na przykład: 14:22:33−08:00",
+      "object": " Wprowadź wartość w formacie RFC 3339 w pełnym wymiarze godzin, na przykład: 14:22:33−08:00"
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "schemaInfo": {
+      "date": {
+        "text": " Klucz mapy <DocLink></DocLink> używa ciągu znaków do opisania klucza na mapie.  Użyj następujących znaków: a-z, A-Z, 0-9 i underscore.| *| Klucz mapy używa ciągu znaków do opisania klucza na mapie.  Użyj następujących znaków: a-z, A-Z, 0-9 i underscore.| *| Zresetuj wszystkie zmiany",
+        "ariaLabel": " Rozwiń drzewo"
+      },
+      "dateTime": {
+        "text": " Zwiń drzewo|* | Zapisz zmiany",
+        "ariaLabel": " Selektor dat"
+      },
+      "duration": {
+        "text": " Selektor daty/godziny",
+        "ariaLabel": " Selektor czasu"
+      },
+      "integer": {
+        "text": " Wprowadzanie zwykłego tekstu",
+        "ariaLabel": " Adres URL środowiska"
+      },
+      "long": {
+        "text": " Adres URL kontenera",
+        "ariaLabel": "np. https://example.api.wus2.digitaltwins.azure.net"
+      },
+      "time": {
+        "text": " np. https://example.blob.core.windows.net/example",
+        "ariaLabel": " Edytuj środowisko"
+      },
+      "map": {
+        "text": " Połącz swoje środowisko, aby wyświetlić listę swoich zasobów.| *| Połącz środowisko i adres URL kontenera magazynu, aby wyświetlić listę scenes.| *| Dane konfiguracyjne są zapisywane w local storage.| *| Wybierz adres URL kontenera magazynowania",
+        "ariaLabel": " Nie dodano środowiska"
+      }
+    },
+    "commandBar": {
+      "undoAll": " Nie dodano kontenera",
+      "expandTree": " Usuń z listy",
+      "collapseTree": " To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "save": " To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Zamknij modal",
+      "dateTimePickerTitle": " Podgląd",
+      "timePickerTitle": " Ładowanie SVG przez komponent Fluent Image (zalecany wzór)",
+      "plainTextInput": " Ikona SVG za pomocą tagu img src"
+    },
+    "chevronExpand": " Właściwość nieustawiona",
+    "chevronCollapse": "niestaw",
+    "modelNotFound": " Właściwość|* | Komponent| * | Nie znaleziono twin",
+    "unmodelledPropertyWarning": " Nie znaleziono związku",
+    "unmodelledProperty": " Wprowadź nowy klucz mapy",
+    "commandBarTitleTwin": " Dodaj wartość mapy",
+    "commandBarTitleRelationship": " Usuń wartość mapy",
+    "addProperty": " Boolean",
+    "unsetProperty": " Data",
+    "notSet": " Data-godzina",
+    "property": " Podwójny",
+    "component": " Pływak| * | Długi",
+    "noTwinFound": " Czas trwania",
+    "noRelationshipFound": " Liczba całkowita",
+    "mapKeyPlaceholder": " Ciąg | *| Czas",
+    "addMapIconTitle": " Enum",
+    "removeMapValueIconTitle": " Mapa"
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Ukryj elementy| panelu*| Edytor ontologii usługi Azure Digital Twins",
+      "invalidContainerUrl": " Wyszukiwanie pliku, zasobu, właściwości lub lokalizacji"
+    },
+    "environmentUrl": " Ilustracja SVG za pomocą składni komponentu React",
+    "containerUrl": " Wybierz plik lub wprowadź plik URL",
+    "enterEnvironmentUrl": "3D obiektu blob w kontenerze",
+    "enterContainerUrl": " Ładowanie plików...| *| Nie jest to obsługiwany adres URL obiektu blob (np. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "editEnvironment": " Obsługiwane typy plików to {{fileTypes}}.| *| Motyw przeglądarki",
+    "descriptionForEnvironment": " Styl| * | Kolor obiektu| * | Kontekst",
+    "descriptionForEnvAndCont": " Domyślnie",
+    "descriptionForLocalStorage": " Przezroczysty| * | Szkielet",
+    "selectContainerUrl": " Elementy",
+    "noEnvironment": " Brak elementów do wyświetlenia",
+    "noContainer": " Wpisz, aby filtrować elementy lub alerty",
+    "removeFromList": " Pokaż elementy, panel"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
+  "behaviorsModal": {
+    "closeModal": " Zapisz",
+    "behaviorPreview": " Publikowanie"
+  },
+  "svgTests": {
+    "fluentUI": "synchronizowanie",
+    "imgTag": " Import",
+    "reactComponent": " Eksport"
+  },
   "blobDropdown": {},
   "modelViewerModePicker": {},
   "elementsPanel": {},

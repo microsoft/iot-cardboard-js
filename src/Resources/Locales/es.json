@@ -610,24 +610,92 @@
         "ariaLabel": " Importar"
       },
       "dateTime": {
-        "text": " Exportar"
+        "text": " Exportar",
+        "ariaLabel": "Introduzca un valor en el formato de fecha y hora RFC 3339, por ejemplo: 2007-04-05T14:30:15-08:00"
       },
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "duration": {
+        "text": " Introduzca un valor de duración en formato ISO-8601, donde n es un número: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": " Introduzca un valor de duración en formato ISO-8601, donde n es un número: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "integer": {
+        "text": " Introduzca un valor numérico no decimal (entero de 4 bytes con signo)",
+        "ariaLabel": " Introduzca un valor numérico no decimal (entero de 4 bytes con signo)"
+      },
+      "long": {
+        "text": " Introduzca un valor numérico no decimal (entero de 8 bytes con signo)",
+        "ariaLabel": " Introduzca un valor numérico no decimal (entero de 8 bytes con signo)"
+      },
+      "time": {
+        "text": " Introduzca un valor en <Formato de tiempo completo <DocLink>RFC 3339</DocLink>, por ejemplo: 14:22:33−08:00",
+        "ariaLabel": " Introduzca un valor en formato RFC 3339 a tiempo completo, por ejemplo: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " Una <DocLink>map key</DocLink> utiliza una cadena para describir la clave en un mapa.  Utilice los siguientes caracteres: a-z, A-Z, 0-9 y underscore.| *| Una clave de mapa utiliza una cadena para describir la clave de un mapa.  Utilice los siguientes caracteres: a-z, A-Z, 0-9 y underscore.| *| Restablecer todas las ediciones",
+        "ariaLabel": " Expandir árbol"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Contraer árbol",
+      "expandTree": " Guardar cambios",
+      "collapseTree": " Selector de fecha",
+      "save": " Selector de fecha y hora"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Selector de tiempo",
+      "dateTimePickerTitle": " Entrada de texto sin formato",
+      "timePickerTitle": " URL del entorno",
+      "plainTextInput": " URL del contenedor"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " Icono SVG a través de la etiqueta img src",
+      "invalidContainerUrl": " Ilustración SVG a través de la sintaxis del componente React"
+    },
+    "environmentUrl": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "por ejemplo, https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Editar entorno",
+    "enterContainerUrl": " Conecte su entorno para enumerar sus activos.| *| Conecte la dirección URL del entorno y del contenedor de almacenamiento para enumerar las escenas.| *| Los datos de configuración se guardan en el almacenamiento local.| *| Seleccione la URL del contenedor de almacenamiento",
+    "editEnvironment": " No se ha añadido ningún entorno",
+    "descriptionForEnvironment": " No se ha añadido ningún contenedor",
+    "descriptionForEnvAndCont": " Eliminar de la lista",
+    "descriptionForLocalStorage": " Esta no es una URL válida (por ejemplo, https://<suADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net/<suContainerName>)",
+    "noEnvironment": " Cerrar modal",
+    "noContainer": " Vista previa",
+    "removeFromList": " Carga de SVG a través del componente Fluent Image (patrón recomendado)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
+  "behaviorsModal": {
+    "closeModal": " Seleccione el archivo o introduzca la URL del blob",
+    "behaviorPreview": "3D en el contenedor"
+  },
+  "svgTests": {
+    "fluentUI": " Cargando archivos...| *| Esta no es una dirección URL de blob compatible (por ejemplo, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Los tipos de archivo admitidos son {{fileTypes}}.| *| Tema del visor",
+    "reactComponent": " Estilo"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Color del objeto",
+    "3dFileFromContainer": " Antecedentes",
+    "loading3DFiles": " Valor predeterminado",
+    "invalidBlobUrlPath": " Transparente",
+    "supportedFileTypes": " Wireframe"
+  },
+  "modelViewerModePicker": {
+    "title": " Elementos",
+    "style": " No hay elementos que mostrar",
+    "objectColors": " Escriba para filtrar elementos o alertas",
+    "background": " Panel Mostrar elementos",
+    "default": " Panel Ocultar elementos",
+    "transparent": " Editor de Azure Digital Twins Ontology",
+    "wireframe": " Buscar archivo, recurso, propiedad o ubicación"
+  },
+  "elementsPanel": {
+    "title": " Guardar",
+    "noElements": " Publicar",
+    "filterPlaceholder": "sincronizar",
+    "showPanel": " Importar",
+    "hidePanel": " Exportar"
+  },
   "OATHeader": {}
 }
