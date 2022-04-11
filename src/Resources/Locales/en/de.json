@@ -595,20 +595,71 @@
         "ariaLabel": " Bedienfeld \"Elemente anzeigen"
       },
       "long": {
-        "text": " Bedienfeld \"Elemente ausblenden\""
+        "text": " Bedienfeld \"Elemente ausblenden\"",
+        "ariaLabel": "Geben Sie einen nicht dezimalen numerischen Wert ein (8-Byte-Ganzzahl mit Vorzeichen)"
       },
-      "time": {},
-      "map": {}
+      "time": {
+        "text": " ein Geben Sie einen Wert im <DocLink>RFC 3339 full-time format</DocLink> ein, z. B.: 14:22:33−08:00",
+        "ariaLabel": " Geben Sie einen Wert im RFC 3339-Vollzeitformat ein, z. B.: 14:22:33−08:00"
+      },
+      "map": {
+        "text": " Ein <DocLink>Zuordnungsschlüssel</DocLink> verwendet eine Zeichenfolge, um den Schlüssel in einer Karte zu beschreiben.  Verwenden Sie die folgenden Zeichen: a-z, A-Z, 0-9 und Unterstrich.| *| Ein Zuordnungsschlüssel verwendet eine Zeichenfolge, um den Schlüssel in einer Karte zu beschreiben.  Verwenden Sie die folgenden Zeichen: a-z, A-Z, 0-9 und Unterstrich.| *| Alle Bearbeitungen zurücksetzen",
+        "ariaLabel": " Baum erweitern"
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": " Baum ausblenden",
+      "expandTree": " Änderungen speichern",
+      "collapseTree": " Datumsauswahl",
+      "save": " Datetime-Auswahl"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": " Zeitauswahl",
+      "dateTimePickerTitle": " Nur-Text-Eingabe",
+      "timePickerTitle": " Umgebungs-URL",
+      "plainTextInput": " Container-URL"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": " SVG-Symbol über img-Tag src",
+      "invalidContainerUrl": " SVG-Darstellung über React-Komponentensyntax"
+    },
+    "environmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
+    "containerUrl": "z.B. https://example.blob.core.windows.net/example",
+    "enterEnvironmentUrl": " Umgebung bearbeiten",
+    "enterContainerUrl": " Verbinden Sie Ihre Umgebung, um Ihre Assets aufzulisten.| *| Verbinden Sie Ihre Umgebung und die Speichercontainer-URL, um Ihre Szenen aufzulisten.| *| Die Konfigurationsdaten werden im lokalen Speicher gespeichert.| *| Wählen Sie die URL des Speichercontainers",
+    "editEnvironment": " Keine Umgebung hinzugefügt",
+    "descriptionForEnvironment": " Kein Container hinzugefügt",
+    "descriptionForEnvAndCont": " Aus Liste entfernen",
+    "descriptionForLocalStorage": " Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "selectContainerUrl": " Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+    "noEnvironment": " Modal schließen",
+    "noContainer": " Vorschau",
+    "removeFromList": " SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
+  "behaviorsModal": {
+    "closeModal": " Wählen Sie die Datei aus oder geben Sie die Blob-URL",
+    "behaviorPreview": "3D-Datei in den Container ein"
+  },
+  "svgTests": {
+    "fluentUI": " Dateien werden geladen...| *| Dies ist keine unterstützte Blob-URL (z. B. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "imgTag": " Unterstützte Dateitypen sind {{fileTypes}}.| *| Viewer-Design",
+    "reactComponent": " Stil"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " Objektfarbe",
+    "3dFileFromContainer": " Hintergrund",
+    "loading3DFiles": " Standard",
+    "invalidBlobUrlPath": " Transparent",
+    "supportedFileTypes": " Drahtmodell"
+  },
+  "modelViewerModePicker": {
+    "title": " Elemente",
+    "style": " Keine anzuzeigenden Elemente",
+    "objectColors": " Geben Sie ein, um Elemente oder Warnungen zu filtern",
+    "background": " Bedienfeld \"Elemente anzeigen",
+    "default": " Bedienfeld \"Elemente ausblenden\""
+  },
   "elementsPanel": {}
 }
