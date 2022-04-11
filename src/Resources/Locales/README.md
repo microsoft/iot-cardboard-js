@@ -17,7 +17,7 @@ npm install -g i18n-auto-translation
 ```ts
 i18n-auto-translation -t de -k <subscription key> -p ./src/Resources/Locales/en/translation.json -l westus2 -f en -a azure-official 
 ```
- 
+
 ## Translation automation
 
 - In the PRs we have a GitHub action ([i18n-auto-translation-action](https://github.com/msnyder-msft/i18n-auto-translation-action)) that gets triggered to run this package automatically. It will push updates to the PR for the newly detected keys.
