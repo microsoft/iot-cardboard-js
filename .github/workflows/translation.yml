@@ -23,7 +23,7 @@ jobs:
                   provider: 'azure-official'
                   subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
                   location: 'westus2'
-                  filePath: './src/Resources/Locales/en/translation.json'
+                  filePath: './src/Resources/Locales/en.json'
                   from: 'en'
                   to: 'cs,de,es,fr,hu,it,ja,ko,nl,pl,pt,pt-pt,ru,sv,tr,zh-Hans'
                   debug: false
