@@ -74,6 +74,18 @@
                     "d6a2d68bc4007f3fa624eab19105e44b",
                     "1e0aa8384c4546c7ae1ca6e6d244922e"
                 ]
+            },
+            {
+                "id": "f7053e7537048e03be4d1e6f8f900000",
+                "displayName": "Globe",
+                "assets": [
+                    {
+                        "type": "3DAsset",
+                        "url": "Globe"
+                    }
+                ],
+                "elements": [],
+                "behaviorIDs": []
             }
         ],
         "behaviors": [
@@ -174,21 +186,11 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.PercentFull > 0",
-                        "labelExpression": "Tank Too Full",
-                        "iconName": "CircleHalfFull",
-                        "color": "#de3b09",
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
                         "type": "Popover",
                         "title": "",
                         "widgets": [
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gc31",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.PercentFull",
                                 "widgetConfiguration": {
@@ -287,7 +289,7 @@
                         "title": "",
                         "widgets": [
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gc85",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.InFlow",
                                 "widgetConfiguration": {
@@ -316,7 +318,7 @@
                                 }
                             },
                             {
-                                "id": "",
+                                "id": "1d60362667067ff5763bb6f77654gcm9",
                                 "type": "Gauge",
                                 "valueExpression": "LinkedTwin.OutFlow",
                                 "widgetConfiguration": {

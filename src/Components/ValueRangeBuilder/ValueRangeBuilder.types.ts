@@ -1,6 +1,7 @@
-import { IColorCellProps } from '@fluentui/react';
+import { Dispatch } from 'react';
 import { IValueRange } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
+import { IPickerOption } from '../Pickers/Internal/Picker.base.types';
 
 export enum Boundary {
     min = 'min',
@@ -8,14 +9,15 @@ export enum Boundary {
 }
 
 export enum ValueRangeBuilderActionType {
-    SET_VALUE_RANGES,
-    ADD_VALUE_RANGE,
-    UPDATE_VALUE_RANGE,
-    DELETE_VALUE_RANGE,
-    UPDATE_VALIDATION_MAP,
-    UPDATE_VALUE_RANGE_VALIDATION,
-    SNAP_VALUE_TO_INFINITY,
-    PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED
+    SET_VALUE_RANGES = 'SET_VALUE_RANGES',
+    ADD_VALUE_RANGE = 'ADD_VALUE_RANGE',
+    UPDATE_VALUE_RANGE = 'UPDATE_VALUE_RANGE',
+    DELETE_VALUE_RANGE = 'DELETE_VALUE_RANGE',
+    UPDATE_VALIDATION_MAP = 'UPDATE_VALIDATION_MAP',
+    UPDATE_VALUE_RANGE_VALIDATION = 'UPDATE_VALUE_RANGE_VALIDATION',
+    SNAP_VALUE_TO_INFINITY = 'SNAP_VALUE_TO_INFINITY',
+    PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED = 'PRE_FILL_VALUE_RANGES_TO_MIN_REQUIRED',
+    SET_ARE_RANGES_VALID = 'SET_ARE_RANGES_VALID'
 }
 
 export type ValueRangeBuilderAction =
@@ -59,14 +61,19 @@ export type ValueRangeBuilderAction =
               currentValueRange: IValueRange;
               boundary: Boundary;
           };
+      }
+    | {
+          type: ValueRangeBuilderActionType.SET_ARE_RANGES_VALID;
+          payload: boolean;
       };
 
 export interface IValueRangeBuilderState {
     valueRanges: IValueRange[];
     validationMap: IValueRangeValidationMap;
-    colorSwatch: IColorCellProps[];
+    colorSwatch: IPickerOption[];
     minRanges: number;
     maxRanges: number;
+    areRangesValid: boolean;
 }
 
 export interface IValueRangeBuilderAction {
@@ -76,12 +83,11 @@ export interface IValueRangeBuilderAction {
 
 export interface IValueRangeBuilderProps {
     className?: string;
-    initialValueRanges: IValueRange[];
-    customSwatchColors?: IColorCellProps[];
     baseComponentProps?: BaseComponentProps;
-    setAreRangesValid?: React.Dispatch<React.SetStateAction<boolean>>;
-    minRanges?: number;
-    maxRanges?: number;
+    valueRangeBuilderReducer: {
+        state: IValueRangeBuilderState;
+        dispatch: Dispatch<ValueRangeBuilderAction>;
+    };
 }
 
 export interface IValueRangeBuilderContext {
@@ -105,8 +111,4 @@ export interface IValueRangeValidationMap {
     validation: {
         [id: string]: IValueRangeValidation;
     };
-}
-
-export interface IValueRangeBuilderHandle {
-    getValueRanges: () => IValueRange[];
 }

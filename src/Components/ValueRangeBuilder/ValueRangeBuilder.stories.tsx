@@ -1,59 +1,57 @@
 import { DefaultButton } from '@fluentui/react';
-import { ComponentStory } from '@storybook/react';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { defaultSwatchColors } from '../../Theming/Palettes';
+import useValueRangeBuilder from '../../Models/Hooks/useValueRangeBuilder';
 import ValueRangeBuilder from './ValueRangeBuilder';
-import { IValueRangeBuilderHandle } from './ValueRangeBuilder.types';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+
+const wrapperStyle = {
+    width: '100%',
+    height: '500px',
+    overflowY: 'auto'
+} as React.CSSProperties;
 
 export default {
     title: 'Components/Value Range Builder',
-    component: ValueRangeBuilder
+    component: ValueRangeBuilder,
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-const wrapperStyle = { width: '340px', height: '400px' };
-type ValueRangeBuilderStory = ComponentStory<typeof ValueRangeBuilder>;
-
-const Template: ValueRangeBuilderStory = (
-    args,
-    { globals: { theme, locale } }
-) => {
+const Template = (args, { globals: { theme, locale } }) => {
+    const { valueRangeBuilderReducer } = useValueRangeBuilder({
+        initialValueRanges: args.initialValueRanges,
+        minRanges: args.minRanges,
+        maxRanges: args.maxRanges
+    });
     return (
-        <div style={wrapperStyle}>
-            <ValueRangeBuilder
-                {...args}
-                initialValueRanges={args.initialValueRanges || []}
-                baseComponentProps={{ theme, locale }}
-            />
-        </div>
+        <ValueRangeBuilder
+            {...args}
+            valueRangeBuilderReducer={valueRangeBuilderReducer}
+            baseComponentProps={{ theme, locale }}
+        />
     );
 };
 
-const TemplateWithValidation: ValueRangeBuilderStory = (
-    args,
-    { globals: { theme, locale } }
-) => {
-    const [areRangesValid, setAreRangesValid] = useState(true);
-    const valueRangeBuilderHandleRef = useRef<IValueRangeBuilderHandle>(null);
+const TemplateWithValidation = (args, { globals: { theme, locale } }) => {
+    const {
+        valueRangeBuilderState,
+        valueRangeBuilderReducer
+    } = useValueRangeBuilder({
+        initialValueRanges: args.initialValueRanges,
+        minRanges: args.minRanges,
+        maxRanges: args.maxRanges
+    });
+
     return (
-        <div
-            className="cb-value-range-builder-template-with-validation"
-            style={wrapperStyle}
-        >
-            <ValueRangeBuilder
-                {...args}
-                initialValueRanges={args.initialValueRanges || []}
-                baseComponentProps={{ theme, locale }}
-                setAreRangesValid={setAreRangesValid}
-                ref={valueRangeBuilderHandleRef}
-            />
+        <>
             <div>
                 Consuming component - ranges are valid:{' '}
-                {areRangesValid ? '✅' : '❌'}
+                {valueRangeBuilderState.areRangesValid ? '✅' : '❌'}
             </div>
-            <div style={{ marginTop: 8 }}>
+            <div style={{ margin: '20px 0px' }}>
                 <DefaultButton
                     onClick={() => {
-                        const valueRanges = valueRangeBuilderHandleRef.current.getValueRanges();
+                        const valueRanges = valueRangeBuilderState.valueRanges;
                         alert(
                             `${valueRanges.length} value ranges were retrieved from this consuming component.  Details have been logged in the console`
                         );
@@ -66,123 +64,126 @@ const TemplateWithValidation: ValueRangeBuilderStory = (
                     Grab value ranges from parent
                 </DefaultButton>
             </div>
-        </div>
+            <ValueRangeBuilder
+                {...args}
+                baseComponentProps={{ theme, locale }}
+                valueRangeBuilderReducer={valueRangeBuilderReducer}
+            />
+        </>
     );
 };
 
-export const InfoFromConsumingComponent = TemplateWithValidation.bind(
-    {}
-) as ValueRangeBuilderStory;
+export const InfoFromConsumingComponent = TemplateWithValidation.bind({});
 InfoFromConsumingComponent.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 1000
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 1001,
             max: 'Infinity'
         }
     ]
 };
 
-export const Empty = Template.bind({}) as ValueRangeBuilderStory;
-export const ValidRanges = Template.bind({}) as ValueRangeBuilderStory;
+export const Empty = Template.bind({});
+export const ValidRanges = Template.bind({});
 
 ValidRanges.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 1000
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 1001,
             max: 'Infinity'
         }
     ]
 };
 
-export const InvalidRange = Template.bind({}) as ValueRangeBuilderStory;
+export const InvalidRange = Template.bind({});
 InvalidRange.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 300,
             max: 100
         }
     ]
 };
 
-export const NonNumericValue = Template.bind({}) as ValueRangeBuilderStory;
+export const NonNumericValue = Template.bind({});
 NonNumericValue.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf141',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: 'asdf' as any,
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf178',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 100,
             max: 300
         }
     ]
 };
 
-export const RangeOverlap = Template.bind({}) as ValueRangeBuilderStory;
+export const RangeOverlap = Template.bind({});
 RangeOverlap.args = {
     initialValueRanges: [
         {
             id: '0278cd377adbc30253b0fdb6b5fcf160',
-            color: defaultSwatchColors.find((c) => c.id === 'blue').color,
+            color: defaultSwatchColors.find((c) => c.id === 'blue').item,
             min: 1,
             max: 'Infinity'
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf161',
-            color: defaultSwatchColors.find((c) => c.id === 'green').color,
+            color: defaultSwatchColors.find((c) => c.id === 'green').item,
             min: '-Infinity',
             max: 0
         },
         {
             id: '0278cd377adbc30253b0fdb6b5fcf162',
-            color: defaultSwatchColors.find((c) => c.id === 'red').color,
+            color: defaultSwatchColors.find((c) => c.id === 'red').item,
             min: 750,
             max: 1500
         }
     ]
 };
 
-export const MinAndMaxRanges = Template.bind({}) as ValueRangeBuilderStory;
+export const MinAndMaxRanges = Template.bind({});
 
 MinAndMaxRanges.args = {
     minRanges: 5,

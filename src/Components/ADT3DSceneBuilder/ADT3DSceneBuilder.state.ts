@@ -17,7 +17,8 @@ import {
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
-    ADT3DSceneTwinBindingsMode
+    ADT3DSceneTwinBindingsMode,
+    WidgetFormMode
 } from '../../Models/Constants/Enums';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
 
@@ -25,7 +26,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     config: null,
     coloredMeshItems: [],
     outlinedMeshItems: [],
-    widgetFormInfo: null,
+    widgetFormInfo: { mode: WidgetFormMode.Cancelled },
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
     elements: [],

@@ -1,4 +1,5 @@
 import {
+    FontSizes,
     FontWeights,
     IStyle,
     memoizeFunction,
@@ -21,13 +22,13 @@ export const getStyles = memoizeFunction(() => {
         behaviorSection: [
             classNames.behaviorSection,
             {
-                padding: '8px 20px'
+                padding: '20px 20px'
             } as IStyle
         ],
         behaviorHeader: [
             classNames.behaviorHeader,
             {
-                fontSize: '12px',
+                fontSize: FontSizes.size12,
                 fontWeight: FontWeights.bold,
                 marginBottom: 16
             } as IStyle
@@ -57,7 +58,7 @@ export const getStyles = memoizeFunction(() => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                fontSize: '12px'
+                fontSize: FontSizes.size12
             } as IStyle
         ]
     });

@@ -411,12 +411,12 @@ function getListItems(
         const viewModel: ICardboardListItem<ITwinToObjectMapping> = {
             ariaLabel: '',
             buttonProps: {
-                onMouseOver: () => onElementEnter(item),
+                onMouseEnter: () => onElementEnter(item),
                 onMouseLeave: onElementLeave,
                 onFocus: () => onElementEnter(item),
                 onBlur: onElementLeave
             },
-            iconStartName: !isEditBehavior ? 'Shapes' : undefined,
+            iconStart: !isEditBehavior ? { name: 'Shapes' } : undefined,
             item: item,
             onClick: onListItemClick,
             overflowMenuItems: getOverflowMenuItems(item),

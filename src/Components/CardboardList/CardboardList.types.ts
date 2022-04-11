@@ -6,23 +6,41 @@ import {
     IListProps
 } from '@fluentui/react';
 import { CardboardIconNames } from '../../Models/Constants';
+import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 type IIconNames = string | CardboardIconNames;
 type IListItemBaseProps<T> = {
     /** screen reader text to use for the list item */
     ariaLabel: string;
-    /** override props for the root button */
-    buttonProps?: Omit<IButtonProps, 'styles' | 'onClick' | 'onKeyPress'> & {
+    /**
+     * override props for the root button.
+     * Hiding mouseOver to prevent perf regressions again. Use MouseEnter instead.
+     */
+    buttonProps?: Omit<
+        IButtonProps,
+        | 'styles'
+        | 'onClick'
+        | 'onKeyPress'
+        | 'onMouseOver'
+        | 'onMouseOverCapture'
+    > & {
         customStyles?: IButtonStyles;
     };
     /** icon to render on the right side of the list item */
-    iconEndName?: IIconNames;
+    iconEnd?: {
+        name: IIconNames;
+        onClick?: (item: T) => void;
+    };
     /** icon or JSX element to render at the left side of the list item */
-    iconStartName?: IIconNames | JSX.Element;
+    iconStart?: {
+        name: IIconNames | JSX.Element;
+    };
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
     /** the original item to provide back to callbacks */
     item: T;
+    /** type of item when rendering a grouped list. Headers have dividers and items have indentation */
+    itemType?: CardboardGroupedListItemType;
     /** List items to show in the overflow set */
     overflowMenuItems?: IContextualMenuItem[];
     /** primary text to show */
@@ -61,6 +79,8 @@ export type ICardboardListItemPropsInternal<T> = {
 export interface ICardboardListProps<T> {
     /** name of the class to put on the root node */
     className?: string;
+    /** whether to expect header and normal items in the collect of items */
+    isGrouped?: boolean;
     /** unique identifier for this list of items. Will be joined with index */
     listKey: string;
     /** optional prop to set any specific focus zone props needed for special cases */

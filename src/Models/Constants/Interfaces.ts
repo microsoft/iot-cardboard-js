@@ -693,25 +693,36 @@ export interface IADT3DViewerProps {
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
+    outlinedMeshItems?: CustomMeshItem[];
 }
 
 export interface IADT3DViewerMode {
     objectColor: IADTObjectColor;
     isWireframe: boolean;
-    background: string;
+    background: IADTBackgroundColor;
 }
 
 export interface IADTObjectColor {
     color: string;
-    opacity: number;
     baseColor: string;
     fresnelColor: string;
+    lightingStyle: number;
+    reflectionTexture?: string;
     coloredMeshColor: string;
     meshHoverColor: string;
     coloredMeshHoverColor: string;
     outlinedMeshHoverColor: string;
     outlinedMeshSelectedColor: string;
     outlinedMeshHoverSelectedColor: string;
+}
+
+export interface IADTBackgroundColor {
+    color: string;
+    badgeColor: string;
+    defaultBadgeColor: string;
+    defaultBadgeTextColor: string;
+    aggregateBadgeColor: string;
+    aggregateBadgeTextColor: string;
 }
 
 export interface IBlobFile {

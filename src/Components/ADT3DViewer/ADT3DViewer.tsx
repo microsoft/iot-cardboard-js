@@ -5,27 +5,32 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { DTwin, IADT3DViewerProps } from '../../Models/Constants/Interfaces';
+import { IADT3DViewerProps } from '../../Models/Constants/Interfaces';
 import { useGuid } from '../../Models/Hooks';
 import './ADT3DViewer.scss';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import {
     CustomMeshItem,
     Marker,
+    SceneViewBadgeGroup,
     SceneVisual
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
-import {
-    IBehavior,
-    IPopoverVisual
-} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IPopoverVisual } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import ElementsPanelModal from './Internal/ElementsPanelModal';
 import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
-import { ViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
+import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
+import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
+import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
+import { useBoolean } from '@fluentui/react-hooks';
+import { createCustomMeshItems } from '../3DV/SceneView.Utils';
+import { deepCopy } from '../../Models/Services/Utils';
+import AlertModal from '../AlertModal/AlertModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -40,6 +45,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     enableMeshSelection,
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
+    outlinedMeshItems: outlinedMeshItemsProp,
     zoomToMeshIds: zoomToMeshIdsProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
@@ -48,27 +54,49 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
+    const [outlinedMeshItems, setOutlinedMeshItems] = useState<
+        CustomMeshItem[]
+    >(outlinedMeshItemsProp || []);
+    // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
+    const outlinedMeshItemsRef = useRef(outlinedMeshItems);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
         zoomToMeshIdsProp || []
     );
+    const selectedMeshIdsRef = useRef(zoomToMeshIds);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [behaviorModalConfig, setBehaviorModalConfig] = useState<{
-        behaviors: IBehavior[];
-        twins: Record<string, DTwin>;
-        title: string;
-    }>(null);
+    const [
+        isElementsPanelVisible,
+        { toggle: toggleIsElementsPanelVisible }
+    ] = useBoolean(!hideElementsPanel);
 
+    const [
+        behaviorModalSceneVisualElementId,
+        setBehaviorModalSceneVisuaElementlId
+    ] = useState<string>(null);
+
+    const [isAlertPopoverVisible, setIsAlertPopoverVisible] = useState(false);
+    const [alertPopoverPosition, setAlertPopoverPosition] = useState({
+        left: 0,
+        top: 0
+    });
+
+    const [
+        alertPanelItems,
+        setAlertPanelItems
+    ] = useState<IViewerElementsPanelItem>(null);
+
+    const { t } = useTranslation();
     const sceneWrapperId = useGuid();
-
     const selectedMesh = useRef(null);
     const sceneRef = useRef(null);
 
-    const { modelUrl, sceneVisuals, isLoading } = useRuntimeSceneData(
-        adapter,
-        sceneId,
-        scenesConfig,
-        pollingInterval
-    );
+    const {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading
+    } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
 
     useEffect(() => {
         refetchConfig && refetchConfig();
@@ -92,12 +120,14 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     }
                 });
             });
+
+            setAlertBadges(sceneAlerts);
             setColoredMeshItems(newColoredMeshItems);
         }
     }, [sceneVisuals, coloredMeshItemsProp]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
-    const panelItems: Array<ViewerElementsPanelItem> = useMemo(
+    const panelItems: Array<IViewerElementsPanelItem> = useMemo(
         () =>
             sceneVisuals.map((sceneVisual) => ({
                 element: sceneVisual.element,
@@ -122,12 +152,17 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
 
         if (popOver) {
-            setBehaviorModalConfig({
-                behaviors: sceneVisual?.behaviors || [],
-                twins: sceneVisual?.twins || {},
-                title: sceneVisual?.element?.displayName || ''
-            });
+            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
             setShowPopUp(true);
+            const meshIds = sceneVisual.element.objectIDs;
+            const outlinedMeshItems = createCustomMeshItems(
+                meshIds,
+                DefaultViewerModeObjectColor.outlinedMeshSelectedColor
+            );
+
+            setOutlinedMeshItems(outlinedMeshItems);
+            outlinedMeshItemsRef.current = outlinedMeshItems;
+            selectedMeshIdsRef.current = meshIds;
         }
     };
 
@@ -150,6 +185,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     selectedMesh.current = null;
                     setShowPopUp(false);
                     setZoomToMeshIds([]);
+                    setOutlinedMeshItems([]);
+                    outlinedMeshItemsRef.current = [];
+                    selectedMeshIdsRef.current = [];
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
@@ -159,6 +197,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 selectedMesh.current = null;
                 setShowPopUp(false);
                 setZoomToMeshIds([]);
+                setOutlinedMeshItems([]);
+                outlinedMeshItemsRef.current = [];
+                selectedMeshIdsRef.current = [];
             }
         }
 
@@ -201,11 +242,71 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
+    const onBadgeGroupHover = (
+        badgeGroup: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => {
+        if (!isAlertPopoverVisible) {
+            setAlertPanelItems({
+                element: badgeGroup.element,
+                behaviors: badgeGroup.behaviors,
+                twins: badgeGroup.twins
+            });
+            // Adding offsets to ensure the popover covers the alerts badges as per the designs
+            setAlertPopoverPosition({ left: left - 50, top: top - 30 });
+            setIsAlertPopoverVisible(true);
+        }
+    };
+
     const onElementPanelItemClicked = useCallback(
         (_item, panelItem, _behavior) => {
             setShowPopUp(false);
             setZoomToMeshIds(panelItem.element.objectIDs);
             showPopover(panelItem);
+            setIsAlertPopoverVisible(false);
+        },
+        []
+    );
+
+    const onElementPanelItemHovered = useCallback(
+        (_item, panelItem, _behavior) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                if (!currentlyOutlinedMeshIds.includes(meshId)) {
+                    newOutlinedMeshItems.push({
+                        meshId,
+                        color:
+                            DefaultViewerModeObjectColor.outlinedMeshHoverColor
+                    });
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
+        },
+        []
+    );
+
+    const onElementPanelItemBlured = useCallback(
+        (_item, panelItem, _behavior) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                const meshIndex = currentlyOutlinedMeshIds.findIndex(
+                    (outlinedMeshId) => outlinedMeshId === meshId
+                );
+                if (
+                    meshIndex !== -1 &&
+                    !selectedMeshIdsRef.current?.includes(meshId)
+                ) {
+                    newOutlinedMeshItems.splice(meshIndex, 1);
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
         },
         []
     );
@@ -216,6 +317,12 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     }, [zoomToMeshIdsProp]);
 
+    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
+
+    const behaviorModalSceneVisual = sceneVisuals.find(
+        (sv) => sv.element.id === behaviorModalSceneVisualElementId
+    );
+
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
@@ -223,14 +330,28 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             locale={locale}
         >
             <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                {!hideElementsPanel && (
-                    <ElementsPanelModal
-                        theme={theme}
-                        locale={locale}
-                        panelItems={panelItems}
+                <DefaultButton
+                    toggle
+                    checked={isElementsPanelVisible}
+                    styles={elementsPanelToggleButtonStyles}
+                    iconProps={{
+                        iconName: 'BulletedTreeList',
+                        styles: { root: { fontSize: 20 } }
+                    }}
+                    ariaLabel={
+                        hideElementsPanel
+                            ? t('elementsPanel.showPanel')
+                            : t('elementsPanel.hidePanel')
+                    }
+                    onClick={toggleIsElementsPanelVisible}
+                />
+                {isElementsPanelVisible && (
+                    <ViewerElementsPanel
                         isLoading={isLoading}
+                        panelItems={panelItems}
                         onItemClick={onElementPanelItemClicked}
-                        onItemHover={(item) => item.type}
+                        onItemHover={onElementPanelItemHovered}
+                        onItemBlur={onElementPanelItemBlured}
                     />
                 )}
                 <SceneViewWrapper
@@ -241,12 +362,15 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     addInProps={addInProps}
                     hideViewModePickerUI={hideViewModePickerUI}
                     sceneViewProps={{
+                        badgeGroups: alertBadges,
                         modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
+                        outlinedMeshitems: outlinedMeshItems,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
+                        onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),
@@ -264,14 +388,51 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     onClose={() => {
                         setShowPopUp(false);
                         setZoomToMeshIds([]);
+                        setOutlinedMeshItems([]);
+                        outlinedMeshItemsRef.current = [];
+                        selectedMeshIdsRef.current = [];
                     }}
-                    twins={behaviorModalConfig.twins}
-                    behaviors={behaviorModalConfig.behaviors}
-                    title={behaviorModalConfig.title}
+                    twins={behaviorModalSceneVisual?.twins}
+                    behaviors={behaviorModalSceneVisual?.behaviors}
+                    title={behaviorModalSceneVisual?.element?.displayName}
+                />
+            )}
+            {isAlertPopoverVisible && (
+                <AlertModal
+                    alerts={alertPanelItems}
+                    position={alertPopoverPosition}
+                    onClose={() => {
+                        setIsAlertPopoverVisible(false);
+                    }}
+                    onItemClick={onElementPanelItemClicked}
+                    onItemHover={onElementPanelItemHovered}
+                    onItemBlur={onElementPanelItemBlured}
                 />
             )}
         </BaseComponent>
     );
 };
+
+const toggleElementsPanelStyles = memoizeFunction(
+    () =>
+        ({
+            root: {
+                minWidth: 'unset',
+                width: 64,
+                height: 54,
+                border: '1px solid var(--cb-color-modal-border)',
+                borderRadius: 4,
+                backdropFilter: 'blur(50px)',
+                color: 'var(--cb-color-text-primary)',
+                position: 'absolute',
+                zIndex: 999,
+                left: 20,
+                bottom: 20
+            },
+            rootChecked: {
+                background: 'var(--cb-color-glassy-modal)'
+            }
+        } as Partial<IButtonStyles>)
+);
 
 export default withErrorBoundary(ADT3DViewer);

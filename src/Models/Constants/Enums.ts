@@ -6,6 +6,12 @@ export enum Theme {
     Kraken = 'kraken'
 }
 
+export enum ViewerModeStyles {
+    Default = 'default',
+    Transparent = 'transparent',
+    Wireframe = 'wireframe'
+}
+
 export enum TSIComponentTypes {
     Linechart = 'linechart',
     Barchart = 'barchart'
@@ -133,8 +139,10 @@ export enum ADT3DSceneBuilderMode {
 }
 
 export enum WidgetFormMode {
-    CreateWidget,
-    EditWidget
+    CreateWidget = 'CreateWidget',
+    EditWidget = 'EditWidget',
+    Cancelled = 'Cancelled',
+    Committed = 'Committed'
 }
 
 export enum ADT3DSceneTwinBindingsMode {
@@ -154,11 +162,9 @@ export enum BehaviorListSegment {
 
 export enum ADT3DRenderMode {
     Default = 'Default',
-    Wireframe = 'Wireframe',
-    Red = 'Red',
-    RedWireframe = 'RedWireframe',
-    Green = 'Green',
-    GreenWireframe = 'GreenWireframe'
+    Light = 'Light',
+    Blue = 'Blue',
+    Gold = 'Gold'
 }
 
 export enum ADT3DAddInEventTypes {
@@ -176,4 +182,9 @@ export enum SupportedBlobFileTypes {
     JavaScriptObjectNotation = 'json',
     GLTransmissionFormat = 'gltf',
     GLTransmissionFormatBinary = 'glb'
+}
+
+export enum BehaviorModalMode {
+    viewer = 'viewer',
+    preview = 'preview'
 }

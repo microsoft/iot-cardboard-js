@@ -64,10 +64,10 @@ const File3DUploader: React.FC<File3DUploaderProps> = ({
                 <CardboardList<File>
                     items={[
                         {
-                            iconStartName: 'OpenFile',
+                            iconEnd: { name: 'Cancel' },
+                            iconStart: { name: 'OpenFile' },
                             textPrimary: selectedFile.name,
                             textSecondary: prettyBytes(selectedFile.size),
-                            iconEndName: 'Cancel',
                             onClick: () => {
                                 setSelectedFile(null);
                                 onFileChange(null);

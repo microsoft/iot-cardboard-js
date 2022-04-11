@@ -1,4 +1,5 @@
 import {
+    FontWeights,
     IButtonStyles,
     IStyle,
     memoizeFunction,
@@ -8,40 +9,84 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-elements-panel`;
 const classNames = {
+    boundaryLayer: `${classPrefix}-boundary-layer`,
+    draggable: `${classPrefix}-draggable`,
+    container: `${classPrefix}-container`,
     list: `${classPrefix}-list`,
+    header: `${classPrefix}-header`,
+    title: `${classPrefix}-title`,
+    filterBox: `${classPrefix}-filterBox`,
     statusLine: `${classPrefix}-status-line`,
     alertCircle: `${classPrefix}-alert-circle`,
     listItembutton: `${classPrefix}--list-item-button`
 };
 
+const initialElementsPanelTopOffset = 20;
+const initialElementsPanelLeftOffset = 20;
+
 export const getElementsPanelStyles = () => {
     return mergeStyleSets({
-        container: {
-            position: 'relative',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'var(--cb-color-glassy-modal)',
-            backdropFilter: 'blur(24px) brightness(150%)',
-            borderRadius: 2,
-            border: '1px solid var(--cb-color-modal-border)'
-        } as IStyle,
-        header: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: '20px'
-        } as IStyle,
-        title: {
-            flexGrow: 1,
-            fontSize: 14,
-            lineHeight: 20,
-            paddingLeft: 8,
-            fontWeight: 600
-        } as IStyle,
-        searchBox: {
-            margin: '0 20px 12px',
-            minHeight: 32
-        } as IStyle,
+        boundaryLayer: [
+            classNames.boundaryLayer,
+            {
+                height: `calc(100% - ${initialElementsPanelTopOffset}px)`,
+                left: 0,
+                pointerEvents: 'none',
+                position: 'absolute',
+                top: initialElementsPanelTopOffset,
+                width: '100%',
+                zIndex: 1000
+            } as IStyle
+        ],
+        draggable: [
+            classNames.draggable,
+            {
+                top: 0,
+                left: initialElementsPanelLeftOffset
+            } as IStyle
+        ],
+        modalContainer: [
+            classNames.container,
+            {
+                display: 'flex',
+                flexFlow: 'column nowrap',
+                alignItems: 'stretch',
+                width: 340,
+                height: 'calc(100% - 80px)',
+                backgroundColor: 'var(--cb-color-glassy-modal)',
+                backdropFilter: 'blur(24px) brightness(150%)',
+                borderRadius: 2,
+                border: `1px solid var(--cb-color-modal-border)`,
+                cursor: 'move',
+                position: 'absolute',
+                pointerEvents: 'auto'
+            } as IStyle
+        ],
+        header: [
+            classNames.header,
+            {
+                display: 'flex',
+                alignItems: 'center',
+                padding: '20px'
+            } as IStyle
+        ],
+        title: [
+            classNames.title,
+            {
+                flexGrow: 1,
+                fontSize: 14,
+                lineHeight: 20,
+                paddingLeft: 8,
+                fontWeight: 600
+            } as IStyle
+        ],
+        filterBox: [
+            classNames.filterBox,
+            {
+                margin: '0 20px 12px',
+                minHeight: 32
+            } as IStyle
+        ],
         list: [
             classNames.list,
             {
@@ -78,7 +123,7 @@ export const getElementsPanelStatusStyles = memoizeFunction(
 );
 
 export const getElementsPanelAlertStyles = memoizeFunction(
-    (alertColor: string, isForPopover = false) => {
+    (alertColor: string) => {
         return mergeStyleSets({
             alertCircle: [
                 classNames.alertCircle,
@@ -87,7 +132,7 @@ export const getElementsPanelAlertStyles = memoizeFunction(
                     height: 20,
                     borderRadius: 30,
                     backgroundColor: alertColor,
-                    margin: `0 8px 0 ${isForPopover ? '10px' : '30px'}`,
+                    margin: `0 8px 0 10px`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -101,14 +146,12 @@ export const getElementsPanelButtonSyles = memoizeFunction(() => ({
     elementButton: {
         root: {
             background: 'transparent',
-            padding: '12px 20px 12px 10px',
-            fontWeight: 500
+            fontWeight: FontWeights.semibold
         }
     } as IButtonStyles,
     alertButton: {
         root: {
-            background: 'transparent',
-            padding: '8px 20px'
+            background: 'transparent'
         }
     } as IButtonStyles
 }));

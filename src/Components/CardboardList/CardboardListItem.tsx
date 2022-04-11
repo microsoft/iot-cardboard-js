@@ -1,4 +1,10 @@
-import { DefaultButton, FontIcon, useTheme } from '@fluentui/react';
+import {
+    css,
+    DefaultButton,
+    FontIcon,
+    IconButton,
+    useTheme
+} from '@fluentui/react';
 import React, { ReactNode, useCallback, useRef, useState } from 'react';
 import { Utils } from '../..';
 import CheckboxRenderer from '../CheckboxRenderer/CheckboxRenderer';
@@ -6,27 +12,33 @@ import { OverflowMenu } from '../OverflowMenu/OverflowMenu';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
 import { getStyles, getButtonStyles } from './CardboardListItem.styles';
 
-export const CardboardListItem = <T extends unknown>({
-    buttonProps,
-    iconEndName,
-    iconStartName,
-    index,
-    item,
-    isChecked,
-    listKey,
-    openMenuOnClick,
-    overflowMenuItems,
-    textPrimary,
-    textSecondary,
-    textToHighlight,
-    onClick
-}: ICardboardListItemPropsInternal<T> & { children?: ReactNode }) => {
+export const CardboardListItem = <T extends unknown>(
+    props: ICardboardListItemPropsInternal<T> & { children?: ReactNode }
+) => {
+    const {
+        buttonProps,
+        iconEnd,
+        iconStart,
+        index,
+        item,
+        itemType,
+        isChecked,
+        listKey,
+        openMenuOnClick,
+        overflowMenuItems,
+        textPrimary,
+        textSecondary,
+        textToHighlight,
+        onClick
+    } = props;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
-    const showStartIcon = !!iconStartName;
-    const showEndIcon = !!iconEndName;
+    const showStartIcon = !!iconStart;
+    const showEndIconButton = iconEnd?.name && iconEnd?.onClick;
+    const showEndIcon = iconEnd?.name && !showEndIconButton;
     const showOverflow = !!overflowMenuItems?.length;
+
     const overflowRef = useRef(null);
     // callback for when the menu opens and closes
     const onMenuStateChange = useCallback((state) => {
@@ -37,80 +49,126 @@ export const CardboardListItem = <T extends unknown>({
         // set state for css
         onMenuStateChange(true);
     }, [overflowRef, setIsMenuOpen]);
+
+    const onSecondaryAction = useCallback(() => {
+        iconEnd?.onClick?.(item);
+    }, [iconEnd, item]);
+
+    const onButtonClick = useCallback(() => {
+        if (openMenuOnClick) {
+            onMenuClick();
+        } else {
+            onClick(item);
+        }
+    }, [onMenuClick, onClick]);
+    const onButtonKeyPress = useCallback(
+        (event: React.KeyboardEvent<HTMLButtonElement>) => {
+            if (event.code === 'Space') {
+                if (showOverflow) {
+                    // if we are showing the menu, trigger that callback
+                    onMenuClick();
+                } else if (showEndIconButton) {
+                    // if we are showing the end action, trigger that callback
+                    onSecondaryAction();
+                }
+            }
+        },
+        [onMenuClick]
+    );
+
     const theme = useTheme();
-    const customStyles = getStyles(theme);
-    const buttonStyles = getButtonStyles(theme, buttonProps?.customStyles);
+    const classNames = getStyles(theme, isMenuOpen);
+    const buttonStyles = getButtonStyles(
+        itemType,
+        theme,
+        buttonProps?.customStyles
+    );
     return (
         <>
-            <DefaultButton
-                {...buttonProps}
-                key={`cardboard-list-item-${listKey}-${index}`}
-                data-testid={`cardboard-list-item-${listKey}-${index}`}
-                styles={buttonStyles}
-                onClick={() => {
-                    if (openMenuOnClick) {
-                        onMenuClick();
-                    } else {
-                        onClick(item);
-                    }
-                }}
-                onKeyPress={(event) => {
-                    if (event.code === 'Space') {
-                        onMenuClick();
-                    }
-                }}
-            >
-                {showCheckbox && (
-                    <>
-                        <CheckboxRenderer
-                            isChecked={isChecked}
-                            className={customStyles.checkbox}
-                        />
-                    </>
-                )}
-                {showStartIcon &&
-                    (typeof iconStartName === 'string' ? (
-                        <FontIcon
-                            iconName={iconStartName}
-                            className={customStyles.icon}
-                        />
-                    ) : (
-                        iconStartName
-                    ))}
-                <div className={customStyles.textContainer}>
-                    <div
-                        className={customStyles.primaryText}
-                        title={textPrimary}
-                    >
-                        {textToHighlight
-                            ? Utils.getMarkedHtmlBySearch(
-                                  textPrimary,
-                                  textToHighlight
-                              )
-                            : textPrimary}
-                    </div>
-                    {showSecondaryText && (
-                        <div
-                            className={customStyles.secondaryText}
-                            title={textSecondary}
-                        >
-                            {textSecondary}
-                        </div>
+            <span className={classNames.root}>
+                <DefaultButton
+                    {...buttonProps}
+                    key={`cardboard-list-item-${listKey}-${index}`}
+                    data-testid={`cardboard-list-item-${listKey}-${index}`}
+                    styles={buttonStyles}
+                    onClick={onButtonClick}
+                    onKeyPress={onButtonKeyPress}
+                >
+                    {showCheckbox && (
+                        <>
+                            <CheckboxRenderer
+                                isChecked={isChecked}
+                                className={classNames.checkbox}
+                            />
+                        </>
                     )}
-                </div>
-                {showEndIcon && (
-                    <FontIcon
-                        iconName={iconEndName}
-                        className={`${customStyles.icon} ${customStyles.endIcon}`}
+                    {showStartIcon &&
+                        (typeof iconStart.name === 'string' ? (
+                            <FontIcon
+                                iconName={iconStart.name}
+                                className={classNames.icon}
+                            />
+                        ) : (
+                            iconStart.name
+                        ))}
+                    <div className={classNames.textContainer}>
+                        <div
+                            className={classNames.primaryText}
+                            title={textPrimary}
+                        >
+                            {textToHighlight
+                                ? Utils.getMarkedHtmlBySearch(
+                                      textPrimary,
+                                      textToHighlight
+                                  )
+                                : textPrimary}
+                        </div>
+                        {showSecondaryText && (
+                            <div
+                                className={classNames.secondaryText}
+                                title={textSecondary}
+                            >
+                                {textSecondary}
+                            </div>
+                        )}
+                    </div>
+                    {showEndIcon && (
+                        <FontIcon
+                            iconName={iconEnd.name}
+                            className={`${classNames.icon} ${classNames.endIcon}`}
+                        />
+                    )}
+                    {(showOverflow || showEndIconButton) && (
+                        <div className={classNames.menuPlaceholder}></div>
+                    )}
+                </DefaultButton>
+                {showEndIconButton && (
+                    <IconButton
+                        className={classNames.iconButton}
+                        data-is-focusable={false}
+                        data-testid={`cardboard-list-item-secondary-action-${index}`}
+                        iconProps={{ iconName: iconEnd.name }}
+                        onClick={onSecondaryAction}
+                        styles={{
+                            root: {
+                                color: theme.semanticColors.bodyText
+                            },
+                            rootHovered: {
+                                color: theme.semanticColors.bodyText
+                            },
+                            rootPressed: {
+                                color: theme.semanticColors.bodyText
+                            }
+                        }}
                     />
                 )}
                 {showOverflow && (
                     <OverflowMenu
                         index={index}
-                        // force the menu icon to show up when the menu is open since it's no longer hovered/focused
-                        className={`${getStyles(theme).menuIcon} cb-more-menu ${
-                            isMenuOpen ? 'cb-more-menu-visible' : ''
-                        }`}
+                        className={css(
+                            classNames.iconButton,
+                            classNames.menuIcon
+                        )}
                         menuKey={listKey}
                         menuRef={overflowRef}
                         menuProps={{
@@ -120,7 +178,7 @@ export const CardboardListItem = <T extends unknown>({
                         }}
                     />
                 )}
-            </DefaultButton>
+            </span>
         </>
     );
 };

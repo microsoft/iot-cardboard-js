@@ -8,7 +8,10 @@ import React, { useState } from 'react';
 import * as BABYLON from 'babylonjs';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
-import { ADT3DAddInEventTypes } from '../../Models/Constants/Enums';
+import {
+    ADT3DAddInEventTypes,
+    ViewerModeStyles
+} from '../../Models/Constants/Enums';
 import {
     ADT3DAddInEventData,
     ISceneViewWrapperProps
@@ -20,6 +23,7 @@ import './SceneView.scss';
 import {
     DefaultViewerModeObjectColor,
     IADT3DViewerMode,
+    IADTBackgroundColor,
     IADTObjectColor,
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
@@ -115,10 +119,20 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                 objectColor = DefaultViewerModeObjectColor;
             }
 
+            let backgroundColor: IADTBackgroundColor = null;
+            if (viewerMode.background) {
+                backgroundColor = ViewerModeBackgroundColors.find(
+                    (bc) => viewerMode?.background === bc.color
+                );
+            }
+
             setSelectedViewerMode({
                 objectColor: objectColor,
-                background: viewerMode.background,
-                isWireframe: viewerMode.style === 'wireframe' ? true : false
+                background: backgroundColor,
+                isWireframe:
+                    viewerMode.style === ViewerModeStyles.Wireframe
+                        ? true
+                        : false
             });
 
             if (objectColorUpdated) {
@@ -130,8 +144,8 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     return (
         <div
             style={
-                selectedViewerMode?.background
-                    ? { background: selectedViewerMode.background }
+                selectedViewerMode?.background.color
+                    ? { background: selectedViewerMode.background.color }
                     : {}
             }
             className="cb-adt-3dviewer-wrapper "
@@ -139,6 +153,11 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             {!hideViewModePickerUI && (
                 <div className="cb-adt-3dviewer-render-mode-selection">
                     <ModelViewerModePicker
+                        defaultViewerMode={{
+                            objectColor: null,
+                            style: ViewerModeStyles.Default,
+                            background: ViewerModeBackgroundColors[0].color
+                        }}
                         viewerModeUpdated={onViewerModeUpdated}
                         objectColors={ViewerModeObjectColors}
                         backgroundColors={ViewerModeBackgroundColors}
@@ -148,6 +167,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
             <SceneView
                 isWireframe={selectedViewerMode?.isWireframe}
                 objectColors={selectedViewerMode?.objectColor}
+                backgroundColor={selectedViewerMode?.background}
                 {...svp}
                 onMeshHover={meshHover}
                 onMeshClick={meshClick}

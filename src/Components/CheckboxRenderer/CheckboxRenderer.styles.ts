@@ -11,6 +11,7 @@ export const getStyles = memoizeFunction(
                 display: 'flex',
                 height: 20,
                 justifyContent: 'center',
+                minWidth: 20,
                 width: 20
             },
             isChecked: {
