@@ -283,7 +283,7 @@ function getTwinAliasListItems(
     ): IContextualMenuItem[] => {
         return [
             {
-                'data-testid': 'twinalias-modifyOverflow',
+                'data-testid': 'twinAlias-modifyOverflow',
                 key: 'modify',
                 iconProps: { iconName: 'Edit' },
                 text: t('3dSceneBuilder.twinAlias.modify'),
@@ -292,7 +292,7 @@ function getTwinAliasListItems(
                 }
             },
             {
-                'data-testid': 'twinalias-removeOverflow',
+                'data-testid': 'twinAlias-removeOverflow',
                 key: 'remove',
                 iconProps: {
                     iconName: 'Delete'
