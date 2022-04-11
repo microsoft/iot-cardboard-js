@@ -685,8 +685,24 @@
     "title": " Publiceren",
     "style": "sync",
     "objectColors": " Importeren",
-    "background": " Exporteren"
+    "background": " Exporteren",
+    "default": "Standaard",
+    "transparent": " Transparant",
+    "wireframe": " Wireframe| * | Elementen"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": " Geen elementen om weer te geven",
+    "noElements": " Typ om elementen of waarschuwingen te filteren",
+    "filterPlaceholder": " Deelvenster Elementen weergeven",
+    "showPanel": " Deelvenster Elementen verbergen",
+    "hidePanel": " Azure Digital Twins Ontology Editor"
+  },
+  "OATHeader": {
+    "title": " Zoeken in bestand, middel, eigendom of locatie",
+    "searchContent": " Opslaan",
+    "save": " Publiceren",
+    "publish": "sync",
+    "sync": " Importeren",
+    "import": " Exporteren"
+  }
 }

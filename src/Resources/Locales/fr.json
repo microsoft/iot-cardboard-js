@@ -697,5 +697,13 @@
     "showPanel": " Importation",
     "hidePanel": " Exportation"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": "Éditeur d’ontologie Azure Digital Twins",
+    "searchContent": " Rechercher un fichier, un actif, une propriété ou un emplacement",
+    "save": " Enregistrer",
+    "publish": " Publier",
+    "sync": "sync",
+    "import": " Importation",
+    "export": " Exportation"
+  }
 }

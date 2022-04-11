@@ -698,6 +698,12 @@
     "hidePanel": " Importieren"
   },
   "OATHeader": {
-    "title": " Exportieren"
+    "title": " Exportieren",
+    "searchContent": "Datei, Asset, Property oder Speicherort durchsuchen",
+    "save": " Speichern",
+    "publish": " Veröffentlichen",
+    "sync": "sync",
+    "import": " Importieren",
+    "export": " Exportieren"
   }
 }

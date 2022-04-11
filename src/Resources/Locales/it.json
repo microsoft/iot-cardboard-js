@@ -692,7 +692,18 @@
   },
   "elementsPanel": {
     "title": " Importazione",
-    "noElements": " Esportazione"
+    "noElements": " Esportazione",
+    "filterPlaceholder": "Digitare per filtrare elementi o avvisi",
+    "showPanel": " Pannello Mostra elementi",
+    "hidePanel": " Pannello Nascondi elementi"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": " Editor di ontologia di Gemelli digitali di Azure",
+    "searchContent": " Cerca file, asset, proprietà o posizione",
+    "save": " Risparmio",
+    "publish": " Pubblica",
+    "sync": "sync",
+    "import": " Importazione",
+    "export": " Esportazione"
+  }
 }

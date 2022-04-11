@@ -674,8 +674,30 @@
     "imgTag": " Import",
     "reactComponent": " Eksport"
   },
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "blobDropdown": {
+    "selectFileOrEnter": "Wybierz plik lub wprowadź plik URL",
+    "3dFileFromContainer": "3D obiektu blob w kontenerze",
+    "loading3DFiles": " Ładowanie plików...| *| Nie jest to obsługiwany adres URL obiektu blob (np. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "invalidBlobUrlPath": " Obsługiwane typy plików to {{fileTypes}}.| *| Motyw przeglądarki",
+    "supportedFileTypes": " Styl| * | Kolor obiektu| * | Kontekst"
+  },
+  "modelViewerModePicker": {
+    "title": " Domyślnie",
+    "style": " Przezroczysty| * | Szkielet",
+    "objectColors": " Elementy",
+    "background": " Brak elementów do wyświetlenia",
+    "default": " Wpisz, aby filtrować elementy lub alerty",
+    "transparent": " Pokaż elementy, panel",
+    "wireframe": " Ukryj elementy| panelu*| Edytor ontologii usługi Azure Digital Twins"
+  },
+  "elementsPanel": {
+    "title": " Wyszukiwanie pliku, zasobu, właściwości lub lokalizacji",
+    "noElements": " Zapisz",
+    "filterPlaceholder": " Publikowanie",
+    "showPanel": "synchronizowanie",
+    "hidePanel": " Import"
+  },
+  "OATHeader": {
+    "title": " Eksport"
+  }
 }

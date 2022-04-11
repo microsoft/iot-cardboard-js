@@ -685,8 +685,23 @@
     "title": " Publikovat",
     "style": "sync",
     "objectColors": " Import",
-    "background": " Vývoz"
+    "background": " Vývoz",
+    "default": "Výchozí",
+    "transparent": " Transparentní|* | Drátěný model",
+    "wireframe": " Prvky"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": " Žádné prvky k zobrazení|* | Zadejte filtraci prvků nebo výstrah",
+    "noElements": " Zobrazit panel prvků",
+    "filterPlaceholder": " Panel Skrýt prvky",
+    "showPanel": " Azure Digital Twins Ontology Editor",
+    "hidePanel": " Vyhledejte soubor, datový zdroj, majetek nebo umístění"
+  },
+  "OATHeader": {
+    "title": " Uložit",
+    "searchContent": " Publikovat",
+    "save": "sync",
+    "publish": " Import",
+    "sync": " Vývoz"
+  }
 }
