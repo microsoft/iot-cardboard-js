@@ -38,7 +38,7 @@ import AddTwinAliasCallout from '../Twins/AddTwinAliasCallout';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import produce from 'immer';
 import LinkedTwinPropertiesCallout from '../Twins/LinkedTwinPropertiesCallout';
-import useBehaviorTwinPropertyNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyNames';
+import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 
 interface ITwinsTabProps {
     selectedElements: Array<ITwinToObjectMapping>;
@@ -76,9 +76,8 @@ const TwinsTab: React.FC<ITwinsTabProps> = ({
     const {
         options: commonLinkedTwinProperties,
         isLoading: isCommonLinkedTwinPropertiesLoading
-    } = useBehaviorTwinPropertyNames({
+    } = useBehaviorAliasedTwinProperties({
         behavior: behaviorToEdit,
-        isFullName: false,
         isTwinAliasesIncluded: false
     });
 

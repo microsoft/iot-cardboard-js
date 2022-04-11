@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Icon, IDropdownOption, IIconStyles } from '@fluentui/react';
 import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import useBehaviorTwinPropertyNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyNames';
+import useBehaviorTwinPropertyFullNames from '../../../../../Models/Hooks/useBehaviorTwinPropertyFullNames';
 import { buildDropdownOptionsFromStrings } from '../../../../../Models/Services/Utils';
 
 const iconStyles: IIconStyles = {
@@ -42,9 +42,8 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
     const { t } = useTranslation();
 
     // get the property list
-    const { options, isLoading } = useBehaviorTwinPropertyNames({
+    const { options, isLoading } = useBehaviorTwinPropertyFullNames({
         behavior: behavior,
-        isFullName: true,
         isTwinAliasesIncluded: true
     });
 
@@ -64,9 +63,7 @@ const TwinPropertyDropown: React.FC<ITwinPropertyDropdownProps> = ({
             options.sort();
             addedCustom = true;
         }
-        const dropdownOptions = buildDropdownOptionsFromStrings(
-            options as string[]
-        );
+        const dropdownOptions = buildDropdownOptionsFromStrings(options);
         if (addedCustom) {
             // add the icon to the item so they know it's not in the data set
             dropdownOptions.find((x) => x.key === defaultSelectedKey).data = {
