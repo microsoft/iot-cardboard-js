@@ -1,5 +1,5 @@
 import * as BABYLON from 'babylonjs';
-import { Vector3, AbstractMesh, Material, IPointerEvent } from 'babylonjs';
+import { Vector3, AbstractMesh, Material } from 'babylonjs';
 import {
     IBehavior,
     IScene,
@@ -50,7 +50,7 @@ export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
-    e: IPointerEvent
+    e: PointerEvent
 ) => void;
 
 export interface CustomMeshItem {
@@ -82,7 +82,7 @@ export type SceneViewEventHandler = (
 ) => void;
 
 export interface ISceneViewProp {
-    modelUrl: string | 'Globe';
+    modelUrl: string;
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
