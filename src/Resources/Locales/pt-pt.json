@@ -691,7 +691,19 @@
     "wireframe": " Importação"
   },
   "elementsPanel": {
-    "title": " Exportação"
+    "title": " Exportação",
+    "noElements": "Nenhum elemento para exibir",
+    "filterPlaceholder": " Digite para filtrar elementos ou alertas",
+    "showPanel": " Mostrar painel de elementos",
+    "hidePanel": " Painel de elementos de ocultação"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": " Azure Digital Twins Onlogy Editor",
+    "searchContent": " Procure ficheiro, ativo, propriedade ou localização",
+    "save": " Salve",
+    "publish": " Publicar",
+    "sync": "sync",
+    "import": " Importação",
+    "export": " Exportação"
+  }
 }

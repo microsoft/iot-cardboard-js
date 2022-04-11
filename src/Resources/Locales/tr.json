@@ -694,7 +694,16 @@
     "title": " Yayınla",
     "noElements": "sync",
     "filterPlaceholder": " İçe Aktar",
-    "showPanel": " Ihracat"
+    "showPanel": " Ihracat",
+    "hidePanel": "Öğeleri gizle paneli"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": " Azure Digital Twins Ontoloji Düzenleyicisi",
+    "searchContent": " Dosya, varlık, mülk veya konum arayın",
+    "save": " Kaydet",
+    "publish": " Yayınla",
+    "sync": "sync",
+    "import": " İçe Aktar",
+    "export": " Ihracat"
+  }
 }

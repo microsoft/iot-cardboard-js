@@ -697,5 +697,13 @@
     "showPanel": " Импорт",
     "hidePanel": " Экспорт"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontology Editor",
+    "searchContent": " Поиск файла, ресурса, свойства или местоположения",
+    "save": " Сохранить",
+    "publish": " Публикация",
+    "sync": "синхронизация",
+    "import": " Импорт",
+    "export": " Экспорт"
+  }
 }

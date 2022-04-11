@@ -694,7 +694,16 @@
     "title": " Közzététel",
     "noElements": "szinkron",
     "filterPlaceholder": " Importálás",
-    "showPanel": " Kivitel"
+    "showPanel": " Kivitel",
+    "hidePanel": "Elemek elrejtése panel"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": " Azure Digital Twins Ontology Editor",
+    "searchContent": " Keresés fájlban, eszközben, tulajdonságban vagy helyen",
+    "save": " Mentés",
+    "publish": " Közzététel",
+    "sync": "szinkron",
+    "import": " Importálás",
+    "export": " Kivitel"
+  }
 }

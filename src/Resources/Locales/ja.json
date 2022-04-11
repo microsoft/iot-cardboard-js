@@ -701,6 +701,9 @@
     "title": "公開",
     "searchContent": "同期",
     "save": "インポート",
-    "publish": "輸出"
+    "publish": "輸出",
+    "sync": "同期",
+    "import": "インポート",
+    "export": "輸出"
   }
 }

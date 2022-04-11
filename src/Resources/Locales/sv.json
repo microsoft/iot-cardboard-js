@@ -694,7 +694,16 @@
     "title": " Publicera",
     "noElements": "sync",
     "filterPlaceholder": " Importera",
-    "showPanel": " Export"
+    "showPanel": " Export",
+    "hidePanel": "Dölj panelen Dölj element"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": " Azure Digital Twins Ontology Editor",
+    "searchContent": " Sök efter fil, tillgång, egenskap eller plats",
+    "save": " Spara",
+    "publish": " Publicera",
+    "sync": "sync",
+    "import": " Importera",
+    "export": " Export"
+  }
 }

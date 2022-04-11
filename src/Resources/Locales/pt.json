@@ -697,5 +697,13 @@
     "showPanel": " Importação",
     "hidePanel": " Exportação"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": "Azure Digital Twins Onlogy Editor",
+    "searchContent": " Arquivo de pesquisa, ativo, propriedade ou localização",
+    "save": " Salve",
+    "publish": " Publicar",
+    "sync": "sync",
+    "import": " Importação",
+    "export": " Exportação"
+  }
 }

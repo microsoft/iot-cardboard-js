@@ -648,13 +648,45 @@
     "removeMapValueIconTitle": " 십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| <DocLink>RFC 3339 풀 타임 형식</DocLink>의 값을 입력합니다(예: 14:22:33-08:00"
   },
   "environmentPicker": {
-    "errors": {},
-    "environmentUrl": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+    "errors": {
+      "invalidEnvironmentUrl": "3D 파일을 입력합",
+      "invalidContainerUrl": " 파일 로드 중...| *| 지원되는 Blob URL(예: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)이 아닙"
+    },
+    "environmentUrl": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출",
+    "containerUrl": "컨테이너 URL | * |예 : https://example.api.wus2.digitaltwins.azure.net| * |예 : https://example.blob.core.windows.net/example| *| 환경 편집",
+    "enterEnvironmentUrl": " 환경을 연결하여 자산을 나열하십시오.| *| 환경과 스토리지 컨테이너 URL을 연결하여 장면을 나열합니다.| *| 구성 데이터는 로컬 저장소에 저장됩니다.| *| 스토리지 컨테이너 URL 선택",
+    "enterContainerUrl": " 환경이 추가되지 않았",
+    "editEnvironment": " 컨테이너가 추가되지 않았",
+    "descriptionForEnvironment": " 목록에서 제거",
+    "descriptionForEnvAndCont": " 유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙",
+    "descriptionForLocalStorage": " 유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙",
+    "selectContainerUrl": " 모달 닫기",
+    "noEnvironment": " 미리보기 | * | 유창한 이미지 구성 요소를 통한 SVG 로딩 (권장 패턴)| * | img 태그 src를 통해 SVG 아이콘",
+    "noContainer": " React 구성 요소 구문을 통한 SVG 그림",
+    "removeFromList": " 파일을 선택하거나 컨테이너에 blob URL"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
+  "behaviorsModal": {
+    "closeModal": " 지원되는 파일 형식은 {{fileTypes}}입니다.| *| 뷰어 테마",
+    "behaviorPreview": " 스타일 | * | 개체 색상 | * | 배경"
+  },
+  "svgTests": {
+    "fluentUI": " 기본값",
+    "imgTag": " 투명",
+    "reactComponent": " 와이어프레임"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": " 요소",
+    "3dFileFromContainer": " 표시할 요소가 없",
+    "loading3DFiles": " 요소 또는 경고를 필터링하려면 입력합",
+    "invalidBlobUrlPath": " 요소 패널 표시",
+    "supportedFileTypes": " 요소 패널 숨기기"
+  },
+  "modelViewerModePicker": {
+    "title": " Azure Digital Twins Ontology Editor",
+    "style": " 파일, 자산, 속성 또는 위치 검색",
+    "objectColors": " 저장",
+    "background": " 게시 | * | 동기화 | *| 가져 오기 | * | 수출"
+  },
   "elementsPanel": {},
   "OATHeader": {}
 }
