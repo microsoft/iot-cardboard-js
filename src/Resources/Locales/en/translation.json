@@ -12,7 +12,7 @@
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
     "realTimeStatus": "Real-time status",
-    "emptyCompositeCard": "Empty composite card",
+    "emptyCompositeCard": "something",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
     "unauthorizedAccessErrorTitle": "Access Restricted",
