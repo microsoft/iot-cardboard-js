@@ -18,15 +18,15 @@ jobs:
 
             - name: Translate files
               id: translate
-              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.5
+              uses: msnyder-msft/i18n-auto-translation-action@v1.0.0-alpha.7
               with:
                   provider: 'azure-official'
                   subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
                   location: 'westus2'
                   filePath: './src/Resources/Locales/en/translation.json'
                   from: 'en'
-                  to: 'de'
-                  debug: true
+                  to: 'cs,de,es,fr,hu,it,ja,ko,nl,pl,pt,pt-pt,ru,sv,tr,zh-Hans'
+                  debug: false
 
             - name: Get current branch name
               id: branch_name
