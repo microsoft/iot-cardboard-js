@@ -36,7 +36,7 @@ jobs:
               uses: devops-infra/action-commit-push@master
               with:
                   github_token: '${{ secrets.GITHUB_TOKEN }}'
-                  commit_prefix: '[Update Translations]'
+                  commit_prefix: '[Auto] '
                   commit_message: 'Adding updated localization files'
                   force: false
                   target_branch: ${{steps.vars.branch_name.current_branch}}
