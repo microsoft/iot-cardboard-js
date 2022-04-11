@@ -2,10 +2,10 @@
 name: translations
 on:
     workflow_dispatch:
-    # push:
-    #     branches-ignore:
-    #         - 'dependabot/**' # 👈 Excludes dependabot branches
-    #         - 'main' # only run for non-main branches
+    push:
+        branches-ignore:
+            - 'dependabot/**' # 👈 Excludes dependabot branches
+            - 'main' # only run for non-main branches
 jobs:
     translate-files:
         name: Translate localization files
