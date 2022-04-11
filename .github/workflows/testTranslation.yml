@@ -1,0 +1,20 @@
+on: [push]
+
+jobs:
+    translation_job:
+        runs-on: ubuntu-latest
+        name: A job to say hello
+        steps:
+            - name: Translation step
+              id: translate
+              uses: msnyder-msft/i18n-auto-translation-action
+              with:
+                  provider: 'azure-official'
+                  subscriptionKey: 'c75991581d0943b6a9215f31d474badd'
+                  location: 'westus2'
+                  filePath: 'src\Resources\Locales\en\translation.json'
+                  from: 'en'
+                  to: 'de'
+            - name: Get the output time
+              # run: echo "The time was ${{ steps.hello.outputs.time }}"
+              run: echo Finished

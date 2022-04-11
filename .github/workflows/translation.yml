@@ -1,0 +1,51 @@
+# Workflow name
+name: translations
+on:
+    push:
+        branches: [main]
+jobs:
+    translate-files:
+        name: translate-localization-files
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            # - name: Setup Node.js
+            #   uses: actions/setup-node@v2
+            #   with:
+            #       node-version: '14'
+            #       cache: 'npm'
+            #       registry-url: 'https://registry.npmjs.org'
+            - name: Commit changes
+              uses: devops-infra/action-commit-push@master
+              with:
+                  github_token: '${{ secrets.GITHUB_TOKEN }}'
+                  commit_prefix: '[Update Translations]'
+                  commit_message: 'Updating updated localization files from main'
+                  force: false
+                  target_branch: localization/updates
+            - name: Create pull request
+              uses: devops-infra/action-pull-request@v0.4.2
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  source_branch: localization/updates
+                  target_branch: main
+                  title: '[Auto] Update Translations'
+                  template: .github/PULL_REQUEST_TEMPLATE.md
+                  body: '**Automated pull request**'
+                  # reviewer: octocat
+                  # assignee: octocat
+                  label: enhancement
+                  get_diff: true
+                  ignore_users: 'dependabot'
+            # - name: Install dependencies
+            #   run: npm install
+
+            # - name: Build library
+            #   run: npm run build
+            # - name: Release
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            #   run: npx semantic-release
