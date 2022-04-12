@@ -26,8 +26,22 @@ export const globalTypes = {
         toolbar: {
             icon: 'globe',
             items: [
-                { value: Locale.EN, right: 'US', title: 'English' },
-                { value: Locale.DE, right: 'DE', title: 'German' }
+                { value: Locale.CS, right: 'cs', title: 'Čeština' },
+                { value: Locale.DE, right: 'de', title: 'Deutsch' },
+                { value: Locale.EN, right: 'es', title: 'English' },
+                { value: Locale.ES, right: 'es', title: 'Español' },
+                { value: Locale.FR, right: 'fr', title: 'Français' },
+                { value: Locale.HU, right: 'hu', title: 'Magyar' },
+                { value: Locale.IT, right: 'it', title: 'Italiano' },
+                { value: Locale.JA, right: 'ja', title: '日本語' },
+                { value: Locale.KO, right: 'ko', title: '한국어' },
+                { value: Locale.NL, right: 'nl', title: 'Nederlands' },
+                { value: Locale.PL, right: 'pl', title: 'Polski' },
+                { value: Locale.PT, right: 'pt', title: 'Português' },
+                { value: Locale.RU, right: 'ru', title: 'Русский' },
+                { value: Locale.SV, right: 'sv', title: 'Svenska' },
+                { value: Locale.TR, right: 'tr', title: 'Türkçe' },
+                { value: Locale.ZH, right: 'zh', title: 'Chinese' },
             ],
             showName: true
         }

@@ -18,8 +18,22 @@ export enum TSIComponentTypes {
 }
 
 export enum Locale {
-    EN = 'en',
-    DE = 'de'
+    CS = 'cs',
+    DE = 'de',
+    EN = 'es',
+    ES = 'es',
+    FR = 'fr',
+    HU = 'hu',
+    IT = 'it',
+    JA = 'ja',
+    KO = 'ko',
+    NL = 'nl',
+    PL = 'pl',
+    PT = 'pt',
+    RU = 'ru',
+    SV = 'sv',
+    TR = 'tr',
+    ZH = 'zh'
 }
 
 export enum ComponentErrorType {
