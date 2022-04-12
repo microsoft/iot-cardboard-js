@@ -568,15 +568,10 @@ export default class MockAdapter
     }
 
     async getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = true
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<Record<string, any>> {
-        // get scene based on id
-        const scene = config.configuration?.scenes?.find(
-            (scene) => scene.id === sceneId
-        );
         // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
@@ -587,7 +582,7 @@ export default class MockAdapter
         // cycle through mapping ids to get twins for behavior and scene
         const twins = {};
         for (const id of mappingIds) {
-            const element = scene.elements.find(
+            const element = elementsInBehavior?.find(
                 (element) =>
                     element.type === ElementType.TwinToObjectMapping &&
                     element.id === id
@@ -626,15 +621,13 @@ export default class MockAdapter
     }
 
     async getTwinPropertiesWithAliasesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = false
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<IAliasedTwinProperty[]> {
         const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
-            sceneId,
-            config,
             behavior,
+            elementsInBehavior,
             isTwinAliasesIncluded
         );
         return propertiesWithAlias.map((properyWithAlias) => {
@@ -644,15 +637,13 @@ export default class MockAdapter
     }
 
     async getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = true
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(
-            sceneId,
-            config,
             behavior,
+            elementsInBehavior,
             isTwinAliasesIncluded
         );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);

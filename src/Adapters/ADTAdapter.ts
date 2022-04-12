@@ -907,9 +907,8 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getTwinsForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
+        elementsInBehavior: Array<ITwinToObjectMapping>,
         isTwinAliasesIncluded = true
     ): Promise<Record<string, any>> {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
@@ -925,24 +924,16 @@ export default class ADTAdapter implements IADTAdapter {
             }
         }
 
-        // get scene based on id
-        const scene = config.configuration?.scenes?.find(
-            (scene) => scene.id === sceneId
-        );
         // get the element ids
         const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
             behavior
         );
 
-        // TODO get FilteredTwinDatasources
-
-        // cycle through mapping ids to get twins for behavior and scene
+        // cycle through mapping ids to get twins for behavior
         const twins = {};
         for (const id of mappingIds) {
-            const element = scene.elements.find(
-                (element) =>
-                    element.type === ElementType.TwinToObjectMapping &&
-                    element.id === id
+            const element = elementsInBehavior?.find(
+                (element) => element.id === id
             ) as ITwinToObjectMapping;
 
             // get primary twin
@@ -980,15 +971,13 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getTwinPropertiesWithAliasesForBehavior(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = false
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<Array<IAliasedTwinProperty>> {
         const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
-            sceneId,
-            config,
             behavior,
+            elementsInBehavior,
             isTwinAliasesIncluded
         );
         return propertiesWithAlias.map((properyWithAlias) => {
@@ -998,15 +987,13 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     async getTwinPropertiesForBehaviorWithFullName(
-        sceneId: string,
-        config: I3DScenesConfig,
         behavior: IBehavior,
-        isTwinAliasesIncluded = true
+        elementsInBehavior: Array<ITwinToObjectMapping>,
+        isTwinAliasesIncluded
     ): Promise<string[]> {
         const twins = await this.getTwinsForBehavior(
-            sceneId,
-            config,
             behavior,
+            elementsInBehavior,
             isTwinAliasesIncluded
         );
         return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);

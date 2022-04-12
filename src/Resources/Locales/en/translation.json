@@ -418,6 +418,7 @@
             "statusBehavior": "Status behavior"
         },
         "notImplemented": "Not implemented",
+        "noLinkedTwinProperties": "No linked twin properties to display",
         "twinAlias": {
             "title": "Twin alias",
             "titlePlural": "Twin aliases",
@@ -436,7 +437,8 @@
             "commonProperties": "Common properties",
             "twinAliasForm": {
                 "alias": "Alias",
-                "elementTwinMappings": "Element twin mappings"
+                "elementTwinMappings": "Element twin mappings",
+                "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
             "descriptions": {
                 "twins": "Twins give you access to properties which can be used in expressions.",

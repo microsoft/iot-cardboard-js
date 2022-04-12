@@ -1,19 +1,12 @@
 import produce from 'immer';
-import React, {
-    useCallback,
-    useContext,
-    useMemo,
-    useRef,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { IAliasedTwinProperty } from '../../../../../Models/Constants';
-import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
     IAlertVisual,
-    IBehavior
+    IBehavior,
+    ITwinToObjectMapping
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IStackTokens,
@@ -33,6 +26,7 @@ import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
+import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -48,32 +42,23 @@ const LOC_KEYS = {
     notificationPlaceholder: `${ROOT_LOC}.notificationPlaceholder`
 };
 
-const AlertsTab: React.FC = () => {
+const AlertsTab: React.FC<{
+    selectedElements: Array<ITwinToObjectMapping>;
+}> = ({ selectedElements }) => {
     const { t } = useTranslation();
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const [aliasedProperties, setAliasedProperties] = useState<
-        IAliasedTwinProperty[]
-    >(null);
     const alertVisualStateRef = useRef<IAlertVisual>(
         getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
     );
 
-    const { config, sceneId, adapter } = useContext(SceneBuilderContext);
-
-    if (!aliasedProperties) {
-        adapter
-            .getTwinPropertiesWithAliasesForBehavior(
-                sceneId,
-                config,
-                behaviorToEdit,
-                true
-            )
-            .then((properties) => {
-                setAliasedProperties(properties);
-            });
-    }
+    // get the aliased properties for intellisense
+    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
+        behavior: behaviorToEdit,
+        isTwinAliasesIncluded: true,
+        selectedElements
+    });
 
     const getPropertyNames = useCallback(
         (twinAlias: string) =>
