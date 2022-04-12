@@ -1,5 +1,10 @@
-import * as BABYLON from 'babylonjs';
-import { Vector3, AbstractMesh, Material, IPointerEvent } from 'babylonjs';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import {
+    Vector3,
+    AbstractMesh,
+    Material,
+    IPointerEvent
+} from '@babylonjs/core';
 import {
     IBehavior,
     IScene,

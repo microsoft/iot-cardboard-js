@@ -1,7 +1,7 @@
-import * as BABYLON from 'babylonjs';
-import 'babylonjs-loaders';
-import * as SERIALIZE from 'babylonjs-serializers';
-import * as GUI from 'babylonjs-gui';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import '@babylonjs/loaders';
+import * as SERIALIZE from '@babylonjs/serializers';
+import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './SceneView.scss';
@@ -16,7 +16,7 @@ import {
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from 'babylonjs';
+import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
 import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {

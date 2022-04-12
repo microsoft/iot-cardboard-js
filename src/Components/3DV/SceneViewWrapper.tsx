@@ -5,7 +5,7 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 */
 
 import React, { useState } from 'react';
-import * as BABYLON from 'babylonjs';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
 import {

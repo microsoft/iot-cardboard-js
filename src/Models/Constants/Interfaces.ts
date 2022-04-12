@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from 'babylonjs';
+import { AbstractMesh, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
