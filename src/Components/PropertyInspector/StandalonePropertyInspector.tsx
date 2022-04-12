@@ -18,6 +18,11 @@ import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar
 import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import {
+    CommandBarButton,
+    IButtonProps,
+    mergeStyleSets
+} from '@fluentui/react';
 
 /**
  *  StandalonePropertyInspector takes full resolved model and twin or relationship data.
@@ -253,6 +258,14 @@ type StandalonePropertyInspectorCommandBarProps = {
     editStatus: Record<string, boolean>;
 };
 
+const PropertyInspectorCommandBarButton: React.FC<IButtonProps> = (props) => {
+    const buttonStyles = mergeStyleSets(props.styles, {
+        root: { background: 'transparent' }
+    });
+
+    return <CommandBarButton {...props} styles={buttonStyles} />;
+};
+
 const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspectorCommandBarProps> = ({
     setIsTreeCollapsed,
     onCommitChanges,
@@ -269,6 +282,10 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
             </div>
             <CommandBar
                 items={[]}
+                styles={{
+                    root: { background: 'transparent' }
+                }}
+                buttonAs={PropertyInspectorCommandBarButton}
                 farItems={[
                     {
                         key: 'undoAll',
