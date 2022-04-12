@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
@@ -28,20 +27,16 @@ const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
 
     const isJsonStringValid = (value) => {
         try {
-            JSON.parse(value);
+            return JSON.parse(value);
         } catch (e) {
             return false;
         }
-        return JSON.parse(value);
     };
 
     const validateJSONValues = (json) => {
-        const nameArray = json.contents.map((property) => property.name);
-        const isNameDuplicated = nameArray.some(function (item, index) {
-            return nameArray.indexOf(item) != index;
-        });
-
-        return isNameDuplicated;
+        return json.contents
+            .map((property) => property.name)
+            .some((item, index, array) => array.indexOf(item) != index);
     };
 
     const onHandleEditorChange = (value) => {
@@ -57,17 +52,13 @@ const JSONEditor = ({ model, theme, setModel }: OATPropertyEditorProps) => {
     };
 
     return (
-        <BaseComponent theme={themeToUse}>
-            <div>
-                <Editor
-                    height="90vh"
-                    defaultLanguage="json"
-                    value={content}
-                    onMount={onHandleEditorDidMount}
-                    onChange={onHandleEditorChange}
-                />
-            </div>
-        </BaseComponent>
+        <Editor
+            defaultLanguage="json"
+            value={content}
+            onMount={onHandleEditorDidMount}
+            onChange={onHandleEditorChange}
+            theme={themeToUse === 'dark' ? 'vs-dark' : themeToUse}
+        />
     );
 };
 

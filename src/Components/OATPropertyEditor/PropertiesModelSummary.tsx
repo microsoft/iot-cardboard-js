@@ -3,7 +3,15 @@ import { TextField, Stack, Label, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
-export const PropertiesModelSummary = ({ model, setModel }) => {
+type IPropertiesModelSummary = {
+    model?: any;
+    setModel?: any;
+};
+
+export const PropertiesModelSummary = ({
+    model,
+    setModel
+}: IPropertiesModelSummary) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 

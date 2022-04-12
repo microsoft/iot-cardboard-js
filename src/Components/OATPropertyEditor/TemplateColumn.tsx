@@ -11,19 +11,33 @@ import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 
+type ITemplateColumn = {
+    setTemplatesActive: any;
+    templates: any;
+    setTemplates: any;
+    draggedTemplateItemRef: any;
+    enteredPropertyRef: any;
+    model: any;
+    setModel: any;
+    draggingTemplate: boolean;
+    setDraggingTemplate: any;
+    enteredTemplateRef: any;
+    draggingProperty: boolean;
+};
+
 export const TemplateColumn = ({
     setTemplatesActive,
     templates,
     setTemplates,
-    draggedTemplateItem,
-    enteredProperty,
+    draggedTemplateItemRef,
+    enteredPropertyRef,
     model,
     setModel,
     draggingTemplate,
     setDraggingTemplate,
-    enteredTemplate,
+    enteredTemplateRef,
     draggingProperty
-}) => {
+}: ITemplateColumn) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
@@ -68,13 +82,13 @@ export const TemplateColumn = ({
             <TemplateList
                 templates={templates}
                 setTemplates={setTemplates}
-                draggedTemplateItem={draggedTemplateItem}
-                enteredProperty={enteredProperty}
+                draggedTemplateItemRef={draggedTemplateItemRef}
+                enteredPropertyRef={enteredPropertyRef}
                 model={model}
                 setModel={setModel}
                 draggingTemplate={draggingTemplate}
                 setDraggingTemplate={setDraggingTemplate}
-                enteredTemplate={enteredTemplate}
+                enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}
             />
         </Stack>

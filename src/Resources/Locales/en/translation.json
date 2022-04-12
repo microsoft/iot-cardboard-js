@@ -698,6 +698,13 @@
         "primitive": "Primitive",
         "errorRepeatedPropertyName": "A property with the same name already exists",
         "templates": "Templates",
-        "templateSearchPlaceholder": "Search name, id, property"
+        "templateSearchPlaceholder": "Search name, id, property",
+        "property": "Property",
+        "modalTextInputPlaceHolder": "This property...",
+        "modalTextInputPlaceHolderDescription": "Line1",
+        "modalTextInputPlaceHolderSemanticType": "current...",
+        "modalTextInputPlaceHolderUnit": "unit...",
+        "pivotLink": "Pivot link",
+        "json": "JSON"
     }
 }

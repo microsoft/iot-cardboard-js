@@ -1,63 +1,77 @@
 import React, { useRef, useState } from 'react';
 import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { deepCopy } from '../../Models/Services/Utils';
+
+interface ITemplateList {
+    templates?: any;
+    setTemplates: any;
+    draggedTemplateItemRef: any;
+    enteredPropertyRef: any;
+    model?: any;
+    setModel?: any;
+    draggingTemplate?: boolean;
+    setDraggingTemplate?: (dragging: boolean) => boolean;
+    enteredTemplateRef: any;
+    draggingProperty?: boolean;
+}
 
 export const TemplateList = ({
     templates,
     setTemplates,
-    draggedTemplateItem,
-    enteredProperty,
+    draggedTemplateItemRef,
+    enteredPropertyRef,
     model,
     setModel,
     draggingTemplate,
     setDraggingTemplate,
-    enteredTemplate,
+    enteredTemplateRef,
     draggingProperty
-}) => {
+}: ITemplateList) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
-    const [enteredItem, setEnteredItem] = useState(enteredTemplate.current);
+    const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
 
     const handleTemplateItemDropOnProperyList = () => {
         // Prevent drop if duplicate
         const isTemplateAlreadyInModel = model.contents.find(
             (item) =>
-                item['@id'] === templates[draggedTemplateItem.current]['@id']
+                item['@id'] === templates[draggedTemplateItemRef.current]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
         // Drop
         setModel((prevModel) => {
-            const newModel = JSON.parse(JSON.stringify(prevModel));
+            const newModel = deepCopy(prevModel);
             // + 1 so that it drops under current item
             newModel.contents.splice(
-                enteredProperty.current + 1,
+                enteredPropertyRef.current + 1,
                 0,
-                templates[draggedTemplateItem.current]
+                templates[draggedTemplateItemRef.current]
             );
             return newModel;
         });
     };
 
     const handleDragEnd = () => {
-        if (enteredProperty.current !== null) {
+        if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnProperyList();
         }
 
         dragNode.current.removeEventListener('dragend', handleDragEnd);
         dragItem.current = null;
         dragNode.current = null;
-        draggedTemplateItem.current = null;
+        draggedTemplateItemRef.current = null;
         setDraggingTemplate(false);
-        enteredProperty.current = null;
+        enteredPropertyRef.current = null;
     };
 
     const handleDragStart = (e, propertyIndex) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
         dragNode.current.addEventListener('dragend', handleDragEnd);
-        draggedTemplateItem.current = propertyIndex;
+        draggedTemplateItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
             setDraggingTemplate(true);
@@ -68,7 +82,7 @@ export const TemplateList = ({
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             setTemplates((prevTemplate) => {
-                const newTemplate = JSON.parse(JSON.stringify(prevTemplate));
+                const newTemplate = deepCopy(prevTemplate);
                 //  Replace entered item with dragged item
                 // --> Remove dragged item and then place it on entered item's position
                 newTemplate.splice(
@@ -83,17 +97,19 @@ export const TemplateList = ({
     };
 
     const getDragItemClassName = (propertyIndex) => {
-        if (propertyIndex === dragItem.current && draggedTemplateItem)
+        if (propertyIndex === dragItem.current && draggedTemplateItemRef) {
             return propertyInspectorStyles.templateItemDragging;
-        if (propertyIndex === enteredItem && draggingProperty)
+        }
+        if (propertyIndex === enteredItem && draggingProperty) {
             return propertyInspectorStyles.templateItemEntered;
+        }
 
         return propertyInspectorStyles.templateItem;
     };
 
     const handleDragEnterExternalItem = (i) => {
         setEnteredItem(i);
-        enteredTemplate.current = i;
+        enteredTemplateRef.current = i;
     };
 
     return (

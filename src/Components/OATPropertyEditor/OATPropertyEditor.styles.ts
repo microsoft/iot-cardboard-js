@@ -4,6 +4,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
     container: `${classPrefix}-container`,
+    pivotItem: `${classPrefix}-pivot-item`,
     pivot: `${classPrefix}-pivot`,
     templateColumn: `${classPrefix}-templates-column`,
     pivotContentWrap: `${classPrefix}-pivot-content-wrap`,
@@ -51,14 +52,21 @@ export const getPropertyInspectorStyles = () => {
                 position: 'fixed',
                 right: 0,
                 display: 'flex',
-                flexDirection: 'row'
+                flexDirection: 'row',
+                backgroundColor: theme.semanticColors.listBackground
             } as IStyle
         ],
         pivot: [
             classNames.pivot,
             {
                 width: '440px',
-                backgroundColor: theme.semanticColors.listBackground
+                height: '100%'
+            } as IStyle
+        ],
+        pivotItem: [
+            classNames.pivotItem,
+            {
+                height: '100vh'
             } as IStyle
         ],
         templateColumn: [
@@ -66,7 +74,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '305px',
                 height: '100%',
-                backgroundColor: '#eef0f2'
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
             } as IStyle
         ],
         row: [
@@ -84,7 +92,8 @@ export const getPropertyInspectorStyles = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 ':hover': {
-                    backgroundColor: '#eaeced'
+                    backgroundColor:
+                        theme.semanticColors.primaryButtonTextDisabled
                 }
             } as IStyle
         ],
@@ -147,7 +156,8 @@ export const getPropertyInspectorStyles = () => {
                 right: '99.5%',
                 width: '205px',
                 minHeight: '200px',
-                backgroundColor: '#fafafa',
+                backgroundColor:
+                    theme.semanticColors.primaryButtonBackgroundDisabled,
                 borderRadius: '4px',
                 border: '1px solid #c1cdd8',
                 zIndex: 1
@@ -197,7 +207,8 @@ export const getPropertyInspectorStyles = () => {
                 marginRight: '4px',
                 marginBottom: '4px',
                 ':hover': {
-                    backgroundColor: '#eeeeee',
+                    backgroundColor:
+                        theme.semanticColors.buttonBackgroundPressed,
                     cursor: 'pointer'
                 }
             } as IStyle
@@ -207,7 +218,7 @@ export const getPropertyInspectorStyles = () => {
             {
                 width: '100%',
                 height: '1px',
-                backgroundColor: '#e5ecf1'
+                backgroundColor: theme.semanticColors.buttonBackgroundPressed
             } as IStyle
         ],
         iconAddProperty: [
@@ -229,7 +240,8 @@ export const getPropertyInspectorStyles = () => {
                     cursor: 'grabbing'
                 },
                 ':hover': {
-                    backgroundColor: '#eaeced'
+                    backgroundColor:
+                        theme.semanticColors.buttonBackgroundPressed
                 }
             } as IStyle
         ],

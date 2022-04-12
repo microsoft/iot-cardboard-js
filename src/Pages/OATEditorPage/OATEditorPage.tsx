@@ -7,7 +7,7 @@ import Modal from '../../Components/OATPropertyEditor/Modal';
 
 import './OATEditorPage.scss';
 
-const OATEditorPage = () => {
+const OATEditorPage = ({ theme }) => {
     const [model, setModel] = useState({
         '@id': 'dtmi:com:adt:model1;',
         '@type': 'Interface',
@@ -72,7 +72,7 @@ const OATEditorPage = () => {
                     setCurrentPropertyIndex={setCurrentPropertyIndex}
                     templates={templates}
                     setTemplates={setTemplates}
-                    theme="light"
+                    theme={theme}
                 />
             </div>
         </div>

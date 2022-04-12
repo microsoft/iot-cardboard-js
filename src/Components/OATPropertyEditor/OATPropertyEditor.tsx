@@ -15,6 +15,18 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
+import { Theme } from '../../Models/Constants/Enums';
+
+type IOATPropertyEditor = {
+    model?: any;
+    setModel?: any;
+    setModalOpen?: any;
+    currentPropertyIndex?: number;
+    setCurrentPropertyIndex?: any;
+    theme?: Theme;
+    templates?: any;
+    setTemplates?: any;
+};
 
 const OATPropertyEditor = ({
     model,
@@ -25,7 +37,7 @@ const OATPropertyEditor = ({
     theme,
     templates,
     setTemplates
-}) => {
+}: IOATPropertyEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
@@ -34,10 +46,10 @@ const OATPropertyEditor = ({
     const [templatesActive, setTemplatesActive] = useState(false);
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
-    const draggedTemplateItem = useRef(null);
-    const draggedPropertyItem = useRef(null);
-    const enteredTemplate = useRef(null);
-    const enteredProperty = useRef(null);
+    const draggedTemplateItemRef = useRef(null);
+    const draggedPropertyItemRef = useRef(null);
+    const enteredTemplateRef = useRef(null);
+    const enteredPropertyRef = useRef(null);
 
     const handlePropertyNameChange = (value) => {
         model.contents[currentPropertyIndex].name = value;
@@ -60,10 +72,13 @@ const OATPropertyEditor = ({
             <Stack className={propertyInspectorStyles.container}>
                 <Pivot
                     className={propertyInspectorStyles.pivot}
-                    aria-label="Large Link Size Pivot Example"
+                    aria-label={t('OATPropertyEditor.pivotLink')}
                     linkSize="large"
                 >
-                    <PivotItem headerText="Properties">
+                    <PivotItem
+                        headerText={t('OATPropertyEditor.properties')}
+                        className={propertyInspectorStyles.pivotItem}
+                    >
                         <PropertiesModelSummary
                             model={model}
                             setModel={setModel}
@@ -139,15 +154,18 @@ const OATPropertyEditor = ({
                             setModalOpen={setModalOpen}
                             getErrorMessage={getErrorMessage}
                             setTemplates={setTemplates}
-                            enteredProperty={enteredProperty}
+                            enteredPropertyRef={enteredPropertyRef}
                             draggingTemplate={draggingTemplate}
-                            enteredTemplate={enteredTemplate}
-                            draggedPropertyItem={draggedPropertyItem}
+                            enteredTemplateRef={enteredTemplateRef}
+                            draggedPropertyItemRef={draggedPropertyItemRef}
                             draggingProperty={draggingProperty}
                             setDraggingProperty={setDraggingProperty}
                         />
                     </PivotItem>
-                    <PivotItem headerText="Json">
+                    <PivotItem
+                        headerText={t('OATPropertyEditor.json')}
+                        className={propertyInspectorStyles.pivotItem}
+                    >
                         <JSONEditor
                             theme={theme}
                             model={model}
@@ -160,14 +178,14 @@ const OATPropertyEditor = ({
                         setTemplatesActive={setTemplatesActive}
                         templates={templates}
                         setTemplates={setTemplates}
-                        draggedTemplateItem={draggedTemplateItem}
-                        enteredProperty={enteredProperty}
+                        draggedTemplateItemRef={draggedTemplateItemRef}
+                        enteredPropertyRef={enteredPropertyRef}
                         model={model}
                         setModel={setModel}
                         draggingTemplate={draggingTemplate}
                         setDraggingTemplate={setDraggingTemplate}
                         draggingProperty={draggingProperty}
-                        enteredTemplate={enteredTemplate}
+                        enteredTemplateRef={enteredTemplateRef}
                     />
                 )}
             </Stack>

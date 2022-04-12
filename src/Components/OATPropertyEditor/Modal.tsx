@@ -13,13 +13,21 @@ import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
+interface IModal {
+    modalOpen?: boolean;
+    setModalOpen?: any;
+    model?: any;
+    setModel?: any;
+    currentPropertyIndex?: number;
+}
+
 export const Modal = ({
     modalOpen,
     setModalOpen,
     model,
     setModel,
     currentPropertyIndex
-}) => {
+}: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const [comment, setComment] = useState(null);
@@ -74,7 +82,7 @@ export const Modal = ({
                 <Label>
                     {model.contents[currentPropertyIndex]
                         ? model.contents[currentPropertyIndex].name
-                        : 'Property'}
+                        : t('OATPropertyEditor.property')}
                 </Label>
                 <ActionButton
                     onClick={() => setModalOpen(false)}
@@ -96,7 +104,9 @@ export const Modal = ({
                     {t('OATPropertyEditor.comment')}
                 </Text>
                 <TextField
-                    placeholder="This property..."
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
                     onChange={(_ev, value) => setComment(value)}
                 />
             </Stack>
@@ -106,7 +116,9 @@ export const Modal = ({
                     {t('OATPropertyEditor.description')}
                 </Text>
                 <TextField
-                    placeholder="Line1"
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolderDescription'
+                    )}
                     onChange={(_ev, value) => setDescription(value)}
                 />
             </Stack>
@@ -117,7 +129,9 @@ export const Modal = ({
                 </Text>
                 <TextField
                     className={propertyInspectorStyles.modalTexField}
-                    placeholder="This property..."
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolder'
+                    )}
                     validateOnFocusOut
                     onGetErrorMessage={getErrorMessage}
                 />
@@ -139,7 +153,9 @@ export const Modal = ({
                     {t('OATPropertyEditor.semanticType')}
                 </Text>
                 <TextField
-                    placeholder="current..."
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolderSemanticType'
+                    )}
                     onChange={(_ev, value) => setSemanticType(value)}
                 />
             </Stack>
@@ -149,7 +165,9 @@ export const Modal = ({
                     {t('OATPropertyEditor.unit')}
                 </Text>
                 <TextField
-                    placeholder="unit..."
+                    placeholder={t(
+                        'OATPropertyEditor.modalTextInputPlaceHolderUnit'
+                    )}
                     onChange={(_ev, value) => setUnit(value)}
                     disabled={semanticType === null || semanticType === ''}
                 />
@@ -160,7 +178,7 @@ export const Modal = ({
                     {t('OATPropertyEditor.id')}
                 </Text>
                 <TextField
-                    placeholder="id"
+                    placeholder={t('OATPropertyEditor.id')}
                     onChange={(_ev, value) => setId(value)}
                 />
             </Stack>

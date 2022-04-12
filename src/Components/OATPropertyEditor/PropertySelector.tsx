@@ -3,12 +3,19 @@ import { FontIcon, ActionButton, Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
+interface IProperySelectorProps {
+    data?: any;
+    setPropertySelectorVisible?: (visible: boolean) => boolean;
+    model?: any;
+    setModel: (value: Record<string, unknown>) => Record<string, unknown>;
+}
+
 const PropertySelector = ({
     data,
     setPropertySelectorVisible,
     model,
     setModel
-}) => {
+}: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
