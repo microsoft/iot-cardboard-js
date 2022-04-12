@@ -5,7 +5,7 @@ import csTranslation from './Resources/Locales/cs.json';
 import deTranslation from './Resources/Locales/de.json';
 import enTranslation from './Resources/Locales/en.json';
 import esTranslation from './Resources/Locales/es.json';
-import frTranslation from './Resources/Locales/fr.json ';
+import frTranslation from './Resources/Locales/fr.json';
 import huTranslation from './Resources/Locales/hu.json';
 import itTranslation from './Resources/Locales/it.json';
 import jaTranslation from './Resources/Locales/ja.json';
