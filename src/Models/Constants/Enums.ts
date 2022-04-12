@@ -20,7 +20,7 @@ export enum TSIComponentTypes {
 export enum Locale {
     CS = 'cs',
     DE = 'de',
-    EN = 'es',
+    EN = 'en',
     ES = 'es',
     FR = 'fr',
     HU = 'hu',
