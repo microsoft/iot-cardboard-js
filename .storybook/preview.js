@@ -28,7 +28,7 @@ export const globalTypes = {
             items: [
                 { value: Locale.CS, right: 'cs', title: 'Čeština' },
                 { value: Locale.DE, right: 'de', title: 'Deutsch' },
-                { value: Locale.EN, right: 'es', title: 'English' },
+                { value: Locale.EN, right: 'en', title: 'English' },
                 { value: Locale.ES, right: 'es', title: 'Español' },
                 { value: Locale.FR, right: 'fr', title: 'Français' },
                 { value: Locale.HU, right: 'hu', title: 'Magyar' },
