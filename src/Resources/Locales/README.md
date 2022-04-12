@@ -37,20 +37,19 @@ i18n-auto-translation-msnyder -t de -k <subscription key> -p ./src/Resources/Loc
 
 Today we translate these languages
 
-- cs
-- de
-- en
-- es
-- fr
-- hu
-- it
-- ja
-- ko
-- nl
-- pl
-- pt
-- pt-pt
-- ru
-- sv
-- tr
-- zh-Hans
+- Čeština - CS
+- Deutsch - DE
+- English - EN
+- Español - ES
+- Français - FR
+- Magyar - HU
+- Italiano - IT
+- 日本語 - JA
+- 한국어 - KO
+- Nederlands - NL
+- Polski - PL
+- Português - PT
+- Русский - RU
+- Svenska - SV
+- Türkçe - TR
+- Chinese - ZH
