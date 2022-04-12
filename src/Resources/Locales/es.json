@@ -683,8 +683,27 @@
   },
   "modelViewerModePicker": {
     "title": "Importar",
-    "style": "Exportar"
+    "style": "Exportar",
+    "objectColors": "Color del objeto",
+    "background": "Antecedentes",
+    "default": "Valor predeterminado",
+    "transparent": "Transparente",
+    "wireframe": "Wireframe"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "Elementos",
+    "noElements": "No hay elementos que mostrar",
+    "filterPlaceholder": "Escriba para filtrar elementos o alertas",
+    "showPanel": "Panel Mostrar elementos",
+    "hidePanel": "Panel Ocultar elementos"
+  },
+  "OATHeader": {
+    "title": "Editor de azure digital twins ontology ",
+    "searchContent": "Buscar archivo, recurso, propiedad o ubicación",
+    "save": "Guardar",
+    "publish": "Publicar",
+    "sync": "sincronizar",
+    "import": "Importar",
+    "export": "Exportar"
+  }
 }

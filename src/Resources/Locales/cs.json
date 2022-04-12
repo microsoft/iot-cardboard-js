@@ -621,20 +621,86 @@
         "text": "Import",
         "ariaLabel": "Vývoz"
       },
-      "long": {},
-      "time": {},
-      "map": {}
+      "long": {
+        "text": "Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 8 bajtů) ",
+        "ariaLabel": "Zadejte nedesetinnou číselnou hodnotu (celé číslo se znaménkem 8 bajtů) "
+      },
+      "time": {
+        "text": "Zadejte hodnotu do formátu <DocLink>RFC 3339 na plný úvazek</DocLink>, například: 14:22:33−08:00",
+        "ariaLabel": "Zadejte hodnotu v celodobém formátu RFC 3339, například: 14:22:33−08:00"
+      },
+      "map": {
+        "text": "Klíč <DocLink>map</DocLink> používá řetězec k popisu klíče v mapě.  Použijte následující znaky: a-z, A-Z, 0-9 a underscore.",
+        "ariaLabel": "Klíč mapy používá řetězec k popisu klíče v mapě.  Použijte následující znaky: a-z, A-Z, 0-9 a underscore."
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": "Resetujte všechny úpravy",
+      "expandTree": "Rozbalit strom",
+      "collapseTree": "Sbalit strom",
+      "save": "Uložit změny"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "Výběr data",
+      "dateTimePickerTitle": "Výběr času a data",
+      "timePickerTitle": "Výběr času",
+      "plainTextInput": "Zadávání prostého textu"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
+    },
+    "environmentUrl": "Adresa URL prostředí",
+    "containerUrl": "Adresa URL kontejneru",
+    "enterEnvironmentUrl": "např. https://example.api.wus2.digitaltwins.azure.net",
+    "enterContainerUrl": "např. https://example.blob.core.windows.net/example",
+    "editEnvironment": "Upravit prostředí",
+    "descriptionForEnvironment": "Připojte své prostředí a zobrazte své assets.",
+    "descriptionForEnvAndCont": "Propojte své prostředí a adresu URL kontejneru úložiště a zobrazte své scény.",
+    "descriptionForLocalStorage": "Konfigurační data jsou uložena v místním úložišti.",
+    "selectContainerUrl": "Vyberte adresu URL kontejneru úložiště",
+    "noEnvironment": "Nebylo přidáno žádné prostředí",
+    "noContainer": "Nebyl přidán žádný kontejner",
+    "removeFromList": "Odstranit ze seznamu"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "Zavřít modální",
+    "behaviorPreview": "Náhled"
+  },
+  "svgTests": {
+    "fluentUI": "Načítání SVG pomocí komponenty Fluent Image (doporučený vzor)",
+    "imgTag": "SVG ikona přes img tag src",
+    "reactComponent": "SVG ilustrace pomocí syntaxe komponenty React"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "Vyberte soubor nebo zadejte url objektu BLOB",
+    "3dFileFromContainer": "3D soubor v kontejneru",
+    "loading3DFiles": "Načítání souborů...",
+    "invalidBlobUrlPath": "Toto není podporovaná adresa URL objektu BLOB (např. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "supportedFileTypes": "Podporované typy souborů jsou {{fileTypes}}."
+  },
+  "modelViewerModePicker": {
+    "title": "Motiv prohlížeče",
+    "style": "Styl|* | Barva objektu",
+    "objectColors": "Pozadí",
+    "background": "Výchozí",
+    "default": "Transparentní|* | Drátěný model",
+    "transparent": "Prvky",
+    "wireframe": "Žádné prvky k zobrazení|* | Zadejte filtraci prvků nebo výstrah"
+  },
+  "elementsPanel": {
+    "title": "Zobrazit panel prvků",
+    "noElements": "Panel Skrýt prvky",
+    "filterPlaceholder": "Azure Digital Twins Ontology Editor ",
+    "showPanel": "Vyhledejte soubor, datový zdroj, majetek nebo umístění",
+    "hidePanel": "Uložit"
+  },
+  "OATHeader": {
+    "title": "Publikovat",
+    "searchContent": "sync",
+    "save": "Import",
+    "publish": "Vývoz"
+  }
 }

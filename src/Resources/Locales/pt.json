@@ -693,7 +693,17 @@
   "elementsPanel": {
     "title": "sync",
     "noElements": "Importação",
-    "filterPlaceholder": "Exportação"
+    "filterPlaceholder": "Exportação",
+    "showPanel": "Painel de elementos de show",
+    "hidePanel": "Painel de elementos de ocultação"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": "Azure Digital Twins Onlogy Editor ",
+    "searchContent": "Arquivo de pesquisa, ativo, propriedade ou localização",
+    "save": "Salve",
+    "publish": "Publicar",
+    "sync": "sync",
+    "import": "Importação",
+    "export": "Exportação"
+  }
 }

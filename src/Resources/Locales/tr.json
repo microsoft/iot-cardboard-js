@@ -690,6 +690,20 @@
     "transparent": "İçe Aktar",
     "wireframe": "Ihracat"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "Elemanlar",
+    "noElements": "Görüntülenecek öğe yok",
+    "filterPlaceholder": "Öğeleri veya uyarıları filtrelemek için yazın",
+    "showPanel": "Öğeler panelini göster",
+    "hidePanel": "Öğeleri gizle paneli"
+  },
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontoloji Düzenleyicisi ",
+    "searchContent": "Dosya, varlık, mülk veya konum arayın",
+    "save": "Kaydet",
+    "publish": "Yayınla",
+    "sync": "sync",
+    "import": "İçe Aktar",
+    "export": "Ihracat"
+  }
 }

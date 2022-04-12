@@ -653,12 +653,54 @@
     "enterEnvironmentUrl": "同期",
     "enterContainerUrl": "インポート",
     "editEnvironment": "輸出",
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "クローズモーダル",
+      "invalidContainerUrl": "プレビュー"
+    },
+    "descriptionForEnvironment": "環境を接続して資産を一覧表示しま|。*|環境とストレージコンテナのURLを接続してシーンを一覧表示しま|。*|構成データはローカル・ストレージに保存されます。",
+    "descriptionForEnvAndCont": "ストレージコンテナのURLを選択",
+    "descriptionForLocalStorage": "環境は追加されませんでした",
+    "selectContainerUrl": "コンテナは追加されませんでした",
+    "noEnvironment": "リストから削除",
+    "noContainer": "これは有効な URL ではありません (例: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+    "removeFromList": "これは有効な URL ではありません (例: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "流暢な画像コンポーネントによるSVGロード(推奨パターン)",
+    "behaviorPreview": "img タグ src"
+  },
+  "svgTests": {
+    "fluentUI": "による SVG アイコンReactコンポーネント構文によるSVGのイラストレーション",
+    "imgTag": "ファイルを選択するか、ブロブ URL",
+    "reactComponent": "3D ファイルをコンテナに入力"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "ファイルを読み込み中...",
+    "3dFileFromContainer": "これはサポートされている BLOB URL ではありません (例: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "loading3DFiles": "サポートされているファイルの種類は {{fileTypes}} で|。*|視聴者テーマ",
+    "invalidBlobUrlPath": "スタイル",
+    "supportedFileTypes": "オブジェクトの色"
+  },
+  "modelViewerModePicker": {
+    "title": "背景",
+    "style": "デフォルト",
+    "objectColors": "透明",
+    "background": "ワイヤーフレーム",
+    "default": "要素",
+    "transparent": "表示する要素がありません",
+    "wireframe": "要素またはアラートをフィルター処理するタイプ"
+  },
+  "elementsPanel": {
+    "title": "要素パネルを表示",
+    "noElements": "要素パネルを非表示にする",
+    "filterPlaceholder": "Azure Digital Twins Ontology Editor ",
+    "showPanel": "ファイル、資産、プロパティ、または場所を検索",
+    "hidePanel": "保存"
+  },
+  "OATHeader": {
+    "title": "公開",
+    "searchContent": "同期",
+    "save": "インポート",
+    "publish": "輸出"
+  }
 }

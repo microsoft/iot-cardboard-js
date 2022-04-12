@@ -684,8 +684,26 @@
   "modelViewerModePicker": {
     "title": "sync",
     "style": "Importation",
-    "objectColors": "Exportation"
+    "objectColors": "Exportation",
+    "background": "Contexte ",
+    "default": "Valeur par défaut ",
+    "transparent": "Transparent",
+    "wireframe": "Filaire"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "Éléments",
+    "noElements": "Aucun élément à afficher",
+    "filterPlaceholder": "Tapez pour filtrer des éléments ou des alertes",
+    "showPanel": "Afficher le panneau des éléments",
+    "hidePanel": "Panneau Masquer les éléments"
+  },
+  "OATHeader": {
+    "title": "Éditeur d’ontologie Azure Digital Twins ",
+    "searchContent": "Rechercher un fichier, un actif, une propriété ou un emplacement",
+    "save": "Enregistrer",
+    "publish": "Publier",
+    "sync": "sync",
+    "import": "Importation",
+    "export": "Exportation"
+  }
 }

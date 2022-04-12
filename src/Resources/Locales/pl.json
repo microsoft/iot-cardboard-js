@@ -596,27 +596,109 @@
       "float": "Publikowanie",
       "long": "synchronizowanie",
       "duration": "Import",
-      "integer": "Eksport"
+      "integer": "Eksport",
+      "string": "Ciąg ",
+      "time": "Czas",
+      "enum": "Enum",
+      "map": "Mapa",
+      "array": "Tablica",
+      "object": "Obiekt"
     },
     "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+      "date": {
+        "text": "Wprowadź wartość daty w formacie RRRR-MM-DD",
+        "ariaLabel": "Wprowadź wartość daty w formacie RRRR-MM-DD"
+      },
+      "dateTime": {
+        "text": "Wprowadź wartość w formacie daty-godziny <DocLink>RFC 3339</DocLink>, na przykład: 2007-04-05T14:30:15-08:00",
+        "ariaLabel": "Wprowadź wartość w formacie daty-godziny RFC 3339, na przykład: 2007-04-05T14:30:15-08:00"
+      },
+      "duration": {
+        "text": "Wprowadź wartość czasu trwania w formacie ISO-8601, gdzie n jest liczbą: P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+        "ariaLabel": "Wprowadź wartość czasu trwania w formacie ISO-8601, gdzie n jest liczbą: P(n)Y(n)M(n)DT(n)H(n)M(n)S"
+      },
+      "integer": {
+        "text": "Wprowadź niedziemną wartość liczbową (podpisana 4-bajtowa liczba całkowita)",
+        "ariaLabel": "Wprowadź niedziemną wartość liczbową (podpisana 4-bajtowa liczba całkowita)"
+      },
+      "long": {
+        "text": "Wprowadź niedziesiętną wartość liczbową (podpisana 8-bajtowa liczba całkowita)",
+        "ariaLabel": "Wprowadź niedziesiętną wartość liczbową (podpisana 8-bajtowa liczba całkowita)"
+      },
+      "time": {
+        "text": "Wprowadź wartość w formacie <DocLink>RFC 3339 w pełnym wymiarze godzin</DocLink>, na przykład: 14:22:33−08:00",
+        "ariaLabel": "Wprowadź wartość w formacie RFC 3339 w pełnym wymiarze godzin, na przykład: 14:22:33−08:00"
+      },
+      "map": {
+        "text": "Klucz mapy <DocLink></DocLink> używa ciągu znaków do opisania klucza na mapie.  Użyj następujących znaków: a-z, A-Z, 0-9 i underscore.",
+        "ariaLabel": "Klucz mapy używa ciągu znaków do opisania klucza na mapie.  Użyj następujących znaków: a-z, A-Z, 0-9 i underscore."
+      }
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "commandBar": {
+      "undoAll": "Zresetuj wszystkie zmiany",
+      "expandTree": "Rozwiń drzewo",
+      "collapseTree": "Zwiń drzewo|* | Zapisz zmiany",
+      "save": "Selektor dat"
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "Selektor daty/godziny",
+      "dateTimePickerTitle": "Selektor czasu",
+      "timePickerTitle": "Wprowadzanie zwykłego tekstu",
+      "plainTextInput": "Adres URL środowiska"
+    }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidContainerUrl": "Zamknij modal"
+    },
+    "environmentUrl": "Adres URL kontenera",
+    "containerUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
+    "enterEnvironmentUrl": "np. https://example.blob.core.windows.net/example",
+    "enterContainerUrl": "Edytuj środowisko",
+    "editEnvironment": "Połącz swoje środowisko, aby wyświetlić listę swoich zasobów.",
+    "descriptionForEnvironment": "Połącz środowisko i adres URL kontenera magazynu, aby wyświetlić listę scenes.",
+    "descriptionForEnvAndCont": "Dane konfiguracyjne są zapisywane w local storage.",
+    "descriptionForLocalStorage": "Wybierz adres URL kontenera magazynowania",
+    "selectContainerUrl": "Nie dodano środowiska",
+    "noEnvironment": "Nie dodano kontenera",
+    "noContainer": "Usuń z listy",
+    "removeFromList": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "Podgląd",
+    "behaviorPreview": "Ładowanie SVG przez komponent Fluent Image (zalecany wzór)"
+  },
+  "svgTests": {
+    "fluentUI": "Ikona SVG za pomocą tagu img src",
+    "imgTag": "Ilustracja SVG za pomocą składni komponentu React",
+    "reactComponent": "Wybierz plik lub wprowadź plik URL"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "3D obiektu blob w kontenerze",
+    "3dFileFromContainer": "Ładowanie plików...",
+    "loading3DFiles": "Nie jest to obsługiwany adres URL obiektu blob (np. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "invalidBlobUrlPath": "Obsługiwane typy plików to {{fileTypes}}.",
+    "supportedFileTypes": "Motyw przeglądarki"
+  },
+  "modelViewerModePicker": {
+    "title": "Styl| * | Kolor obiektu| * | Kontekst",
+    "style": "Domyślnie",
+    "objectColors": "Przezroczysty| * | Szkielet",
+    "background": "Elementy",
+    "default": "Brak elementów do wyświetlenia",
+    "transparent": "Wpisz, aby filtrować elementy lub alerty",
+    "wireframe": "Pokaż elementy, panel"
+  },
+  "elementsPanel": {
+    "title": "Ukryj elementy| panelu*| Edytor ontologii usługi Azure Digital Twins ",
+    "noElements": "Wyszukiwanie pliku, zasobu, właściwości lub lokalizacji",
+    "filterPlaceholder": "Zapisz",
+    "showPanel": "Publikowanie",
+    "hidePanel": "synchronizowanie"
+  },
+  "OATHeader": {
+    "title": "Import",
+    "searchContent": "Eksport"
+  }
 }

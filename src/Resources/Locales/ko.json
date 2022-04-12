@@ -559,29 +559,131 @@
     "Search suggestions available": "파일, 자산, 속성 또는 위치 검색",
     "Hierarchy list": "저장",
     "Looking for": "게시 | * | 동기화 ",
-    "Hierarchy error": "가져 오기 | * | 수출"
+    "Hierarchy error": "가져 오기 | * | 수출",
+    "Failed to get token": "토큰을 가져오지 못했",
+    "Error in hierarchy navigation": "계층 구조 탐색 오류",
+    "Failed to load types for navigation": "탐색을 위한 유형을 로드하지 못했",
+    "Failed to load hierarchies for navigation": "탐색을 위해 계층을 로드하지 못했",
+    "Failed to complete search": "검색을 완료하지 못했",
+    "Failed to get instance details": "인스턴스 세부 정보를 가져오지 못했",
+    "Add": "추가",
+    "Search": "검색",
+    "Date/Time": "날짜/시간"
   },
   "propertyInspector": {
-    "propertyTypes": {},
-    "schemaInfo": {
-      "date": {},
-      "dateTime": {},
-      "duration": {},
-      "integer": {},
-      "long": {},
-      "time": {},
-      "map": {}
+    "propertyTypes": {
+      "boolean": "날짜-시간",
+      "date": "더블 | * | 플로트 | * | 긴",
+      "dateTime": "기간",
+      "double": "정수 | * | 문자열",
+      "float": "시간",
+      "long": "열거형",
+      "duration": "지도",
+      "integer": "배열 | * | 개체",
+      "string": "날짜 값을 YYYY-MM-DD 형식으로 입력합",
+      "time": "날짜 값을 YYYY-MM-DD 형식으로 입력합",
+      "enum": "<DocLink>RFC 3339 날짜-시간 형식</DocLink>의 값을 입력합니다(예: 2007-04-05T14:30:15-08:00",
+      "map": "RFC 3339 날짜-시간 형식의 값을 입력합니다(예: 2007-04-05T14:30:15-08:00",
+      "array": "ISO-8601 형식으로 기간 값을 입력합니다. 여기서 n은 숫자입니다. P(n)Y(n)M(n)DT(n)H(n)M(n)S",
+      "object": "ISO-8601 형식으로 기간 값을 입력합니다. 여기서 n은 숫자입니다. P(n)Y(n)M(n)DT(n)H(n)M(n)S"
     },
-    "commandBar": {},
-    "dateTimePicker": {}
+    "schemaInfo": {
+      "date": {
+        "text": "십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 십진수가 아닌 숫자 값(부호 있는 4바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| 소수점이 아닌 숫자 값(부호 있는 8바이트 정수)|*을 입력합| <DocLink>RFC 3339 풀 타임 형식</DocLink>의 값을 입력합니다(예: 14:22:33-08:00",
+        "ariaLabel": "RFC 3339 풀 타임 형식으로 값을 입력합니다(예: 14:22:33-08:00"
+      },
+      "dateTime": {
+        "text": "<DocLink>map 키</DocLink>는 문자열을 사용하여 맵의 키를 설명합니다.  a-z, A-Z, 0-9 및 밑줄을 사용합니다.",
+        "ariaLabel": "map 키는 문자열을 사용하여 맵의 키를 설명합니다.  a-z, A-Z, 0-9 및 밑줄을 사용합니다."
+      },
+      "duration": {
+        "text": "모든 편집 내용을 재설정합",
+        "ariaLabel": "트리 확장"
+      },
+      "integer": {
+        "text": "트리 축소",
+        "ariaLabel": "변경 사항 저장"
+      },
+      "long": {
+        "text": "날짜 선택기",
+        "ariaLabel": "날짜 시간 선택기"
+      },
+      "time": {
+        "text": "시간 선택기",
+        "ariaLabel": "일반 텍스트 입력"
+      },
+      "map": {
+        "text": "환경 URL",
+        "ariaLabel": "컨테이너 URL | * |예 : https://example.api.wus2.digitaltwins.azure.net| * |예 : https://example.blob.core.windows.net/example"
+      }
+    },
+    "commandBar": {
+      "undoAll": "환경 편집",
+      "expandTree": "환경을 연결하여 자산을 나열하십시오.",
+      "collapseTree": "환경과 스토리지 컨테이너 URL을 연결하여 장면을 나열합니다.",
+      "save": "구성 데이터는 로컬 저장소에 저장됩니다."
+    },
+    "dateTimePicker": {
+      "datePickerTitle": "스토리지 컨테이너 URL 선택",
+      "dateTimePickerTitle": "환경이 추가되지 않았",
+      "timePickerTitle": "컨테이너가 추가되지 않았",
+      "plainTextInput": "목록에서 제거"
+    },
+    "chevronExpand": "노드 확장",
+    "chevronCollapse": "노드 축소",
+    "modelNotFound": "이 {{piMode}}에서 사용하는 하나 이상의 모델이 누락되었습니다. 이 환경에 다음과 같은 누락된 모델을 추가하십시오.",
+    "unmodelledPropertyWarning": "경고 아이콘으로 표시된 모델이 누락된 속성은 다음 업데이트 이벤트에서 제거됩니다. 이러한 속성을 유지하려면 {{piMode}}를 업데이트하기 전에 해당 모델을 환경에 추가하십시오.",
+    "unmodelledProperty": "이 속성에 대한 모델을 찾을 수 없",
+    "commandBarTitleTwin": "트윈 속성",
+    "commandBarTitleRelationship": "관계 속성",
+    "addProperty": "속성 추가",
+    "unsetProperty": "설정 해제 속성",
+    "notSet": "설정되지 않음",
+    "property": "재산 | * | 구성 요소 | * | 트윈을 찾을 수 없습",
+    "component": "관계를 찾을 수 없습",
+    "noTwinFound": "새 맵 키 입력",
+    "noRelationshipFound": "맵 값 추가",
+    "mapKeyPlaceholder": "맵 값 제거",
+    "addMapIconTitle": "부울",
+    "removeMapValueIconTitle": "날짜"
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "기본값",
+      "invalidContainerUrl": "투명"
+    },
+    "environmentUrl": "유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙",
+    "containerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙",
+    "enterEnvironmentUrl": "모달 닫기",
+    "enterContainerUrl": "미리보기 | * | 유창한 이미지 구성 요소를 통한 SVG 로딩 (권장 패턴)| * | img 태그 src를 통해 SVG 아이콘",
+    "editEnvironment": "React 구성 요소 구문을 통한 SVG 그림",
+    "descriptionForEnvironment": "파일을 선택하거나 컨테이너에 blob URL",
+    "descriptionForEnvAndCont": "3D 파일을 입력합",
+    "descriptionForLocalStorage": "파일 로드 중...",
+    "selectContainerUrl": "지원되는 Blob URL(예: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)이 아닙",
+    "noEnvironment": "지원되는 파일 형식은 {{fileTypes}}입니다.",
+    "noContainer": "뷰어 테마",
+    "removeFromList": "스타일 | * | 개체 색상 | * | 배경"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
+  "behaviorsModal": {
+    "closeModal": "와이어프레임",
+    "behaviorPreview": "요소"
+  },
+  "svgTests": {
+    "fluentUI": "표시할 요소가 없",
+    "imgTag": "요소 또는 경고를 필터링하려면 입력합",
+    "reactComponent": "요소 패널 표시"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "요소 패널 숨기기",
+    "3dFileFromContainer": "Azure Digital Twins Ontology Editor ",
+    "loading3DFiles": "파일, 자산, 속성 또는 위치 검색",
+    "invalidBlobUrlPath": "저장",
+    "supportedFileTypes": "게시 | * | 동기화 "
+  },
+  "modelViewerModePicker": {
+    "title": "가져 오기 | * | 수출"
+  },
   "elementsPanel": {},
   "OATHeader": {}
 }

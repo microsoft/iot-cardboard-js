@@ -690,6 +690,20 @@
     "transparent": "Importálás",
     "wireframe": "Kivitel"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "Elemek",
+    "noElements": "Nincsenek megjeleníthető elemek",
+    "filterPlaceholder": "Írja be az elemek vagy riasztások szűréséhez",
+    "showPanel": "Elemek panel megjelenítése",
+    "hidePanel": "Elemek elrejtése panel"
+  },
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontology Editor ",
+    "searchContent": "Keresés fájlban, eszközben, tulajdonságban vagy helyen",
+    "save": "Mentés",
+    "publish": "Közzététel",
+    "sync": "szinkron",
+    "import": "Importálás",
+    "export": "Kivitel"
+  }
 }

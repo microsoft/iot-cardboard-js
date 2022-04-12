@@ -648,12 +648,62 @@
     }
   },
   "environmentPicker": {
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "Este não é um URL válido (por exemplo, https://<ourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Este não é um URL válido (por exemplo, https://<ourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
+    },
+    "environmentUrl": "URL ambiente",
+    "containerUrl": "URL do contentor",
+    "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+    "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
+    "editEnvironment": "Editar ambiente",
+    "descriptionForEnvironment": "Conecte o seu ambiente para listar os seus ativos.",
+    "descriptionForEnvAndCont": "Ligue o seu URL de ambiente e recipiente de armazenamento para listar as suas cenas.",
+    "descriptionForLocalStorage": "Os dados de configuração são guardados em storage.",
+    "selectContainerUrl": "Selecione URL do recipiente de armazenamento",
+    "noEnvironment": "Sem ambiente adicionado",
+    "noContainer": "Nenhum recipiente adicionado",
+    "removeFromList": "Retire da lista"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "Feche modal",
+    "behaviorPreview": "Pré-visualização"
+  },
+  "svgTests": {
+    "fluentUI": "Carregamento SVG através de componente de imagem fluente (padrão recomendado)",
+    "imgTag": "Ícone SVG via img tag src",
+    "reactComponent": "Ilustração SVG via Sintaxe componente react"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "Selecione o ficheiro URL",
+    "3dFileFromContainer": "3D em recipiente",
+    "loading3DFiles": "Carregar ficheiros...",
+    "invalidBlobUrlPath": "Este não é um URL blob suportado (por exemplo, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "supportedFileTypes": "Os tipos de ficheiros suportados são {{fileTypes}}."
+  },
+  "modelViewerModePicker": {
+    "title": "Tema do Espectador",
+    "style": "Estilo",
+    "objectColors": "Cor do objeto",
+    "background": "Fundo",
+    "default": "Predefinido",
+    "transparent": "Transparente",
+    "wireframe": "Wireframe"
+  },
+  "elementsPanel": {
+    "title": "Elementos",
+    "noElements": "Nenhum elemento para exibir",
+    "filterPlaceholder": "Digite para filtrar elementos ou alertas",
+    "showPanel": "Mostrar painel de elementos",
+    "hidePanel": "Painel de elementos de ocultação"
+  },
+  "OATHeader": {
+    "title": "Azure Digital Twins Onlogy Editor ",
+    "searchContent": "Procure ficheiro, ativo, propriedade ou localização",
+    "save": "Salve",
+    "publish": "Publicar",
+    "sync": "sync",
+    "import": "Importação",
+    "export": "Exportação"
+  }
 }

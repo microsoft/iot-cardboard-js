@@ -685,8 +685,25 @@
     "title": "Publicera",
     "style": "sync",
     "objectColors": "Importera",
-    "background": "Export"
+    "background": "Export",
+    "default": "Standard",
+    "transparent": "Transparent",
+    "wireframe": "Wireframe"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "Element",
+    "noElements": "Inga element att visa",
+    "filterPlaceholder": "Skriv om du vill filtrera element eller aviseringar",
+    "showPanel": "Visa panelen Element",
+    "hidePanel": "Dölj panelen Dölj element"
+  },
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontology Editor ",
+    "searchContent": "Sök efter fil, tillgång, egenskap eller plats",
+    "save": "Spara",
+    "publish": "Publicera",
+    "sync": "sync",
+    "import": "Importera",
+    "export": "Export"
+  }
 }

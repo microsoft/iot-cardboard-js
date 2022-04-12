@@ -659,12 +659,47 @@
     "selectContainerUrl": "sync",
     "noEnvironment": "Importeren",
     "noContainer": "Exporteren",
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
+    },
+    "removeFromList": "Verwijderen uit lijst"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "Sluit modal",
+    "behaviorPreview": "Voorbeeld"
+  },
+  "svgTests": {
+    "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
+    "imgTag": "SVG-pictogram via img-tag src| * | SVG-illustratie via de syntaxis van de component React",
+    "reactComponent": "Selecteer bestand of voer blob-URL"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "3D-bestand in container in",
+    "3dFileFromContainer": "Bestanden laden...",
+    "loading3DFiles": "Dit is geen ondersteunde blob-URL (bijv. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "invalidBlobUrlPath": "Ondersteunde bestandstypen zijn {{fileTypes}}.",
+    "supportedFileTypes": "Viewer Thema|* | Stijl"
+  },
+  "modelViewerModePicker": {
+    "title": "Object kleur|* | Achtergrond",
+    "style": "Standaard",
+    "objectColors": "Transparant",
+    "background": "Wireframe| * | Elementen",
+    "default": "Geen elementen om weer te geven",
+    "transparent": "Typ om elementen of waarschuwingen te filteren",
+    "wireframe": "Deelvenster Elementen weergeven"
+  },
+  "elementsPanel": {
+    "title": "Deelvenster Elementen verbergen",
+    "noElements": "Azure Digital Twins Ontology Editor ",
+    "filterPlaceholder": "Zoeken in bestand, middel, eigendom of locatie",
+    "showPanel": "Opslaan",
+    "hidePanel": "Publiceren"
+  },
+  "OATHeader": {
+    "title": "sync",
+    "searchContent": "Importeren",
+    "save": "Exporteren"
+  }
 }

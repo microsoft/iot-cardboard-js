@@ -693,7 +693,17 @@
   "elementsPanel": {
     "title": "sync",
     "noElements": "Importieren",
-    "filterPlaceholder": "Exportieren"
+    "filterPlaceholder": "Exportieren",
+    "showPanel": "Bedienfeld \"Elemente anzeigen",
+    "hidePanel": "Bedienfeld \"Elemente ausblenden"
   },
-  "OATHeader": {}
+  "OATHeader": {
+    "title": "Azure Digital Twins Ontology Editor ",
+    "searchContent": "Datei, Asset, Property oder Speicherort durchsuchen",
+    "save": "Speichern",
+    "publish": "Veröffentlichen",
+    "sync": "sync",
+    "import": "Importieren",
+    "export": "Exportieren"
+  }
 }

@@ -653,12 +653,55 @@
     "enterEnvironmentUrl": "sync",
     "enterContainerUrl": "Importazione",
     "editEnvironment": "Esportazione",
-    "errors": {}
+    "errors": {
+      "invalidEnvironmentUrl": "Questo non è un URL valido (ad esempio https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidContainerUrl": "Chiudi modale"
+    },
+    "descriptionForEnvironment": "Connetti il tuo ambiente per elencare le tue risorse.",
+    "descriptionForEnvAndCont": "Connettere l'ambiente e l'URL del contenitore di archiviazione per elencare le scene.",
+    "descriptionForLocalStorage": "I dati di configurazione vengono salvati in storage.| locale *| Selezionare l'URL del contenitore di archiviazione",
+    "selectContainerUrl": "Nessun ambiente aggiunto",
+    "noEnvironment": "Nessun contenitore aggiunto",
+    "noContainer": "Rimuovi dalla lista",
+    "removeFromList": "Questo non è un URL valido (ad esempio https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)"
   },
-  "behaviorsModal": {},
-  "svgTests": {},
-  "blobDropdown": {},
-  "modelViewerModePicker": {},
-  "elementsPanel": {},
-  "OATHeader": {}
+  "behaviorsModal": {
+    "closeModal": "Anteprima",
+    "behaviorPreview": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)"
+  },
+  "svgTests": {
+    "fluentUI": "Icona SVG tramite tag img src",
+    "imgTag": "Illustrazione SVG tramite la sintassi del componente React",
+    "reactComponent": "Selezionare il file o immettere il file URL BLOB"
+  },
+  "blobDropdown": {
+    "selectFileOrEnter": "3D nel contenitore",
+    "3dFileFromContainer": "Caricamento di file...",
+    "loading3DFiles": "Non si tratta di un URL BLOB supportato (ad esempio https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
+    "invalidBlobUrlPath": "I tipi di file supportati sono {{fileTypes}}.",
+    "supportedFileTypes": "Tema del visualizzatore"
+  },
+  "modelViewerModePicker": {
+    "title": "Stile",
+    "style": "Colore dell'oggetto",
+    "objectColors": "Sfondo",
+    "background": "Valore predefinito",
+    "default": "Trasparente",
+    "transparent": "Wireframe| * | Elementi",
+    "wireframe": "Nessun elemento da visualizzare"
+  },
+  "elementsPanel": {
+    "title": "Digitare per filtrare elementi o avvisi",
+    "noElements": "Pannello Mostra elementi",
+    "filterPlaceholder": "Pannello Nascondi elementi",
+    "showPanel": "Editor di ontologia di Gemelli digitali di Azure ",
+    "hidePanel": "Cerca file, asset, proprietà o posizione"
+  },
+  "OATHeader": {
+    "title": "Risparmio",
+    "searchContent": "Pubblica",
+    "save": "sync",
+    "publish": "Importazione",
+    "sync": "Esportazione"
+  }
 }
