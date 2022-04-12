@@ -956,10 +956,10 @@ export default class ADTAdapter implements IADTAdapter {
                                 element.twinAliases[twinAliasInBehavior]
                             );
                             pushErrors(twin.getErrors());
-                            twins[
-                                `${twinAliasInBehavior}.` +
-                                    element.twinAliases[twinAliasInBehavior]
-                            ] = twin.result?.data;
+                            const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
+                            if (!twins[aliasedKey]) {
+                                twins[aliasedKey] = twin.result?.data;
+                            }
                         } catch (err) {
                             console.error(err);
                         }

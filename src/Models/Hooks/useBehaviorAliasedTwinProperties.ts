@@ -10,7 +10,7 @@ import {
 interface IUseBehaviorAliasedTwinProperties {
     behavior: IBehavior;
     isTwinAliasesIncluded: boolean;
-    selectedElements?: Array<ITwinToObjectMapping>;
+    selectedElements?: Array<ITwinToObjectMapping>; // if selected elements passed, retrieve linked or aliased twin properties from selected elements, not elements from current scene in config
 }
 const useBehaviorAliasedTwinProperties = ({
     behavior,

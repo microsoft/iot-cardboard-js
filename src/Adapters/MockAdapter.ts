@@ -577,8 +577,6 @@ export default class MockAdapter
             behavior
         );
 
-        // TODO get FilteredTwinDatasources
-
         // cycle through mapping ids to get twins for behavior and scene
         const twins = {};
         for (const id of mappingIds) {
@@ -606,10 +604,10 @@ export default class MockAdapter
                             const twin = await this.getADTTwin(
                                 element.twinAliases[twinAliasInBehavior]
                             );
-                            twins[
-                                `${twinAliasInBehavior}.` +
-                                    element.twinAliases[twinAliasInBehavior]
-                            ] = twin.result?.data;
+                            const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
+                            if (!twins[aliasedKey]) {
+                                twins[aliasedKey] = twin.result?.data;
+                            }
                         } catch (err) {
                             console.error(err);
                         }
