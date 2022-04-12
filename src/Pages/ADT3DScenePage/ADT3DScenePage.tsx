@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ADT3DScenePageModes,
     ADT3DScenePageSteps,
     ComponentErrorType
 } from '../../Models/Constants/Enums';
@@ -18,7 +17,6 @@ import {
 } from './ADT3DScenePage.state';
 import {
     SET_ADT_SCENE_CONFIG,
-    SET_ADT_SCENE_PAGE_MODE,
     SET_CURRENT_STEP,
     SET_ERRORS,
     SET_SELECTED_BLOB_CONTAINER_URL,
@@ -35,7 +33,6 @@ import { ADT3DSceneBuilderContainer } from './Internal/ADT3DSceneBuilderContaine
 import useAdapter from '../../Models/Hooks/useAdapter';
 import ScenePageErrorHandlingWrapper from '../../Components/ScenePageErrorHandlingWrapper/ScenePageErrorHandlingWrapper';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import FloatingScenePageModeToggle from './Internal/FloatingScenePageModeToggle';
 import EnvironmentPicker from '../../Components/EnvironmentPicker/EnvironmentPicker';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import {
@@ -125,15 +122,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
         }
     };
 
-    const handleScenePageModeChange = (
-        newScenePageMode: ADT3DScenePageModes
-    ) => {
-        dispatch({
-            type: SET_ADT_SCENE_PAGE_MODE,
-            payload: newScenePageMode
-        });
-    };
-
     useEffect(() => {
         if (!scenesConfig.adapterResult.hasNoData()) {
             const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
@@ -212,11 +200,6 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = ({
                     localeStrings={localeStrings}
                     containerClassName={'cb-scene-page-container'}
                 >
-                    <FloatingScenePageModeToggle
-                        scene={state.selectedScene}
-                        handleScenePageModeChange={handleScenePageModeChange}
-                        selectedMode={state.scenePageMode}
-                    />
                     {state.currentStep === ADT3DScenePageSteps.SceneLobby && (
                         <>
                             <div className="cb-scene-page-scene-environment-picker">
