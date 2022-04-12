@@ -698,7 +698,7 @@
         "hidePanel": "Hide elements panel"
     },
     "OATHeader": {
-        "title": "Azure Digital Twins Ontology Editor ",
+        "title": "Azure Digital Twins Ontology Editor",
         "searchContent": "Search file, asset, property, or location",
         "save": "Save",
         "publish": "Publish",
