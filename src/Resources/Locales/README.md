@@ -18,6 +18,13 @@ npm install -g i18n-auto-translation-msnyder
 i18n-auto-translation-msnyder -t de -k <subscription key> -p ./src/Resources/Locales/en/translation.json -l westus2 -f en -a azure-official 
 ```
 
+## Adding/removing a language
+
+- Add to the list of languages to translate in the build yml `.github/workflows/translation.yml`
+- Update the list of languages in the `preview.js` file for storybook
+- Add the language to the num in `Models/Contants/Enums.ts`
+- Import your newly generated file and map it to the enum in `i18n.ts`
+
 ## Translation automation
 
 - In the PRs we have a GitHub action ([i18n-auto-translation-action](https://github.com/msnyder-msft/i18n-auto-translation-action)) that gets triggered to run this package automatically. It will push updates to the PR for the newly detected keys.
