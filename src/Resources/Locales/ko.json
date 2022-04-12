@@ -700,6 +700,8 @@
   "OATHeader": {
     "title": "저장",
     "searchContent": "게시 | * | 동기화 ",
-    "save": "가져 오기 | * | 수출"
+    "save": "가져 오기 | * | 수출",
+    "publish": "게시 | * | 동기화 ",
+    "sync": "가져 오기 | * | 수출"
   }
 }
