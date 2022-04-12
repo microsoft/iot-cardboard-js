@@ -682,6 +682,7 @@
         "supportedFileTypes": "Supported file types are {{fileTypes}}."
     },
     "modelViewerModePicker": {
+        "buttonLabel": "Theme",
         "title": "Viewer Theme",
         "style": "Style",
         "objectColors": "Object color",

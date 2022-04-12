@@ -181,7 +181,7 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                 onClick={() => setShowPicker(!showPicker)}
                 id={calloutAnchor}
             >
-                Theme
+                {t('modelViewerModePicker.buttonLabel')}
             </DefaultButton>
             {showPicker && (
                 <FocusTrapCallout
