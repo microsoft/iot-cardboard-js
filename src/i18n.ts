@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import csTranslation from './Resources/Locales/cs.json';
-import deTranslation from './Resources/Locales/de.json';
+import deTranslation from './Resources/Locales/de.json ';
 import enTranslation from './Resources/Locales/en.json';
 import esTranslation from './Resources/Locales/es.json';
 import frTranslation from './Resources/Locales/fr.json';
