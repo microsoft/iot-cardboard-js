@@ -240,7 +240,7 @@ EditBehaviorsTabAddThenOpenMenu.play = async ({ canvasElement }) => {
     );
     await userEvent.click(listItem);
     // let the callout animate
-    await sleep(50);
+    await sleep(500);
 };
 
 export const EditBehaviorsTabEditBehavior = Template.bind({});

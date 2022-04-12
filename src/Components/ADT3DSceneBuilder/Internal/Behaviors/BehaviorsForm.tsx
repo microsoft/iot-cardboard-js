@@ -445,9 +445,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         )
                                     }
                                 >
-                                    <WidgetsTab
-                                        selectedElements={selectedElements}
-                                    />
+                                    <WidgetsTab />
                                 </PivotItem>
                             </Pivot>
                         </div>
