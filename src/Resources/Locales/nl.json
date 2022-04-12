@@ -688,7 +688,8 @@
     "background": "Achtergrond",
     "default": "Verstek",
     "transparent": "Doorzichtig",
-    "wireframe": "Draadframe"
+    "wireframe": "Draadframe",
+    "buttonLabel": "Thema"
   },
   "elementsPanel": {
     "title": "Elementen",

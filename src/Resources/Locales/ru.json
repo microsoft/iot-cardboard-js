@@ -688,7 +688,8 @@
     "background": "Фон",
     "default": "По умолчанию",
     "transparent": "Прозрачный",
-    "wireframe": "Каркас"
+    "wireframe": "Каркас",
+    "buttonLabel": "Тема"
   },
   "elementsPanel": {
     "title": "Азы",

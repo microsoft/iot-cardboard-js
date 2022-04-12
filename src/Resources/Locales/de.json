@@ -688,7 +688,8 @@
     "background": "Hintergrund",
     "default": "Vorgabe",
     "transparent": "Durchsichtig",
-    "wireframe": "Drahtmodell"
+    "wireframe": "Drahtmodell",
+    "buttonLabel": "Thema"
   },
   "elementsPanel": {
     "title": "Elemente",

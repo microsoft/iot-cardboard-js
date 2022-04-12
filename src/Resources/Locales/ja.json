@@ -688,7 +688,8 @@
     "background": "バックグラウンド",
     "default": "デフォルト",
     "transparent": "透明",
-    "wireframe": "ワイヤーフレーム"
+    "wireframe": "ワイヤーフレーム",
+    "buttonLabel": "テーマ"
   },
   "elementsPanel": {
     "title": "元素",

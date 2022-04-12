@@ -688,7 +688,8 @@
     "background": "Arrière-plan",
     "default": "Faire défaut",
     "transparent": "Transparent",
-    "wireframe": "Filaire"
+    "wireframe": "Filaire",
+    "buttonLabel": "Thème"
   },
   "elementsPanel": {
     "title": "Éléments",

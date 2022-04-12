@@ -688,7 +688,8 @@
     "background": "Arka plan",
     "default": "Temerrüt",
     "transparent": "Saydam",
-    "wireframe": "Tel kafes"
+    "wireframe": "Tel kafes",
+    "buttonLabel": "Tema"
   },
   "elementsPanel": {
     "title": "Öğe",

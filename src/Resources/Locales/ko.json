@@ -688,7 +688,8 @@
     "background": "배경",
     "default": "기본값",
     "transparent": "투명한",
-    "wireframe": "와이어프레임"
+    "wireframe": "와이어프레임",
+    "buttonLabel": "주제"
   },
   "elementsPanel": {
     "title": "요소",

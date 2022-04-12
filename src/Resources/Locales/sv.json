@@ -688,7 +688,8 @@
     "background": "Bakgrund",
     "default": "Standard",
     "transparent": "Genomskinlig",
-    "wireframe": "Trådram"
+    "wireframe": "Trådram",
+    "buttonLabel": "Tema"
   },
   "elementsPanel": {
     "title": "Element",

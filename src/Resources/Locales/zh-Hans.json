@@ -688,7 +688,8 @@
     "background": "背景",
     "default": "违约",
     "transparent": "透明",
-    "wireframe": "线框"
+    "wireframe": "线框",
+    "buttonLabel": "主题"
   },
   "elementsPanel": {
     "title": "元素",

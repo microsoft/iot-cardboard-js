@@ -688,7 +688,8 @@
     "background": "Pozadí",
     "default": "Výchozí",
     "transparent": "Transparentní",
-    "wireframe": "Drátěný model"
+    "wireframe": "Drátěný model",
+    "buttonLabel": "Téma"
   },
   "elementsPanel": {
     "title": "Elementy",

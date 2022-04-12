@@ -688,7 +688,8 @@
     "background": "Tło",
     "default": "Domyślny",
     "transparent": "Przejrzysty",
-    "wireframe": "Szkielet"
+    "wireframe": "Szkielet",
+    "buttonLabel": "Kompozycja"
   },
   "elementsPanel": {
     "title": "Pierwiastki",

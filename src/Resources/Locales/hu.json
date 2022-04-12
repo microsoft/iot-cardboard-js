@@ -688,7 +688,8 @@
     "background": "Háttér",
     "default": "Alapértelmezett",
     "transparent": "Átlátszó",
-    "wireframe": "Drótváz"
+    "wireframe": "Drótváz",
+    "buttonLabel": "Téma"
   },
   "elementsPanel": {
     "title": "Elemek",

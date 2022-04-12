@@ -688,7 +688,8 @@
     "background": "Sfondo",
     "default": "Default",
     "transparent": "Trasparente",
-    "wireframe": "Wireframe"
+    "wireframe": "Wireframe",
+    "buttonLabel": "Tema"
   },
   "elementsPanel": {
     "title": "Elementi",
