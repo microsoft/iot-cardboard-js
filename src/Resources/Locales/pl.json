@@ -699,6 +699,11 @@
   },
   "OATHeader": {
     "title": "Import",
-    "searchContent": "Eksport"
+    "searchContent": "Eksport",
+    "save": "Zapisz",
+    "publish": "Publikowanie",
+    "sync": "synchronizowanie",
+    "import": "Import",
+    "export": "Eksport"
   }
 }

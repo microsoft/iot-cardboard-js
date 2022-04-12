@@ -700,6 +700,10 @@
   "OATHeader": {
     "title": "sync",
     "searchContent": "Importeren",
-    "save": "Exporteren"
+    "save": "Exporteren",
+    "publish": "Publiceren",
+    "sync": "sync",
+    "import": "Importeren",
+    "export": "Exporteren"
   }
 }

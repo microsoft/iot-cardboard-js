@@ -682,8 +682,24 @@
     "supportedFileTypes": "게시 | * | 동기화 "
   },
   "modelViewerModePicker": {
-    "title": "가져 오기 | * | 수출"
+    "title": "가져 오기 | * | 수출",
+    "style": "스타일 | * | 개체 색상 | * | 배경",
+    "objectColors": "기본값",
+    "background": "투명",
+    "default": "와이어프레임",
+    "transparent": "요소",
+    "wireframe": "표시할 요소가 없"
   },
-  "elementsPanel": {},
-  "OATHeader": {}
+  "elementsPanel": {
+    "title": "요소 또는 경고를 필터링하려면 입력합",
+    "noElements": "요소 패널 표시",
+    "filterPlaceholder": "요소 패널 숨기기",
+    "showPanel": "Azure Digital Twins Ontology Editor",
+    "hidePanel": "파일, 자산, 속성 또는 위치 검색"
+  },
+  "OATHeader": {
+    "title": "저장",
+    "searchContent": "게시 | * | 동기화 ",
+    "save": "가져 오기 | * | 수출"
+  }
 }

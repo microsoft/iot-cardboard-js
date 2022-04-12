@@ -701,6 +701,9 @@
     "title": "Publikovat",
     "searchContent": "sync",
     "save": "Import",
-    "publish": "Vývoz"
+    "publish": "Vývoz",
+    "sync": "synchronizace",
+    "import": "Import",
+    "export": "Vývoz"
   }
 }

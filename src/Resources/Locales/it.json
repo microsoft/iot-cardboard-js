@@ -702,6 +702,8 @@
     "searchContent": "Pubblica",
     "save": "sync",
     "publish": "Importazione",
-    "sync": "Esportazione"
+    "sync": "Esportazione",
+    "import": "Importazione",
+    "export": "Esportazione"
   }
 }
