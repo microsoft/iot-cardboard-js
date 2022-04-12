@@ -4,12 +4,13 @@ This class intercepts calls to the SceneViewer and enables AddIns to hook into e
 
 */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { Marker } from '../../Models/Classes/SceneView.types';
 import SceneView from './SceneView';
 import {
     ADT3DAddInEventTypes,
+    CameraInteraction,
     ViewerModeStyles
 } from '../../Models/Constants/Enums';
 import {
@@ -28,6 +29,7 @@ import {
     ViewerModeBackgroundColors,
     ViewerModeObjectColors
 } from '../../Models/Constants';
+import { CameraControls } from './CameraControls';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
@@ -50,6 +52,13 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
         selectedViewerMode,
         setSelectedViewerMode
     ] = useState<IADT3DViewerMode>(null);
+
+    const [
+        cameraInteractionType,
+        setCameraInteractionType
+    ] = useState<CameraInteraction>(null);
+
+    const sceneViewComponent = useRef();
 
     const sceneLoaded = (scene: BABYLON.Scene) => {
         data.eventType = ADT3DAddInEventTypes.SceneLoaded;
@@ -164,7 +173,19 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                     />
                 </div>
             )}
+            <CameraControls
+                onCameraInteractionChanged={(type) =>
+                    setCameraInteractionType(type)
+                }
+                onCameraZoom={(zoom) =>
+                    (sceneViewComponent.current as any)?.zoomCamera(zoom)
+                }
+                onResetCamera={() =>
+                    (sceneViewComponent.current as any)?.resetCamera()
+                }
+            />
             <SceneView
+                ref={sceneViewComponent}
                 isWireframe={selectedViewerMode?.isWireframe}
                 objectColors={selectedViewerMode?.objectColor}
                 backgroundColor={selectedViewerMode?.background}
@@ -172,6 +193,7 @@ export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
                 onMeshHover={meshHover}
                 onMeshClick={meshClick}
                 onSceneLoaded={sceneLoaded}
+                cameraInteractionType={cameraInteractionType}
             />
         </div>
     );

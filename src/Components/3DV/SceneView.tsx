@@ -3,7 +3,14 @@ import '@babylonjs/loaders';
 import * as SERIALIZE from '@babylonjs/serializers';
 import * as GUI from '@babylonjs/gui';
 import { ProgressIndicator, useTheme } from '@fluentui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 import './SceneView.scss';
 import { createGUID } from '../../Models/Services/Utils';
 import {
@@ -12,14 +19,21 @@ import {
     SceneViewCallbackHandler
 } from '../../Models/Classes/SceneView.types';
 import {
+    CameraZoomMultiplier,
     Scene_Marker,
     Scene_Visible_Marker,
     SphereMaterial
 } from '../../Models/Constants/SceneView.constants';
-import { AbstractMesh, HighlightLayer, Tools } from '@babylonjs/core';
+import {
+    AbstractMesh,
+    ArcRotateCameraPointersInput,
+    HighlightLayer,
+    Tools
+} from '@babylonjs/core';
 import { createBadgeGroup, getBoundingBox } from './SceneView.Utils';
 import { makeMaterial, outlineMaterial, ToColor3 } from './Shaders';
 import {
+    CameraInteraction,
     DefaultViewerModeObjectColor,
     globeUrl,
     IADTBackgroundColor,
@@ -121,26 +135,28 @@ function convertLatLonToVector3(
 
 let lastName = '';
 
-const SceneView: React.FC<ISceneViewProp> = ({
-    modelUrl,
-    markers,
-    onMeshClick,
-    onMeshHover,
-    onCameraMove,
-    onBadgeGroupHover,
-    showMeshesOnHover,
-    objectColors,
-    zoomToMeshIds,
-    unzoomedMeshOpacity,
-    onSceneLoaded,
-    getToken,
-    coloredMeshItems,
-    showHoverOnSelected,
-    outlinedMeshitems,
-    isWireframe,
-    badgeGroups,
-    backgroundColor
-}) => {
+function SceneView(props: ISceneViewProp, ref) {
+    const {
+        modelUrl,
+        markers,
+        onMeshClick,
+        onMeshHover,
+        onCameraMove,
+        onBadgeGroupHover,
+        showMeshesOnHover,
+        objectColors,
+        zoomToMeshIds,
+        unzoomedMeshOpacity,
+        onSceneLoaded,
+        getToken,
+        coloredMeshItems,
+        showHoverOnSelected,
+        outlinedMeshitems,
+        isWireframe,
+        badgeGroups,
+        backgroundColor,
+        cameraInteractionType
+    } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [loadProgress, setLoadProgress] = useState(0);
     const [canvasId] = useState(createGUID());
@@ -181,6 +197,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
     const materialCacheRef = useRef<any[]>([]);
     const pointerActive = useRef(false);
     const [isSerializing, setIsSerializing] = useState(false);
+    const initialCameraRadiusRef = useRef(0);
+    const zoomedMeshesRef = useRef([]);
 
     const defaultMeshHover = (
         marker: Marker,
@@ -411,6 +429,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     bbox = getBoundingBox(meshes);
                 }
 
+                zoomedMeshesRef.current = meshes;
+
                 someMeshFromTheArrayOfMeshes.setBoundingInfo(bbox);
 
                 someMeshFromTheArrayOfMeshes.showBoundingBox = false;
@@ -434,6 +454,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
 
                 // First time in after loading - create the camera
                 if (!cameraRef.current) {
+                    initialCameraRadiusRef.current = radius;
                     const camera = new BABYLON.ArcRotateCamera(
                         'camera',
                         0,
@@ -444,6 +465,8 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     );
 
                     camera.attachControl(canvas, false);
+                    camera._panningMouseButton = 0;
+                    camera.panningSensibility = 50;
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
@@ -456,57 +479,7 @@ const SceneView: React.FC<ISceneViewProp> = ({
                     });
                 } else {
                     // Here if the caller changed zoomToMeshIds - zoom the existing camera
-                    // First save the current camera position
-                    const positionFrom = cameraRef.current.position;
-                    const targetFrom = cameraRef.current.target;
-                    const radiusFrom = cameraRef.current.radius;
-                    // Now move it immediately to where we want it and save the new position
-                    cameraRef.current.zoomOn(meshes, true);
-                    cameraRef.current.radius = radius;
-                    const positionTo = cameraRef.current.position;
-                    const targetTo = cameraRef.current.target;
-                    const radiusTo = cameraRef.current.radius;
-                    // Reset camera back to original position
-                    cameraRef.current.position = positionFrom;
-                    cameraRef.current.target = targetFrom;
-                    // And animate to the desired position
-                    const ease = new BABYLON.CubicEase();
-                    ease.setEasingMode(
-                        BABYLON.EasingFunction.EASINGMODE_EASEINOUT
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an1',
-                        cameraRef.current,
-                        'position',
-                        30, // FPS
-                        30, // Number of frames (ie 1 second)
-                        positionFrom,
-                        positionTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an2',
-                        cameraRef.current,
-                        'target',
-                        30,
-                        30,
-                        targetFrom,
-                        targetTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
-                    BABYLON.Animation.CreateAndStartAnimation(
-                        'an3',
-                        cameraRef.current,
-                        'radius',
-                        30,
-                        30,
-                        radiusFrom,
-                        radiusTo,
-                        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-                        ease
-                    );
+                    zoomCamera(radius, meshes, 30);
                 }
             }
         }
@@ -580,6 +553,123 @@ const SceneView: React.FC<ISceneViewProp> = ({
             createBadgeGroups();
         }
     }, [backgroundColor]);
+
+    useEffect(() => {
+        switch (cameraInteractionType) {
+            case CameraInteraction.Free:
+                (cameraRef.current.inputs.attached
+                    .pointers as ArcRotateCameraPointersInput).buttons = [
+                    0,
+                    1,
+                    2
+                ];
+                cameraRef.current._panningMouseButton = 0;
+                turnOnCameraRotate();
+                break;
+            case CameraInteraction.Pan:
+                (cameraRef.current.inputs.attached
+                    .pointers as ArcRotateCameraPointersInput).buttons = [0];
+                cameraRef.current._panningMouseButton = 0;
+                cameraRef.current.angularSensibilityX = Infinity;
+                cameraRef.current.angularSensibilityY = Infinity;
+                break;
+            case CameraInteraction.Rotate:
+                (cameraRef.current.inputs.attached
+                    .pointers as ArcRotateCameraPointersInput).buttons = [0];
+                cameraRef.current._panningMouseButton = 1;
+                turnOnCameraRotate();
+                break;
+            default:
+                break;
+        }
+    }, [cameraInteractionType]);
+
+    const turnOnCameraRotate = () => {
+        if (cameraRef.current.angularSensibilityX === Infinity) {
+            cameraRef.current.angularSensibilityX = 1000;
+            cameraRef.current.angularSensibilityY = 1000;
+        }
+    };
+
+    useImperativeHandle(ref, () => ({
+        zoomCamera: (zoom: boolean) => {
+            if (cameraRef.current) {
+                if (zoom) {
+                    zoomCamera(
+                        cameraRef.current.radius - CameraZoomMultiplier,
+                        zoomedMeshesRef.current,
+                        5
+                    );
+                } else {
+                    zoomCamera(
+                        cameraRef.current.radius + CameraZoomMultiplier,
+                        zoomedMeshesRef.current,
+                        5
+                    );
+                }
+            }
+        },
+        resetCamera: () => {
+            zoomCamera(
+                initialCameraRadiusRef.current,
+                sceneRef.current.meshes,
+                30
+            );
+        }
+    }));
+
+    const zoomCamera = (
+        radius: number,
+        meshes: AbstractMesh[],
+        frames: number
+    ) => {
+        const positionFrom = cameraRef.current.position;
+        const targetFrom = cameraRef.current.target;
+        const radiusFrom = cameraRef.current.radius;
+        // Now move it immediately to where we want it and save the new position
+        cameraRef.current.zoomOn(meshes, true);
+        const positionTo = cameraRef.current.position;
+        const targetTo = cameraRef.current.target;
+        const radiusTo = radius;
+        // Reset camera back to original position
+        cameraRef.current.position = positionFrom;
+        cameraRef.current.target = targetFrom;
+        const ease = new BABYLON.CubicEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an1',
+            cameraRef.current,
+            'position',
+            30,
+            frames,
+            positionFrom,
+            positionTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an2',
+            cameraRef.current,
+            'target',
+            30,
+            frames,
+            targetFrom,
+            targetTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+        BABYLON.Animation.CreateAndStartAnimation(
+            'an3',
+            cameraRef.current,
+            'radius',
+            30,
+            frames,
+            radiusFrom,
+            radiusTo,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            ease
+        );
+    };
 
     const clearBadgeGroups = (force: boolean) => {
         debugLog('clearBadgeGroups');
@@ -1307,6 +1397,6 @@ const SceneView: React.FC<ISceneViewProp> = ({
             )}
         </div>
     );
-};
+}
 
-export default withErrorBoundary(SceneView);
+export default withErrorBoundary(forwardRef(SceneView));
