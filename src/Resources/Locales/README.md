@@ -2,7 +2,7 @@
 
 ## Summary
 
-We use the [i18n-auto-translation](https://github.com/while1618/i18n-auto-translation#----i18n-auto-translation--) package for generating first passes on localized strings. The goal in the long run is to then iterate on these auto generated values with professional translations.
+We use a custom fork of [i18n-auto-translation](https://github.com/msnyder-msft/i18n-auto-translation-msnyder) package for generating first passes on localized strings. The goal in the long run is to then iterate on these auto generated values with professional translations.
 
 ## How to update locales
 
@@ -11,11 +11,11 @@ We use the [i18n-auto-translation](https://github.com/while1618/i18n-auto-transl
 - To force update all the strings, simply drop all the non-english files and run the translation process.
 
 ```ts
-npm install -g i18n-auto-translation
+npm install -g i18n-auto-translation-msnyder
 ```
 
 ```ts
-i18n-auto-translation -t de -k <subscription key> -p ./src/Resources/Locales/en/translation.json -l westus2 -f en -a azure-official 
+i18n-auto-translation-msnyder -t de -k <subscription key> -p ./src/Resources/Locales/en/translation.json -l westus2 -f en -a azure-official 
 ```
 
 ## Translation automation
