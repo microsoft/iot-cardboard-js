@@ -40,7 +40,7 @@ import {
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import BuilderLeftPanel from './Internal/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
-import { AbstractMesh } from 'babylonjs/Meshes/abstractMesh';
+import { AbstractMesh } from '@babylonjs/core';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import {
     I3DScenesConfig,
