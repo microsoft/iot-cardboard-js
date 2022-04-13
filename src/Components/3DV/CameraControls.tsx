@@ -7,7 +7,7 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CameraInteraction } from '../../Models/Constants/Enums';
 import { useTranslation } from 'react-i18next';
 import {
@@ -45,9 +45,14 @@ export const CameraControls: React.FC<CameraControlProps> = ({
     const styles = getStyles(theme);
     const calloutAnchor = 'cd-camera-controls-calloutAnchor';
 
+    useEffect(() => {
+        if (cameraInteractionType) {
+            onCameraInteractionChanged(cameraInteractionType);
+        }
+    }, [cameraInteractionType]);
+
     const updateCameraInteraction = (type: CameraInteraction) => {
         setCameraInteractionType(type);
-        onCameraInteractionChanged(type);
     };
 
     const { t } = useTranslation();

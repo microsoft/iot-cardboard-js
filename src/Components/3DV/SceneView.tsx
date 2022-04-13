@@ -469,10 +469,6 @@ function SceneView(props: ISceneViewProp, ref) {
                     cameraRef.current = camera;
                     cameraRef.current.zoomOn(meshes, true);
                     cameraRef.current.radius = radius;
-                    camera._panningMouseButton = 0;
-                    camera.panningSensibility =
-                        (5 / (camera.radius * Math.tan(camera.fov / 2) * 2)) *
-                        engineRef.current.getRenderHeight(true);
 
                     // Register a render loop to repeatedly render the scene
                     engineRef.current.runRenderLoop(() => {
@@ -558,34 +554,40 @@ function SceneView(props: ISceneViewProp, ref) {
     }, [backgroundColor]);
 
     useEffect(() => {
-        switch (cameraInteractionType) {
-            case CameraInteraction.Free:
-                (cameraRef.current.inputs.attached
-                    .pointers as ArcRotateCameraPointersInput).buttons = [
-                    0,
-                    1,
-                    2
-                ];
-                cameraRef.current._panningMouseButton = 0;
-                turnOnCameraRotate();
-                break;
-            case CameraInteraction.Pan:
-                (cameraRef.current.inputs.attached
-                    .pointers as ArcRotateCameraPointersInput).buttons = [0];
-                cameraRef.current._panningMouseButton = 0;
-                cameraRef.current.angularSensibilityX = Infinity;
-                cameraRef.current.angularSensibilityY = Infinity;
-                break;
-            case CameraInteraction.Rotate:
-                (cameraRef.current.inputs.attached
-                    .pointers as ArcRotateCameraPointersInput).buttons = [0];
-                cameraRef.current._panningMouseButton = 1;
-                turnOnCameraRotate();
-                break;
-            default:
-                break;
+        if (cameraInteractionType && cameraRef.current) {
+            switch (cameraInteractionType) {
+                case CameraInteraction.Free:
+                    (cameraRef.current.inputs.attached
+                        .pointers as ArcRotateCameraPointersInput).buttons = [
+                        0,
+                        1,
+                        2
+                    ];
+                    cameraRef.current._panningMouseButton = 0;
+                    turnOnCameraRotate();
+                    break;
+                case CameraInteraction.Pan:
+                    (cameraRef.current.inputs.attached
+                        .pointers as ArcRotateCameraPointersInput).buttons = [
+                        0
+                    ];
+                    cameraRef.current._panningMouseButton = 0;
+                    cameraRef.current.angularSensibilityX = Infinity;
+                    cameraRef.current.angularSensibilityY = Infinity;
+                    break;
+                case CameraInteraction.Rotate:
+                    (cameraRef.current.inputs.attached
+                        .pointers as ArcRotateCameraPointersInput).buttons = [
+                        0
+                    ];
+                    cameraRef.current._panningMouseButton = 1;
+                    turnOnCameraRotate();
+                    break;
+                default:
+                    break;
+            }
         }
-    }, [cameraInteractionType]);
+    }, [cameraInteractionType, isLoading]);
 
     const turnOnCameraRotate = () => {
         if (cameraRef.current.angularSensibilityX === Infinity) {
