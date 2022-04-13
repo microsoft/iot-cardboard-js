@@ -8,9 +8,10 @@
     overflow: hidden;
 }
 
-.cb-adt-3dviewer-render-mode-selection {
+.cb-adt-3dviewer-tool-button-container {
+    display: flex;
+    left: 8px;
     position: absolute;
-    right: 8px;
-    top: 60px;
+    top: 4px;
     z-index: 1;
 }

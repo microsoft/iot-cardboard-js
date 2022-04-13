@@ -9,6 +9,7 @@
     "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
     "empty": "Empty",
+    "theme": "Theme",
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
     "realTimeStatus": "Real-time status",
@@ -309,6 +310,9 @@
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
         "globe": "Globe"
+    },
+    "sceneLayers": {
+        "sceneLayers": "Scene layers"
     },
     "3dSceneBuilder": {
         "elements": "Elements",
