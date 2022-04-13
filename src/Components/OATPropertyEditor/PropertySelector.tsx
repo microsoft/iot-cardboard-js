@@ -8,16 +8,64 @@ interface IProperySelectorProps {
     setPropertySelectorVisible?: (visible: boolean) => boolean;
     model?: any;
     setModel: (value: Record<string, unknown>) => Record<string, unknown>;
+    lastPropertyFocused: any;
 }
 
 const PropertySelector = ({
     data,
     setPropertySelectorVisible,
     model,
-    setModel
+    setModel,
+    lastPropertyFocused
 }: IProperySelectorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+
+    const addNestedProperty = (tag) => {
+        const modelCopy = Object.assign({}, model);
+        const schemaCopy = Object.assign({}, lastPropertyFocused.item.schema);
+        schemaCopy.fields.push({
+            name: `${lastPropertyFocused.item.name}_${
+                schemaCopy.fields.length + 1
+            }`,
+            schema: tag
+        });
+
+        modelCopy.contents[lastPropertyFocused.index].schema = schemaCopy;
+        setModel(modelCopy);
+    };
+
+    const handleTagClick = (tag) => {
+        if (
+            lastPropertyFocused &&
+            typeof lastPropertyFocused.item.schema === 'object'
+        ) {
+            addNestedProperty(tag);
+            return;
+        }
+
+        const modelCopy = Object.assign({}, model);
+        modelCopy.contents = [
+            ...modelCopy.contents,
+            ...[
+                {
+                    '@id': `dtmi:com:adt:model1:New_Property_${
+                        model.contents.length + 1
+                    }`,
+                    '@type': ['property'],
+                    name: `New_Property_${model.contents.length + 1}`,
+                    schema:
+                        tag === 'object'
+                            ? {
+                                  '@type': 'Object',
+                                  fields: []
+                              }
+                            : tag
+                }
+            ]
+        ];
+        setModel(modelCopy);
+    };
 
     return (
         <Stack className={propertyInspectorStyles.propertySelector}>
@@ -43,23 +91,7 @@ const PropertySelector = ({
                         key={i}
                         className={propertyInspectorStyles.propertyTag}
                         onClick={() => {
-                            const modelCopy = Object.assign({}, model);
-                            modelCopy.contents = [
-                                ...modelCopy.contents,
-                                ...[
-                                    {
-                                        '@id': `dtmi:com:adt:model1:New_Property_${
-                                            model.contents.length + 1
-                                        }`,
-                                        '@type': ['property'],
-                                        name: `New_Property_${
-                                            model.contents.length + 1
-                                        }`,
-                                        schema: tag
-                                    }
-                                ]
-                            ];
-                            setModel(modelCopy);
+                            handleTagClick(tag);
                         }}
                     >
                         <Text>{tag}</Text>
@@ -67,6 +99,36 @@ const PropertySelector = ({
                 ))}
             </Stack>
             <Stack className={propertyInspectorStyles.separator}></Stack>
+            {(lastPropertyFocused &&
+                typeof lastPropertyFocused.schema !== 'object') ||
+                (lastPropertyFocused === null && (
+                    <>
+                        <Stack
+                            className={
+                                propertyInspectorStyles.propertySelectorHeader
+                            }
+                        >
+                            <Text>{t('OATPropertyEditor.complex')}</Text>
+                        </Stack>
+                        <Stack
+                            className={propertyInspectorStyles.propertyTagsWrap}
+                        >
+                            {data.propertyTags.complex.map((tag, i) => (
+                                <Stack
+                                    key={i}
+                                    className={
+                                        propertyInspectorStyles.propertyTag
+                                    }
+                                    onClick={() => {
+                                        handleTagClick(tag);
+                                    }}
+                                >
+                                    <Text>{tag}</Text>
+                                </Stack>
+                            ))}
+                        </Stack>
+                    </>
+                ))}
         </Stack>
     );
 };

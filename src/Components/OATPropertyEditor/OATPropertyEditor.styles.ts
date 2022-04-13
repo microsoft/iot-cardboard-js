@@ -29,6 +29,9 @@ const classNames = {
     templateItemEntered: `${classPrefix}-template-item-entered`,
     templateItemDragging: `${classPrefix}-template-item-dragging`,
     propertyItem: `${classPrefix}-property-item`,
+    propertyItemNest: `${classPrefix}-property-item-nest`,
+    propertyItemNested: `${classPrefix}-property-item-nested`,
+    propertyItemNestMainItem: `${classPrefix}-property-item-nest-main-item`,
     propertyItemEntered: `${classPrefix}-property-item-entered`,
     propertyItemDragging: `${classPrefix}-property-item-dragging`,
     propertyItemIconWrap: `${classPrefix}-property-item-icon-wrap`,
@@ -275,6 +278,8 @@ export const getPropertyInspectorStyles = () => {
             {
                 display: 'grid',
                 gridTemplateColumns: '50% 30% 10% 10%',
+                width: '100%',
+                backgroundColor: theme.semanticColors.listBackground,
                 alignItems: 'center',
                 padding: '12px 8px',
                 borderBottom: '1px solid #e5ecf1',
@@ -304,6 +309,53 @@ export const getPropertyInspectorStyles = () => {
                 borderBottom: `1px solid ${theme.semanticColors.menuIcon}`,
                 '& *': {
                     opacity: 0
+                }
+            } as IStyle
+        ],
+        propertyItemNest: [
+            classNames.propertyItemNest,
+            {
+                backgroundColor: theme.semanticColors.buttonBackgroundDisabled,
+                alignItems: 'start',
+                padding: '12px 8px',
+                minHeight: '100px',
+                borderBottom: '1px solid #e5ecf1',
+                cursor: 'grab',
+                ':active': {
+                    cursor: 'grabbing'
+                }
+            } as IStyle
+        ],
+        propertyItemNested: [
+            classNames.propertyItemNested,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 30% 10% 10%',
+                width: '100%',
+                backgroundColor: theme.semanticColors.listBackground,
+                alignItems: 'center',
+                padding: '12px 8px',
+                borderBottom: '1px solid #e5ecf1',
+                borderRadius: '4px',
+                marginTop: '8px !important',
+                cursor: 'default',
+                ':first-of-type': {
+                    marginTop: '0px !important'
+                }
+            } as IStyle
+        ],
+        propertyItemNestMainItem: [
+            classNames.propertyItemNestMainItem,
+            {
+                display: 'grid',
+                gridTemplateColumns: '50% 50%',
+                width: '100%',
+                alignItems: 'center',
+                paddingBottom: '12px',
+                position: 'relative',
+                cursor: 'grab',
+                ':active': {
+                    cursor: 'grabbing'
                 }
             } as IStyle
         ],

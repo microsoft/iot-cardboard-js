@@ -33,7 +33,7 @@ export const TemplateList = ({
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
 
-    const handleTemplateItemDropOnProperyList = () => {
+    const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
         const isTemplateAlreadyInModel = model.contents.find(
             (item) =>
@@ -56,7 +56,7 @@ export const TemplateList = ({
 
     const handleDragEnd = () => {
         if (enteredPropertyRef.current !== null) {
-            handleTemplateItemDropOnProperyList();
+            handleTemplateItemDropOnPropertyList();
         }
 
         dragNode.current.removeEventListener('dragend', handleDragEnd);

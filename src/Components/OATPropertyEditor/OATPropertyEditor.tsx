@@ -15,6 +15,7 @@ import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
+import Modal from './Modal';
 import { Theme } from '../../Models/Constants/Enums';
 
 type IOATPropertyEditor = {
@@ -31,15 +32,19 @@ type IOATPropertyEditor = {
 const OATPropertyEditor = ({
     model,
     setModel,
-    setModalOpen,
-    currentPropertyIndex,
-    setCurrentPropertyIndex,
     theme,
     templates,
     setTemplates
 }: IOATPropertyEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
+    const [
+        currentNestedPropertyIndex,
+        setCurrentNestedPropertyIndex
+    ] = useState(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
@@ -69,6 +74,15 @@ const OATPropertyEditor = ({
 
     return (
         <BaseComponent theme={theme}>
+            <Modal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                model={model}
+                setModel={setModel}
+                currentPropertyIndex={currentPropertyIndex}
+                currentNestedPropertyIndex={currentNestedPropertyIndex}
+                setCurrentNestedPropertyIndex={setCurrentNestedPropertyIndex}
+            />
             <Stack className={propertyInspectorStyles.container}>
                 <Pivot
                     className={propertyInspectorStyles.pivot}
@@ -160,6 +174,9 @@ const OATPropertyEditor = ({
                             draggedPropertyItemRef={draggedPropertyItemRef}
                             draggingProperty={draggingProperty}
                             setDraggingProperty={setDraggingProperty}
+                            setCurrentNestedPropertyIndex={
+                                setCurrentNestedPropertyIndex
+                            }
                         />
                     </PivotItem>
                     <PivotItem

@@ -47,15 +47,12 @@ export const Default = (_args, { globals: { theme } }) => {
             unit: 'default unit'
         }
     ]);
-    const [currentPropertyIndex, setCurrentPropertyIndex] = useState(null);
 
     return (
         <div>
             <OATPropertyEditor
                 model={model}
                 setModel={setModel}
-                currentPropertyIndex={currentPropertyIndex}
-                setCurrentPropertyIndex={setCurrentPropertyIndex}
                 theme={theme}
                 templates={templates}
                 setTemplates={setTemplates}

@@ -19,6 +19,8 @@ interface IModal {
     model?: any;
     setModel?: any;
     currentPropertyIndex?: number;
+    currentNestedPropertyIndex?: any;
+    setCurrentNestedPropertyIndex?: any;
 }
 
 export const Modal = ({
@@ -26,7 +28,9 @@ export const Modal = ({
     setModalOpen,
     model,
     setModel,
-    currentPropertyIndex
+    currentPropertyIndex,
+    currentNestedPropertyIndex,
+    setCurrentNestedPropertyIndex
 }: IModal) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -39,7 +43,39 @@ export const Modal = ({
     const [id, setId] = useState(null);
     const [error, setError] = useState(null);
 
+    const handleUpdatedNestedProperty = () => {
+        const activeNestedProperty =
+            model.contents[currentPropertyIndex].schema.fields[
+                currentNestedPropertyIndex
+            ];
+
+        const prop = {
+            comment: comment ? comment : activeNestedProperty.comment,
+            description: description
+                ? description
+                : activeNestedProperty.description,
+            name: displayName ? displayName : activeNestedProperty.name,
+            writable,
+            unit: unit ? unit : activeNestedProperty.unit,
+            '@id': id ? id : activeNestedProperty['@id'],
+            schema: activeNestedProperty.schema
+        };
+
+        const modelCopy = Object.assign({}, model);
+        modelCopy.contents[currentPropertyIndex].schema.fields[
+            currentNestedPropertyIndex
+        ] = prop;
+
+        setModel(modelCopy);
+        setModalOpen(false);
+        setCurrentNestedPropertyIndex(null);
+    };
+
     const handleUpdateProperty = () => {
+        if (currentNestedPropertyIndex !== null) {
+            handleUpdatedNestedProperty();
+            return;
+        }
         const activeProperty = model.contents[currentPropertyIndex];
         const prop = {
             comment: comment ? comment : activeProperty.comment,
@@ -50,7 +86,8 @@ export const Modal = ({
                 ? [...activeProperty['@type'], ...[semanticType]]
                 : activeProperty['@type'],
             unit: unit ? unit : activeProperty.unit,
-            '@id': id ? id : activeProperty['@id']
+            '@id': id ? id : activeProperty['@id'],
+            schema: activeProperty.schema
         };
 
         const modelCopy = Object.assign({}, model);
