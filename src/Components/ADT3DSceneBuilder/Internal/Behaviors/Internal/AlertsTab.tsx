@@ -1,8 +1,14 @@
 import produce from 'immer';
-import React, { useCallback, useContext, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Intellisense } from '../../../../AutoComplete/Intellisense';
-import { linkedTwinName } from '../../../../../Models/Constants';
+import { IAliasedTwinProperty } from '../../../../../Models/Constants';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { BehaviorFormContext } from '../BehaviorsForm';
 import {
@@ -26,6 +32,7 @@ import { deepCopy } from '../../../../../Models/Services/Utils';
 import ColorPicker from '../../../../Pickers/ColorSelectButton/ColorPicker';
 import { IPickerOption } from '../../../../Pickers/Internal/Picker.base.types';
 import IconPicker from '../../../../Pickers/IconSelectButton/IconPicker';
+import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 
 const getAlertFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isAlertVisual)[0] || null;
@@ -46,21 +53,36 @@ const AlertsTab: React.FC = () => {
     const { behaviorToEdit, setBehaviorToEdit } = useContext(
         BehaviorFormContext
     );
-    const [propertyNames, setPropertyNames] = useState<string[]>(null);
+    const [aliasedProperties, setAliasedProperties] = useState<
+        IAliasedTwinProperty[]
+    >(null);
+    const alertVisualStateRef = useRef<IAlertVisual>(
+        getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual
+    );
 
     const { config, sceneId, adapter } = useContext(SceneBuilderContext);
 
-    if (!propertyNames) {
+    if (!aliasedProperties) {
         adapter
-            .getCommonTwinPropertiesForBehavior(sceneId, config, behaviorToEdit)
+            .getTwinPropertiesWithAliasesForBehavior(
+                sceneId,
+                config,
+                behaviorToEdit,
+                true
+            )
             .then((properties) => {
-                setPropertyNames(properties);
+                setAliasedProperties(properties);
             });
     }
 
-    function getPropertyNames(twinId: string) {
-        return twinId === linkedTwinName ? propertyNames : [];
-    }
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
 
     const setProperty = useCallback(
         (propertyName: keyof IAlertVisual, value: string) => {
@@ -68,18 +90,32 @@ const AlertsTab: React.FC = () => {
                 produce((draft) => {
                     // Assuming only 1 alert visual per behavior
                     const alertVisual = getAlertFromBehavior(draft);
-                    // Edit flow
-                    if (alertVisual) {
-                        alertVisual[propertyName] = value as any;
+
+                    // If clearing out trigger expression
+                    if (propertyName === 'triggerExpression' && value === '') {
+                        // Remove visual from behavior
+                        if (alertVisual) {
+                            const avIdx = draft.visuals.indexOf(alertVisual);
+                            draft.visuals.splice(avIdx, 1);
+
+                            // Backup current state of alert visual form
+                            alertVisualStateRef.current = deepCopy(alertVisual);
+                            alertVisual.triggerExpression = '';
+                        }
                     } else {
-                        const alertVisual = deepCopy(defaultAlertVisual);
-                        alertVisual[propertyName] = value as any;
-                        draft.visuals.push(alertVisual);
+                        // Edit flow
+                        if (alertVisual) {
+                            alertVisual[propertyName] = value as any;
+                        } else {
+                            const alertVisual = alertVisualStateRef.current;
+                            alertVisual[propertyName] = value as any;
+                            draft.visuals.push(alertVisual);
+                        }
                     }
                 })
             );
         },
-        [setBehaviorToEdit]
+        [setBehaviorToEdit, alertVisualStateRef.current]
     );
 
     const onExpressionChange = useCallback(
@@ -110,59 +146,70 @@ const AlertsTab: React.FC = () => {
         [setProperty]
     );
 
+    const aliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
     // we only grab the first alert in the collection
-    const colorChangeVisual =
-        getAlertFromBehavior(behaviorToEdit) || defaultAlertVisual;
-    const color = colorChangeVisual?.color || defaultSwatchColors[0].item;
-    const icon = colorChangeVisual?.iconName || defaultSwatchIcons[0].item;
-    const expression = colorChangeVisual?.triggerExpression;
+    const alertVisual = getAlertFromBehavior(behaviorToEdit);
+    const color = alertVisual?.color;
+    const icon = alertVisual?.iconName;
+    const expression = alertVisual?.triggerExpression;
     const theme = useTheme();
+    const commonPanelStyles = getLeftPanelStyles(theme);
+
     return (
         <Stack tokens={sectionStackTokens}>
-            <Text styles={{ root: { color: theme.palette.neutralSecondary } }}>
-                {t(LOC_KEYS.notice)}
-            </Text>
+            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
             <Intellisense
                 autoCompleteProps={{
                     textFieldProps: {
                         label: t(LOC_KEYS.expressionLabel),
-                        multiline: expression.length > 40,
+                        multiline: expression?.length > 40,
                         placeholder: t(LOC_KEYS.expressionPlaceholder)
                     }
                 }}
                 onChange={onExpressionChange}
                 defaultValue={expression}
-                aliasNames={[linkedTwinName]}
+                aliasNames={aliasNames}
                 getPropertyNames={getPropertyNames}
             />
-            <Stack tokens={sectionStackTokens} horizontal>
-                <IconPicker
-                    selectedItem={icon}
-                    items={defaultSwatchIcons}
-                    label={t(LOC_KEYS.iconPickerLabel)}
-                    onChangeItem={onIconChange}
-                />
-                <ColorPicker
-                    selectedItem={color}
-                    items={defaultSwatchColors}
-                    label={t(LOC_KEYS.colorPickerLabel)}
-                    onChangeItem={onColorChange}
-                />
-            </Stack>
-            <TextField
-                label={t(LOC_KEYS.notificationLabel)}
-                placeholder={t(LOC_KEYS.notificationPlaceholder)}
-                multiline
-                onChange={onNoteChange}
-                rows={3}
-                styles={{
-                    root: {
-                        marginBottom: 4,
-                        paddingBottom: 4
-                    }
-                }}
-                value={colorChangeVisual.labelExpression}
-            />
+            {alertVisual && (
+                <>
+                    <Stack tokens={sectionStackTokens} horizontal>
+                        <IconPicker
+                            selectedItem={icon}
+                            items={defaultSwatchIcons}
+                            label={t(LOC_KEYS.iconPickerLabel)}
+                            onChangeItem={onIconChange}
+                        />
+                        <ColorPicker
+                            selectedItem={color}
+                            items={defaultSwatchColors}
+                            label={t(LOC_KEYS.colorPickerLabel)}
+                            onChangeItem={onColorChange}
+                        />
+                    </Stack>
+                    <TextField
+                        label={t(LOC_KEYS.notificationLabel)}
+                        placeholder={t(LOC_KEYS.notificationPlaceholder)}
+                        multiline
+                        onChange={onNoteChange}
+                        rows={3}
+                        styles={{
+                            root: {
+                                marginBottom: 4,
+                                paddingBottom: 4
+                            }
+                        }}
+                        value={alertVisual.labelExpression}
+                    />
+                </>
+            )}
         </Stack>
     );
 };
