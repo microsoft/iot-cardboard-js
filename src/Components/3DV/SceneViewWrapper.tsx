@@ -36,7 +36,6 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
-import Pan from '../../Resources/Static/Pan.svg';
 
 export const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = ({
     config,
