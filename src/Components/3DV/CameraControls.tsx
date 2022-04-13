@@ -22,7 +22,7 @@ import {
     ZoomIn,
     ZoomMouse,
     ZoomOut
-} from './CamaraControlAssets';
+} from './CameraControlAssets';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
