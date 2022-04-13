@@ -32,7 +32,8 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
                 opacity: 0,
                 outline: 'none',
                 webkitTapHighlightColor: theme.palette.black,
-                width: '100%'
+                width: '100%',
+                display: 'block'
             } as IStyle
         ],
         canvasVisible: [
