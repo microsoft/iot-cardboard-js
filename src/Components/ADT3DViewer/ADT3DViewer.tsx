@@ -34,6 +34,7 @@ import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy } from '../../Models/Services/Utils';
+import AlertModal from '../AlertModal/AlertModal';
 
 const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     theme,
@@ -77,6 +78,17 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         behaviorModalSceneVisualElementId,
         setBehaviorModalSceneVisuaElementlId
     ] = useState<string>(null);
+
+    const [isAlertPopoverVisible, setIsAlertPopoverVisible] = useState(false);
+    const [alertPopoverPosition, setAlertPopoverPosition] = useState({
+        left: 0,
+        top: 0
+    });
+
+    const [
+        alertPanelItems,
+        setAlertPanelItems
+    ] = useState<IViewerElementsPanelItem>(null);
 
     const { t } = useTranslation();
     const sceneWrapperId = useGuid();
@@ -235,11 +247,29 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
+    const onBadgeGroupHover = (
+        badgeGroup: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => {
+        if (!isAlertPopoverVisible) {
+            setAlertPanelItems({
+                element: badgeGroup.element,
+                behaviors: badgeGroup.behaviors,
+                twins: badgeGroup.twins
+            });
+            // Adding offsets to ensure the popover covers the alerts badges as per the designs
+            setAlertPopoverPosition({ left: left - 50, top: top - 30 });
+            setIsAlertPopoverVisible(true);
+        }
+    };
+
     const onElementPanelItemClicked = useCallback(
         (_item, panelItem, _behavior) => {
             setShowPopUp(false);
             setZoomToMeshIds(panelItem.element.objectIDs);
             showPopover(panelItem);
+            setIsAlertPopoverVisible(false);
         },
         []
     );
@@ -345,6 +375,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         showMeshesOnHover: showMeshesOnHover,
                         zoomToMeshIds: zoomToMeshIds,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
+                        onBadgeGroupHover: onBadgeGroupHover,
                         onMeshClick: (marker, mesh, scene) =>
                             meshClick(marker, mesh, scene),
                         onMeshHover: (marker, mesh) => meshHover(marker, mesh),
@@ -373,6 +404,18 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
                     }
                     onPropertyInspectorPatch={() => triggerRuntimeRefetch()}
+                />
+            )}
+            {isAlertPopoverVisible && (
+                <AlertModal
+                    alerts={alertPanelItems}
+                    position={alertPopoverPosition}
+                    onClose={() => {
+                        setIsAlertPopoverVisible(false);
+                    }}
+                    onItemClick={onElementPanelItemClicked}
+                    onItemHover={onElementPanelItemHovered}
+                    onItemBlur={onElementPanelItemBlured}
                 />
             )}
         </BaseComponent>

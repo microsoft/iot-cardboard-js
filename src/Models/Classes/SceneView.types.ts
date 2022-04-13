@@ -1,5 +1,10 @@
-import * as BABYLON from 'babylonjs';
-import { Vector3, AbstractMesh, Material } from 'babylonjs';
+import * as BABYLON from '@babylonjs/core/Legacy/legacy';
+import {
+    Vector3,
+    AbstractMesh,
+    Material,
+    IPointerEvent
+} from '@babylonjs/core';
 import {
     IBehavior,
     IScene,
@@ -50,7 +55,7 @@ export type SceneViewCallbackHandler = (
     marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
-    e: PointerEvent
+    e: IPointerEvent
 ) => void;
 
 export interface CustomMeshItem {
@@ -69,6 +74,9 @@ export interface SceneViewBadgeGroup {
     id: string;
     meshId: string;
     badges: SceneViewBadge[];
+    element: ITwinToObjectMapping;
+    behaviors: IBehavior[];
+    twins: Record<string, DTwin>;
 }
 
 export type SceneViewEventHandler = (
@@ -79,11 +87,16 @@ export type SceneViewEventHandler = (
 ) => void;
 
 export interface ISceneViewProp {
-    modelUrl: string;
+    modelUrl: string | 'Globe';
     markers?: Marker[];
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
+    onBadgeGroupHover?: (
+        alert: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void;
     onCameraMove?: SceneViewEventHandler;
     isWireframe?: boolean;
     showMeshesOnHover?: boolean;
