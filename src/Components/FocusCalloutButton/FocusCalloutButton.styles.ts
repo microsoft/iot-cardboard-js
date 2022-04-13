@@ -1,4 +1,6 @@
 import {
+    FontSizes,
+    FontWeights,
     IStyle,
     memoizeFunction,
     mergeStyleSets,
@@ -27,15 +29,15 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
                 display: 'flex',
                 lineHeight: '32px',
                 verticalAlign: 'middle',
-                fontSize: '16',
                 padding: '12px 12px 0px 20px'
             } as IStyle
         ],
         title: [
             classNames.title,
             {
+                fontSize: FontSizes.size16,
                 marginLeft: '12px',
-                fontWeight: '500',
+                fontWeight: FontWeights.semibold,
                 flex: '1'
             } as IStyle
         ]

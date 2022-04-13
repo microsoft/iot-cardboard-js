@@ -15,7 +15,7 @@ export default {
 };
 
 const Template = (args) => {
-    return <SceneLayers {...args} />;
+    return <SceneLayers {...args} isInitiallyOpen={true} />;
 };
 
 export const sceneLayers = Template.bind({});

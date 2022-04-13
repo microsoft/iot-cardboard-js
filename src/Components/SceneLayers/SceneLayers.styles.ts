@@ -1,5 +1,7 @@
 import {
+    FontWeights,
     IStyle,
+    ITextStyles,
     memoizeFunction,
     mergeStyleSets,
     Theme
@@ -39,8 +41,16 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
             {
                 height: 'calc(100% - 60px)',
                 overflowY: 'auto',
-                minHeight: 200
+                minHeight: 200,
+                padding: 20,
+                paddingTop: 8
             } as IStyle
         ]
     });
 });
+
+export const sectionHeaderStyles: Partial<ITextStyles> = {
+    root: {
+        fontWeight: FontWeights.semibold
+    }
+};

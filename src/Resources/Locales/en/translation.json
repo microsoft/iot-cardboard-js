@@ -313,7 +313,8 @@
     },
     "sceneLayers": {
         "sceneLayers": "Scene layers",
-        "createNewLayer": "Create new layer"
+        "createNewLayer": "Create new layer",
+        "layers": "Layers"
     },
     "3dSceneBuilder": {
         "elements": "Elements",

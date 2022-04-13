@@ -1,48 +1,23 @@
-import { PrimaryButton, useTheme } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getStyles } from './SceneLayers.styles';
 import FocusCalloutButton from '../FocusCalloutButton/FocusCalloutButton';
+import LayersListRoot from './Internal/LayersListRoot';
 
-const SceneLayers: React.FC = () => {
+interface SceneLayersProps {
+    isInitiallyOpen?: boolean;
+}
+
+const SceneLayers: React.FC<SceneLayersProps> = ({ isInitiallyOpen }) => {
     const { t } = useTranslation();
 
     return (
         <FocusCalloutButton
             buttonText={t('sceneLayers.sceneLayers')}
             iconName="Stack"
+            isInitiallyOpen={isInitiallyOpen}
         >
-            <PrimaryActionCallout
-                onPrimaryButtonClick={() => null}
-                primaryButtonText={t('sceneLayers.createNewLayer')}
-            />
+            <LayersListRoot />
         </FocusCalloutButton>
-    );
-};
-
-interface PrimaryActionCalloutProps {
-    children?: React.ReactNode;
-    primaryButtonText: string;
-    onPrimaryButtonClick: () => any;
-}
-
-const PrimaryActionCallout: React.FC<PrimaryActionCalloutProps> = ({
-    children,
-    onPrimaryButtonClick,
-    primaryButtonText
-}) => {
-    const theme = useTheme();
-    const styles = getStyles(theme);
-
-    return (
-        <div className={styles.container}>
-            <div className={styles.body}>{children}</div>
-            <div className={styles.footer}>
-                <PrimaryButton onClick={onPrimaryButtonClick}>
-                    {primaryButtonText}
-                </PrimaryButton>
-            </div>
-        </div>
     );
 };
 

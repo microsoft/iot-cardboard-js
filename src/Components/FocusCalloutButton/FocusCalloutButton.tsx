@@ -14,14 +14,16 @@ interface Props {
     iconName: string;
     buttonText: string;
     children: React.ReactNode;
+    isInitiallyOpen?: boolean;
 }
 
 const FocusCalloutButton: React.FC<Props> = ({
     iconName,
     buttonText,
-    children
+    children,
+    isInitiallyOpen = false
 }) => {
-    const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+    const [isCalloutOpen, setIsCalloutOpen] = useState(isInitiallyOpen);
     const buttonId = useId();
 
     const theme = useTheme();
