@@ -75,8 +75,7 @@ const SceneBehaviors: React.FC<Props> = ({
         () =>
             ViewerConfigUtility.getBehaviorsSegmentedByPresenceInScene(
                 config,
-                sceneId,
-                behaviors
+                sceneId
             ),
         [config, sceneId, behaviors]
     );
@@ -196,7 +195,7 @@ const SceneBehaviors: React.FC<Props> = ({
                             searchText={searchText}
                         />
                         {!itemsInSceneVisible && !itemsNotInSceneVisible && (
-                            <p className="cb-scene-builder-left-panel-text">
+                            <p className={commonPanelStyles.noDataText}>
                                 {t('3dSceneBuilder.noResults')}
                             </p>
                         )}

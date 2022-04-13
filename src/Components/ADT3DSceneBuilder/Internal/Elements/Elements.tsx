@@ -74,13 +74,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
     const updateTwinToObjectMappings = useAdapter({
         adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
-            const sceneToUpdate: IScene = {
-                ...config.configuration.scenes[
+            const sceneToUpdate: IScene = deepCopy(
+                config.configuration.scenes[
                     config.configuration.scenes.findIndex(
                         (s) => s.id === sceneId
                     )
                 ]
-            };
+            );
             sceneToUpdate.elements = params.elements;
             return adapter.putScenesConfig(
                 ViewerConfigUtility.editScene(config, sceneId, sceneToUpdate)
@@ -90,13 +90,13 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         isAdapterCalledOnMount: false
     });
 
-    const handleDeleteElement = () => {
+    const handleDeleteElement = async () => {
         const newElements = [...elements];
         newElements.splice(
             elements.findIndex((e) => e.id === elementToDelete.id),
             1
         );
-        updateTwinToObjectMappings.callAdapter({
+        await updateTwinToObjectMappings.callAdapter({
             elements: newElements
         });
         onRemoveElement(newElements);

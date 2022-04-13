@@ -1,4 +1,8 @@
 import {
+    defaultSwatchColors,
+    defaultSwatchIcons
+} from '../../Theming/Palettes';
+import {
     IAlertVisual,
     IBehavior,
     IGaugeWidget,
@@ -37,6 +41,11 @@ export interface IWidgetLibraryItem {
     data: IWidget;
 }
 
+export interface ITwinAliasItem {
+    alias: string;
+    elementToTwinMappings: Array<{ elementId: string; twinId: string }>;
+}
+
 // Default objects
 export const defaultBehavior: IBehavior = {
     id: '',
@@ -65,8 +74,8 @@ export const defaultStatusColorVisual: IStatusColoringVisual = {
 
 export const defaultAlertVisual: IAlertVisual = {
     type: VisualType.Alert,
-    color: '',
-    iconName: '',
+    color: defaultSwatchColors[0].item,
+    iconName: defaultSwatchIcons[0].item,
     labelExpression: '',
     triggerExpression: '',
     objectIDs: {
@@ -91,4 +100,9 @@ export const defaultLinkWidget: ILinkWidget = {
         label: '',
         linkExpression: ''
     }
+};
+
+export const defaultTwinAlias: ITwinAliasItem = {
+    alias: '',
+    elementToTwinMappings: []
 };
