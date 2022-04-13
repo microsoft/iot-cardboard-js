@@ -9,18 +9,20 @@ import {
 } from '@fluentui/react';
 import React, { useState } from 'react';
 import { CameraInteraction } from '../../Models/Constants/Enums';
-import Free from '../../Resources/Static/Free.svg';
-import Pan from '../../Resources/Static/Pan.svg';
-import Rotate from '../../Resources/Static/Rotate.svg';
-import Reset from '../../Resources/Static/ResetCamera.svg';
-import ZoomIn from '../../Resources/Static/ZoomIn.svg';
-import ZoomOut from '../../Resources/Static/ZoomOut.svg';
-import Selected from '../../Resources/Static/Selected.svg';
-import SelectMouse from '../../Resources/Static/SelectMouse.svg';
-import PanMouse from '../../Resources/Static/PanMouse.svg';
-import OrbitMouse from '../../Resources/Static/OrbitMouse.svg';
-import ZoomMouse from '../../Resources/Static/ZoomMouse.svg';
 import { useTranslation } from 'react-i18next';
+import {
+    Free,
+    OrbitMouse,
+    Pan,
+    PanMouse,
+    Reset,
+    Rotate,
+    Selected,
+    SelectMouse,
+    ZoomIn,
+    ZoomMouse,
+    ZoomOut
+} from './CamaraControlAssets';
 
 interface CameraControlProps {
     cameraInteraction?: CameraInteraction;
@@ -66,14 +68,16 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     onMouseEnter={() => setShowCallout(true)}
                     onMouseLeave={() => setShowCallout(false)}
                 >
-                    <img
-                        src={Free}
-                        style={{ height: 16, width: 16 }}
-                        className={styles.buttonIcon}
-                    />
+                    {
+                        <img
+                            src={`data:image/svg+xml;base64,${Free(theme)}`}
+                            style={{ height: 16, width: 16 }}
+                            className={styles.buttonIcon}
+                        />
+                    }
                     {cameraInteractionType === CameraInteraction.Free && (
                         <img
-                            src={Selected}
+                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
                             style={{ width: 24 }}
                             className={styles.selected}
                         />
@@ -90,13 +94,13 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     }
                 >
                     <img
-                        src={Pan}
+                        src={`data:image/svg+xml;base64,${Pan(theme)}`}
                         style={{ height: 16, width: 16 }}
                         className={styles.buttonIcon}
                     />
                     {cameraInteractionType === CameraInteraction.Pan && (
                         <img
-                            src={Selected}
+                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
                             style={{ width: 24 }}
                             className={styles.selected}
                         />
@@ -113,13 +117,13 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     }
                 >
                     <img
-                        src={Rotate}
+                        src={`data:image/svg+xml;base64,${Rotate(theme)}`}
                         style={{ height: 16, width: 16 }}
                         className={styles.buttonIcon}
                     />
                     {cameraInteractionType === CameraInteraction.Rotate && (
                         <img
-                            src={Selected}
+                            src={`data:image/svg+xml;base64,${Selected(theme)}`}
                             style={{ width: 24 }}
                             className={styles.selected}
                         />
@@ -132,7 +136,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     onClick={() => onCameraZoom(true)}
                 >
                     <img
-                        src={ZoomIn}
+                        src={`data:image/svg+xml;base64,${ZoomIn(theme)}`}
                         style={{ height: 16, width: 16 }}
                         className={styles.buttonIcon}
                     />
@@ -142,7 +146,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                     onClick={() => onCameraZoom(false)}
                 >
                     <img
-                        src={ZoomOut}
+                        src={`data:image/svg+xml;base64,${ZoomOut(theme)}`}
                         style={{ height: 16, width: 16 }}
                         className={styles.buttonIcon}
                     />
@@ -151,7 +155,7 @@ export const CameraControls: React.FC<CameraControlProps> = ({
             <div className={styles.buttonGroup}>
                 <ActionButton className={styles.button} onClick={onResetCamera}>
                     <img
-                        src={Reset}
+                        src={`data:image/svg+xml;base64,${Reset(theme)}`}
                         style={{ height: 16, width: 16 }}
                         className={styles.buttonIcon}
                     />
@@ -169,7 +173,9 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.select')}</div>
                                 <div>
                                     <img
-                                        src={SelectMouse}
+                                        src={`data:image/svg+xml;base64,${SelectMouse(
+                                            theme
+                                        )}`}
                                         style={{ height: 28, width: 28 }}
                                         className={styles.modeIcon}
                                     />
@@ -179,7 +185,9 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.pan')}</div>
                                 <div>
                                     <img
-                                        src={PanMouse}
+                                        src={`data:image/svg+xml;base64,${PanMouse(
+                                            theme
+                                        )}`}
                                         style={{ height: 28, width: 28 }}
                                         className={styles.modeIcon}
                                     />
@@ -189,7 +197,9 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.orbit')}</div>
                                 <div>
                                     <img
-                                        src={OrbitMouse}
+                                        src={`data:image/svg+xml;base64,${OrbitMouse(
+                                            theme
+                                        )}`}
                                         style={{ height: 28, width: 28 }}
                                         className={styles.modeIcon}
                                     />
@@ -199,7 +209,9 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                                 <div>{t('cameraControls.zoom')}</div>
                                 <div>
                                     <img
-                                        src={ZoomMouse}
+                                        src={`data:image/svg+xml;base64,${ZoomMouse(
+                                            theme
+                                        )}`}
                                         style={{ height: 28, width: 28 }}
                                         className={styles.modeIcon}
                                     />
