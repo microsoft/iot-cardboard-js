@@ -18,6 +18,7 @@ import {
 } from '../../Models/Constants';
 import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import PropertyInspector from '../PropertyInspector/PropertyInspector';
+import { OnCommitPatchParams } from '../PropertyInspector/StandalonePropertyInspector.types';
 import {
     dismissButtonStyles,
     getStyles,
@@ -34,6 +35,7 @@ export interface IBehaviorsModalProps {
     mode?: BehaviorModalMode;
     activeWidgetId?: string;
     adapter?: IPropertyInspectorAdapter;
+    onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -56,7 +58,8 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
     twins,
     mode = BehaviorModalMode.viewer,
     activeWidgetId,
-    adapter
+    adapter,
+    onPropertyInspectorPatch
 }) => {
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
@@ -164,6 +167,10 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                         adapter={adapter}
                                         twinId={twins[linkedTwinName].$dtId}
                                         parentHandlesScroll={true}
+                                        onPatch={(patchData) =>
+                                            onPropertyInspectorPatch &&
+                                            onPropertyInspectorPatch(patchData)
+                                        }
                                     />
                                 )}
                         </div>

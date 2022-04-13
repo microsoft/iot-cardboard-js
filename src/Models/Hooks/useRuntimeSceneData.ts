@@ -151,6 +151,7 @@ export const useRuntimeSceneData = (
         modelUrl,
         sceneVisuals,
         sceneAlerts,
-        isLoading: sceneData.isLoading
+        isLoading: sceneData.isLoading,
+        triggerRuntimeRefetch: sceneData.callAdapter
     };
 };

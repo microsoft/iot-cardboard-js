@@ -87,7 +87,8 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         modelUrl,
         sceneVisuals,
         sceneAlerts,
-        isLoading
+        isLoading,
+        triggerRuntimeRefetch
     } = useRuntimeSceneData(adapter, sceneId, scenesConfig, pollingInterval);
 
     useEffect(() => {
@@ -371,6 +372,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     adapter={
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
                     }
+                    onPropertyInspectorPatch={() => triggerRuntimeRefetch()}
                 />
             )}
         </BaseComponent>
