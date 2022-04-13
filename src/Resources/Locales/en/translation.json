@@ -312,7 +312,8 @@
         "globe": "Globe"
     },
     "sceneLayers": {
-        "sceneLayers": "Scene layers"
+        "sceneLayers": "Scene layers",
+        "createNewLayer": "Create new layer"
     },
     "3dSceneBuilder": {
         "elements": "Elements",

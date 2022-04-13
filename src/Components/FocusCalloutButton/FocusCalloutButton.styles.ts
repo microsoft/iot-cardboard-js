@@ -18,7 +18,7 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
         calloutContent: [
             classNames.calloutContent,
             {
-                padding: '12px'
+                position: 'relative'
             } as IStyle
         ],
         header: [
@@ -27,7 +27,8 @@ export const getStyles = memoizeFunction((_theme?: Theme) => {
                 display: 'flex',
                 lineHeight: '32px',
                 verticalAlign: 'middle',
-                fontSize: '16'
+                fontSize: '16',
+                padding: '12px 12px 0px 20px'
             } as IStyle
         ],
         title: [

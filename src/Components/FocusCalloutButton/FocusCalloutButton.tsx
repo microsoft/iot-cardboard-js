@@ -8,6 +8,7 @@ import {
 import React, { useState } from 'react';
 import { useId } from '@fluentui/react-hooks';
 import { getStyles } from './FocusCalloutButton.styles';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 interface Props {
     iconName: string;
@@ -47,27 +48,29 @@ const FocusCalloutButton: React.FC<Props> = ({
                     onDismiss={() => setIsCalloutOpen(false)}
                     backgroundColor={theme.semanticColors.bodyBackground}
                 >
-                    <div className={styles.calloutContent}>
-                        <div className={styles.header}>
-                            <div>
-                                <FontIcon iconName={iconName} />
+                    <BaseComponent>
+                        <div className={styles.calloutContent}>
+                            <div className={styles.header}>
+                                <div>
+                                    <FontIcon iconName={iconName} />
+                                </div>
+                                <div className={styles.title}>{buttonText}</div>
+                                <div>
+                                    <IconButton
+                                        iconProps={{
+                                            iconName: 'Cancel',
+                                            style: {
+                                                fontSize: '14',
+                                                height: '32'
+                                            }
+                                        }}
+                                        onClick={() => setIsCalloutOpen(false)}
+                                    />
+                                </div>
                             </div>
-                            <div className={styles.title}>{buttonText}</div>
-                            <div>
-                                <IconButton
-                                    iconProps={{
-                                        iconName: 'Cancel',
-                                        style: {
-                                            fontSize: '14',
-                                            height: '32'
-                                        }
-                                    }}
-                                    onClick={() => setIsCalloutOpen(false)}
-                                />
-                            </div>
+                            <div>{children}</div>
                         </div>
-                        <div>{children}</div>
-                    </div>
+                    </BaseComponent>
                 </FocusTrapCallout>
             )}
         </>
